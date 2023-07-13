@@ -1,42 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0D7211A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jul 2023 07:16:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7406116;
+	Thu, 13 Jul 2023 07:45:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689232587; x=1720768587;
+  t=1689234345; x=1720770345;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tGSmS/H6DFVhj6LlnNRRz2gGkoKz2di/p/j4elkxvYw=;
-  b=ljhMxwjLolJajLc7VXYK2S49FK9q842ZNgdsBBrbPhvP+t8zMIT5M1T7
-   MSu24u+JB89+iyYSr58ZTyFEnn4c7W9kPDbFX8Bbq5/pblJqwJ4Y+j8p8
-   lJlkOu8Oiil6QUyszQe8fqNRfRM2pS1PjDNzgbiRtuHVUhUIzFP4Z84T+
-   o4nW2j5tfxpI3VWxj60CJugHaAr2uOjaqZl2EmYNyY3XP+zKSY/Oyzv05
-   H6frAmLsgxWg9TJj+QK1Y2ZNaMMlcISdknZ6mvK8nf/qvdOF6YN84of8f
-   ycnibk1/rf7TPtOraq4koDI2bpQhh0NgAKq0PwoyYsz/liy33ksSX7cXr
+  bh=Cwns1upMuTjcWBu3n61D4itQW+EQ2X5HmXMMmvc8LjI=;
+  b=Ww+zkxipI64/bMo8eerHonw3ybqqhsz4j5o2kKUifi4J9EezNN3hOdqx
+   QBErzeZxMith7SjZgnsjnnUwhCYOIThOnZj8DrBGEMGbVsxYJVbR6f1VM
+   rru9yF1xV+0DCMAw3seha2h5DmNR7duMo8X6ARrojPMoz+hEqRv230Pr7
+   NlrtZgXRIOhODeaqhWFtdNgqlGZ25c7+rEnaKDs60Gjp85UIEFKWelvq3
+   5vmxQa68fkNJx9qbR16ApOgERoR9ohaSD8yg1frgTlNwFaZg9ly+GiDTI
+   9h6N8YUJyV7e/dkwuVg/E5fLOcraADZ7D+yzsO/9g9fFTZtHhQn8Em1gf
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="451473113"
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="362582680"
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="451473113"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 00:15:42 -0700
+   d="scan'208";a="362582680"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 00:45:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="699151189"
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="715861478"
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="699151189"
+   d="scan'208";a="715861478"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 13 Jul 2023 00:15:40 -0700
+  by orsmga007.jf.intel.com with ESMTP; 13 Jul 2023 00:45:41 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJqY7-0006Lx-2k;
-	Thu, 13 Jul 2023 07:15:39 +0000
-Date: Thu, 13 Jul 2023 15:15:04 +0800
+	id 1qJr1B-0006Nt-0P;
+	Thu, 13 Jul 2023 07:45:41 +0000
+Date: Thu, 13 Jul 2023 15:45:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kai Huang <kai.huang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:seamcall_test 8/30] vmlinux.o: warning: objtool:
- __halt+0x3a: call to __tdx_hypercall() leaves .noinstr.text section
-Message-ID: <202307131526.27fHCYHt-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [robh:for-kernelci 55/101]
+ drivers/net/ethernet/ibm/emac/core.c:2384:18: error: incompatible integer to
+ pointer conversion assigning to 'struct platform_device *' from 'int'
+Message-ID: <202307131554.KdfdXCBm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,51 +47,181 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git seamcall_test
-head:   28194aca34f016f46489a4e019c045c8680aba4a
-commit: 5f3cac9378000121ecf882a364de3827102e8ae2 [8/30] x86/tdx: Unify TDX_HYPERCALL and TDX_MODULE_CALL assembly
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230713/202307131526.27fHCYHt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230713/202307131526.27fHCYHt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   ac7a2a5947cf0a60d9614031b509c5b65e99f87a
+commit: abf44efd37f3ba94c30934248287cc3ca2617135 [55/101] net: Explicitly include correct DT includes
+config: powerpc-walnut_defconfig (https://download.01.org/0day-ci/archive/20230713/202307131554.KdfdXCBm-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230713/202307131554.KdfdXCBm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307131526.27fHCYHt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307131554.KdfdXCBm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: __halt+0x3a: call to __tdx_hypercall() leaves .noinstr.text section
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      46 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:137:1: note: expanded from here
+     137 | __do_insw
+         | ^
+   arch/powerpc/include/asm/io.h:615:56: note: expanded from macro '__do_insw'
+     615 | #define __do_insw(p, b, n)      readsw((PCI_IO_ADDR)_IO_BASE+(p), (b), (n))
+         |                                        ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from drivers/net/ethernet/ibm/emac/core.c:28:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:47:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      47 | DEF_PCI_AC_NORET(insl, (unsigned long p, void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      48 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:139:1: note: expanded from here
+     139 | __do_insl
+         | ^
+   arch/powerpc/include/asm/io.h:616:56: note: expanded from macro '__do_insl'
+     616 | #define __do_insl(p, b, n)      readsl((PCI_IO_ADDR)_IO_BASE+(p), (b), (n))
+         |                                        ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from drivers/net/ethernet/ibm/emac/core.c:28:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:49:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      49 | DEF_PCI_AC_NORET(outsb, (unsigned long p, const void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      50 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:141:1: note: expanded from here
+     141 | __do_outsb
+         | ^
+   arch/powerpc/include/asm/io.h:617:58: note: expanded from macro '__do_outsb'
+     617 | #define __do_outsb(p, b, n)     writesb((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+         |                                         ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from drivers/net/ethernet/ibm/emac/core.c:28:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:51:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      51 | DEF_PCI_AC_NORET(outsw, (unsigned long p, const void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      52 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:143:1: note: expanded from here
+     143 | __do_outsw
+         | ^
+   arch/powerpc/include/asm/io.h:618:58: note: expanded from macro '__do_outsw'
+     618 | #define __do_outsw(p, b, n)     writesw((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+         |                                         ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from drivers/net/ethernet/ibm/emac/core.c:28:
+   In file included from include/linux/pci.h:38:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:53:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      53 | DEF_PCI_AC_NORET(outsl, (unsigned long p, const void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      54 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:145:1: note: expanded from here
+     145 | __do_outsl
+         | ^
+   arch/powerpc/include/asm/io.h:619:58: note: expanded from macro '__do_outsl'
+     619 | #define __do_outsl(p, b, n)     writesl((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+         |                                         ~~~~~~~~~~~~~~~~~~~~~^
+>> drivers/net/ethernet/ibm/emac/core.c:2384:20: error: call to undeclared function 'of_find_device_by_node'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2384 |                         deps[i].ofdev = of_find_device_by_node(deps[i].node);
+         |                                         ^
+   drivers/net/ethernet/ibm/emac/core.c:2384:20: note: did you mean 'of_find_net_device_by_node'?
+   include/linux/of_net.h:19:27: note: 'of_find_net_device_by_node' declared here
+      19 | extern struct net_device *of_find_net_device_by_node(struct device_node *np);
+         |                           ^
+>> drivers/net/ethernet/ibm/emac/core.c:2384:18: error: incompatible integer to pointer conversion assigning to 'struct platform_device *' from 'int' [-Wint-conversion]
+    2384 |                         deps[i].ofdev = of_find_device_by_node(deps[i].node);
+         |                                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   6 warnings and 2 errors generated.
 
 
-objdump-func vmlinux.o __halt:
-0000 0000000000000040 <__halt>:
-0000       40:	48 83 ec 70          	sub    $0x70,%rsp
-0004       44:	89 fa                	mov    %edi,%edx
-0006       46:	65 48 8b 04 25 28 00 00 00 	mov    %gs:0x28,%rax
-000f       4f:	48 89 44 24 68       	mov    %rax,0x68(%rsp)
-0014       54:	31 c0                	xor    %eax,%eax
-0016       56:	e8 00 00 00 00       	call   5b <__halt+0x1b>	57: R_X86_64_PLT32	stackleak_track_stack-0x4
-001b       5b:	b9 0d 00 00 00       	mov    $0xd,%ecx
-0020       60:	48 89 e7             	mov    %rsp,%rdi
-0023       63:	0f b6 d2             	movzbl %dl,%edx
-0026       66:	f3 48 ab             	rep stos %rax,%es:(%rdi)
-0029       69:	48 89 e7             	mov    %rsp,%rdi
-002c       6c:	48 89 54 24 30       	mov    %rdx,0x30(%rsp)
-0031       71:	48 c7 44 24 28 0c 00 00 00 	movq   $0xc,0x28(%rsp)
-003a       7a:	e8 00 00 00 00       	call   7f <__halt+0x3f>	7b: R_X86_64_PC32	.text+0x51fc
-003f       7f:	48 8b 54 24 68       	mov    0x68(%rsp),%rdx
-0044       84:	65 48 2b 14 25 28 00 00 00 	sub    %gs:0x28,%rdx
-004d       8d:	75 0f                	jne    9e <__halt+0x5e>
-004f       8f:	48 83 c4 70          	add    $0x70,%rsp
-0053       93:	31 d2                	xor    %edx,%edx
-0055       95:	31 c9                	xor    %ecx,%ecx
-0057       97:	31 ff                	xor    %edi,%edi
-0059       99:	e9 00 00 00 00       	jmp    9e <__halt+0x5e>	9a: R_X86_64_PLT32	__x86_return_thunk-0x4
-005e       9e:	e8 00 00 00 00       	call   a3 <__halt+0x63>	9f: R_X86_64_PLT32	__stack_chk_fail-0x4
-0063       a3:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
-006e       ae:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
-0079       b9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+vim +2384 drivers/net/ethernet/ibm/emac/core.c
+
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2355  
+fe17dc1e2bae85 drivers/net/ethernet/ibm/emac/core.c Bill Pemberton 2012-12-03  2356  static int emac_check_deps(struct emac_instance *dev,
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2357  			   struct emac_depentry *deps)
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2358  {
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2359  	int i, there = 0;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2360  	struct device_node *np;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2361  
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2362  	for (i = 0; i < EMAC_DEP_COUNT; i++) {
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2363  		/* no dependency on that item, allright */
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2364  		if (deps[i].phandle == 0) {
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2365  			there++;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2366  			continue;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2367  		}
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2368  		/* special case for blist as the dependency might go away */
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2369  		if (i == EMAC_DEP_PREV_IDX) {
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2370  			np = *(dev->blist - 1);
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2371  			if (np == NULL) {
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2372  				deps[i].phandle = 0;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2373  				there++;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2374  				continue;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2375  			}
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2376  			if (deps[i].node == NULL)
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2377  				deps[i].node = of_node_get(np);
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2378  		}
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2379  		if (deps[i].node == NULL)
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2380  			deps[i].node = of_find_node_by_phandle(deps[i].phandle);
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2381  		if (deps[i].node == NULL)
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2382  			continue;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2383  		if (deps[i].ofdev == NULL)
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23 @2384  			deps[i].ofdev = of_find_device_by_node(deps[i].node);
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2385  		if (deps[i].ofdev == NULL)
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2386  			continue;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2387  		if (deps[i].drvdata == NULL)
+bc353832565635 drivers/net/ethernet/ibm/emac/core.c Jingoo Han     2013-09-02  2388  			deps[i].drvdata = platform_get_drvdata(deps[i].ofdev);
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2389  		if (deps[i].drvdata != NULL)
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2390  			there++;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2391  	}
+807540baae406c drivers/net/ibm_newemac/core.c       Eric Dumazet   2010-09-23  2392  	return there == EMAC_DEP_COUNT;
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2393  }
+1d3bb996481e11 drivers/net/ibm_newemac/core.c       David Gibson   2007-08-23  2394  
+
+:::::: The code at line 2384 was first introduced by commit
+:::::: 1d3bb996481e116f5f2b127cbd29b83365d2cf62 Device tree aware EMAC driver
+
+:::::: TO: David Gibson <david@gibson.dropbear.id.au>
+:::::: CC: David S. Miller <davem@sunset.davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
