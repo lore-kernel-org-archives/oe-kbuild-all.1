@@ -1,44 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FC3101E8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jul 2023 11:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4757B125CD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jul 2023 11:43:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689247374; x=1720783374;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k2gXKv3QfzbQ7NiBx2caVqBI19I6oEP1tIzEYpSmHrE=;
-  b=fzrH9Bz/C1FhNDV5sUXSY5osI2HMVEe56usmTg5C+632hQoTdb/ML8R8
-   xCN81hZAD5GccVA/wXgOqJJv5QHeqrk62F3SSUQ3i7d93AhVkMwNJOQ5r
-   gqwc1yki7Vx59LtcuCXIeZ5beWu9L+b4vlEQyTGE2xVgQEbLXDh86lKxh
-   zv4Js6hzMJi8ee47kGMYXYcG0Rcede2X7IY8j+x72qAwYqclwIv9fg+t6
-   jWg06BsvuguMplVtSbMYw+0WhsctCMqVXabXZffph0X8uN7QQsBBQ69Cj
-   6pUYG9p8rw7MjCDBp7MDlJiRY64MX1QBMhigTX95PoIFcNci+emnp9/CR
+  t=1689248584; x=1720784584;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=5JKmxzFTcr3msYqZOuf3VeeRaMXftNImwXWuH6xmShc=;
+  b=PCmWwhg3+T5x5RgPbvkKj662mXHtrZoppXTa7h2KHcHHrxMWYG9YPLDV
+   2ra9kTunRNinBukuLvfHaUEWuwSolCOr3+QiicQbYxFKVlAmXTWtRAEYT
+   8w5pcmBkr5UphAgeBJSIv/KTUospxfYhKQ3EiKx02hkCssz5whbYckeyM
+   PBUM7gwx2Nk5AWLN+G0/TsCrvmqq5gl98nDjGDBZdpqYBd7rD+RKJTeer
+   n5GK3YkAzUJdGlHFr/93HuAiThtk70loHNkggtsrXq8Nmv+14PIzLVedz
+   TPPPz1BeGW8EJVXvrpEUVM6Mjxorr0BvdnT/Tw+EIxK/6bZMFUj3OD+Z3
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="350010054"
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="368696926"
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="350010054"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 04:22:53 -0700
+   d="scan'208";a="368696926"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 04:42:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="811945237"
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="672234380"
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="811945237"
+   d="scan'208";a="672234380"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 13 Jul 2023 04:22:52 -0700
+  by orsmga003.jf.intel.com with ESMTP; 13 Jul 2023 04:42:52 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJuPL-0006ZJ-1N;
-	Thu, 13 Jul 2023 11:22:51 +0000
-Date: Thu, 13 Jul 2023 19:22:03 +0800
+	id 1qJuii-0006aW-0T
+	for oe-kbuild-all@lists.linux.dev;
+	Thu, 13 Jul 2023 11:42:52 +0000
+Date: Thu, 13 Jul 2023 19:42:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Md Sadre Alam <quic_mdalam@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Sricharan Ramabadhran <quic_srichara@quicinc.com>
-Subject: [mtd:nand/next 24/28] drivers/mtd/nand/raw/qcom_nandc.c:2957:38:
- warning: variable 'naddrs' set but not used
-Message-ID: <202307131959.PdPSC86K-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:4.19/android_t 14738/30000]
+ include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of
+ type 'long unsigned int', but argument 6 has type 'blkcnt_t' {aka 'long long
+ unsigned int'}
+Message-ID: <202307131918.efAaxske-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,99 +48,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-head:   2b42d718c7d7f4269d45fb58b4f74d7b2bfb08bd
-commit: 5c6a9518447ebc72606b390ab5cb3eab9dc1d867 [24/28] mtd: rawnand: qcom: Implement exec_op()
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230713/202307131959.PdPSC86K-lkp@intel.com/config)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   0f6dab7d9f97996aec10a8e2e854ec3bd628d550
+commit: 714629517bbdacc1d240de3dc70e7df9528f5ffa [14738/30000] Merge remote-tracking branch 'aosp/upstream-f2fs-stable-linux-4.19.y' into android-4.19 (v5.7-rc1)
+config: arm-randconfig-r014-20230713 (https://download.01.org/0day-ci/archive/20230713/202307131918.efAaxske-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230713/202307131959.PdPSC86K-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230713/202307131918.efAaxske-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307131959.PdPSC86K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307131918.efAaxske-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/mtd/nand/raw/qcom_nandc.c: In function 'qcom_parse_instructions':
->> drivers/mtd/nand/raw/qcom_nandc.c:2957:38: warning: variable 'naddrs' set but not used [-Wunused-but-set-variable]
-    2957 |                 unsigned int offset, naddrs;
-         |                                      ^~~~~~
+   In file included from include/linux/printk.h:7,
+                    from include/linux/kernel.h:14,
+                    from include/linux/list.h:9,
+                    from include/linux/wait.h:7,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/f2fs/inode.c:8:
+   fs/f2fs/inode.c: In function 'sanity_check_inode':
+>> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'blkcnt_t' {aka 'long long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   fs/f2fs/f2fs.h:2012:26: note: in expansion of macro 'KERN_WARNING'
+    2012 |         f2fs_printk(sbi, KERN_WARNING fmt, ##__VA_ARGS__)
+         |                          ^~~~~~~~~~~~
+   fs/f2fs/inode.c:303:25: note: in expansion of macro 'f2fs_warn'
+     303 |                         f2fs_warn(sbi, "%s: inode (ino=%lx) has inconsistent "
+         |                         ^~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SM_GCC_8350
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8450
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8550
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
 
+vim +5 include/linux/kern_levels.h
 
-vim +/naddrs +2957 drivers/mtd/nand/raw/qcom_nandc.c
+314ba3520e513a7 Joe Perches 2012-07-30  4  
+04d2c8c83d0e3ac Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3ac Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3ac Joe Perches 2012-07-30  7  
 
-  2943	
-  2944	/* NAND framework ->exec_op() hooks and related helpers */
-  2945	static void qcom_parse_instructions(struct nand_chip *chip,
-  2946					    const struct nand_subop *subop,
-  2947						struct qcom_op *q_op)
-  2948	{
-  2949		struct qcom_nand_controller *nandc = get_qcom_nand_controller(chip);
-  2950		const struct nand_op_instr *instr = NULL;
-  2951		unsigned int op_id;
-  2952		int i;
-  2953	
-  2954		memset(q_op, 0, sizeof(*q_op));
-  2955	
-  2956		for (op_id = 0; op_id < subop->ninstrs; op_id++) {
-> 2957			unsigned int offset, naddrs;
-  2958			const u8 *addrs;
-  2959	
-  2960			instr = &subop->instrs[op_id];
-  2961	
-  2962			switch (instr->type) {
-  2963			case NAND_OP_CMD_INSTR:
-  2964				q_op->cmd_reg = qcom_op_cmd_mapping(nandc, instr->ctx.cmd.opcode, q_op);
-  2965				q_op->rdy_delay_ns = instr->delay_ns;
-  2966				break;
-  2967	
-  2968			case NAND_OP_ADDR_INSTR:
-  2969				offset = nand_subop_get_addr_start_off(subop, op_id);
-  2970				naddrs = nand_subop_get_num_addr_cyc(subop, op_id);
-  2971				addrs = &instr->ctx.addr.addrs[offset];
-  2972				for (i = 0; i < MAX_ADDRESS_CYCLE; i++) {
-  2973					if (i < 4)
-  2974						q_op->addr1_reg |= (u32)addrs[i] << i * 8;
-  2975					else
-  2976						q_op->addr2_reg |= addrs[i];
-  2977				}
-  2978				q_op->rdy_delay_ns = instr->delay_ns;
-  2979				break;
-  2980	
-  2981			case NAND_OP_DATA_IN_INSTR:
-  2982				q_op->data_instr = instr;
-  2983				q_op->data_instr_idx = op_id;
-  2984				q_op->rdy_delay_ns = instr->delay_ns;
-  2985				fallthrough;
-  2986			case NAND_OP_DATA_OUT_INSTR:
-  2987				q_op->rdy_delay_ns = instr->delay_ns;
-  2988				break;
-  2989	
-  2990			case NAND_OP_WAITRDY_INSTR:
-  2991				q_op->rdy_timeout_ms = instr->ctx.waitrdy.timeout_ms;
-  2992				q_op->rdy_delay_ns = instr->delay_ns;
-  2993				break;
-  2994			}
-  2995		}
-  2996	}
-  2997	
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
