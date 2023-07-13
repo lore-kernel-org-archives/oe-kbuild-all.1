@@ -1,100 +1,73 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30AE818017
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jul 2023 16:20:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689265255; x=1720801255;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hhnAYxHzxKHq9p/Mfm2Bs798Bq3XhKLq7FMW2FjdPtI=;
-  b=WmADgoQEY2/B32m5n36icxg2ERqb2e4yt9+keoKleajNDyIWtUBCJTDv
-   kf1VDudMwuihhjtwqO2Itnq08L4d9FD4FeK122LsqR5kdv0VOOh3LXeYQ
-   vjdvIsHCsUVIHMrwkSiswromgh+HG4NpYmoa6dayrqVN9XZRg9bIQjJTF
-   /PCLCBmh029lmNrBxngOO1pothQqjHeJC/AX4XhQZ8k5FLtnIzqhA8dtf
-   6Je/gykki7Q82meq15blbHevmZ9KtWv/9VtavwOWnIO3Fl2C8ABsJHYaK
-   LN20xkBcTyeJyrCMeff2Dz+7/H/ivxbTT1fVDzbIqsu2bLbgcDVnhi2tE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="364109492"
-X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; 
-   d="scan'208";a="364109492"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 09:20:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="672329834"
-X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; 
-   d="scan'208";a="672329834"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 13 Jul 2023 09:20:01 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qJz2u-0006kD-1s;
-	Thu, 13 Jul 2023 16:20:00 +0000
-Date: Fri, 14 Jul 2023 00:19:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: oe-kbuild-all@lists.linux.dev, Hu Haowen <src.res.211@gmail.com>
-Subject: [srcres258-doc:next 1/1] fs/overlayfs/params.c:76:20: error: static
- declaration of 'ovl_uuid_mode' follows non-static declaration
-Message-ID: <202307140024.szefTCRY-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6010E18017;
+	Thu, 13 Jul 2023 16:26:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6456DC433C7;
+	Thu, 13 Jul 2023 16:26:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1689265579;
+	bh=CXJ4LHCRgZVINIqOiLY7Tb7XJ2dummoBkrQWHA5wWBg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DZH2CZ12yHKdhkI1jcIV+ig3Svp4NPXmXo6tmkocIzn0DAEsNiyRJw00H3B+M5/0M
+	 zOgQd91aUuaAtpgYnlPDHK8jCfa3wIchxd6oz+L3GItADPf4IwZo65qhh6foVhKuIr
+	 jpaVX56zJWUCmOSrcJD5BoM49Lk47SiTgd5QQstI=
+Date: Thu, 13 Jul 2023 09:26:18 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Baoquan He <bhe@redhat.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Niklas Schnelle <schnelle@linux.ibm.com>, Christoph
+ Hellwig <hch@lst.de>, "Mike Rapoport (IBM)" <rppt@kernel.org>
+Subject: Re: [akpm-mm:mm-unstable 93/173] drivers/clk/clk-fixed-mmio.c:33:2:
+ error: call to undeclared function 'iounmap'; ISO C99 and later do not
+ support implicit function declarations
+Message-Id: <20230713092618.9a25417dc886b4f61660fe17@linux-foundation.org>
+In-Reply-To: <202307131033.JgvCSVz4-lkp@intel.com>
+References: <202307131033.JgvCSVz4-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/srcres258/linux-doc next
-head:   b4e2d222bd127435b269f412267f06d9f3fce1ba
-commit: b4e2d222bd127435b269f412267f06d9f3fce1ba [1/1] Merge commit 'da8103dafcdb78f32900dd6fbe507b16b510edfb' into next
-config: microblaze-randconfig-r021-20230713 (https://download.01.org/0day-ci/archive/20230714/202307140024.szefTCRY-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140024.szefTCRY-lkp@intel.com/reproduce)
+On Thu, 13 Jul 2023 10:57:34 +0800 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307140024.szefTCRY-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> head:   e726c62e70a70ae5536caa0aa131c5dce5c6f764
+> commit: 827057ff3ce7554741d431145c3b93f1a54125fc [93/173] s390: mm: convert to GENERIC_IOREMAP
+> config: s390-randconfig-r033-20230713 (https://download.01.org/0day-ci/archive/20230713/202307131033.JgvCSVz4-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce: (https://download.01.org/0day-ci/archive/20230713/202307131033.JgvCSVz4-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307131033.JgvCSVz4-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from drivers/clk/clk-fixed-mmio.c:13:
+>    In file included from include/linux/io.h:13:
+>    In file included from arch/s390/include/asm/io.h:78:
+>    include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>      547 |         val = __raw_readb(PCI_IOBASE + addr);
+>          |                           ~~~~~~~~~~ ^
 
-All errors (new ones prefixed by >>):
+Thanks.  When I tried that config I got
 
->> fs/overlayfs/params.c:76:20: error: static declaration of 'ovl_uuid_mode' follows non-static declaration
-      76 | static const char *ovl_uuid_mode(struct ovl_config *config)
-         |                    ^~~~~~~~~~~~~
-   In file included from fs/overlayfs/params.c:12:
-   fs/overlayfs/params.h:43:13: note: previous declaration of 'ovl_uuid_mode' with type 'const char *(struct ovl_config *)'
-      43 | const char *ovl_uuid_mode(struct ovl_config *config);
-         |             ^~~~~~~~~~~~~
->> fs/overlayfs/params.c:81:12: error: static declaration of 'ovl_uuid_def' follows non-static declaration
-      81 | static int ovl_uuid_def(void)
-         |            ^~~~~~~~~~~~
-   fs/overlayfs/params.h:44:5: note: previous declaration of 'ovl_uuid_def' with type 'int(void)'
-      44 | int ovl_uuid_def(void);
-         |     ^~~~~~~~~~~~
+In file included from ./include/linux/io.h:13,
+                 from drivers/clk/clk-fixed-mmio.c:13:
+drivers/clk/clk-fixed-mmio.c: In function 'fixed_mmio_clk_setup':
+./arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+   29 | #define iounmap iounmap
+      |                 ^~~~~~~
+drivers/clk/clk-fixed-mmio.c:33:9: note: in expansion of macro 'iounmap'
+   33 |         iounmap(base);
+      |         ^~~~~~~
 
-
-vim +/ovl_uuid_mode +76 fs/overlayfs/params.c
-
-4e261f12aa7a13 Amir Goldstein 2023-06-26  75  
-4e261f12aa7a13 Amir Goldstein 2023-06-26 @76  static const char *ovl_uuid_mode(struct ovl_config *config)
-4e261f12aa7a13 Amir Goldstein 2023-06-26  77  {
-4e261f12aa7a13 Amir Goldstein 2023-06-26  78  	return ovl_parameter_uuid[config->uuid].name;
-4e261f12aa7a13 Amir Goldstein 2023-06-26  79  }
-4e261f12aa7a13 Amir Goldstein 2023-06-26  80  
-4e261f12aa7a13 Amir Goldstein 2023-06-26 @81  static int ovl_uuid_def(void)
-4e261f12aa7a13 Amir Goldstein 2023-06-26  82  {
-0a3bf81dbcb228 Amir Goldstein 2023-07-07  83  	return OVL_UUID_AUTO;
-4e261f12aa7a13 Amir Goldstein 2023-06-26  84  }
-4e261f12aa7a13 Amir Goldstein 2023-06-26  85  
-
-:::::: The code at line 76 was first introduced by commit
-:::::: 4e261f12aa7a13f10cab35b67947a103ccef5e1c ovl: add support for unique fsid per instance
-
-:::::: TO: Amir Goldstein <amir73il@gmail.com>
-:::::: CC: Amir Goldstein <amir73il@gmail.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'll drop the series.
