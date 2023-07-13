@@ -1,44 +1,47 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FEE20F8A;
-	Thu, 13 Jul 2023 21:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E181F938
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jul 2023 22:08:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689284246; x=1720820246;
+  t=1689286101; x=1720822101;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8s54Sz4oUPUOWK6tCLrDFwx2D1Iwc+CyAQxCia6EFt8=;
-  b=ayWnYKGbE33cVKCaQgEnhalJwHrWx1yHngeJ90iM+NeALp2FX8uSEFex
-   f8hdftPMT2w8HGHJ/ag+g0qgOTDxHyRpvHPjc1r7b4475/izOuy7eFQe4
-   rdgpziFi8MLq5ZubPjDpKTPFaGlZNyC4Qe8myLT5rEOMsXIVm8qUvuogE
-   DqeOem8rJcDxGz+QvwNIPEJyIdrlwB0cLRUae2Zjxha4uNo+KY1zxIuTm
-   5d/3n34PoLhawS3jwoiCo67UkR4+27zf/lDvGY5qkx9tuEQFSVKNyZpv8
-   sBnx2Xo7LUiFPEroBD07VbqVy4jL51O1bNtzcxvQF7eLwzI+WlAeHCu94
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="396129899"
+  bh=ct1ocZLVf8D76mI0i4VjVUGD6ylBhBFE2X1ZsDl+jMM=;
+  b=HiVZnSy6zvtRTBofM1huVr+2Eo+s2qosXAKF+/3MGf+vO5OirH0x5vAB
+   wjWflUDhViGfqxSVcl1h9E9NXuXWMVWIjZpbqGU+Z0PXrJjdAreyN+PRt
+   8k+IgT43cFh6mrWzDZyN3BTn0yVqlMxRtBTs/zrh2OHM98nW64rtlu+8k
+   fD1JM9f/XB3WN0MOOJSKM6s7lh85N9o5wYV22OZkhePbR4gTet0xXL+Bp
+   hCbj9g9ZzmgDE2y54tGC12fsXXZcTu+taTS98yh+Gk5ogETfmKb8wza04
+   unXZ6QleI0RCAe1zbfcck0r7QjiA7ooNhm2/jmFZ6ZjQ+IcDKfpddTyhC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="367968098"
 X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; 
-   d="scan'208";a="396129899"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 14:37:11 -0700
+   d="scan'208";a="367968098"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 15:08:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="835765472"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="672451026"
 X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; 
-   d="scan'208";a="835765472"
+   d="scan'208";a="672451026"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Jul 2023 14:37:10 -0700
+  by orsmga003.jf.intel.com with ESMTP; 13 Jul 2023 15:08:10 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qK3zp-0006uv-1B;
-	Thu, 13 Jul 2023 21:37:09 +0000
-Date: Fri, 14 Jul 2023 05:36:55 +0800
+	id 1qK4Tp-0006vd-2L;
+	Thu, 13 Jul 2023 22:08:09 +0000
+Date: Fri, 14 Jul 2023 06:07:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 10/179] mm/hugetlb.c:1870:26: warning: variable
- 'folio' is uninitialized when used here
-Message-ID: <202307140551.1NHG7Haa-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Connor O'Brien <connoro@google.com>,
+	John Stultz <jstultz@google.com>
+Subject: [arm-de:tip/sched/core_20232906_proxy_exec_v4 9/12]
+ kernel/sched/fair.c:7919:37: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202307140644.TO5OTKF6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,141 +51,149 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   20d834c03647d421114b4bee932993890042cd77
-commit: 45f3e764da28d82646f485f8908528897af4fae6 [10/179] hugetlb: optimize update_and_free_pages_bulk to avoid lock cycles
-config: s390-randconfig-r034-20230713 (https://download.01.org/0day-ci/archive/20230714/202307140551.1NHG7Haa-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140551.1NHG7Haa-lkp@intel.com/reproduce)
+tree:   https://git.gitlab.arm.com/linux-arm/linux-de.git tip/sched/core_20232906_proxy_exec_v4
+head:   6a8f4ce70148c468ef287fc38700ed2217f94c43
+commit: bc1277464259d65e5044dcd2c2d988170e70e12a [9/12] sched: Split scheduler execution context
+config: um-randconfig-r083-20230713 (https://download.01.org/0day-ci/archive/20230714/202307140644.TO5OTKF6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140644.TO5OTKF6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307140551.1NHG7Haa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307140644.TO5OTKF6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/fair.c:922:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:922:36: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:922:36: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:967:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:967:32: sparse:     expected struct sched_entity const *se
+   kernel/sched/fair.c:967:32: sparse:     got struct sched_entity [noderef] __rcu *
+   kernel/sched/fair.c:7885:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:7885:36: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:7885:36: sparse:     got struct task_struct [noderef] __rcu *curr
+>> kernel/sched/fair.c:7919:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:7919:37: sparse:     expected struct task_struct *tsk
+   kernel/sched/fair.c:7919:37: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:8183:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8183:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8183:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:6177:35: sparse: sparse: marked inline, but without a definition
+   kernel/sched/fair.c: note: in included file:
+   kernel/sched/sched.h:2280:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2280:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2280:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2116:32: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2116:32: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2116:32: sparse:    struct task_struct *
+   kernel/sched/sched.h:2116:32: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2116:32: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2116:32: sparse:    struct task_struct *
 
-   In file included from mm/hugetlb.c:19:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from mm/hugetlb.c:19:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from mm/hugetlb.c:19:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> mm/hugetlb.c:1870:26: warning: variable 'folio' is uninitialized when used here [-Wuninitialized]
-    1870 |                                 add_hugetlb_folio(h, folio, true);
-         |                                                      ^~~~~
-   mm/hugetlb.c:1857:21: note: initialize the variable 'folio' to silence this warning
-    1857 |         struct folio *folio;
-         |                            ^
-         |                             = NULL
-   13 warnings generated.
+vim +7919 kernel/sched/fair.c
 
-
-vim +/folio +1870 mm/hugetlb.c
-
-  1853	
-  1854	static void update_and_free_pages_bulk(struct hstate *h, struct list_head *list)
-  1855	{
-  1856		struct page *page, *t_page;
-  1857		struct folio *folio;
-  1858		bool clear_dtor = false;
-  1859	
-  1860		/*
-  1861		 * First allocate required vmemmmap for all pages on list.  If vmemmap
-  1862		 * can not be allocated, we can not free page to lower level allocator,
-  1863		 * so add back as hugetlb surplus page.
-  1864		 */
-  1865		list_for_each_entry_safe(page, t_page, list, lru) {
-  1866			if (HPageVmemmapOptimized(page)) {
-  1867				clear_dtor = true;
-  1868				if (hugetlb_vmemmap_restore(h, page)) {
-  1869					spin_lock_irq(&hugetlb_lock);
-> 1870					add_hugetlb_folio(h, folio, true);
-  1871					spin_unlock_irq(&hugetlb_lock);
-  1872				}
-  1873				cond_resched();
-  1874			}
-  1875		}
-  1876	
-  1877		/*
-  1878		 * If vmemmmap allocation performed above, then take lock * to clear
-  1879		 * destructor of all pages on list.
-  1880		 */
-  1881		if (clear_dtor) {
-  1882			spin_lock_irq(&hugetlb_lock);
-  1883			list_for_each_entry(page, list, lru)
-  1884				__clear_hugetlb_destructor(h, page_folio(page));
-  1885			spin_unlock_irq(&hugetlb_lock);
-  1886		}
-  1887	
-  1888		/*
-  1889		 * Free pages back to low level allocators.  vmemmap and destructors
-  1890		 * were taken care of above, so update_and_free_hugetlb_folio will
-  1891		 * not need to take hugetlb lock.
-  1892		 */
-  1893		list_for_each_entry_safe(page, t_page, list, lru) {
-  1894			folio = page_folio(page);
-  1895			update_and_free_hugetlb_folio(h, folio, false);
-  1896		}
-  1897	}
-  1898	
+  7879	
+  7880	/*
+  7881	 * Preempt the current task with a newly woken task if needed:
+  7882	 */
+  7883	static void check_preempt_wakeup(struct rq *rq, struct task_struct *p, int wake_flags)
+  7884	{
+  7885		struct task_struct *curr = rq_selected(rq);
+  7886		struct sched_entity *se = &curr->se, *pse = &p->se;
+  7887		struct cfs_rq *cfs_rq = task_cfs_rq(curr);
+  7888		int scale = cfs_rq->nr_running >= sched_nr_latency;
+  7889		int next_buddy_marked = 0;
+  7890		int cse_is_idle, pse_is_idle;
+  7891	
+  7892		if (unlikely(se == pse))
+  7893			return;
+  7894	
+  7895		/*
+  7896		 * This is possible from callers such as attach_tasks(), in which we
+  7897		 * unconditionally check_preempt_curr() after an enqueue (which may have
+  7898		 * lead to a throttle).  This both saves work and prevents false
+  7899		 * next-buddy nomination below.
+  7900		 */
+  7901		if (unlikely(throttled_hierarchy(cfs_rq_of(pse))))
+  7902			return;
+  7903	
+  7904		if (sched_feat(NEXT_BUDDY) && scale && !(wake_flags & WF_FORK)) {
+  7905			set_next_buddy(pse);
+  7906			next_buddy_marked = 1;
+  7907		}
+  7908	
+  7909		/*
+  7910		 * We can come here with TIF_NEED_RESCHED already set from new task
+  7911		 * wake up path.
+  7912		 *
+  7913		 * Note: this also catches the edge-case of curr being in a throttled
+  7914		 * group (e.g. via set_curr_task), since update_curr() (in the
+  7915		 * enqueue of curr) will have resulted in resched being set.  This
+  7916		 * prevents us from potentially nominating it as a false LAST_BUDDY
+  7917		 * below.
+  7918		 */
+> 7919		if (test_tsk_need_resched(rq->curr))
+  7920			return;
+  7921	
+  7922		/* Idle tasks are by definition preempted by non-idle tasks. */
+  7923		if (unlikely(task_has_idle_policy(curr)) &&
+  7924		    likely(!task_has_idle_policy(p)))
+  7925			goto preempt;
+  7926	
+  7927		/*
+  7928		 * Batch and idle tasks do not preempt non-idle tasks (their preemption
+  7929		 * is driven by the tick):
+  7930		 */
+  7931		if (unlikely(p->policy != SCHED_NORMAL) || !sched_feat(WAKEUP_PREEMPTION))
+  7932			return;
+  7933	
+  7934		find_matching_se(&se, &pse);
+  7935		WARN_ON_ONCE(!pse);
+  7936	
+  7937		cse_is_idle = se_is_idle(se);
+  7938		pse_is_idle = se_is_idle(pse);
+  7939	
+  7940		/*
+  7941		 * Preempt an idle group in favor of a non-idle group (and don't preempt
+  7942		 * in the inverse case).
+  7943		 */
+  7944		if (cse_is_idle && !pse_is_idle)
+  7945			goto preempt;
+  7946		if (cse_is_idle != pse_is_idle)
+  7947			return;
+  7948	
+  7949		update_curr(cfs_rq_of(se));
+  7950		if (wakeup_preempt_entity(se, pse) == 1) {
+  7951			/*
+  7952			 * Bias pick_next to pick the sched entity that is
+  7953			 * triggering this preemption.
+  7954			 */
+  7955			if (!next_buddy_marked)
+  7956				set_next_buddy(pse);
+  7957			goto preempt;
+  7958		}
+  7959	
+  7960		return;
+  7961	
+  7962	preempt:
+  7963		resched_curr(rq);
+  7964		/*
+  7965		 * Only set the backward buddy when the current task is still
+  7966		 * on the rq. This can happen when a wakeup gets interleaved
+  7967		 * with schedule on the ->pre_schedule() or idle_balance()
+  7968		 * point, either of which can * drop the rq lock.
+  7969		 *
+  7970		 * Also, during early boot the idle thread is in the fair class,
+  7971		 * for obvious reasons its a bad idea to schedule back to it.
+  7972		 */
+  7973		if (unlikely(!se->on_rq || curr == rq->idle))
+  7974			return;
+  7975	
+  7976		if (sched_feat(LAST_BUDDY) && scale && entity_is_task(se))
+  7977			set_last_buddy(se);
+  7978	}
+  7979	
 
 -- 
 0-DAY CI Kernel Test Service
