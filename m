@@ -1,42 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933F3101C1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jul 2023 16:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCED182DF;
+	Thu, 13 Jul 2023 17:03:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689267125; x=1720803125;
+  t=1689267784; x=1720803784;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H9eGD4BTCEqOtWSFfJbIiAtrIBTvFg1qB++DytczKV4=;
-  b=XbVRD3a/bWgAPf5pLbFBbtZHNn5zkgoTZH8E5dWSqKPHtifO7Odd/HRi
-   Rd2AFZwXQ4TZu4zI2LagUk5lGWoryZDiy72+LpYqg4y6ibwIKnFjYM5vU
-   RjHo9I4KB3JJLomNIQOv/jjyGrtOgfu1u/QHM18l+GuRnb+9jZdDS9iuM
-   uHxRN/i270oiFerpuZLtsPM45ZzNdbxFJb/DVvInHUWpYBBSUZDyUsKMv
-   QpDnbJj/UKc0knSlpsV9bQneLKTg3oJAQYsSeIeAhTnGF9J8ukxNm5q1i
-   tNUt9eo3zZpOW2UZ3YtUl6cc4S2BliUAEVYuW/RQ3+aE/zVNGfMDYkO7E
+  bh=Qs5RdyRBsop7RVJjBwpY/sgTYxI7pQqhIG7M016EMpQ=;
+  b=K/wqY2GdRuK1b4de7iv7ygWnrt1vNHHS/dZZkjO4fftfNEoRojf0OUxF
+   akNP2KPVBgHTCM84keArdOFhI0QfGE3G/H9ImwWr4JbLpd0ZIdejpo4x9
+   NHEl4fPWZFWI73Pa6yHDHU3zrOarGXzxrRr8hAPpW36jRFN5DyJyRlsPU
+   l/Pl2NPZWENzK9sXbpJCX8vQkA/Tvlk27iCNqsCFRyrKAVgeGY9LSKeuN
+   roF6qyZRpdA4/jVIH0Q7rrEWWoqFtdMnGRUmL7fLUWUg5gExPxTp2e+Mp
+   Uik3SpdcVl8JSdDZDbAyqHjQNTbDow/2dGiiXIjf5a6AMY/PZGdxaJ9bc
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="355182971"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="451616835"
 X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; 
-   d="scan'208";a="355182971"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 09:52:04 -0700
+   d="scan'208";a="451616835"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 10:02:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="968686649"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="792116504"
 X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; 
-   d="scan'208";a="968686649"
+   d="scan'208";a="792116504"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Jul 2023 09:52:03 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 13 Jul 2023 10:02:03 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJzXu-0006mC-3D;
-	Thu, 13 Jul 2023 16:52:02 +0000
-Date: Fri, 14 Jul 2023 00:51:03 +0800
+	id 1qJzhb-0006mU-0Y;
+	Thu, 13 Jul 2023 17:02:03 +0000
+Date: Fri, 14 Jul 2023 01:01:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>
-Subject: [cilium:pr/new-api-tcx6 2/10] kernel/bpf/mprog.c:285:22: error:
- 'dtuple' undeclared; did you mean 'tuple'?
-Message-ID: <202307140005.MsN96tlt-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:pr/new-api-tcx6 2/10] kernel/bpf/mprog.c:285:15: error: use
+ of undeclared identifier 'dtuple'; did you mean 'tuple'?
+Message-ID: <202307140028.56nRJ5L1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,45 +48,86 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://github.com/cilium/linux.git pr/new-api-tcx6
-head:   ac45d6a1c8a347f9c6b56123ff245a2f21b0ce2c
+head:   aac84f1fa4da4148575d5fc7456a439edc67dda0
 commit: acf6b4cd3de8224fca4d205c76f48400cb4ca1f1 [2/10] bpf: Add generic attach/detach/query API for multi-progs
-config: um-randconfig-r032-20230713 (https://download.01.org/0day-ci/archive/20230714/202307140005.MsN96tlt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140005.MsN96tlt-lkp@intel.com/reproduce)
+config: mips-randconfig-r012-20230713 (https://download.01.org/0day-ci/archive/20230714/202307140028.56nRJ5L1-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140028.56nRJ5L1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307140005.MsN96tlt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307140028.56nRJ5L1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:7,
-                    from ./arch/um/include/generated/asm/bug.h:1,
-                    from include/linux/ktime.h:26,
-                    from include/linux/timer.h:6,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/bpf.h:10,
-                    from kernel/bpf/mprog.c:4:
-   kernel/bpf/mprog.c: In function 'bpf_mprog_fetch':
->> kernel/bpf/mprog.c:285:22: error: 'dtuple' undeclared (first use in this function); did you mean 'tuple'?
+>> kernel/bpf/mprog.c:285:15: error: use of undeclared identifier 'dtuple'; did you mean 'tuple'?
      285 |         WARN_ON_ONCE(dtuple->prog && dtuple->prog != prog);
          |                      ^~~~~~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   kernel/bpf/mprog.c:285:9: note: in expansion of macro 'WARN_ON_ONCE'
+         |                      tuple
+   include/asm-generic/bug.h:181:41: note: expanded from macro 'WARN_ON_ONCE'
+     181 | #define WARN_ON_ONCE(condition) WARN_ON(condition)
+         |                                         ^
+   include/asm-generic/bug.h:168:25: note: expanded from macro 'WARN_ON'
+     168 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^
+   kernel/bpf/mprog.c:262:25: note: 'tuple' declared here
+     262 |                            struct bpf_tuple *tuple, int idx)
+         |                                              ^
+   kernel/bpf/mprog.c:285:31: error: use of undeclared identifier 'dtuple'; did you mean 'tuple'?
      285 |         WARN_ON_ONCE(dtuple->prog && dtuple->prog != prog);
-         |         ^~~~~~~~~~~~
-   kernel/bpf/mprog.c:285:22: note: each undeclared identifier is reported only once for each function it appears in
-     285 |         WARN_ON_ONCE(dtuple->prog && dtuple->prog != prog);
+         |                                      ^~~~~~
+         |                                      tuple
+   include/asm-generic/bug.h:181:41: note: expanded from macro 'WARN_ON_ONCE'
+     181 | #define WARN_ON_ONCE(condition) WARN_ON(condition)
+         |                                         ^
+   include/asm-generic/bug.h:168:25: note: expanded from macro 'WARN_ON'
+     168 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^
+   kernel/bpf/mprog.c:262:25: note: 'tuple' declared here
+     262 |                            struct bpf_tuple *tuple, int idx)
+         |                                              ^
+   kernel/bpf/mprog.c:286:15: error: use of undeclared identifier 'dtuple'; did you mean 'tuple'?
+     286 |         WARN_ON_ONCE(dtuple->link && dtuple->link != link);
          |                      ^~~~~~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   kernel/bpf/mprog.c:285:9: note: in expansion of macro 'WARN_ON_ONCE'
-     285 |         WARN_ON_ONCE(dtuple->prog && dtuple->prog != prog);
-         |         ^~~~~~~~~~~~
+         |                      tuple
+   include/asm-generic/bug.h:181:41: note: expanded from macro 'WARN_ON_ONCE'
+     181 | #define WARN_ON_ONCE(condition) WARN_ON(condition)
+         |                                         ^
+   include/asm-generic/bug.h:168:25: note: expanded from macro 'WARN_ON'
+     168 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^
+   kernel/bpf/mprog.c:262:25: note: 'tuple' declared here
+     262 |                            struct bpf_tuple *tuple, int idx)
+         |                                              ^
+   kernel/bpf/mprog.c:286:31: error: use of undeclared identifier 'dtuple'; did you mean 'tuple'?
+     286 |         WARN_ON_ONCE(dtuple->link && dtuple->link != link);
+         |                                      ^~~~~~
+         |                                      tuple
+   include/asm-generic/bug.h:181:41: note: expanded from macro 'WARN_ON_ONCE'
+     181 | #define WARN_ON_ONCE(condition) WARN_ON(condition)
+         |                                         ^
+   include/asm-generic/bug.h:168:25: note: expanded from macro 'WARN_ON'
+     168 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^
+   kernel/bpf/mprog.c:262:25: note: 'tuple' declared here
+     262 |                            struct bpf_tuple *tuple, int idx)
+         |                                              ^
+   kernel/bpf/mprog.c:287:2: error: use of undeclared identifier 'dtuple'; did you mean 'tuple'?
+     287 |         dtuple->prog = prog;
+         |         ^~~~~~
+         |         tuple
+   kernel/bpf/mprog.c:262:25: note: 'tuple' declared here
+     262 |                            struct bpf_tuple *tuple, int idx)
+         |                                              ^
+   kernel/bpf/mprog.c:288:2: error: use of undeclared identifier 'dtuple'; did you mean 'tuple'?
+     288 |         dtuple->link = link;
+         |         ^~~~~~
+         |         tuple
+   kernel/bpf/mprog.c:262:25: note: 'tuple' declared here
+     262 |                            struct bpf_tuple *tuple, int idx)
+         |                                              ^
+   6 errors generated.
 
 
 vim +285 kernel/bpf/mprog.c
