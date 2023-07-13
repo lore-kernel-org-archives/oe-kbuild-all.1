@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3000B53A4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jul 2023 05:31:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40641566E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jul 2023 05:52:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689226299; x=1720762299;
+  t=1689227559; x=1720763559;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MKnXjoglW7hYmiZSSb1wswkc9hJErdcDIN1siHXYdqw=;
-  b=ZPqbUcqU1TVSP1qT2zjKfIQsVruOhT//RA+PXbgdXzEemJ1v1B3uOyxp
-   5ikI1m15cVu2yhK33nCRQjy2cmh6g3FOYpXyc+lns9fWQ2oh4dShv3Ysq
-   sEhtEACGetwyF+YBn943lwSaGrb1esr9FPYoxfV/zh17ZqsnLZ/SuPn7b
-   bEn9wkEZeFiH2QvQvLM925clOHoIbB16k753EnDBuqktsBn3LoMEwk5lY
-   mg2dlahLBIzfsbsEqxdjwOaFBvNK60IX2qtQZl66avQ/2dYlab+MGPZ0/
-   hK51nenPxAobehqEolV44W72ERHDsEdC7Cn9/5/3L/xnboeQpcz0iOrqp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="365119701"
+  bh=a9SGpkTDENPcD97bE74KZw4p1qW6QtlzqrPR9DJ8Ono=;
+  b=Ewdr6rZj1s9p2KTGQAnVeY4NwypnOT3ONTkxpq++dMreYZ5reIrZXGbK
+   IGNcjLivunjekUQdMgadw6BanXi6P6nycwbVGHOv+E2Vo1uXdEtrkb7Xv
+   iULmnxtSjgDLk+50U86D8oVC+unP5vItagYpnkE2oZbZqBG+aayjOrNYD
+   BOLtX3NB1W4PtxTlXoWRLpBSCs4EGWMEZ8Z9mczsNLZ3/4D81FGwM6IXR
+   263ayAlAOga453DmVRUo2majw71m4QuwUPJJbdw5WbEShF51LQbEddCEK
+   ClEXkMhXTu79SiHDuO35VaTRUS6SL9iWhQ3B3gYMCxc9H+VlqnuMAEWKE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="349948056"
 X-IronPort-AV: E=Sophos;i="6.01,201,1684825200"; 
-   d="scan'208";a="365119701"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 22:31:38 -0700
+   d="scan'208";a="349948056"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 22:52:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="699118877"
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="1052471662"
 X-IronPort-AV: E=Sophos;i="6.01,201,1684825200"; 
-   d="scan'208";a="699118877"
+   d="scan'208";a="1052471662"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 12 Jul 2023 22:31:36 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 12 Jul 2023 22:52:37 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJovQ-0006GF-0e;
-	Thu, 13 Jul 2023 05:31:36 +0000
-Date: Thu, 13 Jul 2023 13:31:28 +0800
+	id 1qJpFk-0006Hd-2a;
+	Thu, 13 Jul 2023 05:52:36 +0000
+Date: Thu, 13 Jul 2023 13:52:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <apatel@ventanamicro.com>
+To: Ivan Babrou <github@ivan.computer>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [avpatel:riscv_kvm_onereg_imp_v1 31/37]
- arch/riscv/kvm/vcpu_onereg.c:64:24: error: implicit declaration of function
- 'riscv_v_vstate_ctrl_user_allowed'
-Message-ID: <202307131344.6WS6qcej-lkp@intel.com>
+Subject: [bobrik:ivan/kernfs-fsid 1/1] fs/kernfs/mount.c:50:5: sparse:
+ sparse: symbol 'kernfs_statfs' was not declared. Should it be static?
+Message-ID: <202307131321.vHc5CTHj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,44 +46,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_kvm_onereg_imp_v1
-head:   5248cca9bf7fdb826293e90cbf7cf2995458b645
-commit: 9b47b09df905b9489514edb9f8679aa5f733634d [31/37] RISC-V: KVM: Factor-out ONE_REG related code to its own source file
-config: riscv-randconfig-r062-20230710 (https://download.01.org/0day-ci/archive/20230713/202307131344.6WS6qcej-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230713/202307131344.6WS6qcej-lkp@intel.com/reproduce)
+tree:   https://github.com/bobrik/linux ivan/kernfs-fsid
+head:   556d2ad5c816ebd4bc5144ef2cf82e2a5622b040
+commit: 556d2ad5c816ebd4bc5144ef2cf82e2a5622b040 [1/1] kernfs: attach uuid for every kernfs and report it in fsid
+config: i386-randconfig-r082-20230710 (https://download.01.org/0day-ci/archive/20230713/202307131321.vHc5CTHj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230713/202307131321.vHc5CTHj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307131344.6WS6qcej-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307131321.vHc5CTHj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/riscv/kvm/vcpu_onereg.c: In function 'kvm_riscv_vcpu_isa_enable_allowed':
->> arch/riscv/kvm/vcpu_onereg.c:64:24: error: implicit declaration of function 'riscv_v_vstate_ctrl_user_allowed' [-Werror=implicit-function-declaration]
-      64 |                 return riscv_v_vstate_ctrl_user_allowed();
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/riscv_v_vstate_ctrl_user_allowed +64 arch/riscv/kvm/vcpu_onereg.c
-
-    57	
-    58	static bool kvm_riscv_vcpu_isa_enable_allowed(unsigned long ext)
-    59	{
-    60		switch (ext) {
-    61		case KVM_RISCV_ISA_EXT_H:
-    62			return false;
-    63		case KVM_RISCV_ISA_EXT_V:
-  > 64			return riscv_v_vstate_ctrl_user_allowed();
-    65		default:
-    66			break;
-    67		}
-    68	
-    69		return true;
-    70	}
-    71	
+sparse warnings: (new ones prefixed by >>)
+>> fs/kernfs/mount.c:50:5: sparse: sparse: symbol 'kernfs_statfs' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
