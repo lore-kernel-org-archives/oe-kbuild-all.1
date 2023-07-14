@@ -1,45 +1,45 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E23913700;
-	Fri, 14 Jul 2023 12:03:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8BC7E4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 12:33:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689336228; x=1720872228;
+  t=1689338022; x=1720874022;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JsgHXv3cfAB85r9ISOluj/yevys1pI9guTagMR00yhc=;
-  b=bPcdIKq0lgPdRDA9hYuWWSopC8hzR2LC+4TlZtf3dkDk59vEWXeq7t+3
-   jeSe2qEe0oM4VRbTuoNqewug5NhxdyaGGS4zkBoNmze44HnUzWrYMqCEV
-   vapSchSiUjajufwxkxaPVNTZ6LaBIgksNVXbm0+SyoJ+IagBqEH/ZwCfl
-   Wu2iWSFgvlpvcBPjLHUzHtBf1DYkxw1wsZzyjg4hwNVyeyIrNLHvTbETI
-   6LhKWaQ3PCGy60ifnzHO19fVQiXk8tfP1lOYEUoL8L47rfvrkdZdMED3x
-   iF0x2sOGVbmV2hZAia5wtvZyj8po9h6RWKvK2bbVchT3jDN1hg7ZcNXp8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="345772610"
+  bh=9YuTu9hIA//sIlQQo2+B4WBeJ23uBSHZT8dOSjcBPPM=;
+  b=jlZfKbjpYFVAPsAsM8QmSgUHgB6GSLjcjqi3nxHdTYUrTwMDMBjIa8Em
+   8uWfBN+9WlbAwVkmO8beGMLst/K2PQPVTT162IeNjoODekqbeoSpNpepD
+   8sXksc2JPk3MS8sT7ExCEITK9n38PxCsE8NwgGcFUXu7hOR8j3z6sWtMh
+   q04Yx9gkLGeOoZ24Bk361+k/FWby5bcB9fA5xkUX4Xft3v1lOTOq6X46l
+   Hun6BSxrsDt6QArwt85SyCk4f3pMntvOCc2eDrCjbQowo82W6qwbN+t7p
+   kPyPd9b/pdq/PTOx7+Dr1KRy9kqogRjcZMjqzJYbKtwA58U8myVde/nDw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="429228203"
 X-IronPort-AV: E=Sophos;i="6.01,205,1684825200"; 
-   d="scan'208";a="345772610"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 05:02:34 -0700
+   d="scan'208";a="429228203"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 05:33:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="725687360"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="1053039034"
 X-IronPort-AV: E=Sophos;i="6.01,205,1684825200"; 
-   d="scan'208";a="725687360"
+   d="scan'208";a="1053039034"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Jul 2023 05:02:32 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2023 05:33:35 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKHVI-0007QH-0K;
-	Fri, 14 Jul 2023 12:02:32 +0000
-Date: Fri, 14 Jul 2023 20:01:46 +0800
+	id 1qKHzK-0007Qz-0f;
+	Fri, 14 Jul 2023 12:33:34 +0000
+Date: Fri, 14 Jul 2023 20:33:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: Henning Schild <henning.schild@siemens.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Hans de Goede <hdegoede@redhat.com>
 Subject: [pdx86-platform-drivers-x86:platform-drivers-x86-simatic-ipc 3/7]
  drivers/platform/x86/simatic-ipc-batt.c:152:5: warning: no previous
- prototype for function 'simatic_ipc_batt_remove'
-Message-ID: <202307141920.qk4FY4D6-lkp@intel.com>
+ prototype for 'simatic_ipc_batt_remove'
+Message-ID: <202307142039.43QjFviS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,32 +52,23 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git platform-drivers-x86-simatic-ipc
 head:   161c6512536100ae4919032ef6f1132621794e01
 commit: ad90535e51415fb636054649b5894447a984496e [3/7] platform/x86: simatic-ipc: add CMOS battery monitoring
-config: i386-randconfig-r021-20230714 (https://download.01.org/0day-ci/archive/20230714/202307141920.qk4FY4D6-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307141920.qk4FY4D6-lkp@intel.com/reproduce)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230714/202307142039.43QjFviS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307142039.43QjFviS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307141920.qk4FY4D6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307142039.43QjFviS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/platform/x86/simatic-ipc-batt.c:152:5: warning: no previous prototype for function 'simatic_ipc_batt_remove' [-Wmissing-prototypes]
-   int simatic_ipc_batt_remove(struct platform_device *pdev, struct gpiod_lookup_table *table)
-       ^
-   drivers/platform/x86/simatic-ipc-batt.c:152:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int simatic_ipc_batt_remove(struct platform_device *pdev, struct gpiod_lookup_table *table)
-   ^
-   static 
->> drivers/platform/x86/simatic-ipc-batt.c:159:5: warning: no previous prototype for function 'simatic_ipc_batt_probe' [-Wmissing-prototypes]
-   int simatic_ipc_batt_probe(struct platform_device *pdev, struct gpiod_lookup_table *table)
-       ^
-   drivers/platform/x86/simatic-ipc-batt.c:159:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int simatic_ipc_batt_probe(struct platform_device *pdev, struct gpiod_lookup_table *table)
-   ^
-   static 
-   2 warnings generated.
+>> drivers/platform/x86/simatic-ipc-batt.c:152:5: warning: no previous prototype for 'simatic_ipc_batt_remove' [-Wmissing-prototypes]
+     152 | int simatic_ipc_batt_remove(struct platform_device *pdev, struct gpiod_lookup_table *table)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/simatic-ipc-batt.c:159:5: warning: no previous prototype for 'simatic_ipc_batt_probe' [-Wmissing-prototypes]
+     159 | int simatic_ipc_batt_probe(struct platform_device *pdev, struct gpiod_lookup_table *table)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/simatic_ipc_batt_remove +152 drivers/platform/x86/simatic-ipc-batt.c
