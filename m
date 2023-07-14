@@ -1,44 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9047F4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 01:33:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DD1806
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 02:04:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689298409; x=1720834409;
+  t=1689300265; x=1720836265;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3B3eDdbpYn4ncbnYeD2Pp/pZs5XJJz2Yeas5AYk2yKo=;
-  b=nryUxZRnc+qS95tqdpcbigMzSSqTUEnId94zZ1yCP48zXxan8P9EDlOt
-   MBYz/onPUNIoY3oOC7kEz2jEBrGwOCfQTD2PY80nqZYto+ow8Pvgsx0cB
-   9Hz4cR8NDzyoyLpUWSWv1NGzit9v+zazyPDwJDZlBuZguXstTM3Dlrgt6
-   pzglMCtZ31ih/lkILhQl9AjEr56gxro8r/U8ropI0tLaUHaaZWfAS/aFR
-   vhSC6kvorbjqrs5lhGcUpnQLHR50IxRTqAzi9nl+EnRSadr096Q8H2eFK
-   NyusAqpSsXujo90QyqKjHEwkWviZamEwRSlXYmchkCt8h+H03ogAAXyx4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="396171237"
+  bh=JAwbUnGAJoNa/KwLZGhx/wpx1A7Ey5H0gSQw2/jj9jU=;
+  b=DkcZggzz8+lWqNNW0JrV6XxAqe7vPTBD0F080BFkpv5hHjh9E8Gs7eqx
+   Upy0XeBYh/eY9vXdEoNXraG8SIgFqSRibb+IQKKwSG1sa+1RpZcjzQmEv
+   /GMf4P32DWSxIMaWWNDsxeQpjxYXZ8gj1iptorun9kSbHIkdRzfDnaHFa
+   4aKITftTfC9B85t8ZZ61fEkMGBkcb9Ja/nr3D+RELaPACGGIqAQlEaSd3
+   7FzWFZrX4+Q35+glMCsvcTmASujDYLUKU/rit6WVPEtB8GTPe2t8R3oH6
+   Ea1rR/OZ3XJmVwWKuiygGOr+69VRAWg/VvTjpozEHP/yVpu5kWShHtdQ8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="429132006"
 X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
-   d="scan'208";a="396171237"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 18:33:16 -0700
+   d="scan'208";a="429132006"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 19:04:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="725511351"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="699504058"
 X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
-   d="scan'208";a="725511351"
+   d="scan'208";a="699504058"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 13 Jul 2023 18:33:15 -0700
+  by orsmga006.jf.intel.com with ESMTP; 13 Jul 2023 19:04:17 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qK7gJ-00072K-0l;
-	Fri, 14 Jul 2023 01:33:15 +0000
-Date: Fri, 14 Jul 2023 09:32:42 +0800
+	id 1qK8AK-000745-3C;
+	Fri, 14 Jul 2023 02:04:16 +0000
+Date: Fri, 14 Jul 2023 10:04:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/gmem 1/31] include/linux/compiler_types.h:397:45:
- error: call to '__compiletime_assert_542' declared with attribute error:
- BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || +
- sizeof(range->arg) != sizeof(unsigned long)
-Message-ID: <202307140936.dt44LonQ-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@c-s.fr>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miles Chen <miles.chen@mediatek.com>
+Subject: [stable:linux-4.19.y 1426/9999] lib/strncpy_from_user.c:39: Error:
+ unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
+Message-ID: <202307140902.XRj0yQ5q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,169 +48,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux x86/gmem
-head:   9cbe075ae7adfaccafbef6c181188fefceaf7482
-commit: 799ed8bc49dabefca5bb4b2c773cbe81ab3c0b61 [1/31] KVM: Wrap kvm_gfn_range.pte in a per-action union
-config: i386-randconfig-r022-20230713 (https://download.01.org/0day-ci/archive/20230714/202307140936.dt44LonQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140936.dt44LonQ-lkp@intel.com/reproduce)
+Hi Christophe,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   94bffc1044d871e2ec89b2621e9a384355832988
+commit: e18590b3e242638e873a61d299abf8a9df446236 [1426/9999] lib: Reduce user_access_begin() boundaries in strncpy_from_user() and strnlen_user()
+config: riscv-randconfig-r024-20230712 (https://download.01.org/0day-ci/archive/20230714/202307140902.XRj0yQ5q-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140902.XRj0yQ5q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307140936.dt44LonQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307140902.XRj0yQ5q-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   In function '__kvm_handle_hva_range',
-       inlined from 'kvm_handle_hva_range' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:656:9,
-       inlined from 'kvm_mmu_notifier_change_pte' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:716:2:
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
-     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
-         |         ^~~~~~~~~~~~
-   In function '__kvm_handle_hva_range',
-       inlined from 'kvm_handle_hva_range_no_flush' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:675:9,
-       inlined from 'kvm_mmu_notifier_test_young' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:883:9:
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
-     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
-         |         ^~~~~~~~~~~~
-   In function '__kvm_handle_hva_range',
-       inlined from 'kvm_handle_hva_range' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:656:9,
-       inlined from 'kvm_mmu_notifier_clear_flush_young' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:851:9:
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
-     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
-         |         ^~~~~~~~~~~~
-   In function '__kvm_handle_hva_range',
-       inlined from 'kvm_mmu_notifier_invalidate_range_end' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:827:2:
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
-     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
-         |         ^~~~~~~~~~~~
-   In function '__kvm_handle_hva_range',
-       inlined from 'kvm_mmu_notifier_invalidate_range_start' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:789:2:
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
-     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
-         |         ^~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_mmu_notifier_clear_young':
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
-     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
-         |         ^~~~~~~~~~~~
+   lib/strncpy_from_user.c: Assembler messages:
+>> lib/strncpy_from_user.c:39: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
+>> lib/strncpy_from_user.c:39: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
+   lib/strncpy_from_user.c:55: Error: unrecognized opcode `csrs sstatus,s7', extension `zicsr' required
+   lib/strncpy_from_user.c:55: Error: unrecognized opcode `csrc sstatus,s7', extension `zicsr' required
 
 
-vim +/__compiletime_assert_542 +397 include/linux/compiler_types.h
+vim +39 lib/strncpy_from_user.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
+2922585b93294d David S. Miller 2012-05-24  19  
+2922585b93294d David S. Miller 2012-05-24  20  /*
+2922585b93294d David S. Miller 2012-05-24  21   * Do a strncpy, return length of string without final '\0'.
+2922585b93294d David S. Miller 2012-05-24  22   * 'count' is the user-supplied count (return 'count' if we
+2922585b93294d David S. Miller 2012-05-24  23   * hit it), 'max' is the address space maximum (and we return
+2922585b93294d David S. Miller 2012-05-24  24   * -EFAULT if we hit it).
+2922585b93294d David S. Miller 2012-05-24  25   */
+189b396a2580d6 Peter Zijlstra  2019-04-24  26  static inline long do_strncpy_from_user(char *dst, const char __user *src,
+189b396a2580d6 Peter Zijlstra  2019-04-24  27  					unsigned long count, unsigned long max)
+2922585b93294d David S. Miller 2012-05-24  28  {
+36126f8f2ed816 Linus Torvalds  2012-05-26  29  	const struct word_at_a_time constants = WORD_AT_A_TIME_CONSTANTS;
+189b396a2580d6 Peter Zijlstra  2019-04-24  30  	unsigned long res = 0;
+2922585b93294d David S. Miller 2012-05-24  31  
+2922585b93294d David S. Miller 2012-05-24  32  	if (IS_UNALIGNED(src, dst))
+2922585b93294d David S. Miller 2012-05-24  33  		goto byte_at_a_time;
+2922585b93294d David S. Miller 2012-05-24  34  
+2922585b93294d David S. Miller 2012-05-24  35  	while (max >= sizeof(unsigned long)) {
+36126f8f2ed816 Linus Torvalds  2012-05-26  36  		unsigned long c, data;
+2922585b93294d David S. Miller 2012-05-24  37  
+2922585b93294d David S. Miller 2012-05-24  38  		/* Fall back to byte-at-a-time if we get a page fault */
+1bd4403d86a1c0 Linus Torvalds  2016-08-08 @39  		unsafe_get_user(c, (unsigned long __user *)(src+res), byte_at_a_time);
+1bd4403d86a1c0 Linus Torvalds  2016-08-08  40  
+2922585b93294d David S. Miller 2012-05-24  41  		*(unsigned long *)(dst+res) = c;
+36126f8f2ed816 Linus Torvalds  2012-05-26  42  		if (has_zero(c, &data, &constants)) {
+36126f8f2ed816 Linus Torvalds  2012-05-26  43  			data = prep_zero_mask(c, data, &constants);
+36126f8f2ed816 Linus Torvalds  2012-05-26  44  			data = create_zero_mask(data);
+36126f8f2ed816 Linus Torvalds  2012-05-26  45  			return res + find_zero(data);
+2922585b93294d David S. Miller 2012-05-24  46  		}
+2922585b93294d David S. Miller 2012-05-24  47  		res += sizeof(unsigned long);
+2922585b93294d David S. Miller 2012-05-24  48  		max -= sizeof(unsigned long);
+2922585b93294d David S. Miller 2012-05-24  49  	}
+2922585b93294d David S. Miller 2012-05-24  50  
+2922585b93294d David S. Miller 2012-05-24  51  byte_at_a_time:
+2922585b93294d David S. Miller 2012-05-24  52  	while (max) {
+2922585b93294d David S. Miller 2012-05-24  53  		char c;
+2922585b93294d David S. Miller 2012-05-24  54  
+1bd4403d86a1c0 Linus Torvalds  2016-08-08  55  		unsafe_get_user(c,src+res, efault);
+2922585b93294d David S. Miller 2012-05-24  56  		dst[res] = c;
+2922585b93294d David S. Miller 2012-05-24  57  		if (!c)
+2922585b93294d David S. Miller 2012-05-24  58  			return res;
+2922585b93294d David S. Miller 2012-05-24  59  		res++;
+2922585b93294d David S. Miller 2012-05-24  60  		max--;
+2922585b93294d David S. Miller 2012-05-24  61  	}
+2922585b93294d David S. Miller 2012-05-24  62  
+2922585b93294d David S. Miller 2012-05-24  63  	/*
+2922585b93294d David S. Miller 2012-05-24  64  	 * Uhhuh. We hit 'max'. But was that the user-specified maximum
+2922585b93294d David S. Miller 2012-05-24  65  	 * too? If so, that's ok - we got as much as the user asked for.
+2922585b93294d David S. Miller 2012-05-24  66  	 */
+2922585b93294d David S. Miller 2012-05-24  67  	if (res >= count)
+2922585b93294d David S. Miller 2012-05-24  68  		return res;
+2922585b93294d David S. Miller 2012-05-24  69  
+2922585b93294d David S. Miller 2012-05-24  70  	/*
+2922585b93294d David S. Miller 2012-05-24  71  	 * Nope: we hit the address space limit, and we still had more
+2922585b93294d David S. Miller 2012-05-24  72  	 * characters the caller would have wanted. That's an EFAULT.
+2922585b93294d David S. Miller 2012-05-24  73  	 */
+1bd4403d86a1c0 Linus Torvalds  2016-08-08  74  efault:
+2922585b93294d David S. Miller 2012-05-24  75  	return -EFAULT;
+2922585b93294d David S. Miller 2012-05-24  76  }
+2922585b93294d David S. Miller 2012-05-24  77  
 
-:::::: The code at line 397 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+:::::: The code at line 39 was first introduced by commit
+:::::: 1bd4403d86a1c06cb6cc9ac87664a0c9d3413d51 unsafe_[get|put]_user: change interface to use a error target label
 
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
