@@ -1,45 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8BC7E4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 12:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E6A7E4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 12:43:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689338022; x=1720874022;
+  t=1689338618; x=1720874618;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9YuTu9hIA//sIlQQo2+B4WBeJ23uBSHZT8dOSjcBPPM=;
-  b=jlZfKbjpYFVAPsAsM8QmSgUHgB6GSLjcjqi3nxHdTYUrTwMDMBjIa8Em
-   8uWfBN+9WlbAwVkmO8beGMLst/K2PQPVTT162IeNjoODekqbeoSpNpepD
-   8sXksc2JPk3MS8sT7ExCEITK9n38PxCsE8NwgGcFUXu7hOR8j3z6sWtMh
-   q04Yx9gkLGeOoZ24Bk361+k/FWby5bcB9fA5xkUX4Xft3v1lOTOq6X46l
-   Hun6BSxrsDt6QArwt85SyCk4f3pMntvOCc2eDrCjbQowo82W6qwbN+t7p
-   kPyPd9b/pdq/PTOx7+Dr1KRy9kqogRjcZMjqzJYbKtwA58U8myVde/nDw
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="429228203"
+  bh=HcNwUOoB34TWzy4BZdLQnfBG4/4lEbDYbVm66HkxUXk=;
+  b=im9ssYaFArX1msWRcaHAEcXrtZNLYMgKsXyUOPIhNBEa2qgZ5vvJ8ozd
+   XXVtHiSBvaiicmMFxDjwd+z1gRYdWDnz59Yhps7A6CiceSoK5lTZIcKON
+   nmQIxAi7uo8e1obKWxDUl87vDLj5XC1hukq4SZfwdslsMLHfpMFhYZBY+
+   K+0hcU6Z+QyavkOZ6lorLOLF2ISvjaw+ua+senyYxibagPmIXFRNqZMVt
+   yn9KIy3KLLpJ6KBCabuYolpnC4Tf08L3tsw5okP+LgxdLOLS9NMF+lFgv
+   1qJvDmjP6kXP/AlBFztk/tozv/mo7/xHrHa4b91259pvuG1jmy0DCPuLf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="345060904"
 X-IronPort-AV: E=Sophos;i="6.01,205,1684825200"; 
-   d="scan'208";a="429228203"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 05:33:37 -0700
+   d="scan'208";a="345060904"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 05:43:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="1053039034"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="896408072"
 X-IronPort-AV: E=Sophos;i="6.01,205,1684825200"; 
-   d="scan'208";a="1053039034"
+   d="scan'208";a="896408072"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2023 05:33:35 -0700
+  by orsmga005.jf.intel.com with ESMTP; 14 Jul 2023 05:43:35 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKHzK-0007Qz-0f;
-	Fri, 14 Jul 2023 12:33:34 +0000
-Date: Fri, 14 Jul 2023 20:33:13 +0800
+	id 1qKI90-0007RN-1H;
+	Fri, 14 Jul 2023 12:43:34 +0000
+Date: Fri, 14 Jul 2023 20:43:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Henning Schild <henning.schild@siemens.com>
+To: Nick Alcock <nick.alcock@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: [pdx86-platform-drivers-x86:platform-drivers-x86-simatic-ipc 3/7]
- drivers/platform/x86/simatic-ipc-batt.c:152:5: warning: no previous
- prototype for 'simatic_ipc_batt_remove'
-Message-ID: <202307142039.43QjFviS-lkp@intel.com>
+	Victor Erminpour <victor.erminpour@oracle.com>
+Subject: [oracle-dtrace:v2/6.4 11/13] fs/waitfd.c:60:34: sparse: sparse: cast
+ removes address space '__user' of expression
+Message-ID: <202307142007.SffWZW7o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,107 +47,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git platform-drivers-x86-simatic-ipc
-head:   161c6512536100ae4919032ef6f1132621794e01
-commit: ad90535e51415fb636054649b5894447a984496e [3/7] platform/x86: simatic-ipc: add CMOS battery monitoring
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230714/202307142039.43QjFviS-lkp@intel.com/config)
+Hi Nick,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/oracle/dtrace-linux-kernel v2/6.4
+head:   9b6d57638acaddc5e1016dbcfea27771df400611
+commit: 9402ce66da82c5ad6c5449749b63856473b18cbd [11/13] waitfd: enable by default
+config: um-randconfig-r071-20230713 (https://download.01.org/0day-ci/archive/20230714/202307142007.SffWZW7o-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307142039.43QjFviS-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307142007.SffWZW7o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307142039.43QjFviS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307142007.SffWZW7o-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/waitfd.c:60:34: sparse: sparse: cast removes address space '__user' of expression
+>> fs/waitfd.c:60:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int [noderef] __user *stat_addr @@     got int * @@
+   fs/waitfd.c:60:34: sparse:     expected int [noderef] __user *stat_addr
+   fs/waitfd.c:60:34: sparse:     got int *
+>> fs/waitfd.c:89:27: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t ( *poll )( ... ) @@     got unsigned int ( * )( ... ) @@
+   fs/waitfd.c:89:27: sparse:     expected restricted __poll_t ( *poll )( ... )
+   fs/waitfd.c:89:27: sparse:     got unsigned int ( * )( ... )
 
->> drivers/platform/x86/simatic-ipc-batt.c:152:5: warning: no previous prototype for 'simatic_ipc_batt_remove' [-Wmissing-prototypes]
-     152 | int simatic_ipc_batt_remove(struct platform_device *pdev, struct gpiod_lookup_table *table)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/platform/x86/simatic-ipc-batt.c:159:5: warning: no previous prototype for 'simatic_ipc_batt_probe' [-Wmissing-prototypes]
-     159 | int simatic_ipc_batt_probe(struct platform_device *pdev, struct gpiod_lookup_table *table)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
+vim +/__user +60 fs/waitfd.c
 
+19ce4a9705869b Nick Alcock 2018-11-14  51  
+19ce4a9705869b Nick Alcock 2018-11-14  52  /*
+19ce4a9705869b Nick Alcock 2018-11-14  53   * Returns a multiple of the size of a stat_addr, or a negative error code. The
+19ce4a9705869b Nick Alcock 2018-11-14  54   * "count" parameter must be at least sizeof(int).
+19ce4a9705869b Nick Alcock 2018-11-14  55   */
+19ce4a9705869b Nick Alcock 2018-11-14  56  static ssize_t waitfd_read(struct file *file, char __user *buf, size_t count,
+19ce4a9705869b Nick Alcock 2018-11-14  57  			     loff_t *ppos)
+19ce4a9705869b Nick Alcock 2018-11-14  58  {
+19ce4a9705869b Nick Alcock 2018-11-14  59  	struct waitfd_ctx *ctx = file->private_data;
+19ce4a9705869b Nick Alcock 2018-11-14 @60  	int __user *stat_addr = (int *)buf;
+19ce4a9705869b Nick Alcock 2018-11-14  61  	int flags = ctx->options;
+19ce4a9705869b Nick Alcock 2018-11-14  62  	ssize_t ret, total = 0;
+19ce4a9705869b Nick Alcock 2018-11-14  63  
+19ce4a9705869b Nick Alcock 2018-11-14  64  	count /= sizeof(int);
+19ce4a9705869b Nick Alcock 2018-11-14  65  	if (!count)
+19ce4a9705869b Nick Alcock 2018-11-14  66  		return -EINVAL;
+19ce4a9705869b Nick Alcock 2018-11-14  67  
+19ce4a9705869b Nick Alcock 2018-11-14  68  	if (file->f_flags & O_NONBLOCK)
+19ce4a9705869b Nick Alcock 2018-11-14  69  		flags |= WNOHANG;
+19ce4a9705869b Nick Alcock 2018-11-14  70  
+19ce4a9705869b Nick Alcock 2018-11-14  71  	do {
+19ce4a9705869b Nick Alcock 2018-11-14  72  		ret = kernel_wait4(ctx->upid, stat_addr, flags, NULL);
+19ce4a9705869b Nick Alcock 2018-11-14  73  		if (ret == 0)
+19ce4a9705869b Nick Alcock 2018-11-14  74  			ret = -EAGAIN;
+19ce4a9705869b Nick Alcock 2018-11-14  75  		if (ret == -ECHILD)
+19ce4a9705869b Nick Alcock 2018-11-14  76  			ret = 0;
+19ce4a9705869b Nick Alcock 2018-11-14  77  		if (ret <= 0)
+19ce4a9705869b Nick Alcock 2018-11-14  78  			break;
+19ce4a9705869b Nick Alcock 2018-11-14  79  
+19ce4a9705869b Nick Alcock 2018-11-14  80  		stat_addr++;
+19ce4a9705869b Nick Alcock 2018-11-14  81  		total += sizeof(int);
+19ce4a9705869b Nick Alcock 2018-11-14  82  	} while (--count);
+19ce4a9705869b Nick Alcock 2018-11-14  83  
+19ce4a9705869b Nick Alcock 2018-11-14  84  	return total ? total : ret;
+19ce4a9705869b Nick Alcock 2018-11-14  85  }
+19ce4a9705869b Nick Alcock 2018-11-14  86  
+19ce4a9705869b Nick Alcock 2018-11-14  87  static const struct file_operations waitfd_fops = {
+19ce4a9705869b Nick Alcock 2018-11-14  88  	.release	= waitfd_release,
+19ce4a9705869b Nick Alcock 2018-11-14 @89  	.poll		= waitfd_poll,
+19ce4a9705869b Nick Alcock 2018-11-14  90  	.read		= waitfd_read,
+19ce4a9705869b Nick Alcock 2018-11-14  91  	.llseek		= noop_llseek,
+19ce4a9705869b Nick Alcock 2018-11-14  92  };
+19ce4a9705869b Nick Alcock 2018-11-14  93  
 
-vim +/simatic_ipc_batt_remove +152 drivers/platform/x86/simatic-ipc-batt.c
+:::::: The code at line 60 was first introduced by commit
+:::::: 19ce4a9705869b25a970a68669e8837cf78b1ead waitfd: new syscall implementing waitpid() over fds
 
-   151	
- > 152	int simatic_ipc_batt_remove(struct platform_device *pdev, struct gpiod_lookup_table *table)
-   153	{
-   154		gpiod_remove_lookup_table(table);
-   155		return 0;
-   156	}
-   157	EXPORT_SYMBOL_GPL(simatic_ipc_batt_remove);
-   158	
- > 159	int simatic_ipc_batt_probe(struct platform_device *pdev, struct gpiod_lookup_table *table)
-   160	{
-   161		struct simatic_ipc_platform *plat;
-   162		struct device *dev = &pdev->dev;
-   163		struct device *hwmon_dev;
-   164		int err;
-   165	
-   166		plat = pdev->dev.platform_data;
-   167		priv.devmode = plat->devmode;
-   168	
-   169		switch (priv.devmode) {
-   170		case SIMATIC_IPC_DEVICE_127E:
-   171		case SIMATIC_IPC_DEVICE_227G:
-   172		case SIMATIC_IPC_DEVICE_BX_39A:
-   173		case SIMATIC_IPC_DEVICE_BX_21A:
-   174			table->dev_id = dev_name(dev);
-   175			gpiod_add_lookup_table(table);
-   176			break;
-   177		case SIMATIC_IPC_DEVICE_227E:
-   178			goto nogpio;
-   179		default:
-   180			return -ENODEV;
-   181		}
-   182	
-   183		priv.gpios[0] = devm_gpiod_get_index(dev, "CMOSBattery empty", 0, GPIOD_IN);
-   184		if (IS_ERR(priv.gpios[0])) {
-   185			err = PTR_ERR(priv.gpios[0]);
-   186			priv.gpios[0] = NULL;
-   187			goto out;
-   188		}
-   189		priv.gpios[1] = devm_gpiod_get_index(dev, "CMOSBattery low", 1, GPIOD_IN);
-   190		if (IS_ERR(priv.gpios[1])) {
-   191			err = PTR_ERR(priv.gpios[1]);
-   192			priv.gpios[1] = NULL;
-   193			goto out;
-   194		}
-   195	
-   196		if (table->table[2].key) {
-   197			priv.gpios[2] = devm_gpiod_get_index(dev, "CMOSBattery meter", 2, GPIOD_OUT_HIGH);
-   198			if (IS_ERR(priv.gpios[2])) {
-   199				err = PTR_ERR(priv.gpios[1]);
-   200				priv.gpios[2] = NULL;
-   201				goto out;
-   202			}
-   203		} else {
-   204			priv.gpios[2] = NULL;
-   205		}
-   206	
-   207	nogpio:
-   208		hwmon_dev = devm_hwmon_device_register_with_info(dev, KBUILD_MODNAME,
-   209								 &priv,
-   210								 &simatic_ipc_batt_chip_info,
-   211								 NULL);
-   212		if (IS_ERR(hwmon_dev)) {
-   213			err = PTR_ERR(hwmon_dev);
-   214			goto out;
-   215		}
-   216	
-   217		/* warn about aging battery even if userspace never reads hwmon */
-   218		simatic_ipc_batt_read_value(dev);
-   219	
-   220		return 0;
-   221	out:
-   222		simatic_ipc_batt_remove(pdev, table);
-   223	
-   224		return err;
-   225	}
-   226	EXPORT_SYMBOL_GPL(simatic_ipc_batt_probe);
-   227	
+:::::: TO: Nick Alcock <nick.alcock@oracle.com>
+:::::: CC: Nick Alcock <nick.alcock@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
