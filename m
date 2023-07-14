@@ -1,93 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B4420E8;
-	Fri, 14 Jul 2023 13:53:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63029C433C8;
-	Fri, 14 Jul 2023 13:53:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689342794;
-	bh=5zsqN27CRP4fgT+KSU111Jy7baDcv6ghx8mp4s4VY/8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZLh1SnOB0d6V1mG2pR58QC7NXiw6JV/HeuQJGz3soO38ub4I66IjQ82dDit00sJ2O
-	 L6//7voBISqK+Fg9yq8laLH8BnCkQ7zeme+VqIQ7fNO8jf2Z0/FDLsKnFLp/rfHjxQ
-	 fAAnnOxF6/uGD8yZtI9eToo+O6dq3ch6bH0x4e7uI5pdU+9stONu83w9jP6PhFgjJf
-	 tKWenroS6VlWVwprbS/fLQ/itp/sxecUZSfc24nRZWIBPSApJzqUhQfEdFqPf6sky6
-	 awyynyYQdBrUIAQfq5tUJo8md8GxNBlVdLsvlk/UJT/hWIcjG2p3eLSdvJ3hmV/+B5
-	 OyM07NvaASxqQ==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-	id DFE3140516; Fri, 14 Jul 2023 10:53:11 -0300 (-03)
-Date: Fri, 14 Jul 2023 10:53:11 -0300
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Andrii Nakryiko <andrii@kernel.org>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>
-Subject: Re: [linux-next:master 754/1391] /bin/bash: line 1: 50431
- Segmentation fault LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j
- --lang_exclude=rust --skip_encoding_btf_inconsistent_proto
- --btf_gen_optimized --btf_base vmlinux drivers/pcmcia/pcmcia_core.ko
-Message-ID: <ZLFTR+E1nQVtFbbB@kernel.org>
-References: <202307112158.3RFyuSZJ-lkp@intel.com>
- <CAEf4BzaWmYcJTLc5837wA8T4KOWcQaxgh6LpYR53kT-8HoQDSQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3983D20E8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 13:56:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689342999; x=1720878999;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1py2PaNx1RRwM8CX4hVtIenmtZ0piDjDFslR4tyDf/k=;
+  b=W687ee11K0O9VrQRocyvgQLPwaWovJKF6r+dHmapBpGk5dSs/4LvwZG2
+   rLLSOH+swVnW45km1xL7b9e2yFN2wHo6phSA9JJ1Nl+R/VbCrfGWOYmcp
+   v/jXeSGJX1y15LKNnn7RtXQeBGGLQRkfRCv28E1ypNhHFbK2IjCu/Hkgh
+   FdyP1SOtiBBfHTzXez/QZwgnA7HLyDjCUK0U3VNXZeakbarHzQ6Lt26Z/
+   dxORUHUYTnR8xY9unK45Iv7ha3PpL8TH+LRuJJmMiWAdVXmmyop9eO3lD
+   3GdOLaN9nG9NUFitmtXV3+bQq7hFyP9wsCot0eeH25AJbxILP6grirH5K
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="364350988"
+X-IronPort-AV: E=Sophos;i="6.01,205,1684825200"; 
+   d="scan'208";a="364350988"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 06:56:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="752047315"
+X-IronPort-AV: E=Sophos;i="6.01,205,1684825200"; 
+   d="scan'208";a="752047315"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 14 Jul 2023 06:56:37 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qKJHg-0007Ub-1X;
+	Fri, 14 Jul 2023 13:56:36 +0000
+Date: Fri, 14 Jul 2023 21:55:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ulfh-pm:genpd_create_dir 12/18] scripts/Makefile.build:41:
+ drivers/soc/starfive/Makefile: No such file or directory
+Message-ID: <202307142126.eXh2qgOo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEf4BzaWmYcJTLc5837wA8T4KOWcQaxgh6LpYR53kT-8HoQDSQ@mail.gmail.com>
-X-Url: http://acmel.wordpress.com
 
-Em Tue, Jul 11, 2023 at 03:20:43PM -0700, Andrii Nakryiko escreveu:
-> On Tue, Jul 11, 2023 at 6:52 AM kernel test robot <lkp@intel.com> wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   8e4b7f2f3d6071665b1dfd70786229c8a5d6c256
-> > commit: c628747cc8800cf6d33d09f7f42c8b6f91e64dc7 [754/1391] libbpf: only reset sec_def handler when necessary
-> > config: arm-randconfig-r032-20230710 (https://download.01.org/0day-ci/archive/20230711/202307112158.3RFyuSZJ-lkp@intel.com/config)
-> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> > reproduce: (https://download.01.org/0day-ci/archive/20230711/202307112158.3RFyuSZJ-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202307112158.3RFyuSZJ-lkp@intel.com/
-> >
-> > Note: the linux-next/master HEAD 8e4b7f2f3d6071665b1dfd70786229c8a5d6c256 builds fine.
-> >       It may have been fixed somewhere.
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    die__process_unit: DW_TAG_subrange_type (0x21) @ <0x14a5b> not handled!
-> >    die__process_unit: tag not supported 0x21 (subrange_type)!
-> >    die__process_unit: DW_TAG_subrange_type (0x21) @ <0x1e457> not handled!
-> >    die__create_new_array: DW_TAG_union_type (0x17) @ <0x14a70> not handled!
-> >    die__process_class: DW_TAG_compile_unit (0x11) @ <0x1e4bc> not handled!
-> >    die__process_class: tag not supported 0x11 (compile_unit)!
-> > >> /bin/bash: line 1: 50431 Segmentation fault      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j --lang_exclude=rust --skip_encoding_btf_inconsistent_proto --btf_gen_optimized --btf_base vmlinux drivers/pcmcia/pcmcia_core.ko
-> >
-> 
-> Cc'ing Arnaldo and Eduard. I don't know if it's the same as [0], but
-> just in case please take a look.
-> 
->   [0] https://lore.kernel.org/bpf/20230710200002.ca4okot5rrvewqvb@altlinux.org/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git genpd_create_dir
+head:   b43f11e5b453a9c48159d7121c88d79d81901276
+commit: f3fb16291f48638e9eda4f249970d34061906ba3 [12/18] soc: starfive: Move the power-domain driver to the genpd dir
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20230714/202307142126.eXh2qgOo-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307142126.eXh2qgOo-lkp@intel.com/reproduce)
 
-I'll try to reproduce, but if the vmlinux and pcmcia_core.ko files that
-were produced in this test run could be made available, that would speed
-up things.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307142126.eXh2qgOo-lkp@intel.com/
 
-Otherwise I'll try to use https://download.01.org/0day-ci/archive/20230711/202307112158.3RFyuSZJ-lkp@intel.com/reproduce
+All errors (new ones prefixed by >>):
 
-Thise are not types that usually appear in C, so perhaps the
---lang_exclude=rust isn't working for some reason, i.e. looking at the
-DW_TAG_compile_unit to se the DW_AT_language.
+>> scripts/Makefile.build:41: drivers/soc/starfive/Makefile: No such file or directory
+>> make[6]: *** No rule to make target 'drivers/soc/starfive/Makefile'.
+   scripts/Makefile.build:41: Failed to remake makefile 'drivers/soc/starfive/Makefile'.
 
-Processing arrays and getting a union type? Interesting :-)
 
-- Arnaldo
+vim +41 scripts/Makefile.build
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  38  
+3204a7fb98a3bc Masahiro Yamada 2021-02-28  39  include $(srctree)/scripts/Kbuild.include
+57fd251c789647 Masahiro Yamada 2021-02-28  40  include $(srctree)/scripts/Makefile.compiler
+a2430b25c31840 Masahiro Yamada 2022-11-19 @41  include $(kbuild-file)
+3204a7fb98a3bc Masahiro Yamada 2021-02-28  42  include $(srctree)/scripts/Makefile.lib
+^1da177e4c3f41 Linus Torvalds  2005-04-16  43  
+
+:::::: The code at line 41 was first introduced by commit
+:::::: a2430b25c31840a6dcbf95c65415d5fee2984dbc kbuild: add kbuild-file macro
+
+:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
+:::::: CC: Masahiro Yamada <masahiroy@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
