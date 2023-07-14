@@ -1,49 +1,42 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01CD747E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 07:52:46 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fbc59de0e2so14322925e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 00:52:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689321165; x=1691913165;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EBCR5YE3hkj8TXxgf5IxSnNoKQxdKTi1pthS2vt7w2k=;
-        b=g0WxwttA0CE+Gf9T53Xgr8Y1D8t284SvSSPen1BC8DO3ksg6l503SjZYUErV6ePwRN
-         ZhuL1I3p3VTF5t9g1kF2qwJvGpthwAut2Ap+IPl0ItlUs00b1iOi7T5zf2YB4I598loW
-         nX6q79q4Wrh4Lx1g3TVyTLVNU6E5tRI7U5M1YDgIbnIIMVDMuRVJJhpmXUSnKquYckHR
-         FaL2GHRSPhPksG0THrXPgvi6u0jqjHpwBlQWlRB1+iA6Lx070ILKZTJtc7T71cX3vtPa
-         E54H5k/aOeg03HmsJ3oK0NGbMZu0yu9CdGFJz/AdyZnC1LX3gtj6+TH0Qybr3o+PnhnY
-         GxVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689321165; x=1691913165;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EBCR5YE3hkj8TXxgf5IxSnNoKQxdKTi1pthS2vt7w2k=;
-        b=KgNM5FostTFGUFtW1rkFfmcbD2QvyzFIuzCfrvR9kHsjR87MFcmKWWUD6d1U96bAyY
-         57J8cnQksgwyN6WgVLpNS/aW0X2BAONbMxIqtDgdcreD2zZjijxU0GS6xi0F/H4NPKU7
-         ehP5haBm8VycPo96f2sfslYrCW37BF/G8p80pAmF5LVRDr4BlyeG0auBtDYtrpEs/aDk
-         RqkowH6Fd4QoJkPVa2F9w1FA4pwclzWB2OEwnPOl/L0lhi4Q40hYvXi/A8ZhP4Mxrin2
-         Jgp8y2DOlHoVuTrWFL2QE9ne9EjS9maHxvFQTAjnfw3durl6jL6U17TasEFtsiZd9Key
-         Tmuw==
-X-Gm-Message-State: ABy/qLa7PxgdK2ht/Oh3NQBKUEMMIwx/SKe5y29i02bRD0GRlb0pn9KN
-	Sa+4ilQl6IseF6xkI6m2L6bhFw==
-X-Google-Smtp-Source: APBJJlFlOsFcqh2FMMAPPnUqu6WVf+6P5sLcIzSMaCH1yjAvQ4nXrAe5sZOMAUzTtsU/8XoXdYMZbg==
-X-Received: by 2002:a7b:c84a:0:b0:3fa:96ae:fd78 with SMTP id c10-20020a7bc84a000000b003fa96aefd78mr3440449wml.29.1689321164671;
-        Fri, 14 Jul 2023 00:52:44 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k4-20020a056000004400b00314326c91e2sm10136641wrx.28.2023.07.14.00.52.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 00:52:42 -0700 (PDT)
-Date: Fri, 14 Jul 2023 10:52:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Edward Lo <loyuantsung@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Subject: fs/ntfs3/xattr.c:120 ntfs_read_ea() warn: missing unwind goto?
-Message-ID: <45669af5-abe7-4adf-8c0a-fff50e0049af@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD37A6AB3;
+	Fri, 14 Jul 2023 08:57:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689325050; x=1720861050;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YOc8guDu4HREpgotIO4UY2eMC82OEQwrRb9USvM9KGQ=;
+  b=SVNRAwgeYDYa0UEDFTQ5GZUOlznMO7g+TOoeyPKC4XNmUMiQ3N8WUcvR
+   2cm3BojRQ/yYqmSXXFuxiyM3moPBsLO7fH1jh5RPfetdUsosswG1DpBFp
+   OPw9MUMc4PLN9Y3UiAijeZnpLq8nbrmPxrlvlv8ArGp+FhZBSJzEhapU6
+   v2VvS6hmneb3CyaOVqeuprn4ZoNF5lsZ6JyAw/Ra7qz9SNEy8THOrZiOx
+   bFtbWU3A5tB9OuloKAhkE5OrUgtyWiVxniyp7KhyxLxGsI7pZaJlKbi5m
+   bnAnBsuNzr9R9BeZ5gDN5Z4uRqCFtbYVWV9r7+T4dvfmPBPz1JV6PGXsX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="451792995"
+X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
+   d="scan'208";a="451792995"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 01:57:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="1052987999"
+X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
+   d="scan'208";a="1052987999"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2023 01:57:28 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qKEcB-0007KH-2r;
+	Fri, 14 Jul 2023 08:57:27 +0000
+Date: Fri, 14 Jul 2023 16:56:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:x86/topology 48/57] arch/x86/kernel/cpu/debugfs.c:31:45:
+ error: use of undeclared identifier '__amd_nodes_per_pkg'
+Message-ID: <202307141656.eY6wouYJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,138 +46,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eb26cbb1a754ccde5d4d74527dad5ba051808fad
-commit: c9db0ff04649aa0b45f497183c957fe260f229f6 fs/ntfs3: Return error for inconsistent extended attributes
-config: x86_64-randconfig-m001-20230713 (https://download.01.org/0day-ci/archive/20230714/202307140548.oJyBUCnj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140548.oJyBUCnj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topology
+head:   39d1f9d6ad3d4b9bf9c298db5685f22d8fe6e2c0
+commit: 15d4a8d9254f6947ad3f73cc3d2bf11d320864ff [48/57] x86/cpu: Provide an AMD/HYGON specific topology parser
+config: i386-randconfig-i004-20230713 (https://download.01.org/0day-ci/archive/20230714/202307141656.eY6wouYJ-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307141656.eY6wouYJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307140548.oJyBUCnj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307141656.eY6wouYJ-lkp@intel.com/
 
-smatch warnings:
-fs/ntfs3/xattr.c:120 ntfs_read_ea() warn: missing unwind goto?
+All errors (new ones prefixed by >>):
 
-vim +120 fs/ntfs3/xattr.c
+>> arch/x86/kernel/cpu/debugfs.c:31:45: error: use of undeclared identifier '__amd_nodes_per_pkg'
+           seq_printf(m, "amd_nodes_per_pkg:   %u\n", __amd_nodes_per_pkg);
+                                                      ^
+   1 error generated.
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13   73  static int ntfs_read_ea(struct ntfs_inode *ni, struct EA_FULL **ea,
-be71b5cba2e648 Konstantin Komarov 2021-08-13   74  			size_t add_bytes, const struct EA_INFO **info)
-be71b5cba2e648 Konstantin Komarov 2021-08-13   75  {
-0e8235d28f3a0e Konstantin Komarov 2022-10-10   76  	int err = -EINVAL;
-cff32466bf851b Konstantin Komarov 2021-09-24   77  	struct ntfs_sb_info *sbi = ni->mi.sbi;
-be71b5cba2e648 Konstantin Komarov 2021-08-13   78  	struct ATTR_LIST_ENTRY *le = NULL;
-be71b5cba2e648 Konstantin Komarov 2021-08-13   79  	struct ATTRIB *attr_info, *attr_ea;
-be71b5cba2e648 Konstantin Komarov 2021-08-13   80  	void *ea_p;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10   81  	u32 size, off, ea_size;
-be71b5cba2e648 Konstantin Komarov 2021-08-13   82  
-be71b5cba2e648 Konstantin Komarov 2021-08-13   83  	static_assert(le32_to_cpu(ATTR_EA_INFO) < le32_to_cpu(ATTR_EA));
-be71b5cba2e648 Konstantin Komarov 2021-08-13   84  
-be71b5cba2e648 Konstantin Komarov 2021-08-13   85  	*ea = NULL;
-be71b5cba2e648 Konstantin Komarov 2021-08-13   86  	*info = NULL;
-be71b5cba2e648 Konstantin Komarov 2021-08-13   87  
-be71b5cba2e648 Konstantin Komarov 2021-08-13   88  	attr_info =
-be71b5cba2e648 Konstantin Komarov 2021-08-13   89  		ni_find_attr(ni, NULL, &le, ATTR_EA_INFO, NULL, 0, NULL, NULL);
-be71b5cba2e648 Konstantin Komarov 2021-08-13   90  	attr_ea =
-be71b5cba2e648 Konstantin Komarov 2021-08-13   91  		ni_find_attr(ni, attr_info, &le, ATTR_EA, NULL, 0, NULL, NULL);
-be71b5cba2e648 Konstantin Komarov 2021-08-13   92  
-be71b5cba2e648 Konstantin Komarov 2021-08-13   93  	if (!attr_ea || !attr_info)
-be71b5cba2e648 Konstantin Komarov 2021-08-13   94  		return 0;
-be71b5cba2e648 Konstantin Komarov 2021-08-13   95  
-be71b5cba2e648 Konstantin Komarov 2021-08-13   96  	*info = resident_data_ex(attr_info, sizeof(struct EA_INFO));
-be71b5cba2e648 Konstantin Komarov 2021-08-13   97  	if (!*info)
-0e8235d28f3a0e Konstantin Komarov 2022-10-10   98  		goto out;
-be71b5cba2e648 Konstantin Komarov 2021-08-13   99  
-e8b8e97f91b80f Kari Argillander   2021-08-03  100  	/* Check Ea limit. */
-be71b5cba2e648 Konstantin Komarov 2021-08-13  101  	size = le32_to_cpu((*info)->size);
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  102  	if (size > sbi->ea_max_size) {
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  103  		err = -EFBIG;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  104  		goto out;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  105  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  106  
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  107  	if (attr_size(attr_ea) > sbi->ea_max_size) {
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  108  		err = -EFBIG;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  109  		goto out;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  110  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  111  
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  112  	if (!size) {
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  113  		/* EA info persists, but xattr is empty. Looks like EA problem. */
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  114  		goto out;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  115  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  116  
-e8b8e97f91b80f Kari Argillander   2021-08-03  117  	/* Allocate memory for packed Ea. */
-e001e608693906 Dan Carpenter      2022-09-12  118  	ea_p = kmalloc(size_add(size, add_bytes), GFP_NOFS);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  119  	if (!ea_p)
-be71b5cba2e648 Konstantin Komarov 2021-08-13 @120  		return -ENOMEM;
 
-Should this be err = -ENOMEM, goto out?
+vim +/__amd_nodes_per_pkg +31 arch/x86/kernel/cpu/debugfs.c
 
-be71b5cba2e648 Konstantin Komarov 2021-08-13  121  
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  122  	if (attr_ea->non_res) {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  123  		struct runs_tree run;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  124  
-be71b5cba2e648 Konstantin Komarov 2021-08-13  125  		run_init(&run);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  126  
-42f86b1226a42b Konstantin Komarov 2022-05-13  127  		err = attr_load_runs_range(ni, ATTR_EA, NULL, 0, &run, 0, size);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  128  		if (!err)
-cff32466bf851b Konstantin Komarov 2021-09-24  129  			err = ntfs_read_run_nb(sbi, &run, 0, ea_p, size, NULL);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  130  		run_close(&run);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  131  
-be71b5cba2e648 Konstantin Komarov 2021-08-13  132  		if (err)
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  133  			goto out1;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  134  	} else {
-be71b5cba2e648 Konstantin Komarov 2021-08-13  135  		void *p = resident_data_ex(attr_ea, size);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  136  
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  137  		if (!p)
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  138  			goto out1;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  139  		memcpy(ea_p, p, size);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  140  	}
-be71b5cba2e648 Konstantin Komarov 2021-08-13  141  
-be71b5cba2e648 Konstantin Komarov 2021-08-13  142  	memset(Add2Ptr(ea_p, size), 0, add_bytes);
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  143  
-c9db0ff04649aa Edward Lo          2023-03-17  144  	err = -EINVAL;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  145  	/* Check all attributes for consistency. */
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  146  	for (off = 0; off < size; off += ea_size) {
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  147  		const struct EA_FULL *ef = Add2Ptr(ea_p, off);
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  148  		u32 bytes = size - off;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  149  
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  150  		/* Check if we can use field ea->size. */
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  151  		if (bytes < sizeof(ef->size))
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  152  			goto out1;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  153  
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  154  		if (ef->size) {
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  155  			ea_size = le32_to_cpu(ef->size);
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  156  			if (ea_size > bytes)
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  157  				goto out1;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  158  			continue;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  159  		}
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  160  
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  161  		/* Check if we can use fields ef->name_len and ef->elength. */
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  162  		if (bytes < offsetof(struct EA_FULL, name))
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  163  			goto out1;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  164  
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  165  		ea_size = ALIGN(struct_size(ef, name,
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  166  					    1 + ef->name_len +
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  167  						    le16_to_cpu(ef->elength)),
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  168  				4);
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  169  		if (ea_size > bytes)
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  170  			goto out1;
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  171  	}
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  172  
-be71b5cba2e648 Konstantin Komarov 2021-08-13  173  	*ea = ea_p;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  174  	return 0;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  175  
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  176  out1:
-195c52bdd5d5ec Kari Argillander   2021-08-24  177  	kfree(ea_p);
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  178  out:
-0e8235d28f3a0e Konstantin Komarov 2022-10-10  179  	ntfs_set_state(sbi, NTFS_DIRTY_DIRTY);
-be71b5cba2e648 Konstantin Komarov 2021-08-13  180  	return err;
-be71b5cba2e648 Konstantin Komarov 2021-08-13  181  }
+     9	
+    10	static int cpu_debug_show(struct seq_file *m, void *p)
+    11	{
+    12		unsigned long cpu = (unsigned long)m->private;
+    13		struct cpuinfo_x86 *c;
+    14	
+    15		if (!cpu_online(cpu))
+    16			return -ENODEV;
+    17	
+    18		c = per_cpu_ptr(&cpu_info, cpu);
+    19	
+    20		seq_printf(m, "initial_apicid:      %x\n", c->topo.initial_apicid);
+    21		seq_printf(m, "apicid:              %x\n", c->topo.apicid);
+    22		seq_printf(m, "pkg_id:              %u\n", c->topo.pkg_id);
+    23		seq_printf(m, "die_id:              %u\n", c->topo.die_id);
+    24		seq_printf(m, "cu_id:               %u\n", c->topo.cu_id);
+    25		seq_printf(m, "core_id:             %u\n", c->topo.core_id);
+    26		seq_printf(m, "logical_pkg_id:      %u\n", c->topo.logical_pkg_id);
+    27		seq_printf(m, "logical_die_id:      %u\n", c->topo.logical_die_id);
+    28		seq_printf(m, "llc_id:              %u\n", c->topo.llc_id);
+    29		seq_printf(m, "l2c_id:              %u\n", c->topo.l2c_id);
+    30		seq_printf(m, "amd_node_id:         %u\n", c->topo.amd_node_id);
+  > 31		seq_printf(m, "amd_nodes_per_pkg:   %u\n", __amd_nodes_per_pkg);
+    32		seq_printf(m, "max_cores:           %u\n", c->x86_max_cores);
+    33		seq_printf(m, "max_die_per_pkg:     %u\n", __max_die_per_package);
+    34		seq_printf(m, "smp_num_siblings:    %u\n", smp_num_siblings);
+    35		return 0;
+    36	}
+    37	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
