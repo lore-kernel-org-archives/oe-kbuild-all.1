@@ -1,42 +1,44 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280DE36D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 00:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B7263C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 01:04:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689295958; x=1720831958;
+  t=1689296678; x=1720832678;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LIWQl9CR9TDH718ddh6LtxfksSjt146LkTqhv9+PD5A=;
-  b=Rc09jzXioSlynNExjPw0/h9OeWRNOcZcemXYDKQa7O+QJ8+7GiwyH9Ok
-   xV5nXNp9wRvI3le2M68R4OCsRNAqnee8VBNzMeY1RfqX+TxcHy8qSCvqK
-   XQn9/rA6DA9Txu63ThiHz8+44cOISiRYlQEmxy9Iy/xCHzm1LWBj8shj3
-   xJlV+zTVWQzYlopcz31W1eSAIo8QzKzXbEeWltivmOMelumxMFRmR0k5z
-   lbkHcUYZ9D6LqoQmTU4fMosVToPr+kQ5wJ3sORJy2Z8hZJRUj8/R0J5/i
-   66eeseXyGTs6x0fxoA0tKRpe+dkEN30Jv2FIweSc3Mg9ZzRIUYawzIDCo
+  bh=/DDHZs0fNQFBfXJsw4hoVHTwhnQvpHcoNAZM6PNHgHQ=;
+  b=IZ1srWHEjjZvFlvH+SVmb7CHfzbb5J8jyTV3gDXh9j+3fMBwTyEqm40g
+   ctV0D0iJYJ929BQj8AJ62Qyia/3/SsqdKE3XCLxaI6Ee7oZ/+s/uwWGtA
+   8pjkUqUTzqa57uF3272QSf/P0PU6/JdsVvvYJRDH74C1wkcyUE6XdsTCk
+   SHfkSHmmLTwBdcduogsyWFhfMJwtM0My4hkVrDHkiixeaUtSbC2QEYuvl
+   maAccFdPerrSt6ILpywadlEEt4+Nh+MT9AVYkcAHeirJbiMNPffMmBpHc
+   YPbz56MP9US4ind7DxcJxqkPjgAjRmTgyshLnKATVomk8D1UU9yXbDU7g
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="362818757"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="355297959"
 X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
-   d="scan'208";a="362818757"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 17:52:16 -0700
+   d="scan'208";a="355297959"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 18:03:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="672510224"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="699482518"
 X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
-   d="scan'208";a="672510224"
+   d="scan'208";a="699482518"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 13 Jul 2023 17:52:14 -0700
+  by orsmga006.jf.intel.com with ESMTP; 13 Jul 2023 18:03:15 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qK72c-000713-00;
-	Fri, 14 Jul 2023 00:52:14 +0000
-Date: Fri, 14 Jul 2023 08:51:49 +0800
+	id 1qK7DG-00071N-2B;
+	Fri, 14 Jul 2023 01:03:14 +0000
+Date: Fri, 14 Jul 2023 09:02:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/gmem 1/31] arch/arm64/kvm/mmu.c:1724:38: error: 'struct
- kvm_gfn_range' has no member named 'pte'
-Message-ID: <202307140853.kXc3m9ET-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.1 25/98]
+ arch/x86/include/asm/thread_info.h:92:27: error: 'NR_syscalls' undeclared
+ here (not in a function); did you mean 'si_syscall'?
+Message-ID: <202307140929.NmyZw6vQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,76 +48,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux x86/gmem
-head:   9cbe075ae7adfaccafbef6c181188fefceaf7482
-commit: 799ed8bc49dabefca5bb4b2c773cbe81ab3c0b61 [1/31] KVM: Wrap kvm_gfn_range.pte in a per-action union
-config: arm64-randconfig-r021-20230713 (https://download.01.org/0day-ci/archive/20230714/202307140853.kXc3m9ET-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140853.kXc3m9ET-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   3406326f20f2dab921145b51a056de30dbf8fa8e
+commit: 8e63d0f2d658f3c2dd3e44183dce75b28b638c8e [25/98] FIXUP: CHROMIUM: create alt-syscall infrastructure
+config: x86_64-randconfig-r036-20230714 (https://download.01.org/0day-ci/archive/20230714/202307140929.NmyZw6vQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140929.NmyZw6vQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307140853.kXc3m9ET-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307140929.NmyZw6vQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:29,
-                    from include/linux/mman.h:5,
-                    from arch/arm64/kvm/mmu.c:7:
-   arch/arm64/kvm/mmu.c: In function 'kvm_set_spte_gfn':
->> arch/arm64/kvm/mmu.c:1724:38: error: 'struct kvm_gfn_range' has no member named 'pte'
-    1724 |         kvm_pfn_t pfn = pte_pfn(range->pte);
-         |                                      ^~
-   arch/arm64/include/asm/pgtable.h:91:48: note: in definition of macro 'pte_pfn'
-      91 | #define pte_pfn(pte)            (__pte_to_phys(pte) >> PAGE_SHIFT)
-         |                                                ^~~
+   In file included from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:7,
+                    from include/linux/preempt.h:78,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/init_task.h:5,
+                    from init/init_task.c:2:
+>> arch/x86/include/asm/thread_info.h:92:27: error: 'NR_syscalls' undeclared here (not in a function); did you mean 'si_syscall'?
+      92 |         .nr_syscalls    = NR_syscalls,          \
+         |                           ^~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:102:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
+     102 |         INIT_THREAD_INFO_SYSCALL                \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   init/init_task.c:71:27: note: in expansion of macro 'INIT_THREAD_INFO'
+      71 |         .thread_info    = INIT_THREAD_INFO(init_task),
+         |                           ^~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/thread_info.h:93:27: error: 'sys_call_table' undeclared here (not in a function); did you mean 'sys_desc_table'?
+      93 |         .sys_call_table = sys_call_table,       \
+         |                           ^~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:102:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
+     102 |         INIT_THREAD_INFO_SYSCALL                \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   init/init_task.c:71:27: note: in expansion of macro 'INIT_THREAD_INFO'
+      71 |         .thread_info    = INIT_THREAD_INFO(init_task),
+         |                           ^~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/thread_info.h:86:35: error: 'IA32_NR_syscalls' undeclared here (not in a function)
+      86 |         .ia32_nr_syscalls       = IA32_NR_syscalls,             \
+         |                                   ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:94:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL_COMPAT'
+      94 |         INIT_THREAD_INFO_SYSCALL_COMPAT
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:102:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
+     102 |         INIT_THREAD_INFO_SYSCALL                \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   init/init_task.c:71:27: note: in expansion of macro 'INIT_THREAD_INFO'
+      71 |         .thread_info    = INIT_THREAD_INFO(init_task),
+         |                           ^~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/thread_info.h:87:35: error: 'ia32_sys_call_table' undeclared here (not in a function)
+      87 |         .ia32_sys_call_table    = ia32_sys_call_table,
+         |                                   ^~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:94:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL_COMPAT'
+      94 |         INIT_THREAD_INFO_SYSCALL_COMPAT
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:102:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
+     102 |         INIT_THREAD_INFO_SYSCALL                \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   init/init_task.c:71:27: note: in expansion of macro 'INIT_THREAD_INFO'
+      71 |         .thread_info    = INIT_THREAD_INFO(init_task),
+         |                           ^~~~~~~~~~~~~~~~
 
 
-vim +1724 arch/arm64/kvm/mmu.c
+vim +92 arch/x86/include/asm/thread_info.h
 
-d5d8184d35c990 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1721  
-cd4c7183522817 arch/arm64/kvm/mmu.c Sean Christopherson 2021-04-01  1722  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
-d5d8184d35c990 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1723  {
-cd4c7183522817 arch/arm64/kvm/mmu.c Sean Christopherson 2021-04-01 @1724  	kvm_pfn_t pfn = pte_pfn(range->pte);
-d5d8184d35c990 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1725  
-cd4c7183522817 arch/arm64/kvm/mmu.c Sean Christopherson 2021-04-01  1726  	if (!kvm->arch.mmu.pgt)
-fcb8283920b135 arch/arm64/kvm/mmu.c kernel test robot   2021-04-27  1727  		return false;
-d5d8184d35c990 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1728  
-cd4c7183522817 arch/arm64/kvm/mmu.c Sean Christopherson 2021-04-01  1729  	WARN_ON(range->end - range->start != 1);
-d5d8184d35c990 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1730  
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1731  	/*
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1732  	 * If the page isn't tagged, defer to user_mem_abort() for sanitising
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1733  	 * the MTE tags. The S2 pte should have been unmapped by
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1734  	 * mmu_notifier_invalidate_range_end().
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1735  	 */
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1736  	if (kvm_has_mte(kvm) && !page_mte_tagged(pfn_to_page(pfn)))
-ea7fc1bb1cd1b9 arch/arm64/kvm/mmu.c Steven Price        2021-06-21  1737  		return false;
-ea7fc1bb1cd1b9 arch/arm64/kvm/mmu.c Steven Price        2021-06-21  1738  
-cd4c7183522817 arch/arm64/kvm/mmu.c Sean Christopherson 2021-04-01  1739  	/*
-25aa28691bb960 arch/arm64/kvm/mmu.c Yanan Wang          2021-06-17  1740  	 * We've moved a page around, probably through CoW, so let's treat
-25aa28691bb960 arch/arm64/kvm/mmu.c Yanan Wang          2021-06-17  1741  	 * it just like a translation fault and the map handler will clean
-25aa28691bb960 arch/arm64/kvm/mmu.c Yanan Wang          2021-06-17  1742  	 * the cache to the PoC.
-25aa28691bb960 arch/arm64/kvm/mmu.c Yanan Wang          2021-06-17  1743  	 *
-e9edb17ae0a263 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1744  	 * The MMU notifiers will have unmapped a huge PMD before calling
-cd4c7183522817 arch/arm64/kvm/mmu.c Sean Christopherson 2021-04-01  1745  	 * ->change_pte() (which in turn calls kvm_set_spte_gfn()) and
-e9edb17ae0a263 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1746  	 * therefore we never need to clear out a huge PMD through this
-e9edb17ae0a263 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1747  	 * calling path and a memcache is not required.
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1748  	 */
-cd4c7183522817 arch/arm64/kvm/mmu.c Sean Christopherson 2021-04-01  1749  	kvm_pgtable_stage2_map(kvm->arch.mmu.pgt, range->start << PAGE_SHIFT,
-cd4c7183522817 arch/arm64/kvm/mmu.c Sean Christopherson 2021-04-01  1750  			       PAGE_SIZE, __pfn_to_phys(pfn),
-1577cb5823cefd arch/arm64/kvm/mmu.c Oliver Upton        2022-11-07  1751  			       KVM_PGTABLE_PROT_R, NULL, 0);
-cd4c7183522817 arch/arm64/kvm/mmu.c Sean Christopherson 2021-04-01  1752  
-fcb8283920b135 arch/arm64/kvm/mmu.c kernel test robot   2021-04-27  1753  	return false;
-d5d8184d35c990 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1754  }
-d5d8184d35c990 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1755  
+c8061485a0d756 Heiko Carstens 2016-10-19  82  
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  83  #ifdef CONFIG_ALT_SYSCALL
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  84  # ifdef CONFIG_IA32_EMULATION
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  85  #  define INIT_THREAD_INFO_SYSCALL_COMPAT			\
+3e8e28fff0faf2 Guenter Roeck  2018-09-21 @86  	.ia32_nr_syscalls	= IA32_NR_syscalls,		\
+3e8e28fff0faf2 Guenter Roeck  2018-09-21 @87  	.ia32_sys_call_table	= ia32_sys_call_table,
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  88  # else
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  89  #  define INIT_THREAD_INFO_SYSCALL_COMPAT /* */
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  90  # endif
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  91  # define INIT_THREAD_INFO_SYSCALL \
+3e8e28fff0faf2 Guenter Roeck  2018-09-21 @92  	.nr_syscalls	= NR_syscalls,		\
+3e8e28fff0faf2 Guenter Roeck  2018-09-21 @93  	.sys_call_table	= sys_call_table,	\
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  94  	INIT_THREAD_INFO_SYSCALL_COMPAT
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  95  #else
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  96  # define INIT_THREAD_INFO_SYSCALL /* */
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  97  #endif
+3e8e28fff0faf2 Guenter Roeck  2018-09-21  98  
 
-:::::: The code at line 1724 was first introduced by commit
-:::::: cd4c7183522817087278b3e000b8a888f9f91b5c KVM: arm64: Convert to the gfn-based MMU notifier callbacks
+:::::: The code at line 92 was first introduced by commit
+:::::: 3e8e28fff0faf2d56ccb4c0cb96189194a5402fb CHROMIUM: x86: Add alt-syscall support
 
-:::::: TO: Sean Christopherson <seanjc@google.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+:::::: TO: Guenter Roeck <groeck@chromium.org>
+:::::: CC: Tzung-Bi Shih <tzungbi@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
