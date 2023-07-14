@@ -1,46 +1,45 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61C92C80
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 22:47:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14F315AE2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 23:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689374868; x=1720910868;
+  t=1689376728; x=1720912728;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lJLyV0IIZA10ZKlpLIm2/1mLSE9navxRPFhXVkA4NPk=;
-  b=Z6fEMW+nCltFo5RMD5631kPecU7nyi6lJkVbR6Iu7gX88ZKK3HtVFB2F
-   i21z5d03AXC6nahWMJx3K40N9JxKfZlmd97XtGHzsxP6BlYD8jNEbpve9
-   dTc2PR0CAf+VXhOT3+O/4Xi3xliZspMUIflAIAd+a5l/jouDua+z6u3Wq
-   hYvMPpdkqa8J5HJMVI/avdG6smmAwRW4ANN6t9tS14KK4Foitrw9m9jkg
-   P3BuXooqT4K4nDnXDbd2HXXx+CoVFzEde6XeIUdVV4aDcbBrq4uMgxNha
-   6FFR1g3pJ296+WRbRAfP52qTO+yzr85lY0iol6Ql/Dnw5sE+3aBAIaFsl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="345906960"
+  bh=HUP0b22WIMdXwEt5bdZ44wOmTrZQFZViHaBYW6oiPeo=;
+  b=fpzVfLpCtXVCQWfUGj5kuOdz897Pe+LG8VbWjNrMe7OKMfBngYiv/0Vv
+   Vp/UnIM6CSGDRgOun/klD4GVgT7F5nIcWyXXBENegC2QhO5buDG0t1GPv
+   OXHW5XaVBzf49i1PVtu9wsUatDTsO+ME8yx9LdecI07YQl5Rm3Txln+E3
+   1joycDk6wHHLCXz+Ru1nAvnHtrNDdxBmLiGSamnQIw9wA1qQKIjmrFClY
+   VNeUmX9XHurJ0a3X4RnZL3im6mIrgtApPFbewmhMfT9oUkDFdksA658tU
+   JoiMZADlsIy/ABYluzvQulfD0x/L9PqTROsQH96sBrpAmV5CPRwDpv1SP
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="368243224"
 X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
-   d="scan'208";a="345906960"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 15:47:48 -0700
+   d="scan'208";a="368243224"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 16:18:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="812604605"
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="896578154"
 X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
-   d="scan'208";a="812604605"
+   d="scan'208";a="896578154"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Jul 2023 15:47:45 -0700
+  by orsmga005.jf.intel.com with ESMTP; 14 Jul 2023 16:18:46 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKRZg-0007k9-1c;
-	Fri, 14 Jul 2023 22:47:44 +0000
-Date: Sat, 15 Jul 2023 06:47:38 +0800
+	id 1qKS3h-0007l3-1O;
+	Fri, 14 Jul 2023 23:18:45 +0000
+Date: Sat, 15 Jul 2023 07:18:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Wilczynski <michal.wilczynski@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [rafael-pm:bleeding-edge 22/40] drivers/acpi/internal.h:161:
- multiple definition of `acpi_early_processor_control_setup';
- drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-Message-ID: <202307150637.CGq9exEE-lkp@intel.com>
+To: Gregory Greenman <gregory.greenman@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/gpu/drm/ttm/ttm_pool.c:378:22: sparse: sparse: incompatible
+ types in comparison expression (different type sizes):
+Message-ID: <202307150705.Qe7ZvDlv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,87 +49,140 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   4f9dd7927c1cdbaffb20fcdbcc2bdc6caa0b4736
-commit: ca805e0f04a5f9a773875ad6de914e54e41d43c7 [22/40] ACPI: processor: Use _OSC to convey OSPM processor support information
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230715/202307150637.CGq9exEE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230715/202307150637.CGq9exEE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core61-58
+head:   35a3169c34b511417772fc39505bd841ca6b275c
+commit: 488c5dc8526b11ef7e565e4094620876ebb470f8 UPSTREAM: drm/ttm: new TT backend allocation pool v3
+date:   2 years, 3 months ago
+config: arc-randconfig-r073-20230713 (https://download.01.org/0day-ci/archive/20230715/202307150705.Qe7ZvDlv-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230715/202307150705.Qe7ZvDlv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307150637.CGq9exEE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307150705.Qe7ZvDlv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/ttm/ttm_pool.c:378:22: sparse: sparse: incompatible types in comparison expression (different type sizes):
+>> drivers/gpu/drm/ttm/ttm_pool.c:378:22: sparse:    unsigned long *
+>> drivers/gpu/drm/ttm/ttm_pool.c:378:22: sparse:    int *
+   drivers/gpu/drm/ttm/ttm_pool.c: note: in included file (through include/linux/bitops.h, include/linux/kernel.h, include/linux/list.h, ...):
+   arch/arc/include/asm/bitops.h:319:17: sparse: sparse: undefined identifier '__builtin_arc_fls'
 
-   aarch64-linux-ld: drivers/acpi/osi.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/osl.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/utils.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/nvs.o: in function `acpi_early_processor_control_setup':
-   drivers/acpi/nvs.c:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/wakeup.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/device_sysfs.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/device_pm.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/bus.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/glue.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/scan.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/acpi_processor.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/ec.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/pci_root.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/pci_link.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/acpi_lpss.o: in function `acpi_early_processor_control_setup':
-   drivers/acpi/acpi_lpss.c:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/acpi_apd.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/acpi_platform.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/acpi_pnp.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/acpi_amba.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/power.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/event.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/sysfs.o: in function `acpi_early_processor_control_setup':
->> drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/property.o: in function `acpi_early_processor_control_setup':
-   drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/debugfs.o: in function `acpi_early_processor_control_setup':
-   drivers/acpi/debugfs.c:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/processor_driver.o: in function `acpi_early_processor_control_setup':
-   drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/container.o: in function `acpi_early_processor_control_setup':
-   drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/acpi_memhotplug.o: in function `acpi_early_processor_control_setup':
-   drivers/acpi/internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-   aarch64-linux-ld: drivers/acpi/dptf/int340x_thermal.o: in function `acpi_early_processor_control_setup':
-   drivers/acpi/dptf/../internal.h:161: multiple definition of `acpi_early_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
+vim +378 drivers/gpu/drm/ttm/ttm_pool.c
 
-
-vim +161 drivers/acpi/internal.h
-
-   157	
-   158	void acpi_proc_quirk_mwait_check(void);
-   159	bool processor_physically_present(acpi_handle handle);
-   160	#else
- > 161	void acpi_early_processor_control_setup(void) {}
-   162	#endif
-   163	
+   339	
+   340	/**
+   341	 * ttm_pool_alloc - Fill a ttm_tt object
+   342	 *
+   343	 * @pool: ttm_pool to use
+   344	 * @tt: ttm_tt object to fill
+   345	 * @ctx: operation context
+   346	 *
+   347	 * Fill the ttm_tt object with pages and also make sure to DMA map them when
+   348	 * necessary.
+   349	 *
+   350	 * Returns: 0 on successe, negative error code otherwise.
+   351	 */
+   352	int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+   353			   struct ttm_operation_ctx *ctx)
+   354	{
+   355		unsigned long num_pages = tt->num_pages;
+   356		dma_addr_t *dma_addr = tt->dma_address;
+   357		struct page **caching = tt->pages;
+   358		struct page **pages = tt->pages;
+   359		gfp_t gfp_flags = GFP_USER;
+   360		unsigned int i, order;
+   361		struct page *p;
+   362		int r;
+   363	
+   364		WARN_ON(!num_pages || ttm_tt_is_populated(tt));
+   365		WARN_ON(dma_addr && !pool->dev);
+   366	
+   367		if (tt->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC)
+   368			gfp_flags |= __GFP_ZERO;
+   369	
+   370		if (tt->page_flags & TTM_PAGE_FLAG_NO_RETRY)
+   371			gfp_flags |= __GFP_RETRY_MAYFAIL;
+   372	
+   373		if (pool->use_dma32)
+   374			gfp_flags |= GFP_DMA32;
+   375		else
+   376			gfp_flags |= GFP_HIGHUSER;
+   377	
+ > 378		for (order = min(MAX_ORDER - 1UL, __fls(num_pages)); num_pages;
+   379		     order = min_t(unsigned int, order, __fls(num_pages))) {
+   380			bool apply_caching = false;
+   381			struct ttm_pool_type *pt;
+   382	
+   383			pt = ttm_pool_select_type(pool, tt->caching, order);
+   384			p = pt ? ttm_pool_type_take(pt) : NULL;
+   385			if (p) {
+   386				apply_caching = true;
+   387			} else {
+   388				p = ttm_pool_alloc_page(pool, gfp_flags, order);
+   389				if (p && PageHighMem(p))
+   390					apply_caching = true;
+   391			}
+   392	
+   393			if (!p) {
+   394				if (order) {
+   395					--order;
+   396					continue;
+   397				}
+   398				r = -ENOMEM;
+   399				goto error_free_all;
+   400			}
+   401	
+   402			if (apply_caching) {
+   403				r = ttm_pool_apply_caching(caching, pages,
+   404							   tt->caching);
+   405				if (r)
+   406					goto error_free_page;
+   407				caching = pages + (1 << order);
+   408			}
+   409	
+   410			r = ttm_mem_global_alloc_page(&ttm_mem_glob, p,
+   411						      (1 << order) * PAGE_SIZE,
+   412						      ctx);
+   413			if (r)
+   414				goto error_free_page;
+   415	
+   416			if (dma_addr) {
+   417				r = ttm_pool_map(pool, order, p, &dma_addr);
+   418				if (r)
+   419					goto error_global_free;
+   420			}
+   421	
+   422			num_pages -= 1 << order;
+   423			for (i = 1 << order; i; --i)
+   424				*(pages++) = p++;
+   425		}
+   426	
+   427		r = ttm_pool_apply_caching(caching, pages, tt->caching);
+   428		if (r)
+   429			goto error_free_all;
+   430	
+   431		return 0;
+   432	
+   433	error_global_free:
+   434		ttm_mem_global_free_page(&ttm_mem_glob, p, (1 << order) * PAGE_SIZE);
+   435	
+   436	error_free_page:
+   437		ttm_pool_free_page(pool, tt->caching, order, p);
+   438	
+   439	error_free_all:
+   440		num_pages = tt->num_pages - num_pages;
+   441		for (i = 0; i < num_pages; ) {
+   442			order = ttm_pool_page_order(pool, tt->pages[i]);
+   443			ttm_pool_free_page(pool, tt->caching, order, tt->pages[i]);
+   444			i += 1 << order;
+   445		}
+   446	
+   447		return r;
+   448	}
+   449	EXPORT_SYMBOL(ttm_pool_alloc);
+   450	
 
 -- 
 0-DAY CI Kernel Test Service
