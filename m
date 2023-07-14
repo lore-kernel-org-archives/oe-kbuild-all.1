@@ -1,43 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05341C3A;
-	Fri, 14 Jul 2023 03:48:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1474A4C7E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 04:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689306509; x=1720842509;
+  t=1689308383; x=1720844383;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qud0wDzdzTShg/hLUn0gIUhHJLKjlH4u8Mu721IwsbE=;
-  b=JhZTyrl3sikecLQXFbOm6OeRL7Uqv491dLx6IHReaX5QzAkflsgR9KXQ
-   fPXh+UEUjB+PQzwG5+IXnjzSJxyVtDNqF5QmCjNbVYQJp/4Au9CCxORIl
-   2iA843tZdhlmmKyn46n3DqApRxm4Sd4rqzM06hqWkor960QdcTesU43Na
-   iu4KhJCnTZdwyx5zfqejGY+rNJpnPCMZFwyxGw3ye2LYDvQYDh7VZJZQc
-   bMNRC8w8dSSIW9zK7BHLagUmCwtMcjo6JXvNtK3HV9ck4nqAscEn9kkWt
-   x/TfWrqNUS5WDimqx0oBUYWpV7tVeqyZbz/frfIkp/k7JTvV22uXsgbkQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="451746311"
+  bh=ufAw6mjc5wzgF7vFXFiI3O4p6jU5BPDMkoP3xLMXJ1A=;
+  b=B2QkjvRjwrsBrBtINzrpPPjencdbEa6hjSIxw7ASLT2V6DiWUBJnnYng
+   OIuRA2VQHO2+decDY86gUJFvBJQDIdWdKhplwLy1YS+XbjYrO9DHR8Lxg
+   Ai6l5fsjZLJw8v6ryLnrcsXdFIRwts+jt1djdlgGDf2FhYa+WvsNyUq4H
+   vn9KColiq+iMA7EI0VQvGD+I4UD9BVzsM8vJaXDMbzNk2kvu2W4yNV7ju
+   v8wQgpuoE9chHaRxwTMO46b9T42oxaectNnQM5dMy1s3kN2L8cRESKbJi
+   Vy916z5oQkLk0OvqpzXX5xh5clA1VVzwMp8VmxvcrVoMbyIhbdDaJ3rIb
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="365426219"
 X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
-   d="scan'208";a="451746311"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 20:48:22 -0700
+   d="scan'208";a="365426219"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 21:19:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="792302595"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="725558997"
 X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
-   d="scan'208";a="792302595"
+   d="scan'208";a="725558997"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Jul 2023 20:48:21 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 13 Jul 2023 21:19:22 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qK9n2-00079O-2R;
-	Fri, 14 Jul 2023 03:48:20 +0000
-Date: Fri, 14 Jul 2023 11:48:04 +0800
+	id 1qKAH3-0007B1-2K;
+	Fri, 14 Jul 2023 04:19:21 +0000
+Date: Fri, 14 Jul 2023 12:18:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/topology 25/57]
- arch/x86/kernel/apic/apic_common.c:47:6: warning: no previous prototype for
- function 'default_init_apic_ldr'
-Message-ID: <202307141101.WNeAwKRr-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:x86/topology 48/57] arch/x86/kernel/cpu/debugfs.c:31:52:
+ error: '__amd_nodes_per_pkg' undeclared
+Message-ID: <202307141258.AxRXgfTf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,36 +48,56 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topology
 head:   39d1f9d6ad3d4b9bf9c298db5685f22d8fe6e2c0
-commit: e7719cffb7321ace1a049e51ea5c27e0e9744c47 [25/57] x86/apic: Nuke empty init_apic_ldr() callbacks
-config: i386-randconfig-i003-20230713 (https://download.01.org/0day-ci/archive/20230714/202307141101.WNeAwKRr-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307141101.WNeAwKRr-lkp@intel.com/reproduce)
+commit: 15d4a8d9254f6947ad3f73cc3d2bf11d320864ff [48/57] x86/cpu: Provide an AMD/HYGON specific topology parser
+config: i386-buildonly-randconfig-r004-20230714 (https://download.01.org/0day-ci/archive/20230714/202307141258.AxRXgfTf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307141258.AxRXgfTf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307141101.WNeAwKRr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307141258.AxRXgfTf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kernel/apic/apic_common.c:47:6: warning: no previous prototype for function 'default_init_apic_ldr' [-Wmissing-prototypes]
-   void default_init_apic_ldr(void)
-        ^
-   arch/x86/kernel/apic/apic_common.c:47:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void default_init_apic_ldr(void)
-   ^
-   static 
-   1 warning generated.
+   arch/x86/kernel/cpu/debugfs.c: In function 'cpu_debug_show':
+>> arch/x86/kernel/cpu/debugfs.c:31:52: error: '__amd_nodes_per_pkg' undeclared (first use in this function)
+      31 |         seq_printf(m, "amd_nodes_per_pkg:   %u\n", __amd_nodes_per_pkg);
+         |                                                    ^~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/debugfs.c:31:52: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/default_init_apic_ldr +47 arch/x86/kernel/apic/apic_common.c
+vim +/__amd_nodes_per_pkg +31 arch/x86/kernel/cpu/debugfs.c
 
-    42	
-    43	/*
-    44	 * Set up the logical destination ID when the APIC operates in logical
-    45	 * destination mode.
-    46	 */
-  > 47	void default_init_apic_ldr(void)
+     9	
+    10	static int cpu_debug_show(struct seq_file *m, void *p)
+    11	{
+    12		unsigned long cpu = (unsigned long)m->private;
+    13		struct cpuinfo_x86 *c;
+    14	
+    15		if (!cpu_online(cpu))
+    16			return -ENODEV;
+    17	
+    18		c = per_cpu_ptr(&cpu_info, cpu);
+    19	
+    20		seq_printf(m, "initial_apicid:      %x\n", c->topo.initial_apicid);
+    21		seq_printf(m, "apicid:              %x\n", c->topo.apicid);
+    22		seq_printf(m, "pkg_id:              %u\n", c->topo.pkg_id);
+    23		seq_printf(m, "die_id:              %u\n", c->topo.die_id);
+    24		seq_printf(m, "cu_id:               %u\n", c->topo.cu_id);
+    25		seq_printf(m, "core_id:             %u\n", c->topo.core_id);
+    26		seq_printf(m, "logical_pkg_id:      %u\n", c->topo.logical_pkg_id);
+    27		seq_printf(m, "logical_die_id:      %u\n", c->topo.logical_die_id);
+    28		seq_printf(m, "llc_id:              %u\n", c->topo.llc_id);
+    29		seq_printf(m, "l2c_id:              %u\n", c->topo.l2c_id);
+    30		seq_printf(m, "amd_node_id:         %u\n", c->topo.amd_node_id);
+  > 31		seq_printf(m, "amd_nodes_per_pkg:   %u\n", __amd_nodes_per_pkg);
+    32		seq_printf(m, "max_cores:           %u\n", c->x86_max_cores);
+    33		seq_printf(m, "max_die_per_pkg:     %u\n", __max_die_per_package);
+    34		seq_printf(m, "smp_num_siblings:    %u\n", smp_num_siblings);
+    35		return 0;
+    36	}
+    37	
 
 -- 
 0-DAY CI Kernel Test Service
