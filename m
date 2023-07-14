@@ -1,44 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B7263C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 01:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9047F4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Jul 2023 01:33:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689296678; x=1720832678;
+  t=1689298409; x=1720834409;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/DDHZs0fNQFBfXJsw4hoVHTwhnQvpHcoNAZM6PNHgHQ=;
-  b=IZ1srWHEjjZvFlvH+SVmb7CHfzbb5J8jyTV3gDXh9j+3fMBwTyEqm40g
-   ctV0D0iJYJ929BQj8AJ62Qyia/3/SsqdKE3XCLxaI6Ee7oZ/+s/uwWGtA
-   8pjkUqUTzqa57uF3272QSf/P0PU6/JdsVvvYJRDH74C1wkcyUE6XdsTCk
-   SHfkSHmmLTwBdcduogsyWFhfMJwtM0My4hkVrDHkiixeaUtSbC2QEYuvl
-   maAccFdPerrSt6ILpywadlEEt4+Nh+MT9AVYkcAHeirJbiMNPffMmBpHc
-   YPbz56MP9US4ind7DxcJxqkPjgAjRmTgyshLnKATVomk8D1UU9yXbDU7g
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="355297959"
+  bh=3B3eDdbpYn4ncbnYeD2Pp/pZs5XJJz2Yeas5AYk2yKo=;
+  b=nryUxZRnc+qS95tqdpcbigMzSSqTUEnId94zZ1yCP48zXxan8P9EDlOt
+   MBYz/onPUNIoY3oOC7kEz2jEBrGwOCfQTD2PY80nqZYto+ow8Pvgsx0cB
+   9Hz4cR8NDzyoyLpUWSWv1NGzit9v+zazyPDwJDZlBuZguXstTM3Dlrgt6
+   pzglMCtZ31ih/lkILhQl9AjEr56gxro8r/U8ropI0tLaUHaaZWfAS/aFR
+   vhSC6kvorbjqrs5lhGcUpnQLHR50IxRTqAzi9nl+EnRSadr096Q8H2eFK
+   NyusAqpSsXujo90QyqKjHEwkWviZamEwRSlXYmchkCt8h+H03ogAAXyx4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="396171237"
 X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
-   d="scan'208";a="355297959"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 18:03:16 -0700
+   d="scan'208";a="396171237"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 18:33:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="699482518"
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="725511351"
 X-IronPort-AV: E=Sophos;i="6.01,204,1684825200"; 
-   d="scan'208";a="699482518"
+   d="scan'208";a="725511351"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 13 Jul 2023 18:03:15 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 13 Jul 2023 18:33:15 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qK7DG-00071N-2B;
-	Fri, 14 Jul 2023 01:03:14 +0000
-Date: Fri, 14 Jul 2023 09:02:19 +0800
+	id 1qK7gJ-00072K-0l;
+	Fri, 14 Jul 2023 01:33:15 +0000
+Date: Fri, 14 Jul 2023 09:32:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: Sean Christopherson <seanjc@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 25/98]
- arch/x86/include/asm/thread_info.h:92:27: error: 'NR_syscalls' undeclared
- here (not in a function); did you mean 'si_syscall'?
-Message-ID: <202307140929.NmyZw6vQ-lkp@intel.com>
+Subject: [sean-jc:x86/gmem 1/31] include/linux/compiler_types.h:397:45:
+ error: call to '__compiletime_assert_542' declared with attribute error:
+ BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || +
+ sizeof(range->arg) != sizeof(unsigned long)
+Message-ID: <202307140936.dt44LonQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,95 +48,169 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   3406326f20f2dab921145b51a056de30dbf8fa8e
-commit: 8e63d0f2d658f3c2dd3e44183dce75b28b638c8e [25/98] FIXUP: CHROMIUM: create alt-syscall infrastructure
-config: x86_64-randconfig-r036-20230714 (https://download.01.org/0day-ci/archive/20230714/202307140929.NmyZw6vQ-lkp@intel.com/config)
+tree:   https://github.com/sean-jc/linux x86/gmem
+head:   9cbe075ae7adfaccafbef6c181188fefceaf7482
+commit: 799ed8bc49dabefca5bb4b2c773cbe81ab3c0b61 [1/31] KVM: Wrap kvm_gfn_range.pte in a per-action union
+config: i386-randconfig-r022-20230713 (https://download.01.org/0day-ci/archive/20230714/202307140936.dt44LonQ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140929.NmyZw6vQ-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230714/202307140936.dt44LonQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307140929.NmyZw6vQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307140936.dt44LonQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/init_task.h:5,
-                    from init/init_task.c:2:
->> arch/x86/include/asm/thread_info.h:92:27: error: 'NR_syscalls' undeclared here (not in a function); did you mean 'si_syscall'?
-      92 |         .nr_syscalls    = NR_syscalls,          \
-         |                           ^~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:102:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
-     102 |         INIT_THREAD_INFO_SYSCALL                \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   init/init_task.c:71:27: note: in expansion of macro 'INIT_THREAD_INFO'
-      71 |         .thread_info    = INIT_THREAD_INFO(init_task),
-         |                           ^~~~~~~~~~~~~~~~
->> arch/x86/include/asm/thread_info.h:93:27: error: 'sys_call_table' undeclared here (not in a function); did you mean 'sys_desc_table'?
-      93 |         .sys_call_table = sys_call_table,       \
-         |                           ^~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:102:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
-     102 |         INIT_THREAD_INFO_SYSCALL                \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   init/init_task.c:71:27: note: in expansion of macro 'INIT_THREAD_INFO'
-      71 |         .thread_info    = INIT_THREAD_INFO(init_task),
-         |                           ^~~~~~~~~~~~~~~~
->> arch/x86/include/asm/thread_info.h:86:35: error: 'IA32_NR_syscalls' undeclared here (not in a function)
-      86 |         .ia32_nr_syscalls       = IA32_NR_syscalls,             \
-         |                                   ^~~~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:94:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL_COMPAT'
-      94 |         INIT_THREAD_INFO_SYSCALL_COMPAT
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:102:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
-     102 |         INIT_THREAD_INFO_SYSCALL                \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   init/init_task.c:71:27: note: in expansion of macro 'INIT_THREAD_INFO'
-      71 |         .thread_info    = INIT_THREAD_INFO(init_task),
-         |                           ^~~~~~~~~~~~~~~~
->> arch/x86/include/asm/thread_info.h:87:35: error: 'ia32_sys_call_table' undeclared here (not in a function)
-      87 |         .ia32_sys_call_table    = ia32_sys_call_table,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:94:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL_COMPAT'
-      94 |         INIT_THREAD_INFO_SYSCALL_COMPAT
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:102:9: note: in expansion of macro 'INIT_THREAD_INFO_SYSCALL'
-     102 |         INIT_THREAD_INFO_SYSCALL                \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   init/init_task.c:71:27: note: in expansion of macro 'INIT_THREAD_INFO'
-      71 |         .thread_info    = INIT_THREAD_INFO(init_task),
-         |                           ^~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   In function '__kvm_handle_hva_range',
+       inlined from 'kvm_handle_hva_range' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:656:9,
+       inlined from 'kvm_mmu_notifier_change_pte' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:716:2:
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
+     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
+         |         ^~~~~~~~~~~~
+   In function '__kvm_handle_hva_range',
+       inlined from 'kvm_handle_hva_range_no_flush' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:675:9,
+       inlined from 'kvm_mmu_notifier_test_young' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:883:9:
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
+     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
+         |         ^~~~~~~~~~~~
+   In function '__kvm_handle_hva_range',
+       inlined from 'kvm_handle_hva_range' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:656:9,
+       inlined from 'kvm_mmu_notifier_clear_flush_young' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:851:9:
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
+     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
+         |         ^~~~~~~~~~~~
+   In function '__kvm_handle_hva_range',
+       inlined from 'kvm_mmu_notifier_invalidate_range_end' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:827:2:
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
+     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
+         |         ^~~~~~~~~~~~
+   In function '__kvm_handle_hva_range',
+       inlined from 'kvm_mmu_notifier_invalidate_range_start' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:789:2:
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
+     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
+         |         ^~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_mmu_notifier_clear_young':
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_542' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_range.arg) != sizeof(unsigned long) || + sizeof(range->arg) != sizeof(unsigned long)
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:568:9: note: in expansion of macro 'BUILD_BUG_ON'
+     568 |         BUILD_BUG_ON(sizeof(gfn_range.arg) != sizeof(unsigned long) ||
+         |         ^~~~~~~~~~~~
 
 
-vim +92 arch/x86/include/asm/thread_info.h
+vim +/__compiletime_assert_542 +397 include/linux/compiler_types.h
 
-c8061485a0d756 Heiko Carstens 2016-10-19  82  
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  83  #ifdef CONFIG_ALT_SYSCALL
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  84  # ifdef CONFIG_IA32_EMULATION
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  85  #  define INIT_THREAD_INFO_SYSCALL_COMPAT			\
-3e8e28fff0faf2 Guenter Roeck  2018-09-21 @86  	.ia32_nr_syscalls	= IA32_NR_syscalls,		\
-3e8e28fff0faf2 Guenter Roeck  2018-09-21 @87  	.ia32_sys_call_table	= ia32_sys_call_table,
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  88  # else
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  89  #  define INIT_THREAD_INFO_SYSCALL_COMPAT /* */
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  90  # endif
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  91  # define INIT_THREAD_INFO_SYSCALL \
-3e8e28fff0faf2 Guenter Roeck  2018-09-21 @92  	.nr_syscalls	= NR_syscalls,		\
-3e8e28fff0faf2 Guenter Roeck  2018-09-21 @93  	.sys_call_table	= sys_call_table,	\
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  94  	INIT_THREAD_INFO_SYSCALL_COMPAT
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  95  #else
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  96  # define INIT_THREAD_INFO_SYSCALL /* */
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  97  #endif
-3e8e28fff0faf2 Guenter Roeck  2018-09-21  98  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
 
-:::::: The code at line 92 was first introduced by commit
-:::::: 3e8e28fff0faf2d56ccb4c0cb96189194a5402fb CHROMIUM: x86: Add alt-syscall support
+:::::: The code at line 397 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
 
-:::::: TO: Guenter Roeck <groeck@chromium.org>
-:::::: CC: Tzung-Bi Shih <tzungbi@chromium.org>
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
