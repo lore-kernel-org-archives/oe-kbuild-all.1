@@ -1,89 +1,59 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B7A8C11;
-	Sat, 15 Jul 2023 21:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689457749; x=1720993749;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dWbob4Vhsn6kbSP2Xy0DcGFHiJMC4Zqa0BnJAm8qAyU=;
-  b=IU9K/wTg6gB2d4Ra2cl0BsMSuiH/AP7P0HTxMBgSu8y8/UIqEvp4bu8g
-   XLU2aQ8jhi+9L/NVvWP1KKt4EHtXOzApRXrhu9psG61KL321/0WmGIOQn
-   bu4tYIstB8E6ZuBKStJNwCZSz2QcRw6NNRNuyuBFq4SipVm8lY1G2MdfQ
-   ViWl/IKG89ZEWjYLrDgXsJ5dzv8QiucnrkyEuA/NqLeU8sS2TY8tQjAHZ
-   ZUXrmbDhlwmRK9x+UWZ5zmf8O6ZONDfbgMgmcqZZ1YkLtpqcc5cypCfGS
-   KYHGw9/oeO0gWgEl3+sRcTKU74w/Klrd2RDvjB5emXZMpqYstwJ/3USJ+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="350569832"
-X-IronPort-AV: E=Sophos;i="6.01,209,1684825200"; 
-   d="scan'208";a="350569832"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2023 14:49:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="969386258"
-X-IronPort-AV: E=Sophos;i="6.01,209,1684825200"; 
-   d="scan'208";a="969386258"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 15 Jul 2023 14:49:07 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qKn8U-0008Ne-0M;
-	Sat, 15 Jul 2023 21:49:06 +0000
-Date: Sun, 16 Jul 2023 05:48:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes.berg@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: net/mac80211/rx.c:4062:13: warning: stack frame size (10656) exceeds
- limit (8192) in 'ieee80211_rx_handlers'
-Message-ID: <202307160536.eNpCzzGh-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED03D8C0A;
+	Sat, 15 Jul 2023 22:10:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99F87C433C7;
+	Sat, 15 Jul 2023 22:10:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689459021;
+	bh=7eCargfUvIrN4nLaCEXO3KoyF6n6It+cusxqjuCXXWg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nrUjU2JkXF41YbfJ5GuqPb0Zp8Zgh2kXvWCa+aiT6V5h98ICXdeBIpkzy4plhY5BR
+	 4W97SLouAo1Fz11KvnSpxtmWSGhplplx0kEBF9a5kwGglIQLDCbUBVqlCfMj1ckrMX
+	 KWzKkUu1fR0qrtWa7FzphjOtkm7No8Oe+57jzFbC9g30rM7eZpUMusIEK9kiNc7psu
+	 /GOzRLCWngRuN7+Wdckb3B6UGNO4v+M8QB4VLcSEK9ikvTqpdA5NW+NOzPtlGcklQH
+	 nGbT6eHg6IZgOuqLR3qldjSdrv2HMfN256iT7ZWB9fPDlEO8wcu8ZsA3gnrTFS+sIU
+	 ztVNOIJGlG7WA==
+From: Bjorn Andersson <andersson@kernel.org>
+To: lkp@intel.com,
+	Kang Chen <void0red@gmail.com>
+Cc: agross@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	konrad.dybcio@linaro.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	ohad@wizery.com
+Subject: Re: [PATCH v2] hwspinlock: add a check of devm_regmap_field_alloc in qcom_hwspinlock_probe
+Date: Sat, 15 Jul 2023 15:13:36 -0700
+Message-ID: <168945921468.1805013.6112623773454199482.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230227004116.1273988-1-void0red@gmail.com>
+References: <202302270034.DqtDwv49-lkp@intel.com> <20230227004116.1273988-1-void0red@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   831fe284d8275987596b7d640518dddba5735f61
-commit: baa951a1c1771810f3a378a95fc93e81953027d5 mac80211: use the new drop reasons infrastructure
-date:   3 months ago
-config: riscv-randconfig-r021-20230716 (https://download.01.org/0day-ci/archive/20230716/202307160536.eNpCzzGh-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230716/202307160536.eNpCzzGh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307160536.eNpCzzGh-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> net/mac80211/rx.c:4062:13: warning: stack frame size (10656) exceeds limit (8192) in 'ieee80211_rx_handlers' [-Wframe-larger-than]
-   static void ieee80211_rx_handlers(struct ieee80211_rx_data *rx,
-               ^
-   1 warning generated.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
 
-vim +/ieee80211_rx_handlers +4062 net/mac80211/rx.c
+On Mon, 27 Feb 2023 08:41:16 +0800, Kang Chen wrote:
+> devm_regmap_field_alloc may fails, priv field might be error pointer and
+> cause illegal address access later.
+> 
+> 
 
-aa0c86364f925c Christian Lamparter 2010-08-05  4061  
-f9e124fbd8cbea Christian Lamparter 2013-02-04 @4062  static void ieee80211_rx_handlers(struct ieee80211_rx_data *rx,
-f9e124fbd8cbea Christian Lamparter 2013-02-04  4063  				  struct sk_buff_head *frames)
-aa0c86364f925c Christian Lamparter 2010-08-05  4064  {
-aa0c86364f925c Christian Lamparter 2010-08-05  4065  	ieee80211_rx_result res = RX_DROP_MONITOR;
-aa0c86364f925c Christian Lamparter 2010-08-05  4066  	struct sk_buff *skb;
-8944b79fe9b1fe Johannes Berg       2008-01-31  4067  
+Applied, thanks!
 
-:::::: The code at line 4062 was first introduced by commit
-:::::: f9e124fbd8cbea974b5dc7e9dafddd17d21df7e2 mac80211: protect rx-path with spinlock
+[1/1] hwspinlock: add a check of devm_regmap_field_alloc in qcom_hwspinlock_probe
+      commit: 3c81195a04e13833196462ab398d8bcf282701f7
 
-:::::: TO: Christian Lamparter <chunkeey@googlemail.com>
-:::::: CC: Johannes Berg <johannes.berg@intel.com>
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bjorn Andersson <andersson@kernel.org>
