@@ -1,48 +1,41 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97752A46
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jul 2023 02:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCF1EC9;
+	Sat, 15 Jul 2023 05:06:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689386587; x=1720922587;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=87NLTqJhwjITkyX61/dEteUq9vdfCzTqw9XvpTVICp4=;
-  b=iz5bAWF/GqlkAMzcX+QtRa96x/kHBNJq8AsLlwveEEG7SVx1M55NCPKD
-   0gEE6SRBTZb4AkuCSWPQHSp/NCm9u1W3UrijDm8ve6rjXo4Jgl1prjdn6
-   z8pDHzQwDYJ1L3ADn6Fjn/PXnz8cQkATRW4eMJh3GReu7UJGpcuXwQfG8
-   IZ6xBddvxtdDgnas4yVFH7NdwyE7l0KldgYVYvMPPrIatMpdVdbAKvOq6
-   g1Blk/J6JRKOPWFUjwFO8il5KYuJO/PRdpvLiStoyy1qihC9S7TeCkdUt
-   zPCl1qzcedP58XrsKPln2bO8XFPkhmAMadT5nIHxd1iNRAmWPBrQQRVYk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="369169101"
+  t=1689397562; x=1720933562;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=ZtHNm8f2B0hOPyKMVeztLVfSeOoPDGjP34ftWlmqekk=;
+  b=SR+2Qz0ARhA/zvxpMPxLTQSzsfOhkhdOm5olksV9I38PIatatV8XD0Ni
+   LKfbZH1l+6lZTsRygkfbGtF6pqiU7+ZdNsucjpbVm1b6GJVKj+SnoTSLN
+   Wdr8luT5k92dKYjqYtOyhzKIdn0iVxeA3oCJ83Lk1/IWykQIgnYT/H8S6
+   W+nHie8TMs90FFEXfH6IFgSJTh102TqF4lZUII60+uPAaPqXrolZ/2Hgk
+   xlrDZ+1xNroB5OCQEnlVXChU1dOv0l48yR8I9tjkTxstBVlGob0+fytvi
+   W6E5xgZl/Te4faUpCwC1jFoNEawAlRGrzOZAUsG+aB3BYgFHxPAVnMuRC
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="369183203"
 X-IronPort-AV: E=Sophos;i="6.01,207,1684825200"; 
-   d="scan'208";a="369169101"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 19:02:50 -0700
+   d="scan'208";a="369183203"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 22:05:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="846675313"
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="788056212"
 X-IronPort-AV: E=Sophos;i="6.01,207,1684825200"; 
-   d="scan'208";a="846675313"
+   d="scan'208";a="788056212"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 14 Jul 2023 19:02:48 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 14 Jul 2023 22:05:52 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKUcR-0007pr-23;
-	Sat, 15 Jul 2023 02:02:47 +0000
-Date: Sat, 15 Jul 2023 10:02:25 +0800
+	id 1qKXTb-0007wb-0F;
+	Sat, 15 Jul 2023 05:05:51 +0000
+Date: Sat, 15 Jul 2023 13:04:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Ben Widawsky <ben.widawsky@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
-Subject: [cxl:fixes 4/5] drivers/cxl/acpi.c:299:30: warning: format '%llx'
- expects argument of type 'long long unsigned int', but argument 3 has type
- 'resource_size_t' {aka 'unsigned int'}
-Message-ID: <202307151059.2vvBt55H-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: vmlinux.o: warning: objtool: acpi_idle_do_entry+0xa: call to
+ perf_lopwr_cb() leaves .noinstr.text section
+Message-ID: <202307151342.oBLeqlrT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,191 +45,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git fixes
-head:   0e99e96b85fc2c608a65d05063f40c671214b2da
-commit: 3840e10e8dcafc89a2d96ab7dbb640434c8da8cf [4/5] cxl/acpi: Fix a use-after-free in cxl_parse_cfmws()
-config: i386-randconfig-i005-20230714 (https://download.01.org/0day-ci/archive/20230715/202307151059.2vvBt55H-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230715/202307151059.2vvBt55H-lkp@intel.com/reproduce)
+CC: linux-kernel@vger.kernel.org
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Ingo Molnar <mingo@kernel.org>
+
+Hi Peter,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b6e6cc1f78c772e952495b7416c9ac9029f9390c
+commit: 2b5a0e425e6e319b1978db1e9564f6af4228a567 objtool/idle: Validate __cpuidle code as noinstr
+date:   6 months ago
+config: x86_64-buildonly-randconfig-r003-20230715 (https://download.01.org/0day-ci/archive/20230715/202307151342.oBLeqlrT-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230715/202307151342.oBLeqlrT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307151059.2vvBt55H-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307151342.oBLeqlrT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/cxl/acpi.c:3:
-   drivers/cxl/acpi.c: In function 'cxl_parse_cfmws':
->> drivers/cxl/acpi.c:299:30: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/cxl/acpi.c:299:17: note: in expansion of macro 'dev_err'
-     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
-         |                 ^~~~~~~
-   drivers/cxl/acpi.c:299:63: note: format string is defined here
-     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
-         |                                                           ~~~~^
-         |                                                               |
-         |                                                               long long unsigned int
-         |                                                           %#x
-   drivers/cxl/acpi.c:299:30: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/cxl/acpi.c:299:17: note: in expansion of macro 'dev_err'
-     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
-         |                 ^~~~~~~
-   drivers/cxl/acpi.c:299:71: note: format string is defined here
-     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
-         |                                                                   ~~~~^
-         |                                                                       |
-         |                                                                       long long unsigned int
-         |                                                                   %#x
+   vmlinux.o: warning: objtool: handle_bug+0x10: call to kmsan_unpoison_entry_regs() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: fixup_bad_iret+0x30: call to memset() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_nmi+0xc: call to sev_es_nmi_complete() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: default_do_nmi+0x2e: call to __this_cpu_preempt_check() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_enter+0x37: call to lockdep_hardirqs_off() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_exit+0x5a: call to lockdep_hardirqs_on() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x56: call to lockdep_hardirqs_off() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x25: call to lockdep_hardirqs_on() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: mwait_idle+0x5: call to current_set_polling_and_test() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x4e0: call to __kcsan_check_access() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: cpu_idle_poll+0x4d: call to test_ti_thread_flag() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter+0x41: call to __this_cpu_preempt_check() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x52: call to __this_cpu_preempt_check() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: acpi_idle_do_entry+0xa: call to perf_lopwr_cb() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_safe_halt+0x13: call to test_ti_thread_flag() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: io_idle+0x7: call to __inb() leaves .noinstr.text section
 
 
-vim +299 drivers/cxl/acpi.c
-
-f4ce1f766f1ebf Dan Williams     2021-10-29  196  
-f4ce1f766f1ebf Dan Williams     2021-10-29  197  static int cxl_parse_cfmws(union acpi_subtable_headers *header, void *arg,
-f4ce1f766f1ebf Dan Williams     2021-10-29  198  			   const unsigned long end)
-3e23d17ce1980c Alison Schofield 2021-06-17  199  {
-a5c25802168993 Dan Williams     2021-09-08  200  	int target_map[CXL_DECODER_MAX_INTERLEAVE];
-f4ce1f766f1ebf Dan Williams     2021-10-29  201  	struct cxl_cfmws_context *ctx = arg;
-f4ce1f766f1ebf Dan Williams     2021-10-29  202  	struct cxl_port *root_port = ctx->root_port;
-974854ab072853 Dan Williams     2022-07-12  203  	struct resource *cxl_res = ctx->cxl_res;
-f9db85bfec0dcc Alison Schofield 2022-11-30  204  	struct cxl_cxims_context cxims_ctx;
-0f157c7fa1a0e1 Dan Williams     2022-07-12  205  	struct cxl_root_decoder *cxlrd;
-f4ce1f766f1ebf Dan Williams     2021-10-29  206  	struct device *dev = ctx->dev;
-3e23d17ce1980c Alison Schofield 2021-06-17  207  	struct acpi_cedt_cfmws *cfmws;
-f9db85bfec0dcc Alison Schofield 2022-11-30  208  	cxl_calc_hb_fn cxl_calc_hb;
-3e23d17ce1980c Alison Schofield 2021-06-17  209  	struct cxl_decoder *cxld;
-419af595b11891 Dan Williams     2022-05-22  210  	unsigned int ways, i, ig;
-974854ab072853 Dan Williams     2022-07-12  211  	struct resource *res;
-419af595b11891 Dan Williams     2022-05-22  212  	int rc;
-3e23d17ce1980c Alison Schofield 2021-06-17  213  
-f4ce1f766f1ebf Dan Williams     2021-10-29  214  	cfmws = (struct acpi_cedt_cfmws *) header;
-3e23d17ce1980c Alison Schofield 2021-06-17  215  
-3e23d17ce1980c Alison Schofield 2021-06-17  216  	rc = cxl_acpi_cfmws_verify(dev, cfmws);
-3e23d17ce1980c Alison Schofield 2021-06-17  217  	if (rc) {
-3e23d17ce1980c Alison Schofield 2021-06-17  218  		dev_err(dev, "CFMWS range %#llx-%#llx not registered\n",
-f4ce1f766f1ebf Dan Williams     2021-10-29  219  			cfmws->base_hpa,
-f4ce1f766f1ebf Dan Williams     2021-10-29  220  			cfmws->base_hpa + cfmws->window_size - 1);
-f4ce1f766f1ebf Dan Williams     2021-10-29  221  		return 0;
-3e23d17ce1980c Alison Schofield 2021-06-17  222  	}
-3e23d17ce1980c Alison Schofield 2021-06-17  223  
-c99b2e8cf79616 Dave Jiang       2022-12-05  224  	rc = eiw_to_ways(cfmws->interleave_ways, &ways);
-419af595b11891 Dan Williams     2022-05-22  225  	if (rc)
-419af595b11891 Dan Williams     2022-05-22  226  		return rc;
-83351ddb786b30 Dave Jiang       2022-12-05  227  	rc = eig_to_granularity(cfmws->granularity, &ig);
-419af595b11891 Dan Williams     2022-05-22  228  	if (rc)
-419af595b11891 Dan Williams     2022-05-22  229  		return rc;
-419af595b11891 Dan Williams     2022-05-22  230  	for (i = 0; i < ways; i++)
-a5c25802168993 Dan Williams     2021-09-08  231  		target_map[i] = cfmws->interleave_targets[i];
-a5c25802168993 Dan Williams     2021-09-08  232  
-974854ab072853 Dan Williams     2022-07-12  233  	res = kzalloc(sizeof(*res), GFP_KERNEL);
-974854ab072853 Dan Williams     2022-07-12  234  	if (!res)
-974854ab072853 Dan Williams     2022-07-12  235  		return -ENOMEM;
-974854ab072853 Dan Williams     2022-07-12  236  
-974854ab072853 Dan Williams     2022-07-12  237  	res->name = kasprintf(GFP_KERNEL, "CXL Window %d", ctx->id++);
-974854ab072853 Dan Williams     2022-07-12  238  	if (!res->name)
-974854ab072853 Dan Williams     2022-07-12  239  		goto err_name;
-974854ab072853 Dan Williams     2022-07-12  240  
-974854ab072853 Dan Williams     2022-07-12  241  	res->start = cfmws->base_hpa;
-974854ab072853 Dan Williams     2022-07-12  242  	res->end = cfmws->base_hpa + cfmws->window_size - 1;
-974854ab072853 Dan Williams     2022-07-12  243  	res->flags = IORESOURCE_MEM;
-974854ab072853 Dan Williams     2022-07-12  244  
-974854ab072853 Dan Williams     2022-07-12  245  	/* add to the local resource tracking to establish a sort order */
-974854ab072853 Dan Williams     2022-07-12  246  	rc = insert_resource(cxl_res, res);
-974854ab072853 Dan Williams     2022-07-12  247  	if (rc)
-974854ab072853 Dan Williams     2022-07-12  248  		goto err_insert;
-974854ab072853 Dan Williams     2022-07-12  249  
-f9db85bfec0dcc Alison Schofield 2022-11-30  250  	if (cfmws->interleave_arithmetic == ACPI_CEDT_CFMWS_ARITHMETIC_MODULO)
-f9db85bfec0dcc Alison Schofield 2022-11-30  251  		cxl_calc_hb = cxl_hb_modulo;
-f9db85bfec0dcc Alison Schofield 2022-11-30  252  	else
-f9db85bfec0dcc Alison Schofield 2022-11-30  253  		cxl_calc_hb = cxl_hb_xor;
-f9db85bfec0dcc Alison Schofield 2022-11-30  254  
-f9db85bfec0dcc Alison Schofield 2022-11-30  255  	cxlrd = cxl_root_decoder_alloc(root_port, ways, cxl_calc_hb);
-0f157c7fa1a0e1 Dan Williams     2022-07-12  256  	if (IS_ERR(cxlrd))
-f4ce1f766f1ebf Dan Williams     2021-10-29  257  		return 0;
-3e23d17ce1980c Alison Schofield 2021-06-17  258  
-0f157c7fa1a0e1 Dan Williams     2022-07-12  259  	cxld = &cxlrd->cxlsd.cxld;
-48667f676189ec Dan Williams     2021-09-21  260  	cxld->flags = cfmws_to_decoder_flags(cfmws->restrictions);
-5aa39a9165cfc8 Dan Williams     2023-06-14  261  	cxld->target_type = CXL_DECODER_HOSTONLYMEM;
-e50fe01e1f2a4a Dan Williams     2022-05-18  262  	cxld->hpa_range = (struct range) {
-974854ab072853 Dan Williams     2022-07-12  263  		.start = res->start,
-974854ab072853 Dan Williams     2022-07-12  264  		.end = res->end,
-e50fe01e1f2a4a Dan Williams     2022-05-18  265  	};
-419af595b11891 Dan Williams     2022-05-22  266  	cxld->interleave_ways = ways;
-e77483055c325f Dan Williams     2022-07-22  267  	/*
-e77483055c325f Dan Williams     2022-07-22  268  	 * Minimize the x1 granularity to advertise support for any
-e77483055c325f Dan Williams     2022-07-22  269  	 * valid region granularity
-e77483055c325f Dan Williams     2022-07-22  270  	 */
-e77483055c325f Dan Williams     2022-07-22  271  	if (ways == 1)
-e77483055c325f Dan Williams     2022-07-22  272  		ig = CXL_DECODER_MIN_GRANULARITY;
-419af595b11891 Dan Williams     2022-05-22  273  	cxld->interleave_granularity = ig;
-48667f676189ec Dan Williams     2021-09-21  274  
-f9db85bfec0dcc Alison Schofield 2022-11-30  275  	if (cfmws->interleave_arithmetic == ACPI_CEDT_CFMWS_ARITHMETIC_XOR) {
-f9db85bfec0dcc Alison Schofield 2022-11-30  276  		if (ways != 1 && ways != 3) {
-f9db85bfec0dcc Alison Schofield 2022-11-30  277  			cxims_ctx = (struct cxl_cxims_context) {
-f9db85bfec0dcc Alison Schofield 2022-11-30  278  				.dev = dev,
-f9db85bfec0dcc Alison Schofield 2022-11-30  279  				.cxlrd = cxlrd,
-f9db85bfec0dcc Alison Schofield 2022-11-30  280  			};
-f9db85bfec0dcc Alison Schofield 2022-11-30  281  			rc = acpi_table_parse_cedt(ACPI_CEDT_TYPE_CXIMS,
-f9db85bfec0dcc Alison Schofield 2022-11-30  282  						   cxl_parse_cxims, &cxims_ctx);
-f9db85bfec0dcc Alison Schofield 2022-11-30  283  			if (rc < 0)
-f9db85bfec0dcc Alison Schofield 2022-11-30  284  				goto err_xormap;
-14628aec8415e4 Alison Schofield 2022-12-04  285  			if (!cxlrd->platform_data) {
-14628aec8415e4 Alison Schofield 2022-12-04  286  				dev_err(dev, "No CXIMS for HBIG %u\n", ig);
-14628aec8415e4 Alison Schofield 2022-12-04  287  				rc = -EINVAL;
-14628aec8415e4 Alison Schofield 2022-12-04  288  				goto err_xormap;
-14628aec8415e4 Alison Schofield 2022-12-04  289  			}
-f9db85bfec0dcc Alison Schofield 2022-11-30  290  		}
-f9db85bfec0dcc Alison Schofield 2022-11-30  291  	}
-48667f676189ec Dan Williams     2021-09-21  292  	rc = cxl_decoder_add(cxld, target_map);
-f9db85bfec0dcc Alison Schofield 2022-11-30  293  err_xormap:
-48667f676189ec Dan Williams     2021-09-21  294  	if (rc)
-48667f676189ec Dan Williams     2021-09-21  295  		put_device(&cxld->dev);
-48667f676189ec Dan Williams     2021-09-21  296  	else
-48667f676189ec Dan Williams     2021-09-21  297  		rc = cxl_decoder_autoremove(dev, cxld);
-48667f676189ec Dan Williams     2021-09-21  298  	if (rc) {
-e50fe01e1f2a4a Dan Williams     2022-05-18 @299  		dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
-3840e10e8dcafc Breno Leitao     2023-07-14  300  			res->start, res->end);
-f4ce1f766f1ebf Dan Williams     2021-10-29  301  		return 0;
-da6aafec3dca61 Alison Schofield 2021-06-17  302  	}
-e50fe01e1f2a4a Dan Williams     2022-05-18  303  	dev_dbg(dev, "add: %s node: %d range [%#llx - %#llx]\n",
-e50fe01e1f2a4a Dan Williams     2022-05-18  304  		dev_name(&cxld->dev),
-e50fe01e1f2a4a Dan Williams     2022-05-18  305  		phys_to_target_node(cxld->hpa_range.start),
-e50fe01e1f2a4a Dan Williams     2022-05-18  306  		cxld->hpa_range.start, cxld->hpa_range.end);
-da6aafec3dca61 Alison Schofield 2021-06-17  307  
-f4ce1f766f1ebf Dan Williams     2021-10-29  308  	return 0;
-974854ab072853 Dan Williams     2022-07-12  309  
-974854ab072853 Dan Williams     2022-07-12  310  err_insert:
-974854ab072853 Dan Williams     2022-07-12  311  	kfree(res->name);
-974854ab072853 Dan Williams     2022-07-12  312  err_name:
-974854ab072853 Dan Williams     2022-07-12  313  	kfree(res);
-974854ab072853 Dan Williams     2022-07-12  314  	return -ENOMEM;
-da6aafec3dca61 Alison Schofield 2021-06-17  315  }
-da6aafec3dca61 Alison Schofield 2021-06-17  316  
-
-:::::: The code at line 299 was first introduced by commit
-:::::: e50fe01e1f2a4aba2275edee7d5c77ac87674ddb cxl/core: Drop ->platform_res attribute for root decoders
-
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+objdump-func vmlinux.o acpi_idle_do_entry:
+0000 0000000000001040 <acpi_idle_do_entry>:
+0000     1040:	55                   	push   %rbp
+0001     1041:	48 89 e5             	mov    %rsp,%rbp
+0004     1044:	41 56                	push   %r14
+0006     1046:	53                   	push   %rbx
+0007     1047:	49 89 fe             	mov    %rdi,%r14
+000a     104a:	e8 00 00 00 00       	call   104f <acpi_idle_do_entry+0xf>	104b: R_X86_64_PLT32	.text+0x22d6e7c
+000f     104f:	41 f6 c6 03          	test   $0x3,%r14b
+0013     1053:	75 56                	jne    10ab <acpi_idle_do_entry+0x6b>
+0015     1055:	49 8d 5e 08          	lea    0x8(%r14),%rbx
+0019     1059:	f6 c3 03             	test   $0x3,%bl
+001c     105c:	75 5e                	jne    10bc <acpi_idle_do_entry+0x7c>
+001e     105e:	80 3b 01             	cmpb   $0x1,(%rbx)
+0021     1061:	75 0a                	jne    106d <acpi_idle_do_entry+0x2d>
+0023     1063:	4c 89 f7             	mov    %r14,%rdi
+0026     1066:	e8 00 00 00 00       	call   106b <acpi_idle_do_entry+0x2b>	1067: R_X86_64_PLT32	acpi_processor_ffh_cstate_enter-0x4
+002b     106b:	eb 2f                	jmp    109c <acpi_idle_do_entry+0x5c>
+002d     106d:	41 f6 c6 03          	test   $0x3,%r14b
+0031     1071:	75 5a                	jne    10cd <acpi_idle_do_entry+0x8d>
+0033     1073:	f6 c3 03             	test   $0x3,%bl
+0036     1076:	75 66                	jne    10de <acpi_idle_do_entry+0x9e>
+0038     1078:	80 3b 02             	cmpb   $0x2,(%rbx)
+003b     107b:	75 07                	jne    1084 <acpi_idle_do_entry+0x44>
+003d     107d:	e8 be 00 00 00       	call   1140 <acpi_safe_halt>
+0042     1082:	eb 18                	jmp    109c <acpi_idle_do_entry+0x5c>
+0044     1084:	41 f6 c6 03          	test   $0x3,%r14b
+0048     1088:	75 65                	jne    10ef <acpi_idle_do_entry+0xaf>
+004a     108a:	49 83 c6 04          	add    $0x4,%r14
+004e     108e:	41 f6 c6 03          	test   $0x3,%r14b
+0052     1092:	75 6c                	jne    1100 <acpi_idle_do_entry+0xc0>
+0054     1094:	41 8b 3e             	mov    (%r14),%edi
+0057     1097:	e8 24 01 00 00       	call   11c0 <io_idle>
+005c     109c:	e8 00 00 00 00       	call   10a1 <acpi_idle_do_entry+0x61>	109d: R_X86_64_PLT32	.text+0x22d6e7c
+0061     10a1:	5b                   	pop    %rbx
+0062     10a2:	41 5e                	pop    %r14
+0064     10a4:	5d                   	pop    %rbp
+0065     10a5:	31 ff                	xor    %edi,%edi
+0067     10a7:	31 f6                	xor    %esi,%esi
+0069     10a9:	c3                   	ret
+006a     10aa:	cc                   	int3
+006b     10ab:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	10ae: R_X86_64_32S	.data+0xdb55f0
+0072     10b2:	4c 89 f6             	mov    %r14,%rsi
+0075     10b5:	e8 00 00 00 00       	call   10ba <acpi_idle_do_entry+0x7a>	10b6: R_X86_64_PLT32	__ubsan_handle_type_mismatch_v1-0x4
+007a     10ba:	eb 99                	jmp    1055 <acpi_idle_do_entry+0x15>
+007c     10bc:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	10bf: R_X86_64_32S	.data+0xdb5610
+0083     10c3:	48 89 de             	mov    %rbx,%rsi
+0086     10c6:	e8 00 00 00 00       	call   10cb <acpi_idle_do_entry+0x8b>	10c7: R_X86_64_PLT32	__ubsan_handle_type_mismatch_v1-0x4
+008b     10cb:	eb 91                	jmp    105e <acpi_idle_do_entry+0x1e>
+008d     10cd:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	10d0: R_X86_64_32S	.data+0xdb5630
+0094     10d4:	4c 89 f6             	mov    %r14,%rsi
+0097     10d7:	e8 00 00 00 00       	call   10dc <acpi_idle_do_entry+0x9c>	10d8: R_X86_64_PLT32	__ubsan_handle_type_mismatch_v1-0x4
+009c     10dc:	eb 95                	jmp    1073 <acpi_idle_do_entry+0x33>
+009e     10de:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	10e1: R_X86_64_32S	.data+0xdb5650
+00a5     10e5:	48 89 de             	mov    %rbx,%rsi
+00a8     10e8:	e8 00 00 00 00       	call   10ed <acpi_idle_do_entry+0xad>	10e9: R_X86_64_PLT32	__ubsan_handle_type_mismatch_v1-0x4
+00ad     10ed:	eb 89                	jmp    1078 <acpi_idle_do_entry+0x38>
+00af     10ef:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	10f2: R_X86_64_32S	.data+0xdb5670
+00b6     10f6:	4c 89 f6             	mov    %r14,%rsi
+00b9     10f9:	e8 00 00 00 00       	call   10fe <acpi_idle_do_entry+0xbe>	10fa: R_X86_64_PLT32	__ubsan_handle_type_mismatch_v1-0x4
+00be     10fe:	eb 8a                	jmp    108a <acpi_idle_do_entry+0x4a>
+00c0     1100:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	1103: R_X86_64_32S	.data+0xdb5690
+00c7     1107:	4c 89 f6             	mov    %r14,%rsi
+00ca     110a:	e8 00 00 00 00       	call   110f <acpi_idle_do_entry+0xcf>	110b: R_X86_64_PLT32	__ubsan_handle_type_mismatch_v1-0x4
+00cf     110f:	eb 83                	jmp    1094 <acpi_idle_do_entry+0x54>
+00d1     1111:	66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+00e0     1120:	66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+00ef     112f:	66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+00fe     113e:	66 90                	xchg   %ax,%ax
 
 -- 
 0-DAY CI Kernel Test Service
