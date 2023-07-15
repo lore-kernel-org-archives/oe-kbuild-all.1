@@ -1,42 +1,48 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EEE7EC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jul 2023 01:31:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97752A46
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jul 2023 02:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689384718; x=1720920718;
+  t=1689386587; x=1720922587;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bxOJ1aoxicvqTgtsDFdh4DRjYVhq42oPtmMKNaCElwE=;
-  b=HK1zUNqC2QkmoL9sU46qgHC4fpU+GvmOmEOrH/rEuItdGjbdTJ0nZ4Bf
-   xAckoiKwoj/Bn/ptPQqlZEzqR8eaYfoMWUG5ZJWiHWtE/A/OXfqs02qHw
-   pRdDAaMq+QaxCcmqb8e6tA4GvMznalHVnaK6+j2iAHZWuDTvH4kSWCCjf
-   uANNxDJkb2LBJ2nzsk/TP5iYPuCYeKMVl6/y6YrSUXHgkJ9HlTAfJVs6F
-   v97CbJRZFnPE8BJXYfMLEOFg+OkG7dFYidDhtqL0oLtO4Zgzple6Ig0tX
-   3ayH/06sIhDdkiQosjEr/nVZBfHrc0bdkhK2IYBd4Qb5G3zivj5TmIS0s
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="431794540"
-X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
-   d="scan'208";a="431794540"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 18:31:49 -0700
+  bh=87NLTqJhwjITkyX61/dEteUq9vdfCzTqw9XvpTVICp4=;
+  b=iz5bAWF/GqlkAMzcX+QtRa96x/kHBNJq8AsLlwveEEG7SVx1M55NCPKD
+   0gEE6SRBTZb4AkuCSWPQHSp/NCm9u1W3UrijDm8ve6rjXo4Jgl1prjdn6
+   z8pDHzQwDYJ1L3ADn6Fjn/PXnz8cQkATRW4eMJh3GReu7UJGpcuXwQfG8
+   IZ6xBddvxtdDgnas4yVFH7NdwyE7l0KldgYVYvMPPrIatMpdVdbAKvOq6
+   g1Blk/J6JRKOPWFUjwFO8il5KYuJO/PRdpvLiStoyy1qihC9S7TeCkdUt
+   zPCl1qzcedP58XrsKPln2bO8XFPkhmAMadT5nIHxd1iNRAmWPBrQQRVYk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="369169101"
+X-IronPort-AV: E=Sophos;i="6.01,207,1684825200"; 
+   d="scan'208";a="369169101"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 19:02:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="788013170"
-X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
-   d="scan'208";a="788013170"
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="846675313"
+X-IronPort-AV: E=Sophos;i="6.01,207,1684825200"; 
+   d="scan'208";a="846675313"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 14 Jul 2023 18:31:47 -0700
+  by orsmga004.jf.intel.com with ESMTP; 14 Jul 2023 19:02:48 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKU8Q-0007oT-37;
-	Sat, 15 Jul 2023 01:31:46 +0000
-Date: Sat, 15 Jul 2023 09:31:20 +0800
+	id 1qKUcR-0007pr-23;
+	Sat, 15 Jul 2023 02:02:47 +0000
+Date: Sat, 15 Jul 2023 10:02:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-fix-2m 14/22] include/linux/compiler.h:215:60: error:
- initializer element is not constant
-Message-ID: <202307150935.aQJzea99-lkp@intel.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Ben Widawsky <ben.widawsky@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
+Subject: [cxl:fixes 4/5] drivers/cxl/acpi.c:299:30: warning: format '%llx'
+ expects argument of type 'long long unsigned int', but argument 3 has type
+ 'resource_size_t' {aka 'unsigned int'}
+Message-ID: <202307151059.2vvBt55H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,258 +52,191 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jimc/linux.git dd-fix-2m
-head:   5500fe67fcd8b3d2924577403c7996cd47121074
-commit: 521d3621f94878ff0c0245f66d4f9fcb83040386 [14/22] dyndbg: add for_each_boxed_vector
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230715/202307150935.aQJzea99-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git fixes
+head:   0e99e96b85fc2c608a65d05063f40c671214b2da
+commit: 3840e10e8dcafc89a2d96ab7dbb640434c8da8cf [4/5] cxl/acpi: Fix a use-after-free in cxl_parse_cfmws()
+config: i386-randconfig-i005-20230714 (https://download.01.org/0day-ci/archive/20230715/202307151059.2vvBt55H-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230715/202307150935.aQJzea99-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230715/202307151059.2vvBt55H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307150935.aQJzea99-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307151059.2vvBt55H-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   lib/dynamic_debug.c: In function 'ddebug_class_name':
-   lib/dynamic_debug.c:1074:12: error: invalid storage class for function 'ddebug_proc_show'
-    1074 | static int ddebug_proc_show(struct seq_file *m, void *p)
-         |            ^~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1074:1: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    1074 | static int ddebug_proc_show(struct seq_file *m, void *p)
-         | ^~~~~~
-   lib/dynamic_debug.c:1110:13: error: invalid storage class for function 'ddebug_proc_stop'
-    1110 | static void ddebug_proc_stop(struct seq_file *m, void *p)
-         |             ^~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1118:17: error: initializer element is not constant
-    1118 |         .show = ddebug_proc_show,
-         |                 ^~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1118:17: note: (near initialization for 'ddebug_proc_seqops.show')
-   lib/dynamic_debug.c:1119:17: error: initializer element is not constant
-    1119 |         .stop = ddebug_proc_stop
-         |                 ^~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1119:17: note: (near initialization for 'ddebug_proc_seqops.stop')
-   lib/dynamic_debug.c:1122:12: error: invalid storage class for function 'ddebug_proc_open'
-    1122 | static int ddebug_proc_open(struct inode *inode, struct file *file)
-         |            ^~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1130:17: error: initializer element is not constant
-    1130 |         .open = ddebug_proc_open,
-         |                 ^~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1130:17: note: (near initialization for 'ddebug_proc_fops.open')
-   lib/dynamic_debug.c:1138:22: error: initializer element is not constant
-    1138 |         .proc_open = ddebug_proc_open,
-         |                      ^~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1138:22: note: (near initialization for 'proc_fops.proc_open')
-   lib/dynamic_debug.c:1153:13: error: invalid storage class for function 'ddebug_sync_classbits'
-    1153 | static void ddebug_sync_classbits(const struct ddebug_class_param *dcp, const char *modname)
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1165:13: error: invalid storage class for function 'ddebug_match_apply_kparam'
-    1165 | static void ddebug_match_apply_kparam(const struct kernel_param *kp,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1183:13: error: invalid storage class for function 'ddebug_apply_params'
-    1183 | static void ddebug_apply_params(const struct ddebug_class_map *cm, const char *modnm)
-         |             ^~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1207:13: error: invalid storage class for function 'ddebug_attach_module_classes'
-    1207 | static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug_info *di)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1237:13: error: invalid storage class for function 'ddebug_attach_client_module_classes'
-    1237 | static void ddebug_attach_client_module_classes(struct ddebug_table *dt, const struct _ddebug_info *di)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1273:12: error: invalid storage class for function 'ddebug_add_module'
-    1273 | static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
-         |            ^~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1316:12: error: invalid storage class for function 'ddebug_dyndbg_param_cb'
-    1316 | static int ddebug_dyndbg_param_cb(char *param, char *val,
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1337:12: error: invalid storage class for function 'ddebug_dyndbg_boot_param_cb'
-    1337 | static int ddebug_dyndbg_boot_param_cb(char *param, char *val,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1355:13: error: invalid storage class for function 'ddebug_table_free'
-    1355 | static void ddebug_table_free(struct ddebug_table *dt)
-         |             ^~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1367:12: error: invalid storage class for function 'ddebug_remove_module'
-    1367 | static int ddebug_remove_module(const char *mod_name)
-         |            ^~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1386:12: error: invalid storage class for function 'ddebug_module_notify'
-    1386 | static int ddebug_module_notify(struct notifier_block *self, unsigned long val,
-         |            ^~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1407:26: error: initializer element is not constant
-    1407 |         .notifier_call = ddebug_module_notify,
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1407:26: note: (near initialization for 'ddebug_module_nb.notifier_call')
-   lib/dynamic_debug.c:1413:13: error: invalid storage class for function 'ddebug_remove_all_tables'
-    1413 | static void ddebug_remove_all_tables(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1427:19: error: invalid storage class for function 'dynamic_debug_init_control'
-    1427 | static int __init dynamic_debug_init_control(void)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1450:19: error: invalid storage class for function 'dynamic_debug_init'
-    1450 | static int __init dynamic_debug_init(void)
-         |                   ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/export.h:33,
-                    from include/linux/linkage.h:7,
-                    from include/linux/kernel.h:17,
-                    from lib/dynamic_debug.c:16:
->> include/linux/compiler.h:215:60: error: initializer element is not constant
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                                                            ^
-   include/linux/compiler.h:217:9: note: in expansion of macro '___ADDRESSABLE'
-     217 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/init.h:239:9: note: in expansion of macro '__ADDRESSABLE'
-     239 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:244:9: note: in expansion of macro '__define_initcall_stub'
-     244 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:257:9: note: in expansion of macro '____define_initcall'
-     257 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:263:9: note: in expansion of macro '__unique_initcall'
-     263 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:265:35: note: in expansion of macro '___define_initcall'
-     265 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:272:41: note: in expansion of macro '__define_initcall'
-     272 | #define early_initcall(fn)              __define_initcall(fn, early)
-         |                                         ^~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1536:1: note: in expansion of macro 'early_initcall'
-    1536 | early_initcall(dynamic_debug_init);
-         | ^~~~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/kernel.h:21:
->> include/linux/build_bug.h:78:41: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/linux/init.h:249:9: note: in expansion of macro 'static_assert'
-     249 |         static_assert(__same_type(initcall_t, &fn));
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:257:9: note: in expansion of macro '____define_initcall'
-     257 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:263:9: note: in expansion of macro '__unique_initcall'
-     263 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:265:35: note: in expansion of macro '___define_initcall'
-     265 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:272:41: note: in expansion of macro '__define_initcall'
-     272 | #define early_initcall(fn)              __define_initcall(fn, early)
-         |                                         ^~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1536:1: note: in expansion of macro 'early_initcall'
-    1536 | early_initcall(dynamic_debug_init);
-         | ^~~~~~~~~~~~~~
->> include/linux/compiler.h:215:60: error: initializer element is not constant
-     215 |                 __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-         |                                                            ^
-   include/linux/compiler.h:217:9: note: in expansion of macro '___ADDRESSABLE'
-     217 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/init.h:239:9: note: in expansion of macro '__ADDRESSABLE'
-     239 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:244:9: note: in expansion of macro '__define_initcall_stub'
-     244 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:257:9: note: in expansion of macro '____define_initcall'
-     257 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:263:9: note: in expansion of macro '__unique_initcall'
-     263 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:265:35: note: in expansion of macro '___define_initcall'
-     265 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:291:41: note: in expansion of macro '__define_initcall'
-     291 | #define fs_initcall(fn)                 __define_initcall(fn, 5)
-         |                                         ^~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1539:1: note: in expansion of macro 'fs_initcall'
-    1539 | fs_initcall(dynamic_debug_init_control);
-         | ^~~~~~~~~~~
->> include/linux/compiler.h:214:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     214 |         static void * __used __attrs \
-         |         ^~~~~~
-   include/linux/compiler.h:217:9: note: in expansion of macro '___ADDRESSABLE'
-     217 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/init.h:239:9: note: in expansion of macro '__ADDRESSABLE'
-     239 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:244:9: note: in expansion of macro '__define_initcall_stub'
-     244 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:257:9: note: in expansion of macro '____define_initcall'
-     257 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:263:9: note: in expansion of macro '__unique_initcall'
-     263 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:265:35: note: in expansion of macro '___define_initcall'
-     265 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:291:41: note: in expansion of macro '__define_initcall'
-     291 | #define fs_initcall(fn)                 __define_initcall(fn, 5)
-         |                                         ^~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1539:1: note: in expansion of macro 'fs_initcall'
-    1539 | fs_initcall(dynamic_debug_init_control);
-         | ^~~~~~~~~~~
->> include/linux/build_bug.h:78:41: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/linux/init.h:249:9: note: in expansion of macro 'static_assert'
-     249 |         static_assert(__same_type(initcall_t, &fn));
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:257:9: note: in expansion of macro '____define_initcall'
-     257 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:263:9: note: in expansion of macro '__unique_initcall'
-     263 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:265:35: note: in expansion of macro '___define_initcall'
-     265 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:291:41: note: in expansion of macro '__define_initcall'
-     291 | #define fs_initcall(fn)                 __define_initcall(fn, 5)
-         |                                         ^~~~~~~~~~~~~~~~~
-   lib/dynamic_debug.c:1539:1: note: in expansion of macro 'fs_initcall'
-    1539 | fs_initcall(dynamic_debug_init_control);
-         | ^~~~~~~~~~~
-   lib/dynamic_debug.c:1539:1: error: expected declaration or statement at end of input
-   lib/dynamic_debug.c: At top level:
-   lib/dynamic_debug.c:1349:5: warning: 'ddebug_dyndbg_module_param_cb' defined but not used [-Wunused-function]
-    1349 | int ddebug_dyndbg_module_param_cb(char *param, char *val, const char *module)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/cxl/acpi.c:3:
+   drivers/cxl/acpi.c: In function 'cxl_parse_cfmws':
+>> drivers/cxl/acpi.c:299:30: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/cxl/acpi.c:299:17: note: in expansion of macro 'dev_err'
+     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
+         |                 ^~~~~~~
+   drivers/cxl/acpi.c:299:63: note: format string is defined here
+     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
+         |                                                           ~~~~^
+         |                                                               |
+         |                                                               long long unsigned int
+         |                                                           %#x
+   drivers/cxl/acpi.c:299:30: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/cxl/acpi.c:299:17: note: in expansion of macro 'dev_err'
+     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
+         |                 ^~~~~~~
+   drivers/cxl/acpi.c:299:71: note: format string is defined here
+     299 |                 dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
+         |                                                                   ~~~~^
+         |                                                                       |
+         |                                                                       long long unsigned int
+         |                                                                   %#x
 
 
-vim +215 include/linux/compiler.h
+vim +299 drivers/cxl/acpi.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  206  
-7290d58095712a Ard Biesheuvel 2018-08-21  207  /*
-7290d58095712a Ard Biesheuvel 2018-08-21  208   * Force the compiler to emit 'sym' as a symbol, so that we can reference
-7290d58095712a Ard Biesheuvel 2018-08-21  209   * it from inline assembler. Necessary in case 'sym' could be inlined
-7290d58095712a Ard Biesheuvel 2018-08-21  210   * otherwise, or eliminated entirely due to lack of references that are
-7290d58095712a Ard Biesheuvel 2018-08-21  211   * visible to the compiler.
-7290d58095712a Ard Biesheuvel 2018-08-21  212   */
-92efda8eb15295 Sami Tolvanen  2022-09-08  213  #define ___ADDRESSABLE(sym, __attrs) \
-92efda8eb15295 Sami Tolvanen  2022-09-08 @214  	static void * __used __attrs \
-563a02b0c9704f Josh Poimboeuf 2020-08-18 @215  		__UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)&sym;
-92efda8eb15295 Sami Tolvanen  2022-09-08  216  #define __ADDRESSABLE(sym) \
-92efda8eb15295 Sami Tolvanen  2022-09-08  217  	___ADDRESSABLE(sym, __section(".discard.addressable"))
-7290d58095712a Ard Biesheuvel 2018-08-21  218  
+f4ce1f766f1ebf Dan Williams     2021-10-29  196  
+f4ce1f766f1ebf Dan Williams     2021-10-29  197  static int cxl_parse_cfmws(union acpi_subtable_headers *header, void *arg,
+f4ce1f766f1ebf Dan Williams     2021-10-29  198  			   const unsigned long end)
+3e23d17ce1980c Alison Schofield 2021-06-17  199  {
+a5c25802168993 Dan Williams     2021-09-08  200  	int target_map[CXL_DECODER_MAX_INTERLEAVE];
+f4ce1f766f1ebf Dan Williams     2021-10-29  201  	struct cxl_cfmws_context *ctx = arg;
+f4ce1f766f1ebf Dan Williams     2021-10-29  202  	struct cxl_port *root_port = ctx->root_port;
+974854ab072853 Dan Williams     2022-07-12  203  	struct resource *cxl_res = ctx->cxl_res;
+f9db85bfec0dcc Alison Schofield 2022-11-30  204  	struct cxl_cxims_context cxims_ctx;
+0f157c7fa1a0e1 Dan Williams     2022-07-12  205  	struct cxl_root_decoder *cxlrd;
+f4ce1f766f1ebf Dan Williams     2021-10-29  206  	struct device *dev = ctx->dev;
+3e23d17ce1980c Alison Schofield 2021-06-17  207  	struct acpi_cedt_cfmws *cfmws;
+f9db85bfec0dcc Alison Schofield 2022-11-30  208  	cxl_calc_hb_fn cxl_calc_hb;
+3e23d17ce1980c Alison Schofield 2021-06-17  209  	struct cxl_decoder *cxld;
+419af595b11891 Dan Williams     2022-05-22  210  	unsigned int ways, i, ig;
+974854ab072853 Dan Williams     2022-07-12  211  	struct resource *res;
+419af595b11891 Dan Williams     2022-05-22  212  	int rc;
+3e23d17ce1980c Alison Schofield 2021-06-17  213  
+f4ce1f766f1ebf Dan Williams     2021-10-29  214  	cfmws = (struct acpi_cedt_cfmws *) header;
+3e23d17ce1980c Alison Schofield 2021-06-17  215  
+3e23d17ce1980c Alison Schofield 2021-06-17  216  	rc = cxl_acpi_cfmws_verify(dev, cfmws);
+3e23d17ce1980c Alison Schofield 2021-06-17  217  	if (rc) {
+3e23d17ce1980c Alison Schofield 2021-06-17  218  		dev_err(dev, "CFMWS range %#llx-%#llx not registered\n",
+f4ce1f766f1ebf Dan Williams     2021-10-29  219  			cfmws->base_hpa,
+f4ce1f766f1ebf Dan Williams     2021-10-29  220  			cfmws->base_hpa + cfmws->window_size - 1);
+f4ce1f766f1ebf Dan Williams     2021-10-29  221  		return 0;
+3e23d17ce1980c Alison Schofield 2021-06-17  222  	}
+3e23d17ce1980c Alison Schofield 2021-06-17  223  
+c99b2e8cf79616 Dave Jiang       2022-12-05  224  	rc = eiw_to_ways(cfmws->interleave_ways, &ways);
+419af595b11891 Dan Williams     2022-05-22  225  	if (rc)
+419af595b11891 Dan Williams     2022-05-22  226  		return rc;
+83351ddb786b30 Dave Jiang       2022-12-05  227  	rc = eig_to_granularity(cfmws->granularity, &ig);
+419af595b11891 Dan Williams     2022-05-22  228  	if (rc)
+419af595b11891 Dan Williams     2022-05-22  229  		return rc;
+419af595b11891 Dan Williams     2022-05-22  230  	for (i = 0; i < ways; i++)
+a5c25802168993 Dan Williams     2021-09-08  231  		target_map[i] = cfmws->interleave_targets[i];
+a5c25802168993 Dan Williams     2021-09-08  232  
+974854ab072853 Dan Williams     2022-07-12  233  	res = kzalloc(sizeof(*res), GFP_KERNEL);
+974854ab072853 Dan Williams     2022-07-12  234  	if (!res)
+974854ab072853 Dan Williams     2022-07-12  235  		return -ENOMEM;
+974854ab072853 Dan Williams     2022-07-12  236  
+974854ab072853 Dan Williams     2022-07-12  237  	res->name = kasprintf(GFP_KERNEL, "CXL Window %d", ctx->id++);
+974854ab072853 Dan Williams     2022-07-12  238  	if (!res->name)
+974854ab072853 Dan Williams     2022-07-12  239  		goto err_name;
+974854ab072853 Dan Williams     2022-07-12  240  
+974854ab072853 Dan Williams     2022-07-12  241  	res->start = cfmws->base_hpa;
+974854ab072853 Dan Williams     2022-07-12  242  	res->end = cfmws->base_hpa + cfmws->window_size - 1;
+974854ab072853 Dan Williams     2022-07-12  243  	res->flags = IORESOURCE_MEM;
+974854ab072853 Dan Williams     2022-07-12  244  
+974854ab072853 Dan Williams     2022-07-12  245  	/* add to the local resource tracking to establish a sort order */
+974854ab072853 Dan Williams     2022-07-12  246  	rc = insert_resource(cxl_res, res);
+974854ab072853 Dan Williams     2022-07-12  247  	if (rc)
+974854ab072853 Dan Williams     2022-07-12  248  		goto err_insert;
+974854ab072853 Dan Williams     2022-07-12  249  
+f9db85bfec0dcc Alison Schofield 2022-11-30  250  	if (cfmws->interleave_arithmetic == ACPI_CEDT_CFMWS_ARITHMETIC_MODULO)
+f9db85bfec0dcc Alison Schofield 2022-11-30  251  		cxl_calc_hb = cxl_hb_modulo;
+f9db85bfec0dcc Alison Schofield 2022-11-30  252  	else
+f9db85bfec0dcc Alison Schofield 2022-11-30  253  		cxl_calc_hb = cxl_hb_xor;
+f9db85bfec0dcc Alison Schofield 2022-11-30  254  
+f9db85bfec0dcc Alison Schofield 2022-11-30  255  	cxlrd = cxl_root_decoder_alloc(root_port, ways, cxl_calc_hb);
+0f157c7fa1a0e1 Dan Williams     2022-07-12  256  	if (IS_ERR(cxlrd))
+f4ce1f766f1ebf Dan Williams     2021-10-29  257  		return 0;
+3e23d17ce1980c Alison Schofield 2021-06-17  258  
+0f157c7fa1a0e1 Dan Williams     2022-07-12  259  	cxld = &cxlrd->cxlsd.cxld;
+48667f676189ec Dan Williams     2021-09-21  260  	cxld->flags = cfmws_to_decoder_flags(cfmws->restrictions);
+5aa39a9165cfc8 Dan Williams     2023-06-14  261  	cxld->target_type = CXL_DECODER_HOSTONLYMEM;
+e50fe01e1f2a4a Dan Williams     2022-05-18  262  	cxld->hpa_range = (struct range) {
+974854ab072853 Dan Williams     2022-07-12  263  		.start = res->start,
+974854ab072853 Dan Williams     2022-07-12  264  		.end = res->end,
+e50fe01e1f2a4a Dan Williams     2022-05-18  265  	};
+419af595b11891 Dan Williams     2022-05-22  266  	cxld->interleave_ways = ways;
+e77483055c325f Dan Williams     2022-07-22  267  	/*
+e77483055c325f Dan Williams     2022-07-22  268  	 * Minimize the x1 granularity to advertise support for any
+e77483055c325f Dan Williams     2022-07-22  269  	 * valid region granularity
+e77483055c325f Dan Williams     2022-07-22  270  	 */
+e77483055c325f Dan Williams     2022-07-22  271  	if (ways == 1)
+e77483055c325f Dan Williams     2022-07-22  272  		ig = CXL_DECODER_MIN_GRANULARITY;
+419af595b11891 Dan Williams     2022-05-22  273  	cxld->interleave_granularity = ig;
+48667f676189ec Dan Williams     2021-09-21  274  
+f9db85bfec0dcc Alison Schofield 2022-11-30  275  	if (cfmws->interleave_arithmetic == ACPI_CEDT_CFMWS_ARITHMETIC_XOR) {
+f9db85bfec0dcc Alison Schofield 2022-11-30  276  		if (ways != 1 && ways != 3) {
+f9db85bfec0dcc Alison Schofield 2022-11-30  277  			cxims_ctx = (struct cxl_cxims_context) {
+f9db85bfec0dcc Alison Schofield 2022-11-30  278  				.dev = dev,
+f9db85bfec0dcc Alison Schofield 2022-11-30  279  				.cxlrd = cxlrd,
+f9db85bfec0dcc Alison Schofield 2022-11-30  280  			};
+f9db85bfec0dcc Alison Schofield 2022-11-30  281  			rc = acpi_table_parse_cedt(ACPI_CEDT_TYPE_CXIMS,
+f9db85bfec0dcc Alison Schofield 2022-11-30  282  						   cxl_parse_cxims, &cxims_ctx);
+f9db85bfec0dcc Alison Schofield 2022-11-30  283  			if (rc < 0)
+f9db85bfec0dcc Alison Schofield 2022-11-30  284  				goto err_xormap;
+14628aec8415e4 Alison Schofield 2022-12-04  285  			if (!cxlrd->platform_data) {
+14628aec8415e4 Alison Schofield 2022-12-04  286  				dev_err(dev, "No CXIMS for HBIG %u\n", ig);
+14628aec8415e4 Alison Schofield 2022-12-04  287  				rc = -EINVAL;
+14628aec8415e4 Alison Schofield 2022-12-04  288  				goto err_xormap;
+14628aec8415e4 Alison Schofield 2022-12-04  289  			}
+f9db85bfec0dcc Alison Schofield 2022-11-30  290  		}
+f9db85bfec0dcc Alison Schofield 2022-11-30  291  	}
+48667f676189ec Dan Williams     2021-09-21  292  	rc = cxl_decoder_add(cxld, target_map);
+f9db85bfec0dcc Alison Schofield 2022-11-30  293  err_xormap:
+48667f676189ec Dan Williams     2021-09-21  294  	if (rc)
+48667f676189ec Dan Williams     2021-09-21  295  		put_device(&cxld->dev);
+48667f676189ec Dan Williams     2021-09-21  296  	else
+48667f676189ec Dan Williams     2021-09-21  297  		rc = cxl_decoder_autoremove(dev, cxld);
+48667f676189ec Dan Williams     2021-09-21  298  	if (rc) {
+e50fe01e1f2a4a Dan Williams     2022-05-18 @299  		dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
+3840e10e8dcafc Breno Leitao     2023-07-14  300  			res->start, res->end);
+f4ce1f766f1ebf Dan Williams     2021-10-29  301  		return 0;
+da6aafec3dca61 Alison Schofield 2021-06-17  302  	}
+e50fe01e1f2a4a Dan Williams     2022-05-18  303  	dev_dbg(dev, "add: %s node: %d range [%#llx - %#llx]\n",
+e50fe01e1f2a4a Dan Williams     2022-05-18  304  		dev_name(&cxld->dev),
+e50fe01e1f2a4a Dan Williams     2022-05-18  305  		phys_to_target_node(cxld->hpa_range.start),
+e50fe01e1f2a4a Dan Williams     2022-05-18  306  		cxld->hpa_range.start, cxld->hpa_range.end);
+da6aafec3dca61 Alison Schofield 2021-06-17  307  
+f4ce1f766f1ebf Dan Williams     2021-10-29  308  	return 0;
+974854ab072853 Dan Williams     2022-07-12  309  
+974854ab072853 Dan Williams     2022-07-12  310  err_insert:
+974854ab072853 Dan Williams     2022-07-12  311  	kfree(res->name);
+974854ab072853 Dan Williams     2022-07-12  312  err_name:
+974854ab072853 Dan Williams     2022-07-12  313  	kfree(res);
+974854ab072853 Dan Williams     2022-07-12  314  	return -ENOMEM;
+da6aafec3dca61 Alison Schofield 2021-06-17  315  }
+da6aafec3dca61 Alison Schofield 2021-06-17  316  
 
-:::::: The code at line 215 was first introduced by commit
-:::::: 563a02b0c9704f69c0364befedd451f57fe88092 compiler.h: Make __ADDRESSABLE() symbol truly unique
+:::::: The code at line 299 was first introduced by commit
+:::::: e50fe01e1f2a4aba2275edee7d5c77ac87674ddb cxl/core: Drop ->platform_res attribute for root decoders
 
-:::::: TO: Josh Poimboeuf <jpoimboe@redhat.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Dan Williams <dan.j.williams@intel.com>
+:::::: CC: Dan Williams <dan.j.williams@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
