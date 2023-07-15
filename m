@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A98A163
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jul 2023 05:15:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDE0A4C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jul 2023 06:37:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689398154; x=1720934154;
+  t=1689403075; x=1720939075;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uHKY8lPXuJB3VVC11NqhKm0stTIgMaAy1EhfgO7Wwkg=;
-  b=htI35g1EwiAZMNLKp7rz3O1lGJr09lHmEV7c3NV93qoqFIKqnFVMROA1
-   pGHktauOJDCc+u0NVO196eDc2iLf0/Joc5U3L/hrmFgwPhHyELOOJn+E4
-   ZKDFdIxv/ka5q1Vsu1lNQG/kXxGcrsuCYZp2gUCCYOWD3rSuBe8JS2rHW
-   K2Ra82uF7G3dAnUmXT1eVWoVGJ7CiBaZadOauON/PLAN87P1A+ckuwywH
-   xlwqpr9+ikqGT0GteiU+97vnqec3BNMDki1RDioduW/bOqwNeZxp1J48C
-   pKctVZ3dkazXJ0lhWOUbAngheyyOUICI4djSLxOJ6GLZCgjqGZWX8ZmkE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="365675605"
+  bh=PAMCWhS5JfFGYC7ijnyjfgRQl5eF8MWvJssk1RdGgMY=;
+  b=ZiL54jD8U2GHphlpq9VQryw/1VPyuaR0AgnCFoniLZvF7s0sGS6e2gVM
+   /JcM4CUJwFoRhAsCRXZxqE5xZcst0umb49M50AxqYTi6GL7pY/Svv5ypJ
+   0LI0eH8t27CDHR0o+U3pgnx0io8czh3xeO7RzqIK5DAc7KAOR9a0cOh3l
+   +xbsLjpsdao47fKq/FkBXVmAapJmGeA6ubaKLjKFlOqEj6aFJNyDg91oP
+   h5hCwIzCCT5XP0a2oJd9Czxp3G0k5CnGqi6SrApfYE3LmtdxDYfqCgVlX
+   dtLE9zRHfaLVMHM2mI0vpplmOQdSKnHPJ5yJMdZzuZ/7JCXILfTI2cKQU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="429399475"
 X-IronPort-AV: E=Sophos;i="6.01,207,1684825200"; 
-   d="scan'208";a="365675605"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 22:15:53 -0700
+   d="scan'208";a="429399475"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 23:37:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="836267181"
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="812682231"
 X-IronPort-AV: E=Sophos;i="6.01,207,1684825200"; 
-   d="scan'208";a="836267181"
+   d="scan'208";a="812682231"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Jul 2023 22:15:52 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Jul 2023 23:37:53 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKXdH-0007x3-0v;
-	Sat, 15 Jul 2023 05:15:51 +0000
-Date: Sat, 15 Jul 2023 13:15:10 +0800
+	id 1qKYue-0007zd-1S;
+	Sat, 15 Jul 2023 06:37:52 +0000
+Date: Sat, 15 Jul 2023 14:36:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/gmem 17/38]
- arch/x86/kvm/../../../virt/kvm/guest_mem.c:126:26: error: 'struct
- kvm_gfn_range' has no member named 'pte'
-Message-ID: <202307151339.0g23Soov-lkp@intel.com>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:arm64-gcs 1/48] include/linux/build_bug.h:16:51: error:
+ bit-field '<anonymous>' width not an integer constant
+Message-ID: <202307151450.SZseecBC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,74 +46,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux x86/gmem
-head:   8f2e53f875afd2b57813e3dd259713ac2592f929
-commit: 5388664d34523db492940a0b5955f07e3f5e6412 [17/38] KVM: x86: Add support for "protected VMs" that can utilize private memory
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230715/202307151339.0g23Soov-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230715/202307151339.0g23Soov-lkp@intel.com/reproduce)
+Hi Rick,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git arm64-gcs
+head:   e90b1663883e49f3f5aef612fde57503c21ad1ad
+commit: 7a8d3d70c8ecb0b3392221a446051a64f9cbadda [1/48] mm: Rename arch pte_mkwrite()'s to pte_mkwrite_novma()
+config: sparc-sparc64_defconfig (https://download.01.org/0day-ci/archive/20230715/202307151450.SZseecBC-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230715/202307151450.SZseecBC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307151339.0g23Soov-lkp@intel.com/
-
-Note: the sean-jc/x86/gmem HEAD 8f2e53f875afd2b57813e3dd259713ac2592f929 builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307151450.SZseecBC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/../../../virt/kvm/guest_mem.c: In function 'kvm_gmem_invalidate_begin':
->> arch/x86/kvm/../../../virt/kvm/guest_mem.c:126:26: error: 'struct kvm_gfn_range' has no member named 'pte'
-     126 |                         .pte = __pte(0),
-         |                          ^~~
->> arch/x86/kvm/../../../virt/kvm/guest_mem.c:126:32: error: incompatible types when initializing type 'long long unsigned int' using type 'pte_t'
-     126 |                         .pte = __pte(0),
-         |                                ^~~~~
+   In file included from include/linux/mm.h:29,
+                    from include/sound/pcm.h:15,
+                    from sound/drivers/dummy.c:20:
+   include/linux/pgtable.h: In function 'pmd_mkwrite':
+   include/linux/pgtable.h:528:16: error: implicit declaration of function 'pmd_mkwrite_novma'; did you mean 'pte_mkwrite_novma'? [-Werror=implicit-function-declaration]
+     528 |         return pmd_mkwrite_novma(pmd);
+         |                ^~~~~~~~~~~~~~~~~
+         |                pte_mkwrite_novma
+   include/linux/pgtable.h:528:16: error: incompatible types when returning type 'int' but 'pmd_t' was expected
+     528 |         return pmd_mkwrite_novma(pmd);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/init.h:5,
+                    from sound/drivers/dummy.c:7:
+   sound/drivers/dummy.c: At top level:
+>> include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:56:59: note: in expansion of macro '__must_be_array'
+      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
+     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
+     501 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/drivers/dummy.c:62:1: note: in expansion of macro 'module_param_array'
+      62 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+   sound/drivers/dummy.c:48:12: warning: 'index' defined but not used [-Wunused-variable]
+      48 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
+         |            ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +126 arch/x86/kvm/../../../virt/kvm/guest_mem.c
+vim +16 include/linux/build_bug.h
 
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  107  
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  108  static void kvm_gmem_invalidate_begin(struct kvm *kvm, struct kvm_gmem *gmem,
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  109  				      pgoff_t start, pgoff_t end)
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  110  {
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  111  	struct kvm_memory_slot *slot;
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  112  	unsigned long index;
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  113  	bool flush = false;
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  114  
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  115  	KVM_MMU_LOCK(kvm);
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  116  
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  117  	kvm_mmu_invalidate_begin(kvm);
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  118  
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  119  	xa_for_each_range(&gmem->bindings, index, slot, start, end - 1) {
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  120  		pgoff_t pgoff = slot->gmem.pgoff;
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  121  
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  122  		struct kvm_gfn_range gfn_range = {
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  123  			.start = slot->base_gfn + max(pgoff, start) - pgoff,
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  124  			.end = slot->base_gfn + min(pgoff + slot->npages, end) - pgoff,
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  125  			.slot = slot,
-614fdcd72ea5f2 Sean Christopherson 2023-04-18 @126  			.pte = __pte(0),
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  127  			.may_block = true,
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  128  		};
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  129  
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  130  		kvm_mmu_invalidate_range_add(kvm, gfn_range.start, gfn_range.end);
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  131  
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  132  		flush |= kvm_unmap_gfn_range(kvm, &gfn_range);
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  133  	}
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  134  
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  135  	if (flush)
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  136  		kvm_flush_remote_tlbs(kvm);
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  137  
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  138  	KVM_MMU_UNLOCK(kvm);
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  139  }
-614fdcd72ea5f2 Sean Christopherson 2023-04-18  140  
+bc6245e5efd70c Ian Abbott       2017-07-10   6  
+bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
+bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
+bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
+bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
+bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
+8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
+bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
+bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
+bc6245e5efd70c Ian Abbott       2017-07-10  15   */
+8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
+527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
 
-:::::: The code at line 126 was first introduced by commit
-:::::: 614fdcd72ea5f22eba60aa11dec76ec560955abe KVM: Introduced ioctl() to allocate dedicated memory for guests
+:::::: The code at line 16 was first introduced by commit
+:::::: 8788994376d84d627450fd0d67deb6a66ddf07d7 linux/build_bug.h: change type to int
 
-:::::: TO: Sean Christopherson <seanjc@google.com>
-:::::: CC: Sean Christopherson <seanjc@google.com>
+:::::: TO: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
