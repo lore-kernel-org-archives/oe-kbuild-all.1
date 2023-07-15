@@ -1,43 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10556625;
-	Sat, 15 Jul 2023 00:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B81628
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jul 2023 00:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689380990; x=1720916990;
+  t=1689381589; x=1720917589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iqs0j1QscZFhakd2g7cneuEpIDA+qroESvK7mhdbxn4=;
-  b=DOpFTDZLG4EeQjZVNOJ9dcWI6zEoGSXXtkL3pfY/o2AAcx+EYz01t93+
-   uBM2VUvp93nt4YEu5MK6BBHvV5YZ53crBMIWBPeOWIIBIGBvWG1BqlUDe
-   XLj54zjC/9DrhiwF6QxNyFmWWK6MpaBFdmaDvlziVB7Fx3qwnmwIqOLMR
-   pC3Fjjfl3avj4xOJS3Miebh+rpYvUNXLfDffyE267lTM9RC/6N4F33AxN
-   7VrZv97GxAt/hwHWoT1qZZgo5ecBJ+COXTy+H2+cnuDkAG93oDvEykXY3
-   OEdGaIJhzbPM8dXt3WGYCqXj5BB/7SLtf/hbBsdMLKkTag+OKG/S0Yqlb
+  bh=XJChVpI/qCdntQVn7a7QNC3ZA/lLjn7W5e9z2OtS+gU=;
+  b=V71CxQ8QsYwpPZKs5dxOZFGYJB+N7BPW3N2L0bPi+wnFx5ZpPKA/nP8R
+   gg5BUjPgrsGLiRi5LwL/mRE0yAcKwAhb+zuXWcp9QiHma04W+2GzxjAp2
+   neJDJNg1awKrhpRdpe/iFeC1yyQPWs7KkBPuHyOSRwkQAM33l6r/i7jn8
+   nCZQb/bY16VvZ6Z7Ybd5tGN7wsmmo6yE3qT382kfRcgfsuJjqul0rH4Mt
+   KgWH3noSjBU+Qg46RO1Cn3pxJ5peQyvilmj/trDTJwS3KweBVyueFLtyT
+   KO50B0sMOhkq7QD1MtkNaBHey5ax+rIIwjs9BVwqcMSZgXUPKRv6fPbvc
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="364481576"
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="350482242"
 X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
-   d="scan'208";a="364481576"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 17:29:48 -0700
+   d="scan'208";a="350482242"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 17:39:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="896589773"
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="725891640"
 X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
-   d="scan'208";a="896589773"
+   d="scan'208";a="725891640"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 14 Jul 2023 17:29:46 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 14 Jul 2023 17:39:47 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKTAQ-0007mr-0t;
-	Sat, 15 Jul 2023 00:29:46 +0000
-Date: Sat, 15 Jul 2023 08:29:16 +0800
+	id 1qKTK6-0007n5-1E;
+	Sat, 15 Jul 2023 00:39:46 +0000
+Date: Sat, 15 Jul 2023 08:39:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:arm64-gcs 13/48] kernel/sys.c:2305:12: warning: no
- previous prototype for function 'arch_get_shadow_stack_status'
-Message-ID: <202307150810.KwRDzuUH-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-fix-2m 14/22] lib/dynamic_debug.c:1075:1: error: function
+ definition is not allowed here
+Message-ID: <202307150819.NyFX05op-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,155 +46,167 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git arm64-gcs
-head:   e90b1663883e49f3f5aef612fde57503c21ad1ad
-commit: b506a9cc113f13d910ab85a127c299d63a3c1fb1 [13/48] prctl: arch-agnostic prctl for shadow stack
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230715/202307150810.KwRDzuUH-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230715/202307150810.KwRDzuUH-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-fix-2m
+head:   5500fe67fcd8b3d2924577403c7996cd47121074
+commit: 521d3621f94878ff0c0245f66d4f9fcb83040386 [14/22] dyndbg: add for_each_boxed_vector
+config: x86_64-randconfig-x002-20230714 (https://download.01.org/0day-ci/archive/20230715/202307150819.NyFX05op-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230715/202307150819.NyFX05op-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307150810.KwRDzuUH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307150819.NyFX05op-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/sys.c:10:
-   In file included from include/linux/mm_inline.h:7:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from kernel/sys.c:10:
-   In file included from include/linux/mm_inline.h:7:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from kernel/sys.c:10:
-   In file included from include/linux/mm_inline.h:7:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> kernel/sys.c:2305:12: warning: no previous prototype for function 'arch_get_shadow_stack_status' [-Wmissing-prototypes]
-    2305 | int __weak arch_get_shadow_stack_status(struct task_struct *t, unsigned long __user *status)
-         |            ^
-   kernel/sys.c:2305:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2305 | int __weak arch_get_shadow_stack_status(struct task_struct *t, unsigned long __user *status)
-         | ^
-         | static 
->> kernel/sys.c:2310:12: warning: no previous prototype for function 'arch_set_shadow_stack_status' [-Wmissing-prototypes]
-    2310 | int __weak arch_set_shadow_stack_status(struct task_struct *t, unsigned long status)
-         |            ^
-   kernel/sys.c:2310:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2310 | int __weak arch_set_shadow_stack_status(struct task_struct *t, unsigned long status)
-         | ^
-         | static 
->> kernel/sys.c:2315:12: warning: no previous prototype for function 'arch_get_indir_br_lp_status' [-Wmissing-prototypes]
-    2315 | int __weak arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
-         |            ^
-   kernel/sys.c:2315:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2315 | int __weak arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
-         | ^
-         | static 
->> kernel/sys.c:2320:12: warning: no previous prototype for function 'arch_set_indir_br_lp_status' [-Wmissing-prototypes]
-    2320 | int __weak arch_set_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
-         |            ^
-   kernel/sys.c:2320:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2320 | int __weak arch_set_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
-         | ^
-         | static 
-   16 warnings generated.
+>> lib/dynamic_debug.c:1075:1: error: function definition is not allowed here
+   {
+   ^
+   lib/dynamic_debug.c:1111:1: error: function definition is not allowed here
+   {
+   ^
+>> lib/dynamic_debug.c:1118:10: error: use of undeclared identifier 'ddebug_proc_show'
+           .show = ddebug_proc_show,
+                   ^
+>> lib/dynamic_debug.c:1119:10: error: use of undeclared identifier 'ddebug_proc_stop'
+           .stop = ddebug_proc_stop
+                   ^
+   lib/dynamic_debug.c:1123:1: error: function definition is not allowed here
+   {
+   ^
+>> lib/dynamic_debug.c:1130:10: error: use of undeclared identifier 'ddebug_proc_open'; did you mean 'ddebug_proc_fops'?
+           .open = ddebug_proc_open,
+                   ^~~~~~~~~~~~~~~~
+                   ddebug_proc_fops
+   lib/dynamic_debug.c:1128:37: note: 'ddebug_proc_fops' declared here
+   static const struct file_operations ddebug_proc_fops = {
+                                       ^
+>> lib/dynamic_debug.c:1130:10: error: initializing 'int (*)(struct inode *, struct file *)' with an expression of incompatible type 'const struct file_operations'
+           .open = ddebug_proc_open,
+                   ^~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:1138:15: error: use of undeclared identifier 'ddebug_proc_open'; did you mean 'ddebug_proc_fops'?
+           .proc_open = ddebug_proc_open,
+                        ^~~~~~~~~~~~~~~~
+                        ddebug_proc_fops
+   lib/dynamic_debug.c:1128:37: note: 'ddebug_proc_fops' declared here
+   static const struct file_operations ddebug_proc_fops = {
+                                       ^
+   lib/dynamic_debug.c:1138:15: error: initializing 'int (*)(struct inode *, struct file *)' with an expression of incompatible type 'const struct file_operations'
+           .proc_open = ddebug_proc_open,
+                        ^~~~~~~~~~~~~~~~
+   lib/dynamic_debug.c:1154:1: error: function definition is not allowed here
+   {
+   ^
+   lib/dynamic_debug.c:1168:1: error: function definition is not allowed here
+   {
+   ^
+   lib/dynamic_debug.c:1184:1: error: function definition is not allowed here
+   {
+   ^
+   lib/dynamic_debug.c:1208:1: error: function definition is not allowed here
+   {
+   ^
+   lib/dynamic_debug.c:1238:1: error: function definition is not allowed here
+   {
+   ^
+   lib/dynamic_debug.c:1274:1: error: function definition is not allowed here
+   {
+   ^
+   lib/dynamic_debug.c:1318:1: error: function definition is not allowed here
+   {
+   ^
+   lib/dynamic_debug.c:1339:1: error: function definition is not allowed here
+   {
+   ^
+   lib/dynamic_debug.c:1350:1: error: function definition is not allowed here
+   {
+   ^
+   lib/dynamic_debug.c:1356:1: error: function definition is not allowed here
+   {
+   ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
 
-vim +/arch_get_shadow_stack_status +2305 kernel/sys.c
+vim +1075 lib/dynamic_debug.c
 
-  2304	
-> 2305	int __weak arch_get_shadow_stack_status(struct task_struct *t, unsigned long __user *status)
-  2306	{
-  2307		return -EINVAL;
-  2308	}
-  2309	
-> 2310	int __weak arch_set_shadow_stack_status(struct task_struct *t, unsigned long status)
-  2311	{
-  2312		return -EINVAL;
-  2313	}
-  2314	
-> 2315	int __weak arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
-  2316	{
-  2317		return -EINVAL;
-  2318	}
-  2319	
-> 2320	int __weak arch_set_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
-  2321	{
-  2322		return -EINVAL;
-  2323	}
-  2324	
+a4a2a427413e35 Jim Cromie  2022-09-04  1067  
+e9d376f0fa66bd Jason Baron 2009-02-05  1068  /*
+e9d376f0fa66bd Jason Baron 2009-02-05  1069   * Seq_ops show method.  Called several times within a read()
+e9d376f0fa66bd Jason Baron 2009-02-05  1070   * call from userspace, with ddebug_lock held.  Formats the
+e9d376f0fa66bd Jason Baron 2009-02-05  1071   * current _ddebug as a single human-readable line, with a
+e9d376f0fa66bd Jason Baron 2009-02-05  1072   * special case for the header line.
+e9d376f0fa66bd Jason Baron 2009-02-05  1073   */
+e9d376f0fa66bd Jason Baron 2009-02-05  1074  static int ddebug_proc_show(struct seq_file *m, void *p)
+e9d376f0fa66bd Jason Baron 2009-02-05 @1075  {
+e9d376f0fa66bd Jason Baron 2009-02-05  1076  	struct ddebug_iter *iter = m->private;
+e9d376f0fa66bd Jason Baron 2009-02-05  1077  	struct _ddebug *dp = p;
+f678ce8cc3cb2a Jim Cromie  2020-07-19  1078  	struct flagsbuf flags;
+a4a2a427413e35 Jim Cromie  2022-09-04  1079  	char const *class;
+e9d376f0fa66bd Jason Baron 2009-02-05  1080  
+e9d376f0fa66bd Jason Baron 2009-02-05  1081  	if (p == SEQ_START_TOKEN) {
+e9d376f0fa66bd Jason Baron 2009-02-05  1082  		seq_puts(m,
+e9d376f0fa66bd Jason Baron 2009-02-05  1083  			 "# filename:lineno [module]function flags format\n");
+e9d376f0fa66bd Jason Baron 2009-02-05  1084  		return 0;
+e9d376f0fa66bd Jason Baron 2009-02-05  1085  	}
+e9d376f0fa66bd Jason Baron 2009-02-05  1086  
+5ca7d2a6c5e4f2 Jim Cromie  2011-12-19  1087  	seq_printf(m, "%s:%u [%s]%s =%s \"",
+2b6783191da721 Jim Cromie  2011-12-19  1088  		   trim_prefix(dp->filename), dp->lineno,
+e9d376f0fa66bd Jason Baron 2009-02-05  1089  		   iter->table->mod_name, dp->function,
+f678ce8cc3cb2a Jim Cromie  2020-07-19  1090  		   ddebug_describe_flags(dp->flags, &flags));
+47ea6f99d06e5a Jim Cromie  2022-09-04  1091  	seq_escape_str(m, dp->format, ESCAPE_SPACE, "\t\r\n\"");
+a4a2a427413e35 Jim Cromie  2022-09-04  1092  	seq_puts(m, "\"");
+a4a2a427413e35 Jim Cromie  2022-09-04  1093  
+a4a2a427413e35 Jim Cromie  2022-09-04  1094  	if (dp->class_id != _DPRINTK_CLASS_DFLT) {
+014d92d98931e7 Jim Cromie  2022-12-21  1095  		class = ddebug_class_name(iter->table, dp);
+a4a2a427413e35 Jim Cromie  2022-09-04  1096  		if (class)
+a4a2a427413e35 Jim Cromie  2022-09-04  1097  			seq_printf(m, " class:%s", class);
+a4a2a427413e35 Jim Cromie  2022-09-04  1098  		else
+a4a2a427413e35 Jim Cromie  2022-09-04  1099  			seq_printf(m, " class unknown, _id:%d", dp->class_id);
+a4a2a427413e35 Jim Cromie  2022-09-04  1100  	}
+a4a2a427413e35 Jim Cromie  2022-09-04  1101  	seq_puts(m, "\n");
+e9d376f0fa66bd Jason Baron 2009-02-05  1102  
+e9d376f0fa66bd Jason Baron 2009-02-05  1103  	return 0;
+e9d376f0fa66bd Jason Baron 2009-02-05  1104  }
+e9d376f0fa66bd Jason Baron 2009-02-05  1105  
+e9d376f0fa66bd Jason Baron 2009-02-05  1106  /*
+e9d376f0fa66bd Jason Baron 2009-02-05  1107   * Seq_ops stop method.  Called at the end of each read()
+e9d376f0fa66bd Jason Baron 2009-02-05  1108   * call from userspace.  Drops ddebug_lock.
+e9d376f0fa66bd Jason Baron 2009-02-05  1109   */
+e9d376f0fa66bd Jason Baron 2009-02-05  1110  static void ddebug_proc_stop(struct seq_file *m, void *p)
+e9d376f0fa66bd Jason Baron 2009-02-05  1111  {
+e9d376f0fa66bd Jason Baron 2009-02-05  1112  	mutex_unlock(&ddebug_lock);
+e9d376f0fa66bd Jason Baron 2009-02-05  1113  }
+e9d376f0fa66bd Jason Baron 2009-02-05  1114  
+e9d376f0fa66bd Jason Baron 2009-02-05  1115  static const struct seq_operations ddebug_proc_seqops = {
+e9d376f0fa66bd Jason Baron 2009-02-05  1116  	.start = ddebug_proc_start,
+e9d376f0fa66bd Jason Baron 2009-02-05  1117  	.next = ddebug_proc_next,
+e9d376f0fa66bd Jason Baron 2009-02-05 @1118  	.show = ddebug_proc_show,
+e9d376f0fa66bd Jason Baron 2009-02-05 @1119  	.stop = ddebug_proc_stop
+e9d376f0fa66bd Jason Baron 2009-02-05  1120  };
+e9d376f0fa66bd Jason Baron 2009-02-05  1121  
+e9d376f0fa66bd Jason Baron 2009-02-05  1122  static int ddebug_proc_open(struct inode *inode, struct file *file)
+e9d376f0fa66bd Jason Baron 2009-02-05  1123  {
+4bad78c5500253 Rob Jones   2014-10-13  1124  	return seq_open_private(file, &ddebug_proc_seqops,
+4bad78c5500253 Rob Jones   2014-10-13  1125  				sizeof(struct ddebug_iter));
+e9d376f0fa66bd Jason Baron 2009-02-05  1126  }
+e9d376f0fa66bd Jason Baron 2009-02-05  1127  
+e9d376f0fa66bd Jason Baron 2009-02-05  1128  static const struct file_operations ddebug_proc_fops = {
+e9d376f0fa66bd Jason Baron 2009-02-05  1129  	.owner = THIS_MODULE,
+e9d376f0fa66bd Jason Baron 2009-02-05 @1130  	.open = ddebug_proc_open,
+e9d376f0fa66bd Jason Baron 2009-02-05  1131  	.read = seq_read,
+e9d376f0fa66bd Jason Baron 2009-02-05  1132  	.llseek = seq_lseek,
+e9d376f0fa66bd Jason Baron 2009-02-05  1133  	.release = seq_release_private,
+e9d376f0fa66bd Jason Baron 2009-02-05  1134  	.write = ddebug_proc_write
+e9d376f0fa66bd Jason Baron 2009-02-05  1135  };
+e9d376f0fa66bd Jason Baron 2009-02-05  1136  
+
+:::::: The code at line 1075 was first introduced by commit
+:::::: e9d376f0fa66bd630fe27403669c6ae6c22a868f dynamic debug: combine dprintk and dynamic printk
+
+:::::: TO: Jason Baron <jbaron@redhat.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
