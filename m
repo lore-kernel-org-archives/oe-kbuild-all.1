@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0FB628
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jul 2023 01:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919CD7EC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Jul 2023 01:01:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689382863; x=1720918863;
+  t=1689382865; x=1720918865;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HXvTd8MiZIqj0eoRiBbX27u/cWqbUK69JIZ6+yReBXk=;
-  b=P1Y9Yd6HPTeY+RGrdd6RXlVqIScT5tB2Y57jA4e2WDH1MX11ZzignpVL
-   N8+y++LA9Q33sEWgrL9b/OwB1+/LjYzgbciS6VLRYoF67wuMQTZ3eu2UA
-   gTp+ZurzdIhMm6zMmOQ4DjBxjwezPk2TO3Erax6xiFvH9Ev9d6fDlQHbF
-   OWjTrXx9a82hiF0tKQXGtHPPul8BT8tn2bQJkF9Urn/TrhpqMxSdLaldd
-   A+HDVOBJFSQKARYfZeGmJbjbwGC6nXmAlPdIuUFL3rQ0xdnR6qK+41Y4B
-   LD2C5WgrW6AFKrwYrxk7iZhDIWWfVrKGaDqetay7heZMaZ0Y99DaqhT6W
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="364484224"
+  bh=qae8LkAdac1mrXHjHYmeeqNWu0ATtPc3MFWkcc6vvL4=;
+  b=neBwX1bamzwAuHoumLyh80IzcLTTXCrGq0Xjx1l6Y+BGqKBtnBXo3L6y
+   +cUSRcOJ/578PCH33/7SbHYDL2kIlZSRYMCfpfvP+MQR4+7N4AAHShMp1
+   hde/bNTsi0+tf0klKrt2gwsufUBN6UVkesZtGBqs0qte2ya3puKiMwepn
+   ri1klhCF/bXrKZtO/XastYiIey+lguLvT8OLKwCAdPLOM4dorSirF0ipr
+   7ZmzOcsERfhzPaV7mrX0Z4pQrCvNphxlrEL6upJwoTevo7uvVkRYqaiSB
+   DUbPUOL1TRGZ4FkShtoCFstKA6ydMnuIE27oxheQnlWWm2ch/0FWf3JXT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="431790850"
 X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
-   d="scan'208";a="364484224"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 18:00:48 -0700
+   d="scan'208";a="431790850"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 18:00:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="788001105"
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="846659625"
 X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
-   d="scan'208";a="788001105"
+   d="scan'208";a="846659625"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 14 Jul 2023 18:00:47 -0700
+  by orsmga004.jf.intel.com with ESMTP; 14 Jul 2023 18:00:47 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKTeQ-0007nm-29;
+	id 1qKTeQ-0007nh-21;
 	Sat, 15 Jul 2023 01:00:46 +0000
-Date: Sat, 15 Jul 2023 09:00:00 +0800
+Date: Sat, 15 Jul 2023 08:59:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 65/105] mtk-mmsys.c:undefined reference to
- `cmdq_pkt_write_mask'
-Message-ID: <202307150800.k36ksAJr-lkp@intel.com>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:arm64-gcs 1/48] include/linux/pgtable.h:528:16: error:
+ implicit declaration of function 'pmd_mkwrite_novma'; did you mean
+ 'pte_mkwrite_novma'?
+Message-ID: <202307150826.lvF1KJkK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,31 +47,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   728def01a062c3d0deaa96bcbf44b3f191a3dc92
-commit: ea3d26b64d9b0564b9fff7293d9982b8b09fc7b1 [65/105] UPSTREAM: soc: mediatek: Cleanup ifdefs for IS_REACHABLE(CONFIG_MTK_CMDQ)
-config: arm64-randconfig-r032-20230714 (https://download.01.org/0day-ci/archive/20230715/202307150800.k36ksAJr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230715/202307150800.k36ksAJr-lkp@intel.com/reproduce)
+Hi Rick,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git arm64-gcs
+head:   e90b1663883e49f3f5aef612fde57503c21ad1ad
+commit: 7a8d3d70c8ecb0b3392221a446051a64f9cbadda [1/48] mm: Rename arch pte_mkwrite()'s to pte_mkwrite_novma()
+config: sparc-randconfig-r015-20230714 (https://download.01.org/0day-ci/archive/20230715/202307150826.lvF1KJkK-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230715/202307150826.lvF1KJkK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307150800.k36ksAJr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307150826.lvF1KJkK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> aarch64-linux-ld: Unexpected GOT/PLT entries detected!
->> aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: ID map text too big or misaligned
-   aarch64-linux-ld: drivers/soc/mediatek/mtk-mmsys.o: in function `mtk_mmsys_update_bits':
->> mtk-mmsys.c:(.text+0x78): undefined reference to `cmdq_pkt_write_mask'
-   aarch64-linux-ld: drivers/soc/mediatek/mtk-mmsys.o: in function `mtk_mmsys_probe':
->> mtk-mmsys.c:(.text+0x700): undefined reference to `cmdq_dev_get_client_reg'
-   aarch64-linux-ld: drivers/soc/mediatek/mtk-mutex.o: in function `mtk_mutex_enable_by_cmdq':
->> mtk-mutex.c:(.text+0x244): undefined reference to `cmdq_pkt_write'
-   aarch64-linux-ld: drivers/soc/mediatek/mtk-mutex.o: in function `mtk_mutex_probe':
->> mtk-mutex.c:(.text+0x308): undefined reference to `cmdq_dev_get_client_reg'
+   In file included from include/linux/mm.h:29,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/dma-mapping.h:11,
+                    from include/linux/pci.h:2593,
+                    from arch/sparc/lib/iomap.c:5:
+   include/linux/pgtable.h: In function 'pmd_mkwrite':
+>> include/linux/pgtable.h:528:16: error: implicit declaration of function 'pmd_mkwrite_novma'; did you mean 'pte_mkwrite_novma'? [-Werror=implicit-function-declaration]
+     528 |         return pmd_mkwrite_novma(pmd);
+         |                ^~~~~~~~~~~~~~~~~
+         |                pte_mkwrite_novma
+>> include/linux/pgtable.h:528:16: error: incompatible types when returning type 'int' but 'pmd_t' was expected
+     528 |         return pmd_mkwrite_novma(pmd);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +528 include/linux/pgtable.h
+
+   524	
+   525	#if defined(CONFIG_HAS_HUGE_PAGE) && !defined(pmd_mkwrite)
+   526	static inline pmd_t pmd_mkwrite(pmd_t pmd)
+   527	{
+ > 528		return pmd_mkwrite_novma(pmd);
+   529	}
+   530	#endif
+   531	
 
 -- 
 0-DAY CI Kernel Test Service
