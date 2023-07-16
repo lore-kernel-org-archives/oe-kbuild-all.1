@@ -1,211 +1,202 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275AA1854
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jul 2023 10:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1EB08C0A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jul 2023 17:53:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689503844; x=1721039844;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=bOfwvRkDoT7o7eqZjn3EmKsJXJTD1ft59/T8MlsqFTw=;
-  b=ewRxCWCcEknFNEPrBTWxjszM2DGYgkIjBpQUId9rvRcgVoaNhb0mcWQ8
-   ivBHScreLv9UsH7SI5x6TbWdzK0DqzMn2WsTxRuaN0rwJW42FBR0aLBzK
-   Qw9Kjxzap/mI8C+J8RsF8sB0aK58yGGVKBl4OZUWWgVO9OL+2JvQvsvlG
-   w/I+G4++H7WMcjvUggRdYyS/xvIdq3oRrm5d7VcKjDmHR4Zckzf3bRtkN
-   9kyVUFZPlHFQcQq7JSUS//NM+P3RLMem154nG1coYpODTBnRramje0MzN
-   eYwpwU7g6RrBB7KTV5UZ9zt57v4hOsDBEZ7jjACW/Fhx7RpbPJJj+RIPb
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="431920467"
-X-IronPort-AV: E=Sophos;i="6.01,210,1684825200"; 
-   d="scan'208";a="431920467"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2023 03:37:23 -0700
+  t=1689530010; x=1721066010;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rPDxuM16H0atJK4vGiKWaaRVYqYnyYnfpkckSgSxk4c=;
+  b=BNeAfHHc3ZtwLrKiaJsOxzCmbeYXaDVH/kYq6MsM3XIEqiDpcfBcNBkk
+   Lpg+dS1ZGiavbfbzYj8viswD2xrtvHHDMko0QwKSIZXBn+0dZwX0TaoPw
+   UnTJNSg34zuSxYTol0N321J5fXJknvNkBwYvu7nYlGbdCq4h0LuBhwiwo
+   GSPjs7L/8L7AEkM86lwdS8L0/uuwEppI1ift7Kceg1eUnHwXSBCzphMnD
+   mQ4ACzY+n5lG6gFpfMvy5/L0E67vtB0ZcEI0j/VIM4Mfbz+bRnw0lEVac
+   K534aM5ip2eCQVuLlFac4uL1dyRtw9b9nhogF5I7KLDgKcQvan2mugbUQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="365821580"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="365821580"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2023 10:53:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="716879343"
-X-IronPort-AV: E=Sophos;i="6.01,210,1684825200"; 
-   d="scan'208";a="716879343"
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="722963337"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="722963337"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 16 Jul 2023 03:37:22 -0700
+  by orsmga002.jf.intel.com with ESMTP; 16 Jul 2023 10:53:27 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKz7x-0008nA-2s
-	for oe-kbuild-all@lists.linux.dev;
-	Sun, 16 Jul 2023 10:37:21 +0000
-Date: Sun, 16 Jul 2023 18:36:25 +0800
+	id 1qL5vy-0008vU-1v;
+	Sun, 16 Jul 2023 17:53:26 +0000
+Date: Mon, 17 Jul 2023 01:53:08 +0800
 From: kernel test robot <lkp@intel.com>
+To: Yunsheng Lin <linyunsheng@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 14052/30000] kernel/dma/removed.c:146:25:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202307161819.rQo1OXpI-lkp@intel.com>
+Subject: [linyunsheng:spilt_pp_header 55/55]
+ drivers/net/ethernet/mellanox/mlx5/core/en/xdp.c:124:20: error: implicit
+ declaration of function 'page_pool_get_dma_addr'
+Message-ID: <202307170107.MlFDNYav-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   d86cf6f06c9415a617dd1a1e3c9dc081a3cf0f8f
-commit: c9a574054dbbc299aac39781a1d19a36fe0bc35a [14052/30000] ANDROID: GKI: drivers: Add dma removed ops
-config: i386-randconfig-i063-20230716 (https://download.01.org/0day-ci/archive/20230716/202307161819.rQo1OXpI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230716/202307161819.rQo1OXpI-lkp@intel.com/reproduce)
+tree:   https://github.com/gestionlin/linux.git spilt_pp_header
+head:   11ac8c1959f7eda06a7b987903f37212b490b292
+commit: 11ac8c1959f7eda06a7b987903f37212b490b292 [55/55] net:page_pool: split page_pool.h
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230717/202307170107.MlFDNYav-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230717/202307170107.MlFDNYav-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307161819.rQo1OXpI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307170107.MlFDNYav-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/dma/removed.c:107:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void * @@
-   kernel/dma/removed.c:107:30: sparse:     expected void [noderef] <asn:2> *addr
-   kernel/dma/removed.c:107:30: sparse:     got void *
-   kernel/dma/removed.c:119:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *[assigned] addr @@     got void * @@
-   kernel/dma/removed.c:119:38: sparse:     expected void [noderef] <asn:2> *[assigned] addr
-   kernel/dma/removed.c:119:38: sparse:     got void *
-   kernel/dma/removed.c:127:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] <asn:2> *[assigned] addr @@
-   kernel/dma/removed.c:127:16: sparse:     expected void *
-   kernel/dma/removed.c:127:16: sparse:     got void [noderef] <asn:2> *[assigned] addr
-   kernel/dma/removed.c:71:6: sparse: sparse: symbol 'removed_alloc' was not declared. Should it be static?
-   kernel/dma/removed.c:131:5: sparse: sparse: symbol 'removed_mmap' was not declared. Should it be static?
->> kernel/dma/removed.c:146:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *cpu_addr @@
-   kernel/dma/removed.c:146:25: sparse:     expected void volatile [noderef] <asn:2> *addr
-   kernel/dma/removed.c:146:25: sparse:     got void *cpu_addr
-   kernel/dma/removed.c:138:6: sparse: sparse: symbol 'removed_free' was not declared. Should it be static?
-   kernel/dma/removed.c:187:6: sparse: sparse: symbol 'removed_sync_single_for_device' was not declared. Should it be static?
-   kernel/dma/removed.c:193:6: sparse: sparse: symbol 'removed_sync_sg_for_cpu' was not declared. Should it be static?
-   kernel/dma/removed.c:199:6: sparse: sparse: symbol 'removed_sync_sg_for_device' was not declared. Should it be static?
->> kernel/dma/removed.c:213:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *remapped_address @@
-   kernel/dma/removed.c:213:17: sparse:     expected void volatile [noderef] <asn:2> *addr
-   kernel/dma/removed.c:213:17: sparse:     got void *remapped_address
-   kernel/dma/removed.c:211:6: sparse: sparse: symbol 'removed_unremap' was not declared. Should it be static?
-   kernel/dma/removed.c:228:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *( *remap )( ... ) @@     got void [noderef] <asn:2> *( * )( ... ) @@
-   kernel/dma/removed.c:228:35: sparse:     expected void *( *remap )( ... )
-   kernel/dma/removed.c:228:35: sparse:     got void [noderef] <asn:2> *( * )( ... )
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:22,
-                    from include/linux/module.h:13,
-                    from kernel/dma/removed.c:6:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1171:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
-    1171 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1162:27: note: 'mem_section' declared here
-    1162 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   kernel/dma/removed.c: At top level:
-   kernel/dma/removed.c:71:7: warning: no previous prototype for 'removed_alloc' [-Wmissing-prototypes]
-      71 | void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
-         |       ^~~~~~~~~~~~~
-   kernel/dma/removed.c:131:5: warning: no previous prototype for 'removed_mmap' [-Wmissing-prototypes]
-     131 | int removed_mmap(struct device *dev, struct vm_area_struct *vma,
-         |     ^~~~~~~~~~~~
-   kernel/dma/removed.c:138:6: warning: no previous prototype for 'removed_free' [-Wmissing-prototypes]
-     138 | void removed_free(struct device *dev, size_t size, void *cpu_addr,
-         |      ^~~~~~~~~~~~
-   kernel/dma/removed.c:187:6: warning: no previous prototype for 'removed_sync_single_for_device' [-Wmissing-prototypes]
-     187 | void removed_sync_single_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:193:6: warning: no previous prototype for 'removed_sync_sg_for_cpu' [-Wmissing-prototypes]
-     193 | void removed_sync_sg_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:199:6: warning: no previous prototype for 'removed_sync_sg_for_device' [-Wmissing-prototypes]
-     199 | void removed_sync_sg_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:211:6: warning: no previous prototype for 'removed_unremap' [-Wmissing-prototypes]
-     211 | void removed_unremap(struct device *dev, void *remapped_address, size_t size)
-         |      ^~~~~~~~~~~~~~~
-   kernel/dma/removed.c:61:12: warning: 'dma_assign_removed_region' defined but not used [-Wunused-function]
-      61 | static int dma_assign_removed_region(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:33:12: warning: 'dma_init_removed_memory' defined but not used [-Wunused-function]
-      33 | static int dma_init_removed_memory(phys_addr_t phys_addr, size_t size,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
+All errors (new ones prefixed by >>):
 
-vim +146 kernel/dma/removed.c
+   drivers/net/ethernet/mellanox/mlx5/core/en/xdp.c: In function 'mlx5e_xmit_xdp_buff':
+>> drivers/net/ethernet/mellanox/mlx5/core/en/xdp.c:124:20: error: implicit declaration of function 'page_pool_get_dma_addr' [-Werror=implicit-function-declaration]
+     124 |         dma_addr = page_pool_get_dma_addr(page) + (xdpf->data - (void *)xdpf);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   137	
-   138	void removed_free(struct device *dev, size_t size, void *cpu_addr,
-   139			  dma_addr_t handle, unsigned long attrs)
-   140	{
-   141		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
-   142		struct removed_region *dma_mem = dev->removed_mem;
-   143	
-   144		size = PAGE_ALIGN(size);
-   145		if (!no_kernel_mapping)
- > 146			iounmap(cpu_addr);
-   147		mutex_lock(&dma_mem->lock);
-   148		bitmap_clear(dma_mem->bitmap, (handle - dma_mem->base) >> PAGE_SHIFT,
-   149					size >> PAGE_SHIFT);
-   150		mutex_unlock(&dma_mem->lock);
-   151	}
-   152	
-   153	static dma_addr_t removed_map_page(struct device *dev, struct page *page,
-   154				unsigned long offset, size_t size,
-   155				enum dma_data_direction dir,
-   156				unsigned long attrs)
-   157	{
-   158		return ~(dma_addr_t)0;
-   159	}
-   160	
-   161	static void removed_unmap_page(struct device *dev, dma_addr_t dma_handle,
-   162			size_t size, enum dma_data_direction dir,
-   163			unsigned long attrs)
-   164	{
-   165	}
-   166	
-   167	static int removed_map_sg(struct device *dev, struct scatterlist *sg,
-   168				int nents, enum dma_data_direction dir,
-   169				unsigned long attrs)
-   170	{
-   171		return 0;
-   172	}
-   173	
-   174	static void removed_unmap_sg(struct device *dev,
-   175				struct scatterlist *sg, int nents,
-   176				enum dma_data_direction dir,
-   177				unsigned long attrs)
-   178	{
-   179	}
-   180	
-   181	static void removed_sync_single_for_cpu(struct device *dev,
-   182				dma_addr_t dma_handle, size_t size,
-   183				enum dma_data_direction dir)
-   184	{
-   185	}
-   186	
-   187	void removed_sync_single_for_device(struct device *dev,
-   188				dma_addr_t dma_handle, size_t size,
-   189				enum dma_data_direction dir)
-   190	{
-   191	}
-   192	
-   193	void removed_sync_sg_for_cpu(struct device *dev,
-   194				struct scatterlist *sg, int nents,
-   195				enum dma_data_direction dir)
-   196	{
-   197	}
-   198	
-   199	void removed_sync_sg_for_device(struct device *dev,
-   200				struct scatterlist *sg, int nents,
-   201				enum dma_data_direction dir)
-   202	{
-   203	}
-   204	
-   205	static void __iomem *removed_remap(struct device *dev, void *cpu_addr,
-   206				dma_addr_t handle, size_t size, unsigned long attrs)
-   207	{
-   208		return ioremap_wc(handle, size);
-   209	}
-   210	
-   211	void removed_unremap(struct device *dev, void *remapped_address, size_t size)
-   212	{
- > 213		iounmap(remapped_address);
-   214	}
-   215	
+
+vim +/page_pool_get_dma_addr +124 drivers/net/ethernet/mellanox/mlx5/core/en/xdp.c
+
+d460c2718906252 Maxim Mikityanskiy 2019-04-08   58  
+c94e4f117e473de Tariq Toukan       2018-07-15   59  static inline bool
+b9673cf5558c0ae Maxim Mikityanskiy 2019-06-26   60  mlx5e_xmit_xdp_buff(struct mlx5e_xdpsq *sq, struct mlx5e_rq *rq,
+bfc63c9796900b4 Tariq Toukan       2023-02-15   61  		    struct xdp_buff *xdp)
+c94e4f117e473de Tariq Toukan       2018-07-15   62  {
+bfc63c9796900b4 Tariq Toukan       2023-02-15   63  	struct page *page = virt_to_page(xdp->data);
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17   64  	struct mlx5e_xmit_data_frags xdptxdf = {};
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17   65  	struct mlx5e_xmit_data *xdptxd;
+d963fa15113076f Maxim Mikityanskiy 2019-06-26   66  	struct xdp_frame *xdpf;
+d963fa15113076f Maxim Mikityanskiy 2019-06-26   67  	dma_addr_t dma_addr;
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31   68  	int i;
+c94e4f117e473de Tariq Toukan       2018-07-15   69  
+1b698fa5d8ef958 Lorenzo Bianconi   2020-05-28   70  	xdpf = xdp_convert_buff_to_frame(xdp);
+d963fa15113076f Maxim Mikityanskiy 2019-06-26   71  	if (unlikely(!xdpf))
+c94e4f117e473de Tariq Toukan       2018-07-15   72  		return false;
+c94e4f117e473de Tariq Toukan       2018-07-15   73  
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17   74  	xdptxd = &xdptxdf.xd;
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17   75  	xdptxd->data = xdpf->data;
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17   76  	xdptxd->len  = xdpf->len;
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17   77  	xdptxd->has_frags = xdp_frame_has_frags(xdpf);
+d963fa15113076f Maxim Mikityanskiy 2019-06-26   78  
+39d6443c8daf9fe Björn Töpel        2020-05-20   79  	if (xdp->rxq->mem.type == MEM_TYPE_XSK_BUFF_POOL) {
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   80  		/* The xdp_buff was in the UMEM and was copied into a newly
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   81  		 * allocated page. The UMEM page was returned via the ZCA, and
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   82  		 * this new page has to be mapped at this point and has to be
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   83  		 * unmapped and returned via xdp_return_frame on completion.
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   84  		 */
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   85  
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   86  		/* Prevent double recycling of the UMEM page. Even in case this
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   87  		 * function returns false, the xdp_buff shouldn't be recycled,
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   88  		 * as it was already done in xdp_convert_zc_to_xdp_frame.
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   89  		 */
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   90  		__set_bit(MLX5E_RQ_FLAG_XDP_XMIT, rq->flags); /* non-atomic */
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   91  
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17   92  		if (unlikely(xdptxd->has_frags))
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17   93  			return false;
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17   94  
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17   95  		dma_addr = dma_map_single(sq->pdev, xdptxd->data, xdptxd->len,
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   96  					  DMA_TO_DEVICE);
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   97  		if (dma_mapping_error(sq->pdev, dma_addr)) {
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   98  			xdp_return_frame(xdpf);
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26   99  			return false;
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26  100  		}
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26  101  
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17  102  		xdptxd->dma_addr = dma_addr;
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  103  
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  104  		if (unlikely(!INDIRECT_CALL_2(sq->xmit_xdp_frame, mlx5e_xmit_xdp_frame_mpwqe,
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17  105  					      mlx5e_xmit_xdp_frame, sq, xdptxd, 0)))
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  106  			return false;
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  107  
+3f734b8c594bd37 Tariq Toukan       2023-04-17  108  		/* xmit_mode == MLX5E_XDP_XMIT_MODE_FRAME */
+3f734b8c594bd37 Tariq Toukan       2023-04-17  109  		mlx5e_xdpi_fifo_push(&sq->db.xdpi_fifo,
+3f734b8c594bd37 Tariq Toukan       2023-04-17  110  				     (union mlx5e_xdp_info) { .mode = MLX5E_XDP_XMIT_MODE_FRAME });
+3f734b8c594bd37 Tariq Toukan       2023-04-17  111  		mlx5e_xdpi_fifo_push(&sq->db.xdpi_fifo,
+3f734b8c594bd37 Tariq Toukan       2023-04-17  112  				     (union mlx5e_xdp_info) { .frame.xdpf = xdpf });
+3f734b8c594bd37 Tariq Toukan       2023-04-17  113  		mlx5e_xdpi_fifo_push(&sq->db.xdpi_fifo,
+3f734b8c594bd37 Tariq Toukan       2023-04-17  114  				     (union mlx5e_xdp_info) { .frame.dma_addr = dma_addr });
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  115  		return true;
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  116  	}
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  117  
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  118  	/* Driver assumes that xdp_convert_buff_to_frame returns an xdp_frame
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  119  	 * that points to the same memory region as the original xdp_buff. It
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  120  	 * allows to map the memory only once and to use the DMA_BIDIRECTIONAL
+fbeed25bcc45ef6 Maxim Mikityanskiy 2022-03-10  121  	 * mode.
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26  122  	 */
+84a0a2310d6de24 Maxim Mikityanskiy 2019-06-26  123  
+ddc87e7d4775520 Maxim Mikityanskiy 2022-01-28 @124  	dma_addr = page_pool_get_dma_addr(page) + (xdpf->data - (void *)xdpf);
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17  125  	dma_sync_single_for_device(sq->pdev, dma_addr, xdptxd->len, DMA_BIDIRECTIONAL);
+d963fa15113076f Maxim Mikityanskiy 2019-06-26  126  
+3a48ba12b4e471a Tariq Toukan       2023-04-17  127  	if (xdptxd->has_frags) {
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17  128  		xdptxdf.sinfo = xdp_get_shared_info_from_frame(xdpf);
+c1783e74fc042ad Tariq Toukan       2023-04-17  129  		xdptxdf.dma_arr = NULL;
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  130  
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17  131  		for (i = 0; i < xdptxdf.sinfo->nr_frags; i++) {
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17  132  			skb_frag_t *frag = &xdptxdf.sinfo->frags[i];
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  133  			dma_addr_t addr;
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  134  			u32 len;
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  135  
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  136  			addr = page_pool_get_dma_addr(skb_frag_page(frag)) +
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  137  				skb_frag_off(frag);
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  138  			len = skb_frag_size(frag);
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  139  			dma_sync_single_for_device(sq->pdev, addr, len,
+8d4b475e9d0f100 Maxim Mikityanskiy 2022-11-02  140  						   DMA_BIDIRECTIONAL);
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  141  		}
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  142  	}
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  143  
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17  144  	xdptxd->dma_addr = dma_addr;
+d963fa15113076f Maxim Mikityanskiy 2019-06-26  145  
+49529a1726850bd Maxim Mikityanskiy 2022-01-28  146  	if (unlikely(!INDIRECT_CALL_2(sq->xmit_xdp_frame, mlx5e_xmit_xdp_frame_mpwqe,
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17  147  				      mlx5e_xmit_xdp_frame, sq, xdptxd, 0)))
+49529a1726850bd Maxim Mikityanskiy 2022-01-28  148  		return false;
+49529a1726850bd Maxim Mikityanskiy 2022-01-28  149  
+3f734b8c594bd37 Tariq Toukan       2023-04-17  150  	/* xmit_mode == MLX5E_XDP_XMIT_MODE_PAGE */
+3f734b8c594bd37 Tariq Toukan       2023-04-17  151  	mlx5e_xdpi_fifo_push(&sq->db.xdpi_fifo,
+3f734b8c594bd37 Tariq Toukan       2023-04-17  152  			     (union mlx5e_xdp_info) { .mode = MLX5E_XDP_XMIT_MODE_PAGE });
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  153  
+3a48ba12b4e471a Tariq Toukan       2023-04-17  154  	if (xdptxd->has_frags) {
+3f734b8c594bd37 Tariq Toukan       2023-04-17  155  		mlx5e_xdpi_fifo_push(&sq->db.xdpi_fifo,
+3f734b8c594bd37 Tariq Toukan       2023-04-17  156  				     (union mlx5e_xdp_info)
+3f734b8c594bd37 Tariq Toukan       2023-04-17  157  				     { .page.num = 1 + xdptxdf.sinfo->nr_frags });
+3f734b8c594bd37 Tariq Toukan       2023-04-17  158  		mlx5e_xdpi_fifo_push(&sq->db.xdpi_fifo,
+3f734b8c594bd37 Tariq Toukan       2023-04-17  159  				     (union mlx5e_xdp_info) { .page.page = page });
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17  160  		for (i = 0; i < xdptxdf.sinfo->nr_frags; i++) {
+eb9b9fdcafe29f0 Tariq Toukan       2023-04-17  161  			skb_frag_t *frag = &xdptxdf.sinfo->frags[i];
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  162  
+3f734b8c594bd37 Tariq Toukan       2023-04-17  163  			mlx5e_xdpi_fifo_push(&sq->db.xdpi_fifo,
+3f734b8c594bd37 Tariq Toukan       2023-04-17  164  					     (union mlx5e_xdp_info)
+3f734b8c594bd37 Tariq Toukan       2023-04-17  165  					     { .page.page = skb_frag_page(frag) });
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  166  		}
+3f734b8c594bd37 Tariq Toukan       2023-04-17  167  	} else {
+3f734b8c594bd37 Tariq Toukan       2023-04-17  168  		mlx5e_xdpi_fifo_push(&sq->db.xdpi_fifo,
+3f734b8c594bd37 Tariq Toukan       2023-04-17  169  				     (union mlx5e_xdp_info) { .page.num = 1 });
+3f734b8c594bd37 Tariq Toukan       2023-04-17  170  		mlx5e_xdpi_fifo_push(&sq->db.xdpi_fifo,
+3f734b8c594bd37 Tariq Toukan       2023-04-17  171  				     (union mlx5e_xdp_info) { .page.page = page });
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  172  	}
+a48ad58cec18702 Maxim Mikityanskiy 2022-01-31  173  
+49529a1726850bd Maxim Mikityanskiy 2022-01-28  174  	return true;
+c94e4f117e473de Tariq Toukan       2018-07-15  175  }
+c94e4f117e473de Tariq Toukan       2018-07-15  176  
+
+:::::: The code at line 124 was first introduced by commit
+:::::: ddc87e7d477552084fd185b315a39d5067b01773 net/mlx5e: Store DMA address inside struct page
+
+:::::: TO: Maxim Mikityanskiy <maximmi@nvidia.com>
+:::::: CC: Saeed Mahameed <saeedm@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
