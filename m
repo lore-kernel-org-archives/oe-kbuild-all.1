@@ -1,44 +1,44 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC9B15A0;
-	Sun, 16 Jul 2023 03:54:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89C91867
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jul 2023 03:54:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689479655; x=1721015655;
+  t=1689479658; x=1721015658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zcdPr//9b6Nj96L+3kNscZhFmJ3GpRU6DH37HvRN6RI=;
-  b=foLGi44M0yWny24P61dvz0Xq+ifdQamXVtyVrdQ4ikJp+pXaekRAlRQe
-   FmbM4vx0GccBH2phW8uaBEtTT1jsKkC+1kSL91xuBGIywAbk0bR8FTOkw
-   LrLBOPBnCJxFnPYNKbM7yb7f9oUKV84+K0uuRkgBq+bcjoZFXiEQAtDa7
-   16KwN5FiFtyecz20Rd2S7NnDpCQo+LRE/qf0x3FQMWcjAlgbsfc9D5cPo
-   /YHaE0+Ik1borJnhenJJAyhSinLwunOOVoh3jslaZUNNuGBXrx9sM0dG9
-   G0h86PW9XOm2GyggZxJ9+3HY20SRTV27i5k326Dj4/OyFbOY5v8VjUBdT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="365769381"
+  bh=IWsys1BxcDzXdF1vcNWah0ocril/dkaW5ENvcVQsr/Q=;
+  b=Xp8Qc4WCWTpYr2gcaYY9sIrz3BNfKnUdtzf2+eQE/IDDTFIpWnVWqaT7
+   vHzPJ7pcQzME56dogYLrnu3Yk1etmMmHaEgOZ8GZOHmSWh6AkJ1JNxg2e
+   /7hEyRBOMwIWcupj1nT8B7xhZ5UPN66XkhWw7izai4Xhk6/U4lZs6D6Tf
+   MF+gysMrBpmLks1z0apDcoIQCnFrFgQjpKH/7F48Xu1qh0FJrBS4L3p8N
+   lXi36N6WZkvh6VXHZj8JqcqJOAZHo3vqDNxSBmuqxSdJK+hSQT8bh1J0C
+   pc3yg2JnNKe4E1ASDYTGj4/OV68g7ysi3EWSID9oAACsJnThjMheRfebP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="365769383"
 X-IronPort-AV: E=Sophos;i="6.01,209,1684825200"; 
-   d="scan'208";a="365769381"
+   d="scan'208";a="365769383"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2023 20:54:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="758006680"
+X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="758006682"
 X-IronPort-AV: E=Sophos;i="6.01,209,1684825200"; 
-   d="scan'208";a="758006680"
+   d="scan'208";a="758006682"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 15 Jul 2023 20:54:12 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKspo-0008YB-0A;
+	id 1qKspo-0008Y9-06;
 	Sun, 16 Jul 2023 03:54:12 +0000
-Date: Sun, 16 Jul 2023 11:54:02 +0800
+Date: Sun, 16 Jul 2023 11:54:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ackerley Tng <ackerleytng@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Isaku Yamahata <isaku.yamahata@intel.com>
-Subject: [intel-tdx:kvm-upstream-workaround 349/365]
- include/linux/hugetlb.h:485:58: error: declaration of 'struct
- hugepage_subpool' will not be visible outside of this function
-Message-ID: <202307161139.ZT9ASRbC-lkp@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 356/365]
+ include/linux/hugetlb.h:488:16: warning: 'struct resv_map' declared inside
+ parameter list will not be visible outside of this definition or declaration
+Message-ID: <202307161130.LiXedGlx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,42 +50,45 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
 head:   da8c3aa0cbb638a0dff13401bc17f817272110e6
-commit: c8c40c9db949fdf0d8844aaf62ddd4a02febdb42 [349/365] mm: hugetlb: Decouple hstate, subpool from inode
-config: powerpc-mpc832x_rdb_defconfig (https://download.01.org/0day-ci/archive/20230716/202307161139.ZT9ASRbC-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230716/202307161139.ZT9ASRbC-lkp@intel.com/reproduce)
+commit: f896a70f60673d612d27d0a8c2a3f37f4c1a6338 [356/365] mm: hugetlb: Parametrize hugetlb functions by resv_map
+config: arm-randconfig-r046-20230716 (https://download.01.org/0day-ci/archive/20230716/202307161130.LiXedGlx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230716/202307161130.LiXedGlx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307161139.ZT9ASRbC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307161130.LiXedGlx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/powerpc/kernel/setup-common.c:37:
-   include/linux/hugetlb.h:482:9: error: declaration of 'struct hstate' will not be visible outside of this function [-Werror,-Wvisibility]
-           struct hstate *h, struct address_space *mapping, loff_t start, loff_t end) {}
-                  ^
-   include/linux/hugetlb.h:485:40: error: declaration of 'struct hstate' will not be visible outside of this function [-Werror,-Wvisibility]
-           struct address_space *mapping, struct hstate *h, struct hugepage_subpool *spool,
-                                                 ^
->> include/linux/hugetlb.h:485:58: error: declaration of 'struct hugepage_subpool' will not be visible outside of this function [-Werror,-Wvisibility]
-           struct address_space *mapping, struct hstate *h, struct hugepage_subpool *spool,
-                                                                   ^
-   3 errors generated.
+   In file included from include/linux/migrate.h:8,
+                    from fs/btrfs/inode.c:32:
+   include/linux/hugetlb.h:484:16: warning: 'struct hstate' declared inside parameter list will not be visible outside of this definition or declaration
+     484 |         struct hstate *h, struct address_space *mapping, loff_t start, loff_t end) {}
+         |                ^~~~~~
+>> include/linux/hugetlb.h:488:16: warning: 'struct resv_map' declared inside parameter list will not be visible outside of this definition or declaration
+     488 |         struct resv_map *resv_map, struct inode *inode, loff_t lstart, loff_t lend) {}
+         |                ^~~~~~~~
+   include/linux/hugetlb.h:487:65: warning: 'struct hugepage_subpool' declared inside parameter list will not be visible outside of this definition or declaration
+     487 |         struct address_space *mapping, struct hstate *h, struct hugepage_subpool *spool,
+         |                                                                 ^~~~~~~~~~~~~~~~
+   include/linux/hugetlb.h:487:47: warning: 'struct hstate' declared inside parameter list will not be visible outside of this definition or declaration
+     487 |         struct address_space *mapping, struct hstate *h, struct hugepage_subpool *spool,
+         |                                               ^~~~~~
 
 
-vim +485 include/linux/hugetlb.h
+vim +488 include/linux/hugetlb.h
 
-   480	
-   481	static inline void hugetlb_zero_partial_page(
-   482		struct hstate *h, struct address_space *mapping, loff_t start, loff_t end) {}
-   483	
-   484	static inline void remove_mapping_hugepages(
- > 485		struct address_space *mapping, struct hstate *h, struct hugepage_subpool *spool,
-   486		struct inode *inode, loff_t lstart, loff_t lend) {}
-   487	static inline void remove_inode_hugepages(struct inode *inode, loff_t lstart, loff_t lend) {}
-   488	
+   482	
+   483	static inline void hugetlb_zero_partial_page(
+   484		struct hstate *h, struct address_space *mapping, loff_t start, loff_t end) {}
+   485	
+   486	static inline void remove_mapping_hugepages(
+   487		struct address_space *mapping, struct hstate *h, struct hugepage_subpool *spool,
+ > 488		struct resv_map *resv_map, struct inode *inode, loff_t lstart, loff_t lend) {}
+   489	static inline void remove_inode_hugepages(struct inode *inode, loff_t lstart, loff_t lend) {}
+   490	
 
 -- 
 0-DAY CI Kernel Test Service
