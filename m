@@ -1,43 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF939187D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jul 2023 06:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77024187D;
+	Sun, 16 Jul 2023 06:22:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689487939; x=1721023939;
+  t=1689488540; x=1721024540;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2tWGrz7uh+TPxhUul5BpHsnyTHVs6peK06R5Ft5Wp6Y=;
-  b=oIWOJZvQ0JBsjcIXsGSS8CVRchIAsORVOu/98p4sPQ0jVu2muoehs/WQ
-   Y9nO/wyyORA/f9zQ9cP6qpSIa2ibegjPWFtpKtSZpNGAule3R9ZXThsTJ
-   wwK90qDCWqlWWEPl600hBgsQMBFzdJq5dzOPsRN8gcGLeboAdGDHmoBat
-   MEMpfdte5ZzE3nnleo75kikoPu1TFnCPIXhbN5/44jjPwGVvslOLjZTzE
-   4dxJfa+28CFOBpfIN1UXQ8Vi0GMV9/YzxkgF6eQ5FOC94dqcZg3uYY3QB
-   r3i5I2ifoxTF4ZF1+kFiVzPOFbZHY5+SBJaZAAcSvVuoomBtpqQwpP8DD
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="365774463"
+  bh=jtHMY3j5vyg7aYLkc+Tx4QbMdu8lnrI8tkPS5uSPSI8=;
+  b=DoeppzyoMLh4qDs3eBF9nSTMypc5eHvezG4YY3qa+jHdKvsXA7vFDs8b
+   yihSUDMYG5KvZ47u0GjMaapOU2oaTpJSb625/8IahTjVimC4bH7FAY79y
+   vV59YwqO7HSEbjSm3qGb5QLrhv2c1GSLVZxzFS9qcZUQqa2eLiZ0whtf8
+   XyxOowQpa/wJLfYL/PDmbBUvdS1BzWZhBWOPyy/VAtCJvADfH0XjkE04F
+   MFKyaWT+K4uL9voVbHiBKIrKmL6dPI3zvqksyuuK4KIPtk4qrBRUYmz3y
+   YETPuqntkyxq5Mjlyz01e1gyio5TgPg7EtLZ1S9LMV6IV085M1kFd80Q/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="429490795"
 X-IronPort-AV: E=Sophos;i="6.01,210,1684825200"; 
-   d="scan'208";a="365774463"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2023 23:12:18 -0700
+   d="scan'208";a="429490795"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2023 23:22:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="788264457"
+X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="836505062"
 X-IronPort-AV: E=Sophos;i="6.01,210,1684825200"; 
-   d="scan'208";a="788264457"
+   d="scan'208";a="836505062"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Jul 2023 23:12:17 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2023 23:22:17 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKuzQ-0008eh-2N;
-	Sun, 16 Jul 2023 06:12:16 +0000
-Date: Sun, 16 Jul 2023 14:11:35 +0800
+	id 1qKv97-0008fD-0H;
+	Sun, 16 Jul 2023 06:22:17 +0000
+Date: Sun, 16 Jul 2023 14:21:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sean Christopherson <sean.j.christopherson@intel.com>
-Subject: [intel-tdx:kvm-upstream-workaround 77/365]
- include/uapi/linux/const.h:28:33: error: left shift count >= width of type
-Message-ID: <202307161451.Wyhgdvaq-lkp@intel.com>
+To: Qais Yousef <qais.yousef@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [qais-yousef:sched-setscheduler-hide 2/6]
+ kernel/rcu/rcutorture.c:3174:9: error: call to undeclared function
+ 'rcu_get_gp_kthreads_prio'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202307161419.xPpN86Fv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,99 +48,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   da8c3aa0cbb638a0dff13401bc17f817272110e6
-commit: 1e1d935222e73de854dc13fe2ea3b113de10f0a6 [77/365] KVM: TDX: Add C wrapper functions for SEAMCALLs to the TDX module
-config: i386-randconfig-r005-20230716 (https://download.01.org/0day-ci/archive/20230716/202307161451.Wyhgdvaq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230716/202307161451.Wyhgdvaq-lkp@intel.com/reproduce)
+tree:   https://github.com/qais-yousef/linux sched-setscheduler-hide
+head:   40f87f6acda90270ee3eb284cbd13a8751ac4e61
+commit: d8106d64bbf0e8d98e636ddda1524fae375c8cf5 [2/6] rcu: Use a new sched_set_rcu_fifo() to set gp kthread prio
+config: x86_64-randconfig-r024-20230716 (https://download.01.org/0day-ci/archive/20230716/202307161419.xPpN86Fv-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230716/202307161419.xPpN86Fv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307161451.Wyhgdvaq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307161419.xPpN86Fv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/bits.h:5,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/printk.h:9,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:87,
-                    from include/linux/bug.h:5,
-                    from include/linux/average.h:5,
-                    from drivers/gpu/drm/i915/gt/intel_context_types.h:9,
-                    from <command-line>:
-   arch/x86/include/asm/tdx.h: In function '__seamcall':
->> include/uapi/linux/const.h:28:33: error: left shift count >= width of type [-Werror=shift-count-overflow]
-      28 | #define _BITUL(x)       (_UL(1) << (x))
-         |                                 ^~
-   arch/x86/include/asm/tdx.h:21:41: note: in expansion of macro '_BITUL'
-      21 | #define TDX_ERROR                       _BITUL(63)
-         |                                         ^~~~~~
-   arch/x86/include/asm/tdx.h:22:42: note: in expansion of macro 'TDX_ERROR'
-      22 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-         |                                          ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:26:42: note: in expansion of macro 'TDX_SW_ERROR'
-      26 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-         |                                          ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:102:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
-     102 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-         |                                                                      ^~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/bits.h:5,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/printk.h:9,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:87,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/percpu.h:5,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/kvm_host.h:7,
-                    from drivers/gpu/drm/i915/gvt/gvt.h:37,
-                    from <command-line>:
-   arch/x86/include/asm/tdx.h: In function '__seamcall':
->> include/uapi/linux/const.h:28:33: error: left shift count >= width of type [-Werror=shift-count-overflow]
-      28 | #define _BITUL(x)       (_UL(1) << (x))
-         |                                 ^~
-   arch/x86/include/asm/tdx.h:21:41: note: in expansion of macro '_BITUL'
-      21 | #define TDX_ERROR                       _BITUL(63)
-         |                                         ^~~~~~
-   arch/x86/include/asm/tdx.h:22:42: note: in expansion of macro 'TDX_ERROR'
-      22 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-         |                                          ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:26:42: note: in expansion of macro 'TDX_SW_ERROR'
-      26 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-         |                                          ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:102:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
-     102 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-         |                                                                      ^~~~~~~~~~~~~~~
-   include/linux/kvm_host.h: At top level:
-   include/linux/kvm_host.h:2369:6: error: no previous prototype for 'kvm_arch_gmem_invalidate' [-Werror=missing-prototypes]
-    2369 | void kvm_arch_gmem_invalidate(struct kvm *kvm, kvm_pfn_t start, kvm_pfn_t end) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> kernel/rcu/rcutorture.c:3174:9: error: call to undeclared function 'rcu_get_gp_kthreads_prio'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           prio = rcu_get_gp_kthreads_prio();
+                  ^
+   1 error generated.
 
 
-vim +28 include/uapi/linux/const.h
+vim +/rcu_get_gp_kthreads_prio +3174 kernel/rcu/rcutorture.c
 
-2dd8a62c647691 Masahiro Yamada 2018-04-10  27  
-21e7bc600e3b66 Masahiro Yamada 2018-04-10 @28  #define _BITUL(x)	(_UL(1) << (x))
-21e7bc600e3b66 Masahiro Yamada 2018-04-10  29  #define _BITULL(x)	(_ULL(1) << (x))
-2fc016c5bd8aad H. Peter Anvin  2013-04-27  30  
+fae4b54f28f034 kernel/rcutorture.c     Paul E. McKenney        2012-02-20  3163  
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3164) static bool rcu_torture_can_boost(void)
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3165) {
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3166) 	static int boost_warn_once;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3167) 	int prio;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3168) 
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3169) 	if (!(test_boost == 1 && cur_ops->can_boost) && test_boost != 2)
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3170) 		return false;
+ea6d962e80b619 kernel/rcu/rcutorture.c Paul E. McKenney        2021-03-30  3171  	if (!cur_ops->start_gp_poll || !cur_ops->poll_gp_state)
+5e59fba573e64c kernel/rcu/rcutorture.c Paul E. McKenney        2021-01-15  3172  		return false;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3173) 
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19 @3174) 	prio = rcu_get_gp_kthreads_prio();
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3175) 	if (!prio)
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3176) 		return false;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3177) 
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3178) 	if (prio < 2) {
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3179) 		if (boost_warn_once == 1)
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3180) 			return false;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3181) 
+bf5b64355a3ce4 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3182) 		pr_alert("%s: WARN: RCU kthread priority too low to test boosting.  Skipping RCU boost test. Try passing rcutree.kthread_prio > 1 on the kernel command line.\n", KBUILD_MODNAME);
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3183) 		boost_warn_once = 1;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3184) 		return false;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3185) 	}
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3186) 
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3187) 	return true;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3188) }
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3189) 
 
-:::::: The code at line 28 was first introduced by commit
-:::::: 21e7bc600e3b662020c05fd0749bcf85f16336f7 linux/const.h: refactor _BITUL and _BITULL a bit
+:::::: The code at line 3174 was first introduced by commit
+:::::: 4babd855fd6137f9792117eb73b096c221a49d3c rcutorture: Add support to detect if boost kthread prio is too low
 
-:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Joel Fernandes (Google) <joel@joelfernandes.org>
+:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
