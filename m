@@ -1,43 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70E815A0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jul 2023 03:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F9115A0;
+	Sun, 16 Jul 2023 03:43:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689477733; x=1721013733;
+  t=1689478994; x=1721014994;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SEvxv002HD1HQuLaVpTcm/+UGKJfTHOpZexNWncWcE8=;
-  b=f6KIq27PARuiu0GBOT6Motq3CUEQ3Qe4skxyh5KeWwNOS2n93mUv44yA
-   P0nLOoxgoHat12ald1mZCT4S3KLorgdK8PhA+CAbjz20nuc5Hws/EJT23
-   zu0OusOT+Z/7bJ7N+1uRx52QostD9OgPMb4eLJYTHvRzwz2kZOJTAkfG6
-   6CUw5z0P5gtFsRVP47P5EQpTkGFshehM0LvlKU8jLGB84YABEBZcUH7Zs
-   T7KIA2+0fkzhIR+Y7RtRBCJiA6z6QEKfJVyZhesLpJqTUzw1M4rb0xpGM
-   /O266n2NZlidoCuJqnkFHAtQpI+S6sTZwVhJCttERfZp4UDA+ynCJ9sRH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="346034094"
+  bh=+ZL69/sHnvhHg7m0dM59b78zzMQBy924MMNaqjDEKRQ=;
+  b=ICGPgLdQcy3k2ftLsqet4m1cG1q074Qc+WaaY6U33zKWNAJbV+/1nMeI
+   IEC3pZ/ZPsfafw8kf9z5tvY9Ia92N5R6D2uxpv7jQtNKoyY0E/3SkP4Nv
+   sAx2CmKH1aC0OKL3GK34W+f1H3etyGhMjjSPUG4cv+tpKNmzd4lDfjwyT
+   uO5D07tRVw8+/fQLQEpu9mLd3DGh3bV5Cz5xe1xeVw2HP4VUWwB3ICfxx
+   UmcGAEvdKn6kfoxQBJpuvcaNIw0JDMxW9XpRSNLSjCLp9waK5sK3/ECj8
+   maT09FIQVOTv2KZJuDtTUnqhPXiEISbVe1YtfPMtU2zAMPmKOB4DvYEAe
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="431898377"
 X-IronPort-AV: E=Sophos;i="6.01,209,1684825200"; 
-   d="scan'208";a="346034094"
+   d="scan'208";a="431898377"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2023 20:22:12 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2023 20:43:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="726118234"
+X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="726122435"
 X-IronPort-AV: E=Sophos;i="6.01,209,1684825200"; 
-   d="scan'208";a="726118234"
+   d="scan'208";a="726122435"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 15 Jul 2023 20:22:11 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 15 Jul 2023 20:43:12 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qKsKp-0008Wr-0c;
-	Sun, 16 Jul 2023 03:22:11 +0000
-Date: Sun, 16 Jul 2023 11:21:29 +0800
+	id 1qKsf9-0008XZ-29;
+	Sun, 16 Jul 2023 03:43:11 +0000
+Date: Sun, 16 Jul 2023 11:42:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:kvm-upstream-workaround 121/365]
- arch/x86/kvm/vmx/main.c:185:17: error: implicit declaration of function
- 'tdx_flush_tlb_current'; did you mean 'vmx_flush_tlb_current'?
-Message-ID: <202307161143.F71U7ilF-lkp@intel.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Isaku Yamahata <isaku.yamahata@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 356/365]
+ include/linux/hugetlb.h:488:9: warning: declaration of 'struct resv_map'
+ will not be visible outside of this function
+Message-ID: <202307161134.SIOakK2W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,67 +50,93 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
 head:   da8c3aa0cbb638a0dff13401bc17f817272110e6
-commit: 5f81f9f172b39f1502e95ae8e9120d71b7673e7e [121/365] KVM: TDX: TDP MMU TDX support
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230716/202307161143.F71U7ilF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230716/202307161143.F71U7ilF-lkp@intel.com/reproduce)
+commit: f896a70f60673d612d27d0a8c2a3f37f4c1a6338 [356/365] mm: hugetlb: Parametrize hugetlb functions by resv_map
+config: hexagon-randconfig-r045-20230716 (https://download.01.org/0day-ci/archive/20230716/202307161134.SIOakK2W-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230716/202307161134.SIOakK2W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307161143.F71U7ilF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307161134.SIOakK2W-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/align.h:5,
-                    from include/linux/kernel.h:15,
-                    from include/linux/moduleparam.h:7,
-                    from arch/x86/kvm/vmx/main.c:2:
-   arch/x86/include/asm/tdx.h: In function '__seamcall':
-   include/uapi/linux/const.h:28:33: warning: left shift count >= width of type [-Wshift-count-overflow]
-      28 | #define _BITUL(x)       (_UL(1) << (x))
-         |                                 ^~
-   arch/x86/include/asm/tdx.h:21:41: note: in expansion of macro '_BITUL'
-      21 | #define TDX_ERROR                       _BITUL(63)
-         |                                         ^~~~~~
-   arch/x86/include/asm/tdx.h:22:42: note: in expansion of macro 'TDX_ERROR'
-      22 | #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-         |                                          ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:26:42: note: in expansion of macro 'TDX_SW_ERROR'
-      26 | #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-         |                                          ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:173:70: note: in expansion of macro 'TDX_SEAMCALL_UD'
-     173 |                              struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-         |                                                                      ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kvm/vmx/x86_ops.h:5,
-                    from arch/x86/kvm/vmx/main.c:4:
-   include/linux/kvm_host.h: At top level:
-   include/linux/kvm_host.h:2370:6: warning: no previous prototype for 'kvm_arch_gmem_invalidate' [-Wmissing-prototypes]
-    2370 | void kvm_arch_gmem_invalidate(struct kvm *kvm, kvm_pfn_t start, kvm_pfn_t end) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/vmx/main.c: In function 'vt_flush_tlb_current':
->> arch/x86/kvm/vmx/main.c:185:17: error: implicit declaration of function 'tdx_flush_tlb_current'; did you mean 'vmx_flush_tlb_current'? [-Werror=implicit-function-declaration]
-     185 |                 tdx_flush_tlb_current(vcpu);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-         |                 vmx_flush_tlb_current
-   cc1: some warnings being treated as errors
+   In file included from mm/damon/vaddr.c:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from mm/damon/vaddr.c:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from mm/damon/vaddr.c:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from mm/damon/vaddr.c:12:
+   include/linux/hugetlb.h:484:9: warning: declaration of 'struct hstate' will not be visible outside of this function [-Wvisibility]
+     484 |         struct hstate *h, struct address_space *mapping, loff_t start, loff_t end) {}
+         |                ^
+   include/linux/hugetlb.h:487:40: warning: declaration of 'struct hstate' will not be visible outside of this function [-Wvisibility]
+     487 |         struct address_space *mapping, struct hstate *h, struct hugepage_subpool *spool,
+         |                                               ^
+   include/linux/hugetlb.h:487:58: warning: declaration of 'struct hugepage_subpool' will not be visible outside of this function [-Wvisibility]
+     487 |         struct address_space *mapping, struct hstate *h, struct hugepage_subpool *spool,
+         |                                                                 ^
+>> include/linux/hugetlb.h:488:9: warning: declaration of 'struct resv_map' will not be visible outside of this function [-Wvisibility]
+     488 |         struct resv_map *resv_map, struct inode *inode, loff_t lstart, loff_t lend) {}
+         |                ^
+   10 warnings generated.
 
 
-vim +185 arch/x86/kvm/vmx/main.c
+vim +488 include/linux/hugetlb.h
 
-   181	
-   182	static void vt_flush_tlb_current(struct kvm_vcpu *vcpu)
-   183	{
-   184		if (is_td_vcpu(vcpu)) {
- > 185			tdx_flush_tlb_current(vcpu);
-   186			return;
-   187		}
-   188	
-   189		vmx_flush_tlb_current(vcpu);
-   190	}
-   191	
+   482	
+   483	static inline void hugetlb_zero_partial_page(
+ > 484		struct hstate *h, struct address_space *mapping, loff_t start, loff_t end) {}
+   485	
+   486	static inline void remove_mapping_hugepages(
+   487		struct address_space *mapping, struct hstate *h, struct hugepage_subpool *spool,
+ > 488		struct resv_map *resv_map, struct inode *inode, loff_t lstart, loff_t lend) {}
+   489	static inline void remove_inode_hugepages(struct inode *inode, loff_t lstart, loff_t lend) {}
+   490	
 
 -- 
 0-DAY CI Kernel Test Service
