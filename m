@@ -1,45 +1,47 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6AA8F44
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jul 2023 19:05:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFDE8F55
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jul 2023 19:27:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689534338; x=1721070338;
+  t=1689535652; x=1721071652;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=kN3YDa4FCvWYlHYRzSf0WzEGEWLLUJYrUQ9MH+e+PTM=;
-  b=aZEWBc9SfNjOd95HEayTOwL2AQPLlTKH11lZuqQADFkMjEKehwerLHgD
-   92Q4qkhqwgZM6K9yxAsk7dGDKN2HhMPVJnv7xsqExZcTECB0TSMjZ8EZI
-   E4m0KpwfH8wilcY/eqmUoEuPSMExTs4n7Igz5hOmgew/n5xmZXeCL4iaY
-   dB0FWhm/epvmUp5xT0azBNaYq/2ShDldHZvv1xNaGZtNDeNR3dB0qDwVr
-   ddWw2gGrvOo1dx8PpOB0IPxC+tqTBxB+lO5e+ZYsodvwd0TCYtvEH1LyQ
-   /4P3XEr7o4dqFNt/KHNJGn8MPF4+eHV1rRRzk2gNE04Ba1LayCCqSdY+D
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="431960231"
+  bh=wq5KZANcBX21Y/eWtjpApNUUFGwzHCwMXvGZGSylsP0=;
+  b=Vw5khR45VsijUETgJTYhLSvbdXQTBZb+HTiChqYCLLrMHBDD00/5raSO
+   PZoYjNv70jOfngklh4abB/6mRnASyQtYWhPSvzuEtuKhnNIAZSMjOJxWj
+   44Q8AbNzfmHd/ARFKKnt/4hwSsbTZCt4WoV1VFsTwW/1xaciEqIkvFlxJ
+   3KP/GN1A5BrD7eg+4/YeGtdgd48gqkuIw9JCJJVdo8aHNcMVW3YEVLvEL
+   aJrSIy9GUO6kThfGKD77I6g964qaFbfR+hZEKEvplq2j+eRfATp0Szawy
+   f1gC8xre4XrM0cyCWW8emsedMmwApo9aKujoGzd6J/Cj2UNTU1209Cz6q
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="355723527"
 X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="431960231"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2023 12:05:30 -0700
+   d="scan'208";a="355723527"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2023 12:27:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="722971985"
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="758188511"
 X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="722971985"
+   d="scan'208";a="758188511"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 16 Jul 2023 12:05:28 -0700
+  by orsmga001.jf.intel.com with ESMTP; 16 Jul 2023 12:27:28 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qL73f-0008x6-1g;
-	Sun, 16 Jul 2023 19:05:27 +0000
-Date: Mon, 17 Jul 2023 03:05:10 +0800
+	id 1qL7Oy-0008xc-09;
+	Sun, 16 Jul 2023 19:27:28 +0000
+Date: Mon, 17 Jul 2023 03:27:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linyunsheng:spilt_pp_header 55/55]
- drivers/net/ethernet/freescale/fec_main.c:1484:20: error: implicit
- declaration of function 'page_pool_dev_alloc_pages'; did you mean
- 'page_pool_alloc_pages'?
-Message-ID: <202307170221.zYY5y3c2-lkp@intel.com>
+To: Dirk Mueller <dmueller@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	David Gibson <david@gibson.dropbear.id.au>,
+	Rob Herring <robh@kernel.org>,
+	Nathan Chancellor <natechancellor@gmail.com>
+Subject: [stable:linux-4.14.y 3076/9999] drivers/android/binder.c:3350:
+ Error: unrecognized keyword/register name `l.addi ?ap,r0,0'
+Message-ID: <202307170317.Y7uzXJPf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,545 +52,523 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/gestionlin/linux.git spilt_pp_header
-head:   11ac8c1959f7eda06a7b987903f37212b490b292
-commit: 11ac8c1959f7eda06a7b987903f37212b490b292 [55/55] net:page_pool: split page_pool.h
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230717/202307170221.zYY5y3c2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230717/202307170221.zYY5y3c2-lkp@intel.com/reproduce)
+Hi Dirk,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.14.y
+head:   60a6e3043cc8b918c989707a5eba5fd6830a08a4
+commit: 88f7a6aa7fb9aa5076b65489146045dac865f1d3 [3076/9999] scripts/dtc: Remove redundant YYLOC global declaration
+config: openrisc-randconfig-r002-20230717 (https://download.01.org/0day-ci/archive/20230717/202307170317.Y7uzXJPf-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230717/202307170317.Y7uzXJPf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307170221.zYY5y3c2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307170317.Y7uzXJPf-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/freescale/fec_main.c: In function 'fec_enet_update_cbd':
->> drivers/net/ethernet/freescale/fec_main.c:1484:20: error: implicit declaration of function 'page_pool_dev_alloc_pages'; did you mean 'page_pool_alloc_pages'? [-Werror=implicit-function-declaration]
-    1484 |         new_page = page_pool_dev_alloc_pages(rxq->page_pool);
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                    page_pool_alloc_pages
->> drivers/net/ethernet/freescale/fec_main.c:1484:18: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1484 |         new_page = page_pool_dev_alloc_pages(rxq->page_pool);
-         |                  ^
->> drivers/net/ethernet/freescale/fec_main.c:1489:21: error: implicit declaration of function 'page_pool_get_dma_addr'; did you mean 'page_pool_get_stats'? [-Werror=implicit-function-declaration]
-    1489 |         phys_addr = page_pool_get_dma_addr(new_page) + FEC_ENET_XDP_HEADROOM;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~
-         |                     page_pool_get_stats
-   drivers/net/ethernet/freescale/fec_main.c: In function 'fec_enet_run_xdp':
->> drivers/net/ethernet/freescale/fec_main.c:1523:25: error: implicit declaration of function 'page_pool_put_page'; did you mean 'page_pool_put_page_bulk'? [-Werror=implicit-function-declaration]
-    1523 |                         page_pool_put_page(rxq->page_pool, page, sync, true);
-         |                         ^~~~~~~~~~~~~~~~~~
-         |                         page_pool_put_page_bulk
-   drivers/net/ethernet/freescale/fec_main.c: In function 'fec_enet_rx_queue':
->> drivers/net/ethernet/freescale/fec_main.c:1663:25: error: implicit declaration of function 'page_pool_recycle_direct' [-Werror=implicit-function-declaration]
-    1663 |                         page_pool_recycle_direct(rxq->page_pool, page);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/freescale/fec_main.c: In function 'fec_enet_free_buffers':
->> drivers/net/ethernet/freescale/fec_main.c:3234:25: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    3234 |                         page_pool_put_full_page(rxq->page_pool, rxq->rx_skb_info[i].page, false);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                         page_pool_put_defragged_page
-   drivers/net/ethernet/freescale/fec_main.c: In function 'fec_enet_alloc_rxq_buffers':
-   drivers/net/ethernet/freescale/fec_main.c:3348:22: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    3348 |                 page = page_pool_dev_alloc_pages(rxq->page_pool);
-         |                      ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/wireless/mediatek/mt76/mmio.c:6:
-   drivers/net/wireless/mediatek/mt76/mt76.h: In function 'mt76_put_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt76.h:1450:9: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    1450 |         page_pool_put_full_page(page->pp, page, allow_direct);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         page_pool_put_defragged_page
-   drivers/net/wireless/mediatek/mt76/mt76.h: In function 'mt76_get_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt76.h:1458:16: error: implicit declaration of function 'page_pool_dev_alloc_frag'; did you mean 'page_pool_alloc_frag'? [-Werror=implicit-function-declaration]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                page_pool_alloc_frag
->> drivers/net/wireless/mediatek/mt76/mt76.h:1458:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |              ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/wireless/mediatek/mt76/dma.c:7:
-   drivers/net/wireless/mediatek/mt76/mt76.h: In function 'mt76_put_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt76.h:1450:9: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    1450 |         page_pool_put_full_page(page->pp, page, allow_direct);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         page_pool_put_defragged_page
-   drivers/net/wireless/mediatek/mt76/mt76.h: In function 'mt76_get_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt76.h:1458:16: error: implicit declaration of function 'page_pool_dev_alloc_frag'; did you mean 'page_pool_alloc_frag'? [-Werror=implicit-function-declaration]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                page_pool_alloc_frag
->> drivers/net/wireless/mediatek/mt76/mt76.h:1458:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |              ^
-   drivers/net/wireless/mediatek/mt76/dma.c: In function 'mt76_dma_get_buf':
->> drivers/net/wireless/mediatek/mt76/dma.c:414:33: error: implicit declaration of function 'page_pool_get_dma_dir'; did you mean 'page_pool_get_stats'? [-Werror=implicit-function-declaration]
-     414 |                                 page_pool_get_dma_dir(q->page_pool));
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-         |                                 page_pool_get_stats
-   drivers/net/wireless/mediatek/mt76/dma.c: In function 'mt76_dma_rx_fill':
->> drivers/net/wireless/mediatek/mt76/dma.c:611:24: error: implicit declaration of function 'page_pool_get_dma_addr'; did you mean 'page_pool_get_stats'? [-Werror=implicit-function-declaration]
-     611 |                 addr = page_pool_get_dma_addr(virt_to_head_page(buf)) + offset;
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                        page_pool_get_stats
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/wireless/mediatek/mt76/mt76x0/../mt76x02.h:12,
-                    from drivers/net/wireless/mediatek/mt76/mt76x0/mt76x0.h:20,
-                    from drivers/net/wireless/mediatek/mt76/mt76x0/usb.c:10:
-   drivers/net/wireless/mediatek/mt76/mt76x0/../mt76.h: In function 'mt76_put_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt76x0/../mt76.h:1450:9: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    1450 |         page_pool_put_full_page(page->pp, page, allow_direct);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         page_pool_put_defragged_page
-   drivers/net/wireless/mediatek/mt76/mt76x0/../mt76.h: In function 'mt76_get_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt76x0/../mt76.h:1458:16: error: implicit declaration of function 'page_pool_dev_alloc_frag'; did you mean 'page_pool_alloc_frag'? [-Werror=implicit-function-declaration]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                page_pool_alloc_frag
->> drivers/net/wireless/mediatek/mt76/mt76x0/../mt76.h:1458:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |              ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/wireless/mediatek/mt76/mt76x2/../mt76x02.h:12,
-                    from drivers/net/wireless/mediatek/mt76/mt76x2/mt76x2.h:23,
-                    from drivers/net/wireless/mediatek/mt76/mt76x2/eeprom.c:9:
-   drivers/net/wireless/mediatek/mt76/mt76x2/../mt76.h: In function 'mt76_put_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt76x2/../mt76.h:1450:9: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    1450 |         page_pool_put_full_page(page->pp, page, allow_direct);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         page_pool_put_defragged_page
-   drivers/net/wireless/mediatek/mt76/mt76x2/../mt76.h: In function 'mt76_get_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt76x2/../mt76.h:1458:16: error: implicit declaration of function 'page_pool_dev_alloc_frag'; did you mean 'page_pool_alloc_frag'? [-Werror=implicit-function-declaration]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                page_pool_alloc_frag
->> drivers/net/wireless/mediatek/mt76/mt76x2/../mt76.h:1458:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |              ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/wireless/mediatek/mt76/mt7603/mt7603.h:8,
-                    from drivers/net/wireless/mediatek/mt76/mt7603/pci.c:7:
-   drivers/net/wireless/mediatek/mt76/mt7603/../mt76.h: In function 'mt76_put_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7603/../mt76.h:1450:9: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    1450 |         page_pool_put_full_page(page->pp, page, allow_direct);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         page_pool_put_defragged_page
-   drivers/net/wireless/mediatek/mt76/mt7603/../mt76.h: In function 'mt76_get_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7603/../mt76.h:1458:16: error: implicit declaration of function 'page_pool_dev_alloc_frag'; did you mean 'page_pool_alloc_frag'? [-Werror=implicit-function-declaration]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                page_pool_alloc_frag
->> drivers/net/wireless/mediatek/mt76/mt7603/../mt76.h:1458:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |              ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/wireless/mediatek/mt76/mt7615/../mt76_connac.h:7,
-                    from drivers/net/wireless/mediatek/mt76/mt7615/../mt76_connac_mcu.h:7,
-                    from drivers/net/wireless/mediatek/mt76/mt7615/mt7615.h:11,
-                    from drivers/net/wireless/mediatek/mt76/mt7615/main.c:12:
-   drivers/net/wireless/mediatek/mt76/mt7615/../mt76.h: In function 'mt76_put_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7615/../mt76.h:1450:9: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    1450 |         page_pool_put_full_page(page->pp, page, allow_direct);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         page_pool_put_defragged_page
-   drivers/net/wireless/mediatek/mt76/mt7615/../mt76.h: In function 'mt76_get_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7615/../mt76.h:1458:16: error: implicit declaration of function 'page_pool_dev_alloc_frag'; did you mean 'page_pool_alloc_frag'? [-Werror=implicit-function-declaration]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                page_pool_alloc_frag
->> drivers/net/wireless/mediatek/mt76/mt7615/../mt76.h:1458:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |              ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/wireless/mediatek/mt76/mt7915/../mt76_connac.h:7,
-                    from drivers/net/wireless/mediatek/mt76/mt7915/mt7915.h:9,
-                    from drivers/net/wireless/mediatek/mt76/mt7915/pci.c:11:
-   drivers/net/wireless/mediatek/mt76/mt7915/../mt76.h: In function 'mt76_put_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7915/../mt76.h:1450:9: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    1450 |         page_pool_put_full_page(page->pp, page, allow_direct);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         page_pool_put_defragged_page
-   drivers/net/wireless/mediatek/mt76/mt7915/../mt76.h: In function 'mt76_get_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7915/../mt76.h:1458:16: error: implicit declaration of function 'page_pool_dev_alloc_frag'; did you mean 'page_pool_alloc_frag'? [-Werror=implicit-function-declaration]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                page_pool_alloc_frag
->> drivers/net/wireless/mediatek/mt76/mt7915/../mt76.h:1458:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |              ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/wireless/mediatek/mt76/mt7915/../mt76_connac.h:7,
-                    from drivers/net/wireless/mediatek/mt76/mt7915/mt7915.h:9,
-                    from drivers/net/wireless/mediatek/mt76/mt7915/mmio.c:10:
-   drivers/net/wireless/mediatek/mt76/mt7915/../mt76.h: In function 'mt76_put_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7915/../mt76.h:1450:9: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    1450 |         page_pool_put_full_page(page->pp, page, allow_direct);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         page_pool_put_defragged_page
-   drivers/net/wireless/mediatek/mt76/mt7915/../mt76.h: In function 'mt76_get_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7915/../mt76.h:1458:16: error: implicit declaration of function 'page_pool_dev_alloc_frag'; did you mean 'page_pool_alloc_frag'? [-Werror=implicit-function-declaration]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                page_pool_alloc_frag
->> drivers/net/wireless/mediatek/mt76/mt7915/../mt76.h:1458:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |              ^
-   drivers/net/wireless/mediatek/mt76/mt7915/mmio.c: In function 'mt7915_mmio_wed_init_rx_buf':
->> drivers/net/wireless/mediatek/mt76/mt7915/mmio.c:645:24: error: implicit declaration of function 'page_pool_get_dma_addr'; did you mean 'page_pool_get_stats'? [-Werror=implicit-function-declaration]
-     645 |                 addr = page_pool_get_dma_addr(virt_to_head_page(buf)) + offset;
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                        page_pool_get_stats
->> drivers/net/wireless/mediatek/mt76/mt7915/mmio.c:646:23: error: implicit declaration of function 'page_pool_get_dma_dir'; did you mean 'page_pool_get_stats'? [-Werror=implicit-function-declaration]
-     646 |                 dir = page_pool_get_dma_dir(q->page_pool);
-         |                       ^~~~~~~~~~~~~~~~~~~~~
-         |                       page_pool_get_stats
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/wireless/mediatek/mt76/mt7921/../mt76_connac.h:7,
-                    from drivers/net/wireless/mediatek/mt76/mt7921/../mt76_connac_mcu.h:7,
-                    from drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h:9,
-                    from drivers/net/wireless/mediatek/mt76/mt7921/mac.c:7:
-   drivers/net/wireless/mediatek/mt76/mt7921/../mt76.h: In function 'mt76_put_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7921/../mt76.h:1450:9: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    1450 |         page_pool_put_full_page(page->pp, page, allow_direct);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         page_pool_put_defragged_page
-   drivers/net/wireless/mediatek/mt76/mt7921/../mt76.h: In function 'mt76_get_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7921/../mt76.h:1458:16: error: implicit declaration of function 'page_pool_dev_alloc_frag'; did you mean 'page_pool_alloc_frag'? [-Werror=implicit-function-declaration]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                page_pool_alloc_frag
->> drivers/net/wireless/mediatek/mt76/mt7921/../mt76.h:1458:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |              ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/wireless/mediatek/mt76/mt7996/../mt76_connac.h:7,
-                    from drivers/net/wireless/mediatek/mt76/mt7996/mt7996.h:11,
-                    from drivers/net/wireless/mediatek/mt76/mt7996/pci.c:10:
-   drivers/net/wireless/mediatek/mt76/mt7996/../mt76.h: In function 'mt76_put_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7996/../mt76.h:1450:9: error: implicit declaration of function 'page_pool_put_full_page'; did you mean 'page_pool_put_defragged_page'? [-Werror=implicit-function-declaration]
-    1450 |         page_pool_put_full_page(page->pp, page, allow_direct);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         page_pool_put_defragged_page
-   drivers/net/wireless/mediatek/mt76/mt7996/../mt76.h: In function 'mt76_get_page_pool_buf':
->> drivers/net/wireless/mediatek/mt76/mt7996/../mt76.h:1458:16: error: implicit declaration of function 'page_pool_dev_alloc_frag'; did you mean 'page_pool_alloc_frag'? [-Werror=implicit-function-declaration]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                page_pool_alloc_frag
->> drivers/net/wireless/mediatek/mt76/mt7996/../mt76.h:1458:14: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1458 |         page = page_pool_dev_alloc_frag(q->page_pool, offset, size);
-         |              ^
-   cc1: some warnings being treated as errors
-..
+   In file included from include/linux/workqueue.h:9,
+                    from include/linux/srcu.h:34,
+                    from include/linux/notifier.h:16,
+                    from include/linux/memory_hotplug.h:7,
+                    from include/linux/mmzone.h:782,
+                    from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from include/asm-generic/cacheflush.h:6,
+                    from ./arch/openrisc/include/generated/asm/cacheflush.h:1,
+                    from drivers/android/binder.c:54:
+   include/linux/timer.h: In function 'timer_setup':
+   include/linux/timer.h:179:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
+     179 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
+         |                              ^
+   include/linux/timer.h:144:39: note: in definition of macro '__setup_timer'
+     144 |                 (_timer)->function = (_fn);                             \
+         |                                       ^~~
+   drivers/android/binder.c: Assembler messages:
+   drivers/android/binder.c:3345: Error: unrecognized keyword/register name `l.lwz ?ap,4(r23)'
+>> drivers/android/binder.c:3350: Error: unrecognized keyword/register name `l.addi ?ap,r0,0'
 
 
-vim +1484 drivers/net/ethernet/freescale/fec_main.c
+vim +3350 drivers/android/binder.c
 
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1477  
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1478  static void fec_enet_update_cbd(struct fec_enet_priv_rx_q *rxq,
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1479  				struct bufdesc *bdp, int index)
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1480  {
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1481  	struct page *new_page;
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1482  	dma_addr_t phys_addr;
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1483  
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30 @1484  	new_page = page_pool_dev_alloc_pages(rxq->page_pool);
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1485  	WARN_ON(!new_page);
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1486  	rxq->rx_skb_info[index].page = new_page;
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1487  
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1488  	rxq->rx_skb_info[index].offset = FEC_ENET_XDP_HEADROOM;
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30 @1489  	phys_addr = page_pool_get_dma_addr(new_page) + FEC_ENET_XDP_HEADROOM;
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1490  	bdp->cbd_bufaddr = cpu_to_fec32(phys_addr);
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1491  }
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1492  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1493  static u32
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1494  fec_enet_run_xdp(struct fec_enet_private *fep, struct bpf_prog *prog,
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1495  		 struct xdp_buff *xdp, struct fec_enet_priv_rx_q *rxq, int index)
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1496  {
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1497  	unsigned int sync, len = xdp->data_end - xdp->data;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1498  	u32 ret = FEC_ENET_XDP_PASS;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1499  	struct page *page;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1500  	int err;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1501  	u32 act;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1502  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1503  	act = bpf_prog_run_xdp(prog, xdp);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1504  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1505  	/* Due xdp_adjust_tail: DMA sync for_device cover max len CPU touch */
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1506  	sync = xdp->data_end - xdp->data_hard_start - FEC_ENET_XDP_HEADROOM;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1507  	sync = max(sync, len);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1508  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1509  	switch (act) {
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1510  	case XDP_PASS:
-6970ef27ff7fd1 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-11  1511  		rxq->stats[RX_XDP_PASS]++;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1512  		ret = FEC_ENET_XDP_PASS;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1513  		break;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1514  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1515  	case XDP_REDIRECT:
-6970ef27ff7fd1 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-11  1516  		rxq->stats[RX_XDP_REDIRECT]++;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1517  		err = xdp_do_redirect(fep->netdev, xdp, prog);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1518  		if (!err) {
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1519  			ret = FEC_ENET_XDP_REDIR;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1520  		} else {
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1521  			ret = FEC_ENET_XDP_CONSUMED;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1522  			page = virt_to_head_page(xdp->data);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31 @1523  			page_pool_put_page(rxq->page_pool, page, sync, true);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1524  		}
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1525  		break;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1526  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1527  	default:
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1528  		bpf_warn_invalid_xdp_action(fep->netdev, prog, act);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1529  		fallthrough;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1530  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1531  	case XDP_TX:
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1532  		bpf_warn_invalid_xdp_action(fep->netdev, prog, act);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1533  		fallthrough;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1534  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1535  	case XDP_ABORTED:
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1536  		fallthrough;    /* handle aborts by dropping packet */
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1537  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1538  	case XDP_DROP:
-6970ef27ff7fd1 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-11  1539  		rxq->stats[RX_XDP_DROP]++;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1540  		ret = FEC_ENET_XDP_CONSUMED;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1541  		page = virt_to_head_page(xdp->data);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1542  		page_pool_put_page(rxq->page_pool, page, sync, true);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1543  		break;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1544  	}
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1545  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1546  	return ret;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1547  }
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1548  
-7355f2760620b3 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1549  /* During a receive, the bd_rx.cur points to the current incoming buffer.
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1550   * When we update through the ring, if the next incoming buffer has
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1551   * not been given to the system, we just set the empty indicator,
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1552   * effectively tossing the packet.
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1553   */
-dc975382d2ef36 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-28  1554  static int
-4d494cdc92b3b9 drivers/net/ethernet/freescale/fec_main.c Fugang Duan        2014-09-13  1555  fec_enet_rx_queue(struct net_device *ndev, int budget, u16 queue_id)
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1556  {
-c556167f819160 drivers/net/fec.c                         Uwe Kleine-König   2011-01-19  1557  	struct fec_enet_private *fep = netdev_priv(ndev);
-4d494cdc92b3b9 drivers/net/ethernet/freescale/fec_main.c Fugang Duan        2014-09-13  1558  	struct fec_enet_priv_rx_q *rxq;
-2e28532f7e63c3 drivers/net/fec.c                         Sascha Hauer       2009-04-15  1559  	struct bufdesc *bdp;
-0e702ab38b0eed drivers/net/fec.c                         Greg Ungerer       2006-06-27  1560  	unsigned short status;
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1561  	struct  sk_buff *skb;
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1562  	ushort	pkt_len;
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1563  	__u8 *data;
-dc975382d2ef36 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-28  1564  	int	pkt_received = 0;
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1565  	struct	bufdesc_ex *ebdp = NULL;
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1566  	bool	vlan_packet_rcvd = false;
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1567  	u16	vlan_tag;
-d842a31f121ecc drivers/net/ethernet/freescale/fec_main.c Duan Fugang-B38611 2013-11-14  1568  	int	index = 0;
-6b7e4008389c8c drivers/net/ethernet/freescale/fec_main.c Lothar Waßmann     2014-11-17  1569  	bool	need_swap = fep->quirks & FEC_QUIRK_SWAP_FRAME;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1570  	struct bpf_prog *xdp_prog = READ_ONCE(fep->xdp_prog);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1571  	u32 ret, xdp_result = FEC_ENET_XDP_PASS;
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1572  	u32 data_start = FEC_ENET_XDP_HEADROOM;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1573  	struct xdp_buff xdp;
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1574  	struct page *page;
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1575  	u32 sub_len = 4;
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1576  
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1577  #if !defined(CONFIG_M5272)
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1578  	/*If it has the FEC_QUIRK_HAS_RACC quirk property, the bit of
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1579  	 * FEC_RACC_SHIFT16 is set by default in the probe function.
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1580  	 */
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1581  	if (fep->quirks & FEC_QUIRK_HAS_RACC) {
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1582  		data_start += 2;
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1583  		sub_len += 2;
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1584  	}
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1585  #endif
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1586  
-0e702ab38b0eed drivers/net/fec.c                         Greg Ungerer       2006-06-27  1587  #ifdef CONFIG_M532x
-0e702ab38b0eed drivers/net/fec.c                         Greg Ungerer       2006-06-27  1588  	flush_cache_all();
-0e702ab38b0eed drivers/net/fec.c                         Greg Ungerer       2006-06-27  1589  #endif
-4d494cdc92b3b9 drivers/net/ethernet/freescale/fec_main.c Fugang Duan        2014-09-13  1590  	rxq = fep->rx_queue[queue_id];
-0e702ab38b0eed drivers/net/fec.c                         Greg Ungerer       2006-06-27  1591  
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1592  	/* First, grab all of the stats for the incoming packet.
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1593  	 * These get messed up if we get called due to a busy condition.
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1594  	 */
-7355f2760620b3 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1595  	bdp = rxq->bd.cur;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1596  	xdp_init_buff(&xdp, PAGE_SIZE, &rxq->xdp_rxq);
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1597  
-5cfa30397bc367 drivers/net/ethernet/freescale/fec_main.c Johannes Berg      2016-01-24  1598  	while (!((status = fec16_to_cpu(bdp->cbd_sc)) & BD_ENET_RX_EMPTY)) {
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1599  
-dc975382d2ef36 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-28  1600  		if (pkt_received >= budget)
-dc975382d2ef36 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-28  1601  			break;
-dc975382d2ef36 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-28  1602  		pkt_received++;
-dc975382d2ef36 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-28  1603  
-b5bd95d17102b6 drivers/net/ethernet/freescale/fec_main.c Joakim Zhang       2021-12-06  1604  		writel(FEC_ENET_RXF_GET(queue_id), fep->hwp + FEC_IEVENT);
-db3421c114cfa6 drivers/net/ethernet/freescale/fec_main.c Russell King       2014-07-08  1605  
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1606  		/* Check for errors. */
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1607  		status ^= BD_ENET_RX_LAST;
-0e702ab38b0eed drivers/net/fec.c                         Greg Ungerer       2006-06-27  1608  		if (status & (BD_ENET_RX_LG | BD_ENET_RX_SH | BD_ENET_RX_NO |
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1609  			   BD_ENET_RX_CR | BD_ENET_RX_OV | BD_ENET_RX_LAST |
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1610  			   BD_ENET_RX_CL)) {
-c556167f819160 drivers/net/fec.c                         Uwe Kleine-König   2011-01-19  1611  			ndev->stats.rx_errors++;
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1612  			if (status & BD_ENET_RX_OV) {
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1613  				/* FIFO overrun */
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1614  				ndev->stats.rx_fifo_errors++;
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1615  				goto rx_processing_done;
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1616  			}
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1617  			if (status & (BD_ENET_RX_LG | BD_ENET_RX_SH
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1618  						| BD_ENET_RX_LAST)) {
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1619  				/* Frame too long or too short. */
-c556167f819160 drivers/net/fec.c                         Uwe Kleine-König   2011-01-19  1620  				ndev->stats.rx_length_errors++;
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1621  				if (status & BD_ENET_RX_LAST)
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1622  					netdev_err(ndev, "rcv is not +last\n");
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1623  			}
-0e702ab38b0eed drivers/net/fec.c                         Greg Ungerer       2006-06-27  1624  			if (status & BD_ENET_RX_CR)	/* CRC Error */
-c556167f819160 drivers/net/fec.c                         Uwe Kleine-König   2011-01-19  1625  				ndev->stats.rx_crc_errors++;
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1626  			/* Report late collisions as a frame error. */
-095098e194d135 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1627  			if (status & (BD_ENET_RX_NO | BD_ENET_RX_CL))
-c556167f819160 drivers/net/fec.c                         Uwe Kleine-König   2011-01-19  1628  				ndev->stats.rx_frame_errors++;
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1629  			goto rx_processing_done;
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1630  		}
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1631  
-22f6b860da25ab drivers/net/fec.c                         Sascha Hauer       2009-04-15  1632  		/* Process the incoming frame. */
-c556167f819160 drivers/net/fec.c                         Uwe Kleine-König   2011-01-19  1633  		ndev->stats.rx_packets++;
-5cfa30397bc367 drivers/net/ethernet/freescale/fec_main.c Johannes Berg      2016-01-24  1634  		pkt_len = fec16_to_cpu(bdp->cbd_datlen);
-c556167f819160 drivers/net/fec.c                         Uwe Kleine-König   2011-01-19  1635  		ndev->stats.rx_bytes += pkt_len;
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1636  
-7355f2760620b3 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1637  		index = fec_enet_get_bd_index(bdp, &rxq->bd);
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1638  		page = rxq->rx_skb_info[index].page;
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1639  		dma_sync_single_for_cpu(&fep->pdev->dev,
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1640  					fec32_to_cpu(bdp->cbd_bufaddr),
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1641  					pkt_len,
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1642  					DMA_FROM_DEVICE);
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1643  		prefetch(page_address(page));
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1644  		fec_enet_update_cbd(rxq, bdp, index);
-1b7bde6d659d30 drivers/net/ethernet/freescale/fec_main.c Nimrod Andy        2014-09-30  1645  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1646  		if (xdp_prog) {
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1647  			xdp_buff_clear_frags_flag(&xdp);
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1648  			/* subtract 16bit shift and FCS */
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1649  			xdp_prepare_buff(&xdp, page_address(page),
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1650  					 data_start, pkt_len - sub_len, false);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1651  			ret = fec_enet_run_xdp(fep, xdp_prog, &xdp, rxq, index);
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1652  			xdp_result |= ret;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1653  			if (ret != FEC_ENET_XDP_PASS)
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1654  				goto rx_processing_done;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1655  		}
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1656  
-1b7bde6d659d30 drivers/net/ethernet/freescale/fec_main.c Nimrod Andy        2014-09-30  1657  		/* The packet length includes FCS, but we don't want to
-1b7bde6d659d30 drivers/net/ethernet/freescale/fec_main.c Nimrod Andy        2014-09-30  1658  		 * include that when passing upstream as it messes up
-1b7bde6d659d30 drivers/net/ethernet/freescale/fec_main.c Nimrod Andy        2014-09-30  1659  		 * bridging applications.
-1b7bde6d659d30 drivers/net/ethernet/freescale/fec_main.c Nimrod Andy        2014-09-30  1660  		 */
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1661  		skb = build_skb(page_address(page), PAGE_SIZE);
-19e72b064fc32c drivers/net/ethernet/freescale/fec_main.c Wei Fang           2022-12-19  1662  		if (unlikely(!skb)) {
-19e72b064fc32c drivers/net/ethernet/freescale/fec_main.c Wei Fang           2022-12-19 @1663  			page_pool_recycle_direct(rxq->page_pool, page);
-19e72b064fc32c drivers/net/ethernet/freescale/fec_main.c Wei Fang           2022-12-19  1664  			ndev->stats.rx_dropped++;
-19e72b064fc32c drivers/net/ethernet/freescale/fec_main.c Wei Fang           2022-12-19  1665  
-19e72b064fc32c drivers/net/ethernet/freescale/fec_main.c Wei Fang           2022-12-19  1666  			netdev_err_once(ndev, "build_skb failed!\n");
-19e72b064fc32c drivers/net/ethernet/freescale/fec_main.c Wei Fang           2022-12-19  1667  			goto rx_processing_done;
-19e72b064fc32c drivers/net/ethernet/freescale/fec_main.c Wei Fang           2022-12-19  1668  		}
-19e72b064fc32c drivers/net/ethernet/freescale/fec_main.c Wei Fang           2022-12-19  1669  
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1670  		skb_reserve(skb, data_start);
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1671  		skb_put(skb, pkt_len - sub_len);
-95698ff6177b5f drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-09-30  1672  		skb_mark_for_recycle(skb);
-3ac72b7b63d57b drivers/net/ethernet/freescale/fec_main.c Eric Nelson        2016-09-24  1673  
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1674  		if (unlikely(need_swap)) {
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1675  			data = page_address(page) + FEC_ENET_XDP_HEADROOM;
-235bde1ed3f0ff drivers/net/ethernet/freescale/fec_main.c Fabio Estevam      2016-10-21  1676  			swap_buffer(data, pkt_len);
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1677  		}
-6c8fae0caf5dd8 drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-11-03  1678  		data = skb->data;
-3ac72b7b63d57b drivers/net/ethernet/freescale/fec_main.c Eric Nelson        2016-09-24  1679  
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1680  		/* Extract the enhanced buffer descriptor */
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1681  		ebdp = NULL;
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1682  		if (fep->bufdesc_ex)
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1683  			ebdp = (struct bufdesc_ex *)bdp;
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1684  
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1685  		/* If this is a VLAN packet remove the VLAN Tag */
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1686  		vlan_packet_rcvd = false;
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1687  		if ((ndev->features & NETIF_F_HW_VLAN_CTAG_RX) &&
-5cfa30397bc367 drivers/net/ethernet/freescale/fec_main.c Johannes Berg      2016-01-24  1688  		    fep->bufdesc_ex &&
-5cfa30397bc367 drivers/net/ethernet/freescale/fec_main.c Johannes Berg      2016-01-24  1689  		    (ebdp->cbd_esc & cpu_to_fec32(BD_ENET_RX_VLAN))) {
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1690  			/* Push and remove the vlan tag */
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1691  			struct vlan_hdr *vlan_header =
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1692  					(struct vlan_hdr *) (data + ETH_HLEN);
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1693  			vlan_tag = ntohs(vlan_header->h_vlan_TCI);
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1694  
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1695  			vlan_packet_rcvd = true;
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1696  
-af5cbc9822f6bb drivers/net/ethernet/freescale/fec_main.c Nimrod Andy        2015-03-10  1697  			memmove(skb->data + VLAN_HLEN, data, ETH_ALEN * 2);
-1b7bde6d659d30 drivers/net/ethernet/freescale/fec_main.c Nimrod Andy        2014-09-30  1698  			skb_pull(skb, VLAN_HLEN);
-1b7bde6d659d30 drivers/net/ethernet/freescale/fec_main.c Nimrod Andy        2014-09-30  1699  		}
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1700  
-c556167f819160 drivers/net/fec.c                         Uwe Kleine-König   2011-01-19  1701  		skb->protocol = eth_type_trans(skb, ndev);
-ff43da86c69d76 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-03  1702  
-6605b730c061f6 drivers/net/ethernet/freescale/fec.c      Frank Li           2012-10-30  1703  		/* Get receive timestamp from the skb */
-bfd4ecdd87d350 drivers/net/ethernet/freescale/fec_main.c Russell King       2014-07-08  1704  		if (fep->hwts_rx_en && fep->bufdesc_ex)
-5cfa30397bc367 drivers/net/ethernet/freescale/fec_main.c Johannes Berg      2016-01-24  1705  			fec_enet_hwtstamp(fep, fec32_to_cpu(ebdp->ts),
-bfd4ecdd87d350 drivers/net/ethernet/freescale/fec_main.c Russell King       2014-07-08  1706  					  skb_hwtstamps(skb));
-ff43da86c69d76 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-03  1707  
-4c09eed9dc422e drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-04-19  1708  		if (fep->bufdesc_ex &&
-4c09eed9dc422e drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-04-19  1709  		    (fep->csum_flags & FLAG_RX_CSUM_ENABLED)) {
-5cfa30397bc367 drivers/net/ethernet/freescale/fec_main.c Johannes Berg      2016-01-24  1710  			if (!(ebdp->cbd_esc & cpu_to_fec32(FLAG_RX_CSUM_ERROR))) {
-4c09eed9dc422e drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-04-19  1711  				/* don't check it */
-4c09eed9dc422e drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-04-19  1712  				skb->ip_summed = CHECKSUM_UNNECESSARY;
-4c09eed9dc422e drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-04-19  1713  			} else {
-4c09eed9dc422e drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-04-19  1714  				skb_checksum_none_assert(skb);
-4c09eed9dc422e drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-04-19  1715  			}
-4c09eed9dc422e drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-04-19  1716  		}
-4c09eed9dc422e drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-04-19  1717  
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1718  		/* Handle received VLAN packets */
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1719  		if (vlan_packet_rcvd)
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1720  			__vlan_hwaccel_put_tag(skb,
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1721  					       htons(ETH_P_8021Q),
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1722  					       vlan_tag);
-cdffcf1bc72103 drivers/net/ethernet/freescale/fec_main.c Jim Baxter         2013-07-02  1723  
-7cdaa4cc4bdfa2 drivers/net/ethernet/freescale/fec_main.c Tobias Waldekranz  2020-07-03  1724  		skb_record_rx_queue(skb, queue_id);
-dc975382d2ef36 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-28  1725  		napi_gro_receive(&fep->napi, skb);
-f0b3fbeae11a52 drivers/net/fec.c                         Sascha Hauer       2009-04-15  1726  
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1727  rx_processing_done:
-22f6b860da25ab drivers/net/fec.c                         Sascha Hauer       2009-04-15  1728  		/* Clear the status flags for this buffer */
-0e702ab38b0eed drivers/net/fec.c                         Greg Ungerer       2006-06-27  1729  		status &= ~BD_ENET_RX_STATS;
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1730  
-22f6b860da25ab drivers/net/fec.c                         Sascha Hauer       2009-04-15  1731  		/* Mark the buffer empty */
-0e702ab38b0eed drivers/net/fec.c                         Greg Ungerer       2006-06-27  1732  		status |= BD_ENET_RX_EMPTY;
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1733  
-ff43da86c69d76 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-03  1734  		if (fep->bufdesc_ex) {
-ff43da86c69d76 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-03  1735  			struct bufdesc_ex *ebdp = (struct bufdesc_ex *)bdp;
-ff43da86c69d76 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-03  1736  
-5cfa30397bc367 drivers/net/ethernet/freescale/fec_main.c Johannes Berg      2016-01-24  1737  			ebdp->cbd_esc = cpu_to_fec32(BD_ENET_RX_INT);
-ff43da86c69d76 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-03  1738  			ebdp->cbd_prot = 0;
-ff43da86c69d76 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-03  1739  			ebdp->cbd_bdu = 0;
-ff43da86c69d76 drivers/net/ethernet/freescale/fec.c      Frank Li           2013-01-03  1740  		}
-be293467b87c30 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1741  		/* Make sure the updates to rest of the descriptor are
-be293467b87c30 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1742  		 * performed before transferring ownership.
-be293467b87c30 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1743  		 */
-be293467b87c30 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1744  		wmb();
-be293467b87c30 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1745  		bdp->cbd_sc = cpu_to_fec16(status);
-6605b730c061f6 drivers/net/ethernet/freescale/fec.c      Frank Li           2012-10-30  1746  
-22f6b860da25ab drivers/net/fec.c                         Sascha Hauer       2009-04-15  1747  		/* Update BD pointer to next entry */
-7355f2760620b3 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1748  		bdp = fec_enet_get_nextdesc(bdp, &rxq->bd);
-36e24e2ee29e25 drivers/net/ethernet/freescale/fec_main.c Duan Fugang-B38611 2013-09-03  1749  
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1750  		/* Doing this here will keep the FEC running while we process
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1751  		 * incoming frames.  On a heavily loaded network, we should be
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1752  		 * able to keep up at the expense of system resources.
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1753  		 */
-53bb20d1fabacc drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1754  		writel(0, rxq->bd.reg_desc_active);
-4d494cdc92b3b9 drivers/net/ethernet/freescale/fec_main.c Fugang Duan        2014-09-13  1755  	}
-7355f2760620b3 drivers/net/ethernet/freescale/fec_main.c Troy Kisky         2016-02-05  1756  	rxq->bd.cur = bdp;
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1757  
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1758  	if (xdp_result & FEC_ENET_XDP_REDIR)
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1759  		xdp_do_flush_map();
-6d6b39f180b83d drivers/net/ethernet/freescale/fec_main.c Shenwei Wang       2022-10-31  1760  
-4d494cdc92b3b9 drivers/net/ethernet/freescale/fec_main.c Fugang Duan        2014-09-13  1761  	return pkt_received;
-22f6b860da25ab drivers/net/fec.c                         Sascha Hauer       2009-04-15  1762  }
-^1da177e4c3f41 drivers/net/fec.c                         Linus Torvalds     2005-04-16  1763  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3247  
+fb07ebc3e82a98 drivers/staging/android/binder.c Bojan Prtvar           2013-09-02  3248  static int binder_thread_write(struct binder_proc *proc,
+fb07ebc3e82a98 drivers/staging/android/binder.c Bojan Prtvar           2013-09-02  3249  			struct binder_thread *thread,
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3250  			binder_uintptr_t binder_buffer, size_t size,
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3251  			binder_size_t *consumed)
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3252  {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3253  	uint32_t cmd;
+342e5c90b60134 drivers/android/binder.c         Martijn Coenen         2017-02-03  3254  	struct binder_context *context = proc->context;
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3255  	void __user *buffer = (void __user *)(uintptr_t)binder_buffer;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3256  	void __user *ptr = buffer + *consumed;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3257  	void __user *end = buffer + size;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3258  
+26549d17741035 drivers/android/binder.c         Todd Kjos              2017-06-29  3259  	while (ptr < end && thread->return_error.cmd == BR_OK) {
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3260  		int ret;
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3261  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3262  		if (get_user(cmd, (uint32_t __user *)ptr))
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3263  			return -EFAULT;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3264  		ptr += sizeof(uint32_t);
+975a1ac9a9fe65 drivers/staging/android/binder.c Arve Hjønnevåg         2012-10-16  3265  		trace_binder_command(cmd);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3266  		if (_IOC_NR(cmd) < ARRAY_SIZE(binder_stats.bc)) {
+0953c7976c36ce drivers/android/binder.c         Badhri Jagan Sridharan 2017-06-29  3267  			atomic_inc(&binder_stats.bc[_IOC_NR(cmd)]);
+0953c7976c36ce drivers/android/binder.c         Badhri Jagan Sridharan 2017-06-29  3268  			atomic_inc(&proc->stats.bc[_IOC_NR(cmd)]);
+0953c7976c36ce drivers/android/binder.c         Badhri Jagan Sridharan 2017-06-29  3269  			atomic_inc(&thread->stats.bc[_IOC_NR(cmd)]);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3270  		}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3271  		switch (cmd) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3272  		case BC_INCREFS:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3273  		case BC_ACQUIRE:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3274  		case BC_RELEASE:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3275  		case BC_DECREFS: {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3276  			uint32_t target;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3277  			const char *debug_string;
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3278  			bool strong = cmd == BC_ACQUIRE || cmd == BC_RELEASE;
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3279  			bool increment = cmd == BC_INCREFS || cmd == BC_ACQUIRE;
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3280  			struct binder_ref_data rdata;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3281  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3282  			if (get_user(target, (uint32_t __user *)ptr))
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3283  				return -EFAULT;
+c44b1231ff1170 drivers/android/binder.c         Todd Kjos              2017-06-29  3284  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3285  			ptr += sizeof(uint32_t);
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3286  			ret = -1;
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3287  			if (increment && !target) {
+c44b1231ff1170 drivers/android/binder.c         Todd Kjos              2017-06-29  3288  				struct binder_node *ctx_mgr_node;
+c44b1231ff1170 drivers/android/binder.c         Todd Kjos              2017-06-29  3289  				mutex_lock(&context->context_mgr_node_lock);
+c44b1231ff1170 drivers/android/binder.c         Todd Kjos              2017-06-29  3290  				ctx_mgr_node = context->binder_context_mgr_node;
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3291  				if (ctx_mgr_node)
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3292  					ret = binder_inc_ref_for_node(
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3293  							proc, ctx_mgr_node,
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3294  							strong, NULL, &rdata);
+c44b1231ff1170 drivers/android/binder.c         Todd Kjos              2017-06-29  3295  				mutex_unlock(&context->context_mgr_node_lock);
+c44b1231ff1170 drivers/android/binder.c         Todd Kjos              2017-06-29  3296  			}
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3297  			if (ret)
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3298  				ret = binder_update_ref_for_handle(
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3299  						proc, target, increment, strong,
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3300  						&rdata);
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3301  			if (!ret && rdata.desc != target) {
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3302  				binder_user_error("%d:%d tried to acquire reference to desc %d, got %d instead\n",
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3303  					proc->pid, thread->pid,
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3304  					target, rdata.desc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3305  			}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3306  			switch (cmd) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3307  			case BC_INCREFS:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3308  				debug_string = "IncRefs";
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3309  				break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3310  			case BC_ACQUIRE:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3311  				debug_string = "Acquire";
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3312  				break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3313  			case BC_RELEASE:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3314  				debug_string = "Release";
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3315  				break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3316  			case BC_DECREFS:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3317  			default:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3318  				debug_string = "DecRefs";
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3319  				break;
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3320  			}
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3321  			if (ret) {
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3322  				binder_user_error("%d:%d %s %d refcount change on invalid ref %d ret %d\n",
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3323  					proc->pid, thread->pid, debug_string,
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3324  					strong, target, ret);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3325  				break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3326  			}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3327  			binder_debug(BINDER_DEBUG_USER_REFS,
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3328  				     "%d:%d %s ref %d desc %d s %d w %d\n",
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3329  				     proc->pid, thread->pid, debug_string,
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3330  				     rdata.debug_id, rdata.desc, rdata.strong,
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3331  				     rdata.weak);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3332  			break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3333  		}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3334  		case BC_INCREFS_DONE:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3335  		case BC_ACQUIRE_DONE: {
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3336  			binder_uintptr_t node_ptr;
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3337  			binder_uintptr_t cookie;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3338  			struct binder_node *node;
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3339  			bool free_node;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3340  
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3341  			if (get_user(node_ptr, (binder_uintptr_t __user *)ptr))
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3342  				return -EFAULT;
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3343  			ptr += sizeof(binder_uintptr_t);
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3344  			if (get_user(cookie, (binder_uintptr_t __user *)ptr))
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3345  				return -EFAULT;
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3346  			ptr += sizeof(binder_uintptr_t);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3347  			node = binder_get_node(proc, node_ptr);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3348  			if (node == NULL) {
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3349  				binder_user_error("%d:%d %s u%016llx no match\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30 @3350  					proc->pid, thread->pid,
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3351  					cmd == BC_INCREFS_DONE ?
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3352  					"BC_INCREFS_DONE" :
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3353  					"BC_ACQUIRE_DONE",
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3354  					(u64)node_ptr);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3355  				break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3356  			}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3357  			if (cookie != node->cookie) {
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3358  				binder_user_error("%d:%d %s u%016llx node %d cookie mismatch %016llx != %016llx\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3359  					proc->pid, thread->pid,
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3360  					cmd == BC_INCREFS_DONE ?
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3361  					"BC_INCREFS_DONE" : "BC_ACQUIRE_DONE",
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3362  					(u64)node_ptr, node->debug_id,
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3363  					(u64)cookie, (u64)node->cookie);
+adc1884222276d drivers/android/binder.c         Todd Kjos              2017-06-29  3364  				binder_put_node(node);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3365  				break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3366  			}
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3367  			binder_node_inner_lock(node);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3368  			if (cmd == BC_ACQUIRE_DONE) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3369  				if (node->pending_strong_ref == 0) {
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3370  					binder_user_error("%d:%d BC_ACQUIRE_DONE node %d has no pending acquire request\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3371  						proc->pid, thread->pid,
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3372  						node->debug_id);
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3373  					binder_node_inner_unlock(node);
+adc1884222276d drivers/android/binder.c         Todd Kjos              2017-06-29  3374  					binder_put_node(node);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3375  					break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3376  				}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3377  				node->pending_strong_ref = 0;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3378  			} else {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3379  				if (node->pending_weak_ref == 0) {
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3380  					binder_user_error("%d:%d BC_INCREFS_DONE node %d has no pending increfs request\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3381  						proc->pid, thread->pid,
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3382  						node->debug_id);
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3383  					binder_node_inner_unlock(node);
+adc1884222276d drivers/android/binder.c         Todd Kjos              2017-06-29  3384  					binder_put_node(node);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3385  					break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3386  				}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3387  				node->pending_weak_ref = 0;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3388  			}
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3389  			free_node = binder_dec_node_nilocked(node,
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3390  					cmd == BC_ACQUIRE_DONE, 0);
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3391  			WARN_ON(free_node);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3392  			binder_debug(BINDER_DEBUG_USER_REFS,
+adc1884222276d drivers/android/binder.c         Todd Kjos              2017-06-29  3393  				     "%d:%d %s node %d ls %d lw %d tr %d\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3394  				     proc->pid, thread->pid,
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3395  				     cmd == BC_INCREFS_DONE ? "BC_INCREFS_DONE" : "BC_ACQUIRE_DONE",
+adc1884222276d drivers/android/binder.c         Todd Kjos              2017-06-29  3396  				     node->debug_id, node->local_strong_refs,
+adc1884222276d drivers/android/binder.c         Todd Kjos              2017-06-29  3397  				     node->local_weak_refs, node->tmp_refs);
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3398  			binder_node_inner_unlock(node);
+adc1884222276d drivers/android/binder.c         Todd Kjos              2017-06-29  3399  			binder_put_node(node);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3400  			break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3401  		}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3402  		case BC_ATTEMPT_ACQUIRE:
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3403  			pr_err("BC_ATTEMPT_ACQUIRE not supported\n");
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3404  			return -EINVAL;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3405  		case BC_ACQUIRE_RESULT:
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3406  			pr_err("BC_ACQUIRE_RESULT not supported\n");
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3407  			return -EINVAL;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3408  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3409  		case BC_FREE_BUFFER: {
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3410  			binder_uintptr_t data_ptr;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3411  			struct binder_buffer *buffer;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3412  
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3413  			if (get_user(data_ptr, (binder_uintptr_t __user *)ptr))
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3414  				return -EFAULT;
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3415  			ptr += sizeof(binder_uintptr_t);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3416  
+53d311cfa19ad3 drivers/android/binder.c         Todd Kjos              2017-06-29  3417  			buffer = binder_alloc_prepare_to_free(&proc->alloc,
+19c987241ca121 drivers/android/binder.c         Todd Kjos              2017-06-29  3418  							      data_ptr);
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3419  			if (IS_ERR_OR_NULL(buffer)) {
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3420  				if (PTR_ERR(buffer) == -EPERM) {
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3421  					binder_user_error(
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3422  						"%d:%d BC_FREE_BUFFER u%016llx matched unreturned or currently freeing buffer\n",
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3423  						proc->pid, thread->pid,
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3424  						(u64)data_ptr);
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3425  				} else {
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3426  					binder_user_error(
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3427  						"%d:%d BC_FREE_BUFFER u%016llx no match\n",
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3428  						proc->pid, thread->pid,
+fd6cc33d0775b0 drivers/android/binder.c         Todd Kjos              2018-11-06  3429  						(u64)data_ptr);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3430  				}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3431  				break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3432  			}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3433  			binder_debug(BINDER_DEBUG_FREE_BUFFER,
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3434  				     "%d:%d BC_FREE_BUFFER u%016llx found buffer %d for %s transaction\n",
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3435  				     proc->pid, thread->pid, (u64)data_ptr,
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3436  				     buffer->debug_id,
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3437  				     buffer->transaction ? "active" : "finished");
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3438  
+a4a3c070b8760f drivers/android/binder.c         Todd Kjos              2019-06-12  3439  			binder_inner_proc_lock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3440  			if (buffer->transaction) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3441  				buffer->transaction->buffer = NULL;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3442  				buffer->transaction = NULL;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3443  			}
+a4a3c070b8760f drivers/android/binder.c         Todd Kjos              2019-06-12  3444  			binder_inner_proc_unlock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3445  			if (buffer->async_transaction && buffer->target_node) {
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3446  				struct binder_node *buf_node;
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3447  				struct binder_work *w;
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3448  
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3449  				buf_node = buffer->target_node;
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3450  				binder_node_inner_lock(buf_node);
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3451  				BUG_ON(!buf_node->has_async_transaction);
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3452  				BUG_ON(buf_node->proc != proc);
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3453  				w = binder_dequeue_work_head_ilocked(
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3454  						&buf_node->async_todo);
+3a6430ce462172 drivers/android/binder.c         Martijn Coenen         2017-08-31  3455  				if (!w) {
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3456  					buf_node->has_async_transaction = 0;
+3a6430ce462172 drivers/android/binder.c         Martijn Coenen         2017-08-31  3457  				} else {
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3458  					binder_enqueue_work_ilocked(
+3a6430ce462172 drivers/android/binder.c         Martijn Coenen         2017-08-31  3459  							w, &proc->todo);
+3a6430ce462172 drivers/android/binder.c         Martijn Coenen         2017-08-31  3460  					binder_wakeup_proc_ilocked(proc);
+3a6430ce462172 drivers/android/binder.c         Martijn Coenen         2017-08-31  3461  				}
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3462  				binder_node_inner_unlock(buf_node);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3463  			}
+975a1ac9a9fe65 drivers/staging/android/binder.c Arve Hjønnevåg         2012-10-16  3464  			trace_binder_transaction_buffer_release(buffer);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3465  			binder_transaction_buffer_release(proc, buffer, NULL);
+19c987241ca121 drivers/android/binder.c         Todd Kjos              2017-06-29  3466  			binder_alloc_free_buf(&proc->alloc, buffer);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3467  			break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3468  		}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3469  
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3470  		case BC_TRANSACTION_SG:
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3471  		case BC_REPLY_SG: {
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3472  			struct binder_transaction_data_sg tr;
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3473  
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3474  			if (copy_from_user(&tr, ptr, sizeof(tr)))
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3475  				return -EFAULT;
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3476  			ptr += sizeof(tr);
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3477  			binder_transaction(proc, thread, &tr.transaction_data,
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3478  					   cmd == BC_REPLY_SG, tr.buffers_size);
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3479  			break;
+7980240b6d63e0 drivers/android/binder.c         Martijn Coenen         2017-02-03  3480  		}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3481  		case BC_TRANSACTION:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3482  		case BC_REPLY: {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3483  			struct binder_transaction_data tr;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3484  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3485  			if (copy_from_user(&tr, ptr, sizeof(tr)))
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3486  				return -EFAULT;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3487  			ptr += sizeof(tr);
+4bfac80af3a63f drivers/android/binder.c         Martijn Coenen         2017-02-03  3488  			binder_transaction(proc, thread, &tr,
+4bfac80af3a63f drivers/android/binder.c         Martijn Coenen         2017-02-03  3489  					   cmd == BC_REPLY, 0);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3490  			break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3491  		}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3492  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3493  		case BC_REGISTER_LOOPER:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3494  			binder_debug(BINDER_DEBUG_THREADS,
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3495  				     "%d:%d BC_REGISTER_LOOPER\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3496  				     proc->pid, thread->pid);
+b3e6861283790d drivers/android/binder.c         Todd Kjos              2017-06-29  3497  			binder_inner_proc_lock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3498  			if (thread->looper & BINDER_LOOPER_STATE_ENTERED) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3499  				thread->looper |= BINDER_LOOPER_STATE_INVALID;
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3500  				binder_user_error("%d:%d ERROR: BC_REGISTER_LOOPER called after BC_ENTER_LOOPER\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3501  					proc->pid, thread->pid);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3502  			} else if (proc->requested_threads == 0) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3503  				thread->looper |= BINDER_LOOPER_STATE_INVALID;
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3504  				binder_user_error("%d:%d ERROR: BC_REGISTER_LOOPER called without request\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3505  					proc->pid, thread->pid);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3506  			} else {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3507  				proc->requested_threads--;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3508  				proc->requested_threads_started++;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3509  			}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3510  			thread->looper |= BINDER_LOOPER_STATE_REGISTERED;
+b3e6861283790d drivers/android/binder.c         Todd Kjos              2017-06-29  3511  			binder_inner_proc_unlock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3512  			break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3513  		case BC_ENTER_LOOPER:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3514  			binder_debug(BINDER_DEBUG_THREADS,
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3515  				     "%d:%d BC_ENTER_LOOPER\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3516  				     proc->pid, thread->pid);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3517  			if (thread->looper & BINDER_LOOPER_STATE_REGISTERED) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3518  				thread->looper |= BINDER_LOOPER_STATE_INVALID;
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3519  				binder_user_error("%d:%d ERROR: BC_ENTER_LOOPER called after BC_REGISTER_LOOPER\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3520  					proc->pid, thread->pid);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3521  			}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3522  			thread->looper |= BINDER_LOOPER_STATE_ENTERED;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3523  			break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3524  		case BC_EXIT_LOOPER:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3525  			binder_debug(BINDER_DEBUG_THREADS,
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3526  				     "%d:%d BC_EXIT_LOOPER\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3527  				     proc->pid, thread->pid);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3528  			thread->looper |= BINDER_LOOPER_STATE_EXITED;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3529  			break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3530  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3531  		case BC_REQUEST_DEATH_NOTIFICATION:
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3532  		case BC_CLEAR_DEATH_NOTIFICATION: {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3533  			uint32_t target;
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3534  			binder_uintptr_t cookie;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3535  			struct binder_ref *ref;
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3536  			struct binder_ref_death *death = NULL;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3537  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3538  			if (get_user(target, (uint32_t __user *)ptr))
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3539  				return -EFAULT;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3540  			ptr += sizeof(uint32_t);
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3541  			if (get_user(cookie, (binder_uintptr_t __user *)ptr))
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3542  				return -EFAULT;
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3543  			ptr += sizeof(binder_uintptr_t);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3544  			if (cmd == BC_REQUEST_DEATH_NOTIFICATION) {
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3545  				/*
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3546  				 * Allocate memory for death notification
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3547  				 * before taking lock
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3548  				 */
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3549  				death = kzalloc(sizeof(*death), GFP_KERNEL);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3550  				if (death == NULL) {
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3551  					WARN_ON(thread->return_error.cmd !=
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3552  						BR_OK);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3553  					thread->return_error.cmd = BR_ERROR;
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3554  					binder_enqueue_work(
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3555  						thread->proc,
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3556  						&thread->return_error.work,
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3557  						&thread->todo);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3558  					binder_debug(
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3559  						BINDER_DEBUG_FAILED_TRANSACTION,
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3560  						"%d:%d BC_REQUEST_DEATH_NOTIFICATION failed\n",
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3561  						proc->pid, thread->pid);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3562  					break;
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3563  				}
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3564  			}
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3565  			binder_proc_lock(proc);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3566  			ref = binder_get_ref_olocked(proc, target, false);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3567  			if (ref == NULL) {
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3568  				binder_user_error("%d:%d %s invalid ref %d\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3569  					proc->pid, thread->pid,
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3570  					cmd == BC_REQUEST_DEATH_NOTIFICATION ?
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3571  					"BC_REQUEST_DEATH_NOTIFICATION" :
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3572  					"BC_CLEAR_DEATH_NOTIFICATION",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3573  					target);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3574  				binder_proc_unlock(proc);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3575  				kfree(death);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3576  				break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3577  			}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3578  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3579  			binder_debug(BINDER_DEBUG_DEATH_NOTIFICATION,
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3580  				     "%d:%d %s %016llx ref %d desc %d s %d w %d for node %d\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3581  				     proc->pid, thread->pid,
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3582  				     cmd == BC_REQUEST_DEATH_NOTIFICATION ?
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3583  				     "BC_REQUEST_DEATH_NOTIFICATION" :
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3584  				     "BC_CLEAR_DEATH_NOTIFICATION",
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3585  				     (u64)cookie, ref->data.debug_id,
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3586  				     ref->data.desc, ref->data.strong,
+372e3147df7016 drivers/android/binder.c         Todd Kjos              2017-06-29  3587  				     ref->data.weak, ref->node->debug_id);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3588  
+ab51ec6bdf0b7a drivers/android/binder.c         Martijn Coenen         2017-06-29  3589  			binder_node_lock(ref->node);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3590  			if (cmd == BC_REQUEST_DEATH_NOTIFICATION) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3591  				if (ref->death) {
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3592  					binder_user_error("%d:%d BC_REQUEST_DEATH_NOTIFICATION death notification already set\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3593  						proc->pid, thread->pid);
+ab51ec6bdf0b7a drivers/android/binder.c         Martijn Coenen         2017-06-29  3594  					binder_node_unlock(ref->node);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3595  					binder_proc_unlock(proc);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3596  					kfree(death);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3597  					break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3598  				}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3599  				binder_stats_created(BINDER_STAT_DEATH);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3600  				INIT_LIST_HEAD(&death->work.entry);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3601  				death->cookie = cookie;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3602  				ref->death = death;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3603  				if (ref->node->proc == NULL) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3604  					ref->death->work.type = BINDER_WORK_DEAD_BINDER;
+bb74562a7f8398 drivers/android/binder.c         Martijn Coenen         2017-08-31  3605  
+1b77e9dcc3da93 drivers/android/binder.c         Martijn Coenen         2017-08-31  3606  					binder_inner_proc_lock(proc);
+1b77e9dcc3da93 drivers/android/binder.c         Martijn Coenen         2017-08-31  3607  					binder_enqueue_work_ilocked(
+bb74562a7f8398 drivers/android/binder.c         Martijn Coenen         2017-08-31  3608  						&ref->death->work, &proc->todo);
+bb74562a7f8398 drivers/android/binder.c         Martijn Coenen         2017-08-31  3609  					binder_wakeup_proc_ilocked(proc);
+1b77e9dcc3da93 drivers/android/binder.c         Martijn Coenen         2017-08-31  3610  					binder_inner_proc_unlock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3611  				}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3612  			} else {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3613  				if (ref->death == NULL) {
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3614  					binder_user_error("%d:%d BC_CLEAR_DEATH_NOTIFICATION death notification not active\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3615  						proc->pid, thread->pid);
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3616  					binder_node_unlock(ref->node);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3617  					binder_proc_unlock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3618  					break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3619  				}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3620  				death = ref->death;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3621  				if (death->cookie != cookie) {
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3622  					binder_user_error("%d:%d BC_CLEAR_DEATH_NOTIFICATION death notification cookie mismatch %016llx != %016llx\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3623  						proc->pid, thread->pid,
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3624  						(u64)death->cookie,
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3625  						(u64)cookie);
+673068eee8560d drivers/android/binder.c         Todd Kjos              2017-06-29  3626  					binder_node_unlock(ref->node);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3627  					binder_proc_unlock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3628  					break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3629  				}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3630  				ref->death = NULL;
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3631  				binder_inner_proc_lock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3632  				if (list_empty(&death->work.entry)) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3633  					death->work.type = BINDER_WORK_CLEAR_DEATH_NOTIFICATION;
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3634  					if (thread->looper &
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3635  					    (BINDER_LOOPER_STATE_REGISTERED |
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3636  					     BINDER_LOOPER_STATE_ENTERED))
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3637  						binder_enqueue_work_ilocked(
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3638  								&death->work,
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3639  								&thread->todo);
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3640  					else {
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3641  						binder_enqueue_work_ilocked(
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3642  								&death->work,
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3643  								&proc->todo);
+1b77e9dcc3da93 drivers/android/binder.c         Martijn Coenen         2017-08-31  3644  						binder_wakeup_proc_ilocked(
+408c68b17aea2f drivers/android/binder.c         Martijn Coenen         2017-08-31  3645  								proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3646  					}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3647  				} else {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3648  					BUG_ON(death->work.type != BINDER_WORK_DEAD_BINDER);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3649  					death->work.type = BINDER_WORK_DEAD_BINDER_AND_CLEAR;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3650  				}
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3651  				binder_inner_proc_unlock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3652  			}
+ab51ec6bdf0b7a drivers/android/binder.c         Martijn Coenen         2017-06-29  3653  			binder_node_unlock(ref->node);
+2c1838dc6817dd drivers/android/binder.c         Todd Kjos              2017-06-29  3654  			binder_proc_unlock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3655  		} break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3656  		case BC_DEAD_BINDER_DONE: {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3657  			struct binder_work *w;
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3658  			binder_uintptr_t cookie;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3659  			struct binder_ref_death *death = NULL;
+10f62861b4a2f2 drivers/staging/android/binder.c Seunghun Lee           2014-05-01  3660  
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3661  			if (get_user(cookie, (binder_uintptr_t __user *)ptr))
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3662  				return -EFAULT;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3663  
+7a64cd887fdb97 drivers/android/binder.c         Lisa Du                2016-02-17  3664  			ptr += sizeof(cookie);
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3665  			binder_inner_proc_lock(proc);
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3666  			list_for_each_entry(w, &proc->delivered_death,
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3667  					    entry) {
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3668  				struct binder_ref_death *tmp_death =
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3669  					container_of(w,
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3670  						     struct binder_ref_death,
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3671  						     work);
+10f62861b4a2f2 drivers/staging/android/binder.c Seunghun Lee           2014-05-01  3672  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3673  				if (tmp_death->cookie == cookie) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3674  					death = tmp_death;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3675  					break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3676  				}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3677  			}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3678  			binder_debug(BINDER_DEBUG_DEAD_BINDER,
+b46af094b82a47 drivers/android/binder.c         Todd Kjos              2018-02-07  3679  				     "%d:%d BC_DEAD_BINDER_DONE %016llx found %pK\n",
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3680  				     proc->pid, thread->pid, (u64)cookie,
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3681  				     death);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3682  			if (death == NULL) {
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3683  				binder_user_error("%d:%d BC_DEAD_BINDER_DONE %016llx not found\n",
+da49889deb34d3 drivers/staging/android/binder.c Arve Hjønnevåg         2014-02-21  3684  					proc->pid, thread->pid, (u64)cookie);
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3685  				binder_inner_proc_unlock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3686  				break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3687  			}
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3688  			binder_dequeue_work_ilocked(&death->work);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3689  			if (death->work.type == BINDER_WORK_DEAD_BINDER_AND_CLEAR) {
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3690  				death->work.type = BINDER_WORK_CLEAR_DEATH_NOTIFICATION;
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3691  				if (thread->looper &
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3692  					(BINDER_LOOPER_STATE_REGISTERED |
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3693  					 BINDER_LOOPER_STATE_ENTERED))
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3694  					binder_enqueue_work_ilocked(
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3695  						&death->work, &thread->todo);
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3696  				else {
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3697  					binder_enqueue_work_ilocked(
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3698  							&death->work,
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3699  							&proc->todo);
+408c68b17aea2f drivers/android/binder.c         Martijn Coenen         2017-08-31  3700  					binder_wakeup_proc_ilocked(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3701  				}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3702  			}
+72196393a5e3d2 drivers/android/binder.c         Todd Kjos              2017-06-29  3703  			binder_inner_proc_unlock(proc);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3704  		} break;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3705  
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3706  		default:
+56b468fc709b2b drivers/staging/android/binder.c Anmol Sarma            2012-10-30  3707  			pr_err("%d:%d unknown command %d\n",
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3708  			       proc->pid, thread->pid, cmd);
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3709  			return -EINVAL;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3710  		}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3711  		*consumed = ptr - buffer;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3712  	}
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3713  	return 0;
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3714  }
+355b0502f6efea drivers/staging/android/binder.c Greg Kroah-Hartman     2011-11-30  3715  
 
-:::::: The code at line 1484 was first introduced by commit
-:::::: 95698ff6177b5f1f13f251da60e7348413046ae4 net: fec: using page pool to manage RX buffers
+:::::: The code at line 3350 was first introduced by commit
+:::::: 355b0502f6efea0ff9492753888772c96972d2a3 Revert "Staging: android: delete android drivers"
 
-:::::: TO: Shenwei Wang <shenwei.wang@nxp.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Greg Kroah-Hartman <gregkh@suse.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
