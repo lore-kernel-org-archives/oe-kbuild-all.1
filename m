@@ -1,160 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1155228
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 04:17:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBF2C433C8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 04:17:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689567446;
-	bh=DJWcdBAH8oGdRvLXCXygL/f6KLmDwCJZB+zk1y98Qzs=;
-	h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-	b=rb0tdIiGq/34dK9Z4uHD7pdlyjOuxXIOnSsHNfIWFYklFAK1u5jZfc0XT4lmFyxdk
-	 p8ycWJA+1qSLOKxP1/hS/eRJ5oHEE1GTmg8TsVsQCN1xtPkZYVM0efApMtjxdnQaaf
-	 vt2Qg0lmlx5ZKCTgm/sbbTNbzqglLaLuF4nBqzJaE6KuaG2Izcwm0iUGAK6itpLmbx
-	 /oS5OgOUS3UzsHulZHgm0mkRpMGy+M8t9aXXlT8kXky+qZU0/0fkDHtMoVvpStiavl
-	 hFy0QiAC3MTXsabLICnOhxESXdXoy71QJSJahlR8Dnn2wAmHP7WP8t5uMTAT9VTpTX
-	 fQbe2hpVJtdtw==
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5634db21a78so2584611eaf.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jul 2023 21:17:25 -0700 (PDT)
-X-Gm-Message-State: ABy/qLbnITlNLBjkVAsnp7f1ntEVoNmEXpHZhrc7bgFil3rWLfeWB/lq
-	mQy0oKbEazT+xMzigXYU7Phd4wuiH9hqqf/HrzI=
-X-Google-Smtp-Source: APBJJlFZHkIswmkFuijosgK8QQQlQqpWFIsgDc/83XqdOeuFw4tcjO7ps9BkfmTvRmiyFY1q3GAzNFu9wBa0FwWBdXY=
-X-Received: by 2002:a4a:6141:0:b0:566:f052:696d with SMTP id
- u1-20020a4a6141000000b00566f052696dmr3470497ooe.6.1689567445161; Sun, 16 Jul
- 2023 21:17:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6941380;
+	Mon, 17 Jul 2023 04:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689569033; x=1721105033;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jEZNzbhvk0iVBgdyuqQG25AdbOBeE2ZROjZsk8pPgW8=;
+  b=U99qEid2RUlhjRDm0lhVtwIRkbSGq0r/ty+Xv3mn8L+m9kzmwqA27AF/
+   KIj61xdcRCGPTWHjNP1y1MoFW/33ulYODU9UQc7/gQAGOBDfMJCul1w99
+   xiWVnZLE3YR3pJdknCNAEvpiw0wX73w735KOcSWZHYIwpdGs1+b0qJr0J
+   wlYlj0FBIx/jhKfS+2rNkbmmIXPkO4Y3cEPBivtBvQxlxuqCVDBTF8yP2
+   I8Mm/mhVzyGwpA4LbFGLsGbuluswHGuVbapUEnfRzKbJ3tnWlVC9pHcvJ
+   F5SDmlUR2UDMrvsVcGkBZ/ia4cOEY9IC3XGPisUYfZ1WME4LiZoV2VvFL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="452218754"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="452218754"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2023 21:43:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="866595407"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 16 Jul 2023 21:43:43 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qLG5G-0009C8-0m;
+	Mon, 17 Jul 2023 04:43:42 +0000
+Date: Mon, 17 Jul 2023 12:42:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: lib/test_bitmap.c:920:2: error: call to __compiletime_assert_348
+ declared with 'error' attribute: BUILD_BUG_ON failed:
+ !__builtin_constant_p(res)
+Message-ID: <202307171254.yFcH97ej-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: by 2002:a8a:4c7:0:b0:4e8:f6ff:2aab with HTTP; Sun, 16 Jul 2023
- 21:17:24 -0700 (PDT)
-In-Reply-To: <202307171058.2onUUbC3-lkp@intel.com>
-References: <202307171058.2onUUbC3-lkp@intel.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 17 Jul 2023 13:17:24 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8eU_Skpu0ekRXDBv2Me0rurJ-nPS9q8_S9BDaWUY9fFw@mail.gmail.com>
-Message-ID: <CAKYAXd8eU_Skpu0ekRXDBv2Me0rurJ-nPS9q8_S9BDaWUY9fFw@mail.gmail.com>
-Subject: Re: [samba-ksmbd:ksmbd-for-next-next 2/2] fs/smb/server/vfs.c:113:48:
- error: 'KSMBD_SHARE_FLAG_CROSSMNT' undeclared; did you mean 'KSMBD_SHARE_FLAG_STREAMS'?
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Hi Alexander,
 
-I have already fixed it before a few hours.
-Thanks for your report.
+FYI, the error/warning still remains.
 
-2023-07-17 11:50 GMT+09:00, kernel test robot <lkp@intel.com>:
-> tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
-> head:   ad297d25edb98d80a162f7ab8280ffbc025e8ebf
-> commit: ad297d25edb98d80a162f7ab8280ffbc025e8ebf [2/2] ksmbd: check if a
-> mount point is crossed during path lookup
-> config: x86_64-allyesconfig
-> (https://download.01.org/0day-ci/archive/20230717/202307171058.2onUUbC3-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce:
-> (https://download.01.org/0day-ci/archive/20230717/202307171058.2onUUbC3-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version
-> of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-> https://lore.kernel.org/oe-kbuild-all/202307171058.2onUUbC3-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    fs/smb/server/vfs.c: In function 'ksmbd_vfs_path_lookup_locked':
->>> fs/smb/server/vfs.c:113:48: error: 'KSMBD_SHARE_FLAG_CROSSMNT' undeclared
->>> (first use in this function); did you mean 'KSMBD_SHARE_FLAG_STREAMS'?
->      113 |         if (test_share_config_flag(share_conf,
-> KSMBD_SHARE_FLAG_CROSSMNT)) {
->          |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~
->          |
-> KSMBD_SHARE_FLAG_STREAMS
->    fs/smb/server/vfs.c:113:48: note: each undeclared identifier is reported
-> only once for each function it appears in
->
->
-> vim +113 fs/smb/server/vfs.c
->
->     63	
->     64	static int ksmbd_vfs_path_lookup_locked(struct ksmbd_share_config
-> *share_conf,
->     65						char *pathname, unsigned int flags,
->     66						struct path *parent_path,
->     67						struct path *path)
->     68	{
->     69		struct qstr last;
->     70		struct filename *filename;
->     71		struct path *root_share_path = &share_conf->vfs_path;
->     72		int err, type;
->     73		struct dentry *d;
->     74	
->     75		if (pathname[0] == '\0') {
->     76			pathname = share_conf->path;
->     77			root_share_path = NULL;
->     78		} else {
->     79			flags |= LOOKUP_BENEATH;
->     80		}
->     81	
->     82		filename = getname_kernel(pathname);
->     83		if (IS_ERR(filename))
->     84			return PTR_ERR(filename);
->     85	
->     86		err = vfs_path_parent_lookup(filename, flags,
->     87					     parent_path, &last, &type,
->     88					     root_share_path);
->     89		if (err) {
->     90			putname(filename);
->     91			return err;
->     92		}
->     93	
->     94		if (unlikely(type != LAST_NORM)) {
->     95			path_put(parent_path);
->     96			putname(filename);
->     97			return -ENOENT;
->     98		}
->     99	
->    100		inode_lock_nested(parent_path->dentry->d_inode, I_MUTEX_PARENT);
->    101		d = lookup_one_qstr_excl(&last, parent_path->dentry, 0);
->    102		if (IS_ERR(d))
->    103			goto err_out;
->    104	
->    105		if (d_is_negative(d)) {
->    106			dput(d);
->    107			goto err_out;
->    108		}
->    109	
->    110		path->dentry = d;
->    111		path->mnt = mntget(parent_path->mnt);
->    112	
->  > 113		if (test_share_config_flag(share_conf, KSMBD_SHARE_FLAG_CROSSMNT))
-> {
->    114			err = follow_down(path, 0);
->    115			if (err < 0) {
->    116				path_put(path);
->    117				goto err_out;
->    118			}
->    119		}
->    120	
->    121		putname(filename);
->    122		return 0;
->    123	
->    124	err_out:
->    125		inode_unlock(d_inode(parent_path->dentry));
->    126		path_put(parent_path);
->    127		putname(filename);
->    128		return -ENOENT;
->    129	}
->    130	
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fdf0eaf11452d72945af31804e2a1048ee1b574c
+commit: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
+date:   1 year, 1 month ago
+config: arm64-randconfig-r031-20230717 (https://download.01.org/0day-ci/archive/20230717/202307171254.yFcH97ej-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230717/202307171254.yFcH97ej-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307171254.yFcH97ej-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> lib/test_bitmap.c:920:2: error: call to __compiletime_assert_348 declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(res)
+           BUILD_BUG_ON(!__builtin_constant_p(res));
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:352:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:340:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:333:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:287:1: note: expanded from here
+   __compiletime_assert_348
+   ^
+   1 error generated.
+
+
+vim +/error +920 lib/test_bitmap.c
+
+   871	
+   872	static void __init test_bitmap_const_eval(void)
+   873	{
+   874		DECLARE_BITMAP(bitmap, BITS_PER_LONG);
+   875		unsigned long initvar = BIT(2);
+   876		unsigned long bitopvar = 0;
+   877		unsigned long var = 0;
+   878		int res;
+   879	
+   880		/*
+   881		 * Compilers must be able to optimize all of those to compile-time
+   882		 * constants on any supported optimization level (-O2, -Os) and any
+   883		 * architecture. Otherwise, trigger a build bug.
+   884		 * The whole function gets optimized out then, there's nothing to do
+   885		 * in runtime.
+   886		 */
+   887	
+   888		/*
+   889		 * Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }`.
+   890		 * Clang on s390 optimizes bitops at compile-time as intended, but at
+   891		 * the same time stops treating @bitmap and @bitopvar as compile-time
+   892		 * constants after regular test_bit() is executed, thus triggering the
+   893		 * build bugs below. So, call const_test_bit() there directly until
+   894		 * the compiler is fixed.
+   895		 */
+   896		bitmap_clear(bitmap, 0, BITS_PER_LONG);
+   897	#if defined(__s390__) && defined(__clang__)
+   898		if (!const_test_bit(7, bitmap))
+   899	#else
+   900		if (!test_bit(7, bitmap))
+   901	#endif
+   902			bitmap_set(bitmap, 5, 2);
+   903	
+   904		/* Equals to `unsigned long bitopvar = BIT(20)` */
+   905		__change_bit(31, &bitopvar);
+   906		bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
+   907	
+   908		/* Equals to `unsigned long var = BIT(25)` */
+   909		var |= BIT(25);
+   910		if (var & BIT(0))
+   911			var ^= GENMASK(9, 6);
+   912	
+   913		/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
+   914		res = bitmap_weight(bitmap, 20);
+   915		BUILD_BUG_ON(!__builtin_constant_p(res));
+   916		BUILD_BUG_ON(res != 2);
+   917	
+   918		/* !(BIT(31) & BIT(18)) == 1 */
+   919		res = !test_bit(18, &bitopvar);
+ > 920		BUILD_BUG_ON(!__builtin_constant_p(res));
+   921		BUILD_BUG_ON(!res);
+   922	
+   923		/* BIT(2) & GENMASK(14, 8) == 0 */
+   924		res = initvar & GENMASK(14, 8);
+   925		BUILD_BUG_ON(!__builtin_constant_p(res));
+   926		BUILD_BUG_ON(res);
+   927	
+   928		/* ~BIT(25) */
+   929		BUILD_BUG_ON(!__builtin_constant_p(~var));
+   930		BUILD_BUG_ON(~var != ~BIT(25));
+   931	}
+   932	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
