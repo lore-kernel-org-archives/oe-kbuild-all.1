@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D67C2DB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 22:34:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9393810977;
+	Mon, 17 Jul 2023 23:05:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689633253; x=1721169253;
+  t=1689635113; x=1721171113;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eW9azAPUyEfDoF+VpyrLVsHbnYMQlqaAaEkwxUI1h1U=;
-  b=NfWwecg30UU39EwL2slrulJQ9unaeqUbNRj0VM5Xy2Nu+vnfDpaNX6Qv
-   cgsoXvqOyfyGjXDGIUtCuWnlZTHYbENSN4rnpzjERty7Q+lxsrMBLtu6h
-   6D92ZoWdU5sfUZcNaKHGdYoVWSu/UXFxzbiyr4AD3FllhgtyZTiRr6QM2
-   Pbnd2sWxaIWZaC7q3M2Slr4GrxTnDYw51XleQaaXnuIgmM+vPL1PXT6A/
-   WITHoLc5SE/FbZChu5xzepYSHn7stLaJ0B9aeCrg6WX3f07IgDmMqwGKu
-   GGKOpVCAej4YmTFsKtk9nqj2dlMFtL3Q2c+V+ocNSnhbHR5c2F/uu5iki
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="452431264"
+  bh=cG/9IU/AzV99qjHBZAPYESS5Fs1PxstCltYpNHUgFDU=;
+  b=VBsOrVfd341zwSHf4aWW4OTVHDKUjaiDJuWPmV8+I0uwVVIeEn/3djX7
+   Z10co3xe8O1tYoe349qt5muAxzseD+IFqbfd2M0CsL8iiLeqpkWv+whcR
+   Sl4yS2GR28qTcFqpjffKFwQ3GjYiXA4WCb8CiwFONHklJzLLREbeOXpMM
+   KPs+LCOJBIef2ojLYdf8wACUuN6O2G25ENFHjk2q21ZW4T/GX989knLNh
+   li448Nc772aS3N4Q+K4cf2AwB0mRh3i9euYtgnh1iPY1d8U0h1eHezJnq
+   NsGBnlRGghljWXT32umBCgTFy+B2nE8Id/aRcN/v129/vw1u+gt7HaJRh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="432237209"
 X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="452431264"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 15:34:12 -0700
+   d="scan'208";a="432237209"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 16:05:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="813515931"
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="717387827"
 X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="813515931"
+   d="scan'208";a="717387827"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Jul 2023 15:34:11 -0700
+  by orsmga007.jf.intel.com with ESMTP; 17 Jul 2023 16:05:11 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLWnC-0009y0-1U;
-	Mon, 17 Jul 2023 22:34:10 +0000
-Date: Tue, 18 Jul 2023 06:33:41 +0800
+	id 1qLXHD-0009z6-0D;
+	Mon, 17 Jul 2023 23:05:11 +0000
+Date: Tue, 18 Jul 2023 07:05:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 6546/11052]
- arch/arm64/kvm/hyp_events.c:204:6: warning: no previous prototype for
- function 'kvm_hyp_events_enable_early'
-Message-ID: <202307180608.bZ3Ax3CU-lkp@intel.com>
+To: Richard Weinberger <richard@nod.at>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [rw-misc:embedded_go_prog 1/1]
+ drivers/misc/embedded_prog/eprog_kern.c:46:62: warning: format specifies
+ type 'long' but the argument has type 'ssize_t' (aka 'int')
+Message-ID: <202307180709.3Ai1PdBI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,110 +47,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   a16d62a2960b9f3c3e809d8051accf68826f3d32
-commit: 605d8f6940c38faeaa0aa91a8c793d1d8cd5eab5 [6546/11052] ANDROID: KVM: arm64: add support for early enablement nVHE hyp events
-config: arm64-randconfig-r031-20230717 (https://download.01.org/0day-ci/archive/20230718/202307180608.bZ3Ax3CU-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230718/202307180608.bZ3Ax3CU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rw/misc.git embedded_go_prog
+head:   58a51666e0ed2b23253048b0616ee5879361cc4a
+commit: 58a51666e0ed2b23253048b0616ee5879361cc4a [1/1] misc: Add demo driver for user mode driver usage
+config: powerpc-randconfig-r036-20230717 (https://download.01.org/0day-ci/archive/20230718/202307180709.3Ai1PdBI-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307180709.3Ai1PdBI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307180608.bZ3Ax3CU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307180709.3Ai1PdBI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp_events.c:37:
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: warning: no previous prototype for function 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
-   HYP_EVENT(hyp_enter,
-   ^
-   arch/arm64/kvm/hyp_events.c:25:20: note: expanded from macro 'HYP_EVENT'
-           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
-                             ^
-   <scratch space>:72:1: note: expanded from here
-   hyp_event_trace_hyp_enter
-   ^
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   arch/arm64/kvm/hyp_events.c:25:2: note: expanded from macro 'HYP_EVENT'
-           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
-           ^
-   In file included from arch/arm64/kvm/hyp_events.c:37:
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: warning: no previous prototype for function 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
-   HYP_EVENT(hyp_exit,
-   ^
-   arch/arm64/kvm/hyp_events.c:25:20: note: expanded from macro 'HYP_EVENT'
-           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
-                             ^
-   <scratch space>:77:1: note: expanded from here
-   hyp_event_trace_hyp_exit
-   ^
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   arch/arm64/kvm/hyp_events.c:25:2: note: expanded from macro 'HYP_EVENT'
-           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
-           ^
->> arch/arm64/kvm/hyp_events.c:204:6: warning: no previous prototype for function 'kvm_hyp_events_enable_early' [-Wmissing-prototypes]
-   bool kvm_hyp_events_enable_early(void)
-        ^
-   arch/arm64/kvm/hyp_events.c:204:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   bool kvm_hyp_events_enable_early(void)
-   ^
-   static 
-   arch/arm64/kvm/hyp_events.c:239:6: warning: no previous prototype for function 'kvm_hyp_init_events_tracefs' [-Wmissing-prototypes]
-   void kvm_hyp_init_events_tracefs(struct dentry *parent)
-        ^
-   arch/arm64/kvm/hyp_events.c:239:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void kvm_hyp_init_events_tracefs(struct dentry *parent)
-   ^
-   static 
-   arch/arm64/kvm/hyp_events.c:271:5: warning: no previous prototype for function 'kvm_hyp_init_events' [-Wmissing-prototypes]
-   int kvm_hyp_init_events(void)
-       ^
-   arch/arm64/kvm/hyp_events.c:271:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int kvm_hyp_init_events(void)
-   ^
-   static 
-   5 warnings generated.
+>> drivers/misc/embedded_prog/eprog_kern.c:46:62: warning: format specifies type 'long' but the argument has type 'ssize_t' (aka 'int') [-Wformat]
+                           pr_err("Fatal error while reading from userspace: %ld\n", nread);
+                                                                             ~~~     ^~~~~
+                                                                             %zd
+   include/linux/printk.h:498:33: note: expanded from macro 'pr_err'
+           printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+                                  ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/kvm_hyp_events_enable_early +204 arch/arm64/kvm/hyp_events.c
+vim +46 drivers/misc/embedded_prog/eprog_kern.c
 
-   203	
- > 204	bool kvm_hyp_events_enable_early(void)
-   205	{
-   206		char *token, *buf = early_events;
-   207		bool enabled = false;
-   208	
-   209		while (true) {
-   210			token = strsep(&buf, ",");
-   211	
-   212			if (!token)
-   213				break;
-   214	
-   215			if (*token) {
-   216				struct hyp_event *event;
-   217				int ret;
-   218	
-   219				event = find_hyp_event(token);
-   220				if (event) {
-   221					ret = enable_hyp_event(event, true);
-   222					if (ret)
-   223						pr_warn("Couldn't enable hyp event %s:%d\n",
-   224							token, ret);
-   225					else
-   226						enabled = true;
-   227				} else {
-   228					pr_warn("Couldn't find hyp event %s\n", token);
-   229				}
-   230			}
-   231	
-   232			if (buf)
-   233				*(buf - 1) = ',';
-   234		}
-   235	
-   236		return enabled;
-   237	}
-   238	
+    23	
+    24	static int eprog_thread(void *data)
+    25	{
+    26		struct umd_info *eprog_ctx = data;
+    27		loff_t pos = 0;
+    28		ssize_t nread;
+    29	
+    30		set_freezable();
+    31	
+    32		for (;;) {
+    33			if (kthread_should_stop())
+    34				break;
+    35	
+    36			if (try_to_freeze())
+    37				continue;
+    38	
+    39			nread = kernel_read(eprog_ctx->pipe_from_umh, read_buf, READ_BUFSZ - 1, &pos);
+    40			if (nread > 0) {
+    41				read_buf[nread] = '\0';
+    42				pr_info("From userspace: %s", read_buf);
+    43			} else if (nread == -ERESTARTSYS) {
+    44				break;
+    45			} else {
+  > 46				pr_err("Fatal error while reading from userspace: %ld\n", nread);
+    47				/*
+    48				 * Suspend ourself and wait for termination.
+    49				 */
+    50				set_current_state(TASK_INTERRUPTIBLE);
+    51				schedule();
+    52			}
+    53		}
+    54	
+    55		return 0;
+    56	}
+    57	
 
 -- 
 0-DAY CI Kernel Test Service
