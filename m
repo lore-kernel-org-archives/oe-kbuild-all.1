@@ -1,89 +1,194 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D511A10E7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 16:36:01 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3a37909a64eso2924373b6e.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 09:36:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689611761; x=1692203761;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RA/iWGM5jVgrQTgVAP1T1MYlEj/+DU3uJ2eHPJePb2Y=;
-        b=NzeOCLYrZJ1CPIeDNJPnTwQul1uiwgBoWc5uHedLi3ZzTY+tKjXEdHRxmPfdYGw4Yt
-         rpu00HY7+EsiFSloYywPdV1Py/E2Yrsz0+6tP+gOmvRBmtXba/UEcInUfJDHUUt2OAV4
-         Zmxd+cx0bLNrEXyhV2D5z9nP5B0ny0sKKTSVuB5yE0QBcarnNSYBeqUY1BY1v3wNNj2z
-         tQ9XSklQHVI+OyBBrR+D3vYhfiU0sGJwlyHI3ynnqyIwyGuPxG7EtpYc6YTKB4eMOEmt
-         kY6A9nJisyR8QWOJdvwq1r8taOhb3TG90AGVxUPYQ0ZEhtrr1kspvML2xxvKPQAyHIrp
-         W8Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689611761; x=1692203761;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RA/iWGM5jVgrQTgVAP1T1MYlEj/+DU3uJ2eHPJePb2Y=;
-        b=gP9y8Kd+K4BsGoHX7eQjtkiOj775NCXDn9pWAa33BscHx4Z1BKZ0yx1zYrk89ndCiP
-         etlSb7fQP0UilhB1x6BzYxYSxTv/6z8xG4S38zlg1jvZXwPYLFwe93v09H39sRCbT4KR
-         z+xRFlQdsvSKb4/8mhF9pRBdz4TMypTgBMldVkV07kuCb1tWOnSbHUX8H26CoLp/DQoY
-         YP1bLGf82JNYBp9PcQgKurX6F3FRJiuTP19MdUrLLFeeEnhRYlgR4yCmrh8dXdJ3yNPi
-         cKKpnY3eiRu6PThQPKxeeL7cxH6HEB/3MplRo4OpU9Z7qlp54Bs4T9uQZgqlKt+53AdT
-         GtnA==
-X-Gm-Message-State: ABy/qLZ+9HqTiIW8dSF0AHhegkX7Ye/iX8TRkolu08uyx1ziLsCMsylF
-	BWsAm/BGqkruKsACHodNqe8kenvnAyqdMzHIXoFcVA==
-X-Google-Smtp-Source: APBJJlFXgoM5JYiyURfjrpy48hpLApao0t2u3cPzHUDUmrorV/Pnf5w8IT0o72AR8WmiICLf0mld20wdlPtVBx8J+T8=
-X-Received: by 2002:a05:6808:1513:b0:3a1:b6de:ed54 with SMTP id
- u19-20020a056808151300b003a1b6deed54mr14212741oiw.32.1689611760823; Mon, 17
- Jul 2023 09:36:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54731FD7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 17:28:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689614892; x=1721150892;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kYgGvCiDe31MIMxswYCIn9LkB3/FZBhk16LZ7xosFIE=;
+  b=Z5QZQai16+CIJE/SJ8ItoG/q/8Fvge85BbumYqB6s0aIcw4S8Do6vK2z
+   YoMQEPrYPTgjxxTMvpOjjsWVEvKvagaQZC4hmFJ5hR/Gz8FegnqNJSuMW
+   LXZ47W89ur23v/YT0MLhxCY3y+st26YUUSm2E674A7b32wnvy0PC9n5LS
+   DUDRptNOvyCp1lI5d2PV/8D+CBrMGA5hA2Aidd3weatFELm0Q7fxaLotV
+   nK28wqTB0hXYk1GXmcMJAPLn8PjKxC8y0Cez7twKUteizkakzS0/HwQiU
+   KYIe85GDXjOd8mQacAJ2Ewm6BVzc8M8E0pKkz5jDc8yStbfzrkEi4MTzX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="396820738"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="396820738"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 10:28:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="723283017"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="723283017"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 17 Jul 2023 10:28:05 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qLS0y-0009lU-0J;
+	Mon, 17 Jul 2023 17:28:04 +0000
+Date: Tue, 18 Jul 2023 01:27:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:async-multi 19/38]
+ drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:819:18: error:
+ initialization of 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev
+ *, struct v4l2_async_connection *)' from incompatible pointer type 'int
+ (*)(struct v4l2_async_notifier *, st...
+Message-ID: <202307180109.WQuaPuRt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202307171254.yFcH97ej-lkp@intel.com> <ZLUSG8bNnSqT0LO+@smile.fi.intel.com>
-In-Reply-To: <ZLUSG8bNnSqT0LO+@smile.fi.intel.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Mon, 17 Jul 2023 09:35:49 -0700
-Message-ID: <CAKwvOdnUjAXg4VRbCBKUOZDCKs-=5aA2-ef1tFRj-P=-1bBjaQ@mail.gmail.com>
-Subject: Re: lib/test_bitmap.c:920:2: error: call to __compiletime_assert_348
- declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(res)
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Alexander Lobakin <alexandr.lobakin@intel.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Jul 17, 2023 at 3:04=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Mon, Jul 17, 2023 at 12:42:57PM +0800, kernel test robot wrote:
-> > Hi Alexander,
-> >
-> > FYI, the error/warning still remains.
->
-> Alexander, either you can escalate this or just propose something to disc=
-uss.
+Hi Sakari,
 
-https://github.com/ClangBuiltLinux/linux/issues/1874
-Sorry, a few more fires have popped up in the meantime.  Regardless of
-changes to the compiler, we still support many versions of clang for
-the kernel, so we'd need some workaround in the tests regardless.  I
-saw there was already one for s390 + clang, but from this report we
-will need another. Feel free to use that link above in comments in the
-tests; we will clean those up once I have a better grasp on what's
-going on with the compiler here.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
->
+tree:   git://linuxtv.org/sailus/media_tree.git async-multi
+head:   08781366d65974d473692f519e0b4345584d3761
+commit: a34590c7bca91dfd8fce26d5707c6470fd7508f9 [19/38] media: v4l: async: Rename v4l2_async_subdev as v4l2_async_connection
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230718/202307180109.WQuaPuRt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307180109.WQuaPuRt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307180109.WQuaPuRt-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:770:34: error: field 'asd' has incomplete type
+     770 |         struct v4l2_async_subdev asd;
+         |                                  ^~~
+   In file included from include/linux/bits.h:21,
+                    from include/linux/ioport.h:13,
+                    from include/linux/acpi.h:12,
+                    from drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:12:
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: In function 'atomisp_notifier_bound':
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:774:33: note: in expansion of macro 'container_of'
+     774 | #define to_sensor_asd(a)        container_of(a, struct sensor_async_subdev, asd)
+         |                                 ^~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:783:45: note: in expansion of macro 'to_sensor_asd'
+     783 |         struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
+         |                                             ^~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: In function 'atomisp_notifier_unbind':
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:774:33: note: in expansion of macro 'container_of'
+     774 | #define to_sensor_asd(a)        container_of(a, struct sensor_async_subdev, asd)
+         |                                 ^~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:805:45: note: in expansion of macro 'to_sensor_asd'
+     805 |         struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
+         |                                             ^~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: At top level:
+>> drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:819:18: error: initialization of 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
+     819 |         .bound = atomisp_notifier_bound,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:819:18: note: (near initialization for 'atomisp_async_ops.bound')
+>> drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:820:19: error: initialization of 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
+     820 |         .unbind = atomisp_notifier_unbind,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:820:19: note: (near initialization for 'atomisp_async_ops.unbind')
+   cc1: some warnings being treated as errors
 
 
---=20
-Thanks,
-~Nick Desaulniers
+vim +819 drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+
+8d28ec7e9145ef Hans de Goede 2023-05-25  768  
+8d28ec7e9145ef Hans de Goede 2023-05-25  769  struct sensor_async_subdev {
+8d28ec7e9145ef Hans de Goede 2023-05-25 @770  	struct v4l2_async_subdev asd;
+8d28ec7e9145ef Hans de Goede 2023-05-25  771  	int port;
+8d28ec7e9145ef Hans de Goede 2023-05-25  772  };
+8d28ec7e9145ef Hans de Goede 2023-05-25  773  
+8d28ec7e9145ef Hans de Goede 2023-05-25  774  #define to_sensor_asd(a)	container_of(a, struct sensor_async_subdev, asd)
+8d28ec7e9145ef Hans de Goede 2023-05-25  775  #define notifier_to_atomisp(n)	container_of(n, struct atomisp_device, notifier)
+8d28ec7e9145ef Hans de Goede 2023-05-25  776  
+8d28ec7e9145ef Hans de Goede 2023-05-25  777  /* .bound() notifier callback when a match is found */
+8d28ec7e9145ef Hans de Goede 2023-05-25  778  static int atomisp_notifier_bound(struct v4l2_async_notifier *notifier,
+8d28ec7e9145ef Hans de Goede 2023-05-25  779  				  struct v4l2_subdev *sd,
+8d28ec7e9145ef Hans de Goede 2023-05-25  780  				  struct v4l2_async_subdev *asd)
+8d28ec7e9145ef Hans de Goede 2023-05-25  781  {
+8d28ec7e9145ef Hans de Goede 2023-05-25  782  	struct atomisp_device *isp = notifier_to_atomisp(notifier);
+8d28ec7e9145ef Hans de Goede 2023-05-25  783  	struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
+8d28ec7e9145ef Hans de Goede 2023-05-25  784  
+8d28ec7e9145ef Hans de Goede 2023-05-25  785  	if (s_asd->port >= ATOMISP_CAMERA_NR_PORTS) {
+8d28ec7e9145ef Hans de Goede 2023-05-25  786  		dev_err(isp->dev, "port %d not supported\n", s_asd->port);
+8d28ec7e9145ef Hans de Goede 2023-05-25  787  		return -EINVAL;
+8d28ec7e9145ef Hans de Goede 2023-05-25  788  	}
+8d28ec7e9145ef Hans de Goede 2023-05-25  789  
+8d28ec7e9145ef Hans de Goede 2023-05-25  790  	if (isp->sensor_subdevs[s_asd->port]) {
+8d28ec7e9145ef Hans de Goede 2023-05-25  791  		dev_err(isp->dev, "port %d already has a sensor attached\n", s_asd->port);
+8d28ec7e9145ef Hans de Goede 2023-05-25  792  		return -EBUSY;
+8d28ec7e9145ef Hans de Goede 2023-05-25  793  	}
+8d28ec7e9145ef Hans de Goede 2023-05-25  794  
+8d28ec7e9145ef Hans de Goede 2023-05-25  795  	isp->sensor_subdevs[s_asd->port] = sd;
+8d28ec7e9145ef Hans de Goede 2023-05-25  796  	return 0;
+8d28ec7e9145ef Hans de Goede 2023-05-25  797  }
+8d28ec7e9145ef Hans de Goede 2023-05-25  798  
+8d28ec7e9145ef Hans de Goede 2023-05-25  799  /* The .unbind callback */
+8d28ec7e9145ef Hans de Goede 2023-05-25  800  static void atomisp_notifier_unbind(struct v4l2_async_notifier *notifier,
+8d28ec7e9145ef Hans de Goede 2023-05-25  801  				    struct v4l2_subdev *sd,
+8d28ec7e9145ef Hans de Goede 2023-05-25  802  				    struct v4l2_async_subdev *asd)
+8d28ec7e9145ef Hans de Goede 2023-05-25  803  {
+8d28ec7e9145ef Hans de Goede 2023-05-25  804  	struct atomisp_device *isp = notifier_to_atomisp(notifier);
+8d28ec7e9145ef Hans de Goede 2023-05-25  805  	struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
+8d28ec7e9145ef Hans de Goede 2023-05-25  806  
+8d28ec7e9145ef Hans de Goede 2023-05-25  807  	isp->sensor_subdevs[s_asd->port] = NULL;
+8d28ec7e9145ef Hans de Goede 2023-05-25  808  }
+8d28ec7e9145ef Hans de Goede 2023-05-25  809  
+8d28ec7e9145ef Hans de Goede 2023-05-25  810  /* .complete() is called after all subdevices have been located */
+8d28ec7e9145ef Hans de Goede 2023-05-25  811  static int atomisp_notifier_complete(struct v4l2_async_notifier *notifier)
+8d28ec7e9145ef Hans de Goede 2023-05-25  812  {
+8d28ec7e9145ef Hans de Goede 2023-05-25  813  	struct atomisp_device *isp = notifier_to_atomisp(notifier);
+8d28ec7e9145ef Hans de Goede 2023-05-25  814  
+8d28ec7e9145ef Hans de Goede 2023-05-25  815  	return atomisp_register_device_nodes(isp);
+8d28ec7e9145ef Hans de Goede 2023-05-25  816  }
+8d28ec7e9145ef Hans de Goede 2023-05-25  817  
+8d28ec7e9145ef Hans de Goede 2023-05-25  818  static const struct v4l2_async_notifier_operations atomisp_async_ops = {
+8d28ec7e9145ef Hans de Goede 2023-05-25 @819  	.bound = atomisp_notifier_bound,
+8d28ec7e9145ef Hans de Goede 2023-05-25 @820  	.unbind = atomisp_notifier_unbind,
+8d28ec7e9145ef Hans de Goede 2023-05-25  821  	.complete = atomisp_notifier_complete,
+8d28ec7e9145ef Hans de Goede 2023-05-25  822  };
+8d28ec7e9145ef Hans de Goede 2023-05-25  823  
+
+:::::: The code at line 819 was first introduced by commit
+:::::: 8d28ec7e9145ef6308ab3438d73308ec6ea14360 media: atomisp: Add support for v4l2-async sensor registration
+
+:::::: TO: Hans de Goede <hdegoede@redhat.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
