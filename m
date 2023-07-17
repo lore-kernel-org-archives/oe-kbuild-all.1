@@ -1,43 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25765253CD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 19:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E569253CE;
+	Mon, 17 Jul 2023 19:51:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689621009; x=1721157009;
+  t=1689623469; x=1721159469;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QkjoOq4MRISDQJ4ms1A4pEFBqGTu3aqPBzgYirwhqKA=;
-  b=HWr5gyqVqRQMCsWgv/p8ObqAIJhibAwq0wJzv9Hu8bcPQT2NFpo84oPZ
-   GRd9zZn57roRRsvubHEkUdP0eq33+nUOLkhBa8AdKZ2STNnpucxzIJSrU
-   +IjieP9/D8W+jQc/4IxrKywkWHAgmfxcAZoA97gt9z17pmFMgas6ze8JQ
-   /GUeY7XZbgnEZZLtyZQ2UmXEkw6MOm1NRI7YEW6G30Z5fKvf0HdmD4fxD
-   670qlMLgTVnuTl9qkmrWBTX2a2RvkvYvfMmADeHry9dnpxzKVV9gqwwF2
-   C9B7qZSUXlcPLYkJx3l6FNsSlhaiueUUfYrxszDVI/WV410uHeNGpStf9
+  bh=U+1gNRrQsV4FsavVYDPD1buS5A3s5xetFgabg2L8BlU=;
+  b=Cidp5hcqW0fVfxSAqr0HBFjj9PHt/6zw4qiyBadh1fjroIlvgJhIT2p8
+   J86JXIpxOi9V6ZBl97//xateX726bkoI4bBK1e3GhGfQL7T411b/rCoZS
+   poPKKMNx7fWoKgXPiJfNOlcwIF9fhh2xzKBVv+nPAE1/mDyrPlBaEUS9a
+   dNffpPL6iCeQoCpS6S92ilkCB6YIh0ZXRPfqAL57mbYppYt1YIYZ34tvS
+   u43jvqL0oVaK+ozLp9C9b7zQsKmL9OrZ2VbfyvIX0KH56m/gcNL+XkJT9
+   sEI8bDUZwosZSHYdmQQLnfc0DbD0KQypNvOUumqfw+Ml3qpYojw67dBxM
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="350881476"
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="432198587"
 X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="350881476"
+   d="scan'208";a="432198587"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 12:10:08 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 12:51:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="758530011"
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="758543106"
 X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="758530011"
+   d="scan'208";a="758543106"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 17 Jul 2023 12:10:07 -0700
+  by orsmga001.jf.intel.com with ESMTP; 17 Jul 2023 12:51:07 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLTbi-0009qy-1e;
-	Mon, 17 Jul 2023 19:10:06 +0000
-Date: Tue, 18 Jul 2023 03:09:28 +0800
+	id 1qLUFO-0009rg-2k;
+	Mon, 17 Jul 2023 19:51:06 +0000
+Date: Tue, 18 Jul 2023 03:50:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:async-multi 37/38]
- drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:828:9: error: too
- few arguments to function 'v4l2_async_nf_init'
-Message-ID: <202307180320.jErFaHnP-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:x86/topology 51/58] arch/x86/kernel/setup.c:1021:2:
+ error: call to undeclared function 'apic_setup_apic_calls'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202307180325.YEDq4PZ2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,122 +47,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git async-multi
-head:   08781366d65974d473692f519e0b4345584d3761
-commit: 9d9ffd33e490ccef9273215b1f3141c358e0b7a2 [37/38] media: v4l: async: Set v4l2_device and subdev in async notifier init
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230718/202307180320.jErFaHnP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230718/202307180320.jErFaHnP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topology
+head:   b4958e7260e30a731e3f64c031bbfa88fe79e7ec
+commit: 9c546fe04c7cabeb22ef8ebaf7dfcbac75de0524 [51/58] x86/apic: Provide apic_update_callback()
+config: i386-buildonly-randconfig-r004-20230717 (https://download.01.org/0day-ci/archive/20230718/202307180325.YEDq4PZ2-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307180325.YEDq4PZ2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307180320.jErFaHnP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307180325.YEDq4PZ2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:770:34: error: field 'asd' has incomplete type
-     770 |         struct v4l2_async_subdev asd;
-         |                                  ^~~
-   In file included from include/linux/bits.h:21,
-                    from include/linux/ioport.h:13,
-                    from include/linux/acpi.h:12,
-                    from drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:12:
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: In function 'atomisp_notifier_bound':
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:774:33: note: in expansion of macro 'container_of'
-     774 | #define to_sensor_asd(a)        container_of(a, struct sensor_async_subdev, asd)
-         |                                 ^~~~~~~~~~~~
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:783:45: note: in expansion of macro 'to_sensor_asd'
-     783 |         struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
-         |                                             ^~~~~~~~~~~~~
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: In function 'atomisp_notifier_unbind':
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:774:33: note: in expansion of macro 'container_of'
-     774 | #define to_sensor_asd(a)        container_of(a, struct sensor_async_subdev, asd)
-         |                                 ^~~~~~~~~~~~
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:805:45: note: in expansion of macro 'to_sensor_asd'
-     805 |         struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
-         |                                             ^~~~~~~~~~~~~
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: At top level:
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:819:18: error: initialization of 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
-     819 |         .bound = atomisp_notifier_bound,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:819:18: note: (near initialization for 'atomisp_async_ops.bound')
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:820:19: error: initialization of 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
-     820 |         .unbind = atomisp_notifier_unbind,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:820:19: note: (near initialization for 'atomisp_async_ops.unbind')
-   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: In function 'atomisp_csi2_bridge_parse_firmware':
->> drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:828:9: error: too few arguments to function 'v4l2_async_nf_init'
-     828 |         v4l2_async_nf_init(&isp->notifier);
-         |         ^~~~~~~~~~~~~~~~~~
-   In file included from include/media/v4l2-subdev.h:14,
-                    from drivers/staging/media/atomisp/pci/atomisp_cmd.h:28,
-                    from drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:19:
-   include/media/v4l2-async.h:159:6: note: declared here
-     159 | void v4l2_async_nf_init(struct v4l2_async_notifier *notifier,
-         |      ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/staging/media/atomisp/pci/atomisp_v4l2.c: In function 'atomisp_pci_probe':
->> drivers/staging/media/atomisp/pci/atomisp_v4l2.c:1511:38: error: passing argument 1 of 'v4l2_async_nf_register' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1511 |         err = v4l2_async_nf_register(&isp->v4l2_dev, &isp->notifier);
-         |                                      ^~~~~~~~~~~~~~
-         |                                      |
-         |                                      struct v4l2_device *
-   In file included from include/media/v4l2-subdev.h:14,
-                    from drivers/staging/media/atomisp//include/hmm/../../include/linux/atomisp_platform.h:25,
-                    from drivers/staging/media/atomisp//include/hmm/../../include/linux/atomisp_gmin_platform.h:19,
-                    from drivers/staging/media/atomisp/pci/atomisp_v4l2.c:34:
-   include/media/v4l2-async.h:281:56: note: expected 'struct v4l2_async_notifier *' but argument is of type 'struct v4l2_device *'
-     281 | int v4l2_async_nf_register(struct v4l2_async_notifier *notifier);
-         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
->> drivers/staging/media/atomisp/pci/atomisp_v4l2.c:1511:15: error: too many arguments to function 'v4l2_async_nf_register'
-    1511 |         err = v4l2_async_nf_register(&isp->v4l2_dev, &isp->notifier);
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-async.h:281:5: note: declared here
-     281 | int v4l2_async_nf_register(struct v4l2_async_notifier *notifier);
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> arch/x86/kernel/setup.c:1021:2: error: call to undeclared function 'apic_setup_apic_calls'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           apic_setup_apic_calls();
+           ^
+   1 error generated.
 
 
-vim +/v4l2_async_nf_init +828 drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+vim +/apic_setup_apic_calls +1021 arch/x86/kernel/setup.c
 
-8d28ec7e9145ef Hans de Goede 2023-05-25  823  
-8d28ec7e9145ef Hans de Goede 2023-05-25  824  int atomisp_csi2_bridge_parse_firmware(struct atomisp_device *isp)
-8d28ec7e9145ef Hans de Goede 2023-05-25  825  {
-8d28ec7e9145ef Hans de Goede 2023-05-25  826  	int i, mipi_port, ret;
-8d28ec7e9145ef Hans de Goede 2023-05-25  827  
-8d28ec7e9145ef Hans de Goede 2023-05-25 @828  	v4l2_async_nf_init(&isp->notifier);
-
-:::::: The code at line 828 was first introduced by commit
-:::::: 8d28ec7e9145ef6308ab3438d73308ec6ea14360 media: atomisp: Add support for v4l2-async sensor registration
-
-:::::: TO: Hans de Goede <hdegoede@redhat.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+  1018	
+  1019		x86_report_nx();
+  1020	
+> 1021		apic_setup_apic_calls();
+  1022	
+  1023		if (acpi_mps_check()) {
+  1024	#ifdef CONFIG_X86_LOCAL_APIC
+  1025			apic_is_disabled = true;
+  1026	#endif
+  1027			setup_clear_cpu_cap(X86_FEATURE_APIC);
+  1028		}
+  1029	
+  1030		e820__reserve_setup_data();
+  1031		e820__finish_early_params();
+  1032	
+  1033		if (efi_enabled(EFI_BOOT))
+  1034			efi_init();
+  1035	
+  1036		reserve_ibft_region();
+  1037		dmi_setup();
+  1038	
+  1039		/*
+  1040		 * VMware detection requires dmi to be available, so this
+  1041		 * needs to be done after dmi_setup(), for the boot CPU.
+  1042		 * For some guest types (Xen PV, SEV-SNP, TDX) it is required to be
+  1043		 * called before cache_bp_init() for setting up MTRR state.
+  1044		 */
+  1045		init_hypervisor_platform();
+  1046	
+  1047		tsc_early_init();
+  1048		x86_init.resources.probe_roms();
+  1049	
+  1050		/* after parse_early_param, so could debug it */
+  1051		insert_resource(&iomem_resource, &code_resource);
+  1052		insert_resource(&iomem_resource, &rodata_resource);
+  1053		insert_resource(&iomem_resource, &data_resource);
+  1054		insert_resource(&iomem_resource, &bss_resource);
+  1055	
+  1056		e820_add_kernel_range();
+  1057		trim_bios_range();
+  1058	#ifdef CONFIG_X86_32
+  1059		if (ppro_with_ram_bug()) {
+  1060			e820__range_update(0x70000000ULL, 0x40000ULL, E820_TYPE_RAM,
+  1061					  E820_TYPE_RESERVED);
+  1062			e820__update_table(e820_table);
+  1063			printk(KERN_INFO "fixed physical RAM map:\n");
+  1064			e820__print_table("bad_ppro");
+  1065		}
+  1066	#else
+  1067		early_gart_iommu_check();
+  1068	#endif
+  1069	
+  1070		/*
+  1071		 * partially used pages are not usable - thus
+  1072		 * we are rounding upwards:
+  1073		 */
+  1074		max_pfn = e820__end_of_ram_pfn();
+  1075	
+  1076		/* update e820 for memory not covered by WB MTRRs */
+  1077		cache_bp_init();
+  1078		if (mtrr_trim_uncached_memory(max_pfn))
+  1079			max_pfn = e820__end_of_ram_pfn();
+  1080	
+  1081		max_possible_pfn = max_pfn;
+  1082	
+  1083		/*
+  1084		 * Define random base addresses for memory sections after max_pfn is
+  1085		 * defined and before each memory section base is used.
+  1086		 */
+  1087		kernel_randomize_memory();
+  1088	
 
 -- 
 0-DAY CI Kernel Test Service
