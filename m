@@ -1,133 +1,146 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D60C2D7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 21:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689628933; x=1721164933;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5lt9zQofVGhHvQXKZC8vC67KbEdQ4ztI1WmVt8GK+Qc=;
-  b=FnstYvgPhAwNKgNg7evdAQCkbxNzJkRo0oNqVEA3czI8oPeKy3qWSU8t
-   V9Fsa4tuW7YEFzpbeLDCSrljD6ucFCSTZ1Mozll9z5ogo0OgB+OikgD0V
-   ExaepPap7suL0B2Hsp41iGhw1VJ++8UkpKT4j6W/D9tq6tk48NhIFlqNz
-   emJwZDoMnqdM7hngTO2hmDtcqF1S+JPGpvlxgbdRZCjnQNj1sTsZ4G6an
-   pKlRb6Wt80ifuw6s6PMOV+LGRviH5SpzoChWAZK5Tk81YW07QG2IZbnTw
-   WXP1CZeD3fYFQ71I+NhWn67TkMKTRCFLusSpgkj7Q3LLvhkljWzsZyFf9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="452418090"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="452418090"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 14:22:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="723349205"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="723349205"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 17 Jul 2023 14:22:09 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qLVfV-0009vk-0C;
-	Mon, 17 Jul 2023 21:22:09 +0000
-Date: Tue, 18 Jul 2023 05:22:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 6544/11052]
- arch/arm64/include/asm/kvm_hypevents.h:14:1: warning: no previous prototype
- for function 'hyp_event_trace_hyp_enter'
-Message-ID: <202307180522.rilhfQms-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A12C2D7;
+	Mon, 17 Jul 2023 21:31:32 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1b8a44ee159so30412415ad.3;
+        Mon, 17 Jul 2023 14:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689629492; x=1692221492;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/shnMI8ItryjTJrs8VRlzMOR+uoHpxLd3090WJLPPd4=;
+        b=KS26rpGuWkjO9/8Iz965pv7SQpWXR8WR3U/qjdU6ha5Rdbga0ext24a/pgt4qiIIXq
+         jxe0RMoFE+lTtD710kGm2SNlSOZOc8PjL2OWwi4AoxpbiYTEfUoKgRoApUR2oJi74Pky
+         Vrfq1k/2UJRcGfojj4OKYWBjFFWkso9B8wijSkRLlMJ/HSM3RTPcTkYsOJdUfBakNeFv
+         Z1J6WcrpovZs9Y6eRI7K55dNdcRFdZFQvHPjPAn/Uc5/4YRorQc8R/Brda4KgWfJ8FVi
+         YDiKivCDy51HqlwqWIVsCIDHLLMrbk3KlX8zx9CjmK9/Qu9gslFwbB58v5KTQglaEqBr
+         bP8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689629492; x=1692221492;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/shnMI8ItryjTJrs8VRlzMOR+uoHpxLd3090WJLPPd4=;
+        b=a6JmfKTtTaqAk0+A4J1L/p09m77R6tU+qY0LEyV/z6rFa7oInPpw4x1oU3Yw5uxvxf
+         J8git7oD2EZOfGGweyvtcAxjCOjL2Zz1gq6Ds7MOPogPfdTFUjLxjLLdMT9Oi7DbwCqz
+         9fc2Uwq/5DuJLD/ehT9rHb/fJpdZCpbt+cscb+zC3lXXNJXyXoJeaecONENp0WxXZ6gf
+         J9pTJbT5qFv34F2obJa3RhrI6WN7tUHdjocQ7NCn9QHUZlC2cn0cvXcj3s5VhMsreYfV
+         Q4zlXWumilk2U/KLdciCiQk2zv+uf7YO7T4J4S/xdZdFy9dmsJdldKfso9EU7SrDGcpj
+         5Irw==
+X-Gm-Message-State: ABy/qLaASvyfcsp84xo0KAMgeJmN1T4JbqSjMLdNxLWAqzGyGGEguJp9
+	zBkiQrlJRYMJ5fckg5GH2fk=
+X-Google-Smtp-Source: APBJJlEQ+6sZCrOnH74M/QIgGWhQ0QArU/S1q6/IiWa+T2eLFIal9wuo0KpvqaIeniJBUVX+JQznFA==
+X-Received: by 2002:a17:902:ea05:b0:1b3:9d13:34b3 with SMTP id s5-20020a170902ea0500b001b39d1334b3mr14862778plg.37.1689629491636;
+        Mon, 17 Jul 2023 14:31:31 -0700 (PDT)
+Received: from localhost ([216.228.127.128])
+        by smtp.gmail.com with ESMTPSA id e9-20020a170902744900b001b86deba2f9sm294217plt.284.2023.07.17.14.31.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jul 2023 14:31:31 -0700 (PDT)
+Date: Mon, 17 Jul 2023 14:31:24 -0700
+From: Yury Norov <yury.norov@gmail.com>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Alexander Lobakin <alexandr.lobakin@intel.com>,
+	Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Tom Rix <trix@redhat.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] lib/bitmap: waive const_eval test as it breaks the build
+Message-ID: <ZLWzLHsGmRxpylxN@yury-ThinkPad>
+References: <20230717195813.29059-1-yury.norov@gmail.com>
+ <20230717203105.GA2212488@dev-arch.thelio-3990X>
+ <CAKwvOdmUb=JgigcHxOR2trAx+fSxsKu9nNbpAhN1hC8_RBNXeQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKwvOdmUb=JgigcHxOR2trAx+fSxsKu9nNbpAhN1hC8_RBNXeQ@mail.gmail.com>
 
-Hi Vincent,
+On Mon, Jul 17, 2023 at 01:57:40PM -0700, Nick Desaulniers wrote:
+> On Mon, Jul 17, 2023 at 1:31 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > Hi Yury,
+> >
+> > On Mon, Jul 17, 2023 at 12:58:13PM -0700, Yury Norov wrote:
+> > > When building with clang, and when KASAN and GCOV_PROFILE_ALL are both
+> > > enabled, the test fails to build [1]:
+> > >
+> > > >> lib/test_bitmap.c:920:2: error: call to '__compiletime_assert_239' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(res)
+> > >            BUILD_BUG_ON(!__builtin_constant_p(res));
+> > >            ^
+> > >    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+> > >            BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+> > >            ^
+> > >    include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+> > >    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+> > >                                        ^
+> > >    include/linux/compiler_types.h:352:2: note: expanded from macro 'compiletime_assert'
+> > >            _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+> > >            ^
+> > >    include/linux/compiler_types.h:340:2: note: expanded from macro '_compiletime_assert'
+> > >            __compiletime_assert(condition, msg, prefix, suffix)
+> > >            ^
+> > >    include/linux/compiler_types.h:333:4: note: expanded from macro '__compiletime_assert'
+> > >                            prefix ## suffix();                             \
+> > >                            ^
+> > >    <scratch space>:185:1: note: expanded from here
+> > >    __compiletime_assert_239
+> > >
+> > > Originally it was attributed to s390, which now looks seemingly wrong. The
+> > > issue is also not related to bitmap code itself, but it breaks build for
+> > > a given configuration. So, disabling the test unless the compiler will
+> > > get fixed.
+> > >
+> > > [1] https://github.com/ClangBuiltLinux/linux/issues/1874
+> > >
+> > > Fixes: dc34d5036692 ("lib: test_bitmap: add compile-time optimization/evaluations assertions")
+> > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> > > ---
+> > >  lib/test_bitmap.c | 17 +++++------------
+> > >  1 file changed, 5 insertions(+), 12 deletions(-)
+> > >
+> > > diff --git a/lib/test_bitmap.c b/lib/test_bitmap.c
+> > > index 187f5b2db4cf..a791fdb7a8c9 100644
+> > > --- a/lib/test_bitmap.c
+> > > +++ b/lib/test_bitmap.c
+> > > @@ -1163,6 +1163,9 @@ static void __init test_bitmap_print_buf(void)
+> > >
+> > >  static void __init test_bitmap_const_eval(void)
+> > >  {
+> > > +#if defined(CONFIG_CC_IS_CLANG) && defined(CONFIG_KASAN) && defined(CONFIG_GCOV_PROFILE_ALL)
+> > > +#warning "FIXME: Clang breaks compile time evaluations when KASAN and GCOV are enabled"
+> >
+> > Making this a '#warning' will basically just replace the current error
+> > with a different one in the face of CONFIG_WERROR, which seems pointless
+> > to me:
+> >
+> >   lib/test_bitmap.c:1167:2: error: "FIXME: Clang breaks compile time evaluations when KASAN and GCOV are enabled" [-Werror,-W#warnings]
+> >    1167 | #warning "FIXME: Clang breaks compile time evaluations when KASAN and GCOV are enabled"
+> >         |  ^
+> >   1 error generated.
+> >
+> > Could we just opt out of GCOV for test_bitmap.c if KASAN is enabled with
+> > clang? That does not seem too bad of a workaround. I highly doubt there
+> > are many people who are interested in debugging test_bitmap.c with KASAN
+> > while profiling it with GCOV when building with clang, since they would
+> > have hit this already and reported it already; as far as I can tell,
+> > only the Intel robot has reported this with a randconfig.
+> 
+> Yury, Nathan,
+> Thanks for the patches and discussion.  Yes, I think a combo of:
+> 
+> 1. Nathan's lib/Makefile change plus
+> 2. Yury's removal of the current preprocessor guards in lib/test_bitmap.c
+> 
+> make most sense.
 
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   a16d62a2960b9f3c3e809d8051accf68826f3d32
-commit: 09014fb1f2df192b186cd253fa990925f262f308 [6544/11052] ANDROID: KVM: arm64: Add support for nVHE hyp events
-config: arm64-randconfig-r031-20230717 (https://download.01.org/0day-ci/archive/20230718/202307180522.rilhfQms-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230718/202307180522.rilhfQms-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307180522.rilhfQms-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/arm64/kvm/hyp_events.c:34:
->> arch/arm64/include/asm/kvm_hypevents.h:14:1: warning: no previous prototype for function 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
-   HYP_EVENT(hyp_enter,
-   ^
-   arch/arm64/kvm/hyp_events.c:22:20: note: expanded from macro 'HYP_EVENT'
-           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
-                             ^
-   <scratch space>:70:1: note: expanded from here
-   hyp_event_trace_hyp_enter
-   ^
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   arch/arm64/kvm/hyp_events.c:22:2: note: expanded from macro 'HYP_EVENT'
-           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
-           ^
-   In file included from arch/arm64/kvm/hyp_events.c:34:
->> arch/arm64/include/asm/kvm_hypevents.h:23:1: warning: no previous prototype for function 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
-   HYP_EVENT(hyp_exit,
-   ^
-   arch/arm64/kvm/hyp_events.c:22:20: note: expanded from macro 'HYP_EVENT'
-           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
-                             ^
-   <scratch space>:75:1: note: expanded from here
-   hyp_event_trace_hyp_exit
-   ^
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   arch/arm64/kvm/hyp_events.c:22:2: note: expanded from macro 'HYP_EVENT'
-           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
-           ^
->> arch/arm64/kvm/hyp_events.c:166:6: warning: no previous prototype for function 'kvm_hyp_init_events_tracefs' [-Wmissing-prototypes]
-   void kvm_hyp_init_events_tracefs(struct dentry *parent)
-        ^
-   arch/arm64/kvm/hyp_events.c:166:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void kvm_hyp_init_events_tracefs(struct dentry *parent)
-   ^
-   static 
->> arch/arm64/kvm/hyp_events.c:198:5: warning: no previous prototype for function 'kvm_hyp_init_events' [-Wmissing-prototypes]
-   int kvm_hyp_init_events(void)
-       ^
-   arch/arm64/kvm/hyp_events.c:198:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int kvm_hyp_init_events(void)
-   ^
-   static 
-   4 warnings generated.
-
-
-vim +/hyp_event_trace_hyp_enter +14 arch/arm64/include/asm/kvm_hypevents.h
-
-     9	
-    10	/*
-    11	 * Hypervisor events definitions.
-    12	 */
-    13	
-  > 14	HYP_EVENT(hyp_enter,
-    15		HE_PROTO(void),
-    16		HE_STRUCT(
-    17		),
-    18		HE_ASSIGN(
-    19		),
-    20		HE_PRINTK(" ")
-    21	);
-    22	
-  > 23	HYP_EVENT(hyp_exit,
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+OK, then I'll send a v2 shortly. Nathan, don't you mind if I add your
+co-developed-by for this?
