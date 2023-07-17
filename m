@@ -1,52 +1,46 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C538A6D19
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 06:00:08 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3143798f542so4451463f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jul 2023 23:00:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689573607; x=1692165607;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jR/dupx8mC1I46jhuzPnpri9B0UsHY1hY1EG5f0NLnY=;
-        b=VHJ2NZOmGA+KZTv6RJE8z+dewcN3Wh5ptQab4kmV/C/lDy4Ahf7hxoi0wmgFxCzGrN
-         W+b2ic8OnATV53IohB1EfKawxXLbrOO2ozX72hDlDpbvJXJXqOtR4IeS6WRflqwKTy3+
-         iPlnSnWerp7etSbhF6pFF5qUEfWvL+WZ2nkCrJWBoji+M7sDyNu3PVG0zuzVekwE9bi1
-         d6DAlczQMMhTTeDUqJz9zhS26WMBIeaqZXExxcHUlMhcjGYya82XS2q/fT2k+pxpq8WC
-         o6zO5dF6b+r8W3v0+nPW+20Fs8yJiSxZ8m/ShV7NwbelE1xZRKqQxvSIuNtcRhXbRpWU
-         hxHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689573607; x=1692165607;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jR/dupx8mC1I46jhuzPnpri9B0UsHY1hY1EG5f0NLnY=;
-        b=VA+TzOVZBP9P+wnKrA+hNoC9UA+K2ZMjhyK2eAwkusxnEDp6Tl5/RWYYfpBI3C1PEe
-         e7PxPPNU6RbPlMcm/arOlFTdpEpDEyll+L2pwtzdAhAPmEEYi6zFF20YI18RY3Jj8q/P
-         QMOLsTUeXDGOK5nuz01FrguXkbSIz41egm3BoscpGUjlAuCSaTvl3RrhfN200hqgGqpv
-         UUVpNraP+eZUAkf7Bs6534D6EqeLFHcksG6U+/1Wnm4BYAJCu8xWr2nll2/fchcTFGJ6
-         ac475ytlBnl+5Y/le8trZau1uK5IXCXQtk+vjP1Y4yK/6h5OVSNMIF1O5i10EXKR9YJd
-         6VOQ==
-X-Gm-Message-State: ABy/qLZWq84gFq3izbl2LkknRjAyY3NUUiJdhZP/TVY5hiqrPvCgqgS7
-	vVwNZq2dNuNmqp4RWx0FTCdF45Zw8kWGDipiooI=
-X-Google-Smtp-Source: APBJJlGC0KdNpIs447ArX68218HlhVP7mOa9xQT8cyDtlC7IM8vwJsCTYfJElQHYehK3KqGjyGXpzw==
-X-Received: by 2002:a5d:4145:0:b0:314:11f3:ca94 with SMTP id c5-20020a5d4145000000b0031411f3ca94mr10320131wrq.41.1689573606754;
-        Sun, 16 Jul 2023 23:00:06 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v16-20020a5d6790000000b003112ab916cdsm18297215wru.73.2023.07.16.23.00.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jul 2023 23:00:05 -0700 (PDT)
-Date: Mon, 17 Jul 2023 09:00:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Chris Lew <quic_clew@quicinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
-	Deepak Kumar Singh <quic_deesin@quicinc.com>,
-	Sarannya S <quic_sarannya@quicinc.com>
-Subject: [remoteproc:rpmsg-next 2/4] drivers/rpmsg/qcom_glink_native.c:1074
- qcom_glink_handle_signals() error: we previously assumed 'channel' could be
- null (see line 1069)
-Message-ID: <6a5b5198-5fb1-4059-a23b-40c569e83857@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434E715AD;
+	Mon, 17 Jul 2023 06:15:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689574547; x=1721110547;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kmazPv2jCJTdy/eDps3PGFFO7DZeo9izsn+ofDOzdfk=;
+  b=nTDkCDXngm90O6jUsJr3qsdC21eKZyslkqSYVzYQtJOLQ5ecTBE66PyN
+   JIB7wAAk3aiMXMiIyyUW8JZoDED+iez9b79x4TWPf3SyvBrIVzLh6KUAH
+   ndJAOEpZqvxc7nDQ7svvglJ9q6g4suhr9TqXT9gDX6vCJ6hc8Hq1eCawz
+   9UVRXo5UFugL/cVWKEcoU9ViZAhjwlKqITIjBdHsb8aKnkzmM6BBB8n5A
+   cIpv8aF4ydJNKG1BfAUvsl/5KgHARVyIJFwowyLwK755MRKrh0aUcmtY9
+   0/xR09+4RUolOxw1YiPNv/Ew9MpMDRdosNSMLrGEq+rYtjf69jpnhpYO4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="364726463"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="364726463"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2023 23:15:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="813176035"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="813176035"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 16 Jul 2023 23:15:44 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qLHWJ-0009DI-0O;
+	Mon, 17 Jul 2023 06:15:43 +0000
+Date: Mon, 17 Jul 2023 14:15:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>
+Subject: [linux-next:master 2870/3252] drivers/cxl/acpi.c:300:4: warning:
+ format specifies type 'unsigned long long' but the argument has type
+ 'resource_size_t' (aka 'unsigned int')
+Message-ID: <202307171416.dMlpHle6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,50 +50,165 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rpmsg-next
-head:   b5c9ee8296a3760760c7b5d2e305f91412adc795
-commit: a2b73aa512a4a90dda7dd5bb38b26b4f1381adbb [2/4] rpmsg: glink: Add support to handle signals command
-config: sh-randconfig-m041-20230716 (https://download.01.org/0day-ci/archive/20230716/202307160800.sb7gMnL6-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230716/202307160800.sb7gMnL6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2205be537aeb1ca2ace998e2fefaa2be04e393e4
+commit: 3840e10e8dcafc89a2d96ab7dbb640434c8da8cf [2870/3252] cxl/acpi: Fix a use-after-free in cxl_parse_cfmws()
+config: i386-randconfig-i004-20230717 (https://download.01.org/0day-ci/archive/20230717/202307171416.dMlpHle6-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230717/202307171416.dMlpHle6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307160800.sb7gMnL6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307171416.dMlpHle6-lkp@intel.com/
 
-New smatch warnings:
-drivers/rpmsg/qcom_glink_native.c:1074 qcom_glink_handle_signals() error: we previously assumed 'channel' could be null (see line 1069)
+All warnings (new ones prefixed by >>):
 
-vim +/channel +1074 drivers/rpmsg/qcom_glink_native.c
+>> drivers/cxl/acpi.c:300:4: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                           res->start, res->end);
+                           ^~~~~~~~~~
+   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ~~~    ^~~~~~~~~~~
+   drivers/cxl/acpi.c:300:16: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                           res->start, res->end);
+                                       ^~~~~~~~
+   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ~~~    ^~~~~~~~~~~
+   2 warnings generated.
 
-a2b73aa512a4a9 Chris Lew 2023-07-07  1059  static void qcom_glink_handle_signals(struct qcom_glink *glink,
-a2b73aa512a4a9 Chris Lew 2023-07-07  1060  				      unsigned int rcid, unsigned int sigs)
-a2b73aa512a4a9 Chris Lew 2023-07-07  1061  {
-a2b73aa512a4a9 Chris Lew 2023-07-07  1062  	struct glink_channel *channel;
-a2b73aa512a4a9 Chris Lew 2023-07-07  1063  	unsigned long flags;
-a2b73aa512a4a9 Chris Lew 2023-07-07  1064  	bool enable;
-a2b73aa512a4a9 Chris Lew 2023-07-07  1065  
-a2b73aa512a4a9 Chris Lew 2023-07-07  1066  	spin_lock_irqsave(&glink->idr_lock, flags);
-a2b73aa512a4a9 Chris Lew 2023-07-07  1067  	channel = idr_find(&glink->rcids, rcid);
-a2b73aa512a4a9 Chris Lew 2023-07-07  1068  	spin_unlock_irqrestore(&glink->idr_lock, flags);
-a2b73aa512a4a9 Chris Lew 2023-07-07 @1069  	if (!channel)
 
-check for NULL
+vim +300 drivers/cxl/acpi.c
 
-a2b73aa512a4a9 Chris Lew 2023-07-07  1070  		dev_err(glink->dev, "signal for non-existing channel\n");
-a2b73aa512a4a9 Chris Lew 2023-07-07  1071  
-a2b73aa512a4a9 Chris Lew 2023-07-07  1072  	enable = sigs & NATIVE_DSR_SIG || sigs & NATIVE_CTS_SIG;
-a2b73aa512a4a9 Chris Lew 2023-07-07  1073  
-a2b73aa512a4a9 Chris Lew 2023-07-07 @1074  	if (channel->ept.flow_cb)
-
-Followed by unchecked dereference
-
-a2b73aa512a4a9 Chris Lew 2023-07-07  1075  		channel->ept.flow_cb(channel->ept.rpdev, channel->ept.priv, enable);
-a2b73aa512a4a9 Chris Lew 2023-07-07  1076  }
+   196	
+   197	static int cxl_parse_cfmws(union acpi_subtable_headers *header, void *arg,
+   198				   const unsigned long end)
+   199	{
+   200		int target_map[CXL_DECODER_MAX_INTERLEAVE];
+   201		struct cxl_cfmws_context *ctx = arg;
+   202		struct cxl_port *root_port = ctx->root_port;
+   203		struct resource *cxl_res = ctx->cxl_res;
+   204		struct cxl_cxims_context cxims_ctx;
+   205		struct cxl_root_decoder *cxlrd;
+   206		struct device *dev = ctx->dev;
+   207		struct acpi_cedt_cfmws *cfmws;
+   208		cxl_calc_hb_fn cxl_calc_hb;
+   209		struct cxl_decoder *cxld;
+   210		unsigned int ways, i, ig;
+   211		struct resource *res;
+   212		int rc;
+   213	
+   214		cfmws = (struct acpi_cedt_cfmws *) header;
+   215	
+   216		rc = cxl_acpi_cfmws_verify(dev, cfmws);
+   217		if (rc) {
+   218			dev_err(dev, "CFMWS range %#llx-%#llx not registered\n",
+   219				cfmws->base_hpa,
+   220				cfmws->base_hpa + cfmws->window_size - 1);
+   221			return 0;
+   222		}
+   223	
+   224		rc = eiw_to_ways(cfmws->interleave_ways, &ways);
+   225		if (rc)
+   226			return rc;
+   227		rc = eig_to_granularity(cfmws->granularity, &ig);
+   228		if (rc)
+   229			return rc;
+   230		for (i = 0; i < ways; i++)
+   231			target_map[i] = cfmws->interleave_targets[i];
+   232	
+   233		res = kzalloc(sizeof(*res), GFP_KERNEL);
+   234		if (!res)
+   235			return -ENOMEM;
+   236	
+   237		res->name = kasprintf(GFP_KERNEL, "CXL Window %d", ctx->id++);
+   238		if (!res->name)
+   239			goto err_name;
+   240	
+   241		res->start = cfmws->base_hpa;
+   242		res->end = cfmws->base_hpa + cfmws->window_size - 1;
+   243		res->flags = IORESOURCE_MEM;
+   244	
+   245		/* add to the local resource tracking to establish a sort order */
+   246		rc = insert_resource(cxl_res, res);
+   247		if (rc)
+   248			goto err_insert;
+   249	
+   250		if (cfmws->interleave_arithmetic == ACPI_CEDT_CFMWS_ARITHMETIC_MODULO)
+   251			cxl_calc_hb = cxl_hb_modulo;
+   252		else
+   253			cxl_calc_hb = cxl_hb_xor;
+   254	
+   255		cxlrd = cxl_root_decoder_alloc(root_port, ways, cxl_calc_hb);
+   256		if (IS_ERR(cxlrd))
+   257			return 0;
+   258	
+   259		cxld = &cxlrd->cxlsd.cxld;
+   260		cxld->flags = cfmws_to_decoder_flags(cfmws->restrictions);
+   261		cxld->target_type = CXL_DECODER_HOSTONLYMEM;
+   262		cxld->hpa_range = (struct range) {
+   263			.start = res->start,
+   264			.end = res->end,
+   265		};
+   266		cxld->interleave_ways = ways;
+   267		/*
+   268		 * Minimize the x1 granularity to advertise support for any
+   269		 * valid region granularity
+   270		 */
+   271		if (ways == 1)
+   272			ig = CXL_DECODER_MIN_GRANULARITY;
+   273		cxld->interleave_granularity = ig;
+   274	
+   275		if (cfmws->interleave_arithmetic == ACPI_CEDT_CFMWS_ARITHMETIC_XOR) {
+   276			if (ways != 1 && ways != 3) {
+   277				cxims_ctx = (struct cxl_cxims_context) {
+   278					.dev = dev,
+   279					.cxlrd = cxlrd,
+   280				};
+   281				rc = acpi_table_parse_cedt(ACPI_CEDT_TYPE_CXIMS,
+   282							   cxl_parse_cxims, &cxims_ctx);
+   283				if (rc < 0)
+   284					goto err_xormap;
+   285				if (!cxlrd->platform_data) {
+   286					dev_err(dev, "No CXIMS for HBIG %u\n", ig);
+   287					rc = -EINVAL;
+   288					goto err_xormap;
+   289				}
+   290			}
+   291		}
+   292		rc = cxl_decoder_add(cxld, target_map);
+   293	err_xormap:
+   294		if (rc)
+   295			put_device(&cxld->dev);
+   296		else
+   297			rc = cxl_decoder_autoremove(dev, cxld);
+   298		if (rc) {
+   299			dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
+ > 300				res->start, res->end);
+   301			return 0;
+   302		}
+   303		dev_dbg(dev, "add: %s node: %d range [%#llx - %#llx]\n",
+   304			dev_name(&cxld->dev),
+   305			phys_to_target_node(cxld->hpa_range.start),
+   306			cxld->hpa_range.start, cxld->hpa_range.end);
+   307	
+   308		return 0;
+   309	
+   310	err_insert:
+   311		kfree(res->name);
+   312	err_name:
+   313		kfree(res);
+   314		return -ENOMEM;
+   315	}
+   316	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
