@@ -1,236 +1,103 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3060AA943
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 12:54:49 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5216095a698so1091811a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 05:54:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689598487; x=1690203287;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S2uSSqoDKdw1xON6ZQFvPCT+NY31p6OTOAF8u4sw0ok=;
-        b=FsD8gB7WXrBbyKCGlsEoL0IHjPNhKK9j88992VQ97VEq6frK1iIYTGhmyTGFg0cMGF
-         XUjfxn1QVN0blhJCYFy+pqeJixDAPzLHw9nJFDz4YxhmnSMYhjJUFv44pci8chWNm8Kh
-         3iDv/kd80hgMUoFCeMmImejD4xXXK8uRJHzU/J+DTmuECIL6a8eefIcQb2YpwJEpm7WB
-         +SKJXxbu76giLRsYSqgFG367BT+aQJl5QJ0+kA0qworZOie5sTbW69QItOQGR+PSEcnF
-         XRm0l5aq6qw0GToemTh0mlgjTW9skkdSlgfy9hDJNed3cZTYcdiluvJR3gB/JSb+zufT
-         5SRA==
-X-Gm-Message-State: ABy/qLZgh/cDcJWYGAoMA6q8ra6mIvIUNRsE5UC5ncY9gXofrEYaQnmd
-	d+JuvvwSdxV6W03q00rNYNomA3xfhkPQkVJmkmk=
-X-Google-Smtp-Source: APBJJlG/RFN+alXBMoZub7ZXDrvQKawf7/X52T+PEZuEfvnaSfe0Xzt9b0VQh9l5v/sXc1F2JO/i0QHiWOIqqbfG0Yg=
-X-Received: by 2002:a17:906:74dc:b0:994:1808:176b with SMTP id
- z28-20020a17090674dc00b009941808176bmr8581743ejl.6.1689598486971; Mon, 17 Jul
- 2023 05:54:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A4EBA27
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 15:05:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689606302; x=1721142302;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pHa0ImfmO4vhtsILkTaXtFFxU7FhzXbs8vbUQGHIOD4=;
+  b=njcONW6PIynEYxwgotWH2j0fDS6tYYB+Wx+bIbxBLKv60IXmtSMd3SKF
+   Y6Q/6LdO0SjIfltaGDEq2vHVMrIc1mzJaZNqrUJOeAT1j9Jg+By/fR+3Z
+   OK6g3WaGhp031KJyVJWnZgSl+i9TBnasCPQflZ0Q5sdObECfOCgxXY/Uk
+   Z3f5OTPdhDEcz+Veui/Z2bhd8gqgORCT8S6vuN4lKF5gzihgFYLhGOJ3q
+   W/Ska77qIzOKkZX8dv2mE1Xyu6lRTWN48ef2J5aKIB3r5ikSl76n/MPrp
+   O07yE/SfgsuSu9BBH40l+jZAMrLAAtYH9U7WjI+7pf01UQCfXEIfiA0B1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="368593810"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="368593810"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 08:05:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="673560781"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="673560781"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 17 Jul 2023 08:05:00 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qLPmV-0009eO-1X;
+	Mon, 17 Jul 2023 15:04:59 +0000
+Date: Mon, 17 Jul 2023 23:04:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 107/115]
+ drivers/media/platform/camx/cam_cdm/cam_cdm_virtual_core.c:92:27: warning:
+ assignment to 'uintptr_t *' {aka 'long unsigned int *'} from 'uintptr_t'
+ {aka 'long unsigned int'} makes pointer from integer without a cast
+Message-ID: <202307172207.l6uHgSjh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202307150637.CGq9exEE-lkp@intel.com> <6f8d0187-0a90-1fa2-61e9-0a7b9a44106e@intel.com>
-In-Reply-To: <6f8d0187-0a90-1fa2-61e9-0a7b9a44106e@intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 17 Jul 2023 14:54:31 +0200
-Message-ID: <CAJZ5v0gP9oGSdsH9KcMamGbc=ca7rZtSVSOSvz=GuLuMiTvt1w@mail.gmail.com>
-Subject: Re: [rafael-pm:bleeding-edge 22/40] drivers/acpi/internal.h:161:
- multiple definition of `acpi_early_processor_control_setup';
- drivers/acpi/tables.o:drivers/acpi/internal.h:161: first defined here
-To: "Wilczynski, Michal" <michal.wilczynski@intel.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, devel@acpica.org, linux-pm@vger.kernel.org, 
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Jul 17, 2023 at 12:48=E2=80=AFPM Wilczynski, Michal
-<michal.wilczynski@intel.com> wrote:
->
-> Hi,
->
-> On 7/15/2023 12:47 AM, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm=
-.git bleeding-edge
-> > head:   4f9dd7927c1cdbaffb20fcdbcc2bdc6caa0b4736
-> > commit: ca805e0f04a5f9a773875ad6de914e54e41d43c7 [22/40] ACPI: processo=
-r: Use _OSC to convey OSPM processor support information
-> > config: arm64-defconfig (https://download.01.org/0day-ci/archive/202307=
-15/202307150637.CGq9exEE-lkp@intel.com/config)
-> > compiler: aarch64-linux-gcc (GCC) 12.3.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20230715/2023071506=
-37.CGq9exEE-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202307150637.CGq9exEE-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    aarch64-linux-ld: drivers/acpi/osi.o: in function `acpi_early_proces=
-sor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/osl.o: in function `acpi_early_proces=
-sor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/utils.o: in function `acpi_early_proc=
-essor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/nvs.o: in function `acpi_early_proces=
-sor_control_setup':
-> >    drivers/acpi/nvs.c:161: multiple definition of `acpi_early_processor=
-_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: first d=
-efined here
-> >    aarch64-linux-ld: drivers/acpi/wakeup.o: in function `acpi_early_pro=
-cessor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/device_sysfs.o: in function `acpi_ear=
-ly_processor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/device_pm.o: in function `acpi_early_=
-processor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/bus.o: in function `acpi_early_proces=
-sor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/glue.o: in function `acpi_early_proce=
-ssor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/scan.o: in function `acpi_early_proce=
-ssor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/acpi_processor.o: in function `acpi_e=
-arly_processor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/ec.o: in function `acpi_early_process=
-or_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/pci_root.o: in function `acpi_early_p=
-rocessor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/pci_link.o: in function `acpi_early_p=
-rocessor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/acpi_lpss.o: in function `acpi_early_=
-processor_control_setup':
-> >    drivers/acpi/acpi_lpss.c:161: multiple definition of `acpi_early_pro=
-cessor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: f=
-irst defined here
-> >    aarch64-linux-ld: drivers/acpi/acpi_apd.o: in function `acpi_early_p=
-rocessor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/acpi_platform.o: in function `acpi_ea=
-rly_processor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/acpi_pnp.o: in function `acpi_early_p=
-rocessor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/acpi_amba.o: in function `acpi_early_=
-processor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/power.o: in function `acpi_early_proc=
-essor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/event.o: in function `acpi_early_proc=
-essor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/sysfs.o: in function `acpi_early_proc=
-essor_control_setup':
-> >>> drivers/acpi/internal.h:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/property.o: in function `acpi_early_p=
-rocessor_control_setup':
-> >    drivers/acpi/internal.h:161: multiple definition of `acpi_early_proc=
-essor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fi=
-rst defined here
-> >    aarch64-linux-ld: drivers/acpi/debugfs.o: in function `acpi_early_pr=
-ocessor_control_setup':
-> >    drivers/acpi/debugfs.c:161: multiple definition of `acpi_early_proce=
-ssor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fir=
-st defined here
-> >    aarch64-linux-ld: drivers/acpi/processor_driver.o: in function `acpi=
-_early_processor_control_setup':
-> >    drivers/acpi/internal.h:161: multiple definition of `acpi_early_proc=
-essor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fi=
-rst defined here
-> >    aarch64-linux-ld: drivers/acpi/container.o: in function `acpi_early_=
-processor_control_setup':
-> >    drivers/acpi/internal.h:161: multiple definition of `acpi_early_proc=
-essor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fi=
-rst defined here
-> >    aarch64-linux-ld: drivers/acpi/acpi_memhotplug.o: in function `acpi_=
-early_processor_control_setup':
-> >    drivers/acpi/internal.h:161: multiple definition of `acpi_early_proc=
-essor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h:161: fi=
-rst defined here
-> >    aarch64-linux-ld: drivers/acpi/dptf/int340x_thermal.o: in function `=
-acpi_early_processor_control_setup':
-> >    drivers/acpi/dptf/../internal.h:161: multiple definition of `acpi_ea=
-rly_processor_control_setup'; drivers/acpi/tables.o:drivers/acpi/internal.h=
-:161: first defined here
-> >
-> >
-> > vim +161 drivers/acpi/internal.h
-> >
-> >    157
-> >    158        void acpi_proc_quirk_mwait_check(void);
-> >    159        bool processor_physically_present(acpi_handle handle);
-> >    160        #else
-> >  > 161        void acpi_early_processor_control_setup(void) {}
->
-> I think this should be
-> static inline void acpi_early_processor_control_setup(void) {}
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   13ca69353e64ca08e39c762ce8c09842abe9e0aa
+commit: 8bb63b31d520570b6b50d77261d221b4c2ca17da [107/115] CHROMIUM: media: camx: properly put mapped buffer
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230717/202307172207.l6uHgSjh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230717/202307172207.l6uHgSjh-lkp@intel.com/reproduce)
 
-I think so.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307172207.l6uHgSjh-lkp@intel.com/
 
-> Hopefully you could amend this commit ?
+All warnings (new ones prefixed by >>):
 
-Done.
+   drivers/media/platform/camx/cam_cdm/cam_cdm_virtual_core.c: In function 'cam_cdm_get_buffer':
+>> drivers/media/platform/camx/cam_cdm/cam_cdm_virtual_core.c:92:27: warning: assignment to 'uintptr_t *' {aka 'long unsigned int *'} from 'uintptr_t' {aka 'long unsigned int'} makes pointer from integer without a cast [-Wint-conversion]
+      92 |                 vaddr_ptr = cdm_cmd->cmd[idx].bl_addr.kernel_iova;
+         |                           ^
+>> drivers/media/platform/camx/cam_cdm/cam_cdm_virtual_core.c:93:21: warning: assignment to 'size_t *' {aka 'long unsigned int *'} from 'uint32_t' {aka 'unsigned int'} makes pointer from integer without a cast [-Wint-conversion]
+      93 |                 len = cdm_cmd->cmd[idx].offset + cdm_cmd->cmd[idx].len;
+         |                     ^
 
-> Not sure why 0-day haven't caught it sooner.
 
-Probably due to lighter coverage of individual patches.
+vim +92 drivers/media/platform/camx/cam_cdm/cam_cdm_virtual_core.c
 
-Thanks!
+    79	
+    80	static int cam_cdm_get_buffer(struct cam_cdm_hw_intf_cmd_submit_bl *req,
+    81				      struct cam_cdm_bl_request *cdm_cmd,
+    82				      int idx,
+    83				      uintptr_t *vaddr_ptr,
+    84				      size_t *len)
+    85	{
+    86		if (req->data->type == CAM_CDM_BL_CMD_TYPE_MEM_HANDLE)
+    87			return cam_mem_get_cpu_buf(cdm_cmd->cmd[idx].bl_addr.mem_handle,
+    88						   vaddr_ptr,
+    89						   len);
+    90	
+    91		if (req->data->type == CAM_CDM_BL_CMD_TYPE_KERNEL_IOVA) {
+  > 92			vaddr_ptr = cdm_cmd->cmd[idx].bl_addr.kernel_iova;
+  > 93			len = cdm_cmd->cmd[idx].offset + cdm_cmd->cmd[idx].len;
+    94			return 0;
+    95		}
+    96	
+    97		CAM_ERR(CAM_CDM, "Only mem hdl/Kernel va type is supported %d",
+    98			req->data->type);
+    99		return -EINVAL;
+   100	}
+   101	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
