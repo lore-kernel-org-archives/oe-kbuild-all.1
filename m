@@ -1,129 +1,89 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D20253C9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 15:05:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689606304; x=1721142304;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=YUuRF2yAZXYlPLgPjwgn1G1LB4mhNGX4YXJMOkaCoEw=;
-  b=N169tYBdRuY2agQzbgSpHMOxC7sI6ioTrhlhz1tY/X22WahQ0HsnQXsH
-   qQT7BxrmBZR8tq8MJvlJnznKHjI44She9YuF+BXwLZaWlEtQaWOMbqPDx
-   WhjHuiHXLVq3EAFCjfzoxFJ2mSANcsn5WX6K7OKYg5JPp9RC46ioCrJQw
-   LDhWvcZajetEn/5AyH4wGuDqjuES+KICTtSgNO60y5ORUlNjYpAx2h0Ho
-   UyD9jxU3iG5MAjq6w+53IGdICSGFw9I7va10/VpJ/WI9sUweu0pEsm25I
-   89FmpDTKEUU6sikaUVtqQiyrr/bxn4JNlAhoDU5RDCjKS6yWYN1UjJ1Ke
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="368593820"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="368593820"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 08:05:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="673560782"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="673560782"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 17 Jul 2023 08:05:00 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qLPmV-0009eM-1T;
-	Mon, 17 Jul 2023 15:04:59 +0000
-Date: Mon, 17 Jul 2023 23:04:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/070-audio 11/37]
- sound/soc/codecs/cs42l83-i2c.c:235:1: error: type defaults to 'int' in
- declaration of 'module_i2c_driver'
-Message-ID: <202307172218.pEYjq0tR-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D511A10E7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 16:36:01 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3a37909a64eso2924373b6e.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 09:36:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689611761; x=1692203761;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RA/iWGM5jVgrQTgVAP1T1MYlEj/+DU3uJ2eHPJePb2Y=;
+        b=NzeOCLYrZJ1CPIeDNJPnTwQul1uiwgBoWc5uHedLi3ZzTY+tKjXEdHRxmPfdYGw4Yt
+         rpu00HY7+EsiFSloYywPdV1Py/E2Yrsz0+6tP+gOmvRBmtXba/UEcInUfJDHUUt2OAV4
+         Zmxd+cx0bLNrEXyhV2D5z9nP5B0ny0sKKTSVuB5yE0QBcarnNSYBeqUY1BY1v3wNNj2z
+         tQ9XSklQHVI+OyBBrR+D3vYhfiU0sGJwlyHI3ynnqyIwyGuPxG7EtpYc6YTKB4eMOEmt
+         kY6A9nJisyR8QWOJdvwq1r8taOhb3TG90AGVxUPYQ0ZEhtrr1kspvML2xxvKPQAyHIrp
+         W8Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689611761; x=1692203761;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RA/iWGM5jVgrQTgVAP1T1MYlEj/+DU3uJ2eHPJePb2Y=;
+        b=gP9y8Kd+K4BsGoHX7eQjtkiOj775NCXDn9pWAa33BscHx4Z1BKZ0yx1zYrk89ndCiP
+         etlSb7fQP0UilhB1x6BzYxYSxTv/6z8xG4S38zlg1jvZXwPYLFwe93v09H39sRCbT4KR
+         z+xRFlQdsvSKb4/8mhF9pRBdz4TMypTgBMldVkV07kuCb1tWOnSbHUX8H26CoLp/DQoY
+         YP1bLGf82JNYBp9PcQgKurX6F3FRJiuTP19MdUrLLFeeEnhRYlgR4yCmrh8dXdJ3yNPi
+         cKKpnY3eiRu6PThQPKxeeL7cxH6HEB/3MplRo4OpU9Z7qlp54Bs4T9uQZgqlKt+53AdT
+         GtnA==
+X-Gm-Message-State: ABy/qLZ+9HqTiIW8dSF0AHhegkX7Ye/iX8TRkolu08uyx1ziLsCMsylF
+	BWsAm/BGqkruKsACHodNqe8kenvnAyqdMzHIXoFcVA==
+X-Google-Smtp-Source: APBJJlFXgoM5JYiyURfjrpy48hpLApao0t2u3cPzHUDUmrorV/Pnf5w8IT0o72AR8WmiICLf0mld20wdlPtVBx8J+T8=
+X-Received: by 2002:a05:6808:1513:b0:3a1:b6de:ed54 with SMTP id
+ u19-20020a056808151300b003a1b6deed54mr14212741oiw.32.1689611760823; Mon, 17
+ Jul 2023 09:36:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <202307171254.yFcH97ej-lkp@intel.com> <ZLUSG8bNnSqT0LO+@smile.fi.intel.com>
+In-Reply-To: <ZLUSG8bNnSqT0LO+@smile.fi.intel.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Mon, 17 Jul 2023 09:35:49 -0700
+Message-ID: <CAKwvOdnUjAXg4VRbCBKUOZDCKs-=5aA2-ef1tFRj-P=-1bBjaQ@mail.gmail.com>
+Subject: Re: lib/test_bitmap.c:920:2: error: call to __compiletime_assert_348
+ declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(res)
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   fd19415d77a7612b4edbe780d58328ec41019816
-commit: 3c3d5de0a7ced368904f610daab8b4b3f21e7f31 [11/37] ASoC: apple: Add macaudio machine driver
-config: arm64-randconfig-r061-20230717 (https://download.01.org/0day-ci/archive/20230717/202307172218.pEYjq0tR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230717/202307172218.pEYjq0tR-lkp@intel.com/reproduce)
+On Mon, Jul 17, 2023 at 3:04=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Mon, Jul 17, 2023 at 12:42:57PM +0800, kernel test robot wrote:
+> > Hi Alexander,
+> >
+> > FYI, the error/warning still remains.
+>
+> Alexander, either you can escalate this or just propose something to disc=
+uss.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307172218.pEYjq0tR-lkp@intel.com/
+https://github.com/ClangBuiltLinux/linux/issues/1874
+Sorry, a few more fires have popped up in the meantime.  Regardless of
+changes to the compiler, we still support many versions of clang for
+the kernel, so we'd need some workaround in the tests regardless.  I
+saw there was already one for s390 + clang, but from this report we
+will need another. Feel free to use that link above in comments in the
+tests; we will clean those up once I have a better grasp on what's
+going on with the compiler here.
 
-All error/warnings (new ones prefixed by >>):
-
->> sound/soc/codecs/cs42l83-i2c.c:235:1: warning: data definition has no type or storage class
-     235 | module_i2c_driver(cs42l83_i2c_driver);
-         | ^~~~~~~~~~~~~~~~~
->> sound/soc/codecs/cs42l83-i2c.c:235:1: error: type defaults to 'int' in declaration of 'module_i2c_driver' [-Werror=implicit-int]
->> sound/soc/codecs/cs42l83-i2c.c:235:1: warning: parameter names (without types) in function declaration
-   sound/soc/codecs/cs42l83-i2c.c:225:26: warning: 'cs42l83_i2c_driver' defined but not used [-Wunused-variable]
-     225 | static struct i2c_driver cs42l83_i2c_driver = {
-         |                          ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
->> sound/soc/codecs/tas2764.c:811:1: warning: data definition has no type or storage class
-     811 | module_i2c_driver(tas2764_i2c_driver);
-         | ^~~~~~~~~~~~~~~~~
->> sound/soc/codecs/tas2764.c:811:1: error: type defaults to 'int' in declaration of 'module_i2c_driver' [-Werror=implicit-int]
->> sound/soc/codecs/tas2764.c:811:1: warning: parameter names (without types) in function declaration
-   sound/soc/codecs/tas2764.c:803:26: warning: 'tas2764_i2c_driver' defined but not used [-Wunused-variable]
-     803 | static struct i2c_driver tas2764_i2c_driver = {
-         |                          ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
->> sound/soc/codecs/tas2770.c:726:1: warning: data definition has no type or storage class
-     726 | module_i2c_driver(tas2770_i2c_driver);
-         | ^~~~~~~~~~~~~~~~~
->> sound/soc/codecs/tas2770.c:726:1: error: type defaults to 'int' in declaration of 'module_i2c_driver' [-Werror=implicit-int]
->> sound/soc/codecs/tas2770.c:726:1: warning: parameter names (without types) in function declaration
-   sound/soc/codecs/tas2770.c:718:26: warning: 'tas2770_i2c_driver' defined but not used [-Wunused-variable]
-     718 | static struct i2c_driver tas2770_i2c_driver = {
-         |                          ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_SOC_CS42L83
-   Depends on [n]: SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && I2C [=n]
-   Selected by [m]:
-   - SND_SOC_APPLE_MACAUDIO [=m] && SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && (ARCH_APPLE [=y] || COMPILE_TEST [=n])
-   WARNING: unmet direct dependencies detected for APPLE_ADMAC
-   Depends on [n]: DMADEVICES [=n] && (ARCH_APPLE [=y] || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SND_SOC_APPLE_MACAUDIO [=m] && SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && (ARCH_APPLE [=y] || COMPILE_TEST [=n])
-   WARNING: unmet direct dependencies detected for SND_SOC_TAS2770
-   Depends on [n]: SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && I2C [=n]
-   Selected by [m]:
-   - SND_SOC_APPLE_MACAUDIO [=m] && SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && (ARCH_APPLE [=y] || COMPILE_TEST [=n])
-   WARNING: unmet direct dependencies detected for SND_SOC_TAS2764
-   Depends on [n]: SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && I2C [=n]
-   Selected by [m]:
-   - SND_SOC_APPLE_MACAUDIO [=m] && SOUND [=m] && !UML && SND [=m] && SND_SOC [=m] && (ARCH_APPLE [=y] || COMPILE_TEST [=n])
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
 
 
-vim +235 sound/soc/codecs/cs42l83-i2c.c
-
-94d5f62a91aab6 Martin Povišer 2022-09-15  234  
-94d5f62a91aab6 Martin Povišer 2022-09-15 @235  module_i2c_driver(cs42l83_i2c_driver);
-94d5f62a91aab6 Martin Povišer 2022-09-15  236  
-
-:::::: The code at line 235 was first introduced by commit
-:::::: 94d5f62a91aab6ac9c3f4abfd048cbe5f77153ac ASoC: cs42l83: Extend CS42L42 support to new part
-
-:::::: TO: Martin Povišer <povik+lin@cutebit.org>
-:::::: CC: Mark Brown <broonie@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Thanks,
+~Nick Desaulniers
