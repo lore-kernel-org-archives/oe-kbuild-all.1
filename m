@@ -1,46 +1,53 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434E715AD;
-	Mon, 17 Jul 2023 06:15:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689574547; x=1721110547;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kmazPv2jCJTdy/eDps3PGFFO7DZeo9izsn+ofDOzdfk=;
-  b=nTDkCDXngm90O6jUsJr3qsdC21eKZyslkqSYVzYQtJOLQ5ecTBE66PyN
-   JIB7wAAk3aiMXMiIyyUW8JZoDED+iez9b79x4TWPf3SyvBrIVzLh6KUAH
-   ndJAOEpZqvxc7nDQ7svvglJ9q6g4suhr9TqXT9gDX6vCJ6hc8Hq1eCawz
-   9UVRXo5UFugL/cVWKEcoU9ViZAhjwlKqITIjBdHsb8aKnkzmM6BBB8n5A
-   cIpv8aF4ydJNKG1BfAUvsl/5KgHARVyIJFwowyLwK755MRKrh0aUcmtY9
-   0/xR09+4RUolOxw1YiPNv/Ew9MpMDRdosNSMLrGEq+rYtjf69jpnhpYO4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="364726463"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="364726463"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2023 23:15:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="813176035"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="813176035"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 Jul 2023 23:15:44 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qLHWJ-0009DI-0O;
-	Mon, 17 Jul 2023 06:15:43 +0000
-Date: Mon, 17 Jul 2023 14:15:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>
-Subject: [linux-next:master 2870/3252] drivers/cxl/acpi.c:300:4: warning:
- format specifies type 'unsigned long long' but the argument has type
- 'resource_size_t' (aka 'unsigned int')
-Message-ID: <202307171416.dMlpHle6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0246C15AD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 06:16:05 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-317009c0f9aso810612f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Jul 2023 23:16:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689574564; x=1692166564;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=beAZDBeIWAyPdJQnhyc/jkbMJ4Ak7vhS+as9jIxSrLU=;
+        b=Fo7CYFg6Q5iXp/SdV76lJJ+W9oCiyeeJ5yo7Hukd7t1KwWuK1XzmS8RLxNXP+ROcYN
+         YQLg1KxyUP8dhi1bL5J1qzDoV7Wuz9nkqQfb2WRc+aBEFQ2fxLVVyZyAsSuLPCO0kguY
+         O8zxATWCJW5S/xn/SDPxFZlYKGC6zO3TCTfALM7i6t4JdDXLkRpZPWE03fBblBsZnRkO
+         jHVWEnrQmjXpvQluITBdIJ3jfBWKL5S+JXjTbt6+qOtHukotZMjRD+0Slk6+tmztHKZV
+         rggZV/EH8VYZh1FHenHPD5dpyQYNMStOgSLrT09RM181875uPM5gcC4xeL8v8WphVsF4
+         C+Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689574564; x=1692166564;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=beAZDBeIWAyPdJQnhyc/jkbMJ4Ak7vhS+as9jIxSrLU=;
+        b=TiZP3VAVsCGNi6D6MhG4gp+M1gBwU/sfrR4IcKVi463QgNAb/IGGNLi5fr+0fhKBrA
+         z/WNHloT2oRwgjsaf6iGEs+o3EHd2nqFjhpH6mIJ8Vw25cu5tyU68BmB/X3ZQTxa+ktf
+         mWzm3fLqyvZ1yyLH+lQZ2mWLEvzM3f1u0WRGSlHJTzihgNbBv9dZtwVkWg+ZFpfgXovP
+         67TOzZNEtRpWUcKJTPnNgbQR4zIPGCZ0UnJWmEpb0zQu1Y+NioIw3uAsYr43d5+pAGs1
+         BMhZpLFJsrWU2KurLFFDNSCwZYFLDKIj/elCbf4l6gL9cdPkrswXpbgMh70cMoJuTSgT
+         wopA==
+X-Gm-Message-State: ABy/qLb9NPK+qHGesAnlgQevELeUtA9K0agwbuXrUrvdyqwfnEeZat7p
+	n757eOpD4x7PP3xkegeNn0EHqA==
+X-Google-Smtp-Source: APBJJlFOX7BNOruhIIKmyx1lFqOwkCy66bgnLy8orEPfvwPQtoussLBA/9c2x3y3pm6yk5lb/KJDMg==
+X-Received: by 2002:a5d:5958:0:b0:313:df08:7b7e with SMTP id e24-20020a5d5958000000b00313df087b7emr9979174wri.14.1689574563934;
+        Sun, 16 Jul 2023 23:16:03 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q3-20020a5d5743000000b003143c6e09ccsm18052401wrw.16.2023.07.16.23.16.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jul 2023 23:16:02 -0700 (PDT)
+Date: Mon, 17 Jul 2023 09:15:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Nick Alcock <nick.alcock@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Kris Van Hees <kris.van.hees@oracle.com>,
+	Tomas Jedlicka <tomas.jedlicka@oracle.com>,
+	Eugene Loh <eugene.loh@oracle.com>,
+	David Mc Lean <david.mclean@oracle.com>,
+	Vincent Lim <vincent.lim@oracle.com>
+Subject: [oracle-dtrace:v2/6.4 10/13] fs/eventpoll.c:1300
+ ep_ptable_queue_proc() warn: maybe use && instead of &
+Message-ID: <5e68464a-dd6c-4fb4-8a1d-219344bb056b@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,165 +57,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2205be537aeb1ca2ace998e2fefaa2be04e393e4
-commit: 3840e10e8dcafc89a2d96ab7dbb640434c8da8cf [2870/3252] cxl/acpi: Fix a use-after-free in cxl_parse_cfmws()
-config: i386-randconfig-i004-20230717 (https://download.01.org/0day-ci/archive/20230717/202307171416.dMlpHle6-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230717/202307171416.dMlpHle6-lkp@intel.com/reproduce)
+tree:   https://github.com/oracle/dtrace-linux-kernel v2/6.4
+head:   9b6d57638acaddc5e1016dbcfea27771df400611
+commit: 19ce4a9705869b25a970a68669e8837cf78b1ead [10/13] waitfd: new syscall implementing waitpid() over fds
+config: m68k-randconfig-m041-20230713 (https://download.01.org/0day-ci/archive/20230715/202307150418.yMkaVxN8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230715/202307150418.yMkaVxN8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307171416.dMlpHle6-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307150418.yMkaVxN8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/eventpoll.c:1300 ep_ptable_queue_proc() warn: maybe use && instead of &
 
->> drivers/cxl/acpi.c:300:4: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                           res->start, res->end);
-                           ^~~~~~~~~~
-   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                                ~~~    ^~~~~~~~~~~
-   drivers/cxl/acpi.c:300:16: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                           res->start, res->end);
-                                       ^~~~~~~~
-   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                                ~~~    ^~~~~~~~~~~
-   2 warnings generated.
+vim +1300 fs/eventpoll.c
 
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1290  static void ep_ptable_queue_proc(struct file *file, wait_queue_head_t *whead,
+19ce4a9705869b Nick Alcock    2018-11-14  1291  				 poll_table *pt, unsigned long fixed_event)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1292  {
+364f374f22ba1b Al Viro        2020-09-02  1293  	struct ep_pqueue *epq = container_of(pt, struct ep_pqueue, pt);
+364f374f22ba1b Al Viro        2020-09-02  1294  	struct epitem *epi = epq->epi;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1295  	struct eppoll_entry *pwq;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1296  
+364f374f22ba1b Al Viro        2020-09-02  1297  	if (unlikely(!epi))	// an earlier allocation has failed
+364f374f22ba1b Al Viro        2020-09-02  1298  		return;
+364f374f22ba1b Al Viro        2020-09-02  1299  
+19ce4a9705869b Nick Alcock    2018-11-14 @1300  	if (fixed_event & !(epi->event.events & fixed_event))
 
-vim +300 drivers/cxl/acpi.c
+This has a lot of unexplained magic.  "If BIT(0) is set and there are no
+bits set on both epi->event.events & fixed_event, then return?"  Probably
+the checker is correct that && was intended instead of &.  Then it
+becomes, "if there are bits set in fixed_event but none of them in
+epi->event.events then return."
 
-   196	
-   197	static int cxl_parse_cfmws(union acpi_subtable_headers *header, void *arg,
-   198				   const unsigned long end)
-   199	{
-   200		int target_map[CXL_DECODER_MAX_INTERLEAVE];
-   201		struct cxl_cfmws_context *ctx = arg;
-   202		struct cxl_port *root_port = ctx->root_port;
-   203		struct resource *cxl_res = ctx->cxl_res;
-   204		struct cxl_cxims_context cxims_ctx;
-   205		struct cxl_root_decoder *cxlrd;
-   206		struct device *dev = ctx->dev;
-   207		struct acpi_cedt_cfmws *cfmws;
-   208		cxl_calc_hb_fn cxl_calc_hb;
-   209		struct cxl_decoder *cxld;
-   210		unsigned int ways, i, ig;
-   211		struct resource *res;
-   212		int rc;
-   213	
-   214		cfmws = (struct acpi_cedt_cfmws *) header;
-   215	
-   216		rc = cxl_acpi_cfmws_verify(dev, cfmws);
-   217		if (rc) {
-   218			dev_err(dev, "CFMWS range %#llx-%#llx not registered\n",
-   219				cfmws->base_hpa,
-   220				cfmws->base_hpa + cfmws->window_size - 1);
-   221			return 0;
-   222		}
-   223	
-   224		rc = eiw_to_ways(cfmws->interleave_ways, &ways);
-   225		if (rc)
-   226			return rc;
-   227		rc = eig_to_granularity(cfmws->granularity, &ig);
-   228		if (rc)
-   229			return rc;
-   230		for (i = 0; i < ways; i++)
-   231			target_map[i] = cfmws->interleave_targets[i];
-   232	
-   233		res = kzalloc(sizeof(*res), GFP_KERNEL);
-   234		if (!res)
-   235			return -ENOMEM;
-   236	
-   237		res->name = kasprintf(GFP_KERNEL, "CXL Window %d", ctx->id++);
-   238		if (!res->name)
-   239			goto err_name;
-   240	
-   241		res->start = cfmws->base_hpa;
-   242		res->end = cfmws->base_hpa + cfmws->window_size - 1;
-   243		res->flags = IORESOURCE_MEM;
-   244	
-   245		/* add to the local resource tracking to establish a sort order */
-   246		rc = insert_resource(cxl_res, res);
-   247		if (rc)
-   248			goto err_insert;
-   249	
-   250		if (cfmws->interleave_arithmetic == ACPI_CEDT_CFMWS_ARITHMETIC_MODULO)
-   251			cxl_calc_hb = cxl_hb_modulo;
-   252		else
-   253			cxl_calc_hb = cxl_hb_xor;
-   254	
-   255		cxlrd = cxl_root_decoder_alloc(root_port, ways, cxl_calc_hb);
-   256		if (IS_ERR(cxlrd))
-   257			return 0;
-   258	
-   259		cxld = &cxlrd->cxlsd.cxld;
-   260		cxld->flags = cfmws_to_decoder_flags(cfmws->restrictions);
-   261		cxld->target_type = CXL_DECODER_HOSTONLYMEM;
-   262		cxld->hpa_range = (struct range) {
-   263			.start = res->start,
-   264			.end = res->end,
-   265		};
-   266		cxld->interleave_ways = ways;
-   267		/*
-   268		 * Minimize the x1 granularity to advertise support for any
-   269		 * valid region granularity
-   270		 */
-   271		if (ways == 1)
-   272			ig = CXL_DECODER_MIN_GRANULARITY;
-   273		cxld->interleave_granularity = ig;
-   274	
-   275		if (cfmws->interleave_arithmetic == ACPI_CEDT_CFMWS_ARITHMETIC_XOR) {
-   276			if (ways != 1 && ways != 3) {
-   277				cxims_ctx = (struct cxl_cxims_context) {
-   278					.dev = dev,
-   279					.cxlrd = cxlrd,
-   280				};
-   281				rc = acpi_table_parse_cedt(ACPI_CEDT_TYPE_CXIMS,
-   282							   cxl_parse_cxims, &cxims_ctx);
-   283				if (rc < 0)
-   284					goto err_xormap;
-   285				if (!cxlrd->platform_data) {
-   286					dev_err(dev, "No CXIMS for HBIG %u\n", ig);
-   287					rc = -EINVAL;
-   288					goto err_xormap;
-   289				}
-   290			}
-   291		}
-   292		rc = cxl_decoder_add(cxld, target_map);
-   293	err_xormap:
-   294		if (rc)
-   295			put_device(&cxld->dev);
-   296		else
-   297			rc = cxl_decoder_autoremove(dev, cxld);
-   298		if (rc) {
-   299			dev_err(dev, "Failed to add decode range [%#llx - %#llx]\n",
- > 300				res->start, res->end);
-   301			return 0;
-   302		}
-   303		dev_dbg(dev, "add: %s node: %d range [%#llx - %#llx]\n",
-   304			dev_name(&cxld->dev),
-   305			phys_to_target_node(cxld->hpa_range.start),
-   306			cxld->hpa_range.start, cxld->hpa_range.end);
-   307	
-   308		return 0;
-   309	
-   310	err_insert:
-   311		kfree(res->name);
-   312	err_name:
-   313		kfree(res);
-   314		return -ENOMEM;
-   315	}
-   316	
+But I also wonder if maybe it should be:
+
+	fixed = 0;
+	if (fixed_event) {
+		fixed = epi->event.events & fixed_event;
+		if (fixed != fixed_event)
+			return;
+Or maybe:
+		if (!fixed)
+			return;
+	}
+
+	if (fixed)
+		epi->fixed_event = fixed;
+
+19ce4a9705869b Nick Alcock    2018-11-14  1301  		return;
+19ce4a9705869b Nick Alcock    2018-11-14  1302  
+19ce4a9705869b Nick Alcock    2018-11-14  1303  	if (fixed_event)
+19ce4a9705869b Nick Alcock    2018-11-14  1304  		epi->fixed_event = fixed_event;
+19ce4a9705869b Nick Alcock    2018-11-14  1305  
+364f374f22ba1b Al Viro        2020-09-02  1306  	pwq = kmem_cache_alloc(pwq_cache, GFP_KERNEL);
+364f374f22ba1b Al Viro        2020-09-02  1307  	if (unlikely(!pwq)) {
+364f374f22ba1b Al Viro        2020-09-02  1308  		epq->epi = NULL;
+364f374f22ba1b Al Viro        2020-09-02  1309  		return;
+364f374f22ba1b Al Viro        2020-09-02  1310  	}
+364f374f22ba1b Al Viro        2020-09-02  1311  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1312  	init_waitqueue_func_entry(&pwq->wait, ep_poll_callback);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1313  	pwq->whead = whead;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1314  	pwq->base = epi;
+df0108c5da561c Jason Baron    2016-01-20  1315  	if (epi->event.events & EPOLLEXCLUSIVE)
+df0108c5da561c Jason Baron    2016-01-20  1316  		add_wait_queue_exclusive(whead, &pwq->wait);
+df0108c5da561c Jason Baron    2016-01-20  1317  	else
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1318  		add_wait_queue(whead, &pwq->wait);
+80285b75c68348 Al Viro        2020-09-02  1319  	pwq->next = epi->pwqlist;
+80285b75c68348 Al Viro        2020-09-02  1320  	epi->pwqlist = pwq;
+296e236e96ddde Davide Libenzi 2009-03-31  1321  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
