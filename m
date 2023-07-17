@@ -1,97 +1,67 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1803DA927
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 09:40:32 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fbd200d354so70005e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 02:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689586831; x=1692178831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uIgEdFgE+Ee/Plepe1RFgHeUv1XxEmWrc70tprVwr20=;
-        b=WfXsyKTWiJFQeD1ne9fKmkEfM5JmpG51YuRGDw642Rz+Hlduv2pouGkb+HNkparMJb
-         r/BYmvZP3KwFmfaNSnn8AW366UJfdbPQbxUPHgpiupR7HeIv/Ta7up/WX0R2GyaTPUhM
-         I8ZaXOhHHzl6SkbIvZcIyv5QiAUkq7LABW+4KdFRPPspywX/BIe1IsYEg2uYSu6HfbJv
-         ecFp6CdLvVtL8r4YUwd+EzX/2PopG5lMbckT4VQ7sot9+78B1FWQG9w68IOUv9mvUJPF
-         YFRKzs8zM1iH1bfp8qhkj9QmHmGVyTAaeD0Kpe9HmRdcb2pxYpoprQibqP3IYke+etLf
-         +8Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689586831; x=1692178831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uIgEdFgE+Ee/Plepe1RFgHeUv1XxEmWrc70tprVwr20=;
-        b=g6MQdCQRg8e0yoX40V4eXZxadJXnrz1AzQFxZ+sVnsRlhiCWcuTNGf+c9o6a1FZZ9O
-         F4TUnYvxmnR2oa14mRh1yB2dk7qlVBMNmxMfjGlpsq8tsb44F47xIKOAM8Ytl0yrlVAo
-         fMYspHIOC9THqARvYydDdZz8acymf4GOyvyxo8hxbNpGaKzg1+jqDyZEqcbVHEelKnUu
-         +4yyJqDRfElrF/7XyK3m+Fu0buDLhetznZJFkfwSX45wp8xq+Cx6c84ZYYjEZ1+q6TFS
-         IsyNThkZ0zFyEWuXMSfF1OkSoRUWc52TkUwVIs5pnJzaUBIWzBWRvl4292eqfxrlnKpM
-         Mglg==
-X-Gm-Message-State: ABy/qLarCrbvA7Z3aDv7oJ2uTxZiz24YLr9GkZ9+j+1gfNoWjT3cSWPU
-	EJRfJrs7Od7PjOFkzPTFyc0dXrw7yTV8xNc+jhYMcg==
-X-Google-Smtp-Source: APBJJlEE+vHJIyY+89IqyN2JE2fuCFTi7F/qZtnJkoZ90nz+/CdcYTA7GOHdyEcXNV//NtfhhVTp+ZsIZbrYZDUkjDo=
-X-Received: by 2002:a05:600c:1d8b:b0:3f7:3654:8d3 with SMTP id
- p11-20020a05600c1d8b00b003f7365408d3mr514591wms.2.1689586831018; Mon, 17 Jul
- 2023 02:40:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBDFA927;
+	Mon, 17 Jul 2023 10:04:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689588255; x=1721124255;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WnlwfGJjGqDvSxdq2cqUE+5C4r/vurq5Ib3eVZloNxQ=;
+  b=G6/ryHao5CsBbspAUsMuP8dYr2o9t/IWB2hSekiOkp06ehZIk3bsK9Fq
+   KRwG5ruLOjikhyYDQEIZZaDkSHlGUswoW5ptylvbMgbmSzM5dmgPyADZr
+   OWXANcCg+8xs6wtsOmBl+tRwMOu1EkrAdy9BYd2OcG2oWfEi6ArANxuDv
+   5YWeRQ2s3V3ZDLWrAGsnl5tz9dxLURFnmZ9GOSc12Jklxm8+ztS+2Tufn
+   CqzdhcUmHYoFuXo3JwrHKDpW8w8xLgX2n/4qh9otBayw21DoVdRKaHSg9
+   1vZKA5Uwn2UF6JQJPKeo9QxrNaDQ08eUWED0ZMqoj69vYQ61yL590K2Fr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="396717483"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="396717483"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 03:04:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="897160373"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="897160373"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga005.jf.intel.com with ESMTP; 17 Jul 2023 03:04:12 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1qLL5P-008dix-0p;
+	Mon, 17 Jul 2023 13:04:11 +0300
+Date: Mon, 17 Jul 2023 13:04:11 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Alexander Lobakin <alexandr.lobakin@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Yury Norov <yury.norov@gmail.com>
+Subject: Re: lib/test_bitmap.c:920:2: error: call to __compiletime_assert_348
+ declared with 'error' attribute: BUILD_BUG_ON failed:
+ !__builtin_constant_p(res)
+Message-ID: <ZLUSG8bNnSqT0LO+@smile.fi.intel.com>
+References: <202307171254.yFcH97ej-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202307170435.p9l0j6zC-lkp@intel.com> <CAG48ez0mT5KYe1=Bd0YHXvaM8a5OF_5OJOnF7jO1nmMteDvZMg@mail.gmail.com>
-In-Reply-To: <CAG48ez0mT5KYe1=Bd0YHXvaM8a5OF_5OJOnF7jO1nmMteDvZMg@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Mon, 17 Jul 2023 11:39:54 +0200
-Message-ID: <CAG48ez3P+4C9+px_eVOBM2PTcY700h26f3qJ-o4MOCxHw=dUbA@mail.gmail.com>
-Subject: Re: [stable:linux-4.14.y 4549/9999] drivers/android/binder.c:3355:
- Error: unrecognized keyword/register name `l.lwz ?ap,4(r20)'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Martijn Coenen <maco@android.com>, 
-	stable <stable@vger.kernel.org>, Stafford Horne <shorne@gmail.com>, 
-	linux-openrisc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202307171254.yFcH97ej-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-[resending to correct openrisc list]
+On Mon, Jul 17, 2023 at 12:42:57PM +0800, kernel test robot wrote:
+> Hi Alexander,
+> 
+> FYI, the error/warning still remains.
 
-On Mon, Jul 17, 2023 at 11:37=E2=80=AFAM Jann Horn <jannh@google.com> wrote=
-:
-> On Sun, Jul 16, 2023 at 10:20=E2=80=AFPM kernel test robot <lkp@intel.com=
-> wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-st=
-able.git linux-4.14.y
-> > head:   60a6e3043cc8b918c989707a5eba5fd6830a08a4
-> > commit: f40f289b96bf856e1613f17bf9426140e8b89393 [4549/9999] binder: Pr=
-event context manager from incrementing ref 0
-> > config: openrisc-randconfig-r002-20230717 (https://download.01.org/0day=
--ci/archive/20230717/202307170435.p9l0j6zC-lkp@intel.com/config)
-> > compiler: or1k-linux-gcc (GCC) 12.3.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20230717/2023071704=
-35.p9l0j6zC-lkp@intel.com/reproduce)
-> [...]
-> >    drivers/android/binder.c: Assembler messages:
-> > >> drivers/android/binder.c:3355: Error: unrecognized keyword/register =
-name `l.lwz ?ap,4(r20)'
-> >    drivers/android/binder.c:3360: Error: unrecognized keyword/register =
-name `l.addi ?ap,r0,0'
-> >    drivers/android/binder.c:3427: Error: unrecognized keyword/register =
-name `l.lwz ?ap,4(r20)'
-> >    drivers/android/binder.c:3432: Error: unrecognized keyword/register =
-name `l.addi ?ap,r0,0'
-> > >> drivers/android/binder.c:3555: Error: unrecognized keyword/register =
-name `l.lwz ?ap,4(r21)'
-> >    drivers/android/binder.c:3560: Error: unrecognized keyword/register =
-name `l.addi ?ap,r0,0'
->
-> Probably same issue as
-> https://lore.kernel.org/oe-kbuild-all/202010160523.r8yMbvrW-lkp@intel.com=
-/
-> ? That thread says the fix is
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/arch/openrisc?h=3Dv5.9&id=3Dd877322bc1adcab9850732275670409e8bcca4c4
-> , and it was then backported to 5.4 (as
-> a6db3aab9c408e1b788c43f9fb179382f5793ea2) and 5.8.
+Alexander, either you can escalate this or just propose something to discuss.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
