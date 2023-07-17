@@ -1,42 +1,42 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4006B10F6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 00:48:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931E810F6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 00:48:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689554916; x=1721090916;
+  t=1689554918; x=1721090918;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4Wn/PCAXOdDpZUaHlYU769ZFkhr8pcIjuYFLwGDrahw=;
-  b=WDC83Nhf82W1fwPHsaEVyO9YG9MFy8osU2/Cw1Z7cx3w+rZVVOs+9X/y
-   awamDNd2VVGA5K00fNu3oiDs0Dx7BG9jb6RzcE81xn94eJmMBtVr1nbHt
-   r3jjNc7Dt9tJdB3t/YP41tT70KWMMA47G1OfxS26HZ71tUBjWw1N7Yvzn
-   XKfrLrSpcRqjBoP/E7JVJTBEwdtOIvscFfI1/a96+lKPwDjK65n8K2Sy6
-   5kgxNCK/VZbS/iZHAgEpXBnD7kuxVTcZNTtQD557W0mRbPzKcTxHfIsUW
-   MK57Gl1cmKWQssyROGaW9Xwezc+36Lc7evlLNagjdORjITk+FFo8Ph60k
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="369366002"
+  bh=4gL4PIMSazM2PGbILCN1SjGj6z5bHGBzFIjOvvgR82I=;
+  b=W3g0ekuTWaA0y+ZFKPGUD5T1vnzhJdJ0n8aPgiedtVOFEBcESDzP2TYG
+   oMtlf7U6YydOiD0IlU75B57wKLLLz4MZTq36Q/H82LkgcklSMaxGHqpc/
+   IhlYxsuNA4FDSejT4XGFTVPg2xBXIuA+2zY2lLPO+4s/c/GLsaIIZgLvG
+   HpS9fLuoIx0A8ohSAvQ9PJqFXIW8tLe+E/3nzS8afuqaNZFOiW12EdOJ0
+   p9LecvHqAWnoO20YICbc2L0yozKllWc6V+Lzj11GeEGyHy4rY7RiWF4x5
+   YUCk/WwpeXCeW48cpt26qdh0vA2ccVHp0diaTYXli4kalUCrb94mo42G5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="369366004"
 X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="369366002"
+   d="scan'208";a="369366004"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2023 17:48:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="897018578"
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="897018579"
 X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
-   d="scan'208";a="897018578"
+   d="scan'208";a="897018579"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 16 Jul 2023 17:48:34 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLCPi-000958-00;
-	Mon, 17 Jul 2023 00:48:34 +0000
-Date: Mon, 17 Jul 2023 08:47:44 +0800
+	id 1qLCPh-000956-2x;
+	Mon, 17 Jul 2023 00:48:33 +0000
+Date: Mon, 17 Jul 2023 08:47:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Amir Goldstein <amir73il@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [amir73il:start-write-safe 10/10] fs/read_write.c:848:9: warning: no
  previous prototype for 'do_iter_write'
-Message-ID: <202307170813.nbtespNo-lkp@intel.com>
+Message-ID: <202307170807.oqEI7KqL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,14 +49,14 @@ Content-Disposition: inline
 tree:   https://github.com/amir73il/linux start-write-safe
 head:   249f6fc94a26bd48f4d0903e05fb15d9e77356e2
 commit: 249f6fc94a26bd48f4d0903e05fb15d9e77356e2 [10/10] fs: move file_start_write() into vfs_iter_write()
-config: m68k-randconfig-r011-20230717 (https://download.01.org/0day-ci/archive/20230717/202307170813.nbtespNo-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230717/202307170813.nbtespNo-lkp@intel.com/reproduce)
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230717/202307170807.oqEI7KqL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230717/202307170807.oqEI7KqL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307170813.nbtespNo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307170807.oqEI7KqL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
