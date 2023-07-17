@@ -1,187 +1,157 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC59F11181
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 22:18:06 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7680e3910dfso337578185a.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 15:18:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689632285; x=1692224285;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H0nRdgPIxPY9h+6ob+XM6W1276R2kR6LVZcGXL+V7xQ=;
-        b=S2DUQ4oHtpsxG9NzvglBSXoaL0mMF9/6onvQd/rprjmlG4A110LPmzn4x57zH0j4cv
-         wFWOxPjsT2lIU8hdbOFj3MGp5vBHpoX3t8W8HEYf1fa1CITtlCYQcwLKVT4Tqsna8QDZ
-         8340z+Kj7hkU3dhoASUDr/BUPdCoMdHYrAEczd9KlNCVDnpltv3fJ79lLNQjbWdVFV4g
-         2Tvg/nH3szhBjxkSgyRhS2p/GyCUatgbxGzdowZL9DcLBVeX7XtXZxByu3UBoLuFKSe2
-         ifwLSg9wA1quMluShQUZhz9yBq3IbJ+f1GrQvRpXlTbRmqohIoF8P78eABb2veT4GnRD
-         KAdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689632285; x=1692224285;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H0nRdgPIxPY9h+6ob+XM6W1276R2kR6LVZcGXL+V7xQ=;
-        b=l8PKghKaFbs9x1d614MiaZCHltfpLxbHxxwmvZeMKVFlVIVRWQ4xrqzvj5a6n0zPS2
-         ozE0oRby9P4Ere1wyKeVfFWcniSf5cf7cX3E/di09HSWuwYRCf97Cck+U031NhgrkHBa
-         EzLeHH9jNc+wPh6nDWkIpGArVB9uj82KGCZaCWkQwswjrxIOf0UET5hNuMwDVP3Z2zvQ
-         BUS3wBT6F4WazaHV4AZXhVZbqebMoGqgKklGf60qO91ZAJbsQ4Erhda+8GPPMv8fmb/9
-         dAP0ojyfQDdPJPWjv29olVbmiizEblppqtwbf+xW72XGDLG96pvqV7l61RPSin8WBynG
-         Pv5A==
-X-Gm-Message-State: ABy/qLZp6brv1UdO4sgRokwQG3/4Ool9RYE0bdw23nBqTtDaq0rzyrZT
-	nGXUkBUaFnHCEDn09HkrT9mXnPQ+Ro97Hh/T3KsFng==
-X-Google-Smtp-Source: APBJJlHLjslVGLXCTSMLhtM9+72/787CaZvR5j2s8OxhxBKqBWudKCsp5r2ZmQyeVGJ+ejaoxMp6fyzM26CzICuIjK4=
-X-Received: by 2002:a05:620a:410:b0:766:fd2c:fca1 with SMTP id
- 16-20020a05620a041000b00766fd2cfca1mr16751394qkp.75.1689632285573; Mon, 17
- Jul 2023 15:18:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D67C2DB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Jul 2023 22:34:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689633253; x=1721169253;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eW9azAPUyEfDoF+VpyrLVsHbnYMQlqaAaEkwxUI1h1U=;
+  b=NfWwecg30UU39EwL2slrulJQ9unaeqUbNRj0VM5Xy2Nu+vnfDpaNX6Qv
+   cgsoXvqOyfyGjXDGIUtCuWnlZTHYbENSN4rnpzjERty7Q+lxsrMBLtu6h
+   6D92ZoWdU5sfUZcNaKHGdYoVWSu/UXFxzbiyr4AD3FllhgtyZTiRr6QM2
+   Pbnd2sWxaIWZaC7q3M2Slr4GrxTnDYw51XleQaaXnuIgmM+vPL1PXT6A/
+   WITHoLc5SE/FbZChu5xzepYSHn7stLaJ0B9aeCrg6WX3f07IgDmMqwGKu
+   GGKOpVCAej4YmTFsKtk9nqj2dlMFtL3Q2c+V+ocNSnhbHR5c2F/uu5iki
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="452431264"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="452431264"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 15:34:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="813515931"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="813515931"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Jul 2023 15:34:11 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qLWnC-0009y0-1U;
+	Mon, 17 Jul 2023 22:34:10 +0000
+Date: Tue, 18 Jul 2023 06:33:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 6546/11052]
+ arch/arm64/kvm/hyp_events.c:204:6: warning: no previous prototype for
+ function 'kvm_hyp_events_enable_early'
+Message-ID: <202307180608.bZ3Ax3CU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230717220435.57640-1-yury.norov@gmail.com>
-In-Reply-To: <20230717220435.57640-1-yury.norov@gmail.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Mon, 17 Jul 2023 15:17:54 -0700
-Message-ID: <CAKwvOdnOBYvLfv9+1pZ6medrPS0+V1yZ8tcSbW466Rqxv+qSng@mail.gmail.com>
-Subject: Re: [PATCH v2] lib/bitmap: workaround const_eval test build failure
-To: Yury Norov <yury.norov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Alexander Lobakin <alexandr.lobakin@intel.com>, Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>, 
-	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Jul 17, 2023 at 3:04=E2=80=AFPM Yury Norov <yury.norov@gmail.com> w=
-rote:
->
-> When building with Clang, and when KASAN and GCOV_PROFILE_ALL are both
-> enabled, the test fails to build [1]:
->
-> >> lib/test_bitmap.c:920:2: error: call to '__compiletime_assert_239' dec=
-lared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(re=
-s)
->            BUILD_BUG_ON(!__builtin_constant_p(res));
->            ^
->    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_O=
-N'
->            BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition=
-)
->            ^
->    include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_=
-ON_MSG'
->    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->                                        ^
->    include/linux/compiler_types.h:352:2: note: expanded from macro 'compi=
-letime_assert'
->            _compiletime_assert(condition, msg, __compiletime_assert_, __C=
-OUNTER__)
->            ^
->    include/linux/compiler_types.h:340:2: note: expanded from macro '_comp=
-iletime_assert'
->            __compiletime_assert(condition, msg, prefix, suffix)
->            ^
->    include/linux/compiler_types.h:333:4: note: expanded from macro '__com=
-piletime_assert'
->                            prefix ## suffix();                           =
-  \
->                            ^
->    <scratch space>:185:1: note: expanded from here
->    __compiletime_assert_239
->
-> Originally it was attributed to s390, which now looks seemingly wrong. Th=
-e
-> issue is not related to bitmap code itself, but it breaks build for a giv=
-en
-> configuration.
->
-> Disabling the const_eval test under that config may potentially hide othe=
-r
-> bugs. Instead, workaround it by disabling GCOV for the test_bitmap unless
-> the compiler will get fixed.
->
-> [1] https://github.com/ClangBuiltLinux/linux/issues/1874
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202307171254.yFcH97ej-lkp@i=
-ntel.com/
-> Fixes: dc34d5036692 ("lib: test_bitmap: add compile-time optimization/eva=
-luations assertions")
-> Co-developed-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   a16d62a2960b9f3c3e809d8051accf68826f3d32
+commit: 605d8f6940c38faeaa0aa91a8c793d1d8cd5eab5 [6546/11052] ANDROID: KVM: arm64: add support for early enablement nVHE hyp events
+config: arm64-randconfig-r031-20230717 (https://download.01.org/0day-ci/archive/20230718/202307180608.bZ3Ax3CU-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307180608.bZ3Ax3CU-lkp@intel.com/reproduce)
 
-Thanks for the patch.  I hope to see if this is fixable in the
-compiler soon, so that we can replace this with a compiler version
-check should this be fixable (and then fixed) in the compiler.  For
-now, we will track this in the above github link.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307180608.bZ3Ax3CU-lkp@intel.com/
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+All warnings (new ones prefixed by >>):
 
-> ---
->  lib/Makefile      | 6 ++++++
->  lib/test_bitmap.c | 8 ++++----
->  2 files changed, 10 insertions(+), 4 deletions(-)
->
-> diff --git a/lib/Makefile b/lib/Makefile
-> index 42d307ade225..1ffae65bb7ee 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -82,7 +82,13 @@ obj-$(CONFIG_TEST_STATIC_KEYS) +=3D test_static_key_ba=
-se.o
->  obj-$(CONFIG_TEST_DYNAMIC_DEBUG) +=3D test_dynamic_debug.o
->  obj-$(CONFIG_TEST_PRINTF) +=3D test_printf.o
->  obj-$(CONFIG_TEST_SCANF) +=3D test_scanf.o
-> +
->  obj-$(CONFIG_TEST_BITMAP) +=3D test_bitmap.o
-> +ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_KASAN),yy)
-> +# FIXME: Clang breaks test_bitmap_const_eval when KASAN and GCOV are ena=
-bled
-> +GCOV_PROFILE_test_bitmap.o :=3D n
-> +endif
-> +
->  obj-$(CONFIG_TEST_UUID) +=3D test_uuid.o
->  obj-$(CONFIG_TEST_XARRAY) +=3D test_xarray.o
->  obj-$(CONFIG_TEST_MAPLE_TREE) +=3D test_maple_tree.o
-> diff --git a/lib/test_bitmap.c b/lib/test_bitmap.c
-> index 187f5b2db4cf..4a678de9c350 100644
-> --- a/lib/test_bitmap.c
-> +++ b/lib/test_bitmap.c
-> @@ -1161,6 +1161,10 @@ static void __init test_bitmap_print_buf(void)
->         }
->  }
->
-> +/*
-> + * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are =
-enabled.
-> + * To workaround it, GCOV is force-disabled in Makefile for this configu=
-ration.
-> + */
->  static void __init test_bitmap_const_eval(void)
->  {
->         DECLARE_BITMAP(bitmap, BITS_PER_LONG);
-> @@ -1186,11 +1190,7 @@ static void __init test_bitmap_const_eval(void)
->          * the compiler is fixed.
->          */
->         bitmap_clear(bitmap, 0, BITS_PER_LONG);
-> -#if defined(__s390__) && defined(__clang__)
-> -       if (!const_test_bit(7, bitmap))
-> -#else
->         if (!test_bit(7, bitmap))
-> -#endif
->                 bitmap_set(bitmap, 5, 2);
->
->         /* Equals to `unsigned long bitopvar =3D BIT(20)` */
-> --
-> 2.39.2
->
->
+   In file included from arch/arm64/kvm/hyp_events.c:37:
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: warning: no previous prototype for function 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
+   HYP_EVENT(hyp_enter,
+   ^
+   arch/arm64/kvm/hyp_events.c:25:20: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+                             ^
+   <scratch space>:72:1: note: expanded from here
+   hyp_event_trace_hyp_enter
+   ^
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/kvm/hyp_events.c:25:2: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+           ^
+   In file included from arch/arm64/kvm/hyp_events.c:37:
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: warning: no previous prototype for function 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
+   HYP_EVENT(hyp_exit,
+   ^
+   arch/arm64/kvm/hyp_events.c:25:20: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+                             ^
+   <scratch space>:77:1: note: expanded from here
+   hyp_event_trace_hyp_exit
+   ^
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/kvm/hyp_events.c:25:2: note: expanded from macro 'HYP_EVENT'
+           enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+           ^
+>> arch/arm64/kvm/hyp_events.c:204:6: warning: no previous prototype for function 'kvm_hyp_events_enable_early' [-Wmissing-prototypes]
+   bool kvm_hyp_events_enable_early(void)
+        ^
+   arch/arm64/kvm/hyp_events.c:204:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool kvm_hyp_events_enable_early(void)
+   ^
+   static 
+   arch/arm64/kvm/hyp_events.c:239:6: warning: no previous prototype for function 'kvm_hyp_init_events_tracefs' [-Wmissing-prototypes]
+   void kvm_hyp_init_events_tracefs(struct dentry *parent)
+        ^
+   arch/arm64/kvm/hyp_events.c:239:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void kvm_hyp_init_events_tracefs(struct dentry *parent)
+   ^
+   static 
+   arch/arm64/kvm/hyp_events.c:271:5: warning: no previous prototype for function 'kvm_hyp_init_events' [-Wmissing-prototypes]
+   int kvm_hyp_init_events(void)
+       ^
+   arch/arm64/kvm/hyp_events.c:271:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int kvm_hyp_init_events(void)
+   ^
+   static 
+   5 warnings generated.
 
 
---=20
-Thanks,
-~Nick Desaulniers
+vim +/kvm_hyp_events_enable_early +204 arch/arm64/kvm/hyp_events.c
+
+   203	
+ > 204	bool kvm_hyp_events_enable_early(void)
+   205	{
+   206		char *token, *buf = early_events;
+   207		bool enabled = false;
+   208	
+   209		while (true) {
+   210			token = strsep(&buf, ",");
+   211	
+   212			if (!token)
+   213				break;
+   214	
+   215			if (*token) {
+   216				struct hyp_event *event;
+   217				int ret;
+   218	
+   219				event = find_hyp_event(token);
+   220				if (event) {
+   221					ret = enable_hyp_event(event, true);
+   222					if (ret)
+   223						pr_warn("Couldn't enable hyp event %s:%d\n",
+   224							token, ret);
+   225					else
+   226						enabled = true;
+   227				} else {
+   228					pr_warn("Couldn't find hyp event %s\n", token);
+   229				}
+   230			}
+   231	
+   232			if (buf)
+   233				*(buf - 1) = ',';
+   234		}
+   235	
+   236		return enabled;
+   237	}
+   238	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
