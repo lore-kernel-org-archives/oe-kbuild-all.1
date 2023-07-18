@@ -1,49 +1,48 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95229C2D5;
-	Tue, 18 Jul 2023 14:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200A9D52A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 14:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689690388; x=1721226388;
+  t=1689691725; x=1721227725;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=z8jTa5AftVwjf24Wnb/QfpwVzE14cz3NHaUKq4754Xs=;
-  b=Q03LgkLOYBygQsiaSo5OsUIXikh45oTDUQgm30GAkKipEvODG4guY0ka
-   KywBnhV5y+yMW8OzqfW6QnDYMlnLnggWuH6lNpRQ7uBiPMZlZhHelJ/DA
-   Z0ie19TiD94IZvh1w9a1iccbv5vAfNfaq2Z/dlwFWkAfm+MbC8yNb30dF
-   dFJkj4E9uB6DoByD/gKOEntA0NRVuSt4879pzFc6lYZlBqpkcb1dcknhE
-   IU+WDiVw0aqk+sAntxayZ6+lhvgLfn89k/EOKA0sV3KEYsJ2nkJ5sjPog
-   DWTGNqOIwCLOk+2F3cX8dTQr0WZaWuCveR+aLDaRkdyzbcwDUuRRHhhT2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="366262056"
+  bh=NC9C7yW/kTTU+3F9Q5fejcKtndiyczEHQJVnzMdH0h0=;
+  b=WGr6iDevD6dEux4J7cI31FJhHC9501ep+pZbSo1lce7HmotStzrnAa4q
+   hNBNGJQznALk2RcfntZ5pi6Xo9ppqNanR1XScS3XGZozDvP0eWk5G+uoq
+   J+5ztjM5zLomNj4P8SOHcV8WXhIWrP8DHlZfFLOFO6LRZqkG1MHbJ4fix
+   ZzMMgXMMyUOaeJAYnse75mCLUwI/7ECB8q+ua8IEClXTzYKtxpyyyN+jL
+   valzY8HuG7d1jjnyWZ3n6K+tWlpparXgPJcin+1kUstENqIR3NWpQU1A9
+   ee35ZYnStL8pfaWYJ+J1Bnb1EEtUYl+v0HeDFIIrsQ3j7Txjh9MQo7R5F
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="365103017"
 X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="366262056"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 07:26:27 -0700
+   d="scan'208";a="365103017"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 07:48:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="726953591"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="753347270"
 X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="726953591"
+   d="scan'208";a="753347270"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Jul 2023 07:26:24 -0700
+  by orsmga008.jf.intel.com with ESMTP; 18 Jul 2023 07:48:41 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLlee-0000eB-1G;
-	Tue, 18 Jul 2023 14:26:23 +0000
-Date: Tue, 18 Jul 2023 22:25:43 +0800
+	id 1qLlzm-0000ef-2P;
+	Tue, 18 Jul 2023 14:48:26 +0000
+Date: Tue, 18 Jul 2023 22:47:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Steve French <stfrench@microsoft.com>, linux-cifs@vger.kernel.org,
 	samba-technical@lists.samba.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Paulo Alcantara <pc@manguebit.com>,
+Cc: oe-kbuild-all@lists.linux.dev, Paulo Alcantara <pc@manguebit.com>,
 	Ronnie Sahlberg <lsahlber@redhat.com>,
 	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Subject: Re: [PATCH v1 1/1] smb: client: Rework memcpy() to avoid compilation
  error
-Message-ID: <202307182203.py4XAFoE-lkp@intel.com>
+Message-ID: <202307182238.1EqtTKJu-lkp@intel.com>
 References: <20230717100003.11824-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -69,25 +68,22 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/smb-clien
 base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
 patch link:    https://lore.kernel.org/r/20230717100003.11824-1-andriy.shevchenko%40linux.intel.com
 patch subject: [PATCH v1 1/1] smb: client: Rework memcpy() to avoid compilation error
-config: i386-randconfig-r013-20230718 (https://download.01.org/0day-ci/archive/20230718/202307182203.py4XAFoE-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230718/202307182203.py4XAFoE-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230718/202307182238.1EqtTKJu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307182238.1EqtTKJu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307182203.py4XAFoE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307182238.1EqtTKJu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/smb/client/cifssmb.c:1252:8: error: no member named 'FileAttributes' in 'FILE_ALL_INFO'; did you mean 'Attributes'?
-                   buf->FileAttributes = rsp->FileAttributes;
-                        ^~~~~~~~~~~~~~
-                        Attributes
-   fs/smb/client/cifspdu.h:2271:9: note: 'Attributes' declared here
-           __le32 Attributes;
-                  ^
-   1 error generated.
+   fs/smb/client/cifssmb.c: In function 'CIFS_open':
+>> fs/smb/client/cifssmb.c:1252:22: error: 'FILE_ALL_INFO' has no member named 'FileAttributes'; did you mean 'Attributes'?
+    1252 |                 buf->FileAttributes = rsp->FileAttributes;
+         |                      ^~~~~~~~~~~~~~
+         |                      Attributes
 
 
 vim +1252 fs/smb/client/cifssmb.c
