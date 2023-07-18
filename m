@@ -1,77 +1,78 @@
-Received: from gimli.rothwell.id.au (gimli.rothwell.id.au [103.230.158.156])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6247E2;
-	Tue, 18 Jul 2023 10:34:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rothwell.id.au;
-	s=201702; t=1689675996;
-	bh=nRbBE6dIpgDUilr8ZuaHONMIcYRzKhmkbNXaA/Q0QN8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fR4m2XPaVoa+PXxOZYWdLtasFHCZ24EzCs7Mi488iSBjO/twIoZa1LhQmEjRKPoNQ
-	 RJ30/0KgWvEWlppNSYgZaO+dPCx/GLHesL+Sal1guFh7Pm2qQswSmTaIAFS5zjFTG7
-	 NmtmGz0Fod6S8pPxivPw9pV+Fuf11ZE9BRF8pFuVBtEZRZVpLlXVL9edPtuxXte8gC
-	 QOSer+fvpm61J9FTzk2eH8djOWaUWezvvTcTR//7O1JuOZRiDe7Kb6DQoTXXd0ndPU
-	 vaRT/JEEtUp/RD6+j90xBIFprEwA9eK+rwAUWH7aSXgOo8DtWKZ9pARg3ITuJ8Eo/A
-	 OlwtGcAGz57qg==
-Received: from authenticated.rothwell.id.au (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.rothwell.id.au (Postfix) with ESMTPSA id 4R4w975h8pzyNw;
-	Tue, 18 Jul 2023 20:26:35 +1000 (AEST)
-Date: Tue, 18 Jul 2023 20:26:33 +1000
-From: Stephen Rothwell <sfr@rothwell.id.au>
-To: kernel test robot <lkp@intel.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Hu Haowen <src.res.211@gmail.com>
-Subject: Re: [srcres258-doc:next 1/1] mm/memory-failure.c:1891:6: error:
- redefinition of 'is_raw_hwpoison_page_in_hugepage'
-Message-ID: <20230718202633.7578c89e@pine.rothwell.emu.id.au>
-In-Reply-To: <202307181715.0dwDb1O9-lkp@intel.com>
-References: <202307181715.0dwDb1O9-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7283C2F3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 13:07:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689685667; x=1721221667;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lGM6FRMvhKV/wjIWXX3oGuAhPtH31ku6rj+6XMODEDU=;
+  b=cj4nOYGIq5Rcf+0carAXfRtldDZGts3aqayt0LwGmhO1x+zz72F+FQ8D
+   PboW23dCIdrHmPFxZlJ1ZQCMZJw5omKVh7ttyBTWO6Ofn4JaBTexSZkpE
+   NlFsxc72oG0ptsy/1s4v0GaQrEE4l9p28CwARlPcFgc7Lx6qY45eIWX6B
+   b8gdBwk1SaQ3f1OtGugC6hqPHZo95HK4Kv2R/2tOpJQs6mlMbSokNyBHs
+   7joddM8IXAPKFDquyoLob7mrEVaqourflV+cKzPy5Gv/RzNWwPuL3/aTT
+   GmrUwHm7XxyG5mCMcPy1Uo9SU79eP4CGi9wGvm4UujoBBdEs3tKQ0qOVZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="397039737"
+X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
+   d="scan'208";a="397039737"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 06:07:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="700891566"
+X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
+   d="scan'208";a="700891566"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 18 Jul 2023 06:07:44 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qLkPQ-0000cH-2l;
+	Tue, 18 Jul 2023 13:06:47 +0000
+Date: Tue, 18 Jul 2023 21:04:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 17409/27788] htmldocs:
+ Documentation/admin-guide/pstore-blk.rst:152: WARNING: Error in "kernel-doc"
+ directive:
+Message-ID: <202307182027.iDUXeEh1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/OsN=gRtltWiRkWk5KPRaBED";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---Sig_/OsN=gRtltWiRkWk5KPRaBED
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi WeiXiong,
 
-Hi,
+FYI, the error/warning still remains.
 
-On Tue, 18 Jul 2023 17:42:05 +0800 kernel test robot <lkp@intel.com> wrote:
->
-> tree:   https://github.com/srcres258/linux-doc next
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   14e059a4e07a4298d9cb041a9f5dd4b7e19a039b
+commit: c0003a71672a751ec23d85451cbe43ff64609ab1 [17409/27788] UPSTREAM: Documentation: Add details for pstore/blk
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307182027.iDUXeEh1-lkp@intel.com/reproduce)
 
-This is not the linux-next tree.  It is a tree that merges linux-next
-every now and then which is *not* how to work with linux-next and will
-create lots of merge conflicts which may, or may not, be resolved
-correctly.  Please do *not* report any problems with this tree to me.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307182027.iDUXeEh1-lkp@intel.com/
 
---=20
-Cheers,
-Stephen Rothwell
+All warnings (new ones prefixed by >>):
 
---Sig_/OsN=gRtltWiRkWk5KPRaBED
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+>> Documentation/admin-guide/pstore-blk.rst:152: WARNING: Error in "kernel-doc" directive:
+>> Documentation/admin-guide/pstore-blk.rst: WARNING: document isn't included in any toctree
 
------BEGIN PGP SIGNATURE-----
+vim +152 Documentation/admin-guide/pstore-blk.rst
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmS2aNkACgkQAVBC80lX
-0GzbQAf9EqXD7oIxTiG3Hwzg0iEw5FWLNuzPkLZ2j6ZdhBkLR7sLI5NdIjCQCx74
-KZTzRlxoUr3VWfPM3MC16EesD+EwbpEmqd1MZsBat7+RQTK/gI40/BdcjULJ6gda
-0NKAKmK3IgupZjI7tVYbDvOIrJtzrpDGhe3gooQM9le1r9wRn3zm2UCdqjCXzn0R
-wQW9VlsGlJwtLNBSofg5YtrycVMIcCa0jMCRbGL0dgMqB9bxjh0iySXPOZIQ+MQB
-ZTzeTheF0oyf0WI3N/VwSrEgJrpYA+9BCYvxfgt100UxATdFVUa9yibPjBjhgHzU
-RNmNup8uycQ/cvvjMZbBZbCfwrZRfA==
-=Vjju
------END PGP SIGNATURE-----
+   151	
+ > 152	.. kernel-doc:: fs/pstore/blk.c
+   153	   :identifiers: register_pstore_blk
+   154	
 
---Sig_/OsN=gRtltWiRkWk5KPRaBED--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
