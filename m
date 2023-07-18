@@ -1,44 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D6615AEA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 22:15:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D2D17AA4;
+	Tue, 18 Jul 2023 22:15:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1689718507; x=1721254507;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Dt9ElyVADrOtTiUniMMpOiaRVfu6DMDElEg/OfSVJRg=;
-  b=SJt8XDPkW/iWr2vw/8Wf5rBRkpkZl8vGtdQL53Ul6YhZE0y5OTCJABOs
-   CrGGv69l1z/uhS1sUWlqA2s3kUC1Y0MI8GZGN+x9DKSxj9TUIJW3Zp1A2
-   /XCSOJg36wckaW5/3ewubEtNkwFNUOLZUtJUwvmD6Pd02IqgyAwSXvwUp
-   UV3ihMBu/NmDa2aA4fGWXhHVwZbMlEwqeNZc9v6vVCUMOvWHRYVgSnwKJ
-   WqNpnKxaIRh9tZByvL5yQBoWTBh1sED4i9bNYd+KVbl5r/ooj5YEAtB7Y
-   o5S8UpZ8oPa49sWQ+ML7dNMqz31zHHy0gB5ekSRbw54hH992ZN1duDWsV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="366367536"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GnZQbLef0GOYPycY7Kp85dY+3EmJMFdLocAu/s/xAik=;
+  b=YmlERay7HBFKeScELG3yqIcaVhEM7+Cq/l3k7ZsJkAAvmFzYGhwaApb8
+   ilOto+XBpKmlolxvuVy9dUTqnuXayKV8lTE9BtAHo01fa7KFNR1kqEwGb
+   klZ5XlUvzEoJuk5b++FTPnpltNjEYe+X89ICQGrlz2SMfUfyuPC5kNqKI
+   LMTr2YtjXlLkUjFuqyfDi2apxxAvsB1+jH+ulTe9+BTS91vXl4XUMxLg0
+   vB8OlmLy+xCyk3j/VxE9VELi9q00ByzRAe5S3Q1FSZPxLhXnfkGz6029N
+   Y9nCkVJJ8hnuLZzNnEMZwGwkiB1NI329NRINGV7R0urroesuBCMx0uomo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="368968939"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="366367536"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 15:15:06 -0700
+   d="scan'208";a="368968939"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 15:15:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="970399893"
-X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="970399893"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="867248178"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 18 Jul 2023 15:15:05 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 18 Jul 2023 15:15:05 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLsyG-0003vK-1S;
+	id 1qLsyG-0003vF-1E;
 	Tue, 18 Jul 2023 22:15:04 +0000
 Date: Wed, 19 Jul 2023 06:14:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3 1/4] cxl: mbox: Preparatory move of functions to
- core/mbox.c
-Message-ID: <202307190633.g4uZokbV-lkp@intel.com>
-References: <20230717162557.8625-2-Jonathan.Cameron@huawei.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [arm:ktext-current 1/19] arch/arm64/mm/kasan_init.c:248:2: error:
+ call to '__compiletime_assert_418' declared with 'error' attribute:
+ BUILD_BUG_ON failed: VMALLOC_START != MODULES_END
+Message-ID: <202307190607.uzLCUxgD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,263 +46,465 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230717162557.8625-2-Jonathan.Cameron@huawei.com>
 
-Hi Jonathan,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on cxl/next]
-[also build test ERROR on pci/next pci/for-linus linus/master v6.5-rc2 next-20230718]
-[cannot apply to cxl/pending]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cameron/cxl-mbox-Preparatory-move-of-functions-to-core-mbox-c/20230718-181730
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-patch link:    https://lore.kernel.org/r/20230717162557.8625-2-Jonathan.Cameron%40huawei.com
-patch subject: [RFC PATCH v3 1/4] cxl: mbox: Preparatory move of functions to core/mbox.c
-config: microblaze-randconfig-r012-20230718 (https://download.01.org/0day-ci/archive/20230719/202307190633.g4uZokbV-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190633.g4uZokbV-lkp@intel.com/reproduce)
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git ktext-current
+head:   49e3458967802a6981190b5a1fa9fd66dbf58f8c
+commit: 631e7c45f5d4cf043cd236a921c341e3dd9f1909 [1/19] arm64: place kernel in its own L0 page table entry
+config: arm64-randconfig-r026-20230718 (https://download.01.org/0day-ci/archive/20230719/202307190607.uzLCUxgD-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190607.uzLCUxgD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307190633.g4uZokbV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307190607.uzLCUxgD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/cxl/core/mbox.c: In function 'cxl_mbox_background_complete':
->> drivers/cxl/core/mbox.c:219:15: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
-     219 |         reg = readq(cxlds->regs.mbox + CXLDEV_MBOX_BG_CMD_STATUS_OFFSET);
-         |               ^~~~~
-         |               readl
-   drivers/cxl/core/mbox.c: In function '__cxl_pci_mbox_send_cmd':
->> drivers/cxl/core/mbox.c:307:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
-     307 |         writeq(cmd_reg, cxlds->regs.mbox + CXLDEV_MBOX_CMD_OFFSET);
-         |         ^~~~~~
-         |         writel
-   cc1: some warnings being treated as errors
+         |                                   ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:238:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     238 |         [ESR_ELx_EC_HVC32]      = handle_hvc,
+         |                                   ^~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:239:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     239 |         [ESR_ELx_EC_SMC32]      = handle_smc,
+         |                                   ^~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:240:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     240 |         [ESR_ELx_EC_HVC64]      = handle_hvc,
+         |                                   ^~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:241:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     241 |         [ESR_ELx_EC_SMC64]      = handle_smc,
+         |                                   ^~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:242:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     242 |         [ESR_ELx_EC_SYS64]      = kvm_handle_sys_reg,
+         |                                   ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:243:21: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     243 |         [ESR_ELx_EC_SVE]        = handle_sve,
+         |                                   ^~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:244:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     244 |         [ESR_ELx_EC_ERET]       = kvm_handle_eret,
+         |                                   ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:245:26: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     245 |         [ESR_ELx_EC_IABT_LOW]   = kvm_handle_guest_abort,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:246:26: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     246 |         [ESR_ELx_EC_DABT_LOW]   = kvm_handle_guest_abort,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:247:28: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     247 |         [ESR_ELx_EC_SOFTSTP_LOW]= kvm_handle_guest_debug,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:248:28: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     248 |         [ESR_ELx_EC_WATCHPT_LOW]= kvm_handle_guest_debug,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:249:28: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     249 |         [ESR_ELx_EC_BREAKPT_LOW]= kvm_handle_guest_debug,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:250:24: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     250 |         [ESR_ELx_EC_BKPT32]     = kvm_handle_guest_debug,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:251:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     251 |         [ESR_ELx_EC_BRK64]      = kvm_handle_guest_debug,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:252:26: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     252 |         [ESR_ELx_EC_FP_ASIMD]   = handle_no_fpsimd,
+         |                                   ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:253:21: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     253 |         [ESR_ELx_EC_PAC]        = kvm_handle_ptrauth,
+         |                                   ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:230:27: note: previous initialization is here
+     230 |         [0 ... ESR_ELx_EC_MAX]  = kvm_handle_unknown_ec,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/handle_exit.c:364:33: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     364 |         u64 hyp_offset = elr_in_kimg - kaslr_offset() - elr_virt;
+         |                                        ^~~~~~~~~~~~~~
+   arch/arm64/include/asm/memory.h:203:56: note: expanded from macro 'kaslr_offset'
+     203 | #define kaslr_offset()  ((unsigned long)(kimage_vaddr - KIMAGE_VADDR))
+         |                                                         ^~~~~~~~~~~~
+   arch/arm64/include/asm/memory.h:47:6: note: expanded from macro 'KIMAGE_VADDR'
+      47 |                                  max(MODULES_VSIZE, PGDIR_SIZE))
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:74:19: note: expanded from macro 'max'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:388:28: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     388 |                                         (void *)(panic_addr + kaslr_offset()));
+         |                                                               ^~~~~~~~~~~~~~
+   include/linux/kvm_host.h:812:52: note: expanded from macro 'kvm_err'
+     812 |         pr_err("kvm [%i]: " fmt, task_pid_nr(current), ## __VA_ARGS__)
+         |                                                           ^~~~~~~~~~~
+   include/linux/printk.h:498:33: note: expanded from macro 'pr_err'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                            ^~~~~~~~~~~
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   arch/arm64/kvm/handle_exit.c:391:27: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     391 |                                 (void *)(panic_addr + kaslr_offset()));
+         |                                                       ^~~~~~~~~~~~~~
+   include/linux/kvm_host.h:812:52: note: expanded from macro 'kvm_err'
+     812 |         pr_err("kvm [%i]: " fmt, task_pid_nr(current), ## __VA_ARGS__)
+         |                                                           ^~~~~~~~~~~
+   include/linux/printk.h:498:33: note: expanded from macro 'pr_err'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                            ^~~~~~~~~~~
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   26 warnings generated.
+--
+>> arch/arm64/kvm/stacktrace.c:153:55: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     153 |         kvm_err(" [<%016lx>] %pB\n", where, (void *)(where + kaslr_offset()));
+         |                                                              ^~~~~~~~~~~~~~
+   include/linux/kvm_host.h:812:52: note: expanded from macro 'kvm_err'
+     812 |         pr_err("kvm [%i]: " fmt, task_pid_nr(current), ## __VA_ARGS__)
+         |                                                           ^~~~~~~~~~~
+   include/linux/printk.h:498:33: note: expanded from macro 'pr_err'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                            ^~~~~~~~~~~
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   1 warning generated.
+--
+>> arch/arm64/mm/kasan_init.c:225:54: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     225 |         mod_shadow_start = (u64)kasan_mem_to_shadow((void *)MODULES_VADDR);
+         |                                                             ^~~~~~~~~~~~~
+   arch/arm64/include/asm/memory.h:49:25: note: expanded from macro 'MODULES_VADDR'
+      49 | #define MODULES_VADDR           (MODULES_END - MODULES_VSIZE)
+         |                                  ^~~~~~~~~~~
+   arch/arm64/include/asm/memory.h:48:23: note: expanded from macro 'MODULES_END'
+      48 | #define MODULES_END             (KIMAGE_VADDR)
+         |                                  ^~~~~~~~~~~~
+   arch/arm64/include/asm/memory.h:47:6: note: expanded from macro 'KIMAGE_VADDR'
+      47 |                                  max(MODULES_VSIZE, PGDIR_SIZE))
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   arch/arm64/mm/kasan_init.c:248:15: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     248 |         BUILD_BUG_ON(VMALLOC_START != MODULES_END);
+         |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/pgtable.h:24:25: note: expanded from macro 'VMALLOC_START'
+      24 | #define VMALLOC_START           (MODULES_END + PGDIR_SIZE)
+         |                                  ^
+   arch/arm64/include/asm/memory.h:48:23: note: expanded from macro 'MODULES_END'
+      48 | #define MODULES_END             (KIMAGE_VADDR)
+         |                                  ^
+   arch/arm64/include/asm/memory.h:47:6: note: expanded from macro 'KIMAGE_VADDR'
+      47 |                                  max(MODULES_VSIZE, PGDIR_SIZE))
+         |                                  ^
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
+     385 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   arch/arm64/mm/kasan_init.c:248:32: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     248 |         BUILD_BUG_ON(VMALLOC_START != MODULES_END);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   arch/arm64/include/asm/memory.h:48:23: note: expanded from macro 'MODULES_END'
+      48 | #define MODULES_END             (KIMAGE_VADDR)
+         |                                  ^
+   arch/arm64/include/asm/memory.h:47:6: note: expanded from macro 'KIMAGE_VADDR'
+      47 |                                  max(MODULES_VSIZE, PGDIR_SIZE))
+         |                                  ^
+   include/linux/minmax.h:74:19: note: expanded from macro 'max'
+      74 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^
+   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
+     385 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> arch/arm64/mm/kasan_init.c:248:2: error: call to '__compiletime_assert_418' declared with 'error' attribute: BUILD_BUG_ON failed: VMALLOC_START != MODULES_END
+     248 |         BUILD_BUG_ON(VMALLOC_START != MODULES_END);
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+     385 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:3:1: note: expanded from here
+       3 | __compiletime_assert_418
+         | ^
+   3 warnings and 1 error generated.
+--
+>> drivers/md/dm-bufio.c:2842:22: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+    2842 |         if (mem > mult_frac(VMALLOC_TOTAL, DM_BUFIO_VMALLOC_PERCENT, 100))
+         |                   ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmalloc.h:284:38: note: expanded from macro 'VMALLOC_TOTAL'
+     284 | #define VMALLOC_TOTAL (VMALLOC_END - VMALLOC_START)
+         |                                      ^
+   arch/arm64/include/asm/pgtable.h:24:25: note: expanded from macro 'VMALLOC_START'
+      24 | #define VMALLOC_START           (MODULES_END + PGDIR_SIZE)
+         |                                  ^
+   arch/arm64/include/asm/memory.h:48:23: note: expanded from macro 'MODULES_END'
+      48 | #define MODULES_END             (KIMAGE_VADDR)
+         |                                  ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                   ^
+   include/linux/math.h:124:9: note: expanded from macro 'mult_frac'
+     124 |         typeof(x) x_ = (x);     \
+         |                ^
+>> drivers/md/dm-bufio.c:2842:22: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+    2842 |         if (mem > mult_frac(VMALLOC_TOTAL, DM_BUFIO_VMALLOC_PERCENT, 100))
+         |                   ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmalloc.h:284:38: note: expanded from macro 'VMALLOC_TOTAL'
+     284 | #define VMALLOC_TOTAL (VMALLOC_END - VMALLOC_START)
+         |                                      ^
+   arch/arm64/include/asm/pgtable.h:24:25: note: expanded from macro 'VMALLOC_START'
+      24 | #define VMALLOC_START           (MODULES_END + PGDIR_SIZE)
+         |                                  ^
+   arch/arm64/include/asm/memory.h:48:23: note: expanded from macro 'MODULES_END'
+      48 | #define MODULES_END             (KIMAGE_VADDR)
+         |                                  ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                   ^
+   include/linux/math.h:124:18: note: expanded from macro 'mult_frac'
+     124 |         typeof(x) x_ = (x);     \
+         |                         ^
+   drivers/md/dm-bufio.c:2843:19: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+    2843 |                 mem = mult_frac(VMALLOC_TOTAL, DM_BUFIO_VMALLOC_PERCENT, 100);
+         |                       ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmalloc.h:284:38: note: expanded from macro 'VMALLOC_TOTAL'
+     284 | #define VMALLOC_TOTAL (VMALLOC_END - VMALLOC_START)
+         |                                      ^
+   arch/arm64/include/asm/pgtable.h:24:25: note: expanded from macro 'VMALLOC_START'
+      24 | #define VMALLOC_START           (MODULES_END + PGDIR_SIZE)
+         |                                  ^
+   arch/arm64/include/asm/memory.h:48:23: note: expanded from macro 'MODULES_END'
+      48 | #define MODULES_END             (KIMAGE_VADDR)
+         |                                  ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                   ^
+   include/linux/math.h:124:9: note: expanded from macro 'mult_frac'
+     124 |         typeof(x) x_ = (x);     \
+         |                ^
+   drivers/md/dm-bufio.c:2843:19: warning: comparison of distinct pointer types ('typeof ((2147483648U)) *' (aka 'unsigned int *') and 'typeof (((1UL) << ((12 - 3) * (4 - (4 - 3)) + 3))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+    2843 |                 mem = mult_frac(VMALLOC_TOTAL, DM_BUFIO_VMALLOC_PERCENT, 100);
+         |                       ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmalloc.h:284:38: note: expanded from macro 'VMALLOC_TOTAL'
+     284 | #define VMALLOC_TOTAL (VMALLOC_END - VMALLOC_START)
+         |                                      ^
+   arch/arm64/include/asm/pgtable.h:24:25: note: expanded from macro 'VMALLOC_START'
+      24 | #define VMALLOC_START           (MODULES_END + PGDIR_SIZE)
+         |                                  ^
+   arch/arm64/include/asm/memory.h:48:23: note: expanded from macro 'MODULES_END'
+      48 | #define MODULES_END             (KIMAGE_VADDR)
+         |                                  ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                   ^
+   include/linux/math.h:124:18: note: expanded from macro 'mult_frac'
+     124 |         typeof(x) x_ = (x);     \
+         |                         ^
+   4 warnings generated.
+..
 
 
-vim +219 drivers/cxl/core/mbox.c
+vim +248 arch/arm64/mm/kasan_init.c
 
-   214	
-   215	bool cxl_mbox_background_complete(struct cxl_dev_state *cxlds)
-   216	{
-   217		u64 reg;
-   218	
- > 219		reg = readq(cxlds->regs.mbox + CXLDEV_MBOX_BG_CMD_STATUS_OFFSET);
-   220		return FIELD_GET(CXLDEV_MBOX_BG_CMD_COMMAND_PCT_MASK, reg) == 100;
-   221	}
-   222	EXPORT_SYMBOL_NS_GPL(cxl_mbox_background_complete, CXL);
-   223	
-   224	/**
-   225	 * __cxl_pci_mbox_send_cmd() - Execute a mailbox command
-   226	 * @mds: The memory device driver data
-   227	 * @mbox_cmd: Command to send to the memory device.
-   228	 *
-   229	 * Context: Any context. Expects mbox_mutex to be held.
-   230	 * Return: -ETIMEDOUT if timeout occurred waiting for completion. 0 on success.
-   231	 *         Caller should check the return code in @mbox_cmd to make sure it
-   232	 *         succeeded.
-   233	 *
-   234	 * This is a generic form of the CXL mailbox send command thus only using the
-   235	 * registers defined by the mailbox capability ID - CXL 2.0 8.2.8.4. Memory
-   236	 * devices, and perhaps other types of CXL devices may have further information
-   237	 * available upon error conditions. Driver facilities wishing to send mailbox
-   238	 * commands should use the wrapper command.
-   239	 *
-   240	 * The CXL spec allows for up to two mailboxes. The intention is for the primary
-   241	 * mailbox to be OS controlled and the secondary mailbox to be used by system
-   242	 * firmware. This allows the OS and firmware to communicate with the device and
-   243	 * not need to coordinate with each other. The driver only uses the primary
-   244	 * mailbox.
-   245	 */
-   246	static int __cxl_pci_mbox_send_cmd(struct cxl_memdev_state *mds,
-   247					   struct cxl_mbox_cmd *mbox_cmd)
-   248	{
-   249		struct cxl_dev_state *cxlds = &mds->cxlds;
-   250		void __iomem *payload = cxlds->regs.mbox + CXLDEV_MBOX_PAYLOAD_OFFSET;
-   251		struct device *dev = cxlds->dev;
-   252		u64 cmd_reg, status_reg;
-   253		size_t out_len;
-   254		int rc;
-   255	
-   256		lockdep_assert_held(&mds->mbox_mutex);
-   257	
-   258		/*
-   259		 * Here are the steps from 8.2.8.4 of the CXL 2.0 spec.
-   260		 *   1. Caller reads MB Control Register to verify doorbell is clear
-   261		 *   2. Caller writes Command Register
-   262		 *   3. Caller writes Command Payload Registers if input payload is non-empty
-   263		 *   4. Caller writes MB Control Register to set doorbell
-   264		 *   5. Caller either polls for doorbell to be clear or waits for interrupt if configured
-   265		 *   6. Caller reads MB Status Register to fetch Return code
-   266		 *   7. If command successful, Caller reads Command Register to get Payload Length
-   267		 *   8. If output payload is non-empty, host reads Command Payload Registers
-   268		 *
-   269		 * Hardware is free to do whatever it wants before the doorbell is rung,
-   270		 * and isn't allowed to change anything after it clears the doorbell. As
-   271		 * such, steps 2 and 3 can happen in any order, and steps 6, 7, 8 can
-   272		 * also happen in any order (though some orders might not make sense).
-   273		 */
-   274	
-   275		/* #1 */
-   276		if (cxl_doorbell_busy(cxlds)) {
-   277			u64 md_status =
-   278				readq(cxlds->regs.memdev + CXLMDEV_STATUS_OFFSET);
-   279	
-   280			cxl_cmd_err(cxlds->dev, mbox_cmd, md_status,
-   281				    "mailbox queue busy");
-   282			return -EBUSY;
-   283		}
-   284	
-   285		/*
-   286		 * With sanitize polling, hardware might be done and the poller still
-   287		 * not be in sync. Ensure no new command comes in until so. Keep the
-   288		 * hardware semantics and only allow device health status.
-   289		 */
-   290		if (mds->security.poll_tmo_secs > 0) {
-   291			if (mbox_cmd->opcode != CXL_MBOX_OP_GET_HEALTH_INFO)
-   292				return -EBUSY;
-   293		}
-   294	
-   295		cmd_reg = FIELD_PREP(CXLDEV_MBOX_CMD_COMMAND_OPCODE_MASK,
-   296				     mbox_cmd->opcode);
-   297		if (mbox_cmd->size_in) {
-   298			if (WARN_ON(!mbox_cmd->payload_in))
-   299				return -EINVAL;
-   300	
-   301			cmd_reg |= FIELD_PREP(CXLDEV_MBOX_CMD_PAYLOAD_LENGTH_MASK,
-   302					      mbox_cmd->size_in);
-   303			memcpy_toio(payload, mbox_cmd->payload_in, mbox_cmd->size_in);
-   304		}
-   305	
-   306		/* #2, #3 */
- > 307		writeq(cmd_reg, cxlds->regs.mbox + CXLDEV_MBOX_CMD_OFFSET);
-   308	
-   309		/* #4 */
-   310		dev_dbg(dev, "Sending command: 0x%04x\n", mbox_cmd->opcode);
-   311		writel(CXLDEV_MBOX_CTRL_DOORBELL,
-   312		       cxlds->regs.mbox + CXLDEV_MBOX_CTRL_OFFSET);
-   313	
-   314		/* #5 */
-   315		rc = cxl_pci_mbox_wait_for_doorbell(cxlds);
-   316		if (rc == -ETIMEDOUT) {
-   317			u64 md_status = readq(cxlds->regs.memdev + CXLMDEV_STATUS_OFFSET);
-   318	
-   319			cxl_cmd_err(cxlds->dev, mbox_cmd, md_status, "mailbox timeout");
-   320			return rc;
-   321		}
-   322	
-   323		/* #6 */
-   324		status_reg = readq(cxlds->regs.mbox + CXLDEV_MBOX_STATUS_OFFSET);
-   325		mbox_cmd->return_code =
-   326			FIELD_GET(CXLDEV_MBOX_STATUS_RET_CODE_MASK, status_reg);
-   327	
-   328		/*
-   329		 * Handle the background command in a synchronous manner.
-   330		 *
-   331		 * All other mailbox commands will serialize/queue on the mbox_mutex,
-   332		 * which we currently hold. Furthermore this also guarantees that
-   333		 * cxl_mbox_background_complete() checks are safe amongst each other,
-   334		 * in that no new bg operation can occur in between.
-   335		 *
-   336		 * Background operations are timesliced in accordance with the nature
-   337		 * of the command. In the event of timeout, the mailbox state is
-   338		 * indeterminate until the next successful command submission and the
-   339		 * driver can get back in sync with the hardware state.
-   340		 */
-   341		if (mbox_cmd->return_code == CXL_MBOX_CMD_RC_BACKGROUND) {
-   342			u64 bg_status_reg;
-   343			int i, timeout;
-   344	
-   345			/*
-   346			 * Sanitization is a special case which monopolizes the device
-   347			 * and cannot be timesliced. Handle asynchronously instead,
-   348			 * and allow userspace to poll(2) for completion.
-   349			 */
-   350			if (mbox_cmd->opcode == CXL_MBOX_OP_SANITIZE) {
-   351				if (mds->security.poll) {
-   352					/* hold the device throughout */
-   353					get_device(cxlds->dev);
-   354	
-   355					/* give first timeout a second */
-   356					timeout = 1;
-   357					mds->security.poll_tmo_secs = timeout;
-   358					queue_delayed_work(system_wq,
-   359							   &mds->security.poll_dwork,
-   360							   timeout * HZ);
-   361				}
-   362	
-   363				dev_dbg(dev, "Sanitization operation started\n");
-   364				goto success;
-   365			}
-   366	
-   367			dev_dbg(dev, "Mailbox background operation (0x%04x) started\n",
-   368				mbox_cmd->opcode);
-   369	
-   370			timeout = mbox_cmd->poll_interval_ms;
-   371			for (i = 0; i < mbox_cmd->poll_count; i++) {
-   372				if (rcuwait_wait_event_timeout(&mds->mbox_wait,
-   373					       cxl_mbox_background_complete(cxlds),
-   374					       TASK_UNINTERRUPTIBLE,
-   375					       msecs_to_jiffies(timeout)) > 0)
-   376					break;
-   377			}
-   378	
-   379			if (!cxl_mbox_background_complete(cxlds)) {
-   380				dev_err(dev, "timeout waiting for background (%d ms)\n",
-   381					timeout * mbox_cmd->poll_count);
-   382				return -ETIMEDOUT;
-   383			}
-   384	
-   385			bg_status_reg = readq(cxlds->regs.mbox +
-   386					      CXLDEV_MBOX_BG_CMD_STATUS_OFFSET);
-   387			mbox_cmd->return_code =
-   388				FIELD_GET(CXLDEV_MBOX_BG_CMD_COMMAND_RC_MASK,
-   389					  bg_status_reg);
-   390			dev_dbg(dev,
-   391				"Mailbox background operation (0x%04x) completed\n",
-   392				mbox_cmd->opcode);
-   393		}
-   394	
-   395		if (mbox_cmd->return_code != CXL_MBOX_CMD_RC_SUCCESS) {
-   396			dev_dbg(dev, "Mailbox operation had an error: %s\n",
-   397				cxl_mbox_cmd_rc2str(mbox_cmd));
-   398			return 0; /* completed but caller must check return_code */
-   399		}
-   400	
-   401	success:
-   402		/* #7 */
-   403		cmd_reg = readq(cxlds->regs.mbox + CXLDEV_MBOX_CMD_OFFSET);
-   404		out_len = FIELD_GET(CXLDEV_MBOX_CMD_PAYLOAD_LENGTH_MASK, cmd_reg);
-   405	
-   406		/* #8 */
-   407		if (out_len && mbox_cmd->payload_out) {
-   408			/*
-   409			 * Sanitize the copy. If hardware misbehaves, out_len per the
-   410			 * spec can actually be greater than the max allowed size (21
-   411			 * bits available but spec defined 1M max). The caller also may
-   412			 * have requested less data than the hardware supplied even
-   413			 * within spec.
-   414			 */
-   415			size_t n;
-   416	
-   417			n = min3(mbox_cmd->size_out, mds->payload_size, out_len);
-   418			memcpy_fromio(mbox_cmd->payload_out, payload, n);
-   419			mbox_cmd->size_out = n;
-   420		} else {
-   421			mbox_cmd->size_out = 0;
-   422		}
-   423	
-   424		return 0;
-   425	}
-   426	
+39d114ddc68223 Andrey Ryabinin  2015-10-12  213  
+afe6ef80dcecf2 Andrey Konovalov 2020-12-22  214  static void __init kasan_init_shadow(void)
+39d114ddc68223 Andrey Ryabinin  2015-10-12  215  {
+f9040773b7bbbd Ard Biesheuvel   2016-02-16  216  	u64 kimg_shadow_start, kimg_shadow_end;
+55123afffe931a Mark Rutland     2023-05-30  217  	u64 mod_shadow_start;
+9a0732efa77418 Lecopzer Chen    2021-03-24  218  	u64 vmalloc_shadow_end;
+b10d6bca87204c Mike Rapoport    2020-10-13  219  	phys_addr_t pa_start, pa_end;
+b10d6bca87204c Mike Rapoport    2020-10-13  220  	u64 i;
+39d114ddc68223 Andrey Ryabinin  2015-10-12  221  
+7d7b88ff5f8fd7 Lecopzer Chen    2021-03-24  222  	kimg_shadow_start = (u64)kasan_mem_to_shadow(KERNEL_START) & PAGE_MASK;
+7d7b88ff5f8fd7 Lecopzer Chen    2021-03-24  223  	kimg_shadow_end = PAGE_ALIGN((u64)kasan_mem_to_shadow(KERNEL_END));
+f9040773b7bbbd Ard Biesheuvel   2016-02-16  224  
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26 @225  	mod_shadow_start = (u64)kasan_mem_to_shadow((void *)MODULES_VADDR);
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  226  
+9a0732efa77418 Lecopzer Chen    2021-03-24  227  	vmalloc_shadow_end = (u64)kasan_mem_to_shadow((void *)VMALLOC_END);
+9a0732efa77418 Lecopzer Chen    2021-03-24  228  
+39d114ddc68223 Andrey Ryabinin  2015-10-12  229  	/*
+39d114ddc68223 Andrey Ryabinin  2015-10-12  230  	 * We are going to perform proper setup of shadow memory.
+0293c8ba807c86 Kyrylo Tkachov   2018-10-04  231  	 * At first we should unmap early shadow (clear_pgds() call below).
+39d114ddc68223 Andrey Ryabinin  2015-10-12  232  	 * However, instrumented code couldn't execute without shadow memory.
+39d114ddc68223 Andrey Ryabinin  2015-10-12  233  	 * tmp_pg_dir used to keep early shadow mapped until full shadow
+39d114ddc68223 Andrey Ryabinin  2015-10-12  234  	 * setup will be finished.
+39d114ddc68223 Andrey Ryabinin  2015-10-12  235  	 */
+39d114ddc68223 Andrey Ryabinin  2015-10-12  236  	memcpy(tmp_pg_dir, swapper_pg_dir, sizeof(tmp_pg_dir));
+c1a88e9124a499 Mark Rutland     2016-01-25  237  	dsb(ishst);
+1682c45b920643 Ard Biesheuvel   2022-06-24  238  	cpu_replace_ttbr1(lm_alias(tmp_pg_dir), idmap_pg_dir);
+39d114ddc68223 Andrey Ryabinin  2015-10-12  239  
+39d114ddc68223 Andrey Ryabinin  2015-10-12  240  	clear_pgds(KASAN_SHADOW_START, KASAN_SHADOW_END);
+39d114ddc68223 Andrey Ryabinin  2015-10-12  241  
+e17d8025f07e4f Will Deacon      2017-11-15  242  	kasan_map_populate(kimg_shadow_start, kimg_shadow_end,
+7d7b88ff5f8fd7 Lecopzer Chen    2021-03-24  243  			   early_pfn_to_nid(virt_to_pfn(lm_alias(KERNEL_START))));
+f9040773b7bbbd Ard Biesheuvel   2016-02-16  244  
+77ad4ce69321ab Mark Rutland     2019-08-14  245  	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)PAGE_END),
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  246  				   (void *)mod_shadow_start);
+9a0732efa77418 Lecopzer Chen    2021-03-24  247  
+9a0732efa77418 Lecopzer Chen    2021-03-24 @248  	BUILD_BUG_ON(VMALLOC_START != MODULES_END);
+9a0732efa77418 Lecopzer Chen    2021-03-24  249  	kasan_populate_early_shadow((void *)vmalloc_shadow_end,
+9a0732efa77418 Lecopzer Chen    2021-03-24  250  				    (void *)KASAN_SHADOW_END);
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  251  
+b10d6bca87204c Mike Rapoport    2020-10-13  252  	for_each_mem_range(i, &pa_start, &pa_end) {
+b10d6bca87204c Mike Rapoport    2020-10-13  253  		void *start = (void *)__phys_to_virt(pa_start);
+b10d6bca87204c Mike Rapoport    2020-10-13  254  		void *end = (void *)__phys_to_virt(pa_end);
+39d114ddc68223 Andrey Ryabinin  2015-10-12  255  
+39d114ddc68223 Andrey Ryabinin  2015-10-12  256  		if (start >= end)
+39d114ddc68223 Andrey Ryabinin  2015-10-12  257  			break;
+39d114ddc68223 Andrey Ryabinin  2015-10-12  258  
+e17d8025f07e4f Will Deacon      2017-11-15  259  		kasan_map_populate((unsigned long)kasan_mem_to_shadow(start),
+3f9ec80f7b22ec Andrey Ryabinin  2017-07-10  260  				   (unsigned long)kasan_mem_to_shadow(end),
+800cb2e553d445 Mark Rutland     2018-04-16  261  				   early_pfn_to_nid(virt_to_pfn(start)));
+39d114ddc68223 Andrey Ryabinin  2015-10-12  262  	}
+39d114ddc68223 Andrey Ryabinin  2015-10-12  263  
+7b1af9795773d7 Ard Biesheuvel   2016-01-11  264  	/*
+9577dd74864877 Andrey Konovalov 2018-12-28  265  	 * KAsan may reuse the contents of kasan_early_shadow_pte directly,
+9577dd74864877 Andrey Konovalov 2018-12-28  266  	 * so we should make sure that it maps the zero page read-only.
+7b1af9795773d7 Ard Biesheuvel   2016-01-11  267  	 */
+7b1af9795773d7 Ard Biesheuvel   2016-01-11  268  	for (i = 0; i < PTRS_PER_PTE; i++)
+9577dd74864877 Andrey Konovalov 2018-12-28  269  		set_pte(&kasan_early_shadow_pte[i],
+9577dd74864877 Andrey Konovalov 2018-12-28  270  			pfn_pte(sym_to_pfn(kasan_early_shadow_page),
+9577dd74864877 Andrey Konovalov 2018-12-28  271  				PAGE_KERNEL_RO));
+7b1af9795773d7 Ard Biesheuvel   2016-01-11  272  
+080eb83f54cf5b Andrey Konovalov 2018-12-28  273  	memset(kasan_early_shadow_page, KASAN_SHADOW_INIT, PAGE_SIZE);
+1682c45b920643 Ard Biesheuvel   2022-06-24  274  	cpu_replace_ttbr1(lm_alias(swapper_pg_dir), idmap_pg_dir);
+afe6ef80dcecf2 Andrey Konovalov 2020-12-22  275  }
+afe6ef80dcecf2 Andrey Konovalov 2020-12-22  276  
+
+:::::: The code at line 248 was first introduced by commit
+:::::: 9a0732efa77418fc85b1bdc5ddee619e62f59545 arm64: kasan: don't populate vmalloc area for CONFIG_KASAN_VMALLOC
+
+:::::: TO: Lecopzer Chen <lecopzer.chen@mediatek.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
