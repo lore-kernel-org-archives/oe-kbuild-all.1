@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF8915AD8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 17:44:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36215134BD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 17:54:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689702258; x=1721238258;
+  t=1689702875; x=1721238875;
   h=date:from:cc:subject:message-id:mime-version;
-  bh=+qAjGMd3rHIqsR3YbpxV2FYrJLanBqmA3kQAv1VgQMg=;
-  b=UjJUHc/wJmsU6ZXdBgNw1RZuuHdtkSOJKsG5vTP7BoXvjHUMDD47Phch
-   yTXdvLrZNxABHI7/iyG8EbCfBvhilzYc+C0Wgr2AgbIlsri2CUQmY802a
-   ZKrZhCTOQTA8j+EEPz4YJRJlstZd80ygEdfbTlu/2MPgRyCa8+hDv0NCW
-   6jBQL5pGxUMfNOgpCq7fsNynEpmVjqH1sOn1dYthHjwOUfmosntNkufKc
-   15OL8exPFAfL984SembYxegkNBrClPVq6KD3pr488yCbsqwgO3sBsZ9cw
-   sVGQ6IqZ3Nhb/F8SsAOPkOlXUJ35oeAPOSybBKzMmod6v4hYg9xzV6Oj5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="363731127"
+  bh=siKrf/68//G+6QSyKHNj0Y06y/XWRj5BOvLzXASUM9Q=;
+  b=jO+PEsDH0Ym5GIvuzvLDXMlx5o2TN8bUG5//vOEKcsj4pkVFNvLQOjkY
+   3BR3wGC99SrdZzwPfGKmElVU2z62jTrrb7OE0Fv2AHO7rjzx4OWybEyvt
+   sjvV1euWVixGDljfG8CU/wkPv3TIt7qBAnD6DBnmsRwN/4jIK50NMoEPw
+   W+60QemE9ndq2QSbW3Mn/9D2NYT9FoqeRfTfT9VxJPh7NmtFmBvKKQBql
+   LxW3RYijS0vwLNK3fBZa9dU/X1SZx8bGPdM7PX7Gu3ooFoHDbTf80qIDN
+   MTyYrwlBqchHDz9uFS2XiqVk9rYzMdoUwiloTkIXoAQgwU3OjZO6UWOYv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="365153715"
 X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="363731127"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 10:44:17 -0700
+   d="scan'208";a="365153715"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 10:54:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="867188677"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="717684065"
+X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
+   d="scan'208";a="717684065"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Jul 2023 10:44:17 -0700
+  by orsmga007.jf.intel.com with ESMTP; 18 Jul 2023 10:54:33 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLokB-00033D-35
+	id 1qLotz-0003Lh-1Q
 	for oe-kbuild-all@lists.linux.dev;
-	Tue, 18 Jul 2023 17:44:15 +0000
-Date: Wed, 19 Jul 2023 01:43:55 +0800
+	Tue, 18 Jul 2023 17:54:24 +0000
+Date: Wed, 19 Jul 2023 01:54:06 +0800
 From: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:5.15/dovetail-xenomai 2308/26803]
- arch/x86/kernel/apic/apic.c:2201: warning: expecting prototype for
- spurious_interrupt(). Prototype was for DEFINE_IDTENTRY_IRQ_PIPELINED()
- instead
-Message-ID: <202307190126.1rL86mQV-lkp@intel.com>
+Subject: [intel-lts:5.15/dovetail-xenomai 8586/26803] ld.lld: error:
+ relocation R_AARCH64_ABS64 cannot be used against local symbol; recompile
+ with -fPIC
+Message-ID: <202307190132.2ZABZ4Tx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,49 +49,80 @@ Content-Disposition: inline
 
 Hi Philippe,
 
-FYI, the error/warning still remains.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://github.com/intel/linux-intel-lts.git 5.15/dovetail-xenomai
 head:   9ebe966c9db2389fa11b6997119b22b7374fd44d
-commit: 410d2c33dc6ffc875be6b6beecee5be798431269 [2308/26803] x86: irq_pipeline: add IRQ pipeline core
-config: i386-randconfig-r035-20230718 (https://download.01.org/0day-ci/archive/20230719/202307190126.1rL86mQV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190126.1rL86mQV-lkp@intel.com/reproduce)
+commit: 376f534db595228ae75dfc585b85dcd1309978bd [8586/26803] clocksource/drivers: dovetail: fix dependency on GENERIC_CLOCKSOURCE_VDSO
+config: arm64-randconfig-r011-20230718 (https://download.01.org/0day-ci/archive/20230719/202307190132.2ZABZ4Tx-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190132.2ZABZ4Tx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307190126.1rL86mQV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307190132.2ZABZ4Tx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/kernel/apic/apic.c:2201: warning: Function parameter or member 'spurious_interrupt' not described in 'DEFINE_IDTENTRY_IRQ_PIPELINED'
->> arch/x86/kernel/apic/apic.c:2201: warning: expecting prototype for spurious_interrupt(). Prototype was for DEFINE_IDTENTRY_IRQ_PIPELINED() instead
-
-
-vim +2201 arch/x86/kernel/apic/apic.c
-
-c4d58cbd158dc9 arch/x86/kernel/apic_64.c   Thomas Gleixner 2007-10-12  2190  
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2191  /**
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2192   * spurious_interrupt - Catch all for interrupts raised on unused vectors
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2193   * @regs:	Pointer to pt_regs on stack
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2194   * @vector:	The vector number
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2195   *
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2196   * This is invoked from ASM entry code to catch all interrupts which
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2197   * trigger on an entry which is routed to the common_spurious idtentry
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2198   * point.
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2199   */
-410d2c33dc6ffc arch/x86/kernel/apic/apic.c Philippe Gerum  2019-04-24  2200  DEFINE_IDTENTRY_IRQ_PIPELINED(spurious_interrupt)
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10 @2201  {
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2202  	handle_spurious_interrupt(vector);
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2203  }
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2204  
-
-:::::: The code at line 2201 was first introduced by commit
-:::::: 3c5e0267ec3e6ed7d3f1793273cbf0beb4f86a74 x86/apic: Split out spurious handling code
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+   arch/arm64/kernel/vdso/vgettimeofday.c:9:5: warning: no previous prototype for function '__kernel_clock_gettime' [-Wmissing-prototypes]
+   int __kernel_clock_gettime(clockid_t clock,
+   ^
+   arch/arm64/kernel/vdso/vgettimeofday.c:9:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int __kernel_clock_gettime(clockid_t clock,
+   ^
+   static
+   arch/arm64/kernel/vdso/vgettimeofday.c:15:5: warning: no previous prototype for function '__kernel_gettimeofday' [-Wmissing-prototypes]
+   int __kernel_gettimeofday(struct __kernel_old_timeval *tv,
+   ^
+   arch/arm64/kernel/vdso/vgettimeofday.c:15:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int __kernel_gettimeofday(struct __kernel_old_timeval *tv,
+   ^
+   static
+   arch/arm64/kernel/vdso/vgettimeofday.c:21:5: warning: no previous prototype for function '__kernel_clock_getres' [-Wmissing-prototypes]
+   int __kernel_clock_getres(clockid_t clock_id,
+   ^
+   arch/arm64/kernel/vdso/vgettimeofday.c:21:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int __kernel_clock_getres(clockid_t clock_id,
+   ^
+   static
+   3 warnings generated.
+>> ld.lld: error: relocation R_AARCH64_ABS64 cannot be used against local symbol; recompile with -fPIC
+   >>> defined in arch/arm64/kernel/vdso/vgettimeofday.o
+   >>> referenced by vgettimeofday.c
+   >>>               arch/arm64/kernel/vdso/vgettimeofday.o:(.rodata+0x0)
+--
+>> ld.lld: error: relocation R_AARCH64_ABS64 cannot be used against local symbol; recompile with -fPIC
+   >>> defined in arch/arm64/kernel/vdso/vgettimeofday.o
+   >>> referenced by vgettimeofday.c
+   >>>               arch/arm64/kernel/vdso/vgettimeofday.o:(.rodata+0x8)
+--
+>> ld.lld: error: relocation R_AARCH64_ABS64 cannot be used against local symbol; recompile with -fPIC
+   >>> defined in arch/arm64/kernel/vdso/vgettimeofday.o
+   >>> referenced by vgettimeofday.c
+   >>>               arch/arm64/kernel/vdso/vgettimeofday.o:(.rodata+0x10)
+--
+>> ld.lld: error: relocation R_AARCH64_ABS64 cannot be used against local symbol; recompile with -fPIC
+   >>> defined in arch/arm64/kernel/vdso/vgettimeofday.o
+   >>> referenced by vgettimeofday.c
+   >>>               arch/arm64/kernel/vdso/vgettimeofday.o:(.rodata+0x18)
+--
+>> ld.lld: error: relocation R_AARCH64_ABS64 cannot be used against local symbol; recompile with -fPIC
+   >>> defined in arch/arm64/kernel/vdso/vgettimeofday.o
+   >>> referenced by vgettimeofday.c
+   >>>               arch/arm64/kernel/vdso/vgettimeofday.o:(.rodata+0x20)
+--
+>> ld.lld: error: relocation R_AARCH64_ABS64 cannot be used against local symbol; recompile with -fPIC
+   >>> defined in arch/arm64/kernel/vdso/vgettimeofday.o
+   >>> referenced by vgettimeofday.c
+   >>>               arch/arm64/kernel/vdso/vgettimeofday.o:(.rodata+0x28)
+   make[2]: *** [arch/arm64/kernel/vdso/Makefile:56: arch/arm64/kernel/vdso/vdso.so.dbg] Error 1 shuffle=4022157678
+   make[2]: Target 'arch/arm64/kernel/vdso/vdso.so' not remade because of errors.
+   make[2]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
+   make[1]: *** [arch/arm64/Makefile:201: vdso_prepare] Error 2 shuffle=4022157678
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:219: __sub-make] Error 2 shuffle=4022157678
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
