@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4917BE55;
-	Tue, 18 Jul 2023 09:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D622D52C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 09:14:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689670916; x=1721206916;
+  t=1689671662; x=1721207662;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Uq6GN6BN7TVPL0AjBQW94YkIsGZnqdNeMlO9FBeC1XM=;
-  b=FyMetHuRykkr2fYY9O+KzU9oJjj7Q+dMniOvpPq6ZC+M6rQE3Sa2u+rM
-   0/0t2IZRb+/5BYqcjgJuiP7evcdwReiAuT6L4ccUVS2j/pw5aVOJOYVQ0
-   3t4XV00mjt/3FffiQtGrpqm9OjlYpYOkDR1Pk8N8aAsvWhdr8ms2cb3Kk
-   xA1Nzb9UaXFGLtPi4fz/Wo5v4vLdswyfr5BoYZCkHvgL/nqG+F36QFs90
-   43t+IW7txs7yrKw3imEePg5CKdRUYuRMVqDuGRi12wGi3QLt+0DNFP4c1
-   NoHu0Cxz6ir9t4pWm4CFQ4vv+oY4+wAiSIIO9Mxssb/7QeP2yBpllqv5E
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="452529378"
+  bh=wmo0ENbDlNfLYIM4sxtXPzPqEyCujDq1EqGIU0bgo2I=;
+  b=VrbgQUH3nkKlLEEg9GyoLm7x/zKQxrZubYhOLwzqH6bCIPrpgv6Z01Tz
+   qU9tBAQqLL+yK5lkcsl4iGF0J+DPPZK+4xNHw3TBMI7+D8YRBbBeHhsjE
+   VwBscHzzdKmKPtJaLlTxXTeHeghezP+j5C3sdaP+dfo9Hc7iQGImpeBiF
+   fDK1LRHhzgDklf165J3o4KxrXdL09s/Vmzpm/YbOeCJ1JKW2aloAUl8wD
+   xn/IPsJlXydRx9BwlYWv//1cFZYIwAyTenFt3SHdL3eBfL5sA7aOtj5+a
+   0LKqp4NBVXhDDIcB4lmOlf0L/oX8/oETBa40cnV2vNibAi72HS+VVS8rj
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="363621566"
 X-IronPort-AV: E=Sophos;i="6.01,213,1684825200"; 
-   d="scan'208";a="452529378"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 02:01:55 -0700
+   d="scan'208";a="363621566"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 02:14:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="726864701"
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="837214607"
 X-IronPort-AV: E=Sophos;i="6.01,213,1684825200"; 
-   d="scan'208";a="726864701"
+   d="scan'208";a="837214607"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Jul 2023 02:01:53 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 18 Jul 2023 02:14:19 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLgab-0000PM-2a;
-	Tue, 18 Jul 2023 09:01:49 +0000
-Date: Tue, 18 Jul 2023 17:01:31 +0800
+	id 1qLgmG-0000QL-2D;
+	Tue, 18 Jul 2023 09:14:05 +0000
+Date: Tue, 18 Jul 2023 17:11:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/apic 58/58] ERROR: modpost:
- "__SCK__apic_call_send_IPI_mask" [arch/x86/kernel/cpu/mce/mce-inject.ko]
- undefined!
-Message-ID: <202307181736.fcECs08j-lkp@intel.com>
+To: Qi Hu <huqi@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, Huacai Chen <chenhuacai@kernel.org>
+Subject: [chenhuacai-loongson:loongarch-next 3/9]
+ arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype
+ for 'output_thread_lbt_defines'
+Message-ID: <202307181721.OrQq4iI6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,123 +47,201 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/apic
-head:   39d609eca4106a155551eccee3f462792bf57e27
-commit: 39d609eca4106a155551eccee3f462792bf57e27 [58/58] x86/apic: Turn on static calls
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230718/202307181736.fcECs08j-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230718/202307181736.fcECs08j-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.git loongarch-next
+head:   c2296cc3968f8a84161cb0b72f64e53c377f3acc
+commit: 61ad9ba4af0b84e5f3f4c8528353454f34cc5883 [3/9] LoongArch: Add Loongson Binary Translation (LBT) extension support
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230718/202307181721.OrQq4iI6-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307181721.OrQq4iI6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307181736.fcECs08j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307181721.OrQq4iI6-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_e820.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dca/dca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/p8022.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/psnap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/stp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/garp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/mrp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_htb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_hfsc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_red.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_gred.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ingress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_sfq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_tbf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_teql.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_prio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_multiq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_netem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_drr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_plug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_mqprio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_mqprio_lib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_choke.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_qfq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_u32.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_route.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_fw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_basic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_cmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_nbyte.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_u32.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_meta.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_text.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nfnetlink_osf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack_netlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack_broadcast.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_tables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_fib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_chain_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_fwd_netdev.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
->> ERROR: modpost: "__SCK__apic_call_send_IPI_mask" [arch/x86/kernel/cpu/mce/mce-inject.ko] undefined!
->> ERROR: modpost: "__SCK__apic_call_send_IPI_mask" [arch/x86/kvm/kvm-intel.ko] undefined!
->> ERROR: modpost: "__SCK__apic_call_send_IPI_self" [arch/x86/kvm/kvm-intel.ko] undefined!
+   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+      17 | void output_ptreg_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+      64 | void output_task_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+      79 | void output_thread_info_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+      95 | void output_thread_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:131:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+     131 | void output_thread_fpu_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
+     172 | void output_thread_lbt_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:182:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+     182 | void output_mm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:214:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+     214 | void output_sc_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:222:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
+     222 | void output_signal_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:260:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
+     260 | void output_smpboot_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:270:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
+     270 | void output_pbe_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:282:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
+     282 | void output_fgraph_ret_regs_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+      17 | void output_ptreg_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+      64 | void output_task_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+      79 | void output_thread_info_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+      95 | void output_thread_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:131:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+     131 | void output_thread_fpu_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
+     172 | void output_thread_lbt_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:182:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+     182 | void output_mm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:214:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+     214 | void output_sc_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:222:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
+     222 | void output_signal_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:260:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
+     260 | void output_smpboot_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:270:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
+     270 | void output_pbe_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:282:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
+     282 | void output_fgraph_ret_regs_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/output_thread_lbt_defines +172 arch/loongarch/kernel/asm-offsets.c
+
+    78	
+  > 79	void output_thread_info_defines(void)
+    80	{
+    81		COMMENT("LoongArch thread_info offsets.");
+    82		OFFSET(TI_TASK, thread_info, task);
+    83		OFFSET(TI_FLAGS, thread_info, flags);
+    84		OFFSET(TI_TP_VALUE, thread_info, tp_value);
+    85		OFFSET(TI_CPU, thread_info, cpu);
+    86		OFFSET(TI_PRE_COUNT, thread_info, preempt_count);
+    87		OFFSET(TI_REGS, thread_info, regs);
+    88		DEFINE(_THREAD_SIZE, THREAD_SIZE);
+    89		DEFINE(_THREAD_MASK, THREAD_MASK);
+    90		DEFINE(_IRQ_STACK_SIZE, IRQ_STACK_SIZE);
+    91		DEFINE(_IRQ_STACK_START, IRQ_STACK_START);
+    92		BLANK();
+    93	}
+    94	
+    95	void output_thread_defines(void)
+    96	{
+    97		COMMENT("LoongArch specific thread_struct offsets.");
+    98		OFFSET(THREAD_REG01, task_struct, thread.reg01);
+    99		OFFSET(THREAD_REG03, task_struct, thread.reg03);
+   100		OFFSET(THREAD_REG22, task_struct, thread.reg22);
+   101		OFFSET(THREAD_REG23, task_struct, thread.reg23);
+   102		OFFSET(THREAD_REG24, task_struct, thread.reg24);
+   103		OFFSET(THREAD_REG25, task_struct, thread.reg25);
+   104		OFFSET(THREAD_REG26, task_struct, thread.reg26);
+   105		OFFSET(THREAD_REG27, task_struct, thread.reg27);
+   106		OFFSET(THREAD_REG28, task_struct, thread.reg28);
+   107		OFFSET(THREAD_REG29, task_struct, thread.reg29);
+   108		OFFSET(THREAD_REG30, task_struct, thread.reg30);
+   109		OFFSET(THREAD_REG31, task_struct, thread.reg31);
+   110		OFFSET(THREAD_SCHED_RA, task_struct, thread.sched_ra);
+   111		OFFSET(THREAD_SCHED_CFA, task_struct, thread.sched_cfa);
+   112		OFFSET(THREAD_CSRCRMD, task_struct,
+   113		       thread.csr_crmd);
+   114		OFFSET(THREAD_CSRPRMD, task_struct,
+   115		       thread.csr_prmd);
+   116		OFFSET(THREAD_CSREUEN, task_struct,
+   117		       thread.csr_euen);
+   118		OFFSET(THREAD_CSRECFG, task_struct,
+   119		       thread.csr_ecfg);
+   120	
+   121		OFFSET(THREAD_FPU, task_struct, thread.fpu);
+   122	
+   123		OFFSET(THREAD_BVADDR, task_struct, \
+   124		       thread.csr_badvaddr);
+   125		OFFSET(THREAD_ECODE, task_struct, \
+   126		       thread.error_code);
+   127		OFFSET(THREAD_TRAPNO, task_struct, thread.trap_nr);
+   128		BLANK();
+   129	}
+   130	
+   131	void output_thread_fpu_defines(void)
+   132	{
+   133		OFFSET(THREAD_FPR0, loongarch_fpu, fpr[0]);
+   134		OFFSET(THREAD_FPR1, loongarch_fpu, fpr[1]);
+   135		OFFSET(THREAD_FPR2, loongarch_fpu, fpr[2]);
+   136		OFFSET(THREAD_FPR3, loongarch_fpu, fpr[3]);
+   137		OFFSET(THREAD_FPR4, loongarch_fpu, fpr[4]);
+   138		OFFSET(THREAD_FPR5, loongarch_fpu, fpr[5]);
+   139		OFFSET(THREAD_FPR6, loongarch_fpu, fpr[6]);
+   140		OFFSET(THREAD_FPR7, loongarch_fpu, fpr[7]);
+   141		OFFSET(THREAD_FPR8, loongarch_fpu, fpr[8]);
+   142		OFFSET(THREAD_FPR9, loongarch_fpu, fpr[9]);
+   143		OFFSET(THREAD_FPR10, loongarch_fpu, fpr[10]);
+   144		OFFSET(THREAD_FPR11, loongarch_fpu, fpr[11]);
+   145		OFFSET(THREAD_FPR12, loongarch_fpu, fpr[12]);
+   146		OFFSET(THREAD_FPR13, loongarch_fpu, fpr[13]);
+   147		OFFSET(THREAD_FPR14, loongarch_fpu, fpr[14]);
+   148		OFFSET(THREAD_FPR15, loongarch_fpu, fpr[15]);
+   149		OFFSET(THREAD_FPR16, loongarch_fpu, fpr[16]);
+   150		OFFSET(THREAD_FPR17, loongarch_fpu, fpr[17]);
+   151		OFFSET(THREAD_FPR18, loongarch_fpu, fpr[18]);
+   152		OFFSET(THREAD_FPR19, loongarch_fpu, fpr[19]);
+   153		OFFSET(THREAD_FPR20, loongarch_fpu, fpr[20]);
+   154		OFFSET(THREAD_FPR21, loongarch_fpu, fpr[21]);
+   155		OFFSET(THREAD_FPR22, loongarch_fpu, fpr[22]);
+   156		OFFSET(THREAD_FPR23, loongarch_fpu, fpr[23]);
+   157		OFFSET(THREAD_FPR24, loongarch_fpu, fpr[24]);
+   158		OFFSET(THREAD_FPR25, loongarch_fpu, fpr[25]);
+   159		OFFSET(THREAD_FPR26, loongarch_fpu, fpr[26]);
+   160		OFFSET(THREAD_FPR27, loongarch_fpu, fpr[27]);
+   161		OFFSET(THREAD_FPR28, loongarch_fpu, fpr[28]);
+   162		OFFSET(THREAD_FPR29, loongarch_fpu, fpr[29]);
+   163		OFFSET(THREAD_FPR30, loongarch_fpu, fpr[30]);
+   164		OFFSET(THREAD_FPR31, loongarch_fpu, fpr[31]);
+   165	
+   166		OFFSET(THREAD_FCSR, loongarch_fpu, fcsr);
+   167		OFFSET(THREAD_FCC,  loongarch_fpu, fcc);
+   168		OFFSET(THREAD_FTOP, loongarch_fpu, ftop);
+   169		BLANK();
+   170	}
+   171	
+ > 172	void output_thread_lbt_defines(void)
+   173	{
+   174		OFFSET(THREAD_SCR0,  loongarch_lbt, scr0);
+   175		OFFSET(THREAD_SCR1,  loongarch_lbt, scr1);
+   176		OFFSET(THREAD_SCR2,  loongarch_lbt, scr2);
+   177		OFFSET(THREAD_SCR3,  loongarch_lbt, scr3);
+   178		OFFSET(THREAD_EFLAGS, loongarch_lbt, eflags);
+   179		BLANK();
+   180	}
+   181	
 
 -- 
 0-DAY CI Kernel Test Service
