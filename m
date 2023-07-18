@@ -1,49 +1,49 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB7C125D8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 16:02:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A2D101C2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 16:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689696129; x=1721232129;
+  t=1689696741; x=1721232741;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=b+DeZ+OCyoCHmI9m5HFUYJ01CoX39Nf1WDBzq10ijV8=;
-  b=YstN7xEV3ZOGa2hzwPMmV5T7mD0kgS4Ph65IZ0DcZ1ShYrNMGJDckDJK
-   ntv91AwvIAh/maJtK8DEXygxpdGOLzfEUN62eciZY5BsTuRm9tmb62lIT
-   ZeNq0h8YNd749Co8ioPe33H6WWzAbC0nPO7iderkziJy1ZtwpK0rWtfkQ
-   /FXWOo26Z/E+l/DBCjBTh/cN9KrVFcijkOF0Yu73V/JJa7wJcpQKDoO/N
-   RAUKuLjn0zlxuL/qOrmXh0Y5UeMZry51lLD2hRQSlx5TMcpoXtAXPOe7o
-   bskpzo7t6906Lc6Rxl/Rxifwm+HUp2L7qmfja+zYNf+sGyen4D9PJgPm8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="368886971"
+  bh=xJz/Q2VPWovJMeTlZg5Nu1AilnZ3M8HZafInk4+HO3I=;
+  b=l8aOHXQ1W1R6I49o3Or8F7ZwR8HRCjKpAJRt0MjNZ45WxUOQzdkybS0h
+   gCiSH/d0nMIb0zlUWEvIbn+VHLMenf9hGEVk1m1JM/EB3ytCVK88+incH
+   AdvivtIawnUKcHhN57MFzUU6Li8BYFfAEHSwMmonyDXO6orifQB37g0do
+   HwtYbIZByA9TJZpp9CPb0F/gnmS1MVsEHGQo+lxyk9D6FcIU+6qF+HgUN
+   j+sbDUxILFLwxAizDwJrG9J3tz1Gg2mrQag77qkIwMtd131cUokXjNVMv
+   Tr+uJ5/65e6W9u4FS2TeX9eKMlb7qH3x5BfqmyX7RTSEXO5TTxiv7r8Qa
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="368890790"
 X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="368886971"
+   d="scan'208";a="368890790"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 09:00:50 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 09:12:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="753379195"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="753382540"
 X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="753379195"
+   d="scan'208";a="753382540"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 18 Jul 2023 09:00:47 -0700
+  by orsmga008.jf.intel.com with ESMTP; 18 Jul 2023 09:12:16 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLn82-0000hi-0u;
-	Tue, 18 Jul 2023 16:00:46 +0000
-Date: Wed, 19 Jul 2023 00:00:37 +0800
+	id 1qLnJ9-000112-1U;
+	Tue, 18 Jul 2023 16:12:15 +0000
+Date: Wed, 19 Jul 2023 00:10:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>,
-	Ray Jui <rjui@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>
-Subject: Re: [PATCH v2 1/3] gpio: bcm-kona: Make driver OF-independent
-Message-ID: <202307182321.w0jEsUc4-lkp@intel.com>
-References: <20230717141845.41415-1-andriy.shevchenko@linux.intel.com>
+To: Piyush Malgujar <pmalgujar@marvell.com>, linux-mmc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, adrian.hunter@intel.com,
+	ulf.hansson@linaro.org, p.zabel@pengutronix.de, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	yamada.masahiro@socionext.com, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jannadurai@marvell.com,
+	cchavva@marvell.com, Piyush Malgujar <pmalgujar@marvell.com>
+Subject: Re: [PATCH v4 6/6] mmc: sdhci-cadence: Add debug option for SD6
+ controller
+Message-ID: <202307182343.ZsoiCcbg-lkp@intel.com>
+References: <20230717125146.16791-7-pmalgujar@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,177 +52,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230717141845.41415-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230717125146.16791-7-pmalgujar@marvell.com>
 
-Hi Andy,
+Hi Piyush,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linus/master v6.5-rc2 next-20230718]
+[auto build test ERROR on ulf-hansson-mmc-mirror/next]
+[also build test ERROR on robh/for-next linus/master v6.5-rc2 next-20230718]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/gpio-bcm-kona-remove-unneeded-platform_set_drvdata-call/20230718-174129
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20230717141845.41415-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v2 1/3] gpio: bcm-kona: Make driver OF-independent
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230718/202307182321.w0jEsUc4-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230718/202307182321.w0jEsUc4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Piyush-Malgujar/mmc-sdhci-cadence-Rename-functions-structures-to-SD4-specific/20230718-175102
+base:   https://git.linaro.org/people/ulf.hansson/mmc-mirror.git next
+patch link:    https://lore.kernel.org/r/20230717125146.16791-7-pmalgujar%40marvell.com
+patch subject: [PATCH v4 6/6] mmc: sdhci-cadence: Add debug option for SD6 controller
+config: csky-randconfig-r023-20230718 (https://download.01.org/0day-ci/archive/20230718/202307182343.ZsoiCcbg-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307182343.ZsoiCcbg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307182321.w0jEsUc4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307182343.ZsoiCcbg-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpio/gpio-bcm-kona.c: In function 'bcm_kona_gpio_set_debounce':
->> drivers/gpio/gpio-bcm-kona.c:266:17: error: implicit declaration of function 'dev_err' [-Werror=implicit-function-declaration]
-     266 |                 dev_err(chip->parent, "Debounce value %u not in range\n",
-         |                 ^~~~~~~
-   drivers/gpio/gpio-bcm-kona.c: In function 'bcm_kona_gpio_probe':
->> drivers/gpio/gpio-bcm-kona.c:559:35: error: invalid use of undefined type 'struct platform_device'
-     559 |         struct device *dev = &pdev->dev;
-         |                                   ^~
->> drivers/gpio/gpio-bcm-kona.c:566:21: error: implicit declaration of function 'devm_kzalloc' [-Werror=implicit-function-declaration]
-     566 |         kona_gpio = devm_kzalloc(dev, sizeof(*kona_gpio), GFP_KERNEL);
-         |                     ^~~~~~~~~~~~
->> drivers/gpio/gpio-bcm-kona.c:566:19: warning: assignment to 'struct bcm_kona_gpio *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     566 |         kona_gpio = devm_kzalloc(dev, sizeof(*kona_gpio), GFP_KERNEL);
-         |                   ^
->> drivers/gpio/gpio-bcm-kona.c:572:15: error: implicit declaration of function 'platform_irq_count' [-Werror=implicit-function-declaration]
-     572 |         ret = platform_irq_count(pdev);
-         |               ^~~~~~~~~~~~~~~~~~
->> drivers/gpio/gpio-bcm-kona.c:577:24: error: implicit declaration of function 'dev_err_probe' [-Werror=implicit-function-declaration]
-     577 |                 return dev_err_probe(dev, ret, "Couldn't determine GPIO banks\n");
-         |                        ^~~~~~~~~~~~~
->> drivers/gpio/gpio-bcm-kona.c:586:28: error: implicit declaration of function 'devm_kcalloc' [-Werror=implicit-function-declaration]
-     586 |         kona_gpio->banks = devm_kcalloc(dev,
-         |                            ^~~~~~~~~~~~
->> drivers/gpio/gpio-bcm-kona.c:586:26: warning: assignment to 'struct bcm_kona_gpio_bank *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     586 |         kona_gpio->banks = devm_kcalloc(dev,
-         |                          ^
-   drivers/gpio/gpio-bcm-kona.c:594:9: error: implicit declaration of function 'platform_set_drvdata' [-Werror=implicit-function-declaration]
-     594 |         platform_set_drvdata(pdev, kona_gpio);
-         |         ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpio/gpio-bcm-kona.c:607:31: error: implicit declaration of function 'devm_platform_ioremap_resource' [-Werror=implicit-function-declaration]
-     607 |         kona_gpio->reg_base = devm_platform_ioremap_resource(pdev, 0);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpio/gpio-bcm-kona.c:607:29: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     607 |         kona_gpio->reg_base = devm_platform_ioremap_resource(pdev, 0);
-         |                             ^
->> drivers/gpio/gpio-bcm-kona.c:616:29: error: implicit declaration of function 'platform_get_irq' [-Werror=implicit-function-declaration]
-     616 |                 bank->irq = platform_get_irq(pdev, i);
-         |                             ^~~~~~~~~~~~~~~~
->> drivers/gpio/gpio-bcm-kona.c:625:9: error: implicit declaration of function 'dev_info' [-Werror=implicit-function-declaration]
-     625 |         dev_info(&pdev->dev, "Setting up Kona GPIO\n");
-         |         ^~~~~~~~
-   drivers/gpio/gpio-bcm-kona.c:625:23: error: invalid use of undefined type 'struct platform_device'
-     625 |         dev_info(&pdev->dev, "Setting up Kona GPIO\n");
-         |                       ^~
-   drivers/gpio/gpio-bcm-kona.c: At top level:
->> drivers/gpio/gpio-bcm-kona.c:651:15: error: variable 'bcm_kona_gpio_driver' has initializer but incomplete type
-     651 | static struct platform_driver bcm_kona_gpio_driver = {
-         |               ^~~~~~~~~~~~~~~
->> drivers/gpio/gpio-bcm-kona.c:652:10: error: 'struct platform_driver' has no member named 'driver'
-     652 |         .driver = {
-         |          ^~~~~~
->> drivers/gpio/gpio-bcm-kona.c:652:19: error: extra brace group at end of initializer
-     652 |         .driver = {
-         |                   ^
-   drivers/gpio/gpio-bcm-kona.c:652:19: note: (near initialization for 'bcm_kona_gpio_driver')
->> drivers/gpio/gpio-bcm-kona.c:652:19: warning: excess elements in struct initializer
-   drivers/gpio/gpio-bcm-kona.c:652:19: note: (near initialization for 'bcm_kona_gpio_driver')
->> drivers/gpio/gpio-bcm-kona.c:656:10: error: 'struct platform_driver' has no member named 'probe'
-     656 |         .probe = bcm_kona_gpio_probe,
-         |          ^~~~~
-   drivers/gpio/gpio-bcm-kona.c:656:18: warning: excess elements in struct initializer
-     656 |         .probe = bcm_kona_gpio_probe,
-         |                  ^~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-bcm-kona.c:656:18: note: (near initialization for 'bcm_kona_gpio_driver')
->> drivers/gpio/gpio-bcm-kona.c:658:1: warning: data definition has no type or storage class
-     658 | builtin_platform_driver(bcm_kona_gpio_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpio/gpio-bcm-kona.c:658:1: error: type defaults to 'int' in declaration of 'builtin_platform_driver' [-Werror=implicit-int]
->> drivers/gpio/gpio-bcm-kona.c:658:1: warning: parameter names (without types) in function declaration
-   drivers/gpio/gpio-bcm-kona.c:651:31: error: storage size of 'bcm_kona_gpio_driver' isn't known
-     651 | static struct platform_driver bcm_kona_gpio_driver = {
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-bcm-kona.c:651:31: warning: 'bcm_kona_gpio_driver' defined but not used [-Wunused-variable]
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SM_GCC_8350
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8450
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8550
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   drivers/mmc/host/sdhci-cadence.c: In function 'sdhci_cdns_sd6_dump':
+>> drivers/mmc/host/sdhci-cadence.c:1066:9: error: too few arguments to function 'sdhci_cdns_sd6_phy_dump'
+    1066 |         sdhci_cdns_sd6_phy_dump(phy);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mmc/host/sdhci-cadence.c:981:6: note: declared here
+     981 | void sdhci_cdns_sd6_phy_dump(struct sdhci_cdns_sd6_phy *phy,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mmc/host/sdhci-cadence.c: In function 'sdhci_cdns_probe':
+   drivers/mmc/host/sdhci-cadence.c:1973:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+    1973 |         static const u16 version = SDHCI_SPEC_400 << SDHCI_SPEC_VER_SHIFT;
+         |         ^~~~~~
 
 
-vim +/dev_err +266 drivers/gpio/gpio-bcm-kona.c
+vim +/sdhci_cdns_sd6_phy_dump +1066 drivers/mmc/host/sdhci-cadence.c
 
-757651e3d60e5b Markus Mayer     2013-09-10  253  
-757651e3d60e5b Markus Mayer     2013-09-10  254  static int bcm_kona_gpio_set_debounce(struct gpio_chip *chip, unsigned gpio,
-757651e3d60e5b Markus Mayer     2013-09-10  255  				      unsigned debounce)
-757651e3d60e5b Markus Mayer     2013-09-10  256  {
-757651e3d60e5b Markus Mayer     2013-09-10  257  	struct bcm_kona_gpio *kona_gpio;
-757651e3d60e5b Markus Mayer     2013-09-10  258  	void __iomem *reg_base;
-757651e3d60e5b Markus Mayer     2013-09-10  259  	u32 val, res;
-757651e3d60e5b Markus Mayer     2013-09-10  260  	unsigned long flags;
-757651e3d60e5b Markus Mayer     2013-09-10  261  
-ba4a74485a32c1 Linus Walleij    2015-12-04  262  	kona_gpio = gpiochip_get_data(chip);
-757651e3d60e5b Markus Mayer     2013-09-10  263  	reg_base = kona_gpio->reg_base;
-757651e3d60e5b Markus Mayer     2013-09-10  264  	/* debounce must be 1-128ms (or 0) */
-757651e3d60e5b Markus Mayer     2013-09-10  265  	if ((debounce > 0 && debounce < 1000) || debounce > 128000) {
-58383c78425e4e Linus Walleij    2015-11-04 @266  		dev_err(chip->parent, "Debounce value %u not in range\n",
-757651e3d60e5b Markus Mayer     2013-09-10  267  			debounce);
-757651e3d60e5b Markus Mayer     2013-09-10  268  		return -EINVAL;
-757651e3d60e5b Markus Mayer     2013-09-10  269  	}
-757651e3d60e5b Markus Mayer     2013-09-10  270  
-757651e3d60e5b Markus Mayer     2013-09-10  271  	/* calculate debounce bit value */
-757651e3d60e5b Markus Mayer     2013-09-10  272  	if (debounce != 0) {
-757651e3d60e5b Markus Mayer     2013-09-10  273  		/* Convert to ms */
-757651e3d60e5b Markus Mayer     2013-09-10  274  		debounce /= 1000;
-757651e3d60e5b Markus Mayer     2013-09-10  275  		/* find the MSB */
-757651e3d60e5b Markus Mayer     2013-09-10  276  		res = fls(debounce) - 1;
-757651e3d60e5b Markus Mayer     2013-09-10  277  		/* Check if MSB-1 is set (round up or down) */
-757651e3d60e5b Markus Mayer     2013-09-10  278  		if (res > 0 && (debounce & BIT(res - 1)))
-757651e3d60e5b Markus Mayer     2013-09-10  279  			res++;
-757651e3d60e5b Markus Mayer     2013-09-10  280  	}
-757651e3d60e5b Markus Mayer     2013-09-10  281  
-757651e3d60e5b Markus Mayer     2013-09-10  282  	/* spin lock for read-modify-write of the GPIO register */
-c69fcea57e9d2b Julia Cartwright 2017-03-09  283  	raw_spin_lock_irqsave(&kona_gpio->lock, flags);
-757651e3d60e5b Markus Mayer     2013-09-10  284  
-757651e3d60e5b Markus Mayer     2013-09-10  285  	val = readl(reg_base + GPIO_CONTROL(gpio));
-757651e3d60e5b Markus Mayer     2013-09-10  286  	val &= ~GPIO_GPCTR0_DBR_MASK;
-757651e3d60e5b Markus Mayer     2013-09-10  287  
-757651e3d60e5b Markus Mayer     2013-09-10  288  	if (debounce == 0) {
-757651e3d60e5b Markus Mayer     2013-09-10  289  		/* disable debounce */
-757651e3d60e5b Markus Mayer     2013-09-10  290  		val &= ~GPIO_GPCTR0_DB_ENABLE_MASK;
-757651e3d60e5b Markus Mayer     2013-09-10  291  	} else {
-757651e3d60e5b Markus Mayer     2013-09-10  292  		val |= GPIO_GPCTR0_DB_ENABLE_MASK |
-757651e3d60e5b Markus Mayer     2013-09-10  293  		    (res << GPIO_GPCTR0_DBR_SHIFT);
-757651e3d60e5b Markus Mayer     2013-09-10  294  	}
-757651e3d60e5b Markus Mayer     2013-09-10  295  
-757651e3d60e5b Markus Mayer     2013-09-10  296  	writel(val, reg_base + GPIO_CONTROL(gpio));
-757651e3d60e5b Markus Mayer     2013-09-10  297  
-c69fcea57e9d2b Julia Cartwright 2017-03-09  298  	raw_spin_unlock_irqrestore(&kona_gpio->lock, flags);
-757651e3d60e5b Markus Mayer     2013-09-10  299  
-757651e3d60e5b Markus Mayer     2013-09-10  300  	return 0;
-757651e3d60e5b Markus Mayer     2013-09-10  301  }
-757651e3d60e5b Markus Mayer     2013-09-10  302  
+  1059	
+  1060	static
+  1061	void sdhci_cdns_sd6_dump(struct sdhci_cdns_priv *priv, struct sdhci_host *host)
+  1062	{
+  1063		struct sdhci_cdns_sd6_phy *phy = priv->phy;
+  1064		int id;
+  1065	
+> 1066		sdhci_cdns_sd6_phy_dump(phy);
+  1067	
+  1068		dev_dbg(mmc_dev(host->mmc), "Host controller Register Dump\n");
+  1069		for (id = 0; id < 14; id++) {
+  1070			dev_dbg(mmc_dev(host->mmc), "HRS%d 0x%x\n", id,
+  1071				readl(priv->hrs_addr + (id * 4)));
+  1072		}
+  1073	
+  1074		id = 29;
+  1075		dev_dbg(mmc_dev(host->mmc), "HRS%d 0x%x\n", id,
+  1076			readl(priv->hrs_addr + (id * 4)));
+  1077		id = 30;
+  1078		dev_dbg(mmc_dev(host->mmc), "HRS%d 0x%x\n", id,
+  1079			readl(priv->hrs_addr + (id * 4)));
+  1080	
+  1081		for (id = 0; id < 27; id++) {
+  1082			dev_dbg(mmc_dev(host->mmc), "SRS%d 0x%x\n", id,
+  1083				readl(priv->hrs_addr + 0x200 + (id * 4)));
+  1084		}
+  1085	
+  1086		dev_dbg(mmc_dev(host->mmc), "SDHCI_CDNS_SD6_PHY_DQS_TIMING 0x%x\n",
+  1087			sdhci_cdns_sd6_read_phy_reg(priv,
+  1088						    SDHCI_CDNS_SD6_PHY_DQS_TIMING));
+  1089		dev_dbg(mmc_dev(host->mmc), "SDHCI_CDNS_SD6_PHY_GATE_LPBK 0x%x\n",
+  1090			sdhci_cdns_sd6_read_phy_reg(priv,
+  1091						    SDHCI_CDNS_SD6_PHY_GATE_LPBK));
+  1092		dev_dbg(mmc_dev(host->mmc), "SDHCI_CDNS_SD6_PHY_DLL_MASTER 0x%x\n",
+  1093			sdhci_cdns_sd6_read_phy_reg(priv,
+  1094						    SDHCI_CDNS_SD6_PHY_DLL_MASTER));
+  1095		dev_dbg(mmc_dev(host->mmc), "SDHCI_CDNS_SD6_PHY_DLL_SLAVE 0x%x\n",
+  1096			sdhci_cdns_sd6_read_phy_reg(priv,
+  1097						    SDHCI_CDNS_SD6_PHY_DLL_SLAVE));
+  1098		dev_dbg(mmc_dev(host->mmc), "SDHCI_CDNS_SD6_PHY_CTRL 0x%x\n",
+  1099			sdhci_cdns_sd6_read_phy_reg(priv, SDHCI_CDNS_SD6_PHY_CTRL));
+  1100		dev_dbg(mmc_dev(host->mmc), "SDHCI_CDNS_SD6_PHY_GPIO_CTRL0 0x%x\n",
+  1101			sdhci_cdns_sd6_read_phy_reg(priv,
+  1102						    SDHCI_CDNS_SD6_PHY_GPIO_CTRL0));
+  1103		dev_dbg(mmc_dev(host->mmc), "SDHCI_CDNS_SD6_PHY_DQ_TIMING 0x%x\n",
+  1104			sdhci_cdns_sd6_read_phy_reg(priv,
+  1105						    SDHCI_CDNS_SD6_PHY_DQ_TIMING));
+  1106		dev_dbg(mmc_dev(host->mmc), "SDHCI_CDNS_SD6_PHY_DLL_OBS_REG0 0x%x\n",
+  1107			sdhci_cdns_sd6_read_phy_reg(priv,
+  1108						    SDHCI_CDNS_SD6_PHY_DLL_OBS_REG0));
+  1109		dev_dbg(mmc_dev(host->mmc), "SDHCI_CDNS_SD6_PHY_DLL_OBS_REG1 0x%x\n",
+  1110			sdhci_cdns_sd6_read_phy_reg(priv,
+  1111						    SDHCI_CDNS_SD6_PHY_DLL_OBS_REG1));
+  1112		dev_dbg(mmc_dev(host->mmc), "SDHCI_CDNS_SD6_PHY_DLL_OBS_REG2 0x%x\n",
+  1113			sdhci_cdns_sd6_read_phy_reg(priv,
+  1114						    SDHCI_CDNS_SD6_PHY_DLL_OBS_REG2));
+  1115	}
+  1116	
 
 -- 
 0-DAY CI Kernel Test Service
