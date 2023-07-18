@@ -1,55 +1,43 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7AE174C3;
-	Tue, 18 Jul 2023 21:09:06 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1b8b2b60731so34946805ad.2;
-        Tue, 18 Jul 2023 14:09:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689714545; x=1692306545;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OSf1DUfPjj9rR6R8dex4siwYdCCG3zhhBQNvw/BY8zs=;
-        b=jxxqZRTK4pC4Gm3RwAxNDLBo/xsEVOT0fiQXouo3xxUl3rnFztWHXL1oeP/7w9BAKt
-         UxuzlTFfU1hIY8o0D9ksWN/uv3w+7eSl2sVst5rd/ZVGmKJop/dlawYNk4jdwToJx2iF
-         ZPMvoFqh4HGIGMqMHCMbIe5jJVZkV2NwJYx0FMrbntQT0KCiM3a00kGYcjdrORNioHmj
-         X0CCx0iGJSqH4d8ib1lmNt+vnOBEqaMrBvD3DSkvx5jY5svhykDLj2oMF8BUHAaCq/eC
-         UPFb7cQ1uSSytjMGmpNzSWv+TwPljqoK9vpLeWQnAGaZQveb8uzu/RXkM5VRmsoYU4xF
-         hsQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689714545; x=1692306545;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OSf1DUfPjj9rR6R8dex4siwYdCCG3zhhBQNvw/BY8zs=;
-        b=KRUPyjbC/STei1MXCphY39InMn+raTGsGiXGIRvkfIJcJ11C698AbfuUGsQocHrt2P
-         /sJEjsVvVwx6ZNq1KO9I7m87QyCNrA8CkwxlrTz99Vf7SSnT8H5deqLRJmAYhJqzZgvY
-         PIplbh5a8I3lJ/ArbgRE/hcCGyyNbvfEY9w1064rqW/McsgFsTVQt5enY0X/1SPSVC7H
-         T+8yFn7d26AHGEWAFN2jtWOatxuDnPLVw0r2p0fOiz/320GTWoKybDe5xAuzjeYIkdTD
-         JwqcehdkD3/zs5FljGdtAoFZtzS2LchA+uCTPc3Qyw2eJuagivx/YOrR8m/Dllt9inLb
-         Cwcg==
-X-Gm-Message-State: ABy/qLapkfbZeNHJFH+MrVJh/Kqd8LbbzozGSThv1dsdcUl/8Iak7e+t
-	WopqJ92Bn3tC1ZbT7pLSkPc=
-X-Google-Smtp-Source: APBJJlEsvSRi+K4F98zqHSa8MaHap/EE1ekJ/8rYJX72Nrk2ydHLnfXG6goaV47zgd6eLP7DY+7ELQ==
-X-Received: by 2002:a17:902:788d:b0:1a9:40d5:b0ae with SMTP id q13-20020a170902788d00b001a940d5b0aemr13124901pll.12.1689714545462;
-        Tue, 18 Jul 2023 14:09:05 -0700 (PDT)
-Received: from localhost ([216.228.127.128])
-        by smtp.gmail.com with ESMTPSA id jk16-20020a170903331000b001b8a3dd5a4asm2304168plb.283.2023.07.18.14.09.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 14:09:04 -0700 (PDT)
-Date: Tue, 18 Jul 2023 14:09:02 -0700
-From: Yury Norov <yury.norov@gmail.com>
-To: linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	Nick Desaulniers <ndesaulniers@google.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Alexander Lobakin <alexandr.lobakin@intel.com>,
-	Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>,
-	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] lib/bitmap: workaround const_eval test build failure
-Message-ID: <ZLb/bioBIHS6bjKc@yury-ThinkPad>
-References: <20230717220435.57640-1-yury.norov@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EC1174C3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 21:11:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689714683; x=1721250683;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=C4IZZ9coCOaJerHTSRSzhc7vTRckbsSaaxuGuMhEEaY=;
+  b=KHxCzXp9Z3eUQbC1K4m7dKaeScPmU8OG4z2ObUZWFalS4wNCKLEIZTpw
+   44SHzhQVp/qGrF2UHalIVKx4OstQaGzSwcsejSSHefzGhxPK9qRjTUjkx
+   uYTZmpPySqMm8Ww0JTGfMSTFYSi6LuzI4z41ac//vG6mONTYdC+UzkIi4
+   ziJwvJCKgTMBogvD5U03jNDy+nvPxlqrf6BtcxkRQVLWbmVMgPg7kR0Af
+   WMe/kk0ouA8LVNioLnubiJq6YaUOnhA1WrMPqHti63hPtsGY/3sIWoFt0
+   LxbIyAwzDhJrsxmW1MVZZPLBJGs6h/wm4FEks/KrDoPoNg4ZfdYNd90E6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="397161770"
+X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
+   d="scan'208";a="397161770"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 14:11:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="727096388"
+X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
+   d="scan'208";a="727096388"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 18 Jul 2023 14:11:21 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qLryY-0003tN-22;
+	Tue, 18 Jul 2023 21:11:19 +0000
+Date: Wed, 19 Jul 2023 05:10:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.5-mt7988 43/44]
+ utils/firmware/mediatek/mediatek-2p5ge-phy-dmb.bin: warning: ignored by one
+ of the .gitignore files
+Message-ID: <202307190518.13UU3sJI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,54 +46,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230717220435.57640-1-yury.norov@gmail.com>
 
-On Mon, Jul 17, 2023 at 03:04:35PM -0700, Yury Norov wrote:
-> When building with Clang, and when KASAN and GCOV_PROFILE_ALL are both
-> enabled, the test fails to build [1]:
-> 
-> >> lib/test_bitmap.c:920:2: error: call to '__compiletime_assert_239' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(res)
->            BUILD_BUG_ON(!__builtin_constant_p(res));
->            ^
->    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
->            BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
->            ^
->    include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
->    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->                                        ^
->    include/linux/compiler_types.h:352:2: note: expanded from macro 'compiletime_assert'
->            _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->            ^
->    include/linux/compiler_types.h:340:2: note: expanded from macro '_compiletime_assert'
->            __compiletime_assert(condition, msg, prefix, suffix)
->            ^
->    include/linux/compiler_types.h:333:4: note: expanded from macro '__compiletime_assert'
->                            prefix ## suffix();                             \
->                            ^
->    <scratch space>:185:1: note: expanded from here
->    __compiletime_assert_239
-> 
-> Originally it was attributed to s390, which now looks seemingly wrong. The
-> issue is not related to bitmap code itself, but it breaks build for a given
-> configuration.
-> 
-> Disabling the const_eval test under that config may potentially hide other
-> bugs. Instead, workaround it by disabling GCOV for the test_bitmap unless
-> the compiler will get fixed.
-> 
-> [1] https://github.com/ClangBuiltLinux/linux/issues/1874
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202307171254.yFcH97ej-lkp@intel.com/
-> Fixes: dc34d5036692 ("lib: test_bitmap: add compile-time optimization/evaluations assertions")
-> Co-developed-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-mt7988
+head:   35d2b1490f09427b4e80ff4172af889a78628dca
+commit: e7cc6b78fb84f75cd911dfaa8eef20f0be21b8b4 [43/44] firmware: add firmware for 2g5 ethernet phy
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230719/202307190518.13UU3sJI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190518.13UU3sJI-lkp@intel.com/reproduce)
 
-So, I pushed it in bitmap-for-next. If nothing wrong will appear in
-~week, I'll send a pull request, so expect merging it in this cycle.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307190518.13UU3sJI-lkp@intel.com/
 
-Thank you for the work!
+All warnings (new ones prefixed by >>):
 
-Thanks,
-Yury
+   tools/perf/util/bpf_skel/vmlinux/vmlinux.h: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
+>> utils/firmware/mediatek/mediatek-2p5ge-phy-dmb.bin: warning: ignored by one of the .gitignore files
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
