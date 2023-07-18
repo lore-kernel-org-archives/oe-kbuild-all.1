@@ -1,44 +1,48 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A3D17AA9;
-	Tue, 18 Jul 2023 23:16:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12CB17AB1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 23:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689722198; x=1721258198;
+  t=1689722199; x=1721258199;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nyb39Ms9qc56k+1zBWRG1bQ4RfbBkNBiI5V8uhSqvFY=;
-  b=K+KNAYJruAhqwhAOWDk1V4AV2puebone0YvtD3YsW5jRf8koCNlXA/W/
-   Sa5kys4AGtwBeSF2m+ODglDwJa/YXiafxt77unHCHyTqVj0ZmWHKL1Uck
-   lA18JhFRsJiT5y4Ie4NiGCecsOGnntyWq6/QtTyTd/8RvU+tRXm5hEHIP
-   0321cz4kb/27wGoRaTNYs9C2G5xw6qIR0cYhUp6YZywahxe7h+lUAkSaH
-   sRs/qZBoqq3DRq+XayNvb8HqfxmWzA5/TwlFvFCu3UQEBJ5w/04CE9zBh
-   1PjpFyI+tp+EJMDp5n4Pg8kGEhH9XiOVtcg7c+1ewC2KBHkS6Gep7CAO2
+  bh=NhE1dnhfvt0KEceV7noRwcDHrkQzvl+cihIpKve9wDY=;
+  b=kej2FQNrqfy8uGehEh7mA1VZLo1x2JHAW495YctO1cbHoyQ8IoqXPRqv
+   MkLzbL5PPdOB15VCU2U2Lit1LsLyBTXXVE9YrnflJlNb9/QesukhOr4GI
+   WLQl/nz3IxwPSsIXRPyqOZor6M2vOD/G4G+Z8YbvnM8BcyzPxYQjfBgVk
+   tUzeXP6dc4dteZuVFQn7ev9BxbYJ0TLx9eSuSMei5sBHHcchaMzRk7Lol
+   8iMVjKk5QJJo+g9eGVQWdWV/2BqCT/bUvhyI/8BcX7VhBZ30sucwrlo11
+   PfzIXPwzL+dPrSgJ5tno3j7HWLnncTnFpR9Naq0uSSUCCk4tYQqL2uF0f
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="430095154"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="356280197"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="430095154"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 16:16:37 -0700
+   d="scan'208";a="356280197"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 16:16:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="674089524"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="897714437"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="674089524"
+   d="scan'208";a="897714437"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 18 Jul 2023 16:16:36 -0700
+  by orsmga005.jf.intel.com with ESMTP; 18 Jul 2023 16:16:36 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLtvn-0003wX-1x;
+	id 1qLtvn-0003wZ-21;
 	Tue, 18 Jul 2023 23:16:35 +0000
 Date: Wed, 19 Jul 2023 07:16:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3 4/4] cxl/pci: Add support for stand alone CXL
- Switch mailbox CCI
-Message-ID: <202307190713.s4zVJZMV-lkp@intel.com>
-References: <20230717162557.8625-5-Jonathan.Cameron@huawei.com>
+To: Selvin Xavier <selvin.xavier@broadcom.com>, jgg@ziepe.ca,
+	leon@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
+	andrew.gospodarek@broadcom.com, michael.chan@broadcom.com,
+	Chandramohan Akula <chandramohan.akula@broadcom.com>,
+	Selvin Xavier <selvin.xavier@broadcom.com>
+Subject: Re: [PATCH for-next v2 5/7] RDMA/bnxt_re: Update alloc_page uapi for
+ pacing
+Message-ID: <202307190721.q4H3DjZs-lkp@intel.com>
+References: <1689573194-27687-6-git-send-email-selvin.xavier@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,37 +51,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230717162557.8625-5-Jonathan.Cameron@huawei.com>
+In-Reply-To: <1689573194-27687-6-git-send-email-selvin.xavier@broadcom.com>
 
-Hi Jonathan,
+Hi Selvin,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on cxl/next]
-[also build test ERROR on pci/next pci/for-linus linus/master v6.5-rc2 next-20230718]
-[cannot apply to cxl/pending]
+[auto build test WARNING on rdma/for-next]
+[also build test WARNING on linus/master v6.5-rc2 next-20230718]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cameron/cxl-mbox-Preparatory-move-of-functions-to-core-mbox-c/20230718-181730
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-patch link:    https://lore.kernel.org/r/20230717162557.8625-5-Jonathan.Cameron%40huawei.com
-patch subject: [RFC PATCH v3 4/4] cxl/pci: Add support for stand alone CXL Switch mailbox CCI
-config: arm64-randconfig-r014-20230718 (https://download.01.org/0day-ci/archive/20230719/202307190713.s4zVJZMV-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190713.s4zVJZMV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Selvin-Xavier/bnxt_en-Share-the-bar0-address-with-the-RoCE-driver/20230718-174723
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+patch link:    https://lore.kernel.org/r/1689573194-27687-6-git-send-email-selvin.xavier%40broadcom.com
+patch subject: [PATCH for-next v2 5/7] RDMA/bnxt_re: Update alloc_page uapi for pacing
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230719/202307190721.q4H3DjZs-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190721.q4H3DjZs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307190713.s4zVJZMV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307190721.q4H3DjZs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> make[5]: *** No rule to make target 'drivers/cxl/core/switch-cci.o', needed by 'drivers/cxl/core/built-in.a'.
-   make[5]: Target 'drivers/cxl/core/' not remade because of errors.
+   In file included from arch/arm64/include/asm/memory.h:337,
+                    from arch/arm64/include/asm/thread_info.h:17,
+                    from include/linux/thread_info.h:60,
+                    from arch/arm64/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:79,
+                    from include/linux/percpu.h:6,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/interrupt.h:11,
+                    from drivers/infiniband/hw/bnxt_re/ib_verbs.c:39:
+   drivers/infiniband/hw/bnxt_re/ib_verbs.c: In function 'bnxt_re_mmap':
+>> drivers/infiniband/hw/bnxt_re/ib_verbs.c:4164:81: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    4164 |                 ret = vm_insert_page(vma, vma->vm_start, virt_to_page(bnxt_entry->mem_offset));
+         |                                                                       ~~~~~~~~~~^~~~~~~~~~~~
+         |                                                                                 |
+         |                                                                                 u64 {aka long long unsigned int}
+   include/asm-generic/memory_model.h:37:45: note: in definition of macro '__pfn_to_page'
+      37 | #define __pfn_to_page(pfn)      (vmemmap + (pfn))
+         |                                             ^~~
+   drivers/infiniband/hw/bnxt_re/ib_verbs.c:4164:58: note: in expansion of macro 'virt_to_page'
+    4164 |                 ret = vm_insert_page(vma, vma->vm_start, virt_to_page(bnxt_entry->mem_offset));
+         |                                                          ^~~~~~~~~~~~
+   arch/arm64/include/asm/memory.h:339:53: note: expected 'const void *' but argument is of type 'u64' {aka 'long long unsigned int'}
+     339 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+
+
+vim +/virt_to_pfn +4164 drivers/infiniband/hw/bnxt_re/ib_verbs.c
+
+  4119	
+  4120	/* Helper function to mmap the virtual memory from user app */
+  4121	int bnxt_re_mmap(struct ib_ucontext *ib_uctx, struct vm_area_struct *vma)
+  4122	{
+  4123		struct bnxt_re_ucontext *uctx = container_of(ib_uctx,
+  4124							   struct bnxt_re_ucontext,
+  4125							   ib_uctx);
+  4126		struct bnxt_re_user_mmap_entry *bnxt_entry;
+  4127		struct rdma_user_mmap_entry *rdma_entry;
+  4128		int ret = 0;
+  4129		u64 pfn;
+  4130	
+  4131		rdma_entry = rdma_user_mmap_entry_get(&uctx->ib_uctx, vma);
+  4132		if (!rdma_entry)
+  4133			return -EINVAL;
+  4134	
+  4135		bnxt_entry = container_of(rdma_entry, struct bnxt_re_user_mmap_entry,
+  4136					  rdma_entry);
+  4137	
+  4138		switch (bnxt_entry->mmap_flag) {
+  4139		case BNXT_RE_MMAP_WC_DB:
+  4140			pfn = bnxt_entry->mem_offset >> PAGE_SHIFT;
+  4141			ret = rdma_user_mmap_io(ib_uctx, vma, pfn, PAGE_SIZE,
+  4142						pgprot_writecombine(vma->vm_page_prot),
+  4143						rdma_entry);
+  4144			break;
+  4145		case BNXT_RE_MMAP_UC_DB:
+  4146			pfn = bnxt_entry->mem_offset >> PAGE_SHIFT;
+  4147			ret = rdma_user_mmap_io(ib_uctx, vma, pfn, PAGE_SIZE,
+  4148						pgprot_noncached(vma->vm_page_prot),
+  4149					rdma_entry);
+  4150			break;
+  4151		case BNXT_RE_MMAP_SH_PAGE:
+  4152			ret = vm_insert_page(vma, vma->vm_start, virt_to_page(uctx->shpg));
+  4153			break;
+  4154		case BNXT_RE_MMAP_DBR_BAR:
+  4155			pfn = bnxt_entry->mem_offset >> PAGE_SHIFT;
+  4156			ret = rdma_user_mmap_io(ib_uctx, vma, pfn, PAGE_SIZE,
+  4157						pgprot_noncached(vma->vm_page_prot),
+  4158						rdma_entry);
+  4159			break;
+  4160		case BNXT_RE_MMAP_DBR_PAGE:
+  4161			/* Driver doesn't expect write access for user space */
+  4162			if (vma->vm_flags & VM_WRITE)
+  4163				return -EFAULT;
+> 4164			ret = vm_insert_page(vma, vma->vm_start, virt_to_page(bnxt_entry->mem_offset));
+  4165			break;
+  4166		default:
+  4167			ret = -EINVAL;
+  4168			break;
+  4169		}
+  4170	
+  4171		rdma_user_mmap_entry_put(rdma_entry);
+  4172		return ret;
+  4173	}
+  4174	
 
 -- 
 0-DAY CI Kernel Test Service
