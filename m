@@ -1,156 +1,170 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1FBC2F3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 13:07:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0308CC8FA;
+	Tue, 18 Jul 2023 13:42:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689685670; x=1721221670;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1gJleaOWTGuTE3MU77NaJ02dbgkqBFW2G5NXnrsNmUQ=;
-  b=S3pE5ezMavrr9PdQqNPToT/d5+raBKsuPDC78VtFlXidvh2vctxFd6Fc
-   WjZprlOyVXu4y1yNmBNtFPPafHwTF5Aoh801Z18N/nst6dzD4L3Dxq9ZA
-   mBbXWfM78P+87VSCOHx6jDqL8i5DJU9sH4TKacGmcIEJXrlHVIQukLTF+
-   Wi6ugoikuAqUwDtfpXSY9SkuoDXfvwnkGvbHxV7Xyq1azLjl3UACB/4Wd
-   HyYuNiTt3L/Ep4IImZY2nohaWRiq/vnhLfQjLM6FMuzHSfFB0YQsZSD8t
-   62nWCsorkuUOApthfn5CvHSvQM1VWPuiFffTKYQexyZ/U6t5pb/mss1p6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="397039738"
+  t=1689687749; x=1721223749;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=2xEGNXmaQRSpuwEeS0uApCbvnGWEIrdnetWBMkh5BXU=;
+  b=NpoU8qzGV5Wn4f1zTe9P9TzWUv+FGVaQmv/07sEA7P1Hh+D/8iIrHO/T
+   uhpc1sm82Dymla/ciOTAx6/RebSrAQwVA3Um6QhyvylkfAWCoNPqSpZb2
+   H8PI5R/d0kNVivFmq7fywyh0DSpddHPBfjKpBoP3w4Mh8VU8DhgWsCnvj
+   CaFClqvCP2etn1iPcQJXuyJxLMO04KESnkbiZRaOBVfjwo+gG5PcJpJbq
+   3ilbyqZJR2IBdAnhLVFps/n+Pylg0rf/NV1A4xMrXcVY9nG0Woru82y4q
+   Upvoyn/aMJeHEr32/J8CEGHpsBbAxF05TuBs+emEI+ZE0bg0dKafGkzUr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="345800886"
 X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="397039738"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 06:07:46 -0700
+   d="scan'208";a="345800886"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 06:42:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="700891569"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="897588065"
 X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="700891569"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 18 Jul 2023 06:07:44 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qLkQZ-0000cJ-2j;
-	Tue, 18 Jul 2023 13:07:43 +0000
-Date: Tue, 18 Jul 2023 21:04:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: oe-kbuild-all@lists.linux.dev, Hu Haowen <src.res.211@gmail.com>
-Subject: [srcres258-doc:next 1/1] mm/memory-failure.c:1891:6: error:
- redefinition of 'is_raw_hwpoison_page_in_hugepage'
-Message-ID: <202307182103.snSzUhrN-lkp@intel.com>
+   d="scan'208";a="897588065"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga005.jf.intel.com with ESMTP; 18 Jul 2023 06:42:23 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 18 Jul 2023 06:42:23 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Tue, 18 Jul 2023 06:42:23 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Tue, 18 Jul 2023 06:42:23 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OddO7pRIaFUbkqb3Mu6Yuik4kB/NjQ7K8jpAnzzpVuAwBgZiAFsjUQB8mRtKETnzfPuyGFl4WIgwM0mQwpisWIy2DwTDPqsUqmVxrp+PV4iqZGenM7egG0NYsY2wtwU2p7SsG214H4LUGmchFTcloQVVtohz/b2VRBWtLFe1c13QpQTdFuX9k6jnSy2tJ9aBD/haLnPMTy6euoyRjBCls4VaITaoy/N7PjJyMaV4yAv8cZs1D558mc0S01gY5geI8VeQp2GkNjA9Dq7ZADkHDIFlimOJ/4xZWq2sKlI0uIbAoEy1RyvEdXCDX/SURmaGeB2O9flwi2p8Kx2fsVzWag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nTA3QHMMEgEm5HObgiLLNXZHrJOgddDKsvJOGRUUTxc=;
+ b=YrldWSA+u2KLZfVEbcZeraHDvyLmqj6onFv94a9noLdTkaIW/FqLCBzcJkDmPa3ULQHRJ2aKCmkS9WYfn9cbjgEnTfAi0v88c41ealF57n337jrF7ppBbt/YffStb+QE+smGGaxTDZcCwkCr5+kfkKP3edtehurcSXUhSIweOrUrbvqc8CGq7hoM2Fa6Ao5awZOM4fBDiqn+4AjiOzCgm8lFVH3btpN81CTgoY5WkXNBPPB0RcK3mW2hYGsV+yo1wgKgE9RC1Fte+YJm6BQ2ZsXIcL8qpN9Q0eRdwf6jUXheCme3kIRMR7TXKuXFtxxUK2hIcT4kwbgFC4egUsSniQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
+ by CO1PR11MB5105.namprd11.prod.outlook.com (2603:10b6:303:9f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.32; Tue, 18 Jul
+ 2023 13:42:22 +0000
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::44ff:6a5:9aa4:124a]) by DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::44ff:6a5:9aa4:124a%7]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
+ 13:42:21 +0000
+Message-ID: <e05d8e00-d8cb-8c3c-fefd-3b50acb9ef31@intel.com>
+Date: Tue, 18 Jul 2023 15:40:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: lib/test_bitmap.c:920:2: error: call to __compiletime_assert_348
+ declared with 'error' attribute: BUILD_BUG_ON failed:
+ !__builtin_constant_p(res)
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Alexander Lobakin <alexandr.lobakin@intel.com>, <llvm@lists.linux.dev>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Yury Norov
+	<yury.norov@gmail.com>, kernel test robot <lkp@intel.com>
+References: <202307171254.yFcH97ej-lkp@intel.com>
+ <ZLUSG8bNnSqT0LO+@smile.fi.intel.com>
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+In-Reply-To: <ZLUSG8bNnSqT0LO+@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: RO2PR80CA0034.lamprd80.prod.outlook.com
+ (2603:10d6:10:2b::9) To DM6PR11MB3625.namprd11.prod.outlook.com
+ (2603:10b6:5:13a::21)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|CO1PR11MB5105:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d653e8b-fa53-4fe1-8734-08db8794cf89
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uTit5P3lk3XxMor6YEkyfQjgvmTKp8I8qsDG26Rt1NBiqFmewfwP9bhg90EDEeJBLCvg/zRU1+qW+F2pqKjwq4SedrvGMKO0NQoQEOtsiRa4n12ybx6E52IOtDZxSrCQNGqGd40bzNgH2ecYW96ydpe79+jVyMIj8UVPD1dTH0z8GX0ps/NOgAHLUptfa+f/faa4+sS+XdsvtMlwIEW27Gp3Ao9zaz0okcv7SYwksyrV60HyMIOtAUX/gAmiPEf25QIuB8FaidxfEKdrR3hkHc+U8YbfEEyFN2Qm57Y3nebMyqAy8BwEMvlbb+z2goky+uL6NMpwIG1eAJIgk9P7w6lEG/RYaLhC17HJuYVhsoRiuRanqtQFTBDxW12nxhHJudjc1hvHTn/YwL9H7vtH0n4B0Qn6yKeRXsGsIsU42XGNGsyJ+xdpPZFhSeaaPyzALb8M6nyXzXUlsPlNoAUBYJUwEYcT/78MmZAUAup0+oAr58El4Xpjrgl3P0ieiCSRYMaIjPKJgLNkzySiBr3cKLC8ZVch0nM7pq4928W0ultH73eM7fYgo0LizcFP3aQ3YfJJfmx8QE+9ub4uHDynw4Qk4w81q4LFhEtCtryS8o8CxPXIHnun5ImgqxyG7CQW6eGvZLtBim3RTVCVJ79wTA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(136003)(39860400002)(366004)(396003)(346002)(451199021)(41300700001)(8676002)(66476007)(66946007)(6916009)(2906002)(8936002)(4744005)(66556008)(6486002)(6666004)(54906003)(86362001)(31686004)(4326008)(316002)(36756003)(5660300002)(2616005)(6512007)(38100700002)(83380400001)(186003)(26005)(82960400001)(6506007)(31696002)(478600001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aE5RcUxNR1ArSnFycitubmFwQW84aUcyOU5RN1hxb0MrVEVmQzUxSE9IR0VS?=
+ =?utf-8?B?N01HbmNGRU1tc2J4bFA4aU1NSVRuOGdRMjNPeFFneWtJVlJwZWVUZHg1OTZl?=
+ =?utf-8?B?Y296OHAxUlF6NVRrcWluYWpKSUQ0VEMvVEE1NnRScGxyWTU2bDFXdEJscHJT?=
+ =?utf-8?B?aloycEUvSXZDbjUwdWJUQU83cHFRb094dThJcExTYTgrNGN2WDg2cTFaMnRC?=
+ =?utf-8?B?MzRVQmlRNEJhMUM1WDhTQm8raGM2Y2ZYd0dzcmlWYUlObEN2dGxxWG1jNEhL?=
+ =?utf-8?B?VjFCeHZTNFQ0QmJKWjIzL3RvczBFTm50YnZwMjhLSG9rNkJteUxMaE9DMXk0?=
+ =?utf-8?B?Q0Z1UEUyOGR0TExvQSt6aXJlQVc5Q0drcStNQTFWRFpZYXlPanNzdS85RmFw?=
+ =?utf-8?B?OE9GSUR6cUlrZnpmOVlveG9xOVYvQXNIRlhueDlMWHF1QVIxdmRuWGViY3JH?=
+ =?utf-8?B?aWpmUnkwVDQrSTF3c0ZBbzNVQTJqdVRoeWFYWXQySk96U2xjOGczUHZ4alUw?=
+ =?utf-8?B?MnE5TExiNWx5TkwvUEZPRW9DUzl2MDB0NHdXNUpXMWx1UjJWQmRLcC9rR0hQ?=
+ =?utf-8?B?Z1JOVnFNcTVWdWttcEhmVUlIZTdSNEdhY3c1Wk11N1lzS0l6bkFvbkw2UHZM?=
+ =?utf-8?B?ZGhZNTRaTXNpWEdSL2dqQzZlZDc5VFRSLzNFVE5rR0FPQlRDb1VKYVJwVUJh?=
+ =?utf-8?B?RmNFNjVLYzRmdXVZTUhjbGpHditWL2JLRFNJZEpwNDczVkpwOGloSGF5a2tZ?=
+ =?utf-8?B?VmFrSWpSQnlOMGJQMVRSd3RvRWxSTHdEWSthUHg0M1RzSitkNXFUYWJNL29S?=
+ =?utf-8?B?Z2RJWXRFbnRuRUpCSEV2Q1ZWbGFMZTdyZnlYMFlZRlcxM2htRGk1czFxeUJt?=
+ =?utf-8?B?UXhtOUxrRXExRnlDeXlkU3V5MHJ5T2wxZmZKaHVRRVVVU2xUOVE1VnNleFpK?=
+ =?utf-8?B?RDRObVQ2VFNJUm1TUW9NZUIveWhsZHBSY2d1L2JJcC9HUEYwRjZZR3NWL1hr?=
+ =?utf-8?B?M3ZiRWpYTU0vd050VEF1MG0yYWlpS3hTeXJEVG5GSFhNOHA5STNhb3BaWEQ3?=
+ =?utf-8?B?NFFqUVF5cFZickkrNElsTURYYWU4U3Q5UUhObGpObVkxeE5naGlDc3djMDVY?=
+ =?utf-8?B?dnZsaS9yVUIvWlpOdkFZeksrU3dEL0hCOTlpNnVRaDFQOXRkalJuVGJVMmhW?=
+ =?utf-8?B?QU0xdDlBUkJaMHRpUjVzWDNFTk1UM1BqdHlWODlFUWpMSFZUQVZ3V2tvY3Nn?=
+ =?utf-8?B?S1ZUVU9zRlVGV0FJczZBVlkwdWlDL1JVUWdPZUE4T3VoUjZaNkxmS2Q4cVpl?=
+ =?utf-8?B?dnN4Q1BVL2tWUlJsenYzQWl2azR4NE1KV2lkakRkOHlRdVFXN1lZWWg3SkU4?=
+ =?utf-8?B?dDJSSXVuM2tmWFdkQVhGTEJMdldodHpxU1pCenBKeVhFL29Pd056dmNZaUs2?=
+ =?utf-8?B?SHJzcGZISzlwZGgyRzB2OTIvQVVCVUhuNUlqYmVRdTFRT05rWGhzVGFRSG56?=
+ =?utf-8?B?SGJKbXhoNFVodHhJK01yeWVYb25vdWxadUxHTnkzWm85ZXBHSEhwRUltSlRT?=
+ =?utf-8?B?L3EweUpnMFowV05YeGJYOTladWkrR3d6ZFFRRnFSTDRMVlBpMW9OVXQrN1NL?=
+ =?utf-8?B?N2hvMGJRNkpZZW9wVldOdjRSdmt1R0s2ZXRoZ3VqSHM5Z3J1YWZiVHdBOUhG?=
+ =?utf-8?B?QktHaENRVGJwaDZxUVBoZC83b1JaNjZaY3ZuTFJQZkdwRG5yc1pOTFhUa3Jh?=
+ =?utf-8?B?WFhMNWh4MkZsRUxGR0NaZXpHQkVLb2drbjlrb05oME1JRkM0NUJja201a2Jq?=
+ =?utf-8?B?NStHYktJdkVKbzg3VmxWL0tscmFVVWFKYkt1TWMvSEtBek9HT2VhNWV6VWRp?=
+ =?utf-8?B?R2I1U3dyeS9VbGVBQURGRkFjc2YrQk4weG1OM1NuV05kbVRqZjAxN1NrNDFE?=
+ =?utf-8?B?NXVmNFFjazQ4ZUgwQlpPRU9lSnpNT2pwdTMyY2lyNWlVR1FZYytqS20zaHYr?=
+ =?utf-8?B?RTF3WkRXY2QrOFBydTI5TTBQTllYTzNoUTBXUk9Ed1BIWjlVK1ZDQXdvc09P?=
+ =?utf-8?B?aDNDWnZoN0ZOWjdFblR4SWlOWHB6ZHRaczFMbmttWHZsYXlGclRHMWtTN3dG?=
+ =?utf-8?B?bTFnY2hsOTFXUFhVTytSdU9kdGRRYlpyVWIrdktma3VuRGlDdzJYWk10SU03?=
+ =?utf-8?B?R2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d653e8b-fa53-4fe1-8734-08db8794cf89
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2023 13:42:21.2547
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iJH+i01SXeDClBHeLXuZ7DuW7i3wDXx/CqKqBjG1lSGbayNQ9Nj65lIbmRQcMRMXiKcWRCEKLLM7CiASAIgsm9iQrosCE3EofBUJDZ8Nhgc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5105
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/srcres258/linux-doc next
-head:   1f94ea418de902796fa65b97c7138c5c6dff13dc
-commit: 1f94ea418de902796fa65b97c7138c5c6dff13dc [1/1] Merge commit '899cbd7b84da84d430b58d3bab82314e7f41c71d' into next
-config: arm64-randconfig-r002-20230718 (https://download.01.org/0day-ci/archive/20230718/202307182103.snSzUhrN-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230718/202307182103.snSzUhrN-lkp@intel.com/reproduce)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Date: Mon, 17 Jul 2023 13:04:11 +0300
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307182103.snSzUhrN-lkp@intel.com/
+> On Mon, Jul 17, 2023 at 12:42:57PM +0800, kernel test robot wrote:
+>> Hi Alexander,
 
-All errors (new ones prefixed by >>):
+Hi,
 
-   mm/memory-failure.c: In function '__is_raw_hwp_subpage':
-   mm/memory-failure.c:1845:24: error: implicit declaration of function 'raw_hwp_list_head' [-Werror=implicit-function-declaration]
-    1845 |         raw_hwp_head = raw_hwp_list_head(folio);
-         |                        ^~~~~~~~~~~~~~~~~
-   mm/memory-failure.c:1845:22: warning: assignment to 'struct llist_head *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1845 |         raw_hwp_head = raw_hwp_list_head(folio);
-         |                      ^
-   mm/memory-failure.c: In function 'is_raw_hwpoison_page_in_hugepage':
-   mm/memory-failure.c:1878:22: warning: assignment to 'struct llist_head *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1878 |         raw_hwp_head = raw_hwp_list_head(folio);
-         |                      ^
-   mm/memory-failure.c: At top level:
->> mm/memory-failure.c:1891:6: error: redefinition of 'is_raw_hwpoison_page_in_hugepage'
-    1891 | bool is_raw_hwpoison_page_in_hugepage(struct page *page)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memory-failure.c:1856:6: note: previous definition of 'is_raw_hwpoison_page_in_hugepage' with type 'bool(struct page *)' {aka '_Bool(struct page *)'}
-    1856 | bool is_raw_hwpoison_page_in_hugepage(struct page *page)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memory-failure.c: In function 'is_raw_hwpoison_page_in_hugepage':
-   mm/memory-failure.c:1913:22: warning: assignment to 'struct llist_head *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1913 |         raw_hwp_head = raw_hwp_list_head(folio);
-         |                      ^
-   mm/memory-failure.c: In function '__folio_free_raw_hwp':
-   mm/memory-failure.c:1931:30: warning: passing argument 1 of 'llist_del_all' makes pointer from integer without a cast [-Wint-conversion]
-    1931 |         head = llist_del_all(raw_hwp_list_head(folio));
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                              |
-         |                              int
-   In file included from include/linux/smp_types.h:5,
-                    from include/linux/smp.h:15,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from mm/memory-failure.c:40:
-   include/linux/llist.h:237:67: note: expected 'struct llist_head *' but argument is of type 'int'
-     237 | static inline struct llist_node *llist_del_all(struct llist_head *head)
-         |                                                ~~~~~~~~~~~~~~~~~~~^~~~
-   mm/memory-failure.c: In function 'folio_set_hugetlb_hwpoison':
-   mm/memory-failure.c:1959:14: warning: assignment to 'struct llist_head *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1959 |         head = raw_hwp_list_head(folio);
-         |              ^
-   cc1: some warnings being treated as errors
+>>
+>> FYI, the error/warning still remains.
+> 
+> Alexander, either you can escalate this or just propose something to discuss.
+> 
 
+Sorry, I had some days off.
+I've been waiting for more info from the Clang devs to understand
+whether and how I should fix this.
+I see that Yury submitted fix (two actually) already, so I'll go review
+it now.
 
-vim +/is_raw_hwpoison_page_in_hugepage +1891 mm/memory-failure.c
-
-161df60e9e8965 Naoya Horiguchi 2022-07-14  1890  
-6877d647d86cd0 Jiaqi Yan       2023-07-13 @1891  bool is_raw_hwpoison_page_in_hugepage(struct page *page)
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1892  {
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1893  	struct llist_head *raw_hwp_head;
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1894  	struct raw_hwp_page *p;
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1895  	struct folio *folio = page_folio(page);
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1896  	bool ret = false;
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1897  
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1898  	if (!folio_test_hwpoison(folio))
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1899  		return false;
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1900  
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1901  	if (!folio_test_hugetlb(folio))
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1902  		return PageHWPoison(page);
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1903  
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1904  	/*
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1905  	 * When RawHwpUnreliable is set, kernel lost track of which subpages
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1906  	 * are HWPOISON. So return as if ALL subpages are HWPOISONed.
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1907  	 */
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1908  	if (folio_test_hugetlb_raw_hwp_unreliable(folio))
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1909  		return true;
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1910  
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1911  	mutex_lock(&mf_mutex);
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1912  
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1913  	raw_hwp_head = raw_hwp_list_head(folio);
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1914  	llist_for_each_entry(p, raw_hwp_head->first, node) {
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1915  		if (page == p->page) {
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1916  			ret = true;
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1917  			break;
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1918  		}
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1919  	}
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1920  
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1921  	mutex_unlock(&mf_mutex);
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1922  
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1923  	return ret;
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1924  }
-14bdaafea3f2ec Jiaqi Yan       2023-07-13  1925  
-
-:::::: The code at line 1891 was first introduced by commit
-:::::: 6877d647d86cd0ed29687ce09f3a5787a6553c54 mm/hwpoison: check if a raw page in a hugetlb folio is raw HWPOISON
-
-:::::: TO: Jiaqi Yan <jiaqiyan@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Olek
