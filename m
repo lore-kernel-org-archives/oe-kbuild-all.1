@@ -1,41 +1,40 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B17D518;
-	Tue, 18 Jul 2023 15:49:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D1211184
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 15:49:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689695395; x=1721231395;
+  t=1689695397; x=1721231397;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2+g8D6K4yOf3EbBU7xVCv4e+8/CcQMogoNMiwwmkgZ8=;
-  b=SY05kovNO4vtb/DBiMJn42keG4gbHIhvr6k+jGu0FEoMu9EWg6ibOueM
-   Mytpx6/GyDoJJcETKp5PSPBD5OeXP3YSascoJLxgJcMVTNNpFzEERyAfK
-   Of4qdr1bXVn7MuM/L9T8PtFZX2KmpYkp+TpBnDQhA8dOk4R1ggUVNpt2u
-   11vxiPDzQCwfUYZ0bUcCRY81+PPh8W0bU58LmJiUOykm2Q5PXMkExrk0I
-   +Vb1G6K8A2r+8q+P99+epTiSrdCm7pDVucwzDXeTDqZiqKgR7cjasHUif
-   aGvhX7X1xE9+Il40GprP+P2nm7bo41UCM6U/yrxH0TvcA9V7hhjSlxLBB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="346540452"
+  bh=roTiCvvuFKAPBpzyoCq/UIz7xmR5pzukedIxFqEQOJc=;
+  b=K9fHEh9nItzkw8mcSx/i78zW/R+UZD33CL2x78GTxz3A4+rJETIuC9Ti
+   Q3/N12Ga6nAuiiKmtHjAJzsZnhzh1Y8aM01GxRERHPJCWcGBabgu9yNO1
+   3EJFbO7iFWPVdDVYiLHnTJ7TjhG6ZLuKE1l9og2HC/zl6vpAPl3eyJ4vh
+   cv4wl8o8g3EKFdFEX5L9RGHkqzhhGCtooyDGuoz0Oimrz24aok0nwJenK
+   dCD3ylILPhWsp3wUWIjlS2xZQ5ahuZlHM6lrcO+ZpcxTDj2DFWp+wYaVY
+   eqLUELJ/g9+SJlHVoEyGjP1aUjwi/4kpb5TUL+4QZVcKEKQkGO6F3fcb6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="346540438"
 X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="346540452"
+   d="scan'208";a="346540438"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 08:49:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="673975356"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="673975352"
 X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="673975356"
+   d="scan'208";a="673975352"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
   by orsmga003.jf.intel.com with ESMTP; 18 Jul 2023 08:49:46 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLmxO-0000hB-00;
-	Tue, 18 Jul 2023 15:49:46 +0000
-Date: Tue, 18 Jul 2023 23:49:19 +0800
+	id 1qLmxN-0000h7-2z;
+	Tue, 18 Jul 2023 15:49:45 +0000
+Date: Tue, 18 Jul 2023 23:49:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Eric Dumazet <edumazet@google.com>,
+Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Andrew Lunn <andrew@lunn.ch>,
 	Florian Fainelli <f.fainelli@gmail.com>,
@@ -63,7 +62,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Sergey Organov <sorganov@gmail.com>
 Subject: Re: [PATCH v8 net-next 11/12] net: phy: provide phylib stubs for
  hardware timestamping operations
-Message-ID: <202307182345.NOnFjOm2-lkp@intel.com>
+Message-ID: <202307182336.h83DeGwR-lkp@intel.com>
 References: <20230717152709.574773-12-vladimir.oltean@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -85,21 +84,25 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Oltean/net-add-N
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20230717152709.574773-12-vladimir.oltean%40nxp.com
 patch subject: [PATCH v8 net-next 11/12] net: phy: provide phylib stubs for hardware timestamping operations
-config: x86_64-randconfig-r023-20230718 (https://download.01.org/0day-ci/archive/20230718/202307182345.NOnFjOm2-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230718/202307182345.NOnFjOm2-lkp@intel.com/reproduce)
+config: arm-randconfig-r046-20230718 (https://download.01.org/0day-ci/archive/20230718/202307182336.h83DeGwR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307182336.h83DeGwR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307182345.NOnFjOm2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307182336.h83DeGwR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/phy/phy_device.c:30:10: fatal error: 'linux/phylib_stubs.h' file not found
-   #include <linux/phylib_stubs.h>
-            ^~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+>> drivers/net/phy/phy_device.c:30:10: fatal error: linux/phylib_stubs.h: No such file or directory
+      30 | #include <linux/phylib_stubs.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> make[6]: *** No rule to make target 'drivers/net/phy/stubs.o', needed by 'drivers/net/phy/built-in.a'.
+   make[6]: *** [scripts/Makefile.build:243: drivers/net/phy/phy_device.o] Error 1 shuffle=2354727191
+   make[6]: Target 'drivers/net/phy/' not remade because of errors.
 
 
 vim +30 drivers/net/phy/phy_device.c
