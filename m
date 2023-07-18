@@ -1,92 +1,65 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 5.mo550.mail-out.ovh.net (5.mo550.mail-out.ovh.net [178.33.45.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5735E13AD1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 17:15:00 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-635fa79d7c0so32650296d6.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 10:15:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689700499; x=1692292499;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=49rureUPbZzpudlVM2zneRe6HyWwlUbk8aE+ndrnLuA=;
-        b=wZPMHBQa38uiHSyA0hsvxL0lXMKKx1+1kKb1VUBm0CDZ1I//sTfRoiFPTdoa02MZ+Q
-         CDL38rxEgD+ezJik+WZNyf0/NIpzYv43e933YM7hdS+NhpfVjf8SIyZqB11RMZ9zlOia
-         amFNtGO2Eks82pNuINQGf51x7tkhhqmOELeg2wjnjOEc3ocN1rYrajoz0N7Qu8/97O5U
-         l3FWNesOXYlGOqFdFk4f3VenH+Shz4IlEcQr5hnejnjhIqw4ykyIngC3gt40q9ZBh3eg
-         cTK8FY8/pbqafvU2fgmckPWofcKGfZlKrxfh7ajxYsv5pegHF0CsEWG2ZbUedZ9CC8Pp
-         H9Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689700499; x=1692292499;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=49rureUPbZzpudlVM2zneRe6HyWwlUbk8aE+ndrnLuA=;
-        b=IlgfuKV1yGEwBwe7mXhS29Q+Uy5MIjp75cF7z6DZmjPc9bE2MvA37zoeumPz/zTIJG
-         +pTsMFK1HxBo6DGfpx3AOG9LzDHk8Lw7oskwwk1paonKEkFR+6K4PmOVfaZcPJEDuJKT
-         Cv8ETLi6LkntseMDLDoVEC9HTnahs3tcOyH1jBF7Ck1OSmLMJoZngtuZpfouGWJbzDnV
-         nsAO2mZcemCqUBJWzFBDCoo2RthVuBsMVWLCkNfNndHe3SKKKZiklb/LpssPFouN/5dE
-         D2Yj1OTzF6Db1ElAtSLSxm6jeaSS892gRdGlp8TxWBZ0n7Vp4qnsiqdUyb9xQsT6rRby
-         CxKA==
-X-Gm-Message-State: ABy/qLZ/AhL3SSVVt9hN+3W4+z0ZL/O2USnVJQFoqfEf2OvErdJguRVP
-	+zO1ValpUwFV+J/glD7dVeqvVZFuGki4IlgoGtUpyQ==
-X-Google-Smtp-Source: APBJJlHgr3AglGxCaL8r5sAYNbCPfzT7KYHhnJVf/2YnXexSQAwXtV5odoGuvIxp+DJPnZ3x5TdOJZkHiVhmOOE7O7A=
-X-Received: by 2002:a0c:cc8c:0:b0:625:aa49:ea0c with SMTP id
- f12-20020a0ccc8c000000b00625aa49ea0cmr15312379qvl.31.1689700498934; Tue, 18
- Jul 2023 10:14:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3360513AD1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 17:15:26 +0000 (UTC)
+Received: from director8.ghost.mail-out.ovh.net (unknown [10.108.20.237])
+	by mo550.mail-out.ovh.net (Postfix) with ESMTP id 6062924C8C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 16:59:04 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-zfdpl (unknown [10.110.115.151])
+	by director8.ghost.mail-out.ovh.net (Postfix) with ESMTPS id B81521FDF3;
+	Tue, 18 Jul 2023 16:59:01 +0000 (UTC)
+Received: from RCM-web4.webmail.mail.ovh.net ([176.31.235.81])
+	by ghost-submission-6684bf9d7b-zfdpl with ESMTPSA
+	id utcTHtXEtmSNUQEAfcRA7w
+	(envelope-from <rafal@milecki.pl>); Tue, 18 Jul 2023 16:59:01 +0000
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202307180750.Dk6xL6nG-lkp@intel.com> <20230718171025.vn67ydtjifawkvqo@revolver>
-In-Reply-To: <20230718171025.vn67ydtjifawkvqo@revolver>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 18 Jul 2023 10:14:47 -0700
-Message-ID: <CAKwvOdn1Uc-xZk81Adooq0tVHo6M9Jn6=OXhiJs07X3nrJst+Q@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-unstable 209/215] mm/mmap.c:2430:29: error: assigning
- to 'lockdep_map_p' from incompatible type 'void *'
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Tue, 18 Jul 2023 18:59:01 +0200
+From: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
+To: kernel test robot <lkp@intel.com>
+Cc: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>, Srinivas
+ Kandagatla <srinivas.kandagatla@linaro.org>, oe-kbuild-all@lists.linux.dev,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
+ <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Bartosz Golaszewski
+ <bgolaszewski@baylibre.com>, Alban Bedel <albeu@free.fr>, Christian Marangi
+ <ansuelsmth@gmail.com>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Revert "nvmem: add new config option"
+In-Reply-To: <202307182316.AVNL1wNs-lkp@intel.com>
+References: <20230718084804.20139-1-zajec5@gmail.com>
+ <202307182316.AVNL1wNs-lkp@intel.com>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <d9aea2179b54f83084e22eee137819b7@milecki.pl>
+X-Sender: rafal@milecki.pl
+X-Originating-IP: 31.11.218.106
+X-Webmail-UserID: rafal@milecki.pl
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 14184087028245310427
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedrgeeggddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghffgfkgihitgfgsehtjehjtddtredvnecuhfhrohhmpeftrghfrghlucfoihhlvggtkhhiuceorhgrfhgrlhesmhhilhgvtghkihdrphhlqeenucggtffrrghtthgvrhhnpeetheelfefgjedutdeivdduvdethffhhedulefggeeitdejudfhkeetjeekieejgfenucfkphepuddvjedrtddrtddruddpfedurdduuddrvddukedruddtiedpudejiedrfedurddvfeehrdekudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehrrghfrghlsehmihhlvggtkhhirdhplheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheehtddpmhhouggvpehsmhhtphhouhht
 
-On Tue, Jul 18, 2023 at 10:10=E2=80=AFAM Liam R. Howlett
-<Liam.Howlett@oracle.com> wrote:
->
-> * kernel test robot <lkp@intel.com> [230717 19:36]:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-=
-unstable
-> > head:   75ac3c8cee9c94691bc9001fcfb6214ae812bfa8
-> > commit: f40b24c7c416b304b93115d66d02dc54e5d2f7d1 [209/215] mm/mmap: cha=
-nge detached vma locking scheme
-> > config: um-allnoconfig (https://download.01.org/0day-ci/archive/2023071=
-8/202307180750.Dk6xL6nG-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.gi=
-t 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
->
-> Just a status update on this..
->
-> The above config works with clang 16, I will reproduce it with the
-> periodic build of clang 17 once I locate a copy.
->
-> The llvm repositories currently don't have 17 [1], so this is delaying
-> the reproducibility and fix for the issue.
+On 2023-07-18 18:00, kernel test robot wrote:
+>    drivers/mtd/mtdcore.c: In function 'mtd_nvmem_add':
+>>> drivers/mtd/mtdcore.c:542:29: warning: unused variable 'node' 
+>>> [-Wunused-variable]
+>      542 |         struct device_node *node = mtd_get_of_node(mtd);
+>          |                             ^~~~
 
-They do, see the second hit for `development branch` on that page.
-Thanks for testing!
+My patch I mentioned:
+[PATCH V4] nvmem: add explicit config option to read old syntax fixed OF 
+cells
 
->
-> [1] https://apt.llvm.org/
->
-> Thanks,
-> Liam
->
+adds following line:
+config.add_legacy_fixed_of_cells = of_device_is_compatible(node, 
+"nvmem-cells");
 
-
---=20
-Thanks,
-~Nick Desaulniers
+So this is a false kernel bot warning (but I understand kernel bot
+couldn't understand it needs my other patch).
