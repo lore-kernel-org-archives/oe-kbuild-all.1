@@ -1,48 +1,42 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12CB17AB1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 23:16:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5B417AAD;
+	Tue, 18 Jul 2023 23:27:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689722199; x=1721258199;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NhE1dnhfvt0KEceV7noRwcDHrkQzvl+cihIpKve9wDY=;
-  b=kej2FQNrqfy8uGehEh7mA1VZLo1x2JHAW495YctO1cbHoyQ8IoqXPRqv
-   MkLzbL5PPdOB15VCU2U2Lit1LsLyBTXXVE9YrnflJlNb9/QesukhOr4GI
-   WLQl/nz3IxwPSsIXRPyqOZor6M2vOD/G4G+Z8YbvnM8BcyzPxYQjfBgVk
-   tUzeXP6dc4dteZuVFQn7ev9BxbYJ0TLx9eSuSMei5sBHHcchaMzRk7Lol
-   8iMVjKk5QJJo+g9eGVQWdWV/2BqCT/bUvhyI/8BcX7VhBZ30sucwrlo11
-   PfzIXPwzL+dPrSgJ5tno3j7HWLnncTnFpR9Naq0uSSUCCk4tYQqL2uF0f
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="356280197"
+  t=1689722869; x=1721258869;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Bt4A1sXUMSnOXpxuBtknmnEHvOyHwq7p1AILGWEl5AU=;
+  b=lg8llFjfH7v3tP+90q9O4u1bcuST1TCsfHuBdm9lTwVuITS1KR7MjQJJ
+   hxoyRH1QGX/t4UJ5Ihw2DSwIbEHf6nMR3daFzQp0Qaaz1s2klYPq8sJQh
+   mHsFLThVd6f5SUKISP9lGI+8z0KSLwSnO4aWM2IKB7a8GmjPEWiMvPG4Q
+   5nqH8wyMtD9+fD1YZt1qHcBgg99JZfj3L2CGGr/C0Fpo8AdE0XhEHCdWr
+   4WrxBoMDpOOTVKHqV3no05tgYayJtpaVDpT4HBE2wG/Ugbes4+AN4IdGN
+   bugVONkNdXo3dTUkYeukkKpXV5UQ3TqxhnvcHkCXm/mODv5YbZsF1vDmA
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="356281634"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="356280197"
+   d="scan'208";a="356281634"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 16:16:38 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 16:27:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="897714437"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="897717333"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="897714437"
+   d="scan'208";a="897717333"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 18 Jul 2023 16:16:36 -0700
+  by orsmga005.jf.intel.com with ESMTP; 18 Jul 2023 16:27:48 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLtvn-0003wZ-21;
-	Tue, 18 Jul 2023 23:16:35 +0000
-Date: Wed, 19 Jul 2023 07:16:34 +0800
+	id 1qLu6d-0003x7-1i;
+	Tue, 18 Jul 2023 23:27:47 +0000
+Date: Wed, 19 Jul 2023 07:26:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Selvin Xavier <selvin.xavier@broadcom.com>, jgg@ziepe.ca,
-	leon@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
-	andrew.gospodarek@broadcom.com, michael.chan@broadcom.com,
-	Chandramohan Akula <chandramohan.akula@broadcom.com>,
-	Selvin Xavier <selvin.xavier@broadcom.com>
-Subject: Re: [PATCH for-next v2 5/7] RDMA/bnxt_re: Update alloc_page uapi for
- pacing
-Message-ID: <202307190721.q4H3DjZs-lkp@intel.com>
-References: <1689573194-27687-6-git-send-email-selvin.xavier@broadcom.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/010-soc 7/12] drivers/soc/apple/rtkit.c:639:25:
+ error: no member named 'mbox_chan' in 'struct apple_rtkit'
+Message-ID: <202307190748.NieHgp8R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,118 +45,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1689573194-27687-6-git-send-email-selvin.xavier@broadcom.com>
 
-Hi Selvin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on linus/master v6.5-rc2 next-20230718]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Selvin-Xavier/bnxt_en-Share-the-bar0-address-with-the-RoCE-driver/20230718-174723
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/1689573194-27687-6-git-send-email-selvin.xavier%40broadcom.com
-patch subject: [PATCH for-next v2 5/7] RDMA/bnxt_re: Update alloc_page uapi for pacing
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230719/202307190721.q4H3DjZs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190721.q4H3DjZs-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   4e398443bc8954189feef7690a142d4cdfa2ec8c
+commit: 33e58c87bbd34917ba153a3f8357f19cf4c15d08 [7/12] mailbox: apple: Delete driver
+config: arm64-randconfig-r026-20230718 (https://download.01.org/0day-ci/archive/20230719/202307190748.NieHgp8R-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190748.NieHgp8R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307190721.q4H3DjZs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307190748.NieHgp8R-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/memory.h:337,
-                    from arch/arm64/include/asm/thread_info.h:17,
-                    from include/linux/thread_info.h:60,
-                    from arch/arm64/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from include/linux/percpu.h:6,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/interrupt.h:11,
-                    from drivers/infiniband/hw/bnxt_re/ib_verbs.c:39:
-   drivers/infiniband/hw/bnxt_re/ib_verbs.c: In function 'bnxt_re_mmap':
->> drivers/infiniband/hw/bnxt_re/ib_verbs.c:4164:81: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-    4164 |                 ret = vm_insert_page(vma, vma->vm_start, virt_to_page(bnxt_entry->mem_offset));
-         |                                                                       ~~~~~~~~~~^~~~~~~~~~~~
-         |                                                                                 |
-         |                                                                                 u64 {aka long long unsigned int}
-   include/asm-generic/memory_model.h:37:45: note: in definition of macro '__pfn_to_page'
-      37 | #define __pfn_to_page(pfn)      (vmemmap + (pfn))
-         |                                             ^~~
-   drivers/infiniband/hw/bnxt_re/ib_verbs.c:4164:58: note: in expansion of macro 'virt_to_page'
-    4164 |                 ret = vm_insert_page(vma, vma->vm_start, virt_to_page(bnxt_entry->mem_offset));
-         |                                                          ^~~~~~~~~~~~
-   arch/arm64/include/asm/memory.h:339:53: note: expected 'const void *' but argument is of type 'u64' {aka 'long long unsigned int'}
-     339 | static inline unsigned long virt_to_pfn(const void *kaddr)
-         |                                         ~~~~~~~~~~~~^~~~~
+>> drivers/soc/apple/rtkit.c:639:25: error: no member named 'mbox_chan' in 'struct apple_rtkit'
+     639 |                 ret = mbox_flush(rtk->mbox_chan, timeout);
+         |                                  ~~~  ^
+   1 error generated.
 
 
-vim +/virt_to_pfn +4164 drivers/infiniband/hw/bnxt_re/ib_verbs.c
+vim +639 drivers/soc/apple/rtkit.c
 
-  4119	
-  4120	/* Helper function to mmap the virtual memory from user app */
-  4121	int bnxt_re_mmap(struct ib_ucontext *ib_uctx, struct vm_area_struct *vma)
-  4122	{
-  4123		struct bnxt_re_ucontext *uctx = container_of(ib_uctx,
-  4124							   struct bnxt_re_ucontext,
-  4125							   ib_uctx);
-  4126		struct bnxt_re_user_mmap_entry *bnxt_entry;
-  4127		struct rdma_user_mmap_entry *rdma_entry;
-  4128		int ret = 0;
-  4129		u64 pfn;
-  4130	
-  4131		rdma_entry = rdma_user_mmap_entry_get(&uctx->ib_uctx, vma);
-  4132		if (!rdma_entry)
-  4133			return -EINVAL;
-  4134	
-  4135		bnxt_entry = container_of(rdma_entry, struct bnxt_re_user_mmap_entry,
-  4136					  rdma_entry);
-  4137	
-  4138		switch (bnxt_entry->mmap_flag) {
-  4139		case BNXT_RE_MMAP_WC_DB:
-  4140			pfn = bnxt_entry->mem_offset >> PAGE_SHIFT;
-  4141			ret = rdma_user_mmap_io(ib_uctx, vma, pfn, PAGE_SIZE,
-  4142						pgprot_writecombine(vma->vm_page_prot),
-  4143						rdma_entry);
-  4144			break;
-  4145		case BNXT_RE_MMAP_UC_DB:
-  4146			pfn = bnxt_entry->mem_offset >> PAGE_SHIFT;
-  4147			ret = rdma_user_mmap_io(ib_uctx, vma, pfn, PAGE_SIZE,
-  4148						pgprot_noncached(vma->vm_page_prot),
-  4149					rdma_entry);
-  4150			break;
-  4151		case BNXT_RE_MMAP_SH_PAGE:
-  4152			ret = vm_insert_page(vma, vma->vm_start, virt_to_page(uctx->shpg));
-  4153			break;
-  4154		case BNXT_RE_MMAP_DBR_BAR:
-  4155			pfn = bnxt_entry->mem_offset >> PAGE_SHIFT;
-  4156			ret = rdma_user_mmap_io(ib_uctx, vma, pfn, PAGE_SIZE,
-  4157						pgprot_noncached(vma->vm_page_prot),
-  4158						rdma_entry);
-  4159			break;
-  4160		case BNXT_RE_MMAP_DBR_PAGE:
-  4161			/* Driver doesn't expect write access for user space */
-  4162			if (vma->vm_flags & VM_WRITE)
-  4163				return -EFAULT;
-> 4164			ret = vm_insert_page(vma, vma->vm_start, virt_to_page(bnxt_entry->mem_offset));
-  4165			break;
-  4166		default:
-  4167			ret = -EINVAL;
-  4168			break;
-  4169		}
-  4170	
-  4171		rdma_user_mmap_entry_put(rdma_entry);
-  4172		return ret;
-  4173	}
-  4174	
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  626  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  627  int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  628  				  unsigned long timeout, bool atomic)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  629  {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  630  	DECLARE_COMPLETION_ONSTACK(completion);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  631  	int ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  632  	long t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  633  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  634  	ret = apple_rtkit_send_message(rtk, ep, message, &completion, atomic);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  635  	if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  636  		return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  637  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  638  	if (atomic) {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01 @639  		ret = mbox_flush(rtk->mbox_chan, timeout);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  640  		if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  641  			return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  642  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  643  		if (try_wait_for_completion(&completion))
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  644  			return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  645  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  646  		return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  647  	} else {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  648  		t = wait_for_completion_interruptible_timeout(
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  649  			&completion, msecs_to_jiffies(timeout));
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  650  		if (t < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  651  			return t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  652  		else if (t == 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  653  			return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  654  		return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  655  	}
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  656  }
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  657  EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  658  
+
+:::::: The code at line 639 was first introduced by commit
+:::::: 9bd1d9a0d8bb1a549831fd98fcc3105960f7068b soc: apple: Add RTKit IPC library
+
+:::::: TO: Sven Peter <sven@svenpeter.dev>
+:::::: CC: Sven Peter <sven@svenpeter.dev>
 
 -- 
 0-DAY CI Kernel Test Service
