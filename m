@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D622D52C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Jul 2023 09:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914ECA941;
+	Tue, 18 Jul 2023 09:42:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689671662; x=1721207662;
+  t=1689673370; x=1721209370;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wmo0ENbDlNfLYIM4sxtXPzPqEyCujDq1EqGIU0bgo2I=;
-  b=VrbgQUH3nkKlLEEg9GyoLm7x/zKQxrZubYhOLwzqH6bCIPrpgv6Z01Tz
-   qU9tBAQqLL+yK5lkcsl4iGF0J+DPPZK+4xNHw3TBMI7+D8YRBbBeHhsjE
-   VwBscHzzdKmKPtJaLlTxXTeHeghezP+j5C3sdaP+dfo9Hc7iQGImpeBiF
-   fDK1LRHhzgDklf165J3o4KxrXdL09s/Vmzpm/YbOeCJ1JKW2aloAUl8wD
-   xn/IPsJlXydRx9BwlYWv//1cFZYIwAyTenFt3SHdL3eBfL5sA7aOtj5+a
-   0LKqp4NBVXhDDIcB4lmOlf0L/oX8/oETBa40cnV2vNibAi72HS+VVS8rj
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="363621566"
+  bh=ivtJMFakXRs5sqT6rv9YztLenT1sZ8khP5IXNufO8Hg=;
+  b=VxYcmQRVSKMKAjKkYkVIwEXdjmtbpeuuJziYd3o6H4jH0b8FEMr9OlP9
+   hv8Ei6XQhQR/bv39m3ETZpC+7CVI98m2xHGDT09I8VpQWEY+pTeyjYpUv
+   vxjdZIBb2bkCwxF06g+fye4kY+iJ7btdw1AspxSWVHx0FDeDBEtYNEHH8
+   MzO2ouOIXoxFJR38+y6+Nh8AJY2LkQrYC0EtHfMnKKaXWBu21eDdOfWIZ
+   xUynD4r15SMoTRFdsNwaBwKisnksT7UoDGKSGClEi8vjA0NgQ32sCenaF
+   5+DMP/z0WADAFzmiPSERSd4nt2XGc8LdU+/FLNL150IoR2FO8+1loE4f6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="452539632"
 X-IronPort-AV: E=Sophos;i="6.01,213,1684825200"; 
-   d="scan'208";a="363621566"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 02:14:21 -0700
+   d="scan'208";a="452539632"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 02:42:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="837214607"
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="847628954"
 X-IronPort-AV: E=Sophos;i="6.01,213,1684825200"; 
-   d="scan'208";a="837214607"
+   d="scan'208";a="847628954"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Jul 2023 02:14:19 -0700
+  by orsmga004.jf.intel.com with ESMTP; 18 Jul 2023 02:42:44 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLgmG-0000QL-2D;
-	Tue, 18 Jul 2023 09:14:05 +0000
-Date: Tue, 18 Jul 2023 17:11:42 +0800
+	id 1qLhEB-0000Rp-0o;
+	Tue, 18 Jul 2023 09:42:43 +0000
+Date: Tue, 18 Jul 2023 17:42:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qi Hu <huqi@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, Huacai Chen <chenhuacai@kernel.org>
-Subject: [chenhuacai-loongson:loongarch-next 3/9]
- arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype
- for 'output_thread_lbt_defines'
-Message-ID: <202307181721.OrQq4iI6-lkp@intel.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hu Haowen <src.res.211@gmail.com>
+Subject: [srcres258-doc:next 1/1] mm/memory-failure.c:1891:6: error:
+ redefinition of 'is_raw_hwpoison_page_in_hugepage'
+Message-ID: <202307181715.0dwDb1O9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,201 +47,168 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.git loongarch-next
-head:   c2296cc3968f8a84161cb0b72f64e53c377f3acc
-commit: 61ad9ba4af0b84e5f3f4c8528353454f34cc5883 [3/9] LoongArch: Add Loongson Binary Translation (LBT) extension support
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230718/202307181721.OrQq4iI6-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230718/202307181721.OrQq4iI6-lkp@intel.com/reproduce)
+tree:   https://github.com/srcres258/linux-doc next
+head:   1f94ea418de902796fa65b97c7138c5c6dff13dc
+commit: 1f94ea418de902796fa65b97c7138c5c6dff13dc [1/1] Merge commit '899cbd7b84da84d430b58d3bab82314e7f41c71d' into next
+config: x86_64-buildonly-randconfig-r001-20230717 (https://download.01.org/0day-ci/archive/20230718/202307181715.0dwDb1O9-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307181715.0dwDb1O9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307181721.OrQq4iI6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307181715.0dwDb1O9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      17 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      64 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      79 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      95 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:131:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     131 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     172 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:182:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     182 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:214:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     214 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:222:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     222 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:260:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     260 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:270:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
-     270 | void output_pbe_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:282:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
-     282 | void output_fgraph_ret_regs_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      17 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      64 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      79 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      95 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:131:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     131 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     172 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:182:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     182 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:214:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     214 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:222:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     222 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:260:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     260 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:270:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
-     270 | void output_pbe_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:282:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
-     282 | void output_fgraph_ret_regs_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/memory-failure.c:1845:17: error: call to undeclared function 'raw_hwp_list_head'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           raw_hwp_head = raw_hwp_list_head(folio);
+                          ^
+   mm/memory-failure.c:1845:15: error: incompatible integer to pointer conversion assigning to 'struct llist_head *' from 'int' [-Wint-conversion]
+           raw_hwp_head = raw_hwp_list_head(folio);
+                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/memory-failure.c:1878:17: error: call to undeclared function 'raw_hwp_list_head'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           raw_hwp_head = raw_hwp_list_head(folio);
+                          ^
+   mm/memory-failure.c:1878:15: error: incompatible integer to pointer conversion assigning to 'struct llist_head *' from 'int' [-Wint-conversion]
+           raw_hwp_head = raw_hwp_list_head(folio);
+                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/memory-failure.c:1891:6: error: redefinition of 'is_raw_hwpoison_page_in_hugepage'
+   bool is_raw_hwpoison_page_in_hugepage(struct page *page)
+        ^
+   mm/memory-failure.c:1856:6: note: previous definition is here
+   bool is_raw_hwpoison_page_in_hugepage(struct page *page)
+        ^
+   mm/memory-failure.c:1913:17: error: call to undeclared function 'raw_hwp_list_head'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           raw_hwp_head = raw_hwp_list_head(folio);
+                          ^
+   mm/memory-failure.c:1913:15: error: incompatible integer to pointer conversion assigning to 'struct llist_head *' from 'int' [-Wint-conversion]
+           raw_hwp_head = raw_hwp_list_head(folio);
+                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/memory-failure.c:1931:23: error: call to undeclared function 'raw_hwp_list_head'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           head = llist_del_all(raw_hwp_list_head(folio));
+                                ^
+   mm/memory-failure.c:1931:23: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct llist_head *' [-Wint-conversion]
+           head = llist_del_all(raw_hwp_list_head(folio));
+                                ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/llist.h:237:67: note: passing argument to parameter 'head' here
+   static inline struct llist_node *llist_del_all(struct llist_head *head)
+                                                                     ^
+   mm/memory-failure.c:1959:9: error: call to undeclared function 'raw_hwp_list_head'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           head = raw_hwp_list_head(folio);
+                  ^
+   mm/memory-failure.c:1959:7: error: incompatible integer to pointer conversion assigning to 'struct llist_head *' from 'int' [-Wint-conversion]
+           head = raw_hwp_list_head(folio);
+                ^ ~~~~~~~~~~~~~~~~~~~~~~~~
+   11 errors generated.
 
 
-vim +/output_thread_lbt_defines +172 arch/loongarch/kernel/asm-offsets.c
+vim +/is_raw_hwpoison_page_in_hugepage +1891 mm/memory-failure.c
 
-    78	
-  > 79	void output_thread_info_defines(void)
-    80	{
-    81		COMMENT("LoongArch thread_info offsets.");
-    82		OFFSET(TI_TASK, thread_info, task);
-    83		OFFSET(TI_FLAGS, thread_info, flags);
-    84		OFFSET(TI_TP_VALUE, thread_info, tp_value);
-    85		OFFSET(TI_CPU, thread_info, cpu);
-    86		OFFSET(TI_PRE_COUNT, thread_info, preempt_count);
-    87		OFFSET(TI_REGS, thread_info, regs);
-    88		DEFINE(_THREAD_SIZE, THREAD_SIZE);
-    89		DEFINE(_THREAD_MASK, THREAD_MASK);
-    90		DEFINE(_IRQ_STACK_SIZE, IRQ_STACK_SIZE);
-    91		DEFINE(_IRQ_STACK_START, IRQ_STACK_START);
-    92		BLANK();
-    93	}
-    94	
-    95	void output_thread_defines(void)
-    96	{
-    97		COMMENT("LoongArch specific thread_struct offsets.");
-    98		OFFSET(THREAD_REG01, task_struct, thread.reg01);
-    99		OFFSET(THREAD_REG03, task_struct, thread.reg03);
-   100		OFFSET(THREAD_REG22, task_struct, thread.reg22);
-   101		OFFSET(THREAD_REG23, task_struct, thread.reg23);
-   102		OFFSET(THREAD_REG24, task_struct, thread.reg24);
-   103		OFFSET(THREAD_REG25, task_struct, thread.reg25);
-   104		OFFSET(THREAD_REG26, task_struct, thread.reg26);
-   105		OFFSET(THREAD_REG27, task_struct, thread.reg27);
-   106		OFFSET(THREAD_REG28, task_struct, thread.reg28);
-   107		OFFSET(THREAD_REG29, task_struct, thread.reg29);
-   108		OFFSET(THREAD_REG30, task_struct, thread.reg30);
-   109		OFFSET(THREAD_REG31, task_struct, thread.reg31);
-   110		OFFSET(THREAD_SCHED_RA, task_struct, thread.sched_ra);
-   111		OFFSET(THREAD_SCHED_CFA, task_struct, thread.sched_cfa);
-   112		OFFSET(THREAD_CSRCRMD, task_struct,
-   113		       thread.csr_crmd);
-   114		OFFSET(THREAD_CSRPRMD, task_struct,
-   115		       thread.csr_prmd);
-   116		OFFSET(THREAD_CSREUEN, task_struct,
-   117		       thread.csr_euen);
-   118		OFFSET(THREAD_CSRECFG, task_struct,
-   119		       thread.csr_ecfg);
-   120	
-   121		OFFSET(THREAD_FPU, task_struct, thread.fpu);
-   122	
-   123		OFFSET(THREAD_BVADDR, task_struct, \
-   124		       thread.csr_badvaddr);
-   125		OFFSET(THREAD_ECODE, task_struct, \
-   126		       thread.error_code);
-   127		OFFSET(THREAD_TRAPNO, task_struct, thread.trap_nr);
-   128		BLANK();
-   129	}
-   130	
-   131	void output_thread_fpu_defines(void)
-   132	{
-   133		OFFSET(THREAD_FPR0, loongarch_fpu, fpr[0]);
-   134		OFFSET(THREAD_FPR1, loongarch_fpu, fpr[1]);
-   135		OFFSET(THREAD_FPR2, loongarch_fpu, fpr[2]);
-   136		OFFSET(THREAD_FPR3, loongarch_fpu, fpr[3]);
-   137		OFFSET(THREAD_FPR4, loongarch_fpu, fpr[4]);
-   138		OFFSET(THREAD_FPR5, loongarch_fpu, fpr[5]);
-   139		OFFSET(THREAD_FPR6, loongarch_fpu, fpr[6]);
-   140		OFFSET(THREAD_FPR7, loongarch_fpu, fpr[7]);
-   141		OFFSET(THREAD_FPR8, loongarch_fpu, fpr[8]);
-   142		OFFSET(THREAD_FPR9, loongarch_fpu, fpr[9]);
-   143		OFFSET(THREAD_FPR10, loongarch_fpu, fpr[10]);
-   144		OFFSET(THREAD_FPR11, loongarch_fpu, fpr[11]);
-   145		OFFSET(THREAD_FPR12, loongarch_fpu, fpr[12]);
-   146		OFFSET(THREAD_FPR13, loongarch_fpu, fpr[13]);
-   147		OFFSET(THREAD_FPR14, loongarch_fpu, fpr[14]);
-   148		OFFSET(THREAD_FPR15, loongarch_fpu, fpr[15]);
-   149		OFFSET(THREAD_FPR16, loongarch_fpu, fpr[16]);
-   150		OFFSET(THREAD_FPR17, loongarch_fpu, fpr[17]);
-   151		OFFSET(THREAD_FPR18, loongarch_fpu, fpr[18]);
-   152		OFFSET(THREAD_FPR19, loongarch_fpu, fpr[19]);
-   153		OFFSET(THREAD_FPR20, loongarch_fpu, fpr[20]);
-   154		OFFSET(THREAD_FPR21, loongarch_fpu, fpr[21]);
-   155		OFFSET(THREAD_FPR22, loongarch_fpu, fpr[22]);
-   156		OFFSET(THREAD_FPR23, loongarch_fpu, fpr[23]);
-   157		OFFSET(THREAD_FPR24, loongarch_fpu, fpr[24]);
-   158		OFFSET(THREAD_FPR25, loongarch_fpu, fpr[25]);
-   159		OFFSET(THREAD_FPR26, loongarch_fpu, fpr[26]);
-   160		OFFSET(THREAD_FPR27, loongarch_fpu, fpr[27]);
-   161		OFFSET(THREAD_FPR28, loongarch_fpu, fpr[28]);
-   162		OFFSET(THREAD_FPR29, loongarch_fpu, fpr[29]);
-   163		OFFSET(THREAD_FPR30, loongarch_fpu, fpr[30]);
-   164		OFFSET(THREAD_FPR31, loongarch_fpu, fpr[31]);
-   165	
-   166		OFFSET(THREAD_FCSR, loongarch_fpu, fcsr);
-   167		OFFSET(THREAD_FCC,  loongarch_fpu, fcc);
-   168		OFFSET(THREAD_FTOP, loongarch_fpu, ftop);
-   169		BLANK();
-   170	}
-   171	
- > 172	void output_thread_lbt_defines(void)
-   173	{
-   174		OFFSET(THREAD_SCR0,  loongarch_lbt, scr0);
-   175		OFFSET(THREAD_SCR1,  loongarch_lbt, scr1);
-   176		OFFSET(THREAD_SCR2,  loongarch_lbt, scr2);
-   177		OFFSET(THREAD_SCR3,  loongarch_lbt, scr3);
-   178		OFFSET(THREAD_EFLAGS, loongarch_lbt, eflags);
-   179		BLANK();
-   180	}
-   181	
+161df60e9e8965 Naoya Horiguchi 2022-07-14  1828  
+e833a46a28d799 Jiaqi Yan       2023-07-07  1829  bool __is_raw_hwp_subpage(struct folio *folio, struct page *subpage)
+e833a46a28d799 Jiaqi Yan       2023-07-07  1830  {
+e833a46a28d799 Jiaqi Yan       2023-07-07  1831  	struct llist_head *raw_hwp_head;
+e833a46a28d799 Jiaqi Yan       2023-07-07  1832  	struct raw_hwp_page *p, *tmp;
+e833a46a28d799 Jiaqi Yan       2023-07-07  1833  	bool ret = false;
+e833a46a28d799 Jiaqi Yan       2023-07-07  1834  
+e833a46a28d799 Jiaqi Yan       2023-07-07  1835  	if (!folio_test_hwpoison(folio))
+e833a46a28d799 Jiaqi Yan       2023-07-07  1836  		return false;
+e833a46a28d799 Jiaqi Yan       2023-07-07  1837  
+161df60e9e8965 Naoya Horiguchi 2022-07-14  1838  	/*
+e833a46a28d799 Jiaqi Yan       2023-07-07  1839  	 * When RawHwpUnreliable is set, kernel lost track of which subpages
+e833a46a28d799 Jiaqi Yan       2023-07-07  1840  	 * are HWPOISON. So return as if ALL subpages are HWPOISONed.
+161df60e9e8965 Naoya Horiguchi 2022-07-14  1841  	 */
+e833a46a28d799 Jiaqi Yan       2023-07-07  1842  	if (folio_test_hugetlb_raw_hwp_unreliable(folio))
+e833a46a28d799 Jiaqi Yan       2023-07-07  1843  		return true;
+161df60e9e8965 Naoya Horiguchi 2022-07-14  1844  
+e833a46a28d799 Jiaqi Yan       2023-07-07 @1845  	raw_hwp_head = raw_hwp_list_head(folio);
+e833a46a28d799 Jiaqi Yan       2023-07-07  1846  	llist_for_each_entry_safe(p, tmp, raw_hwp_head->first, node) {
+e833a46a28d799 Jiaqi Yan       2023-07-07  1847  		if (subpage == p->page) {
+e833a46a28d799 Jiaqi Yan       2023-07-07  1848  			ret = true;
+e833a46a28d799 Jiaqi Yan       2023-07-07  1849  			break;
+e833a46a28d799 Jiaqi Yan       2023-07-07  1850  		}
+e833a46a28d799 Jiaqi Yan       2023-07-07  1851  	}
+e833a46a28d799 Jiaqi Yan       2023-07-07  1852  
+e833a46a28d799 Jiaqi Yan       2023-07-07  1853  	return ret;
+161df60e9e8965 Naoya Horiguchi 2022-07-14  1854  }
+161df60e9e8965 Naoya Horiguchi 2022-07-14  1855  
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1856  bool is_raw_hwpoison_page_in_hugepage(struct page *page)
+1f94ea418de902 Hu Haowen       2023-07-17  1857  {
+1f94ea418de902 Hu Haowen       2023-07-17  1858  	struct llist_head *raw_hwp_head;
+1f94ea418de902 Hu Haowen       2023-07-17  1859  	struct raw_hwp_page *p;
+1f94ea418de902 Hu Haowen       2023-07-17  1860  	struct folio *folio = page_folio(page);
+1f94ea418de902 Hu Haowen       2023-07-17  1861  	bool ret = false;
+1f94ea418de902 Hu Haowen       2023-07-17  1862  
+1f94ea418de902 Hu Haowen       2023-07-17  1863  	if (!folio_test_hwpoison(folio))
+1f94ea418de902 Hu Haowen       2023-07-17  1864  		return false;
+1f94ea418de902 Hu Haowen       2023-07-17  1865  
+1f94ea418de902 Hu Haowen       2023-07-17  1866  	if (!folio_test_hugetlb(folio))
+1f94ea418de902 Hu Haowen       2023-07-17  1867  		return PageHWPoison(page);
+1f94ea418de902 Hu Haowen       2023-07-17  1868  
+1f94ea418de902 Hu Haowen       2023-07-17  1869  	/*
+1f94ea418de902 Hu Haowen       2023-07-17  1870  	 * When RawHwpUnreliable is set, kernel lost track of which subpages
+1f94ea418de902 Hu Haowen       2023-07-17  1871  	 * are HWPOISON. So return as if ALL subpages are HWPOISONed.
+1f94ea418de902 Hu Haowen       2023-07-17  1872  	 */
+1f94ea418de902 Hu Haowen       2023-07-17  1873  	if (folio_test_hugetlb_raw_hwp_unreliable(folio))
+1f94ea418de902 Hu Haowen       2023-07-17  1874  		return true;
+1f94ea418de902 Hu Haowen       2023-07-17  1875  
+1f94ea418de902 Hu Haowen       2023-07-17  1876  	mutex_lock(&mf_mutex);
+1f94ea418de902 Hu Haowen       2023-07-17  1877  
+1f94ea418de902 Hu Haowen       2023-07-17  1878  	raw_hwp_head = raw_hwp_list_head(folio);
+1f94ea418de902 Hu Haowen       2023-07-17  1879  	llist_for_each_entry(p, raw_hwp_head->first, node) {
+1f94ea418de902 Hu Haowen       2023-07-17  1880  		if (page == p->page) {
+1f94ea418de902 Hu Haowen       2023-07-17  1881  			ret = true;
+1f94ea418de902 Hu Haowen       2023-07-17  1882  			break;
+1f94ea418de902 Hu Haowen       2023-07-17  1883  		}
+1f94ea418de902 Hu Haowen       2023-07-17  1884  	}
+1f94ea418de902 Hu Haowen       2023-07-17  1885  
+1f94ea418de902 Hu Haowen       2023-07-17  1886  	mutex_unlock(&mf_mutex);
+1f94ea418de902 Hu Haowen       2023-07-17  1887  
+1f94ea418de902 Hu Haowen       2023-07-17  1888  	return ret;
+161df60e9e8965 Naoya Horiguchi 2022-07-14  1889  }
+161df60e9e8965 Naoya Horiguchi 2022-07-14  1890  
+6877d647d86cd0 Jiaqi Yan       2023-07-13 @1891  bool is_raw_hwpoison_page_in_hugepage(struct page *page)
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1892  {
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1893  	struct llist_head *raw_hwp_head;
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1894  	struct raw_hwp_page *p;
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1895  	struct folio *folio = page_folio(page);
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1896  	bool ret = false;
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1897  
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1898  	if (!folio_test_hwpoison(folio))
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1899  		return false;
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1900  
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1901  	if (!folio_test_hugetlb(folio))
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1902  		return PageHWPoison(page);
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1903  
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1904  	/*
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1905  	 * When RawHwpUnreliable is set, kernel lost track of which subpages
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1906  	 * are HWPOISON. So return as if ALL subpages are HWPOISONed.
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1907  	 */
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1908  	if (folio_test_hugetlb_raw_hwp_unreliable(folio))
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1909  		return true;
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1910  
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1911  	mutex_lock(&mf_mutex);
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1912  
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1913  	raw_hwp_head = raw_hwp_list_head(folio);
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1914  	llist_for_each_entry(p, raw_hwp_head->first, node) {
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1915  		if (page == p->page) {
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1916  			ret = true;
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1917  			break;
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1918  		}
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1919  	}
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1920  
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1921  	mutex_unlock(&mf_mutex);
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1922  
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1923  	return ret;
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1924  }
+14bdaafea3f2ec Jiaqi Yan       2023-07-13  1925  
+
+:::::: The code at line 1891 was first introduced by commit
+:::::: 6877d647d86cd0ed29687ce09f3a5787a6553c54 mm/hwpoison: check if a raw page in a hugetlb folio is raw HWPOISON
+
+:::::: TO: Jiaqi Yan <jiaqiyan@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
