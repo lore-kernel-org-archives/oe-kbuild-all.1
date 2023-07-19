@@ -1,42 +1,53 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A06125AD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 13:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689772363; x=1721308363;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iJOVtpNF7D8q9ZYf/0cjI7c8ASs1gx1xybwr+ctpLWg=;
-  b=U5eCIKq4j/t7dXjrZ0SZkF9qnyAWHfbkuAgBQO9UESvzRm7u9PiAeM3F
-   EwBWcRoQ+/FZOr7NPAU8lznfy/Wr/5GmjYSYW3kPQNaErQ5zJxpxyXdBo
-   9txXPyvW/pex7shL9Sfi2yEOTEqYoazChxeNuYRNilzdRPz/STdWOiY4L
-   FoSB4E4YcvZ8Ap4cs45GB7LdAH4cnLz8RKkUcPkYdg+IZCm6R2ier3wIk
-   mOyn2nUwPqZ+JAiyNHsO2XKof5OcwqzzzZzK1gRwcAAgHlaf10rIMEynx
-   ylAGUKodxRCjvtH971gwRNIRFAZY+kdaJoVlPeavQlTVY6ErraETinE7y
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="351325324"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="351325324"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 06:12:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="727295256"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="727295256"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 19 Jul 2023 06:12:40 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qM6yu-0004uC-0I;
-	Wed, 19 Jul 2023 13:12:40 +0000
-Date: Wed, 19 Jul 2023 21:09:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/637 3548/12466]
- drivers/phy/phy-mixel-lvds-combo.c:34: warning: "SS" redefined
-Message-ID: <202307192112.wDXESnsk-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA49713FE0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 13:44:44 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fbc77e76abso64225995e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 06:44:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689774283; x=1690379083;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DxEa7ZwmbtgvUZmyPwt7LvypfZDgVVCC3R8/YAt2SXA=;
+        b=Ye6BA598dBDYf1XKC40Vlgb6lcjT0j/ASLtOw8IE0Ecnnr7Ri+S4jJwtNlfNxxQMkV
+         VEKymcXNZkZAuFn8Pi4zJOFHNiod6v1LpNqzNRpYccNUxrtL/PiNxN3SINw6+YhimgtN
+         7SOR0TfGR0x3QQl4E+dkdZr8lu1mxT8ScjsRwfqeZhUnrqvcSSPTLN2KlqMXJOTXnDtD
+         3mIkDM0yzj4zCAKar6qoH4tK5CF1W2a4tsDEjP6HvNVXdWe8bFPX1NeA7S9I0soABQBv
+         nMuVZ1wHqp8e8Yyc6488I1/CIJR6O2+LsbJsI/B+MYEHxIShuHAoSnbMzAPXQ8zmdf6G
+         j3/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689774283; x=1690379083;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DxEa7ZwmbtgvUZmyPwt7LvypfZDgVVCC3R8/YAt2SXA=;
+        b=LXzYBf7Y2WwtuFNauarPOQL4V1+6bjLSKmNRoZUHMg1LOPbWyl8oJLn6wQOFsy7pvC
+         yIwGG+ZEUoRUEJlJfBathy6xmMiPv/T23e1ZZfIinJwTdkdt7sw8LntBhMNPrR4uMniC
+         HQz1QWCiNrEF7wD4jmcsAVE0IQGkvIGT1oMwh3zMlfdNGAe+Lijiskto3RmcaLIwZexx
+         NIlaVgZtE4TmtRfRSSZkkYRnXx0q6UWbC5lR3kHvUc9WJRwcZX+6PMifr2KafocWCADm
+         AAAdg9NGSqyFEbHoLY1QtgXuXYJv4TVVrq+W3pcYfehQtfPX65m2+oEBPK6HElBzWZEH
+         JL/g==
+X-Gm-Message-State: ABy/qLZZ3kLmhWldGw/26W6lWj6yYb0rl/+SlH2OXnwaFq++htJNjYNe
+	08nJL3Y3PGzQbHdZxzlCYJ2XCA==
+X-Google-Smtp-Source: APBJJlGRAbCaxxekeDgGVO/og5aN4wlb/W1+ZPJxbkKSNWedMnsl46RdKW0o44vi2mkr4L7iQMTUag==
+X-Received: by 2002:a1c:e913:0:b0:3fb:9ef2:157 with SMTP id q19-20020a1ce913000000b003fb9ef20157mr1929582wmc.28.1689774282928;
+        Wed, 19 Jul 2023 06:44:42 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id i2-20020adffc02000000b0030c4d8930b1sm5397706wrr.91.2023.07.19.06.44.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jul 2023 06:44:40 -0700 (PDT)
+Date: Wed, 19 Jul 2023 16:44:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Patrick Rohr <prohr@google.com>,
+	"David S . Miller" <davem@davemloft.net>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Network Development Mailing List <netdev@vger.kernel.org>,
+	Patrick Rohr <prohr@google.com>,
+	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
+	Lorenzo Colitti <lorenzo@google.com>
+Subject: Re: [net-next] net: add sysctl accept_ra_min_rtr_lft
+Message-ID: <8ab106ad-d153-4c3e-8b4a-de4826d29da6@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,58 +56,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230718213709.688186-1-prohr@google.com>
 
-Hi Liu,
+Hi Patrick,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/Freescale/linux-fslc pr/637
-head:   ec33c7fc43bef23fa0b69db996fee0ba601875e9
-commit: dac9aca0adab35a0848bb45a8d09e6ce13754654 [3548/12466] phy: Add Mixel LVDS combo PHY support
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230719/202307192112.wDXESnsk-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Patrick-Rohr/net-add-sysctl-accept_ra_min_rtr_lft/20230719-053943
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230718213709.688186-1-prohr%40google.com
+patch subject: [net-next] net: add sysctl accept_ra_min_rtr_lft
+config: x86_64-randconfig-m001-20230717 (https://download.01.org/0day-ci/archive/20230719/202307192116.N4bDjayg-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192112.wDXESnsk-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192116.N4bDjayg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307192112.wDXESnsk-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307192116.N4bDjayg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+net/ipv6/ndisc.c:1501 ndisc_router_discovery() error: uninitialized symbol 'lifetime'.
 
->> drivers/phy/phy-mixel-lvds-combo.c:34: warning: "SS" redefined
-      34 | #define SS              0x20
-         | 
-   In file included from arch/x86/include/uapi/asm/ptrace.h:6,
-                    from arch/x86/include/asm/ptrace.h:7,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:53,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:78,
-                    from include/linux/smp.h:110,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/mutex.h:17,
-                    from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from drivers/phy/phy-mixel-lvds-combo.c:15:
-   arch/x86/include/uapi/asm/ptrace-abi.h:23: note: this is the location of the previous definition
-      23 | #define SS   16
-         | 
+vim +/lifetime +1501 net/ipv6/ndisc.c
 
+  1279  
+  1280          if (!ndisc_parse_options(skb->dev, opt, optlen, &ndopts))
+  1281                  return SKB_DROP_REASON_IPV6_NDISC_BAD_OPTIONS;
+  1282  
+  1283          if (!ipv6_accept_ra(in6_dev)) {
+  1284                  ND_PRINTK(2, info,
+  1285                            "RA: %s, did not accept ra for dev: %s\n",
+  1286                            __func__, skb->dev->name);
+  1287                  goto skip_linkparms;
+                        ^^^^^^^^^^^^^^^^^^^^
+This goto happens before lifetime is set
 
-vim +/SS +34 drivers/phy/phy-mixel-lvds-combo.c
+  1288          }
+  1289  
+  1290          lifetime = ntohs(ra_msg->icmph.icmp6_rt_lifetime);
 
-    33	
-  > 34	#define SS		0x20
-    35	#define CH_HSYNC_M(id)	BIT(0 + ((id) * 2))
-    36	#define CH_VSYNC_M(id)	BIT(1 + ((id) * 2))
-    37	#define CH_PHSYNC(id)	BIT(0 + ((id) * 2))
-    38	#define CH_PVSYNC(id)	BIT(1 + ((id) * 2))
-    39	
+Set here
+
+  1291          if (lifetime != 0 && lifetime < in6_dev->cnf.accept_ra_min_rtr_lft) {
+  1292                  ND_PRINTK(2, info,
+  1293                            "RA: router lifetime (%ds) is too short: %s\n",
+  1294                            lifetime, skb->dev->name);
+  1295                  goto skip_linkparms;
+  1296          }
+  1297  
+  1298  #ifdef CONFIG_IPV6_NDISC_NODETYPE
+
+[ SNIP ]
+
+  1464  
+  1465  skip_linkparms:
+  1466  
+  1467          /*
+  1468           *      Process options.
+  1469           */
+  1470  
+  1471          if (!neigh)
+  1472                  neigh = __neigh_lookup(&nd_tbl, &ipv6_hdr(skb)->saddr,
+  1473                                         skb->dev, 1);
+  1474          if (neigh) {
+  1475                  u8 *lladdr = NULL;
+  1476                  if (ndopts.nd_opts_src_lladdr) {
+  1477                          lladdr = ndisc_opt_addr_data(ndopts.nd_opts_src_lladdr,
+  1478                                                       skb->dev);
+  1479                          if (!lladdr) {
+  1480                                  ND_PRINTK(2, warn,
+  1481                                            "RA: invalid link-layer address length\n");
+  1482                                  goto out;
+  1483                          }
+  1484                  }
+  1485                  ndisc_update(skb->dev, neigh, lladdr, NUD_STALE,
+  1486                               NEIGH_UPDATE_F_WEAK_OVERRIDE|
+  1487                               NEIGH_UPDATE_F_OVERRIDE|
+  1488                               NEIGH_UPDATE_F_OVERRIDE_ISROUTER|
+  1489                               NEIGH_UPDATE_F_ISROUTER,
+  1490                               NDISC_ROUTER_ADVERTISEMENT, &ndopts);
+  1491                  reason = SKB_CONSUMED;
+  1492          }
+  1493  
+  1494          if (!ipv6_accept_ra(in6_dev)) {
+  1495                  ND_PRINTK(2, info,
+  1496                            "RA: %s, accept_ra is false for dev: %s\n",
+  1497                            __func__, skb->dev->name);
+  1498                  goto out;
+  1499          }
+  1500  
+  1501          if (lifetime != 0 && lifetime < in6_dev->cnf.accept_ra_min_rtr_lft) {
+                    ^^^^^^^^
+Uninitialized
+
+  1502                  ND_PRINTK(2, info,
+  1503                            "RA: router lifetime (%ds) is too short: %s\n",
+  1504                            lifetime, skb->dev->name);
+  1505                  goto out;
+  1506          }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
