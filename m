@@ -1,54 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE474C8F5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 10:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62EAD53C;
+	Wed, 19 Jul 2023 10:43:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689762834; x=1721298834;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3SNLOoqbWWFCQ8VFNEXapHXEAc1Q3bC2YRtCrjpFgLw=;
-  b=Zg/aqH9iH+3hrQUcK6y8s5T8cuW1uMKNIncBP3prP+/5v2ZEKUUHxH29
-   PmHBdwi7+BZmuLQV5q2RDPWtCwAgIOZ2KPIYqzAioiA8hzd+YamKhoMB3
-   jvAlPlujh8VDhkdjYNznVVZ3HQ5iXQfHopoyuWZDuH+7X8/bjvqo8qnRS
-   mJ9uVg6YZlW0ifo+USP6bJu4lftLb4nj76gPn1IBXjZwORMAwaHA3tPaC
-   uLZFwHfB+2zspUthTW9iZD+nzYZ+uYjUzva0nasYjufu9b4wlCynw5Qon
-   lWJT3BzY0B2LB3cnUIf8F0RZZ/BL1Ij+zfGvE5i9Kh/eHrLf96tllTx2N
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="397282768"
+  t=1689763433; x=1721299433;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AHWdE1Jmdr+u9OfN9Gc4ajHme33ul5jlTUZIMB4JMEg=;
+  b=C211RRsEv0KS1PVblGTKvlqP5kLEtMUy0jlXxFV3DwqZOsFK4VRUOKGb
+   VTZFGzQtFzWOtyd9DZLoORRL1kp/JqLdBy0THFtnmiRVO/0g9puG/B+iC
+   wa9WJerCQi6APQPXTShHNsPTkf+P7G9Uzp/SbwfheKi7+HvcYk4hHgPOK
+   ivKQ2hEM0Ax1O5hmHVHPhkRA0FECj9tz1sVcmo0NCigfkf7Wjnox41xK0
+   tqE5GMYZwWYr3qkQT2nRpbGB6l6CeDzv/511AI+Y7tXHqMHmVF0P33NU9
+   aqiswCg+E3ADHHJH1YocSxA5QHLUvDhiSvLVrhEH7xZC/hJ9MlaGzA/9Y
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="452803662"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="397282768"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 03:33:54 -0700
+   d="scan'208";a="452803662"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 03:43:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="674247426"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="789376753"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="674247426"
+   d="scan'208";a="789376753"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 19 Jul 2023 03:33:51 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 19 Jul 2023 03:43:51 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qM4VC-0004gD-1C;
-	Wed, 19 Jul 2023 10:33:50 +0000
-Date: Wed, 19 Jul 2023 18:33:05 +0800
+	id 1qM4es-0004gn-2C;
+	Wed, 19 Jul 2023 10:43:50 +0000
+Date: Wed, 19 Jul 2023 18:43:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	virtualization@lists.linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>, netdev@vger.kernel.org,
-	bpf@vger.kernel.org, Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH vhost v12 10/10] virtio_net: merge dma operations when
- filling mergeable buffers
-Message-ID: <202307191819.0tatknWa-lkp@intel.com>
-References: <20230719040422.126357-11-xuanzhuo@linux.alibaba.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:acomp-zswap-cleanup 7/21] fs/ubifs/compress.c:216:8: warning:
+ variable 'ret' is used uninitialized whenever 'if' condition is false
+Message-ID: <202307191846.iCTVysLT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,121 +45,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230719040422.126357-11-xuanzhuo@linux.alibaba.com>
 
-Hi Xuan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.4]
-[cannot apply to mst-vhost/linux-next linus/master v6.5-rc2 v6.5-rc1 next-20230719]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_ring-check-use_dma_api-before-unmap-desc-for-indirect/20230719-121424
-base:   v6.4
-patch link:    https://lore.kernel.org/r/20230719040422.126357-11-xuanzhuo%40linux.alibaba.com
-patch subject: [PATCH vhost v12 10/10] virtio_net: merge dma operations when filling mergeable buffers
-config: i386-randconfig-i006-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191819.0tatknWa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191819.0tatknWa-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git acomp-zswap-cleanup
+head:   d0a9c8530b6b8659bc8b126638f5d2c907cfe5ee
+commit: 9bb0bd982a78fa5d1dadadad46171275df3fae80 [7/21] ubifs: Migrate to acomp compression API
+config: x86_64-randconfig-r014-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191846.iCTVysLT-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191846.iCTVysLT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191819.0tatknWa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191846.iCTVysLT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/virtio_net.c: In function 'virtnet_rq_init_one_sg':
->> drivers/net/virtio_net.c:624:41: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     624 |                 rq->sg[0].dma_address = (dma_addr_t)addr;
-         |                                         ^
-   drivers/net/virtio_net.c: In function 'virtnet_rq_alloc':
->> drivers/net/virtio_net.c:682:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     682 |                 *sg_addr = (void *)(dma->addr + alloc_frag->offset - sizeof(*dma));
-         |                            ^
+>> fs/ubifs/compress.c:216:8: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+                           if (!compr->req) {
+                               ^~~~~~~~~~~
+   fs/ubifs/compress.c:222:7: note: uninitialized use occurs here
+                   if (ret) {
+                       ^~~
+   fs/ubifs/compress.c:216:4: note: remove the 'if' if its condition is always true
+                           if (!compr->req) {
+                           ^~~~~~~~~~~~~~~~~
+   fs/ubifs/compress.c:208:11: note: initialize the variable 'ret' to silence this warning
+                   long ret;
+                           ^
+                            = 0
+   1 warning generated.
 
 
-vim +624 drivers/net/virtio_net.c
+vim +216 fs/ubifs/compress.c
 
-   619	
-   620	static void virtnet_rq_init_one_sg(struct receive_queue *rq, void *addr, u32 len)
-   621	{
-   622		if (rq->do_dma) {
-   623			sg_init_table(rq->sg, 1);
- > 624			rq->sg[0].dma_address = (dma_addr_t)addr;
-   625			rq->sg[0].length = len;
-   626		} else {
-   627			sg_init_one(rq->sg, addr, len);
-   628		}
-   629	}
-   630	
-   631	static void *virtnet_rq_alloc(struct receive_queue *rq, u32 size,
-   632				      void **sg_addr, gfp_t gfp)
-   633	{
-   634		struct page_frag *alloc_frag = &rq->alloc_frag;
-   635		struct virtnet_rq_dma *dma;
-   636		struct device *dev;
-   637		void *buf, *head;
-   638		dma_addr_t addr;
-   639	
-   640		if (unlikely(!skb_page_frag_refill(size, alloc_frag, gfp)))
-   641			return NULL;
-   642	
-   643		head = (char *)page_address(alloc_frag->page);
-   644	
-   645		if (rq->do_dma) {
-   646			dma = head;
-   647	
-   648			/* new pages */
-   649			if (!alloc_frag->offset) {
-   650				if (rq->last_dma) {
-   651					/* Now, the new page is allocated, the last dma
-   652					 * will not be used. So the dma can be unmapped
-   653					 * if the ref is 0.
-   654					 */
-   655					virtnet_rq_unmap(rq, rq->last_dma, 0);
-   656					rq->last_dma = NULL;
-   657				}
-   658	
-   659				dev = virtqueue_dma_dev(rq->vq);
-   660	
-   661				dma->len = alloc_frag->size - sizeof(*dma);
-   662	
-   663				addr = dma_map_single_attrs(dev, dma + 1, dma->len, DMA_FROM_DEVICE, 0);
-   664				if (addr == DMA_MAPPING_ERROR)
-   665					return NULL;
-   666	
-   667				dma->addr = addr;
-   668				dma->need_sync = dma_need_sync(dev, addr);
-   669	
-   670				/* Add a reference to dma to prevent the entire dma from
-   671				 * being released during error handling. This reference
-   672				 * will be freed after the pages are no longer used.
-   673				 */
-   674				get_page(alloc_frag->page);
-   675				dma->ref = 1;
-   676				alloc_frag->offset = sizeof(*dma);
-   677	
-   678				rq->last_dma = dma;
-   679			}
-   680	
-   681			++dma->ref;
- > 682			*sg_addr = (void *)(dma->addr + alloc_frag->offset - sizeof(*dma));
-   683		} else {
-   684			*sg_addr = head + alloc_frag->offset;
-   685		}
-   686	
-   687		buf = head + alloc_frag->offset;
-   688	
-   689		get_page(alloc_frag->page);
-   690		alloc_frag->offset += size;
-   691	
-   692		return buf;
-   693	}
-   694	
+   197	
+   198	/**
+   199	 * compr_init - initialize a compressor.
+   200	 * @compr: compressor description object
+   201	 *
+   202	 * This function initializes the requested compressor and returns zero in case
+   203	 * of success or a negative error code in case of failure.
+   204	 */
+   205	static int __init compr_init(struct ubifs_compressor *compr)
+   206	{
+   207		if (compr->capi_name) {
+   208			long ret;
+   209	
+   210			compr->cc = crypto_alloc_acomp(compr->capi_name, 0,
+   211						       CRYPTO_ALG_ASYNC);
+   212			if (IS_ERR(compr->cc)) {
+   213				ret = PTR_ERR(compr->cc);
+   214			} else {
+   215				compr->req = acomp_request_alloc(compr->cc);
+ > 216				if (!compr->req) {
+   217					crypto_free_acomp(compr->cc);
+   218					ret = -ENOMEM;
+   219				}
+   220			}
+   221	
+   222			if (ret) {
+   223				pr_err("UBIFS error (pid %d): cannot initialize compressor %s, error %ld",
+   224				       current->pid, compr->name, ret);
+   225				return ret;
+   226			}
+   227		}
+   228	
+   229		ubifs_compressors[compr->compr_type] = compr;
+   230		return 0;
+   231	}
+   232	
 
 -- 
 0-DAY CI Kernel Test Service
