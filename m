@@ -1,42 +1,46 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A02515A9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 00:49:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C192CECA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 00:50:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689727792; x=1721263792;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i1q7pv7zIpcud4w2hBz/1F5y7QVuqUrs3m1YS8Iuf2k=;
-  b=FZPlGzQ5wKX6FUdy/o25VlhrqbBXGSNOF/3r/F9rnonBZ8iaLvgF9+QD
-   9emRMVBBT6/UyF9U0ayZ4TpwYEs4tvKvOQ4w3Ilv2RwdecrdpVoJjGcdu
-   89UoJKfqI7glU56jblQDCPNNY+akyfCqtMYd/BVlkXFocDnvUnSe3G6yn
-   R5EvpC7SsoLxu8OFrLYLRAb0adFt98TfureCpqw77e+jJAyQantVnlM0N
-   O8lneylPHbe8phgMdG2Kr4py89oRIHl3d2IxgzvsJicWnXZrfe2O3b9lZ
-   1lGPqGrObOL1/X8iSx01P0NtRL+ViHuUoQ/8kfEkBpgHaSu9+Kgu0OOXL
+  t=1689727803; x=1721263803;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7XNm/eiu/+464O+4ELZCRoc88UcSsKb444y7j36j4e4=;
+  b=CreNYKl4uNB+LK8CLdbdI45zOG9KoiuQZrH2XODmnxKyEqFOvjjxsiWO
+   wFPV80TYiRvKaEX8UPTvvbyiac3miROP3L4e1WMfq1o/2ihdeQDkidj84
+   bd5qSx7JfrN/1otv77jeB5qF8sbiYdGQdRQ5lpNHyir2vx43iVC77Q9wv
+   DKoCK/N0qG9ykhS+It0GepFSHYeWRdzQ3kiJyfyCHqSVY0sXL5ujeQ3RD
+   L3vnpMhkLuZUUkJARuXeMX04Pvo6x/UFiUSu9OLTLtUIfbv+F6OK5janx
+   OSMBMZq1u/eXmFITcVf6I9yyHcK+ZO7g3eIp/7XwDzOSEFpUv1ypiR26T
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="365226374"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="365226384"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="365226374"
+   d="scan'208";a="365226384"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 17:49:51 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 17:50:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="723822435"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="723822440"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="723822435"
+   d="scan'208";a="723822440"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 18 Jul 2023 17:49:49 -0700
+  by orsmga002.jf.intel.com with ESMTP; 18 Jul 2023 17:50:00 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLvNq-0003zj-1Z;
-	Wed, 19 Jul 2023 00:49:41 +0000
-Date: Wed, 19 Jul 2023 08:48:56 +0800
+	id 1qLvO1-0003zn-0L;
+	Wed, 19 Jul 2023 00:49:52 +0000
+Date: Wed, 19 Jul 2023 08:48:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>
-Subject: [mcgrof-next:large-block-nobdev-20230714-minorder 6/10]
- mm/readahead.c:797: undefined reference to `__divdi3'
-Message-ID: <202307190859.NZD5OHJ7-lkp@intel.com>
+To: Yuanjun Gong <ruc_gongyuanjun@163.com>,
+	Pravin B Shelar <pshelar@ovn.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/1] net:openvswitch: check return value of pskb_trim()
+Message-ID: <202307190802.c2sJufoJ-lkp@intel.com>
+References: <20230717145024.27274-1-ruc_gongyuanjun@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,56 +49,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230717145024.27274-1-ruc_gongyuanjun@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git large-block-nobdev-20230714-minorder
-head:   037b96adc07c3f2004459646537f6735ec545aca
-commit: 2b51ed864d56c86c2c17b6abca4e15e8dd7be055 [6/10] filemap: use minimum order while allocating folios
-config: microblaze-randconfig-r006-20230718 (https://download.01.org/0day-ci/archive/20230719/202307190859.NZD5OHJ7-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190859.NZD5OHJ7-lkp@intel.com/reproduce)
+Hi Yuanjun,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc2 next-20230718]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuanjun-Gong/net-openvswitch-check-return-value-of-pskb_trim/20230718-190417
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230717145024.27274-1-ruc_gongyuanjun%40163.com
+patch subject: [PATCH 1/1] net:openvswitch: check return value of pskb_trim()
+config: loongarch-randconfig-r031-20230718 (https://download.01.org/0day-ci/archive/20230719/202307190802.c2sJufoJ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190802.c2sJufoJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307190859.NZD5OHJ7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307190802.c2sJufoJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   microblaze-linux-ld: mm/readahead.o: in function `readahead_expand':
->> mm/readahead.c:797: undefined reference to `__divdi3'
+   In file included from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/skbuff.h:17,
+                    from net/openvswitch/actions.c:8:
+   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
+      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
+         |    ^~~~~
+   In file included from include/linux/export.h:5,
+                    from include/linux/linkage.h:7,
+                    from include/linux/kernel.h:17,
+                    from include/linux/skbuff.h:13:
+   net/openvswitch/actions.c: In function 'do_output':
+>> include/linux/compiler.h:55:26: warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                          ^
+   net/openvswitch/actions.c:922:25: note: in expansion of macro 'if'
+     922 |                         if (skb->len - cutlen > ovs_mac_header_len(key))
+         |                         ^~
 
 
-vim +797 mm/readahead.c
+vim +/else +55 include/linux/compiler.h
 
-   769	
-   770	/**
-   771	 * readahead_expand - Expand a readahead request
-   772	 * @ractl: The request to be expanded
-   773	 * @new_start: The revised start
-   774	 * @new_len: The revised size of the request
-   775	 *
-   776	 * Attempt to expand a readahead request outwards from the current size to the
-   777	 * specified size by inserting locked pages before and after the current window
-   778	 * to increase the size to the new window.  This may involve the insertion of
-   779	 * THPs, in which case the window may get expanded even beyond what was
-   780	 * requested.
-   781	 *
-   782	 * The algorithm will stop if it encounters a conflicting page already in the
-   783	 * pagecache and leave a smaller expansion than requested.
-   784	 *
-   785	 * The caller must check for this by examining the revised @ractl object for a
-   786	 * different expansion than was requested.
-   787	 */
-   788	void readahead_expand(struct readahead_control *ractl,
-   789			      loff_t new_start, size_t new_len)
-   790	{
-   791		struct address_space *mapping = ractl->mapping;
-   792		struct file_ra_state *ra = ractl->ra;
-   793		pgoff_t new_index, new_nr_pages;
-   794		gfp_t gfp_mask = readahead_gfp_mask(mapping);
-   795		unsigned min_folio_count = 1U << mapping_min_folio_order(mapping);
-   796	
- > 797		new_index = new_start / (min_folio_count * PAGE_SIZE);
+2bcd521a684cc9 Steven Rostedt 2008-11-21  49  
+2bcd521a684cc9 Steven Rostedt 2008-11-21  50  #ifdef CONFIG_PROFILE_ALL_BRANCHES
+2bcd521a684cc9 Steven Rostedt 2008-11-21  51  /*
+2bcd521a684cc9 Steven Rostedt 2008-11-21  52   * "Define 'is'", Bill Clinton
+2bcd521a684cc9 Steven Rostedt 2008-11-21  53   * "Define 'if'", Steven Rostedt
+2bcd521a684cc9 Steven Rostedt 2008-11-21  54   */
+a15fd609ad53a6 Linus Torvalds 2019-03-20 @55  #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+a15fd609ad53a6 Linus Torvalds 2019-03-20  56  
 
 -- 
 0-DAY CI Kernel Test Service
