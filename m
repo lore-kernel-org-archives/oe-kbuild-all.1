@@ -1,44 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191FD101F0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 11:16:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CC5101F0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 11:16:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689765409; x=1721301409;
+  t=1689765416; x=1721301416;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ydwheXRci4YyjGRKKg1uDta56n0JAreKN6hZcQTvIHQ=;
-  b=N3kZ2rtYW+w5Ztxp5Bk9kL0kzIwFnSz/q85nZ70ipLm7DUzw/ItE2yeq
-   JXYo64XPkeyoUpvwVKeYjATHyVnUnXiaJojF9eP3UYvA2y0DCXuzC58aM
-   SS7wm1uM8lmKqW0dIUAEsyKCO/O2G1XskL/U0hnDdU4qGwRqeM7s2CLqx
-   pFfI7y8PhUTkujKNJ6T+9NMn/5jaSrQ5lCiYPbR2lYhfStd0EJTJZqOGg
-   cqprlKne+3RBI2qUG36vLI96Jru5ftO6ztCemepIETmFo4RZTRyMwXUP6
-   tcFLwOpFt4uAF6MnNIEyWPJyhVDWE2FEHckwABJKuh9mP3LhK6DGyluSD
+  bh=LzlhbIrVKkVGaTeANt1AIbCeJlXC9m5/WBXsJyVgPGM=;
+  b=UcntPIsVOT3irl/kWqQLxQADxOBtdD7U7kN0U/kBxwF+5Ti8ahUhL9t2
+   YV2k9SCfLb0sQf2WJqx3iaOfLentcWNseeKMeDVnuAxT/Agiqo1TfQzKi
+   QOHKe0QZi008mQqAuBIw3TZeoQFY47wD5+iWOtW6N09oSF4rSzbwHe4fD
+   TQ+zKXE1xM/GSZTF/Ojvhn2Roq+zJhiecNSWbpA+p47WLHUP8OaVFsvPu
+   ECc7vYaTh7r35tys565Y4aPtkNh/yG5PmB2cVeE+aqoKQH6GZBZ0F38ZW
+   gtXcHMoshDVPUZsvLi+1cYAv84qzC9i6mSXZMonYoPS1Hh/QUosU4inSS
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="430199453"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="366476063"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="430199453"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 04:16:46 -0700
+   d="scan'208";a="366476063"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 04:16:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="753673070"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="723960912"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="753673070"
+   d="scan'208";a="723960912"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 19 Jul 2023 04:16:45 -0700
+  by orsmga002.jf.intel.com with ESMTP; 19 Jul 2023 04:16:44 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qM5Ai-0004iK-1l;
+	id 1qM5Ai-0004iH-03;
 	Wed, 19 Jul 2023 11:16:44 +0000
-Date: Wed, 19 Jul 2023 19:15:54 +0800
+Date: Wed, 19 Jul 2023 19:15:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/637 3481/12466]
- drivers/staging/ethosu/ethosu_buffer.c:253:18: warning: format '%llx'
- expects argument of type 'long long unsigned int', but argument 8 has type
- 'phys_addr_t' {aka 'unsigned int'}
-Message-ID: <202307191949.1eESStGd-lkp@intel.com>
+Subject: [freescale-fslc:pr/637 126/12466]
+ sound/soc/fsl/fsl_easrc_m2m.c:19:6: warning: no previous prototype for
+ function 'fsl_easrc_get_status'
+Message-ID: <202307191906.2PiHRJog-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,193 +47,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Shengjiu,
+
+FYI, the error/warning still remains.
+
 tree:   https://github.com/Freescale/linux-fslc pr/637
 head:   ec33c7fc43bef23fa0b69db996fee0ba601875e9
-commit: 95ce4103b59b6af5d3c264fc137f9dd174e78d3e [3481/12466] npu: ethosu: Add Arm ethos-u driver
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230719/202307191949.1eESStGd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191949.1eESStGd-lkp@intel.com/reproduce)
+commit: 46ac86d263c28d721f9f740b0e31d488ee95bc43 [126/12466] MLK-21940-4: ASoC: fsl_easrc: Support the m2m function
+config: x86_64-randconfig-r015-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191906.2PiHRJog-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191906.2PiHRJog-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191949.1eESStGd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191906.2PiHRJog-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-         |                                       ~~~^
-         |                                          |
-         |                                          long long unsigned int
-         |                                       %x
-   drivers/staging/ethosu/ethosu_buffer.c:108:30: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
-     223 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
-     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
-     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/staging/ethosu/ethosu_buffer.c:108:17: note: in expansion of macro 'dev_dbg'
-     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
-         |                 ^~~~~~~
-   drivers/staging/ethosu/ethosu_buffer.c:108:56: note: format string is defined here
-     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
-         |                                                     ~~~^
-         |                                                        |
-         |                                                        long long unsigned int
-         |                                                     %x
-   drivers/staging/ethosu/ethosu_buffer.c:108:30: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
-     223 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
-     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
-     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/staging/ethosu/ethosu_buffer.c:108:17: note: in expansion of macro 'dev_dbg'
-     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
-         |                 ^~~~~~~
-   drivers/staging/ethosu/ethosu_buffer.c:108:69: note: format string is defined here
-     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
-         |                                                                  ~~~^
-         |                                                                     |
-         |                                                                     long long unsigned int
-         |                                                                  %x
-   In file included from include/linux/device.h:15,
-                    from include/linux/mailbox_client.h:11,
-                    from drivers/staging/ethosu/ethosu_mailbox.h:30,
-                    from drivers/staging/ethosu/ethosu_device.h:29,
-                    from drivers/staging/ethosu/ethosu_buffer.c:27:
-   drivers/staging/ethosu/ethosu_buffer.c: In function 'ethosu_buffer_create':
-   drivers/staging/ethosu/ethosu_buffer.c:253:18: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
-     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                          ^~~~~~~
-   drivers/staging/ethosu/ethosu_buffer.c:252:9: note: in expansion of macro 'dev_info'
-     252 |         dev_info(buf->edev->dev,
-         |         ^~~~~~~~
-   drivers/staging/ethosu/ethosu_buffer.c:253:92: note: format string is defined here
-     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
-         |                                                                                         ~~~^
-         |                                                                                            |
-         |                                                                                            long long unsigned int
-         |                                                                                         %x
-   drivers/staging/ethosu/ethosu_buffer.c:253:18: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 7 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
-     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                          ^~~~~~~
-   drivers/staging/ethosu/ethosu_buffer.c:252:9: note: in expansion of macro 'dev_info'
-     252 |         dev_info(buf->edev->dev,
-         |         ^~~~~~~~
-   drivers/staging/ethosu/ethosu_buffer.c:253:114: note: format string is defined here
-     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
-         |                                                                                                               ~~~^
-         |                                                                                                                  |
-         |                                                                                                                  long long unsigned int
-         |                                                                                                               %x
->> drivers/staging/ethosu/ethosu_buffer.c:253:18: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 8 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
-     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
-     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                          ^~~~~~~
-   drivers/staging/ethosu/ethosu_buffer.c:252:9: note: in expansion of macro 'dev_info'
-     252 |         dev_info(buf->edev->dev,
-         |         ^~~~~~~~
-   drivers/staging/ethosu/ethosu_buffer.c:253:132: note: format string is defined here
-     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
-         |                                                                                                                                 ~~~^
-         |                                                                                                                                    |
-         |                                                                                                                                    long long unsigned int
-         |                                                                                                                                 %x
+   In file included from sound/soc/fsl/fsl_easrc.c:1754:
+>> sound/soc/fsl/fsl_easrc_m2m.c:19:6: warning: no previous prototype for function 'fsl_easrc_get_status' [-Wmissing-prototypes]
+   void fsl_easrc_get_status(struct fsl_asrc_pair *ctx,
+        ^
+   sound/soc/fsl/fsl_easrc_m2m.c:19:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void fsl_easrc_get_status(struct fsl_asrc_pair *ctx,
+   ^
+   static 
+>> sound/soc/fsl/fsl_easrc_m2m.c:282:5: warning: no previous prototype for function 'fsl_easrc_process_buffer_pre' [-Wmissing-prototypes]
+   int fsl_easrc_process_buffer_pre(struct fsl_easrc_m2m *m2m, bool dir)
+       ^
+   sound/soc/fsl/fsl_easrc_m2m.c:282:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int fsl_easrc_process_buffer_pre(struct fsl_easrc_m2m *m2m, bool dir)
+   ^
+   static 
+>> sound/soc/fsl/fsl_easrc_m2m.c:415:6: warning: no previous prototype for function 'fsl_easrc_submit_dma' [-Wmissing-prototypes]
+   void fsl_easrc_submit_dma(struct fsl_easrc_m2m *m2m)
+        ^
+   sound/soc/fsl/fsl_easrc_m2m.c:415:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void fsl_easrc_submit_dma(struct fsl_easrc_m2m *m2m)
+   ^
+   static 
+   3 warnings generated.
 
 
-vim +253 drivers/staging/ethosu/ethosu_buffer.c
+vim +/fsl_easrc_get_status +19 sound/soc/fsl/fsl_easrc_m2m.c
 
-   218	
-   219	int ethosu_buffer_create(struct ethosu_device *edev,
-   220				 size_t capacity)
-   221	{
-   222		struct ethosu_buffer *buf;
-   223		int ret = -ENOMEM;
-   224	
-   225		buf = devm_kzalloc(edev->dev, sizeof(*buf), GFP_KERNEL);
-   226		if (!buf)
-   227			return -ENOMEM;
-   228	
-   229		buf->edev = edev;
-   230		buf->capacity = capacity;
-   231		buf->offset = 0;
-   232		buf->size = 0;
-   233		kref_init(&buf->kref);
-   234	
-   235		buf->cpu_addr = dma_alloc_coherent(buf->edev->dev, capacity,
-   236						   &buf->dma_addr_orig, GFP_KERNEL);
-   237		if (!buf->cpu_addr)
-   238			goto free_buf;
-   239	
-   240		buf->dma_addr = ethosu_buffer_dma_ranges(buf->edev->dev,
-   241							 buf->dma_addr_orig,
-   242							 buf->capacity);
-   243	
-   244		ret = anon_inode_getfd("ethosu-buffer", &ethosu_buffer_fops, buf,
-   245				       O_RDWR | O_CLOEXEC);
-   246		if (ret < 0)
-   247			goto free_dma;
-   248	
-   249		buf->file = fget(ret);
-   250		fput(buf->file);
-   251	
-   252		dev_info(buf->edev->dev,
- > 253			 "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
-   254			 buf, capacity, buf->cpu_addr, buf->dma_addr,
-   255			 buf->dma_addr_orig, virt_to_phys(buf->cpu_addr));
-   256	
-   257		return ret;
-   258	
-   259	free_dma:
-   260		dma_free_coherent(buf->edev->dev, buf->capacity, buf->cpu_addr,
-   261				  buf->dma_addr_orig);
-   262	
-   263	free_buf:
-   264		devm_kfree(buf->edev->dev, buf);
-   265	
-   266		return ret;
-   267	}
-   268	
+    18	
+  > 19	void fsl_easrc_get_status(struct fsl_asrc_pair *ctx,
+    20				  struct asrc_status_flags *flags)
+    21	{
+    22		flags->overload_error = 0;
+    23	}
+    24	
 
 -- 
 0-DAY CI Kernel Test Service
