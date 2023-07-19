@@ -1,56 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38579275B5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 18:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BFA275B5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 19:05:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689792936; x=1721328936;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VgOUC4K9fx66jXJxsabJ6cjLbIddps+gucTz9RAEk7M=;
-  b=RypHC5ZCOrrJZNswrSZRI9WXmPpEZ16oo40ad/0samBRnn2ODn9YAS3H
-   StRdKZ/bXu4uzkiKxTaJ590Kho8Wqd/m1V8xkqNh17KrKqgJM9qFkJtbC
-   6HGXa17v2S6JzuwjGbrxwt2mh+Wo9vgKq2TKDlAS9p79NLw+9x81aMbNO
-   bKkuo8ecUzYXbudYeG+Fxm2DeLWx/OQFYas8Ad/iiVG9llVV8YndlEoIR
-   AMSW+RgEHBM139ANboo8A4X8mB5oAtag2M6ki5/CwIm8Wwp0fOgEBMxwd
-   dkq/76za/DgVDIoAemh7s1n6uMiAqQclkm+iRl9MT/42sdWid4Sq03Gaw
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="366586885"
+  t=1689793543; x=1721329543;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u2/+N/AZBJLvOpGNKuE0lNhR/DfXCAFxi3Q4DCeUDtA=;
+  b=V7kKcAzSuWo5RU/UdtSfgBOsfTFPziW8Lsa4RKAgwNQsEDp3prQz5eYT
+   9GeYlLGkZwdyubH39tyRpQ9bw36xT6l15YJyP5Ff3Uj6O1w3k70zZrxJy
+   a7cJkIib7E6xHVHYI/aCXrAaNjO7qzvNNAitGLgp0wSdNPVfVw4+OLUJt
+   POkj2bolqQSTgBlT8O6NrTUg4pOXt+ZE2J3THF6M8AhKWQNBb7Dq8dUWX
+   lrxEAAUGsWhYnJghJOp1IrfyjARHJ+9rRiHzuE9IK8ojaO29wYwkK3MC1
+   tANYOyPKUHprggPaj0la9ehP/+BHXUeKWnky6Jz+gwYWmYTHQoLzeQf9u
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="430316666"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="366586885"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 11:55:35 -0700
+   d="scan'208";a="430316666"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 12:05:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="848148918"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="898014741"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="848148918"
+   d="scan'208";a="898014741"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 19 Jul 2023 11:55:29 -0700
+  by orsmga005.jf.intel.com with ESMTP; 19 Jul 2023 12:05:42 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMCKf-0005OE-0T;
-	Wed, 19 Jul 2023 18:55:29 +0000
-Date: Thu, 20 Jul 2023 02:54:50 +0800
+	id 1qMCUX-0005OX-10;
+	Wed, 19 Jul 2023 19:05:41 +0000
+Date: Thu, 20 Jul 2023 03:05:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Zink <j.zink@pengutronix.de>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Russell King <linux@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	patchwork-jzi@pengutronix.de,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Johannes Zink <j.zink@pengutronix.de>
-Subject: Re: [PATCH] net: stmmac: correct MAC propagation delay
-Message-ID: <202307200225.B8rmKQPN-lkp@intel.com>
-References: <20230719-stmmac_correct_mac_delay-v1-1-768aa4d09334@pengutronix.de>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [willy-pagecache:folio-flags 2/14]
+ include/asm-generic/bitops/instrumented-lock.h:77:9: error: call to
+ undeclared function 'arch_clear_bit_unlock_is_negative_byte'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202307200215.GGeQAQRf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,77 +47,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230719-stmmac_correct_mac_delay-v1-1-768aa4d09334@pengutronix.de>
 
-Hi Johannes,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 36395b2efe905650cd179d67411ffee3b770268b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Zink/net-stmmac-correct-MAC-propagation-delay/20230719-221258
-base:   36395b2efe905650cd179d67411ffee3b770268b
-patch link:    https://lore.kernel.org/r/20230719-stmmac_correct_mac_delay-v1-1-768aa4d09334%40pengutronix.de
-patch subject: [PATCH] net: stmmac: correct MAC propagation delay
-config: i386-randconfig-i002-20230720 (https://download.01.org/0day-ci/archive/20230720/202307200225.B8rmKQPN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200225.B8rmKQPN-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/willy/pagecache folio-flags
+head:   006eb1a68e63a55bcc2cba90f713909316f4eaf1
+commit: 6a98655feda6945aa21746113cee72ae49bac9ab [2/14] mm: Delete unused definition of clear_bit_unlock_is_negative_byte()
+config: s390-randconfig-r044-20230720 (https://download.01.org/0day-ci/archive/20230720/202307200215.GGeQAQRf-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200215.GGeQAQRf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307200225.B8rmKQPN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307200215.GGeQAQRf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.o: in function `correct_latency':
->> drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c:83: undefined reference to `__udivdi3'
+   In file included from kernel/bounds.c:13:
+   In file included from include/linux/log2.h:12:
+   In file included from include/linux/bitops.h:68:
+   In file included from arch/s390/include/asm/bitops.h:206:
+>> include/asm-generic/bitops/instrumented-lock.h:77:9: error: call to undeclared function 'arch_clear_bit_unlock_is_negative_byte'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      77 |         return arch_clear_bit_unlock_is_negative_byte(nr, addr);
+         |                ^
+   include/asm-generic/bitops/instrumented-lock.h:77:9: note: did you mean 'clear_bit_unlock_is_negative_byte'?
+   include/asm-generic/bitops/instrumented-lock.h:73:1: note: 'clear_bit_unlock_is_negative_byte' declared here
+      73 | clear_bit_unlock_is_negative_byte(long nr, volatile unsigned long *addr)
+         | ^
+      74 | {
+      75 |         kcsan_release();
+      76 |         instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+      77 |         return arch_clear_bit_unlock_is_negative_byte(nr, addr);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                clear_bit_unlock_is_negative_byte
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:116: kernel/bounds.s] Error 1 shuffle=2261090504
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1275: prepare0] Error 2 shuffle=2261090504
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=2261090504
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2 shuffle=2261090504
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +83 drivers/net/ethernet/stmicro/stmmac/stmmac_hwtstamp.c
+vim +/arch_clear_bit_unlock_is_negative_byte +77 include/asm-generic/bitops/instrumented-lock.h
 
-    62	
-    63	static void correct_latency(struct stmmac_priv *priv)
-    64	{
-    65		void __iomem *ioaddr = priv->ptpaddr;
-    66		u32 reg_tsic, reg_tsicsns;
-    67		u32 reg_tsec, reg_tsecsns;
-    68		u64 scaled_ns;
-    69		u32 val;
-    70	
-    71		/* MAC-internal ingress latency */
-    72		scaled_ns = readl(ioaddr + PTP_TS_INGR_LAT);
-    73	
-    74		/* See section 11.7.2.5.3.1 "Ingress Correction" on page 4001 of
-    75		 * i.MX8MP Applications Processor Reference Manual Rev. 1, 06/2021
-    76		 */
-    77		val = readl(ioaddr + PTP_TCR);
-    78		if (val & PTP_TCR_TSCTRLSSR)
-    79			/* nanoseconds field is in decimal format with granularity of 1ns/bit */
-    80			scaled_ns = (NSEC_PER_SEC << 16) - scaled_ns;
-    81		else
-    82			/* nanoseconds field is in binary format with granularity of ~0.466ns/bit */
-  > 83			scaled_ns = ((1ULL << 31) << 16) - scaled_ns * PSEC_PER_NSEC / 466;
-    84	
-    85		reg_tsic = scaled_ns >> 16;
-    86		reg_tsicsns = scaled_ns & 0xff00;
-    87	
-    88		/* set bit 31 for 2's compliment */
-    89		reg_tsic |= BIT(31);
-    90	
-    91		writel(reg_tsic, ioaddr + PTP_TS_INGR_CORR_NS);
-    92		writel(reg_tsicsns, ioaddr + PTP_TS_INGR_CORR_SNS);
-    93	
-    94		/* MAC-internal egress latency */
-    95		scaled_ns = readl(ioaddr + PTP_TS_EGR_LAT);
-    96	
-    97		reg_tsec = scaled_ns >> 16;
-    98		reg_tsecsns = scaled_ns & 0xff00;
-    99	
-   100		writel(reg_tsec, ioaddr + PTP_TS_EGR_CORR_NS);
-   101		writel(reg_tsecsns, ioaddr + PTP_TS_EGR_CORR_SNS);
-   102	}
-   103	
+81d2c6f81996e0 Daniel Axtens 2019-08-20  60  
+81d2c6f81996e0 Daniel Axtens 2019-08-20  61  /**
+81d2c6f81996e0 Daniel Axtens 2019-08-20  62   * clear_bit_unlock_is_negative_byte - Clear a bit in memory and test if bottom
+81d2c6f81996e0 Daniel Axtens 2019-08-20  63   *                                     byte is negative, for unlock.
+81d2c6f81996e0 Daniel Axtens 2019-08-20  64   * @nr: the bit to clear
+81d2c6f81996e0 Daniel Axtens 2019-08-20  65   * @addr: the address to start counting from
+81d2c6f81996e0 Daniel Axtens 2019-08-20  66   *
+81d2c6f81996e0 Daniel Axtens 2019-08-20  67   * This operation is atomic and provides release barrier semantics.
+81d2c6f81996e0 Daniel Axtens 2019-08-20  68   *
+81d2c6f81996e0 Daniel Axtens 2019-08-20  69   * This is a bit of a one-trick-pony for the filemap code, which clears
+81d2c6f81996e0 Daniel Axtens 2019-08-20  70   * PG_locked and tests PG_waiters,
+81d2c6f81996e0 Daniel Axtens 2019-08-20  71   */
+81d2c6f81996e0 Daniel Axtens 2019-08-20  72  static inline bool
+81d2c6f81996e0 Daniel Axtens 2019-08-20  73  clear_bit_unlock_is_negative_byte(long nr, volatile unsigned long *addr)
+81d2c6f81996e0 Daniel Axtens 2019-08-20  74  {
+04def1b9b4a3d2 Marco Elver   2021-11-30  75  	kcsan_release();
+27f937cc810aef Marco Elver   2020-01-21  76  	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+81d2c6f81996e0 Daniel Axtens 2019-08-20 @77  	return arch_clear_bit_unlock_is_negative_byte(nr, addr);
+
+:::::: The code at line 77 was first introduced by commit
+:::::: 81d2c6f81996e01fbcd2b5aeefbb519e21c806e9 kasan: support instrumented bitops combined with generic bitops
+
+:::::: TO: Daniel Axtens <dja@axtens.net>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
