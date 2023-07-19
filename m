@@ -1,125 +1,124 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888D57F2;
-	Wed, 19 Jul 2023 20:38:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC21156EC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 20:49:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689799133; x=1721335133;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=nYhEumh+BOPNV4pdCZmUII4nm7HLFNrdnhATOnxCVzM=;
-  b=GyUwWyrVtAxGmFfiLAPBWZB2UHVItqzzqHVVMj0M7Ns9oF85F0witiby
-   s9WsO8vDv2Z9MIvMLvqZ/K9jVSKfZR2fN0mS5atN/scQeKeE6L/qTVDD+
-   Ln6fE5GCZxJNDkmqx3T06dtgSX0+oM+WraOebrv9f2++1HeYK2qXwfT+H
-   QPmnnpq1qFMPDgN0UWz29cQBHZrIveuyzZS9wlE4AgIbf+5hNkQ52vCB8
-   8TqWGr55hwmaES7OvQTlPYKvTvDF8Dmd9l0n+t09RzTSu/P3eTN81VINY
-   YgBgmkGmTQH/uqP46owq+4AE7y54PY1AMmULPqM2CCfrXyOvRVR+t1Q8n
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="346869116"
+  t=1689799741; x=1721335741;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gyE5oUAZQf8eFO3OxexjtCVX4TO6hdfu4WVnH0NtknA=;
+  b=h2BMt2bxQmXHb+skmHEpUIKN6jjfhcYMGR7XC8lskO1UnmTJY6h4CZwq
+   wRvk1c1tvAWR34erTA2/w4A05tjXrJ32Lbs8tJJZZRJQEfISBUrSz41OA
+   SskSxJQyQipIae+qBAqJ7qP5TXen8roUcNVfau5YgQnKjaWOpSbeNxHrC
+   KN5rr/17Je7FvP9ygLedNAgmDwFJ3vFDg8Z/el90osMO1ORMdVAszy03Y
+   Bt34bzrmSevhxSKq/PU/TN87qBVXejadCsi3th3NXS1j+THzxHlBhi81Y
+   f7evGXvTGo7Xas5z/A66CynTuriE+d+wmBBkDLGCP+I3d8YptoaRQInH3
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="346871398"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="346869116"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 13:38:52 -0700
+   d="scan'208";a="346871398"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 13:49:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="898038161"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="970763093"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="898038161"
+   d="scan'208";a="970763093"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 19 Jul 2023 13:38:50 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2023 13:48:58 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMDw3-0005SX-29;
-	Wed, 19 Jul 2023 20:38:19 +0000
-Date: Thu, 20 Jul 2023 04:37:48 +0800
+	id 1qME6U-0005T5-0j;
+	Wed, 19 Jul 2023 20:48:58 +0000
+Date: Thu, 20 Jul 2023 04:48:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>,
-	dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-	Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>
-Subject: Re: [PATCH 1/2] drm/mipi-dbi: Lock SPI bus before setting D/C GPIO
-Message-ID: <202307200456.jGqv0OSC-lkp@intel.com>
-References: <20230719095343.88359-2-otto.pflueger@abscue.de>
+To: William Zhang <william.zhang@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Florian Fainelli <f.fainelli@gmail.com>
+Subject: drivers/soc/bcm/bcm63xx/bcm-pmb.c:103:65: sparse: sparse: cast to
+ restricted __be32
+Message-ID: <202307200429.ZJZG9V9A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230719095343.88359-2-otto.pflueger@abscue.de>
 
-Hi Otto,
+Hi William,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc2 next-20230719]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Otto-Pfl-ger/drm-mipi-dbi-Lock-SPI-bus-before-setting-D-C-GPIO/20230719-180941
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230719095343.88359-2-otto.pflueger%40abscue.de
-patch subject: [PATCH 1/2] drm/mipi-dbi: Lock SPI bus before setting D/C GPIO
-config: riscv-randconfig-r042-20230720 (https://download.01.org/0day-ci/archive/20230720/202307200456.jGqv0OSC-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200456.jGqv0OSC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bfa3037d828050896ae52f6467b6ca2489ae6fb1
+commit: 7bb49d774f481fdd7bd053e034e4d206770fda04 arm64: bcmbca: Make BCM4908 drivers depend on ARCH_BCMBCA
+date:   11 months ago
+config: arm64-randconfig-r092-20230720 (https://download.01.org/0day-ci/archive/20230720/202307200429.ZJZG9V9A-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200429.ZJZG9V9A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307200456.jGqv0OSC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307200429.ZJZG9V9A-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/bcm/bcm63xx/bcm-pmb.c:103:65: sparse: sparse: cast to restricted __be32
+>> drivers/soc/bcm/bcm63xx/bcm-pmb.c:103:65: sparse: sparse: cast to restricted __be32
+>> drivers/soc/bcm/bcm63xx/bcm-pmb.c:103:65: sparse: sparse: cast to restricted __be32
+>> drivers/soc/bcm/bcm63xx/bcm-pmb.c:103:65: sparse: sparse: cast to restricted __be32
+>> drivers/soc/bcm/bcm63xx/bcm-pmb.c:103:65: sparse: sparse: cast to restricted __be32
+>> drivers/soc/bcm/bcm63xx/bcm-pmb.c:103:65: sparse: sparse: cast to restricted __be32
+>> drivers/soc/bcm/bcm63xx/bcm-pmb.c:103:45: sparse: sparse: cast to restricted __le32
+>> drivers/soc/bcm/bcm63xx/bcm-pmb.c:115:36: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/soc/bcm/bcm63xx/bcm-pmb.c:115:55: sparse: sparse: restricted __be32 degrades to integer
 
->> drivers/gpu/drm/tiny/ili9225.c:321:54: error: too few arguments to function call, expected 6, have 5
-     321 |         ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, cmd, 1);
-         |               ~~~~~~~~~~~~~~~~~~~~~                         ^
-   include/drm/drm_mipi_dbi.h:187:5: note: 'mipi_dbi_spi_transfer' declared here
-     187 | int mipi_dbi_spi_transfer(struct spi_device *spi, u32 speed_hz,
-         |     ^
-   drivers/gpu/drm/tiny/ili9225.c:331:59: error: too few arguments to function call, expected 6, have 5
-     331 |         return mipi_dbi_spi_transfer(spi, speed_hz, bpw, par, num);
-         |                ~~~~~~~~~~~~~~~~~~~~~                             ^
-   include/drm/drm_mipi_dbi.h:187:5: note: 'mipi_dbi_spi_transfer' declared here
-     187 | int mipi_dbi_spi_transfer(struct spi_device *spi, u32 speed_hz,
-         |     ^
-   2 errors generated.
+vim +103 drivers/soc/bcm/bcm63xx/bcm-pmb.c
 
+8bcac4011ebe0db Rafał Miłecki 2020-12-14   90  
+8bcac4011ebe0db Rafał Miłecki 2020-12-14   91  static int bcm_pmb_bpcm_read(struct bcm_pmb *pmb, int bus, u8 device,
+8bcac4011ebe0db Rafał Miłecki 2020-12-14   92  			     int offset, u32 *val)
+8bcac4011ebe0db Rafał Miłecki 2020-12-14   93  {
+8bcac4011ebe0db Rafał Miłecki 2020-12-14   94  	void __iomem *base = pmb->base + bus * 0x20;
+8bcac4011ebe0db Rafał Miłecki 2020-12-14   95  	unsigned long flags;
+8bcac4011ebe0db Rafał Miłecki 2020-12-14   96  	int err;
+8bcac4011ebe0db Rafał Miłecki 2020-12-14   97  
+8bcac4011ebe0db Rafał Miłecki 2020-12-14   98  	spin_lock_irqsave(&pmb->lock, flags);
+8bcac4011ebe0db Rafał Miłecki 2020-12-14   99  	err = bpcm_rd(base, device, offset, val);
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  100  	spin_unlock_irqrestore(&pmb->lock, flags);
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  101  
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  102  	if (!err)
+8bcac4011ebe0db Rafał Miłecki 2020-12-14 @103  		*val = pmb->little_endian ? le32_to_cpu(*val) : be32_to_cpu(*val);
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  104  
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  105  	return err;
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  106  }
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  107  
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  108  static int bcm_pmb_bpcm_write(struct bcm_pmb *pmb, int bus, u8 device,
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  109  			      int offset, u32 val)
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  110  {
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  111  	void __iomem *base = pmb->base + bus * 0x20;
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  112  	unsigned long flags;
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  113  	int err;
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  114  
+8bcac4011ebe0db Rafał Miłecki 2020-12-14 @115  	val = pmb->little_endian ? cpu_to_le32(val) : cpu_to_be32(val);
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  116  
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  117  	spin_lock_irqsave(&pmb->lock, flags);
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  118  	err = bpcm_wr(base, device, offset, val);
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  119  	spin_unlock_irqrestore(&pmb->lock, flags);
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  120  
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  121  	return err;
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  122  }
+8bcac4011ebe0db Rafał Miłecki 2020-12-14  123  
 
-vim +321 drivers/gpu/drm/tiny/ili9225.c
+:::::: The code at line 103 was first introduced by commit
+:::::: 8bcac4011ebe0dbdd46fd55b036ee855c95702d3 soc: bcm: add PM driver for Broadcom's PMB
 
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  310  
-36b5057216236a drivers/gpu/drm/tinydrm/ili9225.c Noralf Tr�nnes 2019-07-22  311  static int ili9225_dbi_command(struct mipi_dbi *dbi, u8 *cmd, u8 *par,
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  312  			       size_t num)
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  313  {
-36b5057216236a drivers/gpu/drm/tinydrm/ili9225.c Noralf Tr�nnes 2019-07-22  314  	struct spi_device *spi = dbi->spi;
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  315  	unsigned int bpw = 8;
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  316  	u32 speed_hz;
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  317  	int ret;
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  318  
-36b5057216236a drivers/gpu/drm/tinydrm/ili9225.c Noralf Tr�nnes 2019-07-22  319  	gpiod_set_value_cansleep(dbi->dc, 0);
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  320  	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, 1);
-d23d4d4dac0119 drivers/gpu/drm/tinydrm/ili9225.c Noralf Tr�nnes 2019-07-19 @321  	ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, cmd, 1);
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  322  	if (ret || !num)
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  323  		return ret;
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  324  
-36b5057216236a drivers/gpu/drm/tinydrm/ili9225.c Noralf Tr�nnes 2019-07-22  325  	if (*cmd == ILI9225_WRITE_DATA_TO_GRAM && !dbi->swap_bytes)
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  326  		bpw = 16;
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  327  
-36b5057216236a drivers/gpu/drm/tinydrm/ili9225.c Noralf Tr�nnes 2019-07-22  328  	gpiod_set_value_cansleep(dbi->dc, 1);
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  329  	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, num);
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  330  
-d23d4d4dac0119 drivers/gpu/drm/tinydrm/ili9225.c Noralf Tr�nnes 2019-07-19  331  	return mipi_dbi_spi_transfer(spi, speed_hz, bpw, par, num);
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  332  }
-b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  333  
+:::::: TO: Rafał Miłecki <rafal@milecki.pl>
+:::::: CC: Florian Fainelli <f.fainelli@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
