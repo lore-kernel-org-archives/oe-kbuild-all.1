@@ -1,198 +1,241 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C19212B7A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 11:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689764763;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6G25Wpf6urdNog1RrCIh1jSfsrggg+8NTa2ueC8cR3I=;
-	b=CWV93sWE4z1qRZ+vYoez87xrv4stmXw3KoK5HgFPJgY+/17ewhnAaH5ze6Ya/y7u1QsC4q
-	vPO/Mr8J4B3Yb7pvSlV+m5ZD7A8NdFlTmhLEgJK7mHCi0BXVG7qSfJqaF9aKETXE4n7fsZ
-	YrD/Ef8gvpQGr9oz6mEG61gEiVGW0Yw=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-673-7_KMU2OjOWGRsSnHzykzCw-1; Wed, 19 Jul 2023 07:06:02 -0400
-X-MC-Unique: 7_KMU2OjOWGRsSnHzykzCw-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-4fb76659d6cso5687978e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 04:06:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689764761; x=1692356761;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6G25Wpf6urdNog1RrCIh1jSfsrggg+8NTa2ueC8cR3I=;
-        b=cyxoVuC4FlQDCB96urETP0cy95WoYpwLnTIgrR5Z9gxO4LWWVCXzzMtp/vuWT7erZz
-         wd1WJSONiBQ//GS4Gbw0/RMXVYEOQo7fYGbmGXb10d4DjQDEOvC/k0BdyXOM12k3/Xom
-         WIQvktUcbNN1TZEflT56mMj+sedPQDcJYLJcdSIyNA3Af64qgtX9GUUparjU3i6kznWV
-         fniCLf+zYFDiHtVd4WvO3eNIWgh12tD8cVDblsuXPdb+7W4OJl7/VA9KyAe1axR4AEYC
-         s87QTUi1pvuj2hGUy+Fkj7cXD4pbffx2PmKbStRNoWGdOL2AlmSqVADwOboESOY92YFl
-         8vKg==
-X-Gm-Message-State: ABy/qLaJl3SlnLovVy7cerTZpzoWvOUwf1IIXGXxZO5HMduY3ZkkySni
-	1lfVbOB6dvapSNhfyxvH+QBrSBO+gnmQdurjwdnRPKLJVIoM7R9y3a+yQ40NVAmgjxLE3f2QRRV
-	Rj5/5hz8vLPNbK2aPnhy7ZIwXUQ==
-X-Received: by 2002:a05:6512:2316:b0:4fd:d9dd:7a22 with SMTP id o22-20020a056512231600b004fdd9dd7a22mr96820lfu.26.1689764761270;
-        Wed, 19 Jul 2023 04:06:01 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGVmVc0nOSbjtLvsVkw0Xfo9zLoMCLBrAktPo4kwD8j+ZtvK0aKteVH/Zyf6WXfLny5TxU5yw==
-X-Received: by 2002:a05:6512:2316:b0:4fd:d9dd:7a22 with SMTP id o22-20020a056512231600b004fdd9dd7a22mr96797lfu.26.1689764760864;
-        Wed, 19 Jul 2023 04:06:00 -0700 (PDT)
-Received: from redhat.com ([2.52.16.41])
-        by smtp.gmail.com with ESMTPSA id s13-20020a7bc38d000000b003fbd0c50ba2sm1419609wmj.32.2023.07.19.04.05.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jul 2023 04:06:00 -0700 (PDT)
-Date: Wed, 19 Jul 2023 07:05:50 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	virtualization@lists.linux-foundation.org,
-	oe-kbuild-all@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>, netdev@vger.kernel.org,
-	bpf@vger.kernel.org, Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH vhost v12 10/10] virtio_net: merge dma operations when
- filling mergeable buffers
-Message-ID: <20230719070450-mutt-send-email-mst@kernel.org>
-References: <20230719040422.126357-11-xuanzhuo@linux.alibaba.com>
- <202307191819.0tatknWa-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191FD101F0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 11:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689765409; x=1721301409;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ydwheXRci4YyjGRKKg1uDta56n0JAreKN6hZcQTvIHQ=;
+  b=N3kZ2rtYW+w5Ztxp5Bk9kL0kzIwFnSz/q85nZ70ipLm7DUzw/ItE2yeq
+   JXYo64XPkeyoUpvwVKeYjATHyVnUnXiaJojF9eP3UYvA2y0DCXuzC58aM
+   SS7wm1uM8lmKqW0dIUAEsyKCO/O2G1XskL/U0hnDdU4qGwRqeM7s2CLqx
+   pFfI7y8PhUTkujKNJ6T+9NMn/5jaSrQ5lCiYPbR2lYhfStd0EJTJZqOGg
+   cqprlKne+3RBI2qUG36vLI96Jru5ftO6ztCemepIETmFo4RZTRyMwXUP6
+   tcFLwOpFt4uAF6MnNIEyWPJyhVDWE2FEHckwABJKuh9mP3LhK6DGyluSD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="430199453"
+X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
+   d="scan'208";a="430199453"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 04:16:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="753673070"
+X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
+   d="scan'208";a="753673070"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 19 Jul 2023 04:16:45 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qM5Ai-0004iK-1l;
+	Wed, 19 Jul 2023 11:16:44 +0000
+Date: Wed, 19 Jul 2023 19:15:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/637 3481/12466]
+ drivers/staging/ethosu/ethosu_buffer.c:253:18: warning: format '%llx'
+ expects argument of type 'long long unsigned int', but argument 8 has type
+ 'phys_addr_t' {aka 'unsigned int'}
+Message-ID: <202307191949.1eESStGd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202307191819.0tatknWa-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Jul 19, 2023 at 06:33:05PM +0800, kernel test robot wrote:
-> Hi Xuan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on v6.4]
-> [cannot apply to mst-vhost/linux-next linus/master v6.5-rc2 v6.5-rc1 next-20230719]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_ring-check-use_dma_api-before-unmap-desc-for-indirect/20230719-121424
-> base:   v6.4
-> patch link:    https://lore.kernel.org/r/20230719040422.126357-11-xuanzhuo%40linux.alibaba.com
-> patch subject: [PATCH vhost v12 10/10] virtio_net: merge dma operations when filling mergeable buffers
-> config: i386-randconfig-i006-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191819.0tatknWa-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191819.0tatknWa-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307191819.0tatknWa-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/net/virtio_net.c: In function 'virtnet_rq_init_one_sg':
-> >> drivers/net/virtio_net.c:624:41: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
->      624 |                 rq->sg[0].dma_address = (dma_addr_t)addr;
->          |                                         ^
->    drivers/net/virtio_net.c: In function 'virtnet_rq_alloc':
-> >> drivers/net/virtio_net.c:682:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
->      682 |                 *sg_addr = (void *)(dma->addr + alloc_frag->offset - sizeof(*dma));
->          |                            ^
+tree:   https://github.com/Freescale/linux-fslc pr/637
+head:   ec33c7fc43bef23fa0b69db996fee0ba601875e9
+commit: 95ce4103b59b6af5d3c264fc137f9dd174e78d3e [3481/12466] npu: ethosu: Add Arm ethos-u driver
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230719/202307191949.1eESStGd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191949.1eESStGd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191949.1eESStGd-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+         |                                       ~~~^
+         |                                          |
+         |                                          long long unsigned int
+         |                                       %x
+   drivers/staging/ethosu/ethosu_buffer.c:108:30: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/staging/ethosu/ethosu_buffer.c:108:17: note: in expansion of macro 'dev_dbg'
+     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
+         |                 ^~~~~~~
+   drivers/staging/ethosu/ethosu_buffer.c:108:56: note: format string is defined here
+     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
+         |                                                     ~~~^
+         |                                                        |
+         |                                                        long long unsigned int
+         |                                                     %x
+   drivers/staging/ethosu/ethosu_buffer.c:108:30: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/staging/ethosu/ethosu_buffer.c:108:17: note: in expansion of macro 'dev_dbg'
+     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
+         |                 ^~~~~~~
+   drivers/staging/ethosu/ethosu_buffer.c:108:69: note: format string is defined here
+     108 |                 dev_dbg(dev, "daddr=0x%llx, paddr=0x%llx, size=0x%llx\n",
+         |                                                                  ~~~^
+         |                                                                     |
+         |                                                                     long long unsigned int
+         |                                                                  %x
+   In file included from include/linux/device.h:15,
+                    from include/linux/mailbox_client.h:11,
+                    from drivers/staging/ethosu/ethosu_mailbox.h:30,
+                    from drivers/staging/ethosu/ethosu_device.h:29,
+                    from drivers/staging/ethosu/ethosu_buffer.c:27:
+   drivers/staging/ethosu/ethosu_buffer.c: In function 'ethosu_buffer_create':
+   drivers/staging/ethosu/ethosu_buffer.c:253:18: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
+     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                          ^~~~~~~
+   drivers/staging/ethosu/ethosu_buffer.c:252:9: note: in expansion of macro 'dev_info'
+     252 |         dev_info(buf->edev->dev,
+         |         ^~~~~~~~
+   drivers/staging/ethosu/ethosu_buffer.c:253:92: note: format string is defined here
+     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
+         |                                                                                         ~~~^
+         |                                                                                            |
+         |                                                                                            long long unsigned int
+         |                                                                                         %x
+   drivers/staging/ethosu/ethosu_buffer.c:253:18: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 7 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
+     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                          ^~~~~~~
+   drivers/staging/ethosu/ethosu_buffer.c:252:9: note: in expansion of macro 'dev_info'
+     252 |         dev_info(buf->edev->dev,
+         |         ^~~~~~~~
+   drivers/staging/ethosu/ethosu_buffer.c:253:114: note: format string is defined here
+     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
+         |                                                                                                               ~~~^
+         |                                                                                                                  |
+         |                                                                                                                  long long unsigned int
+         |                                                                                                               %x
+>> drivers/staging/ethosu/ethosu_buffer.c:253:18: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 8 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
+     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
+     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                          ^~~~~~~
+   drivers/staging/ethosu/ethosu_buffer.c:252:9: note: in expansion of macro 'dev_info'
+     252 |         dev_info(buf->edev->dev,
+         |         ^~~~~~~~
+   drivers/staging/ethosu/ethosu_buffer.c:253:132: note: format string is defined here
+     253 |                  "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
+         |                                                                                                                                 ~~~^
+         |                                                                                                                                    |
+         |                                                                                                                                    long long unsigned int
+         |                                                                                                                                 %x
 
 
-yea these casts are pretty creepy. I think it's possible dma_addr_t won't fit in a pointer
-or a pointer won't fit in dma_addr_t.
+vim +253 drivers/staging/ethosu/ethosu_buffer.c
 
-> 
-> vim +624 drivers/net/virtio_net.c
-> 
->    619	
->    620	static void virtnet_rq_init_one_sg(struct receive_queue *rq, void *addr, u32 len)
->    621	{
->    622		if (rq->do_dma) {
->    623			sg_init_table(rq->sg, 1);
->  > 624			rq->sg[0].dma_address = (dma_addr_t)addr;
->    625			rq->sg[0].length = len;
->    626		} else {
->    627			sg_init_one(rq->sg, addr, len);
->    628		}
->    629	}
->    630	
->    631	static void *virtnet_rq_alloc(struct receive_queue *rq, u32 size,
->    632				      void **sg_addr, gfp_t gfp)
->    633	{
->    634		struct page_frag *alloc_frag = &rq->alloc_frag;
->    635		struct virtnet_rq_dma *dma;
->    636		struct device *dev;
->    637		void *buf, *head;
->    638		dma_addr_t addr;
->    639	
->    640		if (unlikely(!skb_page_frag_refill(size, alloc_frag, gfp)))
->    641			return NULL;
->    642	
->    643		head = (char *)page_address(alloc_frag->page);
->    644	
->    645		if (rq->do_dma) {
->    646			dma = head;
->    647	
->    648			/* new pages */
->    649			if (!alloc_frag->offset) {
->    650				if (rq->last_dma) {
->    651					/* Now, the new page is allocated, the last dma
->    652					 * will not be used. So the dma can be unmapped
->    653					 * if the ref is 0.
->    654					 */
->    655					virtnet_rq_unmap(rq, rq->last_dma, 0);
->    656					rq->last_dma = NULL;
->    657				}
->    658	
->    659				dev = virtqueue_dma_dev(rq->vq);
->    660	
->    661				dma->len = alloc_frag->size - sizeof(*dma);
->    662	
->    663				addr = dma_map_single_attrs(dev, dma + 1, dma->len, DMA_FROM_DEVICE, 0);
->    664				if (addr == DMA_MAPPING_ERROR)
->    665					return NULL;
->    666	
->    667				dma->addr = addr;
->    668				dma->need_sync = dma_need_sync(dev, addr);
->    669	
->    670				/* Add a reference to dma to prevent the entire dma from
->    671				 * being released during error handling. This reference
->    672				 * will be freed after the pages are no longer used.
->    673				 */
->    674				get_page(alloc_frag->page);
->    675				dma->ref = 1;
->    676				alloc_frag->offset = sizeof(*dma);
->    677	
->    678				rq->last_dma = dma;
->    679			}
->    680	
->    681			++dma->ref;
->  > 682			*sg_addr = (void *)(dma->addr + alloc_frag->offset - sizeof(*dma));
->    683		} else {
->    684			*sg_addr = head + alloc_frag->offset;
->    685		}
->    686	
->    687		buf = head + alloc_frag->offset;
->    688	
->    689		get_page(alloc_frag->page);
->    690		alloc_frag->offset += size;
->    691	
->    692		return buf;
->    693	}
->    694	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+   218	
+   219	int ethosu_buffer_create(struct ethosu_device *edev,
+   220				 size_t capacity)
+   221	{
+   222		struct ethosu_buffer *buf;
+   223		int ret = -ENOMEM;
+   224	
+   225		buf = devm_kzalloc(edev->dev, sizeof(*buf), GFP_KERNEL);
+   226		if (!buf)
+   227			return -ENOMEM;
+   228	
+   229		buf->edev = edev;
+   230		buf->capacity = capacity;
+   231		buf->offset = 0;
+   232		buf->size = 0;
+   233		kref_init(&buf->kref);
+   234	
+   235		buf->cpu_addr = dma_alloc_coherent(buf->edev->dev, capacity,
+   236						   &buf->dma_addr_orig, GFP_KERNEL);
+   237		if (!buf->cpu_addr)
+   238			goto free_buf;
+   239	
+   240		buf->dma_addr = ethosu_buffer_dma_ranges(buf->edev->dev,
+   241							 buf->dma_addr_orig,
+   242							 buf->capacity);
+   243	
+   244		ret = anon_inode_getfd("ethosu-buffer", &ethosu_buffer_fops, buf,
+   245				       O_RDWR | O_CLOEXEC);
+   246		if (ret < 0)
+   247			goto free_dma;
+   248	
+   249		buf->file = fget(ret);
+   250		fput(buf->file);
+   251	
+   252		dev_info(buf->edev->dev,
+ > 253			 "Buffer create. handle=0x%pK, capacity=%zu, cpu_addr=0x%pK, dma_addr=0x%llx, dma_addr_orig=0x%llx, phys_addr=0x%llx\n",
+   254			 buf, capacity, buf->cpu_addr, buf->dma_addr,
+   255			 buf->dma_addr_orig, virt_to_phys(buf->cpu_addr));
+   256	
+   257		return ret;
+   258	
+   259	free_dma:
+   260		dma_free_coherent(buf->edev->dev, buf->capacity, buf->cpu_addr,
+   261				  buf->dma_addr_orig);
+   262	
+   263	free_buf:
+   264		devm_kfree(buf->edev->dev, buf);
+   265	
+   266		return ret;
+   267	}
+   268	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
