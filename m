@@ -1,46 +1,50 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8C1C8CC;
-	Wed, 19 Jul 2023 00:50:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692D015C1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 01:11:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689727825; x=1721263825;
+  t=1689729069; x=1721265069;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NLYp821Xog/YiOvkjYk0MI/9pRUxQRtsFPmT4GhhPqM=;
-  b=Pj4VhqRFUUW8BCQ70ghEWyRpmmMH4IrhINKKz6hE6iAxMk8pq9QBAL2C
-   rKXOSuqPkKC/MSLy/zH4/pMzsmcEENx3oAa62azbg0guqniN8dBdIhzux
-   OJcp7jXFmYWJKhg66DuUasg4DBYfL0lKs9W6UHMp95tl1rhsZmsmfrJlv
-   KLq3wMrVLvD6zMH8gi5xIik8lornBRvxvLJHyroQBARjZY43IfMCn9fAm
-   yQR0eWbA2aXWPn7osYNHt/L/CI0SglpxJIbuLVTKD96MPEKzX1ofPjhyp
-   n0LKxVMd8TTYxWJXWdpot1EECtr1/YFj4qaGp1tZEGBF47/K8RGYKWy/c
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="365226442"
+  bh=eM8QaRu5gKMrbg7e/7I6XvsZzNWOiK2I+vKAE+nGzsI=;
+  b=bY1Q821HMj3cig73najMxFVc+SypAx+qpjgpdOQcQe9UMHjn3cv7n+PX
+   r9Q3muZzhO8oZIS658nJ0dMc5IlrmWF93MkW0ErdayjU4aS3Fl8VGSRn9
+   qUeUmzWOWKshouf+iD8OLYec8ATuyFtiynLx+ht2H+pkMEUalOpOPVF/O
+   IrmUS+KJnoRJMvc71EaoJ7Oyf2/j7c9WRn+GDCZVKhl5G/jkK7A/SDu/5
+   NMoAQSWCEN9M58xRrx7beGn3HncGtv6nhKBJQhYtLm2XySBqilRJer/Z6
+   s315zJYqhijKyBvSfyHK2zhFBc6MCkH+4eB/d4XEooUF5Y6SLaCk5gIal
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="368994225"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="365226442"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 17:50:24 -0700
+   d="scan'208";a="368994225"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 18:11:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="847881331"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="727144180"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="847881331"
+   d="scan'208";a="727144180"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 18 Jul 2023 17:50:21 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 18 Jul 2023 18:10:59 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLvOB-0003zr-2g;
-	Wed, 19 Jul 2023 00:50:05 +0000
-Date: Wed, 19 Jul 2023 08:48:55 +0800
+	id 1qLviM-00040j-0p;
+	Wed, 19 Jul 2023 01:10:53 +0000
+Date: Wed, 19 Jul 2023 09:10:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Winston Wen <wentao@uniontech.com>, sfrench@samba.org,
-	linux-cifs@vger.kernel.org, pc@manguebit.com, lsahlber@redhat.com,
-	sprasad@microsoft.com, tom@talpey.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Winston Wen <wentao@uniontech.com>
-Subject: Re: [PATCH v2] cifs: fix charset issue in reconnection
-Message-ID: <202307190835.WUgCXW8a-lkp@intel.com>
-References: <20230718012437.1841868-1-wentao@uniontech.com>
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, neil.armstrong@linaro.org,
+	conor+dt@kernel.org, rfoss@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se,
+	shawnguo@kernel.org, s.hauer@pengutronix.de,
+	jernej.skrabec@gmail.com, robh+dt@kernel.org,
+	Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+	kernel@pengutronix.de, linux-imx@nxp.com
+Subject: Re: [PATCH 9/9] drm/bridge: imx: Add i.MX93 MIPI DSI support
+Message-ID: <202307190811.jOcroxF5-lkp@intel.com>
+References: <20230717061831.1826878-10-victor.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,196 +53,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230718012437.1841868-1-wentao@uniontech.com>
+In-Reply-To: <20230717061831.1826878-10-victor.liu@nxp.com>
 
-Hi Winston,
+Hi Liu,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on cifs/for-next]
-[also build test ERROR on linus/master v6.5-rc2 next-20230718]
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc2 next-20230718]
+[cannot apply to drm-misc/drm-misc-next drm/drm-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Winston-Wen/cifs-fix-charset-issue-in-reconnection/20230718-195832
-base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-patch link:    https://lore.kernel.org/r/20230718012437.1841868-1-wentao%40uniontech.com
-patch subject: [PATCH v2] cifs: fix charset issue in reconnection
-config: i386-randconfig-i011-20230718 (https://download.01.org/0day-ci/archive/20230719/202307190835.WUgCXW8a-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190835.WUgCXW8a-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Liu-Ying/drm-bridge-synopsys-dw-mipi-dsi-Add-dw_mipi_dsi_get_bridge-helper/20230718-172247
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20230717061831.1826878-10-victor.liu%40nxp.com
+patch subject: [PATCH 9/9] drm/bridge: imx: Add i.MX93 MIPI DSI support
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230719/202307190811.jOcroxF5-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190811.jOcroxF5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307190835.WUgCXW8a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307190811.jOcroxF5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> fs/smb/client/connect.c:2293:28: error: passing 'const char *' to parameter of type 'char *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           ses->local_nls = load_nls(ctx->local_nls->charset);
-                                     ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nls.h:50:41: note: passing argument to parameter here
-   extern struct nls_table *load_nls(char *);
-                                           ^
-   1 error generated.
+   In file included from arch/arm/include/asm/div64.h:107,
+                    from include/linux/math.h:6,
+                    from include/linux/kernel.h:26,
+                    from include/linux/clk.h:13,
+                    from drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c:9:
+   drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c: In function 'dphy_pll_get_configure_from_opts':
+   include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c:272:17: note: in expansion of macro 'do_div'
+     272 |                 do_div(tmp, n * fvco_div);
+         |                 ^~~~~~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/bitfield.h:10,
+                    from drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c:7:
+>> include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c:272:17: note: in expansion of macro 'do_div'
+     272 |                 do_div(tmp, n * fvco_div);
+         |                 ^~~~~~
+>> include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    long unsigned int *
+   drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c:272:17: note: in expansion of macro 'do_div'
+     272 |                 do_div(tmp, n * fvco_div);
+         |                 ^~~~~~
+   arch/arm/include/asm/div64.h:24:45: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'long unsigned int *'
+      24 | static inline uint32_t __div64_32(uint64_t *n, uint32_t base)
+         |                                   ~~~~~~~~~~^
+   cc1: some warnings being treated as errors
 
 
-vim +2293 fs/smb/client/connect.c
+vim +/__div64_32 +238 include/asm-generic/div64.h
 
-  2190	
-  2191	/**
-  2192	 * cifs_get_smb_ses - get a session matching @ctx data from @server
-  2193	 * @server: server to setup the session to
-  2194	 * @ctx: superblock configuration context to use to setup the session
-  2195	 *
-  2196	 * This function assumes it is being called from cifs_mount() where we
-  2197	 * already got a server reference (server refcount +1). See
-  2198	 * cifs_get_tcon() for refcount explanations.
-  2199	 */
-  2200	struct cifs_ses *
-  2201	cifs_get_smb_ses(struct TCP_Server_Info *server, struct smb3_fs_context *ctx)
-  2202	{
-  2203		int rc = 0;
-  2204		unsigned int xid;
-  2205		struct cifs_ses *ses;
-  2206		struct sockaddr_in *addr = (struct sockaddr_in *)&server->dstaddr;
-  2207		struct sockaddr_in6 *addr6 = (struct sockaddr_in6 *)&server->dstaddr;
-  2208	
-  2209		xid = get_xid();
-  2210	
-  2211		ses = cifs_find_smb_ses(server, ctx);
-  2212		if (ses) {
-  2213			cifs_dbg(FYI, "Existing smb sess found (status=%d)\n",
-  2214				 ses->ses_status);
-  2215	
-  2216			spin_lock(&ses->chan_lock);
-  2217			if (cifs_chan_needs_reconnect(ses, server)) {
-  2218				spin_unlock(&ses->chan_lock);
-  2219				cifs_dbg(FYI, "Session needs reconnect\n");
-  2220	
-  2221				mutex_lock(&ses->session_mutex);
-  2222				rc = cifs_negotiate_protocol(xid, ses, server);
-  2223				if (rc) {
-  2224					mutex_unlock(&ses->session_mutex);
-  2225					/* problem -- put our ses reference */
-  2226					cifs_put_smb_ses(ses);
-  2227					free_xid(xid);
-  2228					return ERR_PTR(rc);
-  2229				}
-  2230	
-  2231				rc = cifs_setup_session(xid, ses, server,
-  2232							ctx->local_nls);
-  2233				if (rc) {
-  2234					mutex_unlock(&ses->session_mutex);
-  2235					/* problem -- put our reference */
-  2236					cifs_put_smb_ses(ses);
-  2237					free_xid(xid);
-  2238					return ERR_PTR(rc);
-  2239				}
-  2240				mutex_unlock(&ses->session_mutex);
-  2241	
-  2242				spin_lock(&ses->chan_lock);
-  2243			}
-  2244			spin_unlock(&ses->chan_lock);
-  2245	
-  2246			/* existing SMB ses has a server reference already */
-  2247			cifs_put_tcp_session(server, 0);
-  2248			free_xid(xid);
-  2249			return ses;
-  2250		}
-  2251	
-  2252		rc = -ENOMEM;
-  2253	
-  2254		cifs_dbg(FYI, "Existing smb sess not found\n");
-  2255		ses = sesInfoAlloc();
-  2256		if (ses == NULL)
-  2257			goto get_ses_fail;
-  2258	
-  2259		/* new SMB session uses our server ref */
-  2260		ses->server = server;
-  2261		if (server->dstaddr.ss_family == AF_INET6)
-  2262			sprintf(ses->ip_addr, "%pI6", &addr6->sin6_addr);
-  2263		else
-  2264			sprintf(ses->ip_addr, "%pI4", &addr->sin_addr);
-  2265	
-  2266		if (ctx->username) {
-  2267			ses->user_name = kstrdup(ctx->username, GFP_KERNEL);
-  2268			if (!ses->user_name)
-  2269				goto get_ses_fail;
-  2270		}
-  2271	
-  2272		/* ctx->password freed at unmount */
-  2273		if (ctx->password) {
-  2274			ses->password = kstrdup(ctx->password, GFP_KERNEL);
-  2275			if (!ses->password)
-  2276				goto get_ses_fail;
-  2277		}
-  2278		if (ctx->domainname) {
-  2279			ses->domainName = kstrdup(ctx->domainname, GFP_KERNEL);
-  2280			if (!ses->domainName)
-  2281				goto get_ses_fail;
-  2282		}
-  2283	
-  2284		strscpy(ses->workstation_name, ctx->workstation_name, sizeof(ses->workstation_name));
-  2285	
-  2286		if (ctx->domainauto)
-  2287			ses->domainAuto = ctx->domainauto;
-  2288		ses->cred_uid = ctx->cred_uid;
-  2289		ses->linux_uid = ctx->linux_uid;
-  2290	
-  2291		ses->sectype = ctx->sectype;
-  2292		ses->sign = ctx->sign;
-> 2293		ses->local_nls = load_nls(ctx->local_nls->charset);
-  2294	
-  2295		/* add server as first channel */
-  2296		spin_lock(&ses->chan_lock);
-  2297		ses->chans[0].server = server;
-  2298		ses->chan_count = 1;
-  2299		ses->chan_max = ctx->multichannel ? ctx->max_channels:1;
-  2300		ses->chans_need_reconnect = 1;
-  2301		spin_unlock(&ses->chan_lock);
-  2302	
-  2303		mutex_lock(&ses->session_mutex);
-  2304		rc = cifs_negotiate_protocol(xid, ses, server);
-  2305		if (!rc)
-  2306			rc = cifs_setup_session(xid, ses, server, ctx->local_nls);
-  2307		mutex_unlock(&ses->session_mutex);
-  2308	
-  2309		/* each channel uses a different signing key */
-  2310		spin_lock(&ses->chan_lock);
-  2311		memcpy(ses->chans[0].signkey, ses->smb3signingkey,
-  2312		       sizeof(ses->smb3signingkey));
-  2313		spin_unlock(&ses->chan_lock);
-  2314	
-  2315		if (rc)
-  2316			goto get_ses_fail;
-  2317	
-  2318		/*
-  2319		 * success, put it on the list and add it as first channel
-  2320		 * note: the session becomes active soon after this. So you'll
-  2321		 * need to lock before changing something in the session.
-  2322		 */
-  2323		spin_lock(&cifs_tcp_ses_lock);
-  2324		ses->dfs_root_ses = ctx->dfs_root_ses;
-  2325		if (ses->dfs_root_ses)
-  2326			ses->dfs_root_ses->ses_count++;
-  2327		list_add(&ses->smb_ses_list, &server->smb_ses_list);
-  2328		spin_unlock(&cifs_tcp_ses_lock);
-  2329	
-  2330		cifs_setup_ipc(ses, ctx);
-  2331	
-  2332		free_xid(xid);
-  2333	
-  2334		return ses;
-  2335	
-  2336	get_ses_fail:
-  2337		sesInfoFree(ses);
-  2338		free_xid(xid);
-  2339		return ERR_PTR(rc);
-  2340	}
-  2341	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  215  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  216  /* The unnecessary pointer compare is there
+^1da177e4c3f41 Linus Torvalds     2005-04-16  217   * to check for type safety (n must be 64bit)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  218   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  219  # define do_div(n,base) ({				\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  220  	uint32_t __base = (base);			\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  221  	uint32_t __rem;					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  222  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  223  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  224  	    is_power_of_2(__base)) {			\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  225  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  226  		(n) >>= ilog2(__base);			\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  227  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  228  		   __base != 0) {			\
+461a5e51060c93 Nicolas Pitre      2015-10-30  229  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  230  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  231  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93 Nicolas Pitre      2015-10-30  232  		__res_lo = (n);				\
+461a5e51060c93 Nicolas Pitre      2015-10-30  233  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02 @234  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  235  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  236  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  237  	} else {					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @238  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  239  	}						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  240  	__rem;						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  241   })
+^1da177e4c3f41 Linus Torvalds     2005-04-16  242  
 
 -- 
 0-DAY CI Kernel Test Service
