@@ -1,45 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34B1156D1;
-	Wed, 19 Jul 2023 15:49:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B473156D1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 15:49:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689781745; x=1721317745;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RHyJ1a9oyIwsjdZMcgIFXV3xT2HFfJmU6pYoo5BsWLQ=;
-  b=JrSuhNO9KDSeZTrOi8of7PJnjfxi6PKmtxxbOPRjMZ0JYQxCl7nCPe7c
-   DJISQEeqpfF2la/zXcBBOwrcvdSI1aXsVjjwspkqdz46dZ1gk8007QECR
-   NxYHPjIWMBCXBQoMAN2i+2oT6ncvFMbMPnWr6UV6y30hhjLDK8xEViHva
-   H6UYriDWqJswUdfW0R1NP15TZx6UWwN3IfT1EUaNonUZ25EPkc/5eq1n0
-   mCko/7ZcqNIpXhZ8uIufuwdF+IJRD0E5GiTha2lvgtDspQf1CE+2+iA7c
-   jCUWFWNkN45N9bLM7rc403jKTOrdncyWAhUzSZr1qX/71o+UuIK4cOmIr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="430269782"
+  t=1689781760; x=1721317760;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YUKz5tVD3SuPHreH9FlqNNcW5l0aApRLFlsFhiMTH1I=;
+  b=KqieyxhKDtIpIdhZWCWLFIW5K/56lIzzQ042wXZuFVK8oos/ad+KLbih
+   b/4aEj5J64ZR7P73421H6UmV02b7lkLLFZrdPKJGN8F7X92O2MgFHLWXD
+   gJgBosFffI3MiIHDbLMI8NSecHad0rv5d4Jwp+Yi48va9onnneprcU7BQ
+   l7GO3Ol57rMKU3vSmUIZGKlcZ4juPFq/nHCxrm/Pw8liPT9sWvx6H692C
+   UbtiyBKM6YeJ6qboDKPcvaY8k1HwX9boMetL2FVHWhzaD/4rxz58Y3eui
+   ts7m4TOuYeJp78xUz5bstPSzgRwcqJjS/NB1CLmWfdvo7P+Ch6y+i4N5a
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="365382693"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="430269782"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 08:49:04 -0700
+   d="scan'208";a="365382693"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 08:48:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="970670164"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="848095307"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="970670164"
+   d="scan'208";a="848095307"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2023 08:49:02 -0700
+  by orsmga004.jf.intel.com with ESMTP; 19 Jul 2023 08:48:57 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qM9QA-000550-2r;
-	Wed, 19 Jul 2023 15:49:00 +0000
-Date: Wed, 19 Jul 2023 23:48:26 +0800
+	id 1qM9Q3-00054t-0X;
+	Wed, 19 Jul 2023 15:48:51 +0000
+Date: Wed, 19 Jul 2023 23:48:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Patrick Rudolph <patrick.rudolph@9elements.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-	Naresh Solanki <Naresh.Solanki@9elements.com>
-Subject: [groeck-staging:hwmon-next 20/26]
- drivers/hwmon/pmbus/mp2975.c:708:19: warning: cast to smaller integer type
- 'enum chips' from 'const void *'
-Message-ID: <202307192338.wM4zBtXS-lkp@intel.com>
+To: Luca Coelho <luciano.coelho@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915/tc: remove "fia" from
+ intel_tc_port_fia_max_lane_count()
+Message-ID: <202307192336.hHukzc8N-lkp@intel.com>
+References: <20230719132822.305612-5-luciano.coelho@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,94 +47,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230719132822.305612-5-luciano.coelho@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-head:   72f5d19d9dc4c90107105e13c530854eea1aac15
-commit: 6e990f130ea09ec77150e2bd0f5c8795cd739e4b [20/26] hwmon: (pmbus/mp2975) Prepare for MP2973 and MP2971
-config: arm64-randconfig-r014-20230718 (https://download.01.org/0day-ci/archive/20230719/202307192338.wM4zBtXS-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192338.wM4zBtXS-lkp@intel.com/reproduce)
+Hi Luca,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Coelho/drm-i915-tc-rename-mtl_tc_port_get_pin_assignment_mask/20230719-213204
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230719132822.305612-5-luciano.coelho%40intel.com
+patch subject: [Intel-gfx] [PATCH 4/4] drm/i915/tc: remove "fia" from intel_tc_port_fia_max_lane_count()
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230719/202307192336.hHukzc8N-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192336.hHukzc8N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307192338.wM4zBtXS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307192336.hHukzc8N-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/hwmon/pmbus/mp2975.c:708:19: warning: cast to smaller integer type 'enum chips' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-                   data->chip_id = (enum chips)of_device_get_match_data(&client->dev);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   drivers/gpu/drm/i915/display/intel_cx0_phy.c: In function 'intel_cx0_phy_lane_reset':
+>> drivers/gpu/drm/i915/display/intel_cx0_phy.c:2537:28: error: implicit declaration of function 'intel_tc_port_fia_max_lane_count'; did you mean 'intel_tc_port_max_lane_count'? [-Werror=implicit-function-declaration]
+    2537 |         bool both_lanes =  intel_tc_port_fia_max_lane_count(enc_to_dig_port(encoder)) > 2;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                            intel_tc_port_max_lane_count
+   cc1: all warnings being treated as errors
 
 
-vim +708 drivers/hwmon/pmbus/mp2975.c
+vim +2537 drivers/gpu/drm/i915/display/intel_cx0_phy.c
 
-   695	
-   696	static int mp2975_probe(struct i2c_client *client)
-   697	{
-   698		struct pmbus_driver_info *info;
-   699		struct mp2975_data *data;
-   700		int ret;
-   701	
-   702		data = devm_kzalloc(&client->dev, sizeof(struct mp2975_data),
-   703				    GFP_KERNEL);
-   704		if (!data)
-   705			return -ENOMEM;
-   706	
-   707		if (client->dev.of_node)
- > 708			data->chip_id = (enum chips)of_device_get_match_data(&client->dev);
-   709		else
-   710			data->chip_id = i2c_match_id(mp2975_id, client)->driver_data;
-   711	
-   712		memcpy(&data->info, &mp2975_info, sizeof(*info));
-   713		info = &data->info;
-   714	
-   715		/* Identify multiphase configuration for rail 2. */
-   716		ret = mp2975_identify_multiphase_rail2(client);
-   717		if (ret < 0)
-   718			return ret;
-   719	
-   720		if (ret) {
-   721			/* Two rails are connected. */
-   722			data->info.pages = MP2975_PAGE_NUM;
-   723			data->info.phases[1] = ret;
-   724			data->info.func[1] = MP2975_RAIL2_FUNC;
-   725		}
-   726	
-   727		/* Identify multiphase configuration. */
-   728		ret = mp2975_identify_multiphase(client, data, info);
-   729		if (ret)
-   730			return ret;
-   731	
-   732		/* Identify VID setting per rail. */
-   733		ret = mp2975_identify_rails_vid(client, data, info);
-   734		if (ret < 0)
-   735			return ret;
-   736	
-   737		/* Obtain current sense gain of power stage. */
-   738		ret = mp2975_current_sense_gain_get(client, data);
-   739		if (ret)
-   740			return ret;
-   741	
-   742		/* Obtain voltage reference values. */
-   743		ret = mp2975_vref_get(client, data, info);
-   744		if (ret)
-   745			return ret;
-   746	
-   747		/* Obtain vout over-voltage scales. */
-   748		ret = mp2975_vout_ov_scale_get(client, data, info);
-   749		if (ret < 0)
-   750			return ret;
-   751	
-   752		/* Obtain offsets, maximum and format for vout. */
-   753		ret = mp2975_vout_per_rail_config_get(client, data, info);
-   754		if (ret)
-   755			return ret;
-   756	
-   757		return pmbus_do_probe(client, info);
-   758	}
-   759	
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2530  
+619a06dba6fa38 Mika Kahola          2023-06-01  2531  static void intel_cx0_phy_lane_reset(struct drm_i915_private *i915,
+619a06dba6fa38 Mika Kahola          2023-06-01  2532  				     struct intel_encoder *encoder,
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2533  				     bool lane_reversal)
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2534  {
+619a06dba6fa38 Mika Kahola          2023-06-01  2535  	enum port port = encoder->port;
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2536  	enum phy phy = intel_port_to_phy(i915, port);
+619a06dba6fa38 Mika Kahola          2023-06-01 @2537  	bool both_lanes =  intel_tc_port_fia_max_lane_count(enc_to_dig_port(encoder)) > 2;
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2538  	u8 lane_mask = lane_reversal ? INTEL_CX0_LANE1 :
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2539  				  INTEL_CX0_LANE0;
+619a06dba6fa38 Mika Kahola          2023-06-01  2540  	u32 lane_pipe_reset = both_lanes ?
+619a06dba6fa38 Mika Kahola          2023-06-01  2541  			      XELPDP_LANE_PIPE_RESET(0) |
+619a06dba6fa38 Mika Kahola          2023-06-01  2542  			      XELPDP_LANE_PIPE_RESET(1) :
+619a06dba6fa38 Mika Kahola          2023-06-01  2543  			      XELPDP_LANE_PIPE_RESET(0);
+619a06dba6fa38 Mika Kahola          2023-06-01  2544  	u32 lane_phy_current_status = both_lanes ?
+619a06dba6fa38 Mika Kahola          2023-06-01  2545  				      XELPDP_LANE_PHY_CURRENT_STATUS(0) |
+619a06dba6fa38 Mika Kahola          2023-06-01  2546  				      XELPDP_LANE_PHY_CURRENT_STATUS(1) :
+619a06dba6fa38 Mika Kahola          2023-06-01  2547  				      XELPDP_LANE_PHY_CURRENT_STATUS(0);
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2548  
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2549  	if (__intel_de_wait_for_register(i915, XELPDP_PORT_BUF_CTL1(port),
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2550  					 XELPDP_PORT_BUF_SOC_PHY_READY,
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2551  					 XELPDP_PORT_BUF_SOC_PHY_READY,
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2552  					 XELPDP_PORT_BUF_SOC_READY_TIMEOUT_US, 0, NULL))
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2553  		drm_warn(&i915->drm, "PHY %c failed to bring out of SOC reset after %dus.\n",
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2554  			 phy_name(phy), XELPDP_PORT_BUF_SOC_READY_TIMEOUT_US);
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2555  
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2556  	intel_de_rmw(i915, XELPDP_PORT_BUF_CTL2(port),
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2557  		     XELPDP_LANE_PIPE_RESET(0) | XELPDP_LANE_PIPE_RESET(1),
+619a06dba6fa38 Mika Kahola          2023-06-01  2558  		     lane_pipe_reset);
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2559  
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2560  	if (__intel_de_wait_for_register(i915, XELPDP_PORT_BUF_CTL2(port),
+619a06dba6fa38 Mika Kahola          2023-06-01  2561  					 lane_phy_current_status, lane_phy_current_status,
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2562  					 XELPDP_PORT_RESET_START_TIMEOUT_US, 0, NULL))
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2563  		drm_warn(&i915->drm, "PHY %c failed to bring out of Lane reset after %dus.\n",
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2564  			 phy_name(phy), XELPDP_PORT_RESET_START_TIMEOUT_US);
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2565  
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2566  	intel_de_rmw(i915, XELPDP_PORT_CLOCK_CTL(port),
+619a06dba6fa38 Mika Kahola          2023-06-01  2567  		     intel_cx0_get_pclk_refclk_request(both_lanes ?
+619a06dba6fa38 Mika Kahola          2023-06-01  2568  						       INTEL_CX0_BOTH_LANES :
+619a06dba6fa38 Mika Kahola          2023-06-01  2569  						       INTEL_CX0_LANE0),
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2570  		     intel_cx0_get_pclk_refclk_request(lane_mask));
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2571  
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2572  	if (__intel_de_wait_for_register(i915, XELPDP_PORT_CLOCK_CTL(port),
+619a06dba6fa38 Mika Kahola          2023-06-01  2573  					 intel_cx0_get_pclk_refclk_ack(both_lanes ?
+619a06dba6fa38 Mika Kahola          2023-06-01  2574  								       INTEL_CX0_BOTH_LANES :
+619a06dba6fa38 Mika Kahola          2023-06-01  2575  								       INTEL_CX0_LANE0),
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2576  					 intel_cx0_get_pclk_refclk_ack(lane_mask),
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2577  					 XELPDP_REFCLK_ENABLE_TIMEOUT_US, 0, NULL))
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2578  		drm_warn(&i915->drm, "PHY %c failed to request refclk after %dus.\n",
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2579  			 phy_name(phy), XELPDP_REFCLK_ENABLE_TIMEOUT_US);
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2580  
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2581  	intel_cx0_powerdown_change_sequence(i915, port, INTEL_CX0_BOTH_LANES,
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2582  					    CX0_P2_STATE_RESET);
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2583  	intel_cx0_setup_powerdown(i915, port);
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2584  
+619a06dba6fa38 Mika Kahola          2023-06-01  2585  	intel_de_rmw(i915, XELPDP_PORT_BUF_CTL2(port), lane_pipe_reset, 0);
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2586  
+619a06dba6fa38 Mika Kahola          2023-06-01  2587  	if (intel_de_wait_for_clear(i915, XELPDP_PORT_BUF_CTL2(port), lane_phy_current_status,
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2588  				    XELPDP_PORT_RESET_END_TIMEOUT))
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2589  		drm_warn(&i915->drm, "PHY %c failed to bring out of Lane reset after %dms.\n",
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2590  			 phy_name(phy), XELPDP_PORT_RESET_END_TIMEOUT);
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2591  }
+51390cc0e00a37 Radhakrishna Sripada 2023-04-13  2592  
 
 -- 
 0-DAY CI Kernel Test Service
