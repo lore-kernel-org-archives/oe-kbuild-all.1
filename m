@@ -1,45 +1,51 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7A717D5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 02:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5A517C4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 02:47:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689734851; x=1721270851;
+  t=1689734850; x=1721270850;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Y65VeUnqXZArx/32mFReii5yKSCq8hQHFFw2ubTHsCw=;
-  b=G3y5t9dTOhVOu9SDmHutKwUXYW0ebimLbO40JEawPxykoKd3fx83KmxL
-   X7nZIGkf+GHZTN+6i5BA3siCQu3mCgd/gZVeuDELnQKDtoZt0MJKM+R1j
-   yD57lSIY1o/RoftordwkwAdOTcNIVL48Vylaha7Vx+0U1ErhzQhD4Fcu5
-   hn2dz0CaMJWCeg8JToli3Evoul5BqoyC0wntC9Tf/AI2upjGTVDpFUlub
-   k/2+vMFjvkCbEnYyemnrfD467Ru9zeGBcLJ1t+alf2cSLjmGCH2+u8acx
-   Njf6FDjju5QbsMsIxstk6vEJoX9wmdxSgpN43vTZ1lmuZKamoyYBPRN23
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="366400730"
+  bh=7l2RLpq7FfwUjP9ss8SVVFWP/mR+Jc43Uc8Ex0yPyD4=;
+  b=Ldhe186cycf8RjDZEPWiKWUC8OROpIXYR/wMSSrdZNi7yISnuX91TlGo
+   K76fOxvMxYMm9q/zqCnzjZLy3pm28VmKUizq/dhpZ34szwL9ba8UKztuJ
+   2q4WyuQpXQxZI0K2hEEerpQ6N3tqOQJIjGinDIlTh0K+Lv1/aJLV78U2b
+   k3A6wINW5JUQKIOM18y+nFnwcgvR4jPan9FT4/YeRkY4FyXJuHUkppqrC
+   N6ZgxalGPw1pXXVBtcBxyCD5M+BkMH8hTUmbvgxTpHT8okXrSWSgdT0Dz
+   HsPd+z+UbcbLk50K2csAFGswEwwJrHY4EB6LXING8cfrFzCQfhnL0Rmzl
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="356305648"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="366400730"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 19:47:27 -0700
+   d="scan'208";a="356305648"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 19:47:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="847907104"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="723840975"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="847907104"
+   d="scan'208";a="723840975"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 18 Jul 2023 19:47:26 -0700
+  by orsmga002.jf.intel.com with ESMTP; 18 Jul 2023 19:47:26 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLxDp-00045K-1F;
+	id 1qLxDp-00045M-1J;
 	Wed, 19 Jul 2023 02:47:25 +0000
-Date: Wed, 19 Jul 2023 10:46:36 +0800
+Date: Wed, 19 Jul 2023 10:46:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mingzhe Zou <mingzhe.zou@easystack.cn>, colyli@suse.de,
-	linux-bcache@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bcache@lists.ewheeler.net,
-	zoumingzhe@qq.com
-Subject: Re: [PATCH 2/3] bcache: Separate bch_moving_gc() from bch_btree_gc()
-Message-ID: <202307191019.6OQTEaHw-lkp@intel.com>
-References: <20230717124143.171-2-mingzhe.zou@easystack.cn>
+To: Bhupesh Sharma <bhupesh.sharma@linaro.org>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, agross@kernel.org, andersson@kernel.org,
+	konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org,
+	bhupesh.linux@gmail.com, bhupesh.sharma@linaro.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	krzysztof.kozlowski@linaro.org, quic_schowdhu@quicinc.com,
+	gregkh@linuxfoundation.org, stephan@gerhold.net
+Subject: Re: [PATCH v9 4/7] usb: misc: eud: Add driver support for SM6115 /
+ SM4250
+Message-ID: <202307191045.FMNOhyay-lkp@intel.com>
+References: <20230718061052.1332993-5-bhupesh.sharma@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,120 +54,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230717124143.171-2-mingzhe.zou@easystack.cn>
+In-Reply-To: <20230718061052.1332993-5-bhupesh.sharma@linaro.org>
 
-Hi Mingzhe,
+Hi Bhupesh,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.5-rc2 next-20230718]
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus lee-mfd/for-mfd-next linus/master v6.5-rc2 next-20230718]
+[cannot apply to robh/for-next lee-mfd/for-mfd-fixes]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mingzhe-Zou/bcache-Separate-bch_moving_gc-from-bch_btree_gc/20230718-195022
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230717124143.171-2-mingzhe.zou%40easystack.cn
-patch subject: [PATCH 2/3] bcache: Separate bch_moving_gc() from bch_btree_gc()
-config: arc-randconfig-r043-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191019.6OQTEaHw-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191019.6OQTEaHw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bhupesh-Sharma/dt-bindings-mfd-qcom-tcsr-Add-the-compatible-for-SM6115/20230718-190223
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230718061052.1332993-5-bhupesh.sharma%40linaro.org
+patch subject: [PATCH v9 4/7] usb: misc: eud: Add driver support for SM6115 / SM4250
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230719/202307191045.FMNOhyay-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191045.FMNOhyay-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191019.6OQTEaHw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191045.FMNOhyay-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/mempool.h:8,
-                    from include/linux/bio.h:8,
-                    from drivers/md/bcache/bcache.h:181,
-                    from drivers/md/bcache/movinggc.c:8:
-   drivers/md/bcache/movinggc.c: In function 'bch_moving_gc':
->> drivers/md/bcache/movinggc.c:236:18: error: 'struct cache_set' has no member named 'sb'
-     236 |                 c->sb.set_uuid, sectors_to_move, ca->heap.used);
-         |                  ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
-     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/md/bcache/movinggc.c:235:9: note: in expansion of macro 'pr_info'
-     235 |         pr_info("moving gc: on set %pU, %lu sectors from %zu buckets",
-         |         ^~~~~~~
+   drivers/usb/misc/qcom_eud.c: In function 'eud_probe':
+>> drivers/usb/misc/qcom_eud.c:251:52: error: passing argument 2 of 'eud_find_secure_reg_addr' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     251 |         ret = eud_find_secure_reg_addr(&pdev->dev, &tcsr_check);
+         |                                                    ^~~~~~~~~~~
+         |                                                    |
+         |                                                    phys_addr_t * {aka unsigned int *}
+   drivers/usb/misc/qcom_eud.c:194:62: note: expected 'u64 *' {aka 'long long unsigned int *'} but argument is of type 'phys_addr_t *' {aka 'unsigned int *'}
+     194 | static int eud_find_secure_reg_addr(struct device *dev, u64 *addr)
+         |                                                         ~~~~~^~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SM_GCC_8350
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   WARNING: unmet direct dependencies detected for SM_GCC_8450
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   WARNING: unmet direct dependencies detected for SM_GCC_8550
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
 
 
-vim +236 drivers/md/bcache/movinggc.c
+vim +/eud_find_secure_reg_addr +251 drivers/usb/misc/qcom_eud.c
 
-   196	
-   197	void bch_moving_gc(struct cache_set *c)
-   198	{
-   199		struct cache *ca = c->cache;
-   200		struct bucket *b;
-   201		unsigned long sectors_to_move, reserve_sectors;
-   202	
-   203		c->cache->only_moving_gc = 0;
-   204	
-   205		if (!c->copy_gc_enabled)
-   206			return;
-   207	
-   208		mutex_lock(&c->bucket_lock);
-   209	
-   210		sectors_to_move = 0;
-   211		reserve_sectors = ca->sb.bucket_size *
-   212				     fifo_used(&ca->free[RESERVE_MOVINGGC]);
-   213	
-   214		ca->heap.used = 0;
-   215	
-   216		for_each_bucket(b, ca) {
-   217			if (GC_MOVE(b) || GC_MARK(b) == GC_MARK_METADATA ||
-   218			    !b->gc_sectors_used ||
-   219			    b->gc_sectors_used == ca->sb.bucket_size ||
-   220			    atomic_read(&b->pin))
-   221				continue;
-   222	
-   223			if (!heap_full(&ca->heap)) {
-   224				sectors_to_move += b->gc_sectors_used;
-   225				heap_add(&ca->heap, b, bucket_cmp);
-   226			} else if (bucket_cmp(b, heap_peek(&ca->heap))) {
-   227				sectors_to_move -= bucket_heap_top(ca);
-   228				sectors_to_move += b->gc_sectors_used;
-   229	
-   230				ca->heap.data[0] = b;
-   231				heap_sift(&ca->heap, 0, bucket_cmp);
-   232			}
-   233		}
-   234	 
-   235		pr_info("moving gc: on set %pU, %lu sectors from %zu buckets",
- > 236			c->sb.set_uuid, sectors_to_move, ca->heap.used);
+   219	
+   220	static int eud_probe(struct platform_device *pdev)
+   221	{
+   222		struct eud_chip *chip;
+   223		struct resource *res;
+   224		phys_addr_t tcsr_check = 0;
+   225		int ret;
+   226	
+   227		chip = devm_kzalloc(&pdev->dev, sizeof(*chip), GFP_KERNEL);
+   228		if (!chip)
+   229			return -ENOMEM;
+   230	
+   231		chip->dev = &pdev->dev;
+   232	
+   233		chip->role_sw = usb_role_switch_get(&pdev->dev);
+   234		if (IS_ERR(chip->role_sw))
+   235			return dev_err_probe(chip->dev, PTR_ERR(chip->role_sw),
+   236						"failed to get role switch\n");
    237	
-   238		while (sectors_to_move > reserve_sectors) {
-   239			heap_pop(&ca->heap, b, bucket_cmp);
-   240			sectors_to_move -= b->gc_sectors_used;
-   241		}
+   238		ret = devm_add_action_or_reset(chip->dev, eud_role_switch_release, chip);
+   239		if (ret)
+   240			return dev_err_probe(chip->dev, ret,
+   241					"failed to add role switch release action\n");
    242	
-   243		while (heap_pop(&ca->heap, b, bucket_cmp))
-   244			SET_GC_MOVE(b, 1);
-   245	
-   246		mutex_unlock(&c->bucket_lock);
-   247	
-   248		c->moving_gc_keys.last_scanned = ZERO_KEY;
-   249	
-   250		read_moving(c);
-   251	}
-   252	
+   243		chip->base = devm_platform_ioremap_resource(pdev, 0);
+   244		if (IS_ERR(chip->base))
+   245			return PTR_ERR(chip->base);
+   246	
+   247		/*
+   248		 * EUD block on a few Qualcomm SoCs needs secure register access.
+   249		 * Check for the same via vendor-specific dt property.
+   250		 */
+ > 251		ret = eud_find_secure_reg_addr(&pdev->dev, &tcsr_check);
+   252		if (ret < 0)
+   253			return ret;
+   254	
+   255		if (tcsr_check) {
+   256			res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+   257			if (!res)
+   258				return dev_err_probe(chip->dev, -ENODEV,
+   259						     "failed to get secure_mode_mgr reg base\n");
+   260	
+   261			chip->secure_mode_mgr = res->start;
+   262	
+   263			ret = qcom_scm_io_writel(tcsr_check, TCSR_CHECK_EN);
+   264			if (ret)
+   265				return dev_err_probe(chip->dev, ret, "failed to write tcsr check reg\n");
+   266		} else {
+   267			chip->mode_mgr = devm_platform_ioremap_resource(pdev, 1);
+   268			if (IS_ERR(chip->mode_mgr))
+   269				return PTR_ERR(chip->mode_mgr);
+   270		}
+   271	
+   272		chip->irq = platform_get_irq(pdev, 0);
+   273		ret = devm_request_threaded_irq(&pdev->dev, chip->irq, handle_eud_irq,
+   274				handle_eud_irq_thread, IRQF_ONESHOT, NULL, chip);
+   275		if (ret)
+   276			return dev_err_probe(chip->dev, ret, "failed to allocate irq\n");
+   277	
+   278		enable_irq_wake(chip->irq);
+   279	
+   280		platform_set_drvdata(pdev, chip);
+   281	
+   282		return 0;
+   283	}
+   284	
 
 -- 
 0-DAY CI Kernel Test Service
