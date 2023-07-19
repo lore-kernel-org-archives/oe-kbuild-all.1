@@ -1,42 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3291FDF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 05:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1CF1FDF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 06:09:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689746376; x=1721282376;
+  t=1689746976; x=1721282976;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QBDvD4BECTYLji1IzqFNfegF5h3ejdHirypqap/mFzk=;
-  b=CvNgbTWovwB92yeopmG+YpaMNptr6SjerNz38K1+Ma9geSUO3opR5atG
-   wOVJfGpmU0GdMd7yPtHGhm46oCTTHgzx6LnBvCiwZ+u0PT9DIJbZvVicq
-   5BhFQqLnq0VZOjgXm0XBQ3euvZeQrT6QNAQfhGpQbx9exNpP5NYOnPVvB
-   isTpmNcz1xuf4xTgh3S1WbyQ2GtxTYOo7grvuxjmDGTCUtWpqeVy0Z8IR
-   afTo1187XF32SxovRUgq2n0ZBl4GoCLbgR6DxvBqp7xnDn4MYSNPRRnne
-   JGtCn/8/Bw6nzGQNFwcHtdmC5xfqNE0lTGRGn5hKyWWJNY5zwGrJDQQpQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="363836588"
+  bh=O8CG4j9EnSSvWWd1ckFEJxYcVFKFeAWemSxHduvjAPw=;
+  b=B0UCh2GJlD8SefsBIwNJiF304nHcXIWsckLAOKkoeMrgGWLFdHfrAPxR
+   J9/yU9eWq7wYAzxNxH1asjwJUGRS8DeACLzQKLGkCAfobgXWZ9q7KWMNZ
+   EjFN7dvdj8fz0YAmUUHUM9xcNjimubNtSLqHtCDzS6oPCouKokG1V1tHI
+   xVj7lOxQBZ9u3bIFlSSGWZAwwa7GC1erp7t/YKURtQ5/mGfnKtH3Fz5Oe
+   jZdZWUqpGJOQG90iAAXHlc+yKKOBizrFwI9N7d/wHtMmx2ODQWjeUn3cJ
+   K8tPCOtuTG51qottJWbvP1NKQ+UJpMQRkcFbPSC3OC0V+YWWuy75FWRsI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="452756879"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="363836588"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 22:59:35 -0700
+   d="scan'208";a="452756879"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 23:09:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="793888204"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="727193083"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="793888204"
+   d="scan'208";a="727193083"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Jul 2023 22:59:34 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 18 Jul 2023 23:09:34 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qM0DC-0004CH-2G;
-	Wed, 19 Jul 2023 05:59:13 +0000
-Date: Wed, 19 Jul 2023 13:58:06 +0800
+	id 1qM0NR-0004Ch-38;
+	Wed, 19 Jul 2023 06:09:33 +0000
+Date: Wed, 19 Jul 2023 14:08:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.0.x-imx 140/12467]
- sound/soc/codecs/pcm512x.c:1594:14: warning: unused variable 'clk_name'
-Message-ID: <202307191331.DDCPZh8R-lkp@intel.com>
+Subject: [freescale-fslc:pr/637 123/12466]
+ ./usr/include/linux/mxc_asrc.h:126:9: error: unknown type name
+ 'snd_pcm_format_t'
+Message-ID: <202307191455.KMJKrI1Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,125 +47,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Adrian,
+Hi Shengjiu,
 
 FYI, the error/warning still remains.
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.0.x-imx
-head:   791ee62ff569635e685d84c09b2179f002c4e0bf
-commit: 90e8a15795a3ebaba518deb67fc8d32081769002 [140/12467] MLK-25015: sound: soc: codecs: pcm512x: set input sclk
-config: x86_64-buildonly-randconfig-r003-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191331.DDCPZh8R-lkp@intel.com/config)
+tree:   https://github.com/Freescale/linux-fslc pr/637
+head:   ec33c7fc43bef23fa0b69db996fee0ba601875e9
+commit: 2103da1663c78848201107a827b058150d25df26 [123/12466] MLK-11398: ASoC: fsl_asrc: Add Memory to Memory support
+config: i386-randconfig-i005-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191455.KMJKrI1Q-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191331.DDCPZh8R-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191455.KMJKrI1Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191331.DDCPZh8R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191455.KMJKrI1Q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/soc/codecs/pcm512x.c: In function 'pcm512x_probe':
->> sound/soc/codecs/pcm512x.c:1594:14: warning: unused variable 'clk_name' [-Wunused-variable]
-    1594 |         char clk_name[8];
-         |              ^~~~~~~~
-
-
-vim +/clk_name +1594 sound/soc/codecs/pcm512x.c
-
-  1590	
-  1591	int pcm512x_probe(struct device *dev, struct regmap *regmap)
-  1592	{
-  1593		struct pcm512x_priv *pcm512x;
-> 1594		char clk_name[8];
-  1595		int i, ret;
-  1596	
-  1597		pcm512x = devm_kzalloc(dev, sizeof(struct pcm512x_priv), GFP_KERNEL);
-  1598		if (!pcm512x)
-  1599			return -ENOMEM;
-  1600	
-  1601		mutex_init(&pcm512x->mutex);
-  1602	
-  1603		dev_set_drvdata(dev, pcm512x);
-  1604		pcm512x->regmap = regmap;
-  1605	
-  1606		for (i = 0; i < ARRAY_SIZE(pcm512x->supplies); i++)
-  1607			pcm512x->supplies[i].supply = pcm512x_supply_names[i];
-  1608	
-  1609		ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pcm512x->supplies),
-  1610					      pcm512x->supplies);
-  1611		if (ret != 0) {
-  1612			dev_err(dev, "Failed to get supplies: %d\n", ret);
-  1613			return ret;
-  1614		}
-  1615	
-  1616		pcm512x->supply_nb[0].notifier_call = pcm512x_regulator_event_0;
-  1617		pcm512x->supply_nb[1].notifier_call = pcm512x_regulator_event_1;
-  1618		pcm512x->supply_nb[2].notifier_call = pcm512x_regulator_event_2;
-  1619	
-  1620		for (i = 0; i < ARRAY_SIZE(pcm512x->supplies); i++) {
-  1621			ret = devm_regulator_register_notifier(
-  1622							pcm512x->supplies[i].consumer,
-  1623							&pcm512x->supply_nb[i]);
-  1624			if (ret != 0) {
-  1625				dev_err(dev,
-  1626					"Failed to register regulator notifier: %d\n",
-  1627					ret);
-  1628			}
-  1629		}
-  1630	
-  1631		ret = regulator_bulk_enable(ARRAY_SIZE(pcm512x->supplies),
-  1632					    pcm512x->supplies);
-  1633		if (ret != 0) {
-  1634			dev_err(dev, "Failed to enable supplies: %d\n", ret);
-  1635			return ret;
-  1636		}
-  1637	
-  1638		/* Reset the device, verifying I/O in the process for I2C */
-  1639		ret = regmap_write(regmap, PCM512x_RESET,
-  1640				   PCM512x_RSTM | PCM512x_RSTR);
-  1641		if (ret != 0) {
-  1642			dev_err(dev, "Failed to reset device: %d\n", ret);
-  1643			goto err;
-  1644		}
-  1645	
-  1646		ret = regmap_write(regmap, PCM512x_RESET, 0);
-  1647		if (ret != 0) {
-  1648			dev_err(dev, "Failed to reset device: %d\n", ret);
-  1649			goto err;
-  1650		}
-  1651	
-  1652		/* default to first sclk */
-  1653		pcm512x->num_clocks = 1;
-  1654		pcm512x->sclk_src = PCM512x_SYSCLK_MCLK1;
-  1655	
-  1656		pcm512x->sclk[0] = devm_clk_get(dev, NULL);
-  1657		if (PTR_ERR(pcm512x->sclk[0]) == -EPROBE_DEFER) {
-  1658			ret = -EPROBE_DEFER;
-  1659			goto err;
-  1660		}
-  1661	
-  1662		if (!IS_ERR(pcm512x->sclk[0])) {
-  1663			ret = clk_prepare_enable(pcm512x->sclk[0]);
-  1664			if (ret != 0) {
-  1665				dev_err(dev, "Failed to enable SCLK: %d\n", ret);
-  1666				goto err;
-  1667			}
-  1668		}
-  1669	
-  1670		/* Default to standby mode */
-  1671		ret = regmap_update_bits(pcm512x->regmap, PCM512x_POWER,
-  1672					 PCM512x_RQST, PCM512x_RQST);
-  1673		if (ret != 0) {
-  1674			dev_err(dev, "Failed to request standby: %d\n",
-  1675				ret);
-  1676			goto err_clk;
-  1677		}
-  1678	
-  1679		pm_runtime_set_active(dev);
-  1680		pm_runtime_enable(dev);
-  1681		pm_runtime_idle(dev);
-  1682	
+   In file included from <command-line>:
+>> ./usr/include/linux/mxc_asrc.h:126:9: error: unknown type name 'snd_pcm_format_t'
+     126 |         snd_pcm_format_t input_format;
+         |         ^~~~~~~~~~~~~~~~
+   ./usr/include/linux/mxc_asrc.h:127:9: error: unknown type name 'snd_pcm_format_t'
+     127 |         snd_pcm_format_t output_format;
+         |         ^~~~~~~~~~~~~~~~
+>> ./usr/include/linux/mxc_asrc.h:135:9: error: unknown type name 'uint64_t'
+     135 |         uint64_t supported_in_format;
+         |         ^~~~~~~~
+   ./usr/include/linux/mxc_asrc.h:136:9: error: unknown type name 'uint64_t'
+     136 |         uint64_t supported_out_format;
+         |         ^~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
