@@ -1,44 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BBA275DF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 19:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46276275DF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 19:48:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689796053; x=1721332053;
+  t=1689796120; x=1721332120;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H2c0d0jHIvSZTY8CHSfbCMPoLCpU3jrQ4kLu+VZVss4=;
-  b=Y61qWWGyPQcXlE+4UP/Qpz167s8sWd+iUZT5bSXO9PkhYrhcO7xJxsMf
-   muwYhid7UBMi6ODs1FZn92R4D2o9FyfA1eyTAtc1ggWg0twA3PlhzxWUX
-   6G4BNlv3K/B2wksfjNpTt+zgjBAISY7hWvDtKLQ1s6vNjYKO1D433x7ce
-   Vmzq4Cnx5EMmU4QOFO0tLEHEUr7aZRU4nMa/JCYpAYSL0ZrHWMBMNhSKB
-   GlfPPmhbFBsZQXyZ5q+y2kBAl6kX+eBFFCVtLusoMTo3v7qtsXw7PUuwU
-   QSvoSbIiBMePPbgWHXTEJIW6tmQA31PzRt5mgX2Vs03zesqhwETnKHJ9b
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="356517628"
+  bh=PmC07DG3pcK51NMBfJGIDrslv+vUb8e+zMPnpeX57Lk=;
+  b=KKYGrxW2RbJJSOkMrYlEvS60ltH4pkH3j8bRCMUWoRLlmNmYM/WSUs++
+   3q2yF6iRltl4Q2RU9rmnfOrp+mnXrX53LG+gWWkawjjaX3rQkheUqhvhg
+   sVQDLpPcI2u/+qJzcBrj/srwXezMRntv6I91flQyOdH+ZyZsp296Ty66v
+   nq4FjX0CIeWyaJDT2kVuMObNN81qxDQrfdZY/xYWDjav7mpBdphFp24g2
+   K9D91P+OUfSG6lY0JRGE7HhiGMTNiyzl35+uYwe9QfKN1hx3ialvZ2Vzm
+   Baqm0et6T2ro/b5nH34f6CIJMXCJmuy+umsyVPsgvqoJ8uP2I3F2ze/Wo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="432746749"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="356517628"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 12:47:32 -0700
+   d="scan'208";a="432746749"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 12:48:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="701376354"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="970741634"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="701376354"
+   d="scan'208";a="970741634"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 19 Jul 2023 12:47:31 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2023 12:48:39 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMD8R-0005QL-2D;
-	Wed, 19 Jul 2023 19:47:04 +0000
-Date: Thu, 20 Jul 2023 03:46:30 +0800
+	id 1qMD90-0005QN-2O;
+	Wed, 19 Jul 2023 19:47:59 +0000
+Date: Thu, 20 Jul 2023 03:46:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthew Wilcox <willy@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:folio-flags 2/14]
- include/asm-generic/bitops/instrumented-lock.h:77:16: error: implicit
- declaration of function 'arch_clear_bit_unlock_is_negative_byte'; did you
- mean 'clear_bit_unlock_is_negative_byte'?
-Message-ID: <202307200304.cEaVEm0s-lkp@intel.com>
+Subject: [willy-pagecache:folio-flags 3/14] include/linux/page-flags.h:702:9:
+ error: call to undeclared function 'clear_bit_unlock_is_negative_byte'; ISO
+ C99 and later do not support implicit function declarations
+Message-ID: <202307200311.OR5kWIh3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,64 +49,140 @@ Content-Disposition: inline
 
 tree:   git://git.infradead.org/users/willy/pagecache folio-flags
 head:   006eb1a68e63a55bcc2cba90f713909316f4eaf1
-commit: 6a98655feda6945aa21746113cee72ae49bac9ab [2/14] mm: Delete unused definition of clear_bit_unlock_is_negative_byte()
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230720/202307200304.cEaVEm0s-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200304.cEaVEm0s-lkp@intel.com/reproduce)
+commit: b0a09d554792a2b160c743df5e732e103d5e3f5c [3/14] mm: Add folio_clear_has_waiters()
+config: riscv-randconfig-r042-20230720 (https://download.01.org/0day-ci/archive/20230720/202307200311.OR5kWIh3-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200311.OR5kWIh3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307200304.cEaVEm0s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307200311.OR5kWIh3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/powerpc/include/asm/bitops.h:333,
-                    from include/linux/bitops.h:68,
-                    from include/linux/log2.h:12,
-                    from kernel/bounds.c:13:
-   include/asm-generic/bitops/instrumented-lock.h: In function 'clear_bit_unlock_is_negative_byte':
->> include/asm-generic/bitops/instrumented-lock.h:77:16: error: implicit declaration of function 'arch_clear_bit_unlock_is_negative_byte'; did you mean 'clear_bit_unlock_is_negative_byte'? [-Werror=implicit-function-declaration]
-      77 |         return arch_clear_bit_unlock_is_negative_byte(nr, addr);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                clear_bit_unlock_is_negative_byte
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:116: kernel/bounds.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:7:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:23:
+>> include/linux/page-flags.h:702:9: error: call to undeclared function 'clear_bit_unlock_is_negative_byte'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     702 |         return clear_bit_unlock_is_negative_byte(flag, folio_flags(folio, 0));
+         |                ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:990:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      97 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:990:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      97 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:990:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:990:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:100:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     100 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:990:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:990:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:990:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   In file included from include/linux/mm.h:990:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
 
 
-vim +77 include/asm-generic/bitops/instrumented-lock.h
+vim +/clear_bit_unlock_is_negative_byte +702 include/linux/page-flags.h
 
-81d2c6f81996e0 Daniel Axtens 2019-08-20  60  
-81d2c6f81996e0 Daniel Axtens 2019-08-20  61  /**
-81d2c6f81996e0 Daniel Axtens 2019-08-20  62   * clear_bit_unlock_is_negative_byte - Clear a bit in memory and test if bottom
-81d2c6f81996e0 Daniel Axtens 2019-08-20  63   *                                     byte is negative, for unlock.
-81d2c6f81996e0 Daniel Axtens 2019-08-20  64   * @nr: the bit to clear
-81d2c6f81996e0 Daniel Axtens 2019-08-20  65   * @addr: the address to start counting from
-81d2c6f81996e0 Daniel Axtens 2019-08-20  66   *
-81d2c6f81996e0 Daniel Axtens 2019-08-20  67   * This operation is atomic and provides release barrier semantics.
-81d2c6f81996e0 Daniel Axtens 2019-08-20  68   *
-81d2c6f81996e0 Daniel Axtens 2019-08-20  69   * This is a bit of a one-trick-pony for the filemap code, which clears
-81d2c6f81996e0 Daniel Axtens 2019-08-20  70   * PG_locked and tests PG_waiters,
-81d2c6f81996e0 Daniel Axtens 2019-08-20  71   */
-81d2c6f81996e0 Daniel Axtens 2019-08-20  72  static inline bool
-81d2c6f81996e0 Daniel Axtens 2019-08-20  73  clear_bit_unlock_is_negative_byte(long nr, volatile unsigned long *addr)
-81d2c6f81996e0 Daniel Axtens 2019-08-20  74  {
-04def1b9b4a3d2 Marco Elver   2021-11-30  75  	kcsan_release();
-27f937cc810aef Marco Elver   2020-01-21  76  	instrument_atomic_write(addr + BIT_WORD(nr), sizeof(long));
-81d2c6f81996e0 Daniel Axtens 2019-08-20 @77  	return arch_clear_bit_unlock_is_negative_byte(nr, addr);
-
-:::::: The code at line 77 was first introduced by commit
-:::::: 81d2c6f81996e01fbcd2b5aeefbb519e21c806e9 kasan: support instrumented bitops combined with generic bitops
-
-:::::: TO: Daniel Axtens <dja@axtens.net>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+   692	
+   693	/**
+   694	 * folio_clear_has_waiters - Clear a flag that can be waited upon
+   695	 * @folio: The folio.
+   696	 * @flag: The flag to clear
+   697	 *
+   698	 */
+   699	static inline
+   700	bool folio_clear_has_waiters(struct folio *folio, unsigned int flag)
+   701	{
+ > 702		return clear_bit_unlock_is_negative_byte(flag, folio_flags(folio, 0));
+   703	}
+   704	
 
 -- 
 0-DAY CI Kernel Test Service
