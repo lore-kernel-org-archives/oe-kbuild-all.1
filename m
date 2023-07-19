@@ -1,43 +1,48 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A9E14A86
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 15:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689779976; x=1721315976;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=KLEyJTGbljkQ49lNNTsC1Gi2wbimOnnXCv1PmewCm3g=;
-  b=YjX0iq9OLMjEtNuCtQyI3cCVizMCsCEOhsVge25nJd1LydRrgD6633Ze
-   3vrfUAi1ktQcT/ww9YmWDSx1XtlG4dt9MKfJ/w2WLmoEa5pAKf/yJQ2UA
-   keNxWtpVcfdn1GLma13tDlwenrMAnB0eyocYLXesYdrMJGdwo3C7kyH9O
-   cmWY7cAUaoKxjIUcP2rxXi5lfRByTWKZk09kIjrsuE81ejngg1M/VcDAo
-   rfDj+6Ge6pqCTwc58UK6FdKk/JM6K+uCODFiJKubjul4y1X3f3NHLfxfO
-   od7kTEKtV4ApKD72mIU/7PDfDAHjAbewXli2lNe797/B4AoY23NxD0ywe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="356451845"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="356451845"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 08:19:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="848085208"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="848085208"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 19 Jul 2023 08:19:35 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qM8xe-00053H-0s;
-	Wed, 19 Jul 2023 15:19:32 +0000
-Date: Wed, 19 Jul 2023 23:18:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Eric Van Hensbergen <ericvh@kernel.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 1/4] fs/9p: remove unnecessary and overrestrictive
- check
-Message-ID: <ZLf+wZaouYvQCGaS@c507f7d2ae6a>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6368156D3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 15:24:16 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31454996e06so6597280f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 08:24:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689780255; x=1690385055;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5GgaVhEQ9YvIKWzZ/TLpYM+aKxNg1984FV2335cjvQw=;
+        b=bHk71LjOWdTQmFztley07YBOBCMf8Vpo8LWOUjIvoDaFwTocAm8wAKPDh/jP8kQp/b
+         Ozprf7TSh0nCuLYFprxBqqf28y2CJC7XB5HSeZ8fPj34O9S0qxDlpVnEhF1d+HBPFshW
+         rjEilf0gRX4rwEkB32Ay4pXW04tdAzfK3uHvIGOTc2wZWyn6oVvST4IHTNT8rU6vzMeG
+         qODLpRWozPB751KHKznvJQ2yzSKq8QhYcVaLd+Gn/u6/uo2eVF7CBdR3t3VVbQnyJPoU
+         Hn3WU9mGlHXHijVDOrhYzWw6wIAlogP2oNmE9V36CsHcjj1B8Um5WiEZAfEHNAayotii
+         qh9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689780255; x=1690385055;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5GgaVhEQ9YvIKWzZ/TLpYM+aKxNg1984FV2335cjvQw=;
+        b=Bt/QCWLgFhjd8lWPQwvMzLEtIoOcjAQ74ToPl0CTnHry3sNH/9Zz3L7PLaWRepZN0L
+         ZWNqikc/+1/bMOPJoP6zuZN4T2zA+BxFDllwD/TipZHpRDQnbnVnvuO6UvA5NEmo5TTM
+         WdKn7IOs20p58d2ePBAjG7FCyLvlCLPUw2wnhokfuF7FCfy+aFhiY2EVXLCh6NC35rOa
+         VKT2Li6IVXlFlQm3zqmLtJxR0Q54DZxVTZVcRGum/x7KyeOhrkJE8cg5SduUpHqgZg1q
+         urVVti7XoI6yuKviMwvxQgGg4572xSGko4AtXhccrX5gNCAokVceRJNbcbaUrAmMUNsl
+         R+1w==
+X-Gm-Message-State: ABy/qLay6UgEUfO26dsgUhBHLcC0zXUz5BoRhd0/Ds5sGAaN/c2V9PZn
+	PTZ6nK8VcLaH5opZFXHOlN1GXQ==
+X-Google-Smtp-Source: APBJJlEO4wkEMiX3mT+CatwZ2Ay1ZE70ISKdDxHAeGQ6yZG0M/D9fI2GVGWsXbg0Zoa9FIQ8fmYiZA==
+X-Received: by 2002:adf:f38e:0:b0:313:e9dc:44d5 with SMTP id m14-20020adff38e000000b00313e9dc44d5mr135418wro.61.1689780255007;
+        Wed, 19 Jul 2023 08:24:15 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id a24-20020a05600c225800b003fbfa6066acsm1915112wmm.40.2023.07.19.08.24.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jul 2023 08:24:13 -0700 (PDT)
+Date: Wed, 19 Jul 2023 18:24:09 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:acomp-zswap-cleanup 4/21] net/xfrm/xfrm_ipcomp.c:258
+ ipcomp_free_reqs() warn: iterator used outside loop: 'pos'
+Message-ID: <075d634d-2cdd-46af-9692-eb45587f09ba@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +51,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230716-fixes-overly-restrictive-mmap-v3-1-769791f474fd@kernel.org>
 
-Hi,
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git acomp-zswap-cleanup
+head:   d0a9c8530b6b8659bc8b126638f5d2c907cfe5ee
+commit: 0e06a41b2635783fddeff405a37a0d6e7a997815 [4/21] net: ipcomp: Migrate to acomp API from deprecated comp API
+config: i386-randconfig-m021-20230717 (https://download.01.org/0day-ci/archive/20230719/202307192356.By9AmaYX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192356.By9AmaYX-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307192356.By9AmaYX-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+smatch warnings:
+net/xfrm/xfrm_ipcomp.c:258 ipcomp_free_reqs() warn: iterator used outside loop: 'pos'
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH v3 1/4] fs/9p: remove unnecessary and overrestrictive check
-Link: https://lore.kernel.org/stable/20230716-fixes-overly-restrictive-mmap-v3-1-769791f474fd%40kernel.org
+vim +/pos +258 net/xfrm/xfrm_ipcomp.c
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+0e06a41b263578 Ard Biesheuvel 2023-07-14  246  static void ipcomp_free_reqs(struct acomp_req * __percpu *reqs)
+6fccab671f2f0a Herbert Xu     2008-07-25  247  {
+0e06a41b263578 Ard Biesheuvel 2023-07-14  248  	struct ipcomp_reqs *pos;
+6fccab671f2f0a Herbert Xu     2008-07-25  249  	int cpu;
+6fccab671f2f0a Herbert Xu     2008-07-25  250  
+0e06a41b263578 Ard Biesheuvel 2023-07-14  251  	list_for_each_entry(pos, &ipcomp_reqs_list, list) {
+0e06a41b263578 Ard Biesheuvel 2023-07-14  252  		if (pos->reqs == reqs)
+6fccab671f2f0a Herbert Xu     2008-07-25  253  			break;
+6fccab671f2f0a Herbert Xu     2008-07-25  254  	}
+6fccab671f2f0a Herbert Xu     2008-07-25  255  
+0e06a41b263578 Ard Biesheuvel 2023-07-14  256  	WARN_ON(list_entry_is_head(pos, &ipcomp_reqs_list, list));
+
+If you wrote this as:
+
+	if (WARN_ON(list_entry_is_head(pos, &ipcomp_reqs_list, list)))
+		return;
+
+then it would make the checker happy.  But it doesn't matter either way.
+
+6fccab671f2f0a Herbert Xu     2008-07-25  257  
+6fccab671f2f0a Herbert Xu     2008-07-25 @258  	if (--pos->users)
+6fccab671f2f0a Herbert Xu     2008-07-25  259  		return;
+6fccab671f2f0a Herbert Xu     2008-07-25  260  
+6fccab671f2f0a Herbert Xu     2008-07-25  261  	list_del(&pos->list);
+6fccab671f2f0a Herbert Xu     2008-07-25  262  	kfree(pos);
+6fccab671f2f0a Herbert Xu     2008-07-25  263  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
 
