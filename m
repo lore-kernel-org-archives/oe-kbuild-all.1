@@ -1,43 +1,42 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550A5D2EE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 07:54:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E21C2E9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 08:05:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689753281; x=1721289281;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=faYzYzku5nWsIcW5sZxgstZVUNgWSk4jtfonauSAlpI=;
-  b=EIn0am8JSw3fPxqqEMGYVDWtp0cmouRqSLad8/EefNQFoBqCVvsNTak6
-   SDFOmJNnAHn/EkasPr7jPS/U4/0AFeg2yywIfCH8rgqpykeqf32WsauvU
-   0iPzwQ3ApZsuWS25rOkohhkj6JkrmUZakuvHiepbifX/VgfDyNIkpAQ6F
-   m8koG+gFX7f7BSZsa1D3903ugJEgLNod8cRDUWgBsW+qW8K0irCE81nYe
-   roUfODwKeWTDBlPGmEDj+oVLs+ETkwLAYZEQGvyNkkMvA+AOnMvC3Azlc
-   hdDAa1D5YQGheiPter1KmTHZfCtolhHV0TnQNFlS2mNYFUhyEcbJet/7r
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="369958279"
+  t=1689753930; x=1721289930;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=R1zCuz3TVKZ9c0QPowY39vtpccFWu4qjgvnYhzUYIwk=;
+  b=nBrVcHu46EAX5EDlSUpQcllgHccdEjKvXlxDPDx5RcVRfQ0zBPqMTrTn
+   O6YjAKkeEyxFjzVuFwg7nX6PUzvm4yYK2haZHI6IASWKpq2nKhCEh9pyq
+   8CqzKKHmEEki8pRJf4Mwlr6fZ37dwWYXuhuqn264bED+6XDw6EYv553Zq
+   tSWGJLAZVOR+muVo7uJSWntK/KyqlEVgwzRqdVDripbQ8DsJ1bAUZSX+X
+   XdAcIrmkVzjBmcx0GAGBCussuwpI1kGVX+5j+MHj9ZpBxOrMYuOT8akPg
+   BcT6pbTJhRLM0ILlegcKd3bAQdWVpIXU5bKF00Iz8S6sWpSt6o3ALuEtJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="369960645"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="369958279"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 00:54:40 -0700
+   d="scan'208";a="369960645"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 01:05:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="701214181"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="897827897"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="701214181"
+   d="scan'208";a="897827897"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 19 Jul 2023 00:54:39 -0700
+  by orsmga005.jf.intel.com with ESMTP; 19 Jul 2023 01:05:26 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qM218-0004HL-37;
-	Wed, 19 Jul 2023 07:54:38 +0000
-Date: Wed, 19 Jul 2023 15:54:37 +0800
+	id 1qM2BZ-0004Hp-1Y;
+	Wed, 19 Jul 2023 08:05:25 +0000
+Date: Wed, 19 Jul 2023 16:04:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/637 2936/12466]
- drivers/input/touchscreen/vtl/vtl_ts.c:228:5: warning: no previous prototype
- for function 'vtl_ts_suspend'
-Message-ID: <202307191530.kGSBq1UC-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-android-linux-6.1.y-cicd 467/1075]
+ drivers/pinctrl/pinctrl-tps6594.c:(.text.pinconf_generic_dt_node_to_map_group+0x34):
+ undefined reference to `pinconf_generic_dt_node_to_map'
+Message-ID: <202307191540.O5NTWWu8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,111 +46,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Alejandro,
+Hi Esteban,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://github.com/Freescale/linux-fslc pr/637
-head:   ec33c7fc43bef23fa0b69db996fee0ba601875e9
-commit: 8457aa0d969d961d9c1c65182a84522589550c92 [2936/12466] MLK-13244 input: touchscreen: add support for vtl touchscreen
-config: i386-randconfig-i016-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191530.kGSBq1UC-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191530.kGSBq1UC-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-android-linux-6.1.y-cicd
+head:   8f34b48aa6dc9472429ce75bd16614ea69c29f56
+commit: 14a4e50b95e8ae8def357ca3180355eb39dd4909 [467/1075] TI: pinctrl: tps6594: add pinmux and gpio for TPS6594 PMIC
+config: mips-randconfig-r022-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191540.O5NTWWu8-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191540.O5NTWWu8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191530.kGSBq1UC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191540.O5NTWWu8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/input/touchscreen/vtl/vtl_ts.c:65:17: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-           struct device *dev;
-                          ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:80:6: warning: no previous prototype for function 'vtl_ts_free_gpio' [-Wmissing-prototypes]
-   void vtl_ts_free_gpio(void)
-        ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:80:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void vtl_ts_free_gpio(void)
-   ^
-   static 
-   drivers/input/touchscreen/vtl/vtl_ts.c:90:6: warning: no previous prototype for function 'vtl_ts_hw_reset' [-Wmissing-prototypes]
-   void vtl_ts_hw_reset(void)
-        ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:90:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void vtl_ts_hw_reset(void)
-   ^
-   static 
->> drivers/input/touchscreen/vtl/vtl_ts.c:228:5: warning: no previous prototype for function 'vtl_ts_suspend' [-Wmissing-prototypes]
-   int vtl_ts_suspend(struct device *dev)
-       ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:228:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int vtl_ts_suspend(struct device *dev)
-   ^
-   static 
->> drivers/input/touchscreen/vtl/vtl_ts.c:241:5: warning: no previous prototype for function 'vtl_ts_resume' [-Wmissing-prototypes]
-   int vtl_ts_resume(struct device *dev)
-       ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:241:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int vtl_ts_resume(struct device *dev)
-   ^
-   static 
-   drivers/input/touchscreen/vtl/vtl_ts.c:278:6: warning: no previous prototype for function 'vtl_ts_remove' [-Wmissing-prototypes]
-   void vtl_ts_remove(struct i2c_client *client)
-        ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:278:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void vtl_ts_remove(struct i2c_client *client)
-   ^
-   static 
-   drivers/input/touchscreen/vtl/vtl_ts.c:364:5: warning: no previous prototype for function 'ct36x_test_tp' [-Wmissing-prototypes]
-   int ct36x_test_tp(struct i2c_client *client)
-       ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:364:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int ct36x_test_tp(struct i2c_client *client)
-   ^
-   static 
-   drivers/input/touchscreen/vtl/vtl_ts.c:380:5: warning: no previous prototype for function 'vtl_ts_probe' [-Wmissing-prototypes]
-   int vtl_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
-       ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:380:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int vtl_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
-   ^
-   static 
-   8 warnings generated.
-
-
-vim +/vtl_ts_suspend +228 drivers/input/touchscreen/vtl/vtl_ts.c
-
-   226	
-   227	#ifdef CONFIG_PM_SLEEP
- > 228	int vtl_ts_suspend(struct device *dev)
-   229	{
-   230		struct ts_info *ts;
-   231	
-   232		ts = pg_ts;
-   233		DEBUG();
-   234	
-   235		disable_irq(ts->config_info.irq_number);
-   236		cancel_work_sync(&ts->driver->event_work);
-   237	
-   238		return 0;
-   239	}
-   240	
- > 241	int vtl_ts_resume(struct device *dev)
-   242	{
-   243		struct ts_info *ts;
-   244	
-   245		ts = pg_ts;
-   246		DEBUG();
-   247	
-   248		/* Hardware reset */
-   249		vtl_ts_hw_reset();
-   250		enable_irq(ts->config_info.irq_number);
-   251	
-   252		return 0;
-   253	}
-   254	#endif
-   255	
+   mipsel-linux-ld: drivers/pinctrl/pinctrl-tps6594.o: in function `pinconf_generic_dt_node_to_map_group':
+>> drivers/pinctrl/pinctrl-tps6594.c:(.text.pinconf_generic_dt_node_to_map_group+0x34): undefined reference to `pinconf_generic_dt_node_to_map'
+>> mipsel-linux-ld: drivers/pinctrl/pinctrl-tps6594.o:(.rodata.tps6594_pctrl_ops+0x14): undefined reference to `pinconf_generic_dt_free_map'
+   mipsel-linux-ld: drivers/hid/hid-core.o: in function `hid_add_field':
+   drivers/hid/hid-core.c:(.text.hid_add_field+0x168): undefined reference to `uhid_hid_driver'
+   mipsel-linux-ld: drivers/hid/hid-core.c:(.text.hid_add_field+0x170): undefined reference to `uhid_hid_driver'
+   mipsel-linux-ld: drivers/hid/hid-core.o: in function `hid_report_raw_event':
+   drivers/hid/hid-core.c:(.text.hid_report_raw_event+0xb8): undefined reference to `uhid_hid_driver'
+   mipsel-linux-ld: drivers/hid/hid-core.c:(.text.hid_report_raw_event+0xc0): undefined reference to `uhid_hid_driver'
+   mipsel-linux-ld: drivers/hid/hid-core.o: in function `hid_hw_raw_request':
+   drivers/hid/hid-core.c:(.text.hid_hw_raw_request+0x4): undefined reference to `uhid_hid_driver'
+   mipsel-linux-ld: drivers/hid/hid-core.o:drivers/hid/hid-core.c:(.text.hid_hw_raw_request+0x10): more undefined references to `uhid_hid_driver' follow
 
 -- 
 0-DAY CI Kernel Test Service
