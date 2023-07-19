@@ -1,43 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F1117D2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 04:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518B717D2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 05:05:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689742420; x=1721278420;
+  t=1689743104; x=1721279104;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BzzYIbJ8bvJ2F1vAa72WqUFDpBsa5Ygjfh6yfs8xawo=;
-  b=ODyN3f3ozjjEsE+NnmZskJ/9ymdWPx1O9QxDPTBosY433xTj1eXXdPvB
-   uLsn87YlTNqR9wwukEoJCZQAQggBfUWYglv2W0Yj3jngmnCknL53aG/hV
-   Oi3iHpDTpY7dQ+wfshg1IKGdGtPoAR4lGvkrR1kfgcgVEEXn7W4VM2im5
-   DMEMPPB8L4hB51QTVckYmBR1111bbWsvQlh7X7BQiPmNa+G9WVbjUTCKv
-   2iQUx6S8GvXVNT940++SIGYYbGZ/pov0pXugnwBx/8k+WcaK6CPRRrPJE
-   tkVNKgsisvn1YJhGtO0R52jGoEArROp9cePGJO6uhGjEghOG0tdYNNgEB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="369929864"
+  bh=XKbc2QeKL4GQcSURMsyxA5IG2A0onG9e+TJMkaGI0YU=;
+  b=R394/XAVfzeZDohpq7anNg6KG9H0WfPfLXL5cfSdPpyw49O7835xcjxC
+   sAL2jtwrBhPuqOnLeEaB04rzR1aZHFCJekcIexNEg+mJ2W6FV6b2VN+OG
+   sGOzT/YMIhexBO00GZKAyw0PmsZ06MJ16LsBxsIkIF9qO+u9UliO0wSoP
+   zQor1ZbCjuCg2XazTjnsPNMdEnKaxhh6QhLJki8sX5oYSMLGER1S4ELam
+   jAFZZ7HE5Cj2XiKqisJSY7nlXTOXyNQuEfLSzFLeKlZwIFJkmtsVgt67S
+   CYv8qRzo49jq/GrlszVmH21tirjcHuWtDaFTCcEBhPlCECvF4TmeY1k4d
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="351243179"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="369929864"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 21:53:39 -0700
+   d="scan'208";a="351243179"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 22:05:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="970482617"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="847927209"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="970482617"
+   d="scan'208";a="847927209"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 18 Jul 2023 21:53:38 -0700
+  by orsmga004.jf.intel.com with ESMTP; 18 Jul 2023 22:05:02 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLzBv-00049t-0i;
-	Wed, 19 Jul 2023 04:53:35 +0000
-Date: Wed, 19 Jul 2023 12:53:03 +0800
+	id 1qLzN0-0004AH-02;
+	Wed, 19 Jul 2023 05:05:02 +0000
+Date: Wed, 19 Jul 2023 13:04:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Thomas Gleixner <tglx@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.0.x-imx 2936/12467]
- drivers/input/touchscreen/vtl/vtl_ts.c:471:34: warning: 'vtl_ts_dt_ids'
- defined but not used
-Message-ID: <202307191244.Td0wu1g5-lkp@intel.com>
+Subject: [tglx-devel:x86/apic 51/57] arch/x86/kernel/setup.c:1021:9: error:
+ implicit declaration of function 'apic_setup_apic_calls'
+Message-ID: <202307191321.1wwC0ldx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,65 +46,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Alejandro,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.0.x-imx
-head:   791ee62ff569635e685d84c09b2179f002c4e0bf
-commit: 8457aa0d969d961d9c1c65182a84522589550c92 [2936/12467] MLK-13244 input: touchscreen: add support for vtl touchscreen
-config: i386-randconfig-i003-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191244.Td0wu1g5-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/apic
+head:   11f85db0679f4f37798c648f3028126b6f7c6163
+commit: 11f8513a3ce9e6661f10f5bb7bee66710c6debaf [51/57] x86/apic: Provide apic_update_callback()
+config: i386-randconfig-i053-20230716 (https://download.01.org/0day-ci/archive/20230719/202307191321.1wwC0ldx-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191244.Td0wu1g5-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191321.1wwC0ldx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191244.Td0wu1g5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191321.1wwC0ldx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/input/touchscreen/vtl/vtl_ts.c: In function 'vtl_ts_config':
-   drivers/input/touchscreen/vtl/vtl_ts.c:65:24: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-      65 |         struct device *dev;
-         |                        ^~~
-   drivers/input/touchscreen/vtl/vtl_ts.c: At top level:
-   drivers/input/touchscreen/vtl/vtl_ts.c:80:6: warning: no previous prototype for 'vtl_ts_free_gpio' [-Wmissing-prototypes]
-      80 | void vtl_ts_free_gpio(void)
-         |      ^~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/vtl/vtl_ts.c:90:6: warning: no previous prototype for 'vtl_ts_hw_reset' [-Wmissing-prototypes]
-      90 | void vtl_ts_hw_reset(void)
-         |      ^~~~~~~~~~~~~~~
-   drivers/input/touchscreen/vtl/vtl_ts.c:228:5: warning: no previous prototype for 'vtl_ts_suspend' [-Wmissing-prototypes]
-     228 | int vtl_ts_suspend(struct device *dev)
-         |     ^~~~~~~~~~~~~~
-   drivers/input/touchscreen/vtl/vtl_ts.c:241:5: warning: no previous prototype for 'vtl_ts_resume' [-Wmissing-prototypes]
-     241 | int vtl_ts_resume(struct device *dev)
-         |     ^~~~~~~~~~~~~
-   drivers/input/touchscreen/vtl/vtl_ts.c:278:6: warning: no previous prototype for 'vtl_ts_remove' [-Wmissing-prototypes]
-     278 | void vtl_ts_remove(struct i2c_client *client)
-         |      ^~~~~~~~~~~~~
-   drivers/input/touchscreen/vtl/vtl_ts.c:364:5: warning: no previous prototype for 'ct36x_test_tp' [-Wmissing-prototypes]
-     364 | int ct36x_test_tp(struct i2c_client *client)
-         |     ^~~~~~~~~~~~~
-   drivers/input/touchscreen/vtl/vtl_ts.c:380:5: warning: no previous prototype for 'vtl_ts_probe' [-Wmissing-prototypes]
-     380 | int vtl_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
-         |     ^~~~~~~~~~~~
->> drivers/input/touchscreen/vtl/vtl_ts.c:471:34: warning: 'vtl_ts_dt_ids' defined but not used [-Wunused-const-variable=]
-     471 | static const struct of_device_id vtl_ts_dt_ids[] = {
-         |                                  ^~~~~~~~~~~~~
+   arch/x86/kernel/setup.c: In function 'setup_arch':
+>> arch/x86/kernel/setup.c:1021:9: error: implicit declaration of function 'apic_setup_apic_calls' [-Werror=implicit-function-declaration]
+    1021 |         apic_setup_apic_calls();
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/vtl_ts_dt_ids +471 drivers/input/touchscreen/vtl/vtl_ts.c
+vim +/apic_setup_apic_calls +1021 arch/x86/kernel/setup.c
 
-   470	
- > 471	static const struct of_device_id vtl_ts_dt_ids[] = {
-   472		{ .compatible = "vtl,ct365", },
-   473		{ }
-   474	};
-   475	MODULE_DEVICE_TABLE(of, vtl_ts_dt_ids);
-   476	
-   477	
+  1018	
+  1019		x86_report_nx();
+  1020	
+> 1021		apic_setup_apic_calls();
+  1022	
+  1023		if (acpi_mps_check()) {
+  1024	#ifdef CONFIG_X86_LOCAL_APIC
+  1025			apic_is_disabled = true;
+  1026	#endif
+  1027			setup_clear_cpu_cap(X86_FEATURE_APIC);
+  1028		}
+  1029	
+  1030		e820__reserve_setup_data();
+  1031		e820__finish_early_params();
+  1032	
+  1033		if (efi_enabled(EFI_BOOT))
+  1034			efi_init();
+  1035	
+  1036		reserve_ibft_region();
+  1037		dmi_setup();
+  1038	
+  1039		/*
+  1040		 * VMware detection requires dmi to be available, so this
+  1041		 * needs to be done after dmi_setup(), for the boot CPU.
+  1042		 * For some guest types (Xen PV, SEV-SNP, TDX) it is required to be
+  1043		 * called before cache_bp_init() for setting up MTRR state.
+  1044		 */
+  1045		init_hypervisor_platform();
+  1046	
+  1047		tsc_early_init();
+  1048		x86_init.resources.probe_roms();
+  1049	
+  1050		/* after parse_early_param, so could debug it */
+  1051		insert_resource(&iomem_resource, &code_resource);
+  1052		insert_resource(&iomem_resource, &rodata_resource);
+  1053		insert_resource(&iomem_resource, &data_resource);
+  1054		insert_resource(&iomem_resource, &bss_resource);
+  1055	
+  1056		e820_add_kernel_range();
+  1057		trim_bios_range();
+  1058	#ifdef CONFIG_X86_32
+  1059		if (ppro_with_ram_bug()) {
+  1060			e820__range_update(0x70000000ULL, 0x40000ULL, E820_TYPE_RAM,
+  1061					  E820_TYPE_RESERVED);
+  1062			e820__update_table(e820_table);
+  1063			printk(KERN_INFO "fixed physical RAM map:\n");
+  1064			e820__print_table("bad_ppro");
+  1065		}
+  1066	#else
+  1067		early_gart_iommu_check();
+  1068	#endif
+  1069	
+  1070		/*
+  1071		 * partially used pages are not usable - thus
+  1072		 * we are rounding upwards:
+  1073		 */
+  1074		max_pfn = e820__end_of_ram_pfn();
+  1075	
+  1076		/* update e820 for memory not covered by WB MTRRs */
+  1077		cache_bp_init();
+  1078		if (mtrr_trim_uncached_memory(max_pfn))
+  1079			max_pfn = e820__end_of_ram_pfn();
+  1080	
+  1081		max_possible_pfn = max_pfn;
+  1082	
+  1083		/*
+  1084		 * Define random base addresses for memory sections after max_pfn is
+  1085		 * defined and before each memory section base is used.
+  1086		 */
+  1087		kernel_randomize_memory();
+  1088	
 
 -- 
 0-DAY CI Kernel Test Service
