@@ -1,83 +1,75 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CA63D394
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 15:59:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689782357; x=1721318357;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I+4SrhCvMYd91J1CaVkbIi8nk9ruASOSxjYdhiA25fY=;
-  b=c6Kq98Fxx0w+GtHi6cTUw0U33V+u6SOVc2jc5x+3weO6EpK9mvDo6KTW
-   Om7hbjXvy9YHbVJMA7GLZTY6A+LpDwscjPjfD5hF5QnPIk/f+1JMjOXu7
-   DwyaBxUiJKBmZ0Kv/Po4VdSkCUjUoM1qre+MTM3V+PFg9cSHN0CIPeFjv
-   gqreuzIMFBY4L4b36K9Vheu0HoCDsiQTenoLI5Nvnsb4hjAQwmqyBa+Db
-   sf8SRehVqhQqLAuyGcgGdOenT0va7Bo3/YRlMNr5EQPiRLO2ZDbeqViGB
-   1rooYugpw6uMDlRq/aLERf/Q5CYM9An1XXasyfqHQXH01Bn0Ge1Y2uT90
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="346808874"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="346808874"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 08:59:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="837748304"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="837748304"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Jul 2023 08:59:15 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qM9a6-00055J-2P;
-	Wed, 19 Jul 2023 15:59:14 +0000
-Date: Wed, 19 Jul 2023 23:58:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/637 3332/12466]
- ./usr/include/linux/imx_vpu.h:22:1: error: C++ style comments are not
- allowed in ISO C90
-Message-ID: <202307192346.KFbaEhJ9-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5D211C93
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 16:08:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E4CC433C8;
+	Wed, 19 Jul 2023 16:08:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689782938;
+	bh=eELOx7eg8lMFvajOTQiIVNju3KRIPZFe0QI3+hzeX3k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bY4XjpeHT072yc/PPP2SLyNCFQmBH9R3+XuAfu/DB2/JxuRzODRJRN/VeFMm0xo+e
+	 9p+e6Q23PkKoT6zEZ5HjGJDqqv2iorvJ4mzT5sHWnITYIt7uekCQgvIrozgrw5xnDw
+	 aF+dkasEOcHrwOHYespu9L1tkLesVVnIDHKVCN6+yYDgAnrZXoF5IdUwQoBjhv+VqT
+	 XC3B3TH9SNHTnXVPV3DLoRAL3OirbdG1lohSq4EVrlJMzWUpcdKtcMncWo0kZfcfhK
+	 rNafdaO9Gutpls49MlSVO5swJyqY8Wvwe0cY82IdiLSCjYsh97wXiIu/GnJrns8SIj
+	 j1PaenwlCwXOw==
+Date: Wed, 19 Jul 2023 17:08:54 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [linux-stable-rc:linux-5.4.y 9090/9095]
+ sound/soc/mediatek/mt8173/mt8173-afe-pcm.c:1159:17: error: label
+ 'err_cleanup_components' used but not defined
+Message-ID: <46b3bcbc-e56d-41b9-b423-61c0aae8fd1d@sirena.org.uk>
+References: <202307170454.7nYQFRx1-lkp@intel.com>
+ <CANiDSCv4qLmnLbE2qmx_XcHBzDmGrzD_r6uiJo9AihPnLpoz-g@mail.gmail.com>
+ <2023071912-gloomy-riddance-3c47@gregkh>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="aDwwFxABcMef8Fh5"
+Content-Disposition: inline
+In-Reply-To: <2023071912-gloomy-riddance-3c47@gregkh>
+X-Cookie: They just buzzed and buzzed...buzzed.
+
+
+--aDwwFxABcMef8Fh5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Zhou,
+On Wed, Jul 19, 2023 at 05:38:51PM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Jul 19, 2023 at 05:00:13PM +0200, Ricardo Ribalda wrote:
+> > Hi Greg
+> >=20
+> > What is preferred in this case? A follow-up patch? or a new patch?
+>=20
+> Is there an upstream fix for this that should be applied instead?  Or is
+> this patch incorrect?
 
-FYI, the error/warning still remains.
+This is fine upstream, I guess you're missing some dependency.
 
-tree:   https://github.com/Freescale/linux-fslc pr/637
-head:   ec33c7fc43bef23fa0b69db996fee0ba601875e9
-commit: b82c78d77f16b30cffdd304eb2c6c1a3ab4f68ba [3332/12466] arm64: imx8mx: vpu: add vsi v4l2 decoder and encoder
-config: i386-randconfig-i005-20230718 (https://download.01.org/0day-ci/archive/20230719/202307192346.KFbaEhJ9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192346.KFbaEhJ9-lkp@intel.com/reproduce)
+--aDwwFxABcMef8Fh5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307192346.KFbaEhJ9-lkp@intel.com/
+-----BEGIN PGP SIGNATURE-----
 
-All error/warnings (new ones prefixed by >>):
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS4CpUACgkQJNaLcl1U
+h9DHswf8C1/1bARX/nFv0uSpbvoXW4yl4uLdChqt4G8LQMznwjw/o3GP4f6IkANs
+kzGaIWQZnt0mdUHGd1fT2XzR5moqlKs/bUUj9khy+CUeUkB4bWN3AeHItLPQwT/l
+AHeD92x5oGvaOlqkNmfFuLCmBmRD7rdWHtXA+3ZD+SARAjY5g0WcxPdXI8Mruket
+Ht7Xr/gKBTdOWRzo3QpccWIaa6EL0rHtUuUhDxNc+eQZttX+SFW2pGrsksPHcAAP
+qoUjV3mwl/Q1f9pH0k832sI7trBumnzzlFJfoQ4MPvNcUK2bhMSHXzYcn5mDZZK8
+aFJ6mf1iqfLXo4dIjB2T7K2csvYvPA==
+=JQXG
+-----END PGP SIGNATURE-----
 
-   In file included from ./usr/include/linux/imx_vpu.h:17,
-                    from <command-line>:
-   usr/include/linux/videodev2.h:2437:41: error: field 'timestamp' has incomplete type
-    2437 |         struct timespec                 timestamp;
-         |                                         ^~~~~~~~~
->> ./usr/include/linux/imx_vpu.h:22:1: error: C++ style comments are not allowed in ISO C90
-      22 | //ctrls & extension ctrls definitions
-         | ^
-   ./usr/include/linux/imx_vpu.h:22:1: note: (this will be reported only once per input file)
->> ./usr/include/linux/imx_vpu.h:111:9: warning: extra tokens at end of #endif directive [-Wendif-labels]
-     111 | #endif  //#ifndef __LINUX_IMX_VPU_H
-         |         ^
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--aDwwFxABcMef8Fh5--
