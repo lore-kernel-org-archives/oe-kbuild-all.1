@@ -1,91 +1,142 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CA2156F0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 15:25:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y2TMEyMiHodt7y9kEdY2Vb3YfikQk2VyUX9Z/39rV4Y=;
-  b=TD9Xjds9FNbDjIYTnjHQKjTzsuOMO34ZO+cVgDp4PFf0ZloqEvO4q9Ms
-   4zjl4+0TYE/6zH4RGLeiwp8aYXnmwahmRE2oSnNe7geETUmL0N5+voKtz
-   IrEVtUQTPoRAEcZBYt30Q201UBzrNYtRW3Z3Bb5wtpNeGmTuvb9i86VWQ
-   Q=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,216,1684792800"; 
-   d="scan'208";a="61773449"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 17:25:08 +0200
-Date: Wed, 19 Jul 2023 17:25:06 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Joel Granados <j.granados@samsung.com>
-cc: oe-kbuild-all@lists.linux.dev
-Subject: [joelgranados:jag/sysctl_remove_empty_elem 38/65]
- drivers/parport/procfs.c:267:18-28: WARNING use flexible-array member instead
- (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
- (fwd)
-Message-ID: <b68351c-37b2-1195-bde-6161e96e419@inria.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC82C14A86;
+	Wed, 19 Jul 2023 15:38:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689781132; x=1721317132;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7Ov7681vkWQmGXJ8qz/HV+aSvOi5QL9idK+76+29III=;
+  b=LMRD8eBrSkXDE+MzC1p69mW3aAoM4g1gFiQJBw8l0sXZCSeM2+MN4+cU
+   UBfSecO8sXJDE0zZOWBvcTOAInNVDLKVX+fNJZ18l0VwQx5HEkuaTeP1f
+   crDynJ3NDGcpu18mAzkHOy3fs8JVW9/DOUkvR8acwuND3N2J31MPvoCvh
+   XPBOy0hlDK4Z0qvxlAPrS2B7N78O4SBV7Q/twQCDmpvJ6xcdosW+ktOIL
+   ao3CJBHMmVmftDQ7QHNiXb52TvdrGqr5TEwU8dI5GgSyy7b+e9uVCsd3y
+   QNLsJvn/J0BjY1bGF+Gq7VHcF+xeGPKlnFEv1i2/AhRJ8RN5YZiXDkMNt
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="452874360"
+X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
+   d="scan'208";a="452874360"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 08:38:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="718022098"
+X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
+   d="scan'208";a="718022098"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 19 Jul 2023 08:38:47 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qM9G1-00054P-15;
+	Wed, 19 Jul 2023 15:38:30 +0000
+Date: Wed, 19 Jul 2023 23:38:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tony Lindgren <tony@atomide.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Dhruva Gole <d-gole@ti.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Johan Hovold <johan@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-omap@vger.kernel.org,
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] serial: core: Add support for dev_name:0.0 naming for
+ kernel console
+Message-ID: <202307192334.nrgSDnfu-lkp@intel.com>
+References: <20230719051525.46494-1-tony@atomide.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230719051525.46494-1-tony@atomide.com>
 
-Should device_dir be a flexible array?
+Hi Tony,
 
-julia
+kernel test robot noticed the following build errors:
 
----------- Forwarded message ----------
-Date: Wed, 19 Jul 2023 21:40:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [joelgranados:jag/sysctl_remove_empty_elem 38/65]
-    drivers/parport/procfs.c:267:18-28: WARNING use flexible-array member
-    instead
-    (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-
-    and-one-element-arrays)
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next linus/master v6.5-rc2 next-20230719]
+[cannot apply to tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Joel Granados <j.granados@samsung.com>
-
-tree:   https://github.com/Joelgranados/linux.git jag/sysctl_remove_empty_elem
-head:   a304fafc8514647e95ddf6cae2bdf2f7cd185ac1
-commit: 03ff367f259166790e8982a17498c296193db2e5 [38/65] parport: rm sentinel element from ctl_table array
-:::::: branch date: 22 hours ago
-:::::: commit date: 23 hours ago
-config: microblaze-randconfig-r062-20230717 (https://download.01.org/0day-ci/archive/20230719/202307192154.Ti6lpJ4N-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192154.Ti6lpJ4N-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Lindgren/serial-core-Add-support-for-dev_name-0-0-naming-for-kernel-console/20230719-131657
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230719051525.46494-1-tony%40atomide.com
+patch subject: [PATCH] serial: core: Add support for dev_name:0.0 naming for kernel console
+config: x86_64-randconfig-r013-20230718 (https://download.01.org/0day-ci/archive/20230719/202307192334.nrgSDnfu-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192334.nrgSDnfu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202307192154.Ti6lpJ4N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307192334.nrgSDnfu-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/parport/procfs.c:267:18-28: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-   drivers/parport/procfs.c:364:18-28: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+All errors (new ones prefixed by >>):
 
-vim +267 drivers/parport/procfs.c
+>> drivers/tty/serial/serial_core.c:3337:17: error: no member named 'port_id' in 'struct uart_port'
+                                  port->port_id);
+                                  ~~~~  ^
+   1 error generated.
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  257
-^1da177e4c3f41 Linus Torvalds 2005-04-16  258
-^1da177e4c3f41 Linus Torvalds 2005-04-16  259  struct parport_sysctl_table {
-37e9981e33e4d3 Joel Granados  2023-06-16  260  	struct ctl_table_header *port_header;
-37e9981e33e4d3 Joel Granados  2023-06-16  261  	struct ctl_table_header *devices_header;
-03ff367f259166 Joel Granados  2023-06-27  262  #ifdef CONFIG_PARPORT_1284
-03ff367f259166 Joel Granados  2023-06-27  263  	struct ctl_table vars[10];
-03ff367f259166 Joel Granados  2023-06-27  264  #else
-03ff367f259166 Joel Granados  2023-06-27  265  	struct ctl_table vars[5];
-03ff367f259166 Joel Granados  2023-06-27  266  #endif /* IEEE 1284 support */
-03ff367f259166 Joel Granados  2023-06-27 @267  	struct ctl_table device_dir[1];
-^1da177e4c3f41 Linus Torvalds 2005-04-16  268  };
-^1da177e4c3f41 Linus Torvalds 2005-04-16  269
+
+vim +3337 drivers/tty/serial/serial_core.c
+
+  3324	
+  3325	/*
+  3326	 * Add preferred console if configured on kernel command line with naming
+  3327	 * "console=dev_name:0.0".
+  3328	 */
+  3329	static int serial_core_add_preferred_console(struct uart_driver *drv,
+  3330						     struct uart_port *port)
+  3331	{
+  3332		char *port_match, *opt, *name;
+  3333		int len, ret = 0;
+  3334	
+  3335		port_match = kasprintf(GFP_KERNEL, "console=%s:%i.%i",
+  3336				       dev_name(port->dev), port->ctrl_id,
+> 3337				       port->port_id);
+  3338		if (!port_match)
+  3339			return -ENOMEM;
+  3340	
+  3341		opt = strstr(saved_command_line, port_match);
+  3342		if (!opt)
+  3343			goto free_port_match;
+  3344	
+  3345		len = strlen(port_match);
+  3346	
+  3347		if (strlen(opt) > len + 1 && opt[len] == ',')
+  3348			opt += len + 1;
+  3349		else
+  3350			opt = NULL;
+  3351	
+  3352		name = kstrdup(drv->dev_name, GFP_KERNEL);
+  3353		if (!name) {
+  3354			ret = -ENOMEM;
+  3355			goto free_port_match;
+  3356		}
+  3357	
+  3358		add_preferred_console(name, port->line, opt);
+  3359	
+  3360		kfree(name);
+  3361	
+  3362	free_port_match:
+  3363		kfree(port_match);
+  3364	
+  3365		return ret;
+  3366	}
+  3367	
 
 -- 
 0-DAY CI Kernel Test Service
