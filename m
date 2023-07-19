@@ -1,47 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83603C138
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 12:29:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A06125AD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 13:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689769746; x=1721305746;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KYLhNrHtUFSx7/C0LdiN2Hgj1mrnIODr7nl7CL2g1ec=;
-  b=BQSD1mFmDPYSx560hvnabqtN+jSNfeksngkLQTJRYIycjM71mMmSO/Rm
-   qlsu4wtvRtGcT436Q03VRcFi6vF3qkDyX/X7lfbhq5MOH5/D21H549OZG
-   ipn+9ttmvHHOwl/On04pCoz+XSMyBt0dg1is+fb62Yz5ePzg4zOjvSuaM
-   XnHGlxUKrV6NO0igLvxCoSd6kQH4OiSLZW6Td12s8hX4cfP1x/QZ+pBan
-   NCyWIx/qyfwY5KkCRZ9HvM8FcorWzCXvrx5DCpeiCION6Cvc3VPoc0AX5
-   iBrN1ea1qYlrlOJ3SHlrovQ1toa52em7XRrv3db73bZzOJd12/QYI2D1J
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="397303360"
+  t=1689772363; x=1721308363;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iJOVtpNF7D8q9ZYf/0cjI7c8ASs1gx1xybwr+ctpLWg=;
+  b=U5eCIKq4j/t7dXjrZ0SZkF9qnyAWHfbkuAgBQO9UESvzRm7u9PiAeM3F
+   EwBWcRoQ+/FZOr7NPAU8lznfy/Wr/5GmjYSYW3kPQNaErQ5zJxpxyXdBo
+   9txXPyvW/pex7shL9Sfi2yEOTEqYoazChxeNuYRNilzdRPz/STdWOiY4L
+   FoSB4E4YcvZ8Ap4cs45GB7LdAH4cnLz8RKkUcPkYdg+IZCm6R2ier3wIk
+   mOyn2nUwPqZ+JAiyNHsO2XKof5OcwqzzzZzK1gRwcAAgHlaf10rIMEynx
+   ylAGUKodxRCjvtH971gwRNIRFAZY+kdaJoVlPeavQlTVY6ErraETinE7y
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="351325324"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="397303360"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 05:29:03 -0700
+   d="scan'208";a="351325324"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 06:12:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="793998622"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="727295256"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="793998622"
+   d="scan'208";a="727295256"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Jul 2023 05:28:42 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 19 Jul 2023 06:12:40 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qM6IL-0004n7-0g;
-	Wed, 19 Jul 2023 12:28:41 +0000
-Date: Wed, 19 Jul 2023 20:28:02 +0800
+	id 1qM6yu-0004uC-0I;
+	Wed, 19 Jul 2023 13:12:40 +0000
+Date: Wed, 19 Jul 2023 21:09:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunlong Xing <yunlong.xing@unisoc.com>, miklos@szeredi.hu,
-	amir73il@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-unionfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, zhiguo.niu@unisoc.com,
-	hongyu.jin@unisoc.com, yunlongxing23@gmail.com
-Subject: Re: [PATCH V2] ovl: fix mount fail because the upper doesn't have
- space
-Message-ID: <202307192052.2CaL6sdr-lkp@intel.com>
-References: <20230719085434.154834-1-yunlong.xing@unisoc.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/637 3548/12466]
+ drivers/phy/phy-mixel-lvds-combo.c:34: warning: "SS" redefined
+Message-ID: <202307192112.wDXESnsk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,110 +45,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230719085434.154834-1-yunlong.xing@unisoc.com>
 
-Hi Yunlong,
+Hi Liu,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on mszeredi-vfs/overlayfs-next]
-[also build test ERROR on linus/master v6.5-rc2 next-20230719]
-[cannot apply to mszeredi-vfs/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunlong-Xing/ovl-fix-mount-fail-because-the-upper-doesn-t-have-space/20230719-165654
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/vfs.git overlayfs-next
-patch link:    https://lore.kernel.org/r/20230719085434.154834-1-yunlong.xing%40unisoc.com
-patch subject: [PATCH V2] ovl: fix mount fail because the upper doesn't have space
-config: arc-randconfig-r024-20230718 (https://download.01.org/0day-ci/archive/20230719/202307192052.2CaL6sdr-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192052.2CaL6sdr-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/637
+head:   ec33c7fc43bef23fa0b69db996fee0ba601875e9
+commit: dac9aca0adab35a0848bb45a8d09e6ce13754654 [3548/12466] phy: Add Mixel LVDS combo PHY support
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230719/202307192112.wDXESnsk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192112.wDXESnsk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307192052.2CaL6sdr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307192112.wDXESnsk-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/overlayfs/super.c: In function 'ovl_make_workdir':
->> fs/overlayfs/super.c:1192:25: warning: missing terminating " character
-    1192 |                 pr_warn("upper fs does not support RENAME_WHITEOUT (%i).\n,
-         |                         ^
-   fs/overlayfs/super.c:1193:28: warning: missing terminating " character
-    1193 |                         err");
-         |                            ^
->> fs/overlayfs/super.c:2065:23: error: unterminated argument list invoking macro "pr_warn"
-    2065 | module_exit(ovl_exit);
-         |                       ^
->> fs/overlayfs/super.c:1192:17: error: 'pr_warn' undeclared (first use in this function)
-    1192 |                 pr_warn("upper fs does not support RENAME_WHITEOUT (%i).\n,
-         |                 ^~~~~~~
-   fs/overlayfs/super.c:1192:17: note: each undeclared identifier is reported only once for each function it appears in
->> fs/overlayfs/super.c:1192:24: error: expected ';' at end of input
-    1192 |                 pr_warn("upper fs does not support RENAME_WHITEOUT (%i).\n,
-         |                        ^
-         |                        ;
-   ......
-   fs/overlayfs/super.c:1191:9: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
-    1191 |         if (!rename_whiteout)
-         |         ^~
-   fs/overlayfs/super.c:1191:9: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
->> fs/overlayfs/super.c:1192:17: error: expected declaration or statement at end of input
-    1192 |                 pr_warn("upper fs does not support RENAME_WHITEOUT (%i).\n,
-         |                 ^~~~~~~
->> fs/overlayfs/super.c:1188:17: error: label 'out' used but not defined
-    1188 |                 goto out;
-         |                 ^~~~
-   fs/overlayfs/super.c:1144:13: warning: unused variable 'fh_type' [-Wunused-variable]
-    1144 |         int fh_type;
-         |             ^~~~~~~
-   fs/overlayfs/super.c: At top level:
-   fs/overlayfs/super.c:1136:12: warning: 'ovl_make_workdir' defined but not used [-Wunused-function]
-    1136 | static int ovl_make_workdir(struct super_block *sb, struct ovl_fs *ofs,
-         |            ^~~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:1118:12: warning: 'ovl_create_volatile_dirty' defined but not used [-Wunused-function]
-    1118 | static int ovl_create_volatile_dirty(struct ovl_fs *ofs)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:969:12: warning: 'ovl_get_upper' defined but not used [-Wunused-function]
-     969 | static int ovl_get_upper(struct super_block *sb, struct ovl_fs *ofs,
-         |            ^~~~~~~~~~~~~
-   fs/overlayfs/super.c:926:36: warning: 'ovl_user_xattr_handlers' defined but not used [-Wunused-variable]
-     926 | static const struct xattr_handler *ovl_user_xattr_handlers[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:920:36: warning: 'ovl_trusted_xattr_handlers' defined but not used [-Wunused-variable]
-     920 | static const struct xattr_handler *ovl_trusted_xattr_handlers[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:859:13: warning: 'ovl_workdir_ok' defined but not used [-Wunused-function]
-     859 | static bool ovl_workdir_ok(struct dentry *workdir, struct dentry *upperdir)
-         |             ^~~~~~~~~~~~~~
-   fs/overlayfs/super.c:816:12: warning: 'ovl_lower_dir' defined but not used [-Wunused-function]
-     816 | static int ovl_lower_dir(const char *name, struct path *path,
-         |            ^~~~~~~~~~~~~
-   fs/overlayfs/super.c:580:12: warning: 'ovl_fs_params_verify' defined but not used [-Wunused-function]
-     580 | static int ovl_fs_params_verify(const struct ovl_fs_context *ctx,
-         |            ^~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:493:12: warning: 'ovl_parse_param' defined but not used [-Wunused-function]
-     493 | static int ovl_parse_param(struct fs_context *fc, struct fs_parameter *param)
-         |            ^~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:442:38: warning: 'ovl_super_operations' defined but not used [-Wunused-const-variable=]
-     442 | static const struct super_operations ovl_super_operations = {
-         |                                      ^~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:420:12: warning: 'ovl_reconfigure' defined but not used [-Wunused-function]
-     420 | static int ovl_reconfigure(struct fs_context *fc)
-         |            ^~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:166:39: warning: 'ovl_dentry_operations' defined but not used [-Wunused-const-variable=]
-     166 | static const struct dentry_operations ovl_dentry_operations = {
-         |                                       ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/phy/phy-mixel-lvds-combo.c:34: warning: "SS" redefined
+      34 | #define SS              0x20
+         | 
+   In file included from arch/x86/include/uapi/asm/ptrace.h:6,
+                    from arch/x86/include/asm/ptrace.h:7,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:53,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:7,
+                    from include/linux/preempt.h:78,
+                    from include/linux/smp.h:110,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/notifier.h:14,
+                    from include/linux/clk.h:14,
+                    from drivers/phy/phy-mixel-lvds-combo.c:15:
+   arch/x86/include/uapi/asm/ptrace-abi.h:23: note: this is the location of the previous definition
+      23 | #define SS   16
+         | 
 
 
-vim +/pr_warn +2065 fs/overlayfs/super.c
+vim +/SS +34 drivers/phy/phy-mixel-lvds-combo.c
 
-e9be9d5e76e348 Miklos Szeredi 2014-10-24  2063  
-e9be9d5e76e348 Miklos Szeredi 2014-10-24  2064  module_init(ovl_init);
-e9be9d5e76e348 Miklos Szeredi 2014-10-24 @2065  module_exit(ovl_exit);
+    33	
+  > 34	#define SS		0x20
+    35	#define CH_HSYNC_M(id)	BIT(0 + ((id) * 2))
+    36	#define CH_VSYNC_M(id)	BIT(1 + ((id) * 2))
+    37	#define CH_PHSYNC(id)	BIT(0 + ((id) * 2))
+    38	#define CH_PVSYNC(id)	BIT(1 + ((id) * 2))
+    39	
 
 -- 
 0-DAY CI Kernel Test Service
