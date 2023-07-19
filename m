@@ -1,43 +1,45 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87EF18E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 02:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7A717D5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 02:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689734848; x=1721270848;
+  t=1689734851; x=1721270851;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MG3ItOIR7jGPvoN/RBCp4Fn/D6/jI4aJ6sdWbpa67VY=;
-  b=fh/wb9hHtbUgXfts2C6VfqfaV16XXw7y6NLI21tfTD6X7a5kLlxEI+lR
-   Cl3ruXVadcNswtyd52joMWL9ekGi1dE3hO6tvGeN7D1xeM2j898HvwLsT
-   /sJPrmi5+8g6FfEFy/aWn2wVdoXP1ThJXEJr9igvbUd1X7orthO9zkJFQ
-   WQXIhMME4ENloTbvVPFy6NSQD2u3SdFLYjz38VXBXaTbO7SQhg/1dBfaZ
-   QKyOsOtjQquU3Yktcs/4EVOtBbaIcjaeByJGQdhYPlw6wQ6mX8wRovteq
-   9PFZEFO0c4ETPDsDsDA6K7QeMQHPgqBg6YXNh842rXDwVjZoVS0vQwRrr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="366400729"
+  bh=Y65VeUnqXZArx/32mFReii5yKSCq8hQHFFw2ubTHsCw=;
+  b=G3y5t9dTOhVOu9SDmHutKwUXYW0ebimLbO40JEawPxykoKd3fx83KmxL
+   X7nZIGkf+GHZTN+6i5BA3siCQu3mCgd/gZVeuDELnQKDtoZt0MJKM+R1j
+   yD57lSIY1o/RoftordwkwAdOTcNIVL48Vylaha7Vx+0U1ErhzQhD4Fcu5
+   hn2dz0CaMJWCeg8JToli3Evoul5BqoyC0wntC9Tf/AI2upjGTVDpFUlub
+   k/2+vMFjvkCbEnYyemnrfD467Ru9zeGBcLJ1t+alf2cSLjmGCH2+u8acx
+   Njf6FDjju5QbsMsIxstk6vEJoX9wmdxSgpN43vTZ1lmuZKamoyYBPRN23
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="366400730"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="366400729"
+   d="scan'208";a="366400730"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 19:47:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="847907102"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="847907104"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="847907102"
+   d="scan'208";a="847907104"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
   by orsmga004.jf.intel.com with ESMTP; 18 Jul 2023 19:47:26 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLxDp-00045F-16;
+	id 1qLxDp-00045K-1F;
 	Wed, 19 Jul 2023 02:47:25 +0000
-Date: Wed, 19 Jul 2023 10:46:39 +0800
+Date: Wed, 19 Jul 2023 10:46:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 08/21] zram: Migrate to acomp compression API
-Message-ID: <202307191030.nugASaPS-lkp@intel.com>
-References: <20230718125847.3869700-9-ardb@kernel.org>
+To: Mingzhe Zou <mingzhe.zou@easystack.cn>, colyli@suse.de,
+	linux-bcache@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bcache@lists.ewheeler.net,
+	zoumingzhe@qq.com
+Subject: Re: [PATCH 2/3] bcache: Separate bch_moving_gc() from bch_btree_gc()
+Message-ID: <202307191019.6OQTEaHw-lkp@intel.com>
+References: <20230717124143.171-2-mingzhe.zou@easystack.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,182 +48,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230718125847.3869700-9-ardb@kernel.org>
+In-Reply-To: <20230717124143.171-2-mingzhe.zou@easystack.cn>
 
-Hi Ard,
+Hi Mingzhe,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.5-rc2 next-20230718]
-[cannot apply to rw-ubifs/next rw-ubifs/fixes]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.5-rc2 next-20230718]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/crypto-scomp-Revert-add-support-for-deflate-rfc1950-zlib/20230718-210600
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20230718125847.3869700-9-ardb%40kernel.org
-patch subject: [RFC PATCH 08/21] zram: Migrate to acomp compression API
-config: x86_64-buildonly-randconfig-r001-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191030.nugASaPS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191030.nugASaPS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mingzhe-Zou/bcache-Separate-bch_moving_gc-from-bch_btree_gc/20230718-195022
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230717124143.171-2-mingzhe.zou%40easystack.cn
+patch subject: [PATCH 2/3] bcache: Separate bch_moving_gc() from bch_btree_gc()
+config: arc-randconfig-r043-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191019.6OQTEaHw-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191019.6OQTEaHw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191030.nugASaPS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191019.6OQTEaHw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/block/zram/zram_drv.c: In function 'zram_recompress':
->> drivers/block/zram/zram_drv.c:1581:15: warning: unused variable 'src' [-Wunused-variable]
-    1581 |         void *src, *dst;
-         |               ^~~
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arc/include/asm/bug.h:30,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/mempool.h:8,
+                    from include/linux/bio.h:8,
+                    from drivers/md/bcache/bcache.h:181,
+                    from drivers/md/bcache/movinggc.c:8:
+   drivers/md/bcache/movinggc.c: In function 'bch_moving_gc':
+>> drivers/md/bcache/movinggc.c:236:18: error: 'struct cache_set' has no member named 'sb'
+     236 |                 c->sb.set_uuid, sectors_to_move, ca->heap.used);
+         |                  ^~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/md/bcache/movinggc.c:235:9: note: in expansion of macro 'pr_info'
+     235 |         pr_info("moving gc: on set %pU, %lu sectors from %zu buckets",
+         |         ^~~~~~~
 
 
-vim +/src +1581 drivers/block/zram/zram_drv.c
+vim +236 drivers/md/bcache/movinggc.c
 
-a0b81ae7a4ff8a7 Christoph Hellwig  2023-04-11  1561  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1562  #ifdef CONFIG_ZRAM_MULTI_COMP
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1563  /*
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1564   * This function will decompress (unless it's ZRAM_HUGE) the page and then
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1565   * attempt to compress it using provided compression algorithm priority
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1566   * (which is potentially more effective).
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1567   *
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1568   * Corresponding ZRAM slot should be locked.
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1569   */
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1570  static int zram_recompress(struct zram *zram, u32 index, struct page *page,
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1571  			   u32 threshold, u32 prio, u32 prio_max)
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1572  {
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1573  	struct zcomp_strm *zstrm = NULL;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1574  	unsigned long handle_old;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1575  	unsigned long handle_new;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1576  	unsigned int comp_len_old;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1577  	unsigned int comp_len_new;
-7c2af309abd24ff Alexey Romanov     2022-11-09  1578  	unsigned int class_index_old;
-7c2af309abd24ff Alexey Romanov     2022-11-09  1579  	unsigned int class_index_new;
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1580  	u32 num_recomps = 0;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09 @1581  	void *src, *dst;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1582  	int ret;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1583  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1584  	handle_old = zram_get_handle(zram, index);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1585  	if (!handle_old)
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1586  		return -EINVAL;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1587  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1588  	comp_len_old = zram_get_obj_size(zram, index);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1589  	/*
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1590  	 * Do not recompress objects that are already "small enough".
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1591  	 */
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1592  	if (comp_len_old < threshold)
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1593  		return 0;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1594  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1595  	ret = zram_read_from_zspool(zram, page, index);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1596  	if (ret)
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1597  		return ret;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1598  
-7c2af309abd24ff Alexey Romanov     2022-11-09  1599  	class_index_old = zs_lookup_class_index(zram->mem_pool, comp_len_old);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1600  	/*
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1601  	 * Iterate the secondary comp algorithms list (in order of priority)
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1602  	 * and try to recompress the page.
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1603  	 */
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1604  	for (; prio < prio_max; prio++) {
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1605  		if (!zram->comps[prio])
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1606  			continue;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1607  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1608  		/*
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1609  		 * Skip if the object is already re-compressed with a higher
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1610  		 * priority algorithm (or same algorithm).
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1611  		 */
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1612  		if (prio <= zram_get_priority(zram, index))
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1613  			continue;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1614  
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1615  		num_recomps++;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1616  		zstrm = zcomp_stream_get(zram->comps[prio]);
-29b6967174757a8 Ard Biesheuvel     2023-07-18  1617  		ret = zcomp_compress(zstrm, page, &comp_len_new);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1618  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1619  		if (ret) {
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1620  			zcomp_stream_put(zram->comps[prio]);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1621  			return ret;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1622  		}
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1623  
-7c2af309abd24ff Alexey Romanov     2022-11-09  1624  		class_index_new = zs_lookup_class_index(zram->mem_pool,
-7c2af309abd24ff Alexey Romanov     2022-11-09  1625  							comp_len_new);
-7c2af309abd24ff Alexey Romanov     2022-11-09  1626  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1627  		/* Continue until we make progress */
-4942cf6ad07c487 Sergey Senozhatsky 2022-11-09  1628  		if (class_index_new >= class_index_old ||
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1629  		    (threshold && comp_len_new >= threshold)) {
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1630  			zcomp_stream_put(zram->comps[prio]);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1631  			continue;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1632  		}
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1633  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1634  		/* Recompression was successful so break out */
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1635  		break;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1636  	}
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1637  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1638  	/*
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1639  	 * We did not try to recompress, e.g. when we have only one
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1640  	 * secondary algorithm and the page is already recompressed
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1641  	 * using that algorithm
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1642  	 */
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1643  	if (!zstrm)
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1644  		return 0;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1645  
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1646  	if (class_index_new >= class_index_old) {
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1647  		/*
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1648  		 * Secondary algorithms failed to re-compress the page
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1649  		 * in a way that would save memory, mark the object as
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1650  		 * incompressible so that we will not try to compress
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1651  		 * it again.
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1652  		 *
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1653  		 * We need to make sure that all secondary algorithms have
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1654  		 * failed, so we test if the number of recompressions matches
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1655  		 * the number of active secondary algorithms.
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1656  		 */
-a55cf9648d3de48 Sergey Senozhatsky 2022-11-09  1657  		if (num_recomps == zram->num_active_comps - 1)
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1658  			zram_set_flag(zram, index, ZRAM_INCOMPRESSIBLE);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1659  		return 0;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1660  	}
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1661  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1662  	/* Successful recompression but above threshold */
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1663  	if (threshold && comp_len_new >= threshold)
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1664  		return 0;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1665  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1666  	/*
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1667  	 * No direct reclaim (slow path) for handle allocation and no
-6aa4b839e7a481c Christoph Hellwig  2023-04-11  1668  	 * re-compression attempt (unlike in zram_write_bvec()) since
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1669  	 * we already have stored that object in zsmalloc. If we cannot
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1670  	 * alloc memory for recompressed object then we bail out and
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1671  	 * simply keep the old (existing) object in zsmalloc.
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1672  	 */
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1673  	handle_new = zs_malloc(zram->mem_pool, comp_len_new,
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1674  			       __GFP_KSWAPD_RECLAIM |
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1675  			       __GFP_NOWARN |
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1676  			       __GFP_HIGHMEM |
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1677  			       __GFP_MOVABLE);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1678  	if (IS_ERR_VALUE(handle_new)) {
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1679  		zcomp_stream_put(zram->comps[prio]);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1680  		return PTR_ERR((void *)handle_new);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1681  	}
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1682  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1683  	dst = zs_map_object(zram->mem_pool, handle_new, ZS_MM_WO);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1684  	memcpy(dst, zstrm->buffer, comp_len_new);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1685  	zcomp_stream_put(zram->comps[prio]);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1686  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1687  	zs_unmap_object(zram->mem_pool, handle_new);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1688  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1689  	zram_free_page(zram, index);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1690  	zram_set_handle(zram, index, handle_new);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1691  	zram_set_obj_size(zram, index, comp_len_new);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1692  	zram_set_priority(zram, index, prio);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1693  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1694  	atomic64_add(comp_len_new, &zram->stats.compr_data_size);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1695  	atomic64_inc(&zram->stats.pages_stored);
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1696  
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1697  	return 0;
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1698  }
-84b33bf7888975d Sergey Senozhatsky 2022-11-09  1699  
+   196	
+   197	void bch_moving_gc(struct cache_set *c)
+   198	{
+   199		struct cache *ca = c->cache;
+   200		struct bucket *b;
+   201		unsigned long sectors_to_move, reserve_sectors;
+   202	
+   203		c->cache->only_moving_gc = 0;
+   204	
+   205		if (!c->copy_gc_enabled)
+   206			return;
+   207	
+   208		mutex_lock(&c->bucket_lock);
+   209	
+   210		sectors_to_move = 0;
+   211		reserve_sectors = ca->sb.bucket_size *
+   212				     fifo_used(&ca->free[RESERVE_MOVINGGC]);
+   213	
+   214		ca->heap.used = 0;
+   215	
+   216		for_each_bucket(b, ca) {
+   217			if (GC_MOVE(b) || GC_MARK(b) == GC_MARK_METADATA ||
+   218			    !b->gc_sectors_used ||
+   219			    b->gc_sectors_used == ca->sb.bucket_size ||
+   220			    atomic_read(&b->pin))
+   221				continue;
+   222	
+   223			if (!heap_full(&ca->heap)) {
+   224				sectors_to_move += b->gc_sectors_used;
+   225				heap_add(&ca->heap, b, bucket_cmp);
+   226			} else if (bucket_cmp(b, heap_peek(&ca->heap))) {
+   227				sectors_to_move -= bucket_heap_top(ca);
+   228				sectors_to_move += b->gc_sectors_used;
+   229	
+   230				ca->heap.data[0] = b;
+   231				heap_sift(&ca->heap, 0, bucket_cmp);
+   232			}
+   233		}
+   234	 
+   235		pr_info("moving gc: on set %pU, %lu sectors from %zu buckets",
+ > 236			c->sb.set_uuid, sectors_to_move, ca->heap.used);
+   237	
+   238		while (sectors_to_move > reserve_sectors) {
+   239			heap_pop(&ca->heap, b, bucket_cmp);
+   240			sectors_to_move -= b->gc_sectors_used;
+   241		}
+   242	
+   243		while (heap_pop(&ca->heap, b, bucket_cmp))
+   244			SET_GC_MOVE(b, 1);
+   245	
+   246		mutex_unlock(&c->bucket_lock);
+   247	
+   248		c->moving_gc_keys.last_scanned = ZERO_KEY;
+   249	
+   250		read_moving(c);
+   251	}
+   252	
 
 -- 
 0-DAY CI Kernel Test Service
