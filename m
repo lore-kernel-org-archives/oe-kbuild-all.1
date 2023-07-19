@@ -1,42 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022E517D5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 03:19:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14C017F9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 03:40:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689736751; x=1721272751;
+  t=1689738027; x=1721274027;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YLAM0fT8gLxQj0UMOybKcUeNNtRLPChMAdUSwS8el5s=;
-  b=ATm7CZHANsQpF+gcfydFIkk/9WOVzLYsy9qxDhMgF+MNlxV+CZjltelD
-   gGX2Gam6XeMYNABRWoVbkwZaKuwD7g+Fx+FM1WbRBB/rrFTtbiw9KYp9s
-   OpDEaAvPG2doYzYtI4I3ALnD+OHkKQd6xGns7ssuh3q//1WywarZOqdKM
-   Qm1tJSl5Jk1vOAKS+H8h0+BsQBBM/wwI6Y4np75dkS3XxQl130RYlkrMZ
-   /RHYRF9cJIUSo3hsn6R2YPVL+SeA84f9itPSYCiyUO7ahZ7mjNIAMXnZ7
-   U/PY4kv3J9fIT3lJ70Zo43bvl5cN34hIRhMkZgPuH5hWAvq7QZEfF2WEO
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="365242333"
+  bh=D5lz/xbw9KwIBMx66Yd8Oy6fc0NRMpWOEEo1EXBOlxk=;
+  b=C/nrkL8dv1AHLLOYRbmbh6GEQGHbssMyINiNZ8XmL7SRUQI+iy03jmZx
+   F5XUIBY+ojtJq2tP+6lO3q7o7oTmaiKXOoJVfvkp0lJ8nkhqCsF7vMi0B
+   Nf8U44mI8ktJr9zXfQo4dL7E00I+AKQIhiM4BJyhZZem1OdEQ736u6GHD
+   lmgw3F/O4A9T4EZd0yMwPSqH7h5veHINSSwYsw9P9+bRvbaZumU6rdqjZ
+   XYuwYUFMBloX2env7sExrrfAv1a9uC+Wv1pmQY9RDEbbygb4ycr6q0ye8
+   owbH1V2jrUgBtU+UPDyTymPaGKf449CUc8fZ2nCSO+IIu2CxEpYrhfUFu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="356311227"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="365242333"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 20:19:10 -0700
+   d="scan'208";a="356311227"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 20:40:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="701131957"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="723857151"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="701131957"
+   d="scan'208";a="723857151"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 18 Jul 2023 20:19:09 -0700
+  by orsmga002.jf.intel.com with ESMTP; 18 Jul 2023 20:40:26 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLxiW-00046L-1I;
-	Wed, 19 Jul 2023 03:19:08 +0000
-Date: Wed, 19 Jul 2023 11:18:35 +0800
+	id 1qLy2w-000477-1C;
+	Wed, 19 Jul 2023 03:40:17 +0000
+Date: Wed, 19 Jul 2023 11:40:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qais Yousef <qyousef@layalina.io>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [qais-yousef:remove-margins 2/2] kernel/sched/fair.c:165:15: error:
- return type defaults to 'int'
-Message-ID: <202307191141.34yA5Ndh-lkp@intel.com>
+Subject: [freescale-fslc:6.1-2.0.x-imx 127/12467]
+ sound/soc/fsl/fsl_xcvr_sysfs.c:106:52: error: a function declaration without
+ a prototype is deprecated in all versions of C
+Message-ID: <202307191157.xZdEhEfq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,56 +47,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/qais-yousef/linux remove-margins
-head:   f49a0141f6fa8e9f6dd3b8cacae3531f90c74343
-commit: f49a0141f6fa8e9f6dd3b8cacae3531f90c74343 [2/2] sched/fair: Remove magic margin in fits_capacity()
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230719/202307191141.34yA5Ndh-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191141.34yA5Ndh-lkp@intel.com/reproduce)
+Hi Viorel,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.0.x-imx
+head:   791ee62ff569635e685d84c09b2179f002c4e0bf
+commit: d6bb8a57699c60069606540858677858f7df394d [127/12467] MLK-24965: ASoC: fsl_xcvr: bit and timestamp counters
+config: powerpc-randconfig-r022-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191157.xZdEhEfq-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191157.xZdEhEfq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191141.34yA5Ndh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191157.xZdEhEfq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/sched/fair.c:165:15: error: return type defaults to 'int' [-Werror=implicit-int]
-     165 | static inline fits_capacity(unsigned long util, unsigned long capacity)
-         |               ^~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'fits_capacity':
->> kernel/sched/fair.c:167:16: error: implicit declaration of function 'approximate_util_avg' [-Werror=implicit-function-declaration]
-     167 |         return approximate_util_avg(util, TICK_NSEC) < capacity;
-         |                ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:12224:6: warning: no previous prototype for 'task_vruntime_update' [-Wmissing-prototypes]
-   12224 | void task_vruntime_update(struct rq *rq, struct task_struct *p, bool in_fi)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> sound/soc/fsl/fsl_xcvr_sysfs.c:106:52: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+     106 | const struct attribute_group *fsl_xcvr_get_attr_grp()
+         |                                                    ^
+         |                                                     void
+   1 error generated.
 
 
-vim +/int +165 kernel/sched/fair.c
+vim +106 sound/soc/fsl/fsl_xcvr_sysfs.c
 
-   150	
-   151	/*
-   152	 * The util will fit the capacity if it has enough headroom to grow within the
-   153	 * next tick - which is when any load balancing activity happens to do the
-   154	 * correction.
-   155	 *
-   156	 * If util stays within the capacity before tick has elapsed, then it should be
-   157	 * fine. If not, then a correction action must happen shortly after it starts
-   158	 * running, hence we treat it as !fit.
-   159	 *
-   160	 * TODO: TICK is not actually accurate enough. balance_interval is the correct
-   161	 * one to use as the next load balance doesn't not happen religiously at tick.
-   162	 * Accessing balance_interval might be tricky and will require some refactoring
-   163	 * first.
-   164	 */
- > 165	static inline fits_capacity(unsigned long util, unsigned long capacity)
-   166	{
- > 167		return approximate_util_avg(util, TICK_NSEC) < capacity;
-   168	}
-   169	
+   105	
+ > 106	const struct attribute_group *fsl_xcvr_get_attr_grp()
 
 -- 
 0-DAY CI Kernel Test Service
