@@ -1,42 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518B717D2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 05:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068BC3D86;
+	Wed, 19 Jul 2023 05:05:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689743104; x=1721279104;
+  t=1689743105; x=1721279105;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XKbc2QeKL4GQcSURMsyxA5IG2A0onG9e+TJMkaGI0YU=;
-  b=R394/XAVfzeZDohpq7anNg6KG9H0WfPfLXL5cfSdPpyw49O7835xcjxC
-   sAL2jtwrBhPuqOnLeEaB04rzR1aZHFCJekcIexNEg+mJ2W6FV6b2VN+OG
-   sGOzT/YMIhexBO00GZKAyw0PmsZ06MJ16LsBxsIkIF9qO+u9UliO0wSoP
-   zQor1ZbCjuCg2XazTjnsPNMdEnKaxhh6QhLJki8sX5oYSMLGER1S4ELam
-   jAFZZ7HE5Cj2XiKqisJSY7nlXTOXyNQuEfLSzFLeKlZwIFJkmtsVgt67S
-   CYv8qRzo49jq/GrlszVmH21tirjcHuWtDaFTCcEBhPlCECvF4TmeY1k4d
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="351243179"
+  bh=ZNWgIyDImzSfAN73E8djkiK2n+65c6wPWeT0GzE81aY=;
+  b=JzehtxVt/Vck1RHn8ppfR4hQYaNZuuOcA2tCJwlCXOo8CzO0q6BELdxa
+   MuqioGOci/tI+m6Neuok6heof5lVts63dD2hgeUadkrprGMXOovlrtJ5U
+   +kN83+J0cf1t1NTuq+9+AFrMDnh6Y4HZGlW64QW+Uns+u9aywFUajAjvC
+   OVk/y2p8FqPcd2JpK0n0oEXVKyCI+Mu8cUSyUsAWY5cnUqelmI1yA88G+
+   8+gIRLL9DAESNlQqV1wd0vwtD4SHHjyiTE2fHLauE21uxPtmk2w9LL/Kn
+   gZfKO44SOfRBQh4SrCWoliQP2lQ6f9ZFYzejFLlFQ7jEdrS/xHtOP55Fo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="346676113"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="351243179"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 22:05:03 -0700
+   d="scan'208";a="346676113"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 22:05:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="847927209"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="789282119"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="847927209"
+   d="scan'208";a="789282119"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 18 Jul 2023 22:05:02 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 18 Jul 2023 22:05:02 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLzN0-0004AH-02;
+	id 1qLzN0-0004AP-0M;
 	Wed, 19 Jul 2023 05:05:02 +0000
-Date: Wed, 19 Jul 2023 13:04:36 +0800
+Date: Wed, 19 Jul 2023 13:04:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/apic 51/57] arch/x86/kernel/setup.c:1021:9: error:
- implicit declaration of function 'apic_setup_apic_calls'
-Message-ID: <202307191321.1wwC0ldx-lkp@intel.com>
+To: Qais Yousef <qyousef@layalina.io>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [qais-yousef:remove-margins 2/2] kernel/sched/fair.c:165:15: error:
+ type specifier missing, defaults to 'int'; ISO C99 and later do not support
+ implicit int
+Message-ID: <202307191211.oFljVu7F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,100 +47,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/apic
-head:   11f85db0679f4f37798c648f3028126b6f7c6163
-commit: 11f8513a3ce9e6661f10f5bb7bee66710c6debaf [51/57] x86/apic: Provide apic_update_callback()
-config: i386-randconfig-i053-20230716 (https://download.01.org/0day-ci/archive/20230719/202307191321.1wwC0ldx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191321.1wwC0ldx-lkp@intel.com/reproduce)
+tree:   https://github.com/qais-yousef/linux remove-margins
+head:   f49a0141f6fa8e9f6dd3b8cacae3531f90c74343
+commit: f49a0141f6fa8e9f6dd3b8cacae3531f90c74343 [2/2] sched/fair: Remove magic margin in fits_capacity()
+config: powerpc-randconfig-r026-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191211.oFljVu7F-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191211.oFljVu7F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191321.1wwC0ldx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191211.oFljVu7F-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kernel/setup.c: In function 'setup_arch':
->> arch/x86/kernel/setup.c:1021:9: error: implicit declaration of function 'apic_setup_apic_calls' [-Werror=implicit-function-declaration]
-    1021 |         apic_setup_apic_calls();
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> kernel/sched/fair.c:165:15: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     165 | static inline fits_capacity(unsigned long util, unsigned long capacity)
+         | ~~~~~~~~~~~~~ ^
+         | int
+>> kernel/sched/fair.c:167:9: error: call to undeclared function 'approximate_util_avg'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     167 |         return approximate_util_avg(util, TICK_NSEC) < capacity;
+         |                ^
+   2 errors generated.
 
 
-vim +/apic_setup_apic_calls +1021 arch/x86/kernel/setup.c
+vim +/int +165 kernel/sched/fair.c
 
-  1018	
-  1019		x86_report_nx();
-  1020	
-> 1021		apic_setup_apic_calls();
-  1022	
-  1023		if (acpi_mps_check()) {
-  1024	#ifdef CONFIG_X86_LOCAL_APIC
-  1025			apic_is_disabled = true;
-  1026	#endif
-  1027			setup_clear_cpu_cap(X86_FEATURE_APIC);
-  1028		}
-  1029	
-  1030		e820__reserve_setup_data();
-  1031		e820__finish_early_params();
-  1032	
-  1033		if (efi_enabled(EFI_BOOT))
-  1034			efi_init();
-  1035	
-  1036		reserve_ibft_region();
-  1037		dmi_setup();
-  1038	
-  1039		/*
-  1040		 * VMware detection requires dmi to be available, so this
-  1041		 * needs to be done after dmi_setup(), for the boot CPU.
-  1042		 * For some guest types (Xen PV, SEV-SNP, TDX) it is required to be
-  1043		 * called before cache_bp_init() for setting up MTRR state.
-  1044		 */
-  1045		init_hypervisor_platform();
-  1046	
-  1047		tsc_early_init();
-  1048		x86_init.resources.probe_roms();
-  1049	
-  1050		/* after parse_early_param, so could debug it */
-  1051		insert_resource(&iomem_resource, &code_resource);
-  1052		insert_resource(&iomem_resource, &rodata_resource);
-  1053		insert_resource(&iomem_resource, &data_resource);
-  1054		insert_resource(&iomem_resource, &bss_resource);
-  1055	
-  1056		e820_add_kernel_range();
-  1057		trim_bios_range();
-  1058	#ifdef CONFIG_X86_32
-  1059		if (ppro_with_ram_bug()) {
-  1060			e820__range_update(0x70000000ULL, 0x40000ULL, E820_TYPE_RAM,
-  1061					  E820_TYPE_RESERVED);
-  1062			e820__update_table(e820_table);
-  1063			printk(KERN_INFO "fixed physical RAM map:\n");
-  1064			e820__print_table("bad_ppro");
-  1065		}
-  1066	#else
-  1067		early_gart_iommu_check();
-  1068	#endif
-  1069	
-  1070		/*
-  1071		 * partially used pages are not usable - thus
-  1072		 * we are rounding upwards:
-  1073		 */
-  1074		max_pfn = e820__end_of_ram_pfn();
-  1075	
-  1076		/* update e820 for memory not covered by WB MTRRs */
-  1077		cache_bp_init();
-  1078		if (mtrr_trim_uncached_memory(max_pfn))
-  1079			max_pfn = e820__end_of_ram_pfn();
-  1080	
-  1081		max_possible_pfn = max_pfn;
-  1082	
-  1083		/*
-  1084		 * Define random base addresses for memory sections after max_pfn is
-  1085		 * defined and before each memory section base is used.
-  1086		 */
-  1087		kernel_randomize_memory();
-  1088	
+   150	
+   151	/*
+   152	 * The util will fit the capacity if it has enough headroom to grow within the
+   153	 * next tick - which is when any load balancing activity happens to do the
+   154	 * correction.
+   155	 *
+   156	 * If util stays within the capacity before tick has elapsed, then it should be
+   157	 * fine. If not, then a correction action must happen shortly after it starts
+   158	 * running, hence we treat it as !fit.
+   159	 *
+   160	 * TODO: TICK is not actually accurate enough. balance_interval is the correct
+   161	 * one to use as the next load balance doesn't not happen religiously at tick.
+   162	 * Accessing balance_interval might be tricky and will require some refactoring
+   163	 * first.
+   164	 */
+ > 165	static inline fits_capacity(unsigned long util, unsigned long capacity)
+   166	{
+ > 167		return approximate_util_avg(util, TICK_NSEC) < capacity;
+   168	}
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
