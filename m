@@ -1,46 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590DB3D8B;
-	Wed, 19 Jul 2023 07:01:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0698CC14F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 07:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689750071; x=1721286071;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b18vK8nkvvWK30Is/f9qiIIs5rPzl+cfPCvrd2745w0=;
-  b=YRikQ9OqIQkaiyyc5Q4m0Zu4f08ogobQMZtXp185iGYb+Uj0mYB8jzAU
-   aAxdJPjT/xBb/WqTFpBgCQu9DKOanUMcAQrcBifSXv2Ce79W/ynIBtYBh
-   cbdbLNexd2fn9Q6srJ3Ng2fyzYYqIUc063jF9Qsdq95JF3KxIWjURlsS0
-   yx7ySdYnqPy+k5kP/KsJPjH2EK5sMR3Kr9DogCaFv9obhtDuUAK9dRLgK
-   7XrlHT12NaHRzx6gM877GMRFxwrCa9aUTTho1D6qmPgwmSn2R+pmuf+ag
-   5bKH3ljpHaqglob/FwZqBumpDB2BmxWAYK18jWGQ6tkyoPhQFp4RRnwR2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="432572276"
+  t=1689750746; x=1721286746;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XXEUU8Fh+yIXOWwDkmXkovR5V3wL1hDW3m8qhGtqFqY=;
+  b=GplkozG5/+FPAPfUAhwtX0gHPObu6DSroHpzgCMDJjTWDc6rIAjQAOMB
+   JittzBOZt4hM91Eso4e702gTsceYFYQ4O1Hu6wJ5J/NXnYuOHCFP/mDGj
+   n9MNPEm8/nDXYR2FAkLSdvzO0LdOj/RaNR6KRQtCRwUtA9ejuq0S3zTgD
+   f81YZ+M7RDx1Y3hgaBHG2HKKuLhhOaSoLvleQX6M8IDsuRO46AQiAfr/M
+   8o4bcS2awHcxMxgWU4o5nqJeLz6gwXCXzo7J57Dr488IJWFPvlxC50BA3
+   mIKusJfGiZT/NM+XhrlnPXNeenvNUlx4EUxa+qm+hCI7ePCzHbysOSBqQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="430157370"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="432572276"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 00:01:11 -0700
+   d="scan'208";a="430157370"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 00:12:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="717878642"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="701192198"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="717878642"
+   d="scan'208";a="701192198"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 19 Jul 2023 00:01:09 -0700
+  by orsmga006.jf.intel.com with ESMTP; 19 Jul 2023 00:12:09 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qM1BM-0004Eb-0c;
-	Wed, 19 Jul 2023 07:01:08 +0000
-Date: Wed, 19 Jul 2023 15:00:34 +0800
+	id 1qM1M0-0004FR-2D;
+	Wed, 19 Jul 2023 07:12:08 +0000
+Date: Wed, 19 Jul 2023 15:11:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mingzhe Zou <mingzhe.zou@easystack.cn>, colyli@suse.de,
-	linux-bcache@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bcache@lists.ewheeler.net, zoumingzhe@qq.com
-Subject: Re: [PATCH v2 1/3] bcache: the gc_sectors_used size matches the
- bucket size
-Message-ID: <202307191421.MARPn86g-lkp@intel.com>
-References: <20230719024709.287-1-mingzhe.zou@easystack.cn>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/637 1292/12466]
+ drivers/video/fbdev/mxc/mxc_edid.c:190:5: warning: no previous prototype for
+ 'mxc_edid_fb_mode_is_equal'
+Message-ID: <202307191555.m6eaIypR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,184 +46,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230719024709.287-1-mingzhe.zou@easystack.cn>
 
-Hi Mingzhe,
+Hi Fancy,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.5-rc2 next-20230719]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mingzhe-Zou/bcache-Separate-bch_moving_gc-from-bch_btree_gc/20230719-105019
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230719024709.287-1-mingzhe.zou%40easystack.cn
-patch subject: [PATCH v2 1/3] bcache: the gc_sectors_used size matches the bucket size
-config: hexagon-randconfig-r025-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191421.MARPn86g-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191421.MARPn86g-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/637
+head:   ec33c7fc43bef23fa0b69db996fee0ba601875e9
+commit: a25565555c623a73e159ae4afd3542c8d937e186 [1292/12466] video: fbdev: mxc: add Northwest Logic DSI driver support
+config: alpha-randconfig-r014-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191555.m6eaIypR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191555.m6eaIypR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191421.MARPn86g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191555.m6eaIypR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/md/bcache/trace.c:2:
-   In file included from drivers/md/bcache/bcache.h:181:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/md/bcache/trace.c:2:
-   In file included from drivers/md/bcache/bcache.h:181:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/md/bcache/trace.c:2:
-   In file included from drivers/md/bcache/bcache.h:181:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/md/bcache/trace.c:9:
-   In file included from include/trace/events/bcache.h:505:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:419:
->> include/trace/events/bcache.h:441:22: error: call to undeclared function 'GC_SECTORS_USED'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     441 |                 __entry->sectors        = GC_SECTORS_USED(&ca->buckets[bucket]);
-         |                                           ^
-   6 warnings and 1 error generated.
+>> drivers/video/fbdev/mxc/mxc_edid.c:190:5: warning: no previous prototype for 'mxc_edid_fb_mode_is_equal' [-Wmissing-prototypes]
+     190 | int mxc_edid_fb_mode_is_equal(bool use_aspect,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/mxc/mxc_edid.c: In function 'get_detailed_timing':
+>> drivers/video/fbdev/mxc/mxc_edid.c:257:48: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     257 |                 DPRINTK("Aspect ratio: 16:9\n");
+         |                                                ^
+   drivers/video/fbdev/mxc/mxc_edid.c:259:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     259 |                 DPRINTK("Aspect ratio: 4:3\n");
+         |                                               ^
 
 
-vim +/GC_SECTORS_USED +441 include/trace/events/bcache.h
+vim +/mxc_edid_fb_mode_is_equal +190 drivers/video/fbdev/mxc/mxc_edid.c
 
-cafe563591446cf Kent Overstreet 2013-03-23  427  
-7159b1ad3dded9d Kent Overstreet 2014-02-12  428  TRACE_EVENT(bcache_invalidate,
-7159b1ad3dded9d Kent Overstreet 2014-02-12  429  	TP_PROTO(struct cache *ca, size_t bucket),
-7159b1ad3dded9d Kent Overstreet 2014-02-12  430  	TP_ARGS(ca, bucket),
-cafe563591446cf Kent Overstreet 2013-03-23  431  
-cafe563591446cf Kent Overstreet 2013-03-23  432  	TP_STRUCT__entry(
-7159b1ad3dded9d Kent Overstreet 2014-02-12  433  		__field(unsigned,	sectors			)
-7159b1ad3dded9d Kent Overstreet 2014-02-12  434  		__field(dev_t,		dev			)
-7159b1ad3dded9d Kent Overstreet 2014-02-12  435  		__field(__u64,		offset			)
-cafe563591446cf Kent Overstreet 2013-03-23  436  	),
-cafe563591446cf Kent Overstreet 2013-03-23  437  
-cafe563591446cf Kent Overstreet 2013-03-23  438  	TP_fast_assign(
-7159b1ad3dded9d Kent Overstreet 2014-02-12  439  		__entry->dev		= ca->bdev->bd_dev;
-7159b1ad3dded9d Kent Overstreet 2014-02-12  440  		__entry->offset		= bucket << ca->set->bucket_bits;
-7159b1ad3dded9d Kent Overstreet 2014-02-12 @441  		__entry->sectors	= GC_SECTORS_USED(&ca->buckets[bucket]);
-cafe563591446cf Kent Overstreet 2013-03-23  442  	),
-cafe563591446cf Kent Overstreet 2013-03-23  443  
-7159b1ad3dded9d Kent Overstreet 2014-02-12  444  	TP_printk("invalidated %u sectors at %d,%d sector=%llu",
-7159b1ad3dded9d Kent Overstreet 2014-02-12  445  		  __entry->sectors, MAJOR(__entry->dev),
-7159b1ad3dded9d Kent Overstreet 2014-02-12  446  		  MINOR(__entry->dev), __entry->offset)
-7159b1ad3dded9d Kent Overstreet 2014-02-12  447  );
-7159b1ad3dded9d Kent Overstreet 2014-02-12  448  
-7159b1ad3dded9d Kent Overstreet 2014-02-12  449  TRACE_EVENT(bcache_alloc,
-7159b1ad3dded9d Kent Overstreet 2014-02-12  450  	TP_PROTO(struct cache *ca, size_t bucket),
-7159b1ad3dded9d Kent Overstreet 2014-02-12  451  	TP_ARGS(ca, bucket),
-7159b1ad3dded9d Kent Overstreet 2014-02-12  452  
-7159b1ad3dded9d Kent Overstreet 2014-02-12  453  	TP_STRUCT__entry(
-7159b1ad3dded9d Kent Overstreet 2014-02-12  454  		__field(dev_t,		dev			)
-7159b1ad3dded9d Kent Overstreet 2014-02-12  455  		__field(__u64,		offset			)
-7159b1ad3dded9d Kent Overstreet 2014-02-12  456  	),
-7159b1ad3dded9d Kent Overstreet 2014-02-12  457  
-7159b1ad3dded9d Kent Overstreet 2014-02-12  458  	TP_fast_assign(
-7159b1ad3dded9d Kent Overstreet 2014-02-12  459  		__entry->dev		= ca->bdev->bd_dev;
-7159b1ad3dded9d Kent Overstreet 2014-02-12  460  		__entry->offset		= bucket << ca->set->bucket_bits;
-7159b1ad3dded9d Kent Overstreet 2014-02-12  461  	),
-7159b1ad3dded9d Kent Overstreet 2014-02-12  462  
-7159b1ad3dded9d Kent Overstreet 2014-02-12  463  	TP_printk("allocated %d,%d sector=%llu", MAJOR(__entry->dev),
-7159b1ad3dded9d Kent Overstreet 2014-02-12  464  		  MINOR(__entry->dev), __entry->offset)
-cafe563591446cf Kent Overstreet 2013-03-23  465  );
-cafe563591446cf Kent Overstreet 2013-03-23  466  
-c37511b863f36c1 Kent Overstreet 2013-04-26  467  TRACE_EVENT(bcache_alloc_fail,
-78365411b344df3 Kent Overstreet 2013-12-17  468  	TP_PROTO(struct cache *ca, unsigned reserve),
-78365411b344df3 Kent Overstreet 2013-12-17  469  	TP_ARGS(ca, reserve),
-cafe563591446cf Kent Overstreet 2013-03-23  470  
-c37511b863f36c1 Kent Overstreet 2013-04-26  471  	TP_STRUCT__entry(
-7159b1ad3dded9d Kent Overstreet 2014-02-12  472  		__field(dev_t,		dev			)
-c37511b863f36c1 Kent Overstreet 2013-04-26  473  		__field(unsigned,	free			)
-c37511b863f36c1 Kent Overstreet 2013-04-26  474  		__field(unsigned,	free_inc		)
-c37511b863f36c1 Kent Overstreet 2013-04-26  475  		__field(unsigned,	blocked			)
-c37511b863f36c1 Kent Overstreet 2013-04-26  476  	),
-cafe563591446cf Kent Overstreet 2013-03-23  477  
-c37511b863f36c1 Kent Overstreet 2013-04-26  478  	TP_fast_assign(
-7159b1ad3dded9d Kent Overstreet 2014-02-12  479  		__entry->dev		= ca->bdev->bd_dev;
-78365411b344df3 Kent Overstreet 2013-12-17  480  		__entry->free		= fifo_used(&ca->free[reserve]);
-c37511b863f36c1 Kent Overstreet 2013-04-26  481  		__entry->free_inc	= fifo_used(&ca->free_inc);
-c37511b863f36c1 Kent Overstreet 2013-04-26  482  		__entry->blocked	= atomic_read(&ca->set->prio_blocked);
-c37511b863f36c1 Kent Overstreet 2013-04-26  483  	),
-cafe563591446cf Kent Overstreet 2013-03-23  484  
-2531d9ee61fa08a Kent Overstreet 2014-03-17  485  	TP_printk("alloc fail %d,%d free %u free_inc %u blocked %u",
-7159b1ad3dded9d Kent Overstreet 2014-02-12  486  		  MAJOR(__entry->dev), MINOR(__entry->dev), __entry->free,
-2531d9ee61fa08a Kent Overstreet 2014-03-17  487  		  __entry->free_inc, __entry->blocked)
-cafe563591446cf Kent Overstreet 2013-03-23  488  );
-cafe563591446cf Kent Overstreet 2013-03-23  489  
-c37511b863f36c1 Kent Overstreet 2013-04-26  490  /* Background writeback */
-cafe563591446cf Kent Overstreet 2013-03-23  491  
-c37511b863f36c1 Kent Overstreet 2013-04-26  492  DEFINE_EVENT(bkey, bcache_writeback,
-c37511b863f36c1 Kent Overstreet 2013-04-26  493  	TP_PROTO(struct bkey *k),
-c37511b863f36c1 Kent Overstreet 2013-04-26  494  	TP_ARGS(k)
-c37511b863f36c1 Kent Overstreet 2013-04-26  495  );
-cafe563591446cf Kent Overstreet 2013-03-23  496  
-c37511b863f36c1 Kent Overstreet 2013-04-26  497  DEFINE_EVENT(bkey, bcache_writeback_collision,
-c37511b863f36c1 Kent Overstreet 2013-04-26  498  	TP_PROTO(struct bkey *k),
-c37511b863f36c1 Kent Overstreet 2013-04-26  499  	TP_ARGS(k)
-cafe563591446cf Kent Overstreet 2013-03-23  500  );
-cafe563591446cf Kent Overstreet 2013-03-23  501  
-cafe563591446cf Kent Overstreet 2013-03-23  502  #endif /* _TRACE_BCACHE_H */
-cafe563591446cf Kent Overstreet 2013-03-23  503  
-cafe563591446cf Kent Overstreet 2013-03-23  504  /* This part must be outside protection */
-cafe563591446cf Kent Overstreet 2013-03-23 @505  #include <trace/define_trace.h>
+   184	
+   185	/*
+   186	 * We have a special version of fb_mode_is_equal that ignores
+   187	 * pixclock, since for many CEA modes, 2 frequencies are supported
+   188	 * e.g. 640x480 @ 60Hz or 59.94Hz
+   189	 */
+ > 190	int mxc_edid_fb_mode_is_equal(bool use_aspect,
+   191				const struct fb_videomode *mode1,
+   192				const struct fb_videomode *mode2)
+   193	{
+   194		u32 mask;
+   195	
+   196		if (use_aspect)
+   197			mask = ~0;
+   198		else
+   199			mask = ~FB_VMODE_ASPECT_MASK;
+   200	
+   201		return (mode1->xres         == mode2->xres &&
+   202			mode1->yres         == mode2->yres &&
+   203			mode1->hsync_len    == mode2->hsync_len &&
+   204			mode1->vsync_len    == mode2->vsync_len &&
+   205			mode1->left_margin  == mode2->left_margin &&
+   206			mode1->right_margin == mode2->right_margin &&
+   207			mode1->upper_margin == mode2->upper_margin &&
+   208			mode1->lower_margin == mode2->lower_margin &&
+   209			mode1->sync         == mode2->sync &&
+   210			/* refresh check, 59.94Hz and 60Hz have the same parameter
+   211			 * in struct of mxc_cea_mode */
+   212			abs(mode1->refresh - mode2->refresh) <= 1 &&
+   213			(mode1->vmode & mask) == (mode2->vmode & mask));
+   214	}
+   215	
+   216	static void get_detailed_timing(unsigned char *block,
+   217					struct fb_videomode *mode)
+   218	{
+   219		mode->xres = H_ACTIVE;
+   220		mode->yres = V_ACTIVE;
+   221		mode->pixclock = PIXEL_CLOCK;
+   222		mode->pixclock /= 1000;
+   223		mode->pixclock = KHZ2PICOS(mode->pixclock);
+   224		mode->right_margin = H_SYNC_OFFSET;
+   225		mode->left_margin = (H_ACTIVE + H_BLANKING) -
+   226			(H_ACTIVE + H_SYNC_OFFSET + H_SYNC_WIDTH);
+   227		mode->upper_margin = V_BLANKING - V_SYNC_OFFSET -
+   228			V_SYNC_WIDTH;
+   229		mode->lower_margin = V_SYNC_OFFSET;
+   230		mode->hsync_len = H_SYNC_WIDTH;
+   231		mode->vsync_len = V_SYNC_WIDTH;
+   232		if (HSYNC_POSITIVE)
+   233			mode->sync |= FB_SYNC_HOR_HIGH_ACT;
+   234		if (VSYNC_POSITIVE)
+   235			mode->sync |= FB_SYNC_VERT_HIGH_ACT;
+   236		mode->refresh = PIXEL_CLOCK/((H_ACTIVE + H_BLANKING) *
+   237					     (V_ACTIVE + V_BLANKING));
+   238		if (INTERLACED) {
+   239			mode->yres *= 2;
+   240			mode->upper_margin *= 2;
+   241			mode->lower_margin *= 2;
+   242			mode->vsync_len *= 2;
+   243			mode->vmode |= FB_VMODE_INTERLACED;
+   244		}
+   245		mode->flag = FB_MODE_IS_DETAILED;
+   246	
+   247		if ((H_SIZE / 16) == (V_SIZE / 9))
+   248			mode->vmode |= FB_VMODE_ASPECT_16_9;
+   249		else if ((H_SIZE / 4) == (V_SIZE / 3))
+   250			mode->vmode |= FB_VMODE_ASPECT_4_3;
+   251		else if ((mode->xres / 16) == (mode->yres / 9))
+   252			mode->vmode |= FB_VMODE_ASPECT_16_9;
+   253		else if ((mode->xres / 4) == (mode->yres / 3))
+   254			mode->vmode |= FB_VMODE_ASPECT_4_3;
+   255	
+   256		if (mode->vmode & FB_VMODE_ASPECT_16_9)
+ > 257			DPRINTK("Aspect ratio: 16:9\n");
+   258		if (mode->vmode & FB_VMODE_ASPECT_4_3)
+   259			DPRINTK("Aspect ratio: 4:3\n");
+   260		DPRINTK("      %d MHz ",  PIXEL_CLOCK/1000000);
+   261		DPRINTK("%d %d %d %d ", H_ACTIVE, H_ACTIVE + H_SYNC_OFFSET,
+   262		       H_ACTIVE + H_SYNC_OFFSET + H_SYNC_WIDTH, H_ACTIVE + H_BLANKING);
+   263		DPRINTK("%d %d %d %d ", V_ACTIVE, V_ACTIVE + V_SYNC_OFFSET,
+   264		       V_ACTIVE + V_SYNC_OFFSET + V_SYNC_WIDTH, V_ACTIVE + V_BLANKING);
+   265		DPRINTK("%sHSync %sVSync\n\n", (HSYNC_POSITIVE) ? "+" : "-",
+   266		       (VSYNC_POSITIVE) ? "+" : "-");
+   267	}
+   268	
 
 -- 
 0-DAY CI Kernel Test Service
