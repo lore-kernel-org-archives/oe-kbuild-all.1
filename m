@@ -1,103 +1,92 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6368156D3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 15:24:16 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31454996e06so6597280f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 08:24:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CA2156F0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 15:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689780255; x=1690385055;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5GgaVhEQ9YvIKWzZ/TLpYM+aKxNg1984FV2335cjvQw=;
-        b=bHk71LjOWdTQmFztley07YBOBCMf8Vpo8LWOUjIvoDaFwTocAm8wAKPDh/jP8kQp/b
-         Ozprf7TSh0nCuLYFprxBqqf28y2CJC7XB5HSeZ8fPj34O9S0qxDlpVnEhF1d+HBPFshW
-         rjEilf0gRX4rwEkB32Ay4pXW04tdAzfK3uHvIGOTc2wZWyn6oVvST4IHTNT8rU6vzMeG
-         qODLpRWozPB751KHKznvJQ2yzSKq8QhYcVaLd+Gn/u6/uo2eVF7CBdR3t3VVbQnyJPoU
-         Hn3WU9mGlHXHijVDOrhYzWw6wIAlogP2oNmE9V36CsHcjj1B8Um5WiEZAfEHNAayotii
-         qh9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689780255; x=1690385055;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5GgaVhEQ9YvIKWzZ/TLpYM+aKxNg1984FV2335cjvQw=;
-        b=Bt/QCWLgFhjd8lWPQwvMzLEtIoOcjAQ74ToPl0CTnHry3sNH/9Zz3L7PLaWRepZN0L
-         ZWNqikc/+1/bMOPJoP6zuZN4T2zA+BxFDllwD/TipZHpRDQnbnVnvuO6UvA5NEmo5TTM
-         WdKn7IOs20p58d2ePBAjG7FCyLvlCLPUw2wnhokfuF7FCfy+aFhiY2EVXLCh6NC35rOa
-         VKT2Li6IVXlFlQm3zqmLtJxR0Q54DZxVTZVcRGum/x7KyeOhrkJE8cg5SduUpHqgZg1q
-         urVVti7XoI6yuKviMwvxQgGg4572xSGko4AtXhccrX5gNCAokVceRJNbcbaUrAmMUNsl
-         R+1w==
-X-Gm-Message-State: ABy/qLay6UgEUfO26dsgUhBHLcC0zXUz5BoRhd0/Ds5sGAaN/c2V9PZn
-	PTZ6nK8VcLaH5opZFXHOlN1GXQ==
-X-Google-Smtp-Source: APBJJlEO4wkEMiX3mT+CatwZ2Ay1ZE70ISKdDxHAeGQ6yZG0M/D9fI2GVGWsXbg0Zoa9FIQ8fmYiZA==
-X-Received: by 2002:adf:f38e:0:b0:313:e9dc:44d5 with SMTP id m14-20020adff38e000000b00313e9dc44d5mr135418wro.61.1689780255007;
-        Wed, 19 Jul 2023 08:24:15 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id a24-20020a05600c225800b003fbfa6066acsm1915112wmm.40.2023.07.19.08.24.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jul 2023 08:24:13 -0700 (PDT)
-Date: Wed, 19 Jul 2023 18:24:09 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [ardb:acomp-zswap-cleanup 4/21] net/xfrm/xfrm_ipcomp.c:258
- ipcomp_free_reqs() warn: iterator used outside loop: 'pos'
-Message-ID: <075d634d-2cdd-46af-9692-eb45587f09ba@kadam.mountain>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=y2TMEyMiHodt7y9kEdY2Vb3YfikQk2VyUX9Z/39rV4Y=;
+  b=TD9Xjds9FNbDjIYTnjHQKjTzsuOMO34ZO+cVgDp4PFf0ZloqEvO4q9Ms
+   4zjl4+0TYE/6zH4RGLeiwp8aYXnmwahmRE2oSnNe7geETUmL0N5+voKtz
+   IrEVtUQTPoRAEcZBYt30Q201UBzrNYtRW3Z3Bb5wtpNeGmTuvb9i86VWQ
+   Q=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.01,216,1684792800"; 
+   d="scan'208";a="61773449"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 17:25:08 +0200
+Date: Wed, 19 Jul 2023 17:25:06 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Joel Granados <j.granados@samsung.com>
+cc: oe-kbuild-all@lists.linux.dev
+Subject: [joelgranados:jag/sysctl_remove_empty_elem 38/65]
+ drivers/parport/procfs.c:267:18-28: WARNING use flexible-array member instead
+ (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+ (fwd)
+Message-ID: <b68351c-37b2-1195-bde-6161e96e419@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git acomp-zswap-cleanup
-head:   d0a9c8530b6b8659bc8b126638f5d2c907cfe5ee
-commit: 0e06a41b2635783fddeff405a37a0d6e7a997815 [4/21] net: ipcomp: Migrate to acomp API from deprecated comp API
-config: i386-randconfig-m021-20230717 (https://download.01.org/0day-ci/archive/20230719/202307192356.By9AmaYX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192356.By9AmaYX-lkp@intel.com/reproduce)
+Should device_dir be a flexible array?
+
+julia
+
+---------- Forwarded message ----------
+Date: Wed, 19 Jul 2023 21:40:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [joelgranados:jag/sysctl_remove_empty_elem 38/65]
+    drivers/parport/procfs.c:267:18-28: WARNING use flexible-array member
+    instead
+    (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-
+    and-one-element-arrays)
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Joel Granados <j.granados@samsung.com>
+
+tree:   https://github.com/Joelgranados/linux.git jag/sysctl_remove_empty_elem
+head:   a304fafc8514647e95ddf6cae2bdf2f7cd185ac1
+commit: 03ff367f259166790e8982a17498c296193db2e5 [38/65] parport: rm sentinel element from ctl_table array
+:::::: branch date: 22 hours ago
+:::::: commit date: 23 hours ago
+config: microblaze-randconfig-r062-20230717 (https://download.01.org/0day-ci/archive/20230719/202307192154.Ti6lpJ4N-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192154.Ti6lpJ4N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307192356.By9AmaYX-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202307192154.Ti6lpJ4N-lkp@intel.com/
 
-smatch warnings:
-net/xfrm/xfrm_ipcomp.c:258 ipcomp_free_reqs() warn: iterator used outside loop: 'pos'
+cocci warnings: (new ones prefixed by >>)
+>> drivers/parport/procfs.c:267:18-28: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+   drivers/parport/procfs.c:364:18-28: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
-vim +/pos +258 net/xfrm/xfrm_ipcomp.c
+vim +267 drivers/parport/procfs.c
 
-0e06a41b263578 Ard Biesheuvel 2023-07-14  246  static void ipcomp_free_reqs(struct acomp_req * __percpu *reqs)
-6fccab671f2f0a Herbert Xu     2008-07-25  247  {
-0e06a41b263578 Ard Biesheuvel 2023-07-14  248  	struct ipcomp_reqs *pos;
-6fccab671f2f0a Herbert Xu     2008-07-25  249  	int cpu;
-6fccab671f2f0a Herbert Xu     2008-07-25  250  
-0e06a41b263578 Ard Biesheuvel 2023-07-14  251  	list_for_each_entry(pos, &ipcomp_reqs_list, list) {
-0e06a41b263578 Ard Biesheuvel 2023-07-14  252  		if (pos->reqs == reqs)
-6fccab671f2f0a Herbert Xu     2008-07-25  253  			break;
-6fccab671f2f0a Herbert Xu     2008-07-25  254  	}
-6fccab671f2f0a Herbert Xu     2008-07-25  255  
-0e06a41b263578 Ard Biesheuvel 2023-07-14  256  	WARN_ON(list_entry_is_head(pos, &ipcomp_reqs_list, list));
-
-If you wrote this as:
-
-	if (WARN_ON(list_entry_is_head(pos, &ipcomp_reqs_list, list)))
-		return;
-
-then it would make the checker happy.  But it doesn't matter either way.
-
-6fccab671f2f0a Herbert Xu     2008-07-25  257  
-6fccab671f2f0a Herbert Xu     2008-07-25 @258  	if (--pos->users)
-6fccab671f2f0a Herbert Xu     2008-07-25  259  		return;
-6fccab671f2f0a Herbert Xu     2008-07-25  260  
-6fccab671f2f0a Herbert Xu     2008-07-25  261  	list_del(&pos->list);
-6fccab671f2f0a Herbert Xu     2008-07-25  262  	kfree(pos);
-6fccab671f2f0a Herbert Xu     2008-07-25  263  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  257
+^1da177e4c3f41 Linus Torvalds 2005-04-16  258
+^1da177e4c3f41 Linus Torvalds 2005-04-16  259  struct parport_sysctl_table {
+37e9981e33e4d3 Joel Granados  2023-06-16  260  	struct ctl_table_header *port_header;
+37e9981e33e4d3 Joel Granados  2023-06-16  261  	struct ctl_table_header *devices_header;
+03ff367f259166 Joel Granados  2023-06-27  262  #ifdef CONFIG_PARPORT_1284
+03ff367f259166 Joel Granados  2023-06-27  263  	struct ctl_table vars[10];
+03ff367f259166 Joel Granados  2023-06-27  264  #else
+03ff367f259166 Joel Granados  2023-06-27  265  	struct ctl_table vars[5];
+03ff367f259166 Joel Granados  2023-06-27  266  #endif /* IEEE 1284 support */
+03ff367f259166 Joel Granados  2023-06-27 @267  	struct ctl_table device_dir[1];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  268  };
+^1da177e4c3f41 Linus Torvalds 2005-04-16  269
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
