@@ -1,46 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E9115A7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 00:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61E8ECA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 00:49:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689727165; x=1721263165;
+  t=1689727774; x=1721263774;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=momXZNfaJlA8MUVISZW1Spq3TD1TACCwtGXdLc1rSlk=;
-  b=F1OPM9IsoqoNiS2oXlnV4Dm7l0/jHJiqYL0/ZahdZnZfHIB9f9Wf1rmT
-   z3LtCbMiojfc9oJ40yknb28niIh2/ZIAAGB36xf20SenkTNF+kg6WZv4G
-   bCeLc1EcWygZbHX3VgdtFMYiT7jhGO83s+1McEXd3Bvp1Ktsi4kPdWRoI
-   WEdY+ojD3TO92huzXWLDZzWpKyrpfr4QwwrnijIcVu2cM+f1z7yCYdhLg
-   MHuUmScwmHGA+/te9kh4bZeUMQdiWLXqWj4nuP+pt0/R4MWLfa76RWTFf
-   bGT8BBxRZg9x+HSwi6/oYNhmCtxoTaWahbnqIrY2HprZHKBQEbOqnhfm8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="345934275"
+  bh=xSKqg7FO5RCqSFt6EGbWpfzRG5YkNCvxq8/mZoBVZAQ=;
+  b=OuLwHp9CNpfvRg5KWBMyHwTuhwaadFxBDEoUeOiJUBcwWEjaD9m/S63v
+   QPaHuQmYM94IA0V0QJHI8GIwg1HjsODiQ1nHstezGvKzpvb2yDfjhiSHe
+   fEASuvvyz3Ul4wgcgwSNaJFT7QXzPTe4yDB8nFZaKXXfJOhUyEBBJgOOo
+   BIbWPg7A4e0HvObK/oi+pocUyqPHi6MteGaqFgMU7LrNEeqNUvoXnACkl
+   mwKPwVgD6fLmXJGB5pt7DrmGlzvgQ6T1Al9NuazyzkuwDa46XrfObDh1x
+   QLd+i2QRFOOAgTmfFxQA0C51myqoFZH6vucIel7LjF2LtN9AuxLkGH1Lg
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="430107609"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="345934275"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 17:39:24 -0700
+   d="scan'208";a="430107609"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 17:49:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="793819356"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="897736584"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="793819356"
+   d="scan'208";a="897736584"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Jul 2023 17:39:22 -0700
+  by orsmga005.jf.intel.com with ESMTP; 18 Jul 2023 17:49:32 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLvDt-0003z7-1b;
-	Wed, 19 Jul 2023 00:39:21 +0000
-Date: Wed, 19 Jul 2023 08:38:32 +0800
+	id 1qLvNe-0003zb-1M;
+	Wed, 19 Jul 2023 00:49:27 +0000
+Date: Wed, 19 Jul 2023 08:48:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Waqar Hameed <waqar.hameed@axis.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@axis.com,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] iio: Add driver for Murata IRS-D200
-Message-ID: <202307190824.LNgDNyW1-lkp@intel.com>
-References: <39cfb5b9f58e26a9b348a03743d250249983ed35.1689683411.git.waqar.hameed@axis.com>
+To: Wang Ming <machel@vivo.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com
+Subject: Re: [PATCH v1] reset: hisilicon: Use dev_err_probe instead of dev_err
+Message-ID: <202307190847.UjE7NAlJ-lkp@intel.com>
+References: <20230718030511.16065-1-machel@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,125 +47,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <39cfb5b9f58e26a9b348a03743d250249983ed35.1689683411.git.waqar.hameed@axis.com>
+In-Reply-To: <20230718030511.16065-1-machel@vivo.com>
 
-Hi Waqar,
+Hi Wang,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 3f01e9fed8454dcd89727016c3e5b2fbb8f8e50c]
+[auto build test WARNING on pza/reset/next]
+[also build test WARNING on pza/imx-drm/next linus/master v6.5-rc2 next-20230718]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Waqar-Hameed/dt-bindings-iio-proximity-Add-Murata-IRS-D200/20230718-203520
-base:   3f01e9fed8454dcd89727016c3e5b2fbb8f8e50c
-patch link:    https://lore.kernel.org/r/39cfb5b9f58e26a9b348a03743d250249983ed35.1689683411.git.waqar.hameed%40axis.com
-patch subject: [PATCH v3 3/3] iio: Add driver for Murata IRS-D200
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230719/202307190824.LNgDNyW1-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190824.LNgDNyW1-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wang-Ming/reset-hisilicon-Use-dev_err_probe-instead-of-dev_err/20230718-203055
+base:   https://git.pengutronix.de/git/pza/linux reset/next
+patch link:    https://lore.kernel.org/r/20230718030511.16065-1-machel%40vivo.com
+patch subject: [PATCH v1] reset: hisilicon: Use dev_err_probe instead of dev_err
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230719/202307190847.UjE7NAlJ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190847.UjE7NAlJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307190824.LNgDNyW1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307190847.UjE7NAlJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iio/proximity/irsd200.c: In function 'irsd200_irq_thread':
->> drivers/iio/proximity/irsd200.c:705:17: error: implicit declaration of function 'iio_trigger_poll_chained'; did you mean 'iio_trigger_poll_nested'? [-Werror=implicit-function-declaration]
-     705 |                 iio_trigger_poll_chained(indio_dev->trig);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                 iio_trigger_poll_nested
-   cc1: some warnings being treated as errors
+   drivers/reset/hisilicon/reset-hi3660.c: In function 'hi3660_reset_probe':
+>> drivers/reset/hisilicon/reset-hi3660.c:93:36: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+      93 |                 dev_err_probe(dev, "failed to get hisilicon,rst-syscon\n");
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                    |
+         |                                    char *
+   In file included from include/linux/platform_device.h:13,
+                    from include/linux/of_device.h:5,
+                    from drivers/reset/hisilicon/reset-hi3660.c:9:
+   include/linux/device.h:1091:64: note: expected 'int' but argument is of type 'char *'
+    1091 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+   drivers/reset/hisilicon/reset-hi3660.c:93:17: error: too few arguments to function 'dev_err_probe'
+      93 |                 dev_err_probe(dev, "failed to get hisilicon,rst-syscon\n");
+         |                 ^~~~~~~~~~~~~
+   include/linux/device.h:1091:20: note: declared here
+    1091 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                    ^~~~~~~~~~~~~
 
 
-vim +705 drivers/iio/proximity/irsd200.c
+vim +/dev_err_probe +93 drivers/reset/hisilicon/reset-hi3660.c
 
-   676	
-   677	static irqreturn_t irsd200_irq_thread(int irq, void *dev_id)
-   678	{
-   679		struct iio_dev *indio_dev = dev_id;
-   680		struct irsd200_data *data = iio_priv(indio_dev);
-   681		enum iio_event_direction dir;
-   682		unsigned int lower_count;
-   683		unsigned int upper_count;
-   684		unsigned int status = 0;
-   685		unsigned int source = 0;
-   686		unsigned int clear = 0;
-   687		unsigned int count = 0;
-   688		int ret;
-   689	
-   690		ret = regmap_read(data->regmap, IRS_REG_INTR, &source);
-   691		if (ret) {
-   692			dev_err(data->dev, "Could not read interrupt source (%d)\n",
-   693				ret);
-   694			return IRQ_HANDLED;
-   695		}
-   696	
-   697		ret = regmap_read(data->regmap, IRS_REG_STATUS, &status);
-   698		if (ret) {
-   699			dev_err(data->dev, "Could not acknowledge interrupt (%d)\n",
-   700				ret);
-   701			return IRQ_HANDLED;
-   702		}
-   703	
-   704		if (status & BIT(IRS_INTR_DATA) && iio_buffer_enabled(indio_dev)) {
- > 705			iio_trigger_poll_chained(indio_dev->trig);
-   706			clear |= BIT(IRS_INTR_DATA);
-   707		}
-   708	
-   709		if (status & BIT(IRS_INTR_COUNT_THR_OR) &&
-   710		    source & BIT(IRS_INTR_COUNT_THR_OR)) {
-   711			/*
-   712			 * The register value resets to zero after reading. We therefore
-   713			 * need to read once and manually extract the lower and upper
-   714			 * count register fields.
-   715			 */
-   716			ret = regmap_read(data->regmap, IRS_REG_COUNT, &count);
-   717			if (ret)
-   718				dev_err(data->dev, "Could not read count (%d)\n", ret);
-   719	
-   720			upper_count = IRS_UPPER_COUNT(count);
-   721			lower_count = IRS_LOWER_COUNT(count);
-   722	
-   723			/*
-   724			 * We only check the OR mode to be able to push events for
-   725			 * rising and falling thresholds. AND mode is covered when both
-   726			 * upper and lower count is non-zero, and is signaled with
-   727			 * IIO_EV_DIR_EITHER.
-   728			 */
-   729			if (upper_count && !lower_count)
-   730				dir = IIO_EV_DIR_RISING;
-   731			else if (!upper_count && lower_count)
-   732				dir = IIO_EV_DIR_FALLING;
-   733			else
-   734				dir = IIO_EV_DIR_EITHER;
-   735	
-   736			iio_push_event(indio_dev,
-   737				       IIO_UNMOD_EVENT_CODE(IIO_PROXIMITY, 0,
-   738							    IIO_EV_TYPE_THRESH, dir),
-   739				       iio_get_time_ns(indio_dev));
-   740	
-   741			/*
-   742			 * The OR mode will always trigger when the AND mode does, but
-   743			 * not vice versa. However, it seems like the AND bit needs to
-   744			 * be cleared if data capture _and_ threshold count interrupts
-   745			 * are desirable, even though it hasn't explicitly been selected
-   746			 * (with IRS_REG_INTR). Either way, it doesn't hurt...
-   747			 */
-   748			clear |= BIT(IRS_INTR_COUNT_THR_OR) |
-   749				 BIT(IRS_INTR_COUNT_THR_AND);
-   750		}
-   751	
-   752		if (clear) {
-   753			ret = regmap_write(data->regmap, IRS_REG_STATUS, clear);
-   754			if (ret)
-   755				dev_err(data->dev,
-   756					"Could not clear interrupt status (%d)\n", ret);
-   757		}
-   758	
-   759		return clear ? IRQ_HANDLED : IRQ_NONE;
-   760	}
-   761	
+    75	
+    76	static int hi3660_reset_probe(struct platform_device *pdev)
+    77	{
+    78		struct hi3660_reset_controller *rc;
+    79		struct device_node *np = pdev->dev.of_node;
+    80		struct device *dev = &pdev->dev;
+    81	
+    82		rc = devm_kzalloc(dev, sizeof(*rc), GFP_KERNEL);
+    83		if (!rc)
+    84			return -ENOMEM;
+    85	
+    86		rc->map = syscon_regmap_lookup_by_phandle(np, "hisilicon,rst-syscon");
+    87		if (rc->map == ERR_PTR(-ENODEV)) {
+    88			/* fall back to the deprecated compatible */
+    89			rc->map = syscon_regmap_lookup_by_phandle(np,
+    90								  "hisi,rst-syscon");
+    91		}
+    92		if (IS_ERR(rc->map)) {
+  > 93			dev_err_probe(dev, "failed to get hisilicon,rst-syscon\n");
+    94			return PTR_ERR(rc->map);
+    95		}
+    96	
+    97		rc->rst.ops = &hi3660_reset_ops,
+    98		rc->rst.of_node = np;
+    99		rc->rst.of_reset_n_cells = 2;
+   100		rc->rst.of_xlate = hi3660_reset_xlate;
+   101	
+   102		return reset_controller_register(&rc->rst);
+   103	}
+   104	
 
 -- 
 0-DAY CI Kernel Test Service
