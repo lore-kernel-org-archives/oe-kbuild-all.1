@@ -1,52 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE315674;
-	Wed, 19 Jul 2023 05:37:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3291FDF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 05:59:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689745046; x=1721281046;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T1unG0vjvqpp3WUUzYFWk4kgYgyuCL1GBV5V1zIqMJ4=;
-  b=HSr0A87LcFlWmoC+zzyCNjTjLcL6w5IqRFjTLit9kkn4ElDf2ny80Q1t
-   3dqzd1IZBAPTNmWVVcd9l1vlbPDbAsTkwo1mKU3aqdO4n9zZTsws8Bgop
-   kdyKMFvXyUlUKc5jTXRQXXh9iSpqSqRYNQzMLZuCJp8qfEXk9ITw3sXTk
-   ++fI8pNUR1eMVi1R3aBij8PORr6g2M9qziN9bRSz3C+G8596RWm7PCFXP
-   +Uif5aZsS2uuZSLoG5GUu1iVeTwiA9zoLoZ1gfHupmHSQprGiXKJ48Mmf
-   74OWrynKFQQdtFHc2XSLejfStflWPS5NSaJJ6tX3tmMaVRBwHiLG9ph1Y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="346679535"
-X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="346679535"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 22:37:25 -0700
+  t=1689746376; x=1721282376;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QBDvD4BECTYLji1IzqFNfegF5h3ejdHirypqap/mFzk=;
+  b=CvNgbTWovwB92yeopmG+YpaMNptr6SjerNz38K1+Ma9geSUO3opR5atG
+   wOVJfGpmU0GdMd7yPtHGhm46oCTTHgzx6LnBvCiwZ+u0PT9DIJbZvVicq
+   5BhFQqLnq0VZOjgXm0XBQ3euvZeQrT6QNAQfhGpQbx9exNpP5NYOnPVvB
+   isTpmNcz1xuf4xTgh3S1WbyQ2GtxTYOo7grvuxjmDGTCUtWpqeVy0Z8IR
+   afTo1187XF32SxovRUgq2n0ZBl4GoCLbgR6DxvBqp7xnDn4MYSNPRRnne
+   JGtCn/8/Bw6nzGQNFwcHtdmC5xfqNE0lTGRGn5hKyWWJNY5zwGrJDQQpQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="363836588"
+X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
+   d="scan'208";a="363836588"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 22:59:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="723876144"
-X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="723876144"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="793888204"
+X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
+   d="scan'208";a="793888204"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 18 Jul 2023 22:37:22 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 18 Jul 2023 22:59:34 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLzsH-0004BV-0x;
-	Wed, 19 Jul 2023 05:37:21 +0000
-Date: Wed, 19 Jul 2023 13:36:38 +0800
+	id 1qM0DC-0004CH-2G;
+	Wed, 19 Jul 2023 05:59:13 +0000
+Date: Wed, 19 Jul 2023 13:58:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] kasan: Replace strreplace() with strchrnul()
-Message-ID: <202307191350.tJh2PZdE-lkp@intel.com>
-References: <20230628153342.53406-1-andriy.shevchenko@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.0.x-imx 140/12467]
+ sound/soc/codecs/pcm512x.c:1594:14: warning: unused variable 'clk_name'
+Message-ID: <202307191331.DDCPZh8R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,96 +45,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230628153342.53406-1-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
+Hi Adrian,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.5-rc2 next-20230718]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/kasan-Replace-strreplace-with-strchrnul/20230628-233727
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230628153342.53406-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/1] kasan: Replace strreplace() with strchrnul()
-config: x86_64-randconfig-x001-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191350.tJh2PZdE-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191350.tJh2PZdE-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.0.x-imx
+head:   791ee62ff569635e685d84c09b2179f002c4e0bf
+commit: 90e8a15795a3ebaba518deb67fc8d32081769002 [140/12467] MLK-25015: sound: soc: codecs: pcm512x: set input sclk
+config: x86_64-buildonly-randconfig-r003-20230718 (https://download.01.org/0day-ci/archive/20230719/202307191331.DDCPZh8R-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307191331.DDCPZh8R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307191350.tJh2PZdE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307191331.DDCPZh8R-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/kasan/report_generic.c:286:3: warning: variable 'p' is uninitialized when used here [-Wuninitialized]
-                   p[strchrnul(token, ':') - token] = '\0';
-                   ^
-   mm/kasan/report_generic.c:267:10: note: initialize the variable 'p' to silence this warning
-                   char *p;
-                          ^
-                           = NULL
-   1 warning generated.
+   sound/soc/codecs/pcm512x.c: In function 'pcm512x_probe':
+>> sound/soc/codecs/pcm512x.c:1594:14: warning: unused variable 'clk_name' [-Wunused-variable]
+    1594 |         char clk_name[8];
+         |              ^~~~~~~~
 
 
-vim +/p +286 mm/kasan/report_generic.c
+vim +/clk_name +1594 sound/soc/codecs/pcm512x.c
 
-   242	
-   243	static void print_decoded_frame_descr(const char *frame_descr)
-   244	{
-   245		/*
-   246		 * We need to parse the following string:
-   247		 *    "n alloc_1 alloc_2 ... alloc_n"
-   248		 * where alloc_i looks like
-   249		 *    "offset size len name"
-   250		 * or "offset size len name:line".
-   251		 */
-   252	
-   253		char token[64];
-   254		unsigned long num_objects;
-   255	
-   256		if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
-   257					  &num_objects))
-   258			return;
-   259	
-   260		pr_err("\n");
-   261		pr_err("This frame has %lu %s:\n", num_objects,
-   262		       num_objects == 1 ? "object" : "objects");
-   263	
-   264		while (num_objects--) {
-   265			unsigned long offset;
-   266			unsigned long size;
-   267			char *p;
-   268	
-   269			/* access offset */
-   270			if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
-   271						  &offset))
-   272				return;
-   273			/* access size */
-   274			if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
-   275						  &size))
-   276				return;
-   277			/* name length (unused) */
-   278			if (!tokenize_frame_descr(&frame_descr, NULL, 0, NULL))
-   279				return;
-   280			/* object name */
-   281			if (!tokenize_frame_descr(&frame_descr, token, sizeof(token),
-   282						  NULL))
-   283				return;
-   284	
-   285			/* Strip line number; without filename it's not very helpful. */
- > 286			p[strchrnul(token, ':') - token] = '\0';
-   287	
-   288			/* Finally, print object information. */
-   289			pr_err(" [%lu, %lu) '%s'", offset, offset + size, token);
-   290		}
-   291	}
-   292	
+  1590	
+  1591	int pcm512x_probe(struct device *dev, struct regmap *regmap)
+  1592	{
+  1593		struct pcm512x_priv *pcm512x;
+> 1594		char clk_name[8];
+  1595		int i, ret;
+  1596	
+  1597		pcm512x = devm_kzalloc(dev, sizeof(struct pcm512x_priv), GFP_KERNEL);
+  1598		if (!pcm512x)
+  1599			return -ENOMEM;
+  1600	
+  1601		mutex_init(&pcm512x->mutex);
+  1602	
+  1603		dev_set_drvdata(dev, pcm512x);
+  1604		pcm512x->regmap = regmap;
+  1605	
+  1606		for (i = 0; i < ARRAY_SIZE(pcm512x->supplies); i++)
+  1607			pcm512x->supplies[i].supply = pcm512x_supply_names[i];
+  1608	
+  1609		ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pcm512x->supplies),
+  1610					      pcm512x->supplies);
+  1611		if (ret != 0) {
+  1612			dev_err(dev, "Failed to get supplies: %d\n", ret);
+  1613			return ret;
+  1614		}
+  1615	
+  1616		pcm512x->supply_nb[0].notifier_call = pcm512x_regulator_event_0;
+  1617		pcm512x->supply_nb[1].notifier_call = pcm512x_regulator_event_1;
+  1618		pcm512x->supply_nb[2].notifier_call = pcm512x_regulator_event_2;
+  1619	
+  1620		for (i = 0; i < ARRAY_SIZE(pcm512x->supplies); i++) {
+  1621			ret = devm_regulator_register_notifier(
+  1622							pcm512x->supplies[i].consumer,
+  1623							&pcm512x->supply_nb[i]);
+  1624			if (ret != 0) {
+  1625				dev_err(dev,
+  1626					"Failed to register regulator notifier: %d\n",
+  1627					ret);
+  1628			}
+  1629		}
+  1630	
+  1631		ret = regulator_bulk_enable(ARRAY_SIZE(pcm512x->supplies),
+  1632					    pcm512x->supplies);
+  1633		if (ret != 0) {
+  1634			dev_err(dev, "Failed to enable supplies: %d\n", ret);
+  1635			return ret;
+  1636		}
+  1637	
+  1638		/* Reset the device, verifying I/O in the process for I2C */
+  1639		ret = regmap_write(regmap, PCM512x_RESET,
+  1640				   PCM512x_RSTM | PCM512x_RSTR);
+  1641		if (ret != 0) {
+  1642			dev_err(dev, "Failed to reset device: %d\n", ret);
+  1643			goto err;
+  1644		}
+  1645	
+  1646		ret = regmap_write(regmap, PCM512x_RESET, 0);
+  1647		if (ret != 0) {
+  1648			dev_err(dev, "Failed to reset device: %d\n", ret);
+  1649			goto err;
+  1650		}
+  1651	
+  1652		/* default to first sclk */
+  1653		pcm512x->num_clocks = 1;
+  1654		pcm512x->sclk_src = PCM512x_SYSCLK_MCLK1;
+  1655	
+  1656		pcm512x->sclk[0] = devm_clk_get(dev, NULL);
+  1657		if (PTR_ERR(pcm512x->sclk[0]) == -EPROBE_DEFER) {
+  1658			ret = -EPROBE_DEFER;
+  1659			goto err;
+  1660		}
+  1661	
+  1662		if (!IS_ERR(pcm512x->sclk[0])) {
+  1663			ret = clk_prepare_enable(pcm512x->sclk[0]);
+  1664			if (ret != 0) {
+  1665				dev_err(dev, "Failed to enable SCLK: %d\n", ret);
+  1666				goto err;
+  1667			}
+  1668		}
+  1669	
+  1670		/* Default to standby mode */
+  1671		ret = regmap_update_bits(pcm512x->regmap, PCM512x_POWER,
+  1672					 PCM512x_RQST, PCM512x_RQST);
+  1673		if (ret != 0) {
+  1674			dev_err(dev, "Failed to request standby: %d\n",
+  1675				ret);
+  1676			goto err_clk;
+  1677		}
+  1678	
+  1679		pm_runtime_set_active(dev);
+  1680		pm_runtime_enable(dev);
+  1681		pm_runtime_idle(dev);
+  1682	
 
 -- 
 0-DAY CI Kernel Test Service
