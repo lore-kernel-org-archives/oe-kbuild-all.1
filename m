@@ -1,44 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61E8ECA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 00:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A02515A9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Jul 2023 00:49:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689727774; x=1721263774;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xSKqg7FO5RCqSFt6EGbWpfzRG5YkNCvxq8/mZoBVZAQ=;
-  b=OuLwHp9CNpfvRg5KWBMyHwTuhwaadFxBDEoUeOiJUBcwWEjaD9m/S63v
-   QPaHuQmYM94IA0V0QJHI8GIwg1HjsODiQ1nHstezGvKzpvb2yDfjhiSHe
-   fEASuvvyz3Ul4wgcgwSNaJFT7QXzPTe4yDB8nFZaKXXfJOhUyEBBJgOOo
-   BIbWPg7A4e0HvObK/oi+pocUyqPHi6MteGaqFgMU7LrNEeqNUvoXnACkl
-   mwKPwVgD6fLmXJGB5pt7DrmGlzvgQ6T1Al9NuazyzkuwDa46XrfObDh1x
-   QLd+i2QRFOOAgTmfFxQA0C51myqoFZH6vucIel7LjF2LtN9AuxLkGH1Lg
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="430107609"
+  t=1689727792; x=1721263792;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i1q7pv7zIpcud4w2hBz/1F5y7QVuqUrs3m1YS8Iuf2k=;
+  b=FZPlGzQ5wKX6FUdy/o25VlhrqbBXGSNOF/3r/F9rnonBZ8iaLvgF9+QD
+   9emRMVBBT6/UyF9U0ayZ4TpwYEs4tvKvOQ4w3Ilv2RwdecrdpVoJjGcdu
+   89UoJKfqI7glU56jblQDCPNNY+akyfCqtMYd/BVlkXFocDnvUnSe3G6yn
+   R5EvpC7SsoLxu8OFrLYLRAb0adFt98TfureCpqw77e+jJAyQantVnlM0N
+   O8lneylPHbe8phgMdG2Kr4py89oRIHl3d2IxgzvsJicWnXZrfe2O3b9lZ
+   1lGPqGrObOL1/X8iSx01P0NtRL+ViHuUoQ/8kfEkBpgHaSu9+Kgu0OOXL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="365226374"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="430107609"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 17:49:33 -0700
+   d="scan'208";a="365226374"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 17:49:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="897736584"
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="723822435"
 X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="897736584"
+   d="scan'208";a="723822435"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 18 Jul 2023 17:49:32 -0700
+  by orsmga002.jf.intel.com with ESMTP; 18 Jul 2023 17:49:49 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qLvNe-0003zb-1M;
-	Wed, 19 Jul 2023 00:49:27 +0000
-Date: Wed, 19 Jul 2023 08:48:57 +0800
+	id 1qLvNq-0003zj-1Z;
+	Wed, 19 Jul 2023 00:49:41 +0000
+Date: Wed, 19 Jul 2023 08:48:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wang Ming <machel@vivo.com>, Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com
-Subject: Re: [PATCH v1] reset: hisilicon: Use dev_err_probe instead of dev_err
-Message-ID: <202307190847.UjE7NAlJ-lkp@intel.com>
-References: <20230718030511.16065-1-machel@vivo.com>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>
+Subject: [mcgrof-next:large-block-nobdev-20230714-minorder 6/10]
+ mm/readahead.c:797: undefined reference to `__divdi3'
+Message-ID: <202307190859.NZD5OHJ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,85 +45,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230718030511.16065-1-machel@vivo.com>
 
-Hi Wang,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pza/reset/next]
-[also build test WARNING on pza/imx-drm/next linus/master v6.5-rc2 next-20230718]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wang-Ming/reset-hisilicon-Use-dev_err_probe-instead-of-dev_err/20230718-203055
-base:   https://git.pengutronix.de/git/pza/linux reset/next
-patch link:    https://lore.kernel.org/r/20230718030511.16065-1-machel%40vivo.com
-patch subject: [PATCH v1] reset: hisilicon: Use dev_err_probe instead of dev_err
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230719/202307190847.UjE7NAlJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190847.UjE7NAlJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git large-block-nobdev-20230714-minorder
+head:   037b96adc07c3f2004459646537f6735ec545aca
+commit: 2b51ed864d56c86c2c17b6abca4e15e8dd7be055 [6/10] filemap: use minimum order while allocating folios
+config: microblaze-randconfig-r006-20230718 (https://download.01.org/0day-ci/archive/20230719/202307190859.NZD5OHJ7-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307190859.NZD5OHJ7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307190847.UjE7NAlJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307190859.NZD5OHJ7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/reset/hisilicon/reset-hi3660.c: In function 'hi3660_reset_probe':
->> drivers/reset/hisilicon/reset-hi3660.c:93:36: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
-      93 |                 dev_err_probe(dev, "failed to get hisilicon,rst-syscon\n");
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                    |
-         |                                    char *
-   In file included from include/linux/platform_device.h:13,
-                    from include/linux/of_device.h:5,
-                    from drivers/reset/hisilicon/reset-hi3660.c:9:
-   include/linux/device.h:1091:64: note: expected 'int' but argument is of type 'char *'
-    1091 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                            ~~~~^~~
-   drivers/reset/hisilicon/reset-hi3660.c:93:17: error: too few arguments to function 'dev_err_probe'
-      93 |                 dev_err_probe(dev, "failed to get hisilicon,rst-syscon\n");
-         |                 ^~~~~~~~~~~~~
-   include/linux/device.h:1091:20: note: declared here
-    1091 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                    ^~~~~~~~~~~~~
+   microblaze-linux-ld: mm/readahead.o: in function `readahead_expand':
+>> mm/readahead.c:797: undefined reference to `__divdi3'
 
 
-vim +/dev_err_probe +93 drivers/reset/hisilicon/reset-hi3660.c
+vim +797 mm/readahead.c
 
-    75	
-    76	static int hi3660_reset_probe(struct platform_device *pdev)
-    77	{
-    78		struct hi3660_reset_controller *rc;
-    79		struct device_node *np = pdev->dev.of_node;
-    80		struct device *dev = &pdev->dev;
-    81	
-    82		rc = devm_kzalloc(dev, sizeof(*rc), GFP_KERNEL);
-    83		if (!rc)
-    84			return -ENOMEM;
-    85	
-    86		rc->map = syscon_regmap_lookup_by_phandle(np, "hisilicon,rst-syscon");
-    87		if (rc->map == ERR_PTR(-ENODEV)) {
-    88			/* fall back to the deprecated compatible */
-    89			rc->map = syscon_regmap_lookup_by_phandle(np,
-    90								  "hisi,rst-syscon");
-    91		}
-    92		if (IS_ERR(rc->map)) {
-  > 93			dev_err_probe(dev, "failed to get hisilicon,rst-syscon\n");
-    94			return PTR_ERR(rc->map);
-    95		}
-    96	
-    97		rc->rst.ops = &hi3660_reset_ops,
-    98		rc->rst.of_node = np;
-    99		rc->rst.of_reset_n_cells = 2;
-   100		rc->rst.of_xlate = hi3660_reset_xlate;
-   101	
-   102		return reset_controller_register(&rc->rst);
-   103	}
-   104	
+   769	
+   770	/**
+   771	 * readahead_expand - Expand a readahead request
+   772	 * @ractl: The request to be expanded
+   773	 * @new_start: The revised start
+   774	 * @new_len: The revised size of the request
+   775	 *
+   776	 * Attempt to expand a readahead request outwards from the current size to the
+   777	 * specified size by inserting locked pages before and after the current window
+   778	 * to increase the size to the new window.  This may involve the insertion of
+   779	 * THPs, in which case the window may get expanded even beyond what was
+   780	 * requested.
+   781	 *
+   782	 * The algorithm will stop if it encounters a conflicting page already in the
+   783	 * pagecache and leave a smaller expansion than requested.
+   784	 *
+   785	 * The caller must check for this by examining the revised @ractl object for a
+   786	 * different expansion than was requested.
+   787	 */
+   788	void readahead_expand(struct readahead_control *ractl,
+   789			      loff_t new_start, size_t new_len)
+   790	{
+   791		struct address_space *mapping = ractl->mapping;
+   792		struct file_ra_state *ra = ractl->ra;
+   793		pgoff_t new_index, new_nr_pages;
+   794		gfp_t gfp_mask = readahead_gfp_mask(mapping);
+   795		unsigned min_folio_count = 1U << mapping_min_folio_order(mapping);
+   796	
+ > 797		new_index = new_start / (min_folio_count * PAGE_SIZE);
 
 -- 
 0-DAY CI Kernel Test Service
