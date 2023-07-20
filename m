@@ -1,42 +1,45 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A24C171A1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 07:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8D4171A3;
+	Thu, 20 Jul 2023 07:18:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689837484; x=1721373484;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=otTBBSmKhNX9hYNr3g/6JHNicG9rRkYsoupzh2M4nbk=;
-  b=ZlwIP/af1UYBR915zMreMDRsGiXP0Wz3PyV2rpkIIdOby2D0cNgShwy8
-   q+3S0g5IL8+vCroskdyCQRolH/gIhRaXQGBzEmp2q+Tc2ZU69TKz77DcN
-   SfjswP1oH8QUw0TbfY6EsoYUMFMnTgr56agpXMN1BqJl5CMeoLF1Cie0t
-   WEszFpmJcpHM56Ky0U8Lv6BQKnqf/e7rjaSm8kl+TNHo+iZuHM+AdM7oq
-   3i1EoWPBhvVi12iplZiYmnv5fFsQeAMHGeV8jrXBn3dSGmoH23llG9WqZ
-   3YvFLjJPg5tg8+SBbq1odz6QQcK1rDjEMN1Xk6oZI0iq1ps3ellQQLJuM
+  t=1689837485; x=1721373485;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ctwPcolnlChySfEEHvIATfgLhsWOHS1eXrogNw0NAdA=;
+  b=IZ7ZBB2PiyrHYCEKFieE2txYzZJdLUw7BQr0l7IuCYqysmWDYd9VDq6G
+   XWbi6JpgTMZ5IBmJwglg/3+AaCcKnggUxDSS/pmcOl64YIoAAW3lJUGZp
+   NNuleapiBqplY+cl7GVWG3wohHxwPv3G5SdxmNlBHtfxXVTiJd0k1bRBu
+   Gxt47CtEsUsFHwmBM2ejGmDRMPQYtbR1CYKaZxIpkR3k478AGOSGJvkRm
+   3yDV2vwrGoeYHm9pX+VP2bhKLmLpHa04qRwUPN0rpn6z8NKedpnaeOl5N
+   PRP9KHGpl4KefVK5EN3W0HljdvYt0nFgUq72MQlJB74cPnYpI293nJrJF
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="370225267"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="370225273"
 X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; 
-   d="scan'208";a="370225267"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 00:18:03 -0700
+   d="scan'208";a="370225273"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 00:18:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="898181192"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="724291670"
 X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; 
-   d="scan'208";a="898181192"
+   d="scan'208";a="724291670"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 20 Jul 2023 00:18:02 -0700
+  by orsmga002.jf.intel.com with ESMTP; 20 Jul 2023 00:18:02 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMNvG-0005sV-08;
+	id 1qMNvG-0005sT-04;
 	Thu, 20 Jul 2023 07:18:02 +0000
-Date: Thu, 20 Jul 2023 15:17:56 +0800
+Date: Thu, 20 Jul 2023 15:17:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/210-gpu 110/110] /bin/bash: line 1: rustc: command
- not found
-Message-ID: <202307201556.UXTxeJz0-lkp@intel.com>
+To: sunran001@208suo.com, mchehab@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hv: put parentheses on macros with complex values in
+ hyperv.h
+Message-ID: <202307201511.TvSDQJLn-lkp@intel.com>
+References: <e4b504ab6a1534cd26be777c9cb0bb6a@208suo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,55 +48,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <e4b504ab6a1534cd26be777c9cb0bb6a@208suo.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/210-gpu
-head:   2f66e5641dd5c0f4d76f07ffcc110cdcd6e0690c
-commit: 2f66e5641dd5c0f4d76f07ffcc110cdcd6e0690c [110/110] rust: 1.70 compat hack
-config: sparc-randconfig-r016-20230720 (https://download.01.org/0day-ci/archive/20230720/202307201556.UXTxeJz0-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307201556.UXTxeJz0-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on sailus-media-tree/streams v6.5-rc2 next-20230720]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/sunran001-208suo-com/hv-put-parentheses-on-macros-with-complex-values-in-hyperv-h/20230720-110337
+base:   linus/master
+patch link:    https://lore.kernel.org/r/e4b504ab6a1534cd26be777c9cb0bb6a%40208suo.com
+patch subject: [PATCH] hv: put parentheses on macros with complex values in hyperv.h
+config: i386-randconfig-i013-20230720 (https://download.01.org/0day-ci/archive/20230720/202307201511.TvSDQJLn-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307201511.TvSDQJLn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307201556.UXTxeJz0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307201511.TvSDQJLn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> /bin/bash: line 1: rustc: command not found
-   expr: syntax error: unexpected argument '1.69.0'
---
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
---
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
---
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
->> /bin/sh: 1: rustc: not found
-   expr: syntax error: unexpected argument '1.69.0'
-   arch/sparc/kernel/asm-offsets.c:29:5: warning: no previous prototype for 'sparc64_foo' [-Wmissing-prototypes]
-      29 | int sparc64_foo(void)
-         |     ^~~~~~~~~~~
-   arch/sparc/kernel/asm-offsets.c:48:5: warning: no previous prototype for 'foo' [-Wmissing-prototypes]
-      48 | int foo(void)
-         |     ^~~
-   <stdin>:1519:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+   In file included from arch/x86/events/intel/core.c:17:
+   In file included from include/linux/kvm_host.h:45:
+   In file included from arch/x86/include/asm/kvm_host.h:27:
+>> include/linux/hyperv.h:431:37: error: invalid token in macro parameter list
+   #define VMPACKET_DATA_START_ADDRESS((__packet)  \
+                                       ^
+   1 error generated.
+
+
+vim +431 include/linux/hyperv.h
+
+   430	
+ > 431	#define VMPACKET_DATA_START_ADDRESS((__packet)	\
+   432		(void *)(((unsigned char *)__packet) +	\
+   433		 ((struct vmpacket_descriptor)__packet)->offset8 * 8))
+   434	
 
 -- 
 0-DAY CI Kernel Test Service
