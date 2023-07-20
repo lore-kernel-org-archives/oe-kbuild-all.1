@@ -1,92 +1,152 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23191BE83;
-	Thu, 20 Jul 2023 20:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354D4154B1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 21:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689885026; x=1721421026;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vfGuscGEOBWYJUQLL9IYExuvoGe957aALRw/Yk6UOXc=;
-  b=CnSHdBFtxq3n5fS8+GbvsvfSLt305uv936TpQY3+7HYJhNe/ShAEFmxL
-   fMyRK+fpnoCq1/8O9vn3RlyjBl0fn7GfQnoXQzjs1oyaIfK5gAL1zEp11
-   T8m1eXIRRhh1FMzwjcFUtYp7hoyWU/EKK9McADJG3yriTuNAeT0fjZfPy
-   UNKrYd9jEfTT5QJ5c2nK6OF2sJivyGHTP3QK/+0WOWOr6DrgVY7WEZSql
-   kbtuOfVlfJxgs7kGUJ56qtmh5fEU1iMnkG4Ig/f5CUr0r7CUUtn/D0LQl
-   GV54XZuLCHKcKn0tN7LjXLoMCZxTzu3ExIn5Eje+mHxQKaq5R/OMyNwBX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="356841627"
+  t=1689887615; x=1721423615;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=F1bYz3hgit6KaUoqzvThCzYOIRPkgaYh6xO1/Oye1q0=;
+  b=DwHdpFUhmFg+MZIgzgc3Deosoy4dqDy1qtYKgFAb5sQBO97jzbjXGeSL
+   AqrMWrFoU1HKnSYqNEcjlLIhmArPsZXjKArr+HNrvAfQ1sPjbBNYhWLEP
+   ZzJAF3izLt66NTe6VDhEVKiYggHUiW2Yq6ztSVjg9LR5NE+/0LYDhDDyU
+   nI6dJw2+L8oqECntO1ifVR467Nti0kw8xdy8R9ea9Ih+LDwKoeFIbeqEu
+   a+/qHDVpArwL/4rVf0151ij3LQ83aMbCScla9XEM+1yVdX0Yyzsgc3gF7
+   Jc2sW/roX9M9yfRnAxxIEumrm2p4rTMYYyVwamC9e2MFc9KOu4uHy3jGD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="366900226"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="356841627"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 13:30:26 -0700
+   d="scan'208";a="366900226"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 14:13:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="789958419"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="727852971"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="789958419"
+   d="scan'208";a="727852971"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Jul 2023 13:30:24 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 20 Jul 2023 14:13:26 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMaI3-0006Tt-3C;
-	Thu, 20 Jul 2023 20:30:23 +0000
-Date: Fri, 21 Jul 2023 04:30:14 +0800
+	id 1qMaxV-0006WF-1t;
+	Thu, 20 Jul 2023 21:13:17 +0000
+Date: Fri, 21 Jul 2023 05:12:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/missed_stats_3 1/7] kernel/bpf/trampoline.c:824:14:
- error: use of undeclared identifier 'BPF_PROG_NO_START_TIME'
-Message-ID: <202307210424.2vkHfKo4-lkp@intel.com>
+To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Sierra <alex.sierra@amd.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrei Vagin <avagin@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Cyrill Gorcunov <gorcunov@gmail.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Danylo Mocherniuk <mdanylo@google.com>,
+	David Hildenbrand <david@redhat.com>, Greg KH <greg@kroah.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Paul Gofman <pgofman@codeweavers.com>, Peter Xu <peterx@redhat.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Yang Shi <shy828301@gmail.com>,
+	Yun Zhou <yun.zhou@windriver.com>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: Re: fs/proc/task_mmu: Implement IOCTL for efficient page table
+ scanning
+Message-ID: <202307210528.2qgK1vwi-lkp@intel.com>
+References: <a0b5c6776b2ed91f78a7575649f8b100e58bd3a9.1689881078.git.mirq-linux@rere.qmqm.pl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a0b5c6776b2ed91f78a7575649f8b100e58bd3a9.1689881078.git.mirq-linux@rere.qmqm.pl>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/missed_stats_3
-head:   d40e4165c066c7a131012bf1d87f27517c79e3f1
-commit: 3d25b22ba2534fedca5325362b88adab8ac6c651 [1/7] bpf: Move update_prog_stats to syscall object
-config: arm-randconfig-r033-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210424.2vkHfKo4-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210424.2vkHfKo4-lkp@intel.com/reproduce)
+Hi Michał,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.5-rc2 next-20230720]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Miros-aw/Re-fs-proc-task_mmu-Implement-IOCTL-for-efficient-page-table-scanning/20230721-033050
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/a0b5c6776b2ed91f78a7575649f8b100e58bd3a9.1689881078.git.mirq-linux%40rere.qmqm.pl
+patch subject: Re: fs/proc/task_mmu: Implement IOCTL for efficient page table scanning
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230721/202307210528.2qgK1vwi-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210528.2qgK1vwi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307210424.2vkHfKo4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307210528.2qgK1vwi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/bpf/trampoline.c:824:14: error: use of undeclared identifier 'BPF_PROG_NO_START_TIME'
-     824 |         u64 start = BPF_PROG_NO_START_TIME;
-         |                     ^
-   kernel/bpf/trampoline.c:829:12: error: use of undeclared identifier 'BPF_PROG_NO_START_TIME'
-     829 |                         start = BPF_PROG_NO_START_TIME;
-         |                                 ^
-   kernel/bpf/trampoline.c:886:9: error: use of undeclared identifier 'BPF_PROG_NO_START_TIME'
-     886 |         return BPF_PROG_NO_START_TIME;
-         |                ^
-   3 errors generated.
+   fs/proc/task_mmu.c: In function 'pagemap_scan_test_walk':
+   fs/proc/task_mmu.c:1921:13: error: implicit declaration of function 'userfaultfd_wp_async'; did you mean 'userfaultfd_wp'? [-Werror=implicit-function-declaration]
+    1921 |         if (userfaultfd_wp_async(vma) && userfaultfd_wp_use_markers(vma))
+         |             ^~~~~~~~~~~~~~~~~~~~
+         |             userfaultfd_wp
+   fs/proc/task_mmu.c: In function 'pagemap_scan_init_bounce_buffer':
+>> fs/proc/task_mmu.c:2290:22: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    2290 |         p->vec_out = (void __user *)p->arg.vec;
+         |                      ^
+   fs/proc/task_mmu.c: At top level:
+   fs/proc/task_mmu.c:1967:13: warning: 'pagemap_scan_backout_range' defined but not used [-Wunused-function]
+    1967 | static void pagemap_scan_backout_range(struct pagemap_scan_private *p,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/BPF_PROG_NO_START_TIME +824 kernel/bpf/trampoline.c
+vim +2290 fs/proc/task_mmu.c
 
-   821	
-   822	static __always_inline u64 notrace bpf_prog_start_time(void)
-   823	{
- > 824		u64 start = BPF_PROG_NO_START_TIME;
-   825	
-   826		if (static_branch_unlikely(&bpf_stats_enabled_key)) {
-   827			start = sched_clock();
-   828			if (unlikely(!start))
-   829				start = BPF_PROG_NO_START_TIME;
-   830		}
-   831		return start;
-   832	}
-   833	
+  2264	
+  2265	static int pagemap_scan_init_bounce_buffer(struct pagemap_scan_private *p)
+  2266	{
+  2267		if (!p->arg.vec_len) {
+  2268			/*
+  2269			 * An arbitrary non-page-aligned sentinel value for
+  2270			 * pagemap_scan_push_range().
+  2271			 */
+  2272			p->cur_buf.start = p->cur_buf.end = ULLONG_MAX;
+  2273			return 0;
+  2274		}
+  2275	
+  2276		/*
+  2277		 * Allocate a smaller buffer to get output from inside the page
+  2278		 * walk functions and walk the range in PAGEMAP_WALK_SIZE chunks.
+  2279		 * The last range is always stored in p.cur_buf to allow coalescing
+  2280		 * consecutive ranges that have the same categories returned across
+  2281		 * walk_page_range() calls.
+  2282		 */
+  2283		p->vec_buf_len = min_t(size_t, PAGEMAP_WALK_SIZE >> PAGE_SHIFT,
+  2284				       p->arg.vec_len - 1);
+  2285		p->vec_buf = kmalloc_array(p->vec_buf_len, sizeof(*p->vec_buf),
+  2286					   GFP_KERNEL);
+  2287		if (!p->vec_buf)
+  2288			return -ENOMEM;
+  2289	
+> 2290		p->vec_out = (void __user *)p->arg.vec;
+  2291	
+  2292		return 0;
+  2293	}
+  2294	
 
 -- 
 0-DAY CI Kernel Test Service
