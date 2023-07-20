@@ -1,51 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A525F2FA20;
-	Thu, 20 Jul 2023 16:54:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B53F1773D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 17:15:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689872066; x=1721408066;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jsTm2UaW1yv/guIOUhcU4FeneLP0J9xCcYSp75A3fpc=;
-  b=GS1YICRgg4xY5E/dbmvHGHhv9BVSjUizoc/XMZAjl+tpmTftkKZyL7/0
-   zSsJciPqAAQTlfi2p/FZTGCYhvGsRUP1a/gp9yiDqBSL+C3xK2euv+67C
-   flY1Nw8Mb/i69t+71su4qxrfFwxsnUzuXos/Bro4+oeRi9ZRG2rX1sy4M
-   idTmdrCoDwF8e9c2yBs6ir3iN28/5f0iXpFb++8fl/Gz3ZhP/POVGjwbh
-   yxYU2tCwmCh3rEzL8WLaymPhkIzFuosNvVEYPe0zqmp2y6anyj+nYmDSL
-   31Z47TcQYs3NaMrJDm3WR/iljVD+g/mxhJ7mtca9AahXYdb9L8amoiPpg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="430596140"
+  t=1689873327; x=1721409327;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=xBOfYuK5/VT1vCU5adDpTd1QIQXg4B2qXgOarPeCITo=;
+  b=BDrvXpCJiNtX20FnZJ5499itDF8NY2UzzG1mjd7wFFPlUQVb3TbgzUk9
+   A11oQl/eWuaVhiHfEdF8n8Pe7MQQQBSsrsfmQTk2kErOmaFwTxYsGADXC
+   DHDGbZLPaHhJWAovyR8clE2/Vpv1qyKlt+gLsxQ4gH063mVDIaxuOn0Dn
+   P6MddO00xmp8+NDp3nqJIGJdQRqYTi9TLyNTYrWxvk6MYy1rMm9f1j3He
+   lQdQ8F/bIYuMKr086zvjCZ4FZefKmaz0N5gwlsnJW4f3aP33DoxyHbFBT
+   eWHRST4sGsI03kVd42UkxYn21eOQHha47F1XroJOxw6lYlQ4WCw/02uJE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="346401564"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="430596140"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 09:54:25 -0700
+   d="scan'208";a="346401564"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 10:15:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="759638874"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="727776409"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="759638874"
+   d="scan'208";a="727776409"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 20 Jul 2023 09:54:14 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 20 Jul 2023 10:15:25 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMWus-0006IH-0C;
-	Thu, 20 Jul 2023 16:54:14 +0000
-Date: Fri, 21 Jul 2023 00:54:01 +0800
+	id 1qMXFH-0006JN-2y
+	for oe-kbuild-all@lists.linux.dev;
+	Thu, 20 Jul 2023 17:15:21 +0000
+Date: Fri, 21 Jul 2023 01:14:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Praveenkumar I <quic_ipkumar@quicinc.com>, agross@kernel.org,
-	andersson@kernel.org, konrad.dybcio@linaro.org, amitk@kernel.org,
-	thara.gopinath@gmail.com, rafael@kernel.org,
-	daniel.lezcano@linaro.org, rui.zhang@intel.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	quic_varada@quicinc.com
-Subject: Re: [PATCH v4 1/5] thermal/drivers/tsens: Add TSENS enable and
- calibration support for V2
-Message-ID: <202307210014.qNnx99K8-lkp@intel.com>
-References: <20230719104041.126718-2-quic_ipkumar@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ti:ti-rt-linux-6.1.y-cicd 256/382] drivers/misc/dma-buf-phys.c:75:
+ undefined reference to `dma_buf_get'
+Message-ID: <202307210149.uLChTPfk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,101 +45,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230719104041.126718-2-quic_ipkumar@quicinc.com>
 
-Hi Praveenkumar,
+CC: vigneshr@ti.com
+CC: nm@ti.com
+TO: Andrew Davis <afd@ti.com>
+CC: Vignesh Raghavendra <vigneshr@ti.com>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on robh/for-next linus/master v6.5-rc2 next-20230720]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Praveenkumar-I/thermal-drivers-tsens-Add-TSENS-enable-and-calibration-support-for-V2/20230719-184436
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20230719104041.126718-2-quic_ipkumar%40quicinc.com
-patch subject: [PATCH v4 1/5] thermal/drivers/tsens: Add TSENS enable and calibration support for V2
-config: arm-randconfig-r001-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210014.qNnx99K8-lkp@intel.com/config)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   607bd344fe026c652150d4af0aa1e922b06585ee
+commit: a6d074da1a95aa77f6d6315d7c454623ff578a7e [256/382] HACK: misc: Add dma-buf to physical address exporter
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230721/202307210149.uLChTPfk-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210014.qNnx99K8-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210149.uLChTPfk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307210014.qNnx99K8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307210149.uLChTPfk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/thermal/qcom/tsens-v2.c:153:9: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   val = FIELD_PREP(CONVERSION_SHIFT_MASK, V2_SHIFT_DEFAULT) |
-                         ^
-   1 error generated.
+   /usr/bin/ld: warning: arch/x86/um/vdso/vdso.o: missing .note.GNU-stack section implies executable stack
+   /usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   /usr/bin/ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   /usr/bin/ld: drivers/misc/dma-buf-phys.o: in function `dma_buf_phys_ioctl':
+>> drivers/misc/dma-buf-phys.c:75: undefined reference to `dma_buf_get'
+>> /usr/bin/ld: drivers/misc/dma-buf-phys.c:80: undefined reference to `dma_buf_attach'
+>> /usr/bin/ld: drivers/misc/dma-buf-phys.c:86: undefined reference to `dma_buf_map_attachment'
+>> /usr/bin/ld: drivers/misc/dma-buf-phys.c:112: undefined reference to `dma_buf_detach'
+>> /usr/bin/ld: drivers/misc/dma-buf-phys.c:114: undefined reference to `dma_buf_put'
+>> /usr/bin/ld: drivers/misc/dma-buf-phys.c:110: undefined reference to `dma_buf_unmap_attachment'
+   /usr/bin/ld: drivers/misc/dma-buf-phys.o: in function `dma_buf_phys_release':
+>> drivers/misc/dma-buf-phys.c:55: undefined reference to `dma_buf_unmap_attachment'
+   /usr/bin/ld: drivers/misc/dma-buf-phys.c:57: undefined reference to `dma_buf_detach'
+   /usr/bin/ld: drivers/misc/dma-buf-phys.c:59: undefined reference to `dma_buf_put'
+>> clang-14: error: linker command failed with exit code 1 (use -v to see invocation)
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SM_GCC_8450
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [y]:
-   - SM_VIDEOCC_8450 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
-   WARNING: unmet direct dependencies detected for SM_GCC_8550
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [y]:
-   - SM_GPUCC_8550 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
 
+vim +75 drivers/misc/dma-buf-phys.c
 
-vim +/FIELD_PREP +153 drivers/thermal/qcom/tsens-v2.c
-
-   129	
-   130	static int tsens_v2_calibrate_sensor(struct device *dev, struct tsens_sensor *sensor,
-   131					     struct regmap *map,  u32 mode, u32 base0, u32 base1)
-   132	{
-   133		u32 slope, czero, val;
-   134		char name[8];
-   135		int ret;
-   136	
-   137		/* Read offset value */
-   138		ret = snprintf(name, sizeof(name), "s%d", sensor->hw_id);
-   139		if (ret < 0)
-   140			return ret;
-   141	
-   142		ret = nvmem_cell_read_variable_le_u32(dev, name, &sensor->offset);
-   143		if (ret)
-   144			return ret;
-   145	
-   146		/* Based on calib mode, program SHIFT, SLOPE and CZERO */
-   147		switch (mode) {
-   148		case TWO_PT_CALIB:
-   149			slope = (TWO_PT_SHIFTED_GAIN / (base1 - base0));
-   150	
-   151			czero = (base0 + sensor->offset - ((base1 - base0) / 3));
-   152	
- > 153			val = FIELD_PREP(CONVERSION_SHIFT_MASK, V2_SHIFT_DEFAULT) |
-   154			      FIELD_PREP(CONVERSION_SLOPE_MASK, slope) |
-   155			      FIELD_PREP(CONVERSION_CZERO_MASK, czero);
-   156	
-   157			fallthrough;
-   158		case ONE_PT_CALIB2:
-   159			czero = base0 + sensor->offset - ONE_PT_CZERO_CONST;
-   160	
-   161			val = FIELD_PREP(CONVERSION_SHIFT_MASK, V2_SHIFT_DEFAULT) |
-   162			      FIELD_PREP(CONVERSION_SLOPE_MASK, ONE_PT_SLOPE) |
-   163			      FIELD_PREP(CONVERSION_CZERO_MASK, czero);
-   164	
-   165			break;
-   166		default:
-   167			dev_dbg(dev, "calibrationless mode\n");
-   168	
-   169			val = FIELD_PREP(CONVERSION_SHIFT_MASK, V2_SHIFT_DEFAULT) |
-   170			      FIELD_PREP(CONVERSION_SLOPE_MASK, V2_SLOPE_DEFAULT) |
-   171			      FIELD_PREP(CONVERSION_CZERO_MASK, V2_CZERO_DEFAULT);
-   172		}
-   173	
-   174		regmap_write(map, SENSOR_CONVERSION(sensor->hw_id), val);
-   175	
-   176		return 0;
-   177	}
-   178	
+    49	
+    50	static int dma_buf_phys_release(struct inode *inode, struct file *file)
+    51	{
+    52		struct dma_buf_phys_file *priv = file->private_data;
+    53	
+    54		if (priv->attachment && priv->sgt)
+  > 55			dma_buf_unmap_attachment(priv->attachment, priv->sgt, DMA_BIDIRECTIONAL);
+    56		if (priv->dma_buf && priv->attachment)
+    57			dma_buf_detach(priv->dma_buf, priv->attachment);
+    58		if (priv->dma_buf)
+    59			dma_buf_put(priv->dma_buf);
+    60	
+    61		kfree(priv);
+    62	
+    63		return 0;
+    64	}
+    65	
+    66	static int dma_buf_phys_convert(struct dma_buf_phys_file *priv, int fd, u64 *phys)
+    67	{
+    68		struct device *dev = priv->dev;
+    69		struct dma_buf *dma_buf;
+    70		struct dma_buf_attachment *attachment;
+    71		struct sg_table *sgt;
+    72		dma_addr_t dma_addr;
+    73		int ret;
+    74	
+  > 75		dma_buf = dma_buf_get(fd);
+    76		if (IS_ERR(dma_buf))
+    77			return PTR_ERR(dma_buf);
+    78	
+    79		/* Attach as the parent device as it will have the correct DMA ops set */
+  > 80		attachment = dma_buf_attach(dma_buf, dev->parent);
+    81		if (IS_ERR(attachment)) {
+    82			ret = PTR_ERR(attachment);
+    83			goto fail_put;
+    84		}
+    85	
+  > 86		sgt = dma_buf_map_attachment(attachment, DMA_BIDIRECTIONAL);
+    87		if (IS_ERR(sgt)) {
+    88			ret = PTR_ERR(sgt);
+    89			goto fail_detach;
+    90		}
+    91	
+    92		/* Without PAT only physically contiguous buffers can be supported */
+    93		if (sgt->orig_nents != 1) {
+    94			dev_err(dev, "DMA-BUF not contiguous\n");
+    95			ret = -EINVAL;
+    96			goto fail_unmap;
+    97		}
+    98	
+    99		dma_addr = sg_dma_address(sgt->sgl);
+   100	
+   101		*phys = dma_addr;
+   102	
+   103		priv->dma_buf = dma_buf;
+   104		priv->attachment = attachment;
+   105		priv->sgt = sgt;
+   106	
+   107		return 0;
+   108	
+   109	fail_unmap:
+ > 110		dma_buf_unmap_attachment(attachment, sgt, DMA_BIDIRECTIONAL);
+   111	fail_detach:
+ > 112		dma_buf_detach(dma_buf, attachment);
+   113	fail_put:
+ > 114		dma_buf_put(dma_buf);
+   115	
+   116		return ret;
+   117	}
+   118	
 
 -- 
 0-DAY CI Kernel Test Service
