@@ -1,85 +1,155 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F7A1DDCE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 16:31:05 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so4491141a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 09:31:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689870663; x=1690475463;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ru3sLDNmYFNjzH9CWC02FN9HFpPBpy7nrGJ/WVLA51Q=;
-        b=FDp8Ts2c5nbBA12pHvaiI98wAuONOeqgT/q/9AM4t9yvrNW/02GTKyfC9UgvJL2xo9
-         VIlY3hR4abL1F3n4C7P6SByfTzDqv9bKTXgOGkAU0lqFHIK7YGBc46yR83j75bA5K1nj
-         kRAGX3MZFGr3q2G0yMkCU77+tBaDrOcm4tMTokvQNcf4U/jjGOYT+PaZhEtemxcFghyf
-         yo/LdjqknzCzPqRo78rvo4vMBuSwoYd5T3iNB+5hVslED9VDizXaS8wHlDWvxW33ql8S
-         Khh0umABX5K53xfslcFqV5VQntfT9HCgidrQm8I2gWHsT351ZrHCsLNoFz06XtCPX9xx
-         FcOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689870663; x=1690475463;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ru3sLDNmYFNjzH9CWC02FN9HFpPBpy7nrGJ/WVLA51Q=;
-        b=ORYYI7Zmve7t+r5eEYo5HPrJ3ASa+g9Ck3G00OgK4NF8fiNk+QkuS8PzX+j3f40HVt
-         Djp0izd9AbkQLeTib9asUYX8Qzn6N+tXF6hEcEfxBFE3gYaLGjg361f/ZDAqnDq+LvpP
-         0NMLI6FA9Egdup6hWiY5JV1dmuSiVNPWetB/wsXfSkBeNvixbMUVlv6dsmk70Li9BoSW
-         ERdK90kT9qAsd00yWd4ma+4pH6V34f7dOkxrnsiSl4FnSWTE6xpqKuiZn5zdbxiAqB/W
-         WTFpcibkmtzV54wQXRLYH3Lpn3GxifVXvZfd0XW3ZKOdRqNCCThznoP7/BBzgyjed5j5
-         jcOg==
-X-Gm-Message-State: ABy/qLb1G1XD49eGi9jekcrJfxcLgkvCK1O6fYyjtLcKHmAv797SaTiP
-	k+IQGFLvF5canZ2cUvMxmjzGOoBoxpKAfDe7Zw4=
-X-Google-Smtp-Source: APBJJlHwvqOuGJQ86PlXXGUqH6U918TRE/87sBooJnbBfkSdmuwYMiismKaRhFZ9LeDOwZL4XpTcEQvZ2M/Ev1P+Pzg=
-X-Received: by 2002:a17:906:779a:b0:997:e9a3:9c4f with SMTP id
- s26-20020a170906779a00b00997e9a39c4fmr6605482ejm.30.1689870663618; Thu, 20
- Jul 2023 09:31:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390232FA20
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 16:43:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689871440; x=1721407440;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xoxtiQOAYTyfKEOYySyB8ypZEmhx2V3bvr/BCHgmWEw=;
+  b=j5XK5Jak1S+js35r3kwgHpkQfjg+mtenlTdfNWIiQ4bt3dhqlIA1iu2E
+   /0iEAARHSaZ/xnAbIh5ahACavoREEjIvYtOrP4A/f7MyKLnp7qxpFcg2/
+   IkK95GJwAxH8TWDKj/gcNN6G1rmiZn4XCrNp+OMn+cV6NeqMrT8dIV3q8
+   HgQ4hM0kHcbc2C0lndOtFuRIA6fhiQL0e74b2CHvOfgvqyGCs0G6MSZGK
+   nCBBKk34o5rgI+GACj3p+OLlLNbLkE90ii9IKFrQSOA8lX3E+4houjRl9
+   nY9+8DzMc9IuzUstR/wDO/LV2M57+YV703HATgA1fTFMpYd/UTGCuSCHC
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="356783286"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
+   d="scan'208";a="356783286"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 09:43:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="898376422"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
+   d="scan'208";a="898376422"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 20 Jul 2023 09:43:55 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qMWkt-0006Hl-0R;
+	Thu, 20 Jul 2023 16:43:55 +0000
+Date: Fri, 21 Jul 2023 00:43:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Tim Harvey <tharvey@gateworks.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/2] media: imx: imx7-media-csi: Fix applying format
+ constraints
+Message-ID: <202307210050.s7hfCvwG-lkp@intel.com>
+References: <20230720074129.3680269-2-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202307210041.jT6femhS-lkp@intel.com>
-In-Reply-To: <202307210041.jT6femhS-lkp@intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 20 Jul 2023 19:30:27 +0300
-Message-ID: <CAHp75VfKuvcih6ZZ3yiOEO0E=GF_g7E-kWVocdeWQ6L-pXkjZg@mail.gmail.com>
-Subject: Re: [linux-next:master 2315/3762] drivers/iio/adc/max14001.c:81:29:
- sparse: sparse: incorrect type in initializer (different base types)
-To: kernel test robot <lkp@intel.com>
-Cc: Kim Seer Paller <kimseer.paller@analog.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230720074129.3680269-2-alexander.stein@ew.tq-group.com>
 
-On Thu, Jul 20, 2023 at 7:14=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   c58c49dd89324b18a812762a2bfa5a0458e4f252
-> commit: ba2c3e63b681b624e0158775620ee2f89cc7e266 [2315/3762] iio: adc: ma=
-x14001: New driver
-> config: arc-randconfig-r093-20230720 (https://download.01.org/0day-ci/arc=
-hive/20230721/202307210041.jT6femhS-lkp@intel.com/config)
-> compiler: arc-elf-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210041=
-.jT6femhS-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307210041.jT6femhS-lkp=
-@intel.com/
+Hi Alexander,
 
-Exactly why I asked to elaborate on the algorithm documentation and
-hence developing proper driver updates to fix this issue in
-particular.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.5-rc2 next-20230720]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Stein/media-imx-imx7-media-csi-Fix-applying-format-constraints/20230720-154426
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230720074129.3680269-2-alexander.stein%40ew.tq-group.com
+patch subject: [PATCH 2/2] media: imx: imx7-media-csi: Fix applying format constraints
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230721/202307210050.s7hfCvwG-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210050.s7hfCvwG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307210050.s7hfCvwG-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/platform/nxp/imx7-media-csi.c: In function '__imx7_csi_video_try_fmt':
+>> drivers/media/platform/nxp/imx7-media-csi.c:1120:13: warning: variable 'walign' set but not used [-Wunused-but-set-variable]
+    1120 |         u32 walign;
+         |             ^~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SM_GCC_8350
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   WARNING: unmet direct dependencies detected for SM_GCC_8450
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   WARNING: unmet direct dependencies detected for SM_GCC_8550
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
 
 
---=20
-With Best Regards,
-Andy Shevchenko
+vim +/walign +1120 drivers/media/platform/nxp/imx7-media-csi.c
+
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1114  
+e352833d32e693 drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1115  static const struct imx7_csi_pixfmt *
+31959b981c231f drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1116  __imx7_csi_video_try_fmt(struct v4l2_pix_format *pixfmt,
+31959b981c231f drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1117  			 struct v4l2_rect *compose)
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1118  {
+e352833d32e693 drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1119  	const struct imx7_csi_pixfmt *cc;
+bef1bb620ca693 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19 @1120  	u32 walign;
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1121  
+6f482c4729d904 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1122  	if (compose) {
+6f482c4729d904 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1123  		compose->width = pixfmt->width;
+6f482c4729d904 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1124  		compose->height = pixfmt->height;
+6f482c4729d904 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1125  	}
+6f482c4729d904 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1126  
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1127  	/*
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1128  	 * Find the pixel format, default to the first supported format if not
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1129  	 * found.
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1130  	 */
+2d35c1ff83c095 drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-10  1131  	cc = imx7_csi_find_pixel_format(pixfmt->pixelformat);
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1132  	if (!cc) {
+a1a60e7ac274dc drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-10  1133  		pixfmt->pixelformat = IMX7_CSI_DEF_PIX_FORMAT;
+2d35c1ff83c095 drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-10  1134  		cc = imx7_csi_find_pixel_format(pixfmt->pixelformat);
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1135  	}
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1136  
+6f482c4729d904 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1137  	/*
+bef1bb620ca693 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1138  	 * The width alignment is 8 bytes as indicated by the
+bef1bb620ca693 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1139  	 * CSI_IMAG_PARA.IMAGE_WIDTH documentation. Convert it to pixels.
+6f482c4729d904 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1140  	 *
+bef1bb620ca693 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1141  	 * TODO: Implement configurable stride support.
+6f482c4729d904 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1142  	 */
+bef1bb620ca693 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1143  	walign = 8 * 8 / cc->bpp;
+75ab3b3196c39c drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-07-20  1144  	v4l2_apply_frmsize_constraints(&pixfmt->width, &pixfmt->height,
+75ab3b3196c39c drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-07-20  1145  				       &imx7_csi_frmsize_stepwise);
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1146  
+6f482c4729d904 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1147  	pixfmt->bytesperline = pixfmt->width * cc->bpp / 8;
+6f482c4729d904 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1148  	pixfmt->sizeimage = pixfmt->bytesperline * pixfmt->height;
+79bb4c7df8af76 drivers/media/platform/nxp/imx7-media-csi.c Alexander Stein  2023-04-19  1149  	pixfmt->field = V4L2_FIELD_NONE;
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1150  
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1151  	return cc;
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1152  }
+01ac6b7542872e drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1153  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
