@@ -1,43 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193CC631
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 01:49:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF24381;
+	Thu, 20 Jul 2023 03:11:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689817789; x=1721353789;
+  t=1689822697; x=1721358697;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aZoGw4GphAQSxXoLIILhcgpHbr/NB7+P72bndTTVxNc=;
-  b=i+rNRhrg1iht7MPofmlbQrzfAgMRnwO9aesW8kTr6tRA0E3RN7zzJ99y
-   5TZ4EQuon9Ie0HeijxFgqYleedzESEcfblvXEsWentm/eQSyPzKKM/HEa
-   geVwij1ezcWB6c/uBeSwES5L2Ptsxc31vLKwdFrbmXqxbfBWHrlkLtRy0
-   f2wNCornrnRXgsIixQQ3/w/hoiqSDJQCHc02MqZmbBWprdr/lhjGdNlbX
-   P59hLQXD33EBqcRAYE8am4/EHWNm2DCecv29hPkIRE0IJRlYL4XIfkOBV
-   MxiMMWqgn6/F72SGpGrY82wQqIhYOiYvBgfQHnJa46b3oTYSmxEef7lqc
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="365494352"
+  bh=qMUt/Zn8Wqfs3BUxuYekUMjKWcdkYqvs0TeWUj7OU5A=;
+  b=JodIdIcMvCLk9dXWKRtjOPXVOdmt8skzCkICC4ZUrsYAoNl7eEQVbEJI
+   peM3CQyBGGD3dX92DI/MBo6GqW4rg2xFxYF/lk0gHY9saUZk9Ddj/aibT
+   XsxcuMojUwMjOYwBkBx9c79ObR1uoOSVhtnw+ThRJeR61aX5olyDrCHfe
+   eRiYWn5ckn7l/cPAlrlAt+xLrk5Qb5h/JlOv+pkGYtWzzTEmiOVX+lHB2
+   HGK7MN3He23A/3wxxfxi4mbZmc3wJNivcBoUdniOLWEfxrwvYnDJ87pva
+   NhnzGOQ1awqmSvfd8S0S+40nF06vMMKNJV6uZ28qJP8hUKHsIahnz++k5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="356584875"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="365494352"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 18:49:47 -0700
+   d="scan'208";a="356584875"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 20:11:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="794251937"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="718218558"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="794251937"
+   d="scan'208";a="718218558"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Jul 2023 18:49:44 -0700
+  by orsmga007.jf.intel.com with ESMTP; 19 Jul 2023 20:11:34 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMInX-0005fp-2V;
-	Thu, 20 Jul 2023 01:49:43 +0000
-Date: Thu, 20 Jul 2023 09:49:07 +0800
+	id 1qMK4Z-0005jE-1M;
+	Thu, 20 Jul 2023 03:11:24 +0000
+Date: Thu, 20 Jul 2023 11:10:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:locking/futex 10/13] kernel/futex/core.c:1210:33:
- error: implicit declaration of function 'vmalloc_huge_node'; did you mean
- 'kmalloc_large_node'?
-Message-ID: <202307200934.lrYE0yfh-lkp@intel.com>
+To: Varun Prakash <varun@chelsio.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: drivers/nvme/host/tcp.c:835:12: warning: stack frame size (2256)
+ exceeds limit (2048) in 'nvme_tcp_recv_skb'
+Message-ID: <202307201141.PYWS6ird-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,55 +48,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/futex
-head:   b70d7a00de0dc4c0525ce8226eb903695114f8ab
-commit: fc3fb6ec05deb628dc03d0e747c55a075a27cadd [10/13] futex: Implement FUTEX2_NUMA
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230720/202307200934.lrYE0yfh-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200934.lrYE0yfh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bfa3037d828050896ae52f6467b6ca2489ae6fb1
+commit: c2700d2886a87f83f31e0a301de1d2350b52c79b nvme-tcp: send H2CData PDUs based on MAXH2CDATA
+date:   1 year, 5 months ago
+config: riscv-randconfig-r042-20230720 (https://download.01.org/0day-ci/archive/20230720/202307201141.PYWS6ird-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307201141.PYWS6ird-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307200934.lrYE0yfh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307201141.PYWS6ird-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/futex/core.c: In function 'futex_init':
->> kernel/futex/core.c:1210:33: error: implicit declaration of function 'vmalloc_huge_node'; did you mean 'kmalloc_large_node'? [-Werror=implicit-function-declaration]
-    1210 |                         table = vmalloc_huge_node(size, GFP_KERNEL, n);
-         |                                 ^~~~~~~~~~~~~~~~~
-         |                                 kmalloc_large_node
-   kernel/futex/core.c:1210:31: warning: assignment to 'struct futex_hash_bucket *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1210 |                         table = vmalloc_huge_node(size, GFP_KERNEL, n);
-         |                               ^
-   cc1: some warnings being treated as errors
+>> drivers/nvme/host/tcp.c:835:12: warning: stack frame size (2256) exceeds limit (2048) in 'nvme_tcp_recv_skb' [-Wframe-larger-than]
+     835 | static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
+         |            ^
+   1 warning generated.
 
 
-vim +1210 kernel/futex/core.c
+vim +/nvme_tcp_recv_skb +835 drivers/nvme/host/tcp.c
 
-  1189	
-  1190	static int __init futex_init(void)
-  1191	{
-  1192		unsigned int order, n;
-  1193		unsigned long size, i;
-  1194	
-  1195	#if CONFIG_BASE_SMALL
-  1196		futex_hashsize = 16;
-  1197	#else
-  1198		futex_hashsize = 256 * num_possible_cpus();
-  1199		futex_hashsize /= num_possible_nodes();
-  1200		futex_hashsize = roundup_pow_of_two(futex_hashsize);
-  1201	#endif
-  1202		futex_hashshift = ilog2(futex_hashsize);
-  1203		size = sizeof(struct futex_hash_bucket) * futex_hashsize;
-  1204		order = get_order(size);
-  1205	
-  1206		for_each_node(n) {
-  1207			struct futex_hash_bucket *table;
-  1208	
-  1209			if (order > MAX_ORDER)
-> 1210				table = vmalloc_huge_node(size, GFP_KERNEL, n);
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  834  
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03 @835  static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  836  			     unsigned int offset, size_t len)
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  837  {
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  838  	struct nvme_tcp_queue *queue = desc->arg.data;
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  839  	size_t consumed = len;
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  840  	int result;
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  841  
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  842  	while (len) {
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  843  		switch (nvme_tcp_recv_state(queue)) {
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  844  		case NVME_TCP_RECV_PDU:
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  845  			result = nvme_tcp_recv_pdu(queue, skb, &offset, &len);
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  846  			break;
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  847  		case NVME_TCP_RECV_DATA:
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  848  			result = nvme_tcp_recv_data(queue, skb, &offset, &len);
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  849  			break;
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  850  		case NVME_TCP_RECV_DDGST:
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  851  			result = nvme_tcp_recv_ddgst(queue, skb, &offset, &len);
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  852  			break;
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  853  		default:
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  854  			result = -EFAULT;
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  855  		}
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  856  		if (result) {
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  857  			dev_err(queue->ctrl->ctrl.device,
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  858  				"receive failed:  %d\n", result);
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  859  			queue->rd_enabled = false;
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  860  			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  861  			return result;
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  862  		}
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  863  	}
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  864  
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  865  	return consumed;
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  866  }
+3f2304f8c6d6ed Sagi Grimberg 2018-12-03  867  
+
+:::::: The code at line 835 was first introduced by commit
+:::::: 3f2304f8c6d6ed97849057bd16fee99e434ca796 nvme-tcp: add NVMe over TCP host driver
+
+:::::: TO: Sagi Grimberg <sagi@lightbitslabs.com>
+:::::: CC: Christoph Hellwig <hch@lst.de>
 
 -- 
 0-DAY CI Kernel Test Service
