@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB661DDD1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 22:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505A91DDDE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 22:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689891250; x=1721427250;
+  t=1689891868; x=1721427868;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D+YTVSBr6v8oXu7UJEbS08GfT+7hqTQmT2jeXyzKjDs=;
-  b=K291Faro0GkmukwnVxT7IyVFRJ54+OCTUCPhlrkQhXZqnecs8Br8qIfI
-   Z8O9FTmQJOE8hQ61fwxGgsqer+WZ8LCB7wQwHTNqlLd8isaAa41np16lE
-   wljqSI+i5Tpl7KXdKnAQCVX2nSnJFv1RgiLpkaAZusLhfVETp9TUV1zLW
-   kCBwYsMFW9SgaP9vDyU5vAe/cC1HEOaPX/BZpNnx4x0dQ6BbOUtP3iKLG
-   zB7c2xmIOqPrxZx48mV+ICxLHt5dhG9PIh9PbIAHXWS6qNw1f0IdNdYZ3
-   HoOEf5Qr7bJz9Fuo4z8ETiyemx8YllOWo1yLZSkM2dv2YHUDGzgvYSy8y
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="453254390"
+  bh=IB/OfbWoIsDuu3NBmEtwSUYPdT6dBT30Vk9Mo60BtgU=;
+  b=E07mZjB6ihCZ/1SnJbuDzCKrL/n8C0iCYoftBruzOLrQOKo+ZC5VrNhs
+   eJEH8vysXCbmYji7NWk/WEuEXRmOxHMw04pRGuotvIbZZdsccjmhf6RMq
+   e8eisBjNa5xRaWqLruBNcQ9Wr1mDk7MkVeYOhQUqmF9EAuTx1URa65vwG
+   kKCBALehiCKDMtU3O9JiLHU0Ka+QOxsZ/AnY+RJhy3Qg8NXmkvtqUNmgZ
+   lTcX6TJEB30ke1EF5wUG+XCO5LXoGshnvJq5CIkjO32Abmzdy4gUYVT6u
+   ZsvydM6F/difcgi7NzIGoItBz5Tqe33Nlo2eLXNLL1VN8FpLZrVQJaotx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="346471117"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="453254390"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 15:14:06 -0700
+   d="scan'208";a="346471117"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 15:24:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="754201977"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="701818958"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="754201977"
+   d="scan'208";a="701818958"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 20 Jul 2023 15:14:05 -0700
+  by orsmga006.jf.intel.com with ESMTP; 20 Jul 2023 15:24:25 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMbuO-0006ZN-15;
-	Thu, 20 Jul 2023 22:14:04 +0000
-Date: Fri, 21 Jul 2023 06:13:55 +0800
+	id 1qMc4O-0006Zt-1p;
+	Thu, 20 Jul 2023 22:24:24 +0000
+Date: Fri, 21 Jul 2023 06:24:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 1/1]
- include/trace/trace_events.h:27:23: warning:
- 'str__wakeupbypass__trace_system_name' defined but not used
-Message-ID: <202307210650.pFh7i6b6-lkp@intel.com>
+Subject: [freescale-fslc:6.1-2.0.x-imx 4877/12470]
+ drivers/pwm/pwm-adp5585.c:213:25: error: 'adp5585_of_match' undeclared here
+ (not in a function); did you mean 'adp5585_pwm_of_match'?
+Message-ID: <202307210602.iJvKTmW7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,138 +47,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   b4b7d228301ff12eeef059f28d20b19ebd7c29b4
-commit: b4b7d228301ff12eeef059f28d20b19ebd7c29b4 [1/1] ANDROID: wakeupbypass: Add vendor hook for batteryswap
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230721/202307210650.pFh7i6b6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210650.pFh7i6b6-lkp@intel.com/reproduce)
+Hi Dong,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.0.x-imx
+head:   b872b1170fc8843b55e9f8838dd373ff43bb7552
+commit: b2a8faf2b13f5346016ac80c42173ac714536584 [4877/12470] Merge branch 'pwm/next' into next
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230721/202307210602.iJvKTmW7-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210602.iJvKTmW7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307210650.pFh7i6b6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307210602.iJvKTmW7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/wakeupbypass.h:17,
-                    from drivers/android/vendor_hooks.c:79:
->> include/trace/trace_events.h:27:23: warning: 'str__wakeupbypass__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dmabuf.h:20,
-                    from drivers/android/vendor_hooks.c:78:
-   include/trace/trace_events.h:27:23: warning: 'str__dmabuf__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/pci.h:22,
-                    from drivers/android/vendor_hooks.c:77:
-   include/trace/trace_events.h:27:23: warning: 'str__pci__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ipv4.h:34,
-                    from drivers/android/vendor_hooks.c:76:
-   include/trace/trace_events.h:27:23: warning: 'str__ipv4__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/snd_compr.h:24,
-                    from drivers/android/vendor_hooks.c:75:
-   include/trace/trace_events.h:27:23: warning: 'str__snd_compr__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sound.h:24,
-                    from drivers/android/vendor_hooks.c:74:
-   include/trace/trace_events.h:27:23: warning: 'str__sound__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+   In file included from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from arch/powerpc/include/asm/io.h:27,
+                    from include/linux/io.h:13,
+                    from drivers/pwm/pwm-adp5585.c:10:
+>> drivers/pwm/pwm-adp5585.c:213:25: error: 'adp5585_of_match' undeclared here (not in a function); did you mean 'adp5585_pwm_of_match'?
+     213 | MODULE_DEVICE_TABLE(of, adp5585_of_match);
+         |                         ^~~~~~~~~~~~~~~~
+   include/linux/module.h:243:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
+     243 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |               ^~~~
+>> include/linux/module.h:243:21: error: '__mod_of__adp5585_of_match_device_table' aliased to undefined symbol 'adp5585_of_match'
+     243 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |                     ^~~~~~
+   drivers/pwm/pwm-adp5585.c:213:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+     213 | MODULE_DEVICE_TABLE(of, adp5585_of_match);
+         | ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/str__wakeupbypass__trace_system_name +27 include/trace/trace_events.h
+vim +213 drivers/pwm/pwm-adp5585.c
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+92c8b45586c1491 Clark Wang 2022-03-16  208  
+92c8b45586c1491 Clark Wang 2022-03-16  209  static const struct of_device_id adp5585_pwm_of_match[] = {
+92c8b45586c1491 Clark Wang 2022-03-16  210  	{.compatible = "adp5585-pwm", },
+92c8b45586c1491 Clark Wang 2022-03-16  211  	{ /* sentinel */ }
+92c8b45586c1491 Clark Wang 2022-03-16  212  };
+92c8b45586c1491 Clark Wang 2022-03-16 @213  MODULE_DEVICE_TABLE(of, adp5585_of_match);
+92c8b45586c1491 Clark Wang 2022-03-16  214  
 
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+:::::: The code at line 213 was first introduced by commit
+:::::: 92c8b45586c149160a8a29356d97cdd721d9717a MLK-25922-1 pwm: adp5585: add adp5585 PWM support
 
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+:::::: TO: Clark Wang <xiaoning.wang@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
