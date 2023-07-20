@@ -1,43 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AB0A31
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 00:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985AD39B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 01:08:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689814028; x=1721350028;
+  t=1689815289; x=1721351289;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5nNXSeKgw76qXuwAzEUUl8ZKx4DDCXp+E+pBfBjFIA0=;
-  b=NGSTmCuFpjfcWw36ni+aYtkz9LOqy0WzftfTz3ME9pMk114EaYMeJvkn
-   J1txflyCjKlKX5P20s5Jx3AvneLEsOsRoqACEp+iYW4tHfHGB8VWba01I
-   ogdt3evK3YBZdA5qlwGV2NUkyWxhNVaLhAJmSJug0eUDHxza0Ueh+CahI
-   eSOLxXL/BQv/XfkAHsEfz55AtMQ5QP+dicpQjHuhWmg5eb4cgaYDmJEb+
-   I28IubHaZOL/3e/qw+deejwJVxJ5uH6k+UMHIhbLSBIUI7YCOKTl4WcLE
-   Q+GZc0Sr9PkwkXV5J22RcWlc38ueQ8hDG1V91axDNKWs+JJUz86Nm4Qun
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="397473220"
+  bh=kewh3byW0eEkENTnQkmOA1dmXpBKAZY0Z8RnXdJbpuI=;
+  b=mgtMNX9L1XdewCCbgmFy2GhIorHYi1t244XySK7kX/iGI+RYfaUMRfpi
+   iy7CldTfd29aQs0CUNQRmUDp4L6azjjTEhsqqdaL/LUNtaVtjbMS4+qtn
+   5Dk28MX41vPsBJBfroduayas2jwmNXxfbaHIFr6tRp1ga5Xz4Uuepni9i
+   tm7H9n/miODppMdamkzaMLubUDvcrb81WapyqTvvZiHJXfeNfSvH92eVH
+   gNglqIT0uhU1JxfL0PRW0XvqQfUBd+Nd7sUxb4ru6rV+zogSld5WKKpHu
+   a63lfqMZZ8ouDWQ3c3k1lUVL9dLZZhU8o4G3+x6fNN11vFI7RLE24wSJW
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="364064793"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="397473220"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 17:47:07 -0700
+   d="scan'208";a="364064793"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 18:08:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="727498131"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="674514638"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="727498131"
+   d="scan'208";a="674514638"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 19 Jul 2023 17:47:07 -0700
+  by orsmga003.jf.intel.com with ESMTP; 19 Jul 2023 18:08:07 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMHow-0005d7-1P;
-	Thu, 20 Jul 2023 00:47:06 +0000
-Date: Thu, 20 Jul 2023 08:46:47 +0800
+	id 1qMI9G-0005dl-2F;
+	Thu, 20 Jul 2023 01:08:06 +0000
+Date: Thu, 20 Jul 2023 09:07:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.0.x-imx 3301/12470]
- drivers/mxc/sim/imx_sim.c:1750:62: warning: cast from pointer to integer of
- different size
-Message-ID: <202307200845.Oxo3U7BH-lkp@intel.com>
+Subject: [freescale-fslc:pr/638 24/12469] arch/arm/mach-imx/common.c:136:6:
+ warning: no previous prototype for 'imx6sll_lpddr2_freq_change'
+Message-ID: <202307200923.emVfJ8AC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,156 +46,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.0.x-imx
-head:   b872b1170fc8843b55e9f8838dd373ff43bb7552
-commit: 29b4956e9a625fc3b70a1fdb105a0fac7dbcdd06 [3301/12470] MLK-10600-1: mxc: sim: Add SIM IP driver support
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230720/202307200845.Oxo3U7BH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200845.Oxo3U7BH-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/638
+head:   3f1f2ea7295505de340ba4089817ae1021920928
+commit: e30da6831ebcd0bcbe7c36485526255eb66b354a [24/12469] ARM: imx: add i.MX7D bus-freq support
+config: arm-randconfig-r011-20230720 (https://download.01.org/0day-ci/archive/20230720/202307200923.emVfJ8AC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200923.emVfJ8AC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307200845.Oxo3U7BH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307200923.emVfJ8AC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/mxc/sim/imx_sim.c:1285:6: warning: no previous prototype for 'sim_clear_rx_buf' [-Wmissing-prototypes]
-    1285 | void sim_clear_rx_buf(struct sim_t *sim)
-         |      ^~~~~~~~~~~~~~~~
-   In file included from include/linux/printk.h:566,
-                    from include/asm-generic/bug.h:22,
-                    from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from arch/arm64/include/asm/cpufeature.h:20,
-                    from arch/arm64/include/asm/hwcap.h:9,
-                    from arch/arm64/include/asm/arch_timer.h:12,
-                    from arch/arm64/include/asm/timex.h:8,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from arch/arm64/include/asm/stat.h:12,
-                    from include/linux/stat.h:6,
-                    from include/linux/module.h:13,
-                    from drivers/mxc/sim/imx_sim.c:19:
-   drivers/mxc/sim/imx_sim.c: In function 'sim_probe':
->> drivers/mxc/sim/imx_sim.c:1750:62: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1750 |         dev_dbg(&pdev->dev, "mapped base address: 0x%08x\n", (u32)sim->ioaddr);
-         |                                                              ^
-   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
-     223 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
-     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
-     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/mxc/sim/imx_sim.c:1750:9: note: in expansion of macro 'dev_dbg'
-    1750 |         dev_dbg(&pdev->dev, "mapped base address: 0x%08x\n", (u32)sim->ioaddr);
-         |         ^~~~~~~
+   arch/arm/mach-imx/common.c:22:15: warning: no previous prototype for 'save_ttbr1' [-Wmissing-prototypes]
+      22 | unsigned long save_ttbr1(void)
+         |               ^~~~~~~~~~
+   arch/arm/mach-imx/common.c:33:6: warning: no previous prototype for 'restore_ttbr1' [-Wmissing-prototypes]
+      33 | void restore_ttbr1(unsigned long ttbr1)
+         |      ^~~~~~~~~~~~~
+   arch/arm/mach-imx/common.c:44:13: warning: no previous prototype for 'imx6_enet_mac_init' [-Wmissing-prototypes]
+      44 | void __init imx6_enet_mac_init(const char *enet_compat, const char *ocotp_compat)
+         |             ^~~~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/common.c: In function 'imx6_enet_mac_init':
+   arch/arm/mach-imx/common.c:62:21: error: too few arguments to function 'of_get_mac_address'
+      62 |                 if (of_get_mac_address(enet_np))
+         |                     ^~~~~~~~~~~~~~~~~~
+   In file included from arch/arm/mach-imx/common.c:14:
+   include/linux/of_net.h:16:12: note: declared here
+      16 | extern int of_get_mac_address(struct device_node *np, u8 *mac);
+         |            ^~~~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/common.c: At top level:
+>> arch/arm/mach-imx/common.c:136:6: warning: no previous prototype for 'imx6sll_lpddr2_freq_change' [-Wmissing-prototypes]
+     136 | void imx6sll_lpddr2_freq_change(u32 freq, int bus_freq_mode) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-imx/common.c:149:6: warning: no previous prototype for 'imx6ull_low_power_idle' [-Wmissing-prototypes]
+     149 | void imx6ull_low_power_idle(void) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:163:6: warning: no previous prototype for 'imx7_smp_wfe' [-Wmissing-prototypes]
+     163 | void imx7_smp_wfe(u32 cpuid, u32 ocram_base) {}
+         |      ^~~~~~~~~~~~
+>> arch/arm/mach-imx/common.c:164:6: warning: no previous prototype for 'imx7d_ddr3_freq_change' [-Wmissing-prototypes]
+     164 | void imx7d_ddr3_freq_change(u32 freq) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1750 drivers/mxc/sim/imx_sim.c
+vim +/imx6sll_lpddr2_freq_change +136 arch/arm/mach-imx/common.c
 
-  1721	
-  1722	static int sim_probe(struct platform_device *pdev)
-  1723	{
-  1724		int ret = 0;
-  1725		const struct of_device_id *of_id;
-  1726		struct sim_t *sim = NULL;
-  1727		struct device_node *of_node = pdev->dev.of_node;
-  1728	
-  1729		sim = devm_kzalloc(&pdev->dev, sizeof(struct sim_t),
-  1730					GFP_KERNEL);
-  1731		if (!sim) {
-  1732			dev_err(&pdev->dev, "can't allocate enough memory\n");
-  1733			return -ENOMEM;
-  1734		}
-  1735	
-  1736		of_id = of_match_device(sim_imx_dt_ids, &pdev->dev);
-  1737		if (of_id)
-  1738			pdev->id_entry = of_id->data;
-  1739		else
-  1740			return -EINVAL;
-  1741	
-  1742		sim->clk_rate = FCLK_FREQ;
-  1743	
-  1744		sim->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-  1745		if (!sim->res) {
-  1746			pr_err("Can't get the MEMORY\n");
-  1747			return -ENOMEM;
-  1748		}
-  1749		sim->ioaddr = devm_ioremap_resource(&pdev->dev, sim->res);
-> 1750		dev_dbg(&pdev->dev, "mapped base address: 0x%08x\n", (u32)sim->ioaddr);
-  1751		if (IS_ERR(sim->ioaddr)) {
-  1752			dev_err(&pdev->dev,
-  1753				"failed to get ioremap base\n");
-  1754			ret = PTR_ERR(sim->ioaddr);
-  1755			return ret;
-  1756		}
-  1757	
-  1758		/* request the sim clk and sim_serial_clk */
-  1759		sim->clk = devm_clk_get(&pdev->dev, "sim");
-  1760		if (IS_ERR(sim->clk)) {
-  1761			ret = PTR_ERR(sim->clk);
-  1762			pr_err("Get CLK ERROR !\n");
-  1763			return ret;
-  1764		}
-  1765		pr_debug("sim clock:%lu\n", clk_get_rate(sim->clk));
-  1766	
-  1767		sim->ipb_irq = platform_get_irq(pdev, 0);
-  1768		if (sim->ipb_irq < 0) {
-  1769			dev_err(&pdev->dev, "No ipb irq line provided\n");
-  1770			return -ENOENT;
-  1771		}
-  1772		if (devm_request_irq(&pdev->dev, sim->ipb_irq, sim_irq_handler,
-  1773					0, "mxc_sim_ipb", sim)) {
-  1774			dev_err(&pdev->dev, "can't claim irq %d\n", sim->ipb_irq);
-  1775			return -ENOENT;
-  1776		}
-  1777	
-  1778		sim->sven_low_active = of_property_read_bool(of_node,
-  1779							"sven_low_active");
-  1780	
-  1781		ret = of_property_read_u32(of_node, "port", &sim->port_index);
-  1782		if (ret)
-  1783			sim->port_index = 0;
-  1784		sim->port_ctrl_reg = (sim->port_index == 0) ?
-  1785					PORT0_CNTL : PORT1_CNTL;
-  1786		sim->port_detect_reg = (sim->port_index == 0) ?
-  1787					PORT0_DETECT : PORT1_DETECT;
-  1788		sim->quirks = pdev->id_entry->driver_data;
-  1789	
-  1790		platform_set_drvdata(pdev, sim);
-  1791	
-  1792		/*
-  1793		 *@todo: Need to figure a better way if possible.
-  1794		 */
-  1795		sim_dev.parent = &(pdev->dev);
-  1796	
-  1797		pm_runtime_get_noresume(&pdev->dev);
-  1798		pm_runtime_set_active(&pdev->dev);
-  1799		pm_runtime_enable(&pdev->dev);
-  1800	
-  1801		sim->open_cnt = 1;
-  1802		ret = clk_prepare_enable(sim->clk);
-  1803		if (ret)
-  1804			return ret;
-  1805		/* Let pm_runtime_put_snyc() disable the clock.
-  1806		 * If CONFIG_PM is not enabled, the clock will stay powered.
-  1807		 */
-  1808		pm_runtime_put_sync(&pdev->dev);
-  1809		sim->open_cnt = 0;
-  1810	
-  1811		misc_register(&sim_dev);
-  1812	
-  1813		return 0;
-  1814	}
-  1815	
+   134	
+   135	#if !defined(CONFIG_SOC_IMX6SLL)
+ > 136	void imx6sll_lpddr2_freq_change(u32 freq, int bus_freq_mode) {}
+   137	#endif
+   138	
+   139	#if !defined(CONFIG_SOC_IMX6SX) && !defined(CONFIG_SOC_IMX6UL)
+   140	u32 imx6_up_ddr3_freq_change_start, imx6_up_ddr3_freq_change_end;
+   141	struct imx6_busfreq_info {
+   142	} __aligned(8);
+   143	void imx6_up_ddr3_freq_change(struct imx6_busfreq_info *busfreq_info) {}
+   144	void imx6_up_lpddr2_freq_change(u32 freq, int bus_freq_mode) {}
+   145	#endif
+   146	
+   147	#if !defined(CONFIG_SOC_IMX6ULL)
+   148	u32 mx6ull_lpm_wfi_start, mx6ull_lpm_wfi_end;
+   149	void imx6ull_low_power_idle(void) {}
+   150	#endif
+   151	
+   152	#if !defined(CONFIG_SOC_IMX6Q)
+   153	u32 mx6_ddr3_freq_change_start, mx6_ddr3_freq_change_end;
+   154	u32 mx6q_lpddr2_freq_change_start, mx6q_lpddr2_freq_change_end;
+   155	u32 wfe_smp_freq_change_start, wfe_smp_freq_change_end;
+   156	void mx6_ddr3_freq_change(u32 freq, void *ddr_settings,
+   157		bool dll_mode, void *iomux_offsets) {}
+   158	void mx6q_lpddr2_freq_change(u32 freq, void *ddr_settings) {}
+   159	void wfe_smp_freq_change(u32 cpuid, u32 *ddr_freq_change_done) {}
+   160	#endif
+   161	
+   162	#if !defined(CONFIG_SOC_IMX7D)
+ > 163	void imx7_smp_wfe(u32 cpuid, u32 ocram_base) {}
+ > 164	void imx7d_ddr3_freq_change(u32 freq) {}
 
 -- 
 0-DAY CI Kernel Test Service
