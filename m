@@ -1,44 +1,43 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3368622F03;
-	Wed, 19 Jul 2023 23:13:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76407F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 00:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689808432; x=1721344432;
+  t=1689812150; x=1721348150;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EEC54lNlZTABNqycZeRjQsyi7DpEys803HMO3Jtvbd8=;
-  b=KOHVdxqBu/aGe9N8xn6JZD69iQcr83mfPZYXIsTJkTx84LygqQi+mvwE
-   g2FMVUttyGu6ztEA/WcLdBJdm/zlCiArL7HBlp+7tNI5D9rZWyJtrCxmq
-   RU8EPzZoqMABlhUZaGWcn9plrTNO0bZUOBJazqM+u1ysKVcs4RhrTvQZy
-   GXnspR4qGndPVGg13ndge9uoDXRuA60aDLMcCb9A2a26hIUE+otiITRHM
-   JMUpZhU5s5teHovcn4jYvkeVYEQKHh1jwnHB0ncR5jHM+wiGBt00aZDWx
-   M9kSvmOWnZd29cnWrwjLfpmU72+iGiVV9CRJFhf+ghT9/OAz4OPDrlotM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="346181888"
+  bh=9tqz7ofCLD+mEhhZUypLTCqJoeHi+tkYRfpe4zsUJOM=;
+  b=MZiCL+aLIBAiCq7yUclIw10KJ8Ryo5nxW9vscCYOTs84Q/skhPrqZ8+Z
+   7IrhIX1Q4dyKa4J3OC9p9a0c51gh/JcMsPaalS+tffYo/IF88nGB7Thkv
+   jiC7GCFo/uLo6OcFrEwW8TOvPZ5C9FRgwl4m9lRu13TjDcRikMVpdiQJp
+   BkXWSJ5SQztya6SJTz0C1ObYY0Giw75pUtGEpoHfq12LgG7TlucWyitp+
+   3TML+tycWGaqYOqzjm9rzgGzTDy0h6XmerXYWjKVUukqvNRLUBcFg1vVu
+   YTNrztq7L/vpJbtegdD8SrodgOcNIogw1zLzohmj+zqpquoXEDNwbjggr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="346192738"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="346181888"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 16:13:51 -0700
+   d="scan'208";a="346192738"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 17:15:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="848222309"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="1054945663"
 X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="848222309"
+   d="scan'208";a="1054945663"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 19 Jul 2023 16:13:49 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 19 Jul 2023 17:15:48 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMGMc-0005Zl-0e;
-	Wed, 19 Jul 2023 23:13:46 +0000
-Date: Thu, 20 Jul 2023 07:13:11 +0800
+	id 1qMHKX-0005bx-1y;
+	Thu, 20 Jul 2023 00:15:44 +0000
+Date: Thu, 20 Jul 2023 08:15:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: drivers/net/veth.c:848:12: warning: stack frame size (2096) exceeds
- limit (2048) in 'veth_xdp_rcv'
-Message-ID: <202307200753.sG6BpxE4-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/638 3332/12469]
+ ./usr/include/linux/imx_vpu.h:22:1: warning: // comments are not allowed in
+ this language
+Message-ID: <202307200833.eL6G3G3K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,90 +47,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bfa3037d828050896ae52f6467b6ca2489ae6fb1
-commit: 03f61041c17914355dde7261be9ccdc821ddd454 skbuff: Switch structure bounds to struct_group()
-date:   1 year, 8 months ago
-config: riscv-randconfig-r042-20230720 (https://download.01.org/0day-ci/archive/20230720/202307200753.sG6BpxE4-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200753.sG6BpxE4-lkp@intel.com/reproduce)
+Hi Zhou,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc pr/638
+head:   3f1f2ea7295505de340ba4089817ae1021920928
+commit: b82c78d77f16b30cffdd304eb2c6c1a3ab4f68ba [3332/12469] arm64: imx8mx: vpu: add vsi v4l2 decoder and encoder
+config: i386-randconfig-r026-20230718 (https://download.01.org/0day-ci/archive/20230720/202307200833.eL6G3G3K-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307200833.eL6G3G3K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307200753.sG6BpxE4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307200833.eL6G3G3K-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/veth.c:848:12: warning: stack frame size (2096) exceeds limit (2048) in 'veth_xdp_rcv' [-Wframe-larger-than]
-     848 | static int veth_xdp_rcv(struct veth_rq *rq, int budget,
-         |            ^
-   1 warning generated.
-
-
-vim +/veth_xdp_rcv +848 drivers/net/veth.c
-
-948d4f214fde43 Toshiaki Makita  2018-08-03  847  
-1c5b82e55f1529 Lorenzo Bianconi 2020-03-19 @848  static int veth_xdp_rcv(struct veth_rq *rq, int budget,
-1c5b82e55f1529 Lorenzo Bianconi 2020-03-19  849  			struct veth_xdp_tx_bq *bq,
-1c5b82e55f1529 Lorenzo Bianconi 2020-03-19  850  			struct veth_stats *stats)
-948d4f214fde43 Toshiaki Makita  2018-08-03  851  {
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  852  	int i, done = 0, n_xdpf = 0;
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  853  	void *xdpf[VETH_XDP_BATCH];
-948d4f214fde43 Toshiaki Makita  2018-08-03  854  
-948d4f214fde43 Toshiaki Makita  2018-08-03  855  	for (i = 0; i < budget; i++) {
-638264dc90227c Toshiaki Makita  2018-08-03  856  		void *ptr = __ptr_ring_consume(&rq->xdp_ring);
-948d4f214fde43 Toshiaki Makita  2018-08-03  857  
-9fc8d518d9d590 Toshiaki Makita  2018-08-03  858  		if (!ptr)
-948d4f214fde43 Toshiaki Makita  2018-08-03  859  			break;
-948d4f214fde43 Toshiaki Makita  2018-08-03  860  
-d1396004dd8686 Toshiaki Makita  2018-08-03  861  		if (veth_is_xdp_frame(ptr)) {
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  862  			/* ndo_xdp_xmit */
-4195e54aaf1c8d Toshiaki Makita  2018-10-11  863  			struct xdp_frame *frame = veth_ptr_to_xdp(ptr);
-4195e54aaf1c8d Toshiaki Makita  2018-10-11  864  
-1c5b82e55f1529 Lorenzo Bianconi 2020-03-19  865  			stats->xdp_bytes += frame->len;
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  866  			frame = veth_xdp_rcv_one(rq, frame, bq, stats);
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  867  			if (frame) {
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  868  				/* XDP_PASS */
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  869  				xdpf[n_xdpf++] = frame;
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  870  				if (n_xdpf == VETH_XDP_BATCH) {
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  871  					veth_xdp_rcv_bulk_skb(rq, xdpf, n_xdpf,
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  872  							      bq, stats);
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  873  					n_xdpf = 0;
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  874  				}
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  875  			}
-d1396004dd8686 Toshiaki Makita  2018-08-03  876  		} else {
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  877  			/* ndo_start_xmit */
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  878  			struct sk_buff *skb = ptr;
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  879  
-1c5b82e55f1529 Lorenzo Bianconi 2020-03-19  880  			stats->xdp_bytes += skb->len;
-1c5b82e55f1529 Lorenzo Bianconi 2020-03-19  881  			skb = veth_xdp_rcv_skb(rq, skb, bq, stats);
-948d4f214fde43 Toshiaki Makita  2018-08-03  882  			if (skb)
-638264dc90227c Toshiaki Makita  2018-08-03  883  				napi_gro_receive(&rq->xdp_napi, skb);
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  884  		}
-948d4f214fde43 Toshiaki Makita  2018-08-03  885  		done++;
-948d4f214fde43 Toshiaki Makita  2018-08-03  886  	}
-948d4f214fde43 Toshiaki Makita  2018-08-03  887  
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  888  	if (n_xdpf)
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  889  		veth_xdp_rcv_bulk_skb(rq, xdpf, n_xdpf, bq, stats);
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  890  
-4195e54aaf1c8d Toshiaki Makita  2018-10-11  891  	u64_stats_update_begin(&rq->stats.syncp);
-9152cff0dd3df6 Lorenzo Bianconi 2020-03-19  892  	rq->stats.vs.xdp_redirect += stats->xdp_redirect;
-1c5b82e55f1529 Lorenzo Bianconi 2020-03-19  893  	rq->stats.vs.xdp_bytes += stats->xdp_bytes;
-66fe4a078879d1 Lorenzo Bianconi 2020-03-19  894  	rq->stats.vs.xdp_drops += stats->xdp_drops;
-66fe4a078879d1 Lorenzo Bianconi 2020-03-19  895  	rq->stats.vs.rx_drops += stats->rx_drops;
-65780c5627a26d Lorenzo Bianconi 2020-03-19  896  	rq->stats.vs.xdp_packets += done;
-4195e54aaf1c8d Toshiaki Makita  2018-10-11  897  	u64_stats_update_end(&rq->stats.syncp);
-4195e54aaf1c8d Toshiaki Makita  2018-10-11  898  
-948d4f214fde43 Toshiaki Makita  2018-08-03  899  	return done;
-948d4f214fde43 Toshiaki Makita  2018-08-03  900  }
-948d4f214fde43 Toshiaki Makita  2018-08-03  901  
-
-:::::: The code at line 848 was first introduced by commit
-:::::: 1c5b82e55f152988778bebeea52fae7f6cea9a60 veth: introduce more specialized counters in veth_stats
-
-:::::: TO: Lorenzo Bianconi <lorenzo@kernel.org>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   In file included from <built-in>:1:
+   In file included from ./usr/include/linux/imx_vpu.h:17:
+   usr/include/linux/videodev2.h:2437:20: error: field has incomplete type 'struct timespec'
+           struct timespec                 timestamp;
+                                           ^
+   usr/include/linux/videodev2.h:2437:9: note: forward declaration of 'struct timespec'
+           struct timespec                 timestamp;
+                  ^
+   In file included from <built-in>:1:
+>> ./usr/include/linux/imx_vpu.h:22:1: warning: // comments are not allowed in this language [-Wcomment]
+   //ctrls & extension ctrls definitions
+   ^
+   1 warning and 1 error generated.
 
 -- 
 0-DAY CI Kernel Test Service
