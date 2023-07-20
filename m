@@ -1,44 +1,48 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0801E501
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 23:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCC31E501;
+	Thu, 20 Jul 2023 23:37:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689896234; x=1721432234;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r27SSszt0ViIaq+tx/IuBeEx6QPLiLCnWmSs4ZEpcDg=;
-  b=SbRJx2l2/lChSy01re2P5ZbwR+6v8vMEkoGDJWo76+Yr3vrBEFiJlwRU
-   rBsTMzfbzf+KvJBRXMtRQGyEzLiuPv+UW1HB21j1GDaloDFLzgQ86dD/z
-   bk/WG4T6ijjy8xwMiuK5gEalV8/t9tQNoOJ8Jkq6KPl0/Vbuq8yOTHCtc
-   tKhLP5ghWL+EHo1WfLvbx1UHnWLjsQws4g3mGJIyG67tZfuO02NPvwUoY
-   creimlNobYR8u3KVu+AI1MqtcuNlr4QnjVTK/MGTckLjgLAA4Ip4J7RWq
-   X+vJhXYsOfEPxvUaGDFuv7Hg4eNsGkO04sGAOhEr+6VcezJygbftmLqbx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="347192824"
+  t=1689896246; x=1721432246;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z2itLRjqr3PQgC+FNJyKgpaYg8xYUggoWHdV0xSSs0k=;
+  b=goSWDdVjrC6QHW2MkPNoFwo7pGUdPBOy3Jz4eedoVx/hdF5qTmyZO3DQ
+   2Z9eIofXws71rTQAOacWWUAtmI5D5GuOrK9U3auFdevkLs1bw/0DUXf1s
+   ieKFuIyFQQEqCMNdkuDbh8m68xuHi13s8UfiSX9jtUBhXs4JEO5jp+HSI
+   iQ9WNSZotp57gTmao2VZWkrIlHygscEBetTYGBm9bGuYr9nJI7OGVCiza
+   +adlFU7/U+2I39479jgWIFe5RuCO8jJuaQAoVanT6clmwCiv0gvQekkSz
+   TsHSn4VFXGIZYCrcqVtd+3GzUZdwrNzbxrCBWrCRIjBOTrOXyYUlkbu4+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="430687205"
 X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="347192824"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 16:37:13 -0700
+   d="scan'208";a="430687205"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 16:37:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="898511035"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="971223643"
 X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="898511035"
+   d="scan'208";a="971223643"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 20 Jul 2023 16:37:12 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2023 16:37:12 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMdCp-0006dB-1p;
+	id 1qMdCp-0006dG-20;
 	Thu, 20 Jul 2023 23:37:11 +0000
-Date: Fri, 21 Jul 2023 07:36:55 +0800
+Date: Fri, 21 Jul 2023 07:36:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:folio-flags 16/19]
- include/linux/page-flags.h:715:16: error: implicit declaration of function
- 'change_and_unlock_is_negative_byte'; did you mean
- 'clear_bit_unlock_is_negative_byte'?
-Message-ID: <202307210736.s0Tct0uf-lkp@intel.com>
+To: Linke Li <lilinke99@foxmail.com>, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	mike.kravetz@oracle.com, muchun.song@linux.dev, nathan@kernel.org,
+	ndesaulniers@google.com, trix@redhat.com,
+	linux-kernel@vger.kernel.org, dan.carpenter@linaro.org,
+	Linke Li <lilinke99@gmail.com>
+Subject: Re: [PATCH v3] hugetlbfs: Fix integer overflow check in
+ hugetlbfs_file_mmap()
+Message-ID: <202307210737.HUPwpBdW-lkp@intel.com>
+References: <tencent_C2D6865561F23A8141BB145149ACC682B408@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,64 +51,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <tencent_C2D6865561F23A8141BB145149ACC682B408@qq.com>
 
-tree:   git://git.infradead.org/users/willy/pagecache folio-flags
-head:   98061915c6df5892ff3efa2f04a27857ea36ca51
-commit: 483ab04e499ad3c41c25bbc8dec30be0433f4522 [16/19] mm: Add folio_mark_uptodate_unlock()
-config: alpha-randconfig-r014-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210736.s0Tct0uf-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210736.s0Tct0uf-lkp@intel.com/reproduce)
+Hi Linke,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc2 next-20230720]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Linke-Li/hugetlbfs-Fix-integer-overflow-check-in-hugetlbfs_file_mmap/20230720-225128
+base:   linus/master
+patch link:    https://lore.kernel.org/r/tencent_C2D6865561F23A8141BB145149ACC682B408%40qq.com
+patch subject: [PATCH v3] hugetlbfs: Fix integer overflow check in hugetlbfs_file_mmap()
+config: s390-randconfig-r024-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210737.HUPwpBdW-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210737.HUPwpBdW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307210736.s0Tct0uf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307210737.HUPwpBdW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/mmzone.h:23,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from include/linux/pid_namespace.h:7,
-                    from include/linux/ptrace.h:10,
-                    from arch/alpha/kernel/asm-offsets.c:11:
-   include/linux/page-flags.h: In function 'folio_set_unlock':
->> include/linux/page-flags.h:715:16: error: implicit declaration of function 'change_and_unlock_is_negative_byte'; did you mean 'clear_bit_unlock_is_negative_byte'? [-Werror=implicit-function-declaration]
-     715 |         return change_and_unlock_is_negative_byte(flag, PG_locked,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                clear_bit_unlock_is_negative_byte
-   arch/alpha/kernel/asm-offsets.c: At top level:
-   arch/alpha/kernel/asm-offsets.c:15:6: warning: no previous prototype for 'foo' [-Wmissing-prototypes]
-      15 | void foo(void)
-         |      ^~~
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:116: arch/alpha/kernel/asm-offsets.s] Error 1 shuffle=1834951555
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2 shuffle=1834951555
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=1834951555
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=1834951555
-   make: Target 'prepare' not remade because of errors.
+>> fs/hugetlbfs/inode.c:157:25: warning: variable 'vma_len' is uninitialized when used here [-Wuninitialized]
+     157 |         if (check_add_overflow(vma_len, (loff_t)vma->vm_pgoff << PAGE_SHIFT, &len))
+         |                                ^~~~~~~
+   include/linux/overflow.h:67:47: note: expanded from macro 'check_add_overflow'
+      67 |         __must_check_overflow(__builtin_add_overflow(a, b, d))
+         |                                                      ^
+   fs/hugetlbfs/inode.c:123:21: note: initialize the variable 'vma_len' to silence this warning
+     123 |         loff_t len, vma_len;
+         |                            ^
+         |                             = 0
+   1 warning generated.
 
 
-vim +715 include/linux/page-flags.h
+vim +/vma_len +157 fs/hugetlbfs/inode.c
 
-   704	
-   705	/**
-   706	 * folio_set_unlock - Set a flag and unlock a folio
-   707	 * @folio: The folio.
-   708	 * @flag: The flag to clear
-   709	 *
-   710	 * Return: Whether there are tasks waiting on the folio.
-   711	 */
-   712	static inline
-   713	bool folio_set_unlock(struct folio *folio, unsigned int flag)
-   714	{
- > 715		return change_and_unlock_is_negative_byte(flag, PG_locked,
-   716				folio_flags(folio, 0));
-   717	}
-   718	
+   108	
+   109	/*
+   110	 * Mask used when checking the page offset value passed in via system
+   111	 * calls.  This value will be converted to a loff_t which is signed.
+   112	 * Therefore, we want to check the upper PAGE_SHIFT + 1 bits of the
+   113	 * value.  The extra bit (- 1 in the shift value) is to take the sign
+   114	 * bit into account.
+   115	 */
+   116	#define PGOFF_LOFFT_MAX \
+   117		(((1UL << (PAGE_SHIFT + 1)) - 1) <<  (BITS_PER_LONG - (PAGE_SHIFT + 1)))
+   118	
+   119	static int hugetlbfs_file_mmap(struct file *file, struct vm_area_struct *vma)
+   120	{
+   121		struct inode *inode = file_inode(file);
+   122		struct hugetlbfs_inode_info *info = HUGETLBFS_I(inode);
+   123		loff_t len, vma_len;
+   124		int ret;
+   125		struct hstate *h = hstate_file(file);
+   126	
+   127		/*
+   128		 * vma address alignment (but not the pgoff alignment) has
+   129		 * already been checked by prepare_hugepage_range.  If you add
+   130		 * any error returns here, do so after setting VM_HUGETLB, so
+   131		 * is_vm_hugetlb_page tests below unmap_region go the right
+   132		 * way when do_mmap unwinds (may be important on powerpc
+   133		 * and ia64).
+   134		 */
+   135		vm_flags_set(vma, VM_HUGETLB | VM_DONTEXPAND);
+   136		vma->vm_ops = &hugetlb_vm_ops;
+   137	
+   138		ret = seal_check_future_write(info->seals, vma);
+   139		if (ret)
+   140			return ret;
+   141	
+   142		/*
+   143		 * page based offset in vm_pgoff could be sufficiently large to
+   144		 * overflow a loff_t when converted to byte offset.  This can
+   145		 * only happen on architectures where sizeof(loff_t) ==
+   146		 * sizeof(unsigned long).  So, only check in those instances.
+   147		 */
+   148		if (sizeof(unsigned long) == sizeof(loff_t)) {
+   149			if (vma->vm_pgoff & PGOFF_LOFFT_MAX)
+   150				return -EINVAL;
+   151		}
+   152	
+   153		/* must be huge page aligned */
+   154		if (vma->vm_pgoff & (~huge_page_mask(h) >> PAGE_SHIFT))
+   155			return -EINVAL;
+   156	
+ > 157		if (check_add_overflow(vma_len, (loff_t)vma->vm_pgoff << PAGE_SHIFT, &len))
+   158			return -EINVAL;
+   159	
+   160		inode_lock(inode);
+   161		file_accessed(file);
+   162	
+   163		ret = -ENOMEM;
+   164		if (!hugetlb_reserve_pages(inode,
+   165					vma->vm_pgoff >> huge_page_order(h),
+   166					len >> huge_page_shift(h), vma,
+   167					vma->vm_flags))
+   168			goto out;
+   169	
+   170		ret = 0;
+   171		if (vma->vm_flags & VM_WRITE && inode->i_size < len)
+   172			i_size_write(inode, len);
+   173	out:
+   174		inode_unlock(inode);
+   175	
+   176		return ret;
+   177	}
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
