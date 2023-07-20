@@ -1,43 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F84417FEE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 15:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2B018C00
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 15:20:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689865766; x=1721401766;
+  t=1689866410; x=1721402410;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EnApJvHYNVrDwuiSoELdZTng5aDxASZVouw+d1I+jjA=;
-  b=lXHINQnFoDPjdj/hQan4OGN6GZ+iTFEv6/ZBsyJw7yOaNGbqtdipK8JM
-   3xWn2VjFTRScvF8kSa3j2ci/LmJSuFZSCa2c9GcmLxk/i0gz4ATXrnN/r
-   Uap9GPAL0IHFWl9rJca29PbV+12863l0tYw7yJ2uH+W1ogGJCa3R5Whzc
-   26jcc3liuxPXwApfrqlxeaJ2AD6USTYFIjucYLgVCQEIK/8WwRv5hWDI0
-   jom8Td2jRaWkV9moP1W0NjfNGnXLnRTLK3AlaRIHjJMa//xB73Apq9DeM
-   JyhtHGBRw46FsNRkYuolmEb+aiTsv/YHzygUUCxfx5MzGzwB+ezyZ3mOJ
+  bh=fx5J/mI+2er2wwRGTIjvcRw6eIU6D+hNqocrp6x/1xA=;
+  b=NM0RCdtwP2MunuKkfUqojvKaBr6b3Wze4q5dA3b96XZrEtro9Vu88dqF
+   aMtjn9kQ2mnAjRufCGJhAL1JSJqKBLftcj1OvL1Hq/fsGwR6TQBz2sfbG
+   MF2G8i5nxMxlG1dv0Y9YEqMVsDt0kkFO/r+XdZmgaTcm5K5t9NGYUjsjv
+   asFQLnxwd8mVLE7KQRuqGd7Q4ajVLTl6P/TiaV5ZocMdUjMooyDK6tkD5
+   d8cwpP9OR12nuuxcb4mI6oTuhoZiOfUtNbDKEOapVUh83SdgIqUksj1ln
+   nhIW7JIfE+2SSlbb4AmTQ8QgdEHS4kxANWCiTYN3z0opqB/oXx/ygEf/2
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="453143410"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="347075391"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="453143410"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 08:09:25 -0700
+   d="scan'208";a="347075391"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 08:20:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="838162514"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="1055207725"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="838162514"
+   d="scan'208";a="1055207725"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Jul 2023 08:09:23 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 20 Jul 2023 08:20:08 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMVHP-0006B3-0J;
-	Thu, 20 Jul 2023 15:09:23 +0000
-Date: Thu, 20 Jul 2023 23:09:04 +0800
+	id 1qMVRo-0006Bb-0w;
+	Thu, 20 Jul 2023 15:20:08 +0000
+Date: Thu, 20 Jul 2023 23:19:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthew Wilcox <willy@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:folio-flags 15/18]
- include/linux/page-flags.h:715:16: error: implicit declaration of function
- 'set_and_unlock_is_negative_byte'
-Message-ID: <202307202330.DbdLjYRM-lkp@intel.com>
+Subject: [willy-pagecache:folio-flags 5/18]
+ arch/alpha/include/asm/bitops.h:293:27: error: 'addr' undeclared
+Message-ID: <202307202340.AqDsKcz0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,63 +48,60 @@ Content-Disposition: inline
 
 tree:   git://git.infradead.org/users/willy/pagecache folio-flags
 head:   a9edffb2ad9937724acfb480184a46c04a81c23e
-commit: f58db80800ede4ae69e671c8a75375ac4548829d [15/18] mm: Add folio_mark_uptodate_unlock()
-config: m68k-randconfig-r016-20230720 (https://download.01.org/0day-ci/archive/20230720/202307202330.DbdLjYRM-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307202330.DbdLjYRM-lkp@intel.com/reproduce)
+commit: 3e5f9e0a3df93d0381aed1eea91ff62f4d2ea4a5 [5/18] alpha: Implement clear_bit_unlock_is_negative_byte
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230720/202307202340.AqDsKcz0-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307202340.AqDsKcz0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307202330.DbdLjYRM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307202340.AqDsKcz0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/mmzone.h:23,
-                    from include/linux/topology.h:33,
-                    from include/linux/irq.h:19,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:9,
-                    from arch/m68k/kernel/asm-offsets.c:16:
-   include/linux/page-flags.h: In function 'folio_clear_has_waiters':
-   include/linux/page-flags.h:702:16: error: implicit declaration of function 'clear_bit_unlock_is_negative_byte' [-Werror=implicit-function-declaration]
-     702 |         return clear_bit_unlock_is_negative_byte(flag, folio_flags(folio, 0));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/page-flags.h: In function 'folio_set_unlock':
->> include/linux/page-flags.h:715:16: error: implicit declaration of function 'set_and_unlock_is_negative_byte' [-Werror=implicit-function-declaration]
-     715 |         return set_and_unlock_is_negative_byte(flag, PG_locked,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:116: arch/m68k/kernel/asm-offsets.s] Error 1 shuffle=1299054972
+   In file included from include/linux/bitops.h:68,
+                    from include/linux/log2.h:12,
+                    from kernel/bounds.c:13:
+   arch/alpha/include/asm/bitops.h: In function 'clear_bit_unlock_is_negative_byte':
+>> arch/alpha/include/asm/bitops.h:293:27: error: 'addr' undeclared (first use in this function)
+     293 |         int *m = ((int *) addr) + (nr >> 5);
+         |                           ^~~~
+   arch/alpha/include/asm/bitops.h:293:27: note: each undeclared identifier is reported only once for each function it appears in
+   make[3]: *** [scripts/Makefile.build:116: kernel/bounds.s] Error 1
    make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2 shuffle=1299054972
+   make[2]: *** [Makefile:1275: prepare0] Error 2
    make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=1299054972
+   make[1]: *** [Makefile:234: __sub-make] Error 2
    make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=1299054972
+   make: *** [Makefile:234: __sub-make] Error 2
    make: Target 'prepare' not remade because of errors.
 
 
-vim +/set_and_unlock_is_negative_byte +715 include/linux/page-flags.h
+vim +/addr +293 arch/alpha/include/asm/bitops.h
 
-   704	
-   705	/**
-   706	 * folio_set_unlock - Set a flag and unlock a folio
-   707	 * @folio: The folio.
-   708	 * @flag: The flag to clear
-   709	 *
-   710	 * Return: Whether there are tasks waiting on the folio.
-   711	 */
-   712	static inline
-   713	bool folio_set_unlock(struct folio *folio, unsigned int flag)
-   714	{
- > 715		return set_and_unlock_is_negative_byte(flag, PG_locked,
-   716				folio_flags(folio, 0));
-   717	}
-   718	
+   288	
+   289	static inline bool clear_bit_unlock_is_negative_byte(unsigned int nr,
+   290			volatile unsigned long *p)
+   291	{
+   292		unsigned long temp, old;
+ > 293		int *m = ((int *) addr) + (nr >> 5);
+   294	
+   295		__asm__ __volatile__(
+   296		"1:	ldl_l %0,%4\n"
+   297		"	bic %0,%3,%0\n"
+   298		"	sll %0,#0,%2\n"
+   299		"	stl_c %0,%1\n"
+   300		"	beq %0,2f\n"
+   301		".subsection 2\n"
+   302		"2:	br 1b\n"
+   303		".previous"
+   304		:"=&r" (temp), "=m" (*m), "=&r" (old)
+   305		:"Ir" (1UL << (nr & 31)), "m" (*m));
+   306	
+   307		return (old & BIT(7)) != 0;
+   308	}
+   309	
 
 -- 
 0-DAY CI Kernel Test Service
