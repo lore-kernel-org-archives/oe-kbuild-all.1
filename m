@@ -1,43 +1,51 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2482D1773D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 16:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A525F2FA20;
+	Thu, 20 Jul 2023 16:54:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689871743; x=1721407743;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=7NX/AlPAGDSpnGK1rEuONyGAazZeaIxCWd5UEb1DPcg=;
-  b=J+rt02Y3afk4g0dKiUQ2yPzxuroijLaMDwQUZeDwMKMkd/eK21lTND7k
-   iyGIyfnoObKKso4c+yScRBcJiodN8ekIlKYdli5Wgpq3UmLwe4hs8k7TN
-   ANdDkkGI/mLkczO4dTwienYVdO3UD05+TC1WfsMRmaErETzy0n2yqNJlS
-   725CHf70DFLvFDWtZMwxLHCQPjRXkj2g2BNDiRr+rYM5mHDzTHNr81mFL
-   3tziXitga50YsCgSdCzn8X9UqqsDAawl49bI2sN4yDq3mgRyYWinqY1dD
-   pWHsPn+JjLCdxfz2KBS3icbw1ebjq4afiuZAZqbiXRn5bWqh7LH7fLQTo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="430594196"
+  t=1689872066; x=1721408066;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jsTm2UaW1yv/guIOUhcU4FeneLP0J9xCcYSp75A3fpc=;
+  b=GS1YICRgg4xY5E/dbmvHGHhv9BVSjUizoc/XMZAjl+tpmTftkKZyL7/0
+   zSsJciPqAAQTlfi2p/FZTGCYhvGsRUP1a/gp9yiDqBSL+C3xK2euv+67C
+   flY1Nw8Mb/i69t+71su4qxrfFwxsnUzuXos/Bro4+oeRi9ZRG2rX1sy4M
+   idTmdrCoDwF8e9c2yBs6ir3iN28/5f0iXpFb++8fl/Gz3ZhP/POVGjwbh
+   yxYU2tCwmCh3rEzL8WLaymPhkIzFuosNvVEYPe0zqmp2y6anyj+nYmDSL
+   31Z47TcQYs3NaMrJDm3WR/iljVD+g/mxhJ7mtca9AahXYdb9L8amoiPpg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="430596140"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="430594196"
+   d="scan'208";a="430596140"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 09:49:02 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 09:54:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="759635124"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="759638874"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="759635124"
+   d="scan'208";a="759638874"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 20 Jul 2023 09:49:01 -0700
+  by orsmga001.jf.intel.com with ESMTP; 20 Jul 2023 09:54:14 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMWpj-0006I1-0v;
-	Thu, 20 Jul 2023 16:48:56 +0000
-Date: Fri, 21 Jul 2023 00:48:12 +0800
+	id 1qMWus-0006IH-0C;
+	Thu, 20 Jul 2023 16:54:14 +0000
+Date: Fri, 21 Jul 2023 00:54:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 5/9] drm/i915/gt: Refactor
- intel_emit_pipe_control_cs() in a single function
-Message-ID: <ZLllTD9GhIDvh09O@c507f7d2ae6a>
+To: Praveenkumar I <quic_ipkumar@quicinc.com>, agross@kernel.org,
+	andersson@kernel.org, konrad.dybcio@linaro.org, amitk@kernel.org,
+	thara.gopinath@gmail.com, rafael@kernel.org,
+	daniel.lezcano@linaro.org, rui.zhang@intel.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	quic_varada@quicinc.com
+Subject: Re: [PATCH v4 1/5] thermal/drivers/tsens: Add TSENS enable and
+ calibration support for V2
+Message-ID: <202307210014.qNnx99K8-lkp@intel.com>
+References: <20230719104041.126718-2-quic_ipkumar@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +54,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720164454.757075-6-andi.shyti@linux.intel.com>
+In-Reply-To: <20230719104041.126718-2-quic_ipkumar@quicinc.com>
 
-Hi,
+Hi Praveenkumar,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on rafael-pm/thermal]
+[also build test ERROR on robh/for-next linus/master v6.5-rc2 next-20230720]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH v6 5/9] drm/i915/gt: Refactor intel_emit_pipe_control_cs() in a single function
-Link: https://lore.kernel.org/stable/20230720164454.757075-6-andi.shyti%40linux.intel.com
+url:    https://github.com/intel-lab-lkp/linux/commits/Praveenkumar-I/thermal-drivers-tsens-Add-TSENS-enable-and-calibration-support-for-V2/20230719-184436
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20230719104041.126718-2-quic_ipkumar%40quicinc.com
+patch subject: [PATCH v4 1/5] thermal/drivers/tsens: Add TSENS enable and calibration support for V2
+config: arm-randconfig-r001-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210014.qNnx99K8-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210014.qNnx99K8-lkp@intel.com/reproduce)
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307210014.qNnx99K8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/thermal/qcom/tsens-v2.c:153:9: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   val = FIELD_PREP(CONVERSION_SHIFT_MASK, V2_SHIFT_DEFAULT) |
+                         ^
+   1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SM_GCC_8450
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [y]:
+   - SM_VIDEOCC_8450 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
+   WARNING: unmet direct dependencies detected for SM_GCC_8550
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [y]:
+   - SM_GPUCC_8550 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
+
+
+vim +/FIELD_PREP +153 drivers/thermal/qcom/tsens-v2.c
+
+   129	
+   130	static int tsens_v2_calibrate_sensor(struct device *dev, struct tsens_sensor *sensor,
+   131					     struct regmap *map,  u32 mode, u32 base0, u32 base1)
+   132	{
+   133		u32 slope, czero, val;
+   134		char name[8];
+   135		int ret;
+   136	
+   137		/* Read offset value */
+   138		ret = snprintf(name, sizeof(name), "s%d", sensor->hw_id);
+   139		if (ret < 0)
+   140			return ret;
+   141	
+   142		ret = nvmem_cell_read_variable_le_u32(dev, name, &sensor->offset);
+   143		if (ret)
+   144			return ret;
+   145	
+   146		/* Based on calib mode, program SHIFT, SLOPE and CZERO */
+   147		switch (mode) {
+   148		case TWO_PT_CALIB:
+   149			slope = (TWO_PT_SHIFTED_GAIN / (base1 - base0));
+   150	
+   151			czero = (base0 + sensor->offset - ((base1 - base0) / 3));
+   152	
+ > 153			val = FIELD_PREP(CONVERSION_SHIFT_MASK, V2_SHIFT_DEFAULT) |
+   154			      FIELD_PREP(CONVERSION_SLOPE_MASK, slope) |
+   155			      FIELD_PREP(CONVERSION_CZERO_MASK, czero);
+   156	
+   157			fallthrough;
+   158		case ONE_PT_CALIB2:
+   159			czero = base0 + sensor->offset - ONE_PT_CZERO_CONST;
+   160	
+   161			val = FIELD_PREP(CONVERSION_SHIFT_MASK, V2_SHIFT_DEFAULT) |
+   162			      FIELD_PREP(CONVERSION_SLOPE_MASK, ONE_PT_SLOPE) |
+   163			      FIELD_PREP(CONVERSION_CZERO_MASK, czero);
+   164	
+   165			break;
+   166		default:
+   167			dev_dbg(dev, "calibrationless mode\n");
+   168	
+   169			val = FIELD_PREP(CONVERSION_SHIFT_MASK, V2_SHIFT_DEFAULT) |
+   170			      FIELD_PREP(CONVERSION_SLOPE_MASK, V2_SLOPE_DEFAULT) |
+   171			      FIELD_PREP(CONVERSION_CZERO_MASK, V2_CZERO_DEFAULT);
+   172		}
+   173	
+   174		regmap_write(map, SENSOR_CONVERSION(sensor->hw_id), val);
+   175	
+   176		return 0;
+   177	}
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
