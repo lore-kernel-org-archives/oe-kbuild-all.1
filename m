@@ -1,54 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECEA2FA43;
-	Thu, 20 Jul 2023 17:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26366182A4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 17:38:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689873335; x=1721409335;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ajwiDjEM37bJTrbE3/73m8Y1Bz0d/plYeHBMuGcnQlQ=;
-  b=Gnmy1jXO8Ho/FOjOADHgMEvg7YRhVsHlKvPYpNneDFdxyxvx/WpCkgk/
-   tCN+wTeCoc8lWpXB3+VBwbRYbKzD7821DmwLwr5u5GJc1E1RKd1ko4wA6
-   y3NHHKl6bNWTgH07/OXgjQs2p9qcvHSDKg7kDz6asd/AMe10+DjDOX8dm
-   Nvmi09TscLRGfOzb5aogoYVMYUP+rzzllaObWCJUbg/PjSRx2XdhowYHt
-   P0SPpxh/ddtfdETq8kwUlNd2bKsGxWtBXSTiAjIRwW4ReEV8h4ypCqrRG
-   z+ub5+gR81HFZe9Do0hV1WfQA3EsPYrEq5hP4i5OgZTmgdu5x5dlZLkzs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="346401621"
+  t=1689874702; x=1721410702;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=deBOvTeII7hbzJ6MM2i8mI3IXlmLFekUZCFAL/jP414=;
+  b=ZGT702aBpg2LSsrPRTLdATHC56QZux3H2bWdj8f4fmISyRtC8bMJe4SZ
+   5KBBqVe6kjOTIDLWZG/DhsAeZMnhbuMqCsuaVMmcOayWgsdt8FP7M+6oE
+   4wfJAkmbt9SkSqlMKUXTHBYoRUDGlqHpFVZzyi9bj6Ct+utKirZXSD0Wj
+   QfRYgFz2auBssl28JnEqXuly6mWUGAwUQSs11LniRPdiJExugXqir0OIM
+   IuLW/9vJYcD/mOtk9l/RIXfKygbvuuvroDjIfqVZL7MuonR5QjMsEBlha
+   /uWkkexSpFdU7hMb7apazOSMRkcFyGgIYoe93IEqYcTZwHqsdYMXZ8XHK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="433037070"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="346401621"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 10:15:33 -0700
+   d="scan'208";a="433037070"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 10:35:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="727776415"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="718511340"
 X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; 
-   d="scan'208";a="727776415"
+   d="scan'208";a="718511340"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Jul 2023 10:15:29 -0700
+  by orsmga007.jf.intel.com with ESMTP; 20 Jul 2023 10:35:28 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMXFM-0006JP-16;
-	Thu, 20 Jul 2023 17:15:25 +0000
-Date: Fri, 21 Jul 2023 01:14:41 +0800
+	id 1qMXYk-0006KR-2R;
+	Thu, 20 Jul 2023 17:35:26 +0000
+Date: Fri, 21 Jul 2023 01:35:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Emma Anholt <emma@anholt.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Maxime Ripard <mripard@kernel.org>, David Gow <davidgow@google.com>,
-	kunit-dev@googlegroups.com
-Subject: Re: [PATCH v2 01/11] drm/tests: helpers: Switch to kunit actions
-Message-ID: <202307210148.7gWzLOtn-lkp@intel.com>
-References: <20230720-kms-kunit-actions-rework-v2-1-175017bd56ab@kernel.org>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Subject: include/linux/compiler_types.h:328:45: error: call to
+ '__compiletime_assert_312' declared with attribute error: BUILD_BUG_ON
+ failed: (PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE
+Message-ID: <202307210114.a8lhJ4rl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,98 +47,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720-kms-kunit-actions-rework-v2-1-175017bd56ab@kernel.org>
 
-Hi Maxime,
+Hi Vineet,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on c58c49dd89324b18a812762a2bfa5a0458e4f252]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-helpers-Switch-to-kunit-actions/20230720-191901
-base:   c58c49dd89324b18a812762a2bfa5a0458e4f252
-patch link:    https://lore.kernel.org/r/20230720-kms-kunit-actions-rework-v2-1-175017bd56ab%40kernel.org
-patch subject: [PATCH v2 01/11] drm/tests: helpers: Switch to kunit actions
-config: arm64-randconfig-r022-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210148.7gWzLOtn-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210148.7gWzLOtn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   46670259519f4ee4ab378dc014798aabe77c5057
+commit: d9820ff76f95fa26d33e412254a89cd65b23142d ARC: mm: switch pgtable_t back to struct page *
+date:   1 year, 11 months ago
+config: arc-randconfig-r014-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210114.a8lhJ4rl-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210114.a8lhJ4rl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307210148.7gWzLOtn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307210114.a8lhJ4rl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/tests/drm_kunit_helpers.c:53:6: warning: cast from 'void (*)(struct platform_driver *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-      53 |                                         (kunit_action_t *)platform_driver_unregister,
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/tests/drm_kunit_helpers.c:61:6: warning: cast from 'void (*)(struct platform_device *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-      61 |                                         (kunit_action_t *)platform_device_put,
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tests/drm_kunit_helpers.c:69:6: warning: cast from 'void (*)(struct platform_device *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-      69 |                                         (kunit_action_t *)platform_device_del,
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tests/drm_kunit_helpers.c:89:9: warning: cast from 'void (*)(struct platform_device *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-      89 |                              (kunit_action_t *)platform_device_unregister,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tests/drm_kunit_helpers.c:93:9: warning: cast from 'void (*)(struct platform_driver *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-      93 |                              (kunit_action_t *)platform_driver_unregister,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings generated.
+   arch/arc/mm/init.c:35:13: warning: no previous prototype for 'arc_get_mem_sz' [-Wmissing-prototypes]
+      35 | long __init arc_get_mem_sz(void)
+         |             ^~~~~~~~~~~~~~
+   arch/arc/mm/init.c:88:13: warning: no previous prototype for 'setup_arch_memory' [-Wmissing-prototypes]
+      88 | void __init setup_arch_memory(void)
+         |             ^~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   arch/arc/mm/init.c: In function 'mem_init':
+>> include/linux/compiler_types.h:328:45: error: call to '__compiletime_assert_312' declared with attribute error: BUILD_BUG_ON failed: (PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE
+     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:309:25: note: in definition of macro '__compiletime_assert'
+     309 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:328:9: note: in expansion of macro '_compiletime_assert'
+     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/arc/mm/init.c:193:9: note: in expansion of macro 'BUILD_BUG_ON'
+     193 |         BUILD_BUG_ON((PTRS_PER_PGD * sizeof(pgd_t)) > PAGE_SIZE);
+         |         ^~~~~~~~~~~~
 
 
-vim +53 drivers/gpu/drm/tests/drm_kunit_helpers.c
+vim +/__compiletime_assert_312 +328 include/linux/compiler_types.h
 
-    28	
-    29	/**
-    30	 * drm_kunit_helper_alloc_device - Allocate a mock device for a KUnit test
-    31	 * @test: The test context object
-    32	 *
-    33	 * This allocates a fake struct &device to create a mock for a KUnit
-    34	 * test. The device will also be bound to a fake driver. It will thus be
-    35	 * able to leverage the usual infrastructure and most notably the
-    36	 * device-managed resources just like a "real" device.
-    37	 *
-    38	 * Resources will be cleaned up automatically, but the removal can be
-    39	 * forced using @drm_kunit_helper_free_device.
-    40	 *
-    41	 * Returns:
-    42	 * A pointer to the new device, or an ERR_PTR() otherwise.
-    43	 */
-    44	struct device *drm_kunit_helper_alloc_device(struct kunit *test)
-    45	{
-    46		struct platform_device *pdev;
-    47		int ret;
-    48	
-    49		ret = platform_driver_register(&fake_platform_driver);
-    50		KUNIT_ASSERT_EQ(test, ret, 0);
-    51	
-    52		ret = kunit_add_action_or_reset(test,
-  > 53						(kunit_action_t *)platform_driver_unregister,
-    54						&fake_platform_driver);
-    55		KUNIT_ASSERT_EQ(test, ret, 0);
-    56	
-    57		pdev = platform_device_alloc(KUNIT_DEVICE_NAME, PLATFORM_DEVID_NONE);
-    58		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
-    59	
-    60		ret = kunit_add_action_or_reset(test,
-  > 61						(kunit_action_t *)platform_device_put,
-    62						pdev);
-    63		KUNIT_ASSERT_EQ(test, ret, 0);
-    64	
-    65		ret = platform_device_add(pdev);
-    66		KUNIT_ASSERT_EQ(test, ret, 0);
-    67	
-    68		ret = kunit_add_action_or_reset(test,
-    69						(kunit_action_t *)platform_device_del,
-    70						pdev);
-    71		KUNIT_ASSERT_EQ(test, ret, 0);
-    72	
-    73		return &pdev->dev;
-    74	}
-    75	EXPORT_SYMBOL_GPL(drm_kunit_helper_alloc_device);
-    76	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  314  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  315  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  316  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  317  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  318  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  319   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  320   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  321   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  322   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  323   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  324   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  325   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  326   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  327  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @328  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  329  
+
+:::::: The code at line 328 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
