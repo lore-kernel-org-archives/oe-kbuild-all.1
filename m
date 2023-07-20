@@ -1,45 +1,45 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F3A17F4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 04:54:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE0D3D99;
+	Thu, 20 Jul 2023 06:26:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689828843; x=1721364843;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QiS5bm5Wr54OTl7g03amoZLBDiWU2V5r0ntf9CEySao=;
-  b=D2oj5GTfsSWGO/sOpiaUesX3RiLdP8fSPZukWCXcNTm6v5ccVv3Psy9U
-   Oe9fItZH37SIcckk/gc5WUF+SMLEnYYFc14K70GVIdG0tcFa4sMa7/LCC
-   W4prExLHT4cqz+TvYgFNmclKNElqMOKvpvEWKNoLs8xbQrnonVClVS3wm
-   54OpmRSYGSB+4lCJ/DHz8P1MXIgACPRJTPeuW8nbQZJgmuOFaWou3KrCC
-   1R4uOqM0WqbDWd6BJPI2UbNwa5AhSaKljRSMT/doYLwLbg9HXuE6MXMYw
-   A6UxCP0YLX4Pmf9Dryzfq2MthXPLt1umHvqvzylTUhCw8tSsEuhJR5L5z
+  t=1689834394; x=1721370394;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Tm0eku+wswQKXFuRRAZkqYURkdKhnJEHYQlEpkvFySQ=;
+  b=gxNaGRQWD+A+q/ME1optqIEPoVtHGOi6gW/xyfsxKmmjqduK31USQtRp
+   BNDqcEM+O0+61h2cCybgVR/pskm4OTFAAaiP2wKJ+V6H/LyGq1L3x3LlL
+   hzT9mtTvHSK6tq18pCtDvV/yzRP3x5+8S1eHKmzvAExDKkcqHmeaHSLPN
+   N04nz06kRRp4c9SCLFzKrELgT4sgxfxp/C0s7EdAqcR2HfjjRdljAgCw2
+   0VPVmdCXvnFThAYeaIA6Ym1Sm3rtpqNUH7LHB73+4ILeJ5w6DgyJgVwPh
+   w4FbabhpsbWeW25QOvxSMgSS+ZcqceUDq72LSvpo5eKHSBcTwgBIyk8Tq
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="432825894"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="432825894"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 21:54:03 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="346236444"
+X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; 
+   d="scan'208";a="346236444"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2023 23:26:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="814365862"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; 
-   d="scan'208";a="814365862"
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="848331033"
+X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; 
+   d="scan'208";a="848331033"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Jul 2023 21:54:01 -0700
+  by orsmga004.jf.intel.com with ESMTP; 19 Jul 2023 23:26:31 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMLfs-0005m1-1C;
-	Thu, 20 Jul 2023 04:54:00 +0000
-Date: Thu, 20 Jul 2023 12:53:46 +0800
+	id 1qMN7O-0005oZ-1m;
+	Thu, 20 Jul 2023 06:26:30 +0000
+Date: Thu, 20 Jul 2023 14:25:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: sunran001@208suo.com, mchehab@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hv: put parentheses on macros with complex values in
- hyperv.h
-Message-ID: <202307201238.b9lOd1rf-lkp@intel.com>
-References: <e4b504ab6a1534cd26be777c9cb0bb6a@208suo.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Boris Brezillon <bbrezillon@kernel.org>
+Subject: [drm-misc:for-linux-next 1/2]
+ drivers/gpu/drm/drm_gpuva_mgr.c:622:48: warning: format specifies type
+ 'unsigned long' but the argument has type 'unsigned int'
+Message-ID: <202307201438.qQ76Qj5X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,48 +48,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e4b504ab6a1534cd26be777c9cb0bb6a@208suo.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on sailus-media-tree/streams v6.5-rc2 next-20230719]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/sunran001-208suo-com/hv-put-parentheses-on-macros-with-complex-values-in-hyperv-h/20230720-110337
-base:   linus/master
-patch link:    https://lore.kernel.org/r/e4b504ab6a1534cd26be777c9cb0bb6a%40208suo.com
-patch subject: [PATCH] hv: put parentheses on macros with complex values in hyperv.h
-config: x86_64-buildonly-randconfig-r003-20230720 (https://download.01.org/0day-ci/archive/20230720/202307201238.b9lOd1rf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307201238.b9lOd1rf-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   4f66feeab173bd73e71028b8c2e1dcea07e32dd5
+commit: e6303f323b1ad9c02ae813fc3dedeaa9dadfd3b0 [1/2] drm: manager to keep track of GPUs VA mappings
+config: hexagon-randconfig-r004-20230720 (https://download.01.org/0day-ci/archive/20230720/202307201438.qQ76Qj5X-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307201438.qQ76Qj5X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307201238.b9lOd1rf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307201438.qQ76Qj5X-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/kvm_host.h:27,
-                    from include/linux/kvm_host.h:45,
-                    from arch/x86/kvm/svm/nested.c:18:
->> include/linux/hyperv.h:431:37: error: expected parameter name, found "("
-     431 | #define VMPACKET_DATA_START_ADDRESS((__packet)  \
-         |                                     ^
+>> drivers/gpu/drm/drm_gpuva_mgr.c:622:48: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
+     622 |                     "GPUVA address limited to %lu bytes.\n", sizeof(end));
+         |                                               ~~~            ^~~~~~~~~~~
+         |                                               %u
+   include/asm-generic/bug.h:133:29: note: expanded from macro 'WARN'
+     133 |                 __WARN_printf(TAINT_WARN, format);                      \
+         |                                           ^~~~~~
+   include/asm-generic/bug.h:97:48: note: expanded from macro '__WARN_printf'
+      97 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
+         |                                                              ^~~
+   drivers/gpu/drm/drm_gpuva_mgr.c:1079:32: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
+    1079 |         struct drm_gpuva *va, *next, *prev = NULL;
+         |                                       ^
+   2 warnings generated.
 
 
-vim +431 include/linux/hyperv.h
+vim +622 drivers/gpu/drm/drm_gpuva_mgr.c
 
-   430	
- > 431	#define VMPACKET_DATA_START_ADDRESS((__packet)	\
-   432		(void *)(((unsigned char *)__packet) +	\
-   433		 ((struct vmpacket_descriptor)__packet)->offset8 * 8))
-   434	
+   615	
+   616	static bool
+   617	drm_gpuva_check_overflow(u64 addr, u64 range)
+   618	{
+   619		u64 end;
+   620	
+   621		return WARN(check_add_overflow(addr, range, &end),
+ > 622			    "GPUVA address limited to %lu bytes.\n", sizeof(end));
+   623	}
+   624	
 
 -- 
 0-DAY CI Kernel Test Service
