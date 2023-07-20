@@ -1,222 +1,146 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02396361;
-	Thu, 20 Jul 2023 09:31:25 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 7EE6D320248A;
-	Thu, 20 Jul 2023 05:31:24 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 20 Jul 2023 05:31:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm2; t=
-	1689845484; x=1689931884; bh=U2a19+l4K+Up0s8WbTX4X+/S//YeXu8EODH
-	4tusn4f4=; b=HTxbmool+FaQXmTzZm3NJt3YSf5csq1JA54eLg8Jc2vq3CLCpZD
-	ACdA764K+YcfpUV1rO7by/YHsSCwVxtWCmezwHcBop+ENPxSQaxnhLjRSIE37sCl
-	XXljH8o/7rwUxwVjSFvrd9rTxtkk3/YPmaeU4aIzHVV0mKZ2lUPq4OBXbtCXUtjP
-	vzWHzqL8xu9QHCrjjlxHJZNW6QLXme1fHlPg6PG07U17zrzCiZLC9C5IUEIvPj+J
-	Y/BKv4Xxgqr7mYq3gaM7QtUk3m+hUfN76lj7XzD5xyTEwC069tVX3OW6N+nsmeao
-	QZSD+mcUwV3yW8iBGfL/tFyiEW6ixJfIj9w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1689845484; x=1689931884; bh=U2a19+l4K+Up0s8WbTX4X+/S//YeXu8EODH
-	4tusn4f4=; b=Yp+D4mODVtmSzq7u9Nhsx0JjTo40x2DqnZsPcrkdzH55vQFMvKR
-	iCA8RjGqQylXF0MHA9xbPT49m9kbn1wdw1xr+m73VOfDHfVyDNdpIL9nNQ1rFGzC
-	VgAlR0FhdZbiH4wz+0WtUuStPUVlPcCxfqlvyeiEzaghtvzOFzgwq2LSBfFtwPIt
-	H5SezdfT1haSnusA2pJllOBL/Ufm4/qJIq/vWJnhFE/sENkptjQXsQ2lWa1fg0Ny
-	0FS64Dpk2eELy6JlHz7p+B3MPzQMlQDWI65BPLcLN7SwCeTmNg+Vdl3s8kpU4B5f
-	kzniY/5nyWMTbv+U7MMyz/YKSeiI9v8fmtA==
-X-ME-Sender: <xms:6_64ZAY0yl8W0YYp93hohKTHeRqOs7TJBxa0JTOJ2Y6-KKHrp6mHtA>
-    <xme:6_64ZLamU-XQss75OusYHvYt50Fg4yvSivz4XQ1u0svVMIp27qSdcL_aPvibBNTSL
-    LXMx07VmWfqzlVDEXw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrhedtgddujecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepuefffeeuleetkeegudetfffgkeeiieetjeeileegtddtieeiuefhuddvudeh
-    jeffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptddurdhorhhgpdhgihhthhhusg
-    drtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:6_64ZK_XjUdrMviErKgMKrUJlY3E95QrET5VlvAsVhzg13Ni9uUxRQ>
-    <xmx:6_64ZKp7Y8PnibtTn7wZ_C3Qt1v_QowcGtYXk83O90m5lWhJMWwO0g>
-    <xmx:6_64ZLoncjtEQQlAYr5Z6v2vVDp3od3CcjhStAGPGuJ67sDXROuz5g>
-    <xmx:7P64ZKVUqxq-SvRZhZ4V3RJwkrsegq8IyB-xQraz0bMkQwYvR7HLwg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 66DE9B60089; Thu, 20 Jul 2023 05:31:23 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-531-gfdfa13a06d-fm-20230703.001-gfdfa13a0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA71017FF7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 11:52:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689853973; x=1721389973;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=90Yq9/dbHi2Coge4uArxn/4RVnpTpqliuqQB7SP7hXU=;
+  b=YIxNLLYe8BW/D+Kc6S7nSrbVDOi55sLnDtPes+9q4ebrCJVMKZkE0snt
+   dAhEjZxpbxdZnhk/uGcS2QU8vwMqWx76lnksCp7bK83HqImkmgrMDHGFu
+   OzG8qFy7Foe3EHDApe56GbL8Db04vjFHQQGOfKYFTEs98Kp/BHxLTz2z7
+   wwL+H4naljaVGKUXFO8inSxO+xe1ODqLMv243qB6B1NQA0XmKyJljX2S/
+   nLPSxwoSWybC4kuTnhJ8pGVwvz2BLfnO7YwZzbxC0QIiN82z158QJQNdw
+   hEXtLg+BuexpolSrlWT9XqmMryMYXn0IsLR/+zqbzf5tWzPpuXDLoVUWL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="351572543"
+X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; 
+   d="scan'208";a="351572543"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 04:52:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="718365490"
+X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; 
+   d="scan'208";a="718365490"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 20 Jul 2023 04:52:51 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qMSDD-000637-0I;
+	Thu, 20 Jul 2023 11:52:51 +0000
+Date: Thu, 20 Jul 2023 19:52:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Kenan.Liu" <Kenan.Liu@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/2] sched/fair: Adjust CFS loadbalance for machine
+ with qemu native CPU topology.
+Message-ID: <202307201947.uwCIl577-lkp@intel.com>
+References: <1689842053-5291-2-git-send-email-Kenan.Liu@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <769e6521-a86d-4380-b27c-2ff29b795802@app.fastmail.com>
-In-Reply-To: 
- <CAHp75VcNj-P_WCvx2Pf9sj_ir2oKf2AZ-mdTP=KHSuPY7WcjeA@mail.gmail.com>
-References: <202306211545.7b6CdqsL-lkp@intel.com>
- <CAHp75VcNj-P_WCvx2Pf9sj_ir2oKf2AZ-mdTP=KHSuPY7WcjeA@mail.gmail.com>
-Date: Thu, 20 Jul 2023 11:29:55 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andy Shevchenko" <andy.shevchenko@gmail.com>,
- "kernel test robot" <lkp@intel.com>
-Cc: "Kim Seer Paller" <kimseer.paller@analog.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev,
- "Jonathan Cameron" <Jonathan.Cameron@huawei.com>
-Subject: Re: [jic23-iio:testing 6/10] drivers/iio/adc/max14001.c:135:13: warning:
- result of comparison of constant 18446744073709551615 with expression of type
- 'typeof (_Generic((mask), char: (unsigned char)0, unsigned char: (unsigned
- char)0, signed char: (unsigned char)0, unsigned short: (un...
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1689842053-5291-2-git-send-email-Kenan.Liu@linux.alibaba.com>
 
-On Wed, Jun 21, 2023, at 10:25, Andy Shevchenko wrote:
-> On Wed, Jun 21, 2023 at 10:19=E2=80=AFAM kernel test robot <lkp@intel.=
-com> wrote:
->>
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git=
- testing
->> head:   25e201cc6ff270abc062e13ff912292097cb2827
->> commit: d3e93b67f934a477c5851d575a2278f07c6242fb [6/10] iio: adc: max=
-14001: New driver
->> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/=
-20230621/202306211545.7b6CdqsL-lkp@intel.com/config)
->> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.=
-git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
->> reproduce: (https://download.01.org/0day-ci/archive/20230621/20230621=
-1545.7b6CdqsL-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202306211545.7b6CdqsL=
--lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->
-> Okay, you even haven't compiled your code :-(
-> This should probably use one of the functions from bitfield.h.
-> Like u32_encode_bits().
+Hi Kenan.Liu,
 
-I see the warning is now in linux-next. I see it only shows up with
-clang and not gcc, but it would be nice to address it.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
->
->> >> drivers/iio/adc/max14001.c:135:13: warning: result of comparison o=
-f constant 18446744073709551615 with expression of type 'typeof (_Generi=
-c((mask), char: (unsigned char)0, unsigned char: (unsigned char)0, signe=
-d char: (unsigned char)0, unsigned short: (unsigned short)0, short: (uns=
-igned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsi=
-gned long: (unsigned long)0, long: (unsigned long)0, unsigned long long:=
- (unsigned long long)0, long long: (unsigned long long)0, default: (mask=
-)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-o=
-f-range-compare]
->>            reg_data =3D FIELD_PREP(mask, val);
->>                       ^~~~~~~~~~~~~~~~~~~~~
->>    include/linux/bitfield.h:114:3: note: expanded from macro 'FIELD_P=
-REP'
->>                    __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: "=
-);    \
->>                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>    include/linux/bitfield.h:71:53: note: expanded from macro '__BF_FI=
-ELD_CHECK'
->>                    BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) =
->     \
->>                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-^~~~~~~
->>    include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_=
-BUG_ON_MSG'
->>    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), ms=
-g)
->>                                        ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~=
-~~
->>    include/linux/compiler_types.h:397:22: note: expanded from macro '=
-compiletime_assert'
->>            _compiletime_assert(condition, msg, __compiletime_assert_,=
- __COUNTER__)
->>            ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
->>    include/linux/compiler_types.h:385:23: note: expanded from macro '=
-_compiletime_assert'
->>            __compiletime_assert(condition, msg, prefix, suffix)
->>            ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>    include/linux/compiler_types.h:377:9: note: expanded from macro '_=
-_compiletime_assert'
->>                    if (!(condition))                                 =
-      \
->>                          ^~~~~~~~~
->>    1 warning generated.
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on linus/master v6.5-rc2 next-20230720]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-It looks like the problem is the use of FIELD_PREP() with a variable
-'val' instead of a constant. I tried marking the function __always_inline
-so the compiler can see the actual value ('1') that gets passed in
-as a constant, but that did not change anything.
+url:    https://github.com/intel-lab-lkp/linux/commits/Kenan-Liu/sched-fair-Adjust-CFS-loadbalance-for-machine-with-qemu-native-CPU-topology/20230720-170238
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/1689842053-5291-2-git-send-email-Kenan.Liu%40linux.alibaba.com
+patch subject: [RFC PATCH 1/2] sched/fair: Adjust CFS loadbalance for machine with qemu native CPU topology.
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230720/202307201947.uwCIl577-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307201947.uwCIl577-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307201947.uwCIl577-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   kernel/sched/fair.c: In function 'explore_core_smp_topology':
+   kernel/sched/fair.c:149:42: error: implicit declaration of function 'cpu_smt_mask'; did you mean 'cpu_cpu_mask'? [-Werror=implicit-function-declaration]
+     149 |         const struct cpumask *smt_mask = cpu_smt_mask(cpu);
+         |                                          ^~~~~~~~~~~~
+         |                                          cpu_cpu_mask
+>> kernel/sched/fair.c:149:42: warning: initialization of 'const struct cpumask *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   In file included from include/linux/bitmap.h:9,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   include/linux/cpumask.h:28:37: error: invalid type argument of '->' (have 'int')
+      28 | #define cpumask_bits(maskp) ((maskp)->bits)
+         |                                     ^~
+   include/linux/find.h:559:48: note: in definition of macro 'for_each_set_bit'
+     559 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+         |                                                ^~~~
+   include/linux/cpumask.h:282:31: note: in expansion of macro 'cpumask_bits'
+     282 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
+         |                               ^~~~~~~~~~~~
+   kernel/sched/fair.c:158:9: note: in expansion of macro 'for_each_cpu'
+     158 |         for_each_cpu(sibling, cpu_smt_mask(cpu)) {
+         |         ^~~~~~~~~~~~
+   include/linux/find.h:559:69: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     559 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+         |                                                                     ^
+   include/linux/cpumask.h:282:9: note: in expansion of macro 'for_each_set_bit'
+     282 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
+         |         ^~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:158:9: note: in expansion of macro 'for_each_cpu'
+     158 |         for_each_cpu(sibling, cpu_smt_mask(cpu)) {
+         |         ^~~~~~~~~~~~
+   kernel/sched/fair.c: At top level:
+   kernel/sched/fair.c:146:13: warning: 'explore_core_smp_topology' defined but not used [-Wunused-function]
+     146 | static void explore_core_smp_topology(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:129:13: warning: 'core_smt_topo_detect' defined but not used [-Wunused-variable]
+     129 | static bool core_smt_topo_detect;
+         |             ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-It also looks suspicious that the value first gets read from the=20
-register and then replaced with the FIELD_PREP() output, while the
-original value gets discarded. Is this intentional?
+vim +149 kernel/sched/fair.c
 
-        ret =3D max14001_read(st, reg_addr, &reg_data);
-        if (ret)
-                return ret;
-        reg_data =3D FIELD_PREP(mask, val);
-        ret =3D max14001_write(st, reg_addr, reg_data);
+   144	
+   145	#ifdef CONFIG_SMP
+   146	static void explore_core_smp_topology(void)
+   147	{
+   148		int cpu = smp_processor_id(), sibling;
+ > 149		const struct cpumask *smt_mask = cpu_smt_mask(cpu);
+   150	
+   151		if (nr_cpu_ids <= 2)
+   152			return;
+   153	
+   154		smt_nr_cpu = cpumask_weight(smt_mask);
+   155		if (smt_nr_cpu < 2)
+   156			return;
+   157	
+   158		for_each_cpu(sibling, cpu_smt_mask(cpu)) {
+   159			if (cpu == sibling)
+   160				continue;
+   161			if (abs(cpu - sibling) == 1)
+   162				smt_neighbour_topo = true;
+   163		}
+   164	}
+   165	
 
-
-I have managed to shut up the warning by rearranging the code like:
-
-diff --git a/drivers/iio/adc/max14001.c b/drivers/iio/adc/max14001.c
-index 18ace09601985..f2ce8f8947982 100644
---- a/drivers/iio/adc/max14001.c
-+++ b/drivers/iio/adc/max14001.c
-@@ -117,11 +117,9 @@ static int max14001_write_verification_reg(struct m=
-ax14001_state *st,
-=20
- static int max14001_reg_update(struct max14001_state *st,
-                                unsigned int reg_addr,
--                               unsigned int mask,
--                               unsigned int val)
-+                               unsigned int reg_data)
- {
-        int ret;
--       unsigned int reg_data;
-=20
-        /* Enable SPI Registers Write */
-        ret =3D max14001_write(st, MAX14001_WEN, MAX14001_WRITE_WEN);
-@@ -132,8 +130,6 @@ static int max14001_reg_update(struct max14001_state=
- *st,
-        if (ret)
-                return ret;
-=20
--       reg_data =3D FIELD_PREP(mask, val);
--
-        ret =3D max14001_write(st, reg_addr, reg_data);
-        if (ret)
-                return ret;
-@@ -299,7 +295,7 @@ static int max14001_probe(struct spi_device *spi)
-=20
-                /* select external voltage reference source for the ADC =
-*/
-                ret =3D max14001_reg_update(st, MAX14001_CFG,
--                                         MAX14001_CFG_EXRF, 1);
-+                                         FIELD_PREP(MAX14001_CFG_EXRF, =
-1));
-=20
-                if (ret < 0)
-                        return ret;
-
-but it looks like there is still a bug in max14001_reg_update(),
-so I'd prefer Kim Seer Paller to revisit this issue and submit
-a properly tested patch.
-
-       Arnd
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
