@@ -1,51 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF9323BF0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 20:31:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC3B24176
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 20:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689971486; x=1721507486;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xych12fXAllQmfKXQOtduucuGRdzVWia+wDdseBLe4E=;
-  b=PDfOfxjioxfxKPyAAPpyAtz9YU/ZwvwcaODR3q2mO1lMsiHgeBNcx7a/
-   6CUxWMW5vGe28pKEmApkvkN6XFSRsYme8Dxb382miXSO7WSJziAVxZEss
-   egaB6l2txffrXA9ErRlXYoldB5IS7dpeQzzWFo8m382+mRZoBb/YdjtOX
-   jmf1hFVR3Z1I1wAeLAs7CwE4M530oDdk6wrn6S2u4Tzy5vT6rjIrWcTKp
-   TlI5FEb2TTWZ+M9F4/GLuvHUXehEixjgBBbpNXQqhMMht9bptzJ0LHU/O
-   OlLTwoyKgxICgbak8OYCfkkuAk5Oc727DWdVbm/msz/j3m3NCceTMCjqW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="430905730"
+  t=1689971502; x=1721507502;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=prvvJC/+/81yxVhjKcRaSyEnscky7XCXGMC/xULnQBI=;
+  b=QV7JiWHOIdXBbAbATbfAcZQsQyV0xEkZtALhek1ac3iq5OhpiqYDM5R7
+   j1HYpiUqQMgOAiGunYExtfyPAlKyS9fdAqxs7OqU4SU2cvpaK94oip2vl
+   NmGh9T9Zm/0aSKPkvfKae/jWVFWNN4OxbBpG0OZUCgYpM4VN0mF/jYjCN
+   d7GWND89virHefGVUUG7txcwi/mkRN08XxxOoJ3CItbVPvBvwHr3OOhQE
+   LLPbSMvLKnE1g+wXa9EnZvUizlhEKK3kz6boVxz3XuEWJIFv0zoZ09zQN
+   f1q3h3z+QZZTvqw2BOcP4BDB+Gkup9Lqjgv+TnD6xn/cE342wveX9qUU4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="351998375"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="430905730"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 13:31:25 -0700
+   d="scan'208";a="351998375"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 13:31:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="728224177"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="898823816"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="728224177"
+   d="scan'208";a="898823816"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Jul 2023 13:31:21 -0700
+  by orsmga005.jf.intel.com with ESMTP; 21 Jul 2023 13:31:21 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMwmW-0007dx-0p;
+	id 1qMwmW-0007dz-0u;
 	Fri, 21 Jul 2023 20:31:20 +0000
 Date: Sat, 22 Jul 2023 04:31:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marco Felsch <m.felsch@pengutronix.de>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, peppe.cavallaro@st.com,
-	alexandre.torgue@foss.st.com, joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next v3 2/2] net: stmmac: add support for phy-supply
-Message-ID: <202307220459.2gaQtSqH-lkp@intel.com>
-References: <20230720072304.3358701-2-m.felsch@pengutronix.de>
+To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Theodore Ts'o <tytso@mit.edu>
+Subject: [linux-stable-rc:linux-4.19.y 6515/6544] fs/ext4/ioctl.c:583:21:
+ warning: assignment to 'int' from 'struct super_block *' makes integer from
+ pointer without a cast
+Message-ID: <202307220453.tCatLwRG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,116 +48,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720072304.3358701-2-m.felsch@pengutronix.de>
 
-Hi Marco,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/net-stmmac-add-support-for-phy-supply/20230720-152642
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230720072304.3358701-2-m.felsch%40pengutronix.de
-patch subject: [PATCH net-next v3 2/2] net: stmmac: add support for phy-supply
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230722/202307220459.2gaQtSqH-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
+head:   71e850d72cc54c75316c30f51b1163a0da4f00e1
+commit: c1a588a876df1ca461ee0bc432e78ed7f646ca86 [6515/6544] ext4: fix to check return value of freeze_bdev() in ext4_shutdown()
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230722/202307220453.tCatLwRG-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220459.2gaQtSqH-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220453.tCatLwRG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307220459.2gaQtSqH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307220453.tCatLwRG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_suspend':
->> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:7706:32: error: 'struct plat_stmmacenet_data' has no member named 'use_phy_wol'
-    7706 |                 if (!priv->plat->use_phy_wol)
-         |                                ^~
-   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_resume':
-   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:7790:32: error: 'struct plat_stmmacenet_data' has no member named 'use_phy_wol'
-    7790 |                 if (!priv->plat->use_phy_wol)
-         |                                ^~
+   fs/ext4/ioctl.c: In function 'ext4_shutdown':
+>> fs/ext4/ioctl.c:583:21: warning: assignment to 'int' from 'struct super_block *' makes integer from pointer without a cast [-Wint-conversion]
+     583 |                 ret = freeze_bdev(sb->s_bdev);
+         |                     ^
 
 
-vim +7706 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+vim +583 fs/ext4/ioctl.c
 
-  7651	
-  7652	/**
-  7653	 * stmmac_suspend - suspend callback
-  7654	 * @dev: device pointer
-  7655	 * Description: this is the function to suspend the device and it is called
-  7656	 * by the platform driver to stop the network queue, release the resources,
-  7657	 * program the PMT register (for WoL), clean and release driver resources.
-  7658	 */
-  7659	int stmmac_suspend(struct device *dev)
-  7660	{
-  7661		struct net_device *ndev = dev_get_drvdata(dev);
-  7662		struct stmmac_priv *priv = netdev_priv(ndev);
-  7663		u32 chan;
-  7664	
-  7665		if (!ndev || !netif_running(ndev))
-  7666			return 0;
-  7667	
-  7668		mutex_lock(&priv->lock);
-  7669	
-  7670		netif_device_detach(ndev);
-  7671	
-  7672		stmmac_disable_all_queues(priv);
-  7673	
-  7674		for (chan = 0; chan < priv->plat->tx_queues_to_use; chan++)
-  7675			hrtimer_cancel(&priv->dma_conf.tx_queue[chan].txtimer);
-  7676	
-  7677		if (priv->eee_enabled) {
-  7678			priv->tx_path_in_lpi_mode = false;
-  7679			del_timer_sync(&priv->eee_ctrl_timer);
-  7680		}
-  7681	
-  7682		/* Stop TX/RX DMA */
-  7683		stmmac_stop_all_dma(priv);
-  7684	
-  7685		if (priv->plat->serdes_powerdown)
-  7686			priv->plat->serdes_powerdown(ndev, priv->plat->bsp_priv);
-  7687	
-  7688		/* Enable Power down mode by programming the PMT regs */
-  7689		if (device_may_wakeup(priv->device) && priv->plat->pmt) {
-  7690			stmmac_pmt(priv, priv->hw, priv->wolopts);
-  7691			priv->irq_wake = 1;
-  7692		} else {
-  7693			stmmac_mac_set(priv, priv->ioaddr, false);
-  7694			pinctrl_pm_select_sleep_state(priv->device);
-  7695		}
-  7696	
-  7697		mutex_unlock(&priv->lock);
-  7698	
-  7699		rtnl_lock();
-  7700		if (device_may_wakeup(priv->device) && priv->plat->pmt) {
-  7701			phylink_suspend(priv->phylink, true);
-  7702		} else {
-  7703			if (device_may_wakeup(priv->device))
-  7704				phylink_speed_down(priv->phylink, false);
-  7705			phylink_suspend(priv->phylink, false);
-> 7706			if (!priv->plat->use_phy_wol)
-  7707				stmmac_phy_power_off(priv);
-  7708		}
-  7709		rtnl_unlock();
-  7710	
-  7711		if (priv->dma_cap.fpesel) {
-  7712			/* Disable FPE */
-  7713			stmmac_fpe_configure(priv, priv->ioaddr,
-  7714					     priv->plat->tx_queues_to_use,
-  7715					     priv->plat->rx_queues_to_use, false);
-  7716	
-  7717			stmmac_fpe_handshake(priv, false);
-  7718			stmmac_fpe_stop_wq(priv);
-  7719		}
-  7720	
-  7721		priv->speed = SPEED_UNKNOWN;
-  7722		return 0;
-  7723	}
-  7724	EXPORT_SYMBOL_GPL(stmmac_suspend);
-  7725	
+   559	
+   560	static int ext4_shutdown(struct super_block *sb, unsigned long arg)
+   561	{
+   562		struct ext4_sb_info *sbi = EXT4_SB(sb);
+   563		__u32 flags;
+   564		int ret;
+   565	
+   566		if (!capable(CAP_SYS_ADMIN))
+   567			return -EPERM;
+   568	
+   569		if (get_user(flags, (__u32 __user *)arg))
+   570			return -EFAULT;
+   571	
+   572		if (flags > EXT4_GOING_FLAGS_NOLOGFLUSH)
+   573			return -EINVAL;
+   574	
+   575		if (ext4_forced_shutdown(sbi))
+   576			return 0;
+   577	
+   578		ext4_msg(sb, KERN_ALERT, "shut down requested (%d)", flags);
+   579		trace_ext4_shutdown(sb, flags);
+   580	
+   581		switch (flags) {
+   582		case EXT4_GOING_FLAGS_DEFAULT:
+ > 583			ret = freeze_bdev(sb->s_bdev);
+   584			if (ret)
+   585				return ret;
+   586			set_bit(EXT4_FLAGS_SHUTDOWN, &sbi->s_ext4_flags);
+   587			thaw_bdev(sb->s_bdev, sb);
+   588			break;
+   589		case EXT4_GOING_FLAGS_LOGFLUSH:
+   590			set_bit(EXT4_FLAGS_SHUTDOWN, &sbi->s_ext4_flags);
+   591			if (sbi->s_journal && !is_journal_aborted(sbi->s_journal)) {
+   592				(void) ext4_force_commit(sb);
+   593				jbd2_journal_abort(sbi->s_journal, -ESHUTDOWN);
+   594			}
+   595			break;
+   596		case EXT4_GOING_FLAGS_NOLOGFLUSH:
+   597			set_bit(EXT4_FLAGS_SHUTDOWN, &sbi->s_ext4_flags);
+   598			if (sbi->s_journal && !is_journal_aborted(sbi->s_journal))
+   599				jbd2_journal_abort(sbi->s_journal, -ESHUTDOWN);
+   600			break;
+   601		default:
+   602			return -EINVAL;
+   603		}
+   604		clear_opt(sb, DISCARD);
+   605		return 0;
+   606	}
+   607	
 
 -- 
 0-DAY CI Kernel Test Service
