@@ -1,57 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC911BE87
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 13:29:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B240D1E507;
+	Fri, 21 Jul 2023 13:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689946177; x=1721482177;
+  t=1689946790; x=1721482790;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2rKUwAFKJgzkKjqqHr46OXObcFtk3JdOWi9yJ8rPHuI=;
-  b=d7B4ZJlw/20B8TJzUbqWptOmWNzbFrDrimZSkclF4avp2y7opv35RUXq
-   b0S9X6JB2RH7Q+WMtM0Giq0RDJTmSVIdLiiV2kRSg3J6cmWdv7h7on7QF
-   CoOd6mNDBOvzoZgWDH+Hz63iB3wqXqFzjyYYJNcoSlKd04+yPOYi/aGOI
-   ZXzxe4kcg15SmmptGzl35yDM2tU8rbVw86QbjKhgvA+taBDITKu3URj6r
-   QZXFoLMvi/1TOEes6P/ZXNS+6jUDRApkJ0kUE/SCvqNX+tluxWCzlpxwY
-   fwoH45rgwnztRHqdpWBeHCDrczNeJoZ8i/ehnPb1gt2BwwRxn8YwgF4HC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="433251786"
+  bh=6dTJFFl5OAbeoL/FZr8lFRGcbY2UDD7hZsRMzgouoIo=;
+  b=JwVDMk3N2bkPzLoMadwMLPDd66nVas0KZzkwvwO1SvsbyDXKLc4s2hrP
+   C4pHAXnslJ15jWvmQg+7pHuJ257WLgWNvTMEU+rzZLMeRKtFU+kwElt8T
+   qC2IiVaKMEZ4nEPg4r8ix+XE1Z70ldcVgVYrkRmDxcDDutJq21bm8zu6d
+   bS79VqBJdoCtuo20yoCgVwYIYcC9I6t+rQK9Cp1rnrUMmgotS3Ok0/pcu
+   QyQO7gCuSgFkjEhVZtyQqh2UlJLNz8GqzjTpVVBAkzqfjbflbeXLH9JA2
+   nEW5wFmT7akeim2IOA+taeuKCj3dUpUAuYKckYbJSqKbVENeJRWbYKsWb
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="364487789"
 X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="433251786"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 06:29:35 -0700
+   d="scan'208";a="364487789"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 06:39:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="718818543"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="718818543"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="868248922"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 21 Jul 2023 06:29:32 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2023 06:39:49 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMqCJ-0007Kj-0F;
-	Fri, 21 Jul 2023 13:29:31 +0000
-Date: Fri, 21 Jul 2023 21:28:32 +0800
+	id 1qMqMF-0007Kz-0w;
+	Fri, 21 Jul 2023 13:39:47 +0000
+Date: Fri, 21 Jul 2023 21:38:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Francesco Dolcini <francesco.dolcini@toradex.com>,
-	Aradhya Bhatia <a-bhatia1@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/bridge: Add debugfs print for bridge chains
-Message-ID: <202307212102.Fxrv1Ayx-lkp@intel.com>
-References: <20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e890d@ideasonboard.com>
+To: Boris Burkov <boris@bur.io>, linux-btrfs@vger.kernel.org,
+	kernel-team@fb.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 13/20] btrfs: new inline ref storing owning subvol of
+ data extents
+Message-ID: <202307212108.x2NuMJJW-lkp@intel.com>
+References: <cd13e27d24eb8c3d8162459e3f81c1ce772357a8.1689893021.git.boris@bur.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,75 +47,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e890d@ideasonboard.com>
+In-Reply-To: <cd13e27d24eb8c3d8162459e3f81c1ce772357a8.1689893021.git.boris@bur.io>
 
-Hi Tomi,
+Hi Boris,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on c7a472297169156252a50d76965eb36b081186e2]
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on linus/master v6.5-rc2 next-20230721]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/drm-bridge-Add-debugfs-print-for-bridge-chains/20230721-174615
-base:   c7a472297169156252a50d76965eb36b081186e2
-patch link:    https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e890d%40ideasonboard.com
-patch subject: [PATCH] drm/bridge: Add debugfs print for bridge chains
-config: x86_64-randconfig-r032-20230720 (https://download.01.org/0day-ci/archive/20230721/202307212102.Fxrv1Ayx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307212102.Fxrv1Ayx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Burkov/btrfs-free-qgroup-rsv-on-io-failure/20230721-065759
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/cd13e27d24eb8c3d8162459e3f81c1ce772357a8.1689893021.git.boris%40bur.io
+patch subject: [PATCH v2 13/20] btrfs: new inline ref storing owning subvol of data extents
+config: i386-randconfig-i013-20230720 (https://download.01.org/0day-ci/archive/20230721/202307212108.x2NuMJJW-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307212108.x2NuMJJW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307212102.Fxrv1Ayx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307212108.x2NuMJJW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_bridge.c: In function 'drm_bridge_chains_info':
->> drivers/gpu/drm/drm_bridge.c:1371:35: error: 'struct drm_bridge' has no member named 'of_node'
-    1371 |                         if (bridge->of_node)
-         |                                   ^~
-   drivers/gpu/drm/drm_bridge.c:1372:70: error: 'struct drm_bridge' has no member named 'of_node'
-    1372 |                                 drm_printf(&p, ", OF: %pOFfc", bridge->of_node);
-         |                                                                      ^~
-
-
-vim +1371 drivers/gpu/drm/drm_bridge.c
-
-  1349	
-  1350	#ifdef CONFIG_DEBUG_FS
-  1351	static int drm_bridge_chains_info(struct seq_file *m, void *data)
-  1352	{
-  1353		struct drm_debugfs_entry *entry = m->private;
-  1354		struct drm_device *dev = entry->dev;
-  1355		struct drm_printer p = drm_seq_file_printer(m);
-  1356		struct drm_mode_config *config = &dev->mode_config;
-  1357		struct drm_encoder *encoder;
-  1358		unsigned int bridge_idx = 0;
-  1359	
-  1360		list_for_each_entry(encoder, &config->encoder_list, head) {
-  1361			struct drm_bridge *bridge;
-  1362	
-  1363			drm_printf(&p, "encoder[%u]\n", encoder->base.id);
-  1364	
-  1365			bridge = drm_bridge_chain_get_first_bridge(encoder);
-  1366	
-  1367			while (bridge) {
-  1368				drm_printf(&p, "\tbridge[%u] type: %u, ops: %#x",
-  1369					   bridge_idx, bridge->type, bridge->ops);
-  1370	
-> 1371				if (bridge->of_node)
-  1372					drm_printf(&p, ", OF: %pOFfc", bridge->of_node);
-  1373	
-  1374				drm_printf(&p, "\n");
-  1375	
-  1376				bridge_idx++;
-  1377				bridge = drm_bridge_get_next_bridge(bridge);
-  1378			}
-  1379		}
-  1380	
-  1381		return 0;
-  1382	}
-  1383	
+   In file included from <built-in>:1:
+>> ./usr/include/linux/btrfs_tree.h:785:2: error: unknown type name 'u64'
+           u64 root_id;
+           ^
+   1 error generated.
 
 -- 
 0-DAY CI Kernel Test Service
