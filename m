@@ -1,126 +1,85 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E188C7F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 03:50:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689911458; x=1721447458;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2kz7ujRU3SLK6rDztELo/fj50JjxH1wM1c+fwNgCgL8=;
-  b=foEszoTkBbMU2qB5aasvu8mEhOMSlJNw+uXjjbh0cvLwwH6j+GCen9st
-   0iY0nIywgmX462Xg59p4JmnyhpDBhLjA3jpGl7oLGssb4D6a1CDzyy6y9
-   6gEemNlpKIGRPlOBNJySdZEQfB8+Ys3xwWtZVCv11errAF1BdbWpgWPlF
-   4OKrBxl43JTloQPvrdtEJsGnYlrgFPPslLAY/3M0l7kLKCkYULH+k+b8e
-   oax1U9/5Fp9c5cHTHfPAGUUGxT9AFsy1znq1+ZKhS2F35BKBKxoCzz9pR
-   cmNFuxF81ezX9L3i812V99PEWXsZRWu1CTyk083FbdCLGRmVkXGYG0BKD
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="453305985"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="453305985"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 20:50:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="971291776"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="971291776"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2023 20:50:55 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qMhAH-0006pv-1L;
-	Fri, 21 Jul 2023 03:50:51 +0000
-Date: Fri, 21 Jul 2023 11:50:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xu Yang <xu.yang_2@nxp.com>, stern@rowland.harvard.edu
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org, xu.yang_2@nxp.com, jun.li@nxp.com
-Subject: Re: [PATCH 1/2] usb: host: ehci-sched: add itd/sitd_unlink_urb()
- functions
-Message-ID: <202307211120.NLiBSqJH-lkp@intel.com>
-References: <20230718112600.3969141-1-xu.yang_2@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8ABF7F;
+	Fri, 21 Jul 2023 04:06:40 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36L45e4o024913;
+	Fri, 21 Jul 2023 04:06:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=wtVClhU3klFGG6u/OlX4qZpOcqjROVfGqC4YbZEwYdc=;
+ b=KLFjRdKFkbhGbII58ntoOSyX/ZDW40rhCXsYsBKlwZJqo4MVcKqpkfkRjZEZoH5b8SR4
+ y+0v7aSclh5vCnMP/0ztKmQwadDzKz6mmHdFT5bH9il6qiNVv62qEjW/s6U+9GsaMfGz
+ fUCU1z9kH6e6ZvPiPKccJvIu8c/N/ugOOekJAeMB7Uh5Y6FZltox3lsZXYABq0ZbyKYH
+ RWuZ3wy1LFy2coyZJyr+DBLkUNKcSkOf5ILEDbuOsZjDGu4XXTuXrqcOuAjoEJXbZ7bY
+ n5f256Bf7tjUNMqLi8Mn9G0Dcr7rWKdwiWqrxlDzqeXLM2F+omsHp34yO7pPx3y1Mzcq +w== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rxsxeb5r3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 21 Jul 2023 04:06:29 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36L46SCq001495
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 21 Jul 2023 04:06:28 GMT
+Received: from [10.216.41.167] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 20 Jul
+ 2023 21:06:25 -0700
+Message-ID: <e1c6b11e-b550-b25a-a02f-0ef8be1eb080@quicinc.com>
+Date: Fri, 21 Jul 2023 09:36:21 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230718112600.3969141-1-xu.yang_2@nxp.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: drivers/pinctrl/qcom/pinctrl-ipq5018.c:244:27: warning: unused
+ variable '_groups'
+Content-Language: en-US
+To: Linus Walleij <linus.walleij@linaro.org>,
+        kernel test robot
+	<lkp@intel.com>,
+        Bjorn Andersson <andersson@kernel.org>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+        <linux-kernel@vger.kernel.org>,
+        Nitheesh Sekar <quic_nsekar@quicinc.com>,
+        Varadarajan Narayanan <quic_varada@quicinc.com>
+References: <202307120814.vWPY6URk-lkp@intel.com>
+ <CACRpkdbYPAiOa4QU+PUxVjcOtkBT2O7fogh51VvSEbFPutH7ng@mail.gmail.com>
+From: Sricharan Ramabadhran <quic_srichara@quicinc.com>
+In-Reply-To: <CACRpkdbYPAiOa4QU+PUxVjcOtkBT2O7fogh51VvSEbFPutH7ng@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: A69ThUj3qWw7VaMAhHRwct6IMjSa-p_Z
+X-Proofpoint-GUID: A69ThUj3qWw7VaMAhHRwct6IMjSa-p_Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-21_01,2023-07-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=636 clxscore=1011
+ adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0 phishscore=0
+ malwarescore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307210037
 
-Hi Xu,
+Hi Linus,
 
-kernel test robot noticed the following build warnings:
+On 7/21/2023 12:51 AM, Linus Walleij wrote:
+> Hi Srirachan, Bjorn,
+> 
+> is this warning valid or something I should ignore?
+> 
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus westeri-thunderbolt/next linus/master v6.5-rc2 next-20230720]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+   oops, will fix this and send a separate patch.
+   Did not see this with the default defconfig build though.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Yang/usb-ehci-unlink-itd-sitds-from-hardware-list-if-the-controller-has-stopped-periodic-schedule/20230718-192747
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230718112600.3969141-1-xu.yang_2%40nxp.com
-patch subject: [PATCH 1/2] usb: host: ehci-sched: add itd/sitd_unlink_urb() functions
-config: parisc-randconfig-r071-20230717 (https://download.01.org/0day-ci/archive/20230721/202307211120.NLiBSqJH-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307211120.NLiBSqJH-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307211120.NLiBSqJH-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   drivers/usb/host/ehci-hcd.c: note: in included file:
-   drivers/usb/host/ehci-q.c:1390:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] old_current @@     got int @@
-   drivers/usb/host/ehci-q.c:1390:27: sparse:     expected restricted __le32 [usertype] old_current
-   drivers/usb/host/ehci-q.c:1390:27: sparse:     got int
-   drivers/usb/host/ehci-hcd.c:568:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] old_current @@     got int @@
-   drivers/usb/host/ehci-hcd.c:568:27: sparse:     expected restricted __le32 [usertype] old_current
-   drivers/usb/host/ehci-hcd.c:568:27: sparse:     got int
-   drivers/usb/host/ehci-hcd.c: note: in included file:
->> drivers/usb/host/ehci-sched.c:1829:17: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __le32 [usertype] tag @@     got int @@
-   drivers/usb/host/ehci-sched.c:1829:17: sparse:     expected restricted __le32 [usertype] tag
-   drivers/usb/host/ehci-sched.c:1829:17: sparse:     got int
->> drivers/usb/host/ehci-sched.c:1829:17: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __le32 [usertype] tag @@     got int @@
-   drivers/usb/host/ehci-sched.c:1829:17: sparse:     expected restricted __le32 [usertype] tag
-   drivers/usb/host/ehci-sched.c:1829:17: sparse:     got int
-
-vim +1829 drivers/usb/host/ehci-sched.c
-
-  1807	
-  1808	/* unlink itd/sitd from the periodic list */
-  1809	static inline void
-  1810	unlink(struct ehci_hcd *ehci, unsigned frame, void *ptr)
-  1811	{
-  1812		union ehci_shadow	*prev = &ehci->pshadow[frame];
-  1813		__hc32			*hw_p = &ehci->periodic[frame];
-  1814		union ehci_shadow	here = *prev;
-  1815	
-  1816		while (here.ptr && here.ptr != ptr) {
-  1817			prev = periodic_next_shadow(ehci, prev,
-  1818				Q_NEXT_TYPE(ehci, *hw_p));
-  1819			hw_p = shadow_next_periodic(ehci, &here,
-  1820				Q_NEXT_TYPE(ehci, *hw_p));
-  1821			here = *prev;
-  1822		}
-  1823	
-  1824		*prev = *periodic_next_shadow(ehci, &here,
-  1825				Q_NEXT_TYPE(ehci, *hw_p));
-  1826	
-  1827		if (!ehci->use_dummy_qh ||
-  1828			*shadow_next_periodic(ehci, &here, Q_NEXT_TYPE(ehci, *hw_p)
-> 1829			!= EHCI_LIST_END(ehci)))
-  1830			*hw_p = *shadow_next_periodic(ehci, &here,
-  1831						Q_NEXT_TYPE(ehci, *hw_p));
-  1832		else
-  1833			*hw_p = cpu_to_hc32(ehci, ehci->dummy->qh_dma);
-  1834	}
-  1835	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+  Sricharan
