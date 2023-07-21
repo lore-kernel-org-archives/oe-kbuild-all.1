@@ -1,117 +1,150 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC3C7F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 02:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5407F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 02:58:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689906986; x=1721442986;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BoQr8bVUind6p8PAVMxgg6SnulK8bkTs323d/8qxmWM=;
-  b=BhC9VR2c51J3SthchfnNkzx0FtcmvcSi8AlDwsCXJIoT9Kly9iPpJQdO
-   xi1XtW/dLTIQ8ZqqdvpUBywfcSTy2TqCsbbYUF0mFqPiC89fq3B3dZbuZ
-   8xVf/25vdM3gHY9mdVV2N/YH8lFM/azsTR5pv5xdFY2hh9euv1bWAh92X
-   +69/J51g+UgQ3G+VdvgU5T93TPu78uNRLWvzcY5FxhNTBrc7yQVP1mfGy
-   cNd1uNbcuT++GIfG4zIFRQa+/5J7Y8iq560VaBeQ0DKXVKpL/Vyh0pDmj
-   S4bg1WmLczcTDSoDbbeDwslz/UweucKJjZn/5ogHrSVx2g4ixVg/aB1BI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="366956574"
+  t=1689908287; x=1721444287;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=kAfnjUsMkeVOvOzOihPjEhY2+hkQ8lG+O+rh2M9hN3I=;
+  b=JYwiGTgjJiHgTH9mGL9yKPdeGAE1al3kbxquMc9LAOPClC2t7rWUYYU5
+   9bNRW+nvm1gylIo0EKdTnEUKqJj9MvORYsjggwhT4RxIB0xm23J4TxCDo
+   eJVFBaV1bNzUHGUTEw3iUFrusMOGQpSOWfQ9Sun40Qh78Yz5sfFMB3jrG
+   hqAui8OqrXIlrH7Qvf/fIKcJ9/buN9j2csUYp4QCIGqNn2eykRMYELTmA
+   l9j60SBRf16L+tCpDjPe0btrawWSUdnc0rIKbIDQnvWjyOA/yJ4wZeUbG
+   HRxn0+0j6cDllL2NJFzWg8PWQElFBKh+VbBzwIb9xV+CB71EIrGm4ijQl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="365817082"
 X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="366956574"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 19:36:25 -0700
+   d="scan'208";a="365817082"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 19:58:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="701875989"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="898560727"
 X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="701875989"
+   d="scan'208";a="898560727"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 20 Jul 2023 19:36:24 -0700
+  by orsmga005.jf.intel.com with ESMTP; 20 Jul 2023 19:57:57 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMfzs-0006lz-2c;
-	Fri, 21 Jul 2023 02:36:09 +0000
-Date: Fri, 21 Jul 2023 10:34:19 +0800
+	id 1qMgKz-0006nV-0O;
+	Fri, 21 Jul 2023 02:57:54 +0000
+Date: Fri, 21 Jul 2023 10:56:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:folio-flags 15/19]
- arch/riscv/include/asm/bitops.h:214:51: error: 'nr' undeclared
-Message-ID: <202307211016.woqQJ6MX-lkp@intel.com>
+To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Sierra <alex.sierra@amd.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrei Vagin <avagin@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Cyrill Gorcunov <gorcunov@gmail.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Danylo Mocherniuk <mdanylo@google.com>,
+	David Hildenbrand <david@redhat.com>, Greg KH <greg@kroah.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Paul Gofman <pgofman@codeweavers.com>, Peter Xu <peterx@redhat.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Yang Shi <shy828301@gmail.com>,
+	Yun Zhou <yun.zhou@windriver.com>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: Re: fs/proc/task_mmu: Implement IOCTL for efficient page table
+ scanning
+Message-ID: <202307211030.2CJH6TkM-lkp@intel.com>
+References: <a0b5c6776b2ed91f78a7575649f8b100e58bd3a9.1689881078.git.mirq-linux@rere.qmqm.pl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a0b5c6776b2ed91f78a7575649f8b100e58bd3a9.1689881078.git.mirq-linux@rere.qmqm.pl>
 
-tree:   git://git.infradead.org/users/willy/pagecache folio-flags
-head:   35ffa765605bc8156660ed51b97fa97f21d88aba
-commit: bcf25031ae39ec676a85a99bf0cacdefde781901 [15/19] bitops: Add change_and_unlock_is_negative_byte()
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230721/202307211016.woqQJ6MX-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307211016.woqQJ6MX-lkp@intel.com/reproduce)
+Hi Michał,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.5-rc2 next-20230720]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Miros-aw/Re-fs-proc-task_mmu-Implement-IOCTL-for-efficient-page-table-scanning/20230721-033050
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/a0b5c6776b2ed91f78a7575649f8b100e58bd3a9.1689881078.git.mirq-linux%40rere.qmqm.pl
+patch subject: Re: fs/proc/task_mmu: Implement IOCTL for efficient page table scanning
+config: arc-randconfig-r035-20230720 (https://download.01.org/0day-ci/archive/20230721/202307211030.2CJH6TkM-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307211030.2CJH6TkM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307211016.woqQJ6MX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307211030.2CJH6TkM-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/ratelimit_types.h:5,
-                    from include/linux/printk.h:9,
-                    from include/asm-generic/bug.h:22,
-                    from arch/riscv/include/asm/bug.h:83,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   arch/riscv/include/asm/bitops.h: In function 'change_and_unlock_is_negative_byte':
->> arch/riscv/include/asm/bitops.h:214:51: error: 'nr' undeclared (first use in this function)
-     214 |                 : "=r" (res), "+A" (addr[BIT_WORD(nr)])
-         |                                                   ^~
-   include/linux/bits.h:10:35: note: in definition of macro 'BIT_WORD'
-      10 | #define BIT_WORD(nr)            ((nr) / BITS_PER_LONG)
-         |                                   ^~
-   arch/riscv/include/asm/bitops.h:214:51: note: each undeclared identifier is reported only once for each function it appears in
-     214 |                 : "=r" (res), "+A" (addr[BIT_WORD(nr)])
-         |                                                   ^~
-   include/linux/bits.h:10:35: note: in definition of macro 'BIT_WORD'
-      10 | #define BIT_WORD(nr)            ((nr) / BITS_PER_LONG)
-         |                                   ^~
-   In file included from include/linux/bitops.h:68,
-                    from include/linux/log2.h:12,
-                    from kernel/bounds.c:13:
->> arch/riscv/include/asm/bitops.h:208:55: warning: parameter 'addr' set but not used [-Wunused-but-set-parameter]
-     208 |                 int lock_bit, volatile unsigned long *addr)
-         |                               ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   make[3]: *** [scripts/Makefile.build:116: kernel/bounds.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   fs/proc/task_mmu.c: In function 'pagemap_scan_test_walk':
+   fs/proc/task_mmu.c:1921:13: error: implicit declaration of function 'userfaultfd_wp_async'; did you mean 'userfaultfd_wp'? [-Werror=implicit-function-declaration]
+    1921 |         if (userfaultfd_wp_async(vma) && userfaultfd_wp_use_markers(vma))
+         |             ^~~~~~~~~~~~~~~~~~~~
+         |             userfaultfd_wp
+   fs/proc/task_mmu.c: In function 'pagemap_scan_pte_hole':
+>> fs/proc/task_mmu.c:2200:19: error: implicit declaration of function 'uffd_wp_range' [-Werror=implicit-function-declaration]
+    2200 |         int err = uffd_wp_range(vma, addr, end - addr, true);
+         |                   ^~~~~~~~~~~~~
+   fs/proc/task_mmu.c: In function 'pagemap_scan_init_bounce_buffer':
+   fs/proc/task_mmu.c:2290:22: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    2290 |         p->vec_out = (void __user *)p->arg.vec;
+         |                      ^
+   fs/proc/task_mmu.c: At top level:
+   fs/proc/task_mmu.c:1967:13: warning: 'pagemap_scan_backout_range' defined but not used [-Wunused-function]
+    1967 | static void pagemap_scan_backout_range(struct pagemap_scan_private *p,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/nr +214 arch/riscv/include/asm/bitops.h
+vim +/uffd_wp_range +2200 fs/proc/task_mmu.c
 
-   206	
-   207	static inline bool change_and_unlock_is_negative_byte(int change_bit,
- > 208			int lock_bit, volatile unsigned long *addr)
-   209	{
-   210		unsigned long res, mask;
-   211		mask = (1 << change_bit) | (1 << lock_bit);
-   212		__asm__ __volatile__ (
-   213			__AMO(xor) ".rl %0, %2, %1"
- > 214			: "=r" (res), "+A" (addr[BIT_WORD(nr)])
-   215			: "r" (__NOT(mask))
-   216			: "memory");
-   217		return (res & BIT(7)) != 0;
-   218	}
-   219	
+  2182	
+  2183	static int pagemap_scan_pte_hole(unsigned long addr, unsigned long end,
+  2184					 int depth, struct mm_walk *walk)
+  2185	{
+  2186		struct pagemap_scan_private *p = walk->private;
+  2187		struct vm_area_struct *vma = walk->vma;
+  2188		int ret;
+  2189	
+  2190		if (!vma || !pagemap_scan_is_interesting_page(p->cur_vma_category, p))
+  2191			return 0;
+  2192	
+  2193		ret = pagemap_scan_output(p->cur_vma_category, p, addr, &end);
+  2194		if (addr == end)
+  2195			return ret;
+  2196	
+  2197		if (~p->arg.flags & PM_SCAN_WP_MATCHING)
+  2198			return ret;
+  2199	
+> 2200		int err = uffd_wp_range(vma, addr, end - addr, true);
+  2201		if (err < 0)
+  2202			ret = err;
+  2203	
+  2204		return ret;
+  2205	}
+  2206	
 
 -- 
 0-DAY CI Kernel Test Service
