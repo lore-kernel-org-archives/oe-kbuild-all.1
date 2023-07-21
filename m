@@ -1,42 +1,48 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8968E7F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 03:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA1D7F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 03:50:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689909571; x=1721445571;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YxxvJOe9yaxa2zrboanxbcpWGo13AKQJ+2GY6hrxNE0=;
-  b=a9qiDE1fOcQXs67Of//TFiiYF8U0H2chMTb3qIpSsC0L2fly0veVRCRy
-   nc8gy0tcdsEhlVzn25ULOhjtWjnScxt/AQHXhHOVixaQj7kKSAM+0Odjq
-   +SvKQApOfRO/u7eQZZBSsKxFOTjHOicPfaVgAppCGdWpoyzXb5HqHBvmX
-   OVwwpCWo1zn3UhY30IzHCzkyKlbO6P/budrc1bozG7EEPJfXPbTyGeKfJ
-   WPhTLGgfyuIJJU4kREiKTZ5ycS25nlcUztOPbhFnjLji1bpWDseF63VtM
-   qBedSMB3FMmuGZ5KY5mErH+3aKGg/S6unYJCCZuhK31pvkLaGngGRFEpW
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="346516067"
+  t=1689911452; x=1721447452;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JNp10Mt5clD02qyeJ6DeFQiC9FL/84T24RBmha8oF4M=;
+  b=XITxK0bFcD6MedgQrpuzs0vLg2m5GrJp46uqVuPi0HVfEJH4gM8XOrRf
+   FOZVjrI1O/PEwx5/7Aad4THygop/A5KFnKdFROQxgR9NhJa+/wXOnGbE3
+   Oxs6Dsuv3oRyxOVJDwQsmIwTnEIZ6jiaZO6LGK5aooKJrKiGr9FjaS6za
+   CwsAzHWY98uLEWL/co21EASBl+3HiYJ16kTZXfnwKFg0rQ5KghUWQ4Ep6
+   tQt8Wa7i3g5ZFq+nGw2HcXf6RB3C94wQBUp6FnJx4z0WMgHelPLhUs7M3
+   pI9WxiHXZ3oWM7Y93bEMfwHeOrgTpjCeuYIYYg2LMSA7jaluAyBLqbj8O
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="433155812"
 X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="346516067"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 20:19:30 -0700
+   d="scan'208";a="433155812"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 20:50:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="754292588"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="838394843"
 X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="754292588"
+   d="scan'208";a="838394843"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 20 Jul 2023 20:19:29 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 20 Jul 2023 20:50:50 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMgfq-0006oV-31;
-	Fri, 21 Jul 2023 03:19:25 +0000
-Date: Fri, 21 Jul 2023 11:18:17 +0800
+	id 1qMhAC-0006ps-1l;
+	Fri, 21 Jul 2023 03:50:45 +0000
+Date: Fri, 21 Jul 2023 11:50:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:sb_write_barrier 19/30] include/linux/fsnotify.h:126:3:
- warning: variable 'fsnotify_mask' is uninitialized when used here
-Message-ID: <202307211105.zGLTcrGx-lkp@intel.com>
+To: Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>
+Cc: oe-kbuild-all@lists.linux.dev, Hari Bathini <hbathini@linux.ibm.com>,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+	Sourabh Jain <sourabhjain@linux.ibm.com>,
+	Sachin Sant <sachinp@linux.ibm.com>,
+	Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH] kdump fix
+Message-ID: <202307211100.UDh0FQ50-lkp@intel.com>
+References: <2ogfzwjumrd44kxv7njfpot6fhtkzpqu77qv3bspfixdmsxcwc@umt35y2hmslm>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,70 +51,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <2ogfzwjumrd44kxv7njfpot6fhtkzpqu77qv3bspfixdmsxcwc@umt35y2hmslm>
 
-tree:   https://github.com/amir73il/linux sb_write_barrier
-head:   bf9a41c874c7b090a3eb10204ac607fde16fdfb3
-commit: 96f25a6844cc4a544a7003caee9e966c6e7f0195 [19/30] fsnotify: introduce pre-content permission event
-config: x86_64-randconfig-r011-20230720 (https://download.01.org/0day-ci/archive/20230721/202307211105.zGLTcrGx-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307211105.zGLTcrGx-lkp@intel.com/reproduce)
+Hi Mahesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.5-rc2 next-20230720]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mahesh-J-Salgaonkar/kdump-fix/20230720-021115
+base:   linus/master
+patch link:    https://lore.kernel.org/r/2ogfzwjumrd44kxv7njfpot6fhtkzpqu77qv3bspfixdmsxcwc%40umt35y2hmslm
+patch subject: [PATCH] kdump fix
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230721/202307211100.UDh0FQ50-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307211100.UDh0FQ50-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307211105.zGLTcrGx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307211100.UDh0FQ50-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/nfs/unlink.c:12:
-   In file included from include/linux/sunrpc/sched.h:19:
-   include/linux/sunrpc/xdr.h:778:10: warning: result of comparison of constant 4611686018427387903 with expression of type '__u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           if (len > SIZE_MAX / sizeof(*p))
-               ~~~ ^ ~~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfs/unlink.c:18:
->> include/linux/fsnotify.h:126:3: warning: variable 'fsnotify_mask' is uninitialized when used here [-Wuninitialized]
-                   fsnotify_mask |= FS_PRE_MODIFY;
-                   ^~~~~~~~~~~~~
-   include/linux/fsnotify.h:110:21: note: initialize the variable 'fsnotify_mask' to silence this warning
-           __u32 fsnotify_mask;
-                              ^
-                               = 0
-   2 warnings generated.
+   kernel/kexec_file.c: In function 'crash_prepare_elf64_headers':
+>> kernel/kexec_file.c:1282:25: error: 'ELF_CORE_EFLAGS' undeclared (first use in this function)
+    1282 |         ehdr->e_flags = ELF_CORE_EFLAGS;
+         |                         ^~~~~~~~~~~~~~~
+   kernel/kexec_file.c:1282:25: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/fsnotify_mask +126 include/linux/fsnotify.h
+vim +/ELF_CORE_EFLAGS +1282 kernel/kexec_file.c
 
-   103	
-   104	/*
-   105	 * fsnotify_file_perm - permission hook before file access/modify
-   106	 */
-   107	static inline int fsnotify_file_perm(struct file *file, int mask)
-   108	{
-   109		struct inode *inode = file_inode(file);
-   110		__u32 fsnotify_mask;
-   111	
-   112		/*
-   113		 * Content of file may be written on pre-content events, so sb freeze
-   114		 * protection must not be held.
-   115		 */
-   116		lockdep_assert_once(file_write_not_started(file));
-   117	
-   118		/*
-   119		 * Pre-content events are onlt reported for regular files and dirs.
-   120		 */
-   121		if (mask & MAY_READ) {
-   122			fsnotify_mask = FS_ACCESS_PERM;
-   123			if (S_ISDIR(inode->i_mode) || S_ISREG(inode->i_mode))
-   124				fsnotify_mask |= FS_PRE_ACCESS;
-   125		} else if (mask & MAY_WRITE && S_ISREG(inode->i_mode)) {
- > 126			fsnotify_mask |= FS_PRE_MODIFY;
-   127		} else {
-   128			return 0;
-   129		}
-   130	
-   131		return fsnotify_file(file, fsnotify_mask);
-   132	}
-   133	
+  1236	
+  1237	int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+  1238				  void **addr, unsigned long *sz)
+  1239	{
+  1240		Elf64_Ehdr *ehdr;
+  1241		Elf64_Phdr *phdr;
+  1242		unsigned long nr_cpus = num_possible_cpus(), nr_phdr, elf_sz;
+  1243		unsigned char *buf;
+  1244		unsigned int cpu, i;
+  1245		unsigned long long notes_addr;
+  1246		unsigned long mstart, mend;
+  1247	
+  1248		/* extra phdr for vmcoreinfo ELF note */
+  1249		nr_phdr = nr_cpus + 1;
+  1250		nr_phdr += mem->nr_ranges;
+  1251	
+  1252		/*
+  1253		 * kexec-tools creates an extra PT_LOAD phdr for kernel text mapping
+  1254		 * area (for example, ffffffff80000000 - ffffffffa0000000 on x86_64).
+  1255		 * I think this is required by tools like gdb. So same physical
+  1256		 * memory will be mapped in two ELF headers. One will contain kernel
+  1257		 * text virtual addresses and other will have __va(physical) addresses.
+  1258		 */
+  1259	
+  1260		nr_phdr++;
+  1261		elf_sz = sizeof(Elf64_Ehdr) + nr_phdr * sizeof(Elf64_Phdr);
+  1262		elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+  1263	
+  1264		buf = vzalloc(elf_sz);
+  1265		if (!buf)
+  1266			return -ENOMEM;
+  1267	
+  1268		ehdr = (Elf64_Ehdr *)buf;
+  1269		phdr = (Elf64_Phdr *)(ehdr + 1);
+  1270		memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
+  1271		ehdr->e_ident[EI_CLASS] = ELFCLASS64;
+  1272		ehdr->e_ident[EI_DATA] = ELFDATA2LSB;
+  1273		ehdr->e_ident[EI_VERSION] = EV_CURRENT;
+  1274		ehdr->e_ident[EI_OSABI] = ELF_OSABI;
+  1275		memset(ehdr->e_ident + EI_PAD, 0, EI_NIDENT - EI_PAD);
+  1276		ehdr->e_type = ET_CORE;
+  1277		ehdr->e_machine = ELF_ARCH;
+  1278		ehdr->e_version = EV_CURRENT;
+  1279		ehdr->e_phoff = sizeof(Elf64_Ehdr);
+  1280		ehdr->e_ehsize = sizeof(Elf64_Ehdr);
+  1281		ehdr->e_phentsize = sizeof(Elf64_Phdr);
+> 1282		ehdr->e_flags = ELF_CORE_EFLAGS;
 
 -- 
 0-DAY CI Kernel Test Service
