@@ -1,45 +1,50 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC3B24176
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 20:31:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD5125175
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 20:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689971502; x=1721507502;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=prvvJC/+/81yxVhjKcRaSyEnscky7XCXGMC/xULnQBI=;
-  b=QV7JiWHOIdXBbAbATbfAcZQsQyV0xEkZtALhek1ac3iq5OhpiqYDM5R7
-   j1HYpiUqQMgOAiGunYExtfyPAlKyS9fdAqxs7OqU4SU2cvpaK94oip2vl
-   NmGh9T9Zm/0aSKPkvfKae/jWVFWNN4OxbBpG0OZUCgYpM4VN0mF/jYjCN
-   d7GWND89virHefGVUUG7txcwi/mkRN08XxxOoJ3CItbVPvBvwHr3OOhQE
-   LLPbSMvLKnE1g+wXa9EnZvUizlhEKK3kz6boVxz3XuEWJIFv0zoZ09zQN
-   f1q3h3z+QZZTvqw2BOcP4BDB+Gkup9Lqjgv+TnD6xn/cE342wveX9qUU4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="351998375"
+  t=1689971503; x=1721507503;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mU9iYrn6U9qmHj4FH3IrpTOXdH2NS6POHFhpT/W/4mc=;
+  b=S4V8X3lL1SY62kZdsxVWH18C8xfZCyBsiU5e+mbLyICs1z2vijAAYu00
+   8BdPi5HKOav+FJQq4T8cJB7+Go1rX+U0dACQPGAUHmH1ZF5otLZSGIYkE
+   dGS9Ei9+gg0Xm+6e3sGq56j8EcvQQu89WL/m3AK3B9RKtJ9TwP6suUJa1
+   r0p2zoWbm5LaAQYLo7thkNc5a+yuZu0xuFfKJxVe8B2GIp1jibfSJmMB+
+   s84DAeEq/IsPYMaaJG8GhWR2sTrH0JD9iPY24YZFjjV91G21yu3HSqc1v
+   BSbZ7F3ggC3U8YBu5wpJT/KYSKwMt1R06YVE3NOblBmsmaT17TgTQLjBE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="351998380"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="351998375"
+   d="scan'208";a="351998380"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 13:31:23 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 13:31:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="898823816"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="898823817"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="898823816"
+   d="scan'208";a="898823817"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
   by orsmga005.jf.intel.com with ESMTP; 21 Jul 2023 13:31:21 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMwmW-0007dz-0u;
+	id 1qMwmW-0007dv-0l;
 	Fri, 21 Jul 2023 20:31:20 +0000
-Date: Sat, 22 Jul 2023 04:31:17 +0800
+Date: Sat, 22 Jul 2023 04:31:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Theodore Ts'o <tytso@mit.edu>
-Subject: [linux-stable-rc:linux-4.19.y 6515/6544] fs/ext4/ioctl.c:583:21:
- warning: assignment to 'int' from 'struct super_block *' makes integer from
- pointer without a cast
-Message-ID: <202307220453.tCatLwRG-lkp@intel.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Ard Biesheuvel <ardb@kernel.org>,
+	Kees Cook <keescook@chromium.org>, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: Re: [PATCH v5 3/5] arm64: libstub: Move KASLR handling functions to
+ kaslr.c
+Message-ID: <202307220429.jaPTVAph-lkp@intel.com>
+References: <20230721074850.310644-4-alexghiti@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,78 +53,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230721074850.310644-4-alexghiti@rivosinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-4.19.y
-head:   71e850d72cc54c75316c30f51b1163a0da4f00e1
-commit: c1a588a876df1ca461ee0bc432e78ed7f646ca86 [6515/6544] ext4: fix to check return value of freeze_bdev() in ext4_shutdown()
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230722/202307220453.tCatLwRG-lkp@intel.com/config)
+Hi Alexandre,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc2 next-20230721]
+[cannot apply to efi/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Introduce-virtual-kernel-mapping-KASLR/20230721-155554
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230721074850.310644-4-alexghiti%40rivosinc.com
+patch subject: [PATCH v5 3/5] arm64: libstub: Move KASLR handling functions to kaslr.c
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230722/202307220429.jaPTVAph-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220453.tCatLwRG-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220429.jaPTVAph-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307220453.tCatLwRG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307220429.jaPTVAph-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/ext4/ioctl.c: In function 'ext4_shutdown':
->> fs/ext4/ioctl.c:583:21: warning: assignment to 'int' from 'struct super_block *' makes integer from pointer without a cast [-Wint-conversion]
-     583 |                 ret = freeze_bdev(sb->s_bdev);
-         |                     ^
+   drivers/firmware/efi/libstub/kaslr.c: In function 'efi_kaslr_relocate_kernel':
+>> drivers/firmware/efi/libstub/kaslr.c:113:30: warning: implicit declaration of function 'efi_get_kimg_min_align' [-Wimplicit-function-declaration]
+     113 |         u64 min_kimg_align = efi_get_kimg_min_align();
+         |                              ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/firmware/efi/libstub/kaslr.c:155:9: warning: implicit declaration of function 'efi_icache_sync'; did you mean 'efi_cache_sync_image'? [-Wimplicit-function-declaration]
+     155 |         efi_icache_sync(*image_addr, *image_addr + kernel_codesize);
+         |         ^~~~~~~~~~~~~~~
+         |         efi_cache_sync_image
 
 
-vim +583 fs/ext4/ioctl.c
+vim +/efi_get_kimg_min_align +113 drivers/firmware/efi/libstub/kaslr.c
 
-   559	
-   560	static int ext4_shutdown(struct super_block *sb, unsigned long arg)
-   561	{
-   562		struct ext4_sb_info *sbi = EXT4_SB(sb);
-   563		__u32 flags;
-   564		int ret;
-   565	
-   566		if (!capable(CAP_SYS_ADMIN))
-   567			return -EPERM;
-   568	
-   569		if (get_user(flags, (__u32 __user *)arg))
-   570			return -EFAULT;
-   571	
-   572		if (flags > EXT4_GOING_FLAGS_NOLOGFLUSH)
-   573			return -EINVAL;
-   574	
-   575		if (ext4_forced_shutdown(sbi))
-   576			return 0;
-   577	
-   578		ext4_msg(sb, KERN_ALERT, "shut down requested (%d)", flags);
-   579		trace_ext4_shutdown(sb, flags);
-   580	
-   581		switch (flags) {
-   582		case EXT4_GOING_FLAGS_DEFAULT:
- > 583			ret = freeze_bdev(sb->s_bdev);
-   584			if (ret)
-   585				return ret;
-   586			set_bit(EXT4_FLAGS_SHUTDOWN, &sbi->s_ext4_flags);
-   587			thaw_bdev(sb->s_bdev, sb);
-   588			break;
-   589		case EXT4_GOING_FLAGS_LOGFLUSH:
-   590			set_bit(EXT4_FLAGS_SHUTDOWN, &sbi->s_ext4_flags);
-   591			if (sbi->s_journal && !is_journal_aborted(sbi->s_journal)) {
-   592				(void) ext4_force_commit(sb);
-   593				jbd2_journal_abort(sbi->s_journal, -ESHUTDOWN);
-   594			}
-   595			break;
-   596		case EXT4_GOING_FLAGS_NOLOGFLUSH:
-   597			set_bit(EXT4_FLAGS_SHUTDOWN, &sbi->s_ext4_flags);
-   598			if (sbi->s_journal && !is_journal_aborted(sbi->s_journal))
-   599				jbd2_journal_abort(sbi->s_journal, -ESHUTDOWN);
-   600			break;
-   601		default:
-   602			return -EINVAL;
-   603		}
-   604		clear_opt(sb, DISCARD);
-   605		return 0;
-   606	}
-   607	
+    87	
+    88	/**
+    89	 * efi_kaslr_relocate_kernel() - Relocate the kernel (random if KASLR enabled)
+    90	 * @image_addr: Pointer to the current kernel location
+    91	 * @reserve_addr:	Pointer to the relocated kernel location
+    92	 * @reserve_size:	Size of the relocated kernel
+    93	 * @kernel_size:	Size of the text + data
+    94	 * @kernel_codesize:	Size of the text
+    95	 * @kernel_memsize:	Size of the text + data + bss
+    96	 * @phys_seed:		Random seed used for the relocation
+    97	 *
+    98	 * If KASLR is not enabled, this function relocates the kernel to a fixed
+    99	 * address (or leave it as its current location). If KASLR is enabled, the
+   100	 * kernel physical location is randomized using the seed in parameter.
+   101	 *
+   102	 * Return:	status code, EFI_SUCCESS if relocation is successful
+   103	 */
+   104	efi_status_t efi_kaslr_relocate_kernel(unsigned long *image_addr,
+   105					       unsigned long *reserve_addr,
+   106					       unsigned long *reserve_size,
+   107					       unsigned long kernel_size,
+   108					       unsigned long kernel_codesize,
+   109					       unsigned long kernel_memsize,
+   110					       u32 phys_seed)
+   111	{
+   112		efi_status_t status;
+ > 113		u64 min_kimg_align = efi_get_kimg_min_align();
+   114	
+   115		if (IS_ENABLED(CONFIG_RANDOMIZE_BASE) && phys_seed != 0) {
+   116			/*
+   117			 * If KASLR is enabled, and we have some randomness available,
+   118			 * locate the kernel at a randomized offset in physical memory.
+   119			 */
+   120			status = efi_random_alloc(*reserve_size, min_kimg_align,
+   121						  reserve_addr, phys_seed,
+   122						  EFI_LOADER_CODE);
+   123			if (status != EFI_SUCCESS)
+   124				efi_warn("efi_random_alloc() failed: 0x%lx\n", status);
+   125		} else {
+   126			status = EFI_OUT_OF_RESOURCES;
+   127		}
+   128	
+   129		if (status != EFI_SUCCESS) {
+   130			if (!check_image_region(*image_addr, kernel_memsize)) {
+   131				efi_err("FIRMWARE BUG: Image BSS overlaps adjacent EFI memory region\n");
+   132			} else if (IS_ALIGNED(*image_addr, min_kimg_align) &&
+   133				   (u64)_end < EFI_ALLOC_LIMIT) {
+   134				/*
+   135				 * Just execute from wherever we were loaded by the
+   136				 * UEFI PE/COFF loader if the placement is suitable.
+   137				 */
+   138				*reserve_size = 0;
+   139				return EFI_SUCCESS;
+   140			}
+   141	
+   142			status = efi_allocate_pages_aligned(*reserve_size, reserve_addr,
+   143							    ULONG_MAX, min_kimg_align,
+   144							    EFI_LOADER_CODE);
+   145	
+   146			if (status != EFI_SUCCESS) {
+   147				efi_err("Failed to relocate kernel\n");
+   148				*reserve_size = 0;
+   149				return status;
+   150			}
+   151		}
+   152	
+   153		memcpy((void *)*reserve_addr, (void *)*image_addr, kernel_size);
+   154		*image_addr = *reserve_addr;
+ > 155		efi_icache_sync(*image_addr, *image_addr + kernel_codesize);
 
 -- 
 0-DAY CI Kernel Test Service
