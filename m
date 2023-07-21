@@ -1,138 +1,170 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2884D21D5F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 20:27:17 +0000 (UTC)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1b45fe36cd9so1509642fac.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 13:27:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689971237; x=1690576037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7xPDzzCzi/QN7xILesfa0mVBVsGJvBpLORXGzKhvY7c=;
-        b=4XmoJAYz55NB/L3U+DEUVJ9ui979+6Vz0rqBHHDkliqQXOMi6F+/ITB9aD9iN37wqO
-         BgdGLtJssmT2r2CCaMdB6vTrlXmgl7CEI5eFL8Iy5qkECyULhvyVXE0OLtlJLWTWLWVe
-         ujy4f/mAiGRut+DHYbvmdkcQlKKfluhe809jNINb8G6MffFgabAZ4L8IZbqwDIs/Dzml
-         mrPigKZ7ueMy+J2wvjE1cevFAOpAnDkQ13SDfoATpvTQsVGhjDoy67xsuJDQ95pHpt0i
-         9bZdbaLpFIDoRxE4Uk1HMABabIBI7CYqt4kN1YtFNOWaLkAec3SHAFyTZ54eD0gzUJSK
-         atNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689971237; x=1690576037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7xPDzzCzi/QN7xILesfa0mVBVsGJvBpLORXGzKhvY7c=;
-        b=DGJWAxSmRvgUVk5jBgNRqIohpv0L4hVJ8hRdb8Y+eiie+KlljDDS7PGgd/pmvy3IpX
-         ZWJUBtn05btGDUSZAkZGEbLujQpcosorlkzgxF6qN14FAU3hlh4pldKFg2wbnNc/BOwi
-         BcCQ1+OJ77s6en3gzUe3nV9jgvxFyWq7HEVTkdtvW4/AeO6hRLhSegpsyvlRlAE+AiBf
-         wrI1dyiSu7CnqTUtbNMdyFTp2050xc6IrH5BcyMf+qo7f6z0/tMAZbUZKV0E5PXcRSfW
-         NtPp7s8SkgB340n+YDU/pY99SxeCN41TNvycaqrddvl0iDepnkfT0dBn2J0QDfVgBLVG
-         q4CQ==
-X-Gm-Message-State: ABy/qLYMwvXVg7tLm6PBqWTsSCVtfES/8OkWra8IRa+wmuHqGCKvRifR
-	QNu3QdIExNmB4Ikqak8ZKYrKXGtrozxN3lkltdEInw==
-X-Google-Smtp-Source: APBJJlFV1pSwvieqS1OgnGFs6EJa3OMX3Q/AZhNSCm23Jd0179q/7NNdnOaSTeQWwXZbKc15/fFyeSnhcfBgqT1xvfc=
-X-Received: by 2002:a05:6870:ac2b:b0:1ba:c3a2:fb66 with SMTP id
- kw43-20020a056870ac2b00b001bac3a2fb66mr3041987oab.5.1689971236868; Fri, 21
- Jul 2023 13:27:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF9323BF0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 20:31:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689971486; x=1721507486;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xych12fXAllQmfKXQOtduucuGRdzVWia+wDdseBLe4E=;
+  b=PDfOfxjioxfxKPyAAPpyAtz9YU/ZwvwcaODR3q2mO1lMsiHgeBNcx7a/
+   6CUxWMW5vGe28pKEmApkvkN6XFSRsYme8Dxb382miXSO7WSJziAVxZEss
+   egaB6l2txffrXA9ErRlXYoldB5IS7dpeQzzWFo8m382+mRZoBb/YdjtOX
+   jmf1hFVR3Z1I1wAeLAs7CwE4M530oDdk6wrn6S2u4Tzy5vT6rjIrWcTKp
+   TlI5FEb2TTWZ+M9F4/GLuvHUXehEixjgBBbpNXQqhMMht9bptzJ0LHU/O
+   OlLTwoyKgxICgbak8OYCfkkuAk5Oc727DWdVbm/msz/j3m3NCceTMCjqW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="430905730"
+X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
+   d="scan'208";a="430905730"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 13:31:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="728224177"
+X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
+   d="scan'208";a="728224177"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 21 Jul 2023 13:31:21 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qMwmW-0007dx-0p;
+	Fri, 21 Jul 2023 20:31:20 +0000
+Date: Sat, 22 Jul 2023 04:31:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marco Felsch <m.felsch@pengutronix.de>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, peppe.cavallaro@st.com,
+	alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+	mcoquelin.stm32@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@pengutronix.de, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH net-next v3 2/2] net: stmmac: add support for phy-supply
+Message-ID: <202307220459.2gaQtSqH-lkp@intel.com>
+References: <20230720072304.3358701-2-m.felsch@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1689934361-32642-1-git-send-email-quic_srichara@quicinc.com>
-In-Reply-To: <1689934361-32642-1-git-send-email-quic_srichara@quicinc.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 21 Jul 2023 13:27:05 -0700
-Message-ID: <CAKwvOdmYC6WuapBkD+s6wYCBaUdiJxiLXwayoubTF0WCpdBoMg@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: qcom: Remove the unused _groups variable build warning
-To: Sricharan Ramabadhran <quic_srichara@quicinc.com>
-Cc: agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org, 
-	linus.walleij@linaro.org, quic_varada@quicinc.com, 
-	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230720072304.3358701-2-m.felsch@pengutronix.de>
 
-On Fri, Jul 21, 2023 at 3:13=E2=80=AFAM Sricharan Ramabadhran
-<quic_srichara@quicinc.com> wrote:
->
-> When building with clang toolchain and arm64-randconfig-r015-20230712
-> kernel test robot reports the below warning.
->
->  drivers/pinctrl/qcom/pinctrl-ipq5018.c:244:27: warning: unused variable =
-'_groups' [-Wunused-const-variable]
->    static const char * const _groups[] =3D {
->                              ^
->    1 warning generated.
->
->      static const char * const _groups[] =3D {
->              "gpio0", "gpio1", "gpio2", "gpio3", "gpio4", "gpio5", "gpio6=
-", "gpio7",
->              "gpio8", "gpio9", "gpio10", "gpio11", "gpio12", "gpio13", "g=
-pio14",
->              "gpio15", "gpio16", "gpio17", "gpio18", "gpio19", "gpio20", =
-"gpio21",
->              "gpio22", "gpio23", "gpio24", "gpio25", "gpio26", "gpio27", =
-"gpio28",
->              "gpio29", "gpio30", "gpio31", "gpio32", "gpio33", "gpio34", =
-"gpio35",
->              "gpio36", "gpio37", "gpio38", "gpio39", "gpio40", "gpio41", =
-"gpio42",
->              "gpio43", "gpio44", "gpio45", "gpio46",
->    };
->
-> Fixing it by removing the variable.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202307120814.vWPY6URk-lkp@i=
-ntel.com/
-> Fixes: 725d1c891658 ("pinctrl: qcom: Add IPQ5018 pinctrl driver")
-> Signed-off-by: Sricharan Ramabadhran <quic_srichara@quicinc.com>
+Hi Marco,
 
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+kernel test robot noticed the following build errors:
 
-> ---
->  drivers/pinctrl/qcom/pinctrl-ipq5018.c | 10 ----------
->  1 file changed, 10 deletions(-)
->
-> diff --git a/drivers/pinctrl/qcom/pinctrl-ipq5018.c b/drivers/pinctrl/qco=
-m/pinctrl-ipq5018.c
-> index ed58f75..e2951f8 100644
-> --- a/drivers/pinctrl/qcom/pinctrl-ipq5018.c
-> +++ b/drivers/pinctrl/qcom/pinctrl-ipq5018.c
-> @@ -241,16 +241,6 @@ static const char * const atest_char_groups[] =3D {
->         "gpio0", "gpio1", "gpio2", "gpio3", "gpio37",
->  };
->
-> -static const char * const _groups[] =3D {
-> -       "gpio0", "gpio1", "gpio2", "gpio3", "gpio4", "gpio5", "gpio6", "g=
-pio7",
-> -       "gpio8", "gpio9", "gpio10", "gpio11", "gpio12", "gpio13", "gpio14=
-",
-> -       "gpio15", "gpio16", "gpio17", "gpio18", "gpio19", "gpio20", "gpio=
-21",
-> -       "gpio22", "gpio23", "gpio24", "gpio25", "gpio26", "gpio27", "gpio=
-28",
-> -       "gpio29", "gpio30", "gpio31", "gpio32", "gpio33", "gpio34", "gpio=
-35",
-> -       "gpio36", "gpio37", "gpio38", "gpio39", "gpio40", "gpio41", "gpio=
-42",
-> -       "gpio43", "gpio44", "gpio45", "gpio46",
-> -};
-> -
->  static const char * const wci_txd_groups[] =3D {
->         "gpio0", "gpio1", "gpio2", "gpio3",
->         "gpio42", "gpio43", "gpio44", "gpio45",
-> --
-> 2.7.4
->
->
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/net-stmmac-add-support-for-phy-supply/20230720-152642
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230720072304.3358701-2-m.felsch%40pengutronix.de
+patch subject: [PATCH net-next v3 2/2] net: stmmac: add support for phy-supply
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230722/202307220459.2gaQtSqH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220459.2gaQtSqH-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307220459.2gaQtSqH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_suspend':
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:7706:32: error: 'struct plat_stmmacenet_data' has no member named 'use_phy_wol'
+    7706 |                 if (!priv->plat->use_phy_wol)
+         |                                ^~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_resume':
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:7790:32: error: 'struct plat_stmmacenet_data' has no member named 'use_phy_wol'
+    7790 |                 if (!priv->plat->use_phy_wol)
+         |                                ^~
 
 
---=20
-Thanks,
-~Nick Desaulniers
+vim +7706 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+
+  7651	
+  7652	/**
+  7653	 * stmmac_suspend - suspend callback
+  7654	 * @dev: device pointer
+  7655	 * Description: this is the function to suspend the device and it is called
+  7656	 * by the platform driver to stop the network queue, release the resources,
+  7657	 * program the PMT register (for WoL), clean and release driver resources.
+  7658	 */
+  7659	int stmmac_suspend(struct device *dev)
+  7660	{
+  7661		struct net_device *ndev = dev_get_drvdata(dev);
+  7662		struct stmmac_priv *priv = netdev_priv(ndev);
+  7663		u32 chan;
+  7664	
+  7665		if (!ndev || !netif_running(ndev))
+  7666			return 0;
+  7667	
+  7668		mutex_lock(&priv->lock);
+  7669	
+  7670		netif_device_detach(ndev);
+  7671	
+  7672		stmmac_disable_all_queues(priv);
+  7673	
+  7674		for (chan = 0; chan < priv->plat->tx_queues_to_use; chan++)
+  7675			hrtimer_cancel(&priv->dma_conf.tx_queue[chan].txtimer);
+  7676	
+  7677		if (priv->eee_enabled) {
+  7678			priv->tx_path_in_lpi_mode = false;
+  7679			del_timer_sync(&priv->eee_ctrl_timer);
+  7680		}
+  7681	
+  7682		/* Stop TX/RX DMA */
+  7683		stmmac_stop_all_dma(priv);
+  7684	
+  7685		if (priv->plat->serdes_powerdown)
+  7686			priv->plat->serdes_powerdown(ndev, priv->plat->bsp_priv);
+  7687	
+  7688		/* Enable Power down mode by programming the PMT regs */
+  7689		if (device_may_wakeup(priv->device) && priv->plat->pmt) {
+  7690			stmmac_pmt(priv, priv->hw, priv->wolopts);
+  7691			priv->irq_wake = 1;
+  7692		} else {
+  7693			stmmac_mac_set(priv, priv->ioaddr, false);
+  7694			pinctrl_pm_select_sleep_state(priv->device);
+  7695		}
+  7696	
+  7697		mutex_unlock(&priv->lock);
+  7698	
+  7699		rtnl_lock();
+  7700		if (device_may_wakeup(priv->device) && priv->plat->pmt) {
+  7701			phylink_suspend(priv->phylink, true);
+  7702		} else {
+  7703			if (device_may_wakeup(priv->device))
+  7704				phylink_speed_down(priv->phylink, false);
+  7705			phylink_suspend(priv->phylink, false);
+> 7706			if (!priv->plat->use_phy_wol)
+  7707				stmmac_phy_power_off(priv);
+  7708		}
+  7709		rtnl_unlock();
+  7710	
+  7711		if (priv->dma_cap.fpesel) {
+  7712			/* Disable FPE */
+  7713			stmmac_fpe_configure(priv, priv->ioaddr,
+  7714					     priv->plat->tx_queues_to_use,
+  7715					     priv->plat->rx_queues_to_use, false);
+  7716	
+  7717			stmmac_fpe_handshake(priv, false);
+  7718			stmmac_fpe_stop_wq(priv);
+  7719		}
+  7720	
+  7721		priv->speed = SPEED_UNKNOWN;
+  7722		return 0;
+  7723	}
+  7724	EXPORT_SYMBOL_GPL(stmmac_suspend);
+  7725	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
