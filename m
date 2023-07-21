@@ -1,43 +1,42 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB88727F00
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 16:54:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F2727F00
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 16:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689958477; x=1721494477;
+  t=1689958480; x=1721494480;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QwYkirRqyulDDsuZgVq+jYN9Y7th/GwQ9+3cS4WnyKQ=;
-  b=ZDpsw3aJmvg//qHZAh2DWz1L4/gH1yaubG5BNHm8Qx0m/suibazwjOns
-   fO0RQjnTR+6YyYacQi9bP/5vRQdgp9yIr+nrl35KbruTLTqTA4gneK9Bb
-   ja427EEGfTaYH0lUrw9KCjEvrxw2SXIDxKQK7AqDtnAIHsALlvTFu1d47
-   gjxActWGGREFCMAiHO54M4DiR3oRYHb79h3jdhgu62BgAJx3hx/RMlzZC
-   hxBl+A7Yin23T7z0sxa6Z2BuYnef2fGE6XxFCjNH7CDPsIfv2n7xKR/bh
-   YBYqM5tTY1IPvAMPeQxA+GpAnmyyO244h9k0JefZ2fG2EGa66WeB8t401
+  bh=ulc+EXTSVMlJaRetSduXGKAUlW3KBcgPrGgFbOk6BSg=;
+  b=FD+R21IO96oEuADL82GO397HAJ/t+8MPvsCGzZrEzGPaUSvC+pokYiEf
+   UKVQ83Vkbwwk3W5m8vblCh4STAb02/5ynaBED22AnRymY9Os6JQrQpoho
+   tO9p9MSon13tKP8kGMae3wxiieoyWMVA+YKKyIAzf0woUFzCfJ25IG4Yp
+   0U6pKyAlCCamL1IZeSy7nhz6Wa9RZROQxwQz7RRt194/zdHe4VmtNMwe1
+   V3LhKUG/iIyTvkL+lAhkoYfBTAqNJkAzZdmF/ME10uwym6jiS3Kq6C8pb
+   g+ApIIMxEV8fM61BA51KzJDOJHT6k0PqNoEf1Uf1oFBrxgHplqureynRK
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="347359172"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="347359170"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="347359172"
+   d="scan'208";a="347359170"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 09:54:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="795020302"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="795020301"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="795020302"
+   d="scan'208";a="795020301"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
   by fmsmga004.fm.intel.com with ESMTP; 21 Jul 2023 09:54:35 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMtOk-0007T4-2o;
+	id 1qMtOk-0007T1-2k;
 	Fri, 21 Jul 2023 16:54:34 +0000
-Date: Sat, 22 Jul 2023 00:54:11 +0800
+Date: Sat, 22 Jul 2023 00:54:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 19890/23458]
- include/linux/jump_label.h:550:49: error: implicit declaration of function
- 'static_key_enable'; did you mean 'static_key_enabled'?
-Message-ID: <202307220034.KMCpHKUi-lkp@intel.com>
+Subject: [l1k:doe 3/11] crypto/ecdsa.c:162:18: error: no member named
+ 'encoding' in 'struct akcipher_request'
+Message-ID: <202307220026.iT7elEi8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,167 +46,153 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   c2591e463d937595aebfd99397a2a13de0624af1
-commit: ae4ca7a09bb6715a0f3533fa6e499ce40b5d7ac1 [19890/23458] ANDROID: fips140: allow building without LTO
-config: arm64-randconfig-m041-20230721 (https://download.01.org/0day-ci/archive/20230722/202307220034.KMCpHKUi-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220034.KMCpHKUi-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux doe
+head:   96a0cfd9d2e825f7d0e1c537a000bdb500a57884
+commit: 2cd97b5433685c1115bd618dd054d7413f838ed0 [3/11] crypto: ecdsa - Support P1363 signature encoding
+config: s390-randconfig-r015-20230720 (https://download.01.org/0day-ci/archive/20230722/202307220026.iT7elEi8-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220026.iT7elEi8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307220034.KMCpHKUi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307220026.iT7elEi8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/cpufeature.h:20,
-                    from arch/arm64/include/asm/hwcap.h:9,
-                    from arch/arm64/include/asm/arch_timer.h:12,
-                    from arch/arm64/include/asm/timex.h:8,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from crypto/fips140-module.c:26:
-   crypto/internal.h: In function 'set_crypto_boot_test_finished':
->> include/linux/jump_label.h:550:49: error: implicit declaration of function 'static_key_enable'; did you mean 'static_key_enabled'? [-Werror=implicit-function-declaration]
-     550 | #define static_branch_enable(x)                 static_key_enable(&(x)->key)
-         |                                                 ^~~~~~~~~~~~~~~~~
-   crypto/internal.h:66:9: note: in expansion of macro 'static_branch_enable'
-      66 |         static_branch_enable(&__crypto_boot_test_finished);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   crypto/fips140-module.c: In function 'update_fips140_library_routines':
->> crypto/fips140-module.c:482:15: error: implicit declaration of function 'register_trace_android_vh_sha256'; did you mean 'trace_android_vh_sha256'? [-Werror=implicit-function-declaration]
-     482 |         ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               trace_android_vh_sha256
->> crypto/fips140-module.c:483:15: error: implicit declaration of function 'register_trace_android_vh_aes_expandkey'; did you mean 'trace_android_vh_aes_expandkey'? [-Werror=implicit-function-declaration]
-     483 |               register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               trace_android_vh_aes_expandkey
->> crypto/fips140-module.c:484:15: error: implicit declaration of function 'register_trace_android_vh_aes_encrypt'; did you mean 'trace_android_vh_aes_encrypt'? [-Werror=implicit-function-declaration]
-     484 |               register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               trace_android_vh_aes_encrypt
->> crypto/fips140-module.c:485:15: error: implicit declaration of function 'register_trace_android_vh_aes_decrypt'; did you mean 'trace_android_vh_aes_decrypt'? [-Werror=implicit-function-declaration]
-     485 |               register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               trace_android_vh_aes_decrypt
-   crypto/fips140-module.c: At top level:
-   crypto/fips140-module.c:502:1: warning: 'cfi' attribute directive ignored [-Wattributes]
-     502 | {
-         | ^
-   *** WARNING *** there are active plugins, do not report this as a bug unless you can reproduce it without enabling any plugins.
-   Event                            | Plugins
-   PLUGIN_FINISH_TYPE               | randomize_layout_plugin
-   PLUGIN_FINISH_DECL               | randomize_layout_plugin
-   PLUGIN_ATTRIBUTES                | latent_entropy_plugin randomize_layout_plugin
-   PLUGIN_START_UNIT                | latent_entropy_plugin
-   PLUGIN_ALL_IPA_PASSES_START      | randomize_layout_plugin
-   crypto/fips140-module.c:561:1: internal compiler error: Segmentation fault
-     561 | module_init(fips140_init);
-         | ^~~~~~~~~~~
-   0xc261bf crash_signal
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/toplev.cc:322
-   0x79785b handle_no_sanitize_attribute
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/c-family/c-attribs.cc:1159
-   0x6b06ba decl_attributes(tree_node**, tree_node*, int, tree_node*)
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/attribs.cc:872
-   0x7969dc handle_copy_attribute
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/c-family/c-attribs.cc:2952
-   0x6b06ba decl_attributes(tree_node**, tree_node*, int, tree_node*)
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/attribs.cc:872
-   0x6c7f57 start_decl(c_declarator*, c_declspecs*, bool, tree_node*, unsigned int*)
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/c/c-decl.cc:5228
-   0x71655c c_parser_declaration_or_fndef
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/c/c-parser.cc:2307
-   0x71df33 c_parser_external_declaration
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/c/c-parser.cc:1779
-   0x71e94b c_parser_translation_unit
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/c/c-parser.cc:1652
-   0x71e94b c_parse_file()
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/c/c-parser.cc:23372
-   0x77de9d c_common_parse_file()
-   	/cephfs/tmp/build-crosstools-gcc-12.3.0-binutils-2.40/gcc/gcc-12.3.0/gcc/c-family/c-opts.cc:1240
-   Please submit a full bug report, with preprocessed source (by using -freport-bug).
-   Please include the complete backtrace with any bug report.
-   See <https://gcc.gnu.org/bugs/> for instructions.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+   In file included from crypto/ecdsa.c:12:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from crypto/ecdsa.c:12:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from crypto/ecdsa.c:12:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> crypto/ecdsa.c:162:18: error: no member named 'encoding' in 'struct akcipher_request'
+     162 |         if (strcmp(req->encoding, "x962") == 0) {
+         |                    ~~~  ^
+   crypto/ecdsa.c:167:25: error: no member named 'encoding' in 'struct akcipher_request'
+     167 |         } else if (strcmp(req->encoding, "p1363") == 0 &&
+         |                           ~~~  ^
+   12 warnings and 2 errors generated.
 
 
-vim +550 include/linux/jump_label.h
+vim +162 crypto/ecdsa.c
 
-11276d5306b8e5 Peter Zijlstra 2015-07-24  545  
-11276d5306b8e5 Peter Zijlstra 2015-07-24  546  /*
-11276d5306b8e5 Peter Zijlstra 2015-07-24  547   * Normal usage; boolean enable/disable.
-11276d5306b8e5 Peter Zijlstra 2015-07-24  548   */
-11276d5306b8e5 Peter Zijlstra 2015-07-24  549  
-11276d5306b8e5 Peter Zijlstra 2015-07-24 @550  #define static_branch_enable(x)			static_key_enable(&(x)->key)
-11276d5306b8e5 Peter Zijlstra 2015-07-24  551  #define static_branch_disable(x)		static_key_disable(&(x)->key)
-5a40527f8f0798 Marc Zyngier   2017-08-01  552  #define static_branch_enable_cpuslocked(x)	static_key_enable_cpuslocked(&(x)->key)
-5a40527f8f0798 Marc Zyngier   2017-08-01  553  #define static_branch_disable_cpuslocked(x)	static_key_disable_cpuslocked(&(x)->key)
-11276d5306b8e5 Peter Zijlstra 2015-07-24  554  
-
-:::::: The code at line 550 was first introduced by commit
-:::::: 11276d5306b8e5b438a36bbff855fe792d7eaa61 locking/static_keys: Add a new static_key interface
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   133	
+   134	/*
+   135	 * Verify an ECDSA signature.
+   136	 */
+   137	static int ecdsa_verify(struct akcipher_request *req)
+   138	{
+   139		struct crypto_akcipher *tfm = crypto_akcipher_reqtfm(req);
+   140		struct ecc_ctx *ctx = akcipher_tfm_ctx(tfm);
+   141		size_t keylen = ctx->curve->g.ndigits * sizeof(u64);
+   142		struct ecdsa_signature_ctx sig_ctx = {
+   143			.curve = ctx->curve,
+   144		};
+   145		u8 rawhash[ECC_MAX_BYTES];
+   146		u64 hash[ECC_MAX_DIGITS];
+   147		unsigned char *buffer;
+   148		ssize_t diff;
+   149		int ret;
+   150	
+   151		if (unlikely(!ctx->pub_key_set))
+   152			return -EINVAL;
+   153	
+   154		buffer = kmalloc(req->src_len + req->dst_len, GFP_KERNEL);
+   155		if (!buffer)
+   156			return -ENOMEM;
+   157	
+   158		sg_pcopy_to_buffer(req->src,
+   159			sg_nents_for_len(req->src, req->src_len + req->dst_len),
+   160			buffer, req->src_len + req->dst_len, 0);
+   161	
+ > 162		if (strcmp(req->encoding, "x962") == 0) {
+   163			ret = asn1_ber_decoder(&ecdsasignature_decoder, &sig_ctx,
+   164					       buffer, req->src_len);
+   165			if (ret < 0)
+   166				goto error;
+   167		} else if (strcmp(req->encoding, "p1363") == 0 &&
+   168			   req->src_len == 2 * keylen) {
+   169			ecc_swap_digits(buffer, sig_ctx.r, ctx->curve->g.ndigits);
+   170			ecc_swap_digits(buffer + keylen,
+   171						sig_ctx.s, ctx->curve->g.ndigits);
+   172		} else {
+   173			ret = -EINVAL;
+   174			goto error;
+   175		}
+   176	
+   177		/* if the hash is shorter then we will add leading zeros to fit to ndigits */
+   178		diff = keylen - req->dst_len;
+   179		if (diff >= 0) {
+   180			if (diff)
+   181				memset(rawhash, 0, diff);
+   182			memcpy(&rawhash[diff], buffer + req->src_len, req->dst_len);
+   183		} else if (diff < 0) {
+   184			/* given hash is longer, we take the left-most bytes */
+   185			memcpy(&rawhash, buffer + req->src_len, keylen);
+   186		}
+   187	
+   188		ecc_swap_digits((u64 *)rawhash, hash, ctx->curve->g.ndigits);
+   189	
+   190		ret = _ecdsa_verify(ctx, hash, sig_ctx.r, sig_ctx.s);
+   191	
+   192	error:
+   193		kfree(buffer);
+   194	
+   195		return ret;
+   196	}
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
