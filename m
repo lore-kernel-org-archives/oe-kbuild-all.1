@@ -1,144 +1,78 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FEC1ED44
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 23:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689981337; x=1721517337;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hbGF2N14W1Y8K9NgRN0jqsTdkTp75B7W9ZI/RXWPG3w=;
-  b=nUqt8DVjpjalNK+mjVYUpK37icTr95SWWGEp0ZB/4lJEXbVljl9IizDh
-   Sz2QokPfNU6QF8dfyaW6bypjNYmvH2+37PLgUsEXvzRv5uLF7EfsHJxtO
-   m5kFDQ2I9rbSrd3sRkiRIwQyggh3HBbnQPH+TnD8pY2vL14cOeNAm9f2K
-   n99pfVC50uHINZLVr8CirVaA/V4zt1qlWyyqqSlb1fhRpwhHg194vSiy8
-   yAZn5HoeXJC5YX3Uk4niDDVM+aktUByJ56yl7J/IGY+BVoQkxLLyD2Oxp
-   s4/62tA/9vh6C/6rDoXQTUkPfOW4Z/3DmJAHe7IntKRn7LP+mkYuuWEpQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="346737638"
-X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="346737638"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 16:15:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="754654503"
-X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="754654503"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 21 Jul 2023 16:15:29 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qMzLM-0007kK-1O;
-	Fri, 21 Jul 2023 23:15:28 +0000
-Date: Sat, 22 Jul 2023 07:15:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kathiravan T <quic_kathirav@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Elliot Berman <quic_eberman@quicinc.com>,
-	Mukesh Ojha <quic_mojha@quicinc.com>, Kalle Valo <kvalo@kernel.org>,
-	Loic Poulain <loic.poulain@linaro.org>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_srichara@quicinc.com,
-	quic_sjaganat@quicinc.com, quic_anusha@quicinc.com,
-	quic_saahtoma@quicinc.com,
-	Poovendhan Selvaraj <quic_poovendh@quicinc.com>,
-	Kathiravan T <quic_kathirav@quicinc.com>
-Subject: Re: [PATCH V5 3/3] firmware: scm: Modify only the download bits in
- TCSR register
-Message-ID: <202307220736.M9yPz2Cs-lkp@intel.com>
-References: <20230720070408.1093698-4-quic_kathirav@quicinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F09EAF1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 23:38:43 +0000 (UTC)
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-c361777c7f7so6101798276.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 16:38:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689982722; x=1690587522;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7oI2k+n70r09++ymnvAIa7Gl6vaz4ByDtPCwimW7Q90=;
+        b=7d2WPgTOR161B95SSw69r7f+ijCvihtTNkLyDXwhknhcNvG4wFvEktHMAq7jt4OHEm
+         a3e/VqagtHMG34iCPhuDyLhcuLMUwQ+ifw2gjSQjnhogyjHu/FI+nODzi2OoomWJhu2A
+         9jsM16yblubZxqV5CF/Eis8Njtr+hy0EjuT8w7svSYzu6q8wePkRu0h9rMQf26EwIin6
+         1Te2vN0ulcLxjqFjlngUBmIFjM2PkO9fZTXmDZtnkmCBsgdN2fMEsSy/UGtd5VVDVTAK
+         m49iaey4dLHD8rUeVTsLKM4flB0RDLAiEdM9DfKUUReLU7MXwIlMoBmaxf8XkCAebF5P
+         xL2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689982722; x=1690587522;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7oI2k+n70r09++ymnvAIa7Gl6vaz4ByDtPCwimW7Q90=;
+        b=Q9dGP6kisDPkmcuPFJlQjYr7ltH6CA9KbXbxq9Ct7G6F2ywSTlcVSNjkz+Gm5osyLp
+         kaZhXA/ODBCXVZrQQBHQbkYFTxNEq2FOTEUQgIIv21BHGSfFejsQfkaFqmIrayEomp6t
+         vUff5A/26QtxXlh/1JEVHSO6/+AzkYKvZVKulhZ8x2USsGbdoN1F2b4Z4nKvCgNpmCYQ
+         Gdlofv/RzYPJ5Ei3SJMSWdtH3hkrDmASLPEyGxzR58FEQeelyglP0HYD2bW8yWpXE7Rv
+         Vg/p/r66WnHjdQHGR9X1+r7em7AHmIttLgDZEjho1tmeWur2MEQponilhCRzz5zietYJ
+         EBpg==
+X-Gm-Message-State: ABy/qLYDy1fUFA+9fLeM9uyIHoxaEODOmoeORydKqqjNzxFnlMRrA6aG
+	HkGwfIVfi1aaRkrC/HhmLw9gb9k/eNE=
+X-Google-Smtp-Source: APBJJlFDs5FHNs5v+9qnY6bXeicf3eDutpz6ueu60Qhp8gCv6VpW/IJ7YNk3G+Pic8BM3apO9vN7wvtGcoA=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:c9c3:0:b0:d00:f564:509b with SMTP id
+ z186-20020a25c9c3000000b00d00f564509bmr36019ybf.1.1689982722574; Fri, 21 Jul
+ 2023 16:38:42 -0700 (PDT)
+Date: Fri, 21 Jul 2023 16:38:41 -0700
+In-Reply-To: <202307211945.TSPcyOhh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230720070408.1093698-4-quic_kathirav@quicinc.com>
+Mime-Version: 1.0
+References: <202307211945.TSPcyOhh-lkp@intel.com>
+Message-ID: <ZLsXAdjFuKLpd3ig@google.com>
+Subject: Re: arch/powerpc/kvm/e500mc.c:95:15: error: invalid instruction
+From: Sean Christopherson <seanjc@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Kathiravan,
+On Fri, Jul 21, 2023, kernel test robot wrote:
+> Hi Sean,
+> 
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   f7e3a1bafdea735050dfde00523cf505dc7fd309
+> commit: e83ca8cfa286c9fc78b585b0e66df7f542bcbcf2 KVM: PPC: booke: Mark three local functions "static"
+> date:   4 months ago
+> config: powerpc-randconfig-r001-20230721 (https://download.01.org/0day-ci/archive/20230721/202307211945.TSPcyOhh-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce: (https://download.01.org/0day-ci/archive/20230721/202307211945.TSPcyOhh-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307211945.TSPcyOhh-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> arch/powerpc/kvm/e500mc.c:95:15: error: invalid instruction
+>       95 |         asm volatile("tlbilxlpid");
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next linus/master v6.5-rc2 next-20230721]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kathiravan-T/firmware-qcom_scm-provide-a-read-modify-write-function/20230720-150657
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20230720070408.1093698-4-quic_kathirav%40quicinc.com
-patch subject: [PATCH V5 3/3] firmware: scm: Modify only the download bits in TCSR register
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230722/202307220736.M9yPz2Cs-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220736.M9yPz2Cs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307220736.M9yPz2Cs-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/firmware/qcom_scm.c: In function 'qcom_scm_set_download_mode':
->> drivers/firmware/qcom_scm.c:459:48: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     459 |                                                FIELD_PREP(QCOM_DOWNLOAD_MODE_MASK, val));
-         |                                                ^~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SM_GCC_8350
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8450
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8550
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-
-
-vim +/FIELD_PREP +459 drivers/firmware/qcom_scm.c
-
-   443	
-   444	static void qcom_scm_set_download_mode(bool enable)
-   445	{
-   446		bool avail;
-   447		int val;
-   448		int ret = 0;
-   449	
-   450		avail = __qcom_scm_is_call_available(__scm->dev,
-   451						     QCOM_SCM_SVC_BOOT,
-   452						     QCOM_SCM_BOOT_SET_DLOAD_MODE);
-   453		if (avail) {
-   454			ret = __qcom_scm_set_dload_mode(__scm->dev, enable);
-   455		} else if (__scm->dload_mode_addr) {
-   456			val = enable ? QCOM_DOWNLOAD_FULLDUMP : QCOM_DOWNLOAD_NODUMP;
-   457			ret = qcom_scm_io_update_field(__scm->dload_mode_addr,
-   458						       QCOM_DOWNLOAD_MODE_MASK,
- > 459						       FIELD_PREP(QCOM_DOWNLOAD_MODE_MASK, val));
-   460		} else {
-   461			dev_err(__scm->dev,
-   462				"No available mechanism for setting download mode\n");
-   463		}
-   464	
-   465		if (ret)
-   466			dev_err(__scm->dev, "failed to set download mode: %d\n", ret);
-   467	}
-   468	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I assume this is a binutils bug?  I ran into a similar problem on PPC a while
+back where I couldn't cross-compile even relatively basic PPC code.
