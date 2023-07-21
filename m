@@ -1,43 +1,47 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D231D1F199
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 17:56:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D368327F00;
+	Fri, 21 Jul 2023 18:07:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689962219; x=1721498219;
+  t=1689962839; x=1721498839;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WdcaXiwT8cyjUJyc9Mz8k5tgbDvi106D4BbqF1D157s=;
-  b=EKqgW1vwMfYu/bZwNbtmKe1M8uHN77B/k0uAZxqRz/mgQJqee5GbshnC
-   9D19lQbSm4jmZqPDyJXTrlhdqczbfwnhfmZcko4xt0NggzsG/7GwNwJuD
-   gpwiUAbAHI7FVThHhKzbpV4aH40Ljo6dnmRkwVwnzzDh4jONgtMOAZSuF
-   M7ZCgKdqndGqGp7j5dG7blDPZLHkIfKfh/Q0h2KE6SsmufCbjVLnV0G0Z
-   S/GsobJ7pmj/uG9P8Y2e9DkW43/AnzXT7clE3uSeKvbfJcmr0Qmub5cd1
-   CdaO9H6wJFCxWAKj3+dNc7iw+ylotBoNDHHFTRunJDkkJZf2yGIhBMVvV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="346685711"
+  bh=qPkjEnLyyo1zjcfe5ik3baUNOb9UtXmslVsWPY4/zKg=;
+  b=Z2oCKEVJQl6Uk2emfhIjsRhI7bPTzdfDcmS+07FhypVcbCQhvpKIIn0p
+   X4mGHq8UWAh94Ln2BuhRFliy4gDydhnzr8ORRupuJZUKCKUEhY6+aFd8B
+   2z5DdX/UMdHYxGSPm8ftk/ZMrqQMs1OBMaM7bXwDpfe4J1IvLcOtOxOhQ
+   fuCayW/sYGdbHK3jbW8zxikB1Y3MzCNAaN8f7h5LIjgzpe7jYfjQjF98e
+   xd64TEubZ3Q0zyXm7YRlWZQ+IQMG1TSQy+/rVNAqvezharT3Tn6nR80sO
+   cxK0gflo0yjFTdixeouHFNNsi7ShLUGnPMKiGgbXiRLuhJaK8liL/ERcH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="357078802"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="346685711"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 10:56:58 -0700
+   d="scan'208";a="357078802"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 11:07:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="790273373"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="848902555"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="790273373"
+   d="scan'208";a="848902555"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Jul 2023 10:56:57 -0700
+  by orsmga004.jf.intel.com with ESMTP; 21 Jul 2023 11:07:16 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMuN4-0007VZ-20;
-	Fri, 21 Jul 2023 17:56:55 +0000
-Date: Sat, 22 Jul 2023 01:56:10 +0800
+	id 1qMuX5-0007W3-34;
+	Fri, 21 Jul 2023 18:07:15 +0000
+Date: Sat, 22 Jul 2023 02:06:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:folio-flags 8/19] include/linux/page-flags.h:702:9:
- error: call to undeclared function 'clear_bit_unlock_is_negative_byte'; ISO
- C99 and later do not support implicit function declarations
-Message-ID: <202307220119.Ua1v1YuV-lkp@intel.com>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Kees Cook <keescook@chromium.org>
+Subject: [tip:x86/shstk 36/42] Cannot find symbol for section 10:
+ .text.arch_proc_pid_thread_features.
+Message-ID: <202307220111.5MVJk5cq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,145 +51,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/willy/pagecache folio-flags
-head:   9ad8623abd535600efa80248e7f89f7627e4ce29
-commit: e7505fb32cfea001bace22f189b6a4c391383cc2 [8/19] mm: Add folio_clear_has_waiters()
-config: mips-cavium_octeon_defconfig (https://download.01.org/0day-ci/archive/20230722/202307220119.Ua1v1YuV-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220119.Ua1v1YuV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/shstk
+head:   c19a153cc0b172c8e1869d6dee52f6aadd73d3c4
+commit: d21da223567ebdcd7c3ba53e77eddcf95082d218 [36/42] x86: Expose thread features in /proc/$PID/status
+config: mips-randconfig-r002-20230720 (https://download.01.org/0day-ci/archive/20230722/202307220111.5MVJk5cq-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220111.5MVJk5cq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307220119.Ua1v1YuV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307220111.5MVJk5cq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/mips/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:13:
-   In file included from include/linux/list_lru.h:14:
-   In file included from include/linux/xarray.h:15:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:23:
->> include/linux/page-flags.h:702:9: error: call to undeclared function 'clear_bit_unlock_is_negative_byte'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     702 |         return clear_bit_unlock_is_negative_byte(flag, folio_flags(folio, 0));
-         |                ^
-   In file included from arch/mips/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      97 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/mips/include/uapi/asm/signal.h:20:2: note: array 'sig' declared here
-      20 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/mips/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      97 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/mips/include/uapi/asm/signal.h:20:2: note: array 'sig' declared here
-      20 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/mips/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/mips/include/uapi/asm/signal.h:20:2: note: array 'sig' declared here
-      20 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/mips/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/mips/include/uapi/asm/signal.h:20:2: note: array 'sig' declared here
-      20 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/mips/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/mips/include/uapi/asm/signal.h:20:2: note: array 'sig' declared here
-      20 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/mips/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/mips/include/uapi/asm/signal.h:20:2: note: array 'sig' declared here
-      20 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/mips/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:156:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     156 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:137:8: note: expanded from macro '_SIG_SET_BINOP'
-     137 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                      ^      ~
-   arch/mips/include/uapi/asm/signal.h:20:2: note: array 'sig' declared here
-      20 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/mips/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:156:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     156 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:137:24: note: expanded from macro '_SIG_SET_BINOP'
-     137 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-
-
-vim +/clear_bit_unlock_is_negative_byte +702 include/linux/page-flags.h
-
-   692	
-   693	/**
-   694	 * folio_clear_has_waiters - Clear a flag that can be waited upon
-   695	 * @folio: The folio.
-   696	 * @flag: The flag to clear
-   697	 *
-   698	 */
-   699	static inline
-   700	bool folio_clear_has_waiters(struct folio *folio, unsigned int flag)
-   701	{
- > 702		return clear_bit_unlock_is_negative_byte(flag, folio_flags(folio, 0));
-   703	}
-   704	
+>> Cannot find symbol for section 10: .text.arch_proc_pid_thread_features.
+   fs/proc/array.o: failed
 
 -- 
 0-DAY CI Kernel Test Service
