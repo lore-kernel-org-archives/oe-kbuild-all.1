@@ -1,139 +1,102 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA3310F3;
-	Fri, 21 Jul 2023 05:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689918248; x=1721454248;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Jg5yy++fce0mUJ6LU5bI9B/pMq+29/OVacRUkDiLINc=;
-  b=f2YafZn4s0eqZNoYo0xSohWFJjqpaGE23X0a6Z0vj2bX2jlk6yBEj4z5
-   jdufSj1gUMw9nojQ3cSgbd7Lh6Du0dcOct4DzFsA3LKUSZdewOi3ajH6x
-   q1nC8Rm7uUARlgsdXT9I6YWnUB2FRfKzEAWM9+mnS1ben6N+okURHMs3L
-   TQAO5Gp68EPPA0fy9KNVmzmCNGpoWxb9lqpXqAf5kI6UIyP8xrHXboCA+
-   psYvImJMQK3vBPYrYSxFgCnCsJcX9EGLtEO20R68f5GFtSQVS98XN5t5y
-   PEtEwneG4CRcCP7KwtS3ONcGE2EqypxrkgTIVZsEtRkjU7zCJQLbfNy8Y
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="347245363"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="347245363"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2023 22:44:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="898593070"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; 
-   d="scan'208";a="898593070"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 20 Jul 2023 22:43:58 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qMivl-0006vZ-30;
-	Fri, 21 Jul 2023 05:43:57 +0000
-Date: Fri, 21 Jul 2023 13:43:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alex Sierra <alex.sierra@amd.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrei Vagin <avagin@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Cyrill Gorcunov <gorcunov@gmail.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Danylo Mocherniuk <mdanylo@google.com>,
-	David Hildenbrand <david@redhat.com>, Greg KH <greg@kroah.com>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
-	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Paul Gofman <pgofman@codeweavers.com>, Peter Xu <peterx@redhat.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Yang Shi <shy828301@gmail.com>,
-	Yun Zhou <yun.zhou@windriver.com>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: Re: fs/proc/task_mmu: Implement IOCTL for efficient page table
- scanning
-Message-ID: <202307211337.5dwCMeHb-lkp@intel.com>
-References: <a0b5c6776b2ed91f78a7575649f8b100e58bd3a9.1689881078.git.mirq-linux@rere.qmqm.pl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD0480E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 05:48:07 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3172144c084so1291478f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Jul 2023 22:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689918485; x=1690523285;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FCeTB4WM/pt8WD+mQ9GMGSXARlfwN0bp+sUlEfBZ9K4=;
+        b=biujymmCVqezxC27EiBBzYXIN5oU95W6+D1hcOAhHmhO0cf6u6gYJxdopCzzIty4k+
+         CySOJBUc94S18RLgTxNhVO6OoHm/+lguSRl/aD4hRIjl7Xrig2RB4BSd2Pjah8UNvVqM
+         iAI6x/EX6RmozBEPGHoELvPRpyWYyju8nHPqRvyiN53wjpKjKWTU+y0lcYa7a0WyDQ8Y
+         5kHU16JhzWAXe1mjg1/aExF9mQu/RtUBNC7QZPPyxVxDoWZmrlPlIGs22CnFWhi14piz
+         jlaB5+XMuyNXVewyWz0NevQFI9EiqKSMd3BF2LkBp1dim0FzPIgasfxOoQrVnYdUJE/g
+         2FYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689918485; x=1690523285;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FCeTB4WM/pt8WD+mQ9GMGSXARlfwN0bp+sUlEfBZ9K4=;
+        b=L5xicVs6S3tkgJg/kNlC8j+bWy4wl9ZNiNunXKh8iNFbw32qtmpJBVfQMN9CjqViLT
+         dNRcNZl3EdOiTqVbRGfuVHwycBR1Iq3fXM8OipMDbdHLXSuPf6EKL/3To/Mm9ElkEIop
+         ZbXCc6fRIvB0cDDKWIIu/t2QBafQdP/OFYSFqTPzddIdsDTO+Qd1RMh65s0QA4oYjxL/
+         Dex2nGwT9NUYMcgvLFI34ayuEBvkH2OPVFkXz7/JY+NVuw2Oti3Ot0gYmmq6kTbNrL4I
+         dJ3S+9PNrIgBtPoU75qG2n3+fREcoMBh61iDakuCTgz1Ev5rCtePKhyc4PFCC2zdecCN
+         iZaA==
+X-Gm-Message-State: ABy/qLbTotupzZLcK/epw+0v01i9xXNvndMbO+pDHFV1kPT5bwACWiPN
+	9XHPigzAKKCV0LBJU34pyt21dA==
+X-Google-Smtp-Source: APBJJlFWfZwIjZU6Q8aKC0H94OzMfm0NaC9oWbBE3+J65qfgvBGAiHVG/P6KFMfEoiscM41eOkf2hA==
+X-Received: by 2002:adf:eb4e:0:b0:313:f5f8:b6d2 with SMTP id u14-20020adfeb4e000000b00313f5f8b6d2mr578491wrn.48.1689918485587;
+        Thu, 20 Jul 2023 22:48:05 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id u1-20020adfdb81000000b0030e5bd253aasm3174633wri.39.2023.07.20.22.48.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 22:48:03 -0700 (PDT)
+Date: Fri, 21 Jul 2023 08:48:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+Subject: drivers/block/drbd/drbd_worker.c:588 make_resync_request() warn:
+ variable dereferenced before check 'peer_device' (see line 587)
+Message-ID: <73062d38-1008-4593-9d1a-ac673b99ae05@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a0b5c6776b2ed91f78a7575649f8b100e58bd3a9.1689881078.git.mirq-linux@rere.qmqm.pl>
 
-Hi Micha≈Ç,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.5-rc2 next-20230720]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Miros-aw/Re-fs-proc-task_mmu-Implement-IOCTL-for-efficient-page-table-scanning/20230721-033050
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/a0b5c6776b2ed91f78a7575649f8b100e58bd3a9.1689881078.git.mirq-linux%40rere.qmqm.pl
-patch subject: Re: fs/proc/task_mmu: Implement IOCTL for efficient page table scanning
-config: i386-randconfig-r022-20230720 (https://download.01.org/0day-ci/archive/20230721/202307211337.5dwCMeHb-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230721/202307211337.5dwCMeHb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   46670259519f4ee4ab378dc014798aabe77c5057
+commit: 0d11f3cf279c5ad20a41f29242f170ba3c02f2da drbd: Pass a peer device to the resync and online verify functions
+config: parisc-randconfig-m041-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210201.NF8Ro2N0-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210201.NF8Ro2N0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307211337.5dwCMeHb-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307210201.NF8Ro2N0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/block/drbd/drbd_worker.c:588 make_resync_request() warn: variable dereferenced before check 'peer_device' (see line 587)
 
->> fs/proc/task_mmu.c:1921:6: error: call to undeclared function 'userfaultfd_wp_async'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           if (userfaultfd_wp_async(vma) && userfaultfd_wp_use_markers(vma))
-               ^
->> fs/proc/task_mmu.c:2200:12: error: call to undeclared function 'uffd_wp_range'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           int err = uffd_wp_range(vma, addr, end - addr, true);
-                     ^
-   2 errors generated.
+vim +/peer_device +588 drivers/block/drbd/drbd_worker.c
 
+0d11f3cf279c5a Christoph Bˆhmwalder 2023-03-30  585  static int make_resync_request(struct drbd_peer_device *const peer_device, int cancel)
+b411b3637fa71f Philipp Reisner      2009-09-25  586  {
+0d11f3cf279c5a Christoph Bˆhmwalder 2023-03-30 @587  	struct drbd_device *const device = peer_device->device;
+                                                                                           ^^^^^^^^^^^^^
+Unchecked dereference
 
-vim +/userfaultfd_wp_async +1921 fs/proc/task_mmu.c
+44a4d551846b8c Lars Ellenberg       2013-11-22 @588  	struct drbd_connection *const connection = peer_device ? peer_device->connection : NULL;
+                                                                                                   ^^^^^^^^^^^
+This check is too late
 
-  1913	
-  1914	static int pagemap_scan_test_walk(unsigned long start, unsigned long end,
-  1915					  struct mm_walk *walk)
-  1916	{
-  1917		struct pagemap_scan_private *p = walk->private;
-  1918		struct vm_area_struct *vma = walk->vma;
-  1919		unsigned long vma_category = 0;
-  1920	
-> 1921		if (userfaultfd_wp_async(vma) && userfaultfd_wp_use_markers(vma))
-  1922			vma_category |= PAGE_IS_WPASYNC;
-  1923		else if (p->arg.flags & PM_SCAN_CHECK_WPASYNC)
-  1924			return -EPERM;
-  1925	
-  1926		if (vma->vm_flags & VM_PFNMAP)
-  1927			return 1;
-  1928	
-  1929		if (!pagemap_scan_is_interesting_vma(vma_category, p))
-  1930			return 1;
-  1931	
-  1932		p->cur_vma_category = vma_category;
-  1933		return 0;
-  1934	}
-  1935	
+b411b3637fa71f Philipp Reisner      2009-09-25  589  	unsigned long bit;
+b411b3637fa71f Philipp Reisner      2009-09-25  590  	sector_t sector;
+155bd9d1abd604 Christoph Hellwig    2020-09-25  591  	const sector_t capacity = get_capacity(device->vdisk);
+1816a2b47afae8 Lars Ellenberg       2010-11-11  592  	int max_bio_size;
+e65f440d474d7d Lars Ellenberg       2010-11-05  593  	int number, rollback_i, size;
+506afb6248af57 Lars Ellenberg       2014-01-31  594  	int align, requeue = 0;
+0f0601f4ea2f53 Lars Ellenberg       2010-08-11  595  	int i = 0;
+92d94ae66aebda Philipp Reisner      2016-06-14  596  	int discard_granularity = 0;
+b411b3637fa71f Philipp Reisner      2009-09-25  597  
+b411b3637fa71f Philipp Reisner      2009-09-25  598  	if (unlikely(cancel))
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
