@@ -1,45 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B457C20F83
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 18:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F921FB50
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Jul 2023 18:17:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689962841; x=1721498841;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ftzKxyeE1YgehaHuy61AcU/z7PNQcwtQedEeNHLH3Ds=;
-  b=QCGo52uH9jLOrCG4YMTDGZzoRH5gEzfpIOwNnUFu+SRsrMQ0HpJYq5K5
-   hDbOkUJmlQrfYL12NbYMr9STjQAwi526O8Y8leHbTaW24HfiKXN9mvZny
-   HBPAammIlCtu5jkIqu/QEYRQlau5IN1VFmA1t9A2uOiptsfXjrdKcVuKi
-   mKzoglxJ4ingP5Cl9ATqxbElr5b2vVbpOoRz4UC97j1NXDx3QpH4yg0Or
-   uKKVX59FAeagaSOXo4rILUk45IILA7TXn3EMQxW6a8db91oyqk7Lfw9Kz
-   D0n4pN5iRJXnVn1roBR+h0Uuho5aGilZ8UWGP2pQfkDqglbUYROyer5Ct
+  t=1689963460; x=1721499460;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WBZI4Xuc7dfxaVVp6yKu7UXidXezJkmM8XpeeYsjEg4=;
+  b=ikOQ623nV2TFuFyZHyiwqDP74tgREzDFG0FMGyvX44uisLSUrYNTYb34
+   M12a3HkLintNy8jdSXxoSZVBgYsxZf3MauLkFDsqCQIkFfWRZhLpfqJQA
+   ECqD5dXI6PIaLxh2m/kfRHt1hqsaYBg6OVUednqoxECf1+YlRY8Yzyh6Z
+   0Hmwk6bziiyFGf1K7y4yV9WCpAQwErV8hKPQHgTIR1OopPDof2fkAMTxt
+   iGdfGDMyTtliJ346tOFLfH9Vy3Mzrnaaar03eVD9km3i9f1YDSquVLJWN
+   3kv41tmbGSz1PjYxeEaozEipt8MTnr5eriyI0uw/NfOkBjjwHRSZFo9OI
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="357078810"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="364548536"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="357078810"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 11:07:19 -0700
+   d="scan'208";a="364548536"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 11:17:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="848902542"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="795043612"
 X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; 
-   d="scan'208";a="848902542"
+   d="scan'208";a="795043612"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 21 Jul 2023 11:07:17 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 21 Jul 2023 11:17:38 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qMuX5-0007W1-2o;
-	Fri, 21 Jul 2023 18:07:15 +0000
-Date: Sat, 22 Jul 2023 02:06:45 +0800
+	id 1qMuh7-0007Wj-1r;
+	Fri, 21 Jul 2023 18:17:37 +0000
+Date: Sat, 22 Jul 2023 02:16:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Erik Kurzinger <ekurzinger@nvidia.com>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, James Jones <jajones@nvidia.com>,
-	Austin Shafer <ashafer@nvidia.com>
-Subject: Re: [PATCH v2] drm/syncobj: add
- DRM_IOCTL_SYNCOBJ_IMPORT/EXPORT_SYNC_FILE
-Message-ID: <202307220102.hq8N9hIr-lkp@intel.com>
-References: <a09e38a6-5ac3-75c1-eadd-38a265e0ae33@nvidia.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [l1k:doe 3/11] crypto/ecdsa.c:162:23: error: 'struct
+ akcipher_request' has no member named 'encoding'
+Message-ID: <202307220243.iaX2Axu9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,81 +45,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a09e38a6-5ac3-75c1-eadd-38a265e0ae33@nvidia.com>
 
-Hi Erik,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-tip/drm-tip next-20230721]
-[cannot apply to drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.5-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Erik-Kurzinger/drm-syncobj-add-DRM_IOCTL_SYNCOBJ_IMPORT-EXPORT_SYNC_FILE/20230722-003446
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/a09e38a6-5ac3-75c1-eadd-38a265e0ae33%40nvidia.com
-patch subject: [PATCH v2] drm/syncobj: add DRM_IOCTL_SYNCOBJ_IMPORT/EXPORT_SYNC_FILE
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230722/202307220102.hq8N9hIr-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220102.hq8N9hIr-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux doe
+head:   96a0cfd9d2e825f7d0e1c537a000bdb500a57884
+commit: 2cd97b5433685c1115bd618dd054d7413f838ed0 [3/11] crypto: ecdsa - Support P1363 signature encoding
+config: arc-randconfig-r043-20230720 (https://download.01.org/0day-ci/archive/20230722/202307220243.iaX2Axu9-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220243.iaX2Axu9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307220102.hq8N9hIr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307220243.iaX2Axu9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_syncobj.c: In function 'drm_syncobj_fd_to_handle_ioctl':
->> drivers/gpu/drm/drm_syncobj.c:922:71: error: expected ')' before numeric constant
-     922 |                                                           args->handle
-         |                                                                       ^
-         |                                                                       )
-     923 |                                                           0 /* binary */);
-         |                                                           ~            
-   drivers/gpu/drm/drm_syncobj.c:920:58: note: to match this '('
-     920 |                 return drm_syncobj_import_sync_file_fence(file_private,
-         |                                                          ^
->> drivers/gpu/drm/drm_syncobj.c:920:24: error: too few arguments to function 'drm_syncobj_import_sync_file_fence'
-     920 |                 return drm_syncobj_import_sync_file_fence(file_private,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_syncobj.c:745:12: note: declared here
-     745 | static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/ecdsa.c: In function 'ecdsa_verify':
+>> crypto/ecdsa.c:162:23: error: 'struct akcipher_request' has no member named 'encoding'
+     162 |         if (strcmp(req->encoding, "x962") == 0) {
+         |                       ^~
+   crypto/ecdsa.c:167:30: error: 'struct akcipher_request' has no member named 'encoding'
+     167 |         } else if (strcmp(req->encoding, "p1363") == 0 &&
+         |                              ^~
 
 
-vim +922 drivers/gpu/drm/drm_syncobj.c
+vim +162 crypto/ecdsa.c
 
-   902	
-   903	int
-   904	drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
-   905					   struct drm_file *file_private)
-   906	{
-   907		struct drm_syncobj_handle *args = data;
-   908	
-   909		if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
-   910			return -EOPNOTSUPP;
-   911	
-   912		if (args->pad)
-   913			return -EINVAL;
-   914	
-   915		if (args->flags != 0 &&
-   916		    args->flags != DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
-   917			return -EINVAL;
-   918	
-   919		if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
- > 920			return drm_syncobj_import_sync_file_fence(file_private,
-   921								  args->fd,
- > 922								  args->handle
-   923								  0 /* binary */);
-   924	
-   925		return drm_syncobj_fd_to_handle(file_private, args->fd,
-   926						&args->handle);
-   927	}
-   928	
+   133	
+   134	/*
+   135	 * Verify an ECDSA signature.
+   136	 */
+   137	static int ecdsa_verify(struct akcipher_request *req)
+   138	{
+   139		struct crypto_akcipher *tfm = crypto_akcipher_reqtfm(req);
+   140		struct ecc_ctx *ctx = akcipher_tfm_ctx(tfm);
+   141		size_t keylen = ctx->curve->g.ndigits * sizeof(u64);
+   142		struct ecdsa_signature_ctx sig_ctx = {
+   143			.curve = ctx->curve,
+   144		};
+   145		u8 rawhash[ECC_MAX_BYTES];
+   146		u64 hash[ECC_MAX_DIGITS];
+   147		unsigned char *buffer;
+   148		ssize_t diff;
+   149		int ret;
+   150	
+   151		if (unlikely(!ctx->pub_key_set))
+   152			return -EINVAL;
+   153	
+   154		buffer = kmalloc(req->src_len + req->dst_len, GFP_KERNEL);
+   155		if (!buffer)
+   156			return -ENOMEM;
+   157	
+   158		sg_pcopy_to_buffer(req->src,
+   159			sg_nents_for_len(req->src, req->src_len + req->dst_len),
+   160			buffer, req->src_len + req->dst_len, 0);
+   161	
+ > 162		if (strcmp(req->encoding, "x962") == 0) {
+   163			ret = asn1_ber_decoder(&ecdsasignature_decoder, &sig_ctx,
+   164					       buffer, req->src_len);
+   165			if (ret < 0)
+   166				goto error;
+   167		} else if (strcmp(req->encoding, "p1363") == 0 &&
+   168			   req->src_len == 2 * keylen) {
+   169			ecc_swap_digits(buffer, sig_ctx.r, ctx->curve->g.ndigits);
+   170			ecc_swap_digits(buffer + keylen,
+   171						sig_ctx.s, ctx->curve->g.ndigits);
+   172		} else {
+   173			ret = -EINVAL;
+   174			goto error;
+   175		}
+   176	
+   177		/* if the hash is shorter then we will add leading zeros to fit to ndigits */
+   178		diff = keylen - req->dst_len;
+   179		if (diff >= 0) {
+   180			if (diff)
+   181				memset(rawhash, 0, diff);
+   182			memcpy(&rawhash[diff], buffer + req->src_len, req->dst_len);
+   183		} else if (diff < 0) {
+   184			/* given hash is longer, we take the left-most bytes */
+   185			memcpy(&rawhash, buffer + req->src_len, keylen);
+   186		}
+   187	
+   188		ecc_swap_digits((u64 *)rawhash, hash, ctx->curve->g.ndigits);
+   189	
+   190		ret = _ecdsa_verify(ctx, hash, sig_ctx.r, sig_ctx.s);
+   191	
+   192	error:
+   193		kfree(buffer);
+   194	
+   195		return ret;
+   196	}
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
