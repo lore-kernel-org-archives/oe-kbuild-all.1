@@ -1,165 +1,112 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DB61D316
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jul 2023 14:06:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CC51D2E3;
+	Sat, 22 Jul 2023 15:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690034778; x=1721570778;
+  t=1690038560; x=1721574560;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=FWL7GsEsXsuIIlGHXCF3NbLBRp3WyWjS7z52lOLt9cM=;
-  b=OT4PZ+2jHe78K1AYSdq3Jkajh5ZApXrkn2BkG+Clx3E5NwQH/i7PqQYD
-   2ol/Ht49/6GDANF4XQAG3cCWCAT48YdT7sLwd2FsStbhUA6gIM8H3Whxq
-   h467fM90JimmHUjPiZwENSWp6QeqlBdlS7eiZiczB9BcYRE4Kuue9Anfv
-   L+4W26hKBiJ+YWHRWmEY8RoSeA+WGouOsQRUAwh7tjj6flW1VWbQv42BD
-   crjNEp6q6HG59K7FF8HTu0IPjYOHaK4TWrae9grlooE5Clz6YZ9gav357
-   uDjySsmY3iiMN2ftc2hID1r38GZkoAd2eWO0lpe4YeiD5mXh71/+g4Wku
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="367223912"
+   mime-version:in-reply-to;
+  bh=tP0c6UT1JUEzDEMg01H9+yYjfoMtWTAGuC2DlrbRxOU=;
+  b=AtFcxLwS/heBgoOeGwccjwN3iKY2e3vZVP2YtLEqTEBXWnSO8rCuLYxR
+   HteToGY6BcwxtgYiwYfOWijFHNnH+HE+yUxwiHiF64APBYfSDSYqeExQ/
+   HlkS6djSjWtslTVekLsqlfpOELyiB15JR/FKUeqqxtBUISJ01TMC+NqC6
+   c04+rH3G2Afu/J/a2Q3wvZzIFmf5pl6v09CUEK9rX2mo29777Jyrpw+wO
+   41Lhyz0xFfMY6Xe6WVpaC2Tme47I5L3uzPq5Vgnehvhupdd7e4auroPir
+   aK+8kUlKSdAw/HHn3Aodd1L06R12fDAJ4rQk5VAqBSxEMEZ0+i57Ya28U
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="357195983"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="367223912"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 07:06:17 -0700
+   d="scan'208";a="357195983"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 08:09:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="760279985"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="795301223"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="760279985"
+   d="scan'208";a="795301223"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 22 Jul 2023 07:06:10 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 22 Jul 2023 08:09:18 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNDFJ-0008M5-0z;
-	Sat, 22 Jul 2023 14:06:09 +0000
-Date: Sat, 22 Jul 2023 22:05:32 +0800
+	id 1qNEE8-0008Om-33;
+	Sat, 22 Jul 2023 15:09:13 +0000
+Date: Sat, 22 Jul 2023 23:07:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrei Vagin <avagin@gmail.com>,
-	Danylo Mocherniuk <mdanylo@google.com>,
-	Alex Sierra <alex.sierra@amd.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Cyrill Gorcunov <gorcunov@gmail.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	David Hildenbrand <david@redhat.com>, Greg KH <greg@kroah.com>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
-	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Paul Gofman <pgofman@codeweavers.com>, Peter Xu <peterx@redhat.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Yang Shi <shy828301@gmail.com>,
-	Yun Zhou <yun.zhou@windriver.com>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [v2] fs/proc/task_mmu: Implement IOCTL for efficient page table
- scanning
-Message-ID: <202307222141.3RAiL0jR-lkp@intel.com>
-References: <ZLshsAj5PbsEAHhP@qmqm.qmqm.pl>
+To: Paul Cercueil <paul@crapouillou.net>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Paul Cercueil <paul@crapouillou.net>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Conghui Chen <conghui.chen@intel.com>,
+	virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v2 21/22] i2c: virtio: Remove #ifdef guards for PM
+ related functions
+Message-ID: <202307222246.K1GYOGCB-lkp@intel.com>
+References: <20230722115310.27681-5-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZLshsAj5PbsEAHhP@qmqm.qmqm.pl>
+In-Reply-To: <20230722115310.27681-5-paul@crapouillou.net>
 
-Hi Michał,
+Hi Paul,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.5-rc2 next-20230721]
+[auto build test ERROR on wsa/i2c/for-next]
+[also build test ERROR on brgl/gpio/for-next krzk/for-next linus/master v6.5-rc2 next-20230721]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Miros-aw/fs-proc-task_mmu-Implement-IOCTL-for-efficient-page-table-scanning/20230722-082500
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/ZLshsAj5PbsEAHhP%40qmqm.qmqm.pl
-patch subject: [v2] fs/proc/task_mmu: Implement IOCTL for efficient page table scanning
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230722/202307222141.3RAiL0jR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307222141.3RAiL0jR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/i2c-au1550-Remove-ifdef-guards-for-PM-related-functions/20230722-200209
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+patch link:    https://lore.kernel.org/r/20230722115310.27681-5-paul%40crapouillou.net
+patch subject: [PATCH v2 21/22] i2c: virtio: Remove #ifdef guards for PM related functions
+config: i386-randconfig-r015-20230722 (https://download.01.org/0day-ci/archive/20230722/202307222246.K1GYOGCB-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307222246.K1GYOGCB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307222141.3RAiL0jR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307222246.K1GYOGCB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/proc/task_mmu.c: In function 'pagemap_scan_test_walk':
-   fs/proc/task_mmu.c:1921:13: error: implicit declaration of function 'userfaultfd_wp_async'; did you mean 'userfaultfd_wp'? [-Werror=implicit-function-declaration]
-    1921 |         if (userfaultfd_wp_async(vma) && userfaultfd_wp_use_markers(vma))
-         |             ^~~~~~~~~~~~~~~~~~~~
-         |             userfaultfd_wp
-   fs/proc/task_mmu.c: In function 'pagemap_scan_thp_entry':
->> fs/proc/task_mmu.c:2047:20: error: 'addr' undeclared (first use in this function)
-    2047 |         if (end != addr + HPAGE_SIZE) {
-         |                    ^~~~
-   fs/proc/task_mmu.c:2047:20: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+>> drivers/i2c/busses/i2c-virtio.c:270:3: error: field designator 'freeze' does not refer to any field in type 'struct virtio_driver'
+           .freeze                 = pm_sleep_ptr(virtio_i2c_freeze),
+            ^
+>> drivers/i2c/busses/i2c-virtio.c:271:3: error: field designator 'restore' does not refer to any field in type 'struct virtio_driver'
+           .restore                = pm_sleep_ptr(virtio_i2c_restore),
+            ^
+   2 errors generated.
 
 
-vim +/addr +2047 fs/proc/task_mmu.c
+vim +270 drivers/i2c/busses/i2c-virtio.c
 
-  2017	
-  2018	static int pagemap_scan_thp_entry(pmd_t *pmd, unsigned long start,
-  2019					  unsigned long end, struct mm_walk *walk)
-  2020	{
-  2021	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-  2022		struct pagemap_scan_private *p = walk->private;
-  2023		struct vm_area_struct *vma = walk->vma;
-  2024		unsigned long categories;
-  2025		spinlock_t *ptl;
-  2026		int ret = 0;
-  2027	
-  2028		ptl = pmd_trans_huge_lock(pmd, vma);
-  2029		if (!ptl)
-  2030			return -ENOENT;
-  2031	
-  2032		categories = p->cur_vma_category | pagemap_thp_category(*pmd);
-  2033	
-  2034		ret = pagemap_scan_output(categories, p, start, &end);
-  2035		if (start == end)
-  2036			goto out_unlock;
-  2037	
-  2038		if (~p->arg.flags & PM_SCAN_WP_MATCHING)
-  2039			goto out_unlock;
-  2040		if (~categories & PAGE_IS_WRITTEN)
-  2041			goto out_unlock;
-  2042	
-  2043		/*
-  2044		 * Break huge page into small pages if the WP operation
-  2045		 * need to be performed is on a portion of the huge page.
-  2046		 */
-> 2047		if (end != addr + HPAGE_SIZE) {
-  2048			spin_unlock(ptl);
-  2049			split_huge_pmd(vma, pmd, start);
-  2050			pagemap_scan_backout_range(p, start, end);
-  2051			return -ENOENT;
-  2052		}
-  2053	
-  2054		make_uffd_wp_pmd(vma, start, pmd);
-  2055		flush_tlb_range(vma, start, end);
-  2056	out_unlock:
-  2057		spin_unlock(ptl);
-  2058		return ret;
-  2059	#else /* !CONFIG_TRANSPARENT_HUGEPAGE */
-  2060		return -ENOENT;
-  2061	#endif
-  2062	}
-  2063	
+   260	
+   261	static struct virtio_driver virtio_i2c_driver = {
+   262		.feature_table		= features,
+   263		.feature_table_size	= ARRAY_SIZE(features),
+   264		.id_table		= id_table,
+   265		.probe			= virtio_i2c_probe,
+   266		.remove			= virtio_i2c_remove,
+   267		.driver			= {
+   268			.name	= "i2c_virtio",
+   269		},
+ > 270		.freeze			= pm_sleep_ptr(virtio_i2c_freeze),
+ > 271		.restore		= pm_sleep_ptr(virtio_i2c_restore),
+   272	};
+   273	module_virtio_driver(virtio_i2c_driver);
+   274	
 
 -- 
 0-DAY CI Kernel Test Service
