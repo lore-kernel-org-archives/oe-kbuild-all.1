@@ -1,45 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC6E63A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jul 2023 19:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813A2648
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jul 2023 19:45:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690054545; x=1721590545;
+  t=1690055157; x=1721591157;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DksMgcIi1V4HmSH5GE1kfvR/vkJxJYGuJe4ZlmifS0I=;
-  b=Qk87l7j0WEenWqmEzpOsHri0+KDo4Zw80KnCGs/khDusqZay54PTBQNo
-   0gjfDG1TQUg2rMZLphk33SoUEY8IlB7ef0MDmmHSaVZ5uAiOP1wnVdY+L
-   4iS8AmNbPoiy/H0DxL1P8714D+Ja+Tuhr9s8Jeajgn1aRK+fFtWsfXj3Q
-   dw1LsO2sHs3v9GwG4ewj0tACnKho6ffFJvIb024TRCwkKzDkHslEr8o/N
-   Vy7tYzrdotXkLeqYTZAi3/KceKp0VbkV3CeaSWdhAVV3cjb1NJ++Tz4J0
-   IsbLN4lqeNwCRL43soBwWEsfCvGml62eGPHSYUWDey/iEjJUp6fhrrG6W
+  bh=FEEgno1rH+wwvAMVipqmcS3rNOJtmEjsn6vEz8C3xvo=;
+  b=Wf1w28VfhvuhBQTUPEMiguizBXhLcrJwHis3z+gKVasOCY488Xyp+ruY
+   zuriQldvUCXo6eq+Cbr8YzXkeUUnN88eOlReHN+l3cYaEDaQn/JGD3w5U
+   Cc1PFCzUiY0k304L9seu3T1eGnr6G5ubCn+sqJqKQVzzv4thMqR206q7L
+   NyYCQ3oBZ1thO/rSHnr2Srgq8R3HlM2YB/B0ZMf2OyzRTQJr/Foaj8mw/
+   Us4C8p/+0p/0f8KDYmTa0WxorBBXX1WyRWMNrYkOMCSH7F+ST08788wdZ
+   R1Dbd3Bm/rvx27g+XvcUo68c6DYqsXNl5EEacFTXgV9zCC7k0MTYjUyO2
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="364683167"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="431019943"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="364683167"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 12:35:43 -0700
+   d="scan'208";a="431019943"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 12:45:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="790531173"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="899061591"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="790531173"
+   d="scan'208";a="899061591"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Jul 2023 12:35:41 -0700
+  by orsmga005.jf.intel.com with ESMTP; 22 Jul 2023 12:45:54 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNIOD-0008Y7-12;
-	Sat, 22 Jul 2023 19:35:41 +0000
-Date: Sun, 23 Jul 2023 03:34:43 +0800
+	id 1qNIY5-0008Yn-30;
+	Sat, 22 Jul 2023 19:45:53 +0000
+Date: Sun, 23 Jul 2023 03:45:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Greenman <gregory.greenman@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/virtio/virtio_wl.c:849:30: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202307230355.iTj3PhOr-lkp@intel.com>
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: drivers/acpi/osl.c:723:27: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202307230357.egcTAefj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,267 +49,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
-head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
-commit: e3c760a99cdc2d62cb7b69ae4fec5ce7e27df4a9 CHROMIUM: virtwl: add virtwl driver
-date:   2 years, 7 months ago
-config: x86_64-randconfig-r083-20230723 (https://download.01.org/0day-ci/archive/20230723/202307230355.iTj3PhOr-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230723/202307230355.iTj3PhOr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   295e1388de2d5c0c354adbd65d0319c5d636c222
+commit: a91a9ffbd3a55a0ae1bb75e2b6e85b2a03f64e8f RISC-V: Add support to build the ACPI core
+date:   7 weeks ago
+config: riscv-randconfig-r073-20230723 (https://download.01.org/0day-ci/archive/20230723/202307230357.egcTAefj-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230723/202307230357.egcTAefj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307230355.iTj3PhOr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307230357.egcTAefj-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/virtio/virtio_wl.c:213:21: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] id @@     got restricted __le32 [usertype] vfd_id @@
-   drivers/virtio/virtio_wl.c:213:21: sparse:     expected unsigned int [usertype] id
-   drivers/virtio/virtio_wl.c:213:21: sparse:     got restricted __le32 [usertype] vfd_id
-   drivers/virtio/virtio_wl.c:239:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] size @@     got restricted __le32 [usertype] size @@
-   drivers/virtio/virtio_wl.c:239:19: sparse:     expected unsigned int [usertype] size
-   drivers/virtio/virtio_wl.c:239:19: sparse:     got restricted __le32 [usertype] size
-   drivers/virtio/virtio_wl.c:240:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] pfn @@     got restricted __le64 [usertype] pfn @@
-   drivers/virtio/virtio_wl.c:240:18: sparse:     expected unsigned long long [usertype] pfn
-   drivers/virtio/virtio_wl.c:240:18: sparse:     got restricted __le64 [usertype] pfn
-   drivers/virtio/virtio_wl.c:241:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] flags @@     got restricted __le32 [usertype] flags @@
-   drivers/virtio/virtio_wl.c:241:20: sparse:     expected unsigned int [usertype] flags
-   drivers/virtio/virtio_wl.c:241:20: sparse:     got restricted __le32 [usertype] flags
-   drivers/virtio/virtio_wl.c:254:39: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned long id @@     got restricted __le32 [usertype] vfd_id @@
-   drivers/virtio/virtio_wl.c:254:39: sparse:     expected unsigned long id
-   drivers/virtio/virtio_wl.c:254:39: sparse:     got restricted __le32 [usertype] vfd_id
-   drivers/virtio/virtio_wl.c:288:42: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned long id @@     got restricted __le32 [usertype] vfd_id @@
-   drivers/virtio/virtio_wl.c:288:42: sparse:     expected unsigned long id
-   drivers/virtio/virtio_wl.c:288:42: sparse:     got restricted __le32 [usertype] vfd_id
-   drivers/virtio/virtio_wl.c:316:20: sparse: sparse: restricted __le32 degrades to integer
-   drivers/virtio/virtio_wl.c:316:20: sparse: sparse: restricted __le32 degrades to integer
-   drivers/virtio/virtio_wl.c:316:20: sparse: sparse: restricted __le32 degrades to integer
-   drivers/virtio/virtio_wl.c:494:24: sparse: sparse: restricted __le32 degrades to integer
-   drivers/virtio/virtio_wl.c:499:26: sparse: sparse: cast from restricted __le32
-   drivers/virtio/virtio_wl.c:501:46: sparse: sparse: restricted __le32 degrades to integer
-   drivers/virtio/virtio_wl.c:525:58: sparse: sparse: restricted __le32 degrades to integer
-   drivers/virtio/virtio_wl.c:530:32: sparse: sparse: restricted __le32 degrades to integer
-   drivers/virtio/virtio_wl.c:568:44: sparse: sparse: restricted __le32 degrades to integer
-   drivers/virtio/virtio_wl.c:574:32: sparse: sparse: restricted __le32 degrades to integer
-   drivers/virtio/virtio_wl.c:612:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
-   drivers/virtio/virtio_wl.c:612:30: sparse:     expected restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:612:30: sparse:     got int
-   drivers/virtio/virtio_wl.c:613:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] vfd_id @@     got unsigned int [usertype] id @@
-   drivers/virtio/virtio_wl.c:613:28: sparse:     expected restricted __le32 [usertype] vfd_id
-   drivers/virtio/virtio_wl.c:613:28: sparse:     got unsigned int [usertype] id
-   drivers/virtio/virtio_wl.c:834:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
-   drivers/virtio/virtio_wl.c:834:29: sparse:     expected restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:834:29: sparse:     got int
-   drivers/virtio/virtio_wl.c:848:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] vfd_id @@     got unsigned int [usertype] id @@
-   drivers/virtio/virtio_wl.c:848:27: sparse:     expected restricted __le32 [usertype] vfd_id
-   drivers/virtio/virtio_wl.c:848:27: sparse:     got unsigned int [usertype] id
->> drivers/virtio/virtio_wl.c:849:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] vfd_count @@     got unsigned long [assigned] [usertype] vfd_count @@
-   drivers/virtio/virtio_wl.c:849:30: sparse:     expected restricted __le32 [usertype] vfd_count
-   drivers/virtio/virtio_wl.c:849:30: sparse:     got unsigned long [assigned] [usertype] vfd_count
-   drivers/virtio/virtio_wl.c:867:45: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int type @@     got restricted __le32 [usertype] type @@
-   drivers/virtio/virtio_wl.c:867:45: sparse:     expected unsigned int type
-   drivers/virtio/virtio_wl.c:867:45: sparse:     got restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:897:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
-   drivers/virtio/virtio_wl.c:897:36: sparse:     expected restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:897:36: sparse:     got int
-   drivers/virtio/virtio_wl.c:898:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] vfd_id @@     got unsigned int [usertype] id @@
-   drivers/virtio/virtio_wl.c:898:34: sparse:     expected restricted __le32 [usertype] vfd_id
-   drivers/virtio/virtio_wl.c:898:34: sparse:     got unsigned int [usertype] id
-   drivers/virtio/virtio_wl.c:899:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] flags @@     got unsigned int [usertype] flags @@
-   drivers/virtio/virtio_wl.c:899:33: sparse:     expected restricted __le32 [usertype] flags
-   drivers/virtio/virtio_wl.c:899:33: sparse:     got unsigned int [usertype] flags
-   drivers/virtio/virtio_wl.c:1068:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] vfd_id @@     got unsigned int [usertype] id @@
-   drivers/virtio/virtio_wl.c:1068:26: sparse:     expected restricted __le32 [usertype] vfd_id
-   drivers/virtio/virtio_wl.c:1068:26: sparse:     got unsigned int [usertype] id
-   drivers/virtio/virtio_wl.c:1071:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
-   drivers/virtio/virtio_wl.c:1071:36: sparse:     expected restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:1071:36: sparse:     got int
-   drivers/virtio/virtio_wl.c:1072:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] flags @@     got int @@
-   drivers/virtio/virtio_wl.c:1072:33: sparse:     expected restricted __le32 [usertype] flags
-   drivers/virtio/virtio_wl.c:1072:33: sparse:     got int
-   drivers/virtio/virtio_wl.c:1075:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
-   drivers/virtio/virtio_wl.c:1075:36: sparse:     expected restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:1075:36: sparse:     got int
-   drivers/virtio/virtio_wl.c:1076:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] flags @@     got int @@
-   drivers/virtio/virtio_wl.c:1076:33: sparse:     expected restricted __le32 [usertype] flags
-   drivers/virtio/virtio_wl.c:1076:33: sparse:     got int
-   drivers/virtio/virtio_wl.c:1080:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
-   drivers/virtio/virtio_wl.c:1080:36: sparse:     expected restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:1080:36: sparse:     got int
-   drivers/virtio/virtio_wl.c:1081:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] size @@     got unsigned int @@
-   drivers/virtio/virtio_wl.c:1081:32: sparse:     expected restricted __le32 [usertype] size
-   drivers/virtio/virtio_wl.c:1081:32: sparse:     got unsigned int
-   drivers/virtio/virtio_wl.c:1084:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
-   drivers/virtio/virtio_wl.c:1084:36: sparse:     expected restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:1084:36: sparse:     got int
-   drivers/virtio/virtio_wl.c:1085:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] flags @@     got int @@
-   drivers/virtio/virtio_wl.c:1085:33: sparse:     expected restricted __le32 [usertype] flags
-   drivers/virtio/virtio_wl.c:1085:33: sparse:     got int
-   drivers/virtio/virtio_wl.c:1088:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
-   drivers/virtio/virtio_wl.c:1088:36: sparse:     expected restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:1088:36: sparse:     got int
-   drivers/virtio/virtio_wl.c:1089:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] flags @@     got int @@
-   drivers/virtio/virtio_wl.c:1089:33: sparse:     expected restricted __le32 [usertype] flags
-   drivers/virtio/virtio_wl.c:1089:33: sparse:     got int
-   drivers/virtio/virtio_wl.c:1094:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
-   drivers/virtio/virtio_wl.c:1094:44: sparse:     expected restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:1094:44: sparse:     got int
-   drivers/virtio/virtio_wl.c:1116:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int type @@     got restricted __le32 [usertype] type @@
-   drivers/virtio/virtio_wl.c:1116:44: sparse:     expected unsigned int type
-   drivers/virtio/virtio_wl.c:1116:44: sparse:     got restricted __le32 [usertype] type
-   drivers/virtio/virtio_wl.c:1120:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] size @@     got restricted __le32 [usertype] size @@
-   drivers/virtio/virtio_wl.c:1120:19: sparse:     expected unsigned int [usertype] size
-   drivers/virtio/virtio_wl.c:1120:19: sparse:     got restricted __le32 [usertype] size
-   drivers/virtio/virtio_wl.c:1121:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] pfn @@     got restricted __le64 [usertype] pfn @@
-   drivers/virtio/virtio_wl.c:1121:18: sparse:     expected unsigned long long [usertype] pfn
-   drivers/virtio/virtio_wl.c:1121:18: sparse:     got restricted __le64 [usertype] pfn
-   drivers/virtio/virtio_wl.c:1122:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] flags @@     got restricted __le32 [usertype] flags @@
-   drivers/virtio/virtio_wl.c:1122:20: sparse:     expected unsigned int [usertype] flags
-   drivers/virtio/virtio_wl.c:1122:20: sparse:     got restricted __le32 [usertype] flags
-   drivers/virtio/virtio_wl.c:1348:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t ( *poll )( ... ) @@     got unsigned int ( * )( ... ) @@
-   drivers/virtio/virtio_wl.c:1348:17: sparse:     expected restricted __poll_t ( *poll )( ... )
-   drivers/virtio/virtio_wl.c:1348:17: sparse:     got unsigned int ( * )( ... )
+   WARNING: invalid argument to '-march': '_zihintpause'
+   drivers/acpi/osl.c:296:39: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   drivers/acpi/osl.c:296:39: sparse:     expected void [noderef] __iomem *
+   drivers/acpi/osl.c:296:39: sparse:     got void *
+   drivers/acpi/osl.c:378:17: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/acpi/osl.c:723:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *[assigned] virt_addr @@     got void * @@
+   drivers/acpi/osl.c:723:27: sparse:     expected void [noderef] __iomem *[assigned] virt_addr
+   drivers/acpi/osl.c:723:27: sparse:     got void *
+   drivers/acpi/osl.c:754:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *[assigned] virt_addr @@     got void * @@
+   drivers/acpi/osl.c:754:27: sparse:     expected void [noderef] __iomem *[assigned] virt_addr
+   drivers/acpi/osl.c:754:27: sparse:     got void *
+   drivers/acpi/osl.c:1661:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *rv @@     got void [noderef] __iomem * @@
+   drivers/acpi/osl.c:1661:20: sparse:     expected void *rv
+   drivers/acpi/osl.c:1661:20: sparse:     got void [noderef] __iomem *
+   drivers/acpi/osl.c:711:1: sparse: sparse: context imbalance in 'acpi_os_read_memory' - wrong count at exit
+   drivers/acpi/osl.c:744:1: sparse: sparse: context imbalance in 'acpi_os_write_memory' - wrong count at exit
 
-vim +849 drivers/virtio/virtio_wl.c
+vim +723 drivers/acpi/osl.c
 
-   745	
-   746	static int virtwl_vfd_send(struct file *filp, const char __user *buffer,
-   747						       u32 len, int *vfd_fds)
-   748	{
-   749		struct virtwl_vfd *vfd = filp->private_data;
-   750		struct virtwl_info *vi = vfd->vi;
-   751		struct fd vfd_files[VIRTWL_SEND_MAX_ALLOCS] = { { 0 } };
-   752		struct virtwl_vfd *vfds[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
-   753	#ifdef SEND_VIRTGPU_RESOURCES
-   754		struct dma_buf *virtgpu_dma_bufs[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
-   755		bool foreign_id = false;
-   756	#endif
-   757		size_t vfd_count = 0;
-   758		size_t vfd_ids_size;
-   759		size_t ctrl_send_size;
-   760		struct virtio_wl_ctrl_vfd_send *ctrl_send;
-   761		u8 *vfd_ids;
-   762		u8 *out_buffer;
-   763		struct completion finish_completion;
-   764		struct scatterlist out_sg;
-   765		struct scatterlist in_sg;
-   766		int ret;
-   767		int i;
-   768	
-   769		if (vfd_fds) {
-   770			for (i = 0; i < VIRTWL_SEND_MAX_ALLOCS; i++) {
-   771				struct fd vfd_file;
-   772				int fd = vfd_fds[i];
-   773	
-   774				if (fd < 0)
-   775					break;
-   776	
-   777				vfd_file = fdget(vfd_fds[i]);
-   778				if (!vfd_file.file) {
-   779					ret = -EBADFD;
-   780					goto put_files;
-   781				}
-   782	
-   783				if (vfd_file.file->f_op == &virtwl_vfd_fops) {
-   784					vfd_files[i] = vfd_file;
-   785	
-   786					vfds[i] = vfd_file.file->private_data;
-   787					if (vfds[i] && vfds[i]->id) {
-   788						vfd_count++;
-   789						continue;
-   790					}
-   791	
-   792					ret = -EINVAL;
-   793					goto put_files;
-   794				} else {
-   795					struct dma_buf *dma_buf = ERR_PTR(-EINVAL);
-   796	#ifdef SEND_VIRTGPU_RESOURCES
-   797					dma_buf = dma_buf_get(vfd_fds[i]);
-   798					if (!IS_ERR(dma_buf)) {
-   799						fdput(vfd_file);
-   800						virtgpu_dma_bufs[i] = dma_buf;
-   801						foreign_id = true;
-   802						vfd_count++;
-   803						continue;
-   804					}
-   805	#endif
-   806					fdput(vfd_file);
-   807					ret = PTR_ERR(dma_buf);
-   808					goto put_files;
-   809				}
-   810			}
-   811		}
-   812	
-   813		/* Empty writes always succeed. */
-   814		if (len == 0 && vfd_count == 0)
-   815			return 0;
-   816	
-   817		vfd_ids_size = vfd_count * sizeof(__le32);
-   818	#ifdef SEND_VIRTGPU_RESOURCES
-   819		if (foreign_id) {
-   820			vfd_ids_size = vfd_count *
-   821				       sizeof(struct virtio_wl_ctrl_vfd_send_vfd);
-   822		}
-   823	#endif
-   824		ctrl_send_size = sizeof(*ctrl_send) + vfd_ids_size + len;
-   825		ctrl_send = kzalloc(ctrl_send_size, GFP_KERNEL);
-   826		if (!ctrl_send) {
-   827			ret = -ENOMEM;
-   828			goto put_files;
-   829		}
-   830	
-   831		vfd_ids = (u8 *)ctrl_send + sizeof(*ctrl_send);
-   832		out_buffer = (u8 *)ctrl_send + ctrl_send_size - len;
-   833	
-   834		ctrl_send->hdr.type = VIRTIO_WL_CMD_VFD_SEND;
-   835	#ifdef SEND_VIRTGPU_RESOURCES
-   836		if (foreign_id) {
-   837			ctrl_send->hdr.type = VIRTIO_WL_CMD_VFD_SEND_FOREIGN_ID;
-   838			ret = encode_vfd_ids_foreign(vfds, virtgpu_dma_bufs, vfd_count,
-   839				(struct virtio_wl_ctrl_vfd_send_vfd *)vfd_ids);
-   840		} else {
-   841			ret = encode_vfd_ids(vfds, vfd_count, (__le32 *)vfd_ids);
-   842		}
-   843	#else
-   844		ret = encode_vfd_ids(vfds, vfd_count, (__le32 *)vfd_ids);
-   845	#endif
-   846		if (ret)
-   847			goto free_ctrl_send;
-   848		ctrl_send->vfd_id = vfd->id;
- > 849		ctrl_send->vfd_count = vfd_count;
-   850	
-   851		if (copy_from_user(out_buffer, buffer, len)) {
-   852			ret = -EFAULT;
-   853			goto free_ctrl_send;
-   854		}
-   855	
-   856		init_completion(&finish_completion);
-   857		sg_init_one(&out_sg, ctrl_send, ctrl_send_size);
-   858		sg_init_one(&in_sg, ctrl_send, sizeof(struct virtio_wl_ctrl_hdr));
-   859	
-   860		ret = vq_queue_out(vi, &out_sg, &in_sg, &finish_completion,
-   861					       filp->f_flags & O_NONBLOCK);
-   862		if (ret)
-   863			goto free_ctrl_send;
-   864	
-   865		wait_for_completion(&finish_completion);
-   866	
-   867		ret = virtwl_resp_err(ctrl_send->hdr.type);
-   868	
-   869	free_ctrl_send:
-   870		kfree(ctrl_send);
-   871	put_files:
-   872		for (i = 0; i < VIRTWL_SEND_MAX_ALLOCS; i++) {
-   873			if (vfd_files[i].file)
-   874				fdput(vfd_files[i]);
-   875	#ifdef SEND_VIRTGPU_RESOURCES
-   876			if (virtgpu_dma_bufs[i])
-   877				dma_buf_put(virtgpu_dma_bufs[i]);
-   878	#endif
-   879		}
-   880		return ret;
-   881	}
-   882	
+eeb2d80d502af2 Srinivas Pandruvada 2017-10-05  709  
+e615bf5b551986 Myron Stowe         2012-01-20  710  acpi_status
+653f4b538f66d3 Bob Moore           2012-02-14  711  acpi_os_read_memory(acpi_physical_address phys_addr, u64 *value, u32 width)
+e615bf5b551986 Myron Stowe         2012-01-20  712  {
+e615bf5b551986 Myron Stowe         2012-01-20  713  	void __iomem *virt_addr;
+e615bf5b551986 Myron Stowe         2012-01-20  714  	unsigned int size = width / 8;
+e615bf5b551986 Myron Stowe         2012-01-20  715  	bool unmap = false;
+e615bf5b551986 Myron Stowe         2012-01-20  716  	u64 dummy;
+eeb2d80d502af2 Srinivas Pandruvada 2017-10-05  717  	int error;
+e615bf5b551986 Myron Stowe         2012-01-20  718  
+e615bf5b551986 Myron Stowe         2012-01-20  719  	rcu_read_lock();
+e615bf5b551986 Myron Stowe         2012-01-20  720  	virt_addr = acpi_map_vaddr_lookup(phys_addr, size);
+e615bf5b551986 Myron Stowe         2012-01-20  721  	if (!virt_addr) {
+e615bf5b551986 Myron Stowe         2012-01-20  722  		rcu_read_unlock();
+e615bf5b551986 Myron Stowe         2012-01-20 @723  		virt_addr = acpi_os_ioremap(phys_addr, size);
+e615bf5b551986 Myron Stowe         2012-01-20  724  		if (!virt_addr)
+e615bf5b551986 Myron Stowe         2012-01-20  725  			return AE_BAD_ADDRESS;
+e615bf5b551986 Myron Stowe         2012-01-20  726  		unmap = true;
+e615bf5b551986 Myron Stowe         2012-01-20  727  	}
+e615bf5b551986 Myron Stowe         2012-01-20  728  
+e615bf5b551986 Myron Stowe         2012-01-20  729  	if (!value)
+e615bf5b551986 Myron Stowe         2012-01-20  730  		value = &dummy;
+e615bf5b551986 Myron Stowe         2012-01-20  731  
+eeb2d80d502af2 Srinivas Pandruvada 2017-10-05  732  	error = acpi_os_read_iomem(virt_addr, value, width);
+eeb2d80d502af2 Srinivas Pandruvada 2017-10-05  733  	BUG_ON(error);
+e615bf5b551986 Myron Stowe         2012-01-20  734  
+e615bf5b551986 Myron Stowe         2012-01-20  735  	if (unmap)
+e615bf5b551986 Myron Stowe         2012-01-20  736  		iounmap(virt_addr);
+e615bf5b551986 Myron Stowe         2012-01-20  737  	else
+e615bf5b551986 Myron Stowe         2012-01-20  738  		rcu_read_unlock();
+e615bf5b551986 Myron Stowe         2012-01-20  739  
+e615bf5b551986 Myron Stowe         2012-01-20  740  	return AE_OK;
+e615bf5b551986 Myron Stowe         2012-01-20  741  }
+e615bf5b551986 Myron Stowe         2012-01-20  742  
+
+:::::: The code at line 723 was first introduced by commit
+:::::: e615bf5b5519862ab66172f4dec7455d6543a578 ACPI, APEI: Add 64-bit read/write support for APEI on i386
+
+:::::: TO: Myron Stowe <mstowe@redhat.com>
+:::::: CC: Len Brown <len.brown@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
