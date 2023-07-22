@@ -1,42 +1,42 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F097AEACE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jul 2023 09:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D68FEACE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jul 2023 09:04:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690016661; x=1721552661;
+  t=1690016664; x=1721552664;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0gGMvp5YO1fnz2qKZE/lraSwtvwzbHLd4oWSiq/kx/8=;
-  b=BTsv6VlZk5emK5YATDYcZ4vNx33tpIZ/Xd+BdQ9QEtG/Mq770pD07mpt
-   M4tPZWpqyKqf5gA+/5/WIGvcxo0J0ve4XmJoRjUC/M6NlOB5askMawJ8i
-   lEXaHJ7N82kyilYSEEqyV+LDmUtL78cHLacPCRNVutFOvyu6ZX+PydETu
-   d9H6ZmPvrg84X7O6DAlZTp8gT3VMtZ5PAMJGybLQiKD2rA44gMjfo/l1G
-   WVtDY61IsJ78bRweY+PRGESplNO9EGyqzUYmq4cX2lhUTIY2DqG72YELp
-   BYauqpq+4eELzPEuLaeg8OKTpAb/u6jrLdYUF+ipBgW4VScqN7BDR7IZJ
+  bh=CGZ2eUSmBXmcava2ceODWu00LbZUif0EJg8x6ntMHRc=;
+  b=XmxbZHRFjsv1hbilgD/GiEkzaw3zXb3l3jVBAA5+3UsaShRQx4T7WIXi
+   ty+6MLzYcFq4YrkA8gJfHS9Lu2VA8HFF01R2LbRtSQTMr+ueodRhbeZ8a
+   eE2zaC/D3mvHZrtvAGnG6d9ko+e+lFD8AevQAMwSFszCqhv0p+W3STcwK
+   R8wnMTwtNqey1V0hCAqzK+Fr6KDCFjR8GZ+KdxuVoWFbT+OCxx1AUf81H
+   uzTN4/lM4hPBmCeThAIYWVP9Cu7r04pJm2xC2mn6n6bBffHQwsWxF14H7
+   2ZqH5XL9/khPfREIDJVj3PtLd5iRnxHxPYYo1zK0P5Ix+tACsGbI0iy2m
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="346781564"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="346781565"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="346781564"
+   d="scan'208";a="346781565"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 02:04:20 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 02:04:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="1055842490"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="1055842491"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="1055842490"
+   d="scan'208";a="1055842491"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
   by fmsmga005.fm.intel.com with ESMTP; 22 Jul 2023 02:04:20 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qN8XD-0008CL-1J;
+	id 1qN8XC-0008CH-1G;
 	Sat, 22 Jul 2023 09:04:19 +0000
 Date: Sat, 22 Jul 2023 17:04:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
+To: Xiaoguang Xing <xiaoguang.xing@sophgo.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.15 442/462] drivers/scsi/sg.c:1569:24:
- warning: unused variable 'q'
-Message-ID: <202307221618.4xue1KU4-lkp@intel.com>
+Subject: [csky-linux:sg2042-master-qspinlock-64ilp32_v3 8/67] undefined
+ reference to `cdns_pcie_get_parent_irq_domain'
+Message-ID: <202307221702.OnRqwdH3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,54 +46,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.15
-head:   a9e3b323637a4cfb04b3352fa5efb74299c7c1f1
-commit: d6ff60bb558b81f2fe30f4a5445c9fe28c4735de [442/462] scsi: sg: fix blktrace debugfs entries leakage
-config: i386-randconfig-i003-20230721 (https://download.01.org/0day-ci/archive/20230722/202307221618.4xue1KU4-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221618.4xue1KU4-lkp@intel.com/reproduce)
+tree:   https://github.com/c-sky/csky-linux sg2042-master-qspinlock-64ilp32_v3
+head:   7f9f76d36814ed6fcbca4c27a5d2ec3724c46add
+commit: 7b0ad6270e48635cd221c2a13a361542f3dcb947 [8/67] driver: pcie: Add sophgo sg2042 soc support
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230722/202307221702.OnRqwdH3-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221702.OnRqwdH3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307221618.4xue1KU4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307221702.OnRqwdH3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/scsi/sg.c:1569:24: warning: unused variable 'q' [-Wunused-variable]
-           struct request_queue *q = sdp->device->request_queue;
-                                 ^
-   1 warning generated.
-
-
-vim +/q +1569 drivers/scsi/sg.c
-
-  1564	
-  1565	static void
-  1566	sg_device_destroy(struct kref *kref)
-  1567	{
-  1568		struct sg_device *sdp = container_of(kref, struct sg_device, d_ref);
-> 1569		struct request_queue *q = sdp->device->request_queue;
-  1570		unsigned long flags;
-  1571	
-  1572		/* CAUTION!  Note that the device can still be found via idr_find()
-  1573		 * even though the refcount is 0.  Therefore, do idr_remove() BEFORE
-  1574		 * any other cleanup.
-  1575		 */
-  1576	
-  1577		blk_trace_remove(q);
-  1578		scsi_device_put(sdp->device);
-  1579	
-  1580		write_lock_irqsave(&sg_index_lock, flags);
-  1581		idr_remove(&sg_index_idr, sdp->index);
-  1582		write_unlock_irqrestore(&sg_index_lock, flags);
-  1583	
-  1584		SCSI_LOG_TIMEOUT(3,
-  1585			sg_printk(KERN_INFO, sdp, "sg_device_destroy\n"));
-  1586	
-  1587		kfree(sdp);
-  1588	}
-  1589	
+   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:164:5: warning: no previous prototype for 'cdns_pcie_config_read' [-Wmissing-prototypes]
+     164 | int cdns_pcie_config_read(struct pci_bus *bus, unsigned int devfn,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:200:5: warning: no previous prototype for 'cdns_pcie_config_write' [-Wmissing-prototypes]
+     200 | int cdns_pcie_config_write(struct pci_bus *bus, unsigned int devfn,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/pci/controller/cadence/pcie-cadence-sophgo.c:13:
+   drivers/pci/controller/cadence/pcie-cadence-sophgo.c: In function 'cdns_pcie_msi_init':
+>> drivers/pci/controller/cadence/pcie-cadence-sophgo.c:373:23: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     373 |         dev_info(dev, "msi_data is 0x%llx\n", rc->msi_data);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
+     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                          ^~~~~~~
+   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:373:9: note: in expansion of macro 'dev_info'
+     373 |         dev_info(dev, "msi_data is 0x%llx\n", rc->msi_data);
+         |         ^~~~~~~~
+   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:373:41: note: format string is defined here
+     373 |         dev_info(dev, "msi_data is 0x%llx\n", rc->msi_data);
+         |                                      ~~~^
+         |                                         |
+         |                                         long long unsigned int
+         |                                      %x
+   drivers/pci/controller/cadence/pcie-cadence-sophgo.c: At top level:
+   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:473:13: warning: no previous prototype for 'cdns_handle_msi_irq' [-Wmissing-prototypes]
+     473 | irqreturn_t cdns_handle_msi_irq(struct cdns_mango_pcie_rc *rc)
+         |             ^~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:686:5: warning: no previous prototype for 'cdns_pcie_allocate_domains' [-Wmissing-prototypes]
+     686 | int cdns_pcie_allocate_domains(struct cdns_mango_pcie_rc *rc)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:711:6: warning: no previous prototype for 'cdns_pcie_free_msi' [-Wmissing-prototypes]
+     711 | void cdns_pcie_free_msi(struct cdns_mango_pcie_rc *rc)
+         |      ^~~~~~~~~~~~~~~~~~
+--
+   hppa-linux-ld: drivers/pci/controller/cadence/pcie-cadence-sophgo.o: in function `cdns_pcie_host_probe':
+>> (.text+0x32f8): undefined reference to `cdns_pcie_get_parent_irq_domain'
 
 -- 
 0-DAY CI Kernel Test Service
