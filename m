@@ -1,159 +1,108 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7BB566D;
-	Sat, 22 Jul 2023 02:52:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA96F27F3B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jul 2023 04:03:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689994333; x=1721530333;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=exp7EvxJKUlx3SqBW/sHUJW3z+jiHOVg16APC+Lbyjc=;
-  b=Hox5p9MkTJJ7IqunmDuWamlCxiJDIlESI9GSxJvX2gN3K9EHMv8n6ICk
-   bAuH0CWkuAHphTUvu/TNrF+0q8sJt0GPw/hAFa6S6iTseAeb3rMzYx1rq
-   WBf9L6XIZSZtgiQjGHyf5ohnOmMWQbJHWnAxum4Qjhbp65cla6KJlSbED
-   IqlIdaWTXx4roJlf6gwXEDw98T8npjKvEjJGIB8CK/Cj+ys/PPT0ZFdCB
-   a67EiUEeq/nkzBYz4FjWRuFTc27QAyHxuXIzJVUDfONSEMB6w//w/I3uH
-   GQxLAvU2Jt0u+wRq+bFlhxkclmbrucJaCwmc+5yygLjnSu+OdWTySP0JA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="367186381"
+  t=1689998631; x=1721534631;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w/5K46dSqPpmkWu1mX4IousfcS0yNkzlp2R2eGcWHO4=;
+  b=BKee1zJ5W5u15XblUtUmBqF1+yr7l8tJ9iW4fFz1IfdiN58Dn+VfDIG8
+   kAMUAwtErxErbJSjPRBI3XVj6IFY+VQd0eRurJaODGKbsVEVGbwKYKi7t
+   J9iQ7J00sHKboaxYBpeZ6NGNVpDm67Uu3USvFhKzqzNIOAXrj3e6mO1Gq
+   0vlGB8lnzt2oHiU1F1BSU3Is6zW5Jqr815wfTJpXuiBw2fQQny3jq5OgW
+   EcaSCpX/YT5R3CPOE8CLifvEOUnXJG/swqDjajRJo1HJCb+e5j5gGHWA5
+   kmXGPd6z/2fB/ZekcIGRp0BElzT2r0QwnAZfLxjzKDRNsxFoyX8sqYEir
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="346760741"
 X-IronPort-AV: E=Sophos;i="6.01,223,1684825200"; 
-   d="scan'208";a="367186381"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 19:52:12 -0700
+   d="scan'208";a="346760741"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 21:03:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="754694903"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="719059968"
 X-IronPort-AV: E=Sophos;i="6.01,223,1684825200"; 
-   d="scan'208";a="754694903"
+   d="scan'208";a="719059968"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 21 Jul 2023 19:52:10 -0700
+  by orsmga007.jf.intel.com with ESMTP; 21 Jul 2023 21:03:49 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qN2j4-0007tf-0a;
-	Sat, 22 Jul 2023 02:52:10 +0000
-Date: Sat, 22 Jul 2023 10:51:21 +0800
+	id 1qN3qO-0007wv-27;
+	Sat, 22 Jul 2023 04:03:48 +0000
+Date: Sat, 22 Jul 2023 12:03:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yonghong Song <yhs@fb.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>
-Subject: tools/lib/bpf/relo_core.c:1172:5: warning: stack frame size (1040)
- exceeds limit (1024) in 'bpf_core_calc_relo_insn'
-Message-ID: <202307221012.UciyuMNh-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 7/9] KVM: x86/mmu: Use BUILD_BUG_ON_INVALID() for
+ KVM_MMU_WARN_ON() stub
+Message-ID: <202307221143.1unfLOin-lkp@intel.com>
+References: <20230721230006.2337941-8-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230721230006.2337941-8-seanjc@google.com>
 
-Hi Yonghong,
+Hi Sean,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d192f5382581d972c4ae1b4d72e0b59b34cadeb9
-commit: 776281652ddcd98bb292335ea3634da341c849b4 libbpf: Permit 64bit relocation value
-date:   1 year, 1 month ago
-config: riscv-randconfig-r022-20230722 (https://download.01.org/0day-ci/archive/20230722/202307221012.UciyuMNh-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221012.UciyuMNh-lkp@intel.com/reproduce)
+[auto build test ERROR on 294ebdda1560d3eb515da88b805ba7f88eb28d21]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Christopherson/KVM-x86-mmu-Delete-rmap_printk-and-all-its-usage/20230722-070218
+base:   294ebdda1560d3eb515da88b805ba7f88eb28d21
+patch link:    https://lore.kernel.org/r/20230721230006.2337941-8-seanjc%40google.com
+patch subject: [PATCH v2 7/9] KVM: x86/mmu: Use BUILD_BUG_ON_INVALID() for KVM_MMU_WARN_ON() stub
+config: x86_64-buildonly-randconfig-r003-20230720 (https://download.01.org/0day-ci/archive/20230722/202307221143.1unfLOin-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221143.1unfLOin-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307221012.UciyuMNh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307221143.1unfLOin-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> tools/lib/bpf/relo_core.c:1172:5: warning: stack frame size (1040) exceeds limit (1024) in 'bpf_core_calc_relo_insn' [-Wframe-larger-than]
-   int bpf_core_calc_relo_insn(const char *prog_name,
-       ^
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   1 warning and 20 errors generated.
+   In file included from include/linux/atomic/atomic-instrumented.h:15,
+                    from include/linux/atomic.h:82,
+                    from include/linux/mm_types_task.h:13,
+                    from include/linux/mm_types.h:5,
+                    from arch/x86/kvm/irq.h:13,
+                    from arch/x86/kvm/mmu/mmu.c:19:
+   arch/x86/kvm/mmu/mmu.c: In function 'kvm_mmu_free_shadow_page':
+>> arch/x86/kvm/mmu/mmu.c:1738:26: error: implicit declaration of function 'is_empty_shadow_page'; did you mean 'to_shadow_page'? [-Werror=implicit-function-declaration]
+    1738 |         KVM_MMU_WARN_ON(!is_empty_shadow_page(sp->spt));
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
+      30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
+         |                                                               ^
+   arch/x86/kvm/mmu/mmu.c:1738:9: note: in expansion of macro 'KVM_MMU_WARN_ON'
+    1738 |         KVM_MMU_WARN_ON(!is_empty_shadow_page(sp->spt));
+         |         ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/bpf_core_calc_relo_insn +1172 tools/lib/bpf/relo_core.c
+vim +1738 arch/x86/kvm/mmu/mmu.c
 
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1121  
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1122  /*
-adb8fa195efdfa Mauricio Vásquez   2022-02-15  1123   * Calculate CO-RE relocation target result.
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1124   *
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1125   * The outline and important points of the algorithm:
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1126   * 1. For given local type, find corresponding candidate target types.
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1127   *    Candidate type is a type with the same "essential" name, ignoring
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1128   *    everything after last triple underscore (___). E.g., `sample`,
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1129   *    `sample___flavor_one`, `sample___flavor_another_one`, are all candidates
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1130   *    for each other. Names with triple underscore are referred to as
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1131   *    "flavors" and are useful, among other things, to allow to
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1132   *    specify/support incompatible variations of the same kernel struct, which
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1133   *    might differ between different kernel versions and/or build
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1134   *    configurations.
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1135   *
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1136   *    N.B. Struct "flavors" could be generated by bpftool's BTF-to-C
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1137   *    converter, when deduplicated BTF of a kernel still contains more than
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1138   *    one different types with the same name. In that case, ___2, ___3, etc
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1139   *    are appended starting from second name conflict. But start flavors are
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1140   *    also useful to be defined "locally", in BPF program, to extract same
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1141   *    data from incompatible changes between different kernel
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1142   *    versions/configurations. For instance, to handle field renames between
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1143   *    kernel versions, one can use two flavors of the struct name with the
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1144   *    same common name and use conditional relocations to extract that field,
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1145   *    depending on target kernel version.
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1146   * 2. For each candidate type, try to match local specification to this
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1147   *    candidate target type. Matching involves finding corresponding
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1148   *    high-level spec accessors, meaning that all named fields should match,
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1149   *    as well as all array accesses should be within the actual bounds. Also,
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1150   *    types should be compatible (see bpf_core_fields_are_compat for details).
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1151   * 3. It is supported and expected that there might be multiple flavors
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1152   *    matching the spec. As long as all the specs resolve to the same set of
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1153   *    offsets across all candidates, there is no error. If there is any
-9bbdfad8a5192c Daniel Müller      2022-06-01  1154   *    ambiguity, CO-RE relocation will fail. This is necessary to accommodate
-9bbdfad8a5192c Daniel Müller      2022-06-01  1155   *    imperfection of BTF deduplication, which can cause slight duplication of
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1156   *    the same BTF type, if some directly or indirectly referenced (by
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1157   *    pointer) type gets resolved to different actual types in different
-9bbdfad8a5192c Daniel Müller      2022-06-01  1158   *    object files. If such a situation occurs, deduplicated BTF will end up
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1159   *    with two (or more) structurally identical types, which differ only in
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1160   *    types they refer to through pointer. This should be OK in most cases and
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1161   *    is not an error.
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1162   * 4. Candidate types search is performed by linearly scanning through all
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1163   *    types in target BTF. It is anticipated that this is overall more
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1164   *    efficient memory-wise and not significantly worse (if not better)
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1165   *    CPU-wise compared to prebuilding a map from all local type names to
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1166   *    a list of candidate type names. It's also sped up by caching resolved
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1167   *    list of matching candidates per each local "root" type ID, that has at
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1168   *    least one bpf_core_relo associated with it. This list is shared
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1169   *    between multiple relocations for the same type ID and is updated as some
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1170   *    of the candidates are pruned due to structural incompatibility.
-b0588390dbcedc Alexei Starovoitov 2021-07-20  1171   */
-adb8fa195efdfa Mauricio Vásquez   2022-02-15 @1172  int bpf_core_calc_relo_insn(const char *prog_name,
-
-:::::: The code at line 1172 was first introduced by commit
-:::::: adb8fa195efdfaac5852aaac24810b456ce43b04 libbpf: Split bpf_core_apply_relo()
-
-:::::: TO: Mauricio Vásquez <mauricio@kinvolk.io>
-:::::: CC: Andrii Nakryiko <andrii@kernel.org>
+43a063cab325ee arch/x86/kvm/mmu/mmu.c Yosry Ahmed         2022-08-23  1735  
+876546436db977 arch/x86/kvm/mmu/mmu.c David Matlack       2022-06-22  1736  static void kvm_mmu_free_shadow_page(struct kvm_mmu_page *sp)
+260746c03dcb2e drivers/kvm/mmu.c      Avi Kivity          2007-01-05  1737  {
+14960b3718bba4 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2023-07-21 @1738  	KVM_MMU_WARN_ON(!is_empty_shadow_page(sp->spt));
+7775834a233478 arch/x86/kvm/mmu.c     Xiao Guangrong      2010-06-04  1739  	hlist_del(&sp->hash_link);
+bd4c86eaa6ff10 arch/x86/kvm/mmu.c     Xiao Guangrong      2011-07-12  1740  	list_del(&sp->link);
+bd4c86eaa6ff10 arch/x86/kvm/mmu.c     Xiao Guangrong      2011-07-12  1741  	free_page((unsigned long)sp->spt);
+834be0d83f9451 arch/x86/kvm/mmu.c     Gleb Natapov        2013-01-30  1742  	if (!sp->role.direct)
+6a97575d5cffb7 arch/x86/kvm/mmu/mmu.c David Matlack       2022-06-22  1743  		free_page((unsigned long)sp->shadowed_translation);
+e8ad9a707496c1 arch/x86/kvm/mmu.c     Xiao Guangrong      2010-05-13  1744  	kmem_cache_free(mmu_page_header_cache, sp);
+260746c03dcb2e drivers/kvm/mmu.c      Avi Kivity          2007-01-05  1745  }
+260746c03dcb2e drivers/kvm/mmu.c      Avi Kivity          2007-01-05  1746  
 
 -- 
 0-DAY CI Kernel Test Service
