@@ -1,42 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D68FEACE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jul 2023 09:04:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627A611C9D;
+	Sat, 22 Jul 2023 09:14:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690016664; x=1721552664;
+  t=1690017262; x=1721553262;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CGZ2eUSmBXmcava2ceODWu00LbZUif0EJg8x6ntMHRc=;
-  b=XmxbZHRFjsv1hbilgD/GiEkzaw3zXb3l3jVBAA5+3UsaShRQx4T7WIXi
-   ty+6MLzYcFq4YrkA8gJfHS9Lu2VA8HFF01R2LbRtSQTMr+ueodRhbeZ8a
-   eE2zaC/D3mvHZrtvAGnG6d9ko+e+lFD8AevQAMwSFszCqhv0p+W3STcwK
-   R8wnMTwtNqey1V0hCAqzK+Fr6KDCFjR8GZ+KdxuVoWFbT+OCxx1AUf81H
-   uzTN4/lM4hPBmCeThAIYWVP9Cu7r04pJm2xC2mn6n6bBffHQwsWxF14H7
-   2ZqH5XL9/khPfREIDJVj3PtLd5iRnxHxPYYo1zK0P5Ix+tACsGbI0iy2m
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="346781565"
+  bh=Hj6cC6dJ4jnH2yWwR8JNgdbMCVAWXaApzz1QuQw6Viw=;
+  b=apiok+pdsL/LzlAfqYtTG0iqGRSoluJKjNRe31Y1LONXYrnQY2DyBDR6
+   lohyiQojj09sNBlN5AYoQf5w29lK/sGPwmlHCSrmKQENK6ofJvxuXVv4X
+   +OrzBxq8c0ix8h/laRInb3Nte96VLEetVX8PM+8ne4t4bC++QpRHmhflQ
+   gJQggQR7m45V9KysQ5H4WaCqC+YI+gQnpv2m1EE8GEikAZjgkRsZF3BgZ
+   qHPRbGcCkQ37pJlu1u554e5zowZeEFtcAo0CwKi3M1vOIvuQBSaY5o/NG
+   u+/VMEeMSfDNKgvuUf3Aj9+abx3ZM/2mNMwZuTdaXKSCoM/sMmY53GGWL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="369846587"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="346781565"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 02:04:21 -0700
+   d="scan'208";a="369846587"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 02:14:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="1055842491"
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="815284723"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="1055842491"
+   d="scan'208";a="815284723"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 22 Jul 2023 02:04:20 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Jul 2023 02:14:20 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qN8XC-0008CH-1G;
-	Sat, 22 Jul 2023 09:04:19 +0000
-Date: Sat, 22 Jul 2023 17:04:00 +0800
+	id 1qN8gt-0008CX-20;
+	Sat, 22 Jul 2023 09:14:19 +0000
+Date: Sat, 22 Jul 2023 17:14:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiaoguang Xing <xiaoguang.xing@sophgo.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [csky-linux:sg2042-master-qspinlock-64ilp32_v3 8/67] undefined
- reference to `cdns_pcie_get_parent_irq_domain'
-Message-ID: <202307221702.OnRqwdH3-lkp@intel.com>
+To: Guo Ren <guoren@linux.alibaba.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [csky-linux:sg2042-master-qspinlock-64ilp32_v3 5/42]
+ arch/riscv/kernel/setup.c:285:13: warning: no previous prototype for
+ function 'combo_spin_lock_init'
+Message-ID: <202307221749.i3zgUarh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,59 +49,51 @@ Content-Disposition: inline
 
 tree:   https://github.com/c-sky/csky-linux sg2042-master-qspinlock-64ilp32_v3
 head:   7f9f76d36814ed6fcbca4c27a5d2ec3724c46add
-commit: 7b0ad6270e48635cd221c2a13a361542f3dcb947 [8/67] driver: pcie: Add sophgo sg2042 soc support
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230722/202307221702.OnRqwdH3-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221702.OnRqwdH3-lkp@intel.com/reproduce)
+commit: f1f72f77c9e8cc273bfb44cb928f5787abe50cd8 [5/42] riscv: Add combo spinlock support
+config: riscv-randconfig-r042-20230720 (https://download.01.org/0day-ci/archive/20230722/202307221749.i3zgUarh-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221749.i3zgUarh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307221702.OnRqwdH3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307221749.i3zgUarh-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:164:5: warning: no previous prototype for 'cdns_pcie_config_read' [-Wmissing-prototypes]
-     164 | int cdns_pcie_config_read(struct pci_bus *bus, unsigned int devfn,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:200:5: warning: no previous prototype for 'cdns_pcie_config_write' [-Wmissing-prototypes]
-     200 | int cdns_pcie_config_write(struct pci_bus *bus, unsigned int devfn,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/pci/controller/cadence/pcie-cadence-sophgo.c:13:
-   drivers/pci/controller/cadence/pcie-cadence-sophgo.c: In function 'cdns_pcie_msi_init':
->> drivers/pci/controller/cadence/pcie-cadence-sophgo.c:373:23: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     373 |         dev_info(dev, "msi_data is 0x%llx\n", rc->msi_data);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:150:58: note: in expansion of macro 'dev_fmt'
-     150 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                          ^~~~~~~
-   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:373:9: note: in expansion of macro 'dev_info'
-     373 |         dev_info(dev, "msi_data is 0x%llx\n", rc->msi_data);
-         |         ^~~~~~~~
-   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:373:41: note: format string is defined here
-     373 |         dev_info(dev, "msi_data is 0x%llx\n", rc->msi_data);
-         |                                      ~~~^
-         |                                         |
-         |                                         long long unsigned int
-         |                                      %x
-   drivers/pci/controller/cadence/pcie-cadence-sophgo.c: At top level:
-   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:473:13: warning: no previous prototype for 'cdns_handle_msi_irq' [-Wmissing-prototypes]
-     473 | irqreturn_t cdns_handle_msi_irq(struct cdns_mango_pcie_rc *rc)
-         |             ^~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:686:5: warning: no previous prototype for 'cdns_pcie_allocate_domains' [-Wmissing-prototypes]
-     686 | int cdns_pcie_allocate_domains(struct cdns_mango_pcie_rc *rc)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/cadence/pcie-cadence-sophgo.c:711:6: warning: no previous prototype for 'cdns_pcie_free_msi' [-Wmissing-prototypes]
-     711 | void cdns_pcie_free_msi(struct cdns_mango_pcie_rc *rc)
-         |      ^~~~~~~~~~~~~~~~~~
---
-   hppa-linux-ld: drivers/pci/controller/cadence/pcie-cadence-sophgo.o: in function `cdns_pcie_host_probe':
->> (.text+0x32f8): undefined reference to `cdns_pcie_get_parent_irq_domain'
+>> arch/riscv/kernel/setup.c:285:13: warning: no previous prototype for function 'combo_spin_lock_init' [-Wmissing-prototypes]
+     285 | void __init combo_spin_lock_init(void)
+         |             ^
+   arch/riscv/kernel/setup.c:285:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     285 | void __init combo_spin_lock_init(void)
+         | ^
+         | static 
+   1 warning generated.
+
+
+vim +/combo_spin_lock_init +285 arch/riscv/kernel/setup.c
+
+   270	
+   271	void __init combo_spin_lock_init(void)
+   272	{
+   273		asm_volatile_goto(ALTERNATIVE(
+   274			"j %l[l_dis]",
+   275			"nop",
+   276			THEAD_VENDOR_ID,
+   277			ERRATA_THEAD_QSPINLOCK,
+   278			CONFIG_ERRATA_THEAD_QSPINLOCK)
+   279			: : : : l_dis);
+   280		return;
+   281	l_dis:
+   282		static_branch_disable(&qspinlock_key);
+   283	}
+   284	#else
+ > 285	void __init combo_spin_lock_init(void)
+   286	{
+   287		return;
+   288	}
+   289	#endif
+   290	
 
 -- 
 0-DAY CI Kernel Test Service
