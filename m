@@ -1,754 +1,173 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2101.outbound.protection.outlook.com [40.107.114.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7CE1EA91;
-	Sat, 22 Jul 2023 16:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690042860; x=1721578860;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=aNTTqXUdlX92xW+5y21Vhc5kXXNOURXng6U49NoKOFY=;
-  b=LBe8dmHZGwbGNgQr5QZF2B7FkgOhl6oAdtGYd0NbzBEyxlu5k+BwVbjd
-   r9duIuLlinBEIeMjV/NPKOW2QwkVBjJlu86lpUYxEtpCx6v9SJk60SNVA
-   DKCjf+8w10NvayOSqrkJ1ldM95wzKn/y5vTV6BUG/Zu1aExifQftFgFzt
-   vDUmdbbNBd0QRrYA0rXnHeXOdIexzqsrjkjKWcg8dz2NyrStsK8Ljmir0
-   DWitMqrIp+xdsfUS56WKQWPnp8pb7dx/hc5Jc7IRHmtNSUVaNZNN3W9tl
-   VqfLQ0XpXhCZrSiwGq6jTV+bOtfswBHZ5aESPM85ki2DgPt8fEXaBlDN4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="347491672"
-X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="347491672"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 09:20:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="838913197"
-X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="838913197"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2023 09:20:49 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qNFLc-0008S5-37;
-	Sat, 22 Jul 2023 16:20:48 +0000
-Date: Sun, 23 Jul 2023 00:20:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wojciech Drewek <wojciech.drewek@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>
-Subject: net/core/flow_dissector.c:946:6: warning: stack frame size (1056)
- exceeds limit (1024) in '__skb_flow_dissect'
-Message-ID: <202307230059.Au2QdqPK-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4347F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jul 2023 17:35:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O8/dq1Zihko3VmqViknbVpmbQdJMiUH4cHuxI5EqNO9YAOCbaIs3cwQtxK9Ea68to9/jJ/EfY5puof3CKQnhTB2K0jPvW3N5Gh2sF/v1z80WgGBes9jr/lj64O3Vfdiuho/yNif6P/DceyaGhJpHLxNGEvggOyvCOLPP288olsaDakTat5GsElFlKsF1pSeJdELgNePoHAoAwnlPUyCbKj6HAgAZ0xqjSBsve91BCWIWFnOKkwQ46QBLEv6osNtAfF4PptamvJZgE627HuoBQMDHhXS8ZuoDjvlzj9xqNliZ5vdkXUWsbK2PhCTePm8Zx/O0VUpSY7IK4uKrLRFJFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=INKMa/XVfSqGBKe9ag3fgqMXz3Mvo4NLz1cuP6S3ysw=;
+ b=MenmiQNjmhoym9tu0XRh7xZGci286r1al5aQD7M6w3ub9FZaM1OeoOJPjqmxD1OJZyCSsasIzUYtwEkpNrat26jQ3kxPVJAxQ0v7LoTakjJD1eKZiTyBGXVJjxeJy84jJO8wETp6bYWAH9pv7quHXGi17fLel6NZlud0psI0z+TNzTErz/BXMmCw61230+nx29ke3LEN6FHBTatnUETsZ3/DNYEKrTcMnu150CyZ7LYOwpq9fhTOQbxRIKS/IIvEzx9jPCobnD7kQUH01Yy5X9hstMG2hzFusnS+9XFFjV3dNqzyoABFOtsBjZjeDHRbLGO4KuducR2cptL7vAZBeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=INKMa/XVfSqGBKe9ag3fgqMXz3Mvo4NLz1cuP6S3ysw=;
+ b=LHkfwpUK8Qd7VvOPPs08MEQeYYC0xoG1bBSW8Kgxz128fSZfi+kOxcJuW5/fl6yZEmovIV4gd3z5cPd79De6ZSlbXtu0j4QSW021Kus0P2TgGCfgIndi3iuZFeTEc+EDHqwJq4bvD72e6kunrMlxeJWSiuT+x3Jz8jA5u2MK71U=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OSZPR01MB6312.jpnprd01.prod.outlook.com (2603:1096:604:ec::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.31; Sat, 22 Jul
+ 2023 17:35:52 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::834b:28df:28dc:7f95]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::834b:28df:28dc:7f95%7]) with mapi id 15.20.6609.030; Sat, 22 Jul 2023
+ 17:35:51 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: kernel test robot <lkp@intel.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Fabrizio Castro
+	<fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH 5/6] arm64: dts: renesas: r9a07g043: Add MTU3a node
+Thread-Topic: [PATCH 5/6] arm64: dts: renesas: r9a07g043: Add MTU3a node
+Thread-Index: AQHZuwuYERobsHjTh0axdSWkTVj5Ga/FQTAAgADN/NA=
+Date: Sat, 22 Jul 2023 17:35:51 +0000
+Message-ID:
+ <OS0PR01MB5922B1277FD69607A5D4EBFE863CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230720131016.331793-6-biju.das.jz@bp.renesas.com>
+ <202307221318.jz5pDcvU-lkp@intel.com>
+In-Reply-To: <202307221318.jz5pDcvU-lkp@intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OSZPR01MB6312:EE_
+x-ms-office365-filtering-correlation-id: 2c80d82e-0906-4d97-416f-08db8ada1862
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 0iSC1it4pUG0O1SSlnhLm0a8m5zaGDTCg5graN149HcKOTWAl+R1Iwb565kfb5LwX455QiZRlI1J0Uk00XEwJ8d456g53ETR0Y+el4cyujwQyo9ydCcVG0WWfBwPRwVzO949nj5lWvnVGAG0fnlaIoidvmCo1s4ZgqSgKkdzXqFMdA9vIOmZlyKoRnIAJn7Okkwe8zB2rz0bThOTitak8yv5BztacwCnz31rRHzEeBU2JmyVwsYW3FOGKvfPEiC7/O4M83CIxnBYlu8lNWT7GAK5W/CpdTFGeUOxBzIpBjr46dXK3YMQMu3cDbyV1UR2Lsov2WOJXPYmjKmWCx5b2qRuKHeUMelleuaQ6+dwxnb0u6x6aG+SS+8PDMZn5AaR6o5nE7homJrBEpYm4G+TN5UtTGUOxaY7w5IiazLO5rwmUQ3nwa2t9UkR6Xr4KRK2YWZH6lSDtCpcSeKo3jRP+th4lfCXo3PLGmgLgQsKjeHvBPr6cDDpf9X42G6kI/4U8OJJ00y23cYnWHSgbA45iIKszIcKQsC9Ut0qpqBsStxMo5/1e4zJpxODbrSasA8i89/gMzac7IgPDpGvR8XQzvaqZ+G6OPvQSSO2juz8D+9SkDNi7c3UXRfMMVSMn3W3u+WFTq/gUcNumSn5pEcCNw==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(136003)(376002)(346002)(39860400002)(451199021)(2906002)(55016003)(38100700002)(966005)(122000001)(9686003)(83380400001)(186003)(107886003)(26005)(6506007)(53546011)(5660300002)(52536014)(86362001)(8936002)(8676002)(38070700005)(33656002)(45080400002)(71200400001)(478600001)(7696005)(4326008)(64756008)(66446008)(66476007)(66556008)(66946007)(76116006)(41300700001)(316002)(54906003)(110136005)(32563001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?sISfaVJa/hdCEYxbA5TBrjst/Cd5+NT3wJApzB3Zh99Rcd/UDCS574iz6qhW?=
+ =?us-ascii?Q?yXeicPDqm6371bFf/Nwbbn1AlNqCTCPAjWgfYBJifp3+6e9jRyUlFOfhvWg/?=
+ =?us-ascii?Q?Zx427s7/WEvUx//lKTBXyfOUpCCQfxmckmOu3FnXdiqrj0lkQGzA/hqDdqZi?=
+ =?us-ascii?Q?oLBLYKzX5N2qe5UuySs+XCCNMUkD2kH8D0z7qB7YXlZKKH5KXPz2iEST1DyP?=
+ =?us-ascii?Q?tTMFdJvIygivbxm2vc1H1sIdIx9y2ZAeoYGaW210mpns34dIwcSyyz7MjfwV?=
+ =?us-ascii?Q?812Y+zGQnoEIQ4pfuGXe6VGxXy0G+/IvZq+YqdL8bQ73Rcxt6WcMcxQFE2oX?=
+ =?us-ascii?Q?K3bfHM7bv2IMkgYhsBsW8fbyB5oydEeIJ6nx6d9Mp0fnNUHtatR2oUDXJUiO?=
+ =?us-ascii?Q?4xQhp/iMjVR/2ZIIVpuXEmKXI454sD9ouAJN5O0q/849BQ7AAGm2EpZVDj3X?=
+ =?us-ascii?Q?nBvoV4vMTTDvJ149UA//twzBX4kfp+4O7nHUo1PhwJ3d41vnK2GtjIeQ+S3c?=
+ =?us-ascii?Q?fAHuwXDSgdlufztDGOcetJgmLZsjfi76idI84gYUZVnDtDAehEHd4c9jXr2A?=
+ =?us-ascii?Q?wXoIsIBFHlJlozoSARaQjIrXOmvV0PPD2Uq5ZJj4QeSNqmx4FVrMwnRnS1EX?=
+ =?us-ascii?Q?K20O0b+F6ftkHSvZW4YRaNxBMo+MEujm+e3Pq5z0alTeqTgM/3ISv3AA8/rn?=
+ =?us-ascii?Q?/h3Edit7vWQb/Bsr1atYlfosm1jhjWVoJ723zAyvmXcB5STeaOA7jPJ9WKrU?=
+ =?us-ascii?Q?t25PVSBo0HG/laZ16LKiWhxC2dBambVEstB5yzzQLZH0ux3OoNsF6Dfvyz3w?=
+ =?us-ascii?Q?tAsRpv135ZyJL+x8dBQMEUP9REV5VEfuiY60bWTfd2Qckukw9C+s2539gI91?=
+ =?us-ascii?Q?eir18eWUwytsLiuFAnv4E4o4JfG6e02VfBBp1hGY7bnaSgOS5elNQWAISbxq?=
+ =?us-ascii?Q?1JNc68U+wWBw+1wPQpwdkxDh7KtAEDNvZArEAoJE9kD5IBksy5fxtsmxJEJI?=
+ =?us-ascii?Q?ZLoFK2niO1WnwR2cidUXRlS14cww0FkByGQYGWKP4p4qf4Nxj0Id3YX1IbSE?=
+ =?us-ascii?Q?ieEPZo/oCpzIu5oG80zyR7juO5PxC//Ie9qPBB94GkbCZAP+UAuLInUnt7ug?=
+ =?us-ascii?Q?4ZL+xTq/ZSwA9KFpvuLjCdNG4Dl8rNKFOEZf10DjMvNJHwyMiaDsniX6R9hM?=
+ =?us-ascii?Q?IjQzpelYUtReq0cauTqiS0FLUao7Rvy4QXj8IiNa6p2b64og5H7R+lwISZCD?=
+ =?us-ascii?Q?kflhPfprFnatcdp64hIDKO3FBW+w2YwG9h84vj1nSys/B37SV3X9O3F0nq9O?=
+ =?us-ascii?Q?ABylrsncmmUu8rIf5DYjl1VeXWkvW4oRX6cEiDcru5Lbm4uArwRZzHmHBM8A?=
+ =?us-ascii?Q?jPgdoSnkcVbhbcpgaSOUTeLGijh71pzT/7XZnQt+DvmP04552ESIbJpJs79/?=
+ =?us-ascii?Q?cTk3eDoQuCT8mYatB7josJ4TZa4+p4vWjHGdXqTf+8UjUxmC6YXdJCqRFZPg?=
+ =?us-ascii?Q?miIvBkvVvQOQl+m7NaVevVDMyL+Bg/r73DeeNwBOKHO7hBYc15zLkYzjICJI?=
+ =?us-ascii?Q?yeWXg7rITjNZx6c39MUy0Qu3UybpR0krj/WRWnCn?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c80d82e-0906-4d97-416f-08db8ada1862
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2023 17:35:51.9090
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fVP0AL/aw2RGr3v+zx9K/WBMYZS1ZTk5VxvPEtnc96ZH/qPPVUjiHiAm2DwtKL+TsMBkLz8iaBu2nRRbIIc1FRenqMU8BoKCNQDHSLHPao4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6312
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d192f5382581d972c4ae1b4d72e0b59b34cadeb9
-commit: dda2fa08a13c688bed320ef2e4ba541abb4d6c17 flow_dissector: Add L2TPv3 dissectors
-date:   10 months ago
-config: riscv-randconfig-r022-20230722 (https://download.01.org/0day-ci/archive/20230723/202307230059.Au2QdqPK-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230723/202307230059.Au2QdqPK-lkp@intel.com/reproduce)
+Hi Kernel test robot,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307230059.Au2QdqPK-lkp@intel.com/
+Thaks for the feedback.
 
-All warnings (new ones prefixed by >>):
+> -----Original Message-----
+> From: kernel test robot <lkp@intel.com>
+> Sent: Saturday, July 22, 2023 6:16 AM
+> To: Biju Das <biju.das.jz@bp.renesas.com>; Rob Herring
+> <robh+dt@kernel.org>; Krzysztof Kozlowski <krzk@kernel.org>; Conor
+> Dooley <conor+dt@kernel.org>
+> Cc: oe-kbuild-all@lists.linux.dev; Biju Das
+> <biju.das.jz@bp.renesas.com>; Geert Uytterhoeven
+> <geert+renesas@glider.be>; Magnus Damm <magnus.damm@gmail.com>; linux-
+> renesas-soc@vger.kernel.org; devicetree@vger.kernel.org; Fabrizio Castro
+> <fabrizio.castro.jz@renesas.com>; Prabhakar Mahadev Lad
+> <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Subject: Re: [PATCH 5/6] arm64: dts: renesas: r9a07g043: Add MTU3a node
+>=20
+> Hi Biju,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on geert-renesas-devel/next] [also build test
+> ERROR on robh/for-next linus/master v6.5-rc2 next-20230721] [cannot
+> apply to tip/timers/core] [If your patch is applied to the wrong git
+> tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
 
->> net/core/flow_dissector.c:946:6: warning: stack frame size (1056) exceeds limit (1024) in '__skb_flow_dissect' [-Wframe-larger-than]
-   bool __skb_flow_dissect(const struct net *net,
-        ^
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   error: A dwo section may not contain relocations
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   1 warning and 20 errors generated.
+Opps, Need to use <SOC_PERIPHERAL_IRQ> for interrupts
+as there is difference between arm64 and risc-v.
 
+Will send v2 after testing on both arm64 and risc-v.
 
-vim +/__skb_flow_dissect +946 net/core/flow_dissector.c
+Cheers,
+Biju
 
-46126db9c86110 Wojciech Drewek     2022-07-18   926  
-453a940ea725d6 WANG Cong           2014-08-25   927  /**
-453a940ea725d6 WANG Cong           2014-08-25   928   * __skb_flow_dissect - extract the flow_keys struct and return it
-3cbf4ffba5eeec Stanislav Fomichev  2019-04-22   929   * @net: associated network namespace, derived from @skb if NULL
-453a940ea725d6 WANG Cong           2014-08-25   930   * @skb: sk_buff to extract the flow from, can be NULL if the rest are specified
-06635a35d13d42 Jiri Pirko          2015-05-12   931   * @flow_dissector: list of keys to dissect
-06635a35d13d42 Jiri Pirko          2015-05-12   932   * @target_container: target structure to put dissected values into
-453a940ea725d6 WANG Cong           2014-08-25   933   * @data: raw buffer pointer to the packet, if NULL use skb->data
-453a940ea725d6 WANG Cong           2014-08-25   934   * @proto: protocol for which to get the flow, if @data is NULL use skb->protocol
-453a940ea725d6 WANG Cong           2014-08-25   935   * @nhoff: network header offset, if @data is NULL use skb_network_offset(skb)
-453a940ea725d6 WANG Cong           2014-08-25   936   * @hlen: packet header length, if @data is NULL use skb_headlen(skb)
-d79b3bafabc27c Bart Van Assche     2019-03-25   937   * @flags: flags that control the dissection process, e.g.
-1cc26450a855aa Stanislav Fomichev  2019-05-31   938   *         FLOW_DISSECTOR_F_STOP_AT_ENCAP.
-453a940ea725d6 WANG Cong           2014-08-25   939   *
-06635a35d13d42 Jiri Pirko          2015-05-12   940   * The function will try to retrieve individual keys into target specified
-06635a35d13d42 Jiri Pirko          2015-05-12   941   * by flow_dissector from either the skbuff or a raw buffer specified by the
-06635a35d13d42 Jiri Pirko          2015-05-12   942   * rest parameters.
-06635a35d13d42 Jiri Pirko          2015-05-12   943   *
-06635a35d13d42 Jiri Pirko          2015-05-12   944   * Caller must take care of zeroing target container memory.
-453a940ea725d6 WANG Cong           2014-08-25   945   */
-3cbf4ffba5eeec Stanislav Fomichev  2019-04-22  @946  bool __skb_flow_dissect(const struct net *net,
-3cbf4ffba5eeec Stanislav Fomichev  2019-04-22   947  			const struct sk_buff *skb,
-06635a35d13d42 Jiri Pirko          2015-05-12   948  			struct flow_dissector *flow_dissector,
-f96533cded173b Alexander Lobakin   2021-03-14   949  			void *target_container, const void *data,
-f96533cded173b Alexander Lobakin   2021-03-14   950  			__be16 proto, int nhoff, int hlen, unsigned int flags)
-0744dd00c1b1be Eric Dumazet        2011-11-28   951  {
-42aecaa9bb2bd5 Tom Herbert         2015-06-04   952  	struct flow_dissector_key_control *key_control;
-06635a35d13d42 Jiri Pirko          2015-05-12   953  	struct flow_dissector_key_basic *key_basic;
-06635a35d13d42 Jiri Pirko          2015-05-12   954  	struct flow_dissector_key_addrs *key_addrs;
-d34af823ff401c Tom Herbert         2015-06-04   955  	struct flow_dissector_key_tags *key_tags;
-f6a66927692e30 Hadar Hen Zion      2016-08-17   956  	struct flow_dissector_key_vlan *key_vlan;
-3a1214e8b06317 Tom Herbert         2017-09-01   957  	enum flow_dissect_ret fdret;
-24c590e3b0f9ee Jianbo Liu          2018-07-06   958  	enum flow_dissector_key_id dissector_vlan = FLOW_DISSECTOR_KEY_MAX;
-58cff782cc55eb Guillaume Nault     2020-05-26   959  	bool mpls_el = false;
-58cff782cc55eb Guillaume Nault     2020-05-26   960  	int mpls_lse = 0;
-1eed4dfb81b193 Tom Herbert         2017-09-01   961  	int num_hdrs = 0;
-8e690ffdbcc7b5 Geert Uytterhoeven  2015-06-25   962  	u8 ip_proto = 0;
-34fad54c2537f7 Eric Dumazet        2016-11-09   963  	bool ret;
-0744dd00c1b1be Eric Dumazet        2011-11-28   964  
-690e36e726d00d David S. Miller     2014-08-23   965  	if (!data) {
-690e36e726d00d David S. Miller     2014-08-23   966  		data = skb->data;
-d5709f7ab77679 Hadar Hen Zion      2016-08-17   967  		proto = skb_vlan_tag_present(skb) ?
-d5709f7ab77679 Hadar Hen Zion      2016-08-17   968  			 skb->vlan_proto : skb->protocol;
-453a940ea725d6 WANG Cong           2014-08-25   969  		nhoff = skb_network_offset(skb);
-690e36e726d00d David S. Miller     2014-08-23   970  		hlen = skb_headlen(skb);
-2d5716456404a1 John Crispin        2017-08-10   971  #if IS_ENABLED(CONFIG_NET_DSA)
-8bef0af09a5415 Alexander Lobakin   2019-12-05   972  		if (unlikely(skb->dev && netdev_uses_dsa(skb->dev) &&
-8bef0af09a5415 Alexander Lobakin   2019-12-05   973  			     proto == htons(ETH_P_XDSA))) {
-43e665287f931a John Crispin        2017-08-09   974  			const struct dsa_device_ops *ops;
-8bef0af09a5415 Alexander Lobakin   2019-12-05   975  			int offset = 0;
-43e665287f931a John Crispin        2017-08-09   976  
-43e665287f931a John Crispin        2017-08-09   977  			ops = skb->dev->dsa_ptr->tag_ops;
-ec13357263fb67 Vladimir Oltean     2021-06-14   978  			/* Only DSA header taggers break flow dissection */
-ec13357263fb67 Vladimir Oltean     2021-06-14   979  			if (ops->needed_headroom) {
-54fec33582aa60 Vladimir Oltean     2020-09-26   980  				if (ops->flow_dissect)
-2e8cb1b3db3843 Vladimir Oltean     2020-09-26   981  					ops->flow_dissect(skb, &proto, &offset);
-54fec33582aa60 Vladimir Oltean     2020-09-26   982  				else
-54fec33582aa60 Vladimir Oltean     2020-09-26   983  					dsa_tag_generic_flow_dissect(skb,
-54fec33582aa60 Vladimir Oltean     2020-09-26   984  								     &proto,
-54fec33582aa60 Vladimir Oltean     2020-09-26   985  								     &offset);
-43e665287f931a John Crispin        2017-08-09   986  				hlen -= offset;
-43e665287f931a John Crispin        2017-08-09   987  				nhoff += offset;
-43e665287f931a John Crispin        2017-08-09   988  			}
-43e665287f931a John Crispin        2017-08-09   989  		}
-2d5716456404a1 John Crispin        2017-08-10   990  #endif
-690e36e726d00d David S. Miller     2014-08-23   991  	}
-690e36e726d00d David S. Miller     2014-08-23   992  
-42aecaa9bb2bd5 Tom Herbert         2015-06-04   993  	/* It is ensured by skb_flow_dissector_init() that control key will
-42aecaa9bb2bd5 Tom Herbert         2015-06-04   994  	 * be always present.
-42aecaa9bb2bd5 Tom Herbert         2015-06-04   995  	 */
-42aecaa9bb2bd5 Tom Herbert         2015-06-04   996  	key_control = skb_flow_dissector_target(flow_dissector,
-42aecaa9bb2bd5 Tom Herbert         2015-06-04   997  						FLOW_DISSECTOR_KEY_CONTROL,
-42aecaa9bb2bd5 Tom Herbert         2015-06-04   998  						target_container);
-42aecaa9bb2bd5 Tom Herbert         2015-06-04   999  
-06635a35d13d42 Jiri Pirko          2015-05-12  1000  	/* It is ensured by skb_flow_dissector_init() that basic key will
-06635a35d13d42 Jiri Pirko          2015-05-12  1001  	 * be always present.
-06635a35d13d42 Jiri Pirko          2015-05-12  1002  	 */
-06635a35d13d42 Jiri Pirko          2015-05-12  1003  	key_basic = skb_flow_dissector_target(flow_dissector,
-06635a35d13d42 Jiri Pirko          2015-05-12  1004  					      FLOW_DISSECTOR_KEY_BASIC,
-06635a35d13d42 Jiri Pirko          2015-05-12  1005  					      target_container);
-0744dd00c1b1be Eric Dumazet        2011-11-28  1006  
-d0e13a1488ad30 Willem de Bruijn    2018-09-24  1007  	if (skb) {
-3cbf4ffba5eeec Stanislav Fomichev  2019-04-22  1008  		if (!net) {
-d0e13a1488ad30 Willem de Bruijn    2018-09-24  1009  			if (skb->dev)
-3cbf4ffba5eeec Stanislav Fomichev  2019-04-22  1010  				net = dev_net(skb->dev);
-d0e13a1488ad30 Willem de Bruijn    2018-09-24  1011  			else if (skb->sk)
-3cbf4ffba5eeec Stanislav Fomichev  2019-04-22  1012  				net = sock_net(skb->sk);
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1013  		}
-3cbf4ffba5eeec Stanislav Fomichev  2019-04-22  1014  	}
-3cbf4ffba5eeec Stanislav Fomichev  2019-04-22  1015  
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1016  	WARN_ON_ONCE(!net);
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1017  	if (net) {
-a3fd7ceee05431 Jakub Sitnicki      2020-05-31  1018  		enum netns_bpf_attach_type type = NETNS_BPF_FLOW_DISSECTOR;
-695c12147a4018 Jakub Sitnicki      2020-06-25  1019  		struct bpf_prog_array *run_array;
-a3fd7ceee05431 Jakub Sitnicki      2020-05-31  1020  
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1021  		rcu_read_lock();
-695c12147a4018 Jakub Sitnicki      2020-06-25  1022  		run_array = rcu_dereference(init_net.bpf.run_array[type]);
-695c12147a4018 Jakub Sitnicki      2020-06-25  1023  		if (!run_array)
-695c12147a4018 Jakub Sitnicki      2020-06-25  1024  			run_array = rcu_dereference(net->bpf.run_array[type]);
-a11c397c43d5b2 Stanislav Fomichev  2019-10-07  1025  
-695c12147a4018 Jakub Sitnicki      2020-06-25  1026  		if (run_array) {
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1027  			struct bpf_flow_keys flow_keys;
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1028  			struct bpf_flow_dissector ctx = {
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1029  				.flow_keys = &flow_keys,
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1030  				.data = data,
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1031  				.data_end = data + hlen,
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1032  			};
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1033  			__be16 n_proto = proto;
-695c12147a4018 Jakub Sitnicki      2020-06-25  1034  			struct bpf_prog *prog;
-0ba985024ae7db Shmulik Ladkani     2022-08-21  1035  			u32 result;
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1036  
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1037  			if (skb) {
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1038  				ctx.skb = skb;
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1039  				/* we can't use 'proto' in the skb case
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1040  				 * because it might be set to skb->vlan_proto
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1041  				 * which has been pulled from the data
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1042  				 */
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1043  				n_proto = skb->protocol;
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1044  			}
-9b52e3f267a683 Stanislav Fomichev  2019-04-22  1045  
-695c12147a4018 Jakub Sitnicki      2020-06-25  1046  			prog = READ_ONCE(run_array->items[0].prog);
-0ba985024ae7db Shmulik Ladkani     2022-08-21  1047  			result = bpf_flow_dissect(prog, &ctx, n_proto, nhoff,
-086f95682114fd Stanislav Fomichev  2019-07-25  1048  						  hlen, flags);
-91350fe152930c Shmulik Ladkani     2022-08-21  1049  			if (result == BPF_FLOW_DISSECTOR_CONTINUE)
-91350fe152930c Shmulik Ladkani     2022-08-21  1050  				goto dissect_continue;
-d58e468b1112dc Petar Penkov        2018-09-14  1051  			__skb_flow_bpf_to_target(&flow_keys, flow_dissector,
-d58e468b1112dc Petar Penkov        2018-09-14  1052  						 target_container);
-d58e468b1112dc Petar Penkov        2018-09-14  1053  			rcu_read_unlock();
-0ba985024ae7db Shmulik Ladkani     2022-08-21  1054  			return result == BPF_OK;
-d58e468b1112dc Petar Penkov        2018-09-14  1055  		}
-91350fe152930c Shmulik Ladkani     2022-08-21  1056  dissect_continue:
-d58e468b1112dc Petar Penkov        2018-09-14  1057  		rcu_read_unlock();
-c8aa703822bf81 Stanislav Fomichev  2019-01-28  1058  	}
-d58e468b1112dc Petar Penkov        2018-09-14  1059  
-20a17bf6c04e3e David S. Miller     2015-09-01  1060  	if (dissector_uses_key(flow_dissector,
-67a900cc0436d7 Jiri Pirko          2015-05-12  1061  			       FLOW_DISSECTOR_KEY_ETH_ADDRS)) {
-67a900cc0436d7 Jiri Pirko          2015-05-12  1062  		struct ethhdr *eth = eth_hdr(skb);
-67a900cc0436d7 Jiri Pirko          2015-05-12  1063  		struct flow_dissector_key_eth_addrs *key_eth_addrs;
-67a900cc0436d7 Jiri Pirko          2015-05-12  1064  
-67a900cc0436d7 Jiri Pirko          2015-05-12  1065  		key_eth_addrs = skb_flow_dissector_target(flow_dissector,
-67a900cc0436d7 Jiri Pirko          2015-05-12  1066  							  FLOW_DISSECTOR_KEY_ETH_ADDRS,
-67a900cc0436d7 Jiri Pirko          2015-05-12  1067  							  target_container);
-1b808993e19447 Jakub Kicinski      2022-04-06  1068  		memcpy(key_eth_addrs, eth, sizeof(*key_eth_addrs));
-67a900cc0436d7 Jiri Pirko          2015-05-12  1069  	}
-67a900cc0436d7 Jiri Pirko          2015-05-12  1070  
-34951fcf26c59e Boris Sukholitko    2022-04-19  1071  	if (dissector_uses_key(flow_dissector,
-34951fcf26c59e Boris Sukholitko    2022-04-19  1072  			       FLOW_DISSECTOR_KEY_NUM_OF_VLANS)) {
-34951fcf26c59e Boris Sukholitko    2022-04-19  1073  		struct flow_dissector_key_num_of_vlans *key_num_of_vlans;
-34951fcf26c59e Boris Sukholitko    2022-04-19  1074  
-34951fcf26c59e Boris Sukholitko    2022-04-19  1075  		key_num_of_vlans = skb_flow_dissector_target(flow_dissector,
-34951fcf26c59e Boris Sukholitko    2022-04-19  1076  							     FLOW_DISSECTOR_KEY_NUM_OF_VLANS,
-34951fcf26c59e Boris Sukholitko    2022-04-19  1077  							     target_container);
-34951fcf26c59e Boris Sukholitko    2022-04-19  1078  		key_num_of_vlans->num_of_vlans = 0;
-34951fcf26c59e Boris Sukholitko    2022-04-19  1079  	}
-34951fcf26c59e Boris Sukholitko    2022-04-19  1080  
-c5ef188e931869 Jiri Pirko          2017-03-06  1081  proto_again:
-3a1214e8b06317 Tom Herbert         2017-09-01  1082  	fdret = FLOW_DISSECT_RET_CONTINUE;
-3a1214e8b06317 Tom Herbert         2017-09-01  1083  
-0744dd00c1b1be Eric Dumazet        2011-11-28  1084  	switch (proto) {
-2b8837aeaaa0bb Joe Perches         2014-03-12  1085  	case htons(ETH_P_IP): {
-0744dd00c1b1be Eric Dumazet        2011-11-28  1086  		const struct iphdr *iph;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1087  		struct iphdr _iph;
-3a1214e8b06317 Tom Herbert         2017-09-01  1088  
-690e36e726d00d David S. Miller     2014-08-23  1089  		iph = __skb_header_pointer(skb, nhoff, sizeof(_iph), data, hlen, &_iph);
-3a1214e8b06317 Tom Herbert         2017-09-01  1090  		if (!iph || iph->ihl < 5) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1091  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1092  			break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1093  		}
-3a1214e8b06317 Tom Herbert         2017-09-01  1094  
-3797d3e8462efd Eric Dumazet        2013-11-07  1095  		nhoff += iph->ihl * 4;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1096  
-3797d3e8462efd Eric Dumazet        2013-11-07  1097  		ip_proto = iph->protocol;
-3797d3e8462efd Eric Dumazet        2013-11-07  1098  
-918c023f29ab2d Alexander Duyck     2016-02-24  1099  		if (dissector_uses_key(flow_dissector,
-918c023f29ab2d Alexander Duyck     2016-02-24  1100  				       FLOW_DISSECTOR_KEY_IPV4_ADDRS)) {
-06635a35d13d42 Jiri Pirko          2015-05-12  1101  			key_addrs = skb_flow_dissector_target(flow_dissector,
-918c023f29ab2d Alexander Duyck     2016-02-24  1102  							      FLOW_DISSECTOR_KEY_IPV4_ADDRS,
-918c023f29ab2d Alexander Duyck     2016-02-24  1103  							      target_container);
-918c023f29ab2d Alexander Duyck     2016-02-24  1104  
-323e0cb473e2a8 Gustavo A. R. Silva 2021-07-26  1105  			memcpy(&key_addrs->v4addrs.src, &iph->saddr,
-323e0cb473e2a8 Gustavo A. R. Silva 2021-07-26  1106  			       sizeof(key_addrs->v4addrs.src));
-323e0cb473e2a8 Gustavo A. R. Silva 2021-07-26  1107  			memcpy(&key_addrs->v4addrs.dst, &iph->daddr,
-323e0cb473e2a8 Gustavo A. R. Silva 2021-07-26  1108  			       sizeof(key_addrs->v4addrs.dst));
-c3f8324188fa80 Tom Herbert         2015-06-04  1109  			key_control->addr_type = FLOW_DISSECTOR_KEY_IPV4_ADDRS;
-918c023f29ab2d Alexander Duyck     2016-02-24  1110  		}
-807e165dc44fd9 Tom Herbert         2015-09-01  1111  
-d2126838050ccd Davide Caratti      2021-02-12  1112  		__skb_flow_dissect_ipv4(skb, flow_dissector,
-d2126838050ccd Davide Caratti      2021-02-12  1113  					target_container, data, iph);
-d2126838050ccd Davide Caratti      2021-02-12  1114  
-807e165dc44fd9 Tom Herbert         2015-09-01  1115  		if (ip_is_fragment(iph)) {
-4b36993d3df083 David S. Miller     2015-09-01  1116  			key_control->flags |= FLOW_DIS_IS_FRAGMENT;
-807e165dc44fd9 Tom Herbert         2015-09-01  1117  
-807e165dc44fd9 Tom Herbert         2015-09-01  1118  			if (iph->frag_off & htons(IP_OFFSET)) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1119  				fdret = FLOW_DISSECT_RET_OUT_GOOD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1120  				break;
-807e165dc44fd9 Tom Herbert         2015-09-01  1121  			} else {
-4b36993d3df083 David S. Miller     2015-09-01  1122  				key_control->flags |= FLOW_DIS_FIRST_FRAG;
-3a1214e8b06317 Tom Herbert         2017-09-01  1123  				if (!(flags &
-3a1214e8b06317 Tom Herbert         2017-09-01  1124  				      FLOW_DISSECTOR_F_PARSE_1ST_FRAG)) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1125  					fdret = FLOW_DISSECT_RET_OUT_GOOD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1126  					break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1127  				}
-807e165dc44fd9 Tom Herbert         2015-09-01  1128  			}
-807e165dc44fd9 Tom Herbert         2015-09-01  1129  		}
-807e165dc44fd9 Tom Herbert         2015-09-01  1130  
-0744dd00c1b1be Eric Dumazet        2011-11-28  1131  		break;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1132  	}
-2b8837aeaaa0bb Joe Perches         2014-03-12  1133  	case htons(ETH_P_IPV6): {
-0744dd00c1b1be Eric Dumazet        2011-11-28  1134  		const struct ipv6hdr *iph;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1135  		struct ipv6hdr _iph;
-19469a873bafd4 Tom Herbert         2014-07-01  1136  
-690e36e726d00d David S. Miller     2014-08-23  1137  		iph = __skb_header_pointer(skb, nhoff, sizeof(_iph), data, hlen, &_iph);
-3a1214e8b06317 Tom Herbert         2017-09-01  1138  		if (!iph) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1139  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1140  			break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1141  		}
-0744dd00c1b1be Eric Dumazet        2011-11-28  1142  
-0744dd00c1b1be Eric Dumazet        2011-11-28  1143  		ip_proto = iph->nexthdr;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1144  		nhoff += sizeof(struct ipv6hdr);
-19469a873bafd4 Tom Herbert         2014-07-01  1145  
-20a17bf6c04e3e David S. Miller     2015-09-01  1146  		if (dissector_uses_key(flow_dissector,
-b924933cbbfbdc Jiri Pirko          2015-05-12  1147  				       FLOW_DISSECTOR_KEY_IPV6_ADDRS)) {
-b3c3106ce3f464 Alexander Duyck     2016-02-24  1148  			key_addrs = skb_flow_dissector_target(flow_dissector,
-b924933cbbfbdc Jiri Pirko          2015-05-12  1149  							      FLOW_DISSECTOR_KEY_IPV6_ADDRS,
-b924933cbbfbdc Jiri Pirko          2015-05-12  1150  							      target_container);
-b924933cbbfbdc Jiri Pirko          2015-05-12  1151  
-323e0cb473e2a8 Gustavo A. R. Silva 2021-07-26  1152  			memcpy(&key_addrs->v6addrs.src, &iph->saddr,
-323e0cb473e2a8 Gustavo A. R. Silva 2021-07-26  1153  			       sizeof(key_addrs->v6addrs.src));
-323e0cb473e2a8 Gustavo A. R. Silva 2021-07-26  1154  			memcpy(&key_addrs->v6addrs.dst, &iph->daddr,
-323e0cb473e2a8 Gustavo A. R. Silva 2021-07-26  1155  			       sizeof(key_addrs->v6addrs.dst));
-c3f8324188fa80 Tom Herbert         2015-06-04  1156  			key_control->addr_type = FLOW_DISSECTOR_KEY_IPV6_ADDRS;
-b924933cbbfbdc Jiri Pirko          2015-05-12  1157  		}
-87ee9e52ffeb16 Tom Herbert         2015-06-04  1158  
-461547f3158978 Alexander Duyck     2016-02-09  1159  		if ((dissector_uses_key(flow_dissector,
-461547f3158978 Alexander Duyck     2016-02-09  1160  					FLOW_DISSECTOR_KEY_FLOW_LABEL) ||
-461547f3158978 Alexander Duyck     2016-02-09  1161  		     (flags & FLOW_DISSECTOR_F_STOP_AT_FLOW_LABEL)) &&
-461547f3158978 Alexander Duyck     2016-02-09  1162  		    ip6_flowlabel(iph)) {
-461547f3158978 Alexander Duyck     2016-02-09  1163  			__be32 flow_label = ip6_flowlabel(iph);
-461547f3158978 Alexander Duyck     2016-02-09  1164  
-20a17bf6c04e3e David S. Miller     2015-09-01  1165  			if (dissector_uses_key(flow_dissector,
-87ee9e52ffeb16 Tom Herbert         2015-06-04  1166  					       FLOW_DISSECTOR_KEY_FLOW_LABEL)) {
-87ee9e52ffeb16 Tom Herbert         2015-06-04  1167  				key_tags = skb_flow_dissector_target(flow_dissector,
-87ee9e52ffeb16 Tom Herbert         2015-06-04  1168  								     FLOW_DISSECTOR_KEY_FLOW_LABEL,
-06635a35d13d42 Jiri Pirko          2015-05-12  1169  								     target_container);
-87ee9e52ffeb16 Tom Herbert         2015-06-04  1170  				key_tags->flow_label = ntohl(flow_label);
-12c227ec89a70c Jiri Pirko          2015-05-22  1171  			}
-3a1214e8b06317 Tom Herbert         2017-09-01  1172  			if (flags & FLOW_DISSECTOR_F_STOP_AT_FLOW_LABEL) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1173  				fdret = FLOW_DISSECT_RET_OUT_GOOD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1174  				break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1175  			}
-19469a873bafd4 Tom Herbert         2014-07-01  1176  		}
-19469a873bafd4 Tom Herbert         2014-07-01  1177  
-518d8a2e9bad83 Or Gerlitz          2017-06-01  1178  		__skb_flow_dissect_ipv6(skb, flow_dissector,
-518d8a2e9bad83 Or Gerlitz          2017-06-01  1179  					target_container, data, iph);
-518d8a2e9bad83 Or Gerlitz          2017-06-01  1180  
-0744dd00c1b1be Eric Dumazet        2011-11-28  1181  		break;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1182  	}
-2b8837aeaaa0bb Joe Perches         2014-03-12  1183  	case htons(ETH_P_8021AD):
-2b8837aeaaa0bb Joe Perches         2014-03-12  1184  	case htons(ETH_P_8021Q): {
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1185  		const struct vlan_hdr *vlan = NULL;
-bc72f3dd89e087 Arnd Bergmann       2016-10-24  1186  		struct vlan_hdr _vlan;
-2064c3d4c02026 Jianbo Liu          2018-07-06  1187  		__be16 saved_vlan_tpid = proto;
-d5709f7ab77679 Hadar Hen Zion      2016-08-17  1188  
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1189  		if (dissector_vlan == FLOW_DISSECTOR_KEY_MAX &&
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1190  		    skb && skb_vlan_tag_present(skb)) {
-d5709f7ab77679 Hadar Hen Zion      2016-08-17  1191  			proto = skb->protocol;
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1192  		} else {
-d5709f7ab77679 Hadar Hen Zion      2016-08-17  1193  			vlan = __skb_header_pointer(skb, nhoff, sizeof(_vlan),
-d5709f7ab77679 Hadar Hen Zion      2016-08-17  1194  						    data, hlen, &_vlan);
-3a1214e8b06317 Tom Herbert         2017-09-01  1195  			if (!vlan) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1196  				fdret = FLOW_DISSECT_RET_OUT_BAD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1197  				break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1198  			}
-3a1214e8b06317 Tom Herbert         2017-09-01  1199  
-d5709f7ab77679 Hadar Hen Zion      2016-08-17  1200  			proto = vlan->h_vlan_encapsulated_proto;
-d5709f7ab77679 Hadar Hen Zion      2016-08-17  1201  			nhoff += sizeof(*vlan);
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1202  		}
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1203  
-34951fcf26c59e Boris Sukholitko    2022-04-19  1204  		if (dissector_uses_key(flow_dissector,
-34951fcf26c59e Boris Sukholitko    2022-04-19  1205  				       FLOW_DISSECTOR_KEY_NUM_OF_VLANS)) {
-34951fcf26c59e Boris Sukholitko    2022-04-19  1206  			struct flow_dissector_key_num_of_vlans *key_nvs;
-34951fcf26c59e Boris Sukholitko    2022-04-19  1207  
-34951fcf26c59e Boris Sukholitko    2022-04-19  1208  			key_nvs = skb_flow_dissector_target(flow_dissector,
-34951fcf26c59e Boris Sukholitko    2022-04-19  1209  							    FLOW_DISSECTOR_KEY_NUM_OF_VLANS,
-34951fcf26c59e Boris Sukholitko    2022-04-19  1210  							    target_container);
-34951fcf26c59e Boris Sukholitko    2022-04-19  1211  			key_nvs->num_of_vlans++;
-34951fcf26c59e Boris Sukholitko    2022-04-19  1212  		}
-34951fcf26c59e Boris Sukholitko    2022-04-19  1213  
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1214  		if (dissector_vlan == FLOW_DISSECTOR_KEY_MAX) {
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1215  			dissector_vlan = FLOW_DISSECTOR_KEY_VLAN;
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1216  		} else if (dissector_vlan == FLOW_DISSECTOR_KEY_VLAN) {
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1217  			dissector_vlan = FLOW_DISSECTOR_KEY_CVLAN;
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1218  		} else {
-3a1214e8b06317 Tom Herbert         2017-09-01  1219  			fdret = FLOW_DISSECT_RET_PROTO_AGAIN;
-3a1214e8b06317 Tom Herbert         2017-09-01  1220  			break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1221  		}
-0744dd00c1b1be Eric Dumazet        2011-11-28  1222  
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1223  		if (dissector_uses_key(flow_dissector, dissector_vlan)) {
-f6a66927692e30 Hadar Hen Zion      2016-08-17  1224  			key_vlan = skb_flow_dissector_target(flow_dissector,
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1225  							     dissector_vlan,
-d34af823ff401c Tom Herbert         2015-06-04  1226  							     target_container);
-d34af823ff401c Tom Herbert         2015-06-04  1227  
-24c590e3b0f9ee Jianbo Liu          2018-07-06  1228  			if (!vlan) {
-f6a66927692e30 Hadar Hen Zion      2016-08-17  1229  				key_vlan->vlan_id = skb_vlan_tag_get_id(skb);
-9b319148cb34ec Michał Mirosław     2018-11-07  1230  				key_vlan->vlan_priority = skb_vlan_tag_get_prio(skb);
-f6a66927692e30 Hadar Hen Zion      2016-08-17  1231  			} else {
-f6a66927692e30 Hadar Hen Zion      2016-08-17  1232  				key_vlan->vlan_id = ntohs(vlan->h_vlan_TCI) &
-d5709f7ab77679 Hadar Hen Zion      2016-08-17  1233  					VLAN_VID_MASK;
-f6a66927692e30 Hadar Hen Zion      2016-08-17  1234  				key_vlan->vlan_priority =
-f6a66927692e30 Hadar Hen Zion      2016-08-17  1235  					(ntohs(vlan->h_vlan_TCI) &
-f6a66927692e30 Hadar Hen Zion      2016-08-17  1236  					 VLAN_PRIO_MASK) >> VLAN_PRIO_SHIFT;
-f6a66927692e30 Hadar Hen Zion      2016-08-17  1237  			}
-2064c3d4c02026 Jianbo Liu          2018-07-06  1238  			key_vlan->vlan_tpid = saved_vlan_tpid;
-2105f700b53c24 Vlad Buslov         2022-04-06  1239  			key_vlan->vlan_eth_type = proto;
-d34af823ff401c Tom Herbert         2015-06-04  1240  		}
-d34af823ff401c Tom Herbert         2015-06-04  1241  
-3a1214e8b06317 Tom Herbert         2017-09-01  1242  		fdret = FLOW_DISSECT_RET_PROTO_AGAIN;
-3a1214e8b06317 Tom Herbert         2017-09-01  1243  		break;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1244  	}
-2b8837aeaaa0bb Joe Perches         2014-03-12  1245  	case htons(ETH_P_PPP_SES): {
-0744dd00c1b1be Eric Dumazet        2011-11-28  1246  		struct {
-0744dd00c1b1be Eric Dumazet        2011-11-28  1247  			struct pppoe_hdr hdr;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1248  			__be16 proto;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1249  		} *hdr, _hdr;
-46126db9c86110 Wojciech Drewek     2022-07-18  1250  		u16 ppp_proto;
-46126db9c86110 Wojciech Drewek     2022-07-18  1251  
-690e36e726d00d David S. Miller     2014-08-23  1252  		hdr = __skb_header_pointer(skb, nhoff, sizeof(_hdr), data, hlen, &_hdr);
-3a1214e8b06317 Tom Herbert         2017-09-01  1253  		if (!hdr) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1254  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1255  			break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1256  		}
-3a1214e8b06317 Tom Herbert         2017-09-01  1257  
-f86d1fbbe78588 Linus Torvalds      2022-08-03  1258  		if (!is_pppoe_ses_hdr_valid(&hdr->hdr)) {
-46126db9c86110 Wojciech Drewek     2022-07-18  1259  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-46126db9c86110 Wojciech Drewek     2022-07-18  1260  			break;
-46126db9c86110 Wojciech Drewek     2022-07-18  1261  		}
-46126db9c86110 Wojciech Drewek     2022-07-18  1262  
-46126db9c86110 Wojciech Drewek     2022-07-18  1263  		/* least significant bit of the most significant octet
-46126db9c86110 Wojciech Drewek     2022-07-18  1264  		 * indicates if protocol field was compressed
-46126db9c86110 Wojciech Drewek     2022-07-18  1265  		 */
-46126db9c86110 Wojciech Drewek     2022-07-18  1266  		ppp_proto = ntohs(hdr->proto);
-46126db9c86110 Wojciech Drewek     2022-07-18  1267  		if (ppp_proto & 0x0100) {
-46126db9c86110 Wojciech Drewek     2022-07-18  1268  			ppp_proto = ppp_proto >> 8;
-46126db9c86110 Wojciech Drewek     2022-07-18  1269  			nhoff += PPPOE_SES_HLEN - 1;
-46126db9c86110 Wojciech Drewek     2022-07-18  1270  		} else {
-0744dd00c1b1be Eric Dumazet        2011-11-28  1271  			nhoff += PPPOE_SES_HLEN;
-46126db9c86110 Wojciech Drewek     2022-07-18  1272  		}
-46126db9c86110 Wojciech Drewek     2022-07-18  1273  
-46126db9c86110 Wojciech Drewek     2022-07-18  1274  		if (ppp_proto == PPP_IP) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1275  			proto = htons(ETH_P_IP);
-3a1214e8b06317 Tom Herbert         2017-09-01  1276  			fdret = FLOW_DISSECT_RET_PROTO_AGAIN;
-46126db9c86110 Wojciech Drewek     2022-07-18  1277  		} else if (ppp_proto == PPP_IPV6) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1278  			proto = htons(ETH_P_IPV6);
-3a1214e8b06317 Tom Herbert         2017-09-01  1279  			fdret = FLOW_DISSECT_RET_PROTO_AGAIN;
-46126db9c86110 Wojciech Drewek     2022-07-18  1280  		} else if (ppp_proto == PPP_MPLS_UC) {
-46126db9c86110 Wojciech Drewek     2022-07-18  1281  			proto = htons(ETH_P_MPLS_UC);
-46126db9c86110 Wojciech Drewek     2022-07-18  1282  			fdret = FLOW_DISSECT_RET_PROTO_AGAIN;
-46126db9c86110 Wojciech Drewek     2022-07-18  1283  		} else if (ppp_proto == PPP_MPLS_MC) {
-46126db9c86110 Wojciech Drewek     2022-07-18  1284  			proto = htons(ETH_P_MPLS_MC);
-46126db9c86110 Wojciech Drewek     2022-07-18  1285  			fdret = FLOW_DISSECT_RET_PROTO_AGAIN;
-46126db9c86110 Wojciech Drewek     2022-07-18  1286  		} else if (ppp_proto_is_valid(ppp_proto)) {
-46126db9c86110 Wojciech Drewek     2022-07-18  1287  			fdret = FLOW_DISSECT_RET_OUT_GOOD;
-46126db9c86110 Wojciech Drewek     2022-07-18  1288  		} else {
-3a1214e8b06317 Tom Herbert         2017-09-01  1289  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1290  			break;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1291  		}
-46126db9c86110 Wojciech Drewek     2022-07-18  1292  
-46126db9c86110 Wojciech Drewek     2022-07-18  1293  		if (dissector_uses_key(flow_dissector,
-46126db9c86110 Wojciech Drewek     2022-07-18  1294  				       FLOW_DISSECTOR_KEY_PPPOE)) {
-46126db9c86110 Wojciech Drewek     2022-07-18  1295  			struct flow_dissector_key_pppoe *key_pppoe;
-46126db9c86110 Wojciech Drewek     2022-07-18  1296  
-46126db9c86110 Wojciech Drewek     2022-07-18  1297  			key_pppoe = skb_flow_dissector_target(flow_dissector,
-46126db9c86110 Wojciech Drewek     2022-07-18  1298  							      FLOW_DISSECTOR_KEY_PPPOE,
-46126db9c86110 Wojciech Drewek     2022-07-18  1299  							      target_container);
-46126db9c86110 Wojciech Drewek     2022-07-18  1300  			key_pppoe->session_id = hdr->hdr.sid;
-46126db9c86110 Wojciech Drewek     2022-07-18  1301  			key_pppoe->ppp_proto = htons(ppp_proto);
-46126db9c86110 Wojciech Drewek     2022-07-18  1302  			key_pppoe->type = htons(ETH_P_PPP_SES);
-46126db9c86110 Wojciech Drewek     2022-07-18  1303  		}
-3a1214e8b06317 Tom Herbert         2017-09-01  1304  		break;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1305  	}
-08bfc9cb76e26d Erik Hugne          2015-01-22  1306  	case htons(ETH_P_TIPC): {
-8d6e79d3ce13e3 Jon Maloy           2017-11-08  1307  		struct tipc_basic_hdr *hdr, _hdr;
-8d6e79d3ce13e3 Jon Maloy           2017-11-08  1308  
-8d6e79d3ce13e3 Jon Maloy           2017-11-08  1309  		hdr = __skb_header_pointer(skb, nhoff, sizeof(_hdr),
-8d6e79d3ce13e3 Jon Maloy           2017-11-08  1310  					   data, hlen, &_hdr);
-3a1214e8b06317 Tom Herbert         2017-09-01  1311  		if (!hdr) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1312  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1313  			break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1314  		}
-06635a35d13d42 Jiri Pirko          2015-05-12  1315  
-20a17bf6c04e3e David S. Miller     2015-09-01  1316  		if (dissector_uses_key(flow_dissector,
-8d6e79d3ce13e3 Jon Maloy           2017-11-08  1317  				       FLOW_DISSECTOR_KEY_TIPC)) {
-06635a35d13d42 Jiri Pirko          2015-05-12  1318  			key_addrs = skb_flow_dissector_target(flow_dissector,
-8d6e79d3ce13e3 Jon Maloy           2017-11-08  1319  							      FLOW_DISSECTOR_KEY_TIPC,
-06635a35d13d42 Jiri Pirko          2015-05-12  1320  							      target_container);
-8d6e79d3ce13e3 Jon Maloy           2017-11-08  1321  			key_addrs->tipckey.key = tipc_hdr_rps_key(hdr);
-8d6e79d3ce13e3 Jon Maloy           2017-11-08  1322  			key_control->addr_type = FLOW_DISSECTOR_KEY_TIPC;
-06635a35d13d42 Jiri Pirko          2015-05-12  1323  		}
-3a1214e8b06317 Tom Herbert         2017-09-01  1324  		fdret = FLOW_DISSECT_RET_OUT_GOOD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1325  		break;
-08bfc9cb76e26d Erik Hugne          2015-01-22  1326  	}
-b3baa0fbd02a1a Tom Herbert         2015-06-04  1327  
-b3baa0fbd02a1a Tom Herbert         2015-06-04  1328  	case htons(ETH_P_MPLS_UC):
-4a5d6c8b14b81e Jiri Pirko          2017-03-06  1329  	case htons(ETH_P_MPLS_MC):
-3a1214e8b06317 Tom Herbert         2017-09-01  1330  		fdret = __skb_flow_dissect_mpls(skb, flow_dissector,
-4a5d6c8b14b81e Jiri Pirko          2017-03-06  1331  						target_container, data,
-58cff782cc55eb Guillaume Nault     2020-05-26  1332  						nhoff, hlen, mpls_lse,
-58cff782cc55eb Guillaume Nault     2020-05-26  1333  						&mpls_el);
-58cff782cc55eb Guillaume Nault     2020-05-26  1334  		nhoff += sizeof(struct mpls_label);
-58cff782cc55eb Guillaume Nault     2020-05-26  1335  		mpls_lse++;
-3a1214e8b06317 Tom Herbert         2017-09-01  1336  		break;
-56193d1bce2b27 Alexander Duyck     2014-09-05  1337  	case htons(ETH_P_FCOE):
-3a1214e8b06317 Tom Herbert         2017-09-01  1338  		if ((hlen - nhoff) < FCOE_HEADER_LEN) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1339  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1340  			break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1341  		}
-224516b3a798a0 Alexander Duyck     2016-02-24  1342  
-224516b3a798a0 Alexander Duyck     2016-02-24  1343  		nhoff += FCOE_HEADER_LEN;
-3a1214e8b06317 Tom Herbert         2017-09-01  1344  		fdret = FLOW_DISSECT_RET_OUT_GOOD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1345  		break;
-55733350e5e8b7 Simon Horman        2017-01-11  1346  
-55733350e5e8b7 Simon Horman        2017-01-11  1347  	case htons(ETH_P_ARP):
-9bf881ffc5c0e6 Jiri Pirko          2017-03-06  1348  	case htons(ETH_P_RARP):
-3a1214e8b06317 Tom Herbert         2017-09-01  1349  		fdret = __skb_flow_dissect_arp(skb, flow_dissector,
-9bf881ffc5c0e6 Jiri Pirko          2017-03-06  1350  					       target_container, data,
-3a1214e8b06317 Tom Herbert         2017-09-01  1351  					       nhoff, hlen);
-3a1214e8b06317 Tom Herbert         2017-09-01  1352  		break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1353  
-5b0890a9720462 Sven Eckelmann      2017-12-21  1354  	case htons(ETH_P_BATMAN):
-5b0890a9720462 Sven Eckelmann      2017-12-21  1355  		fdret = __skb_flow_dissect_batadv(skb, key_control, data,
-5b0890a9720462 Sven Eckelmann      2017-12-21  1356  						  &proto, &nhoff, hlen, flags);
-5b0890a9720462 Sven Eckelmann      2017-12-21  1357  		break;
-5b0890a9720462 Sven Eckelmann      2017-12-21  1358  
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1359  	case htons(ETH_P_1588): {
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1360  		struct ptp_header *hdr, _hdr;
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1361  
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1362  		hdr = __skb_header_pointer(skb, nhoff, sizeof(_hdr), data,
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1363  					   hlen, &_hdr);
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1364  		if (!hdr) {
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1365  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1366  			break;
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1367  		}
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1368  
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1369  		nhoff += ntohs(hdr->message_length);
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1370  		fdret = FLOW_DISSECT_RET_OUT_GOOD;
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1371  		break;
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1372  	}
-4f1cc51f34886d Eran Ben Elisha     2021-01-12  1373  
-f65e58440d4fca Kurt Kanzenbach     2022-03-10  1374  	case htons(ETH_P_PRP):
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1375  	case htons(ETH_P_HSR): {
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1376  		struct hsr_tag *hdr, _hdr;
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1377  
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1378  		hdr = __skb_header_pointer(skb, nhoff, sizeof(_hdr), data, hlen,
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1379  					   &_hdr);
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1380  		if (!hdr) {
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1381  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1382  			break;
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1383  		}
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1384  
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1385  		proto = hdr->encap_proto;
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1386  		nhoff += HSR_HLEN;
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1387  		fdret = FLOW_DISSECT_RET_PROTO_AGAIN;
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1388  		break;
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1389  	}
-bf08824a0f4776 Kurt Kanzenbach     2022-02-28  1390  
-3a1214e8b06317 Tom Herbert         2017-09-01  1391  	default:
-3a1214e8b06317 Tom Herbert         2017-09-01  1392  		fdret = FLOW_DISSECT_RET_OUT_BAD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1393  		break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1394  	}
-3a1214e8b06317 Tom Herbert         2017-09-01  1395  
-3a1214e8b06317 Tom Herbert         2017-09-01  1396  	/* Process result of proto processing */
-3a1214e8b06317 Tom Herbert         2017-09-01  1397  	switch (fdret) {
-9bf881ffc5c0e6 Jiri Pirko          2017-03-06  1398  	case FLOW_DISSECT_RET_OUT_GOOD:
-55733350e5e8b7 Simon Horman        2017-01-11  1399  		goto out_good;
-3a1214e8b06317 Tom Herbert         2017-09-01  1400  	case FLOW_DISSECT_RET_PROTO_AGAIN:
-1eed4dfb81b193 Tom Herbert         2017-09-01  1401  		if (skb_flow_dissect_allowed(&num_hdrs))
-3a1214e8b06317 Tom Herbert         2017-09-01  1402  			goto proto_again;
-1eed4dfb81b193 Tom Herbert         2017-09-01  1403  		goto out_good;
-3a1214e8b06317 Tom Herbert         2017-09-01  1404  	case FLOW_DISSECT_RET_CONTINUE:
-3a1214e8b06317 Tom Herbert         2017-09-01  1405  	case FLOW_DISSECT_RET_IPPROTO_AGAIN:
-3a1214e8b06317 Tom Herbert         2017-09-01  1406  		break;
-9bf881ffc5c0e6 Jiri Pirko          2017-03-06  1407  	case FLOW_DISSECT_RET_OUT_BAD:
-7c92de8eaabfff Jiri Pirko          2017-03-06  1408  	default:
-9bf881ffc5c0e6 Jiri Pirko          2017-03-06  1409  		goto out_bad;
-55733350e5e8b7 Simon Horman        2017-01-11  1410  	}
-0744dd00c1b1be Eric Dumazet        2011-11-28  1411  
-6a74fcf426f51a Tom Herbert         2015-06-12  1412  ip_proto_again:
-3a1214e8b06317 Tom Herbert         2017-09-01  1413  	fdret = FLOW_DISSECT_RET_CONTINUE;
-3a1214e8b06317 Tom Herbert         2017-09-01  1414  
-0744dd00c1b1be Eric Dumazet        2011-11-28  1415  	switch (ip_proto) {
-7c92de8eaabfff Jiri Pirko          2017-03-06  1416  	case IPPROTO_GRE:
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1417  		if (flags & FLOW_DISSECTOR_F_STOP_BEFORE_ENCAP) {
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1418  			fdret = FLOW_DISSECT_RET_OUT_GOOD;
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1419  			break;
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1420  		}
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1421  
-3a1214e8b06317 Tom Herbert         2017-09-01  1422  		fdret = __skb_flow_dissect_gre(skb, key_control, flow_dissector,
-7c92de8eaabfff Jiri Pirko          2017-03-06  1423  					       target_container, data,
-3a1214e8b06317 Tom Herbert         2017-09-01  1424  					       &proto, &nhoff, &hlen, flags);
-3a1214e8b06317 Tom Herbert         2017-09-01  1425  		break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1426  
-6a74fcf426f51a Tom Herbert         2015-06-12  1427  	case NEXTHDR_HOP:
-6a74fcf426f51a Tom Herbert         2015-06-12  1428  	case NEXTHDR_ROUTING:
-6a74fcf426f51a Tom Herbert         2015-06-12  1429  	case NEXTHDR_DEST: {
-6a74fcf426f51a Tom Herbert         2015-06-12  1430  		u8 _opthdr[2], *opthdr;
-6a74fcf426f51a Tom Herbert         2015-06-12  1431  
-6a74fcf426f51a Tom Herbert         2015-06-12  1432  		if (proto != htons(ETH_P_IPV6))
-6a74fcf426f51a Tom Herbert         2015-06-12  1433  			break;
-6a74fcf426f51a Tom Herbert         2015-06-12  1434  
-6a74fcf426f51a Tom Herbert         2015-06-12  1435  		opthdr = __skb_header_pointer(skb, nhoff, sizeof(_opthdr),
-6a74fcf426f51a Tom Herbert         2015-06-12  1436  					      data, hlen, &_opthdr);
-3a1214e8b06317 Tom Herbert         2017-09-01  1437  		if (!opthdr) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1438  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1439  			break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1440  		}
-6a74fcf426f51a Tom Herbert         2015-06-12  1441  
-1e98a0f08abddd Eric Dumazet        2015-06-12  1442  		ip_proto = opthdr[0];
-1e98a0f08abddd Eric Dumazet        2015-06-12  1443  		nhoff += (opthdr[1] + 1) << 3;
-6a74fcf426f51a Tom Herbert         2015-06-12  1444  
-3a1214e8b06317 Tom Herbert         2017-09-01  1445  		fdret = FLOW_DISSECT_RET_IPPROTO_AGAIN;
-3a1214e8b06317 Tom Herbert         2017-09-01  1446  		break;
-6a74fcf426f51a Tom Herbert         2015-06-12  1447  	}
-b840f28b908da0 Tom Herbert         2015-09-01  1448  	case NEXTHDR_FRAGMENT: {
-b840f28b908da0 Tom Herbert         2015-09-01  1449  		struct frag_hdr _fh, *fh;
-b840f28b908da0 Tom Herbert         2015-09-01  1450  
-b840f28b908da0 Tom Herbert         2015-09-01  1451  		if (proto != htons(ETH_P_IPV6))
-b840f28b908da0 Tom Herbert         2015-09-01  1452  			break;
-b840f28b908da0 Tom Herbert         2015-09-01  1453  
-b840f28b908da0 Tom Herbert         2015-09-01  1454  		fh = __skb_header_pointer(skb, nhoff, sizeof(_fh),
-b840f28b908da0 Tom Herbert         2015-09-01  1455  					  data, hlen, &_fh);
-b840f28b908da0 Tom Herbert         2015-09-01  1456  
-3a1214e8b06317 Tom Herbert         2017-09-01  1457  		if (!fh) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1458  			fdret = FLOW_DISSECT_RET_OUT_BAD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1459  			break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1460  		}
-b840f28b908da0 Tom Herbert         2015-09-01  1461  
-4b36993d3df083 David S. Miller     2015-09-01  1462  		key_control->flags |= FLOW_DIS_IS_FRAGMENT;
-b840f28b908da0 Tom Herbert         2015-09-01  1463  
-b840f28b908da0 Tom Herbert         2015-09-01  1464  		nhoff += sizeof(_fh);
-43d2ccb3c122a4 Alexander Duyck     2016-02-24  1465  		ip_proto = fh->nexthdr;
-b840f28b908da0 Tom Herbert         2015-09-01  1466  
-b840f28b908da0 Tom Herbert         2015-09-01  1467  		if (!(fh->frag_off & htons(IP6_OFFSET))) {
-4b36993d3df083 David S. Miller     2015-09-01  1468  			key_control->flags |= FLOW_DIS_FIRST_FRAG;
-3a1214e8b06317 Tom Herbert         2017-09-01  1469  			if (flags & FLOW_DISSECTOR_F_PARSE_1ST_FRAG) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1470  				fdret = FLOW_DISSECT_RET_IPPROTO_AGAIN;
-3a1214e8b06317 Tom Herbert         2017-09-01  1471  				break;
-b840f28b908da0 Tom Herbert         2015-09-01  1472  			}
-3a1214e8b06317 Tom Herbert         2017-09-01  1473  		}
-3a1214e8b06317 Tom Herbert         2017-09-01  1474  
-3a1214e8b06317 Tom Herbert         2017-09-01  1475  		fdret = FLOW_DISSECT_RET_OUT_GOOD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1476  		break;
-b840f28b908da0 Tom Herbert         2015-09-01  1477  	}
-0744dd00c1b1be Eric Dumazet        2011-11-28  1478  	case IPPROTO_IPIP:
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1479  		if (flags & FLOW_DISSECTOR_F_STOP_BEFORE_ENCAP) {
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1480  			fdret = FLOW_DISSECT_RET_OUT_GOOD;
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1481  			break;
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1482  		}
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1483  
-fca418955148e4 Tom Herbert         2013-07-29  1484  		proto = htons(ETH_P_IP);
-823b96939578ea Tom Herbert         2015-09-01  1485  
-4b36993d3df083 David S. Miller     2015-09-01  1486  		key_control->flags |= FLOW_DIS_ENCAPSULATION;
-3a1214e8b06317 Tom Herbert         2017-09-01  1487  		if (flags & FLOW_DISSECTOR_F_STOP_AT_ENCAP) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1488  			fdret = FLOW_DISSECT_RET_OUT_GOOD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1489  			break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1490  		}
-3a1214e8b06317 Tom Herbert         2017-09-01  1491  
-3a1214e8b06317 Tom Herbert         2017-09-01  1492  		fdret = FLOW_DISSECT_RET_PROTO_AGAIN;
-3a1214e8b06317 Tom Herbert         2017-09-01  1493  		break;
-823b96939578ea Tom Herbert         2015-09-01  1494  
-b438f940d3541f Tom Herbert         2013-07-29  1495  	case IPPROTO_IPV6:
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1496  		if (flags & FLOW_DISSECTOR_F_STOP_BEFORE_ENCAP) {
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1497  			fdret = FLOW_DISSECT_RET_OUT_GOOD;
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1498  			break;
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1499  		}
-6de6e46d27ef38 Yoshiki Komachi     2021-10-29  1500  
-b438f940d3541f Tom Herbert         2013-07-29  1501  		proto = htons(ETH_P_IPV6);
-823b96939578ea Tom Herbert         2015-09-01  1502  
-4b36993d3df083 David S. Miller     2015-09-01  1503  		key_control->flags |= FLOW_DIS_ENCAPSULATION;
-3a1214e8b06317 Tom Herbert         2017-09-01  1504  		if (flags & FLOW_DISSECTOR_F_STOP_AT_ENCAP) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1505  			fdret = FLOW_DISSECT_RET_OUT_GOOD;
-3a1214e8b06317 Tom Herbert         2017-09-01  1506  			break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1507  		}
-3a1214e8b06317 Tom Herbert         2017-09-01  1508  
-3a1214e8b06317 Tom Herbert         2017-09-01  1509  		fdret = FLOW_DISSECT_RET_PROTO_AGAIN;
-3a1214e8b06317 Tom Herbert         2017-09-01  1510  		break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1511  
-823b96939578ea Tom Herbert         2015-09-01  1512  
-b3baa0fbd02a1a Tom Herbert         2015-06-04  1513  	case IPPROTO_MPLS:
-b3baa0fbd02a1a Tom Herbert         2015-06-04  1514  		proto = htons(ETH_P_MPLS_UC);
-3a1214e8b06317 Tom Herbert         2017-09-01  1515  		fdret = FLOW_DISSECT_RET_PROTO_AGAIN;
-3a1214e8b06317 Tom Herbert         2017-09-01  1516  		break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1517  
-ac4bb5de27010e Jiri Pirko          2017-05-23  1518  	case IPPROTO_TCP:
-ac4bb5de27010e Jiri Pirko          2017-05-23  1519  		__skb_flow_dissect_tcp(skb, flow_dissector, target_container,
-ac4bb5de27010e Jiri Pirko          2017-05-23  1520  				       data, nhoff, hlen);
-ac4bb5de27010e Jiri Pirko          2017-05-23  1521  		break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1522  
-3b336d6f4ec690 Matteo Croce        2019-10-29  1523  	case IPPROTO_ICMP:
-3b336d6f4ec690 Matteo Croce        2019-10-29  1524  	case IPPROTO_ICMPV6:
-3b336d6f4ec690 Matteo Croce        2019-10-29  1525  		__skb_flow_dissect_icmp(skb, flow_dissector, target_container,
-3b336d6f4ec690 Matteo Croce        2019-10-29  1526  					data, nhoff, hlen);
-3b336d6f4ec690 Matteo Croce        2019-10-29  1527  		break;
-dda2fa08a13c68 Wojciech Drewek     2022-09-08  1528  	case IPPROTO_L2TP:
-dda2fa08a13c68 Wojciech Drewek     2022-09-08  1529  		__skb_flow_dissect_l2tpv3(skb, flow_dissector, target_container,
-dda2fa08a13c68 Wojciech Drewek     2022-09-08  1530  					  data, nhoff, hlen);
-dda2fa08a13c68 Wojciech Drewek     2022-09-08  1531  		break;
-3b336d6f4ec690 Matteo Croce        2019-10-29  1532  
-0744dd00c1b1be Eric Dumazet        2011-11-28  1533  	default:
-0744dd00c1b1be Eric Dumazet        2011-11-28  1534  		break;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1535  	}
-0744dd00c1b1be Eric Dumazet        2011-11-28  1536  
-8ffb055beae585 Yoshiki Komachi     2019-12-03  1537  	if (!(key_control->flags & FLOW_DIS_IS_FRAGMENT))
-8ffb055beae585 Yoshiki Komachi     2019-12-03  1538  		__skb_flow_dissect_ports(skb, flow_dissector, target_container,
-8ffb055beae585 Yoshiki Komachi     2019-12-03  1539  					 data, nhoff, ip_proto, hlen);
-5af7fb6e3e92c2 Alexander Duyck     2014-10-10  1540  
-3a1214e8b06317 Tom Herbert         2017-09-01  1541  	/* Process result of IP proto processing */
-3a1214e8b06317 Tom Herbert         2017-09-01  1542  	switch (fdret) {
-3a1214e8b06317 Tom Herbert         2017-09-01  1543  	case FLOW_DISSECT_RET_PROTO_AGAIN:
-1eed4dfb81b193 Tom Herbert         2017-09-01  1544  		if (skb_flow_dissect_allowed(&num_hdrs))
-3a1214e8b06317 Tom Herbert         2017-09-01  1545  			goto proto_again;
-1eed4dfb81b193 Tom Herbert         2017-09-01  1546  		break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1547  	case FLOW_DISSECT_RET_IPPROTO_AGAIN:
-1eed4dfb81b193 Tom Herbert         2017-09-01  1548  		if (skb_flow_dissect_allowed(&num_hdrs))
-3a1214e8b06317 Tom Herbert         2017-09-01  1549  			goto ip_proto_again;
-1eed4dfb81b193 Tom Herbert         2017-09-01  1550  		break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1551  	case FLOW_DISSECT_RET_OUT_GOOD:
-3a1214e8b06317 Tom Herbert         2017-09-01  1552  	case FLOW_DISSECT_RET_CONTINUE:
-3a1214e8b06317 Tom Herbert         2017-09-01  1553  		break;
-3a1214e8b06317 Tom Herbert         2017-09-01  1554  	case FLOW_DISSECT_RET_OUT_BAD:
-3a1214e8b06317 Tom Herbert         2017-09-01  1555  	default:
-3a1214e8b06317 Tom Herbert         2017-09-01  1556  		goto out_bad;
-3a1214e8b06317 Tom Herbert         2017-09-01  1557  	}
-3a1214e8b06317 Tom Herbert         2017-09-01  1558  
-a6e544b0a88b53 Tom Herbert         2015-09-01  1559  out_good:
-a6e544b0a88b53 Tom Herbert         2015-09-01  1560  	ret = true;
-a6e544b0a88b53 Tom Herbert         2015-09-01  1561  
-34fad54c2537f7 Eric Dumazet        2016-11-09  1562  out:
-d0c081b49137cd Eric Dumazet        2018-01-17  1563  	key_control->thoff = min_t(u16, nhoff, skb ? skb->len : hlen);
-a6e544b0a88b53 Tom Herbert         2015-09-01  1564  	key_basic->n_proto = proto;
-a6e544b0a88b53 Tom Herbert         2015-09-01  1565  	key_basic->ip_proto = ip_proto;
-a6e544b0a88b53 Tom Herbert         2015-09-01  1566  
-a6e544b0a88b53 Tom Herbert         2015-09-01  1567  	return ret;
-34fad54c2537f7 Eric Dumazet        2016-11-09  1568  
-34fad54c2537f7 Eric Dumazet        2016-11-09  1569  out_bad:
-34fad54c2537f7 Eric Dumazet        2016-11-09  1570  	ret = false;
-34fad54c2537f7 Eric Dumazet        2016-11-09  1571  	goto out;
-0744dd00c1b1be Eric Dumazet        2011-11-28  1572  }
-690e36e726d00d David S. Miller     2014-08-23  1573  EXPORT_SYMBOL(__skb_flow_dissect);
-441d9d327f1e77 Cong Wang           2013-01-21  1574  
-
-:::::: The code at line 946 was first introduced by commit
-:::::: 3cbf4ffba5eeec60f82868a5facc1962d8a44d00 net: plumb network namespace into __skb_flow_dissect
-
-:::::: TO: Stanislav Fomichev <sdf@google.com>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new
+> version of the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes:
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> >> Error:
+> >> scripts/dtc/include-prefixes/arm64/renesas/r9a07g043.dtsi:81.18-19
+> >> syntax error
+>    FATAL ERROR: Unable to parse input tree
+>=20
+> --
+> 0-DAY CI Kernel Test Service
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu=
+b
+> .com%2Fintel%2Flkp-
+> tests%2Fwiki&data=3D05%7C01%7Cbiju.das.jz%40bp.renesas.com%7C0d92a2b8f778=
+4
+> 0058e3708db8a72d705%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C6382559
+> 98068843802%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi
+> LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DIddHS16rE6UW3JnsY1=
+s
+> mg6bJ%2BMFLDHIjIsA%2FWjaPO8w%3D&reserved=3D0
