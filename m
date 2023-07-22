@@ -1,43 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31D57F3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jul 2023 20:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5176E7F3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Jul 2023 21:18:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690058823; x=1721594823;
+  t=1690060693; x=1721596693;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Dt2Pd3xwelWBykpABQ5Y1MLXXdWNyLcC3Gz4kE8mFXs=;
-  b=CvOTwBOkkGzbw87XZg8vvqzCcf3GXWeC9wMSmHdv+kpjrMyO6Tz9Z8Jd
-   GR4mubd7qJ5HAlF1/d5Z8ve/UU4ZZfilEdWanJ9VMuFX9mg5/mY7iwCNi
-   DMAVHaq/+oKC37DAWwPZzk9EsJRuMtt9hUk2OA1+zjkCwgPkFVPnmc5Pg
-   OksU3f8lJwsY2FMgpR43vXW/nKCN/dXdHYq9JDAYcjDSYz9dA80NM+0bc
-   A3uwjbwHnJAgVtji4S7YaMNzMdc72MPuXunrjouqt5Y0nklNQfjDPTR8+
-   TjQjeMd+9OiR3rp+Do+ZE6MiSI4CVNmewMr2UnIowAurfm7cTi3yRz5aZ
+  bh=lNn9DhhXt2kYOEJGo0QZIn1c8U3qA14zE23n4I8Z58s=;
+  b=GFxIlvJF3xmeF1JnbHV+8u0yjoP77rPLioT5Kb+5IWvVpR/ibA59jbeH
+   HjbFZsB8OFU/CmNPjNOc/NDeW3PqWhO4SudEJsXwYCN59fi9qkT+WinpD
+   GA+h6XVjA3diWVQK4pE3538sVpK0UAFmOi8y1AIod0cmJKGqsdv5q9kEw
+   ONGeGPXGbMb8Zgkzv9+Vxi/+4shxZC3I8tpQAWpZsVDa4LdbAe0MhUIuq
+   hQo7rWs6WOFFyd7FdkHztTLFK8/vnX2afWGRmjQFgjd/YYOAXkhZkWMas
+   KxVpsp3f6F7oSNDQeCrDxKtvkCmy65RdlizXN2+zmbL186SISoa1ja/Mh
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="366117327"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="352122276"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="366117327"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 13:47:02 -0700
+   d="scan'208";a="352122276"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 14:18:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="702414944"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="899073708"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="702414944"
+   d="scan'208";a="899073708"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 22 Jul 2023 13:47:01 -0700
+  by orsmga005.jf.intel.com with ESMTP; 22 Jul 2023 14:18:11 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNJVE-0008bN-2E;
-	Sat, 22 Jul 2023 20:47:00 +0000
-Date: Sun, 23 Jul 2023 04:46:54 +0800
+	id 1qNJzO-0008cP-2b;
+	Sat, 22 Jul 2023 21:18:10 +0000
+Date: Sun, 23 Jul 2023 05:17:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiaoguang Xing <xiaoguang.xing@sophgo.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [csky-linux:sg2042-master-qspinlock-64ilp32_v3 15/67]
- arch/riscv/kernel/image_kexec.c:196:13: warning: variable 'flags' set but
- not used
-Message-ID: <202307230403.m2MThclL-lkp@intel.com>
+Subject: [lubaolu-intel-iommu:preparatory-io-pgfault-delivery-v2 5/13]
+ drivers/iommu/iommu.c:350 iommu_init_device() warn: inconsistent indenting
+Message-ID: <202307230547.vVnYRqv1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,111 +46,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/c-sky/csky-linux sg2042-master-qspinlock-64ilp32_v3
-head:   7f9f76d36814ed6fcbca4c27a5d2ec3724c46add
-commit: 2bb12b43ee7b79381279d53c1fb92bb72f2ddc47 [15/67] riscv: kernel: kexec: Add image loader of kexec file support
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230723/202307230403.m2MThclL-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230723/202307230403.m2MThclL-lkp@intel.com/reproduce)
+tree:   https://github.com/LuBaolu/intel-iommu.git preparatory-io-pgfault-delivery-v2
+head:   4937b3f9bee1a82d407843717b41474041fe8332
+commit: 48136ac69845b9c4edd865b7bcbf766120c9ab88 [5/13] iommu: Change the return value of dev_iommu_get()
+config: i386-randconfig-m021-20230723 (https://download.01.org/0day-ci/archive/20230723/202307230547.vVnYRqv1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230723/202307230547.vVnYRqv1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307230403.m2MThclL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307230547.vVnYRqv1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/iommu/iommu.c:350 iommu_init_device() warn: inconsistent indenting
+drivers/iommu/iommu.c:352 iommu_init_device() warn: ignoring unreachable code.
 
-   arch/riscv/kernel/image_kexec.c: In function 'image_load':
->> arch/riscv/kernel/image_kexec.c:196:13: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
-     196 |         u64 flags;
-         |             ^~~~~
+vim +350 drivers/iommu/iommu.c
 
-
-vim +/flags +196 arch/riscv/kernel/image_kexec.c
-
-   189	
-   190	static void *image_load(struct kimage *image,
-   191					char *kernel, unsigned long kernel_len,
-   192					char *initrd, unsigned long initrd_len,
-   193					char *cmdline, unsigned long cmdline_len)
-   194	{
-   195		struct riscv_image_header *h;
- > 196		u64 flags;
-   197		bool be_image, be_kernel;
-   198		struct kexec_buf kbuf;
-   199		unsigned long text_offset, kernel_segment_number;
-   200		unsigned long kernel_start;
-   201		struct kexec_segment *kernel_segment;
-   202		int ret;
-   203	
-   204		h = (struct riscv_image_header *)kernel;
-   205		if (!h->image_size)
-   206			return ERR_PTR(-EINVAL);
-   207	
-   208		/* Check cpu features */
-   209		flags = le64_to_cpu(h->flags);
-   210		be_image = __HEAD_FLAG(BE);
-   211		be_kernel = IS_ENABLED(CONFIG_CPU_BIG_ENDIAN);
-   212		if (be_image != be_kernel)
-   213			return ERR_PTR(-EINVAL);
-   214	
-   215		/* Load the kernel */
-   216		kbuf.image = image;
-   217		kbuf.buf_min = 0;
-   218		kbuf.buf_max = ULONG_MAX;
-   219		kbuf.top_down = false;
-   220	
-   221		kbuf.buffer = kernel;
-   222		kbuf.bufsz = kernel_len;
-   223		kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
-   224		kbuf.memsz = le64_to_cpu(h->image_size);
-   225		text_offset = le64_to_cpu(h->text_offset);
-   226		kbuf.buf_align = PAGE_SIZE;
-   227	
-   228		/* Adjust kernel segment with TEXT_OFFSET */
-   229		kbuf.memsz += text_offset;
-   230	
-   231		kernel_segment_number = image->nr_segments;
-   232	
-   233		/*
-   234		 * The location of the kernel segment may make it impossible to satisfy
-   235		 * the other segment requirements, so we try repeatedly to find a
-   236		 * location that will work.
-   237		 */
-   238		while ((ret = kexec_add_buffer(&kbuf)) == 0) {
-   239			/* Try to load additional data */
-   240			kernel_segment = &image->segment[kernel_segment_number];
-   241			ret = load_other_segments(image, kernel_segment->mem,
-   242						  kernel_segment->memsz, initrd,
-   243						  initrd_len, cmdline);
-   244			if (!ret)
-   245				break;
-   246	
-   247			/*
-   248			 * We couldn't find space for the other segments; erase the
-   249			 * kernel segment and try the next available hole.
-   250			 */
-   251			image->nr_segments -= 1;
-   252			kbuf.buf_min = kernel_segment->mem + kernel_segment->memsz;
-   253			kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
-   254		}
-   255	
-   256		if (ret) {
-   257			pr_err("Could not find any suitable kernel location!");
-   258			return ERR_PTR(ret);
-   259		}
-   260	
-   261		kernel_segment = &image->segment[kernel_segment_number];
-   262		kernel_segment->mem += text_offset;
-   263		kernel_segment->memsz -= text_offset;
-   264		kernel_start = kernel_segment->mem;
-   265		image->start = kernel_start;
-   266	
-   267	
-   268		pr_debug("Loaded kernel at 0x%lx bufsz=0x%lx memsz=0x%lx\n",
-   269					kernel_segment->mem, kbuf.bufsz,
-   270					kernel_segment->memsz);
-   271	
+   338	
+   339	/*
+   340	 * Init the dev->iommu and dev->iommu_group in the struct device and get the
+   341	 * driver probed
+   342	 */
+   343	static int iommu_init_device(struct device *dev, const struct iommu_ops *ops)
+   344	{
+   345		struct iommu_device *iommu_dev;
+   346		struct iommu_group *group;
+   347		int ret;
+   348	
+   349		ret = dev_iommu_get(dev);
+ > 350			return ret;
+   351	
+ > 352		if (!try_module_get(ops->owner)) {
+   353			ret = -EINVAL;
+   354			goto err_free;
+   355		}
+   356	
+   357		iommu_dev = ops->probe_device(dev);
+   358		if (IS_ERR(iommu_dev)) {
+   359			ret = PTR_ERR(iommu_dev);
+   360			goto err_module_put;
+   361		}
+   362	
+   363		ret = iommu_device_link(iommu_dev, dev);
+   364		if (ret)
+   365			goto err_release;
+   366	
+   367		group = ops->device_group(dev);
+   368		if (WARN_ON_ONCE(group == NULL))
+   369			group = ERR_PTR(-EINVAL);
+   370		if (IS_ERR(group)) {
+   371			ret = PTR_ERR(group);
+   372			goto err_unlink;
+   373		}
+   374		dev->iommu_group = group;
+   375	
+   376		dev->iommu->iommu_dev = iommu_dev;
+   377		dev->iommu->max_pasids = dev_iommu_get_max_pasids(dev);
+   378		if (ops->is_attach_deferred)
+   379			dev->iommu->attach_deferred = ops->is_attach_deferred(dev);
+   380		return 0;
+   381	
+   382	err_unlink:
+   383		iommu_device_unlink(iommu_dev, dev);
+   384	err_release:
+   385		if (ops->release_device)
+   386			ops->release_device(dev);
+   387	err_module_put:
+   388		module_put(ops->owner);
+   389	err_free:
+   390		dev_iommu_free(dev);
+   391		return ret;
+   392	}
+   393	
 
 -- 
 0-DAY CI Kernel Test Service
