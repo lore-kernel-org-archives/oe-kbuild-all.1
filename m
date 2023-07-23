@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC547F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jul 2023 11:18:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7357F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jul 2023 11:28:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690111133; x=1721647133;
+  t=1690111734; x=1721647734;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gH/acgN/Pjhp26In5ltM/5jZ95SuLV5Z78Od5ZnfzdI=;
-  b=Q5Xcbfrx19D7jvDQF/9h8KacZboeEnsfFG/kKfY3R9lua/ZCuKTlX5dj
-   uKjjGq9F5mOaNe9MN61VwXiXrx/9KDj00WpqZ+6kT+17pgud1p4hY5Zq8
-   jUBTNCcIHPYpiuMt7uUZ4KVXEDhx5F72n+Pwfp3DbuDSP3X1mui9A+FCP
-   9+4W76ula9NDkDl2RgWGxtgAPekd+H9tNdjZFbvvz2128EVNARu/Z88ML
-   isal48vrEpXNi61JazsZW5a5Z8qaZ8BRKd5UVEs4zvzJk9J6XV+plQ37I
-   YJKURIKYepmukg8gYmPyTkiq4QyrrZx7Z1NO/BIb+umY6vgbm7fken4K2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="369941516"
+  bh=bJAVQ+J4k61yefc07WndeT6Px5ea2X+Q2yHbwCpbQrs=;
+  b=L05Tz8JlWKhjESV00RhrSZ8yW1ZcrKCkpXUQ2a/n6jGHx6MDpWu/luY2
+   Yq/yNDLLnqJZMt+bTs8MgbOTHwxH6d+vLQM2FNl0uzy+TBolH2kfiKgx1
+   tXo677EKWcph+MmAd1FFeR1o1Z1h8U75oNp4t2zG2PED1bqh0cdQii/jC
+   CmYvBdS2rd4BuiAokdFNHhANZXbZ+LSUPrhXQB79QGq9hXIRLYXLxTUSd
+   Q1PSZSUGtMBLDeFP1HgW7e1xQAZpuo5H+L+hbdrjdeSLReRkXHW+R1Qd5
+   pPRHVsAI1xNAsUoVNUPvGzWkODQKk+EgiLQPP7msniMB4lqMB7BNXOUYz
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="453645346"
 X-IronPort-AV: E=Sophos;i="6.01,226,1684825200"; 
-   d="scan'208";a="369941516"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2023 04:18:52 -0700
+   d="scan'208";a="453645346"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2023 04:28:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="702559916"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="719357853"
 X-IronPort-AV: E=Sophos;i="6.01,226,1684825200"; 
-   d="scan'208";a="702559916"
+   d="scan'208";a="719357853"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 23 Jul 2023 04:18:51 -0700
+  by orsmga007.jf.intel.com with ESMTP; 23 Jul 2023 04:28:51 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNX6x-0008yR-0L;
-	Sun, 23 Jul 2023 11:18:51 +0000
-Date: Sun, 23 Jul 2023 19:18:36 +0800
+	id 1qNXGd-0008yb-0X;
+	Sun, 23 Jul 2023 11:28:51 +0000
+Date: Sun, 23 Jul 2023 19:28:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH RFC 2/2] i2c: Add i2c_device_get_match_data() callback
-Message-ID: <202307231907.FiS4VQie-lkp@intel.com>
+Message-ID: <202307231900.3fDdJkXn-lkp@intel.com>
 References: <20230723083721.35384-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,14 +64,14 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/drivers-fwnode-E
 base:   driver-core/driver-core-testing
 patch link:    https://lore.kernel.org/r/20230723083721.35384-3-biju.das.jz%40bp.renesas.com
 patch subject: [PATCH RFC 2/2] i2c: Add i2c_device_get_match_data() callback
-config: nios2-randconfig-r033-20230723 (https://download.01.org/0day-ci/archive/20230723/202307231907.FiS4VQie-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230723/202307231907.FiS4VQie-lkp@intel.com/reproduce)
+config: sh-randconfig-r023-20230723 (https://download.01.org/0day-ci/archive/20230723/202307231900.3fDdJkXn-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230723/202307231900.3fDdJkXn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307231907.FiS4VQie-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307231900.3fDdJkXn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
