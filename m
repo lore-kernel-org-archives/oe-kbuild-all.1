@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE6D3D9E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jul 2023 20:34:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFCF1869
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jul 2023 21:26:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690144470; x=1721680470;
+  t=1690147560; x=1721683560;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o/Qk392DPpAYDPoqr1Sj82xCVm55hNl/XAxHNYrNRuo=;
-  b=NeZekqCC/v5MTBvD8Ngj4kzg8TYgcqj8/SPu4iCxK+gcjN4pJXSq3gJt
-   maOw9444rYL0Z6zoXYpXjBT5xnNNSov6yqkCguLSJQOigqHzwyvLFkVyj
-   POP+VPZ1KihTXCGfCVRxjdcdSJ3LgedLCF76suem+OIOmSjv2J2fFmytf
-   5BesbZvJo+Ees8rWSprX+3TnNTH8LkfeHB3+0JNoy1V/3K3AsIg8XjYgL
-   z9X462hLPJz4c1QPYzfN5jvfEpp1ET4/A5XKodaMrykCjMNf3w99EUI6w
-   uWuP0hcpnmIoYYwrVTjfl2kdVsgkGGF65uFo1rP4gl5CCsg9fR8DhiNz4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="347591601"
+  bh=2lHMb9uGDRwchu6DTx6VKmZlfMT1+303h2n13oTaMOo=;
+  b=UL74O6KWb264fgO/xFtfSrUl4O7JHyDqF+bG8bRe89Ov/JrBQCNbK2KR
+   3CVDauw5A7x/tCbr6pJh/Zb29FJnbpPqE5WiS1qIGUqUBbTHhJWIGzIUn
+   X0PBqO9nX9TPHxHa2XfeI29iHRwMflhPoHWJ3GFdAjosbtJih8bgbenJ1
+   zC7mXfqg5/Jfygr5WBvgeAZv2sFsAC91CK5Pty/xPYFu+FsyE53zwQPlP
+   VhJXuvdngAwPsk9+atX50Lsq2wepPAhzZOTC0Fd9bRuOSCY+W1nG2Ef1u
+   loadI19SdH1WRIOkUJUEQV89HOczlZpo/MX0nvK7GfoNukOSHCBGJWWAH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="433548255"
 X-IronPort-AV: E=Sophos;i="6.01,227,1684825200"; 
-   d="scan'208";a="347591601"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2023 13:34:29 -0700
+   d="scan'208";a="433548255"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2023 14:25:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="815594624"
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="719439662"
 X-IronPort-AV: E=Sophos;i="6.01,227,1684825200"; 
-   d="scan'208";a="815594624"
+   d="scan'208";a="719439662"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 23 Jul 2023 13:34:28 -0700
+  by orsmga007.jf.intel.com with ESMTP; 23 Jul 2023 14:25:59 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNflx-0009FR-0j;
-	Sun, 23 Jul 2023 20:34:09 +0000
-Date: Mon, 24 Jul 2023 04:33:24 +0800
+	id 1qNgaT-0009HF-27;
+	Sun, 23 Jul 2023 21:25:57 +0000
+Date: Mon, 24 Jul 2023 05:25:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.10 49/65] drivers/bluetooth/btmtk.c:386:32:
- error: no member named 'dump' in 'struct hci_dev'
-Message-ID: <202307240433.mYmwmS3I-lkp@intel.com>
+Subject: [sashal-stable:pending-4.14 114/120] net/ipv4/esp4.c:958:2: error:
+ implicit declaration of function 'kfree_sensitive'; did you mean
+ 'kvfree_sensitive'?
+Message-ID: <202307240506.1MC5a0gk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,74 +47,179 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
-head:   af53c92e966cedf9c5d59bde5b183bbd2dda321e
-commit: 4be20253e1a774fd8e63f66f62e3298d8d14944b [49/65] BACKPORT: FROMGIT: Bluetooth: btusb: mediatek: add MediaTek devcoredump support
-config: x86_64-randconfig-x016-20230723 (https://download.01.org/0day-ci/archive/20230724/202307240433.mYmwmS3I-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230724/202307240433.mYmwmS3I-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.14
+head:   c2d2c0265cd3cae12a5cb246c47461cfa7a08593
+commit: b7455391d0b7d215e4b7f4a9460cd416e6629823 [114/120] net: ipv4: Use kfree_sensitive instead of kfree
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230724/202307240506.1MC5a0gk-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230724/202307240506.1MC5a0gk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307240433.mYmwmS3I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307240506.1MC5a0gk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/bluetooth/btmtk.c:386:32: error: no member named 'dump' in 'struct hci_dev'
-                   schedule_delayed_work(&hdev->dump.dump_timeout,
-                                          ~~~~  ^
-   1 error generated.
+   cc1: warning: arch/um/include/uapi: No such file or directory [-Wmissing-include-dirs]
+   In file included from include/linux/uaccess.h:14:0,
+                    from include/linux/crypto.h:26,
+                    from include/crypto/aead.h:16,
+                    from net/ipv4/esp4.c:3:
+   arch/um/include/asm/uaccess.h: In function '__access_ok':
+   arch/um/include/asm/uaccess.h:17:29: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+       (((unsigned long) (addr) >= FIXADDR_USER_START) && \
+                                ^
+   arch/um/include/asm/uaccess.h:45:3: note: in expansion of macro '__access_ok_vsyscall'
+      __access_ok_vsyscall(addr, size) ||
+      ^~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/atomic.h:5:0,
+                    from include/linux/atomic.h:5,
+                    from include/linux/crypto.h:20,
+                    from include/crypto/aead.h:16,
+                    from net/ipv4/esp4.c:3:
+   include/asm-generic/fixmap.h: In function 'fix_to_virt':
+   include/asm-generic/fixmap.h:31:19: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+     BUILD_BUG_ON(idx >= __end_of_fixed_addresses);
+                      ^
+   include/linux/compiler.h:313:19: note: in definition of macro '__compiletime_assert'
+      bool __cond = !(condition);    \
+                      ^~~~~~~~~
+   include/linux/compiler.h:336:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:47:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:71:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+     ^~~~~~~~~~~~~~~~
+   include/asm-generic/fixmap.h:31:2: note: in expansion of macro 'BUILD_BUG_ON'
+     BUILD_BUG_ON(idx >= __end_of_fixed_addresses);
+     ^~~~~~~~~~~~
+   In file included from include/linux/memremap.h:8:0,
+                    from include/linux/mm.h:27,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/dma-mapping.h:11,
+                    from include/linux/skbuff.h:34,
+                    from include/linux/ip.h:20,
+                    from include/net/ip.h:26,
+                    from net/ipv4/esp4.c:7:
+   include/linux/mm.h: In function 'pgtable_init':
+   arch/um/include/asm/pgtable.h:35:33: warning: suggest braces around empty body in 'do' statement [-Wempty-body]
+    #define pgtable_cache_init() do ; while (0)
+                                    ^
+   include/linux/mm.h:1793:2: note: in expansion of macro 'pgtable_cache_init'
+     pgtable_cache_init();
+     ^~~~~~~~~~~~~~~~~~
+   net/ipv4/esp4.c: In function 'esp_init_authenc':
+>> net/ipv4/esp4.c:958:2: error: implicit declaration of function 'kfree_sensitive'; did you mean 'kvfree_sensitive'? [-Werror=implicit-function-declaration]
+     kfree_sensitive(key);
+     ^~~~~~~~~~~~~~~
+     kvfree_sensitive
+   cc1: some warnings being treated as errors
 
 
-vim +386 drivers/bluetooth/btmtk.c
+vim +958 net/ipv4/esp4.c
 
-   369	
-   370	int btmtk_process_coredump(struct hci_dev *hdev, struct sk_buff *skb)
-   371	{
-   372		struct btmediatek_data *data = hci_get_priv(hdev);
-   373		int err;
-   374	
-   375		if (!IS_ENABLED(CONFIG_DEV_COREDUMP))
-   376			return 0;
-   377	
-   378		switch (data->cd_info.state) {
-   379		case HCI_DEVCOREDUMP_IDLE:
-   380			err = hci_devcd_init(hdev, MTK_COREDUMP_SIZE);
-   381			if (err < 0)
-   382				break;
-   383			data->cd_info.cnt = 0;
-   384	
-   385			/* It is supposed coredump can be done within 5 seconds */
- > 386			schedule_delayed_work(&hdev->dump.dump_timeout,
-   387					      msecs_to_jiffies(5000));
-   388			fallthrough;
-   389		case HCI_DEVCOREDUMP_ACTIVE:
-   390		default:
-   391			err = hci_devcd_append(hdev, skb);
-   392			if (err < 0)
-   393				break;
-   394			data->cd_info.cnt++;
-   395	
-   396			/* Mediatek coredump data would be more than MTK_COREDUMP_NUM */
-   397			if (data->cd_info.cnt > MTK_COREDUMP_NUM &&
-   398			    skb->len > sizeof(MTK_COREDUMP_END) &&
-   399			    !memcmp((char *)&skb->data[skb->len - sizeof(MTK_COREDUMP_END)],
-   400				    MTK_COREDUMP_END, sizeof(MTK_COREDUMP_END) - 1)) {
-   401				bt_dev_info(hdev, "Mediatek coredump end");
-   402				hci_devcd_complete(hdev);
-   403			}
-   404	
-   405			break;
-   406		}
-   407	
-   408		if (err < 0)
-   409			kfree_skb(skb);
-   410	
-   411		return err;
-   412	}
-   413	EXPORT_SYMBOL_GPL(btmtk_process_coredump);
-   414	
+   866	
+   867	static int esp_init_authenc(struct xfrm_state *x)
+   868	{
+   869		struct crypto_aead *aead;
+   870		struct crypto_authenc_key_param *param;
+   871		struct rtattr *rta;
+   872		char *key;
+   873		char *p;
+   874		char authenc_name[CRYPTO_MAX_ALG_NAME];
+   875		unsigned int keylen;
+   876		int err;
+   877		u32 mask = 0;
+   878	
+   879		err = -EINVAL;
+   880		if (!x->ealg)
+   881			goto error;
+   882	
+   883		err = -ENAMETOOLONG;
+   884	
+   885		if ((x->props.flags & XFRM_STATE_ESN)) {
+   886			if (snprintf(authenc_name, CRYPTO_MAX_ALG_NAME,
+   887				     "%s%sauthencesn(%s,%s)%s",
+   888				     x->geniv ?: "", x->geniv ? "(" : "",
+   889				     x->aalg ? x->aalg->alg_name : "digest_null",
+   890				     x->ealg->alg_name,
+   891				     x->geniv ? ")" : "") >= CRYPTO_MAX_ALG_NAME)
+   892				goto error;
+   893		} else {
+   894			if (snprintf(authenc_name, CRYPTO_MAX_ALG_NAME,
+   895				     "%s%sauthenc(%s,%s)%s",
+   896				     x->geniv ?: "", x->geniv ? "(" : "",
+   897				     x->aalg ? x->aalg->alg_name : "digest_null",
+   898				     x->ealg->alg_name,
+   899				     x->geniv ? ")" : "") >= CRYPTO_MAX_ALG_NAME)
+   900				goto error;
+   901		}
+   902	
+   903		if (x->xso.offload_handle)
+   904			mask |= CRYPTO_ALG_ASYNC;
+   905	
+   906		aead = crypto_alloc_aead(authenc_name, 0, mask);
+   907		err = PTR_ERR(aead);
+   908		if (IS_ERR(aead))
+   909			goto error;
+   910	
+   911		x->data = aead;
+   912	
+   913		keylen = (x->aalg ? (x->aalg->alg_key_len + 7) / 8 : 0) +
+   914			 (x->ealg->alg_key_len + 7) / 8 + RTA_SPACE(sizeof(*param));
+   915		err = -ENOMEM;
+   916		key = kmalloc(keylen, GFP_KERNEL);
+   917		if (!key)
+   918			goto error;
+   919	
+   920		p = key;
+   921		rta = (void *)p;
+   922		rta->rta_type = CRYPTO_AUTHENC_KEYA_PARAM;
+   923		rta->rta_len = RTA_LENGTH(sizeof(*param));
+   924		param = RTA_DATA(rta);
+   925		p += RTA_SPACE(sizeof(*param));
+   926	
+   927		if (x->aalg) {
+   928			struct xfrm_algo_desc *aalg_desc;
+   929	
+   930			memcpy(p, x->aalg->alg_key, (x->aalg->alg_key_len + 7) / 8);
+   931			p += (x->aalg->alg_key_len + 7) / 8;
+   932	
+   933			aalg_desc = xfrm_aalg_get_byname(x->aalg->alg_name, 0);
+   934			BUG_ON(!aalg_desc);
+   935	
+   936			err = -EINVAL;
+   937			if (aalg_desc->uinfo.auth.icv_fullbits / 8 !=
+   938			    crypto_aead_authsize(aead)) {
+   939				pr_info("ESP: %s digestsize %u != %hu\n",
+   940					x->aalg->alg_name,
+   941					crypto_aead_authsize(aead),
+   942					aalg_desc->uinfo.auth.icv_fullbits / 8);
+   943				goto free_key;
+   944			}
+   945	
+   946			err = crypto_aead_setauthsize(
+   947				aead, x->aalg->alg_trunc_len / 8);
+   948			if (err)
+   949				goto free_key;
+   950		}
+   951	
+   952		param->enckeylen = cpu_to_be32((x->ealg->alg_key_len + 7) / 8);
+   953		memcpy(p, x->ealg->alg_key, (x->ealg->alg_key_len + 7) / 8);
+   954	
+   955		err = crypto_aead_setkey(aead, key, keylen);
+   956	
+   957	free_key:
+ > 958		kfree_sensitive(key);
+   959	
+   960	error:
+   961		return err;
+   962	}
+   963	
 
 -- 
 0-DAY CI Kernel Test Service
