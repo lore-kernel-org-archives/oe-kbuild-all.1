@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A6F3C1C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jul 2023 23:00:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27AEE3C1C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Jul 2023 23:10:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690153222; x=1721689222;
+  t=1690153823; x=1721689823;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gvPafaQjUnOqGHV2ibWH7Ml7XbWADGSbDAX8WZU4hP0=;
-  b=Vz6+xM8AQN9fhZySnDAZvRPAOETy37kmRDrO2F3+H9ypUzsfqaLS0OM/
-   UNH042P/PgiR27OZ09wFspkbBrLXFQQ17FaAx3YStp6983O6KWypjcG0k
-   0Og0NEkpDowSId/BvNT0ngUQR1wTf42DoYmXRdfQX/j98f827ZaIpEIuE
-   IT9ekALoFqLg6ZOZPb2JCSBQsdocHkXIhqz15SrQzxp5G6UH7i1ufEYK9
-   9umzfRMvneowOosUF9YE4XEtcDyAH6bJfx5KTVUmKwX2nmEjAs1wn6424
-   NOyerOM17zdzPfa1pFiO9ordf9sEXLRTSMKqRMnaIOO99Z90GZ+Kvch32
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="347597651"
+  bh=aYctAH7um+UEOWYNlDpoFacdnMv+ZaQIhsLDn3/WvDE=;
+  b=Szx/RDB0XUXgDCSXjUOYwWLEs3hj7VzUEWccAgf7j4IWHiyt4vgLvL+0
+   d07zd3wf5ptbToybuIO6A3QxELRtrE0rSBiUoKSJE20F6NdsJ/VmI5ofm
+   rs22ffUEIQ3yF2KX0+Y8aYcUNioVOS0tcayopvOZZLpjVDYTq0Z/jj0e6
+   OlRclriQRHcJZz3XZKrBX/5FnKRpsHop1Auce14wB5k3RTC9sBhWVipZJ
+   GHIK9d60rNg6iylUgRV8M3uTvQyiny80nKYenGVi5qomwAvi4xUtDENO3
+   SMuHhT3lOFQlixdsU4aH1Mj+C+u+wE6cdG2RHkWgOUpNkjxNjNVmJKBa/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="431110353"
 X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="347597651"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2023 16:00:21 -0700
+   d="scan'208";a="431110353"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2023 16:10:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="795578576"
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="755100693"
 X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="795578576"
+   d="scan'208";a="755100693"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Jul 2023 16:00:20 -0700
+  by orsmga008.jf.intel.com with ESMTP; 23 Jul 2023 16:10:21 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNi3n-0009K1-10;
-	Sun, 23 Jul 2023 23:00:19 +0000
-Date: Mon, 24 Jul 2023 06:59:47 +0800
+	id 1qNiDU-0009KT-2S;
+	Sun, 23 Jul 2023 23:10:20 +0000
+Date: Mon, 24 Jul 2023 07:10:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [stable:linux-4.19.y 6010/6356] include/asm-generic/termios.h:25:
- Error: unrecognized opcode `csrs sstatus,s6', extension `zicsr' required
-Message-ID: <202307240620.JFnezTEx-lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-5.10 418/427]
+ net/ipv4/inet_connection_sock.c:1105:21: warning: assignment to 'struct sock
+ *' from 'int' makes pointer from integer without a cast
+Message-ID: <202307240703.3PnrASdZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,95 +47,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
-head:   94bffc1044d871e2ec89b2621e9a384355832988
-commit: 3271859c2d2709515db4ad7a6cbdd3617da04405 [6010/6356] tty: Prevent writing chars during tcsetattr TCSADRAIN/FLUSH
-config: riscv-randconfig-r042-20230720 (https://download.01.org/0day-ci/archive/20230724/202307240620.JFnezTEx-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230724/202307240620.JFnezTEx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
+head:   f414af0d5334f8d1a8cff50f50e6fb3921d490c4
+commit: 7c133f1460cf14b5461dd14ea7ea8da69f1d9254 [418/427] tcp: Migrate TCP_ESTABLISHED/TCP_SYN_RECV sockets in accept queues.
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230724/202307240703.3PnrASdZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230724/202307240703.3PnrASdZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307240620.JFnezTEx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307240703.3PnrASdZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   include/asm-generic/termios.h: Assembler messages:
-   include/asm-generic/termios.h:59: Error: unrecognized opcode `csrs sstatus,s4', extension `zicsr' required
-   include/asm-generic/termios.h:59: Error: unrecognized opcode `csrc sstatus,s4', extension `zicsr' required
-   include/asm-generic/termios.h:60: Error: unrecognized opcode `csrs sstatus,s4', extension `zicsr' required
-   include/asm-generic/termios.h:60: Error: unrecognized opcode `csrc sstatus,s4', extension `zicsr' required
-   include/asm-generic/termios.h:61: Error: unrecognized opcode `csrs sstatus,s4', extension `zicsr' required
-   include/asm-generic/termios.h:61: Error: unrecognized opcode `csrc sstatus,s4', extension `zicsr' required
-   include/asm-generic/termios.h:62: Error: unrecognized opcode `csrs sstatus,s4', extension `zicsr' required
-   include/asm-generic/termios.h:62: Error: unrecognized opcode `csrc sstatus,s4', extension `zicsr' required
-   include/asm-generic/termios.h:63: Error: unrecognized opcode `csrs sstatus,s4', extension `zicsr' required
-   include/asm-generic/termios.h:63: Error: unrecognized opcode `csrc sstatus,s4', extension `zicsr' required
->> include/asm-generic/termios.h:25: Error: unrecognized opcode `csrs sstatus,s6', extension `zicsr' required
->> include/asm-generic/termios.h:25: Error: unrecognized opcode `csrc sstatus,s6', extension `zicsr' required
-   include/asm-generic/termios.h:29: Error: unrecognized opcode `csrs sstatus,s6', extension `zicsr' required
-   include/asm-generic/termios.h:29: Error: unrecognized opcode `csrc sstatus,s6', extension `zicsr' required
-   include/asm-generic/termios.h:33: Error: unrecognized opcode `csrs sstatus,s6', extension `zicsr' required
-   include/asm-generic/termios.h:33: Error: unrecognized opcode `csrc sstatus,s6', extension `zicsr' required
-   include/asm-generic/termios.h:37: Error: unrecognized opcode `csrs sstatus,s6', extension `zicsr' required
-   include/asm-generic/termios.h:37: Error: unrecognized opcode `csrc sstatus,s6', extension `zicsr' required
-   include/asm-generic/termios.h:41: Error: unrecognized opcode `csrs sstatus,s6', extension `zicsr' required
-   include/asm-generic/termios.h:41: Error: unrecognized opcode `csrc sstatus,s6', extension `zicsr' required
-   drivers/tty/tty_ioctl.c:859: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   drivers/tty/tty_ioctl.c:859: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
-   drivers/tty/tty_ioctl.c:863: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   drivers/tty/tty_ioctl.c:863: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:36: Error: unrecognized opcode `csrc sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2', extension `zicsr' required
-   arch/riscv/include/asm/irqflags.h:36: Error: unrecognized opcode `csrc sstatus,2', extension `zicsr' required
+   net/ipv4/inet_connection_sock.c: In function 'inet_csk_listen_stop':
+   net/ipv4/inet_connection_sock.c:1105:23: error: implicit declaration of function 'reuseport_migrate_sock'; did you mean 'reuseport_select_sock'? [-Werror=implicit-function-declaration]
+    1105 |                 nsk = reuseport_migrate_sock(sk, child, NULL);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+         |                       reuseport_select_sock
+>> net/ipv4/inet_connection_sock.c:1105:21: warning: assignment to 'struct sock *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1105 |                 nsk = reuseport_migrate_sock(sk, child, NULL);
+         |                     ^
+   cc1: some warnings being treated as errors
 
 
-vim +25 include/asm-generic/termios.h
+vim +1105 net/ipv4/inet_connection_sock.c
 
-6103ec56c65c337 Arnd Bergmann 2009-05-13  16  
-6103ec56c65c337 Arnd Bergmann 2009-05-13  17  /*
-6103ec56c65c337 Arnd Bergmann 2009-05-13  18   * Translate a "termio" structure into a "termios". Ugh.
-6103ec56c65c337 Arnd Bergmann 2009-05-13  19   */
-6103ec56c65c337 Arnd Bergmann 2009-05-13  20  static inline int user_termio_to_kernel_termios(struct ktermios *termios,
-6103ec56c65c337 Arnd Bergmann 2009-05-13  21  						const struct termio __user *termio)
-6103ec56c65c337 Arnd Bergmann 2009-05-13  22  {
-6103ec56c65c337 Arnd Bergmann 2009-05-13  23  	unsigned short tmp;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  24  
-6103ec56c65c337 Arnd Bergmann 2009-05-13 @25  	if (get_user(tmp, &termio->c_iflag) < 0)
-6103ec56c65c337 Arnd Bergmann 2009-05-13  26  		goto fault;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  27  	termios->c_iflag = (0xffff0000 & termios->c_iflag) | tmp;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  28  
-6103ec56c65c337 Arnd Bergmann 2009-05-13  29  	if (get_user(tmp, &termio->c_oflag) < 0)
-6103ec56c65c337 Arnd Bergmann 2009-05-13  30  		goto fault;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  31  	termios->c_oflag = (0xffff0000 & termios->c_oflag) | tmp;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  32  
-6103ec56c65c337 Arnd Bergmann 2009-05-13  33  	if (get_user(tmp, &termio->c_cflag) < 0)
-6103ec56c65c337 Arnd Bergmann 2009-05-13  34  		goto fault;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  35  	termios->c_cflag = (0xffff0000 & termios->c_cflag) | tmp;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  36  
-6103ec56c65c337 Arnd Bergmann 2009-05-13  37  	if (get_user(tmp, &termio->c_lflag) < 0)
-6103ec56c65c337 Arnd Bergmann 2009-05-13  38  		goto fault;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  39  	termios->c_lflag = (0xffff0000 & termios->c_lflag) | tmp;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  40  
-6103ec56c65c337 Arnd Bergmann 2009-05-13  41  	if (get_user(termios->c_line, &termio->c_line) < 0)
-6103ec56c65c337 Arnd Bergmann 2009-05-13  42  		goto fault;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  43  
-6103ec56c65c337 Arnd Bergmann 2009-05-13  44  	if (copy_from_user(termios->c_cc, termio->c_cc, NCC) != 0)
-6103ec56c65c337 Arnd Bergmann 2009-05-13  45  		goto fault;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  46  
-6103ec56c65c337 Arnd Bergmann 2009-05-13  47  	return 0;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  48  
-6103ec56c65c337 Arnd Bergmann 2009-05-13  49   fault:
-6103ec56c65c337 Arnd Bergmann 2009-05-13  50  	return -EFAULT;
-6103ec56c65c337 Arnd Bergmann 2009-05-13  51  }
-6103ec56c65c337 Arnd Bergmann 2009-05-13  52  
-
-:::::: The code at line 25 was first introduced by commit
-:::::: 6103ec56c65c33774c7c38652c8204120c3c7519 asm-generic: add generic ABI headers
-
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Arnd Bergmann <arnd@klappe2.(none)>
+  1077	
+  1078	/*
+  1079	 *	This routine closes sockets which have been at least partially
+  1080	 *	opened, but not yet accepted.
+  1081	 */
+  1082	void inet_csk_listen_stop(struct sock *sk)
+  1083	{
+  1084		struct inet_connection_sock *icsk = inet_csk(sk);
+  1085		struct request_sock_queue *queue = &icsk->icsk_accept_queue;
+  1086		struct request_sock *next, *req;
+  1087	
+  1088		/* Following specs, it would be better either to send FIN
+  1089		 * (and enter FIN-WAIT-1, it is normal close)
+  1090		 * or to send active reset (abort).
+  1091		 * Certainly, it is pretty dangerous while synflood, but it is
+  1092		 * bad justification for our negligence 8)
+  1093		 * To be honest, we are not able to make either
+  1094		 * of the variants now.			--ANK
+  1095		 */
+  1096		while ((req = reqsk_queue_remove(queue, sk)) != NULL) {
+  1097			struct sock *child = req->sk, *nsk;
+  1098			struct request_sock *nreq;
+  1099	
+  1100			local_bh_disable();
+  1101			bh_lock_sock(child);
+  1102			WARN_ON(sock_owned_by_user(child));
+  1103			sock_hold(child);
+  1104	
+> 1105			nsk = reuseport_migrate_sock(sk, child, NULL);
+  1106			if (nsk) {
+  1107				nreq = inet_reqsk_clone(req, nsk);
+  1108				if (nreq) {
+  1109					refcount_set(&nreq->rsk_refcnt, 1);
+  1110	
+  1111					if (inet_csk_reqsk_queue_add(nsk, nreq, child)) {
+  1112						reqsk_migrate_reset(req);
+  1113					} else {
+  1114						reqsk_migrate_reset(nreq);
+  1115						__reqsk_free(nreq);
+  1116					}
+  1117	
+  1118					/* inet_csk_reqsk_queue_add() has already
+  1119					 * called inet_child_forget() on failure case.
+  1120					 */
+  1121					goto skip_child_forget;
+  1122				}
+  1123			}
+  1124	
+  1125			inet_child_forget(sk, req, child);
+  1126	skip_child_forget:
+  1127			reqsk_put(req);
+  1128			bh_unlock_sock(child);
+  1129			local_bh_enable();
+  1130			sock_put(child);
+  1131	
+  1132			cond_resched();
+  1133		}
+  1134		if (queue->fastopenq.rskq_rst_head) {
+  1135			/* Free all the reqs queued in rskq_rst_head. */
+  1136			spin_lock_bh(&queue->fastopenq.lock);
+  1137			req = queue->fastopenq.rskq_rst_head;
+  1138			queue->fastopenq.rskq_rst_head = NULL;
+  1139			spin_unlock_bh(&queue->fastopenq.lock);
+  1140			while (req != NULL) {
+  1141				next = req->dl_next;
+  1142				reqsk_put(req);
+  1143				req = next;
+  1144			}
+  1145		}
+  1146		WARN_ON_ONCE(sk->sk_ack_backlog);
+  1147	}
+  1148	EXPORT_SYMBOL_GPL(inet_csk_listen_stop);
+  1149	
 
 -- 
 0-DAY CI Kernel Test Service
