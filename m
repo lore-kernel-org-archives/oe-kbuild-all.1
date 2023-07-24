@@ -1,91 +1,170 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F09DDD1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 15:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690213353; x=1721749353;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xdLtYXXeRSF6hAJmF0LuEPwcPGRXvluS+PVhqHPviVk=;
-  b=Y6/MQG8nLf6IyH2coh348QiiKXDttjpvJBV49n4fLZPuBsC6oPk4Tfxz
-   hsnhqE3Wk18TXfpDhrKTGhwhfqouO1RUbMfUNpdv4DuBkBn16mQO3cMPb
-   4U/iTXAjZct7F5cJeW2NynYq2CdbhouSzozIw/DcFWqb8ccFWmN78B4PF
-   OvTAIUT0KaHL3In2efuyO+dupL7taYZ2OUmL1bmmLh8sQqS1Fg5nB2xdj
-   0TbuZh/hV04M/pTf4iKoABLcRnOuFfsa9lBGZxseObeg1AC8fa+bjU1E4
-   uuSfsEJyfHdXt5S8ricPYQ/5udDzVwP52MYq53fQuntgesoTBmdtL6WUt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="347080067"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="347080067"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 08:42:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="791013178"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="791013178"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Jul 2023 08:42:13 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qNxhM-0009pI-2E;
-	Mon, 24 Jul 2023 15:42:12 +0000
-Date: Mon, 24 Jul 2023 23:41:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: sound/ac97/bus.c:465:1: sparse: sparse: symbol 'dev_attr_vendor_id'
- was not declared. Should it be static?
-Message-ID: <202307242300.Oy0Dp2QI-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF59DF64
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 17:07:50 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-63ce8bea776so12648896d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 10:07:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1690218469; x=1690823269;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Uw0GesN0rmWRh+DmayFGFLT8xsf2nFXUBbffJzXUQmc=;
+        b=yQqvvunZWdFiy+w7MNNZ//ZiYJUe/JYwsEPAMOAuzMnVsxc9q25s8iviP7QtPQyBK/
+         CeY75Zkf+57SpSYN5dlJoTkcwinzxriV2eicBdfYG1pBOxEsyZ6+et846Ua9dfCKbgc3
+         MUCAgWoYRdeh6M15XiJgKYwJCa9/aMUoUb4vR2mADsXonxCqoAtveV6kJJMSHUR5W751
+         fWJRf2kJV/KsglYpW34OYBh32tiHrHC7ab6Mk/X8hxqMRMAwNCVCVzim6mQ4dN+kRYq2
+         tRSc6pEdkoS6RJdPkhR2MlRa7EmEb/Jb18zswzvEcCAEEdbN8+8w1toIylcd2h37h1c3
+         fOmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690218469; x=1690823269;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Uw0GesN0rmWRh+DmayFGFLT8xsf2nFXUBbffJzXUQmc=;
+        b=BU6i2VfbOn+eVX6nhq38TEJbp0yQjPHzTPtmodvg7pt1mFEWyGIdcmldFmsCiaP0Wz
+         jGKdnQ7S/j8P+vZORNF2wpS7F7xX8ogB325y2nPNtlkzPAOpQs90VaB71OlRYcTZWkVA
+         x607XiOt52dDLK78Pt/RSS5U85qrMVgAF21/hPN2SC8AxFu0KQQ02tz7Q935XmqHrLWh
+         YxkTZsO9I76fHGnuQ8+7eTAYaNIxma/9GK0P/l7rogOyX3OYRfFP1Ch7YdQ5QNIUyx6n
+         wwn7cPPkwjU2JqF2nZ1FbaijeGkaa8EJDP43D2GXyMr7Gy4mF79VJdrPqbeykF0bzyUU
+         F3bQ==
+X-Gm-Message-State: ABy/qLZCst6DewFh9MQ5OJ+3oA9lX+1rcrrPCx2Q7e0HSS3F46fnhZ/8
+	mKGDHpkwZgBYCBXcVlSnTDfo7ngKTCnTpxmxFN3oJA==
+X-Google-Smtp-Source: APBJJlHzvogcOM4+QS3uHKnCCLcH5s74N9Df9/sVTwJHHZCKxvEdbXGa4EZDOxDcwhZC+MQm3x4ydCXgpVMQTl/RTMM=
+X-Received: by 2002:a05:6214:88d:b0:635:3892:a2b0 with SMTP id
+ cz13-20020a056214088d00b006353892a2b0mr361506qvb.15.1690218469268; Mon, 24
+ Jul 2023 10:07:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202307201141.PYWS6ird-lkp@intel.com> <840cdf34-f38e-ab37-623f-9744c3436350@grimberg.me>
+In-Reply-To: <840cdf34-f38e-ab37-623f-9744c3436350@grimberg.me>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Mon, 24 Jul 2023 10:07:38 -0700
+Message-ID: <CAKwvOdnfHeEZcKYJh_VPoMfB5oDa3aAU0CYVt-6TNc3a6Jtc6w@mail.gmail.com>
+Subject: Re: drivers/nvme/host/tcp.c:835:12: warning: stack frame size (2256)
+ exceeds limit (2048) in 'nvme_tcp_recv_skb'
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: kernel test robot <lkp@intel.com>, Varun Prakash <varun@chelsio.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Arnd,
+On Mon, Jul 24, 2023 at 12:46=E2=80=AFAM Sagi Grimberg <sagi@grimberg.me> w=
+rote:
+>
+>
+>
+> On 7/20/23 06:10, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   bfa3037d828050896ae52f6467b6ca2489ae6fb1
+> > commit: c2700d2886a87f83f31e0a301de1d2350b52c79b nvme-tcp: send H2CData=
+ PDUs based on MAXH2CDATA
+> > date:   1 year, 5 months ago
+> > config: riscv-randconfig-r042-20230720 (https://download.01.org/0day-ci=
+/archive/20230720/202307201141.PYWS6ird-lkp@intel.com/config)
 
-First bad commit (maybe != root cause):
+^ it's from a randconfig...the sanitizers tend to blow up stack usage.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6eaae198076080886b9e7d57f4ae06fa782f90ef
-commit: 5eab9265759e2fb042aa452931c3d06ab7ab8dae ASoC: PXA: make SND_PXA2XX_SOC_AC97 user-selectable
-date:   6 months ago
-config: nios2-randconfig-r072-20230723 (https://download.01.org/0day-ci/archive/20230724/202307242300.Oy0Dp2QI-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230724/202307242300.Oy0Dp2QI-lkp@intel.com/reproduce)
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.gi=
+t 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> > reproduce: (https://download.01.org/0day-ci/archive/20230720/2023072011=
+41.PYWS6ird-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202307201141.PYWS6ird-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >>> drivers/nvme/host/tcp.c:835:12: warning: stack frame size (2256) exce=
+eds limit (2048) in 'nvme_tcp_recv_skb' [-Wframe-larger-than]
+> >       835 | static int nvme_tcp_recv_skb(read_descriptor_t *desc, struc=
+t sk_buff *skb,
+> >           |            ^
+> >     1 warning generated.
+> >
+> >
+> > vim +/nvme_tcp_recv_skb +835 drivers/nvme/host/tcp.c
+> >
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  834
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03 @835  static int nvme_tcp_recv_=
+skb(read_descriptor_t *desc, struct sk_buff *skb,
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  836                           =
+    unsigned int offset, size_t len)
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  837  {
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  838          struct nvme_tcp_q=
+ueue *queue =3D desc->arg.data;
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  839          size_t consumed =
+=3D len;
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  840          int result;
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  841
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  842          while (len) {
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  843                  switch (n=
+vme_tcp_recv_state(queue)) {
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  844                  case NVME=
+_TCP_RECV_PDU:
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  845                          r=
+esult =3D nvme_tcp_recv_pdu(queue, skb, &offset, &len);
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  846                          b=
+reak;
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  847                  case NVME=
+_TCP_RECV_DATA:
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  848                          r=
+esult =3D nvme_tcp_recv_data(queue, skb, &offset, &len);
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  849                          b=
+reak;
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  850                  case NVME=
+_TCP_RECV_DDGST:
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  851                          r=
+esult =3D nvme_tcp_recv_ddgst(queue, skb, &offset, &len);
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  852                          b=
+reak;
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  853                  default:
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  854                          r=
+esult =3D -EFAULT;
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  855                  }
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  856                  if (resul=
+t) {
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  857                          d=
+ev_err(queue->ctrl->ctrl.device,
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  858                           =
+       "receive failed:  %d\n", result);
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  859                          q=
+ueue->rd_enabled =3D false;
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  860                          n=
+vme_tcp_error_recovery(&queue->ctrl->ctrl);
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  861                          r=
+eturn result;
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  862                  }
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  863          }
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  864
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  865          return consumed;
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  866  }
+> > 3f2304f8c6d6ed Sagi Grimberg 2018-12-03  867
+> >
+> > :::::: The code at line 835 was first introduced by commit
+> > :::::: 3f2304f8c6d6ed97849057bd16fee99e434ca796 nvme-tcp: add NVMe over=
+ TCP host driver
+> >
+> > :::::: TO: Sagi Grimberg <sagi@lightbitslabs.com>
+> > :::::: CC: Christoph Hellwig <hch@lst.de>
+> >
+>
+> I don't understand how the stack frame size is that big. Looks like a
+> wrong complaint?
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307242300.Oy0Dp2QI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/ac97/bus.c:465:1: sparse: sparse: symbol 'dev_attr_vendor_id' was not declared. Should it be static?
-
-vim +/dev_attr_vendor_id +465 sound/ac97/bus.c
-
-74426fbff66eea Robert Jarzmik 2017-09-02  457  
-74426fbff66eea Robert Jarzmik 2017-09-02  458  static ssize_t vendor_id_show(struct device *dev,
-74426fbff66eea Robert Jarzmik 2017-09-02  459  			      struct device_attribute *attr, char *buf)
-74426fbff66eea Robert Jarzmik 2017-09-02  460  {
-74426fbff66eea Robert Jarzmik 2017-09-02  461  	struct ac97_codec_device *codec = to_ac97_device(dev);
-74426fbff66eea Robert Jarzmik 2017-09-02  462  
-7450320ec7ab11 Takashi Iwai   2022-08-01  463  	return sysfs_emit(buf, "%08x", codec->vendor_id);
-74426fbff66eea Robert Jarzmik 2017-09-02  464  }
-74426fbff66eea Robert Jarzmik 2017-09-02 @465  DEVICE_ATTR_RO(vendor_id);
-74426fbff66eea Robert Jarzmik 2017-09-02  466  
-
-:::::: The code at line 465 was first introduced by commit
-:::::: 74426fbff66eea8e8d1f42c8238c268d1e63a832 ALSA: ac97: add an ac97 bus
-
-:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
-:::::: CC: Mark Brown <broonie@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Thanks,
+~Nick Desaulniers
