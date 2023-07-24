@@ -1,45 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5DA63C0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 11:34:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E5C6130
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 12:04:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690198447; x=1721734447;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y44xlJ8tDP9ORhfkWkFI860EGN+2lysyuKBMEUHzYzo=;
-  b=dmUTuOV/5QtvQJmCeAamNx5GnU57sPI/n3hS2RapuimVNrTrfch9ETOn
-   vCp04p6iJj3VjTlFEENe9JIqU71MyegO97DWgGPQTKlcunEcuEe8nAKGM
-   tbOWbzDEaiVDOSfr99zQYeUN7a5GYwD1qHHjCEykaGr07uCDB1JIq9qyb
-   1Wek3F04nk8JFDEIrLxXaoWyUwy0EnPaxp03zfcwPsGNLfjUl7nMWUOGa
-   wj/C1T5v5SAqitKYl288v6ZeKB3wvF2FjIpTkA8xvc8Qa2rydiQchjfjR
-   QIOxGWZbTnqn7/PaKsqQH3J9XMYtJKqgK8xGi8U0cFpMLJyn9ehwzxNYO
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="347696235"
+  t=1690200292; x=1721736292;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=58YmAVMNhM+69Uz4TSYJtTClde4BqyBdoWDlbcr2UFA=;
+  b=FO31fJaquioOEDPAq/edPdyfcrXz99Q1zdxjfPiISNhPIson7oGFbwwW
+   lYdj/kLLazbh2IaD97ND2L6otfCbJ527ZGxk19nPT11QE2/iI3rDOGU1q
+   9rP0EVtNRkMlA0UFVjPGB9ILSG9g8IJLJeLYyNJB5acK2f6UI9wEUvaun
+   VpXlpkko5KwTxGhOA9ba16P/Ii+vwmMHKMbnJSJsI9nx95mVdFE7ROjMi
+   sBy8gsT+/T/9ZHwEbJ0MRkJVs6RDZ/Vlrfmhd7fMBvRPbCqeGENPHq3OG
+   eWMkgcJ9C5BtE6WoXxHmeIUYWMvAX/3e+cCd7lAIIDu+qmyM7Rw1hRAnJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="371022847"
 X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="347696235"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 04:33:44 -0700
+   d="scan'208";a="371022847"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 05:04:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="719649110"
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="795758415"
 X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="719649110"
+   d="scan'208";a="795758415"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 24 Jul 2023 04:33:42 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 24 Jul 2023 05:04:12 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNtoi-0009hm-1M;
-	Mon, 24 Jul 2023 11:33:34 +0000
-Date: Mon, 24 Jul 2023 19:32:36 +0800
+	id 1qNuI7-0009iG-1a;
+	Mon, 24 Jul 2023 12:04:01 +0000
+Date: Mon, 24 Jul 2023 20:03:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: drivers/pnp/pnpacpi/core.c:253:17: warning: 'strncpy' specified
- bound 50 equals destination size
-Message-ID: <202307241942.Rff2Nri5-lkp@intel.com>
+To: sunran001@208suo.com, alexander.deucher@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in sienna_cichlid_ppt.c
+Message-ID: <202307241921.8W1KDtYK-lkp@intel.com>
+References: <ea1cf43d5545fa917127694a294a57da@208suo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,114 +47,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ea1cf43d5545fa917127694a294a57da@208suo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6eaae198076080886b9e7d57f4ae06fa782f90ef
-commit: a91a9ffbd3a55a0ae1bb75e2b6e85b2a03f64e8f RISC-V: Add support to build the ACPI core
-date:   8 weeks ago
-config: riscv-randconfig-r032-20230724 (https://download.01.org/0day-ci/archive/20230724/202307241942.Rff2Nri5-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230724/202307241942.Rff2Nri5-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc3 next-20230724]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/sunran001-208suo-com/drm-amd-pm-Clean-up-errors-in-sienna_cichlid_ppt-c/20230724-153134
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/ea1cf43d5545fa917127694a294a57da%40208suo.com
+patch subject: [PATCH] drm/amd/pm: Clean up errors in sienna_cichlid_ppt.c
+config: i386-buildonly-randconfig-r004-20230724 (https://download.01.org/0day-ci/archive/20230724/202307241921.8W1KDtYK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230724/202307241921.8W1KDtYK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307241942.Rff2Nri5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307241921.8W1KDtYK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/pnp/pnpacpi/core.c: In function 'pnpacpi_add_device.isra':
->> drivers/pnp/pnpacpi/core.c:253:17: warning: 'strncpy' specified bound 50 equals destination size [-Wstringop-truncation]
-     253 |                 strncpy(dev->name, acpi_device_name(device), sizeof(dev->name));
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c: In function 'sienna_cichlid_get_throttler_status_locked':
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c:595:42: error: 'smu_table' undeclared (first use in this function)
+     595 |                 (SmuMetricsExternal_t *)(smu_table->metrics_table);
+         |                                          ^~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c:595:42: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c:593:35: warning: unused variable 'smu_tabl' [-Wunused-variable]
+     593 |         struct smu_table_context *smu_tabl = &smu->smu_table;
+         |                                   ^~~~~~~~
 
 
-vim +/strncpy +253 drivers/pnp/pnpacpi/core.c
+vim +/smu_tabl +593 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c
 
-420a0f66378c84 Dmitry Torokhov   2010-09-18  208  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  209  static int __init pnpacpi_add_device(struct acpi_device *device)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  210  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  211  	struct pnp_dev *dev;
-844142c3f80c66 Rasmus Villemoes  2015-09-09  212  	const char *pnpid;
-7f47fa6c2ff15f Bjorn Helgaas     2009-09-21  213  	struct acpi_hardware_id *id;
-249135d1a2ea3c Dmitry Torokhov   2013-12-15  214  	int error;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  215  
-2905875344f977 Adrian Hunter     2012-11-23  216  	/* Skip devices that are already bound */
-2905875344f977 Adrian Hunter     2012-11-23  217  	if (device->physical_node_count)
-2905875344f977 Adrian Hunter     2012-11-23  218  		return 0;
-2905875344f977 Adrian Hunter     2012-11-23  219  
-39a0ad871000d2 Zhao Yakui        2008-08-11  220  	/*
-39a0ad871000d2 Zhao Yakui        2008-08-11  221  	 * If a PnPacpi device is not present , the device
-39a0ad871000d2 Zhao Yakui        2008-08-11  222  	 * driver should not be loaded.
-39a0ad871000d2 Zhao Yakui        2008-08-11  223  	 */
-0e77e2c416e8fa Zhang Rui         2013-09-03  224  	if (!acpi_has_method(device->handle, "_CRS"))
-420a0f66378c84 Dmitry Torokhov   2010-09-18  225  		return 0;
-420a0f66378c84 Dmitry Torokhov   2010-09-18  226  
-420a0f66378c84 Dmitry Torokhov   2010-09-18  227  	pnpid = pnpacpi_get_id(device);
-420a0f66378c84 Dmitry Torokhov   2010-09-18  228  	if (!pnpid)
-420a0f66378c84 Dmitry Torokhov   2010-09-18  229  		return 0;
-420a0f66378c84 Dmitry Torokhov   2010-09-18  230  
-eec15edbb0e144 Zhang Rui         2014-05-30  231  	if (!device->status.present)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  232  		return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  233  
-420a0f66378c84 Dmitry Torokhov   2010-09-18  234  	dev = pnp_alloc_dev(&pnpacpi_protocol, num, pnpid);
-bda1e4e5a3d976 Bjorn Helgaas     2008-04-28  235  	if (!dev)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  236  		return -ENOMEM;
-bda1e4e5a3d976 Bjorn Helgaas     2008-04-28  237  
-2eb1eb02dda368 Rafael J. Wysocki 2015-03-13  238  	ACPI_COMPANION_SET(&dev->dev, device);
-c4da6940a7a41c Bjorn Helgaas     2009-11-17  239  	dev->data = device;
-07d4e9af109221 Bjorn Helgaas     2007-07-26  240  	/* .enabled means the device can decode the resources */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  241  	dev->active = device->status.enabled;
-0e77e2c416e8fa Zhang Rui         2013-09-03  242  	if (acpi_has_method(device->handle, "_SRS"))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  243  		dev->capabilities |= PNP_CONFIGURABLE;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  244  	dev->capabilities |= PNP_READ;
-856608ee5e1ea3 Shaohua Li        2008-01-12  245  	if (device->flags.dynamic_status && (dev->capabilities & PNP_CONFIGURABLE))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  246  		dev->capabilities |= PNP_WRITE;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  247  	if (device->flags.removable)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  248  		dev->capabilities |= PNP_REMOVABLE;
-0e77e2c416e8fa Zhang Rui         2013-09-03  249  	if (acpi_has_method(device->handle, "_DIS"))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  250  		dev->capabilities |= PNP_DISABLE;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  251  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  252  	if (strlen(acpi_device_name(device)))
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @253  		strncpy(dev->name, acpi_device_name(device), sizeof(dev->name));
-^1da177e4c3f41 Linus Torvalds    2005-04-16  254  	else
-^1da177e4c3f41 Linus Torvalds    2005-04-16  255  		strncpy(dev->name, acpi_device_bid(device), sizeof(dev->name));
-^1da177e4c3f41 Linus Torvalds    2005-04-16  256  
-d152cf5d0c3325 Bjorn Helgaas     2008-04-28  257  	if (dev->active)
-d152cf5d0c3325 Bjorn Helgaas     2008-04-28  258  		pnpacpi_parse_allocated_resource(dev);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  259  
-d152cf5d0c3325 Bjorn Helgaas     2008-04-28  260  	if (dev->capabilities & PNP_CONFIGURABLE)
-d152cf5d0c3325 Bjorn Helgaas     2008-04-28  261  		pnpacpi_parse_resource_option_data(dev);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  262  
-7f47fa6c2ff15f Bjorn Helgaas     2009-09-21  263  	list_for_each_entry(id, &device->pnp.ids, list) {
-420a0f66378c84 Dmitry Torokhov   2010-09-18  264  		if (!strcmp(id->id, pnpid))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  265  			continue;
-7f47fa6c2ff15f Bjorn Helgaas     2009-09-21  266  		if (!ispnpidacpi(id->id))
-7f47fa6c2ff15f Bjorn Helgaas     2009-09-21  267  			continue;
-7f47fa6c2ff15f Bjorn Helgaas     2009-09-21  268  		pnp_add_id(dev, id->id);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  269  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  270  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  271  	/* clear out the damaged flags */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  272  	if (!dev->active)
-f44900020926b2 Bjorn Helgaas     2008-04-28  273  		pnp_init_resources(dev);
-249135d1a2ea3c Dmitry Torokhov   2013-12-15  274  
-249135d1a2ea3c Dmitry Torokhov   2013-12-15  275  	error = pnp_add_device(dev);
-249135d1a2ea3c Dmitry Torokhov   2013-12-15  276  	if (error) {
-249135d1a2ea3c Dmitry Torokhov   2013-12-15  277  		put_device(&dev->dev);
-249135d1a2ea3c Dmitry Torokhov   2013-12-15  278  		return error;
-249135d1a2ea3c Dmitry Torokhov   2013-12-15  279  	}
-249135d1a2ea3c Dmitry Torokhov   2013-12-15  280  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  281  	num++;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  282  
-2eb1eb02dda368 Rafael J. Wysocki 2015-03-13  283  	return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  284  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  285  
-
-:::::: The code at line 253 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   590	
+   591	static uint32_t sienna_cichlid_get_throttler_status_locked(struct smu_context *smu)
+   592	{
+ > 593		struct smu_table_context *smu_tabl = &smu->smu_table;
+   594		SmuMetricsExternal_t *metrics_ext =
+   595			(SmuMetricsExternal_t *)(smu_table->metrics_table);
+   596		uint32_t throttler_status = 0;
+   597		int i;
+   598	
+   599		if ((smu->adev->ip_versions[MP1_HWIP][0] == IP_VERSION(11, 0, 7)) &&
+   600		     (smu->smc_fw_version >= 0x3A4900)) {
+   601			for (i = 0; i < THROTTLER_COUNT; i++)
+   602				throttler_status |=
+   603					(metrics_ext->SmuMetrics_V3.ThrottlingPercentage[i] ? 1U << i : 0);
+   604		} else if ((smu->adev->ip_versions[MP1_HWIP][0] == IP_VERSION(11, 0, 7)) &&
+   605		     (smu->smc_fw_version >= 0x3A4300)) {
+   606			for (i = 0; i < THROTTLER_COUNT; i++)
+   607				throttler_status |=
+   608					(metrics_ext->SmuMetrics_V2.ThrottlingPercentage[i] ? 1U << i : 0);
+   609		} else {
+   610			throttler_status = metrics_ext->SmuMetrics.ThrottlerStatus;
+   611		}
+   612	
+   613		return throttler_status;
+   614	}
+   615	
 
 -- 
 0-DAY CI Kernel Test Service
