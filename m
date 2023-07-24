@@ -1,43 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D941A1094E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 21:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6148A11C9C;
+	Mon, 24 Jul 2023 22:01:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690235512; x=1721771512;
+  t=1690236120; x=1721772120;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8R3JwV7vltsgw0ptBPIAXkrQCq+zq1YEajT/2OH35/U=;
-  b=D4PHgItngYmZXdf1MTjXsWNKAyLyvHtQDx62+upvyuOl3wcPUkWeG+9T
-   2DdWQl0CS6v0GY8VfdRkpkMN97CQDUQSF47iCiTYwnQg3vkqvZHGD2Ld+
-   9j+5G6IZfXAehjJ5LWao4vdrku1yHeMBnGz2Nl5nF3e4XVJGuhESvC73T
-   694gqWZyz/8W8wUhy3eWy4YiY1pKo5Ay8hRkTy78XYUhJuqF5SZxs60St
-   jwtw9yB9VlkgOfMumqMbKdlNYq7c+zphKIQCxy0cENERmBuHRxO1xRzoJ
-   1wzWpVmLOPrp9CaXiUGwqHNuW47Omfm+Qj3N0hIY/q2ZUs8g0sEjCW+x4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="371164155"
+  bh=SJlj8GnFLnio14S0CRO9n8WnZoBWKVSR9zwwsRhQPJw=;
+  b=mf4EkIYC65GpY1gaXPKzUUb1ol82RNGztle8Ye/LAJJS0mubLpk3Qbtw
+   HaPsL9t7e/bwEZPJ1E5Xu3E6N5sqfqlH1GW5Qvh6xJip2ynGIRIcptxsD
+   emvyQM6lZmHDHaRsZCHkFR0msSMgXvdjAykltzocPTui/aaXllAQUdp4+
+   MOR6RQV6yc1UA0+D4SpjLDs4dus+jrhwI+q96wnMnesJ8XcF9tvM8aJ4t
+   m1IkLsbvPpmxQ4gE/yKov2Vf5t7upsNGhE2bPcZF+tmxL21csNc58N/Yz
+   4x0xG0N3nft28sRCmV+ejvS4CXVDybDr1JDyMxlgoP8S2pL7Ys9MI+ZUS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="431358373"
 X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="371164155"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 14:51:51 -0700
+   d="scan'208";a="431358373"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 15:01:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="703045070"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="675984365"
 X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="703045070"
+   d="scan'208";a="675984365"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 24 Jul 2023 14:51:50 -0700
+  by orsmga003.jf.intel.com with ESMTP; 24 Jul 2023 15:01:57 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qO3T2-000A3Y-2g;
-	Mon, 24 Jul 2023 21:51:48 +0000
-Date: Tue, 25 Jul 2023 05:51:31 +0800
+	id 1qO3cr-000A3s-05;
+	Mon, 24 Jul 2023 22:01:57 +0000
+Date: Tue, 25 Jul 2023 06:01:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
-	Kishon <kishon@ti.com>, Minda Chen <minda.chen@starfivetech.com>
-Subject: [phy:next 50/55] ERROR: modpost: "devm_platform_ioremap_resource"
- [drivers/phy/starfive/phy-jh7110-dphy-rx.ko] undefined!
-Message-ID: <202307250509.oeudxG28-lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/media/dvb-frontends/cxd2841er.c:3376:12: warning: stack
+ frame size (9592) exceeds limit (8192) in 'cxd2841er_set_frontend_tc'
+Message-ID: <202307250554.zGR0JlFR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,131 +47,168 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git next
-head:   486392f44dd96aeb34bbbc1b119bc5d332f1164f
-commit: f8aa660841bca12aed51c967ed9bdaf1d97996ed [50/55] phy: starfive: Add mipi dphy rx support
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230725/202307250509.oeudxG28-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307250509.oeudxG28-lkp@intel.com/reproduce)
+Hi Kees,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   20ea1e7d13c1b544fe67c4a8dc3943bb1ab33e6f
+commit: fa35198f39571bbdae53c5b321020021eaad6bd2 fortify: Explicitly check bounds are compile-time constants
+date:   10 months ago
+config: x86_64-randconfig-x015-20230725 (https://download.01.org/0day-ci/archive/20230725/202307250554.zGR0JlFR-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307250554.zGR0JlFR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307250509.oeudxG28-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307250554.zGR0JlFR-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/ccwgroup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/vfio_ccw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_diag_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_eckd_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_fba_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dcssblk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/raw3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/con3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/fs3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/net/lcs.o
->> ERROR: modpost: "devm_platform_ioremap_resource" [drivers/phy/starfive/phy-jh7110-dphy-rx.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-WARNING: modpost: suppressed 13 unresolved symbol warnings because there were too many)
+>> drivers/media/dvb-frontends/cxd2841er.c:3376:12: warning: stack frame size (9592) exceeds limit (8192) in 'cxd2841er_set_frontend_tc' [-Wframe-larger-than]
+   static int cxd2841er_set_frontend_tc(struct dvb_frontend *fe)
+              ^
+   1 warning generated.
+
+
+vim +/cxd2841er_set_frontend_tc +3376 drivers/media/dvb-frontends/cxd2841er.c
+
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3375  
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28 @3376  static int cxd2841er_set_frontend_tc(struct dvb_frontend *fe)
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3377  {
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3378  	int ret = 0, timeout;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3379  	enum fe_status status;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3380  	struct cxd2841er_priv *priv = fe->demodulator_priv;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3381  	struct dtv_frontend_properties *p = &fe->dtv_property_cache;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3382  
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3383  	dev_dbg(&priv->i2c->dev, "%s() delivery_system=%d bandwidth_hz=%d\n",
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3384  		 __func__, p->delivery_system, p->bandwidth_hz);
+763f857e40f3711 Daniel Scheller 2017-04-09  3385  
+763f857e40f3711 Daniel Scheller 2017-04-09  3386  	if (priv->flags & CXD2841ER_EARLY_TUNE)
+763f857e40f3711 Daniel Scheller 2017-04-09  3387  		cxd2841er_tuner_set(fe);
+763f857e40f3711 Daniel Scheller 2017-04-09  3388  
+bd2355b8efc684e Daniel Scheller 2017-07-11  3389  	/* deconfigure/put demod to sleep on delsys switch if active */
+bd2355b8efc684e Daniel Scheller 2017-07-11  3390  	if (priv->state == STATE_ACTIVE_TC &&
+bd2355b8efc684e Daniel Scheller 2017-07-11  3391  	    priv->system != p->delivery_system) {
+bd2355b8efc684e Daniel Scheller 2017-07-11  3392  		dev_dbg(&priv->i2c->dev, "%s(): old_delsys=%d, new_delsys=%d -> sleep\n",
+bd2355b8efc684e Daniel Scheller 2017-07-11  3393  			 __func__, priv->system, p->delivery_system);
+bd2355b8efc684e Daniel Scheller 2017-07-11  3394  		cxd2841er_sleep_tc(fe);
+bd2355b8efc684e Daniel Scheller 2017-07-11  3395  	}
+bd2355b8efc684e Daniel Scheller 2017-07-11  3396  
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3397  	if (p->delivery_system == SYS_DVBT) {
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3398  		priv->system = SYS_DVBT;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3399  		switch (priv->state) {
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3400  		case STATE_SLEEP_TC:
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3401  			ret = cxd2841er_sleep_tc_to_active_t(
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3402  				priv, p->bandwidth_hz);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3403  			break;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3404  		case STATE_ACTIVE_TC:
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3405  			ret = cxd2841er_retune_active(priv, p);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3406  			break;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3407  		default:
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3408  			dev_dbg(&priv->i2c->dev, "%s(): invalid state %d\n",
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3409  				__func__, priv->state);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3410  			ret = -EINVAL;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3411  		}
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3412  	} else if (p->delivery_system == SYS_DVBT2) {
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3413  		priv->system = SYS_DVBT2;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3414  		cxd2841er_dvbt2_set_plp_config(priv,
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3415  			(int)(p->stream_id > 255), p->stream_id);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3416  		cxd2841er_dvbt2_set_profile(priv, DVBT2_PROFILE_BASE);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3417  		switch (priv->state) {
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3418  		case STATE_SLEEP_TC:
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3419  			ret = cxd2841er_sleep_tc_to_active_t2(priv,
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3420  				p->bandwidth_hz);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3421  			break;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3422  		case STATE_ACTIVE_TC:
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3423  			ret = cxd2841er_retune_active(priv, p);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3424  			break;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3425  		default:
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3426  			dev_dbg(&priv->i2c->dev, "%s(): invalid state %d\n",
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3427  				__func__, priv->state);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3428  			ret = -EINVAL;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3429  		}
+83808c23e51a61f Abylay Ospan    2016-03-22  3430  	} else if (p->delivery_system == SYS_ISDBT) {
+83808c23e51a61f Abylay Ospan    2016-03-22  3431  		priv->system = SYS_ISDBT;
+83808c23e51a61f Abylay Ospan    2016-03-22  3432  		switch (priv->state) {
+83808c23e51a61f Abylay Ospan    2016-03-22  3433  		case STATE_SLEEP_TC:
+83808c23e51a61f Abylay Ospan    2016-03-22  3434  			ret = cxd2841er_sleep_tc_to_active_i(
+83808c23e51a61f Abylay Ospan    2016-03-22  3435  					priv, p->bandwidth_hz);
+83808c23e51a61f Abylay Ospan    2016-03-22  3436  			break;
+83808c23e51a61f Abylay Ospan    2016-03-22  3437  		case STATE_ACTIVE_TC:
+83808c23e51a61f Abylay Ospan    2016-03-22  3438  			ret = cxd2841er_retune_active(priv, p);
+83808c23e51a61f Abylay Ospan    2016-03-22  3439  			break;
+83808c23e51a61f Abylay Ospan    2016-03-22  3440  		default:
+83808c23e51a61f Abylay Ospan    2016-03-22  3441  			dev_dbg(&priv->i2c->dev, "%s(): invalid state %d\n",
+83808c23e51a61f Abylay Ospan    2016-03-22  3442  					__func__, priv->state);
+83808c23e51a61f Abylay Ospan    2016-03-22  3443  			ret = -EINVAL;
+83808c23e51a61f Abylay Ospan    2016-03-22  3444  		}
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3445  	} else if (p->delivery_system == SYS_DVBC_ANNEX_A ||
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3446  			p->delivery_system == SYS_DVBC_ANNEX_C) {
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3447  		priv->system = SYS_DVBC_ANNEX_A;
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3448  		/* correct bandwidth */
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3449  		if (p->bandwidth_hz != 6000000 &&
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3450  				p->bandwidth_hz != 7000000 &&
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3451  				p->bandwidth_hz != 8000000) {
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3452  			p->bandwidth_hz = 8000000;
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3453  			dev_dbg(&priv->i2c->dev, "%s(): forcing bandwidth to %d\n",
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3454  					__func__, p->bandwidth_hz);
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3455  		}
+3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3456  
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3457  		switch (priv->state) {
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3458  		case STATE_SLEEP_TC:
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3459  			ret = cxd2841er_sleep_tc_to_active_c(
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3460  				priv, p->bandwidth_hz);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3461  			break;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3462  		case STATE_ACTIVE_TC:
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3463  			ret = cxd2841er_retune_active(priv, p);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3464  			break;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3465  		default:
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3466  			dev_dbg(&priv->i2c->dev, "%s(): invalid state %d\n",
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3467  				__func__, priv->state);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3468  			ret = -EINVAL;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3469  		}
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3470  	} else {
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3471  		dev_dbg(&priv->i2c->dev,
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3472  			"%s(): invalid delivery system %d\n",
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3473  			__func__, p->delivery_system);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3474  		ret = -EINVAL;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3475  	}
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3476  	if (ret)
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3477  		goto done;
+c7518d13f70e62e Daniel Scheller 2017-04-09  3478  
+763f857e40f3711 Daniel Scheller 2017-04-09  3479  	if (!(priv->flags & CXD2841ER_EARLY_TUNE))
+c7518d13f70e62e Daniel Scheller 2017-04-09  3480  		cxd2841er_tuner_set(fe);
+c7518d13f70e62e Daniel Scheller 2017-04-09  3481  
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3482  	cxd2841er_tune_done(priv);
+e3943aa6d8023bb Daniel Scheller 2017-04-09  3483  
+e3943aa6d8023bb Daniel Scheller 2017-04-09  3484  	if (priv->flags & CXD2841ER_NO_WAIT_LOCK)
+e3943aa6d8023bb Daniel Scheller 2017-04-09  3485  		goto done;
+e3943aa6d8023bb Daniel Scheller 2017-04-09  3486  
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3487  	timeout = 2500;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3488  	while (timeout > 0) {
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3489  		ret = cxd2841er_read_status_tc(fe, &status);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3490  		if (ret)
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3491  			goto done;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3492  		if (status & FE_HAS_LOCK)
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3493  			break;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3494  		msleep(20);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3495  		timeout -= 20;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3496  	}
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3497  	if (timeout < 0)
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3498  		dev_dbg(&priv->i2c->dev,
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3499  			"%s(): LOCK wait timeout\n", __func__);
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3500  done:
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3501  	return ret;
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3502  }
+a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3503  
+
+:::::: The code at line 3376 was first introduced by commit
+:::::: a6dc60ff1209df29ee4668024e93d31f31421932 [media] cxd2841er: Sony CXD2841ER DVB-S/S2/T/T2/C demodulator driver
+
+:::::: TO: Kozlov Sergey <serjk@netup.ru>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 -- 
 0-DAY CI Kernel Test Service
