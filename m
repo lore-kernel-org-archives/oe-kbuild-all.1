@@ -1,45 +1,49 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347AB184F;
-	Mon, 24 Jul 2023 07:57:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690185463; x=1721721463;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TgcaBNEYIGLRW6+34tr9A98bCq8zLZnStV1oc/gJftg=;
-  b=NbZ2XGVcYUoeaENsjD1SLZnxKvWky4Y3Vf3GgpxMDvXak4KcntMBf9Hf
-   hleBL3WLNbm8/lsIUV1Dij2XMQAqTabVfWU8y2y/Yex3toxwHZHP1Qg7a
-   Tio5nak86JiwvEIfixzQlwT49uW92JgsxaWyprV4EN3JEtofvi+xdJzZj
-   1W91xNgWo7i3NpTYFJ3VwLVlSSZ9Zh3oTHMEHybI2q0k4MaHCLhonWBCY
-   I9BNsghT9og9PXabEsJLhZpSqoXPSypDslgN5tYi2SPDnpWMFUMlCrtf/
-   fAPN3Z/i3fiB8xS4JBhRAtYBouaGAMwxIS/j8VWCXjYu7amK/pPaXbftU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="366268060"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="366268060"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 00:57:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="795675614"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="795675614"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 24 Jul 2023 00:57:41 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qNqRo-0009a4-17;
-	Mon, 24 Jul 2023 07:57:40 +0000
-Date: Mon, 24 Jul 2023 15:57:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Naohiro Aota <naohiro.aota@wdc.com>, linux-btrfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Naohiro Aota <naohiro.aota@wdc.com>
-Subject: Re: [PATCH 5/8] btrfs: zoned: activate metadata block group on write
- time
-Message-ID: <202307241541.8w52nEnt-lkp@intel.com>
-References: <2f8e30f966cfd9e06b0745a691bd1a5566aab780.1690171333.git.naohiro.aota@wdc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209B715C6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 08:12:06 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-314319c0d3eso3613588f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 01:12:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690186325; x=1690791125;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4k5OhMJhQ2+wDaIsnK+q2wvHycQR/3aKhiixy4fXYjI=;
+        b=Q4/qBPr2wh7Vf+6gHroZxcJ+7gzZx0/Av1wcmElSjFA4y0oi776ht2hQ6fCKBLZwZJ
+         UiVJpifa1e/VhxyvH9hVomB/04uSpj1hHTd0EzE8/85CRJNycxJMRufM3Ugar5TTok39
+         9UqtEOdI+jOm7Jt1lTnD06xSl8oPs+YwiVsGtxRGsLQqhZiZwefa1uvGZWyq5UxqWfNx
+         Vr2xfFD+0O2+ZaQqA12VQ3NeeBpa3V/S+6IRN9YFqK+Hv5dru4jtwbr9u18vhMwX1atd
+         AQJKGqDRTxgkpnrTo1qUULp6RAroNBVcJjMYBdb6g3H4mfAPLawwUMAF4/9YTAInGPdb
+         GpZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690186325; x=1690791125;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4k5OhMJhQ2+wDaIsnK+q2wvHycQR/3aKhiixy4fXYjI=;
+        b=Iw5w61MjC5CJQJKjhuRo6JHmVwP8lF2ZJ0bN2YrrJ83XNGFB/54ot4GSZTK4ZWQK/b
+         CFXRZyyFH6gONN6L4xLhe0NRS1o12V7iQqS0C6QhAt9neW1ba1ARGqC1A0Vx6j2ir0LN
+         I9OcPlJDVHGP2jqk/cqg+Xd++0aNaJOQ2iv5h9fcV4lUIfjMmOMpIM5fZNWgXGQCbGN4
+         9g0TvI/n+GDXj0eAfdWvgjYaSgUFuXepU4m0xLjJukm2XI++Gw7XKre74EFBAKauUs8a
+         8ARafBFgivFKMce9eyRWGizP2l8hyE/pdEogMP4BC4TZZAjQXeyYmBW6SX8+rZ7/Ge+k
+         WI/w==
+X-Gm-Message-State: ABy/qLZjz27soF5Af1ICXLi+n1SrDDBV6h/pEr871+/cjMa4BJF9o+JK
+	J5vIS6RUP7BIJqT/fVWOQOxycQ==
+X-Google-Smtp-Source: APBJJlGoMgHLJ1cKd5aJqaLTlO06gDBNrDyl//41YVyP447RVi+HA13AfLB5FkE7sUp3G1ToOQiivw==
+X-Received: by 2002:adf:ec8e:0:b0:317:6513:da7c with SMTP id z14-20020adfec8e000000b003176513da7cmr119308wrn.18.1690186325043;
+        Mon, 24 Jul 2023 01:12:05 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p15-20020adfce0f000000b00301a351a8d6sm12050255wrn.84.2023.07.24.01.12.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jul 2023 01:12:04 -0700 (PDT)
+Date: Mon, 24 Jul 2023 11:12:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Joel Granados <j.granados@samsung.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [joelgranados:jag/sysctl_remove_empty_elem 61/65]
+ net/ax25/sysctl_net_ax25.c:158 ax25_register_dev_sysctl() error: buffer
+ overflow 'table' 13 <= 13
+Message-ID: <06d26e2d-88ab-4b17-919a-893426577ac3@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,141 +52,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2f8e30f966cfd9e06b0745a691bd1a5566aab780.1690171333.git.naohiro.aota@wdc.com>
 
-Hi Naohiro,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on linus/master v6.5-rc3 next-20230724]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Naohiro-Aota/btrfs-zoned-introduce-block_group-context-for-submit_eb_page/20230724-122053
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/2f8e30f966cfd9e06b0745a691bd1a5566aab780.1690171333.git.naohiro.aota%40wdc.com
-patch subject: [PATCH 5/8] btrfs: zoned: activate metadata block group on write time
-config: arm-randconfig-r002-20230724 (https://download.01.org/0day-ci/archive/20230724/202307241541.8w52nEnt-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230724/202307241541.8w52nEnt-lkp@intel.com/reproduce)
+tree:   https://github.com/Joelgranados/linux.git jag/sysctl_remove_empty_elem
+head:   c09c3a77be9924c3bbab7b538a03ecd68734e799
+commit: 857e2e5922b442beef8ba18fa9ff9cec659003a1 [61/65] ax.25: rm sentinel element from ctl_table array
+config: i386-randconfig-m021-20230717 (https://download.01.org/0day-ci/archive/20230722/202307221942.GeOTwYoS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230722/202307221942.GeOTwYoS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307241541.8w52nEnt-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307221942.GeOTwYoS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+net/ax25/sysctl_net_ax25.c:158 ax25_register_dev_sysctl() error: buffer overflow 'table' 13 <= 13
 
-   fs/btrfs/extent_io.c:214:16: warning: variable 'pages_processed' set but not used [-Wunused-but-set-variable]
-     214 |         unsigned long pages_processed = 0;
-         |                       ^
->> fs/btrfs/extent_io.c:1827:60: error: too many arguments to function call, expected 3, have 4
-    1827 |         if (!btrfs_check_meta_write_pointer(eb->fs_info, wbc, eb, bg_context)) {
-         |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                       ^~~~~~~~~~
-   fs/btrfs/zoned.h:191:20: note: 'btrfs_check_meta_write_pointer' declared here
-     191 | static inline bool btrfs_check_meta_write_pointer(struct btrfs_fs_info *fs_info,
-         |                    ^
-   1 warning and 1 error generated.
+vim +/table +158 net/ax25/sysctl_net_ax25.c
 
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  147  int ax25_register_dev_sysctl(ax25_dev *ax25_dev)
+^1da177e4c3f415 Linus Torvalds    2005-04-16  148  {
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  149  	char path[sizeof("net/ax25/") + IFNAMSIZ];
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  150  	int k;
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  151  	struct ctl_table *table;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  152  
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  153  	table = kmemdup(ax25_param_table, sizeof(ax25_param_table), GFP_KERNEL);
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  154  	if (!table)
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  155  		return -ENOMEM;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  156  
+^1da177e4c3f415 Linus Torvalds    2005-04-16  157  	for (k = 0; k < AX25_MAX_VALUES; k++)
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19 @158  		table[k].data = &ax25_dev->values[k];
+                                                                ^^^^^^^^
+I trust the checker that this is a buffer overflow.
 
-vim +1827 fs/btrfs/extent_io.c
-
-  1766	
-  1767	/*
-  1768	 * Submit all page(s) of one extent buffer.
-  1769	 *
-  1770	 * @page:	the page of one extent buffer
-  1771	 * @eb_context:	to determine if we need to submit this page, if current page
-  1772	 *		belongs to this eb, we don't need to submit
-  1773	 *
-  1774	 * The caller should pass each page in their bytenr order, and here we use
-  1775	 * @eb_context to determine if we have submitted pages of one extent buffer.
-  1776	 *
-  1777	 * If we have, we just skip until we hit a new page that doesn't belong to
-  1778	 * current @eb_context.
-  1779	 *
-  1780	 * If not, we submit all the page(s) of the extent buffer.
-  1781	 *
-  1782	 * Return >0 if we have submitted the extent buffer successfully.
-  1783	 * Return 0 if we don't need to submit the page, as it's already submitted by
-  1784	 * previous call.
-  1785	 * Return <0 for fatal error.
-  1786	 */
-  1787	static int submit_eb_page(struct page *page, struct writeback_control *wbc,
-  1788				  struct extent_buffer **eb_context,
-  1789				  struct btrfs_block_group **bg_context)
-  1790	{
-  1791		struct address_space *mapping = page->mapping;
-  1792		struct extent_buffer *eb;
-  1793		int ret;
-  1794	
-  1795		if (!PagePrivate(page))
-  1796			return 0;
-  1797	
-  1798		if (btrfs_sb(page->mapping->host->i_sb)->nodesize < PAGE_SIZE)
-  1799			return submit_eb_subpage(page, wbc);
-  1800	
-  1801		spin_lock(&mapping->private_lock);
-  1802		if (!PagePrivate(page)) {
-  1803			spin_unlock(&mapping->private_lock);
-  1804			return 0;
-  1805		}
-  1806	
-  1807		eb = (struct extent_buffer *)page->private;
-  1808	
-  1809		/*
-  1810		 * Shouldn't happen and normally this would be a BUG_ON but no point
-  1811		 * crashing the machine for something we can survive anyway.
-  1812		 */
-  1813		if (WARN_ON(!eb)) {
-  1814			spin_unlock(&mapping->private_lock);
-  1815			return 0;
-  1816		}
-  1817	
-  1818		if (eb == *eb_context) {
-  1819			spin_unlock(&mapping->private_lock);
-  1820			return 0;
-  1821		}
-  1822		ret = atomic_inc_not_zero(&eb->refs);
-  1823		spin_unlock(&mapping->private_lock);
-  1824		if (!ret)
-  1825			return 0;
-  1826	
-> 1827		if (!btrfs_check_meta_write_pointer(eb->fs_info, wbc, eb, bg_context)) {
-  1828			/*
-  1829			 * If for_sync, this hole will be filled with
-  1830			 * trasnsaction commit.
-  1831			 */
-  1832			if (wbc->sync_mode == WB_SYNC_ALL && !wbc->for_sync)
-  1833				ret = -EAGAIN;
-  1834			else
-  1835				ret = 0;
-  1836			free_extent_buffer(eb);
-  1837			return ret;
-  1838		}
-  1839	
-  1840		*eb_context = eb;
-  1841	
-  1842		if (!lock_extent_buffer_for_io(eb, wbc)) {
-  1843			free_extent_buffer(eb);
-  1844			return 0;
-  1845		}
-  1846		if (*bg_context) {
-  1847			/* Implies write in zoned mode. */
-  1848			struct btrfs_block_group *bg = *bg_context;
-  1849	
-  1850			/* Mark the last eb in the block group. */
-  1851			btrfs_schedule_zone_finish_bg(bg, eb);
-  1852			bg->meta_write_pointer += eb->len;
-  1853		}
-  1854		write_one_eb(eb, wbc);
-  1855		free_extent_buffer(eb);
-  1856		return 1;
-  1857	}
-  1858	
+^1da177e4c3f415 Linus Torvalds    2005-04-16  159  
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  160  	snprintf(path, sizeof(path), "net/ax25/%s", ax25_dev->dev->name);
+4a00c5fa7a2b9ee Joel Granados     2023-06-27  161  	ax25_dev->sysheader = register_net_sysctl_sz(&init_net, path, table,
+4a00c5fa7a2b9ee Joel Granados     2023-06-27  162  						  ARRAY_SIZE(ax25_param_table));
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  163  	if (!ax25_dev->sysheader) {
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  164  		kfree(table);
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  165  		return -ENOMEM;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  166  	}
+0ca7a4c87d27dd2 Eric W. Biederman 2012-04-19  167  	return 0;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  168  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
