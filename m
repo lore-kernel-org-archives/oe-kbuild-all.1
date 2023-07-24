@@ -1,43 +1,44 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236FAF9E1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 17:34:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC36F9E1;
+	Mon, 24 Jul 2023 17:34:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690220053; x=1721756053;
+  t=1690220055; x=1721756055;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hefD9mlfmcdDOVuixhUxITOsmmTVl4sFC0Fe6KykCgI=;
-  b=STTSNhj7zXojywd7wFp27VzCTrSPPou9aUi4avG/IyX5kTGfXmm+G95V
-   U9QDhy3ZUVZwFZLlLoooPPGil+04ti++vE6b7JGvgMjSQtcoXYLGjlZ2e
-   gJZz2RVXgCZCNKZ4v5ObJIZTc3g+H9wn2HIRmXUPgxQHrWPZkmpKRykIG
-   6+2oAN+zfmK9euLN4v0a+fFb4zGR/d9t7fzcVyBIJCPDd+wDxLIiyH0ki
-   gZ+0twG1yMoOihl+TNDYXwfcKyER1T/GZkfiA2lZxTPR0aps9xaRm4GKu
-   ++9MTA7XAGKEbMBZ6AdDkA+zXvebVn3hBiGkqrLewMf2aj7U2HRx5HSO2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="398415578"
+  bh=4a5ZXFUaM6toh97BoMkChv5GdlzM4u4g8uVpDMiiNb0=;
+  b=nATRzRdVEdlWB4/2S/zFHU733v1NFpyw542Drcuxj3jF6BH4vh8b7flu
+   OaBwW1xC12WQ9TzAUAo4na2Md/JD5nRlP2O1F7kBfQHm5c5QGlB/G3En3
+   8BHrY+7b3HV2SilPH02YlCQe6nOocAko+FHqRw2T+4PE9S5qYBeSODfhh
+   3WMfQ5CKyD1wTZe9n3HqgNoKI+cGpDncDyOd16uHJT9mJr++jukE5+OEX
+   4zgmyEYKdBZvUcq6WeQRYeOU32YeZ08QdSC0NXmNZMwEEgRqzNe/pu++u
+   fqWei/8ZdmuhvfwFKZY99AEpJiO0Ea5w5HPgeB1YF2AqK5j29qHy4pyjo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="398415580"
 X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="398415578"
+   d="scan'208";a="398415580"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 10:34:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="755385764"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="755385765"
 X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="755385764"
+   d="scan'208";a="755385765"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
   by orsmga008.jf.intel.com with ESMTP; 24 Jul 2023 10:34:10 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNzRi-0009us-0P;
+	id 1qNzRi-0009uq-0K;
 	Mon, 24 Jul 2023 17:34:10 +0000
-Date: Tue, 25 Jul 2023 01:33:43 +0800
+Date: Tue, 25 Jul 2023 01:33:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Usama Arif <usama.arif@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 1/4] mm/hugetlb: Skip prep of tail pages when HVO is enabled
-Message-ID: <202307250114.8KlXie9d-lkp@intel.com>
-References: <20230724134644.1299963-2-usama.arif@bytedance.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 2/4] mm/memblock: Add hugepage_size member to struct
+ memblock_region
+Message-ID: <202307250139.EDNyQbWQ-lkp@intel.com>
+References: <20230724134644.1299963-3-usama.arif@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,126 +47,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230724134644.1299963-2-usama.arif@bytedance.com>
+In-Reply-To: <20230724134644.1299963-3-usama.arif@bytedance.com>
 
 Hi Usama,
 
 [This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test WARNING on akpm-mm/mm-everything]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/mm-hugetlb-Skip-prep-of-tail-pages-when-HVO-is-enabled/20230724-214832
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230724134644.1299963-2-usama.arif%40bytedance.com
-patch subject: [RFC 1/4] mm/hugetlb: Skip prep of tail pages when HVO is enabled
-config: sparc-randconfig-r036-20230724 (https://download.01.org/0day-ci/archive/20230725/202307250114.8KlXie9d-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307250114.8KlXie9d-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20230724134644.1299963-3-usama.arif%40bytedance.com
+patch subject: [RFC 2/4] mm/memblock: Add hugepage_size member to struct memblock_region
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230725/202307250139.EDNyQbWQ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307250139.EDNyQbWQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307250114.8KlXie9d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307250139.EDNyQbWQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/hugetlb.c: In function '__prep_compound_gigantic_folio':
->> mm/hugetlb.c:1988:28: error: 'HUGETLB_VMEMMAP_RESERVE_SIZE' undeclared (first use in this function)
-    1988 |                 nr_pages = HUGETLB_VMEMMAP_RESERVE_SIZE / sizeof(struct page);
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c:1988:28: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from mm/memblock.c:18:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/um/include/asm/dma.h:5:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from mm/memblock.c:18:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/um/include/asm/dma.h:5:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from mm/memblock.c:18:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/um/include/asm/dma.h:5:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> mm/memblock.c:869:21: warning: no previous prototype for function 'memblock_reserve_huge' [-Wmissing-prototypes]
+     869 | int __init_memblock memblock_reserve_huge(phys_addr_t base, phys_addr_t size,
+         |                     ^
+   mm/memblock.c:869:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     869 | int __init_memblock memblock_reserve_huge(phys_addr_t base, phys_addr_t size,
+         | ^
+         | static 
+   13 warnings generated.
 
 
-vim +/HUGETLB_VMEMMAP_RESERVE_SIZE +1988 mm/hugetlb.c
+vim +/memblock_reserve_huge +869 mm/memblock.c
 
-  1972	
-  1973	static bool __prep_compound_gigantic_folio(struct folio *folio,
-  1974						unsigned int order, bool demote,
-  1975						bool hugetlb_vmemmap_optimizable)
-  1976	{
-  1977		int i, j;
-  1978		int nr_pages = 1 << order;
-  1979		struct page *p;
-  1980	
-  1981		__folio_clear_reserved(folio);
-  1982	
-  1983		/*
-  1984		 * No need to prep pages that will be freed later by hugetlb_vmemmap_optimize
-  1985		 * in prep_new_huge_page. Hence, reduce nr_pages to the pages that will be kept.
-  1986		 */
-  1987		if (hugetlb_vmemmap_optimizable)
-> 1988			nr_pages = HUGETLB_VMEMMAP_RESERVE_SIZE / sizeof(struct page);
-  1989	
-  1990		for (i = 0; i < nr_pages; i++) {
-  1991			p = folio_page(folio, i);
-  1992	
-  1993			/*
-  1994			 * For gigantic hugepages allocated through bootmem at
-  1995			 * boot, it's safer to be consistent with the not-gigantic
-  1996			 * hugepages and clear the PG_reserved bit from all tail pages
-  1997			 * too.  Otherwise drivers using get_user_pages() to access tail
-  1998			 * pages may get the reference counting wrong if they see
-  1999			 * PG_reserved set on a tail page (despite the head page not
-  2000			 * having PG_reserved set).  Enforcing this consistency between
-  2001			 * head and tail pages allows drivers to optimize away a check
-  2002			 * on the head page when they need know if put_page() is needed
-  2003			 * after get_user_pages().
-  2004			 */
-  2005			if (i != 0)	/* head page cleared above */
-  2006				__ClearPageReserved(p);
-  2007			/*
-  2008			 * Subtle and very unlikely
-  2009			 *
-  2010			 * Gigantic 'page allocators' such as memblock or cma will
-  2011			 * return a set of pages with each page ref counted.  We need
-  2012			 * to turn this set of pages into a compound page with tail
-  2013			 * page ref counts set to zero.  Code such as speculative page
-  2014			 * cache adding could take a ref on a 'to be' tail page.
-  2015			 * We need to respect any increased ref count, and only set
-  2016			 * the ref count to zero if count is currently 1.  If count
-  2017			 * is not 1, we return an error.  An error return indicates
-  2018			 * the set of pages can not be converted to a gigantic page.
-  2019			 * The caller who allocated the pages should then discard the
-  2020			 * pages using the appropriate free interface.
-  2021			 *
-  2022			 * In the case of demote, the ref count will be zero.
-  2023			 */
-  2024			if (!demote) {
-  2025				if (!page_ref_freeze(p, 1)) {
-  2026					pr_warn("HugeTLB page can not be used due to unexpected inflated ref count\n");
-  2027					goto out_error;
-  2028				}
-  2029			} else {
-  2030				VM_BUG_ON_PAGE(page_count(p), p);
-  2031			}
-  2032			if (i != 0)
-  2033				set_compound_head(p, &folio->page);
-  2034		}
-  2035		__folio_set_head(folio);
-  2036		/* we rely on prep_new_hugetlb_folio to set the destructor */
-  2037		folio_set_order(folio, order);
-  2038		atomic_set(&folio->_entire_mapcount, -1);
-  2039		atomic_set(&folio->_nr_pages_mapped, 0);
-  2040		atomic_set(&folio->_pincount, 0);
-  2041		return true;
-  2042	
-  2043	out_error:
-  2044		/* undo page modifications made above */
-  2045		for (j = 0; j < i; j++) {
-  2046			p = folio_page(folio, j);
-  2047			if (j != 0)
-  2048				clear_compound_head(p);
-  2049			set_page_refcounted(p);
-  2050		}
-  2051		/* need to clear PG_reserved on remaining tail pages  */
-  2052		for (; j < nr_pages; j++) {
-  2053			p = folio_page(folio, j);
-  2054			__ClearPageReserved(p);
-  2055		}
-  2056		return false;
-  2057	}
-  2058	
+   868	
+ > 869	int __init_memblock memblock_reserve_huge(phys_addr_t base, phys_addr_t size,
+   870						   phys_addr_t hugepage_size)
+   871	{
+   872		phys_addr_t end = base + size - 1;
+   873	
+   874		memblock_dbg("%s: [%pa-%pa] %pS\n", __func__,
+   875			     &base, &end, (void *)_RET_IP_);
+   876	
+   877		return memblock_add_range(&memblock.reserved, base, size, MAX_NUMNODES, 0, hugepage_size);
+   878	}
+   879	
 
 -- 
 0-DAY CI Kernel Test Service
