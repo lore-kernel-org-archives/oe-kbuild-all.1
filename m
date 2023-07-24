@@ -1,43 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6148A11C9C;
-	Mon, 24 Jul 2023 22:01:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657A2100BE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 22:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690236120; x=1721772120;
+  t=1690238658; x=1721774658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SJlj8GnFLnio14S0CRO9n8WnZoBWKVSR9zwwsRhQPJw=;
-  b=mf4EkIYC65GpY1gaXPKzUUb1ol82RNGztle8Ye/LAJJS0mubLpk3Qbtw
-   HaPsL9t7e/bwEZPJ1E5Xu3E6N5sqfqlH1GW5Qvh6xJip2ynGIRIcptxsD
-   emvyQM6lZmHDHaRsZCHkFR0msSMgXvdjAykltzocPTui/aaXllAQUdp4+
-   MOR6RQV6yc1UA0+D4SpjLDs4dus+jrhwI+q96wnMnesJ8XcF9tvM8aJ4t
-   m1IkLsbvPpmxQ4gE/yKov2Vf5t7upsNGhE2bPcZF+tmxL21csNc58N/Yz
-   4x0xG0N3nft28sRCmV+ejvS4CXVDybDr1JDyMxlgoP8S2pL7Ys9MI+ZUS
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="431358373"
+  bh=1NV52sKnefJZ5RYJNwIEwgBKGeUL3qVqXStivumro6o=;
+  b=VrBjqDrt2urpPXcvMWfcOoCpREBtq0RVpJjvXVsCkFfiWWfAC7FuT7JJ
+   +rz1I8JcX05PK6K6Wml5KkHNol7rKgaEh5k8BJ/IJ3hp27FbeD535/hQF
+   SUJV6XXOGROfn9lROnAW1aoNQb55nVzZFPcAzoCd+JxtYMRq5loo5d+J/
+   q+6mPViPRN+XFgpKL52oFbUDqtb2qtqW0dJAy0R54yhtacyCIwXBdM73y
+   BDYltemElYo92Nu1oGZHBCNGFnJyP/LDJGzfMVfzwxwwNp9DlvH6yjjNC
+   ngZCCIgbfZx7sYokbVr0p9jVMmgwQa676KXXMTwJ3KY1vGboI5lO/akYQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="367592165"
 X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="431358373"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 15:01:59 -0700
+   d="scan'208";a="367592165"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 15:44:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="675984365"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="795915654"
 X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="675984365"
+   d="scan'208";a="795915654"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 24 Jul 2023 15:01:57 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 24 Jul 2023 15:44:15 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qO3cr-000A3s-05;
-	Mon, 24 Jul 2023 22:01:57 +0000
-Date: Tue, 25 Jul 2023 06:01:43 +0800
+	id 1qO4Hn-000A5I-0N;
+	Mon, 24 Jul 2023 22:44:15 +0000
+Date: Tue, 25 Jul 2023 06:43:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/media/dvb-frontends/cxd2841er.c:3376:12: warning: stack
- frame size (9592) exceeds limit (8192) in 'cxd2841er_set_frontend_tc'
-Message-ID: <202307250554.zGR0JlFR-lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>,
+	Kees Cook <keescook@chromium.org>
+Subject: drivers/iommu/io-pgtable-arm.c:330:13: error: void value not ignored
+ as it ought to be
+Message-ID: <202307250657.MeXQwmSN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,168 +48,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kees,
+Hi Mark,
 
-FYI, the error/warning still remains.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   20ea1e7d13c1b544fe67c4a8dc3943bb1ab33e6f
-commit: fa35198f39571bbdae53c5b321020021eaad6bd2 fortify: Explicitly check bounds are compile-time constants
-date:   10 months ago
-config: x86_64-randconfig-x015-20230725 (https://download.01.org/0day-ci/archive/20230725/202307250554.zGR0JlFR-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307250554.zGR0JlFR-lkp@intel.com/reproduce)
+commit: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
+date:   7 weeks ago
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230725/202307250657.MeXQwmSN-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307250657.MeXQwmSN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307250554.zGR0JlFR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307250657.MeXQwmSN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/dvb-frontends/cxd2841er.c:3376:12: warning: stack frame size (9592) exceeds limit (8192) in 'cxd2841er_set_frontend_tc' [-Wframe-larger-than]
-   static int cxd2841er_set_frontend_tc(struct dvb_frontend *fe)
-              ^
-   1 warning generated.
+   drivers/iommu/io-pgtable-arm.c: In function 'arm_lpae_install_table':
+>> drivers/iommu/io-pgtable-arm.c:330:13: error: void value not ignored as it ought to be
+     330 |         old = cmpxchg64_relaxed(ptep, curr, new);
+         |             ^
+--
+   drivers/iommu/io-pgtable-dart.c: In function 'dart_install_table':
+>> drivers/iommu/io-pgtable-dart.c:168:13: error: void value not ignored as it ought to be
+     168 |         old = cmpxchg64_relaxed(ptep, curr, new);
+         |             ^
+   drivers/iommu/io-pgtable-dart.c:157:25: warning: variable 'new' set but not used [-Wunused-but-set-variable]
+     157 |         dart_iopte old, new;
+         |                         ^~~
 
 
-vim +/cxd2841er_set_frontend_tc +3376 drivers/media/dvb-frontends/cxd2841er.c
+vim +330 drivers/iommu/io-pgtable-arm.c
 
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3375  
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28 @3376  static int cxd2841er_set_frontend_tc(struct dvb_frontend *fe)
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3377  {
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3378  	int ret = 0, timeout;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3379  	enum fe_status status;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3380  	struct cxd2841er_priv *priv = fe->demodulator_priv;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3381  	struct dtv_frontend_properties *p = &fe->dtv_property_cache;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3382  
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3383  	dev_dbg(&priv->i2c->dev, "%s() delivery_system=%d bandwidth_hz=%d\n",
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3384  		 __func__, p->delivery_system, p->bandwidth_hz);
-763f857e40f3711 Daniel Scheller 2017-04-09  3385  
-763f857e40f3711 Daniel Scheller 2017-04-09  3386  	if (priv->flags & CXD2841ER_EARLY_TUNE)
-763f857e40f3711 Daniel Scheller 2017-04-09  3387  		cxd2841er_tuner_set(fe);
-763f857e40f3711 Daniel Scheller 2017-04-09  3388  
-bd2355b8efc684e Daniel Scheller 2017-07-11  3389  	/* deconfigure/put demod to sleep on delsys switch if active */
-bd2355b8efc684e Daniel Scheller 2017-07-11  3390  	if (priv->state == STATE_ACTIVE_TC &&
-bd2355b8efc684e Daniel Scheller 2017-07-11  3391  	    priv->system != p->delivery_system) {
-bd2355b8efc684e Daniel Scheller 2017-07-11  3392  		dev_dbg(&priv->i2c->dev, "%s(): old_delsys=%d, new_delsys=%d -> sleep\n",
-bd2355b8efc684e Daniel Scheller 2017-07-11  3393  			 __func__, priv->system, p->delivery_system);
-bd2355b8efc684e Daniel Scheller 2017-07-11  3394  		cxd2841er_sleep_tc(fe);
-bd2355b8efc684e Daniel Scheller 2017-07-11  3395  	}
-bd2355b8efc684e Daniel Scheller 2017-07-11  3396  
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3397  	if (p->delivery_system == SYS_DVBT) {
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3398  		priv->system = SYS_DVBT;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3399  		switch (priv->state) {
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3400  		case STATE_SLEEP_TC:
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3401  			ret = cxd2841er_sleep_tc_to_active_t(
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3402  				priv, p->bandwidth_hz);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3403  			break;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3404  		case STATE_ACTIVE_TC:
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3405  			ret = cxd2841er_retune_active(priv, p);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3406  			break;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3407  		default:
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3408  			dev_dbg(&priv->i2c->dev, "%s(): invalid state %d\n",
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3409  				__func__, priv->state);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3410  			ret = -EINVAL;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3411  		}
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3412  	} else if (p->delivery_system == SYS_DVBT2) {
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3413  		priv->system = SYS_DVBT2;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3414  		cxd2841er_dvbt2_set_plp_config(priv,
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3415  			(int)(p->stream_id > 255), p->stream_id);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3416  		cxd2841er_dvbt2_set_profile(priv, DVBT2_PROFILE_BASE);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3417  		switch (priv->state) {
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3418  		case STATE_SLEEP_TC:
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3419  			ret = cxd2841er_sleep_tc_to_active_t2(priv,
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3420  				p->bandwidth_hz);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3421  			break;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3422  		case STATE_ACTIVE_TC:
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3423  			ret = cxd2841er_retune_active(priv, p);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3424  			break;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3425  		default:
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3426  			dev_dbg(&priv->i2c->dev, "%s(): invalid state %d\n",
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3427  				__func__, priv->state);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3428  			ret = -EINVAL;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3429  		}
-83808c23e51a61f Abylay Ospan    2016-03-22  3430  	} else if (p->delivery_system == SYS_ISDBT) {
-83808c23e51a61f Abylay Ospan    2016-03-22  3431  		priv->system = SYS_ISDBT;
-83808c23e51a61f Abylay Ospan    2016-03-22  3432  		switch (priv->state) {
-83808c23e51a61f Abylay Ospan    2016-03-22  3433  		case STATE_SLEEP_TC:
-83808c23e51a61f Abylay Ospan    2016-03-22  3434  			ret = cxd2841er_sleep_tc_to_active_i(
-83808c23e51a61f Abylay Ospan    2016-03-22  3435  					priv, p->bandwidth_hz);
-83808c23e51a61f Abylay Ospan    2016-03-22  3436  			break;
-83808c23e51a61f Abylay Ospan    2016-03-22  3437  		case STATE_ACTIVE_TC:
-83808c23e51a61f Abylay Ospan    2016-03-22  3438  			ret = cxd2841er_retune_active(priv, p);
-83808c23e51a61f Abylay Ospan    2016-03-22  3439  			break;
-83808c23e51a61f Abylay Ospan    2016-03-22  3440  		default:
-83808c23e51a61f Abylay Ospan    2016-03-22  3441  			dev_dbg(&priv->i2c->dev, "%s(): invalid state %d\n",
-83808c23e51a61f Abylay Ospan    2016-03-22  3442  					__func__, priv->state);
-83808c23e51a61f Abylay Ospan    2016-03-22  3443  			ret = -EINVAL;
-83808c23e51a61f Abylay Ospan    2016-03-22  3444  		}
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3445  	} else if (p->delivery_system == SYS_DVBC_ANNEX_A ||
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3446  			p->delivery_system == SYS_DVBC_ANNEX_C) {
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3447  		priv->system = SYS_DVBC_ANNEX_A;
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3448  		/* correct bandwidth */
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3449  		if (p->bandwidth_hz != 6000000 &&
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3450  				p->bandwidth_hz != 7000000 &&
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3451  				p->bandwidth_hz != 8000000) {
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3452  			p->bandwidth_hz = 8000000;
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3453  			dev_dbg(&priv->i2c->dev, "%s(): forcing bandwidth to %d\n",
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3454  					__func__, p->bandwidth_hz);
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3455  		}
-3f3b48a0c6caba3 Abylay Ospan    2016-05-14  3456  
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3457  		switch (priv->state) {
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3458  		case STATE_SLEEP_TC:
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3459  			ret = cxd2841er_sleep_tc_to_active_c(
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3460  				priv, p->bandwidth_hz);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3461  			break;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3462  		case STATE_ACTIVE_TC:
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3463  			ret = cxd2841er_retune_active(priv, p);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3464  			break;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3465  		default:
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3466  			dev_dbg(&priv->i2c->dev, "%s(): invalid state %d\n",
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3467  				__func__, priv->state);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3468  			ret = -EINVAL;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3469  		}
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3470  	} else {
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3471  		dev_dbg(&priv->i2c->dev,
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3472  			"%s(): invalid delivery system %d\n",
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3473  			__func__, p->delivery_system);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3474  		ret = -EINVAL;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3475  	}
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3476  	if (ret)
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3477  		goto done;
-c7518d13f70e62e Daniel Scheller 2017-04-09  3478  
-763f857e40f3711 Daniel Scheller 2017-04-09  3479  	if (!(priv->flags & CXD2841ER_EARLY_TUNE))
-c7518d13f70e62e Daniel Scheller 2017-04-09  3480  		cxd2841er_tuner_set(fe);
-c7518d13f70e62e Daniel Scheller 2017-04-09  3481  
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3482  	cxd2841er_tune_done(priv);
-e3943aa6d8023bb Daniel Scheller 2017-04-09  3483  
-e3943aa6d8023bb Daniel Scheller 2017-04-09  3484  	if (priv->flags & CXD2841ER_NO_WAIT_LOCK)
-e3943aa6d8023bb Daniel Scheller 2017-04-09  3485  		goto done;
-e3943aa6d8023bb Daniel Scheller 2017-04-09  3486  
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3487  	timeout = 2500;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3488  	while (timeout > 0) {
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3489  		ret = cxd2841er_read_status_tc(fe, &status);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3490  		if (ret)
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3491  			goto done;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3492  		if (status & FE_HAS_LOCK)
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3493  			break;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3494  		msleep(20);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3495  		timeout -= 20;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3496  	}
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3497  	if (timeout < 0)
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3498  		dev_dbg(&priv->i2c->dev,
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3499  			"%s(): LOCK wait timeout\n", __func__);
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3500  done:
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3501  	return ret;
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3502  }
-a6dc60ff1209df2 Kozlov Sergey   2015-07-28  3503  
+c896c132b01895 Laurent Pinchart   2014-12-14  310  
+fb3a95795da53d Robin Murphy       2017-06-22  311  static arm_lpae_iopte arm_lpae_install_table(arm_lpae_iopte *table,
+fb3a95795da53d Robin Murphy       2017-06-22  312  					     arm_lpae_iopte *ptep,
+2c3d273eabe8b1 Robin Murphy       2017-06-22  313  					     arm_lpae_iopte curr,
+9abe2ac834851a Hector Martin      2021-11-20  314  					     struct arm_lpae_io_pgtable *data)
+fb3a95795da53d Robin Murphy       2017-06-22  315  {
+2c3d273eabe8b1 Robin Murphy       2017-06-22  316  	arm_lpae_iopte old, new;
+9abe2ac834851a Hector Martin      2021-11-20  317  	struct io_pgtable_cfg *cfg = &data->iop.cfg;
+e1d3c0fd701df8 Will Deacon        2014-11-14  318  
+9abe2ac834851a Hector Martin      2021-11-20  319  	new = paddr_to_iopte(__pa(table), data) | ARM_LPAE_PTE_TYPE_TABLE;
+fb3a95795da53d Robin Murphy       2017-06-22  320  	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_NS)
+fb3a95795da53d Robin Murphy       2017-06-22  321  		new |= ARM_LPAE_PTE_NSTABLE;
+e1d3c0fd701df8 Will Deacon        2014-11-14  322  
+77f3445866c39d Will Deacon        2017-06-23  323  	/*
+77f3445866c39d Will Deacon        2017-06-23  324  	 * Ensure the table itself is visible before its PTE can be.
+77f3445866c39d Will Deacon        2017-06-23  325  	 * Whilst we could get away with cmpxchg64_release below, this
+77f3445866c39d Will Deacon        2017-06-23  326  	 * doesn't have any ordering semantics when !CONFIG_SMP.
+77f3445866c39d Will Deacon        2017-06-23  327  	 */
+77f3445866c39d Will Deacon        2017-06-23  328  	dma_wmb();
+2c3d273eabe8b1 Robin Murphy       2017-06-22  329  
+2c3d273eabe8b1 Robin Murphy       2017-06-22 @330  	old = cmpxchg64_relaxed(ptep, curr, new);
+2c3d273eabe8b1 Robin Murphy       2017-06-22  331  
+4f41845b340783 Will Deacon        2019-06-25  332  	if (cfg->coherent_walk || (old & ARM_LPAE_PTE_SW_SYNC))
+2c3d273eabe8b1 Robin Murphy       2017-06-22  333  		return old;
+2c3d273eabe8b1 Robin Murphy       2017-06-22  334  
+2c3d273eabe8b1 Robin Murphy       2017-06-22  335  	/* Even if it's not ours, there's no point waiting; just kick it */
+41e1eb2546e9c8 Isaac J. Manjarres 2021-06-16  336  	__arm_lpae_sync_pte(ptep, 1, cfg);
+2c3d273eabe8b1 Robin Murphy       2017-06-22  337  	if (old == curr)
+2c3d273eabe8b1 Robin Murphy       2017-06-22  338  		WRITE_ONCE(*ptep, new | ARM_LPAE_PTE_SW_SYNC);
+2c3d273eabe8b1 Robin Murphy       2017-06-22  339  
+2c3d273eabe8b1 Robin Murphy       2017-06-22  340  	return old;
+e1d3c0fd701df8 Will Deacon        2014-11-14  341  }
+e1d3c0fd701df8 Will Deacon        2014-11-14  342  
 
-:::::: The code at line 3376 was first introduced by commit
-:::::: a6dc60ff1209df29ee4668024e93d31f31421932 [media] cxd2841er: Sony CXD2841ER DVB-S/S2/T/T2/C demodulator driver
+:::::: The code at line 330 was first introduced by commit
+:::::: 2c3d273eabe8b1ed3b3cffe2c79643b1bf7e2d4a iommu/io-pgtable-arm: Support lockless operation
 
-:::::: TO: Kozlov Sergey <serjk@netup.ru>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+:::::: TO: Robin Murphy <robin.murphy@arm.com>
+:::::: CC: Will Deacon <will.deacon@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
