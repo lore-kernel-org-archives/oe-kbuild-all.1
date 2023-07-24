@@ -1,49 +1,45 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF0E15C6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 07:49:02 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2b741cf99f8so56280451fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 00:49:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690184940; x=1690789740;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VGFCCeg2byd2qpHnykIbQNcCUC+/iaRSYwJUr21hqv0=;
-        b=OygH/B4P60d/08GcNqBfcwRPiqXI3HpJr+TwA59TPKg+67U/86cITcUYi7fNrUCOsh
-         FI8Q2doTAxER+MBRfTOMvF7apCtB0rDdicD7zwE8x1uIHjKNOUaN3t/l4QReTrdlNLnt
-         ddUL18EiHX3qe9HSEho9uLU8WFP+W92bPycaULowuw7Q6Yae8KvMCmkPfS2hnItIfAJF
-         D2j3tIjGf1tkFcAVx2cDhzsN4AvLJXFcVTvFYWtBYqgXBsqbh33w1b5C8zBFb4CkpeUt
-         o4uhjUWKSHV4HqXc8JgYH2CIxz2F+jxX0Wib9UC2dcdMkqczUk/2l3Av19YkIIrgVM99
-         vLzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690184940; x=1690789740;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VGFCCeg2byd2qpHnykIbQNcCUC+/iaRSYwJUr21hqv0=;
-        b=P4e7XKIRVITyT/GIHEeV5pB4w/Ufhjrax+el3H49x1LeiJ/eZEMlED1fyd0XzgUaeR
-         SQqZK9HkvbQVSyxssUkmgDIHLe4IMAx2THie+bZOxueCBy6et6rhHIKkRFr0ybcFZwPx
-         ROKdDA3gIdCWUKsW9amrdXmcPj8C7/yI6yeo76PpwTmXFIkob0lZxeHtenbZ7g5I7mWV
-         I3i9QA0K27kXj3lIZYbM8SBU6IJZaux6HXnwFmy6kEXPIEe3E6qJyi90LsJCKap67rCL
-         rDiFx9sJB5YXlsnCPgyx+hYO/gWKxBX/QcQ3vhpccu73xKaEQ1jpNfdsx3Bj0qa5MeEg
-         YMLg==
-X-Gm-Message-State: ABy/qLbPBu5JI2exJd7tvFi1AEQckp2pL1snJUvvDLC8mSe0l7nKxqd4
-	+nZP6DNNS04TSYh9SpN7eNrHxg==
-X-Google-Smtp-Source: APBJJlFS+YxymqSyaSgKgMWRHZEXV72PB7gTsbnol+aUZEWOebWGk3pz7kRD0nnKJRtI1w4KteFuNw==
-X-Received: by 2002:a05:651c:21b:b0:2b6:e128:e7a3 with SMTP id y27-20020a05651c021b00b002b6e128e7a3mr5267999ljn.33.1690184940059;
-        Mon, 24 Jul 2023 00:49:00 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q3-20020a05600c46c300b003fc3b03caa5sm12302287wmo.1.2023.07.24.00.48.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 00:48:59 -0700 (PDT)
-Date: Mon, 24 Jul 2023 10:48:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Steve French <stfrench@microsoft.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: fs/smb/client/dfs_cache.c:750 cache_refresh_path() warn:
- inconsistent returns '&htable_rw_lock'.
-Message-ID: <a0160841-6ea2-4989-8250-877ee9d82c82@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347AB184F;
+	Mon, 24 Jul 2023 07:57:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690185463; x=1721721463;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TgcaBNEYIGLRW6+34tr9A98bCq8zLZnStV1oc/gJftg=;
+  b=NbZ2XGVcYUoeaENsjD1SLZnxKvWky4Y3Vf3GgpxMDvXak4KcntMBf9Hf
+   hleBL3WLNbm8/lsIUV1Dij2XMQAqTabVfWU8y2y/Yex3toxwHZHP1Qg7a
+   Tio5nak86JiwvEIfixzQlwT49uW92JgsxaWyprV4EN3JEtofvi+xdJzZj
+   1W91xNgWo7i3NpTYFJ3VwLVlSSZ9Zh3oTHMEHybI2q0k4MaHCLhonWBCY
+   I9BNsghT9og9PXabEsJLhZpSqoXPSypDslgN5tYi2SPDnpWMFUMlCrtf/
+   fAPN3Z/i3fiB8xS4JBhRAtYBouaGAMwxIS/j8VWCXjYu7amK/pPaXbftU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="366268060"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
+   d="scan'208";a="366268060"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 00:57:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="795675614"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
+   d="scan'208";a="795675614"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 24 Jul 2023 00:57:41 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qNqRo-0009a4-17;
+	Mon, 24 Jul 2023 07:57:40 +0000
+Date: Mon, 24 Jul 2023 15:57:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Naohiro Aota <naohiro.aota@wdc.com>, linux-btrfs@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Naohiro Aota <naohiro.aota@wdc.com>
+Subject: Re: [PATCH 5/8] btrfs: zoned: activate metadata block group on write
+ time
+Message-ID: <202307241541.8w52nEnt-lkp@intel.com>
+References: <2f8e30f966cfd9e06b0745a691bd1a5566aab780.1690171333.git.naohiro.aota@wdc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,100 +48,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <2f8e30f966cfd9e06b0745a691bd1a5566aab780.1690171333.git.naohiro.aota@wdc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   295e1388de2d5c0c354adbd65d0319c5d636c222
-commit: 38c8a9a52082579090e34c033d439ed2cd1a462d smb: move client and server files to common directory fs/smb
-config: i386-randconfig-m021-20230723 (https://download.01.org/0day-ci/archive/20230723/202307231110.D2DlDq9B-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230723/202307231110.D2DlDq9B-lkp@intel.com/reproduce)
+Hi Naohiro,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on linus/master v6.5-rc3 next-20230724]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Naohiro-Aota/btrfs-zoned-introduce-block_group-context-for-submit_eb_page/20230724-122053
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/2f8e30f966cfd9e06b0745a691bd1a5566aab780.1690171333.git.naohiro.aota%40wdc.com
+patch subject: [PATCH 5/8] btrfs: zoned: activate metadata block group on write time
+config: arm-randconfig-r002-20230724 (https://download.01.org/0day-ci/archive/20230724/202307241541.8w52nEnt-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230724/202307241541.8w52nEnt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307231110.D2DlDq9B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307241541.8w52nEnt-lkp@intel.com/
 
-New smatch warnings:
-fs/smb/client/dfs_cache.c:750 cache_refresh_path() warn: inconsistent returns '&htable_rw_lock'.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-fs/smb/client/dfs_cache.c:403 copy_ref_data() warn: passing a valid pointer to 'PTR_ERR'
+   fs/btrfs/extent_io.c:214:16: warning: variable 'pages_processed' set but not used [-Wunused-but-set-variable]
+     214 |         unsigned long pages_processed = 0;
+         |                       ^
+>> fs/btrfs/extent_io.c:1827:60: error: too many arguments to function call, expected 3, have 4
+    1827 |         if (!btrfs_check_meta_write_pointer(eb->fs_info, wbc, eb, bg_context)) {
+         |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                       ^~~~~~~~~~
+   fs/btrfs/zoned.h:191:20: note: 'btrfs_check_meta_write_pointer' declared here
+     191 | static inline bool btrfs_check_meta_write_pointer(struct btrfs_fs_info *fs_info,
+         |                    ^
+   1 warning and 1 error generated.
 
-vim +750 fs/smb/client/dfs_cache.c
 
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  685  static struct cache_entry *cache_refresh_path(const unsigned int xid,
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  686  					      struct cifs_ses *ses,
-8064f711c6a461 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  687  					      const char *path,
-8064f711c6a461 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  688  					      bool force_refresh)
-54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  689  {
-742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  690) 	struct dfs_info3_param *refs = NULL;
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  691  	struct cache_entry *ce;
-742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  692) 	int numrefs = 0;
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  693  	int rc;
-54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  694  
-54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  695  	cifs_dbg(FYI, "%s: search path: %s\n", __func__, path);
-54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  696  
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  697  	down_read(&htable_rw_lock);
-742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  698) 
-42caeba713b12e fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-04  699  	ce = lookup_cache_entry(path);
-3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  700  	if (!IS_ERR(ce)) {
-3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  701  		if (!force_refresh && !cache_entry_expired(ce))
-3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  702  			return ce;
+vim +1827 fs/btrfs/extent_io.c
 
-Call up_read(&htable_rw_lock) before returning
-
-3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  703  	} else if (PTR_ERR(ce) != -ENOENT) {
-3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  704  		up_read(&htable_rw_lock);
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  705  		return ce;
-3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  706  	}
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  707  
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  708  	/*
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  709  	 * Unlock shared access as we don't want to hold any locks while getting
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  710  	 * a new referral.  The @ses used for performing the I/O could be
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  711  	 * reconnecting and it acquires @htable_rw_lock to look up the dfs cache
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  712  	 * in order to failover -- if necessary.
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  713  	 */
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  714  	up_read(&htable_rw_lock);
-54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  715  
-742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  716) 	/*
-8064f711c6a461 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  717  	 * Either the entry was not found, or it is expired, or it is a forced
-8064f711c6a461 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  718  	 * refresh.
-c9f71103990591 fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-04  719  	 * Request a new DFS referral in order to create or update a cache entry.
-742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  720) 	 */
-c870a8e70e6827 fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-04  721  	rc = get_dfs_referral(xid, ses, path, &refs, &numrefs);
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  722  	if (rc) {
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  723  		ce = ERR_PTR(rc);
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  724  		goto out;
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  725  	}
-54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  726  
-742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  727) 	dump_refs(refs, numrefs);
-54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  728  
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  729  	down_write(&htable_rw_lock);
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  730  	/* Re-check as another task might have it added or refreshed already */
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  731  	ce = lookup_cache_entry(path);
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  732  	if (!IS_ERR(ce)) {
-8064f711c6a461 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  733  		if (force_refresh || cache_entry_expired(ce)) {
-1023e90b733acd fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-08  734  			rc = update_cache_entry_locked(ce, refs, numrefs);
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  735  			if (rc)
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  736  				ce = ERR_PTR(rc);
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  737  		}
-3deddb77fdd932 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  738  	} else if (PTR_ERR(ce) == -ENOENT) {
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  739  		ce = add_cache_entry_locked(refs, numrefs);
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  740  	}
-54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  741  
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  742  	if (IS_ERR(ce)) {
-c9f71103990591 fs/cifs/dfs_cache.c Paulo Alcantara        2021-06-04  743  		up_write(&htable_rw_lock);
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  744  		goto out;
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  745  	}
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  746  
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  747  	downgrade_write(&htable_rw_lock);
-9fb0db40513e27 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17  748  out:
-742d8de0186e9f fs/cifs/dfs_cache.c Paulo Alcantara (SUSE  2019-12-04  749) 	free_dfs_info_array(refs, numrefs);
-48d240bf00af94 fs/cifs/dfs_cache.c Paulo Alcantara        2023-01-17 @750  	return ce;
-54be1f6c1c3749 fs/cifs/dfs_cache.c Paulo Alcantara        2018-11-14  751  }
+  1766	
+  1767	/*
+  1768	 * Submit all page(s) of one extent buffer.
+  1769	 *
+  1770	 * @page:	the page of one extent buffer
+  1771	 * @eb_context:	to determine if we need to submit this page, if current page
+  1772	 *		belongs to this eb, we don't need to submit
+  1773	 *
+  1774	 * The caller should pass each page in their bytenr order, and here we use
+  1775	 * @eb_context to determine if we have submitted pages of one extent buffer.
+  1776	 *
+  1777	 * If we have, we just skip until we hit a new page that doesn't belong to
+  1778	 * current @eb_context.
+  1779	 *
+  1780	 * If not, we submit all the page(s) of the extent buffer.
+  1781	 *
+  1782	 * Return >0 if we have submitted the extent buffer successfully.
+  1783	 * Return 0 if we don't need to submit the page, as it's already submitted by
+  1784	 * previous call.
+  1785	 * Return <0 for fatal error.
+  1786	 */
+  1787	static int submit_eb_page(struct page *page, struct writeback_control *wbc,
+  1788				  struct extent_buffer **eb_context,
+  1789				  struct btrfs_block_group **bg_context)
+  1790	{
+  1791		struct address_space *mapping = page->mapping;
+  1792		struct extent_buffer *eb;
+  1793		int ret;
+  1794	
+  1795		if (!PagePrivate(page))
+  1796			return 0;
+  1797	
+  1798		if (btrfs_sb(page->mapping->host->i_sb)->nodesize < PAGE_SIZE)
+  1799			return submit_eb_subpage(page, wbc);
+  1800	
+  1801		spin_lock(&mapping->private_lock);
+  1802		if (!PagePrivate(page)) {
+  1803			spin_unlock(&mapping->private_lock);
+  1804			return 0;
+  1805		}
+  1806	
+  1807		eb = (struct extent_buffer *)page->private;
+  1808	
+  1809		/*
+  1810		 * Shouldn't happen and normally this would be a BUG_ON but no point
+  1811		 * crashing the machine for something we can survive anyway.
+  1812		 */
+  1813		if (WARN_ON(!eb)) {
+  1814			spin_unlock(&mapping->private_lock);
+  1815			return 0;
+  1816		}
+  1817	
+  1818		if (eb == *eb_context) {
+  1819			spin_unlock(&mapping->private_lock);
+  1820			return 0;
+  1821		}
+  1822		ret = atomic_inc_not_zero(&eb->refs);
+  1823		spin_unlock(&mapping->private_lock);
+  1824		if (!ret)
+  1825			return 0;
+  1826	
+> 1827		if (!btrfs_check_meta_write_pointer(eb->fs_info, wbc, eb, bg_context)) {
+  1828			/*
+  1829			 * If for_sync, this hole will be filled with
+  1830			 * trasnsaction commit.
+  1831			 */
+  1832			if (wbc->sync_mode == WB_SYNC_ALL && !wbc->for_sync)
+  1833				ret = -EAGAIN;
+  1834			else
+  1835				ret = 0;
+  1836			free_extent_buffer(eb);
+  1837			return ret;
+  1838		}
+  1839	
+  1840		*eb_context = eb;
+  1841	
+  1842		if (!lock_extent_buffer_for_io(eb, wbc)) {
+  1843			free_extent_buffer(eb);
+  1844			return 0;
+  1845		}
+  1846		if (*bg_context) {
+  1847			/* Implies write in zoned mode. */
+  1848			struct btrfs_block_group *bg = *bg_context;
+  1849	
+  1850			/* Mark the last eb in the block group. */
+  1851			btrfs_schedule_zone_finish_bg(bg, eb);
+  1852			bg->meta_write_pointer += eb->len;
+  1853		}
+  1854		write_one_eb(eb, wbc);
+  1855		free_extent_buffer(eb);
+  1856		return 1;
+  1857	}
+  1858	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
