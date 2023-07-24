@@ -1,104 +1,126 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3D48C15
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 13:58:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690207082; x=1721743082;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TNL8SNf44HdiVQPtoWGEn3diq6by9aPcf5MMkQAYHwI=;
-  b=CcweqHTkCct8QWGyCc3+zMCDI0FLuBItrLji/EbKGGj7aE68iliUeZ0J
-   rMEiZZo2C0XQAyx3rHhsOIL1JMUJYe4mwlAbdE8LnLoh6LGe+NAG2+Mk9
-   h9+Mg0ReTezpGCT9r3efMnfxhKG6RcF/HuAiMN1SQLBQJIZ5ecqLsBE4m
-   wtXFU0dPHbihli1rNADSLFqi0Qd09HiTiagGH/haw5QIJUnRgNOqSgRzk
-   cEGU2Mhn2oeToy1JuF/9KChdQJSmfdHbSzVXJ02CTqmMQCnrVD7jjS0jT
-   0DmUJRGCi3+e2NwSNDS6CTS3ncbd0+EkIg6OferpVQeUIReWKGOzkFKxn
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="367471381"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="367471381"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 06:58:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="849637008"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="849637008"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 24 Jul 2023 06:57:58 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qNw37-0009ke-2z;
-	Mon, 24 Jul 2023 13:56:50 +0000
-Date: Mon, 24 Jul 2023 21:56:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: drivers/mtd/nand/raw/sh_flctl.c:512:24: sparse: sparse: incorrect
- type in argument 1 (different base types)
-Message-ID: <202307242110.JAXek08p-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E478C1B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 14:06:46 +0000 (UTC)
+Received: from mail02.huawei.com (unknown [172.30.67.143])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4R8hN15hbnz4f3pFn
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 21:49:05 +0800 (CST)
+Received: from [10.174.178.55] (unknown [10.174.178.55])
+	by APP4 (Coremail) with SMTP id gCh0CgCHK59Ngb5kXQPVOg--.36407S3;
+	Mon, 24 Jul 2023 21:49:02 +0800 (CST)
+Subject: Re: [PATCH 1/3] arm64: kdump: Allocate crash low memory in the
+ bottom-up direction
+To: kernel test robot <lkp@intel.com>, Dave Young <dyoung@redhat.com>,
+ Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+ "Eric W . Biederman" <ebiederm@xmission.com>, kexec@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Zhen Lei <thunder.leizhen@huawei.com>
+References: <20230721081726.882-2-thunder.leizhen@huaweicloud.com>
+ <202307220500.1I73fZ5Z-lkp@intel.com>
+From: "Leizhen (ThunderTown)" <thunder.leizhen@huaweicloud.com>
+Message-ID: <ea4b5f96-617a-96ff-094e-7f21d4ddc176@huaweicloud.com>
+Date: Mon, 24 Jul 2023 21:49:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <202307220500.1I73fZ5Z-lkp@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgCHK59Ngb5kXQPVOg--.36407S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxGFWDCr48ZrWkXr17XFyfCrg_yoWrCF48pa
+	1Uua1xKw18XFWrCa97t3y3uw4rWasFqFyfWrW8Jr10gF9Fkr93JasagFWfXryDGr1vgay8
+	Cw1jqFZ8X34UAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvab4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6r1F6r1fM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
+	e2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
+	6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+	kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv
+	67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyT
+	uYvjxUrR6zUUUUU
+X-CM-SenderInfo: hwkx0vthuozvpl2kv046kxt4xhlfz01xgou0bp/
+X-CFilter-Loop: Reflected
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6eaae198076080886b9e7d57f4ae06fa782f90ef
-commit: 548927e0312194167f7ee5de47d50c2036088cce arm64: io: Use asm-generic high level MMIO accessors
-date:   1 year, 1 month ago
-config: arm64-randconfig-r081-20230723 (https://download.01.org/0day-ci/archive/20230724/202307242110.JAXek08p-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230724/202307242110.JAXek08p-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307242110.JAXek08p-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/mtd/nand/raw/sh_flctl.c:458:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:458:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:458:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:458:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:458:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:458:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:481:26: sparse: sparse: cast to restricted __be32
-   drivers/mtd/nand/raw/sh_flctl.c:496:38: sparse: sparse: cast to restricted __be32
->> drivers/mtd/nand/raw/sh_flctl.c:512:24: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/sh_flctl.c:512:24: sparse:     expected unsigned int [usertype] value
-   drivers/mtd/nand/raw/sh_flctl.c:512:24: sparse:     got restricted __be32 [usertype]
-   drivers/mtd/nand/raw/sh_flctl.c:525:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/sh_flctl.c:525:24: sparse:     expected unsigned long
-   drivers/mtd/nand/raw/sh_flctl.c:525:24: sparse:     got restricted __be32 [usertype]
+On 2023/7/22 5:22, kernel test robot wrote:
+> Hi,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on arm64/for-next/core]
+> [also build test ERROR on linus/master v6.5-rc2 next-20230721]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/thunder-leizhen-huaweicloud-com/arm64-kdump-Allocate-crash-low-memory-in-the-bottom-up-direction/20230721-162312
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+> patch link:    https://lore.kernel.org/r/20230721081726.882-2-thunder.leizhen%40huaweicloud.com
+> patch subject: [PATCH 1/3] arm64: kdump: Allocate crash low memory in the bottom-up direction
+> config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20230722/202307220500.1I73fZ5Z-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220500.1I73fZ5Z-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307220500.1I73fZ5Z-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
 
-vim +512 drivers/mtd/nand/raw/sh_flctl.c
+Oh, thanks. I got it. The CONFIG_KEXEC_CORE build control is move into reserve_crashkernel().
+Function late_reserve_crashkernel() needs to do the same. I forgot to test turning off options
+like CONFIG_KEXEC_CORE. I will do it tomorrow. Sorry.
 
-6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  502  
-e8a9d8f31c592ee drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  503  static void write_fiforeg(struct sh_flctl *flctl, int rlen,
-e8a9d8f31c592ee drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  504  						unsigned int offset)
-6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  505  {
-6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  506  	int i, len_4align;
-e8a9d8f31c592ee drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  507  	unsigned long *buf = (unsigned long *)&flctl->done_buff[offset];
-6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  508  
-6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  509  	len_4align = (rlen + 3) / 4;
-6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  510  	for (i = 0; i < len_4align; i++) {
-6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  511  		wait_wfifo_ready(flctl);
-e8a9d8f31c592ee drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19 @512  		writel(cpu_to_be32(buf[i]), FLDTFIFO(flctl));
-6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  513  	}
-6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  514  }
-6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  515  
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index b544ed0ab04193d..d444721011d0b2f 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -122,6 +122,9 @@ static void __init late_reserve_crashkernel(void)
+        unsigned long long low_base, low_size;
+        unsigned long long crash_base, crash_size;
 
-:::::: The code at line 512 was first introduced by commit
-:::::: e8a9d8f31c592eea89f1b0d3fd425e7a96944e88 mtd: sh_flctl: Minor cleanups
++       if (!IS_ENABLED(CONFIG_KEXEC_CORE))
++               return;
 
-:::::: TO: Bastian Hecht <hechtb@googlemail.com>
-:::::: CC: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
+
+> 
+>    aarch64-linux-ld: arch/arm64/mm/init.o: in function `late_reserve_crashkernel':
+>>> init.c:(.init.text+0x58): undefined reference to `crashk_res'
+>    aarch64-linux-ld: arch/arm64/mm/init.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `crashk_res' which may bind externally can not be used when making a shared object; recompile with -fPIC
+>    init.c:(.init.text+0x58): dangerous relocation: unsupported relocation
+>>> aarch64-linux-ld: init.c:(.init.text+0x5c): undefined reference to `crashk_res'
+>>> aarch64-linux-ld: init.c:(.init.text+0x88): undefined reference to `crashk_low_res'
+>    aarch64-linux-ld: arch/arm64/mm/init.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `crashk_low_res' which may bind externally can not be used when making a shared object; recompile with -fPIC
+>    init.c:(.init.text+0x88): dangerous relocation: unsupported relocation
+>    aarch64-linux-ld: init.c:(.init.text+0x90): undefined reference to `crashk_res'
+>    aarch64-linux-ld: init.c:(.init.text+0x9c): undefined reference to `crashk_low_res'
+>    aarch64-linux-ld: init.c:(.init.text+0xd0): undefined reference to `crashk_res'
+>    aarch64-linux-ld: init.c:(.init.text+0x13c): undefined reference to `crashk_res'
+>    aarch64-linux-ld: init.c:(.init.text+0x150): undefined reference to `crashk_res'
+>    aarch64-linux-ld: init.c:(.init.text+0x18c): undefined reference to `crashk_low_res'
+>    aarch64-linux-ld: init.c:(.init.text+0x1b0): undefined reference to `crashk_low_res'
+>    aarch64-linux-ld: init.c:(.init.text+0x204): undefined reference to `crashk_low_res'
+>    aarch64-linux-ld: init.c:(.init.text+0x234): undefined reference to `crashk_low_res'
+>    aarch64-linux-ld: init.c:(.init.text+0x248): undefined reference to `crashk_low_res'
+>    aarch64-linux-ld: arch/arm64/mm/init.o:init.c:(.init.text+0x25c): more undefined references to `crashk_low_res' follow
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+  Zhen Lei
+
