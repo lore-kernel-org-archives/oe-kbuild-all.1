@@ -1,43 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8AC8BE1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 10:20:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5269B15B9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 10:51:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690194056; x=1721730056;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LcLqaFTdk7qX3bHjYaBWnXOJ5Env65VjbRzmFY3G56Y=;
-  b=bJcMR0TjeTs6jm5tN5KXA3ovnYXYriErDN962Hk3lWFnSJ6R2FIysHOm
-   eqbDzgwdkaIbZ8ag2M6IeOi5oyiQgXcz1DNFOOdQr6fi+P0NU7rpzBoQt
-   GRMDJzauHEiaUvhMEXvUd96pgiSozfUDyZbk3n4BKANadTjou91QPN6IP
-   7LEU78SSdgUCA1wTBSELTfhLjp5CrUM+XIu/JlUxSaKKZNEZGaHlWE6Cv
-   LCq0W+B31omcp1rOXMzsk+rRoD+ktQJ6CZd10xOHb7NGcq9rflnQ+NtKQ
-   GoAU1EOBKvlFWiw3z+byCzk5FtXmYHv9eytoNE1Wz8argQnAcu+uTKPZd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="347005506"
+  t=1690195893; x=1721731893;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yIcwm0FreMsT5sr0ZKxft7njqiXVrmRkrFntxXAABX0=;
+  b=PnzeGIGjYpVALRsk7ARMqPCVhnm6BohmgVpVcjP2jyoJkmyZBNnWxgQA
+   6CVN6c6BOc2cwA8czde63s+k460u9eNkrtmTE372UtkLU38BTnBC1Q+mA
+   S5BH1inusIEFpCT6Ev3tkiAzoQkY6PjBAFj1BfZ/R4KZ3IOUqNLhmCJaV
+   ca8mirdu9wLMX4Tsdn76bjz57MrDWF7NETicHZlvnI4G9yCOaLohBxaQG
+   Eq5y44Nk2yT69BjaWtyGqM9SavRolCdI09rIN9Cs69ZZTHuorEqGk5b1Z
+   U0RtzTT5NHNx78u0mKd2QhakDXuVvz0veWMo8yW+hP+Vvo6N0AbwWnyUz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="367434611"
 X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="347005506"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 03:20:55 -0700
+   d="scan'208";a="367434611"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 03:51:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="790907428"
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="1056385883"
 X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
-   d="scan'208";a="790907428"
+   d="scan'208";a="1056385883"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Jul 2023 03:20:53 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 24 Jul 2023 03:51:15 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qNsgO-0009g8-3A;
-	Mon, 24 Jul 2023 10:20:52 +0000
-Date: Mon, 24 Jul 2023 18:20:33 +0800
+	id 1qNt9j-0009gl-2I;
+	Mon, 24 Jul 2023 10:51:12 +0000
+Date: Mon, 24 Jul 2023 18:50:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: fs/buffer.c:2342:1: warning: the frame size of 2080 bytes is larger
- than 1024 bytes
-Message-ID: <202307241811.WV6uvzLa-lkp@intel.com>
+To: sunran001@208suo.com, alexander.deucher@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in sienna_cichlid_ppt.c
+Message-ID: <202307241820.VkiRPe2R-lkp@intel.com>
+References: <ea1cf43d5545fa917127694a294a57da@208suo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,180 +47,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ea1cf43d5545fa917127694a294a57da@208suo.com>
 
-Hi Christophe,
+Hi,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6eaae198076080886b9e7d57f4ae06fa782f90ef
-commit: 4eeef098b43242ed145c83fba9989d586d707589 powerpc/44x: Remove STDBINUTILS kconfig option
-date:   2 years, 6 months ago
-config: powerpc-randconfig-r035-20230724 (https://download.01.org/0day-ci/archive/20230724/202307241811.WV6uvzLa-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230724/202307241811.WV6uvzLa-lkp@intel.com/reproduce)
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc3 next-20230724]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/sunran001-208suo-com/drm-amd-pm-Clean-up-errors-in-sienna_cichlid_ppt-c/20230724-153134
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/ea1cf43d5545fa917127694a294a57da%40208suo.com
+patch subject: [PATCH] drm/amd/pm: Clean up errors in sienna_cichlid_ppt.c
+config: arc-randconfig-r024-20230724 (https://download.01.org/0day-ci/archive/20230724/202307241820.VkiRPe2R-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230724/202307241820.VkiRPe2R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307241811.WV6uvzLa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307241820.VkiRPe2R-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/buffer.c: In function 'block_read_full_page':
->> fs/buffer.c:2342:1: warning: the frame size of 2080 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    2342 | }
-         | ^
---
-   fs/exfat/fatent.c: In function 'exfat_zeroed_cluster':
->> fs/exfat/fatent.c:277:1: warning: the frame size of 2064 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     277 | }
-         | ^
---
-   fs/ext4/move_extent.c: In function 'mext_page_mkuptodate':
->> fs/ext4/move_extent.c:227:1: warning: the frame size of 2064 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     227 | }
-         | ^
---
-   fs/fat/dir.c: In function 'fat_alloc_new_dir':
->> fs/fat/dir.c:1195:1: warning: the frame size of 2064 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1195 | }
-         | ^
-   fs/fat/dir.c: In function 'fat_add_new_entries':
-   fs/fat/dir.c:1279:1: warning: the frame size of 2104 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1279 | }
-         | ^
---
-   fs/fat/fatent.c: In function 'fat_free_clusters':
->> fs/fat/fatent.c:632:1: warning: the frame size of 2112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     632 | }
-         | ^
-   fs/fat/fatent.c: In function 'fat_alloc_clusters':
-   fs/fat/fatent.c:550:1: warning: the frame size of 2128 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     550 | }
-         | ^
---
-   fs/ntfs/mft.c: In function 'ntfs_sync_mft_mirror':
->> fs/ntfs/mft.c:627:1: warning: the frame size of 2120 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     627 | }
-         | ^
-   fs/ntfs/mft.c: In function 'write_mft_record_nolock':
-   fs/ntfs/mft.c:839:1: warning: the frame size of 2128 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     839 | }
-         | ^
---
-   fs/ntfs/aops.c: In function 'ntfs_read_block':
->> fs/ntfs/aops.c:358:1: warning: the frame size of 2184 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     358 | }
-         | ^
-   fs/ntfs/aops.c: In function 'ntfs_write_mst_block':
-   fs/ntfs/aops.c:1311:1: warning: the frame size of 4224 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1311 | }
-         | ^
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c: In function 'sienna_cichlid_get_throttler_status_locked':
+>> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c:595:42: error: 'smu_table' undeclared (first use in this function)
+     595 |                 (SmuMetricsExternal_t *)(smu_table->metrics_table);
+         |                                          ^~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c:595:42: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c:593:35: warning: unused variable 'smu_tabl' [-Wunused-variable]
+     593 |         struct smu_table_context *smu_tabl = &smu->smu_table;
+         |                                   ^~~~~~~~
 
 
-vim +2342 fs/buffer.c
+vim +/smu_table +595 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c
 
-8ab22b9abb5c55 Hisashi Hifumi     2008-07-28  2251  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2252  /*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2253   * Generic "read page" function for block devices that have the normal
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2254   * get_block functionality. This is most of the block device filesystems.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2255   * Reads the page asynchronously --- the unlock_buffer() and
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2256   * set/clear_buffer_uptodate() functions propagate buffer state into the
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2257   * page struct once IO has completed.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2258   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2259  int block_read_full_page(struct page *page, get_block_t *get_block)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2260  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2261  	struct inode *inode = page->mapping->host;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2262  	sector_t iblock, lblock;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2263  	struct buffer_head *bh, *head, *arr[MAX_BUF_PER_PAGE];
-45bce8f3e3436b Linus Torvalds     2012-11-29  2264  	unsigned int blocksize, bbits;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2265  	int nr, i;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2266  	int fully_mapped = 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2267  
-45bce8f3e3436b Linus Torvalds     2012-11-29  2268  	head = create_page_buffers(page, inode, 0);
-45bce8f3e3436b Linus Torvalds     2012-11-29  2269  	blocksize = head->b_size;
-45bce8f3e3436b Linus Torvalds     2012-11-29  2270  	bbits = block_size_bits(blocksize);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2271  
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  2272  	iblock = (sector_t)page->index << (PAGE_SHIFT - bbits);
-45bce8f3e3436b Linus Torvalds     2012-11-29  2273  	lblock = (i_size_read(inode)+blocksize-1) >> bbits;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2274  	bh = head;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2275  	nr = 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2276  	i = 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2277  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2278  	do {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2279  		if (buffer_uptodate(bh))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2280  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2281  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2282  		if (!buffer_mapped(bh)) {
-c64610ba585fab Andrew Morton      2005-05-16  2283  			int err = 0;
-c64610ba585fab Andrew Morton      2005-05-16  2284  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2285  			fully_mapped = 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2286  			if (iblock < lblock) {
-b0cf2321c65991 Badari Pulavarty   2006-03-26  2287  				WARN_ON(bh->b_size != blocksize);
-c64610ba585fab Andrew Morton      2005-05-16  2288  				err = get_block(inode, iblock, bh, 0);
-c64610ba585fab Andrew Morton      2005-05-16  2289  				if (err)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2290  					SetPageError(page);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2291  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2292  			if (!buffer_mapped(bh)) {
-eebd2aa355692a Christoph Lameter  2008-02-04  2293  				zero_user(page, i * blocksize, blocksize);
-c64610ba585fab Andrew Morton      2005-05-16  2294  				if (!err)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2295  					set_buffer_uptodate(bh);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2296  				continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2297  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2298  			/*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2299  			 * get_block() might have updated the buffer
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2300  			 * synchronously
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2301  			 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2302  			if (buffer_uptodate(bh))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2303  				continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2304  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2305  		arr[nr++] = bh;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2306  	} while (i++, iblock++, (bh = bh->b_this_page) != head);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2307  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2308  	if (fully_mapped)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2309  		SetPageMappedToDisk(page);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2310  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2311  	if (!nr) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2312  		/*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2313  		 * All buffers are uptodate - we can set the page uptodate
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2314  		 * as well. But not if get_block() returned an error.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2315  		 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2316  		if (!PageError(page))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2317  			SetPageUptodate(page);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2318  		unlock_page(page);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2319  		return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2320  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2321  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2322  	/* Stage two: lock the buffers */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2323  	for (i = 0; i < nr; i++) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2324  		bh = arr[i];
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2325  		lock_buffer(bh);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2326  		mark_buffer_async_read(bh);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2327  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2328  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2329  	/*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2330  	 * Stage 3: start the IO.  Check for uptodateness
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2331  	 * inside the buffer lock in case another process reading
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2332  	 * the underlying blockdev brought it uptodate (the sct fix).
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2333  	 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2334  	for (i = 0; i < nr; i++) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2335  		bh = arr[i];
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2336  		if (buffer_uptodate(bh))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2337  			end_buffer_async_read(bh, 1);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2338  		else
-2a222ca992c35a Mike Christie      2016-06-05  2339  			submit_bh(REQ_OP_READ, 0, bh);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2340  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2341  	return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @2342  }
-1fe72eaa0f46a0 H Hartley Sweeten  2009-09-22  2343  EXPORT_SYMBOL(block_read_full_page);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2344  
-
-:::::: The code at line 2342 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+b455159c053130d drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c      Likun Gao            2020-05-29  590  
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  591  static uint32_t sienna_cichlid_get_throttler_status_locked(struct smu_context *smu)
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  592  {
+34af41f9a039153 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c sunran001@208suo.com 2023-07-24  593  	struct smu_table_context *smu_tabl = &smu->smu_table;
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  594  	SmuMetricsExternal_t *metrics_ext =
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06 @595  		(SmuMetricsExternal_t *)(smu_table->metrics_table);
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  596  	uint32_t throttler_status = 0;
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  597  	int i;
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  598  
+1d789535a03679e drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Alex Deucher         2021-10-04  599  	if ((smu->adev->ip_versions[MP1_HWIP][0] == IP_VERSION(11, 0, 7)) &&
+7952fa0d3e18750 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Danijel Slivka       2022-03-02  600  	     (smu->smc_fw_version >= 0x3A4900)) {
+7952fa0d3e18750 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Danijel Slivka       2022-03-02  601  		for (i = 0; i < THROTTLER_COUNT; i++)
+7952fa0d3e18750 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Danijel Slivka       2022-03-02  602  			throttler_status |=
+7952fa0d3e18750 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Danijel Slivka       2022-03-02  603  				(metrics_ext->SmuMetrics_V3.ThrottlingPercentage[i] ? 1U << i : 0);
+7952fa0d3e18750 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Danijel Slivka       2022-03-02  604  	} else if ((smu->adev->ip_versions[MP1_HWIP][0] == IP_VERSION(11, 0, 7)) &&
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  605  	     (smu->smc_fw_version >= 0x3A4300)) {
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  606  		for (i = 0; i < THROTTLER_COUNT; i++)
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  607  			throttler_status |=
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  608  				(metrics_ext->SmuMetrics_V2.ThrottlingPercentage[i] ? 1U << i : 0);
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  609  	} else {
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  610  		throttler_status = metrics_ext->SmuMetrics.ThrottlerStatus;
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  611  	}
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  612  
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  613  	return throttler_status;
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  614  }
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  615  
 
 -- 
 0-DAY CI Kernel Test Service
