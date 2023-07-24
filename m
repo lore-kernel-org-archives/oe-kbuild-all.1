@@ -1,48 +1,45 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C1E8BF2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 13:24:10 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-31716932093so3053958f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 06:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690205049; x=1690809849;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CA2Bwy97T2fhBqq40mLEv8eNohqmMx5+HPF1kFPHpYM=;
-        b=zr1O3GlzVn1jfmQ6P/XEg66EkgY8lU3DOCRWhrDrGefFO5IeJIw2hd3EPdDeplOBaT
-         ByYQ21JF8TwpE2OsYGjaHndXX/m/Mw5Me5W+QR9EiLW4bvk6UGvQoDYPfAAssFBie5uh
-         8SWC4GZBNghqIG4/0zhPmauEGJrU9UTzACqMuT9bsAMiQDKgiD+U6GQa31xuRNp/hDR5
-         0nXVaQetRTnGZiVs9pXc3MkhapZ9M86bG9zHvA7mB8E8cwOOHsW3EIPiYj1rSeObs0SS
-         GPTWHZBsrsP9eh3pm+i2r3gqW5iU9VHn5XOcJu6KPC60weICZmFquzv+yhhNgoqQG6BE
-         cbxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690205049; x=1690809849;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CA2Bwy97T2fhBqq40mLEv8eNohqmMx5+HPF1kFPHpYM=;
-        b=fWiWivwKzBeQmnYkkEMuJLeB+9LQLqfnWJ5iJrRECzdMkqxZB9GmcTvgF8+1DNJAxg
-         vnONO6oi8xvFju9R6MnleKCxYnQVTECIBb8SfjmE7dTAjVJy+PVnOx3EVQovFlgKrr7c
-         gllwnLIdyW4nlb8hg65H9AM6/l0XT+Nf112oCP834CQsAxEpjccpraHprXEzfg5GmrjM
-         FilKj3Cm87bGV/+tITuiPvn+AGHsSbxFt+5fwA44hGCeW7DpW6q2K27KRNIiIVt3XRQW
-         7+ors0MLRG3T6C7imUZgSHpf1McozoFazqZXrh8yj5ZNSlN3q6uU2h0DrFMuGAPIuaRF
-         uRtg==
-X-Gm-Message-State: ABy/qLbQ1UvtekuQaFTjZDV4z53q7qEE6ZsMDwCHjJVSMOQHL22GqKSX
-	sf4IDaWLooaomkL/gEmM8SI2EI5m+e4nrjWLJmI=
-X-Google-Smtp-Source: APBJJlHwsRqTm3O3w1kMvbNRz2f9JqNy/1VNZqxHsLOI60sLvkqG7vloQD4t+JkzPkGmB7TSP2nnOg==
-X-Received: by 2002:adf:f28b:0:b0:317:1911:fd7a with SMTP id k11-20020adff28b000000b003171911fd7amr7022131wro.12.1690205048961;
-        Mon, 24 Jul 2023 06:24:08 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id r11-20020a056000014b00b0031437299fafsm12970021wrx.34.2023.07.24.06.24.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 06:24:08 -0700 (PDT)
-Date: Mon, 24 Jul 2023 16:24:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [ardb:acomp-zswap-cleanup 7/21] fs/ubifs/compress.c:222 compr_init()
- error: uninitialized symbol 'ret'.
-Message-ID: <276b83c2-c037-4638-bc97-0e8aa502926a@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82AD08BF2;
+	Mon, 24 Jul 2023 13:26:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690205178; x=1721741178;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rRj9ZIINSZVCOZEchPBNGd+/TGphUXr/fqbiJ4Ays80=;
+  b=OgUOImOSsyXt44AhBRzxo/V4gGfQhIEuI1LiW5FsNMHSzzjdF/fRes9d
+   tkk2YMFjYioMgUEoXlJvee99cSK7Q77q2ATZt9fnToSXEMDgh+5mI1Y6T
+   2uiHAdZ9F/ZuEzweasy3HVnIaUyOn+FcZa8IxBN94vuA2bSjw+7o6BcWE
+   DMpkfGoOmKLOTSFxq51BHK7h03x7ZoF4ft0U7KKp/GwkPqmOiObrmBSew
+   U+BGHS5IcqU2vM+goN19tb9KPHFDliGVtpYkFbc0RkL3iLaV05LsgXY/+
+   X+ibiaVc6CsIarjyvoatnMF8mGPuQL0UtQKK2nhKj+UZy8NQUZMLhkafk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="453816691"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
+   d="scan'208";a="453816691"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 06:26:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="790962677"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
+   d="scan'208";a="790962677"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 24 Jul 2023 06:26:15 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qNvZi-0009jv-1T;
+	Mon, 24 Jul 2023 13:26:11 +0000
+Date: Mon, 24 Jul 2023 21:25:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: sunran001@208suo.com, alexander.deucher@amd.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in sienna_cichlid_ppt.c
+Message-ID: <202307242115.Lz6daJQo-lkp@intel.com>
+References: <ea1cf43d5545fa917127694a294a57da@208suo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,57 +48,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ea1cf43d5545fa917127694a294a57da@208suo.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git acomp-zswap-cleanup
-head:   d0a9c8530b6b8659bc8b126638f5d2c907cfe5ee
-commit: 9bb0bd982a78fa5d1dadadad46171275df3fae80 [7/21] ubifs: Migrate to acomp compression API
-config: parisc-randconfig-m031-20230723 (https://download.01.org/0day-ci/archive/20230724/202307242020.llXP1Sz6-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230724/202307242020.llXP1Sz6-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc3 next-20230724]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/sunran001-208suo-com/drm-amd-pm-Clean-up-errors-in-sienna_cichlid_ppt-c/20230724-153134
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/ea1cf43d5545fa917127694a294a57da%40208suo.com
+patch subject: [PATCH] drm/amd/pm: Clean up errors in sienna_cichlid_ppt.c
+config: riscv-randconfig-r014-20230724 (https://download.01.org/0day-ci/archive/20230724/202307242115.Lz6daJQo-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230724/202307242115.Lz6daJQo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307242020.llXP1Sz6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307242115.Lz6daJQo-lkp@intel.com/
 
-smatch warnings:
-fs/ubifs/compress.c:222 compr_init() error: uninitialized symbol 'ret'.
+All errors (new ones prefixed by >>):
 
-vim +/ret +222 fs/ubifs/compress.c
+>> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c:595:28: error: use of undeclared identifier 'smu_table'; did you mean 'smu_tabl'?
+                   (SmuMetricsExternal_t *)(smu_table->metrics_table);
+                                            ^~~~~~~~~
+                                            smu_tabl
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c:593:28: note: 'smu_tabl' declared here
+           struct smu_table_context *smu_tabl = &smu->smu_table;
+                                     ^
+   1 error generated.
 
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  205  static int __init compr_init(struct ubifs_compressor *compr)
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  206  {
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  207  	if (compr->capi_name) {
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  208  		long ret;
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  209  
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  210  		compr->cc = crypto_alloc_acomp(compr->capi_name, 0,
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  211  					       CRYPTO_ALG_ASYNC);
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  212  		if (IS_ERR(compr->cc)) {
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  213  			ret = PTR_ERR(compr->cc);
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  214  		} else {
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  215  			compr->req = acomp_request_alloc(compr->cc);
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  216  			if (!compr->req) {
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  217  				crypto_free_acomp(compr->cc);
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  218  				ret = -ENOMEM;
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  219  			}
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  220  		}
 
-ret is not initialized on the success path
+vim +595 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c
 
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  221  
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15 @222  		if (ret) {
-235c362bd0f6afc Sheng Yong       2015-03-20  223  			pr_err("UBIFS error (pid %d): cannot initialize compressor %s, error %ld",
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  224  			       current->pid, compr->name, ret);
-9bb0bd982a78fa5 Ard Biesheuvel   2023-07-15  225  			return ret;
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  226  		}
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  227  	}
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  228  
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  229  	ubifs_compressors[compr->compr_type] = compr;
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  230  	return 0;
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  231  }
+b455159c053130d drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c      Likun Gao            2020-05-29  590  
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  591  static uint32_t sienna_cichlid_get_throttler_status_locked(struct smu_context *smu)
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  592  {
+34af41f9a039153 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c sunran001@208suo.com 2023-07-24  593  	struct smu_table_context *smu_tabl = &smu->smu_table;
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  594  	SmuMetricsExternal_t *metrics_ext =
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06 @595  		(SmuMetricsExternal_t *)(smu_table->metrics_table);
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  596  	uint32_t throttler_status = 0;
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  597  	int i;
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  598  
+1d789535a03679e drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Alex Deucher         2021-10-04  599  	if ((smu->adev->ip_versions[MP1_HWIP][0] == IP_VERSION(11, 0, 7)) &&
+7952fa0d3e18750 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Danijel Slivka       2022-03-02  600  	     (smu->smc_fw_version >= 0x3A4900)) {
+7952fa0d3e18750 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Danijel Slivka       2022-03-02  601  		for (i = 0; i < THROTTLER_COUNT; i++)
+7952fa0d3e18750 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Danijel Slivka       2022-03-02  602  			throttler_status |=
+7952fa0d3e18750 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Danijel Slivka       2022-03-02  603  				(metrics_ext->SmuMetrics_V3.ThrottlingPercentage[i] ? 1U << i : 0);
+7952fa0d3e18750 drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Danijel Slivka       2022-03-02  604  	} else if ((smu->adev->ip_versions[MP1_HWIP][0] == IP_VERSION(11, 0, 7)) &&
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  605  	     (smu->smc_fw_version >= 0x3A4300)) {
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  606  		for (i = 0; i < THROTTLER_COUNT; i++)
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  607  			throttler_status |=
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  608  				(metrics_ext->SmuMetrics_V2.ThrottlingPercentage[i] ? 1U << i : 0);
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  609  	} else {
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  610  		throttler_status = metrics_ext->SmuMetrics.ThrottlerStatus;
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  611  	}
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  612  
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  613  	return throttler_status;
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  614  }
+be22e2b9f4f92ed drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c Evan Quan            2021-07-06  615  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
