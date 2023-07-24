@@ -1,49 +1,43 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7473D186D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 08:22:23 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3fbf1b82d9cso30851975e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 01:22:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690186941; x=1690791741;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=w2+VUqJtyd/w3GfH8mvUNPvMT12jE1tBR6ud/MPqXew=;
-        b=qlIkEs8LqOcRVJ3NDcjFhiZtTreJGhBElRggyWIYyD6RKPzKHIhJX7xRbjrgfaXkui
-         wyDMuKn7fygcRtd3DRe+Gb4w8J8g+UFF65rA5LEhJy8icmdLCAzlBSMRVfW/tS/PW4eQ
-         PfJX0WuKVakmb0obAgkYECL8yYV88rY2iMA8xtb7GhBWgfI71cqY/D99Et4vQ6RteWi8
-         E/o6FCUZYlZ6TSy7KWMv0g8V34PjffDc01I6W0hFwoO5SRJYzjTqhQpZVVoncx/ryY8J
-         fWMf7pOheOzhceebidcb6EcRhXNV5vb81YyfNnBw1Ie3oxZsZvqsUydTdk9nBZTsAvif
-         2WJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690186941; x=1690791741;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w2+VUqJtyd/w3GfH8mvUNPvMT12jE1tBR6ud/MPqXew=;
-        b=WBvxkwy8E5idUS/mKMZ0TfUR3+Aq8xFnvqlclPElNwhZwzWPd78ipIkXnZAhToG6AU
-         YHMyqA/7fJoUPZz+XlMJZV/bJ93kGNofvIlfuB+POs9sfiGwFtSo4wP1YDsELwg0OWrq
-         ccQw/zsHRLTsevpRL6jMrc/k/pLzHdI1mOfIACo+6Mse4jMaF3+VG4GMJm7VxPh8uyJb
-         zIC9AFQghspk3+w4gjDfQX62eOG+aXHcWGO+f0tROU7gJc9nBQdNwzo5vrAu6rCS+0Cw
-         zEUlnTSXTTmbxKdBR0d5rMpIoTNfoCu01UMK2CHybDlC4fhAcLmKge+QHEFApuvdShb1
-         bUNw==
-X-Gm-Message-State: ABy/qLYFhAi1VwKwcpdnRGiq1EXBx2hfirx8wnLxq+nrfLHhWskDo0an
-	YopOxCXn50019Ct5qoMUcAhQWw==
-X-Google-Smtp-Source: APBJJlG799j3jx6GBChiLoMBbfL06GaU4jVrUjTFq97xnFgsO0AHFWiebwHliwISuR9i3QmkuvOUrw==
-X-Received: by 2002:a7b:cd91:0:b0:3f7:f584:579b with SMTP id y17-20020a7bcd91000000b003f7f584579bmr5869491wmj.9.1690186941543;
-        Mon, 24 Jul 2023 01:22:21 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q21-20020a1ce915000000b003fba6709c68sm9638511wmc.47.2023.07.24.01.22.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 01:22:21 -0700 (PDT)
-Date: Mon, 24 Jul 2023 11:22:18 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Alexander Aring <aahringo@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v6.5-rc2 2/3] fs: lockd: fix race in async lock request
- handling
-Message-ID: <41e30f88-b065-44b4-8536-dca47f02aa63@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8AC8BE1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 10:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690194056; x=1721730056;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LcLqaFTdk7qX3bHjYaBWnXOJ5Env65VjbRzmFY3G56Y=;
+  b=bJcMR0TjeTs6jm5tN5KXA3ovnYXYriErDN962Hk3lWFnSJ6R2FIysHOm
+   eqbDzgwdkaIbZ8ag2M6IeOi5oyiQgXcz1DNFOOdQr6fi+P0NU7rpzBoQt
+   GRMDJzauHEiaUvhMEXvUd96pgiSozfUDyZbk3n4BKANadTjou91QPN6IP
+   7LEU78SSdgUCA1wTBSELTfhLjp5CrUM+XIu/JlUxSaKKZNEZGaHlWE6Cv
+   LCq0W+B31omcp1rOXMzsk+rRoD+ktQJ6CZd10xOHb7NGcq9rflnQ+NtKQ
+   GoAU1EOBKvlFWiw3z+byCzk5FtXmYHv9eytoNE1Wz8argQnAcu+uTKPZd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="347005506"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
+   d="scan'208";a="347005506"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 03:20:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="790907428"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
+   d="scan'208";a="790907428"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 24 Jul 2023 03:20:53 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qNsgO-0009g8-3A;
+	Mon, 24 Jul 2023 10:20:52 +0000
+Date: Mon, 24 Jul 2023 18:20:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: fs/buffer.c:2342:1: warning: the frame size of 2080 bytes is larger
+ than 1024 bytes
+Message-ID: <202307241811.WV6uvzLa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,85 +46,181 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720125806.1385279-2-aahringo@redhat.com>
 
-Hi Alexander,
+Hi Christophe,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Aring/fs-lockd-fix-race-in-async-lock-request-handling/20230720-210010
-base:   v6.5-rc2
-patch link:    https://lore.kernel.org/r/20230720125806.1385279-2-aahringo%40redhat.com
-patch subject: [RFC v6.5-rc2 2/3] fs: lockd: fix race in async lock request handling
-config: x86_64-randconfig-m001-20230720 (https://download.01.org/0day-ci/archive/20230722/202307220225.DeAIaATn-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220225.DeAIaATn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6eaae198076080886b9e7d57f4ae06fa782f90ef
+commit: 4eeef098b43242ed145c83fba9989d586d707589 powerpc/44x: Remove STDBINUTILS kconfig option
+date:   2 years, 6 months ago
+config: powerpc-randconfig-r035-20230724 (https://download.01.org/0day-ci/archive/20230724/202307241811.WV6uvzLa-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230724/202307241811.WV6uvzLa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307220225.DeAIaATn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307241811.WV6uvzLa-lkp@intel.com/
 
-smatch warnings:
-fs/lockd/svclock.c:798 nlmsvc_grant_deferred() warn: iterator used outside loop: 'block'
+All warnings (new ones prefixed by >>):
 
-vim +/block +798 fs/lockd/svclock.c
+   fs/buffer.c: In function 'block_read_full_page':
+>> fs/buffer.c:2342:1: warning: the frame size of 2080 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    2342 | }
+         | ^
+--
+   fs/exfat/fatent.c: In function 'exfat_zeroed_cluster':
+>> fs/exfat/fatent.c:277:1: warning: the frame size of 2064 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     277 | }
+         | ^
+--
+   fs/ext4/move_extent.c: In function 'mext_page_mkuptodate':
+>> fs/ext4/move_extent.c:227:1: warning: the frame size of 2064 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     227 | }
+         | ^
+--
+   fs/fat/dir.c: In function 'fat_alloc_new_dir':
+>> fs/fat/dir.c:1195:1: warning: the frame size of 2064 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1195 | }
+         | ^
+   fs/fat/dir.c: In function 'fat_add_new_entries':
+   fs/fat/dir.c:1279:1: warning: the frame size of 2104 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1279 | }
+         | ^
+--
+   fs/fat/fatent.c: In function 'fat_free_clusters':
+>> fs/fat/fatent.c:632:1: warning: the frame size of 2112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     632 | }
+         | ^
+   fs/fat/fatent.c: In function 'fat_alloc_clusters':
+   fs/fat/fatent.c:550:1: warning: the frame size of 2128 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     550 | }
+         | ^
+--
+   fs/ntfs/mft.c: In function 'ntfs_sync_mft_mirror':
+>> fs/ntfs/mft.c:627:1: warning: the frame size of 2120 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     627 | }
+         | ^
+   fs/ntfs/mft.c: In function 'write_mft_record_nolock':
+   fs/ntfs/mft.c:839:1: warning: the frame size of 2128 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     839 | }
+         | ^
+--
+   fs/ntfs/aops.c: In function 'ntfs_read_block':
+>> fs/ntfs/aops.c:358:1: warning: the frame size of 2184 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     358 | }
+         | ^
+   fs/ntfs/aops.c: In function 'ntfs_write_mst_block':
+   fs/ntfs/aops.c:1311:1: warning: the frame size of 4224 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1311 | }
+         | ^
 
-385d3265c23730 Alexander Aring 2023-07-20  778  static int nlmsvc_grant_deferred(struct file_lock *fl, int result)
-385d3265c23730 Alexander Aring 2023-07-20  779  {
-385d3265c23730 Alexander Aring 2023-07-20  780  	struct nlm_block *block = NULL;
 
-No need.
+vim +2342 fs/buffer.c
 
-385d3265c23730 Alexander Aring 2023-07-20  781  	int rc;
-385d3265c23730 Alexander Aring 2023-07-20  782  
-385d3265c23730 Alexander Aring 2023-07-20  783  	spin_lock(&nlm_blocked_lock);
-385d3265c23730 Alexander Aring 2023-07-20  784  	list_for_each_entry(block, &nlm_blocked, b_list) {
-385d3265c23730 Alexander Aring 2023-07-20  785  		if (nlm_compare_locks(&block->b_call->a_args.lock.fl, fl)) {
-385d3265c23730 Alexander Aring 2023-07-20  786  			kref_get(&block->b_count);
-0e4ac9d93515b2 Marc Eshel      2006-11-28  787  			break;
-0e4ac9d93515b2 Marc Eshel      2006-11-28  788  		}
-0e4ac9d93515b2 Marc Eshel      2006-11-28  789  	}
-f904be9cc77f36 Bryan Schumaker 2010-09-21  790  	spin_unlock(&nlm_blocked_lock);
-385d3265c23730 Alexander Aring 2023-07-20  791  
-385d3265c23730 Alexander Aring 2023-07-20  792  	if (!block) {
+8ab22b9abb5c55 Hisashi Hifumi     2008-07-28  2251  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2252  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2253   * Generic "read page" function for block devices that have the normal
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2254   * get_block functionality. This is most of the block device filesystems.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2255   * Reads the page asynchronously --- the unlock_buffer() and
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2256   * set/clear_buffer_uptodate() functions propagate buffer state into the
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2257   * page struct once IO has completed.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2258   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2259  int block_read_full_page(struct page *page, get_block_t *get_block)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2260  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2261  	struct inode *inode = page->mapping->host;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2262  	sector_t iblock, lblock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2263  	struct buffer_head *bh, *head, *arr[MAX_BUF_PER_PAGE];
+45bce8f3e3436b Linus Torvalds     2012-11-29  2264  	unsigned int blocksize, bbits;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2265  	int nr, i;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2266  	int fully_mapped = 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2267  
+45bce8f3e3436b Linus Torvalds     2012-11-29  2268  	head = create_page_buffers(page, inode, 0);
+45bce8f3e3436b Linus Torvalds     2012-11-29  2269  	blocksize = head->b_size;
+45bce8f3e3436b Linus Torvalds     2012-11-29  2270  	bbits = block_size_bits(blocksize);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2271  
+09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  2272  	iblock = (sector_t)page->index << (PAGE_SHIFT - bbits);
+45bce8f3e3436b Linus Torvalds     2012-11-29  2273  	lblock = (i_size_read(inode)+blocksize-1) >> bbits;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2274  	bh = head;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2275  	nr = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2276  	i = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2277  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2278  	do {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2279  		if (buffer_uptodate(bh))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2280  			continue;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2281  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2282  		if (!buffer_mapped(bh)) {
+c64610ba585fab Andrew Morton      2005-05-16  2283  			int err = 0;
+c64610ba585fab Andrew Morton      2005-05-16  2284  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2285  			fully_mapped = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2286  			if (iblock < lblock) {
+b0cf2321c65991 Badari Pulavarty   2006-03-26  2287  				WARN_ON(bh->b_size != blocksize);
+c64610ba585fab Andrew Morton      2005-05-16  2288  				err = get_block(inode, iblock, bh, 0);
+c64610ba585fab Andrew Morton      2005-05-16  2289  				if (err)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2290  					SetPageError(page);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2291  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2292  			if (!buffer_mapped(bh)) {
+eebd2aa355692a Christoph Lameter  2008-02-04  2293  				zero_user(page, i * blocksize, blocksize);
+c64610ba585fab Andrew Morton      2005-05-16  2294  				if (!err)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2295  					set_buffer_uptodate(bh);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2296  				continue;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2297  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2298  			/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2299  			 * get_block() might have updated the buffer
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2300  			 * synchronously
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2301  			 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2302  			if (buffer_uptodate(bh))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2303  				continue;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2304  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2305  		arr[nr++] = bh;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2306  	} while (i++, iblock++, (bh = bh->b_this_page) != head);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2307  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2308  	if (fully_mapped)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2309  		SetPageMappedToDisk(page);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2310  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2311  	if (!nr) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2312  		/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2313  		 * All buffers are uptodate - we can set the page uptodate
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2314  		 * as well. But not if get_block() returned an error.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2315  		 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2316  		if (!PageError(page))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2317  			SetPageUptodate(page);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2318  		unlock_page(page);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2319  		return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2320  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2321  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2322  	/* Stage two: lock the buffers */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2323  	for (i = 0; i < nr; i++) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2324  		bh = arr[i];
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2325  		lock_buffer(bh);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2326  		mark_buffer_async_read(bh);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2327  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2328  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2329  	/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2330  	 * Stage 3: start the IO.  Check for uptodateness
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2331  	 * inside the buffer lock in case another process reading
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2332  	 * the underlying blockdev brought it uptodate (the sct fix).
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2333  	 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2334  	for (i = 0; i < nr; i++) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2335  		bh = arr[i];
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2336  		if (buffer_uptodate(bh))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2337  			end_buffer_async_read(bh, 1);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2338  		else
+2a222ca992c35a Mike Christie      2016-06-05  2339  			submit_bh(REQ_OP_READ, 0, bh);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2340  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2341  	return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @2342  }
+1fe72eaa0f46a0 H Hartley Sweeten  2009-09-22  2343  EXPORT_SYMBOL(block_read_full_page);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2344  
 
-The list iterator is never NULL.  The old way to check was something
-list if list_entry_is_head() but now we just say:
+:::::: The code at line 2342 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-	bool found = false;
-
-	list_for_each() {
-		if (whatever) {
-			found = true;
-			break;
-		}
-	}
-
-	if (!found)
-		return -ENOENT;
-
-385d3265c23730 Alexander Aring 2023-07-20  793  		pr_warn("lockd: grant for unknown pending block\n");
-385d3265c23730 Alexander Aring 2023-07-20  794  		return -ENOENT;
-385d3265c23730 Alexander Aring 2023-07-20  795  	}
-385d3265c23730 Alexander Aring 2023-07-20  796  
-385d3265c23730 Alexander Aring 2023-07-20  797  	/* don't interfere with nlmsvc_lock() */
-385d3265c23730 Alexander Aring 2023-07-20 @798  	mutex_lock(&block->b_file->f_mutex);
-385d3265c23730 Alexander Aring 2023-07-20  799  	block->b_flags &= ~B_PENDING_CALLBACK;
-385d3265c23730 Alexander Aring 2023-07-20  800  
-385d3265c23730 Alexander Aring 2023-07-20  801  	spin_lock(&nlm_blocked_lock);
-385d3265c23730 Alexander Aring 2023-07-20  802  	WARN_ON_ONCE(list_empty(&block->b_list));
-385d3265c23730 Alexander Aring 2023-07-20  803  	rc = __nlmsvc_grant_deferred(block, fl, result);
-385d3265c23730 Alexander Aring 2023-07-20  804  	spin_unlock(&nlm_blocked_lock);
-385d3265c23730 Alexander Aring 2023-07-20  805  	mutex_unlock(&block->b_file->f_mutex);
-385d3265c23730 Alexander Aring 2023-07-20  806  
-385d3265c23730 Alexander Aring 2023-07-20  807  	nlmsvc_release_block(block);
-0e4ac9d93515b2 Marc Eshel      2006-11-28  808  	return rc;
-0e4ac9d93515b2 Marc Eshel      2006-11-28  809  }
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
