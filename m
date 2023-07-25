@@ -1,50 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C1C1D2FD;
-	Tue, 25 Jul 2023 18:55:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70B125931
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 19:05:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690311356; x=1721847356;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZVyS4i+R5tCisp4JnaVX/EGHRJPoy0lk8ITVH6T/ixc=;
-  b=TJZ6OkPEpoH0nzPvXxGeAqns9AwhExUMe5QjTf40nHVfGPy3v4H/6MQn
-   0PDa1x07LdfmoggYwVpiAhWxe54ZpWpRd/HT4wl4BuPSqwO6oUM/TNfO7
-   RYK9r/IJogBjCvmCUuyQhZ6jF5lY1vju0PFqJDYxpNmBN053Ovp2pRX0P
-   maP1BOmcvOfZNcG0wgK/WoHK/aLUYiRKUmqojwZ10LrT/918z29iNOrKN
-   dVq3o44t9BMo0U2rpoKpOC9FqLvVWPM1rn8F+zUmHfnoHZ4LZj3Rd+PTr
-   Wh2so5ekA20/dtmWulLAvrZCON7j3dIAJ/z6b7DUYHghyO7lamXMwl2ur
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="434075299"
+  t=1690311914; x=1721847914;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HtX9owHiP3S1xCOUVQd5D8vbiY9IUi4q9G2cJlKBcnM=;
+  b=JyRrByk1do3OeWCZMShHJJTC6HVN4MHQdXdXPvCMBD1tj7FEtRT6fCoS
+   TimMoxTnWZEsabzgYAw5ejIvaG+VDxrUutmgRJpMWshBBVbgjP+ZdVU07
+   H+SBR2JePSBzKGrd/AMSdvwvadLBqWWUJoNQ6sOeolF6np8FuVVCzINnn
+   jPxFVlXq5AwEUabaI5ZlFWBKAZISg9a7zCInYj/zciasZviqepekwatnr
+   RNkyWU1Q1MoN/hBcvm/TuNnoNNolFvDM3wOBmTQ+sAcDq4Dyo1KIr1Esh
+   hrYH/zpDpf8bdIgDk25diO4LXSMzpdZk59x3RkzegMCpn1XP9NbUrDcF7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="398741593"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="434075299"
+   d="scan'208";a="398741593"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 11:55:56 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 12:05:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="816357216"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="816360595"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="816357216"
+   d="scan'208";a="816360595"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 25 Jul 2023 11:55:53 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Jul 2023 12:05:12 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qONCK-0000FZ-2I;
-	Tue, 25 Jul 2023 18:55:52 +0000
-Date: Wed, 26 Jul 2023 02:54:04 +0800
+	id 1qONLL-0000GG-1v;
+	Tue, 25 Jul 2023 19:05:11 +0000
+Date: Wed, 26 Jul 2023 03:04:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naresh Solanki <naresh.solanki@9elements.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, krzysztof.kozlowski+dt@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org,
-	Patrick Rudolph <patrick.rudolph@9elements.com>,
-	Naresh Solanki <Naresh.Solanki@9elements.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] hwmon: (pmbus/tda38640) Add workaround for bug in
- SVID mode
-Message-ID: <202307260241.BetLbnxd-lkp@intel.com>
-References: <20230725114030.1860571-3-Naresh.Solanki@9elements.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	David Sterba <dsterba@suse.com>, Qu Wenruo <wqu@suse.com>
+Subject: include/linux/kcsan-checks.h:220:28: warning: 'args32' may be used
+ uninitialized
+Message-ID: <202307260230.9fX7alLc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,69 +46,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230725114030.1860571-3-Naresh.Solanki@9elements.com>
 
-Hi Naresh,
+Hi Josef,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 55612007f16b5d7b1fb83a7b0f5bb686829db7c7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/hwmon-pmbus-Add-ON_OFF_CONFIG-register-bits/20230725-194318
-base:   55612007f16b5d7b1fb83a7b0f5bb686829db7c7
-patch link:    https://lore.kernel.org/r/20230725114030.1860571-3-Naresh.Solanki%409elements.com
-patch subject: [PATCH 3/3] hwmon: (pmbus/tda38640) Add workaround for bug in SVID mode
-config: x86_64-randconfig-x014-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260241.BetLbnxd-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260241.BetLbnxd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0b5547c51827e053cc754db47d3ec3e6c2c451d2
+commit: 1ec49744ba83f0429c5c706708610f7821a7b6f4 btrfs: turn on -Wmaybe-uninitialized
+date:   5 months ago
+config: s390-randconfig-m041-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260230.9fX7alLc-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260230.9fX7alLc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307260241.BetLbnxd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307260230.9fX7alLc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
->> drivers/hwmon/pmbus/tda38640.c:118:7: error: use of undeclared identifier 'CONFIG_SENSORS_TDA38640_REGULATOR'
-           if (!CONFIG_SENSORS_TDA38640_REGULATOR || !np ||
-                ^
-   1 error generated.
+All warnings (new ones prefixed by >>):
+
+   In file included from include/asm-generic/rwonce.h:27,
+                    from ./arch/s390/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:247,
+                    from include/linux/kernel.h:20,
+                    from fs/btrfs/ioctl.c:6:
+   include/linux/kcsan-checks.h: In function 'btrfs_ioctl_wait_sync':
+   include/linux/kcsan-checks.h:220:28: warning: 'transid' may be used uninitialized [-Wmaybe-uninitialized]
+     220 | #define kcsan_check_access __kcsan_check_access
+         |                            ^~~~~~~~~~~~~~~~~~~~
+   include/linux/kcsan-checks.h:37:6: note: by argument 1 of type 'const volatile void *' to '__kcsan_check_access' declared here
+      37 | void __kcsan_check_access(const volatile void *ptr, size_t size, int type);
+         |      ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:3134:13: note: 'transid' declared here
+    3134 |         u64 transid;
+         |             ^~~~~~~
+   include/linux/kcsan-checks.h: In function 'btrfs_ioctl_space_info':
+   include/linux/kcsan-checks.h:220:28: warning: 'space_args' may be used uninitialized [-Wmaybe-uninitialized]
+     220 | #define kcsan_check_access __kcsan_check_access
+         |                            ^~~~~~~~~~~~~~~~~~~~
+   include/linux/kcsan-checks.h:37:6: note: by argument 1 of type 'const volatile void *' to '__kcsan_check_access' declared here
+      37 | void __kcsan_check_access(const volatile void *ptr, size_t size, int type);
+         |      ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:2973:39: note: 'space_args' declared here
+    2973 |         struct btrfs_ioctl_space_args space_args;
+         |                                       ^~~~~~~~~~
+   include/linux/kcsan-checks.h: In function 'btrfs_ioctl':
+>> include/linux/kcsan-checks.h:220:28: warning: 'args32' may be used uninitialized [-Wmaybe-uninitialized]
+     220 | #define kcsan_check_access __kcsan_check_access
+         |                            ^~~~~~~~~~~~~~~~~~~~
+   include/linux/kcsan-checks.h:37:6: note: by argument 1 of type 'const volatile void *' to '__kcsan_check_access' declared here
+      37 | void __kcsan_check_access(const volatile void *ptr, size_t size, int type);
+         |      ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ioctl.c:4320:49: note: 'args32' declared here
+    4320 |                 struct btrfs_ioctl_send_args_32 args32;
+         |                                                 ^~~~~~
 
 
-vim +/CONFIG_SENSORS_TDA38640_REGULATOR +118 drivers/hwmon/pmbus/tda38640.c
+vim +/args32 +220 include/linux/kcsan-checks.h
 
-   106	
-   107	static int tda38640_probe(struct i2c_client *client)
-   108	{
-   109		struct device *dev = &client->dev;
-   110		struct device_node *np = dev_of_node(dev);
-   111		struct tda38640_data *data;
-   112	
-   113		data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-   114		if (!data)
-   115			return -ENOMEM;
-   116		memcpy(&data->info, &tda38640_info, sizeof(tda38640_info));
-   117	
- > 118		if (!CONFIG_SENSORS_TDA38640_REGULATOR || !np ||
-   119		    of_property_read_u32(np, "infineon,en-pin-fixed-level", &data->en_pin_lvl))
-   120			return pmbus_do_probe(client, &data->info);
-   121	
-   122		/*
-   123		 * Apply ON_OFF_CONFIG workaround as enabling the regulator using the
-   124		 * OPERATION register doesn't work in SVID mode.
-   125		 */
-   126		data->info.read_byte_data = tda38640_read_byte_data;
-   127		data->info.write_byte_data = tda38640_write_byte_data;
-   128		/*
-   129		 * One should configure PMBUS_ON_OFF_CONFIG here, but
-   130		 * PB_ON_OFF_CONFIG_POWERUP_CONTROL, PB_ON_OFF_CONFIG_EN_PIN_REQ and
-   131		 * PB_ON_OFF_CONFIG_EN_PIN_REQ are ignored by the device.
-   132		 * Only PB_ON_OFF_CONFIG_POLARITY_HIGH has an effect.
-   133		 */
-   134	
-   135		return pmbus_do_probe(client, &data->info);
-   136	}
-   137	
+dfd402a4c4baae Marco Elver 2019-11-14  214  
+19acd03d95dad1 Marco Elver 2020-04-24  215  #ifdef __SANITIZE_THREAD__
+dfd402a4c4baae Marco Elver 2019-11-14  216  /*
+19acd03d95dad1 Marco Elver 2020-04-24  217   * Only calls into the runtime when the particular compilation unit has KCSAN
+19acd03d95dad1 Marco Elver 2020-04-24  218   * instrumentation enabled. May be used in header files.
+dfd402a4c4baae Marco Elver 2019-11-14  219   */
+dfd402a4c4baae Marco Elver 2019-11-14 @220  #define kcsan_check_access __kcsan_check_access
+19acd03d95dad1 Marco Elver 2020-04-24  221  
+
+:::::: The code at line 220 was first introduced by commit
+:::::: dfd402a4c4baae42398ce9180ff424d589b8bffc kcsan: Add Kernel Concurrency Sanitizer infrastructure
+
+:::::: TO: Marco Elver <elver@google.com>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
