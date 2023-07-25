@@ -1,98 +1,201 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAF08F4F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 12:23:02 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-51e429e1eabso8076298a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 05:23:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690287781; x=1690892581;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9owLMS8sHQhUJrnD+5y3xCqUyOfT/62NmU/hXI5bVLw=;
-        b=gtF4DI074f+EILO32+VTkL9LuhaL/R+L9G3IGjW1N91kSqXojFVt41h+LkW8byLHc6
-         0lvtxHvD92anfKdXUdFimvhSWWUgZd4o0b3grZcaKlFu8GBU4igxrrxBmQ6NNCUx74Fv
-         M5+E9y5qef2NURobKMlmWJmsvqYMr3co+ZVlSC8gsWgmNdHaBNLr5N+YWPWyftWZ7/nD
-         K10rpZ9bmkkhawTgPs0K22Hd/TTEadHLDTwy8W/bE8T98RylLufSlFVck0nJFXwSCw99
-         I5YMpNfmIbhgieIlGqSQLzyWDw+J+V4gB+2c6adyMgpoEv+n5Uc+WZf77fn2kWWyWR9y
-         oqMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690287781; x=1690892581;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9owLMS8sHQhUJrnD+5y3xCqUyOfT/62NmU/hXI5bVLw=;
-        b=c4klmXJIGUXrgywEAyrz6uYhz3QCVSAF8/BZDRyQ09zWBNgfdQJS0D4kLzYsfGeCCj
-         avWbFBKZQ2QYAxz8QH9YdNC60M01o/EMOEP7ptNYP5128/lBjl3Te54tmYwe1DXJcJhz
-         OFhP0m+hU3or5FRLILSs5HW4fACvdbKEwV9hDFAHSxu24ZmJ82JoDGCByvMHKk2YppJ7
-         pYJ7RdKREV2au16XKawqHDKagvjGEJj+Dyxgeb9HRkCwXqiHjgjZWNXZ3XjMGRkztAq4
-         i8XoYn8KAW9XUcOz4rG9+5TuPtVJDUZ3EMsO83WFxAnfp6USN04WszB72REAhAO1cTHy
-         M39A==
-X-Gm-Message-State: ABy/qLa3lVQPt9CgwVB85bzujxKhyvTSsCCTK5e5NZ8fuHzOF3u+sEG8
-	rTEQMGJf2AoVurBzDIz8AypzOqODaU16OjwWYpU=
-X-Google-Smtp-Source: APBJJlF3XsUzn/0PM0W45xzTm1bJHhZpCCIpCIob8qo4PzlsCi1+flAifQcLmPHkZs3/qYvsOwF8cyBZce2jheBQlDI=
-X-Received: by 2002:aa7:d647:0:b0:522:1d80:7549 with SMTP id
- v7-20020aa7d647000000b005221d807549mr7762078edr.26.1690287780692; Tue, 25 Jul
- 2023 05:23:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1255413AD9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 12:28:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690288089; x=1721824089;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Zu6o05zhMgF/5xWegXDEuIottLQva+nlIKEi6LdQR3k=;
+  b=a925H+sTjM4ZxWuBQhMTigMDr68RHrkS3yq5lzpAaDGuI1N+vZz4Hhwv
+   rakAR8nPYORWJ10Ury+kd1tb9ezW+Peo46iUP9mZPMfkhNMouTn+VmG/t
+   +s4LYlDrdn8QfmRDJ3p6P43IPJ98hOnnHWJAzibwW2F45LuZnPUuaDeU7
+   8QiOYURYpLpJr5pNZEWbVHcHv0gjcO7xHRSBz7p1MyLu+TSLstWXCRv17
+   g4Xv7DkMgyZpDxVnusHIOAoSY4zVqVj0oVAypXAiwmphPDoqb8hijSIXa
+   QdxwuU0oa0bpJzwMkzmZaQuD6ODql91F9WRp6+MB1z3EVtw/jTXT4xqFs
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="347312523"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="347312523"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 05:28:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="676221438"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="676221438"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 25 Jul 2023 05:28:02 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOH8z-000Abc-29;
+	Tue, 25 Jul 2023 12:28:01 +0000
+Date: Tue, 25 Jul 2023 20:27:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tao Zhang <quic_taozha@quicinc.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Konrad Dybcio <konradybcio@gmail.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Tao Zhang <quic_taozha@quicinc.com>,
+	Jinlong Mao <quic_jinlmao@quicinc.com>,
+	Leo Yan <leo.yan@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Tingwei Zhang <quic_tingweiz@quicinc.com>,
+	Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+	Trilok Soni <quic_tsoni@quicinc.com>,
+	Hao Zhang <quic_hazha@quicinc.com>, linux-arm-msm@vger.kernel.org,
+	andersson@kernel.org
+Subject: Re: [PATCH v7 09/13] coresight-tpdm: Add nodes for dsb edge control
+Message-ID: <202307252010.fbqRILwZ-lkp@intel.com>
+References: <1690269353-10829-10-git-send-email-quic_taozha@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230725043559.123889-3-idryomov@gmail.com> <202307252059.9Vomw3bd-lkp@intel.com>
-In-Reply-To: <202307252059.9Vomw3bd-lkp@intel.com>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Tue, 25 Jul 2023 14:22:48 +0200
-Message-ID: <CAOi1vP_Pgq7ZHH0KfDTXrkzge2-XtfvW5ZtPCgW03227vhju=Q@mail.gmail.com>
-Subject: Re: [PATCH 2/3] rbd: harden get_lock_owner_info() a bit
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1690269353-10829-10-git-send-email-quic_taozha@quicinc.com>
 
-On Tue, Jul 25, 2023 at 2:18=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Ilya,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on ceph-client/testing]
-> [also build test ERROR on ceph-client/for-linus linus/master v6.5-rc3 nex=
-t-20230725]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ilya-Dryomov/rbd-m=
-ake-get_lock_owner_info-return-a-single-locker-or-NULL/20230725-123707
-> base:   https://github.com/ceph/ceph-client.git testing
-> patch link:    https://lore.kernel.org/r/20230725043559.123889-3-idryomov=
-%40gmail.com
-> patch subject: [PATCH 2/3] rbd: harden get_lock_owner_info() a bit
-> config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/2023072=
-5/202307252059.9Vomw3bd-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252059=
-.9Vomw3bd-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307252059.9Vomw3bd-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-> [...]
->
-> >> ERROR: modpost: "ceph_addr_is_blank" [drivers/block/rbd.ko] undefined!
+Hi Tao,
 
-Already fixed in a public branch, I will repost shortly.
+kernel test robot noticed the following build warnings:
 
-Thanks,
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.5-rc3 next-20230725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-                Ilya
+url:    https://github.com/intel-lab-lkp/linux/commits/Tao-Zhang/coresight-tpdm-Remove-the-unnecessary-lock/20230725-152235
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/1690269353-10829-10-git-send-email-quic_taozha%40quicinc.com
+patch subject: [PATCH v7 09/13] coresight-tpdm: Add nodes for dsb edge control
+config: arm-randconfig-r003-20230725 (https://download.01.org/0day-ci/archive/20230725/202307252010.fbqRILwZ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252010.fbqRILwZ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307252010.fbqRILwZ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/hwtracing/coresight/coresight-tpdm.c: In function 'dsb_edge_ctrl_val_store':
+>> drivers/hwtracing/coresight/coresight-tpdm.c:383:28: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
+     383 |         unsigned long val, mask, edge_ctrl;
+         |                            ^~~~
+   drivers/hwtracing/coresight/coresight-tpdm.c: In function 'dsb_edge_ctrl_mask_store':
+>> drivers/hwtracing/coresight/coresight-tpdm.c:449:9: warning: this 'else' clause does not guard... [-Wmisleading-indentation]
+     449 |         else
+         |         ^~~~
+   drivers/hwtracing/coresight/coresight-tpdm.c:451:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'else'
+     451 |                 drvdata->dsb->edge_ctrl_mask[reg] = set;
+         |                 ^~~~~~~
+
+
+vim +/mask +383 drivers/hwtracing/coresight/coresight-tpdm.c
+
+   368	
+   369	/*
+   370	 * This function is used to control the edge detection according
+   371	 * to the index number that has been set.
+   372	 * "edge_ctrl" should be one of the following values.
+   373	 * 0 - Rising edge detection
+   374	 * 1 - Falling edge detection
+   375	 * 2 - Rising and falling edge detection (toggle detection)
+   376	 */
+   377	static ssize_t dsb_edge_ctrl_val_store(struct device *dev,
+   378						struct device_attribute *attr,
+   379						const char *buf,
+   380						size_t size)
+   381	{
+   382		struct tpdm_drvdata *drvdata = dev_get_drvdata(dev->parent);
+ > 383		unsigned long val, mask, edge_ctrl;
+   384		int reg;
+   385	
+   386		if ((kstrtoul(buf, 0, &edge_ctrl)) || (edge_ctrl > 0x2))
+   387			return -EINVAL;
+   388	
+   389		spin_lock(&drvdata->spinlock);
+   390		/*
+   391		 * There are 2 bit per DSB Edge Control line.
+   392		 * Thus we have 16 lines in a 32bit word.
+   393		 */
+   394		reg = EDCR_TO_WORD_IDX(drvdata->dsb->edge_ctrl_idx);
+   395		mask = EDCR_TO_WORD_MASK(drvdata->dsb->edge_ctrl_idx);
+   396		val = drvdata->dsb->edge_ctrl[reg];
+   397		val &= ~EDCR_TO_WORD_MASK(drvdata->dsb->edge_ctrl_idx);
+   398		val |= EDCR_TO_WORD_VAL(edge_ctrl, drvdata->dsb->edge_ctrl_idx);
+   399		drvdata->dsb->edge_ctrl[reg] = val;
+   400		spin_unlock(&drvdata->spinlock);
+   401	
+   402		return size;
+   403	}
+   404	static DEVICE_ATTR_RW(dsb_edge_ctrl_val);
+   405	
+   406	static ssize_t dsb_edge_ctrl_mask_show(struct device *dev,
+   407						    struct device_attribute *attr,
+   408						    char *buf)
+   409	{
+   410		struct tpdm_drvdata *drvdata = dev_get_drvdata(dev->parent);
+   411		ssize_t size = 0;
+   412		unsigned long bytes;
+   413		int i;
+   414	
+   415		spin_lock(&drvdata->spinlock);
+   416		for (i = 0; i < TPDM_DSB_MAX_EDCMR; i++) {
+   417			bytes = sysfs_emit_at(buf, size,
+   418					  "Val:0x%x\n", drvdata->dsb->edge_ctrl_mask[i]);
+   419			if (bytes <= 0)
+   420				break;
+   421			size += bytes;
+   422		}
+   423		spin_unlock(&drvdata->spinlock);
+   424		return size;
+   425	}
+   426	
+   427	static ssize_t dsb_edge_ctrl_mask_store(struct device *dev,
+   428						     struct device_attribute *attr,
+   429						     const char *buf,
+   430						     size_t size)
+   431	{
+   432		struct tpdm_drvdata *drvdata = dev_get_drvdata(dev->parent);
+   433		unsigned long val;
+   434		u32 set;
+   435		int reg;
+   436	
+   437		if ((kstrtoul(buf, 0, &val)) || (val & ~1UL))
+   438			return -EINVAL;
+   439	
+   440		spin_lock(&drvdata->spinlock);
+   441		/*
+   442		 * There is 1 bit per DSB Edge Control Mark line.
+   443		 * Thus we have 32 lines in a 32bit word.
+   444		 */
+   445		reg = EDCMR_TO_WORD_IDX(drvdata->dsb->edge_ctrl_idx);
+   446		set = drvdata->dsb->edge_ctrl_mask[reg];
+   447		if (val)
+   448			set |= BIT(EDCMR_TO_WORD_SHIFT(drvdata->dsb->edge_ctrl_idx));
+ > 449		else
+   450			set &= ~BIT(EDCMR_TO_WORD_SHIFT(drvdata->dsb->edge_ctrl_idx));
+   451			drvdata->dsb->edge_ctrl_mask[reg] = set;
+   452		spin_unlock(&drvdata->spinlock);
+   453	
+   454		return size;
+   455	}
+   456	static DEVICE_ATTR_RW(dsb_edge_ctrl_mask);
+   457	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
