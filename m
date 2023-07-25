@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DA81F927
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 16:41:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0741F927;
+	Tue, 25 Jul 2023 16:53:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690303290; x=1721839290;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xX1rfthqFw47cGj6Ap4efJoP1/+D7oc7efK+a2I0Xpo=;
-  b=A4T6g6/a5fvVE9QENv9waVerKJnyFZa6/B/t1ZD7D2CckIVciEttshEf
-   CMWILc+QxgoraGkep88JgkmjQf12fKNCrE3oAO5hJyR4cwoDO3tCxa/gC
-   cjwOlCFaQzp2AT+T5FHpUaK1+/iNdTVT5UULvGSkK6P5RsatWoTNzgexs
-   DwWNjMJZNkPsXdB+Emwm/gOVMQ7zF74Pmr2W6VxcDzxcxFJ7U7jklk1Mi
-   IFtysJLPikYijRgxlstZg6yUhQOYbrKFOYHUPnoNn6WtxG34Xc30lDP7X
-   nL7pZP8G0EgSQZ3tod5Cxd49unoi0nzTgSSHuLHriJ1r0EE5UlYO1DAt+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="371394223"
+  t=1690303981; x=1721839981;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EuFLEiCOIZ3Yr1LInVn+nPZ15NclLRvnEMqKpPC52E8=;
+  b=hRl8Hv96ZRw19GIDbVBfgwH1f262oV1uxALsN1wBrELgwDmu8wDS6Vv3
+   50Jwfa+kSRVQaagZY4m5b5rEp4AQ/N+KCPTjRrp00NquOylbPqPi1eyTa
+   c/TaNV0dFZsgWbfHfXH8BdQN4AwcvkhlO6DdiM9ccwdyQwFXuOk5q6HNx
+   Q8/2xwZfgLPImNvBIyHoAu5g2NWgchmi3BzVeFswqAC1PhFlSDUWqURAs
+   DaibiQb4QvLsForoKesenaeWLz5pePlzhqPt5jZabM/scsAt2vYTtaDdX
+   KYIWvDKrS3isHYyCeFopF4MPF5na7INWtCUubNd71QNzO3vMBQ7S8jE9a
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="431592955"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="371394223"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 09:40:37 -0700
+   d="scan'208";a="431592955"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 09:52:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="869538015"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="850099045"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="850099045"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Jul 2023 09:40:37 -0700
+  by orsmga004.jf.intel.com with ESMTP; 25 Jul 2023 09:52:48 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOL5F-00009D-2t;
-	Tue, 25 Jul 2023 16:40:29 +0000
-Date: Wed, 26 Jul 2023 00:39:56 +0800
+	id 1qOLGt-00009l-1B;
+	Tue, 25 Jul 2023 16:52:34 +0000
+Date: Wed, 26 Jul 2023 00:50:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 505/4327]
- drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202307260047.7VI2QNNG-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 7/9] KVM: x86/mmu: Use BUILD_BUG_ON_INVALID() for
+ KVM_MMU_WARN_ON() stub
+Message-ID: <202307260015.1ZsP65rd-lkp@intel.com>
+References: <20230721230006.2337941-8-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,65 +47,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230721230006.2337941-8-seanjc@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1e25dd7772483f477f79986d956028e9f47f990a
-commit: f39db26c54281da6a785259498ca74b5e470476f [505/4327] drm: Add kms driver for loongson display controller
-config: sparc64-randconfig-r091-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260047.7VI2QNNG-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260047.7VI2QNNG-lkp@intel.com/reproduce)
+Hi Sean,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 294ebdda1560d3eb515da88b805ba7f88eb28d21]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Christopherson/KVM-x86-mmu-Delete-rmap_printk-and-all-its-usage/20230722-070218
+base:   294ebdda1560d3eb515da88b805ba7f88eb28d21
+patch link:    https://lore.kernel.org/r/20230721230006.2337941-8-seanjc%40google.com
+patch subject: [PATCH v2 7/9] KVM: x86/mmu: Use BUILD_BUG_ON_INVALID() for KVM_MMU_WARN_ON() stub
+config: i386-buildonly-randconfig-r006-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260015.1ZsP65rd-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260015.1ZsP65rd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307260047.7VI2QNNG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307260015.1ZsP65rd-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *dst @@     got void *kptr @@
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     expected void volatile [noderef] __iomem *dst
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     got void *kptr
->> drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *src @@     got void *kptr @@
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     expected void const volatile [noderef] __iomem *src
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     got void *kptr
+All errors (new ones prefixed by >>):
 
-vim +27 drivers/gpu/drm/loongson/lsdc_benchmark.c
+>> arch/x86/kvm/mmu/mmu.c:1738:19: error: call to undeclared function 'is_empty_shadow_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           KVM_MMU_WARN_ON(!is_empty_shadow_page(sp->spt));
+                            ^
+   1 error generated.
 
-    12	
-    13	typedef void (*lsdc_copy_proc_t)(struct lsdc_bo *src_bo,
-    14					 struct lsdc_bo *dst_bo,
-    15					 unsigned int size,
-    16					 int n);
-    17	
-    18	static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
-    19					      struct lsdc_bo *dst_bo,
-    20					      unsigned int size,
-    21					      int n)
-    22	{
-    23		lsdc_bo_kmap(src_bo);
-    24		lsdc_bo_kmap(dst_bo);
-    25	
-    26		while (n--)
-  > 27			memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
-    28	
-    29		lsdc_bo_kunmap(src_bo);
-    30		lsdc_bo_kunmap(dst_bo);
-    31	}
-    32	
-    33	static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
-    34					      struct lsdc_bo *dst_bo,
-    35					      unsigned int size,
-    36					      int n)
-    37	{
-    38		lsdc_bo_kmap(src_bo);
-    39		lsdc_bo_kmap(dst_bo);
-    40	
-    41		while (n--)
-  > 42			memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
-    43	
-    44		lsdc_bo_kunmap(src_bo);
-    45		lsdc_bo_kunmap(dst_bo);
-    46	}
-    47	
+
+vim +/is_empty_shadow_page +1738 arch/x86/kvm/mmu/mmu.c
+
+43a063cab325ee arch/x86/kvm/mmu/mmu.c Yosry Ahmed         2022-08-23  1735  
+876546436db977 arch/x86/kvm/mmu/mmu.c David Matlack       2022-06-22  1736  static void kvm_mmu_free_shadow_page(struct kvm_mmu_page *sp)
+260746c03dcb2e drivers/kvm/mmu.c      Avi Kivity          2007-01-05  1737  {
+14960b3718bba4 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2023-07-21 @1738  	KVM_MMU_WARN_ON(!is_empty_shadow_page(sp->spt));
+7775834a233478 arch/x86/kvm/mmu.c     Xiao Guangrong      2010-06-04  1739  	hlist_del(&sp->hash_link);
+bd4c86eaa6ff10 arch/x86/kvm/mmu.c     Xiao Guangrong      2011-07-12  1740  	list_del(&sp->link);
+bd4c86eaa6ff10 arch/x86/kvm/mmu.c     Xiao Guangrong      2011-07-12  1741  	free_page((unsigned long)sp->spt);
+834be0d83f9451 arch/x86/kvm/mmu.c     Gleb Natapov        2013-01-30  1742  	if (!sp->role.direct)
+6a97575d5cffb7 arch/x86/kvm/mmu/mmu.c David Matlack       2022-06-22  1743  		free_page((unsigned long)sp->shadowed_translation);
+e8ad9a707496c1 arch/x86/kvm/mmu.c     Xiao Guangrong      2010-05-13  1744  	kmem_cache_free(mmu_page_header_cache, sp);
+260746c03dcb2e drivers/kvm/mmu.c      Avi Kivity          2007-01-05  1745  }
+260746c03dcb2e drivers/kvm/mmu.c      Avi Kivity          2007-01-05  1746  
 
 -- 
 0-DAY CI Kernel Test Service
