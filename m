@@ -1,43 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8918E15AEF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 10:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892A61ED4D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 10:33:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690279964; x=1721815964;
+  t=1690281216; x=1721817216;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ac2oTc77a/6ATzI5ndGgl+nQJWoBoiKoSIVhzNQso5w=;
-  b=e81SUsH0CL7fPot0e0bTnHGYwXMRMiUPcrop50bFXzXQJWaneoAVvezJ
-   1pLc3xVPpf0FHYIN2W0QRbqODguIZxAvHdeXDvcLDk3uJAoWO3dVjIYeM
-   MfN1IJVxvuaTRt5sfAuPW7MAS6TAhNHHDxk90yTKBXZukHLwsCvZWOlEk
-   cJHNx8CEA+dWEQpfQ8ku+acyWqCK9pypfRBDlq3PbEpnhUqgyaO9LeQnq
-   ZRBSXABBWctqEyG6Jk1jUo1JWmUwb9tdCn0/9ZvkQWYEMd24FD/LKJhiW
-   +blN0ThhYYH/DXJKpTRpTQVH8uzRffY5kQCVF6zkYgysIRSSlmKg7RgdM
+  bh=E7hfPDPPYj2nKqua328aAmCZZLaKB+H/BXUTyDeKxcM=;
+  b=OJfJhOv2tm6o4bGyz1OicpF2metdstAfl4DyOb2eVwiU0Zli8zESpScV
+   SvJqkPQLJ5FzkaRPI4WH4eGiXOqoPbRJ/DrijPhYHV4x5oFNArQ1I0GHo
+   MoAxqJACj7qQB3NcO1/AbLf+Jqk69xMs8xv/w7RmKIqNekyy4t+eeK0mG
+   F2HwqnxQBrk3D97dWi6lvA1XnWhpRW9uWxKx9ULP3/z8YX9MetqPHDC6f
+   DLhCVq0KyMF1DxtHzZIoWCxFOVEX+zV0x1NZGKW41OUN6MEheyJEaeCls
+   EIe2rkfTQZ0wev/K3hcgjT0WIax2+/GGcb9btYZFGGzIlMzEv/evgG9l/
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="366561464"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="352581851"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="366561464"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 03:12:31 -0700
+   d="scan'208";a="352581851"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 03:33:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="972611804"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="791328007"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="972611804"
+   d="scan'208";a="791328007"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 25 Jul 2023 03:12:30 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 25 Jul 2023 03:33:34 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOF1p-000AWy-2j;
-	Tue, 25 Jul 2023 10:12:29 +0000
-Date: Tue, 25 Jul 2023 18:11:48 +0800
+	id 1qOFMD-000AXY-1W;
+	Tue, 25 Jul 2023 10:33:33 +0000
+Date: Tue, 25 Jul 2023 18:33:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/spi/spi-mpc52xx-psc.c:195:5: sparse: sparse: symbol
- 'mpc52xx_psc_spi_transfer_one_message' was not declared. Should it be
- static?
-Message-ID: <202307251816.gcbUAjbM-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.10 130/150]
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1857:38: warning:
+ 'mtk8195_jpegdec_drvdata' defined but not used
+Message-ID: <202307251859.FVMmV8id-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,70 +48,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0b5547c51827e053cc754db47d3ec3e6c2c451d2
-commit: 145cfc3840e5931a789a8e2e76af841ab4cad44b spi: mpc52xx-psc: Switch to using core message queue
-date:   1 year, 1 month ago
-config: powerpc-randconfig-r081-20230725 (https://download.01.org/0day-ci/archive/20230725/202307251816.gcbUAjbM-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251816.gcbUAjbM-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
+head:   3fb3d802e198b41373ddddbfb35d6a3afe60120d
+commit: 44de16ae73f5ca7500460d916a7d6e1b44d2b090 [130/150] BACKPORT: UPSTREAM: media: mtk-jpegdec: add jpeg decode worker interface
+config: x86_64-buildonly-randconfig-r003-20230724 (https://download.01.org/0day-ci/archive/20230725/202307251859.FVMmV8id-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251859.FVMmV8id-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307251816.gcbUAjbM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307251859.FVMmV8id-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/spi/spi-mpc52xx-psc.c:195:5: sparse: sparse: symbol 'mpc52xx_psc_spi_transfer_one_message' was not declared. Should it be static?
-   drivers/spi/spi-mpc52xx-psc.c:398:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int const [usertype] *regaddr_p @@     got restricted __be32 const [usertype] * @@
-   drivers/spi/spi-mpc52xx-psc.c:398:19: sparse:     expected unsigned int const [usertype] *regaddr_p
-   drivers/spi/spi-mpc52xx-psc.c:398:19: sparse:     got restricted __be32 const [usertype] *
-   drivers/spi/spi-mpc52xx-psc.c:403:59: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 const [usertype] *addr @@     got unsigned int const [usertype] *regaddr_p @@
-   drivers/spi/spi-mpc52xx-psc.c:403:59: sparse:     expected restricted __be32 const [usertype] *addr
-   drivers/spi/spi-mpc52xx-psc.c:403:59: sparse:     got unsigned int const [usertype] *regaddr_p
+All warnings (new ones prefixed by >>):
 
-vim +/mpc52xx_psc_spi_transfer_one_message +195 drivers/spi/spi-mpc52xx-psc.c
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1857:38: warning: 'mtk8195_jpegdec_drvdata' defined but not used [-Wunused-const-variable=]
+    1857 | static const struct mtk_jpeg_variant mtk8195_jpegdec_drvdata = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1846:32: warning: 'mtk8195_jpegenc_drvdata' defined but not used [-Wunused-variable]
+    1846 | static struct mtk_jpeg_variant mtk8195_jpegenc_drvdata = {
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1831:38: warning: 'mtk_jpeg_drvdata' defined but not used [-Wunused-const-variable=]
+    1831 | static const struct mtk_jpeg_variant mtk_jpeg_drvdata = {
+         |                                      ^~~~~~~~~~~~~~~~
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1816:38: warning: 'mt8173_jpeg_drvdata' defined but not used [-Wunused-const-variable=]
+    1816 | static const struct mtk_jpeg_variant mt8173_jpeg_drvdata = {
+         |                                      ^~~~~~~~~~~~~~~~~~~
 
-   177	
-   178	int mpc52xx_psc_spi_transfer_one_message(struct spi_controller *ctlr,
-   179						 struct spi_message *m)
-   180	{
-   181		struct spi_device *spi;
-   182		struct spi_transfer *t = NULL;
-   183		unsigned cs_change;
-   184		int status;
-   185	
-   186		spi = m->spi;
-   187		cs_change = 1;
-   188		status = 0;
-   189		list_for_each_entry (t, &m->transfers, transfer_list) {
-   190			if (t->bits_per_word || t->speed_hz) {
-   191				status = mpc52xx_psc_spi_transfer_setup(spi, t);
-   192				if (status < 0)
-   193					break;
-   194			}
- > 195	
-   196			if (cs_change)
-   197				mpc52xx_psc_spi_activate_cs(spi);
-   198			cs_change = t->cs_change;
-   199	
-   200			status = mpc52xx_psc_spi_transfer_rxtx(spi, t);
-   201			if (status)
-   202				break;
-   203			m->actual_length += t->len;
-   204	
-   205			spi_transfer_delay_exec(t);
-   206		}
-   207	
-   208		m->status = status;
-   209	
-   210		mpc52xx_psc_spi_transfer_setup(spi, NULL);
-   211	
-   212		spi_finalize_current_message(ctlr);
-   213	
-   214		return 0;
-   215	}
-   216	
+
+vim +/mtk8195_jpegdec_drvdata +1857 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+
+  1856	
+> 1857	static const struct mtk_jpeg_variant mtk8195_jpegdec_drvdata = {
+  1858		.formats = mtk_jpeg_dec_formats,
+  1859		.num_formats = MTK_JPEG_DEC_NUM_FORMATS,
+  1860		.qops = &mtk_jpeg_dec_qops,
+  1861		.m2m_ops = &mtk_jpeg_multicore_dec_m2m_ops,
+  1862		.dev_name = "mtk-jpeg-dec",
+  1863		.ioctl_ops = &mtk_jpeg_dec_ioctl_ops,
+  1864		.out_q_default_fourcc = V4L2_PIX_FMT_JPEG,
+  1865		.cap_q_default_fourcc = V4L2_PIX_FMT_YUV420M,
+  1866	};
+  1867	
 
 -- 
 0-DAY CI Kernel Test Service
