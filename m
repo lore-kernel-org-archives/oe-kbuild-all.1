@@ -1,43 +1,43 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3148F4F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 12:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95B68F4F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 12:18:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690287484; x=1721823484;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Vv56Dq1vGubxrN5ZwNALdxA0W4eVRgA9hS2GHh1J5jU=;
-  b=R5cOQeMMoAUitM7mLXngy4WV6iGdVRvSvLDkzUreq2fQCVxYrSlXt7VM
-   XDTYEC2+dgyzN3ssQBRAtQ8wJoYtpJieXjU4j4Vfn22+FWmx6BboSRWXU
-   2Ib5g2X/6cTI0y3S9Q3ywH1xhzyCGBhDKnzbW4+HQq9vZC0hjI4p2m2kL
-   mBaEy3l1UVTtbvCIRc5qsN8ruj2uT6Bzx2yNCn7h56nSvP1oAslHwZxS0
-   eCQ4KRzab5MQ3RqFabehDDqmDwIKAcFZfBwc0jrmRAhUUscctaiAyl9Nf
-   5ko6IGA/W2huSWoSFEbQPYUktGPItwHSaAUmiUiHhwPBldQhsn74K0/vy
+  t=1690287486; x=1721823486;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Z7HsKqmM3E/Nt6pqoCqWj8ykfvJ8J/ccZiVx3Xv3BCY=;
+  b=fpQ+cv85AdVgs+jO79BWKF4huQKBkh9rJAJo+nZ5Y0u/MZiyEmpQGILy
+   f/C7R9PQqfH1vxyN+D4vP1+EgjSuc/bcwQS7gSwnisKfheDaIfZnhKYpV
+   17r6zekUvLtJAtJ8freJKlVvNsb+AES9dN8d9stOx6W7wpqtAm4mQHSiW
+   4sz0gjOrc6rcDLYe/2bVtFTCgqo/uNCXfCTGdjAsV+DZSrCZosrEsMV3i
+   49xySlKC2y3M9BBkiVrqkOAMOQtaoDUS0wQyhdKNKca5uly1OKiDtqUm+
+   NFsyeU0FgbQp7c7GmUFIrUCVXwLi7ullnEqTXONe6r0rsGi9w0JCBidz0
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="367729506"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="367729508"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="367729506"
+   d="scan'208";a="367729508"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 05:18:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="972653140"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="972653139"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="972653140"
+   d="scan'208";a="972653139"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
   by fmsmga006.fm.intel.com with ESMTP; 25 Jul 2023 05:18:02 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOGzJ-000AbO-1n;
+	id 1qOGzJ-000AbM-1i;
 	Tue, 25 Jul 2023 12:18:01 +0000
-Date: Tue, 25 Jul 2023 20:17:10 +0800
+Date: Tue, 25 Jul 2023 20:17:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ilya Dryomov <idryomov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/3] rbd: harden get_lock_owner_info() a bit
-Message-ID: <202307252059.9Vomw3bd-lkp@intel.com>
-References: <20230725043559.123889-3-idryomov@gmail.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: drivers/spi/spi-fsl-cpm.c:134:32: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202307252052.7RqHxFZj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,134 +46,190 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230725043559.123889-3-idryomov@gmail.com>
 
-Hi Ilya,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ceph-client/testing]
-[also build test ERROR on ceph-client/for-linus linus/master v6.5-rc3 next-20230725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ilya-Dryomov/rbd-make-get_lock_owner_info-return-a-single-locker-or-NULL/20230725-123707
-base:   https://github.com/ceph/ceph-client.git testing
-patch link:    https://lore.kernel.org/r/20230725043559.123889-3-idryomov%40gmail.com
-patch subject: [PATCH 2/3] rbd: harden get_lock_owner_info() a bit
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230725/202307252059.9Vomw3bd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252059.9Vomw3bd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0b5547c51827e053cc754db47d3ec3e6c2c451d2
+commit: fc96ec826bced75cc6b9c07a4ac44bbf651337ab spi: fsl-cpm: Use 16 bit mode for large transfers with even size
+date:   4 months ago
+config: powerpc-randconfig-r081-20230725 (https://download.01.org/0day-ci/archive/20230725/202307252052.7RqHxFZj-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252052.7RqHxFZj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307252059.9Vomw3bd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307252052.7RqHxFZj-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+   drivers/spi/spi-fsl-cpm.c:59:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:59:39: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:59:39: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:60:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:60:39: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:60:39: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:61:47: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:61:47: sparse:     expected unsigned short const volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:61:47: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:62:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:62:39: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:62:39: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:63:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:63:39: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:63:39: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:64:47: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:64:47: sparse:     expected unsigned short const volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:64:47: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:78:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsl_spi_reg *reg_base @@     got void [noderef] __iomem *reg_base @@
+   drivers/spi/spi-fsl-cpm.c:78:44: sparse:     expected struct fsl_spi_reg *reg_base
+   drivers/spi/spi-fsl-cpm.c:78:44: sparse:     got void [noderef] __iomem *reg_base
+   drivers/spi/spi-fsl-cpm.c:98:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected restricted __be32 [noderef] [usertype] __iomem *reg @@     got restricted __be32 * @@
+   drivers/spi/spi-fsl-cpm.c:98:32: sparse:     expected restricted __be32 [noderef] [usertype] __iomem *reg
+   drivers/spi/spi-fsl-cpm.c:98:32: sparse:     got restricted __be32 *
+   drivers/spi/spi-fsl-cpm.c:105:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsl_spi_reg *reg_base @@     got void [noderef] __iomem *reg_base @@
+   drivers/spi/spi-fsl-cpm.c:105:44: sparse:     expected struct fsl_spi_reg *reg_base
+   drivers/spi/spi-fsl-cpm.c:105:44: sparse:     got void [noderef] __iomem *reg_base
+>> drivers/spi/spi-fsl-cpm.c:134:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __le16 @@
+   drivers/spi/spi-fsl-cpm.c:134:32: sparse:     expected unsigned short [usertype]
+   drivers/spi/spi-fsl-cpm.c:134:32: sparse:     got restricted __le16
+   drivers/spi/spi-fsl-cpm.c:165:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected restricted __be32 [noderef] [usertype] __iomem *reg @@     got restricted __be32 * @@
+   drivers/spi/spi-fsl-cpm.c:165:32: sparse:     expected restricted __be32 [noderef] [usertype] __iomem *reg
+   drivers/spi/spi-fsl-cpm.c:165:32: sparse:     got restricted __be32 *
+   drivers/spi/spi-fsl-cpm.c:205:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsl_spi_reg *reg_base @@     got void [noderef] __iomem *reg_base @@
+   drivers/spi/spi-fsl-cpm.c:205:44: sparse:     expected struct fsl_spi_reg *reg_base
+   drivers/spi/spi-fsl-cpm.c:205:44: sparse:     got void [noderef] __iomem *reg_base
+   drivers/spi/spi-fsl-cpm.c:217:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected restricted __be32 [noderef] [usertype] __iomem *reg @@     got restricted __be32 * @@
+   drivers/spi/spi-fsl-cpm.c:217:32: sparse:     expected restricted __be32 [noderef] [usertype] __iomem *reg
+   drivers/spi/spi-fsl-cpm.c:217:32: sparse:     got restricted __be32 *
+   drivers/spi/spi-fsl-cpm.c:333:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *pram @@     got void [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:333:22: sparse:     expected void *pram
+   drivers/spi/spi-fsl-cpm.c:333:22: sparse:     got void [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:338:36: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct spi_pram [noderef] __iomem *pram @@     got void *pram @@
+   drivers/spi/spi-fsl-cpm.c:338:36: sparse:     expected struct spi_pram [noderef] __iomem *pram
+   drivers/spi/spi-fsl-cpm.c:338:36: sparse:     got void *pram
+   drivers/spi/spi-fsl-cpm.c:377:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:377:23: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:377:23: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:378:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:378:23: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:378:23: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:381:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:381:23: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:381:23: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:382:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:382:23: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:382:23: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:383:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:383:23: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:383:23: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:384:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:384:23: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:384:23: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:385:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:385:23: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:385:23: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:386:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:386:23: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:386:23: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:387:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:387:23: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:387:23: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:388:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:388:23: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:388:23: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:389:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:389:23: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:389:23: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:390:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:390:23: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:390:23: sparse:     got restricted __be16 [noderef] __iomem *
+   drivers/spi/spi-fsl-cpm.c:391:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/spi/spi-fsl-cpm.c:391:23: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/spi/spi-fsl-cpm.c:391:23: sparse:     got restricted __be32 [noderef] __iomem *
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ipvlan/ipvtap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/dummy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/eql.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ifb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/macvtap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/tap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/common/usb-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/core/usbcore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/asus_atk0110.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/intel_soc_dts_iosf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-vbtn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-rst.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-smartconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/ibm_rtl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/classmate-laptop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_e820.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/p8022.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/psnap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/stp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/garp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/mrp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_htb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_hfsc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_red.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_gred.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ingress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_sfq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_tbf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_teql.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_prio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_multiq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_netem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_drr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_plug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_mqprio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_mqprio_lib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_skbprio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_choke.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_qfq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_cbs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_etf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_u32.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_route.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_fw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_basic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_cgroup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_cmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_nbyte.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_u32.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_meta.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/em_text.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
->> ERROR: modpost: "ceph_addr_is_blank" [drivers/block/rbd.ko] undefined!
+vim +134 drivers/spi/spi-fsl-cpm.c
+
+   100	
+   101	int fsl_spi_cpm_bufs(struct mpc8xxx_spi *mspi,
+   102			     struct spi_transfer *t, bool is_dma_mapped)
+   103	{
+   104		struct device *dev = mspi->dev;
+   105		struct fsl_spi_reg *reg_base = mspi->reg_base;
+   106	
+   107		if (is_dma_mapped) {
+   108			mspi->map_tx_dma = 0;
+   109			mspi->map_rx_dma = 0;
+   110		} else {
+   111			mspi->map_tx_dma = 1;
+   112			mspi->map_rx_dma = 1;
+   113		}
+   114	
+   115		if (!t->tx_buf) {
+   116			mspi->tx_dma = mspi->dma_dummy_tx;
+   117			mspi->map_tx_dma = 0;
+   118		}
+   119	
+   120		if (!t->rx_buf) {
+   121			mspi->rx_dma = mspi->dma_dummy_rx;
+   122			mspi->map_rx_dma = 0;
+   123		}
+   124		if (t->bits_per_word == 16 && t->tx_buf) {
+   125			const u16 *src = t->tx_buf;
+   126			u16 *dst;
+   127			int i;
+   128	
+   129			dst = kmalloc(t->len, GFP_KERNEL);
+   130			if (!dst)
+   131				return -ENOMEM;
+   132	
+   133			for (i = 0; i < t->len >> 1; i++)
+ > 134				dst[i] = cpu_to_le16p(src + i);
+   135	
+   136			mspi->tx = dst;
+   137			mspi->map_tx_dma = 1;
+   138		}
+   139	
+   140		if (mspi->map_tx_dma) {
+   141			void *nonconst_tx = (void *)mspi->tx; /* shut up gcc */
+   142	
+   143			mspi->tx_dma = dma_map_single(dev, nonconst_tx, t->len,
+   144						      DMA_TO_DEVICE);
+   145			if (dma_mapping_error(dev, mspi->tx_dma)) {
+   146				dev_err(dev, "unable to map tx dma\n");
+   147				return -ENOMEM;
+   148			}
+   149		} else if (t->tx_buf) {
+   150			mspi->tx_dma = t->tx_dma;
+   151		}
+   152	
+   153		if (mspi->map_rx_dma) {
+   154			mspi->rx_dma = dma_map_single(dev, mspi->rx, t->len,
+   155						      DMA_FROM_DEVICE);
+   156			if (dma_mapping_error(dev, mspi->rx_dma)) {
+   157				dev_err(dev, "unable to map rx dma\n");
+   158				goto err_rx_dma;
+   159			}
+   160		} else if (t->rx_buf) {
+   161			mspi->rx_dma = t->rx_dma;
+   162		}
+   163	
+   164		/* enable rx ints */
+   165		mpc8xxx_spi_write_reg(&reg_base->mask, SPIE_RXB);
+   166	
+   167		mspi->xfer_in_progress = t;
+   168		mspi->count = t->len;
+   169	
+   170		/* start CPM transfers */
+   171		fsl_spi_cpm_bufs_start(mspi);
+   172	
+   173		return 0;
+   174	
+   175	err_rx_dma:
+   176		if (mspi->map_tx_dma)
+   177			dma_unmap_single(dev, mspi->tx_dma, t->len, DMA_TO_DEVICE);
+   178		return -ENOMEM;
+   179	}
+   180	EXPORT_SYMBOL_GPL(fsl_spi_cpm_bufs);
+   181	
 
 -- 
 0-DAY CI Kernel Test Service
