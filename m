@@ -1,49 +1,51 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26261214FB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 14:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94726200BD;
+	Tue, 25 Jul 2023 14:56:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690294629; x=1721830629;
+  t=1690297016; x=1721833016;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=eVxhmj+VYE1UrACEzYd5gGcDmS4uuwD9qqQr6Lk1mgU=;
-  b=IDd8fV0XL+R1MtVsqw/EwlixJrfJbLy/EOI5vGK4lqqt5bBNOikdHMXr
-   9lfI4JIaYvkdp2PZWNeK7hNiaVgC8fTW8J3dljpig0lmA2syBmyMrWA48
-   y9nFYhNhzTgl55aC+UP0CBM4JxhkcDPsXMhkIs+9L0HEM2ixvqS5rRVqT
-   yH7UDpI0NR9DPD2IzP6FrAgmQ0aYE9lYfLsOx9PGZ92S7zGhvxlbCZckP
-   r5yLt2HC7c9AjXzkrkU0wXlg+DRHiqJsTBwsAvpJxR6AAyNh3hYNROlyW
-   JqEF5HiMYFCnJIM8v24r3uvAbaAlUfL+XQIqAxDoSbeQTFp0ahq36XfH3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="352635100"
+  bh=C6+c5ngyQlSR9n2/Vk/Z/wFT30T1Y1p1Gdxk/gwRU3g=;
+  b=G1jrBMXAWSubNeQc3PMwKu7MbW7NK7I7AEY/VG68wZfGiNXUvXyWUAnx
+   mdH+dDyJd4GloHeLKiavPcKcGxN5FZNU2dW+8GdoErbGK4xOPACEdTxeX
+   VLUllCBjm80OiJil40jg0EwFnpCPvdItabgGf38ZjpMgaXlXXMms7/19M
+   /5e88kpYeVPlr2YTjaGH8xWM6ledD8hUeSMMN9SLQbuxiDnrJSMjSUlxl
+   s8iNvIzRWlK52/2YULlqZ8dIST8qigcqrUYKMfX9rhn3swE/LkVmUrL4y
+   rrDC/mApwH5EYVoy8IP15EYx0UIM0y5PlksGU2FyeNSrKRh5HYqGlaX3k
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="367776597"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="352635100"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 07:16:06 -0700
+   d="scan'208";a="367776597"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 07:56:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="761222802"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="1056808598"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="761222802"
+   d="scan'208";a="1056808598"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 25 Jul 2023 07:16:03 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 25 Jul 2023 07:56:52 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOIpF-00001R-1E;
-	Tue, 25 Jul 2023 14:15:50 +0000
-Date: Tue, 25 Jul 2023 22:14:37 +0800
+	id 1qOJT1-00004l-2C;
+	Tue, 25 Jul 2023 14:56:51 +0000
+Date: Tue, 25 Jul 2023 22:56:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, tzimmermann@suse.de,
-	tales.aparecida@gmail.com, javierm@redhat.com,
-	mairacanal@riseup.net, davidgow@google.com,
-	jose.exposito89@gmail.com, andrealmeid@riseup.net,
-	arthurgrillo@riseup.net
-Subject: Re: [PATCH 6/6] drm/format-helper: Add KUnit tests for
- drm_fb_memcpy()
-Message-ID: <202307252148.wr2nafKj-lkp@intel.com>
-References: <20230721182316.560649-7-arthurgrillo@riseup.net>
+To: David Laight <David.Laight@aculab.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
+	'Andrew Morton' <akpm@linux-foundation.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH next 2/5] minmax: Allow min()/max()/clamp() if the
+ arguments have the same signedness.
+Message-ID: <202307252241.W1SwUDKu-lkp@intel.com>
+References: <454f967d452548a9acfa7c0a0872507e@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,88 +54,404 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230721182316.560649-7-arthurgrillo@riseup.net>
+In-Reply-To: <454f967d452548a9acfa7c0a0872507e@AcuMS.aculab.com>
 
-Hi Arthur,
+Hi David,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc3 next-20230725]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.5-rc3 next-20230725]
+[cannot apply to next-20230725 hch-configfs/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arthur-Grillo/drm-format-helper-Test-default-pitch-fallback/20230722-022649
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230721182316.560649-7-arthurgrillo%40riseup.net
-patch subject: [PATCH 6/6] drm/format-helper: Add KUnit tests for drm_fb_memcpy()
-config: nios2-randconfig-r093-20230723 (https://download.01.org/0day-ci/archive/20230725/202307252148.wr2nafKj-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252148.wr2nafKj-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Add-min_unsigned-a-b-and-max_unsigned-a-b/20230725-180332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/454f967d452548a9acfa7c0a0872507e%40AcuMS.aculab.com
+patch subject: [PATCH next 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230725/202307252241.W1SwUDKu-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252241.W1SwUDKu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307252148.wr2nafKj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307252241.W1SwUDKu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/tests/drm_format_helper_test.c:856:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __le32 const [usertype] *buf @@     got unsigned int [usertype] *[assigned] buf @@
-   drivers/gpu/drm/tests/drm_format_helper_test.c:856:36: sparse:     expected restricted __le32 const [usertype] *buf
-   drivers/gpu/drm/tests/drm_format_helper_test.c:856:36: sparse:     got unsigned int [usertype] *[assigned] buf
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1058:34: sparse: sparse: symbol 'fb_build_fourcc_list_cases' was not declared. Should it be static?
->> drivers/gpu/drm/tests/drm_format_helper_test.c:1566:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] * @@     got restricted __le32 [usertype] * @@
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1566:27: sparse:     expected unsigned int [usertype] *
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1566:27: sparse:     got restricted __le32 [usertype] *
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1576:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] * @@     got restricted __le32 [usertype] * @@
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1576:29: sparse:     expected unsigned int [usertype] *
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1576:29: sparse:     got restricted __le32 [usertype] *
+All errors (new ones prefixed by >>):
 
-vim +1566 drivers/gpu/drm/tests/drm_format_helper_test.c
+   In file included from init/calibrate.c:8:
+>> include/linux/jiffies.h:427:28: error: implicit declaration of function 'static_assert' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           return jiffies_to_clock_t(max(0L, delta));
+                                     ^
+   include/linux/minmax.h:69:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(max, x, y)
+                           ^
+   include/linux/minmax.h:36:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+                   ^
+   include/linux/minmax.h:29:3: note: expanded from macro '__cmp_once'
+                   static_assert(__types_ok(x, y),         \
+                   ^
+   In file included from init/calibrate.c:8:
+   include/linux/jiffies.h:432:26: error: implicit declaration of function 'static_assert' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           return jiffies_to_msecs(max(0L, delta));
+                                   ^
+   include/linux/minmax.h:69:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(max, x, y)
+                           ^
+   include/linux/minmax.h:36:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
+                   ^
+   include/linux/minmax.h:29:3: note: expanded from macro '__cmp_once'
+                   static_assert(__types_ok(x, y),         \
+                   ^
+   2 errors generated.
+--
+   In file included from kernel/workqueue.c:39:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/workqueue.c:39:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/workqueue.c:39:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> kernel/workqueue.c:4579:9: error: static_assert expression is not an integral constant expression
+           return clamp_val(max_active, 1, lim);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:171:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:158:36: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) __careful_clamp((type)(val), (type)(lo), (type)(hi))
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:3: note: expanded from macro '__careful_clamp'
+                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:45:17: note: expanded from macro '__clamp_once'
+                   static_assert(!__is_constexpr((lo) > (hi)) || (lo) <= (hi),             \
+                   ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   12 warnings and 1 error generated.
+--
+   In file included from mm/mm_init.c:17:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/um/include/asm/dma.h:5:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from mm/mm_init.c:17:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/um/include/asm/dma.h:5:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from mm/mm_init.c:17:
+   In file included from include/linux/memblock.h:13:
+   In file included from arch/um/include/asm/dma.h:5:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> mm/mm_init.c:908:14: error: static_assert expression is not an integral constant expression
+           start_pfn = clamp(start_pfn, zone_start_pfn, zone_end_pfn);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:123:28: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:3: note: expanded from macro '__careful_clamp'
+                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:45:17: note: expanded from macro '__clamp_once'
+                   static_assert(!__is_constexpr((lo) > (hi)) || (lo) <= (hi),             \
+                   ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   mm/mm_init.c:909:12: error: static_assert expression is not an integral constant expression
+           end_pfn = clamp(end_pfn, zone_start_pfn, zone_end_pfn);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:123:28: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:3: note: expanded from macro '__careful_clamp'
+                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:45:17: note: expanded from macro '__clamp_once'
+                   static_assert(!__is_constexpr((lo) > (hi)) || (lo) <= (hi),             \
+                   ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   mm/mm_init.c:1145:15: error: static_assert expression is not an integral constant expression
+                   start_pfn = clamp(start_pfn, range_start_pfn, range_end_pfn);
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:123:28: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:3: note: expanded from macro '__careful_clamp'
+                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:45:17: note: expanded from macro '__clamp_once'
+                   static_assert(!__is_constexpr((lo) > (hi)) || (lo) <= (hi),             \
+                   ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   mm/mm_init.c:1146:13: error: static_assert expression is not an integral constant expression
+                   end_pfn = clamp(end_pfn, range_start_pfn, range_end_pfn);
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:123:28: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:3: note: expanded from macro '__careful_clamp'
+                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:45:17: note: expanded from macro '__clamp_once'
+                   static_assert(!__is_constexpr((lo) > (hi)) || (lo) <= (hi),             \
+                   ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   mm/mm_init.c:1189:16: error: static_assert expression is not an integral constant expression
+                           start_pfn = clamp(memblock_region_memory_base_pfn(r),
+                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:123:28: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:3: note: expanded from macro '__careful_clamp'
+                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:45:17: note: expanded from macro '__clamp_once'
+                   static_assert(!__is_constexpr((lo) > (hi)) || (lo) <= (hi),             \
+                   ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   mm/mm_init.c:1191:14: error: static_assert expression is not an integral constant expression
+                           end_pfn = clamp(memblock_region_memory_end_pfn(r),
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:123:28: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:3: note: expanded from macro '__careful_clamp'
+                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:45:17: note: expanded from macro '__clamp_once'
+                   static_assert(!__is_constexpr((lo) > (hi)) || (lo) <= (hi),             \
+--
+   In file included from mm/page_alloc.c:20:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from mm/page_alloc.c:20:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from mm/page_alloc.c:20:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> mm/page_alloc.c:2415:10: error: static_assert expression is not an integral constant expression
+           batch = clamp(batch, min_nr_free, max_nr_free);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:123:28: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:54:3: note: expanded from macro '__careful_clamp'
+                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:45:17: note: expanded from macro '__clamp_once'
+                   static_assert(!__is_constexpr((lo) > (hi)) || (lo) <= (hi),             \
+                   ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   12 warnings and 1 error generated.
+..
 
-  1539	
-  1540	static void drm_test_fb_memcpy(struct kunit *test)
-  1541	{
-  1542		const struct multi_plane_op_case *params = test->param_value;
-  1543		const struct fb_memcpy_result *result = &params->memcpy_result;
-  1544		size_t dst_size[DRM_FORMAT_MAX_PLANES] = { 0 };
-  1545		u32 *buf[DRM_FORMAT_MAX_PLANES] = { 0 };
-  1546		u32 *src_cp[DRM_FORMAT_MAX_PLANES] = { 0 };
-  1547		u32 *expected[DRM_FORMAT_MAX_PLANES] = { 0 };
-  1548		struct iosys_map dst[DRM_FORMAT_MAX_PLANES];
-  1549		struct iosys_map src[DRM_FORMAT_MAX_PLANES];
-  1550	
-  1551		struct drm_framebuffer fb = {
-  1552			.format = drm_format_info(params->format),
-  1553		};
-  1554	
-  1555		memcpy(fb.pitches, params->src_pitches, DRM_FORMAT_MAX_PLANES * sizeof(int));
-  1556	
-  1557		for (size_t i = 0; i < fb.format->num_planes; i++) {
-  1558			dst_size[i] = conversion_buf_size(params->format, result->dst_pitches[i],
-  1559							  &params->clip, i);
-  1560			KUNIT_ASSERT_GT(test, dst_size[i], 0);
-  1561	
-  1562			buf[i] = kunit_kzalloc(test, dst_size[i], GFP_KERNEL);
-  1563			KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf[i]);
-  1564			iosys_map_set_vaddr(&dst[i], buf[i]);
-  1565	
-> 1566			src_cp[i] = cpubuf_to_le32(test, params->src[i], TEST_BUF_SIZE);
-  1567			iosys_map_set_vaddr(&src[i], src_cp[i]);
-  1568		}
-  1569	
-  1570		if (result->dst_pitches[0] == TEST_USE_DEFAULT_PITCH)
-  1571			drm_fb_memcpy(dst, NULL, src, &fb, &params->clip);
-  1572		else
-  1573			drm_fb_memcpy(dst, result->dst_pitches, src, &fb, &params->clip);
-  1574	
-  1575		for (size_t i = 0; i < fb.format->num_planes; i++) {
-  1576			expected[i] = cpubuf_to_le32(test, result->expected[i], TEST_BUF_SIZE);
-  1577			KUNIT_EXPECT_MEMEQ_MSG(test, buf[i], expected[i], dst_size[i],
-  1578					       "Failed expectation on plane %zu", i);
-  1579		}
-  1580	}
-  1581	
+
+vim +/static_assert +427 include/linux/jiffies.h
+
+ae60d6a0e3a919 Nicholas Mc Guire 2015-05-28  420  
+9ca308506062fc Baolin Wang       2015-07-29  421  extern unsigned long timespec64_to_jiffies(const struct timespec64 *value);
+9ca308506062fc Baolin Wang       2015-07-29  422  extern void jiffies_to_timespec64(const unsigned long jiffies,
+9ca308506062fc Baolin Wang       2015-07-29  423  				  struct timespec64 *value);
+cbbc719fccdb8c hank              2011-09-20  424  extern clock_t jiffies_to_clock_t(unsigned long x);
+a399a8053164ec Eric Dumazet      2012-08-08  425  static inline clock_t jiffies_delta_to_clock_t(long delta)
+a399a8053164ec Eric Dumazet      2012-08-08  426  {
+a399a8053164ec Eric Dumazet      2012-08-08 @427  	return jiffies_to_clock_t(max(0L, delta));
+a399a8053164ec Eric Dumazet      2012-08-08  428  }
+a399a8053164ec Eric Dumazet      2012-08-08  429  
 
 -- 
 0-DAY CI Kernel Test Service
