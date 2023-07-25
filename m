@@ -1,38 +1,51 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CFD200CA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 13:57:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=2Jgl0XieBOEgol9v6No4S+VHtHcuhVMNvxRzF4jEjSk=; b=msqKwlyW7XEzHTuuzxfBe4hZv7
-	6TQLa9t3BOrFQ7BdzCsqCpytboZspI4sUEpar039h8hFZvWtXSlPr7Jz1SWZU20iaD5Wbv2Q16vN0
-	Mn4O6RbEUbwDE+8PmmYB6/NyarS1QaF3AIpTWR7PSvFIMK/e/Ib7HErwLJJylqLdAh90e2qLGHg+u
-	1239my/bRT8gRQ3uQEEQ4mKLOJDiwNh8UiNYhO7puHewooMD3Op3DHYh1qF+nKNqwq4WH89xrXnin
-	ewRSPJvA6yspFJuhpqn9wt+DwayhA3lAJPYRA/uW9mWHbtDuhLUq88v9KJMnwrUGLExf5ZcKGWH0z
-	ynyzIwnw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qOIXA-005WWO-5t; Tue, 25 Jul 2023 13:57:04 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id BFE1230036B;
-	Tue, 25 Jul 2023 15:57:03 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 9FF6027D9B9A7; Tue, 25 Jul 2023 15:57:03 +0200 (CEST)
-Date: Tue, 25 Jul 2023 15:57:03 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: Re: vmlinux.o: warning: objtool: cpuidle_enter_state+0x1d3: return
- with instrumentation enabled
-Message-ID: <20230725135703.GN3765278@hirez.programming.kicks-ass.net>
-References: <202307252003.0OM6CkWI-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68ADC1F160
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 14:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690294536; x=1721830536;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jf0hGveR8VnC7khCzTYgz4+84014slJ7CKnSAzdH/sA=;
+  b=liyHy4LhqKOVK2lhmrAzgcRiwOJnzbkJJMA29+JybOlHY+rdUIC7rsSp
+   xIrY4t7vRlqsDRZMNin/fI9bgDGA+dfrXS95a6krIthsLuhXrlmWrzJj4
+   gM5kns3NDjFsQPGLYihof2YXAyHtovQCaI2jgSFYOGsHmnP4GotmW6lmC
+   xElMONjvbJFItvJt/mR74AvazvCyJOFSGViMIqfKPMArwu5Pur0BCwCEK
+   PVCOuYDCh5117nP3CA2CxxJns38s+XqHZPQ0bwgAmi4Ys1PK5i7kofQBu
+   46dTdllj49ZKclCEvukpZ62Vt6MqdDXXymld+GSpE8tcU6HvPWJTNitMT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="367762660"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="367762660"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 07:15:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="972704897"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="972704897"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 25 Jul 2023 07:15:32 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOIos-00001J-2q;
+	Tue, 25 Jul 2023 14:15:25 +0000
+Date: Tue, 25 Jul 2023 22:14:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Laight <David.Laight@aculab.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
+	'Andrew Morton' <akpm@linux-foundation.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH next 2/5] minmax: Allow min()/max()/clamp() if the
+ arguments have the same signedness.
+Message-ID: <202307252139.Kz3mgUAw-lkp@intel.com>
+References: <454f967d452548a9acfa7c0a0872507e@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -41,28 +54,355 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202307252003.0OM6CkWI-lkp@intel.com>
+In-Reply-To: <454f967d452548a9acfa7c0a0872507e@AcuMS.aculab.com>
 
-On Tue, Jul 25, 2023 at 08:57:50PM +0800, kernel test robot wrote:
-> Hi Peter,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   0b5547c51827e053cc754db47d3ec3e6c2c451d2
-> commit: 17cc2b5525856d7374f09b28ba1faf1fa61b2352 cpuidle: Ensure ct_cpuidle_enter() is always called from noinstr/__cpuidle
-> date:   6 months ago
-> config: x86_64-randconfig-r012-20230725 (https://download.01.org/0day-ci/archive/20230725/202307252003.0OM6CkWI-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252003.0OM6CkWI-lkp@intel.com/reproduce)
+Hi David,
 
-When I grab that .config and try and build v6.5-rc3 (using
-olddefconfig), I get:
+kernel test robot noticed the following build errors:
 
-$ make O=tmp-build -j64 vmlinux
-...
-In file included from <command-line>:
-./../drivers/gpu/drm/i915/intel_dsi_cmd.h:33:10: fatal error: intel_drv.h: No such file or directory
-33 | #include "intel_drv.h"
-|          ^~~~~~~~~~~~~
-compilation terminated.
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.5-rc3 next-20230725]
+[cannot apply to next-20230725 hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Add-min_unsigned-a-b-and-max_unsigned-a-b/20230725-180332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/454f967d452548a9acfa7c0a0872507e%40AcuMS.aculab.com
+patch subject: [PATCH next 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20230725/202307252139.Kz3mgUAw-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252139.Kz3mgUAw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307252139.Kz3mgUAw-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/irqdomain.h:36,
+                    from arch/loongarch/include/asm/irq.h:8,
+                    from include/linux/irq.h:23,
+                    from arch/loongarch/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from drivers/irqchip/irq-loongarch-cpu.c:8:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/of.h:1478:31: note: in definition of macro '_OF_DECLARE'
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                               ^~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   include/linux/irqchip.h:37:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-cpu.c:110:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     110 | IRQCHIP_DECLARE(cpu_intc, "loongson,cpu-interrupt-controller", cpuintc_of_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-cpu.c:110:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     110 | IRQCHIP_DECLARE(cpu_intc, "loongson,cpu-interrupt-controller", cpuintc_of_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_cpu_intc.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-cpu.c:110:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     110 | IRQCHIP_DECLARE(cpu_intc, "loongson,cpu-interrupt-controller", cpuintc_of_init);
+         | ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/irqdomain.h:36,
+                    from arch/loongarch/include/asm/irq.h:8,
+                    from include/linux/irq.h:23,
+                    from arch/loongarch/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from drivers/irqchip/irq-loongson-liointc.c:10:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/of.h:1478:31: note: in definition of macro '_OF_DECLARE'
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                               ^~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   include/linux/irqchip.h:37:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-liointc.c:371:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     371 | IRQCHIP_DECLARE(loongson_liointc_1_0, "loongson,liointc-1.0", liointc_of_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-liointc.c:371:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     371 | IRQCHIP_DECLARE(loongson_liointc_1_0, "loongson,liointc-1.0", liointc_of_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_loongson_liointc_1_0.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-liointc.c:371:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     371 | IRQCHIP_DECLARE(loongson_liointc_1_0, "loongson,liointc-1.0", liointc_of_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-liointc.c:372:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     372 | IRQCHIP_DECLARE(loongson_liointc_1_0a, "loongson,liointc-1.0a", liointc_of_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_loongson_liointc_1_0a.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-liointc.c:372:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     372 | IRQCHIP_DECLARE(loongson_liointc_1_0a, "loongson,liointc-1.0a", liointc_of_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-liointc.c:373:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     373 | IRQCHIP_DECLARE(loongson_liointc_2_0, "loongson,liointc-2.0", liointc_of_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_loongson_liointc_2_0.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-liointc.c:373:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     373 | IRQCHIP_DECLARE(loongson_liointc_2_0, "loongson,liointc-2.0", liointc_of_init);
+         | ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/irqdomain.h:36,
+                    from arch/loongarch/include/asm/irq.h:8,
+                    from include/linux/irq.h:23,
+                    from arch/loongarch/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from drivers/irqchip/irq-loongson-eiointc.c:11:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/of.h:1478:31: note: in definition of macro '_OF_DECLARE'
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                               ^~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   include/linux/irqchip.h:37:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-eiointc.c:508:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     508 | IRQCHIP_DECLARE(loongson_ls2k0500_eiointc, "loongson,ls2k0500-eiointc", eiointc_of_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-eiointc.c:508:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     508 | IRQCHIP_DECLARE(loongson_ls2k0500_eiointc, "loongson,ls2k0500-eiointc", eiointc_of_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_loongson_ls2k0500_eiointc.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-eiointc.c:508:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     508 | IRQCHIP_DECLARE(loongson_ls2k0500_eiointc, "loongson,ls2k0500-eiointc", eiointc_of_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-eiointc.c:509:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     509 | IRQCHIP_DECLARE(loongson_ls2k2000_eiointc, "loongson,ls2k2000-eiointc", eiointc_of_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_loongson_ls2k2000_eiointc.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-eiointc.c:509:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     509 | IRQCHIP_DECLARE(loongson_ls2k2000_eiointc, "loongson,ls2k2000-eiointc", eiointc_of_init);
+         | ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/irqdomain.h:36,
+                    from arch/loongarch/include/asm/irq.h:8,
+                    from include/linux/irq.h:23,
+                    from arch/loongarch/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from drivers/irqchip/irq-loongson-htvec.c:9:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/of.h:1478:31: note: in definition of macro '_OF_DECLARE'
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                               ^~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   include/linux/irqchip.h:37:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-htvec.c:257:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     257 | IRQCHIP_DECLARE(htvec, "loongson,htvec-1.0", htvec_of_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-htvec.c:257:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     257 | IRQCHIP_DECLARE(htvec, "loongson,htvec-1.0", htvec_of_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_htvec.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-htvec.c:257:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     257 | IRQCHIP_DECLARE(htvec, "loongson,htvec-1.0", htvec_of_init);
+         | ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/irqdomain.h:36,
+                    from arch/loongarch/include/asm/irq.h:8,
+                    from include/linux/irq.h:23,
+                    from arch/loongarch/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from drivers/irqchip/irq-loongson-pch-pic.c:9:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/of.h:1478:31: note: in definition of macro '_OF_DECLARE'
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                               ^~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   include/linux/irqchip.h:37:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-pch-pic.c:358:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     358 | IRQCHIP_DECLARE(pch_pic, "loongson,pch-pic-1.0", pch_pic_of_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-pch-pic.c:358:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     358 | IRQCHIP_DECLARE(pch_pic, "loongson,pch-pic-1.0", pch_pic_of_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_pch_pic.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-loongson-pch-pic.c:358:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     358 | IRQCHIP_DECLARE(pch_pic, "loongson,pch-pic-1.0", pch_pic_of_init);
+         | ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+..
+
+
+vim +24 include/linux/irqchip.h
+
+f1985002839af8 Marc Zyngier 2021-10-20  22  
+f1985002839af8 Marc Zyngier 2021-10-20  23  #define typecheck_irq_init_cb(fn)					\
+f1985002839af8 Marc Zyngier 2021-10-20 @24  	(__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+f1985002839af8 Marc Zyngier 2021-10-20  25  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
