@@ -1,43 +1,50 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FC321D52
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 18:36:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C1C1D2FD;
+	Tue, 25 Jul 2023 18:55:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690310216; x=1721846216;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=O3WNw1IomdWkDJr2ZIyRjZ7kayR7RhsTlPQToycSmts=;
-  b=U07SK9M5iAwmJKhMDH3E/RuyJZVWLKCrXuct5CWs2TguAjVzdvr/zMKv
-   6URCFg2E0JLmiOwZ6SK5J+DLNBa+t/5P8fRmx6IGJAjBlzHfnCl7zhElI
-   g0XAUTHNuEGmS4U5x4sv3jxquPAuFJl7W/rQb8AzNjBEh5W341O+fZA6L
-   N3TDubuY3T/dz6dRJEFgBr7EPxa2WxUajcJye0+pOwBVMH1xHDJaWLJts
-   /ym95A+r6THm3MmNysIUIka8FWfHR94jDml3jtTQJeyPzVMW93ysDGKqK
-   ud2GIi+if4s2uFwFyqM47y+KxO9QGZWQiDXIdxO72IHQni3rJqcMnrZ6w
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="398735648"
+  t=1690311356; x=1721847356;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZVyS4i+R5tCisp4JnaVX/EGHRJPoy0lk8ITVH6T/ixc=;
+  b=TJZ6OkPEpoH0nzPvXxGeAqns9AwhExUMe5QjTf40nHVfGPy3v4H/6MQn
+   0PDa1x07LdfmoggYwVpiAhWxe54ZpWpRd/HT4wl4BuPSqwO6oUM/TNfO7
+   RYK9r/IJogBjCvmCUuyQhZ6jF5lY1vju0PFqJDYxpNmBN053Ovp2pRX0P
+   maP1BOmcvOfZNcG0wgK/WoHK/aLUYiRKUmqojwZ10LrT/918z29iNOrKN
+   dVq3o44t9BMo0U2rpoKpOC9FqLvVWPM1rn8F+zUmHfnoHZ4LZj3Rd+PTr
+   Wh2so5ekA20/dtmWulLAvrZCON7j3dIAJ/z6b7DUYHghyO7lamXMwl2ur
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="434075299"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="398735648"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 11:36:55 -0700
+   d="scan'208";a="434075299"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 11:55:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="726196882"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="816357216"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="726196882"
+   d="scan'208";a="816357216"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 25 Jul 2023 11:36:54 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Jul 2023 11:55:53 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOMtx-0000Dz-2R;
-	Tue, 25 Jul 2023 18:36:53 +0000
-Date: Wed, 26 Jul 2023 02:36:31 +0800
+	id 1qONCK-0000FZ-2I;
+	Tue, 25 Jul 2023 18:55:52 +0000
+Date: Wed, 26 Jul 2023 02:54:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mat Martineau <martineau@kernel.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net 1/2] selftests: mptcp: join: only check for ip6tables
- if needed
-Message-ID: <ZMAWLwU5CVEksBoI@c507f7d2ae6a>
+To: Naresh Solanki <naresh.solanki@9elements.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, krzysztof.kozlowski+dt@linaro.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org,
+	Patrick Rudolph <patrick.rudolph@9elements.com>,
+	Naresh Solanki <Naresh.Solanki@9elements.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] hwmon: (pmbus/tda38640) Add workaround for bug in
+ SVID mode
+Message-ID: <202307260241.BetLbnxd-lkp@intel.com>
+References: <20230725114030.1860571-3-Naresh.Solanki@9elements.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +53,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230725-send-net-20230725-v1-1-6f60fe7137a9@kernel.org>
+In-Reply-To: <20230725114030.1860571-3-Naresh.Solanki@9elements.com>
 
-Hi,
+Hi Naresh,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on 55612007f16b5d7b1fb83a7b0f5bb686829db7c7]
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH net 1/2] selftests: mptcp: join: only check for ip6tables if needed
-Link: https://lore.kernel.org/stable/20230725-send-net-20230725-v1-1-6f60fe7137a9%40kernel.org
+url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/hwmon-pmbus-Add-ON_OFF_CONFIG-register-bits/20230725-194318
+base:   55612007f16b5d7b1fb83a7b0f5bb686829db7c7
+patch link:    https://lore.kernel.org/r/20230725114030.1860571-3-Naresh.Solanki%409elements.com
+patch subject: [PATCH 3/3] hwmon: (pmbus/tda38640) Add workaround for bug in SVID mode
+config: x86_64-randconfig-x014-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260241.BetLbnxd-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260241.BetLbnxd-lkp@intel.com/reproduce)
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307260241.BetLbnxd-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hwmon/pmbus/tda38640.c:118:7: error: use of undeclared identifier 'CONFIG_SENSORS_TDA38640_REGULATOR'
+           if (!CONFIG_SENSORS_TDA38640_REGULATOR || !np ||
+                ^
+   1 error generated.
+
+
+vim +/CONFIG_SENSORS_TDA38640_REGULATOR +118 drivers/hwmon/pmbus/tda38640.c
+
+   106	
+   107	static int tda38640_probe(struct i2c_client *client)
+   108	{
+   109		struct device *dev = &client->dev;
+   110		struct device_node *np = dev_of_node(dev);
+   111		struct tda38640_data *data;
+   112	
+   113		data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+   114		if (!data)
+   115			return -ENOMEM;
+   116		memcpy(&data->info, &tda38640_info, sizeof(tda38640_info));
+   117	
+ > 118		if (!CONFIG_SENSORS_TDA38640_REGULATOR || !np ||
+   119		    of_property_read_u32(np, "infineon,en-pin-fixed-level", &data->en_pin_lvl))
+   120			return pmbus_do_probe(client, &data->info);
+   121	
+   122		/*
+   123		 * Apply ON_OFF_CONFIG workaround as enabling the regulator using the
+   124		 * OPERATION register doesn't work in SVID mode.
+   125		 */
+   126		data->info.read_byte_data = tda38640_read_byte_data;
+   127		data->info.write_byte_data = tda38640_write_byte_data;
+   128		/*
+   129		 * One should configure PMBUS_ON_OFF_CONFIG here, but
+   130		 * PB_ON_OFF_CONFIG_POWERUP_CONTROL, PB_ON_OFF_CONFIG_EN_PIN_REQ and
+   131		 * PB_ON_OFF_CONFIG_EN_PIN_REQ are ignored by the device.
+   132		 * Only PB_ON_OFF_CONFIG_POLARITY_HIGH has an effect.
+   133		 */
+   134	
+   135		return pmbus_do_probe(client, &data->info);
+   136	}
+   137	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
