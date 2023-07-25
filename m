@@ -1,108 +1,186 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD29538F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 05:08:11 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-666edfc50deso3308446b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Jul 2023 22:08:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1690261690; x=1690866490;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=x2r+ii17FI9VRwibRc5wN5clAB5tyzXqQZlyBBkXR64=;
-        b=Ustkhv4KDV1IReaORm06XIn2tX3c0iIUpxjDPN85UWKkB3C6xpSPtnB7N6FToBjo1O
-         m+VrOq57BR5CAezTN+71FjqYzP5fB/ZwkgcN4UZnG/SwXXwHZo0YN91g/yppbrsHGaOM
-         lTCd/Eu+uSOBHTZcBiVylc78SGor4No70XK/XpvCobtGsmMkYkyVa9ID7gqSxXZxe+YR
-         JEhOH20k4UJ2bIO2rfOnjiN90AT8k+XQKKVuIEEF5GjWtnhELHpos+pBFVQeSV34pZNm
-         6t/4CZRc2qEbrAbVqokeaOicmGAKImIuiUZFsyPD2+c4+WXe6f4HIX5j/lukA3SakBXP
-         uSYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690261690; x=1690866490;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x2r+ii17FI9VRwibRc5wN5clAB5tyzXqQZlyBBkXR64=;
-        b=YWlanRhyUwQYyNv7l2x49cN58Mlulw5rR+rPyoFFpo+p+7PDPtdqL8f9F4J5QgPPsu
-         qmZcW1IK0LTu8C3a4WZzVg2khh3zQr6dCWOO5MzZBOqVnXDauU4dObigs2rR0tNKJpqP
-         MEV19YwGtYX4FuAWAVWLjmwjBSgYnP0SbluJ02AIJjBKAGIvmUZgfm1VB/fTfu387AcN
-         3K8PHbDVqO47T2/8XQs2oCJvLPdcTyghCaw6HT870fC17WVixJkESsWwA0NE/MSblbEc
-         KuW/l32sYhqVmmJVUQMLzbo0F8rZ2LaKiCIXjLqnSn1hLZD33ZEuQ70CL7F/IuD8w0Ly
-         xENw==
-X-Gm-Message-State: ABy/qLbgIqku0zaGmkelonQmVlPuXsUDjkhT3a6Boq/dNOgsvc6afnH/
-	ln4Py6R+qVJspLDVaCXpAVRNpw==
-X-Google-Smtp-Source: APBJJlGVhTaKuGI0RMOqbRnrABRXSbIs5OgLAxNpkR2U9pu1L8PH87fIuVqYocHq0h9x+ekBws8YJQ==
-X-Received: by 2002:a05:6a00:a88:b0:684:bb4a:b86e with SMTP id b8-20020a056a000a8800b00684bb4ab86emr1827329pfl.1.1690261690617;
-        Mon, 24 Jul 2023 22:08:10 -0700 (PDT)
-Received: from sunil-laptop ([106.51.190.25])
-        by smtp.gmail.com with ESMTPSA id fe15-20020a056a002f0f00b0066ccb8e8024sm8655802pfb.30.2023.07.24.22.08.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 22:08:10 -0700 (PDT)
-Date: Tue, 25 Jul 2023 10:38:03 +0530
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: drivers/pnp/pnpacpi/core.c:253:17: warning: 'strncpy' specified
- bound 50 equals destination size
-Message-ID: <ZL9Ys8DKf7RKg20G@sunil-laptop>
-References: <202307241942.Rff2Nri5-lkp@intel.com>
- <ZL6IpoGPu5hgFidK@sunil-laptop>
- <CAJZ5v0gyGeier-Oz=o59TY1XzuPfZ02K=D6F-bMfJbXJ_5OnBA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520A44C7B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 06:05:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690265113; x=1721801113;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=V5D4jmotoFqDMHTLeW6gqZOf+M9CI1KtkZuy3L3YrdY=;
+  b=B9GDUGaGOSor5kqN+bkKYYbT45fflEuFlQl2dRcUgocFp2UXOjbL6emf
+   Au/JAPnsjsWufyja//q3WAgWqUSbi7S+HbOH8IGvxvYPgRPEdIL4BHdO/
+   IgMXXPDkQh/H8gwfN1Umznufvk68VJNQXGA4iZkw+7ImEgcUzvauQmgmc
+   rEww9z8OxxQUc+ttdJffCKd6R56/aLLwa4xuATrdoMepU4hB1326u1AlJ
+   eQFDvlWoq1rRP5/DMssnzC0rRCNXXUW8UJzNI64QVhAFoQQj4VOEEreU1
+   G4qZLNxmCUIeIK0udnEwBzxRRNMpndsJYEarq1a6htPkUfVVXRicc1Y27
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="365084058"
+X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
+   d="scan'208";a="365084058"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 23:05:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="839732949"
+X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
+   d="scan'208";a="839732949"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga002.fm.intel.com with ESMTP; 24 Jul 2023 23:05:11 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 24 Jul 2023 23:05:11 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 24 Jul 2023 23:05:11 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 24 Jul 2023 23:05:11 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.42) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Mon, 24 Jul 2023 23:05:11 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nSrlRy5NryjXHBD2/12drYiP1iNFWj2BZP2DbosRmwJbWUlJnHg4MAAyEpUPmkMXjPdmaLJqOXj79HYTIryuWVIyqzDvd7URzOLNHE3TBO1rGa9vFXgE6Td1nlFHn4i7aph1qEKyxnC7SuyGg2UfaFocp9RF+wxuPFIz1qmzRg2ipiEYWNj0JmSLmM7AKIyzaSLDJquAxPlCPPlNmH/i/6KOV7fiW7uH8OIESP+RBBCcIfIOrVO/SCF4aJaYpIeE3d04O4mqhMh3tk0sJDzINLLLAXYDb2uANW2cgGLuz4bLdj+KRdN01iG0FMtXxlV8iXrSKfDnJikzD6baCNF3lQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7vPczETDM2uNEuO+hU+PGi+pPMEl8av1N70VmHRV4VY=;
+ b=DnZEUbYT2L+v0QrCQZ+PokDNYS05v92+v2AS846ZOeXu3ESFjZXhjUGSJw9YfFOX1DWsqRjo5ZwwMxLbwPicfqcYAuiPvPOMlj/bVhS+157QNrDD0ouEkB0yiPfyH77TeAeZLd8Kuza8s93JAt1pObcanU6IJgJj6mWxd1PIhAVE8OTwJuxm1RGbvGiI9IrzWUETNSR7lPmObaSKMI0l7KF5SisQ+u5Nu+0PK2F3Y3+HclddrzRR7wmSAny/QgEV9JpNBZyB05czEsyFUujs7/xSwk8q7Z8jFmVd9dSLUXPqSOrDxHqeeyT/sokFMLdgKIOTQciyMJZxIekj9y6zaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by PH7PR11MB5861.namprd11.prod.outlook.com (2603:10b6:510:133::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.31; Tue, 25 Jul
+ 2023 06:05:04 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::c407:a2ef:2fde:f6d1]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::c407:a2ef:2fde:f6d1%4]) with mapi id 15.20.6609.026; Tue, 25 Jul 2023
+ 06:05:04 +0000
+Date: Tue, 25 Jul 2023 14:00:52 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Changbin Du <changbin.du@huawei.com>, Peter Zijlstra
+	<peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, "Arnaldo Carvalho de
+ Melo" <acme@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa
+	<jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Ian Rogers
+	<irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>,
+	<linux-perf-users@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Hui Wang
+	<hw.huiwang@huawei.com>, Changbin Du <changbin.du@huawei.com>
+Subject: Re: [PATCH v2 2/2] perf: add new option '--workload-attr' to set
+ workload sched_policy/priority/mask
+Message-ID: <202307221757.XGfZBmn4-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230717120003.2391329-3-changbin.du@huawei.com>
+X-ClientProxiedBy: SG2PR04CA0154.apcprd04.prod.outlook.com (2603:1096:4::16)
+ To CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0gyGeier-Oz=o59TY1XzuPfZ02K=D6F-bMfJbXJ_5OnBA@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|PH7PR11MB5861:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb181051-5a84-4147-2bed-08db8cd516e1
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rfXdyR0pfk0UKlTXM6z/gch+9p2UnEquiN3Pnm1HIAGPnjrQFbbVfVIQckEE7pu1y7GeGW0sZgEKNY9zKKP4h+v0cgdbXadhV8P1328syrekx6L7jkiYUkoicm+QuaT1Y9Vs4uCj1W+3YkEk0UR2uPGHo29H2nSwZcyECGakJgLStN/A8EDLlD3/vL4gOKEq4fDrgk1jZaK61VGhilvdAvaM9y6LO6ZnBQpPOzBFhvAxQXoepnk3WdQ/zMnn1uwE1wVfLa+D7FYTiRbQOhLl9dbwkaQ9Q9R46mCP7WeUmSuVAzlgS4m4BLWYmi5uta5V85aYuyhBb8ZqMbbAbMojSrd0Bhj3yyMfUIyfOX+U55F8z8OHCJgv9v/refXKTmMG0qRs09jZ0tGgRwQwYqjEZps8yRoGnUvq2gsn/NVZvfxnJJPWi5mpL5AKeLaAGJqFzC6xVfs6wUwZ8czrC8gjjTPIbvcdwuAC5RM+c9O19OBECI7l2IVp3j/gAJ1MgdW3npkiQb1rr8PQKjMc6d28f1LYEKVqx0BgYbJkPKHXp8zHpSpsKyDT1ONiTu6GHE+LFTDOonsDYETIHZIR5FM+qQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(366004)(396003)(346002)(376002)(136003)(451199021)(86362001)(82960400001)(38100700002)(4326008)(316002)(66946007)(478600001)(54906003)(41300700001)(110136005)(966005)(5660300002)(8936002)(6486002)(7416002)(8676002)(6512007)(6666004)(26005)(186003)(1076003)(2906002)(6506007)(66556008)(66476007)(83380400001)(36756003)(2616005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Mgqcf1h5fuWF8DjON9R8SnnR4KheNSeZIyCZUMNEb5XlFz7zrXWSr0EbLx2Y?=
+ =?us-ascii?Q?LL2ch6A7tSryFhHwUn13jxjMNdduzcHol2b2CQc/zqJP/SGe8I7uku6TUhem?=
+ =?us-ascii?Q?mDzQDWIgiPx4/mY0szGuLpnZqATpjudHsinWxKTM1z/60dcOkHvYlwWpB2xX?=
+ =?us-ascii?Q?ILfuyB2bvliqLhLDQULpLiUJFW9vVUEEmKREUp8SliysBeJKxzE8RUbAUM2d?=
+ =?us-ascii?Q?VxK9v+cYz9frIfYTUkjeCG9kEb6Mwl/nBnt6Rc6uwIZVv2BmYSWFAfWqYDxQ?=
+ =?us-ascii?Q?FzQwlgoBwortdtr8WKbN2LOng8SdOmXuw+ojc0eNw/CyuVixuhkcgv93q7OI?=
+ =?us-ascii?Q?FpaZ0ATjOfLems09CTIdgT0uppD8DSpfGv4j3XQoJ1MB6LRi2+xNYoYJznX5?=
+ =?us-ascii?Q?3wj061fA1PNDfEgcy8vKcdii7UdUS7iLmrs4fbYIXAUgg0xUxKbKesWt8+9I?=
+ =?us-ascii?Q?cf6E/lplLq9Jg7PAlKkHeA7B3OFZWy7H7PDHFrkTfN5F1P2rs8m1S+BuLK+b?=
+ =?us-ascii?Q?aq7dBh8lAYWhZS5oDWbFt2YmjD0E2mVv+HUkKazmw7ZkUF/CSQ05iOUIgm21?=
+ =?us-ascii?Q?wkDYemv+wS8YGLXh4SV5eHQsFnR26zxMyF5B6dBo4gOTpK7OtTcpxePQBxr1?=
+ =?us-ascii?Q?9LIaAMFRUhnGCKKdkwI9DXJvj5JstNSzqyqmFOoCJaSNhjQoikFdBBMWK/fq?=
+ =?us-ascii?Q?J4+HQcjmI8CM1sD5sm7C6lXP0eCmf1oXw5KgWpvmUPxpe+PnKa/kpZW29s49?=
+ =?us-ascii?Q?OIznMxkvHN9j7LePcr8KCUmqNjP7EjFBVnpFXRnBJUblpUlLXN59IzKKWMJ5?=
+ =?us-ascii?Q?5Lh3SjHs1u/y5HukJK3NQoY4TyBv+WeoPez17Nsv3z3W8BKd5PKk1+wm+HU8?=
+ =?us-ascii?Q?cGJPu242DYjNiClUj4hKNoVZ9KM1s9sf9EQfFu/5hC4z8eBnoibo1tUCUNLy?=
+ =?us-ascii?Q?l3wXpaOaeworX73Na0Ub0V7Pwq2tULKeCg/LB0urqncK03TADFGsS3cVF7QC?=
+ =?us-ascii?Q?WsfnSFYymkcLUYIH4DNQnZ9UoRdVqC8YWJG3Svr8YxWjdRXsoY1AyllCHHN5?=
+ =?us-ascii?Q?LO6ktRNpbwUEpv1FfGjHD32q7qTY7xhkcQ0126dmIxQbymJtRWzJ70Qasa4H?=
+ =?us-ascii?Q?OBF4twibbYvIDV4ztlSin8OoqvVZIEpJv3GJPbqn+gXQFHCspZlFjziTu/rQ?=
+ =?us-ascii?Q?pvX73MyvMka0dBXhnzPy+WlryEeYbF9B7JgBTz+0OQlTk3P6+IWkrSg+rOmT?=
+ =?us-ascii?Q?OG/i9mmpjH2vwHv2MSiZJLJrzGzNhX9JiOYfNlt3Bx+O4PN/dlkW9EgfDYf/?=
+ =?us-ascii?Q?sFjUVmCQGNDhCCinxYKJOBMwLYcF8MNdO9cXEeug39i0KGmTl34aCj+Im/Yy?=
+ =?us-ascii?Q?Or+lCEa+dGrHIHEudxGKYfFqAjwNAPgS0gAR/7Jg7XJP7vcpH9MxwR4evS8l?=
+ =?us-ascii?Q?I+5e6A0eLs6UXQsMu8E4qV3wQmLvbOWMMa3WqAzfVXgW4s9M36eczdUP+auf?=
+ =?us-ascii?Q?cB28jXDDnxi0DQEkKGxdR6sgSUqgZsfb6ROiTT6y17rU+uUBAP5UcvbafCoN?=
+ =?us-ascii?Q?77iE5rYybkaHpLb1e5sxNOZyMdXsL7tnZIzuSESj?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb181051-5a84-4147-2bed-08db8cd516e1
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2023 06:05:04.4217
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c2MwRYANNc1b8f5RSeX7iMvFo0if/2AGviWzbOuSBeER9zDu3mANgPjEbrJ9vmL6mHmBLSO0PSDPMxelY2Zljw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5861
+X-OriginatorOrg: intel.com
 
-On Mon, Jul 24, 2023 at 07:15:22PM +0200, Rafael J. Wysocki wrote:
-> On Mon, Jul 24, 2023 at 4:20 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
-> >
-> > +Rafael.
-> >
-> > On Mon, Jul 24, 2023 at 07:32:36PM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   6eaae198076080886b9e7d57f4ae06fa782f90ef
-> > > commit: a91a9ffbd3a55a0ae1bb75e2b6e85b2a03f64e8f RISC-V: Add support to build the ACPI core
-> > > date:   8 weeks ago
-> > > config: riscv-randconfig-r032-20230724 (https://download.01.org/0day-ci/archive/20230724/202307241942.Rff2Nri5-lkp@intel.com/config)
-> > > compiler: riscv64-linux-gcc (GCC) 12.3.0
-> > > reproduce: (https://download.01.org/0day-ci/archive/20230724/202307241942.Rff2Nri5-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202307241942.Rff2Nri5-lkp@intel.com/
-> > >
-> > > All warnings (new ones prefixed by >>):
-> > >
-> > >    drivers/pnp/pnpacpi/core.c: In function 'pnpacpi_add_device.isra':
-> > > >> drivers/pnp/pnpacpi/core.c:253:17: warning: 'strncpy' specified bound 50 equals destination size [-Wstringop-truncation]
-> > >      253 |                 strncpy(dev->name, acpi_device_name(device), sizeof(dev->name));
-> > >          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >
-> > I need some help here to understand what needs to be done. This is a
-> > common code across architectures. Apart from the fact that ACPI is
-> > enabled for the first time for RISC-V, I am unable to understand why
-> > this warning is seen now. Is this because only RISC-V gcc enables this
-> > warning by default? I don't see this with clang tool chain. If this is
-> > expected warning, is there a way to suppress?
-> 
-> I think that this is relevant information:
-> 
-> https://stackoverflow.com/questions/50198319/gcc-8-wstringop-truncation-what-is-the-good-practice
-> 
-Thank you very much! Rafael. Let me send a patch to append a NUL
-explicitly to fix this issue. However, I still wonder why this code
-added in 2005 getting this warning only now. Why is this not being seen
-with other architecture builds?
+Hi Changbin,
 
-Thanks!
-Sunil
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on acme/perf/core]
+[also build test WARNING on tip/perf/core tip/master linus/master v6.5-rc2 next-20230721]
+[cannot apply to tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Changbin-Du/perf-cpumap-Add-__perf_cpu_map__new-and-perf_cpu_map__2_cpuset/20230718-192933
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/acme/linux.git perf/core
+patch link:    https://lore.kernel.org/r/20230717120003.2391329-3-changbin.du%40huawei.com
+patch subject: [PATCH v2 2/2] perf: add new option '--workload-attr' to set workload sched_policy/priority/mask
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Closes: https://lore.kernel.org/r/202307221757.XGfZBmn4-lkp@intel.com/
+
+includecheck warnings: (new ones prefixed by >>)
+>> tools/perf/util/evlist.c: perf/cpumap.h is included more than once.
+
+vim +60 tools/perf/util/evlist.c
+
+    50	
+    51	#include <linux/bitops.h>
+    52	#include <linux/hash.h>
+    53	#include <linux/log2.h>
+    54	#include <linux/err.h>
+    55	#include <linux/string.h>
+    56	#include <linux/time64.h>
+    57	#include <linux/zalloc.h>
+    58	#include <perf/evlist.h>
+    59	#include <perf/evsel.h>
+  > 60	#include <perf/cpumap.h>
+    61	#include <perf/mmap.h>
+  > 62	#include <perf/cpumap.h>
+    63	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
