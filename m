@@ -1,129 +1,123 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F8F1F173
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 16:21:22 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5221f193817so4755475a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 09:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690302081; x=1690906881;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TQ1JJZA4GThkoE4/Cz7k+1DGdmZ6yMPdgW7Euy20CH8=;
-        b=sQfv/4QHTbos8bmSh9UYF56je+S99om+H2gKx8j9w48p/oT7R1J/GBwJ4g3ohtO0Cb
-         BL22GzLzcxAT0jSnnQj3TDOTZ8IUsaFPLSJBl2GhiDx5fO4RTfKEDEWEII2afZQDOdaA
-         8eDLhM+RHdcYcgC+KYjnbEofU+YlcDLz1mTGYPRoPD1Okjef4fI4BQBgH9w0dy/9YBGJ
-         N7vItLiPFWb11w/6gYiUw1NTK9xkk5+F32JrxEsYpZAQTalbE6RGM+5c1AGx0C11sI4V
-         h0IrdtIgJVPqD5eGtBUTWi4Po2N9s0P01wBFr0nz2FJAYUAicF9mJBKRU5jlFSu3st4L
-         nGwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690302081; x=1690906881;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TQ1JJZA4GThkoE4/Cz7k+1DGdmZ6yMPdgW7Euy20CH8=;
-        b=WZLKGrvTEflqejH2KzFdeui6dguFLw5+SEeRq3G8iXa1SnMkySCpvxpjsRZDlXL+QY
-         DU+TPQSXly/TuF54IKi4AF0238EURvpZLAkQXUV6iks9VLSISVW2L9x5YEYBiw8tcqcr
-         GKDqozMdsALee3rK2uUTy0+AVbvvIoDfK3Hb7vHEaScIZc2uyOleTUSuWD2gcDc+XJOM
-         PjlJZTI+zNvYfPsQwxbPgDYB7+OvknaiKim0xY1UlrI4dq24h5Y0mwVcWv4gLoKDKQZb
-         o1YJik18LvsTNjng8gyTkE69Exz65Bu0D0DTZuTDjCWhdy2mKHw238EzPF/q8kiRzYx9
-         A5cw==
-X-Gm-Message-State: ABy/qLY5irdfNeKlygnNEi+Wgn7C6RAYUVMK9tU8A1aYxe/epYWFXiHs
-	EBMCXsJb0yTVpMoGyKlEKIs=
-X-Google-Smtp-Source: APBJJlGZpGERatKzh35+ALl5dKcKF22+g94KBwNl3+wfFYy+1bAOV/m2l0zgJ9OvCCflF1b9mYxfNw==
-X-Received: by 2002:aa7:d3da:0:b0:522:214c:516 with SMTP id o26-20020aa7d3da000000b00522214c0516mr6324327edr.42.1690302080905;
-        Tue, 25 Jul 2023 09:21:20 -0700 (PDT)
-Received: from orome (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id d15-20020aa7ce0f000000b0052238bc70ccsm2319037edv.89.2023.07.25.09.21.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jul 2023 09:21:20 -0700 (PDT)
-Date: Tue, 25 Jul 2023 18:21:19 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: kernel test robot <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: pwm-rz-mtu3.c:undefined reference to `clk_rate_exclusive_put'
-Message-ID: <ZL_bEBGNb73wbpRF@orome>
-References: <202307251752.vLfmmhYm-lkp@intel.com>
- <OS0PR01MB59220756AD4F8184ACF34B238603A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFFE1F173
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 16:21:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690302087; x=1721838087;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0OasnjKOD3DXt993jhCeH30cDw19eOOCFg/dQ9cwwO4=;
+  b=MxNdEbEOT7TwsRgCMdBcgrrr02OeVpmc4VbKdLcyqYduHX7e301b8m+B
+   t7mnamzTNMedRKOMfkE49+RNsSwWp+c4h49XJo2wX8uZ8MSAcV1AcfWi1
+   ua73543ahmW0AzoKQg2KfYIFa52s1H2Lach8LWn4nfc52JSIT5XZbIqus
+   xDe+Kqul/KnCRPnWefFdt1GDU5d5xYMaViHT0Vtt/0gwoQiz4uLJTgtiM
+   zvhAVI51d/EElxbsGmRa8JxNYoQDjzuebFzIsNmp9XqVl6jbtLGQWBPSA
+   w+d7Z9Kva7KkRM6h1ri6oKslK9wX50+8s2h1tZB08L91PD3+NZK4lAt26
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="370448822"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="370448822"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 09:21:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="720104629"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="720104629"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 25 Jul 2023 09:21:24 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOKm8-00008Z-1s;
+	Tue, 25 Jul 2023 16:21:22 +0000
+Date: Wed, 26 Jul 2023 00:19:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Naresh Solanki <naresh.solanki@9elements.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, krzysztof.kozlowski+dt@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	Patrick Rudolph <patrick.rudolph@9elements.com>,
+	Naresh Solanki <Naresh.Solanki@9elements.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] hwmon: (pmbus/tda38640) Add workaround for bug in
+ SVID mode
+Message-ID: <202307260005.nDX1xks3-lkp@intel.com>
+References: <20230725114030.1860571-3-Naresh.Solanki@9elements.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="1nG26Lhuxqqc7sfI"
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB59220756AD4F8184ACF34B238603A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/2.2.10 (2023-03-25)
-
-
---1nG26Lhuxqqc7sfI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230725114030.1860571-3-Naresh.Solanki@9elements.com>
 
-On Tue, Jul 25, 2023 at 01:51:38PM +0000, Biju Das wrote:
-> Hi kernel test robot,
->=20
-> I have fixed the original issue by adding dependency to COMMON_CLK.
->=20
-> But I hit below error which related to m68k compiler/arch specific.
-> Can you please fix this issue?
->=20
-> /home/user/0day/gcc-12.3.0-nolibc/m68k-linux/bin/m68k-linux-ld: section .=
-rodata VMA [00002000,009a758f] overlaps section .text VMA [00000400,012a08f=
-f]
-> make[2]: *** [../scripts/Makefile.vmlinux:35: vmlinux] Error 1
-> make[2]: Target '__default' not remade because of errors.
-> make[1]: *** [/builds/0/rzg2l-linux/Makefile:1250: vmlinux] Error 2
-> make[1]: Target '__all' not remade because of errors.
-> make[1]: Leaving directory '/builds/0/rzg2l-linux/build_dir'
-> make: *** [Makefile:226: __sub-make] Error 2
-> make: Target '__all' not remade because of errors.
->=20
-> Note:
-> You can reproduce this issue by
->=20
-> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-> index 6210babb0741..eeecf249f372 100644
-> --- a/drivers/pwm/Kconfig
-> +++ b/drivers/pwm/Kconfig
-> @@ -506,6 +506,7 @@ config PWM_ROCKCHIP
->  config PWM_RZ_MTU3
->         tristate "Renesas RZ/G2L MTU3a PWM Timer support"
->         depends on RZ_MTU3 || COMPILE_TEST
-> +       depends on COMMON_CLK
+Hi Naresh,
 
-It probably doesn't change anything about the build issue, but I think a
-slightly more correct dependency would be:
+kernel test robot noticed the following build errors:
 
-	depends on HAVE_CLK
+[auto build test ERROR on 55612007f16b5d7b1fb83a7b0f5bb686829db7c7]
 
-Thierry
+url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/hwmon-pmbus-Add-ON_OFF_CONFIG-register-bits/20230725-194318
+base:   55612007f16b5d7b1fb83a7b0f5bb686829db7c7
+patch link:    https://lore.kernel.org/r/20230725114030.1860571-3-Naresh.Solanki%409elements.com
+patch subject: [PATCH 3/3] hwmon: (pmbus/tda38640) Add workaround for bug in SVID mode
+config: riscv-randconfig-r042-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260005.nDX1xks3-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260005.nDX1xks3-lkp@intel.com/reproduce)
 
---1nG26Lhuxqqc7sfI
-Content-Type: application/pgp-signature; name="signature.asc"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307260005.nDX1xks3-lkp@intel.com/
 
------BEGIN PGP SIGNATURE-----
+All errors (new ones prefixed by >>):
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmS/9n8ACgkQ3SOs138+
-s6HCahAAm4mljjEiowzQcfV+PM/gJkBoR+l8hkHZbHAPzUsBcORf6bSKHo1Tr6VE
-mXH3lLdKHFjPj7YpHqpSG8uOlxKZk+Dy105VSHHWa6OTsca+qJETzdSLLqgcSMYI
-m2XO2sHdp9Le9i4nn9Ss7NH52TTPm9dpHbr64mxLAHZ1ma0KfBQ+Yfs8/MSd7IyU
-hzZl35dmLn+mLpVsVJQNaeSDS3ZosszmIi98bL/LhbQqwFOkgW1P2U9zRjUi5MYi
-U9/Nv76haVw1JjLWpCJm6KcGZPq9IJD5D4MtEbCRi91qnQDmsApkqxu7RggHvvUe
-CEpBQiCIwbnq8qFkwsykxvcwz2I3spgjbx16HscaJNAqjbqFrFgDDrAwIkeBZTCk
-aDE0tVknn9B6IkVmMj7iByFlhLxwKi7jBXOuJgGqSPid1g59sqJXjM66XxePMT5+
-uB9OPtFPAfr7jtzZ0uy7TDcTbG+p35yuj6XrwpfSsONygMkNWehqkoqIPY9KXUHb
-V/Uhjvpp+qWJdjKMbSdUJZRYQvkH+2MHHOSdKfxaFK6wP1tJiqwlPrgGfuAQxMo/
-aaw3AfvT+opFLU7BfLRIjcW4XoMzRfdWKqXs8U+ezqh2BkFccDY8uGjF86+imcqE
-9fkGoMZIaDDAYgyj/akYUZ7lwKhCNsuJ0MhOyQZgMQoiyO9zoCQ=
-=mdEU
------END PGP SIGNATURE-----
+   drivers/hwmon/pmbus/tda38640.c: In function 'tda38640_probe':
+>> drivers/hwmon/pmbus/tda38640.c:118:14: error: 'CONFIG_SENSORS_TDA38640_REGULATOR' undeclared (first use in this function); did you mean 'CONFIG_SENSORS_TDA38640'?
+     118 |         if (!CONFIG_SENSORS_TDA38640_REGULATOR || !np ||
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |              CONFIG_SENSORS_TDA38640
+   drivers/hwmon/pmbus/tda38640.c:118:14: note: each undeclared identifier is reported only once for each function it appears in
 
---1nG26Lhuxqqc7sfI--
+
+vim +118 drivers/hwmon/pmbus/tda38640.c
+
+   106	
+   107	static int tda38640_probe(struct i2c_client *client)
+   108	{
+   109		struct device *dev = &client->dev;
+   110		struct device_node *np = dev_of_node(dev);
+   111		struct tda38640_data *data;
+   112	
+   113		data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+   114		if (!data)
+   115			return -ENOMEM;
+   116		memcpy(&data->info, &tda38640_info, sizeof(tda38640_info));
+   117	
+ > 118		if (!CONFIG_SENSORS_TDA38640_REGULATOR || !np ||
+   119		    of_property_read_u32(np, "infineon,en-pin-fixed-level", &data->en_pin_lvl))
+   120			return pmbus_do_probe(client, &data->info);
+   121	
+   122		/*
+   123		 * Apply ON_OFF_CONFIG workaround as enabling the regulator using the
+   124		 * OPERATION register doesn't work in SVID mode.
+   125		 */
+   126		data->info.read_byte_data = tda38640_read_byte_data;
+   127		data->info.write_byte_data = tda38640_write_byte_data;
+   128		/*
+   129		 * One should configure PMBUS_ON_OFF_CONFIG here, but
+   130		 * PB_ON_OFF_CONFIG_POWERUP_CONTROL, PB_ON_OFF_CONFIG_EN_PIN_REQ and
+   131		 * PB_ON_OFF_CONFIG_EN_PIN_REQ are ignored by the device.
+   132		 * Only PB_ON_OFF_CONFIG_POLARITY_HIGH has an effect.
+   133		 */
+   134	
+   135		return pmbus_do_probe(client, &data->info);
+   136	}
+   137	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
