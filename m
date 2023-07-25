@@ -1,46 +1,61 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE75A26B90
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 21:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8BE26B6D;
+	Tue, 25 Jul 2023 22:01:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690321889; x=1721857889;
+  t=1690322494; x=1721858494;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4j1REvpsFGcYj8gu5WcqDBuw17M5YBKjzoMA4WaJsJo=;
-  b=CUPyjp5W6Mv3p2aGSak+S0+yRr4J1Ew9PFKP+b1Za3vHx0qnloMM6pjX
-   YI12Ahi791DJ9PIluL5TkRBVHgSIIcT7CUhV4RgNWF3bXqqebsettI8ae
-   4ryAL9931X2aSllMCMpYoL4MuCwasviTTFFAwSWDhPTLOA2m7HIl5FUrC
-   BL5kC/crekrkY+TB1z8wQJ2LldulCkpAgRcJimSZ9kGhrxA5+WgjbsZ/R
-   hEZQXkFlntoUJEUUzZDMu44uEXopecdYFlAPRLkf1wp8plSZpeMgkd24Q
-   aO5RILAbTheNLF0tkjIb2eGjugqd4UmKucP3atM6jli2p0HcqnW0UtaNO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="352753631"
+  bh=7dcdBb1/l78pg8+v1QmtAHi7qI73pAZdEwi0vo4frl0=;
+  b=i5udl0hLr6hEp0Gg0jZvTNHklyRZegRyZePCIQZlQzXSMsr1IsCx2qNd
+   AJ7S0ZSvsGy7Ugfg0X1rIyTgweBGPzgmgNrba1YJkRvX29R3gbsLA7KaO
+   S9EFsTRdOap93aX4Rb/aTtijzCAxmc80Vlv3/Hq9Hs0yaVl7tQIgewz4Q
+   6aR2xorKpEFx5ghtnVtpRdW+wIDqU9ggdBxxm4EQ+uufRRW4xAo9FTq8r
+   etokJtuKoBMiWva9n0B82H3rfAcKsHY+L1ZNqz+OkY9lJyG+Gb4/Wb4pm
+   tkYgKdIGkj4dof2zdZjoPUKO9f3BV5sJoMQwXdXTV4oE3WwkP5LqsSyw3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="366734266"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="352753631"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 14:51:29 -0700
+   d="scan'208";a="366734266"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 15:01:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="1056933626"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="761370839"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="1056933626"
+   d="scan'208";a="761370839"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Jul 2023 14:51:27 -0700
+  by orsmga001.jf.intel.com with ESMTP; 25 Jul 2023 15:01:28 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOPw9-0000Mn-2X;
-	Tue, 25 Jul 2023 21:51:23 +0000
-Date: Wed, 26 Jul 2023 05:50:30 +0800
+	id 1qOQ5v-0000Nf-0M;
+	Tue, 25 Jul 2023 22:01:27 +0000
+Date: Wed, 26 Jul 2023 06:00:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacob Keller <jacob.e.keller@intel.com>,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>
-Cc: oe-kbuild-all@lists.linux.dev, siddaraju.dh@intel.com,
-	Anthony Nguyen <anthony.l.nguyen@intel.com>
-Subject: Re: [Intel-wired-lan] [PATCH iwl-net] ice: avoid executing commands
- on other ports when driving sync
-Message-ID: <202307260524.gD96xyN6-lkp@intel.com>
-References: <20230725203125.508243-1-jacob.e.keller@intel.com>
+To: Tao Zhang <quic_taozha@quicinc.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Konrad Dybcio <konradybcio@gmail.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Tao Zhang <quic_taozha@quicinc.com>,
+	Jinlong Mao <quic_jinlmao@quicinc.com>,
+	Leo Yan <leo.yan@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Tingwei Zhang <quic_tingweiz@quicinc.com>,
+	Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+	Trilok Soni <quic_tsoni@quicinc.com>,
+	Hao Zhang <quic_hazha@quicinc.com>, linux-arm-msm@vger.kernel.org,
+	andersson@kernel.org
+Subject: Re: [PATCH v7 09/13] coresight-tpdm: Add nodes for dsb edge control
+Message-ID: <202307260533.MTqa5ObG-lkp@intel.com>
+References: <1690269353-10829-10-git-send-email-quic_taozha@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,68 +64,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230725203125.508243-1-jacob.e.keller@intel.com>
+In-Reply-To: <1690269353-10829-10-git-send-email-quic_taozha@quicinc.com>
 
-Hi Jacob,
+Hi Tao,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tnguy-net-queue/dev-queue]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.5-rc3 next-20230725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacob-Keller/ice-avoid-executing-commands-on-other-ports-when-driving-sync/20230726-043405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20230725203125.508243-1-jacob.e.keller%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-net] ice: avoid executing commands on other ports when driving sync
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230726/202307260524.gD96xyN6-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260524.gD96xyN6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tao-Zhang/coresight-tpdm-Remove-the-unnecessary-lock/20230725-152235
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/1690269353-10829-10-git-send-email-quic_taozha%40quicinc.com
+patch subject: [PATCH v7 09/13] coresight-tpdm: Add nodes for dsb edge control
+config: arm-randconfig-r013-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260533.MTqa5ObG-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260533.MTqa5ObG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307260524.gD96xyN6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307260533.MTqa5ObG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/ice/ice_ptp_hw.c:1326: warning: expecting prototype for ice_ptp_one_port_cmd_e822(). Prototype was for ice_ptp_one_port_cmd() instead
+   drivers/hwtracing/coresight/coresight-tpdm.c:383:21: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
+     383 |         unsigned long val, mask, edge_ctrl;
+         |                            ^
+>> drivers/hwtracing/coresight/coresight-tpdm.c:451:3: warning: misleading indentation; statement is not part of the previous 'else' [-Wmisleading-indentation]
+     451 |                 drvdata->dsb->edge_ctrl_mask[reg] = set;
+         |                 ^
+   drivers/hwtracing/coresight/coresight-tpdm.c:449:2: note: previous statement is here
+     449 |         else
+         |         ^
+   2 warnings generated.
 
 
-vim +1326 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
+vim +/else +451 drivers/hwtracing/coresight/coresight-tpdm.c
 
-  1312	
-  1313	/**
-  1314	 * ice_ptp_one_port_cmd_e822 - Prepare one port for a timer command
-  1315	 * @hw: pointer to the HW struct
-  1316	 * @configured_port: the port to configure with configured_cmd
-  1317	 * @configured_cmd: timer command to prepare on the configured_port
-  1318	 *
-  1319	 * Prepare the configured_port for the configured_cmd, and prepare all other
-  1320	 * ports for ICE_PTP_NOP. This causes the configured_port to execute the
-  1321	 * desired command while all other ports perform no operation.
-  1322	 */
-  1323	static int
-  1324	ice_ptp_one_port_cmd(struct ice_hw *hw, u8 configured_port,
-  1325			     enum ice_ptp_tmr_cmd configured_cmd)
-> 1326	{
-  1327		u8 port;
-  1328	
-  1329		for (port = 0; port < ICE_NUM_EXTERNAL_PORTS; port++) {
-  1330			enum ice_ptp_tmr_cmd cmd;
-  1331			int err;
-  1332	
-  1333			if (port == configured_port)
-  1334				cmd = configured_cmd;
-  1335			else
-  1336				cmd = ICE_PTP_NOP;
-  1337	
-  1338			err = ice_ptp_write_port_cmd_e822(hw, port, cmd);
-  1339			if (err)
-  1340				return err;
-  1341		}
-  1342	
-  1343		return 0;
-  1344	}
-  1345	
+   426	
+   427	static ssize_t dsb_edge_ctrl_mask_store(struct device *dev,
+   428						     struct device_attribute *attr,
+   429						     const char *buf,
+   430						     size_t size)
+   431	{
+   432		struct tpdm_drvdata *drvdata = dev_get_drvdata(dev->parent);
+   433		unsigned long val;
+   434		u32 set;
+   435		int reg;
+   436	
+   437		if ((kstrtoul(buf, 0, &val)) || (val & ~1UL))
+   438			return -EINVAL;
+   439	
+   440		spin_lock(&drvdata->spinlock);
+   441		/*
+   442		 * There is 1 bit per DSB Edge Control Mark line.
+   443		 * Thus we have 32 lines in a 32bit word.
+   444		 */
+   445		reg = EDCMR_TO_WORD_IDX(drvdata->dsb->edge_ctrl_idx);
+   446		set = drvdata->dsb->edge_ctrl_mask[reg];
+   447		if (val)
+   448			set |= BIT(EDCMR_TO_WORD_SHIFT(drvdata->dsb->edge_ctrl_idx));
+   449		else
+   450			set &= ~BIT(EDCMR_TO_WORD_SHIFT(drvdata->dsb->edge_ctrl_idx));
+ > 451			drvdata->dsb->edge_ctrl_mask[reg] = set;
+   452		spin_unlock(&drvdata->spinlock);
+   453	
+   454		return size;
+   455	}
+   456	static DEVICE_ATTR_RW(dsb_edge_ctrl_mask);
+   457	
 
 -- 
 0-DAY CI Kernel Test Service
