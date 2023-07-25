@@ -1,123 +1,172 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2107.outbound.protection.outlook.com [40.107.113.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFFE1F173
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 16:21:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690302087; x=1721838087;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0OasnjKOD3DXt993jhCeH30cDw19eOOCFg/dQ9cwwO4=;
-  b=MxNdEbEOT7TwsRgCMdBcgrrr02OeVpmc4VbKdLcyqYduHX7e301b8m+B
-   t7mnamzTNMedRKOMfkE49+RNsSwWp+c4h49XJo2wX8uZ8MSAcV1AcfWi1
-   ua73543ahmW0AzoKQg2KfYIFa52s1H2Lach8LWn4nfc52JSIT5XZbIqus
-   xDe+Kqul/KnCRPnWefFdt1GDU5d5xYMaViHT0Vtt/0gwoQiz4uLJTgtiM
-   zvhAVI51d/EElxbsGmRa8JxNYoQDjzuebFzIsNmp9XqVl6jbtLGQWBPSA
-   w+d7Z9Kva7KkRM6h1ri6oKslK9wX50+8s2h1tZB08L91PD3+NZK4lAt26
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="370448822"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="370448822"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 09:21:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="720104629"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="720104629"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 25 Jul 2023 09:21:24 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qOKm8-00008Z-1s;
-	Tue, 25 Jul 2023 16:21:22 +0000
-Date: Wed, 26 Jul 2023 00:19:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Naresh Solanki <naresh.solanki@9elements.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, krzysztof.kozlowski+dt@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	Patrick Rudolph <patrick.rudolph@9elements.com>,
-	Naresh Solanki <Naresh.Solanki@9elements.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] hwmon: (pmbus/tda38640) Add workaround for bug in
- SVID mode
-Message-ID: <202307260005.nDX1xks3-lkp@intel.com>
-References: <20230725114030.1860571-3-Naresh.Solanki@9elements.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075761F173
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 16:23:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j5PD+qz2G9is/qX91K1GUqK8tkhv9J7t4H+P34KVSAmCsqCVmew7TJR/BX3OdY5VfCh7tPRvnQLwTj8q7gL/2LMlh/KuQpqcyLEMIlUeH+t09zpILfUJnZYTAor0CIUqY7/WppkGM1wXJcV0m58pFCamSijvLzY0RppJRcY0zmmpQY5NQwwnlvDCGQnCIdbAv4nbJNZEazKnveWscI5mB13jpk8J8CDvVUNi5XyuUZvVxmzGBSvAuwoProyGl/uUp1Msat5+WvD0jfFxXyFWXr+75QYDCKqF/Z89gy6HO6r8GtFM1JWbI/1jnPslkDJxd7/X+nI9tv3mXytNsi7pAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UKvEupayOow/THOcpfMM/LPW5qZEO+Gj/S7fOxpa5Y4=;
+ b=VPj2Gcqi2RvTUn/uETvrLahZMwV2F4FV2o3GSafpsye9MvqQ93ji6mn/U6nptGy5AZtYGMQMCGCmolUbsxJp7x9Eai+nidvtztXRpkwC/7HquyvaXFWaGgXJsccw0PsHQM2u4wrBLvmsGuHOr9kGhfFfSgLCJaxtT61DW6l48XXtWyRTQGqcw1zzxmeUbhT0+JAfxP/GrUUB/oq0LavoD0Uuib8tvNCQcN8HlDKfwItUbHmgo9OmtUcBK1E5oNPdpmNgLzSBafVhuq/X2aaejSZZT+uomTULDLeY12BCMz9k9JC6TUgXUzptiRNLAoJkeBvpy5PorXhanK4Hpsi+SA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UKvEupayOow/THOcpfMM/LPW5qZEO+Gj/S7fOxpa5Y4=;
+ b=SsRIePHGCc6h3sgeVIUG3Vsvtc0WHraQniW6hB+HZVwD1OnWlqP7zDdxlyyVF7x9MznM5JQWvguEAN/NWvlLOz5R2p7w1dv7zCIa2Ji4bmHULVwcOeqb8sh9YllRPTAba57j2od5GTaDM8VE9rddZzya6Zsn3NsEWHZzws16aHs=
+Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com (2603:1096:400:47::11)
+ by OS3PR01MB6136.jpnprd01.prod.outlook.com (2603:1096:604:d2::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.33; Tue, 25 Jul
+ 2023 16:23:13 +0000
+Received: from TYCPR01MB5933.jpnprd01.prod.outlook.com
+ ([fe80::ef83:ef86:806d:6558]) by TYCPR01MB5933.jpnprd01.prod.outlook.com
+ ([fe80::ef83:ef86:806d:6558%7]) with mapi id 15.20.6609.032; Tue, 25 Jul 2023
+ 16:23:12 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+CC: kernel test robot <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?=
+	<u.kleine-koenig@pengutronix.de>
+Subject: RE: pwm-rz-mtu3.c:undefined reference to `clk_rate_exclusive_put'
+Thread-Topic: pwm-rz-mtu3.c:undefined reference to `clk_rate_exclusive_put'
+Thread-Index: AQHZvt8morzZIT9HiUiELKP14S0wHa/Kf5DwgAAqx4CAAAAzMA==
+Date: Tue, 25 Jul 2023 16:23:12 +0000
+Message-ID:
+ <TYCPR01MB59334CA7AD3C6B346DF41BA68603A@TYCPR01MB5933.jpnprd01.prod.outlook.com>
+References: <202307251752.vLfmmhYm-lkp@intel.com>
+ <OS0PR01MB59220756AD4F8184ACF34B238603A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ZL_bEBGNb73wbpRF@orome>
+In-Reply-To: <ZL_bEBGNb73wbpRF@orome>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB5933:EE_|OS3PR01MB6136:EE_
+x-ms-office365-filtering-correlation-id: 1626966b-958b-442f-6b39-08db8d2b713f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ gmgwd4ULLZw78lVrpUtKd3gPJnBQ4WKTn909Ubu9qKEZD9jlhUQhBS9coJhImzfvF8+nEjBsvsQ6eeSvq4ET8FraZXkd7xyxVrrEolLS1PCXfSe41zOl08DDOGvmXLvntzZFZbel+2bMUTEui1KvImRy0+dYuj0rSFmZnxIKlstw9TwmcMXf7DQV1V3VzKFEzWNyqKUyEY2R3hw/AsH74YOAcal1zLc3l2e7h1sf40/kQccygVP0RVB9Kxsoz0ihEINuNOkqoM1dZ6sIdx9PKWG9EM7D+ZUVjLQiqEQVbr1TUhO5GY8P1LogoDVIiwHJa1sA1vtX86BLDdB0UZVD0Ij0f/RFQ4OzRVJEn3d/1LCD5TZVsYT3/B2VLBQB71AokHx9Xl5k99q4c/9cKWC4fgn1i+F0vM5WQAcbLgRuoT21XiHAWtdoPI+nJsne/5qs9c75MDQAHpSOa6S0U8Mvc0KIp0QMyqCFKowdqRzD1D8yjJe0W9X1TKOzrLiXbWqwxQSXslNl1caXVk2+WG6yvOpfKmh3rfpl6uF6NILy3xfH9GIq1r9uBrzIE4sK5Kx/zkuq1GQKZJFnzlumUwmOy91FNY8Stn9Xddkea8eUUFUSfoUQxOXyZ/xc7e/MpzFG
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB5933.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(376002)(136003)(366004)(346002)(451199021)(71200400001)(7696005)(54906003)(478600001)(55016003)(186003)(38100700002)(41300700001)(8676002)(53546011)(76116006)(66446008)(122000001)(64756008)(83380400001)(66476007)(66946007)(66556008)(4326008)(316002)(6916009)(86362001)(33656002)(38070700005)(9686003)(966005)(5660300002)(8936002)(52536014)(6506007)(2906002)(26005)(81973001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?ixlOkMucHZbC66QpoIdCUHjgvIfCB4pZXOkQsmtGMdQf8TA+Oz53II6fLM?=
+ =?iso-8859-1?Q?c9+fiSSgaj8I6Q1HtgPgOBTrr9w+RE7FecrHdcehJtqZvldBZHemEa7DWH?=
+ =?iso-8859-1?Q?25baYZq0BFSepuQLrLjxU4vu/pQ6WB8y4zDcu4Ka/r4KsEf0zmOwpp20/V?=
+ =?iso-8859-1?Q?qkrH53KcGEbKJwUwW9UHe9KBzGU5TfaNP39z4/MrRLSsnP1t/vY3PfsoOp?=
+ =?iso-8859-1?Q?FJc9WrcjYA0ZZjymN6jRTkCN94R4bO1GdnlCnKsg/ZDols8sI8sZcSGfcb?=
+ =?iso-8859-1?Q?5Vigon7ireUB7nQkQq4C4xrQe4FVaNhBiJD+DOUPa+onWK+F4NKADwKvyi?=
+ =?iso-8859-1?Q?7E9SecyBdlcEJ8YW0fmz3jEAsS/CY+lfIxH6d+dLGTVzDIVXNTT4Pq4PxH?=
+ =?iso-8859-1?Q?bmklcp3Ev4fmRLE6DCdPqje+/Wq8k9zCEAOgI3m2Fftt59czk6sHewP8w7?=
+ =?iso-8859-1?Q?P1AantyjE0rFJ4jwhIn6jp6C0/je0oT0Or3lACfgPA637Zm7Y7Z2YBbGgU?=
+ =?iso-8859-1?Q?nTrEvqZIe98rbmUz2AWM0rcDH9eFv+HeO3l2w53MChVxK2RZ2uKYqtWRf5?=
+ =?iso-8859-1?Q?cPhe3htXGqyHvjmFYjDFdFHuGLh0yjhKrLwBX+6Oc7JuaQ/9wNUkEq5HXr?=
+ =?iso-8859-1?Q?agfxyl0vnc0td3u5tQHUmkrbAtiLz7dFUPuzwMW89Ygst/hErNDRuB3ty2?=
+ =?iso-8859-1?Q?eMNtk3aVt2RCT03jf5910UtH+2T0sVX+rALtTdwvRpaAQh4eojOSvZzIgj?=
+ =?iso-8859-1?Q?sAi/9bpZEhWzwKM1DDVFeKPRUaVsSWzhiybM1guPdD/BtluTSH09APjvB2?=
+ =?iso-8859-1?Q?Z++WM9ct6IGNzjOdim2UKZW4deUKOw1dblBL8wlZJk7Lo4CC95gbVNeGsM?=
+ =?iso-8859-1?Q?SgT0vGVYZNyAxmA7nY6p31OeaVkVNNOEr4AnWXHzy1jf4sk4UIpuTXDQQ9?=
+ =?iso-8859-1?Q?AXk0FYCfUgK6Yj90CHJHGlz+DKrqAbagDjVVoKbFAQLAmOGenxvddNzW83?=
+ =?iso-8859-1?Q?nBHFCZdoNhPl9KbBvyh4MY52mWhttQOKAveexc3Onod4p8JwUCDR6a9nGj?=
+ =?iso-8859-1?Q?hNAVbOlYtcwn6EbwuTIuiher8/UsG5B+mJgZDjho01o1iws2DCOt3gjoZ8?=
+ =?iso-8859-1?Q?IZ75PiQWgK4FU+5+bDuSkjkKAy/JAqVHH+ElcOqtIXubqL6yQaY+hlegK1?=
+ =?iso-8859-1?Q?46eeYY3XToV3VZI5tyaUjjLCEzWuDEwAso+AisqIFe/tLtYF8NwHl2xh46?=
+ =?iso-8859-1?Q?gz3Z4E3AbIOndbEaGoXq/zUuMDMDNwEHrPMRgy619SI8ZavOByJeTC01zp?=
+ =?iso-8859-1?Q?sHLrjpPlVly99srrgfY7zjN4ZM7fb5+27qzXQa7ie0GYqfb65kAKTgUYUd?=
+ =?iso-8859-1?Q?r2Vl9km1TgLJX2qalv0WwTWFEhd79mfYZ0+Sde9yhIvhJCKASfNw5L0d/8?=
+ =?iso-8859-1?Q?tDEv2QgBMPdVVd3vzwEymInWrEYXs845vB3HgIsT/Ta95VTi+oyyB5wikk?=
+ =?iso-8859-1?Q?Fr7QiNCrs1OnwdUMrrhhDF5u+sWIw9EMSZZI7Io3AN98orBJkitfpdhWKK?=
+ =?iso-8859-1?Q?GcKY6vAC+HA+KSQ0h2vBakFDzcD5xKe+hmEQZQJB+CQKhfIkmIw7TdenTN?=
+ =?iso-8859-1?Q?hxI0nVnVcIF/QQOc205LWSYowK9WYmRAtnzxlGvwGYZbLYKSJxqGr17Q?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230725114030.1860571-3-Naresh.Solanki@9elements.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB5933.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1626966b-958b-442f-6b39-08db8d2b713f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2023 16:23:12.5782
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5pmH4iHn0Q88hgnfzbcXeRegCkKdQh/4iFB445X0N7z1ATzBujQKykTEIdD528qfTJ/EzNA+x3+blD9fXdNapM8+GdOWg0Y5TdXxp7UIuaY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6136
 
-Hi Naresh,
+Hi Thierry Reding,
 
-kernel test robot noticed the following build errors:
+Thanks for the feedback.
 
-[auto build test ERROR on 55612007f16b5d7b1fb83a7b0f5bb686829db7c7]
+> -----Original Message-----
+> From: Thierry Reding <thierry.reding@gmail.com>
+> Sent: Tuesday, July 25, 2023 5:21 PM
+> To: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: kernel test robot <lkp@intel.com>; oe-kbuild-all@lists.linux.dev;
+> linux-kernel@vger.kernel.org; Uwe Kleine-K=F6nig <u.kleine-
+> koenig@pengutronix.de>
+> Subject: Re: pwm-rz-mtu3.c:undefined reference to
+> `clk_rate_exclusive_put'
+>=20
+> On Tue, Jul 25, 2023 at 01:51:38PM +0000, Biju Das wrote:
+> > Hi kernel test robot,
+> >
+> > I have fixed the original issue by adding dependency to COMMON_CLK.
+> >
+> > But I hit below error which related to m68k compiler/arch specific.
+> > Can you please fix this issue?
+> >
+> > /home/user/0day/gcc-12.3.0-nolibc/m68k-linux/bin/m68k-linux-ld:
+> > section .rodata VMA [00002000,009a758f] overlaps section .text VMA
+> > [00000400,012a08ff]
+> > make[2]: *** [../scripts/Makefile.vmlinux:35: vmlinux] Error 1
+> > make[2]: Target '__default' not remade because of errors.
+> > make[1]: *** [/builds/0/rzg2l-linux/Makefile:1250: vmlinux] Error 2
+> > make[1]: Target '__all' not remade because of errors.
+> > make[1]: Leaving directory '/builds/0/rzg2l-linux/build_dir'
+> > make: *** [Makefile:226: __sub-make] Error 2
+> > make: Target '__all' not remade because of errors.
+> >
+> > Note:
+> > You can reproduce this issue by
+> >
+> > diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig index
+> > 6210babb0741..eeecf249f372 100644
+> > --- a/drivers/pwm/Kconfig
+> > +++ b/drivers/pwm/Kconfig
+> > @@ -506,6 +506,7 @@ config PWM_ROCKCHIP  config PWM_RZ_MTU3
+> >         tristate "Renesas RZ/G2L MTU3a PWM Timer support"
+> >         depends on RZ_MTU3 || COMPILE_TEST
+> > +       depends on COMMON_CLK
+>=20
+> It probably doesn't change anything about the build issue, but I think a
+> slightly more correct dependency would be:
+>=20
+> 	depends on HAVE_CLK
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/hwmon-pmbus-Add-ON_OFF_CONFIG-register-bits/20230725-194318
-base:   55612007f16b5d7b1fb83a7b0f5bb686829db7c7
-patch link:    https://lore.kernel.org/r/20230725114030.1860571-3-Naresh.Solanki%409elements.com
-patch subject: [PATCH 3/3] hwmon: (pmbus/tda38640) Add workaround for bug in SVID mode
-config: riscv-randconfig-r042-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260005.nDX1xks3-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260005.nDX1xks3-lkp@intel.com/reproduce)
+Nope. I used that one and still got build error. See[2]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307260005.nDX1xks3-lkp@intel.com/
+[2] https://elixir.bootlin.com/linux/v6.5-rc3/source/drivers/clk/Makefile#L=
+4
 
-All errors (new ones prefixed by >>):
+Cheers,
+Biju
 
-   drivers/hwmon/pmbus/tda38640.c: In function 'tda38640_probe':
->> drivers/hwmon/pmbus/tda38640.c:118:14: error: 'CONFIG_SENSORS_TDA38640_REGULATOR' undeclared (first use in this function); did you mean 'CONFIG_SENSORS_TDA38640'?
-     118 |         if (!CONFIG_SENSORS_TDA38640_REGULATOR || !np ||
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |              CONFIG_SENSORS_TDA38640
-   drivers/hwmon/pmbus/tda38640.c:118:14: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +118 drivers/hwmon/pmbus/tda38640.c
-
-   106	
-   107	static int tda38640_probe(struct i2c_client *client)
-   108	{
-   109		struct device *dev = &client->dev;
-   110		struct device_node *np = dev_of_node(dev);
-   111		struct tda38640_data *data;
-   112	
-   113		data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-   114		if (!data)
-   115			return -ENOMEM;
-   116		memcpy(&data->info, &tda38640_info, sizeof(tda38640_info));
-   117	
- > 118		if (!CONFIG_SENSORS_TDA38640_REGULATOR || !np ||
-   119		    of_property_read_u32(np, "infineon,en-pin-fixed-level", &data->en_pin_lvl))
-   120			return pmbus_do_probe(client, &data->info);
-   121	
-   122		/*
-   123		 * Apply ON_OFF_CONFIG workaround as enabling the regulator using the
-   124		 * OPERATION register doesn't work in SVID mode.
-   125		 */
-   126		data->info.read_byte_data = tda38640_read_byte_data;
-   127		data->info.write_byte_data = tda38640_write_byte_data;
-   128		/*
-   129		 * One should configure PMBUS_ON_OFF_CONFIG here, but
-   130		 * PB_ON_OFF_CONFIG_POWERUP_CONTROL, PB_ON_OFF_CONFIG_EN_PIN_REQ and
-   131		 * PB_ON_OFF_CONFIG_EN_PIN_REQ are ignored by the device.
-   132		 * Only PB_ON_OFF_CONFIG_POLARITY_HIGH has an effect.
-   133		 */
-   134	
-   135		return pmbus_do_probe(client, &data->info);
-   136	}
-   137	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>=20
+> Thierry
