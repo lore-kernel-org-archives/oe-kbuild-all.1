@@ -1,47 +1,51 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2B025140
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 17:44:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C50C23BF5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 18:04:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690307053; x=1721843053;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A03StRVXilp7FUy7p1FkizarmFwfKvHH8dkLImp+wMo=;
-  b=Uvbri6oxmIUyPrvf9XqmYDlXtNFBQ0bn0cLSw6nPYB1AUpBu5Ojb/L0p
-   6RfXtzbWIFwtCqbI81CBYCkU1MiJayhGobtA17ajL1sIkyX2hn1i4l+RQ
-   eIxALpioxeR7SI5KJT7Qpoz5osf3Orprf3oiJcaBqNJojt7BfUrCx7/Xw
-   cljPV9bH1AuXJRAHb5SQdUiV6Jn/cpzYWZAvfXryM5YM3IX/hD9tprdV0
-   TSwhDzcPpQVAh0wkQadv+F/JTCIs+gTo/n/TmMIqbO42R8ciciK2/8tKf
-   Z2tYcqfO0CkP5PlbhDVcMHoEbZm/t/Oc23pRBjYtHLuF6cNtqbnhw7OKh
+  t=1690308277; x=1721844277;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5yaYFvzrcC2c+MKP9/288rlj3HZSZkDLwU+zCpqOwLo=;
+  b=RaQ8NI2p+onSJpODtjM9/a1WJlq0+8svkw00neyqWUl6HE3fKKUb21e4
+   bwoZ/FJWhDYF8mPHOqgqzxn5h1QeVbnE+sX0BMOX/R7lVufZ3h9DiJEju
+   fIm0lRlmq7xV8X7C95ObRj6f0Zk0owFsq3A24IzmsyqSYbQ2MhpgnmGyN
+   6WKviOayKxRIbpJQj+LO+gjtBRcRXnOrGyWXeaa+ujyoto/1KntGtVNu7
+   eu81NnJSSnAgfw5vMxhzZntePguqf7ZgNsYNKeWlu08SjdS7/YSFQVrOy
+   QIeKZFWrf7XKZB65El7LLibEJD4XmiudTtT9/i2jqBuMZ7dkVmP9fWttw
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="398718906"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="370480908"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="398718906"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 10:44:03 -0700
+   d="scan'208";a="370480908"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 11:04:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="791480063"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="839933309"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="791480063"
+   d="scan'208";a="839933309"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 25 Jul 2023 10:44:01 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2023 11:04:00 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOM3H-0000CB-1c;
-	Tue, 25 Jul 2023 17:43:28 +0000
-Date: Wed, 26 Jul 2023 01:41:53 +0800
+	id 1qOMNp-0000Cr-2u;
+	Tue, 25 Jul 2023 18:03:47 +0000
+Date: Wed, 26 Jul 2023 02:02:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dirk Mueller <dmueller@suse.com>
+To: David Laight <David.Laight@aculab.com>,
+	"'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>,
+	'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
+	'Andrew Morton' <akpm@linux-foundation.org>,
+	"'Matthew Wilcox (Oracle)'" <willy@infradead.org>,
+	'Christoph Hellwig' <hch@infradead.org>,
+	"'Jason A. Donenfeld'" <Jason@zx2c4.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	David Gibson <david@gibson.dropbear.id.au>,
-	Rob Herring <robh@kernel.org>,
-	Nathan Chancellor <natechancellor@gmail.com>
-Subject: [stable:linux-4.14.y 3076/9999]
- drivers/media/usb/dvb-usb/a800.c:96:46: warning: suggest braces around empty
- body in an 'if' statement
-Message-ID: <202307260124.zXdKmrcc-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the
+ arguments have the same signedness.
+Message-ID: <202307260144.boYg18Ty-lkp@intel.com>
+References: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,148 +54,369 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a09512c8526b46759669d0b879144563@AcuMS.aculab.com>
 
-Hi Dirk,
+Hi David,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.14.y
-head:   60a6e3043cc8b918c989707a5eba5fd6830a08a4
-commit: 88f7a6aa7fb9aa5076b65489146045dac865f1d3 [3076/9999] scripts/dtc: Remove redundant YYLOC global declaration
-config: openrisc-randconfig-r001-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260124.zXdKmrcc-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260124.zXdKmrcc-lkp@intel.com/reproduce)
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.5-rc3 next-20230725]
+[cannot apply to next-20230725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Allow-min-max-clamp-if-the-arguments-have-the-same-signedness/20230725-204940
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/a09512c8526b46759669d0b879144563%40AcuMS.aculab.com
+patch subject: [PATCH next resend 2/5] minmax: Allow min()/max()/clamp() if the arguments have the same signedness.
+config: riscv-randconfig-r024-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260144.boYg18Ty-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260144.boYg18Ty-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307260124.zXdKmrcc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307260144.boYg18Ty-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/workqueue.h:9,
-                    from include/linux/srcu.h:34,
-                    from include/linux/notifier.h:16,
-                    from include/linux/memory_hotplug.h:7,
-                    from include/linux/mmzone.h:782,
-                    from include/linux/gfp.h:6,
-                    from include/linux/idr.h:16,
-                    from include/linux/kernfs.h:14,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:21,
-                    from include/linux/device.h:17,
-                    from include/linux/input.h:22,
-                    from drivers/media/usb/dvb-usb/dvb-usb.h:14,
-                    from drivers/media/usb/dvb-usb/dibusb.h:17,
-                    from drivers/media/usb/dvb-usb/a800.c:16:
-   include/linux/timer.h: In function 'timer_setup':
-   include/linux/timer.h:179:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
-     179 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
+   In file included from drivers/irqchip/irq-meson-gpio.c:15:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-meson-gpio.c:597:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     597 | IRQCHIP_MATCH("amlogic,meson-gpio-intc", meson_gpio_irq_of_init)
+         | ^~~~~~~~~~~~~
+>> include/linux/irqchip.h:24:9: error: initializer element is not constant
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |         ^
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-meson-gpio.c:597:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     597 | IRQCHIP_MATCH("amlogic,meson-gpio-intc", meson_gpio_irq_of_init)
+         | ^~~~~~~~~~~~~
+   include/linux/irqchip.h:24:9: note: (near initialization for 'meson_gpio_intc_irqchip_match_table[0].data')
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |         ^
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-meson-gpio.c:597:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     597 | IRQCHIP_MATCH("amlogic,meson-gpio-intc", meson_gpio_irq_of_init)
+         | ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/irqchip.h:16,
+                    from drivers/irqchip/irq-riscv-intc.c:14:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/of.h:1478:31: note: in definition of macro '_OF_DECLARE'
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                               ^~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   include/linux/irqchip.h:37:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-intc.c:164:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     164 | IRQCHIP_DECLARE(riscv, "riscv,cpu-intc", riscv_intc_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
          |                              ^
-   include/linux/timer.h:144:39: note: in definition of macro '__setup_timer'
-     144 |                 (_timer)->function = (_fn);                             \
-         |                                       ^~~
-   drivers/media/usb/dvb-usb/a800.c: In function 'a800_rc_query':
->> drivers/media/usb/dvb-usb/a800.c:96:46: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-      96 |                 deb_rc("key: %*ph\n", 5, key);
-         |                                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-intc.c:164:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     164 | IRQCHIP_DECLARE(riscv, "riscv,cpu-intc", riscv_intc_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_riscv.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-intc.c:164:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     164 | IRQCHIP_DECLARE(riscv, "riscv,cpu-intc", riscv_intc_init);
+         | ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/irqchip/irq-renesas-rzg2l.c:14:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-renesas-rzg2l.c:389:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     389 | IRQCHIP_MATCH("renesas,rzg2l-irqc", rzg2l_irqc_init)
+         | ^~~~~~~~~~~~~
+>> include/linux/irqchip.h:24:9: error: initializer element is not constant
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |         ^
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-renesas-rzg2l.c:389:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     389 | IRQCHIP_MATCH("renesas,rzg2l-irqc", rzg2l_irqc_init)
+         | ^~~~~~~~~~~~~
+   include/linux/irqchip.h:24:9: note: (near initialization for 'rzg2l_irqc_irqchip_match_table[0].data')
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |         ^
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-renesas-rzg2l.c:389:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     389 | IRQCHIP_MATCH("renesas,rzg2l-irqc", rzg2l_irqc_init)
+         | ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/irqchip.h:16,
+                    from drivers/irqchip/irq-sifive-plic.c:11:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/of.h:1478:31: note: in definition of macro '_OF_DECLARE'
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                               ^~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   include/linux/irqchip.h:37:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-sifive-plic.c:571:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     571 | IRQCHIP_DECLARE(sifive_plic, "sifive,plic-1.0.0", plic_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-sifive-plic.c:571:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     571 | IRQCHIP_DECLARE(sifive_plic, "sifive,plic-1.0.0", plic_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_sifive_plic.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-sifive-plic.c:571:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     571 | IRQCHIP_DECLARE(sifive_plic, "sifive,plic-1.0.0", plic_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-sifive-plic.c:572:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     572 | IRQCHIP_DECLARE(riscv_plic0, "riscv,plic0", plic_init); /* for legacy systems */
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_riscv_plic0.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-sifive-plic.c:572:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     572 | IRQCHIP_DECLARE(riscv_plic0, "riscv,plic0", plic_init); /* for legacy systems */
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-sifive-plic.c:580:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     580 | IRQCHIP_DECLARE(andestech_nceplic100, "andestech,nceplic100", plic_edge_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_andestech_nceplic100.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-sifive-plic.c:580:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     580 | IRQCHIP_DECLARE(andestech_nceplic100, "andestech,nceplic100", plic_edge_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-sifive-plic.c:581:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     581 | IRQCHIP_DECLARE(thead_c900_plic, "thead,c900-plic", plic_edge_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_thead_c900_plic.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-sifive-plic.c:581:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     581 | IRQCHIP_DECLARE(thead_c900_plic, "thead,c900-plic", plic_edge_init);
+         | ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/irqchip.h:16,
+                    from drivers/irqchip/irq-mst-intc.c:9:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/of.h:1478:31: note: in definition of macro '_OF_DECLARE'
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                               ^~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   include/linux/irqchip.h:37:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-mst-intc.c:291:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     291 | IRQCHIP_DECLARE(mst_intc, "mstar,mst-intc", mst_intc_of_init);
+         | ^~~~~~~~~~~~~~~
+>> include/linux/of.h:1478:30: error: initializer element is not constant
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-mst-intc.c:291:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     291 | IRQCHIP_DECLARE(mst_intc, "mstar,mst-intc", mst_intc_of_init);
+         | ^~~~~~~~~~~~~~~
+   include/linux/of.h:1478:30: note: (near initialization for '__of_table_mst_intc.data')
+    1478 |                      .data = (fn == (fn_type)NULL) ? fn : fn  }
+         |                              ^
+   include/linux/of.h:1493:17: note: in expansion of macro '_OF_DECLARE'
+    1493 |                 _OF_DECLARE(table, name, compat, fn, of_init_fn_2)
+         |                 ^~~~~~~~~~~
+   include/linux/irqchip.h:37:9: note: in expansion of macro 'OF_DECLARE_2'
+      37 |         OF_DECLARE_2(irqchip, name, compat, typecheck_irq_init_cb(fn))
+         |         ^~~~~~~~~~~~
+   drivers/irqchip/irq-mst-intc.c:291:1: note: in expansion of macro 'IRQCHIP_DECLARE'
+     291 | IRQCHIP_DECLARE(mst_intc, "mstar,mst-intc", mst_intc_of_init);
+         | ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/irqchip/irq-imx-mu-msi.c:15:
+>> include/linux/irqchip.h:24:10: error: implicit declaration of function '__typecheck'; did you mean 'typecheck'? [-Werror=implicit-function-declaration]
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |          ^~~~~~~~~~~
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-imx-mu-msi.c:445:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     445 | IRQCHIP_MATCH("fsl,imx7ulp-mu-msi", imx_mu_imx7ulp_of_init)
+         | ^~~~~~~~~~~~~
+>> include/linux/irqchip.h:24:9: error: initializer element is not constant
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |         ^
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-imx-mu-msi.c:445:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     445 | IRQCHIP_MATCH("fsl,imx7ulp-mu-msi", imx_mu_imx7ulp_of_init)
+         | ^~~~~~~~~~~~~
+   include/linux/irqchip.h:24:9: note: (near initialization for 'imx_mu_msi_irqchip_match_table[0].data')
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |         ^
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-imx-mu-msi.c:445:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     445 | IRQCHIP_MATCH("fsl,imx7ulp-mu-msi", imx_mu_imx7ulp_of_init)
+         | ^~~~~~~~~~~~~
+>> include/linux/irqchip.h:24:9: error: initializer element is not constant
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |         ^
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-imx-mu-msi.c:446:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     446 | IRQCHIP_MATCH("fsl,imx6sx-mu-msi", imx_mu_imx6sx_of_init)
+         | ^~~~~~~~~~~~~
+   include/linux/irqchip.h:24:9: note: (near initialization for 'imx_mu_msi_irqchip_match_table[1].data')
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |         ^
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-imx-mu-msi.c:446:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     446 | IRQCHIP_MATCH("fsl,imx6sx-mu-msi", imx_mu_imx6sx_of_init)
+         | ^~~~~~~~~~~~~
+>> include/linux/irqchip.h:24:9: error: initializer element is not constant
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |         ^
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-imx-mu-msi.c:447:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     447 | IRQCHIP_MATCH("fsl,imx8ulp-mu-msi", imx_mu_imx8ulp_of_init)
+         | ^~~~~~~~~~~~~
+   include/linux/irqchip.h:24:9: note: (near initialization for 'imx_mu_msi_irqchip_match_table[2].data')
+      24 |         (__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+         |         ^
+   include/linux/irqchip.h:45:45: note: in expansion of macro 'typecheck_irq_init_cb'
+      45 |                                     .data = typecheck_irq_init_cb(fn), },
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-imx-mu-msi.c:447:1: note: in expansion of macro 'IRQCHIP_MATCH'
+     447 | IRQCHIP_MATCH("fsl,imx8ulp-mu-msi", imx_mu_imx8ulp_of_init)
+         | ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+..
 
 
-vim +/if +96 drivers/media/usb/dvb-usb/a800.c
+vim +24 include/linux/irqchip.h
 
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23  @16  #include "dibusb.h"
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   17  
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   18  static int debug;
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   19  module_param(debug, int, 0644);
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   20  MODULE_PARM_DESC(debug, "set debugging level (rc=1 (or-able))." DVB_USB_DEBUG_STATUS);
-78e92006f410a40 drivers/media/dvb/dvb-usb/a800.c Janne Grunau          2008-04-09   21  
-78e92006f410a40 drivers/media/dvb/dvb-usb/a800.c Janne Grunau          2008-04-09   22  DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
-78e92006f410a40 drivers/media/dvb/dvb-usb/a800.c Janne Grunau          2008-04-09   23  
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   24  #define deb_rc(args...)   dprintk(debug,0x01,args)
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   25  
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   26  static int a800_power_ctrl(struct dvb_usb_device *d, int onoff)
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   27  {
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   28  	/* do nothing for the AVerMedia */
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   29  	return 0;
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   30  }
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   31  
-a2c00a0eee751e2 drivers/media/dvb/dvb-usb/a800.c Klaus Frahm           2006-07-29   32  /* assure to put cold to 0 for iManufacturer == 1 */
-4d43e13f723e127 drivers/media/dvb/dvb-usb/a800.c Patrick Boettcher     2006-09-30   33  static int a800_identify_state(struct usb_device *udev, struct dvb_usb_device_properties *props,
-4d43e13f723e127 drivers/media/dvb/dvb-usb/a800.c Patrick Boettcher     2006-09-30   34  	struct dvb_usb_device_description **desc, int *cold)
-a2c00a0eee751e2 drivers/media/dvb/dvb-usb/a800.c Klaus Frahm           2006-07-29   35  {
-a2c00a0eee751e2 drivers/media/dvb/dvb-usb/a800.c Klaus Frahm           2006-07-29   36  	*cold = udev->descriptor.iManufacturer != 1;
-a2c00a0eee751e2 drivers/media/dvb/dvb-usb/a800.c Klaus Frahm           2006-07-29   37  	return 0;
-a2c00a0eee751e2 drivers/media/dvb/dvb-usb/a800.c Klaus Frahm           2006-07-29   38  }
-a2c00a0eee751e2 drivers/media/dvb/dvb-usb/a800.c Klaus Frahm           2006-07-29   39  
-2f4f58d689dd71d drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2010-11-17   40  static struct rc_map_table rc_map_a800_table[] = {
-898a83e9243e239 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2011-01-24   41  	{ 0x0201, KEY_MODE },      /* SOURCE */
-898a83e9243e239 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2011-01-24   42  	{ 0x0200, KEY_POWER2 },      /* POWER */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   43  	{ 0x0205, KEY_1 },           /* 1 */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   44  	{ 0x0206, KEY_2 },           /* 2 */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   45  	{ 0x0207, KEY_3 },           /* 3 */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   46  	{ 0x0209, KEY_4 },           /* 4 */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   47  	{ 0x020a, KEY_5 },           /* 5 */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   48  	{ 0x020b, KEY_6 },           /* 6 */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   49  	{ 0x020d, KEY_7 },           /* 7 */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   50  	{ 0x020e, KEY_8 },           /* 8 */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   51  	{ 0x020f, KEY_9 },           /* 9 */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   52  	{ 0x0212, KEY_LEFT },        /* L / DISPLAY */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   53  	{ 0x0211, KEY_0 },           /* 0 */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   54  	{ 0x0213, KEY_RIGHT },       /* R / CH RTN */
-898a83e9243e239 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2011-01-24   55  	{ 0x0217, KEY_CAMERA },      /* SNAP SHOT */
-898a83e9243e239 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2011-01-24   56  	{ 0x0210, KEY_LAST },        /* 16-CH PREV */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   57  	{ 0x021e, KEY_VOLUMEDOWN },  /* VOL DOWN */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   58  	{ 0x020c, KEY_ZOOM },        /* FULL SCREEN */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   59  	{ 0x021f, KEY_VOLUMEUP },    /* VOL UP */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   60  	{ 0x0214, KEY_MUTE },        /* MUTE */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   61  	{ 0x0208, KEY_AUDIO },       /* AUDIO */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   62  	{ 0x0219, KEY_RECORD },      /* RECORD */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   63  	{ 0x0218, KEY_PLAY },        /* PLAY */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   64  	{ 0x021b, KEY_STOP },        /* STOP */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   65  	{ 0x021a, KEY_PLAYPAUSE },   /* TIMESHIFT / PAUSE */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   66  	{ 0x021d, KEY_BACK },        /* << / RED */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   67  	{ 0x021c, KEY_FORWARD },     /* >> / YELLOW */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   68  	{ 0x0203, KEY_TEXT },        /* TELETEXT */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   69  	{ 0x0204, KEY_EPG },         /* EPG */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   70  	{ 0x0215, KEY_MENU },        /* MENU */
-58769a5486bec8e drivers/media/dvb/dvb-usb/a800.c Andrew Hodgson        2005-07-07   71  
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   72  	{ 0x0303, KEY_CHANNELUP },   /* CH UP */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   73  	{ 0x0302, KEY_CHANNELDOWN }, /* CH DOWN */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   74  	{ 0x0301, KEY_FIRST },       /* |<< / GREEN */
-2e3658836efad06 drivers/media/dvb/dvb-usb/a800.c Mauro Carvalho Chehab 2009-08-29   75  	{ 0x0300, KEY_LAST },        /* >>| / BLUE */
-58769a5486bec8e drivers/media/dvb/dvb-usb/a800.c Andrew Hodgson        2005-07-07   76  
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   77  };
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   78  
-15ac8e663b354ed drivers/media/dvb/dvb-usb/a800.c Adrian Bunk           2005-12-01   79  static int a800_rc_query(struct dvb_usb_device *d, u32 *event, int *state)
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   80  {
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   81  	int ret;
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   82  	u8 *key = kmalloc(5, GFP_KERNEL);
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   83  	if (!key)
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   84  		return -ENOMEM;
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   85  
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   86  	if (usb_control_msg(d->udev,usb_rcvctrlpipe(d->udev,0),
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   87  				0x04, USB_TYPE_VENDOR | USB_DIR_IN, 0, 0, key, 5,
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   88  				2000) != 5) {
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   89  		ret = -ENODEV;
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   90  		goto out;
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   91  	}
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   92  
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   93  	/* call the universal NEC remote processor, to find out the key's state and event */
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   94  	dvb_usb_nec_rc_key_to_event(d,key,event,state);
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23   95  	if (key[0] != 0)
-5bdb7872cdadcd6 drivers/media/usb/dvb-usb/a800.c Andy Shevchenko       2012-09-26  @96  		deb_rc("key: %*ph\n", 5, key);
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   97  	ret = 0;
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   98  out:
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21   99  	kfree(key);
-54f4e11ae3051ff drivers/media/dvb/dvb-usb/a800.c Florian Mickler       2011-03-21  100  	return ret;
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23  101  }
-776338e121b9db3 drivers/media/dvb/dvb-usb/a800.c Johannes Stezenbach   2005-06-23  102  
-
-:::::: The code at line 96 was first introduced by commit
-:::::: 5bdb7872cdadcd630dd2129633e1a3f8aeac69f8 [media] dvb-usb: print small buffers via %*ph
-
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+f1985002839af80 Marc Zyngier 2021-10-20  22  
+f1985002839af80 Marc Zyngier 2021-10-20  23  #define typecheck_irq_init_cb(fn)					\
+f1985002839af80 Marc Zyngier 2021-10-20 @24  	(__typecheck(typecheck_irq_init_cb, &fn) ? fn : fn)
+f1985002839af80 Marc Zyngier 2021-10-20  25  
 
 -- 
 0-DAY CI Kernel Test Service
