@@ -1,45 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6EB1F932;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B7425154;
 	Tue, 25 Jul 2023 17:22:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690305764; x=1721841764;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/rX+vmioYB+wb5NVQah9zVFB+dNFJlgx36fdBqT1BBg=;
-  b=hvdYI8ZiAO0Gmb84RfLDWRem1WthNljKW+nHBPiqwjfvDFOSNAqd8XND
-   aZcd7giPkX78FYa5c5q0VVVnpMiho4AqOpgngWQXh7sNlaLWH+ucSMaFz
-   MFioqdXZ9Jx30zCDRlvCp2NVM+i/mCtr3KeJJEPGbQTVapqhaLGrGlhK0
-   ShfRhVA4xLkLlEjO8Y1bc8YNh1wgk87USRaDQlL0POmClZV7/CxKbWY88
-   Ph6/tFCAP2yyqXXPiF9ovLMFDtpb7AdWqLzHWxm8CBsG/NZRPWmJCOWNd
-   is5oPjg/ThTqfdUst5rqUxG+Nwxa6Q9MT70+7i/kvDv1akRfQCoQX81at
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="366677702"
+  t=1690305765; x=1721841765;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gRhQcc96PP4oy5wmUOE3gF8648ImIX2lw3urPyzqToI=;
+  b=EssoiNYtgg8oSDJkA/5ZmHdOGUr4sH6OzNJ5in0LjPq8U/yKGcbxIK8Y
+   I3ORGZTkKrY34A3F1s60cDxPMog378hotf0ZlVFihjsJrD0RwTJfvvO7D
+   IGBbkRgcuDyZw5o/N1M3u754rZjo8NIsV785wFKwzO+fEUkScPeoJMtaN
+   wflNTSx45b8lFSIcDPo6QdjqLthe2JG8od9IhtyINFOVPTeOmKCIFUBpX
+   NGInFgP1R8v2SeKSnvTcKLLHgiX5rGcmp4tpg+u4YW/hE8EEeTJ2tk3em
+   SsRWvMo4d+ThsrQ2b7gIKFeQN5xiiSGPCFuJx4IEK3dR9mmYHsApqBmRe
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="431602611"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="366677702"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 10:22:43 -0700
+   d="scan'208";a="431602611"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 10:22:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="755849068"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="729458896"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="755849068"
+   d="scan'208";a="729458896"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 25 Jul 2023 10:22:41 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2023 10:22:42 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOLk8-0000B9-1h;
-	Tue, 25 Jul 2023 17:22:40 +0000
+	id 1qOLk9-0000BG-0H;
+	Tue, 25 Jul 2023 17:22:41 +0000
 Date: Wed, 26 Jul 2023 01:21:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Binglei Wang <l3b2w1@gmail.com>, hch@lst.de
-Cc: oe-kbuild-all@lists.linux.dev, m.szyprowski@samsung.com,
-	robin.murphy@arm.com, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, l3b2w1@gmail.com
-Subject: Re: [PATCH v2] cma: check for memory region overlapping
-Message-ID: <202307260113.tCZQvjkf-lkp@intel.com>
-References: <20230725141602.7759-1-l3b2w1@gmail.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sudeep-holla:ffa_notify 9/16]
+ drivers/firmware/arm_ffa/driver.c:692:36: warning: variable 'total_ids' set
+ but not used
+Message-ID: <202307260156.NcqZ6DHJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,112 +46,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230725141602.7759-1-l3b2w1@gmail.com>
 
-Hi Binglei,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.5-rc3 next-20230725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Binglei-Wang/cma-check-for-memory-region-overlapping/20230725-222426
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230725141602.7759-1-l3b2w1%40gmail.com
-patch subject: [PATCH v2] cma: check for memory region overlapping
-config: riscv-randconfig-r042-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260113.tCZQvjkf-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260113.tCZQvjkf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git ffa_notify
+head:   50176e212a1e52a7fc37c2ea8f7e0d5937c62955
+commit: 155aaa7b3f3d4875ce6c6b154f95868f8a483686 [9/16] firmware: arm_ffa: Implement the NOTIFICATION_INFO_GET interface
+config: arm64-randconfig-r032-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260156.NcqZ6DHJ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260156.NcqZ6DHJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307260113.tCZQvjkf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307260156.NcqZ6DHJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/riscv/include/asm/elf.h:12,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/dma-mapping.h:8,
-                    from include/linux/dma-map-ops.h:9,
-                    from kernel/dma/contiguous.c:51:
-   include/linux/compat.h: In function 'rmem_cma_setup':
->> include/linux/compat.h:510:32: error: unterminated argument list invoking macro "pr_info"
-     510 |                 unsafe_get_user(hi, &__c->sig[2], label);               \
-         |                                ^
-   kernel/dma/contiguous.c:414:17: error: 'pr_info' undeclared (first use in this function); did you mean 'qc_info'?
-     414 |                 pr_info("Reserved memory: overlap with other memblock reserved region\n",
-         |                 ^~~~~~~
-         |                 qc_info
-   kernel/dma/contiguous.c:414:17: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/dma/contiguous.c:414:24: error: expected ';' at end of input
-     414 |                 pr_info("Reserved memory: overlap with other memblock reserved region\n",
-         |                        ^
-         |                        ;
-   ......
-   kernel/dma/contiguous.c:414:17: error: expected declaration or statement at end of input
-     414 |                 pr_info("Reserved memory: overlap with other memblock reserved region\n",
-         |                 ^~~~~~~
-   kernel/dma/contiguous.c:414:17: error: expected declaration or statement at end of input
-   kernel/dma/contiguous.c:405:13: warning: unused variable 'err' [-Wunused-variable]
-     405 |         int err;
-         |             ^~~
-   kernel/dma/contiguous.c:404:21: warning: unused variable 'cma' [-Wunused-variable]
-     404 |         struct cma *cma;
-         |                     ^~~
-   kernel/dma/contiguous.c: At top level:
-   kernel/dma/contiguous.c:400:19: warning: 'rmem_cma_setup' defined but not used [-Wunused-function]
-     400 | static int __init rmem_cma_setup(struct reserved_mem *rmem)
-         |                   ^~~~~~~~~~~~~~
-   kernel/dma/contiguous.c:395:38: warning: 'rmem_cma_ops' defined but not used [-Wunused-const-variable=]
-     395 | static const struct reserved_mem_ops rmem_cma_ops = {
-         |                                      ^~~~~~~~~~~~
+>> drivers/firmware/arm_ffa/driver.c:692:36: warning: variable 'total_ids' set but not used [-Wunused-but-set-variable]
+     692 |         u8 count_of_lists, ids_processed, total_ids = 0;
+         |                                           ^
+   drivers/firmware/arm_ffa/driver.c:614:12: warning: unused function 'ffa_notification_bind' [-Wunused-function]
+     614 | static int ffa_notification_bind(u16 dst_id, u64 notif_bitmap, u32 flags)
+         |            ^
+   drivers/firmware/arm_ffa/driver.c:619:12: warning: unused function 'ffa_notification_unbind' [-Wunused-function]
+     619 | static int ffa_notification_unbind(u16 dst_id, u64 notif_bitmap)
+         |            ^
+   drivers/firmware/arm_ffa/driver.c:625:5: warning: unused function 'ffa_notification_set' [-Wunused-function]
+     625 | int ffa_notification_set(u16 src_id, u16 dst_id, u32 flags, u64 notif_bitmap)
+         |     ^
+   drivers/firmware/arm_ffa/driver.c:651:12: warning: unused function 'ffa_notification_get' [-Wunused-function]
+     651 | static int ffa_notification_get(u32 flags, struct ffa_notif_bitmaps *notif)
+         |            ^
+   drivers/firmware/arm_ffa/driver.c:687:13: warning: unused function 'ffa_notification_info_get64' [-Wunused-function]
+     687 | static void ffa_notification_info_get64(void)
+         |             ^
+   6 warnings generated.
 
 
-vim +/pr_info +510 include/linux/compat.h
+vim +/total_ids +692 drivers/firmware/arm_ffa/driver.c
 
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  491  
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  492  #define unsafe_get_compat_sigset(set, compat, label) do {		\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  493  	const compat_sigset_t __user *__c = compat;			\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  494  	compat_sigset_word hi, lo;					\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  495  	sigset_t *__s = set;						\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  496  									\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  497  	switch (_NSIG_WORDS) {						\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  498  	case 4:								\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  499  		unsafe_get_user(lo, &__c->sig[7], label);		\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  500  		unsafe_get_user(hi, &__c->sig[6], label);		\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  501  		__s->sig[3] = hi | (((long)lo) << 32);			\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  502  		fallthrough;						\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  503  	case 3:								\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  504  		unsafe_get_user(lo, &__c->sig[5], label);		\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  505  		unsafe_get_user(hi, &__c->sig[4], label);		\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  506  		__s->sig[2] = hi | (((long)lo) << 32);			\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  507  		fallthrough;						\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  508  	case 2:								\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  509  		unsafe_get_user(lo, &__c->sig[3], label);		\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19 @510  		unsafe_get_user(hi, &__c->sig[2], label);		\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  511  		__s->sig[1] = hi | (((long)lo) << 32);			\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  512  		fallthrough;						\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  513  	case 1:								\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  514  		unsafe_get_user(lo, &__c->sig[1], label);		\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  515  		unsafe_get_user(hi, &__c->sig[0], label);		\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  516  		__s->sig[0] = hi | (((long)lo) << 32);			\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  517  	}								\
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  518  } while (0)
-14026b94ccfe626 Christophe Leroy 2020-08-18  519  #else
-14026b94ccfe626 Christophe Leroy 2020-08-18  520  #define unsafe_put_compat_sigset(compat, set, label) do {		\
-14026b94ccfe626 Christophe Leroy 2020-08-18  521  	compat_sigset_t __user *__c = compat;				\
-14026b94ccfe626 Christophe Leroy 2020-08-18  522  	const sigset_t *__s = set;					\
-14026b94ccfe626 Christophe Leroy 2020-08-18  523  									\
-14026b94ccfe626 Christophe Leroy 2020-08-18  524  	unsafe_copy_to_user(__c, __s, sizeof(*__c), label);		\
-14026b94ccfe626 Christophe Leroy 2020-08-18  525  } while (0)
-fb05121fd6a20f0 Christophe Leroy 2021-03-19  526  
+   686	
+   687	static void ffa_notification_info_get64(void)
+   688	{
+   689		ffa_value_t ret;
+   690		u64 id_list, ids_count[MAX_IDS_64];
+   691		u32 idx, list;
+ > 692		u8 count_of_lists, ids_processed, total_ids = 0;
+   693	
+   694		do {
+   695			invoke_ffa_fn((ffa_value_t){
+   696				  .a0 = FFA_FN_NATIVE(NOTIFICATION_INFO_GET),
+   697				  }, &ret);
+   698	
+   699			if (ret.a0 != FFA_FN_NATIVE(SUCCESS)) {
+   700				if (ret.a2 == FFA_RET_NO_DATA)
+   701					pr_debug("No data available for Notification Info Get\n");
+   702	
+   703				pr_err("Notification Info Get Failed: 0x%lx(0x%lx)", ret.a0, ret.a2);
+   704				return;
+   705			}
+   706	
+   707			ids_processed = 0;
+   708			count_of_lists = FIELD_GET(NOTIFICATION_INFO_GET_ID_COUNT, ret.a2);
+   709			id_list = FIELD_GET(ID_LIST_MASK_64, ret.a2);
+   710	
+   711			for (idx= 0; idx < count_of_lists; idx++) {
+   712				ids_count[idx] = (id_list & 0x3) + 1;
+   713				total_ids += ids_count[idx];
+   714				id_list = id_list >> 2;
+   715			}
+   716	
+   717			/* Process IDs */
+   718			/* For each notification make our call back */
+   719			for (list = 0; list < count_of_lists; list++) {
+   720				u16 *packed_id_list = (u16 *)&ret.a3, vcpu_id, partition_id;
+   721	
+   722				if (ids_processed >= MAX_IDS_64 - 1)
+   723					break;
+   724	
+   725				partition_id = packed_id_list[++ids_processed];
+   726	
+   727				/* Global Notification, no vcpu IDs to process. */
+   728				if (!ids_count[list]) {
+   729					pr_debug("Calling global schedule receiver callback for 0x%x\n", partition_id);
+   730					__do_sched_recv_cb(partition_id, 0, false);
+   731				} else {
+   732					/* Per vCPU Notification, process X IDs based on length of list specified. */
+   733					/* Use IDs count (count from 0) as vcpu count. */
+   734					for (idx = 0; idx < ids_count[list]; idx++) {
+   735						if (ids_processed >= MAX_IDS_64 - 1)
+   736							break;
+   737						/* The next ID to unpack is a vcpu ID, retrieve and increment count. */
+   738						vcpu_id = packed_id_list[++ids_processed];
+   739						pr_debug("Calling schedule receiver callback for 0x%x for vcpu: %d\n",
+   740							partition_id, vcpu_id);
+   741						__do_sched_recv_cb(partition_id, vcpu_id, true);
+   742					}
+   743				}
+   744			}
+   745		} while(ret.a2 & NOTIFICATION_INFO_GET_MORE_PENDING);
+   746	}
+   747	
 
 -- 
 0-DAY CI Kernel Test Service
