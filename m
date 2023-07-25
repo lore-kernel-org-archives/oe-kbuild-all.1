@@ -1,44 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0741F927;
-	Tue, 25 Jul 2023 16:53:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6EB1F932;
+	Tue, 25 Jul 2023 17:22:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690303981; x=1721839981;
+  t=1690305764; x=1721841764;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=EuFLEiCOIZ3Yr1LInVn+nPZ15NclLRvnEMqKpPC52E8=;
-  b=hRl8Hv96ZRw19GIDbVBfgwH1f262oV1uxALsN1wBrELgwDmu8wDS6Vv3
-   50Jwfa+kSRVQaagZY4m5b5rEp4AQ/N+KCPTjRrp00NquOylbPqPi1eyTa
-   c/TaNV0dFZsgWbfHfXH8BdQN4AwcvkhlO6DdiM9ccwdyQwFXuOk5q6HNx
-   Q8/2xwZfgLPImNvBIyHoAu5g2NWgchmi3BzVeFswqAC1PhFlSDUWqURAs
-   DaibiQb4QvLsForoKesenaeWLz5pePlzhqPt5jZabM/scsAt2vYTtaDdX
-   KYIWvDKrS3isHYyCeFopF4MPF5na7INWtCUubNd71QNzO3vMBQ7S8jE9a
+  bh=/rX+vmioYB+wb5NVQah9zVFB+dNFJlgx36fdBqT1BBg=;
+  b=hvdYI8ZiAO0Gmb84RfLDWRem1WthNljKW+nHBPiqwjfvDFOSNAqd8XND
+   aZcd7giPkX78FYa5c5q0VVVnpMiho4AqOpgngWQXh7sNlaLWH+ucSMaFz
+   MFioqdXZ9Jx30zCDRlvCp2NVM+i/mCtr3KeJJEPGbQTVapqhaLGrGlhK0
+   ShfRhVA4xLkLlEjO8Y1bc8YNh1wgk87USRaDQlL0POmClZV7/CxKbWY88
+   Ph6/tFCAP2yyqXXPiF9ovLMFDtpb7AdWqLzHWxm8CBsG/NZRPWmJCOWNd
+   is5oPjg/ThTqfdUst5rqUxG+Nwxa6Q9MT70+7i/kvDv1akRfQCoQX81at
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="431592955"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="366677702"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="431592955"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 09:52:50 -0700
+   d="scan'208";a="366677702"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 10:22:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="850099045"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="755849068"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="850099045"
+   d="scan'208";a="755849068"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 25 Jul 2023 09:52:48 -0700
+  by orsmga008.jf.intel.com with ESMTP; 25 Jul 2023 10:22:41 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOLGt-00009l-1B;
-	Tue, 25 Jul 2023 16:52:34 +0000
-Date: Wed, 26 Jul 2023 00:50:10 +0800
+	id 1qOLk8-0000B9-1h;
+	Tue, 25 Jul 2023 17:22:40 +0000
+Date: Wed, 26 Jul 2023 01:21:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 7/9] KVM: x86/mmu: Use BUILD_BUG_ON_INVALID() for
- KVM_MMU_WARN_ON() stub
-Message-ID: <202307260015.1ZsP65rd-lkp@intel.com>
-References: <20230721230006.2337941-8-seanjc@google.com>
+To: Binglei Wang <l3b2w1@gmail.com>, hch@lst.de
+Cc: oe-kbuild-all@lists.linux.dev, m.szyprowski@samsung.com,
+	robin.murphy@arm.com, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, l3b2w1@gmail.com
+Subject: Re: [PATCH v2] cma: check for memory region overlapping
+Message-ID: <202307260113.tCZQvjkf-lkp@intel.com>
+References: <20230725141602.7759-1-l3b2w1@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,49 +48,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230721230006.2337941-8-seanjc@google.com>
+In-Reply-To: <20230725141602.7759-1-l3b2w1@gmail.com>
 
-Hi Sean,
+Hi Binglei,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 294ebdda1560d3eb515da88b805ba7f88eb28d21]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.5-rc3 next-20230725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Christopherson/KVM-x86-mmu-Delete-rmap_printk-and-all-its-usage/20230722-070218
-base:   294ebdda1560d3eb515da88b805ba7f88eb28d21
-patch link:    https://lore.kernel.org/r/20230721230006.2337941-8-seanjc%40google.com
-patch subject: [PATCH v2 7/9] KVM: x86/mmu: Use BUILD_BUG_ON_INVALID() for KVM_MMU_WARN_ON() stub
-config: i386-buildonly-randconfig-r006-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260015.1ZsP65rd-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260015.1ZsP65rd-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Binglei-Wang/cma-check-for-memory-region-overlapping/20230725-222426
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230725141602.7759-1-l3b2w1%40gmail.com
+patch subject: [PATCH v2] cma: check for memory region overlapping
+config: riscv-randconfig-r042-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260113.tCZQvjkf-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260113.tCZQvjkf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307260015.1ZsP65rd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307260113.tCZQvjkf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/kvm/mmu/mmu.c:1738:19: error: call to undeclared function 'is_empty_shadow_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           KVM_MMU_WARN_ON(!is_empty_shadow_page(sp->spt));
-                            ^
-   1 error generated.
+   In file included from arch/riscv/include/asm/elf.h:12,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/dma-mapping.h:8,
+                    from include/linux/dma-map-ops.h:9,
+                    from kernel/dma/contiguous.c:51:
+   include/linux/compat.h: In function 'rmem_cma_setup':
+>> include/linux/compat.h:510:32: error: unterminated argument list invoking macro "pr_info"
+     510 |                 unsafe_get_user(hi, &__c->sig[2], label);               \
+         |                                ^
+   kernel/dma/contiguous.c:414:17: error: 'pr_info' undeclared (first use in this function); did you mean 'qc_info'?
+     414 |                 pr_info("Reserved memory: overlap with other memblock reserved region\n",
+         |                 ^~~~~~~
+         |                 qc_info
+   kernel/dma/contiguous.c:414:17: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/dma/contiguous.c:414:24: error: expected ';' at end of input
+     414 |                 pr_info("Reserved memory: overlap with other memblock reserved region\n",
+         |                        ^
+         |                        ;
+   ......
+   kernel/dma/contiguous.c:414:17: error: expected declaration or statement at end of input
+     414 |                 pr_info("Reserved memory: overlap with other memblock reserved region\n",
+         |                 ^~~~~~~
+   kernel/dma/contiguous.c:414:17: error: expected declaration or statement at end of input
+   kernel/dma/contiguous.c:405:13: warning: unused variable 'err' [-Wunused-variable]
+     405 |         int err;
+         |             ^~~
+   kernel/dma/contiguous.c:404:21: warning: unused variable 'cma' [-Wunused-variable]
+     404 |         struct cma *cma;
+         |                     ^~~
+   kernel/dma/contiguous.c: At top level:
+   kernel/dma/contiguous.c:400:19: warning: 'rmem_cma_setup' defined but not used [-Wunused-function]
+     400 | static int __init rmem_cma_setup(struct reserved_mem *rmem)
+         |                   ^~~~~~~~~~~~~~
+   kernel/dma/contiguous.c:395:38: warning: 'rmem_cma_ops' defined but not used [-Wunused-const-variable=]
+     395 | static const struct reserved_mem_ops rmem_cma_ops = {
+         |                                      ^~~~~~~~~~~~
 
 
-vim +/is_empty_shadow_page +1738 arch/x86/kvm/mmu/mmu.c
+vim +/pr_info +510 include/linux/compat.h
 
-43a063cab325ee arch/x86/kvm/mmu/mmu.c Yosry Ahmed         2022-08-23  1735  
-876546436db977 arch/x86/kvm/mmu/mmu.c David Matlack       2022-06-22  1736  static void kvm_mmu_free_shadow_page(struct kvm_mmu_page *sp)
-260746c03dcb2e drivers/kvm/mmu.c      Avi Kivity          2007-01-05  1737  {
-14960b3718bba4 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2023-07-21 @1738  	KVM_MMU_WARN_ON(!is_empty_shadow_page(sp->spt));
-7775834a233478 arch/x86/kvm/mmu.c     Xiao Guangrong      2010-06-04  1739  	hlist_del(&sp->hash_link);
-bd4c86eaa6ff10 arch/x86/kvm/mmu.c     Xiao Guangrong      2011-07-12  1740  	list_del(&sp->link);
-bd4c86eaa6ff10 arch/x86/kvm/mmu.c     Xiao Guangrong      2011-07-12  1741  	free_page((unsigned long)sp->spt);
-834be0d83f9451 arch/x86/kvm/mmu.c     Gleb Natapov        2013-01-30  1742  	if (!sp->role.direct)
-6a97575d5cffb7 arch/x86/kvm/mmu/mmu.c David Matlack       2022-06-22  1743  		free_page((unsigned long)sp->shadowed_translation);
-e8ad9a707496c1 arch/x86/kvm/mmu.c     Xiao Guangrong      2010-05-13  1744  	kmem_cache_free(mmu_page_header_cache, sp);
-260746c03dcb2e drivers/kvm/mmu.c      Avi Kivity          2007-01-05  1745  }
-260746c03dcb2e drivers/kvm/mmu.c      Avi Kivity          2007-01-05  1746  
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  491  
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  492  #define unsafe_get_compat_sigset(set, compat, label) do {		\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  493  	const compat_sigset_t __user *__c = compat;			\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  494  	compat_sigset_word hi, lo;					\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  495  	sigset_t *__s = set;						\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  496  									\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  497  	switch (_NSIG_WORDS) {						\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  498  	case 4:								\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  499  		unsafe_get_user(lo, &__c->sig[7], label);		\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  500  		unsafe_get_user(hi, &__c->sig[6], label);		\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  501  		__s->sig[3] = hi | (((long)lo) << 32);			\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  502  		fallthrough;						\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  503  	case 3:								\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  504  		unsafe_get_user(lo, &__c->sig[5], label);		\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  505  		unsafe_get_user(hi, &__c->sig[4], label);		\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  506  		__s->sig[2] = hi | (((long)lo) << 32);			\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  507  		fallthrough;						\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  508  	case 2:								\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  509  		unsafe_get_user(lo, &__c->sig[3], label);		\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19 @510  		unsafe_get_user(hi, &__c->sig[2], label);		\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  511  		__s->sig[1] = hi | (((long)lo) << 32);			\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  512  		fallthrough;						\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  513  	case 1:								\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  514  		unsafe_get_user(lo, &__c->sig[1], label);		\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  515  		unsafe_get_user(hi, &__c->sig[0], label);		\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  516  		__s->sig[0] = hi | (((long)lo) << 32);			\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  517  	}								\
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  518  } while (0)
+14026b94ccfe626 Christophe Leroy 2020-08-18  519  #else
+14026b94ccfe626 Christophe Leroy 2020-08-18  520  #define unsafe_put_compat_sigset(compat, set, label) do {		\
+14026b94ccfe626 Christophe Leroy 2020-08-18  521  	compat_sigset_t __user *__c = compat;				\
+14026b94ccfe626 Christophe Leroy 2020-08-18  522  	const sigset_t *__s = set;					\
+14026b94ccfe626 Christophe Leroy 2020-08-18  523  									\
+14026b94ccfe626 Christophe Leroy 2020-08-18  524  	unsafe_copy_to_user(__c, __s, sizeof(*__c), label);		\
+14026b94ccfe626 Christophe Leroy 2020-08-18  525  } while (0)
+fb05121fd6a20f0 Christophe Leroy 2021-03-19  526  
 
 -- 
 0-DAY CI Kernel Test Service
