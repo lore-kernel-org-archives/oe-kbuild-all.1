@@ -1,43 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93961EA1;
-	Tue, 25 Jul 2023 02:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7951114
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 02:52:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690252922; x=1721788922;
+  t=1690253559; x=1721789559;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5cQaZ4sUJFJaVpTbKvhhPLrYE4v8ekS1HElqu21+t54=;
-  b=f6Eg9pX9rteGlT779/7gTyz69VSLT1mpHxpDxfXxsI0IfjVsnTFAJjoG
-   BFvZXb0MEEaKYQcXk9NVIczRJ122OXszk13quX5LvTAJThD1X2M/rCURR
-   SxsP7i+0+k6pHjiJWEuBWjJCw/TeEC4lPxFIJz0DjkGlKM1zQmb5X8PgQ
-   S7bUM9hgxWdBE9nxybWxtWvD3WnkeKbwDOqEcPoaYeAXg4E3mzQbkD76W
-   WldEJQjnEq2//h2iPbYXGdDbG96ZOyd6+dE7O2Vox0r3nKtogGwOT73Db
-   jwe/zLTkIQWwrlCvFjw9avwiN3/sxV+u9J5SgrJ01HYS9OzekFqt1f3x8
+  bh=8WIle637pNbc9+d3+bC/332cdz18cZ/fhZXGnjApZo4=;
+  b=H+CFIY0rTcnhzo0I5gLNsw4not1iXf7gaWVvdMfoURErImGfIVbZO3hz
+   FJHY7MBslNGXu4ujAKEx0Vd4dQCzHR//5Y8knRfnZskd2DkBKdTylk1IB
+   JazdM/Fc//eQlwb5lgGJA3N6gqlMLOIqnZD4yHgViqD5N5buQ4NU0uEEK
+   YqaVErPVzs6B6HYwJ0xup63S9YAeguLauiEzYfdLLvhPA+FVthwuqyT3W
+   jFkBp3i3CPGrHMdocfMxZvz0JosEhnGjqYt8kWahy+C/ClCwnNgGpu0gF
+   ngGdMAKKagjkV1dKlXmIcEKXyiADxvITEipjNlQg3fEZXKKoLeSVJVmkt
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="352499573"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="453980348"
 X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="352499573"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 19:41:58 -0700
+   d="scan'208";a="453980348"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 19:52:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="761045193"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="703127687"
 X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="761045193"
+   d="scan'208";a="703127687"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 24 Jul 2023 19:41:56 -0700
+  by orsmga006.jf.intel.com with ESMTP; 24 Jul 2023 19:52:37 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qO7zn-000AEa-28;
-	Tue, 25 Jul 2023 02:41:55 +0000
-Date: Tue, 25 Jul 2023 10:41:19 +0800
+	id 1qO8A8-000AFO-14;
+	Tue, 25 Jul 2023 02:52:36 +0000
+Date: Tue, 25 Jul 2023 10:51:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ulfh-pm:genpd_create_dir 9/18]
- drivers/genpd/renesas/rmobile-sysc.c:193:22: warning: cast to smaller
- integer type 'enum pd_types' from 'const void *'
-Message-ID: <202307251015.dZ7jmRPA-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.10 121/150]
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1487:38: warning:
+ 'mtk_jpeg_drvdata' defined but not used
+Message-ID: <202307251027.tMnMgNmE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,53 +48,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git genpd_create_dir
-head:   b43f11e5b453a9c48159d7121c88d79d81901276
-commit: 86341a84495cb4201948053fecb71f6bda2baaa6 [9/18] soc: renesas: Move power-domain drivers to the genpd dir
-config: x86_64-buildonly-randconfig-r001-20230723 (https://download.01.org/0day-ci/archive/20230725/202307251015.dZ7jmRPA-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251015.dZ7jmRPA-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
+head:   5c922d3b28576eee898ce081afab42446eca4596
+commit: f2e9d11022fce9bfba1275df0ae26696ba232a4e [121/150] BACKPORT: UPSTREAM: mtk-jpegenc: support jpegenc multi-hardware
+config: x86_64-buildonly-randconfig-r003-20230724 (https://download.01.org/0day-ci/archive/20230725/202307251027.tMnMgNmE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251027.tMnMgNmE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307251015.dZ7jmRPA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307251027.tMnMgNmE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/genpd/renesas/rmobile-sysc.c:193:22: warning: cast to smaller integer type 'enum pd_types' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-                   add_special_pd(np, (enum pd_types)id->data);
-                                      ^~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1487:38: warning: 'mtk_jpeg_drvdata' defined but not used [-Wunused-const-variable=]
+    1487 | static const struct mtk_jpeg_variant mtk_jpeg_drvdata = {
+         |                                      ^~~~~~~~~~~~~~~~
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1472:38: warning: 'mt8173_jpeg_drvdata' defined but not used [-Wunused-const-variable=]
+    1472 | static const struct mtk_jpeg_variant mt8173_jpeg_drvdata = {
+         |                                      ^~~~~~~~~~~~~~~~~~~
 
 
-vim +193 drivers/genpd/renesas/rmobile-sysc.c
+vim +/mtk_jpeg_drvdata +1487 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
 
-2173fc7cb681c38 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2014-12-03  177  
-60e264356230014 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  178  static void __init get_special_pds(void)
-60e264356230014 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  179  {
-60e264356230014 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  180  	struct device_node *np;
-1632ff162f305f3 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  181  	const struct of_device_id *id;
-60e264356230014 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  182  
-60e264356230014 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  183  	/* PM domains containing CPUs */
-5af5d40c4015813 arch/arm/mach-shmobile/pm-rmobile.c Rob Herring        2018-08-27  184  	for_each_of_cpu_node(np)
-60e264356230014 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  185  		add_special_pd(np, PD_CPU);
-60e264356230014 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  186  
-2173fc7cb681c38 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2014-12-03  187  	/* PM domain containing console */
-2173fc7cb681c38 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2014-12-03  188  	if (of_stdout)
-60e264356230014 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  189  		add_special_pd(of_stdout, PD_CONSOLE);
-2173fc7cb681c38 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2014-12-03  190  
-1632ff162f305f3 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  191  	/* PM domains containing other special devices */
-1632ff162f305f3 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14  192  	for_each_matching_node_and_match(np, special_ids, &id)
-1632ff162f305f3 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2015-01-14 @193  		add_special_pd(np, (enum pd_types)id->data);
-2173fc7cb681c38 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2014-12-03  194  }
-2173fc7cb681c38 arch/arm/mach-shmobile/pm-rmobile.c Geert Uytterhoeven 2014-12-03  195  
+b2f0d2724ba477d Rick Chang 2016-12-14  1471  
+b4a82f5d15102ad Xia Jiang  2020-08-14 @1472  static const struct mtk_jpeg_variant mt8173_jpeg_drvdata = {
+b4a82f5d15102ad Xia Jiang  2020-08-14  1473  	.clks = mt8173_jpeg_dec_clocks,
+b4a82f5d15102ad Xia Jiang  2020-08-14  1474  	.num_clks = ARRAY_SIZE(mt8173_jpeg_dec_clocks),
+b4a82f5d15102ad Xia Jiang  2020-08-14  1475  	.formats = mtk_jpeg_dec_formats,
+b4a82f5d15102ad Xia Jiang  2020-08-14  1476  	.num_formats = MTK_JPEG_DEC_NUM_FORMATS,
+b4a82f5d15102ad Xia Jiang  2020-08-14  1477  	.qops = &mtk_jpeg_dec_qops,
+b4a82f5d15102ad Xia Jiang  2020-08-14  1478  	.irq_handler = mtk_jpeg_dec_irq,
+b4a82f5d15102ad Xia Jiang  2020-08-14  1479  	.hw_reset = mtk_jpeg_dec_reset,
+b4a82f5d15102ad Xia Jiang  2020-08-14  1480  	.m2m_ops = &mtk_jpeg_dec_m2m_ops,
+b4a82f5d15102ad Xia Jiang  2020-08-14  1481  	.dev_name = "mtk-jpeg-dec",
+b4a82f5d15102ad Xia Jiang  2020-08-14  1482  	.ioctl_ops = &mtk_jpeg_dec_ioctl_ops,
+b4a82f5d15102ad Xia Jiang  2020-08-14  1483  	.out_q_default_fourcc = V4L2_PIX_FMT_JPEG,
+b4a82f5d15102ad Xia Jiang  2020-08-14  1484  	.cap_q_default_fourcc = V4L2_PIX_FMT_YUV420M,
+b4a82f5d15102ad Xia Jiang  2020-08-14  1485  };
+b4a82f5d15102ad Xia Jiang  2020-08-14  1486  
+45f13a57d813445 Xia Jiang  2020-08-14 @1487  static const struct mtk_jpeg_variant mtk_jpeg_drvdata = {
+45f13a57d813445 Xia Jiang  2020-08-14  1488  	.clks = mtk_jpeg_clocks,
+45f13a57d813445 Xia Jiang  2020-08-14  1489  	.num_clks = ARRAY_SIZE(mtk_jpeg_clocks),
+45f13a57d813445 Xia Jiang  2020-08-14  1490  	.formats = mtk_jpeg_enc_formats,
+45f13a57d813445 Xia Jiang  2020-08-14  1491  	.num_formats = MTK_JPEG_ENC_NUM_FORMATS,
+45f13a57d813445 Xia Jiang  2020-08-14  1492  	.qops = &mtk_jpeg_enc_qops,
+45f13a57d813445 Xia Jiang  2020-08-14  1493  	.irq_handler = mtk_jpeg_enc_irq,
+45f13a57d813445 Xia Jiang  2020-08-14  1494  	.hw_reset = mtk_jpeg_enc_reset,
+45f13a57d813445 Xia Jiang  2020-08-14  1495  	.m2m_ops = &mtk_jpeg_enc_m2m_ops,
+45f13a57d813445 Xia Jiang  2020-08-14  1496  	.dev_name = "mtk-jpeg-enc",
+45f13a57d813445 Xia Jiang  2020-08-14  1497  	.ioctl_ops = &mtk_jpeg_enc_ioctl_ops,
+45f13a57d813445 Xia Jiang  2020-08-14  1498  	.out_q_default_fourcc = V4L2_PIX_FMT_YUYV,
+45f13a57d813445 Xia Jiang  2020-08-14  1499  	.cap_q_default_fourcc = V4L2_PIX_FMT_JPEG,
+45f13a57d813445 Xia Jiang  2020-08-14  1500  };
+45f13a57d813445 Xia Jiang  2020-08-14  1501  
 
-:::::: The code at line 193 was first introduced by commit
-:::::: 1632ff162f305f38667632c465e4bfaab8ef87a2 ARM: shmobile: R-Mobile: Special-case PM domains with memory-controllers
+:::::: The code at line 1487 was first introduced by commit
+:::::: 45f13a57d8134459f02fbee0b1711eddc3260af7 media: platform: Add jpeg enc feature
 
-:::::: TO: Geert Uytterhoeven <geert+renesas@glider.be>
-:::::: CC: Simon Horman <horms+renesas@verge.net.au>
+:::::: TO: Xia Jiang <xia.jiang@mediatek.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
