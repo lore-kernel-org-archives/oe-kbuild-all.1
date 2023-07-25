@@ -1,60 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1255413AD9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 12:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8ED1549F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 12:48:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690288089; x=1721824089;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Zu6o05zhMgF/5xWegXDEuIottLQva+nlIKEi6LdQR3k=;
-  b=a925H+sTjM4ZxWuBQhMTigMDr68RHrkS3yq5lzpAaDGuI1N+vZz4Hhwv
-   rakAR8nPYORWJ10Ury+kd1tb9ezW+Peo46iUP9mZPMfkhNMouTn+VmG/t
-   +s4LYlDrdn8QfmRDJ3p6P43IPJ98hOnnHWJAzibwW2F45LuZnPUuaDeU7
-   8QiOYURYpLpJr5pNZEWbVHcHv0gjcO7xHRSBz7p1MyLu+TSLstWXCRv17
-   g4Xv7DkMgyZpDxVnusHIOAoSY4zVqVj0oVAypXAiwmphPDoqb8hijSIXa
-   QdxwuU0oa0bpJzwMkzmZaQuD6ODql91F9WRp6+MB1z3EVtw/jTXT4xqFs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="347312523"
+  t=1690289290; x=1721825290;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CtaLAo17SyqSmF25npVDsvpSdoJ2LEGMP9QqEPffeXI=;
+  b=Msi/cFbIqdyABmgrxbOIezS5Q/t8gONSrO7iikTSQZ/L/RCRtMzOA4nR
+   2YRG4W9DPzGvmkC+FmNsHCcjq6egtZnBE8F/QYxDnWgRjF42ooE1iSQMx
+   qgw8LTEimGKhYOtoe7kmUFrlNiJ0LqYCGF55Sr5U4/6mf3LfYOfgaaREf
+   /1TtJwR40srAqOdKnDG2sTTrTUxou9CZl6F4n0+dNHJcnDUHYS0S5rmbk
+   4dknT6e2np+ZkXZTYVxmYf9oWFVGzFZRf+8auEAy1TAu7Zn69wzdAji6d
+   UEH7NYmec2TOLDWnf/0woVvccCrKCsqtxuMH/IEIf18rq+Stb/cCSohfg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="366590770"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="347312523"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 05:28:08 -0700
+   d="scan'208";a="366590770"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 05:48:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="676221438"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="703264756"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="676221438"
+   d="scan'208";a="703264756"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 25 Jul 2023 05:28:02 -0700
+  by orsmga006.jf.intel.com with ESMTP; 25 Jul 2023 05:48:07 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOH8z-000Abc-29;
-	Tue, 25 Jul 2023 12:28:01 +0000
-Date: Tue, 25 Jul 2023 20:27:22 +0800
+	id 1qOHSQ-000AcG-2m;
+	Tue, 25 Jul 2023 12:48:06 +0000
+Date: Tue, 25 Jul 2023 20:47:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tao Zhang <quic_taozha@quicinc.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Konrad Dybcio <konradybcio@gmail.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Tao Zhang <quic_taozha@quicinc.com>,
-	Jinlong Mao <quic_jinlmao@quicinc.com>,
-	Leo Yan <leo.yan@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Tingwei Zhang <quic_tingweiz@quicinc.com>,
-	Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Hao Zhang <quic_hazha@quicinc.com>, linux-arm-msm@vger.kernel.org,
-	andersson@kernel.org
-Subject: Re: [PATCH v7 09/13] coresight-tpdm: Add nodes for dsb edge control
-Message-ID: <202307252010.fbqRILwZ-lkp@intel.com>
-References: <1690269353-10829-10-git-send-email-quic_taozha@quicinc.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>
+Subject: arch/powerpc/mm/book3s64/pgtable.c:422:6: error: no previous
+ prototype for 'arch_report_meminfo'
+Message-ID: <202307252035.aAJZfroP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,138 +47,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1690269353-10829-10-git-send-email-quic_taozha@quicinc.com>
 
-Hi Tao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.5-rc3 next-20230725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tao-Zhang/coresight-tpdm-Remove-the-unnecessary-lock/20230725-152235
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/1690269353-10829-10-git-send-email-quic_taozha%40quicinc.com
-patch subject: [PATCH v7 09/13] coresight-tpdm: Add nodes for dsb edge control
-config: arm-randconfig-r003-20230725 (https://download.01.org/0day-ci/archive/20230725/202307252010.fbqRILwZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252010.fbqRILwZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0b5547c51827e053cc754db47d3ec3e6c2c451d2
+commit: ef104443bffa004f631729dfc924f0b84abbd602 procfs: consolidate arch_report_meminfo declaration
+date:   10 weeks ago
+config: powerpc-maple_defconfig (https://download.01.org/0day-ci/archive/20230725/202307252035.aAJZfroP-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252035.aAJZfroP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307252010.fbqRILwZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307252035.aAJZfroP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/hwtracing/coresight/coresight-tpdm.c: In function 'dsb_edge_ctrl_val_store':
->> drivers/hwtracing/coresight/coresight-tpdm.c:383:28: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
-     383 |         unsigned long val, mask, edge_ctrl;
-         |                            ^~~~
-   drivers/hwtracing/coresight/coresight-tpdm.c: In function 'dsb_edge_ctrl_mask_store':
->> drivers/hwtracing/coresight/coresight-tpdm.c:449:9: warning: this 'else' clause does not guard... [-Wmisleading-indentation]
-     449 |         else
-         |         ^~~~
-   drivers/hwtracing/coresight/coresight-tpdm.c:451:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'else'
-     451 |                 drvdata->dsb->edge_ctrl_mask[reg] = set;
-         |                 ^~~~~~~
+>> arch/powerpc/mm/book3s64/pgtable.c:422:6: error: no previous prototype for 'arch_report_meminfo' [-Werror=missing-prototypes]
+     422 | void arch_report_meminfo(struct seq_file *m)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/powerpc/mm/book3s64/pgtable.c:478:5: error: no previous prototype for 'pmd_move_must_withdraw' [-Werror=missing-prototypes]
+     478 | int pmd_move_must_withdraw(struct spinlock *new_pmd_ptl,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +/mask +383 drivers/hwtracing/coresight/coresight-tpdm.c
+vim +/arch_report_meminfo +422 arch/powerpc/mm/book3s64/pgtable.c
 
-   368	
-   369	/*
-   370	 * This function is used to control the edge detection according
-   371	 * to the index number that has been set.
-   372	 * "edge_ctrl" should be one of the following values.
-   373	 * 0 - Rising edge detection
-   374	 * 1 - Falling edge detection
-   375	 * 2 - Rising and falling edge detection (toggle detection)
-   376	 */
-   377	static ssize_t dsb_edge_ctrl_val_store(struct device *dev,
-   378						struct device_attribute *attr,
-   379						const char *buf,
-   380						size_t size)
-   381	{
-   382		struct tpdm_drvdata *drvdata = dev_get_drvdata(dev->parent);
- > 383		unsigned long val, mask, edge_ctrl;
-   384		int reg;
-   385	
-   386		if ((kstrtoul(buf, 0, &edge_ctrl)) || (edge_ctrl > 0x2))
-   387			return -EINVAL;
-   388	
-   389		spin_lock(&drvdata->spinlock);
-   390		/*
-   391		 * There are 2 bit per DSB Edge Control line.
-   392		 * Thus we have 16 lines in a 32bit word.
-   393		 */
-   394		reg = EDCR_TO_WORD_IDX(drvdata->dsb->edge_ctrl_idx);
-   395		mask = EDCR_TO_WORD_MASK(drvdata->dsb->edge_ctrl_idx);
-   396		val = drvdata->dsb->edge_ctrl[reg];
-   397		val &= ~EDCR_TO_WORD_MASK(drvdata->dsb->edge_ctrl_idx);
-   398		val |= EDCR_TO_WORD_VAL(edge_ctrl, drvdata->dsb->edge_ctrl_idx);
-   399		drvdata->dsb->edge_ctrl[reg] = val;
-   400		spin_unlock(&drvdata->spinlock);
-   401	
-   402		return size;
-   403	}
-   404	static DEVICE_ATTR_RW(dsb_edge_ctrl_val);
-   405	
-   406	static ssize_t dsb_edge_ctrl_mask_show(struct device *dev,
-   407						    struct device_attribute *attr,
-   408						    char *buf)
-   409	{
-   410		struct tpdm_drvdata *drvdata = dev_get_drvdata(dev->parent);
-   411		ssize_t size = 0;
-   412		unsigned long bytes;
-   413		int i;
-   414	
-   415		spin_lock(&drvdata->spinlock);
-   416		for (i = 0; i < TPDM_DSB_MAX_EDCMR; i++) {
-   417			bytes = sysfs_emit_at(buf, size,
-   418					  "Val:0x%x\n", drvdata->dsb->edge_ctrl_mask[i]);
-   419			if (bytes <= 0)
-   420				break;
-   421			size += bytes;
-   422		}
-   423		spin_unlock(&drvdata->spinlock);
-   424		return size;
-   425	}
-   426	
-   427	static ssize_t dsb_edge_ctrl_mask_store(struct device *dev,
-   428						     struct device_attribute *attr,
-   429						     const char *buf,
-   430						     size_t size)
-   431	{
-   432		struct tpdm_drvdata *drvdata = dev_get_drvdata(dev->parent);
-   433		unsigned long val;
-   434		u32 set;
-   435		int reg;
-   436	
-   437		if ((kstrtoul(buf, 0, &val)) || (val & ~1UL))
-   438			return -EINVAL;
-   439	
-   440		spin_lock(&drvdata->spinlock);
-   441		/*
-   442		 * There is 1 bit per DSB Edge Control Mark line.
-   443		 * Thus we have 32 lines in a 32bit word.
-   444		 */
-   445		reg = EDCMR_TO_WORD_IDX(drvdata->dsb->edge_ctrl_idx);
-   446		set = drvdata->dsb->edge_ctrl_mask[reg];
-   447		if (val)
-   448			set |= BIT(EDCMR_TO_WORD_SHIFT(drvdata->dsb->edge_ctrl_idx));
- > 449		else
-   450			set &= ~BIT(EDCMR_TO_WORD_SHIFT(drvdata->dsb->edge_ctrl_idx));
-   451			drvdata->dsb->edge_ctrl_mask[reg] = set;
-   452		spin_unlock(&drvdata->spinlock);
-   453	
-   454		return size;
-   455	}
-   456	static DEVICE_ATTR_RW(dsb_edge_ctrl_mask);
-   457	
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  421  
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13 @422  void arch_report_meminfo(struct seq_file *m)
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  423  {
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  424  	/*
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  425  	 * Hash maps the memory with one size mmu_linear_psize.
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  426  	 * So don't bother to print these on hash
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  427  	 */
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  428  	if (!radix_enabled())
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  429  		return;
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  430  	seq_printf(m, "DirectMap4k:    %8lu kB\n",
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  431  		   atomic_long_read(&direct_pages_count[MMU_PAGE_4K]) << 2);
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  432  	seq_printf(m, "DirectMap64k:    %8lu kB\n",
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  433  		   atomic_long_read(&direct_pages_count[MMU_PAGE_64K]) << 6);
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  434  	seq_printf(m, "DirectMap2M:    %8lu kB\n",
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  435  		   atomic_long_read(&direct_pages_count[MMU_PAGE_2M]) << 11);
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  436  	seq_printf(m, "DirectMap1G:    %8lu kB\n",
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  437  		   atomic_long_read(&direct_pages_count[MMU_PAGE_1G]) << 20);
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  438  }
+a2dc009afa9ae8 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2018-08-13  439  #endif /* CONFIG_PROC_FS */
+579b9239c1f386 arch/powerpc/mm/pgtable-book3s64.c Aneesh Kumar K.V 2019-01-23  440  
+
+:::::: The code at line 422 was first introduced by commit
+:::::: a2dc009afa9ae8b92305be7728676562a104cb40 powerpc/mm/book3s/radix: Add mapping statistics
+
+:::::: TO: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
