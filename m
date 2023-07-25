@@ -1,43 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643CB125D6;
-	Mon, 24 Jul 2023 23:34:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CC77C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 00:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690241666; x=1721777666;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lrk4sW9f//3CiUWwWf1RLHLuEPo9aqOtPKf2FTXXCYs=;
-  b=g/bdTLeUSQmi8viD1agZ+6CrDTAyGcjdPbOs8FjWvbpgxZbaWv69tGHB
-   e90uW6Xv0gWkn2NmFNhHKy2kTW/mH2VYqZHeeWC6ihY3onrj15XeBSOeX
-   yAP1dedNMJP5pjLAdj5yKjTBb0LQ2t6JdNk6O7v0LDf/lKXac6Mq+nVm7
-   Jmbx2j4mHW9pz3mpwhYdqrZbmaDXRcXO7vGpYLJsyz+gpuKIWikSguftB
-   BqLSupet74sKdXYdq6NS7OJyvhx3c+xecS4o25UJwZb5tXi/rXJ+P8ceH
-   NlMzZgrlKv1guJJoMjQFka1ps8dUmi2tQh7qKdnF1QGuY39q/umOWIjgU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="370243634"
+  t=1690246597; x=1721782597;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c5sJvZsbZZIUoFb6IT+CifXCE9H4rDLG6u44HNSVgdA=;
+  b=bb8HxP5C1jC9hW5Zovi0PAc8051VQ5l2KqTaeL5qXCRPdvuJgRSFpjjz
+   RpEQtnEGTd8oFTIpn3PoG9+KOuZSPhXptLLVvOjXPr+vcEY/1onD4YNgG
+   6dZWh3c11LxTwzYCCCP2SzSrffiHRsAVNgtKrhz1X8epEn+fQLG1bUsQU
+   QrcfVulBQNNiJcruVE9fu9FaR16jaJx7VXI1JlJbQTg3LAJgckBuCjn9o
+   Gs4e+cO5C4wgm4r1Mu/Eea4L30nJ7q9DfxDxS5CKPaAJlEQVRXsGW7bBw
+   RCSKzhCTnUKAY5qhK5ezVEoftaNJ9wO452AvCveo2gHnWKX8/L1e7X+Ni
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="367612878"
 X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="370243634"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 16:34:24 -0700
+   d="scan'208";a="367612878"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2023 17:56:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="729101194"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="849810993"
 X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; 
-   d="scan'208";a="729101194"
+   d="scan'208";a="849810993"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 24 Jul 2023 16:34:22 -0700
+  by orsmga004.jf.intel.com with ESMTP; 24 Jul 2023 17:56:34 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qO54I-000A6e-12;
-	Mon, 24 Jul 2023 23:34:22 +0000
-Date: Tue, 25 Jul 2023 07:33:48 +0800
+	id 1qO6Ln-000A96-2Q;
+	Tue, 25 Jul 2023 00:56:32 +0000
+Date: Tue, 25 Jul 2023 08:55:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guo Ren <guoren@linux.alibaba.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [csky-linux:sg2042-master-qspinlock-64ilp32_v3 16/42]
- arch/riscv/kernel/vdso.c:309:6: warning: variable 'ret' is used
- uninitialized whenever 'if' condition is false
-Message-ID: <202307250718.R40DjDII-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] net: Explicitly include correct DT includes
+Message-ID: <202307250840.v3G8w3bm-lkp@intel.com>
+References: <20230724212222.809909-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,82 +46,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230724212222.809909-1-robh@kernel.org>
 
-tree:   https://github.com/c-sky/csky-linux sg2042-master-qspinlock-64ilp32_v3
-head:   afe9d1bbe54feff432a2c25572304c06de598ec0
-commit: 1727f1271e2e6d73c7cc2737a4f22e872789d9ad [16/42] riscv: u64ilp32: Enable user space runtime switch
-config: riscv-randconfig-r011-20230724 (https://download.01.org/0day-ci/archive/20230725/202307250718.R40DjDII-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307250718.R40DjDII-lkp@intel.com/reproduce)
+Hi Rob,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+[also build test ERROR on linus/master v6.5-rc3]
+[cannot apply to net-next/main xilinx-xlnx/master next-20230724]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring/net-Explicitly-include-correct-DT-includes/20230725-052339
+base:   net/main
+patch link:    https://lore.kernel.org/r/20230724212222.809909-1-robh%40kernel.org
+patch subject: [PATCH v2] net: Explicitly include correct DT includes
+config: sh-randconfig-r001-20230724 (https://download.01.org/0day-ci/archive/20230725/202307250840.v3G8w3bm-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307250840.v3G8w3bm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307250718.R40DjDII-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307250840.v3G8w3bm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/riscv/kernel/vdso.c:309:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     309 |         if (test_thread_flag(TIF_32BIT) && !test_thread_flag(TIF_64ILP32))
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/thread_info.h:141:2: note: expanded from macro 'test_thread_flag'
-     141 |         test_ti_thread_flag(current_thread_info(), flag)
-         |         ^
-   arch/riscv/kernel/vdso.c:322:9: note: uninitialized use occurs here
-     322 |         return ret;
-         |                ^~~
-   arch/riscv/kernel/vdso.c:309:2: note: remove the 'if' if its condition is always true
-     309 |         if (test_thread_flag(TIF_32BIT) && !test_thread_flag(TIF_64ILP32))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     310 |                 ret = __setup_additional_pages(mm, bprm, uses_interp,
-         | ~~~~~~~~~~~~~~~~
->> arch/riscv/kernel/vdso.c:309:6: warning: variable 'ret' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
-     309 |         if (test_thread_flag(TIF_32BIT) && !test_thread_flag(TIF_64ILP32))
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/thread_info.h:141:2: note: expanded from macro 'test_thread_flag'
-     141 |         test_ti_thread_flag(current_thread_info(), flag)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/kernel/vdso.c:322:9: note: uninitialized use occurs here
-     322 |         return ret;
-         |                ^~~
-   arch/riscv/kernel/vdso.c:309:6: note: remove the '&&' if its condition is always true
-     309 |         if (test_thread_flag(TIF_32BIT) && !test_thread_flag(TIF_64ILP32))
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/thread_info.h:141:2: note: expanded from macro 'test_thread_flag'
-     141 |         test_ti_thread_flag(current_thread_info(), flag)
-         |         ^
-   arch/riscv/kernel/vdso.c:303:9: note: initialize the variable 'ret' to silence this warning
-     303 |         int ret;
-         |                ^
-         |                 = 0
-   2 warnings generated.
+>> drivers/net/ethernet/korina.c:1406:35: error: implicit declaration of function 'of_match_ptr' [-Werror=implicit-function-declaration]
+    1406 |                 .of_match_table = of_match_ptr(korina_match),
+         |                                   ^~~~~~~~~~~~
+>> drivers/net/ethernet/korina.c:1406:48: error: 'korina_match' undeclared here (not in a function); did you mean 'korina_ioctl'?
+    1406 |                 .of_match_table = of_match_ptr(korina_match),
+         |                                                ^~~~~~~~~~~~
+         |                                                korina_ioctl
+   cc1: some warnings being treated as errors
 
 
-vim +309 arch/riscv/kernel/vdso.c
+vim +/of_match_ptr +1406 drivers/net/ethernet/korina.c
 
-76d2a0493a17d4 Palmer Dabbelt 2017-07-10  297  
-3092eb45637573 Guo Ren        2022-04-05  298  #ifdef CONFIG_COMPAT
-3092eb45637573 Guo Ren        2022-04-05  299  int compat_arch_setup_additional_pages(struct linux_binprm *bprm,
-3092eb45637573 Guo Ren        2022-04-05  300  				       int uses_interp)
-3092eb45637573 Guo Ren        2022-04-05  301  {
-3092eb45637573 Guo Ren        2022-04-05  302  	struct mm_struct *mm = current->mm;
-3092eb45637573 Guo Ren        2022-04-05  303  	int ret;
-3092eb45637573 Guo Ren        2022-04-05  304  
-3092eb45637573 Guo Ren        2022-04-05  305  	if (mmap_write_lock_killable(mm))
-3092eb45637573 Guo Ren        2022-04-05  306  		return -EINTR;
-3092eb45637573 Guo Ren        2022-04-05  307  
-fea3d07fbad0af Guo Ren        2023-05-31  308  #ifdef CONFIG_VDSO32
-fea3d07fbad0af Guo Ren        2023-05-31 @309  	if (test_thread_flag(TIF_32BIT) && !test_thread_flag(TIF_64ILP32))
-fea3d07fbad0af Guo Ren        2023-05-31  310  		ret = __setup_additional_pages(mm, bprm, uses_interp,
-fea3d07fbad0af Guo Ren        2023-05-31  311  							&vdso32_info);
-fea3d07fbad0af Guo Ren        2023-05-31  312  #endif
-fea3d07fbad0af Guo Ren        2023-05-31  313  
-
-:::::: The code at line 309 was first introduced by commit
-:::::: fea3d07fbad0afbaa64bac1e849bdc298d4c06fb riscv: u64ilp32: Adjust vDSO kernel flow for 64ilp32 abi
-
-:::::: TO: Guo Ren <guoren@linux.alibaba.com>
-:::::: CC: Guo Ren <guoren@linux.alibaba.com>
+10b26f0781511d drivers/net/ethernet/korina.c Thomas Bogendoerfer 2021-04-19  1402  
+ef11291bcd5f96 drivers/net/korina.c          Florian Fainelli    2008-03-19  1403  static struct platform_driver korina_driver = {
+10b26f0781511d drivers/net/ethernet/korina.c Thomas Bogendoerfer 2021-04-19  1404  	.driver = {
+10b26f0781511d drivers/net/ethernet/korina.c Thomas Bogendoerfer 2021-04-19  1405  		.name = "korina",
+10b26f0781511d drivers/net/ethernet/korina.c Thomas Bogendoerfer 2021-04-19 @1406  		.of_match_table = of_match_ptr(korina_match),
+10b26f0781511d drivers/net/ethernet/korina.c Thomas Bogendoerfer 2021-04-19  1407  	},
+ef11291bcd5f96 drivers/net/korina.c          Florian Fainelli    2008-03-19  1408  	.probe = korina_probe,
+ef11291bcd5f96 drivers/net/korina.c          Florian Fainelli    2008-03-19  1409  	.remove = korina_remove,
+ef11291bcd5f96 drivers/net/korina.c          Florian Fainelli    2008-03-19  1410  };
+ef11291bcd5f96 drivers/net/korina.c          Florian Fainelli    2008-03-19  1411  
 
 -- 
 0-DAY CI Kernel Test Service
