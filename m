@@ -1,43 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088F314260
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 08:18:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23F37486
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 08:50:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690273134; x=1721809134;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y/WJ300QRN66iLInKSOyrWPMs3HyjIyiI2y30nzRpMs=;
-  b=KmFc1RgHT37sZ4VMX1pdCfizGWG+AaciGAULI7W9cBCPFuMObG2ivgML
-   nfkT/OXc46mSi9shM+uapHN4VdKPJ4NxvqPTJM0i/sIyHAFDLqx7QXcbJ
-   nCg3VZC1o75mB4gh3u/i4xpGRNMqTONLD8lXSXp1BMD7LflSqhW+pxZOV
-   hfifMjKCgztzTpGtowPIQGOeXckMuP7UAbiauWqlNObdgviVMVPQeIrs9
-   WqAIu4JdxhOH7IgXyDgoi0EI4qpr1yAlacruHImblehuFC2C9Z5Oq396B
-   5Fgk0XvrF4Yvzh/qpHU7akh062hERTfpQFSeX+4SDKBNEux1KhRmxq75F
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="367677130"
+  t=1690275050; x=1721811050;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3Iv16GDUViWEPCVHJUTS01sgM1AOytFA075A+fLiZ+s=;
+  b=jf0avcDgofgMfaD6WIpC+1xrtrSGiTsPav+kGFR6CQD0Qc/AMcPDwsb4
+   6yn9JNFXRp+qe2ZgkHV25rnk0S/lVNbsuhqH7nruHKCa90m9O0E3xGtyb
+   5zbYSU6QU5pXIvyyYII2lt38V0UWX1/IaTjmRx0g312nspAZ9iBFnTWyN
+   4Z1d81XEt0HPiTaEW5nFSgwQi/KMB3jWIWuGL23Vy51skuRTdZSBunANc
+   ySUhvnn6iqr79koeeFR7IMJwN9mg9198O+H2f81zJodTjH99dn6QKM8Un
+   L48mw/cxcMGgcpaonY7A8+tZh83LjPfcKl7glxyQVMknPUgXRuD9RHYEC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="365119657"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="367677130"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 01:18:48 -0700
+   d="scan'208";a="365119657"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 01:50:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="839780646"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="676155075"
 X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="839780646"
+   d="scan'208";a="676155075"
 Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2023 01:18:47 -0700
+  by orsmga003.jf.intel.com with ESMTP; 25 Jul 2023 01:50:48 -0700
 Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qODFm-000ASR-26;
-	Tue, 25 Jul 2023 08:18:46 +0000
-Date: Tue, 25 Jul 2023 16:17:51 +0800
+	id 1qODkl-000ATE-0s;
+	Tue, 25 Jul 2023 08:50:47 +0000
+Date: Tue, 25 Jul 2023 16:49:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
+To: Elliot Berman <quic_eberman@quicinc.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sudeep-holla:ffa_notify 10/16]
- drivers/firmware/arm_ffa/driver.c:986:35: sparse: sparse: incorrect type in
- argument 4 (different address spaces)
-Message-ID: <202307251655.AnAfpBZC-lkp@intel.com>
+Subject: Re: [RFC PATCH 4/4] power: reset: Implement a PSCI SYSTEM_RESET2
+ reboot-mode driver
+Message-ID: <202307251602.zQABbJGF-lkp@intel.com>
+References: <20230724223057.1208122-5-quic_eberman@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,77 +47,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230724223057.1208122-5-quic_eberman@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git ffa_notify
-head:   50176e212a1e52a7fc37c2ea8f7e0d5937c62955
-commit: bf078b6d8dd9366c0033b6f337a751a49b00d15b [10/16] firmware: arm_ffa: Initial support for Scheduler Receiver Interrupt
-config: arm64-randconfig-r083-20230723 (https://download.01.org/0day-ci/archive/20230725/202307251655.AnAfpBZC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251655.AnAfpBZC-lkp@intel.com/reproduce)
+Hi Elliot,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 6eaae198076080886b9e7d57f4ae06fa782f90ef]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Elliot-Berman/power-reset-reboot-mode-Allow-magic-to-be-0/20230725-063351
+base:   6eaae198076080886b9e7d57f4ae06fa782f90ef
+patch link:    https://lore.kernel.org/r/20230724223057.1208122-5-quic_eberman%40quicinc.com
+patch subject: [RFC PATCH 4/4] power: reset: Implement a PSCI SYSTEM_RESET2 reboot-mode driver
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230725/202307251602.zQABbJGF-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251602.zQABbJGF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307251655.AnAfpBZC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307251602.zQABbJGF-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/arm_ffa/driver.c:986:35: sparse: sparse: incorrect type in argument 4 (different address spaces) @@     expected void [noderef] __percpu *percpu_dev_id @@     got int * @@
-   drivers/firmware/arm_ffa/driver.c:986:35: sparse:     expected void [noderef] __percpu *percpu_dev_id
-   drivers/firmware/arm_ffa/driver.c:986:35: sparse:     got int *
+All errors (new ones prefixed by >>):
 
-vim +986 drivers/firmware/arm_ffa/driver.c
+>> drivers/firmware/psci/psci.c:25:10: fatal error: asm/cpuidle.h: No such file or directory
+      25 | #include <asm/cpuidle.h>
+         |          ^~~~~~~~~~~~~~~
+   compilation terminated.
+--
+   drivers/firmware/smccc/smccc.c: In function 'arm_smccc_version_init':
+>> drivers/firmware/smccc/smccc.c:30:32: error: implicit declaration of function 'smccc_probe_trng' [-Werror=implicit-function-declaration]
+      30 |         smccc_trng_available = smccc_probe_trng();
+         |                                ^~~~~~~~~~~~~~~~
+   In file included from drivers/firmware/smccc/smccc.c:10:
+   include/linux/arm-smccc.h:536:49: error: expected string literal before 'SMCCC_HVC_INST'
+     536 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:499:30: note: in definition of macro '__arm_smccc_1_1'
+     499 |                              inst "\n" :                                \
+         |                              ^~~~
+   include/linux/arm-smccc.h:570:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
+     570 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/smccc/smccc.c:37:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+      37 |                 arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:438:29: warning: unused variable 'arg1' [-Wunused-variable]
+     438 |         register typeof(a1) arg1 asm("r1") = __a1
+         |                             ^~~~
+   include/linux/arm-smccc.h:478:37: note: in expansion of macro '__declare_arg_1'
+     478 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:479:37: note: in expansion of macro '___declare_args'
+     479 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:497:17: note: in expansion of macro '__declare_args'
+     497 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:536:33: note: in expansion of macro '__arm_smccc_1_1'
+     536 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:570:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
+     570 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/smccc/smccc.c:37:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+      37 |                 arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:437:32: warning: unused variable 'arg0' [-Wunused-variable]
+     437 |         register unsigned long arg0 asm("r0") = (u32)a0;                        \
+         |                                ^~~~
+   include/linux/arm-smccc.h:478:37: note: in expansion of macro '__declare_arg_1'
+     478 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:479:37: note: in expansion of macro '___declare_args'
+     479 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:497:17: note: in expansion of macro '__declare_args'
+     497 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:536:33: note: in expansion of macro '__arm_smccc_1_1'
+     536 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:570:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
+     570 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/smccc/smccc.c:37:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+      37 |                 arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:520:49: error: expected string literal before 'SMCCC_SMC_INST'
+     520 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+         |                                                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:499:30: note: in definition of macro '__arm_smccc_1_1'
+     499 |                              inst "\n" :                                \
+         |                              ^~~~
+   include/linux/arm-smccc.h:573:25: note: in expansion of macro 'arm_smccc_1_1_smc'
+     573 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/smccc/smccc.c:37:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+      37 |                 arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:438:29: warning: unused variable 'arg1' [-Wunused-variable]
+     438 |         register typeof(a1) arg1 asm("r1") = __a1
+         |                             ^~~~
+   include/linux/arm-smccc.h:478:37: note: in expansion of macro '__declare_arg_1'
+     478 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:479:37: note: in expansion of macro '___declare_args'
+     479 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:497:17: note: in expansion of macro '__declare_args'
+     497 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:520:33: note: in expansion of macro '__arm_smccc_1_1'
+     520 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:573:25: note: in expansion of macro 'arm_smccc_1_1_smc'
+     573 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/smccc/smccc.c:37:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
+      37 |                 arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:437:32: warning: unused variable 'arg0' [-Wunused-variable]
+     437 |         register unsigned long arg0 asm("r0") = (u32)a0;                        \
+         |                                ^~~~
+   include/linux/arm-smccc.h:478:37: note: in expansion of macro '__declare_arg_1'
+     478 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:479:37: note: in expansion of macro '___declare_args'
+     479 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~
+   include/linux/arm-smccc.h:497:17: note: in expansion of macro '__declare_args'
+--
+>> drivers/firmware/smccc/kvm_guest.c:11:10: fatal error: asm/hypervisor.h: No such file or directory
+      11 | #include <asm/hypervisor.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-   949	
-   950	static int ffa_setup_notifications(void)
-   951	{
-   952		int sr_intid;
-   953		int irq;
-   954		int ret;
-   955		struct of_phandle_args oirq = {};
-   956		struct device_node *gic;
-   957	
-   958		/* Call FFA Features to get ID to be used for Scheduler Receiver */
-   959		ret = ffa_features(FFA_FEAT_SCHED_RECV_INT, 0, &sr_intid, NULL);
-   960		if (ret < 0) {
-   961			if (ret != -EOPNOTSUPP)
-   962				pr_err("Failed to retrieve scheduler Rx interupt\n");
-   963			return ret;
-   964		}
-   965	
-   966		/* Create Mappings for IRQ */
-   967		gic = of_find_compatible_node(NULL, NULL, "arm,gic-v3");
-   968		if (!gic)
-   969			return -ENXIO;
-   970	
-   971		oirq.np = gic;
-   972		oirq.args_count = 1;
-   973		oirq.args[0] = sr_intid;
-   974		irq = irq_create_of_mapping(&oirq);
-   975		of_node_put(gic);
-   976	
-   977		if (!irq) {
-   978			pr_err("Failed to create mapping!\n");
-   979			return -ENODATA;
-   980		}
-   981	
-   982		/* Store schedule receiver interrupt ID globally*/
-   983		ffa_sched_recv_int_id = irq;
-   984	
-   985		ret = request_percpu_irq(ffa_sched_recv_int_id, irq_handler, "ARM-FFA",
- > 986					 &sr_intid);
-   987	
-   988		if (ret != 0) {
-   989			pr_err("Error registering notification IRQ %d: %d\n",
-   990			       sr_intid, ret);
-   991			return ENODATA;
-   992		}
-   993	
-   994		/* Enable handler on all cpus. */
-   995		on_each_cpu(__enable_schedule_receiver_interrupt, NULL, 1);
-   996	
-   997		return 0;
-   998	}
-   999	
+
+vim +25 drivers/firmware/psci/psci.c
+
+bff60792f994a8 drivers/firmware/psci.c      Mark Rutland      2015-07-31  24  
+8b6f2499ac45d5 drivers/firmware/psci.c      Lorenzo Pieralisi 2016-02-01 @25  #include <asm/cpuidle.h>
+bff60792f994a8 drivers/firmware/psci.c      Mark Rutland      2015-07-31  26  #include <asm/cputype.h>
+6e085e0ac9cf16 drivers/firmware/psci/psci.c Will Deacon       2020-12-09  27  #include <asm/hypervisor.h>
+bff60792f994a8 drivers/firmware/psci.c      Mark Rutland      2015-07-31  28  #include <asm/system_misc.h>
+bff60792f994a8 drivers/firmware/psci.c      Mark Rutland      2015-07-31  29  #include <asm/smp_plat.h>
+faf7ec4a92c023 drivers/firmware/psci.c      Sudeep Holla      2015-06-18  30  #include <asm/suspend.h>
+bff60792f994a8 drivers/firmware/psci.c      Mark Rutland      2015-07-31  31  
 
 -- 
 0-DAY CI Kernel Test Service
