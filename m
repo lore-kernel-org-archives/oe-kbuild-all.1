@@ -1,45 +1,51 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6C01ED51
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 10:33:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690281220; x=1721817220;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZEPSwQu940UNHDbngEHnM7Am5JyrRVpayKrmBmTFnm8=;
-  b=bo6xIwIUyh6dn7yicZ0rl/6EyI6lJmoTwqUfYjmW1Fdxw+f24sQyIKg4
-   xvrO2zw6UF3os00b6ZMLD05FS8oTA5GD7a0cziY9WxVOzZ6EhnM24/hsb
-   9SPZC7udqVB7AdGcesqwgI9opYp8VhD1gaMTwIoAxnIgRdu3B+jTrV1oy
-   xAHArNVRLk+SWeR9cnAff0TobuFer4OW58XGUtl4W4wH7CxSHfnirqkF5
-   INe4DxGvUhgZlO39Oxf7EQlqWxzWCnRbxcLAPRpNzJN1wR9LvMJiC6eWd
-   5jMoLnEVta9YeSbA6YRMK41gRPm0rkrhY0SttOKjutO4w836GfWYQxPLf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="352581853"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="352581853"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 03:33:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="791328008"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="791328008"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 25 Jul 2023 03:33:34 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qOFMD-000AXa-1a;
-	Tue, 25 Jul 2023 10:33:33 +0000
-Date: Tue, 25 Jul 2023 18:33:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tom Rix <trix@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: arch/powerpc/platforms/cell/spu_base.c:229: warning: expecting
- prototype for Given an array of @nr_slbs SLB entries, @slbs, return non().
- Prototype was for __slb_present() instead
-Message-ID: <202307251857.yclzmxrO-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8601ED45
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 11:12:02 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso54383105e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 04:12:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690283521; x=1690888321;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=E2TkVQOO2dvDhRwA4pB7+VODDjmGBCoGSf6JgGl78WU=;
+        b=saKhX229943c1HQwfP6KJYHV7g6+MTIc8bdP4Wx4fmHKr4EmpNPAybLbBoQKej95O4
+         1kRCDel1n297Sia30oN7JdiDZjoehPJuRgt8yaZtFkMskzThd3+JVVvDsZPpAdVsE2v9
+         IYXNDc8ujGtrKqu2Zx3hvL7dLeFfzuM9OvlyCN6GkzLSPp9uY9Z6+4AMMCx/gWiQCzWf
+         8iN9qU3YcAj5aKPOI6GXtCPJkfzN29ATrI4GY4xummyC6WAdCDZsKDxo69nJMhaKGkGW
+         07TqHMg/4yjexpWh/dnYoskDiQOPVkmQNTdA6P+oPml981C35TE7O0WVjyRP8Ft1o5cm
+         6VMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690283521; x=1690888321;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E2TkVQOO2dvDhRwA4pB7+VODDjmGBCoGSf6JgGl78WU=;
+        b=mAJMJv5R8y8hsENh+s0YITu1Ryt9FWVgnyR8/GrAB++Vb/yXHBoFvilxUzX0ooBfUx
+         is8ZgBV8Yi/jM6wV0TBzJBcnWuyyIO8954NCEKXp1lbWWxFytc4c28n6oPQZ527OOUS/
+         nlbvSqLBf0oD3WIUQv1LVOuDz4qNUkCc/DaupZAu5bgsB9v5cWvgpMKuGyCd9FPn+90l
+         yRCKm7MEfeWWy/9XfSDGFR6bomeWdHhnPXReZJ8pfIYzywfkq45j2Ysu4ygHVk6P3btu
+         IQymiHfU4Ito1kK2qW4ggD55li67vZZ/h3BhFzNilEDxJEqtyih8kyQ0ySYNbN4oB0TS
+         C9Mg==
+X-Gm-Message-State: ABy/qLYiF74MhFBCMrVXjJpsPvS8cQJlTI+HsI9Y/e/6aG5ol5lIZHYP
+	3oq7BKe0SPovTkO9NniFBG2YPA==
+X-Google-Smtp-Source: APBJJlFtYHDH6CTtEO16m5ro5wjfYDfJjQbh+xQfQtEkhRfEEwHBAFBvVC5XQLWJtskAn75aUWjHLw==
+X-Received: by 2002:a05:600c:234a:b0:3fd:2a34:e867 with SMTP id 10-20020a05600c234a00b003fd2a34e867mr8154570wmq.25.1690283521115;
+        Tue, 25 Jul 2023 04:12:01 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t10-20020a1c770a000000b003faef96ee78sm15730467wmi.33.2023.07.25.04.12.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 04:12:00 -0700 (PDT)
+Date: Tue, 25 Jul 2023 14:11:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Wen Gong <quic_wgong@quicinc.com>,
+	johannes@sipsolutions.net, ath12k@lists.infradead.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-wireless@vger.kernel.org, quic_wgong@quicinc.com
+Subject: Re: [PATCH] wifi: mac80211: avoid buffer overflow by adding clear
+ data of VHT Tx power envelope
+Message-ID: <311e08c7-c553-4722-8dd1-1556e8063479@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,95 +54,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230721055851.20525-1-quic_wgong@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0b5547c51827e053cc754db47d3ec3e6c2c451d2
-commit: da5311a4b852eaf2c0feac8b28884a8d8a801dfc powerpc/spufs: remove unneeded if-checks
-date:   2 months ago
-config: powerpc-cell_defconfig (https://download.01.org/0day-ci/archive/20230725/202307251857.yclzmxrO-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251857.yclzmxrO-lkp@intel.com/reproduce)
+Hi Wen,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wen-Gong/wifi-mac80211-avoid-buffer-overflow-by-adding-clear-data-of-VHT-Tx-power-envelope/20230721-140122
+base:   b21fe5be53eb873c02e7479372726c8aeed171e3
+patch link:    https://lore.kernel.org/r/20230721055851.20525-1-quic_wgong%40quicinc.com
+patch subject: [PATCH] wifi: mac80211: avoid buffer overflow by adding clear data of VHT Tx power envelope
+config: i386-randconfig-m021-20230723 (https://download.01.org/0day-ci/archive/20230725/202307251807.z04UOfqH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251807.z04UOfqH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307251857.yclzmxrO-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307251807.z04UOfqH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+net/mac80211/mlme.c:4818 ieee80211_prep_channel() error: we previously assumed 'link' could be null (see line 4792)
+net/mac80211/mlme.c:4890 ieee80211_prep_channel() warn: variable dereferenced before check 'link' (see line 4818)
 
-   arch/powerpc/platforms/cell/spu_base.c:229: warning: Function parameter or member 'slbs' not described in '__slb_present'
-   arch/powerpc/platforms/cell/spu_base.c:229: warning: Function parameter or member 'nr_slbs' not described in '__slb_present'
-   arch/powerpc/platforms/cell/spu_base.c:229: warning: Function parameter or member 'new_addr' not described in '__slb_present'
->> arch/powerpc/platforms/cell/spu_base.c:229: warning: expecting prototype for Given an array of @nr_slbs SLB entries, @slbs, return non(). Prototype was for __slb_present() instead
->> arch/powerpc/platforms/cell/spu_base.c:241: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Setup the SPU kernel SLBs, in preparation for a context save/restore. We
+Old smatch warnings:
+net/mac80211/mlme.c:7073 ieee80211_setup_assoc_link() warn: variable dereferenced before check 'elem' (see line 7071)
 
+vim +/link +4818 net/mac80211/mlme.c
 
-vim +229 arch/powerpc/platforms/cell/spu_base.c
+7781f0d81c7a7e6 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4789  	if (!(*conn_flags & IEEE80211_CONN_DISABLE_HE)) {
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4790  		he_oper = elems->he_operation;
+d524215f6cad245 net/mac80211/mlme.c          Felix Fietkau     2010-01-08  4791  
+7781f0d81c7a7e6 net/mac80211/mlme.c          Johannes Berg     2022-07-12 @4792  		if (link && is_6ghz) {
 
-58bd403c3c79dd Jeremy Kerr      2007-12-05  222  
-684bd614015188 Jeremy Kerr      2007-12-05  223  /**
-684bd614015188 Jeremy Kerr      2007-12-05  224   * Given an array of @nr_slbs SLB entries, @slbs, return non-zero if the
-684bd614015188 Jeremy Kerr      2007-12-05  225   * address @new_addr is present.
-684bd614015188 Jeremy Kerr      2007-12-05  226   */
-73d16a6e0e5199 Ian Munsie       2014-10-08  227  static inline int __slb_present(struct copro_slb *slbs, int nr_slbs,
-684bd614015188 Jeremy Kerr      2007-12-05  228  		void *new_addr)
-684bd614015188 Jeremy Kerr      2007-12-05 @229  {
-684bd614015188 Jeremy Kerr      2007-12-05  230  	unsigned long ea = (unsigned long)new_addr;
-684bd614015188 Jeremy Kerr      2007-12-05  231  	int i;
-684bd614015188 Jeremy Kerr      2007-12-05  232  
-684bd614015188 Jeremy Kerr      2007-12-05  233  	for (i = 0; i < nr_slbs; i++)
-684bd614015188 Jeremy Kerr      2007-12-05  234  		if (!((slbs[i].esid ^ ea) & ESID_MASK))
-684bd614015188 Jeremy Kerr      2007-12-05  235  			return 1;
-684bd614015188 Jeremy Kerr      2007-12-05  236  
-684bd614015188 Jeremy Kerr      2007-12-05  237  	return 0;
-684bd614015188 Jeremy Kerr      2007-12-05  238  }
-684bd614015188 Jeremy Kerr      2007-12-05  239  
-58bd403c3c79dd Jeremy Kerr      2007-12-05  240  /**
-58bd403c3c79dd Jeremy Kerr      2007-12-05 @241   * Setup the SPU kernel SLBs, in preparation for a context save/restore. We
-58bd403c3c79dd Jeremy Kerr      2007-12-05  242   * need to map both the context save area, and the save/restore code.
-684bd614015188 Jeremy Kerr      2007-12-05  243   *
-027dfac694fc27 Michael Ellerman 2016-06-01  244   * Because the lscsa and code may cross segment boundaries, we check to see
-684bd614015188 Jeremy Kerr      2007-12-05  245   * if mappings are required for the start and end of each range. We currently
-684bd614015188 Jeremy Kerr      2007-12-05  246   * assume that the mappings are smaller that one segment - if not, something
-684bd614015188 Jeremy Kerr      2007-12-05  247   * is seriously wrong.
-58bd403c3c79dd Jeremy Kerr      2007-12-05  248   */
-684bd614015188 Jeremy Kerr      2007-12-05  249  void spu_setup_kernel_slbs(struct spu *spu, struct spu_lscsa *lscsa,
-684bd614015188 Jeremy Kerr      2007-12-05  250  		void *code, int code_size)
-58bd403c3c79dd Jeremy Kerr      2007-12-05  251  {
-73d16a6e0e5199 Ian Munsie       2014-10-08  252  	struct copro_slb slbs[4];
-684bd614015188 Jeremy Kerr      2007-12-05  253  	int i, nr_slbs = 0;
-684bd614015188 Jeremy Kerr      2007-12-05  254  	/* start and end addresses of both mappings */
-684bd614015188 Jeremy Kerr      2007-12-05  255  	void *addrs[] = {
-684bd614015188 Jeremy Kerr      2007-12-05  256  		lscsa, (void *)lscsa + sizeof(*lscsa) - 1,
-684bd614015188 Jeremy Kerr      2007-12-05  257  		code, code + code_size - 1
-684bd614015188 Jeremy Kerr      2007-12-05  258  	};
-684bd614015188 Jeremy Kerr      2007-12-05  259  
-684bd614015188 Jeremy Kerr      2007-12-05  260  	/* check the set of addresses, and create a new entry in the slbs array
-684bd614015188 Jeremy Kerr      2007-12-05  261  	 * if there isn't already a SLB for that address */
-684bd614015188 Jeremy Kerr      2007-12-05  262  	for (i = 0; i < ARRAY_SIZE(addrs); i++) {
-684bd614015188 Jeremy Kerr      2007-12-05  263  		if (__slb_present(slbs, nr_slbs, addrs[i]))
-684bd614015188 Jeremy Kerr      2007-12-05  264  			continue;
-58bd403c3c79dd Jeremy Kerr      2007-12-05  265  
-684bd614015188 Jeremy Kerr      2007-12-05  266  		__spu_kernel_slb(addrs[i], &slbs[nr_slbs]);
-684bd614015188 Jeremy Kerr      2007-12-05  267  		nr_slbs++;
-684bd614015188 Jeremy Kerr      2007-12-05  268  	}
-58bd403c3c79dd Jeremy Kerr      2007-12-05  269  
-c92a1acb675058 Arnd Bergmann    2008-02-28  270  	spin_lock_irq(&spu->register_lock);
-684bd614015188 Jeremy Kerr      2007-12-05  271  	/* Add the set of SLBs */
-684bd614015188 Jeremy Kerr      2007-12-05  272  	for (i = 0; i < nr_slbs; i++)
-684bd614015188 Jeremy Kerr      2007-12-05  273  		spu_load_slb(spu, i, &slbs[i]);
-c92a1acb675058 Arnd Bergmann    2008-02-28  274  	spin_unlock_irq(&spu->register_lock);
-58bd403c3c79dd Jeremy Kerr      2007-12-05  275  }
-58bd403c3c79dd Jeremy Kerr      2007-12-05  276  EXPORT_SYMBOL_GPL(spu_setup_kernel_slbs);
-58bd403c3c79dd Jeremy Kerr      2007-12-05  277  
+Check for NULL
 
-:::::: The code at line 229 was first introduced by commit
-:::::: 684bd614015188561197342fd336292e9e2ce196 [POWERPC] cell: handle SPE kernel mappings that cross segment boundaries
+4df17235d03fd79 net/mac80211/mlme.c          Wen Gong          2023-07-21  4793  			struct ieee80211_bss_conf *bss_conf = link->conf;;
+a607268a0d5532d net/mac80211/ieee80211_sta.c Bruno Randolf     2008-02-18  4794  
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4795  			if (elems->pwr_constr_elem)
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4796  				bss_conf->pwr_reduction = *elems->pwr_constr_elem;
+66e67e418908442 net/mac80211/mlme.c          Johannes Berg     2012-01-20  4797  
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4798  			BUILD_BUG_ON(ARRAY_SIZE(bss_conf->tx_pwr_env) !=
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4799  				     ARRAY_SIZE(elems->tx_pwr_env));
+66e67e418908442 net/mac80211/mlme.c          Johannes Berg     2012-01-20  4800  
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4801  			for (i = 0; i < elems->tx_pwr_env_num; i++) {
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4802  				if (elems->tx_pwr_env_len[i] >
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4803  				    sizeof(bss_conf->tx_pwr_env[j]))
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4804  					continue;
+1d00ce807efaa0e net/mac80211/mlme.c          Thomas Pedersen   2020-09-21  4805  
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4806  				memcpy(&bss_conf->tx_pwr_env[j], elems->tx_pwr_env[i],
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4807  				       elems->tx_pwr_env_len[i]);
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4808  				j++;
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4809  			}
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4810  		}
+66e67e418908442 net/mac80211/mlme.c          Johannes Berg     2012-01-20  4811  
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4812  		if (!ieee80211_verify_peer_he_mcs_support(sdata, ies, he_oper) ||
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4813  		    !ieee80211_verify_sta_he_mcs_support(sdata, sband, he_oper))
+7781f0d81c7a7e6 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4814  			*conn_flags |= IEEE80211_CONN_DISABLE_HE |
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4815  				       IEEE80211_CONN_DISABLE_EHT;
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4816  	}
+1d00ce807efaa0e net/mac80211/mlme.c          Thomas Pedersen   2020-09-21  4817  
+4df17235d03fd79 net/mac80211/mlme.c          Wen Gong          2023-07-21 @4818  	link->conf->tx_pwr_env_num = j;
+                                                                                        ^^^^^^^^^^
+Unchecked dereference
 
-:::::: TO: Jeremy Kerr <jk@ozlabs.org>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+4df17235d03fd79 net/mac80211/mlme.c          Wen Gong          2023-07-21  4819  
+66e67e418908442 net/mac80211/mlme.c          Johannes Berg     2012-01-20  4820  	/*
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4821  	 * EHT requires HE to be supported as well. Specifically for 6 GHz
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4822  	 * channels, the operation channel information can only be deduced from
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4823  	 * both the 6 GHz operation information (from the HE operation IE) and
+61513162aa2d6c1 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4824  	 * EHT operation.
+66e67e418908442 net/mac80211/mlme.c          Johannes Berg     2012-01-20  4825  	 */
+7781f0d81c7a7e6 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4826  	if (!(*conn_flags &
+
+[ snip ]
+
+1ad22fb5bb53ce6 net/mac80211/mlme.c          Tosoni            2018-03-14  4879  
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4880  	*conn_flags |=
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4881  		ieee80211_determine_chantype(sdata, link, *conn_flags,
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4882  					     sband,
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4883  					     cbss->channel,
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4884  					     bss->vht_cap_info,
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4885  					     ht_oper, vht_oper,
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4886  					     he_oper, eht_oper,
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4887  					     s1g_oper,
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4888  					     &chandef, false);
+78ac51f81532c1e net/mac80211/mlme.c          Sara Sharon       2019-01-16  4889  
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12 @4890  	if (link)
+
+More checks for NULL
+
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4891  		link->needed_rx_chains =
+6911458dc4283a7 net/mac80211/mlme.c          Johannes Berg     2022-07-12  4892  			min(ieee80211_max_rx_chains(link, cbss),
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
