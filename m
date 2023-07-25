@@ -1,100 +1,171 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E4D8F7C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 07:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690271265; x=1721807265;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+UEcqAzmziRcJLWTjRpkjJaUBAW6Z2hsgxQczXElrR4=;
-  b=W71cXvdiN4jZ7SfqkJ/j05DyPpPeVIF/zXSiQOSrqTJgU0sjohiBu7bP
-   tqRtrZTD9fbmmZccmqMxmNH/d4aGH6+4WXXl1KdQ1CWp+V+SVktsLxsDr
-   d3fuVmxn7i8ReaZNuF9iUIxP/ysQqfeaJerPVRkgTu7hDx0vq1qXXMK5p
-   /Hq3zQEB+uySqDr/QYyBNCHAZINxxoNzyoDh4AohkD8yIIf28oPa1TrCJ
-   kjPn9hh1HDYJAnYoj5oVuIO/RxJf4qof9u7mAaLDzRrE/JW5kDr7iVQkA
-   dniaVTLikzKbEh3iVnT1mpwSSx9RQTbCSH2pt0KHMJUz32ZnZVWiaIzz9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="347254848"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="347254848"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 00:47:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="796053862"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="796053862"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 25 Jul 2023 00:47:41 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qOClg-000AR4-1L;
-	Tue, 25 Jul 2023 07:47:40 +0000
-Date: Tue, 25 Jul 2023 15:46:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Feiyang Chen <chenfeiyang@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: [linux-next:master 2984/4083]
- ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/config/loongarch/loongarch-opts.h:31:10:
- fatal error: loongarch-def.h: No such file or directory
-Message-ID: <202307251531.p8ZLFTMZ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468FB13AD5;
+	Tue, 25 Jul 2023 08:04:09 +0000 (UTC)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1bb954414e8so343995fac.0;
+        Tue, 25 Jul 2023 01:04:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690272248; x=1690877048;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oQ04m2mgXyxdxnuWbV0zRomtSyCFjCa11c8E/6QMRLA=;
+        b=Glp75s3Qru9qtU/75zTwGijITmJdiNviTxxVSuUeFpc+43Ng4UxWFGSy+ib2h22X6R
+         9ELZ7yZnJR8lShxo3JGhqoies4mVNRrQfi4qht8WlTA6PJldwk4ahJ7oZf+jap3TjGYt
+         eIpFDab5F/8AYrQmU7XJdneJoyzXWx0OmDAdcPrM+pxsEXIJzyRrmgE83wMo3PhysTsy
+         YdACaJ2+5rSdI0D4lFgdFFrd148At9k9Yr6RjbwOFzkh04CCdo6lhTqr6QVr0egHJcBF
+         wr6HpQuA2oxxCJzc2k/S2KiBIqAW7aJtR0TeEksG3ftg7GlI2cWp1ECJ2CqpL61nObPI
+         uG1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690272248; x=1690877048;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oQ04m2mgXyxdxnuWbV0zRomtSyCFjCa11c8E/6QMRLA=;
+        b=aCh09jbmbjmx/7IhZ82jObpaIQcDGrnIZdifDw/FOdjH0vReo8moKpMgaDK7J1Owwh
+         pzpvIzlY5FIHP3d13GGoRGofVXfQ89ZU5TPiFcKezL+9GdxbiZNBtzqT7kPcNxFF1PPM
+         /aaF00SpYad2CGONF92CW/OYrnsUIfDtu9bxG5MRXk3QAQ29v9qVqc2Nrlwhi1sWVOB6
+         0po8Npa1mENrtoXnAE59yXQCdrumpg7H9RfuX1KHcMCM7LVgIA5cSxjayUQGaWqovsxC
+         IwjMDhQ9mrSzdZi19XVXwngvmKA6ZR9AEdnq/zOyewWXlSh+e1o0vmHlpLgnALGoMxHS
+         9EEw==
+X-Gm-Message-State: ABy/qLboEGAthNQMCcMYKF6XeUUL59J7jdJMcXX6IPXhLqstCmIL5Vea
+	haTPfxd2zJ2kyDb7j913bzyOFIa5dVFdsAalyA4=
+X-Google-Smtp-Source: APBJJlEE32iRJIl1HaETRlOMGBsoQJRQDz1yuBtZ3gl0fAODhR06dO0WeJzLKEkgbjEXwu0nkMJ66KlhtNzz4iQ/flY=
+X-Received: by 2002:a05:6870:9a05:b0:1ba:1998:1d23 with SMTP id
+ fo5-20020a0568709a0500b001ba19981d23mr13834004oab.35.1690272247963; Tue, 25
+ Jul 2023 01:04:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202307242310.CdOnd2py-lkp@intel.com>
+In-Reply-To: <202307242310.CdOnd2py-lkp@intel.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Tue, 25 Jul 2023 10:03:56 +0200
+Message-ID: <CAMhs-H8Zz_8w7Lcq5f=mEiucjwx+TAfBbVZ12PE1a47ioxTu2A@mail.gmail.com>
+Subject: Re: drivers/clk/ralink/clk-mtmips.c:821:34: warning: unused variable 'mtmips_of_match'
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1e25dd7772483f477f79986d956028e9f47f990a
-commit: f3a7aca1c0abf2a492edcbf332f69468f49672d6 [2984/4083] LoongArch: Allow building with kcov coverage
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230725/202307251531.p8ZLFTMZ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251531.p8ZLFTMZ-lkp@intel.com/reproduce)
+Hi!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307251531.p8ZLFTMZ-lkp@intel.com/
+On Mon, Jul 24, 2023 at 5:21=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   6eaae198076080886b9e7d57f4ae06fa782f90ef
+> commit: 6f3b15586eef736831abe6a14f2a6906bc0dc074 clk: ralink: add clock a=
+nd reset driver for MTMIPS SoCs
+> date:   5 weeks ago
+> config: x86_64-buildonly-randconfig-r003-20230723 (https://download.01.or=
+g/0day-ci/archive/20230724/202307242310.CdOnd2py-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git =
+8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce: (https://download.01.org/0day-ci/archive/20230724/202307242310=
+.CdOnd2py-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307242310.CdOnd2py-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    drivers/clk/ralink/clk-mtmips.c:309:9: warning: variable 'ret' is unin=
+itialized when used here [-Wuninitialized]
+>            return ret;
+>                   ^~~
+>    drivers/clk/ralink/clk-mtmips.c:285:9: note: initialize the variable '=
+ret' to silence this warning
+>            int ret, i;
+>                   ^
+>                    =3D 0
+>    drivers/clk/ralink/clk-mtmips.c:359:9: warning: variable 'ret' is unin=
+itialized when used here [-Wuninitialized]
+>            return ret;
+>                   ^~~
+>    drivers/clk/ralink/clk-mtmips.c:335:9: note: initialize the variable '=
+ret' to silence this warning
+>            int ret, i;
+>                   ^
+>                    =3D 0
 
-All errors (new ones prefixed by >>):
+This two errors were already fixed in:
 
-   In file included from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/options.h:8,
-                    from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/tm.h:46,
-                    from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/backend.h:28,
-                    from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/gcc-plugin.h:30,
-                    from scripts/gcc-plugins/gcc-common.h:7,
-                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
->> ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/config/loongarch/loongarch-opts.h:31:10: fatal error: loongarch-def.h: No such file or directory
-      31 | #include "loongarch-def.h"
-         |          ^~~~~~~~~~~~~~~~~
-   compilation terminated.
-   In file included from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/options.h:8,
-                    from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/tm.h:46,
-                    from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/backend.h:28,
-                    from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/gcc-plugin.h:30,
-                    from scripts/gcc-plugins/gcc-common.h:7,
-                    from scripts/gcc-plugins/latent_entropy_plugin.c:78:
->> ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/config/loongarch/loongarch-opts.h:31:10: fatal error: loongarch-def.h: No such file or directory
-      31 | #include "loongarch-def.h"
-         |          ^~~~~~~~~~~~~~~~~
-   compilation terminated.
-   make[4]: *** [scripts/gcc-plugins/Makefile:54: scripts/gcc-plugins/randomize_layout_plugin.so] Error 1
-   make[4]: *** [scripts/gcc-plugins/Makefile:54: scripts/gcc-plugins/latent_entropy_plugin.so] Error 1
-   make[4]: Target 'scripts/gcc-plugins/' not remade because of errors.
-   make[3]: *** [scripts/Makefile.build:477: scripts/gcc-plugins] Error 2
-   make[3]: Target 'scripts/' not remade because of errors.
-   make[2]: *** [Makefile:1259: scripts] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+6e68dae946e3: ("clk: ralink: mtmips: Fix uninitialized use of ret in
+mtmips_register_{fixed,factor}_clocks()")
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> >> drivers/clk/ralink/clk-mtmips.c:821:34: warning: unused variable 'mtmi=
+ps_of_match' [-Wunused-const-variable]
+>    static const struct of_device_id mtmips_of_match[] =3D {
+>                                     ^
+>    3 warnings generated.
+
+This one is because CONFIG_OF is disabled so 'of_match_node()' turns
+into a dummy macro. What would be the correct approach here?
+Add select OF in Kconfig for this driver or silence the warning
+declaring 'mtmips_of_match' with __maybe_unused?
+
+Thanks in advance for clarification.
+
+Best regards,
+    Sergio Paracuellos
+
+>
+>
+> vim +/mtmips_of_match +821 drivers/clk/ralink/clk-mtmips.c
+>
+>    820
+>  > 821  static const struct of_device_id mtmips_of_match[] =3D {
+>    822          {
+>    823                  .compatible =3D "ralink,rt2880-sysc",
+>    824                  .data =3D &rt2880_clk_data,
+>    825          },
+>    826          {
+>    827                  .compatible =3D "ralink,rt3050-sysc",
+>    828                  .data =3D &rt305x_clk_data,
+>    829          },
+>    830          {
+>    831                  .compatible =3D "ralink,rt3052-sysc",
+>    832                  .data =3D &rt305x_clk_data,
+>    833          },
+>    834          {
+>    835                  .compatible =3D "ralink,rt3352-sysc",
+>    836                  .data =3D &rt3352_clk_data,
+>    837          },
+>    838          {
+>    839                  .compatible =3D "ralink,rt3883-sysc",
+>    840                  .data =3D &rt3883_clk_data,
+>    841          },
+>    842          {
+>    843                  .compatible =3D "ralink,rt5350-sysc",
+>    844                  .data =3D &rt5350_clk_data,
+>    845          },
+>    846          {
+>    847                  .compatible =3D "ralink,mt7620-sysc",
+>    848                  .data =3D &mt7620_clk_data,
+>    849          },
+>    850          {
+>    851                  .compatible =3D "ralink,mt7628-sysc",
+>    852                  .data =3D &mt76x8_clk_data,
+>    853          },
+>    854          {
+>    855                  .compatible =3D "ralink,mt7688-sysc",
+>    856                  .data =3D &mt76x8_clk_data,
+>    857          },
+>    858          {}
+>    859  };
+>    860
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
