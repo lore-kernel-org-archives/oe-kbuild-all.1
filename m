@@ -1,150 +1,149 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7C1197
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 00:07:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1690330045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WqtBRl91W0JZDd0g7bqH9GXNg2xVDfF+qvrH5f+9Vjc=;
-	b=NzbIIp5fmJ6B/2B+nHr1jsYyVrBS/H22ZePH46ntML6qXKCk2/sCZCT/qc00D4i51Rh/Ss
-	zlZo+KdKG9faKO3T6uYvsQYT2sBplXYeosOWKzmJOil70eFOjMPk+NIu8rdbT9wD8Z1rw/
-	3igL7aOjej//AjacXdfY+m6BjArlfMY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-586-BiJuTBP6OSy294x2eSGAAg-1; Tue, 25 Jul 2023 20:07:24 -0400
-X-MC-Unique: BiJuTBP6OSy294x2eSGAAg-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-522428697b8so413670a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Jul 2023 17:07:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690330043; x=1690934843;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WqtBRl91W0JZDd0g7bqH9GXNg2xVDfF+qvrH5f+9Vjc=;
-        b=gogSRSTWhCLgigWIZeTLuwZzcoL+GW4c/hwfNNOwPOB3cG+jZIaadfAzQkJyfu0kqC
-         wi0/Xy0n6okhdjXVEbIpoke9Gi1tWsowbNk1MhpAymLtEDqO9h+hWkH29JTYtiuan1IL
-         n5ahH5c22/xPiksIWsJXU3O5q7XmFeaZHeejY4dMxtmOhapviBs//9lGoeR7TANzx4xZ
-         WmFUc7gfhFRw7EO37razT1FOQMrzGM64Htq5ysUjfWyBPMotvzsce/C8AhGORRZfqNQq
-         SPnjQKS6MV/tIAotqXRpsLpP0GBwkvFByPew52b3YLXW4Bd7UhDN1kYa1znW4pl7nJZ/
-         54og==
-X-Gm-Message-State: ABy/qLZsHr3gpmfVQqVtCx/4M2ynhzo/lMLRSZbZvCeTSGDejapkh4Bc
-	H/VMxbk1pnDfji9Zq9FSw8bO2LZ2dxsEuCQYWkk4U/i0omzhp0z4g7fiA/nPW4n4Nyn1yCrsSm7
-	s6j2nqEXQpy28vqpDZuTvhK5PfA==
-X-Received: by 2002:aa7:d3c8:0:b0:522:18b6:c01f with SMTP id o8-20020aa7d3c8000000b0052218b6c01fmr803967edr.3.1690330043383;
-        Tue, 25 Jul 2023 17:07:23 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlH33z4KvbbCtfFWxIdLDrVWs9B6+85VlCdq0KNzorTB3TDsgiY2x+LYShQcj3IHvHXUzDheFQ==
-X-Received: by 2002:aa7:d3c8:0:b0:522:18b6:c01f with SMTP id o8-20020aa7d3c8000000b0052218b6c01fmr803953edr.3.1690330043120;
-        Tue, 25 Jul 2023 17:07:23 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id r7-20020aa7da07000000b005222aee9ef9sm3818876eds.97.2023.07.25.17.07.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 17:07:22 -0700 (PDT)
-Message-ID: <9d49d9b1-1db8-63c9-b0f6-aa72904f6aaa@redhat.com>
-Date: Wed, 26 Jul 2023 00:25:36 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB25399
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 00:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690331176; x=1721867176;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HLZfU5NeKmALn+vvM0xFCVLultOajdwC5aDex8Jjtig=;
+  b=HV4ukh3CxVbphnYZ7aLsMILXwUVe6N15nF1bWB1cvP9tzfXxKYBRabvB
+   aq5/P2E5j+Z02kTfoobno/iEALmlt0ZZFjRrJyEMV3e9Smf/jxs40sTwQ
+   wl3p99QI/G33xZ0JWiohyXBbIMpFzL+xzW6+yZ3DNs33vTZZW/7EdR6xg
+   Rex0wfVoliX5Hryal54RxbVIUKZQDvLhx/M3p+qedB9rMoqB3/GuugPUG
+   yR+0T/z8KymykRr7X965oJxEK7Q7Esh67msKieVxjDkrvP8TO0AQN7496
+   tN9gdyw6x64I5QanB1D5BV/i1cCAdDt91d+IQ5Ls4BtmaPESfDosmobrh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="398797953"
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
+   d="scan'208";a="398797953"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 17:26:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="816463469"
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
+   d="scan'208";a="816463469"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Jul 2023 17:26:14 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOSLp-0000SN-1Y;
+	Wed, 26 Jul 2023 00:26:05 +0000
+Date: Wed, 26 Jul 2023 08:25:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kairui Song <ryncsn@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/4] workingset: simplify lru_gen_test_recent
+Message-ID: <202307260842.wzdPQg6o-lkp@intel.com>
+References: <20230725185733.43929-3-ryncsn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [drm-misc:for-linux-next 2/2]
- drivers/gpu/drm/drm_debugfs.c:212:33: sparse: sparse: non size-preserving
- pointer to integer cast
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Boris Brezillon <bbrezillon@kernel.org>, kernel test robot <lkp@intel.com>
-References: <202307210230.t2OnM5g0-lkp@intel.com>
- <20230724092744.5c5b5700@collabora.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230724092744.5c5b5700@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230725185733.43929-3-ryncsn@gmail.com>
 
-On 7/24/23 09:27, Boris Brezillon wrote:
-> On Fri, 21 Jul 2023 02:06:16 +0800
-> kernel test robot <lkp@intel.com> wrote:
-> 
->> tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
->> head:   c7a472297169156252a50d76965eb36b081186e2
->> commit: 4f66feeab173bd73e71028b8c2e1dcea07e32dd5 [2/2] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
->> config: i386-randconfig-r092-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210230.t2OnM5g0-lkp@intel.com/config)
->> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->> reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210230.t2OnM5g0-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202307210230.t2OnM5g0-lkp@intel.com/
->>
->> sparse warnings: (new ones prefixed by >>)
->>>> drivers/gpu/drm/drm_debugfs.c:212:33: sparse: sparse: non size-preserving pointer to integer cast
->>
->> vim +212 drivers/gpu/drm/drm_debugfs.c
->>
->>     178	
->>     179	/**
->>     180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
->>     181	 * @m: pointer to the &seq_file to write
->>     182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
->>     183	 *
->>     184	 * Dumps the GPU VA mappings of a given DRM GPU VA manager.
->>     185	 *
->>     186	 * For each DRM GPU VA space drivers should call this function from their
->>     187	 * &drm_info_list's show callback.
->>     188	 *
->>     189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
->>     190	 */
->>     191	int drm_debugfs_gpuva_info(struct seq_file *m,
->>     192				   struct drm_gpuva_manager *mgr)
->>     193	{
->>     194		struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
->>     195	
->>     196		if (!mgr->name)
->>     197			return -ENODEV;
->>     198	
->>     199		seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
->>     200			   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
->>     201		seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
->>     202			   kva->va.addr, kva->va.addr + kva->va.range);
->>     203		seq_puts(m, "\n");
->>     204		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
->>     205		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
->>     206		drm_gpuva_for_each_va(va, mgr) {
->>     207			if (unlikely(va == kva))
->>     208				continue;
->>     209	
->>     210			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
->>     211				   va->va.addr, va->va.range, va->va.addr + va->va.range,
->>   > 212				   (u64)va->gem.obj, va->gem.offset);
-> 
-> Oops, I didn't notice it when reviewing. You're leaking a kernel address
-> to user space here. You should probably use %p to print the GEM object
-> address, and add `no_hash_pointers` to your cmdline when you want to
-> debug things.
+Hi Kairui,
 
-%p doesn't really work well in terms of formatting, plus for debugfs I 
-thought this might be fine. I could maybe use ptr_to_hashval(), but then 
-'no_hash_pointers' wouldn't do anything for it.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-> 
->>     213		}
->>     214	
->>     215		return 0;
->>     216	}
->>     217	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
->>     218	
->>
-> 
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.5-rc3 next-20230725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/workingset-simplify-and-use-a-more-intuitive-model/20230726-025946
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230725185733.43929-3-ryncsn%40gmail.com
+patch subject: [RFC PATCH 2/4] workingset: simplify lru_gen_test_recent
+config: microblaze-randconfig-r012-20230725 (https://download.01.org/0day-ci/archive/20230726/202307260842.wzdPQg6o-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260842.wzdPQg6o-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307260842.wzdPQg6o-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   mm/workingset.c: In function 'workingset_test_recent':
+>> mm/workingset.c:515:67: warning: passing argument 3 of 'lru_gen_test_recent' makes pointer from integer without a cast [-Wint-conversion]
+     515 |                 return lru_gen_test_recent(eviction_lruvec, file, eviction);
+         |                                                                   ^~~~~~~~
+         |                                                                   |
+         |                                                                   long unsigned int
+   mm/workingset.c:427:74: note: expected 'struct lruvec **' but argument is of type 'long unsigned int'
+     427 | static bool lru_gen_test_recent(void *shadow, bool file, struct lruvec **lruvec,
+         |                                                          ~~~~~~~~~~~~~~~~^~~~~~
+>> mm/workingset.c:515:24: error: too few arguments to function 'lru_gen_test_recent'
+     515 |                 return lru_gen_test_recent(eviction_lruvec, file, eviction);
+         |                        ^~~~~~~~~~~~~~~~~~~
+   mm/workingset.c:427:13: note: declared here
+     427 | static bool lru_gen_test_recent(void *shadow, bool file, struct lruvec **lruvec,
+         |             ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/lru_gen_test_recent +515 mm/workingset.c
+
+   471	
+   472	/**
+   473	 * workingset_test_recent - tests if the shadow entry is for a folio that was
+   474	 * recently evicted. Also fills in @workingset with the value unpacked from
+   475	 * shadow.
+   476	 * @shadow: the shadow entry to be tested.
+   477	 * @file: whether the corresponding folio is from the file lru.
+   478	 * @workingset: where the workingset value unpacked from shadow should
+   479	 * be stored.
+   480	 *
+   481	 * Return: true if the shadow is for a recently evicted folio; false otherwise.
+   482	 */
+   483	bool workingset_test_recent(void *shadow, bool file, bool *workingset)
+   484	{
+   485		struct mem_cgroup *eviction_memcg;
+   486		struct lruvec *eviction_lruvec;
+   487		int memcgid;
+   488		struct pglist_data *pgdat;
+   489		unsigned long eviction;
+   490	
+   491		unpack_shadow(shadow, &memcgid, &pgdat, &eviction, workingset);
+   492	
+   493		/*
+   494		 * Look up the memcg associated with the stored ID. It might
+   495		 * have been deleted since the folio's eviction.
+   496		 *
+   497		 * Note that in rare events the ID could have been recycled
+   498		 * for a new cgroup that refaults a shared folio. This is
+   499		 * impossible to tell from the available data. However, this
+   500		 * should be a rare and limited disturbance, and activations
+   501		 * are always speculative anyway. Ultimately, it's the aging
+   502		 * algorithm's job to shake out the minimum access frequency
+   503		 * for the active cache.
+   504		 *
+   505		 * XXX: On !CONFIG_MEMCG, this will always return NULL; it
+   506		 * would be better if the root_mem_cgroup existed in all
+   507		 * configurations instead.
+   508		 */
+   509		eviction_memcg = mem_cgroup_from_id(memcgid);
+   510		if (!mem_cgroup_disabled() && !eviction_memcg)
+   511			return false;
+   512		eviction_lruvec = mem_cgroup_lruvec(eviction_memcg, pgdat);
+   513	
+   514		if (lru_gen_enabled())
+ > 515			return lru_gen_test_recent(eviction_lruvec, file, eviction);
+   516	
+   517		return lru_refault(eviction_memcg, eviction_lruvec, eviction,
+   518				      EVICTION_BITS, bucket_order);
+   519	}
+   520	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
