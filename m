@@ -1,43 +1,50 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0841ED43
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 10:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDE2A920
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 10:43:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690367613; x=1721903613;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ma7Y8/vUnvW/H0KkZpS1QwM5cpFyjSj8/uPBI9YabWk=;
-  b=ANuWpfPYCP4EXCg+d/XvEyyP4ulm8GGtGo5BGga+cUkn1biS4TrmvjbK
-   UGmk506/chgvdmlru1jCwbqYzeJt/cpCbJ9CWieGY1NYENElQw4vyqpa8
-   WO6qnMcFLANbyIMBuNUJ4VU9wyPgFEXwz3Y1us7omLDkciPDCW0bYBZP8
-   JeKiYFzqZVQH6kchbmytxHe7VBSPeZvzefeGqiqLLwE1WzwZD8YUWvUZ0
-   13AHkUZhI/3/WJllVlbYwmZWwAtkEFVuuaFzrZfuRQgPexwaCF6RlOWUf
-   pceWhavngnrV5UETXLlUfpxb6xxxAPtoX/z/vCtbgqpLznzI+2//6WX1K
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="348255763"
+  t=1690368203; x=1721904203;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pbhy/2k+BPQgfb3Z7Fd2cA6VoZ2dLjcGgqZbxBMvl3I=;
+  b=Wj9vUid/2C3veU0gTCUx1L/RF2SlGSBwSKJH0xn+dwDu9bamryfUcPfX
+   EU1oS+vdOIcfrKuepttYHVTTuLDFfVyHuYhW1W5YO4/0qn+fU/xmWwLXQ
+   lc5h+6zj2717p8AozPR0ChWTJBGcdlBu4qqPJZT/x6k508DWVNWOihDP3
+   Y8Zf9WDMf5T/EQnIrs69XlTGnZiodWTpWZ1FVJVAco52RlI4AWj/DheUB
+   zorBjIjL1jeSMYb+iu7o6aIaKQsXLWKNa+2/rYLKYT8TCXXDSiww0l8ww
+   IA2vJrvR1PSkf87q3s0QtFDRlnp8in8MJsakQ7ZjMuVT01LvQf+SmjDft
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="365434158"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="348255763"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 03:33:05 -0700
+   d="scan'208";a="365434158"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 03:43:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="900367128"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="1057162526"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="900367128"
+   d="scan'208";a="1057162526"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 26 Jul 2023 03:33:03 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 26 Jul 2023 03:43:18 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qObpD-0000tT-2O;
-	Wed, 26 Jul 2023 10:33:03 +0000
-Date: Wed, 26 Jul 2023 18:32:18 +0800
+	id 1qObzC-0000tz-0r;
+	Wed, 26 Jul 2023 10:43:18 +0000
+Date: Wed, 26 Jul 2023 18:42:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andre Werner <andre.werner@systec-electronic.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [groeck-staging:hwmon-next 35/35] drivers/hwmon/hs3001.c:196:13:
- warning: unused variable 'ret'
-Message-ID: <202307261819.VMDuxZOM-lkp@intel.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, shawnguo@kernel.org,
+	s.hauer@pengutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, kernel@pengutronix.de,
+	festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
+	alexander.stein@ew.tq-group.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH V4 8/8] firmware: imx: scu-irq: support identifying SCU
+ wakeup source from sysfs
+Message-ID: <202307261826.ApPjX4A0-lkp@intel.com>
+References: <20230724063852.2666930-9-peng.fan@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,69 +53,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230724063852.2666930-9-peng.fan@oss.nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-head:   33faa6fcc93f78e6b0e9b5aaf986446ac3c34047
-commit: 33faa6fcc93f78e6b0e9b5aaf986446ac3c34047 [35/35] hwmon: Add driver for Renesas HS3001
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230726/202307261819.VMDuxZOM-lkp@intel.com/config)
+Hi Peng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on linus/master v6.5-rc3 next-20230726]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/firmware-imx-scu-change-init-level-to-subsys_initcall_sync/20230724-143748
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230724063852.2666930-9-peng.fan%40oss.nxp.com
+patch subject: [PATCH V4 8/8] firmware: imx: scu-irq: support identifying SCU wakeup source from sysfs
+config: um-randconfig-r073-20230725 (https://download.01.org/0day-ci/archive/20230726/202307261826.ApPjX4A0-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261819.VMDuxZOM-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261826.ApPjX4A0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307261819.VMDuxZOM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307261826.ApPjX4A0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/hwmon/hs3001.c: In function 'hs3001_probe':
->> drivers/hwmon/hs3001.c:196:13: warning: unused variable 'ret' [-Wunused-variable]
-     196 |         int ret;
-         |             ^~~
-
-
-vim +/ret +196 drivers/hwmon/hs3001.c
-
-   190	
-   191	static int hs3001_probe(struct i2c_client *client)
-   192	{
-   193		struct hs3001_data *data;
-   194		struct device *hwmon_dev;
-   195		struct device *dev = &client->dev;
- > 196		int ret;
-   197	
-   198		if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-   199			return -EOPNOTSUPP;
-   200	
-   201		data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-   202		if (!data)
-   203			return -ENOMEM;
-   204	
-   205		data->client = client;
-   206	
-   207		/*
-   208		 * Measurement time = wake-up time + measurement time temperature
-   209		 * + measurement time humidity. This is currently static, because
-   210		 * enabling programming mode is not supported, yet.
-   211		 */
-   212		data->wait_time = (HS3001_WAKEUP_TIME + HS3001_14BIT_RESOLUTION +
-   213				   HS3001_14BIT_RESOLUTION);
-   214	
-   215		mutex_init(&data->i2c_lock);
-   216	
-   217		hwmon_dev = devm_hwmon_device_register_with_info(dev,
-   218								 client->name,
-   219								 data,
-   220								 &hs3001_chip_info,
-   221								 NULL);
-   222	
-   223		if (IS_ERR(hwmon_dev))
-   224			return dev_err_probe(dev, PTR_ERR(hwmon_dev),
-   225					     "Unable to register hwmon device.\n");
-   226	
-   227		return 0;
-   228	}
-   229	
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/imx/imx-scu-irq.c:52:16: sparse: sparse: symbol 'wakeup_obj' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
