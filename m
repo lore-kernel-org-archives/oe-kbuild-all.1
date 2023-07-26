@@ -1,45 +1,44 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C87E1FD0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 03:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509641FD0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 03:54:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690343651; x=1721879651;
+  t=1690343653; x=1721879653;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=64ACqX2MJm7OjnGxp18bPrBdVDEAPapxs2MxW/T1N9s=;
-  b=nFFF7Azyfw+/HiQvBhvXqAZugKv5R0zXN1BNlrsrS9rxoWUalTHEeuxQ
-   Wt0r5ekdD3FQW2kqisH2b/EFbOlVPjxof1uDVOGGb9498X+QtSq5ss6zX
-   OzTciV4L8cg8jDd47bUyRSN+RcHNvOoyYCbOrnXfpFErEtU7hCOyBtiGj
-   9l3HfanhwdFpW4OhKZzfnoPdaBPcMYwDX775oaKBjUVHz0qEYMlk56q4t
-   swCExOnNT3QnVqIP9yCPwW6oAsbq85uQmJnjcAOvlutzS6VedG+ZCzKLg
-   ly2Q7MCFnb4iQN7EB/pD2HA97SFvdA+chTo82NquBH5AM0ALaAGPWBmDZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="434160505"
+  bh=oHMEVwlfWUSJ4qgba9wUiqhffBxhbH7Ym45ldWoVfY8=;
+  b=NmwZxeaVbuH5ELdR4ayDhE5039/dRObM8Kc51j/uwked2fYH1lmf3aiX
+   01cBZZMk05XHu0CjH7AZAdVNfCfeGKzQsWOnUYxeQ13Fuw8cTT4NoHkW5
+   n3fh4xYgn3/b8Vj+T+meGsqsXNm7gO+BonKR3tm2QD5lCH10hEDoslXUW
+   pXdgxaecI16HOG0i7NlBDfT/Be8LXBm8+l3uO8OHdy4950vbqC4r1HOZb
+   9fxDROZcQtUn0ZDBkZ/dtD7H+OfIm57hQk3vSSt9Bd/mpSi4YwSXsUoJU
+   unDUrHBJ0eRzBU/DZh5PHCYtLKdrb8pE2Z7zXi9rIlsrslnPF7kS+lr2S
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="434160509"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="434160505"
+   d="scan'208";a="434160509"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 20:54:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="726351958"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="726351959"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="726351958"
+   d="scan'208";a="726351959"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
   by orsmga002.jf.intel.com with ESMTP; 25 Jul 2023 20:54:09 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOVbE-0000dv-1L;
+	id 1qOVbE-0000dx-1Q;
 	Wed, 26 Jul 2023 03:54:08 +0000
-Date: Wed, 26 Jul 2023 11:54:00 +0800
+Date: Wed, 26 Jul 2023 11:53:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robert Hancock <robert.hancock@calian.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: [stable:linux-4.19.y 1539/6360]
- drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:9: error: 'ret'
- undeclared; did you mean 'net'?
-Message-ID: <202307261159.rZEAuyu7-lkp@intel.com>
+To: Darren Etheridge <detheridge@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 62/70]
+ drivers/media/platform/img/vxe-vxd/common/img_mem_unified.c:159:17: error:
+ implicit declaration of function 'vunmap'; did you mean 'kunmap'?
+Message-ID: <202307261145.KUBUpbxx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,161 +48,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Robert,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
-head:   767049cead76cf699707290d5aeefb3e4d0d5b43
-commit: 8b8ad8a7ac24905937c3975b54c4594b93b66ebb [1539/6360] net: axienet: Wait for PhyRstCmplt after core reset
-config: microblaze-randconfig-m041-20230726 (https://download.01.org/0day-ci/archive/20230726/202307261159.rZEAuyu7-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261159.rZEAuyu7-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   6f3ee6fcd1f316038e9cb9505c72a15b019f3c7d
+commit: 3b23f836c2ec0541aea62823eeed7f2bbe88dc43 [62/70] media: platform: img: add the vxe-vxd driver into the build infra
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230726/202307261145.KUBUpbxx-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261145.KUBUpbxx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307261159.rZEAuyu7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307261145.KUBUpbxx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_dma_bd_init':
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
-     283 |         ret = read_poll_timeout(axienet_ior, value,
-         |         ^~~
-         |         net
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:9: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:15: error: implicit declaration of function 'read_poll_timeout' [-Werror=implicit-function-declaration]
-     283 |         ret = read_poll_timeout(axienet_ior, value,
-         |               ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:46: error: 'value' undeclared (first use in this function)
-     283 |         ret = read_poll_timeout(axienet_ior, value,
-         |                                              ^~~~~
+   drivers/media/platform/img/vxe-vxd/common/img_mem_unified.c: In function 'unified_free':
+>> drivers/media/platform/img/vxe-vxd/common/img_mem_unified.c:159:17: error: implicit declaration of function 'vunmap'; did you mean 'kunmap'? [-Werror=implicit-function-declaration]
+     159 |                 vunmap(buffer->kptr);
+         |                 ^~~~~~
+         |                 kunmap
+   drivers/media/platform/img/vxe-vxd/common/img_mem_unified.c: In function 'unified_map_km':
+>> drivers/media/platform/img/vxe-vxd/common/img_mem_unified.c:197:24: error: implicit declaration of function 'vmap'; did you mean 'kmap'? [-Werror=implicit-function-declaration]
+     197 |         buffer->kptr = vmap((struct page **)pages, num_pages, VM_MAP, prot);
+         |                        ^~~~
+         |                        kmap
+>> drivers/media/platform/img/vxe-vxd/common/img_mem_unified.c:197:63: error: 'VM_MAP' undeclared (first use in this function); did you mean 'VM_MTE'?
+     197 |         buffer->kptr = vmap((struct page **)pages, num_pages, VM_MAP, prot);
+         |                                                               ^~~~~~
+         |                                                               VM_MTE
+   drivers/media/platform/img/vxe-vxd/common/img_mem_unified.c:197:63: note: each undeclared identifier is reported only once for each function it appears in
    cc1: some warnings being treated as errors
+--
+   drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c: In function 'bspp_hevc_parse_vps':
+>> drivers/media/platform/img/vxe-vxd/decoder/hevc_secure_parser.c:594:1: warning: the frame size of 1180 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     594 | }
+         | ^
 
 
-vim +283 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+vim +159 drivers/media/platform/img/vxe-vxd/common/img_mem_unified.c
 
-   178	
-   179	/**
-   180	 * axienet_dma_bd_init - Setup buffer descriptor rings for Axi DMA
-   181	 * @ndev:	Pointer to the net_device structure
-   182	 *
-   183	 * Return: 0, on success -ENOMEM, on failure
-   184	 *
-   185	 * This function is called to initialize the Rx and Tx DMA descriptor
-   186	 * rings. This initializes the descriptors with required default values
-   187	 * and is called when Axi Ethernet driver reset is called.
-   188	 */
-   189	static int axienet_dma_bd_init(struct net_device *ndev)
-   190	{
-   191		u32 cr;
-   192		int i;
-   193		struct sk_buff *skb;
-   194		struct axienet_local *lp = netdev_priv(ndev);
-   195	
-   196		/* Reset the indexes which are used for accessing the BDs */
-   197		lp->tx_bd_ci = 0;
-   198		lp->tx_bd_tail = 0;
-   199		lp->rx_bd_ci = 0;
-   200	
-   201		/* Allocate the Tx and Rx buffer descriptors. */
-   202		lp->tx_bd_v = dma_zalloc_coherent(ndev->dev.parent,
-   203						  sizeof(*lp->tx_bd_v) * TX_BD_NUM,
-   204						  &lp->tx_bd_p, GFP_KERNEL);
-   205		if (!lp->tx_bd_v)
-   206			goto out;
-   207	
-   208		lp->rx_bd_v = dma_zalloc_coherent(ndev->dev.parent,
-   209						  sizeof(*lp->rx_bd_v) * RX_BD_NUM,
-   210						  &lp->rx_bd_p, GFP_KERNEL);
-   211		if (!lp->rx_bd_v)
-   212			goto out;
-   213	
-   214		for (i = 0; i < TX_BD_NUM; i++) {
-   215			lp->tx_bd_v[i].next = lp->tx_bd_p +
-   216					      sizeof(*lp->tx_bd_v) *
-   217					      ((i + 1) % TX_BD_NUM);
-   218		}
-   219	
-   220		for (i = 0; i < RX_BD_NUM; i++) {
-   221			lp->rx_bd_v[i].next = lp->rx_bd_p +
-   222					      sizeof(*lp->rx_bd_v) *
-   223					      ((i + 1) % RX_BD_NUM);
-   224	
-   225			skb = netdev_alloc_skb_ip_align(ndev, lp->max_frm_size);
-   226			if (!skb)
-   227				goto out;
-   228	
-   229			lp->rx_bd_v[i].sw_id_offset = (u32) skb;
-   230			lp->rx_bd_v[i].phys = dma_map_single(ndev->dev.parent,
-   231							     skb->data,
-   232							     lp->max_frm_size,
-   233							     DMA_FROM_DEVICE);
-   234			lp->rx_bd_v[i].cntrl = lp->max_frm_size;
-   235		}
-   236	
-   237		/* Start updating the Rx channel control register */
-   238		cr = axienet_dma_in32(lp, XAXIDMA_RX_CR_OFFSET);
-   239		/* Update the interrupt coalesce count */
-   240		cr = ((cr & ~XAXIDMA_COALESCE_MASK) |
-   241		      ((lp->coalesce_count_rx) << XAXIDMA_COALESCE_SHIFT));
-   242		/* Update the delay timer count */
-   243		cr = ((cr & ~XAXIDMA_DELAY_MASK) |
-   244		      (XAXIDMA_DFT_RX_WAITBOUND << XAXIDMA_DELAY_SHIFT));
-   245		/* Enable coalesce, delay timer and error interrupts */
-   246		cr |= XAXIDMA_IRQ_ALL_MASK;
-   247		/* Write to the Rx channel control register */
-   248		axienet_dma_out32(lp, XAXIDMA_RX_CR_OFFSET, cr);
-   249	
-   250		/* Start updating the Tx channel control register */
-   251		cr = axienet_dma_in32(lp, XAXIDMA_TX_CR_OFFSET);
-   252		/* Update the interrupt coalesce count */
-   253		cr = (((cr & ~XAXIDMA_COALESCE_MASK)) |
-   254		      ((lp->coalesce_count_tx) << XAXIDMA_COALESCE_SHIFT));
-   255		/* Update the delay timer count */
-   256		cr = (((cr & ~XAXIDMA_DELAY_MASK)) |
-   257		      (XAXIDMA_DFT_TX_WAITBOUND << XAXIDMA_DELAY_SHIFT));
-   258		/* Enable coalesce, delay timer and error interrupts */
-   259		cr |= XAXIDMA_IRQ_ALL_MASK;
-   260		/* Write to the Tx channel control register */
-   261		axienet_dma_out32(lp, XAXIDMA_TX_CR_OFFSET, cr);
-   262	
-   263		/* Populate the tail pointer and bring the Rx Axi DMA engine out of
-   264		 * halted state. This will make the Rx side ready for reception.
-   265		 */
-   266		axienet_dma_out32(lp, XAXIDMA_RX_CDESC_OFFSET, lp->rx_bd_p);
-   267		cr = axienet_dma_in32(lp, XAXIDMA_RX_CR_OFFSET);
-   268		axienet_dma_out32(lp, XAXIDMA_RX_CR_OFFSET,
-   269				  cr | XAXIDMA_CR_RUNSTOP_MASK);
-   270		axienet_dma_out32(lp, XAXIDMA_RX_TDESC_OFFSET, lp->rx_bd_p +
-   271				  (sizeof(*lp->rx_bd_v) * (RX_BD_NUM - 1)));
-   272	
-   273		/* Write to the RS (Run-stop) bit in the Tx channel control register.
-   274		 * Tx channel is now ready to run. But only after we write to the
-   275		 * tail pointer register that the Tx channel will start transmitting.
-   276		 */
-   277		axienet_dma_out32(lp, XAXIDMA_TX_CDESC_OFFSET, lp->tx_bd_p);
-   278		cr = axienet_dma_in32(lp, XAXIDMA_TX_CR_OFFSET);
-   279		axienet_dma_out32(lp, XAXIDMA_TX_CR_OFFSET,
-   280				  cr | XAXIDMA_CR_RUNSTOP_MASK);
-   281	
-   282		/* Wait for PhyRstCmplt bit to be set, indicating the PHY reset has finished */
- > 283		ret = read_poll_timeout(axienet_ior, value,
-   284					value & XAE_INT_PHYRSTCMPLT_MASK,
-   285					DELAY_OF_ONE_MILLISEC, 50000, false, lp,
-   286					XAE_IS_OFFSET);
-   287		if (ret) {
-   288			dev_err(lp->dev, "%s: timeout waiting for PhyRstCmplt\n", __func__);
-   289			return ret;
-   290		}
-   291	
-   292		return 0;
-   293	out:
-   294		axienet_dma_bd_release(ndev);
-   295		return -ENOMEM;
-   296	}
-   297	
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  145  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  146  static void unified_free(struct heap *heap, struct buffer *buffer)
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  147  {
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  148  	void *dev = buffer->device;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  149  	void *sgt = buffer->priv;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  150  	void *sgl;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  151  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  152  	dev_dbg(dev, "%s:%d buffer %d (0x%p)\n", __func__, __LINE__,
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  153  		buffer->id, buffer);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  154  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  155  	if (buffer->kptr) {
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  156  		dev_dbg(dev, "%s vunmap 0x%p\n", __func__, buffer->kptr);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  157  		dma_unmap_sg(dev, img_mmu_get_sgl(sgt), img_mmu_get_orig_nents(sgt),
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  158  			     DMA_FROM_DEVICE);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25 @159  		vunmap(buffer->kptr);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  160  	}
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  161  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  162  	sgl = img_mmu_get_sgl(sgt);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  163  	while (sgl) {
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  164  		__free_page(sg_page(sgl));
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  165  		sgl = sg_next(sgl);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  166  	}
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  167  	sg_free_table(sgt);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  168  	kfree(sgt);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  169  }
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  170  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  171  static int unified_map_km(struct heap *heap, struct buffer *buffer)
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  172  {
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  173  	void *dev = buffer->device;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  174  	void *sgt = buffer->priv;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  175  	void *sgl = img_mmu_get_sgl(sgt);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  176  	unsigned int num_pages = sg_nents(sgl);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  177  	unsigned int orig_nents = img_mmu_get_orig_nents(sgt);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  178  	void **pages;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  179  	int ret;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  180  	pgprot_t prot;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  181  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  182  	dev_dbg(dev, "%s:%d buffer %d (0x%p)\n", __func__, __LINE__, buffer->id, buffer);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  183  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  184  	if (buffer->kptr) {
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  185  		dev_warn(dev, "%s called for already mapped buffer %d\n", __func__, buffer->id);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  186  		return 0;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  187  	}
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  188  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  189  	pages = kmalloc_array(num_pages, sizeof(void *), GFP_KERNEL);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  190  	if (!pages)
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  191  		return -ENOMEM;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  192  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  193  	img_mmu_get_pages(pages, sgt);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  194  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  195  	prot = PAGE_KERNEL;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  196  	prot = pgprot_writecombine(prot);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25 @197  	buffer->kptr = vmap((struct page **)pages, num_pages, VM_MAP, prot);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  198  	kfree(pages);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  199  	if (!buffer->kptr) {
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  200  		dev_err(dev, "%s vmap failed!\n", __func__);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  201  		return -EFAULT;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  202  	}
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  203  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  204  	ret = dma_map_sg(dev, sgl, orig_nents, DMA_FROM_DEVICE);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  205  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  206  	if (ret <= 0) {
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  207  		dev_err(dev, "%s dma_map_sg failed!\n", __func__);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  208  		vunmap(buffer->kptr);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  209  		return -EFAULT;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  210  	}
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  211  	dev_dbg(dev, "%s:%d buffer %d orig_nents %d nents %d\n", __func__,
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  212  		__LINE__, buffer->id, orig_nents, ret);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  213  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  214  	img_mmu_set_sgt_nents(sgt, ret);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  215  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  216  	dev_dbg(dev, "%s:%d buffer %d vmap to 0x%p\n", __func__, __LINE__,
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  217  		buffer->id, buffer->kptr);
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  218  
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  219  	return 0;
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  220  }
+309ef81727dfe5 drivers/media/platform/vxe-vxd/common/img_mem_unified.c Sidraya 2023-04-25  221  
+
+:::::: The code at line 159 was first introduced by commit
+:::::: 309ef81727dfe5aec2a8cbcf0db6d42e7c7292e8 v4l: vxd-dec: Create vxd_dec Mem Manager helper library
+
+:::::: TO: Sidraya <sidraya.bj@pathpartnertech.com>
+:::::: CC: Praneeth Bajjuri <praneeth@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
