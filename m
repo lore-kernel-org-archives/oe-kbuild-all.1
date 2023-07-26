@@ -1,161 +1,117 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723C29456
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 08:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690358746; x=1721894746;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LSCVwk6i4goJSn4y/ORCNVc+mVgdM1eMEqfO6PIsagw=;
-  b=k7ujd+5nxupv/i5ZOTpXdosSzx2rD94CB2nzFNhboSZTFFMGnngJLzlu
-   eV7W4NDVAha1joMgEighpaY8pro/S5+w/3VZVzACw3pCavVtBrAHiOF0T
-   HdAndxCtOXmyPqYzVGcPvkqptOs9KLqfL8eaDjHAYJr+DzoIRPPHU2YkX
-   aa5oJuJiZ4faMtuWqv+7idhWMbbo6FebKby3sHLaDFoI1N0ghuILGcOjp
-   mZrkHfAN7MArK83QAUIwI0Ixt2+AKhWYuDgBzgCD8okkFA0aIkhU9o9T3
-   OVKAL/BZugqvu05Ddk6IhoHZjHHOVXBnUNrbvwaHiONi/Jo18+jrmbJlp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="371558434"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="371558434"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 01:05:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="729749050"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="729749050"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 26 Jul 2023 01:05:44 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qOZWi-0000oV-0I;
-	Wed, 26 Jul 2023 08:05:44 +0000
-Date: Wed, 26 Jul 2023 16:05:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.1 200/244]
- drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:1936:34: warning:
- variable 'set' set but not used
-Message-ID: <202307261657.s3HbE4l2-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B814A947E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 08:12:40 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 39C836607115;
+	Wed, 26 Jul 2023 09:12:33 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1690359153;
+	bh=bv+7ZUUelb6V7kHZSaClncJveuGHmyoAZiGkqY3gwF4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bFlBHTMDAGDYXduXXP9jJePvuEvcSNTlEojL9ZviFmwhfy9akUKmmPaugfPgl2c+H
+	 gCmKqc29njcJLqJLQDNFm9B42kDqyHgPl/hnNdCAaA7pJHZPo+hciOo2/B10YqFBij
+	 MaaKxS3rh7NEkAhKG8K3cnL32l/c/rx3PIDF7Qb7eiu4RIbpecdJYANFl/a88fPmn3
+	 pgMb7GR/ClvDExJGvA13B8HFZ/OqW4L5DHtGrD3zj4ze4UzfW8L6sVPtuUqotuQul0
+	 +p9pDhg0GPTmFKeRb7EjnNDZyfbNTwdWws7kUhEpPYmFU4EUSQXh1kIhqY0peOjDyj
+	 Sx2Ex1B51NzHA==
+Date: Wed, 26 Jul 2023 10:12:30 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org, Boris
+ Brezillon <bbrezillon@kernel.org>, kernel test robot <lkp@intel.com>
+Subject: Re: [drm-misc:for-linux-next 2/2]
+ drivers/gpu/drm/drm_debugfs.c:212:33: sparse: sparse: non size-preserving
+ pointer to integer cast
+Message-ID: <20230726101230.6e7d2eb1@collabora.com>
+In-Reply-To: <9d49d9b1-1db8-63c9-b0f6-aa72904f6aaa@redhat.com>
+References: <202307210230.t2OnM5g0-lkp@intel.com>
+	<20230724092744.5c5b5700@collabora.com>
+	<9d49d9b1-1db8-63c9-b0f6-aa72904f6aaa@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.1
-head:   d93c12687a7e61eb154b84d965a63d2e1d36f01a
-commit: 7bcabb7b2a12683b341f438737af727a763e3d29 [200/244] drm/amd/display: Include surface of unaffected streams
-config: microblaze-randconfig-r031-20230726 (https://download.01.org/0day-ci/archive/20230726/202307261657.s3HbE4l2-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261657.s3HbE4l2-lkp@intel.com/reproduce)
+On Wed, 26 Jul 2023 00:25:36 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307261657.s3HbE4l2-lkp@intel.com/
+> On 7/24/23 09:27, Boris Brezillon wrote:
+> > On Fri, 21 Jul 2023 02:06:16 +0800
+> > kernel test robot <lkp@intel.com> wrote:
+> >   
+> >> tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+> >> head:   c7a472297169156252a50d76965eb36b081186e2
+> >> commit: 4f66feeab173bd73e71028b8c2e1dcea07e32dd5 [2/2] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+> >> config: i386-randconfig-r092-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210230.t2OnM5g0-lkp@intel.com/config)
+> >> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> >> reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210230.t2OnM5g0-lkp@intel.com/reproduce)
+> >>
+> >> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> >> the same patch/commit), kindly add following tags
+> >> | Reported-by: kernel test robot <lkp@intel.com>
+> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202307210230.t2OnM5g0-lkp@intel.com/
+> >>
+> >> sparse warnings: (new ones prefixed by >>)  
+> >>>> drivers/gpu/drm/drm_debugfs.c:212:33: sparse: sparse: non size-preserving pointer to integer cast  
+> >>
+> >> vim +212 drivers/gpu/drm/drm_debugfs.c
+> >>
+> >>     178	
+> >>     179	/**
+> >>     180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
+> >>     181	 * @m: pointer to the &seq_file to write
+> >>     182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> >>     183	 *
+> >>     184	 * Dumps the GPU VA mappings of a given DRM GPU VA manager.
+> >>     185	 *
+> >>     186	 * For each DRM GPU VA space drivers should call this function from their
+> >>     187	 * &drm_info_list's show callback.
+> >>     188	 *
+> >>     189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
+> >>     190	 */
+> >>     191	int drm_debugfs_gpuva_info(struct seq_file *m,
+> >>     192				   struct drm_gpuva_manager *mgr)
+> >>     193	{
+> >>     194		struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
+> >>     195	
+> >>     196		if (!mgr->name)
+> >>     197			return -ENODEV;
+> >>     198	
+> >>     199		seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
+> >>     200			   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
+> >>     201		seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
+> >>     202			   kva->va.addr, kva->va.addr + kva->va.range);
+> >>     203		seq_puts(m, "\n");
+> >>     204		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
+> >>     205		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
+> >>     206		drm_gpuva_for_each_va(va, mgr) {
+> >>     207			if (unlikely(va == kva))
+> >>     208				continue;
+> >>     209	
+> >>     210			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
+> >>     211				   va->va.addr, va->va.range, va->va.addr + va->va.range,  
+> >>   > 212				   (u64)va->gem.obj, va->gem.offset);  
+> > 
+> > Oops, I didn't notice it when reviewing. You're leaking a kernel address
+> > to user space here. You should probably use %p to print the GEM object
+> > address, and add `no_hash_pointers` to your cmdline when you want to
+> > debug things.  
+> 
+> %p doesn't really work well in terms of formatting, plus for debugfs I 
+> thought this might be fine. I could maybe use ptr_to_hashval(), but then 
+> 'no_hash_pointers' wouldn't do anything for it.
 
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c: In function 'dc_commit_streams':
->> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:1936:34: warning: variable 'set' set but not used [-Wunused-but-set-variable]
-    1936 |         struct dc_validation_set set[MAX_STREAMS] = {0};
-         |                                  ^~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:30:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h: At top level:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:137:22: warning: 'SYNAPTICS_DEVICE_ID' defined but not used [-Wunused-const-variable=]
-     137 | static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
-         |                      ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:134:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
-     134 | static const u8 DP_SINK_BRANCH_DEV_NAME_7580[] = "7580\x80u";
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:132:22: warning: 'DP_SINK_DEVICE_STR_ID_2' defined but not used [-Wunused-const-variable=]
-     132 | static const uint8_t DP_SINK_DEVICE_STR_ID_2[] = {7, 1, 8, 7, 5};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:131:22: warning: 'DP_SINK_DEVICE_STR_ID_1' defined but not used [-Wunused-const-variable=]
-     131 | static const uint8_t DP_SINK_DEVICE_STR_ID_1[] = {7, 1, 8, 7, 3};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/set +1936 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c
-
-  1915	
-  1916	/**
-  1917	 * dc_commit_streams - Commit current stream state
-  1918	 *
-  1919	 * @dc: DC object with the commit state to be configured in the hardware
-  1920	 * @streams: Array with a list of stream state
-  1921	 * @stream_count: Total of streams
-  1922	 *
-  1923	 * Function responsible for commit streams change to the hardware.
-  1924	 *
-  1925	 * Return:
-  1926	 * Return DC_OK if everything work as expected, otherwise, return a dc_status
-  1927	 * code.
-  1928	 */
-  1929	enum dc_status dc_commit_streams(struct dc *dc,
-  1930					 struct dc_stream_state *streams[],
-  1931					 uint8_t stream_count)
-  1932	{
-  1933		int i, j;
-  1934		struct dc_state *context;
-  1935		enum dc_status res = DC_OK;
-> 1936		struct dc_validation_set set[MAX_STREAMS] = {0};
-  1937	
-  1938		if (!streams_changed(dc, streams, stream_count))
-  1939			return res;
-  1940	
-  1941		DC_LOG_DC("%s: %d streams\n", __func__, stream_count);
-  1942	
-  1943		for (i = 0; i < stream_count; i++) {
-  1944			struct dc_stream_state *stream = streams[i];
-  1945			struct dc_stream_status *status = dc_stream_get_status(stream);
-  1946	
-  1947			dc_stream_log(dc, stream);
-  1948	
-  1949			set[i].stream = stream;
-  1950	
-  1951			if (status) {
-  1952				set[i].plane_count = status->plane_count;
-  1953				for (j = 0; j < status->plane_count; j++)
-  1954					set[i].plane_states[j] = status->plane_states[j];
-  1955			}
-  1956		}
-  1957	
-  1958		context = dc_create_state(dc);
-  1959		if (!context)
-  1960			goto context_alloc_fail;
-  1961	
-  1962		dc_resource_state_copy_construct_current(dc, context);
-  1963	
-  1964		/*
-  1965		 * Previous validation was perfomred with fast_validation = true and
-  1966		 * the full DML state required for hardware programming was skipped.
-  1967		 *
-  1968		 * Re-validate here to calculate these parameters / watermarks.
-  1969		 */
-  1970		res = dc_validate_global_state(dc, context, false);
-  1971		if (res != DC_OK) {
-  1972			DC_LOG_ERROR("DC commit global validation failure: %s (%d)",
-  1973				     dc_status_to_str(res), res);
-  1974			return res;
-  1975		}
-  1976	
-  1977		res = dc_commit_state_no_check(dc, context);
-  1978	
-  1979	context_alloc_fail:
-  1980	
-  1981		DC_LOG_DC("%s Finished.\n", __func__);
-  1982	
-  1983		return (res == DC_OK);
-  1984	}
-  1985	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Right, it's probably fine for debugfs indeed. Guess the uintptr_t cast
+Steve suggested is the right fix then.
