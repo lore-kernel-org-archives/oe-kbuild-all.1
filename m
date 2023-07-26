@@ -1,113 +1,157 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0332E1DA20
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 15:11:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D238A1DA20;
+	Wed, 26 Jul 2023 15:11:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690384296; x=1721920296;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xfcbdunn8MVYthWj9IRX2o+ue4q+jU9XBsqmvhqwWJs=;
-  b=C0Oca0xl/996qbAaKfzIoxzfi3zQ5UDxjZ/Y8b/Jb19xdmCmDH5ZV5sm
-   EOKYAwlGHUbFwwQoUlmYluO6PLtLGL2hc4gmzajveUMsHuCqu5uU5EmfT
-   8lOESlp20Ej10KDo7OB6LwG+L4Am7vsBZAFPbsnoX4TuiHjg2iMOkMcFE
-   9pHmazkAD7cZhxgwcJYKWQINSCC0e9b5UjsQnafJOCMg73wAOSI6lIdPf
-   FLy0jqR65WHSngGVor2Runu8VTw3WA/Dx2jvACyvL7wgaNfcrcxmjm4q5
-   RCAOH7qGGYvlIVzXGJDUviEsot6eFz8tbNUYdIe4DBOPzFqvtia1UgqVP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="434309020"
+  t=1690384300; x=1721920300;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9RT2oL5pUie5Hlh+sO24Ob9M7sD28qi5EqP3Jt/YoZI=;
+  b=e1/P7oW9oS+btaKcE3kosklv2Xunc0XUS6MT8j3530owkz1mM4Vj/Qrj
+   MWhQwAmVuFwAj3NM97Itp8I29nB5P15U8IbAKH1rVtjvBenyR2m7cxqJL
+   O3ACVDEGstwnKInVVyLKAS6F7FTkgRgmQmFOyWen7+tUe2544IRu0spFj
+   BHlivS1kM4+lZOlPZgfCq1m0T90cyiizIgWXRojtdE8/osqmX98/ZOnMU
+   oeI29Ysdnm0MGNbm7uxS9AIGVY1OY87CvukTUiLI59iGvdC71ZF0BTP2z
+   OcmUAncqxWOhPK610q9aoBllpKgiU91FT5JGDzRl/b+T/CWmziF1Akq8M
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="398977731"
 X-IronPort-AV: E=Sophos;i="6.01,232,1684825200"; 
-   d="scan'208";a="434309020"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 08:11:29 -0700
+   d="scan'208";a="398977731"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 08:11:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="720501450"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="756273905"
 X-IronPort-AV: E=Sophos;i="6.01,232,1684825200"; 
-   d="scan'208";a="720501450"
+   d="scan'208";a="756273905"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 26 Jul 2023 08:11:26 -0700
+  by orsmga008.jf.intel.com with ESMTP; 26 Jul 2023 08:11:30 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOgAa-00013L-1j;
-	Wed, 26 Jul 2023 15:11:21 +0000
-Date: Wed, 26 Jul 2023 23:11:13 +0800
+	id 1qOgAf-00013N-1X;
+	Wed, 26 Jul 2023 15:11:27 +0000
+Date: Wed, 26 Jul 2023 23:11:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: sharmaajay@linuxonhyperv.com, Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ajay Sharma <sharmaajay@microsoft.com>
-Subject: Re: [Patch v2 3/5] RDMA/mana_ib : Add error eq and notification from
- SoC
-Message-ID: <202307262214.QoyNnN8T-lkp@intel.com>
-References: <1690343820-20188-4-git-send-email-sharmaajay@linuxonhyperv.com>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:x86/core 2/6] arch/x86/kernel/kprobes/core.c:326:7:
+ error: call to undeclared function 'is_cfi_trap'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202307262307.LETETZsF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1690343820-20188-4-git-send-email-sharmaajay@linuxonhyperv.com>
+Content-Transfer-Encoding: 8bit
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on linus/master v6.5-rc3 next-20230726]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/sharmaajay-linuxonhyperv-com/RDMA-mana-ib-Rename-all-mana_ib_dev-type-variables-to-mib_dev/20230726-115925
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/1690343820-20188-4-git-send-email-sharmaajay%40linuxonhyperv.com
-patch subject: [Patch v2 3/5] RDMA/mana_ib : Add error eq and notification from SoC
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230726/202307262214.QoyNnN8T-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307262214.QoyNnN8T-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/core
+head:   1e68adb59894117251d942316d32514d45bd23ef
+commit: 9289e7bef6851d3b50619eab6b28d4d9ff69a12a [2/6] x86/kprobes: Prohibit probing on compiler generated CFI checking code
+config: x86_64-randconfig-x002-20230726 (https://download.01.org/0day-ci/archive/20230726/202307262307.LETETZsF-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307262307.LETETZsF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307262214.QoyNnN8T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307262307.LETETZsF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/infiniband/hw/mana/main.c:508:6: warning: no previous prototype for 'mana_ib_soc_event_handler' [-Wmissing-prototypes]
-     508 | void mana_ib_soc_event_handler(void *ctx, struct gdma_queue *queue,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/kprobes/core.c:326:7: error: call to undeclared function 'is_cfi_trap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   if (is_cfi_trap(addr + offset))
+                       ^
+   1 error generated.
 
 
-vim +/mana_ib_soc_event_handler +508 drivers/infiniband/hw/mana/main.c
+vim +/is_cfi_trap +326 arch/x86/kernel/kprobes/core.c
 
-   507	
- > 508	void mana_ib_soc_event_handler(void *ctx, struct gdma_queue *queue,
-   509					struct gdma_event *event)
-   510	{
-   511		struct mana_ib_dev *mib_dev = (struct mana_ib_dev *)ctx;
-   512	
-   513		switch (event->type) {
-   514		case GDMA_EQE_SOC_EVENT_NOTIFICATION:
-   515			ibdev_info(&mib_dev->ib_dev, "Received SOC Notification");
-   516			break;
-   517		case GDMA_EQE_SOC_EVENT_TEST:
-   518			ibdev_info(&mib_dev->ib_dev, "Received SoC Test");
-   519			break;
-   520		default:
-   521			ibdev_err(&mib_dev->ib_dev, "Received unsolicited evt %d",
-   522				event->type);
-   523		}
-   524	}
-   525	
+   254	
+   255	/* Check if paddr is at an instruction boundary */
+   256	static int can_probe(unsigned long paddr)
+   257	{
+   258		unsigned long addr, __addr, offset = 0;
+   259		struct insn insn;
+   260		kprobe_opcode_t buf[MAX_INSN_SIZE];
+   261	
+   262		if (!kallsyms_lookup_size_offset(paddr, NULL, &offset))
+   263			return 0;
+   264	
+   265		/* Decode instructions */
+   266		addr = paddr - offset;
+   267		while (addr < paddr) {
+   268			int ret;
+   269	
+   270			/*
+   271			 * Check if the instruction has been modified by another
+   272			 * kprobe, in which case we replace the breakpoint by the
+   273			 * original instruction in our buffer.
+   274			 * Also, jump optimization will change the breakpoint to
+   275			 * relative-jump. Since the relative-jump itself is
+   276			 * normally used, we just go through if there is no kprobe.
+   277			 */
+   278			__addr = recover_probed_instruction(buf, addr);
+   279			if (!__addr)
+   280				return 0;
+   281	
+   282			ret = insn_decode_kernel(&insn, (void *)__addr);
+   283			if (ret < 0)
+   284				return 0;
+   285	
+   286	#ifdef CONFIG_KGDB
+   287			/*
+   288			 * If there is a dynamically installed kgdb sw breakpoint,
+   289			 * this function should not be probed.
+   290			 */
+   291			if (insn.opcode.bytes[0] == INT3_INSN_OPCODE &&
+   292			    kgdb_has_hit_break(addr))
+   293				return 0;
+   294	#endif
+   295			addr += insn.length;
+   296		}
+   297		if (IS_ENABLED(CONFIG_CFI_CLANG)) {
+   298			/*
+   299			 * The compiler generates the following instruction sequence
+   300			 * for indirect call checks and cfi.c decodes this;
+   301			 *
+   302			 *   movl    -<id>, %r10d       ; 6 bytes
+   303			 *   addl    -4(%reg), %r10d    ; 4 bytes
+   304			 *   je      .Ltmp1             ; 2 bytes
+   305			 *   ud2                        ; <- regs->ip
+   306			 *   .Ltmp1:
+   307			 *
+   308			 * Also, these movl and addl are used for showing expected
+   309			 * type. So those must not be touched.
+   310			 */
+   311			__addr = recover_probed_instruction(buf, addr);
+   312			if (!__addr)
+   313				return 0;
+   314	
+   315			if (insn_decode_kernel(&insn, (void *)__addr) < 0)
+   316				return 0;
+   317	
+   318			if (insn.opcode.value == 0xBA)
+   319				offset = 12;
+   320			else if (insn.opcode.value == 0x3)
+   321				offset = 6;
+   322			else
+   323				goto out;
+   324	
+   325			/* This movl/addl is used for decoding CFI. */
+ > 326			if (is_cfi_trap(addr + offset))
+   327				return 0;
+   328		}
+   329	
+   330	out:
+   331		return (addr == paddr);
+   332	}
+   333	
 
 -- 
 0-DAY CI Kernel Test Service
