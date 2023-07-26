@@ -1,45 +1,34 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79031C9E6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 22:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690410777; x=1721946777;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3TinXiCOIIgYrhLeyEnxaIBl7I74tlRa6lCxNKolW2M=;
-  b=CyQQE1Db2BO9uaKo61ogJ1bxWt7QyYjz8jCwV4XnZRmcoojHNfAfl5Fc
-   F8+U49c1/P156dSY2ms2pYNDgszG+ZuShCkfPOJD5ZKe7twGoPrc2lUUt
-   KJ4bX7EJJ1dqOReM2IBTnfvB7hzb9IRUXVpIdUSiUGDSFy5OtenKxwgwc
-   zfu9IpUNAydIqtOAhNgs4rtCO7N/3HiavbQbV9nSP8v89hzEKbZLtGrvp
-   OdAqsMoIQnWKFvlBRNv18jrmUVbzLewEFIrskAeOdJcA2ym+pRt46FPwt
-   ro1wRMXLh2ihyen7dYWvK0wen72W5E1jujUe2dMYdo+IYxQq9stW9sL9Y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="370823936"
-X-IronPort-AV: E=Sophos;i="6.01,233,1684825200"; 
-   d="scan'208";a="370823936"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 15:32:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="761840075"
-X-IronPort-AV: E=Sophos;i="6.01,233,1684825200"; 
-   d="scan'208";a="761840075"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 26 Jul 2023 15:32:55 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qOn3u-0001O1-2I;
-	Wed, 26 Jul 2023 22:32:54 +0000
-Date: Thu, 27 Jul 2023 06:32:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] parport: mfc3: avoid empty-body warning
-Message-ID: <202307270631.RUr9mtaB-lkp@intel.com>
-References: <20230726150944.2265044-2-arnd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339FA1BF13
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 22:37:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79064C433C8;
+	Wed, 26 Jul 2023 22:37:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690411037;
+	bh=WQQupSmjofBDGu3HAWnE4eKHbclJmF4hABAfTGQqCqk=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=lOVa5zywy7T5xc8E9ZvlmdYomFEBWUGuFmz4QDkJh8cczy9Y282mkUXsTyBssNggF
+	 XjodvpY51KjHX7YQinTCALQSbuhRxmKIdEaOr672xE5afUNc7qGEXX/dEWorMUN60F
+	 9lyaSw+lcbunsmQLGRT4E5J2VEyGoTGN52bN1YbqBlAHHHVrLCvn5fiW9cJFS+EyEq
+	 jXMCov2Ls1ITV8VPngukd5zTmNlu1asyBEAL3ULA3yQLns6CK+RSatgdxMXt9a+0hn
+	 Ir6ZDytzkyyMq/8rHuu+RWB1+a/N2K92qYYbHIDh5BwAaRw1XvRRbXJtMWAvhpl6k/
+	 oFPZ+G52t0zpg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 16FDACE0A1C; Wed, 26 Jul 2023 15:37:17 -0700 (PDT)
+Date: Wed, 26 Jul 2023 15:37:17 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Arnd Bergmann <arnd@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [paulmck-rcu:dev.2023.07.24a 26/26] include/linux/init.h:149:33:
+ error: expected '=', ',', ';', 'asm' or '__attribute__' before
+ '__ro_after_init'
+Message-ID: <085969b7-4668-4839-9352-9e7e5a37e58f@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202307270622.15fzt0V1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,63 +37,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230726150944.2265044-2-arnd@kernel.org>
+In-Reply-To: <202307270622.15fzt0V1-lkp@intel.com>
 
-Hi Arnd,
+On Thu, Jul 27, 2023 at 06:11:50AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.07.24a
+> head:   aaeb7f70ca6fef20998ac6aa580e42ca7b85fb7f
+> commit: aaeb7f70ca6fef20998ac6aa580e42ca7b85fb7f [26/26] squash! fs/proc: Add /proc/cmdline_load for boot loader arguments
+> config: parisc-randconfig-r006-20230726 (https://download.01.org/0day-ci/archive/20230727/202307270622.15fzt0V1-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270622.15fzt0V1-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307270622.15fzt0V1-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    In file included from arch/parisc/include/asm/alternative.h:18,
+>                     from arch/parisc/include/asm/cache.h:9,
+>                     from include/linux/cache.h:6,
+>                     from include/linux/slab.h:15,
+>                     from drivers/w1/w1_netlink.c:6:
+> >> include/linux/init.h:149:33: error: expected '=', ',', ';', 'asm' or '__attribute__' before '__ro_after_init'
+>      149 | extern char boot_command_line[] __ro_after_init;
+>          |                                 ^~~~~~~~~~~~~~~
 
-kernel test robot noticed the following build warnings:
+This is since fixed courtesy of fixes from Stephen Rothwell and Arnd
+Bergmann, which I folded into the original:
 
-[auto build test WARNING on deller-parisc/for-next]
-[also build test WARNING on linus/master v6.5-rc3 next-20230726]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+de2f542cfbec ("fs/proc: Add /proc/cmdline_load for boot loader arguments")
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/parport-mfc3-avoid-empty-body-warning/20230726-231357
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git for-next
-patch link:    https://lore.kernel.org/r/20230726150944.2265044-2-arnd%40kernel.org
-patch subject: [PATCH 2/2] parport: mfc3: avoid empty-body warning
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230727/202307270631.RUr9mtaB-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270631.RUr9mtaB-lkp@intel.com/reproduce)
+							Thanx, Paul
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307270631.RUr9mtaB-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/parport/parport_mfc3.c: In function 'control_pc_to_mfc3':
->> drivers/parport/parport_mfc3.c:114:28: warning: "/*" within comment [-Wcomment]
-     114 |         if (control & 128) /* /INITP */
-         |                             
-   drivers/parport/parport_mfc3.c: In function 'mfc3_read_control':
-   drivers/parport/parport_mfc3.c:132:16: error: implicit declaration of function 'control_mfc3_to_pc'; did you mean 'control_pc_to_mfc3'? [-Werror=implicit-function-declaration]
-     132 |         return control_mfc3_to_pc(pia(p)->ppra & 0xe0);
-         |                ^~~~~~~~~~~~~~~~~~
-         |                control_pc_to_mfc3
-   cc1: some warnings being treated as errors
-
-
-vim +114 drivers/parport/parport_mfc3.c
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  108  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  109  static unsigned char control_mfc3_to_pc(unsigned char control)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  110  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  111  	unsigned char ret = PARPORT_CONTROL_STROBE 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  112  			  | PARPORT_CONTROL_AUTOFD | PARPORT_CONTROL_SELECT;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  113  
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @114  	if (control & 128) /* /INITP */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  115  		ret |= PARPORT_CONTROL_INIT;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  116  	if (control & 64) /* /AUTOLF */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  117  		ret &= ~PARPORT_CONTROL_AUTOFD;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  118  	if (control & 32) /* /SELECT_IN */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  119  		ret &= ~PARPORT_CONTROL_SELECT;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  120  	return ret;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  121  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  122  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> --
+>    In file included from include/linux/init.h:116,
+>                     from arch/parisc/include/asm/alternative.h:18,
+>                     from arch/parisc/include/asm/cache.h:9,
+>                     from arch/parisc/include/asm/page.h:23,
+>                     from arch/parisc/include/asm/pgtable.h:5,
+>                     from include/linux/pgtable.h:6,
+>                     from arch/parisc/include/asm/io.h:6,
+>                     from drivers/w1/w1_io.c:6:
+> >> include/linux/cache.h:72:31: error: 'L1_CACHE_SHIFT' undeclared here (not in a function); did you mean 'L1_CACHE_ALIGN'?
+>       72 | #define INTERNODE_CACHE_SHIFT L1_CACHE_SHIFT
+>          |                               ^~~~~~~~~~~~~~
+>    include/linux/cache.h:78:42: note: in expansion of macro 'INTERNODE_CACHE_SHIFT'
+>       78 |         __attribute__((__aligned__(1 << (INTERNODE_CACHE_SHIFT))))
+>          |                                          ^~~~~~~~~~~~~~~~~~~~~
+>    include/linux/cache.h:95:3: note: in expansion of macro '____cacheline_internodealigned_in_smp'
+>       95 | } ____cacheline_internodealigned_in_smp;
+>          |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >> arch/parisc/include/asm/cache.h:23: warning: "ARCH_DMA_MINALIGN" redefined
+>       23 | #define ARCH_DMA_MINALIGN       L1_CACHE_BYTES
+>          | 
+>    include/linux/cache.h:104: note: this is the location of the previous definition
+>      104 | #define ARCH_DMA_MINALIGN __alignof__(unsigned long long)
+>          | 
+> >> arch/parisc/include/asm/cache.h:25: warning: "__read_mostly" redefined
+>       25 | #define __read_mostly __section(".data..read_mostly")
+>          | 
+>    include/linux/cache.h:28: note: this is the location of the previous definition
+>       28 | #define __read_mostly
+>          | 
+> 
+> 
+> vim +149 include/linux/init.h
+> 
+>    146	
+>    147	/* Defined in init/main.c */
+>    148	extern int do_one_initcall(initcall_t fn);
+>  > 149	extern char boot_command_line[] __ro_after_init;
+>    150	extern char *saved_command_line;
+>    151	extern unsigned int saved_command_line_len;
+>    152	extern unsigned int reset_devices;
+>    153	extern char saved_bootconfig_string[];
+>    154	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
