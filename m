@@ -1,83 +1,116 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA21AD3D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 08:31:03 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-96-VKg90_CgNKeWV9dP-40RSg-1; Wed, 26 Jul 2023 09:31:01 +0100
-X-MC-Unique: VKg90_CgNKeWV9dP-40RSg-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 26 Jul
- 2023 09:30:59 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Wed, 26 Jul 2023 09:30:59 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'kernel test robot' <lkp@intel.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, 'Andy Shevchenko'
-	<andriy.shevchenko@linux.intel.com>, 'Andrew Morton'
-	<akpm@linux-foundation.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christoph Hellwig <hch@infradead.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>
-CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "Linux
- Memory Management List" <linux-mm@kvack.org>
-Subject: RE: [PATCH next 2/5] minmax: Allow min()/max()/clamp() if the
- arguments have the same signedness.
-Thread-Topic: [PATCH next 2/5] minmax: Allow min()/max()/clamp() if the
- arguments have the same signedness.
-Thread-Index: Adm+2wKUQ5yQ6t/FR+W/hRy2DuErJQALXH0AACSnwSA=
-Date: Wed, 26 Jul 2023 08:30:59 +0000
-Message-ID: <350c7fe495424138afd15d797830c417@AcuMS.aculab.com>
-References: <454f967d452548a9acfa7c0a0872507e@AcuMS.aculab.com>
- <202307252359.Is4T2MXC-lkp@intel.com>
-In-Reply-To: <202307252359.Is4T2MXC-lkp@intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49A3849C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 08:50:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690361404; x=1721897404;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZBPfSUOBEEUf5fQdeqovJY+0498evjKGGWBQi7m6ax4=;
+  b=QM756toIVOLxZAqCv1NFQNuASdGyFyaYQwtFjlt9q1kMP7may5IVQ6J4
+   tH4ymJzes4VNW5G06KqXrq65n+2yhNqmGoD93pzewELaQrY5PBSQ/ele2
+   SRhoPUjoHPNcSTy8gosmlQlk+xGByFCstrcR63+w3ORxGZ/NEQQ48DQyW
+   91sJAr6IbpcamdicEgInX9xvtoRnkR9aMFYhbOw0tfzGICoSZbPowck0G
+   4ux7gjBoBDCnnNSapHxGoV1/6G9UE8WFDF4cbI1G5JOBKAFWjpiUo7EPE
+   oU+7gn5v9Ewoc3jd1xicdO4LhjpxpQaiEBS2q7p3Fjq99I1Yq2j3W/nzP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="370632986"
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
+   d="scan'208";a="370632986"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 01:49:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="850389618"
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
+   d="scan'208";a="850389618"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 26 Jul 2023 01:49:47 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOaCU-0000pW-1R;
+	Wed, 26 Jul 2023 08:49:09 +0000
+Date: Wed, 26 Jul 2023 16:47:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] media: mediatek: vcodec: Consider vdecsys presence in
+ reg range check
+Message-ID: <202307261640.z33a4YO8-lkp@intel.com>
+References: <20230725204043.569799-1-nfraprado@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230725204043.569799-1-nfraprado@collabora.com>
 
-From: kernel test robot
-> Sent: 25 July 2023 16:58
->=20
-> kernel test robot noticed the following build errors:
->=20
-...
->=20
->    In file included from init/calibrate.c:8:
-> >> include/linux/jiffies.h:427:28: error: call to undeclared function 'st=
-atic_assert'; ISO C99 and
-> later do not support implicit function declarations [-Wimplicit-function-=
-declaration]
->      427 |         return jiffies_to_clock_t(max(0L, delta));
->          |                                   ^
-...
->    include/linux/minmax.h:29:3: note: expanded from macro '__cmp_once'
->       29 |                 static_assert(__types_ok(x, y),         \
+Hi Nícolas,
 
-This is fixed by the earlier patch:
-[PATCH v1 1/1] minmax: Fix header inclusions
+kernel test robot noticed the following build errors:
 
-which adds #include <linux/build_bug.h> and thus defines static_assert().
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v6.5-rc3 next-20230726]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Can I just assume that will be applied?
+url:    https://github.com/intel-lab-lkp/linux/commits/N-colas-F-R-A-Prado/media-mediatek-vcodec-Consider-vdecsys-presence-in-reg-range-check/20230726-044320
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230725204043.569799-1-nfraprado%40collabora.com
+patch subject: [PATCH] media: mediatek: vcodec: Consider vdecsys presence in reg range check
+config: arm-randconfig-r046-20230726 (https://download.01.org/0day-ci/archive/20230726/202307261640.z33a4YO8-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261640.z33a4YO8-lkp@intel.com/reproduce)
 
-=09David
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307261640.z33a4YO8-lkp@intel.com/
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+All errors (new ones prefixed by >>):
 
+   drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c: In function 'mtk_vcodec_get_reg_bases':
+>> drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c:90:15: error: 'has_vdecsys_reg' undeclared (first use in this function)
+      90 |             (!has_vdecsys_reg && reg_num > NUM_MAX_VDEC_REG_BASE - 1)) {
+         |               ^~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c:90:15: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/has_vdecsys_reg +90 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+
+    80	
+    81	static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_dev *dev)
+    82	{
+    83		struct platform_device *pdev = dev->plat_dev;
+    84		int reg_num, i;
+    85	
+    86		/* Sizeof(u32) * 4 bytes for each register base. */
+    87		reg_num = of_property_count_elems_of_size(pdev->dev.of_node, "reg",
+    88							  sizeof(u32) * 4);
+    89		if (reg_num <= 0 || reg_num > NUM_MAX_VDEC_REG_BASE ||
+  > 90		    (!has_vdecsys_reg && reg_num > NUM_MAX_VDEC_REG_BASE - 1)) {
+    91			dev_err(&pdev->dev, "Invalid register property size: %d\n", reg_num);
+    92			return -EINVAL;
+    93		}
+    94	
+    95		for (i = 0; i < reg_num; i++) {
+    96			dev->reg_base[i] = devm_platform_ioremap_resource(pdev, i);
+    97			if (IS_ERR(dev->reg_base[i]))
+    98				return PTR_ERR(dev->reg_base[i]);
+    99	
+   100			mtk_v4l2_debug(2, "reg[%d] base=%p", i, dev->reg_base[i]);
+   101		}
+   102	
+   103		return 0;
+   104	}
+   105	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
