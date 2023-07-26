@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F26663CC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 06:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23391FB9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 06:21:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690351818; x=1721887818;
+  t=1690352507; x=1721888507;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JFN6JSHxzpEsw/5O+L4Dvt+F+MwrgqIotVWYzAFTTO4=;
-  b=aUZaIHHmTRvo9IMNOSAcrI2q98YOFSZmDzrb59q2lQCasZO3UtIC6kC5
-   sCQp5wClRe3WFmikl3NSel/HS3PtjqA3W4iaN1Mh+bQXp0bOoctkIgN9k
-   Y/cCl8zjKu4pa3MlXXOAyBAyAHYAZViWNVb+8rexj7Udx/gNC3r3O4QV4
-   5vuIDnci3z5O0Y31BoaC080MbkznmhGwuUUfhAcBu8QoGibiHTKB3mBaC
-   A2xI50NIbGpaYzeSWLvQlNUwZF9OZ8icXjo+b0V9TOtopa7SmZkCDKyHU
-   cXIZqArjvbhaM58h56KKPF7AqjRli8fu1KlmDTa0tK/DMFk9FFY4U4DeX
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="367949437"
+  bh=G26OgeZO5h0obDN+JxbZBz/gmpRCdcG+JogZz4zL+ug=;
+  b=kQVi2mVdisrF4cL8NeV/PpqXwOoK6pWplSq3RadVOMgwpCZV1kLxeBFt
+   nJCCQUaBxwKuY0vahvzOniX2ph5utlcmnTzDAlw1+nVyGf0E5NdrvVfh2
+   EN4s9hjPaXMaB4fVZGffKnEPXDnk75zrTSKDqcOeNiBPZiwc0fvQVbvTd
+   6KcpGhLEHMC4YFexb7AZ72sUXhlbnPwn7XhsPD0P1VB1dEGlcsr6s14jP
+   V8USr+4CvNipfy3RE8ITTHoNtzl+CFn/NjfUVt8cjlrpF/+8tOk7WZ3Um
+   1aFVG+oogDQhYZ9AOGKq9nyigMib8heiP0E7f6dhdVbP+ttkZhmSc1wqz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="398854707"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="367949437"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 23:10:16 -0700
+   d="scan'208";a="398854707"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 23:21:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="703604695"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="676537524"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="703604695"
+   d="scan'208";a="676537524"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 25 Jul 2023 23:10:14 -0700
+  by orsmga003.jf.intel.com with ESMTP; 25 Jul 2023 23:21:45 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOXiv-0000il-0z;
-	Wed, 26 Jul 2023 06:10:13 +0000
-Date: Wed, 26 Jul 2023 14:09:32 +0800
+	id 1qOXu4-0000jT-2e;
+	Wed, 26 Jul 2023 06:21:44 +0000
+Date: Wed, 26 Jul 2023 14:20:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.10 528/538]
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2479:56: error: 'struct amdgpu_vm_pt'
- has no member named 'bo'
-Message-ID: <202307261310.NxefefGX-lkp@intel.com>
+Subject: [sashal-stable:pending-5.4 326/358] fs/nfsd/vfs.c:328:33: error:
+ implicit declaration of function 'setattr_should_drop_sgid'
+Message-ID: <202307261408.y2vTEsUA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,178 +46,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
-head:   f84ffbe78b852c65d06bb9a978f3bc43966a7a6c
-commit: 9dc2b8b95584b34e847b687334a49db202c6e6f1 [528/538] drm/amdgpu: fix clearing mappings for BOs that are always valid in VM
-config: csky-randconfig-r013-20230725 (https://download.01.org/0day-ci/archive/20230726/202307261310.NxefefGX-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261310.NxefefGX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.4
+head:   643df3563d38a49189f970269b48469e47dd5a20
+commit: 82431e343141e11002fa6fb0fa74e6f35d4fe0ca [326/358] nfsd: use vfs setgid helper
+config: s390-randconfig-r014-20230725 (https://download.01.org/0day-ci/archive/20230726/202307261408.y2vTEsUA-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261408.y2vTEsUA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307261310.NxefefGX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307261408.y2vTEsUA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c: In function 'amdgpu_vm_bo_clear_mappings':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2479:56: error: 'struct amdgpu_vm_pt' has no member named 'bo'
-    2479 |                 if (bo && bo->tbo.base.resv == vm->root.bo->tbo.base.resv &&
-         |                                                        ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2494:56: error: 'struct amdgpu_vm_pt' has no member named 'bo'
-    2494 |                 if (bo && bo->tbo.base.resv == vm->root.bo->tbo.base.resv &&
-         |                                                        ^
-   In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:34:
-   drivers/gpu/drm/amd/amdgpu/amdgpu.h: At top level:
-   drivers/gpu/drm/amd/amdgpu/amdgpu.h:199:19: warning: 'no_system_mem_limit' defined but not used [-Wunused-const-variable=]
-     199 | static const bool no_system_mem_limit;
-         |                   ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu.h:198:19: warning: 'debug_evictions' defined but not used [-Wunused-const-variable=]
-     198 | static const bool debug_evictions; /* = false */
-         |                   ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu.h:197:18: warning: 'sched_policy' defined but not used [-Wunused-const-variable=]
-     197 | static const int sched_policy = KFD_SCHED_POLICY_HWS;
-         |                  ^~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:33,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
-                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:67:
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:76:32: warning: 'dc_fixpt_ln2_div_2' defined but not used [-Wunused-const-variable=]
-      76 | static const struct fixed31_32 dc_fixpt_ln2_div_2 = { 1488522236LL };
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:75:32: warning: 'dc_fixpt_ln2' defined but not used [-Wunused-const-variable=]
-      75 | static const struct fixed31_32 dc_fixpt_ln2 = { 2977044471LL };
-         |                                ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:74:32: warning: 'dc_fixpt_e' defined but not used [-Wunused-const-variable=]
-      74 | static const struct fixed31_32 dc_fixpt_e = { 11674931555LL };
-         |                                ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:73:32: warning: 'dc_fixpt_two_pi' defined but not used [-Wunused-const-variable=]
-      73 | static const struct fixed31_32 dc_fixpt_two_pi = { 26986075409LL };
-         |                                ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:72:32: warning: 'dc_fixpt_pi' defined but not used [-Wunused-const-variable=]
-      72 | static const struct fixed31_32 dc_fixpt_pi = { 13493037705LL };
-         |                                ^~~~~~~~~~~
+   In file included from include/linux/sunrpc/svc.h:17,
+                    from fs/nfsd/nfsd.h:19,
+                    from fs/nfsd/xdr.h:8,
+                    from fs/nfsd/xdr3.h:11,
+                    from fs/nfsd/vfs.c:36:
+   include/linux/sunrpc/xdr.h: In function 'xdr_stream_decode_uint32_array':
+   include/linux/sunrpc/xdr.h:539:17: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+     539 |         if (len > SIZE_MAX / sizeof(*p))
+         |                 ^
+   fs/nfsd/vfs.c: In function 'nfsd_sanitize_attrs':
+>> fs/nfsd/vfs.c:328:33: error: implicit declaration of function 'setattr_should_drop_sgid' [-Werror=implicit-function-declaration]
+     328 |                                 setattr_should_drop_sgid(&nop_mnt_idmap, inode);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/nfsd/vfs.c:328:59: error: 'nop_mnt_idmap' undeclared (first use in this function)
+     328 |                                 setattr_should_drop_sgid(&nop_mnt_idmap, inode);
+         |                                                           ^~~~~~~~~~~~~
+   fs/nfsd/vfs.c:328:59: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
 
 
-vim +2479 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+vim +/setattr_should_drop_sgid +328 fs/nfsd/vfs.c
 
-  2387	
-  2388	/**
-  2389	 * amdgpu_vm_bo_clear_mappings - remove all mappings in a specific range
-  2390	 *
-  2391	 * @adev: amdgpu_device pointer
-  2392	 * @vm: VM structure to use
-  2393	 * @saddr: start of the range
-  2394	 * @size: size of the range
-  2395	 *
-  2396	 * Remove all mappings in a range, split them as appropriate.
-  2397	 *
-  2398	 * Returns:
-  2399	 * 0 for success, error for failure.
-  2400	 */
-  2401	int amdgpu_vm_bo_clear_mappings(struct amdgpu_device *adev,
-  2402					struct amdgpu_vm *vm,
-  2403					uint64_t saddr, uint64_t size)
-  2404	{
-  2405		struct amdgpu_bo_va_mapping *before, *after, *tmp, *next;
-  2406		LIST_HEAD(removed);
-  2407		uint64_t eaddr;
-  2408	
-  2409		eaddr = saddr + size - 1;
-  2410		saddr /= AMDGPU_GPU_PAGE_SIZE;
-  2411		eaddr /= AMDGPU_GPU_PAGE_SIZE;
-  2412	
-  2413		/* Allocate all the needed memory */
-  2414		before = kzalloc(sizeof(*before), GFP_KERNEL);
-  2415		if (!before)
-  2416			return -ENOMEM;
-  2417		INIT_LIST_HEAD(&before->list);
-  2418	
-  2419		after = kzalloc(sizeof(*after), GFP_KERNEL);
-  2420		if (!after) {
-  2421			kfree(before);
-  2422			return -ENOMEM;
-  2423		}
-  2424		INIT_LIST_HEAD(&after->list);
-  2425	
-  2426		/* Now gather all removed mappings */
-  2427		tmp = amdgpu_vm_it_iter_first(&vm->va, saddr, eaddr);
-  2428		while (tmp) {
-  2429			/* Remember mapping split at the start */
-  2430			if (tmp->start < saddr) {
-  2431				before->start = tmp->start;
-  2432				before->last = saddr - 1;
-  2433				before->offset = tmp->offset;
-  2434				before->flags = tmp->flags;
-  2435				before->bo_va = tmp->bo_va;
-  2436				list_add(&before->list, &tmp->bo_va->invalids);
-  2437			}
-  2438	
-  2439			/* Remember mapping split at the end */
-  2440			if (tmp->last > eaddr) {
-  2441				after->start = eaddr + 1;
-  2442				after->last = tmp->last;
-  2443				after->offset = tmp->offset;
-  2444				after->offset += (after->start - tmp->start) << PAGE_SHIFT;
-  2445				after->flags = tmp->flags;
-  2446				after->bo_va = tmp->bo_va;
-  2447				list_add(&after->list, &tmp->bo_va->invalids);
-  2448			}
-  2449	
-  2450			list_del(&tmp->list);
-  2451			list_add(&tmp->list, &removed);
-  2452	
-  2453			tmp = amdgpu_vm_it_iter_next(tmp, saddr, eaddr);
-  2454		}
-  2455	
-  2456		/* And free them up */
-  2457		list_for_each_entry_safe(tmp, next, &removed, list) {
-  2458			amdgpu_vm_it_remove(tmp, &vm->va);
-  2459			list_del(&tmp->list);
-  2460	
-  2461			if (tmp->start < saddr)
-  2462			    tmp->start = saddr;
-  2463			if (tmp->last > eaddr)
-  2464			    tmp->last = eaddr;
-  2465	
-  2466			tmp->bo_va = NULL;
-  2467			list_add(&tmp->list, &vm->freed);
-  2468			trace_amdgpu_vm_bo_unmap(NULL, tmp);
-  2469		}
-  2470	
-  2471		/* Insert partial mapping before the range */
-  2472		if (!list_empty(&before->list)) {
-  2473			struct amdgpu_bo *bo = before->bo_va->base.bo;
-  2474	
-  2475			amdgpu_vm_it_insert(before, &vm->va);
-  2476			if (before->flags & AMDGPU_PTE_PRT)
-  2477				amdgpu_vm_prt_get(adev);
-  2478	
-> 2479			if (bo && bo->tbo.base.resv == vm->root.bo->tbo.base.resv &&
-  2480			    !before->bo_va->base.moved)
-  2481				amdgpu_vm_bo_moved(&before->bo_va->base);
-  2482		} else {
-  2483			kfree(before);
-  2484		}
-  2485	
-  2486		/* Insert partial mapping after the range */
-  2487		if (!list_empty(&after->list)) {
-  2488			struct amdgpu_bo *bo = after->bo_va->base.bo;
-  2489	
-  2490			amdgpu_vm_it_insert(after, &vm->va);
-  2491			if (after->flags & AMDGPU_PTE_PRT)
-  2492				amdgpu_vm_prt_get(adev);
-  2493	
-  2494			if (bo && bo->tbo.base.resv == vm->root.bo->tbo.base.resv &&
-  2495			    !after->bo_va->base.moved)
-  2496				amdgpu_vm_bo_moved(&after->bo_va->base);
-  2497		} else {
-  2498			kfree(after);
-  2499		}
-  2500	
-  2501		return 0;
-  2502	}
-  2503	
+   301	
+   302	/*
+   303	 * Go over the attributes and take care of the small differences between
+   304	 * NFS semantics and what Linux expects.
+   305	 */
+   306	static void
+   307	nfsd_sanitize_attrs(struct inode *inode, struct iattr *iap)
+   308	{
+   309		/* sanitize the mode change */
+   310		if (iap->ia_valid & ATTR_MODE) {
+   311			iap->ia_mode &= S_IALLUGO;
+   312			iap->ia_mode |= (inode->i_mode & ~S_IALLUGO);
+   313		}
+   314	
+   315		/* Revoke setuid/setgid on chown */
+   316		if (!S_ISDIR(inode->i_mode) &&
+   317		    ((iap->ia_valid & ATTR_UID) || (iap->ia_valid & ATTR_GID))) {
+   318			iap->ia_valid |= ATTR_KILL_PRIV;
+   319			if (iap->ia_valid & ATTR_MODE) {
+   320				/* we're setting mode too, just clear the s*id bits */
+   321				iap->ia_mode &= ~S_ISUID;
+   322				if (iap->ia_mode & S_IXGRP)
+   323					iap->ia_mode &= ~S_ISGID;
+   324			} else {
+   325				/* set ATTR_KILL_* bits and let VFS handle it */
+   326				iap->ia_valid |= ATTR_KILL_SUID;
+   327				iap->ia_valid |=
+ > 328					setattr_should_drop_sgid(&nop_mnt_idmap, inode);
+   329			}
+   330		}
+   331	}
+   332	
 
 -- 
 0-DAY CI Kernel Test Service
