@@ -1,43 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83A07C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 01:20:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE487C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 01:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690334430; x=1721870430;
+  t=1690334961; x=1721870961;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fGbjBI6s5KuOH9UkbySeApHh99VCqJ4S+/Bira+83jM=;
-  b=XEGbMKWo9PJVlUg9yZ7Hd3ol+cuMjip32xpU8v3D+zunXcLEPdy+B2fO
-   m5VXRwkeMdhjVTVSZeY9w4XMIunUqfimu2187qXGXuCexFTK4w2UrsPuw
-   TUNDZ0kStspU61+hIWfRV0LlDdN4LTNXH0MHII0m25VT3cPqRCSDmeOPA
-   DGGfxLdteZOjtUD0o8C7SYIvngapYCBqaACgjsyxZrZI+KG7xKdwCLwmB
-   i6ILsuKhz9jUeMBWbvTWh20nFWNvxdrWEWQ7sgnW+mhd3rOwfDXfzxvc6
-   RWXOKXTxsWz46YZDP+r+ek4NEbG5nWvfcjX6S+z7oHz8hvEfcLjjTmJBZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="398804935"
+  bh=rLrwN231gbRNZwlVTiskoIa513bQnsdAEsRYgBtr61k=;
+  b=YTVXKmfX2TeaRDyU+EotGSqX7apiuVUChR+CycaxYRI0MqHZ3RG8ZTKR
+   WmwXvbFWKdcoZ1osY63L/TtysnZ/E9oxd3rmX/5Cq3/EoNH1hLj5PRjCR
+   GGlrll/DAhdR6/jU6jFPuRxBtiDSzfmzGiirr0pgipLxz9nQ+GA2S4Be+
+   1bjC6oR/P9XT9srxSmPWEv3OCUKzqStgyi+EPq9DDHJaDbMvbuosG5+Fp
+   d1ISKFBRW8y/SSeHWyuZD4WHbosJlfPkt+SvOssHnundYYE9HY0+dyyy0
+   y7qw7nlq6qTCvStvVB6pjf3cvUjT3+Js8uoKkGowuVajBbk1UgJW10BpY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="352788253"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="398804935"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 18:20:29 -0700
+   d="scan'208";a="352788253"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 18:29:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="816475911"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="755980612"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="816475911"
+   d="scan'208";a="755980612"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 25 Jul 2023 18:20:29 -0700
+  by orsmga008.jf.intel.com with ESMTP; 25 Jul 2023 18:29:19 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOTBq-0000Vn-31;
-	Wed, 26 Jul 2023 01:20:01 +0000
-Date: Wed, 26 Jul 2023 09:18:53 +0800
+	id 1qOTL4-0000WJ-14;
+	Wed, 26 Jul 2023 01:29:18 +0000
+Date: Wed, 26 Jul 2023 09:29:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 24047/28662]
- drivers/firmware/smccc/smccc.c:11:10: fatal error: asm/archrandom.h: No such
- file or directory
-Message-ID: <202307260923.Pf8epvsM-lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: drivers/pinctrl/qcom/pinctrl-ipq5018.c:244:27: warning: '_groups'
+ defined but not used
+Message-ID: <202307260914.AMUMoZ8S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,38 +48,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Will,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   2ae44edfeecb009059f6aecb3c457d43310273e0
-commit: d9a579535cd0f4623e627c3375781fb29c78692b [24047/28662] BACKPORT: arm/arm64: Probe for the presence of KVM hypervisor
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230726/202307260923.Pf8epvsM-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260923.Pf8epvsM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   18b44bc5a67275641fb26f2c54ba7eef80ac5950
+commit: 405ac045ec730d10e5901d653088b9d67bfaaa80 pinctrl: qcom: allow true compile testing
+date:   7 weeks ago
+config: i386-buildonly-randconfig-r004-20230726 (https://download.01.org/0day-ci/archive/20230726/202307260914.AMUMoZ8S-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307260914.AMUMoZ8S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307260923.Pf8epvsM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307260914.AMUMoZ8S-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/firmware/smccc/smccc.c:11:10: fatal error: asm/archrandom.h: No such file or directory
-      11 | #include <asm/archrandom.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
+>> drivers/pinctrl/qcom/pinctrl-ipq5018.c:244:27: warning: '_groups' defined but not used [-Wunused-const-variable=]
+     244 | static const char * const _groups[] = {
+         |                           ^~~~~~~
 
 
-vim +11 drivers/firmware/smccc/smccc.c
+vim +/_groups +244 drivers/pinctrl/qcom/pinctrl-ipq5018.c
 
-     7	
-     8	#include <linux/init.h>
-     9	#include <linux/arm-smccc.h>
-    10	#include <linux/kernel.h>
-  > 11	#include <asm/archrandom.h>
-    12	
+725d1c8916583f Sricharan Ramabadhran 2023-06-08  243  
+725d1c8916583f Sricharan Ramabadhran 2023-06-08 @244  static const char * const _groups[] = {
+725d1c8916583f Sricharan Ramabadhran 2023-06-08  245  	"gpio0", "gpio1", "gpio2", "gpio3", "gpio4", "gpio5", "gpio6", "gpio7",
+725d1c8916583f Sricharan Ramabadhran 2023-06-08  246  	"gpio8", "gpio9", "gpio10", "gpio11", "gpio12", "gpio13", "gpio14",
+725d1c8916583f Sricharan Ramabadhran 2023-06-08  247  	"gpio15", "gpio16", "gpio17", "gpio18", "gpio19", "gpio20", "gpio21",
+725d1c8916583f Sricharan Ramabadhran 2023-06-08  248  	"gpio22", "gpio23", "gpio24", "gpio25", "gpio26", "gpio27", "gpio28",
+725d1c8916583f Sricharan Ramabadhran 2023-06-08  249  	"gpio29", "gpio30", "gpio31", "gpio32", "gpio33", "gpio34", "gpio35",
+725d1c8916583f Sricharan Ramabadhran 2023-06-08  250  	"gpio36", "gpio37", "gpio38", "gpio39", "gpio40", "gpio41", "gpio42",
+725d1c8916583f Sricharan Ramabadhran 2023-06-08  251  	"gpio43", "gpio44", "gpio45", "gpio46",
+725d1c8916583f Sricharan Ramabadhran 2023-06-08  252  };
+725d1c8916583f Sricharan Ramabadhran 2023-06-08  253  
+
+:::::: The code at line 244 was first introduced by commit
+:::::: 725d1c8916583f9c09e5f05e5a55dd47fdca61c1 pinctrl: qcom: Add IPQ5018 pinctrl driver
+
+:::::: TO: Sricharan Ramabadhran <quic_srichara@quicinc.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
