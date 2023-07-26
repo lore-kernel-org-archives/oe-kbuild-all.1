@@ -1,43 +1,42 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B803E7C;
-	Wed, 26 Jul 2023 02:10:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BFC1108
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 03:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690337449; x=1721873449;
+  t=1690341170; x=1721877170;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rYyiHYx4CXBouauJ57GHmuYj82f0kVX/1p4BA5r6Y9Y=;
-  b=fTbJPlSYOGkOiXxy6kscXxkg4GPkFLBoYadjDK6XeaJxaxL+5T1hj34u
-   PDpAGxeAGNPG3XDh4qMpUpWrvpxWZqeOzAhuqpMWutIN7aqLAMRHFk13m
-   WtDch2MczbItZkls/SaDAexGsKeHlsAD50Xj51awngOMQsbao/IldR++2
-   tV7oTz+cLbdKPJjE854zaVwH9p8yembSVxOIy44TwCAMI9YgwQYPdyQtQ
-   j5xHttkXn2nm+rmxZ5nnq2Ivcb0jbVJaA+x36vJWKT3KbB2mB4i6Gud4A
-   2/YwBuz+6Cn9FU8QNPbGLOwJrZErDrmcoD0XCkgfJUUuPZL0Dv8NfSPI6
+  bh=uIwbu4L2MloP1+HvS50IpzccwfAmAZM4+anEsLRR/0w=;
+  b=H5BcrPojgoMlIP6dKXSZaD64sgV0jOpGA8cDQdchRhbJauYJ4cUvSDrL
+   2Xaft3jLjIXQxmI/Cv+qahvZ50Xoql3Ejuan6K9jmd0mE407tpBW063IJ
+   GEIUB6jhkMjMmx2hVPl8lOVhLD/DSf1Sa4sot6bANOo71Ez7zxr63SUxi
+   JXRAiWIcG6Uv82vVbSvsjyxyDD609gSCV34maLTLy7FL26xp4p97kphlG
+   WvQ3bumso2bYiyOMuuTI5xdNBd2LZeo5vM806iOVYkIpJQJ5RK3YxxatA
+   EXXJiz+4JxuhzStL9OEwQ+q7rlrwpjpdYQPYWk47Z+GqHEL7rrZrGAzCx
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="370567123"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="370574385"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="370567123"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 19:10:49 -0700
+   d="scan'208";a="370574385"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 20:12:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="850256973"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="850256973"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="869716691"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 25 Jul 2023 19:10:47 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 25 Jul 2023 20:12:50 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOTzC-0000Y7-2e;
-	Wed, 26 Jul 2023 02:10:46 +0000
-Date: Wed, 26 Jul 2023 10:10:27 +0800
+	id 1qOUxE-0000ad-0h;
+	Wed, 26 Jul 2023 03:12:48 +0000
+Date: Wed, 26 Jul 2023 11:12:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sean Christopherson <sean.j.christopherson@intel.com>
-Subject: [intel-tdx:kvm-upstream-workaround 76/343]
- arch/x86/include/asm/tdx.h:102:49: warning: shift count >= width of type
-Message-ID: <202307261053.vBRQCxbk-lkp@intel.com>
+To: Derek Fang <derek.fang@realtek.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-misc:asoc-6.6 21/23]
+ sound/soc/codecs/rt1017-sdca-sdw.h:183:33: warning:
+ 'rt1017_sdca_mbq_defaults' defined but not used
+Message-ID: <202307261130.2dLXdvPF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,78 +46,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   76c1c9e7f4012a2878b2fdf292245aa685c34b2d
-commit: 2d81a22fc1d641b3f66aec13e5d1ee13ad266857 [76/343] KVM: TDX: Add C wrapper functions for SEAMCALLs to the TDX module
-config: i386-randconfig-r032-20230725 (https://download.01.org/0day-ci/archive/20230726/202307261053.vBRQCxbk-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261053.vBRQCxbk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git asoc-6.6
+head:   5bdeb6f5c7b94f653183f08eca8a08022b2efac6
+commit: 2b7aecd58528551e6e3da58091ff7ceb4718e6be [21/23] ASoC: rt1017: Add RT1017 SDCA amplifier driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230726/202307261130.2dLXdvPF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261130.2dLXdvPF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307261053.vBRQCxbk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307261130.2dLXdvPF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/asm-offsets.c:22:
->> arch/x86/include/asm/tdx.h:102:49: warning: shift count >= width of type [-Wshift-count-overflow]
-                                struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-                                                                        ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:26:28: note: expanded from macro 'TDX_SEAMCALL_UD'
-   #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-                                            ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:22:25: note: expanded from macro 'TDX_SW_ERROR'
-   #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-                                            ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:21:21: note: expanded from macro 'TDX_ERROR'
-   #define TDX_ERROR                       _BITUL(63)
-                                           ^~~~~~~~~~
-   include/uapi/linux/const.h:28:27: note: expanded from macro '_BITUL'
-   #define _BITUL(x)       (_UL(1) << (x))
-                                   ^  ~~~
-   1 warning generated.
---
-   In file included from arch/x86/kernel/asm-offsets.c:22:
->> arch/x86/include/asm/tdx.h:102:49: warning: shift count >= width of type [-Wshift-count-overflow]
-                                struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-                                                                        ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:26:28: note: expanded from macro 'TDX_SEAMCALL_UD'
-   #define TDX_SEAMCALL_UD                 (TDX_SW_ERROR | X86_TRAP_UD)
-                                            ^~~~~~~~~~~~
-   arch/x86/include/asm/tdx.h:22:25: note: expanded from macro 'TDX_SW_ERROR'
-   #define TDX_SW_ERROR                    (TDX_ERROR | GENMASK_ULL(47, 40))
-                                            ^~~~~~~~~
-   arch/x86/include/asm/tdx.h:21:21: note: expanded from macro 'TDX_ERROR'
-   #define TDX_ERROR                       _BITUL(63)
-                                           ^~~~~~~~~~
-   include/uapi/linux/const.h:28:27: note: expanded from macro '_BITUL'
-   #define _BITUL(x)       (_UL(1) << (x))
-                                   ^  ~~~
-   1 warning generated.
+   In file included from sound/soc/codecs/rt1017-sdca-sdw.c:22:
+>> sound/soc/codecs/rt1017-sdca-sdw.h:183:33: warning: 'rt1017_sdca_mbq_defaults' defined but not used [-Wunused-const-variable=]
+     183 | static const struct reg_default rt1017_sdca_mbq_defaults[] = {
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +102 arch/x86/include/asm/tdx.h
+vim +/rt1017_sdca_mbq_defaults +183 sound/soc/codecs/rt1017-sdca-sdw.h
 
-    86	
-    87	#ifdef CONFIG_INTEL_TDX_HOST
-    88	bool platform_tdx_enabled(void);
-    89	int tdx_cpu_enable(void);
-    90	int tdx_enable(void);
-    91	void tdx_reset_memory(void);
-    92	bool tdx_is_private_mem(unsigned long phys);
-    93	u64 __seamcall(u64 op, u64 rcx, u64 rdx, u64 r8, u64 r9,
-    94		       struct tdx_module_output *out);
-    95	#else	/* !CONFIG_INTEL_TDX_HOST */
-    96	static inline bool platform_tdx_enabled(void) { return false; }
-    97	static inline int tdx_cpu_enable(void) { return -ENODEV; }
-    98	static inline int tdx_enable(void)  { return -ENODEV; }
-    99	static inline void tdx_reset_memory(void) { }
-   100	static inline bool tdx_is_private_mem(unsigned long phys) { return false; }
-   101	static inline u64 __seamcall(u64 op, u64 rcx, u64 rdx, u64 r8, u64 r9,
- > 102				     struct tdx_module_output *out) { return TDX_SEAMCALL_UD; };
-   103	#endif	/* CONFIG_INTEL_TDX_HOST */
-   104	
+   182	
+ > 183	static const struct reg_default rt1017_sdca_mbq_defaults[] = {
+   184		{ SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, RT1017_SDCA_ENT_FU,
+   185				RT1017_SDCA_CTL_FU_VOLUME, 0x01), 0x00 },
+   186	};
+   187	
 
 -- 
 0-DAY CI Kernel Test Service
