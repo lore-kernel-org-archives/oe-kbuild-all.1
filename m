@@ -1,43 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58161878
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 03:12:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C87E1FD0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 03:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690341170; x=1721877170;
+  t=1690343651; x=1721879651;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wq7TqPz/E1qdHF5zsjeT7q7Tc0QZrnEffIZPeMY5mIs=;
-  b=XoHQIKXsX0KhJYK9UMCpkzusdyZfvTtLIjbneteW/7O50jnce4xyZsif
-   KlLS7E3kxgfuad9wKwPfvAMyxJu3Iu6Vf+sJFu/Ov21NeHWEr2da/M3hg
-   yW3nsBu/0iJc8zw83RBuEQ7HpHBgyEqbl8vr9V4HgziZMBhG08rtpF98/
-   gfAKCFjExMHvt437uaOfXVCbnYWmXe2YW96zUQ5E7jzrMcbdjy2IOAPT8
-   U7M7g2pqhbBn2vxU8oYuKq38kYl8d2rPbWEADFwOSfdh1h94WgMiA/jqg
-   LW3+jbLeAiSNDtXqJPw+yIXL3iXRjiKrrIHVrc9Bx/O5Ay/2U9tVFB6K4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="365358474"
+  bh=64ACqX2MJm7OjnGxp18bPrBdVDEAPapxs2MxW/T1N9s=;
+  b=nFFF7Azyfw+/HiQvBhvXqAZugKv5R0zXN1BNlrsrS9rxoWUalTHEeuxQ
+   Wt0r5ekdD3FQW2kqisH2b/EFbOlVPjxof1uDVOGGb9498X+QtSq5ss6zX
+   OzTciV4L8cg8jDd47bUyRSN+RcHNvOoyYCbOrnXfpFErEtU7hCOyBtiGj
+   9l3HfanhwdFpW4OhKZzfnoPdaBPcMYwDX775oaKBjUVHz0qEYMlk56q4t
+   swCExOnNT3QnVqIP9yCPwW6oAsbq85uQmJnjcAOvlutzS6VedG+ZCzKLg
+   ly2Q7MCFnb4iQN7EB/pD2HA97SFvdA+chTo82NquBH5AM0ALaAGPWBmDZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="434160505"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="365358474"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 20:12:49 -0700
+   d="scan'208";a="434160505"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 20:54:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="796363050"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="726351958"
 X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; 
-   d="scan'208";a="796363050"
+   d="scan'208";a="726351958"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 25 Jul 2023 20:12:48 -0700
+  by orsmga002.jf.intel.com with ESMTP; 25 Jul 2023 20:54:09 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOUxE-0000ah-0o;
-	Wed, 26 Jul 2023 03:12:48 +0000
-Date: Wed, 26 Jul 2023 11:12:27 +0800
+	id 1qOVbE-0000dv-1L;
+	Wed, 26 Jul 2023 03:54:08 +0000
+Date: Wed, 26 Jul 2023 11:54:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Derek Fang <derek.fang@realtek.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [broonie-misc:asoc-6.6 21/23]
- sound/soc/codecs/rt1017-sdca-sdw.h:183:33: warning:
- 'rt1017_sdca_mbq_defaults' defined but not used
-Message-ID: <202307261130.5IT3WVbA-lkp@intel.com>
+To: Robert Hancock <robert.hancock@calian.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Lunn <andrew@lunn.ch>
+Subject: [stable:linux-4.19.y 1539/6360]
+ drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:9: error: 'ret'
+ undeclared; did you mean 'net'?
+Message-ID: <202307261159.rZEAuyu7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,34 +49,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git asoc-6.6
-head:   5bdeb6f5c7b94f653183f08eca8a08022b2efac6
-commit: 2b7aecd58528551e6e3da58091ff7ceb4718e6be [21/23] ASoC: rt1017: Add RT1017 SDCA amplifier driver
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230726/202307261130.5IT3WVbA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261130.5IT3WVbA-lkp@intel.com/reproduce)
+Hi Robert,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   767049cead76cf699707290d5aeefb3e4d0d5b43
+commit: 8b8ad8a7ac24905937c3975b54c4594b93b66ebb [1539/6360] net: axienet: Wait for PhyRstCmplt after core reset
+config: microblaze-randconfig-m041-20230726 (https://download.01.org/0day-ci/archive/20230726/202307261159.rZEAuyu7-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230726/202307261159.rZEAuyu7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307261130.5IT3WVbA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307261159.rZEAuyu7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from sound/soc/codecs/rt1017-sdca-sdw.c:22:
->> sound/soc/codecs/rt1017-sdca-sdw.h:183:33: warning: 'rt1017_sdca_mbq_defaults' defined but not used [-Wunused-const-variable=]
-     183 | static const struct reg_default rt1017_sdca_mbq_defaults[] = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_dma_bd_init':
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
+     283 |         ret = read_poll_timeout(axienet_ior, value,
+         |         ^~~
+         |         net
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:9: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:15: error: implicit declaration of function 'read_poll_timeout' [-Werror=implicit-function-declaration]
+     283 |         ret = read_poll_timeout(axienet_ior, value,
+         |               ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:46: error: 'value' undeclared (first use in this function)
+     283 |         ret = read_poll_timeout(axienet_ior, value,
+         |                                              ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/rt1017_sdca_mbq_defaults +183 sound/soc/codecs/rt1017-sdca-sdw.h
+vim +283 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
 
-   182	
- > 183	static const struct reg_default rt1017_sdca_mbq_defaults[] = {
-   184		{ SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, RT1017_SDCA_ENT_FU,
-   185				RT1017_SDCA_CTL_FU_VOLUME, 0x01), 0x00 },
-   186	};
-   187	
+   178	
+   179	/**
+   180	 * axienet_dma_bd_init - Setup buffer descriptor rings for Axi DMA
+   181	 * @ndev:	Pointer to the net_device structure
+   182	 *
+   183	 * Return: 0, on success -ENOMEM, on failure
+   184	 *
+   185	 * This function is called to initialize the Rx and Tx DMA descriptor
+   186	 * rings. This initializes the descriptors with required default values
+   187	 * and is called when Axi Ethernet driver reset is called.
+   188	 */
+   189	static int axienet_dma_bd_init(struct net_device *ndev)
+   190	{
+   191		u32 cr;
+   192		int i;
+   193		struct sk_buff *skb;
+   194		struct axienet_local *lp = netdev_priv(ndev);
+   195	
+   196		/* Reset the indexes which are used for accessing the BDs */
+   197		lp->tx_bd_ci = 0;
+   198		lp->tx_bd_tail = 0;
+   199		lp->rx_bd_ci = 0;
+   200	
+   201		/* Allocate the Tx and Rx buffer descriptors. */
+   202		lp->tx_bd_v = dma_zalloc_coherent(ndev->dev.parent,
+   203						  sizeof(*lp->tx_bd_v) * TX_BD_NUM,
+   204						  &lp->tx_bd_p, GFP_KERNEL);
+   205		if (!lp->tx_bd_v)
+   206			goto out;
+   207	
+   208		lp->rx_bd_v = dma_zalloc_coherent(ndev->dev.parent,
+   209						  sizeof(*lp->rx_bd_v) * RX_BD_NUM,
+   210						  &lp->rx_bd_p, GFP_KERNEL);
+   211		if (!lp->rx_bd_v)
+   212			goto out;
+   213	
+   214		for (i = 0; i < TX_BD_NUM; i++) {
+   215			lp->tx_bd_v[i].next = lp->tx_bd_p +
+   216					      sizeof(*lp->tx_bd_v) *
+   217					      ((i + 1) % TX_BD_NUM);
+   218		}
+   219	
+   220		for (i = 0; i < RX_BD_NUM; i++) {
+   221			lp->rx_bd_v[i].next = lp->rx_bd_p +
+   222					      sizeof(*lp->rx_bd_v) *
+   223					      ((i + 1) % RX_BD_NUM);
+   224	
+   225			skb = netdev_alloc_skb_ip_align(ndev, lp->max_frm_size);
+   226			if (!skb)
+   227				goto out;
+   228	
+   229			lp->rx_bd_v[i].sw_id_offset = (u32) skb;
+   230			lp->rx_bd_v[i].phys = dma_map_single(ndev->dev.parent,
+   231							     skb->data,
+   232							     lp->max_frm_size,
+   233							     DMA_FROM_DEVICE);
+   234			lp->rx_bd_v[i].cntrl = lp->max_frm_size;
+   235		}
+   236	
+   237		/* Start updating the Rx channel control register */
+   238		cr = axienet_dma_in32(lp, XAXIDMA_RX_CR_OFFSET);
+   239		/* Update the interrupt coalesce count */
+   240		cr = ((cr & ~XAXIDMA_COALESCE_MASK) |
+   241		      ((lp->coalesce_count_rx) << XAXIDMA_COALESCE_SHIFT));
+   242		/* Update the delay timer count */
+   243		cr = ((cr & ~XAXIDMA_DELAY_MASK) |
+   244		      (XAXIDMA_DFT_RX_WAITBOUND << XAXIDMA_DELAY_SHIFT));
+   245		/* Enable coalesce, delay timer and error interrupts */
+   246		cr |= XAXIDMA_IRQ_ALL_MASK;
+   247		/* Write to the Rx channel control register */
+   248		axienet_dma_out32(lp, XAXIDMA_RX_CR_OFFSET, cr);
+   249	
+   250		/* Start updating the Tx channel control register */
+   251		cr = axienet_dma_in32(lp, XAXIDMA_TX_CR_OFFSET);
+   252		/* Update the interrupt coalesce count */
+   253		cr = (((cr & ~XAXIDMA_COALESCE_MASK)) |
+   254		      ((lp->coalesce_count_tx) << XAXIDMA_COALESCE_SHIFT));
+   255		/* Update the delay timer count */
+   256		cr = (((cr & ~XAXIDMA_DELAY_MASK)) |
+   257		      (XAXIDMA_DFT_TX_WAITBOUND << XAXIDMA_DELAY_SHIFT));
+   258		/* Enable coalesce, delay timer and error interrupts */
+   259		cr |= XAXIDMA_IRQ_ALL_MASK;
+   260		/* Write to the Tx channel control register */
+   261		axienet_dma_out32(lp, XAXIDMA_TX_CR_OFFSET, cr);
+   262	
+   263		/* Populate the tail pointer and bring the Rx Axi DMA engine out of
+   264		 * halted state. This will make the Rx side ready for reception.
+   265		 */
+   266		axienet_dma_out32(lp, XAXIDMA_RX_CDESC_OFFSET, lp->rx_bd_p);
+   267		cr = axienet_dma_in32(lp, XAXIDMA_RX_CR_OFFSET);
+   268		axienet_dma_out32(lp, XAXIDMA_RX_CR_OFFSET,
+   269				  cr | XAXIDMA_CR_RUNSTOP_MASK);
+   270		axienet_dma_out32(lp, XAXIDMA_RX_TDESC_OFFSET, lp->rx_bd_p +
+   271				  (sizeof(*lp->rx_bd_v) * (RX_BD_NUM - 1)));
+   272	
+   273		/* Write to the RS (Run-stop) bit in the Tx channel control register.
+   274		 * Tx channel is now ready to run. But only after we write to the
+   275		 * tail pointer register that the Tx channel will start transmitting.
+   276		 */
+   277		axienet_dma_out32(lp, XAXIDMA_TX_CDESC_OFFSET, lp->tx_bd_p);
+   278		cr = axienet_dma_in32(lp, XAXIDMA_TX_CR_OFFSET);
+   279		axienet_dma_out32(lp, XAXIDMA_TX_CR_OFFSET,
+   280				  cr | XAXIDMA_CR_RUNSTOP_MASK);
+   281	
+   282		/* Wait for PhyRstCmplt bit to be set, indicating the PHY reset has finished */
+ > 283		ret = read_poll_timeout(axienet_ior, value,
+   284					value & XAE_INT_PHYRSTCMPLT_MASK,
+   285					DELAY_OF_ONE_MILLISEC, 50000, false, lp,
+   286					XAE_IS_OFFSET);
+   287		if (ret) {
+   288			dev_err(lp->dev, "%s: timeout waiting for PhyRstCmplt\n", __func__);
+   289			return ret;
+   290		}
+   291	
+   292		return 0;
+   293	out:
+   294		axienet_dma_bd_release(ndev);
+   295		return -ENOMEM;
+   296	}
+   297	
 
 -- 
 0-DAY CI Kernel Test Service
