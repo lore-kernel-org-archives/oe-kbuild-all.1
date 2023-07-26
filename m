@@ -1,172 +1,123 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF05BE5C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 23:47:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690415267; x=1721951267;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b9UOzZVHUyoZOolVH4sgzZgNDeRsx2SzYjy5By3+dfY=;
-  b=dVub8iKZH5pox21J0MdsY+osfW02fF3Zhwe0d6vgm0/V4YoEjjWdy0EN
-   +j9eHi3sp6XQ+R/mczohBx5b70YSCSYM3vSSnNzgDpxWvAnmt0bLPQ5ip
-   3Jsravd1MKdnXxslw3dg/ErF9bmXFenuHPX42Fr+sNUaMGpLoCJTeMLQR
-   fysS7QWx35XsiYyY20g6tixNuTyL2MZYPYMrXiCuOwEAjCXhNo2GfoezQ
-   GpIrq0slUoDf7uQFmD540p4cb76AQxHcl03QfNsm4GgBNNHJfHkr1i4eN
-   cgH8wIlQ25KXtQ9Xq4As4GD0laKrggxhyof7NecjGWwVuzl80OtK0dewx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="348439897"
-X-IronPort-AV: E=Sophos;i="6.01,233,1684825200"; 
-   d="scan'208";a="348439897"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 16:47:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="792084731"
-X-IronPort-AV: E=Sophos;i="6.01,233,1684825200"; 
-   d="scan'208";a="792084731"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 26 Jul 2023 16:47:39 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qOoEF-0001S6-0N;
-	Wed, 26 Jul 2023 23:47:39 +0000
-Date: Thu, 27 Jul 2023 07:47:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ratheesh Kannoth <rkannoth@marvell.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, vladimir.oltean@nxp.com,
-	claudiu.manoil@nxp.com, alexandre.belloni@bootlin.com,
-	andrew@lunn.ch, f.fainelli@gmail.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	olteanv@gmail.com, michael.chan@broadcom.com, rajur@chelsio.com,
-	yisen.zhuang@huawei.com, salil.mehta@huawei.com,
-	jesse.brandeburg@intel.com, anthony.l.nguyen@intel.com,
-	sgoutham@marvell.com, gakula@marvell.com, sbhatta@marvell.com,
-	hkelam@marvell.com, taras.chornyi@plvision.eu, saeedm@nvidia.com,
-	leon@kernel.org, idosch@nvidia.com, petrm@nvidia.com,
-	horatiu.vultur@microchip.com, lars.povlsen@microchip.com,
-	Steen.Hegelund@microchip.com
-Subject: Re: [PATCH net-next] dissector: Use 64bits for used_keys
-Message-ID: <202307270742.fr5uXCME-lkp@intel.com>
-References: <20230726131223.1230526-1-rkannoth@marvell.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDB7DDA8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 23:53:37 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-55b1238a013so249031a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 16:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690415617; x=1691020417;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=NRyGMlHg9fFAepKXgOzg271kQtVxYUgZIbTQ9lTP6NY=;
+        b=kcU/e5pFPS9y31sgQTgN08WUZfesShj2GqSEle0SCoWqdkhc7YUOJtOKdLhRlJdguK
+         Kg51Q1W0ynLcNxX8sjoXQwEq09CgOYc3roQbSzDEJDOD87TLyDaS7dmarlV3JnRtaSnc
+         iqJEvUHvgyYq9mQd0L/m62HTZkFmtby/dPmuYX2i1BVjZyZxrPBV/8EzKdyYscLJ/ehW
+         clrlrF41NDR11L30O8IJomqwl068TuGk32n21SLibFj3JN/Dmz8j12H71ZScudMmPbnf
+         rQDgdwZ6BWppAGA49tUceBhP84L2RcQqMBpR5Uzr7sZHQyahKcYiNx286ylU/lxMZko7
+         2uxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690415617; x=1691020417;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NRyGMlHg9fFAepKXgOzg271kQtVxYUgZIbTQ9lTP6NY=;
+        b=kSSz6NC7p1G5ianmZdEC66+caOR0vvzpS3KH8SYE43DsUfx4XrLUjQobtt3AJKw3n3
+         2lSXmjZrdbLvumsoZ7MhkfnpUmkMqifgl0n1z24IrMay1ru1rFBBmZa1diYOCHdsd9Ql
+         E1TLW7u/HiK+Oix9jlVkVntEsqws3moT5vVmcLEiCVV/nO2hjudGCkvNvzEs6ShhI15y
+         S60w4BJH3iw6UXJR79rw/KK/OH0OUrkdCoPULQ/PrFwVc1iseKjfKmOpfGlhuGdd1oNP
+         DjinToYI+GxhdBKW+GnSR+gTehS/oxwEsoYmk4vYOWj/NiRn1cfYhFKhiw9TZj5M0IXE
+         Epig==
+X-Gm-Message-State: ABy/qLbPTbw6mY+K1z8U8QEQSLpPDnKNWW9nzW8lm91ECryOlZAjvfYt
+	zRq5WQHQHNQ/aQ5p0h+0OzY=
+X-Google-Smtp-Source: APBJJlGO7XI1TFSDP3DUo347+WApNWEmMsvb6JH5QETEM2KOi/mude959dCNNT9+edQ0H6fNew6wBw==
+X-Received: by 2002:a17:90b:4b8f:b0:261:2a59:dc38 with SMTP id lr15-20020a17090b4b8f00b002612a59dc38mr3614225pjb.25.1690415617026;
+        Wed, 26 Jul 2023 16:53:37 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id ep11-20020a17090ae64b00b00262eccfa29fsm1711028pjb.33.2023.07.26.16.53.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jul 2023 16:53:36 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <f67f7165-bad6-3e77-2ec1-f9c37eb3ac0d@roeck-us.net>
+Date: Wed, 26 Jul 2023 16:53:35 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230726131223.1230526-1-rkannoth@marvell.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [groeck-staging:hwmon-next 35/36] htmldocs:
+ Documentation/hwmon/hs3001.rst:4: WARNING: Title underline too short.
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>,
+ Andre Werner <andre.werner@systec-electronic.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <202307270449.YQ4vCUwO-lkp@intel.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <202307270449.YQ4vCUwO-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ratheesh,
+On 7/26/23 13:39, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+> head:   c944c8c532f7bd6d9e52ee3e2e97dcdd9c6014c0
+> commit: 33faa6fcc93f78e6b0e9b5aaf986446ac3c34047 [35/36] hwmon: Add driver for Renesas HS3001
+> reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270449.YQ4vCUwO-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307270449.YQ4vCUwO-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> Documentation/hwmon/hs3001.rst:4: WARNING: Title underline too short.
+>>> Documentation/hwmon/hs3001.rst:34: WARNING: Missing matching underline for section title overline.
+> 
 
-kernel test robot noticed the following build warnings:
+Andre - no need to send a fix. I fixed it up.
 
-[auto build test WARNING on net-next/main]
+Guenter
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ratheesh-Kannoth/dissector-Use-64bits-for-used_keys/20230726-211458
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230726131223.1230526-1-rkannoth%40marvell.com
-patch subject: [PATCH net-next] dissector: Use 64bits for used_keys
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230727/202307270742.fr5uXCME-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270742.fr5uXCME-lkp@intel.com/reproduce)
+> vim +4 Documentation/hwmon/hs3001.rst
+> 
+>       2	
+>       3	Kernel driver HS3001
+>     > 4	===================
+>       5	
+>       6	Supported chips:
+>       7	
+>       8	  * Renesas HS3001, HS3002, HS3003, HS3004
+>       9	
+>      10	    Prefix: 'hs3001'
+>      11	
+>      12	    Addresses scanned: -
+>      13	
+>      14	    Datasheet: https://www.renesas.com/us/en/document/dst/hs300x-datasheet?r=417401
+>      15	
+>      16	Author:
+>      17	
+>      18	  - Andre Werner <andre.werner@systec-electronic.com>
+>      19	
+>      20	Description
+>      21	-----------
+>      22	
+>      23	This driver implements support for the Renesas HS3001 chips, a humidity
+>      24	and temperature family. Temperature is measured in degrees celsius, relative
+>      25	humidity is expressed as a percentage. In the sysfs interface, all values are
+>      26	scaled by 1000, i.e. the value for 31.5 degrees celsius is 31500.
+>      27	
+>      28	The device communicates with the I2C protocol. Sensors have the I2C
+>      29	address 0x44 by default.
+>      30	
+>      31	sysfs-Interface
+>      32	---------------
+>      33	
+>    > 34	===============================================================================
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307270742.fr5uXCME-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:4:
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_parse_cls_flower':
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:7325:43: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'long long unsigned int' [-Wformat=]
-    7325 |                 dev_err(&hdev->pdev->dev, "unsupported key set: %#lx\n",
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:7325:17: note: in expansion of macro 'dev_err'
-    7325 |                 dev_err(&hdev->pdev->dev, "unsupported key set: %#lx\n",
-         |                 ^~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:7325:68: note: format string is defined here
-    7325 |                 dev_err(&hdev->pdev->dev, "unsupported key set: %#lx\n",
-         |                                                                 ~~~^
-         |                                                                    |
-         |                                                                    long unsigned int
-         |                                                                 %#llx
---
-   In file included from include/linux/printk.h:564,
-                    from include/asm-generic/bug.h:22,
-                    from arch/sparc/include/asm/bug.h:25,
-                    from include/linux/bug.h:5,
-                    from include/linux/refcount.h:96,
-                    from drivers/net/ethernet/mellanox/mlx5/core/en/tc/ct_fs_smfs.c:4:
-   drivers/net/ethernet/mellanox/mlx5/core/en/tc/ct_fs_smfs.c: In function 'mlx5_ct_fs_smfs_ct_validate_flow_rule':
->> drivers/net/ethernet/mellanox/mlx5/core/en/tc/ct_fs_smfs.c:15:32: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'long long unsigned int' [-Wformat=]
-      15 |         netdev_dbg(fs->netdev, "ct_fs_smfs debug: " fmt "\n", ##args)
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:222:29: note: in definition of macro '__dynamic_func_call_cls'
-     222 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
-     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:275:9: note: in expansion of macro '_dynamic_func_call'
-     275 |         _dynamic_func_call(fmt, __dynamic_netdev_dbg,           \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/net/net_debug.h:57:9: note: in expansion of macro 'dynamic_netdev_dbg'
-      57 |         dynamic_netdev_dbg(__dev, format, ##args);              \
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/en/tc/ct_fs_smfs.c:15:9: note: in expansion of macro 'netdev_dbg'
-      15 |         netdev_dbg(fs->netdev, "ct_fs_smfs debug: " fmt "\n", ##args)
-         |         ^~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/en/tc/ct_fs_smfs.c:255:17: note: in expansion of macro 'ct_dbg'
-     255 |                 ct_dbg("rule uses unexpected dissectors (0x%016x)",
-         |                 ^~~~~~
-
-
-vim +7325 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-
-  7309	
-  7310	static int hclge_parse_cls_flower(struct hclge_dev *hdev,
-  7311					  struct flow_cls_offload *cls_flower,
-  7312					  struct hclge_fd_rule *rule)
-  7313	{
-  7314		struct flow_rule *flow = flow_cls_offload_flow_rule(cls_flower);
-  7315		struct flow_dissector *dissector = flow->match.dissector;
-  7316	
-  7317		if (dissector->used_keys &
-  7318		    ~(BIT_ULL(FLOW_DISSECTOR_KEY_CONTROL) |
-  7319		      BIT_ULL(FLOW_DISSECTOR_KEY_BASIC) |
-  7320		      BIT_ULL(FLOW_DISSECTOR_KEY_ETH_ADDRS) |
-  7321		      BIT_ULL(FLOW_DISSECTOR_KEY_VLAN) |
-  7322		      BIT_ULL(FLOW_DISSECTOR_KEY_IPV4_ADDRS) |
-  7323		      BIT_ULL(FLOW_DISSECTOR_KEY_IPV6_ADDRS) |
-  7324		      BIT_ULL(FLOW_DISSECTOR_KEY_PORTS))) {
-> 7325			dev_err(&hdev->pdev->dev, "unsupported key set: %#lx\n",
-  7326				dissector->used_keys);
-  7327			return -EOPNOTSUPP;
-  7328		}
-  7329	
-  7330		hclge_get_cls_key_basic(flow, rule);
-  7331		hclge_get_cls_key_mac(flow, rule);
-  7332		hclge_get_cls_key_vlan(flow, rule);
-  7333		hclge_get_cls_key_ip(flow, rule);
-  7334		hclge_get_cls_key_port(flow, rule);
-  7335	
-  7336		return 0;
-  7337	}
-  7338	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
