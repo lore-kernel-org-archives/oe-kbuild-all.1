@@ -1,198 +1,147 @@
-Received: from mgamail.intel.com (unknown [192.55.52.88])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2CC8489
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 08:38:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690447099; x=1721983099;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=875q4deKowZOgXcVZ0PGOQhpNTgtvcTIWp0/MmW4yhQ=;
-  b=YIjq4fwhRzKcKbSYy9Top8+ihwfJ/fZPBsmlATzdsEV3DYsGrbAPo7pS
-   FSyDZRyfJkcyAQSMR8MIVQ5QQtk3jXCXPI6qm6r/hD3MmJ3SPL8Lf/tyM
-   nDG7lVLT9JLKHr5IfHSXfJXhIji6cgpZOUrHX631dWAMX60n42PNxTRmh
-   0cfc2iItS9vmLaR+yiIm396fDK+l64jpE66ycZCEXws/6+a5RJeM/zj5i
-   4v1Xa+QlVZn7JCeT4p7Ep7Ol04+6ggkxS2ya9L3sAHVZuwDufDY+xLCFm
-   cpqLWLfawgMWYZrOWzaBd8AE1OdhHb2TJMx8YS4BOqwtkyQYO4IEwp2Qv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="399188191"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="399188191"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 01:38:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="792292883"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="792292883"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 27 Jul 2023 01:38:16 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qOwVh-000263-0P;
-	Thu, 27 Jul 2023 08:38:14 +0000
-Date: Thu, 27 Jul 2023 16:37:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [sailus-media-tree:master 9/20] drivers/media/i2c/ov5693.c:1280:26:
- error: implicit declaration of function 'devm_cci_regmap_init_i2c'
-Message-ID: <202307271623.kiFptZRi-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63068489
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 08:43:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=eVhIaLzkqXJBDg7d2NX9a14f5srX8J/oITvD2eUzZOs=;
+  b=K2texGDXNfJz8UtV6W3NhQpxNxUDRYtVae6+8V3MJWVldpACu3RVLrj8
+   QoPbGISrpLO0xpA3luWzdzBwuHQiWHt+U3ahKuF28eVSjCFclPahN6uGH
+   gXro077LmE5/V9yKZZSStTNpY9Ba6rS1RWpCwmh+Ep7q/O1RwQwxBDiXx
+   A=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.01,234,1684792800"; 
+   d="scan'208";a="62454059"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 10:43:40 +0200
+Date: Thu, 27 Jul 2023 10:43:40 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+cc: Linux Memory Management List <linux-mm@kvack.org>, 
+    Stephen Boyd <sboyd@kernel.org>, 
+    "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
+Subject: RE: [linux-next:master 2742/4710] drivers/clk/clk-versaclock3.c:404:2-8:
+ WARNING: do_div() does a 64-by-32 division, please consider using div64_ul
+ instead. (fwd)
+In-Reply-To: <OS0PR01MB59227764417EB66A9CBDE69F8601A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Message-ID: <bf5c77ec-fc9f-419a-d0e8-15ad54df2fb@inria.fr>
+References: <alpine.DEB.2.22.394.2307270709580.3082@hadrien> <OS0PR01MB59227764417EB66A9CBDE69F8601A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   git://linuxtv.org/sailus/media_tree.git master
-head:   215e4463b11d94668b841368cb6882f3a2968148
-commit: 6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c [9/20] media: ov5693: Convert to new CCI register access helpers
-config: mips-randconfig-r034-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271623.kiFptZRi-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271623.kiFptZRi-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307271623.kiFptZRi-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/media/i2c/ov5693.c: In function 'ov5693_probe':
->> drivers/media/i2c/ov5693.c:1280:26: error: implicit declaration of function 'devm_cci_regmap_init_i2c' [-Werror=implicit-function-declaration]
-    1280 |         ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/ov5693.c:1280:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1280 |         ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-         |                        ^
-   cc1: some warnings being treated as errors
+Content-Type: text/plain; charset=US-ASCII
 
 
-vim +/devm_cci_regmap_init_i2c +1280 drivers/media/i2c/ov5693.c
 
-  1267	
-  1268	static int ov5693_probe(struct i2c_client *client)
-  1269	{
-  1270		struct ov5693_device *ov5693;
-  1271		u32 xvclk_rate;
-  1272		int ret = 0;
-  1273	
-  1274		ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
-  1275		if (!ov5693)
-  1276			return -ENOMEM;
-  1277	
-  1278		ov5693->dev = &client->dev;
-  1279	
-> 1280		ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-  1281		if (IS_ERR(ov5693->regmap))
-  1282			return PTR_ERR(ov5693->regmap);
-  1283	
-  1284		ret = ov5693_check_hwcfg(ov5693);
-  1285		if (ret)
-  1286			return ret;
-  1287	
-  1288		mutex_init(&ov5693->lock);
-  1289	
-  1290		v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
-  1291	
-  1292		ov5693->xvclk = devm_clk_get_optional(&client->dev, "xvclk");
-  1293		if (IS_ERR(ov5693->xvclk))
-  1294			return dev_err_probe(&client->dev, PTR_ERR(ov5693->xvclk),
-  1295					     "failed to get xvclk: %ld\n",
-  1296					     PTR_ERR(ov5693->xvclk));
-  1297	
-  1298		if (ov5693->xvclk) {
-  1299			xvclk_rate = clk_get_rate(ov5693->xvclk);
-  1300		} else {
-  1301			ret = fwnode_property_read_u32(dev_fwnode(&client->dev),
-  1302					     "clock-frequency",
-  1303					     &xvclk_rate);
-  1304	
-  1305			if (ret) {
-  1306				dev_err(&client->dev, "can't get clock frequency");
-  1307				return ret;
-  1308			}
-  1309		}
-  1310	
-  1311		if (xvclk_rate != OV5693_XVCLK_FREQ)
-  1312			dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
-  1313				 xvclk_rate, OV5693_XVCLK_FREQ);
-  1314	
-  1315		ret = ov5693_configure_gpios(ov5693);
-  1316		if (ret)
-  1317			return ret;
-  1318	
-  1319		ret = ov5693_get_regulators(ov5693);
-  1320		if (ret)
-  1321			return dev_err_probe(&client->dev, ret,
-  1322					     "Error fetching regulators\n");
-  1323	
-  1324		ov5693->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-  1325		ov5693->pad.flags = MEDIA_PAD_FL_SOURCE;
-  1326		ov5693->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-  1327	
-  1328		ov5693->mode.crop = ov5693_default_crop;
-  1329		ov5693->mode.format = ov5693_default_fmt;
-  1330		ov5693->mode.vts = __ov5693_calc_vts(ov5693->mode.format.height);
-  1331	
-  1332		ret = ov5693_init_controls(ov5693);
-  1333		if (ret)
-  1334			return ret;
-  1335	
-  1336		ret = media_entity_pads_init(&ov5693->sd.entity, 1, &ov5693->pad);
-  1337		if (ret)
-  1338			goto err_ctrl_handler_free;
-  1339	
-  1340		/*
-  1341		 * We need the driver to work in the event that pm runtime is disable in
-  1342		 * the kernel, so power up and verify the chip now. In the event that
-  1343		 * runtime pm is disabled this will leave the chip on, so that streaming
-  1344		 * will work.
-  1345		 */
-  1346	
-  1347		ret = ov5693_sensor_powerup(ov5693);
-  1348		if (ret)
-  1349			goto err_media_entity_cleanup;
-  1350	
-  1351		ret = ov5693_detect(ov5693);
-  1352		if (ret)
-  1353			goto err_powerdown;
-  1354	
-  1355		pm_runtime_set_active(&client->dev);
-  1356		pm_runtime_get_noresume(&client->dev);
-  1357		pm_runtime_enable(&client->dev);
-  1358	
-  1359		ret = v4l2_async_register_subdev_sensor(&ov5693->sd);
-  1360		if (ret) {
-  1361			dev_err(&client->dev, "failed to register V4L2 subdev: %d",
-  1362				ret);
-  1363			goto err_pm_runtime;
-  1364		}
-  1365	
-  1366		pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-  1367		pm_runtime_use_autosuspend(&client->dev);
-  1368		pm_runtime_put_autosuspend(&client->dev);
-  1369	
-  1370		return ret;
-  1371	
-  1372	err_pm_runtime:
-  1373		pm_runtime_disable(&client->dev);
-  1374		pm_runtime_put_noidle(&client->dev);
-  1375	err_powerdown:
-  1376		ov5693_sensor_powerdown(ov5693);
-  1377	err_media_entity_cleanup:
-  1378		media_entity_cleanup(&ov5693->sd.entity);
-  1379	err_ctrl_handler_free:
-  1380		v4l2_ctrl_handler_free(&ov5693->ctrls.handler);
-  1381	
-  1382		return ret;
-  1383	}
-  1384	
+On Thu, 27 Jul 2023, Biju Das wrote:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Hi,
+>
+> The reproduce link is not working for me.
+>
+> https://download.01.org/0day-ci/archive/20230727/202307270841.yr5HxYIl-lkp@intel.com/reproduce
+>
+> Can you please provide instruction to reproduce this issue?
+
+I don't think it's intended to be reproduced.  The issue is just that a
+long value is being passed to an integer that is 32 bit.  If the long
+value will never be very big, then you can just ignore the warning.
+
+julia
+
+>
+> Cheers,
+> Biju
+>
+> > versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32 division,
+> > please consider using div64_ul instead. (fwd)
+> >
+> >
+> >
+> > ---------- Forwarded message ----------
+> > Date: Thu, 27 Jul 2023 08:50:37 +0800
+> > From: kernel test robot <lkp@intel.com>
+> > To: oe-kbuild@lists.linux.dev
+> > Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+> > Subject: [linux-next:master 2742/4710] drivers/clk/clk-
+> > versaclock3.c:404:2-8:
+> >     WARNING: do_div() does a 64-by-32 division,
+> >     please consider using div64_ul instead.
+> >
+> > BCC: lkp@intel.com
+> > CC: oe-kbuild-all@lists.linux.dev
+> > CC: Linux Memory Management List <linux-mm@kvack.org>
+> > TO: Biju Das <biju.das.jz@bp.renesas.com>
+> > CC: Stephen Boyd <sboyd@kernel.org>
+> >
+> > tree:
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new
+> > version of the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> > | Closes:
+> %2BsY49B78%3D&reserved=0
+> >
+> > cocci warnings: (new ones prefixed by >>)
+> > >> drivers/clk/clk-versaclock3.c:404:2-8: WARNING: do_div() does a 64-
+> > by-32 division, please consider using div64_ul instead.
+> >
+> > vim +404 drivers/clk/clk-versaclock3.c
+> >
+> > 6e9aff555db7b6 Biju Das 2023-07-05  382
+> > 6e9aff555db7b6 Biju Das 2023-07-05  383  static long
+> > vc3_pll_round_rate(struct clk_hw *hw, unsigned long rate,
+> > 6e9aff555db7b6 Biju Das 2023-07-05  384  			       unsigned
+> > long *parent_rate)
+> > 6e9aff555db7b6 Biju Das 2023-07-05  385  {
+> > 6e9aff555db7b6 Biju Das 2023-07-05  386  	struct vc3_hw_data *vc3 =
+> > container_of(hw, struct vc3_hw_data, hw);
+> > 6e9aff555db7b6 Biju Das 2023-07-05  387  	const struct vc3_pll_data *pll
+> > = vc3->data;
+> > 6e9aff555db7b6 Biju Das 2023-07-05  388  	u64 div_frc;
+> > 6e9aff555db7b6 Biju Das 2023-07-05  389
+> > 6e9aff555db7b6 Biju Das 2023-07-05  390  	if (rate < pll->vco_min)
+> > 6e9aff555db7b6 Biju Das 2023-07-05  391  		rate = pll->vco_min;
+> > 6e9aff555db7b6 Biju Das 2023-07-05  392  	if (rate > pll->vco_max)
+> > 6e9aff555db7b6 Biju Das 2023-07-05  393  		rate = pll->vco_max;
+> > 6e9aff555db7b6 Biju Das 2023-07-05  394
+> > 6e9aff555db7b6 Biju Das 2023-07-05  395  	vc3->div_int = rate /
+> > *parent_rate;
+> > 6e9aff555db7b6 Biju Das 2023-07-05  396
+> > 6e9aff555db7b6 Biju Das 2023-07-05  397  	if (pll->num == VC3_PLL2) {
+> > 6e9aff555db7b6 Biju Das 2023-07-05  398  		if (vc3->div_int > 0x7ff)
+> > 6e9aff555db7b6 Biju Das 2023-07-05  399  			rate = *parent_rate
+> > * 0x7ff;
+> > 6e9aff555db7b6 Biju Das 2023-07-05  400
+> > 6e9aff555db7b6 Biju Das 2023-07-05  401  		/* Determine best
+> > fractional part, which is 16 bit wide */
+> > 6e9aff555db7b6 Biju Das 2023-07-05  402  		div_frc = rate %
+> > *parent_rate;
+> > 6e9aff555db7b6 Biju Das 2023-07-05  403  		div_frc *= BIT(16) - 1;
+> > 6e9aff555db7b6 Biju Das 2023-07-05 @404  		do_div(div_frc,
+> > *parent_rate);
+> > 6e9aff555db7b6 Biju Das 2023-07-05  405
+> > 6e9aff555db7b6 Biju Das 2023-07-05  406  		vc3->div_frc =
+> > (u32)div_frc;
+> > 6e9aff555db7b6 Biju Das 2023-07-05  407  		rate = (*parent_rate *
+> > 6e9aff555db7b6 Biju Das 2023-07-05  408  			(vc3->div_int *
+> > VC3_2_POW_16 + div_frc) / VC3_2_POW_16);
+> > 6e9aff555db7b6 Biju Das 2023-07-05  409  	} else {
+> > 6e9aff555db7b6 Biju Das 2023-07-05  410  		rate = *parent_rate *
+> > vc3->div_int;
+> > 6e9aff555db7b6 Biju Das 2023-07-05  411  	}
+> > 6e9aff555db7b6 Biju Das 2023-07-05  412
+> > 6e9aff555db7b6 Biju Das 2023-07-05  413  	return rate;
+> > 6e9aff555db7b6 Biju Das 2023-07-05  414  }
+> > 6e9aff555db7b6 Biju Das 2023-07-05  415
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+>
