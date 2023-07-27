@@ -1,297 +1,162 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2109.outbound.protection.outlook.com [40.107.113.109])
+Received: from mgamail.intel.com (unknown [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA018F9FA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 09:19:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CEJuUIaU10XFG5ci5o93rVvn4ZaGAag06QeR6JodmZBWqrjQSkYgWvoLl7TS6d5mICU7QemK4O8BltFqtTIeOQTRrELSAF6hIBa8JX/t8yFzvkMj2VgADTvz3FpFWb2rlq+6w1Ns1ZKZGZSkU74l7NCIgknfx4v/eaev1KVee+vss+MRCLCmAgRV1NfYh297KijPopV+HA0TtktzCmaU3gxLBgzH1RqCYSYKLR7ip9cnpk+h93MU4eW0VLteqrDfxOb7spqWMMyFwCU7pTmMXoY06QMg4JGebFLeXY2z7EF6mZcONU39hiSysY6qLhbL1/wQrpY7mzUpbjFzmuMFAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q3GV14DiDreu6NcWDv3i/YWklhuHuxXy1zuLrw5CDQ8=;
- b=PBYcWPF4/l7PSpqi6Whvquy+1zxwvOntXHKHNRnuSvkPa/ZLT1E9KC5N/1EQ74M9wXO2wzmw5PIoWxBP0oyy+WM0KuwxBYC8Jq4+8Jd+U6sLkjZvcRYQytlh9rCy4TM9k+t/T1asS9ZXxHwRSeuzAMfJA3bzw4oPI+IoMseC7WjJJplfx2cokio1hbHrTc23+jkJ+BxazNOumHRUvRhJxruMgZ8moy05D4TfQjCCGNn4pU1zLEimPPL+ye6f1pSU7/uI0KpPsKNvsYS7nMNUBXg9lEb/AzSSLdRJ4nFXjv5rZ6tYtNcdLVbq7BaZnTOoWdoQv15gmk//aRkeG+pJDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q3GV14DiDreu6NcWDv3i/YWklhuHuxXy1zuLrw5CDQ8=;
- b=qk2I3VE/9sbhg5IxuVFOMa+//sABOw090isAUeqJOwOsNoInjbs+c4hNTxQHVQYE6R2c7BWmNR+Lqq0s4tIdV/1kAxMYVTgbbBmhHlf0zul9HYMnGbu4cMJpgJKZfwFu6vmzUZvQzXSPkc3Wmm/msY49axo6tF0/ulHMYJ7ErdU=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYYPR01MB8094.jpnprd01.prod.outlook.com (2603:1096:400:fb::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Thu, 27 Jul
- 2023 09:19:24 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::8f98:d64b:f092:766]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::8f98:d64b:f092:766%6]) with mapi id 15.20.6631.026; Thu, 27 Jul 2023
- 09:19:24 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-CC: Linux Memory Management List <linux-mm@kvack.org>, Stephen Boyd
-	<sboyd@kernel.org>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [linux-next:master 2742/4710]
- drivers/clk/clk-versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32
- division, please consider using div64_ul instead. (fwd)
-Thread-Topic: [linux-next:master 2742/4710]
- drivers/clk/clk-versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32
- division, please consider using div64_ul instead. (fwd)
-Thread-Index: AQHZwEiu5bV74iVB8UuLI4yLfkRI3a/NSKAggAADsACAAAilUA==
-Date: Thu, 27 Jul 2023 09:19:24 +0000
-Message-ID:
- <OS0PR01MB592291F0C8AE19F7118DCF0F8601A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <alpine.DEB.2.22.394.2307270709580.3082@hadrien>
- <OS0PR01MB59227764417EB66A9CBDE69F8601A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <bf5c77ec-fc9f-419a-d0e8-15ad54df2fb@inria.fr>
-In-Reply-To: <bf5c77ec-fc9f-419a-d0e8-15ad54df2fb@inria.fr>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYYPR01MB8094:EE_
-x-ms-office365-filtering-correlation-id: eac9abf4-2225-41b8-db84-08db8e8291a9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 15iaPx6FIL3CKhfeD6yWRtHk73+cWXN1PLf3oXry2qn2b4Bq8PONBPYIOedvexYiaIb2jsFAQ3hr/UVzPu0uo0K0alTmFOcnp3i+iispCyPWIUQOnOcajeQd5aCCf+xBj2BLDIpxQbP4fPvtEOsrQlSoWVf6MGH+bqEa6wr+9z8t8y0C4Y4PviodQUcqY3AbvQ9P1xWNyBtE0aSjvO8vna3SXWIQJBngLnFMlH1/jAfORawqFoDAy/ot1tBbeovuRJ212NV+HPvxcC7zzcbAktNC1s2ySMpH6f1Hqh9yihHyRuj+5fAx0VN3tzl4n7gOBNH80YgWImKxHYDnranUCvrJJIEQxsdW+IdnS16jWF1Bucy//ti2lxXs4v0EIGo8KC1ZriW0mggKUaUlFcDVQZ4ShAa1P5dR/5E3ThAVFTlHMJu2VRvvHzZVVS+8mv+87h95CK+LPGhs9TiUkZn560PAa+0/Yl7gzZz6SY22o0PIZ8piAR3hR1QI+2jnPuHejEYml2xjCQat75T11NT6kBz6iSfY52I8lVWRnue022qisotQREr9T3wT4ulkRb/3u4AYjFEQuerAgFSS7b+wq5FArhkp/mGzEVqEw6y7GM34j62hXoUAh30ke/RmscNa
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(396003)(39860400002)(366004)(346002)(451199021)(86362001)(186003)(6506007)(38070700005)(6916009)(66946007)(4326008)(76116006)(66476007)(64756008)(66446008)(66556008)(33656002)(9686003)(83380400001)(2906002)(122000001)(7696005)(478600001)(54906003)(71200400001)(41300700001)(38100700002)(55016003)(316002)(8676002)(5660300002)(52536014)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?Y4iI6/maawvUUR/BPBspzcrFlobIwk2OL5dqrln11BHH4ZRxRFdzf19crAMh?=
- =?us-ascii?Q?d4LPvtgGw/GLsWNBrALnSc6LyRD81ekajEYyfoc2W27mB+aJbTumK7pV2grP?=
- =?us-ascii?Q?fSW4n2gNdUOaDGJ2f71aGRas5+x2VqsUYZUmR/NJerOD8hR/xR6tXZ5GOsVY?=
- =?us-ascii?Q?T7ZswzUwQasa8PZIdCrgIdKJdtsOQOTmeLh5JUAL1aNrj9lxHyty023oR6q3?=
- =?us-ascii?Q?H5vQFwiW6NATNONNT75BXg0grTV1ijefSDZoKhXL+gGLEvnYXoQiBsHEGmQx?=
- =?us-ascii?Q?x+EJiBPVuolMIuuB5cbhJRJmSsVccIciaSuo3vBVXBOTmxXz5lug+Fz4y/kp?=
- =?us-ascii?Q?NJu4RKiRmwhFOzxWARvPm0PCeQINl/DUBsjR8Lum7CiunCnE1ANe+ch8NtHj?=
- =?us-ascii?Q?t4FYizIsY+/R2Id0fhXhPcZ6wvDhVqkvYW1cB2hDl7TwfITrWBN9J8VqZOXT?=
- =?us-ascii?Q?YfAFQsJWfZgrxq+wZhKvjCXfafxOw3JKI+sLt21WLO3si6yqkGELD1t97RcE?=
- =?us-ascii?Q?79xr8JOWg65qLi4lQNjF/dph+GAsZKHMjfFrMGPGRyFvWY0r0yiP55JiscKm?=
- =?us-ascii?Q?2Zed4zdfT7T+Av/5rBUjsqZg/DG0W/4Hp1Yiuyla/y+EfWbp6m7RH1n3WOdV?=
- =?us-ascii?Q?1eOfyEB9Jt+ToFjH27Wy05cD+VsqvQYiyoq1Vy37cxrEzCJjNohm7kkUV5bi?=
- =?us-ascii?Q?wEeEmtVRvPi1ObZkjFehkeXsidedpUaVmb3HCJgjKkm7Mc4cQdPa67up+cPE?=
- =?us-ascii?Q?z4XclcXEcnmqczN0YZ8oOwz1S79h2Y/WBzFM+mclS/TZXnL7TVtBdHTw3zoy?=
- =?us-ascii?Q?mxOhXNtYgXBYiamw9wxY3y0wvuKBEmr2c+5MZaNCUGPZ5fmSzZn3MHiN9G8C?=
- =?us-ascii?Q?O4kAQxllK6HDsvxIzhPkqS/Rm4fyuf47PlaR1BLR6K+zEBSvu9enUZUA0hfQ?=
- =?us-ascii?Q?ArpKgfigLgV0sB+a5/xNBZMI/TPRTibYv9v6dnjz4MN1KrLRyKtOj8riba3R?=
- =?us-ascii?Q?Eqa+YRRbUzZWjrj2Rioab3cIH5K3FG6FXkrxqjqvVlMNv3XfGvlYDBLf/Ozt?=
- =?us-ascii?Q?oy7hEyMu2xyMlVm0j4lLOT33DY3j/8FAeAtv7CFZ3Rzu+HB/ZdxoGu0ZBXSR?=
- =?us-ascii?Q?aN0u+/e491n1CNEI9fAXaG/6aeNMhQ/bkyNsyqwd5KSMj6xCULABu8uNjx+4?=
- =?us-ascii?Q?h96vHDMxJhjlBUEXBbBbIi3njZ5MOl39ZQqlPFwN6sS/OsaEDKxO8NamL3y9?=
- =?us-ascii?Q?T6OmLAbHjAxEFHbTWg6e9I53XGNgtsNUCjH0L/NT9j3+U0EHtFhskFEUCmzp?=
- =?us-ascii?Q?Ni9Md0NW4Zzd1yqfhMgM6oI0gKi7f9BmpS4Z60Q4viDBQgcLn6qwvp466YwE?=
- =?us-ascii?Q?WGNHy0VZ6W1VcnwqLI0berxtOTAwtxt+WglIdGih0VfMIrw60Z13o0+l1kvS?=
- =?us-ascii?Q?DztdeEzTM3o8qP2WSFvCkfWjqXPTVTu2S63oWNAq1+BvXz7kc8PPJlaGykX2?=
- =?us-ascii?Q?suGC/qvVpowU9cs47XXV6q/36D7AyW2DzDjr14Cf3zr8xKjsgfvDLRmPVyLG?=
- =?us-ascii?Q?ko+/PaeUA2n4Ad9n5J0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF67107A0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 09:22:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690449742; x=1721985742;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jDRj8mXSEk314ARjfSYydSKl3VgYFHbSDgSb3VWrtH4=;
+  b=YeuiRT/sP8U9qVdjoQrRp/1NbhVqU5w7Ie/WZiNBpwa5PDPvZCrERY5u
+   MDqtYnUD111L6KaOGa5lTP4aq1Qqt0pJXK+WIezurDvlT6OMI83cGKTM3
+   te1GEYER/Br8P3DT0LBCa+MqLCjBMcAhtp7WSaLsKTb6i/052JH4bj8r5
+   l6s8Hn3FVEnW6H7sfF6Bi+P0jalJ33v5lxKbE1YO1wSFNscbPZUUHmTzp
+   I6tO6bg27OpCa/E6yhOwlRum7MH7c8TmlWLExYuEly2pRMlAxncoM7sgF
+   9dpPOnOkeYOd/Cp+IYs9G+TOYihvij15lPlmRLlKjoPTG7gLYAHLjPU4E
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="358258525"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="358258525"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 02:22:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="792299184"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="792299184"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 27 Jul 2023 02:22:16 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOx9n-00027z-18;
+	Thu, 27 Jul 2023 09:20:11 +0000
+Date: Thu, 27 Jul 2023 17:18:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:iommufd_nesting 65/66]
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3107:26: sparse: sparse: cast
+ removes address space '__user' of expression
+Message-ID: <202307271725.KPvcQtnE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eac9abf4-2225-41b8-db84-08db8e8291a9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jul 2023 09:19:24.3611
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iYvj4eo63CLYCjda1kHgBJtny+5GiUoHwxI2mYLxmmedAjM6fPKjRz4XhcxuYaU9dViYyRGbUW9fUBMph15xZCIkkztoxa8oUtwml+upIy0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB8094
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Julia,
+tree:   https://github.com/yiliu1765/iommufd.git iommufd_nesting
+head:   6ee9c8550423d405ed4a5456dc3e722ffae3762e
+commit: 78c6120f38cfb77e95471372d089ffd05e71980c [65/66] iommu/arm-smmu-v3: Add arm_smmu_cache_invalidate_user
+config: arm64-randconfig-r083-20230726 (https://download.01.org/0day-ci/archive/20230727/202307271725.KPvcQtnE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271725.KPvcQtnE-lkp@intel.com/reproduce)
 
-> versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32 division, please
-> consider using div64_ul instead. (fwd)
->=20
->=20
->=20
-> On Thu, 27 Jul 2023, Biju Das wrote:
->=20
-> > Hi,
-> >
-> > The reproduce link is not working for me.
-> >
-> >
-> > Can you please provide instruction to reproduce this issue?
->=20
-> I don't think it's intended to be reproduced.  The issue is just that a
-> long value is being passed to an integer that is 32 bit.  If the long
-> value will never be very big, then you can just ignore the warning.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271725.KPvcQtnE-lkp@intel.com/
 
-The rate values are well below max 32 bit, 4294967296. So I guess, it is ok=
-.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3107:26: sparse: sparse: cast removes address space '__user' of expression
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through arch/arm64/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
+   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
+   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
 
-xtal                                 0        0        0    24000000       =
-   0     0  50000         Y
-    ref                               0        0        0    24000000      =
-    0     0  50000         Y
-    pfd1                              0        0        0    24000000      =
-    0     0  50000         Y
-       pll1                           0        0        0   600000000      =
-    0     0  50000         Y
-          div2                        0        0        0    12000000      =
-    0     0  50000         Y
-             se3_mux                  0        0        0    12000000      =
-    0     0  50000         Y
-                se3                   0        0        0    12000000      =
-    0     0  50000         Y
-          div1_mux                    0        0        0   600000000      =
-    0     0  50000         Y
-             div1                     0        0        0    25000000      =
-    0     0  50000         Y
-                diff1_mux             0        0        0    25000000      =
-    0     0  50000         Y
-                   diff1              0        0        0    25000000      =
-    0     0  50000         Y
-    pfd3_mux                          0        0        0    24000000      =
-    0     0  50000         Y
-       pfd3                           0        0        0      960000      =
-    0     0  50000         Y
-          pll3                        0        0        0   564480000      =
-    0     0  50000         Y
-             div5                     0        0        0    11289600      =
-    0     0  50000         Y
-                se1_mux               0        0        0    11289600      =
-    0     0  50000         Y
-                   se1                0        0        0    11289600      =
-    0     0  50000         Y
-                se2_mux               0        0        0    11289600      =
-    0     0  50000         Y
-                   se2                0        0        0    11289600      =
-    0     0  50000         Y
-    pfd2_mux                          0        0        0    24000000      =
-    0     0  50000         Y
-       pfd2                           0        0        0    24000000      =
-    0     0  50000         Y
-          pll2                        0        0        0   491519897      =
-    0     0  50000         Y
-             div4_mux                 0        0        0   491519897      =
-    0     0  50000         Y
-                div4                  0        0        0    12287998      =
-    0     0  50000         Y
-             div3_mux                 0        0        0   491519897      =
-    0     0  50000         Y
-                div3                  0        0        0    12287998      =
-    0     0  50000         Y
-                   diff2_mux          0        0        0    12287998      =
-    0     0  50000         Y
-                      diff2           0        0        0    12287998      =
-    0     0  50000         Y
+vim +/__user +3107 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
+  3094	
+  3095	static int arm_smmu_cache_invalidate_user(struct iommu_domain *domain,
+  3096						  void *user_data)
+  3097	{
+  3098		const u32 cons_err = FIELD_PREP(CMDQ_CONS_ERR, CMDQ_ERR_CERROR_ILL_IDX);
+  3099		struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
+  3100		struct iommu_hwpt_arm_smmuv3_invalidate *inv = user_data;
+  3101		struct arm_smmu_device *smmu = smmu_domain->smmu;
+  3102		struct arm_smmu_queue q = {
+  3103			.llq = {
+  3104				.prod = inv->cmdq_prod,
+  3105				.max_n_shift = inv->cmdq_log2size,
+  3106			},
+> 3107			.base = (__le64 *)u64_to_user_ptr(inv->cmdq_uptr),
+  3108			.ent_dwords = inv->cmdq_entry_size / sizeof(u64),
+  3109		};
+  3110		bool has_leaf = false, has_cfgi = false;
+  3111		void __user *cons_uptr;
+  3112		int ncmds, i = 0;
+  3113		u64 *cmds;
+  3114		int ret;
+  3115	
+  3116		if (!smmu || !smmu_domain->s2 || domain->type != IOMMU_DOMAIN_NESTED)
+  3117			return -EINVAL;
+  3118		if (q.ent_dwords != CMDQ_ENT_DWORDS)
+  3119			return -EINVAL;
+  3120		WARN_ON(q.llq.max_n_shift > smmu->cmdq.q.llq.max_n_shift);
+  3121	
+  3122		cons_uptr = u64_to_user_ptr(inv->cmdq_cons_uptr);
+  3123		if (copy_from_user(&q.llq.cons, cons_uptr, sizeof(u32)))
+  3124			return -EFAULT;
+  3125		if (queue_empty(&q.llq))
+  3126			return -EINVAL;
+  3127	
+  3128		ncmds = min(queue_ncmds(&q.llq), CMDQ_BATCH_ENTRIES - 1);
+  3129	
+  3130		cmds = kcalloc(ncmds, inv->cmdq_entry_size, GFP_KERNEL);
+  3131		if (!cmds)
+  3132			return -ENOMEM;
+  3133	
+  3134		for (; !queue_empty(&q.llq); queue_inc_cons(&q.llq)) {
+  3135			u64 *cmd = &cmds[i * CMDQ_ENT_DWORDS];
+  3136	
+  3137			ret = copy_from_user(cmd,
+  3138					     (const void __user *)Q_ENT(&q, q.llq.cons),
+  3139					     inv->cmdq_entry_size);
+  3140			if (ret) {
+  3141				ret = -EFAULT;
+  3142				goto out_free_cmds;
+  3143			}
+  3144	
+  3145			ret = arm_smmu_fix_user_cmd(smmu_domain, cmd);
+  3146			if (ret == -EOPNOTSUPP)
+  3147				continue;
+  3148			if (ret) {
+  3149				q.llq.cons |= cons_err;
+  3150				goto out_copy_cons;
+  3151			}
+  3152	
+  3153			if (arm_smmu_cmdq_hit_errata(smmu, cmd, &has_leaf, &has_cfgi)) {
+  3154				/* WAR is to issue the batch prior, with a CMD_SYNC */
+  3155				ret = arm_smmu_cmdq_issue_cmdlist(smmu, cmds, i, true);
+  3156				if (ret)
+  3157					goto out_copy_cons;
+  3158				/* Then move the cmd to the head for a new batch */
+  3159				for (i = 0; i < CMDQ_ENT_DWORDS; i++)
+  3160					cmds[i] = cmd[i];
+  3161				i = 1;
+  3162				continue;
+  3163			}
+  3164	
+  3165			if (++i == CMDQ_BATCH_ENTRIES - 1) {
+  3166				ret = arm_smmu_cmdq_issue_cmdlist(smmu, cmds, i, true);
+  3167				if (ret)
+  3168					goto out_copy_cons;
+  3169				i = 0;
+  3170			}
+  3171		}
+  3172	
+  3173		if (i)
+  3174			ret = arm_smmu_cmdq_issue_cmdlist(smmu, cmds, i, true);
+  3175	out_copy_cons:
+  3176		if (copy_to_user(cons_uptr, &q.llq.cons, sizeof(u32)))
+  3177			ret = -EFAULT;
+  3178	out_free_cmds:
+  3179		kfree(cmds);
+  3180		return ret;
+  3181	}
+  3182	
 
-Cheers,
-Biju
-
-> >
-> > > versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32 division,
-> > > please consider using div64_ul instead. (fwd)
-> > >
-> > >
-> > >
-> > > ---------- Forwarded message ----------
-> > > Date: Thu, 27 Jul 2023 08:50:37 +0800
-> > > From: kernel test robot <lkp@intel.com>
-> > > To: oe-kbuild@lists.linux.dev
-> > > Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-> > > Subject: [linux-next:master 2742/4710] drivers/clk/clk-
-> > > versaclock3.c:404:2-8:
-> > >     WARNING: do_div() does a 64-by-32 division,
-> > >     please consider using div64_ul instead.
-> > >
-> > > BCC: lkp@intel.com
-> > > CC: oe-kbuild-all@lists.linux.dev
-> > > CC: Linux Memory Management List <linux-mm@kvack.org>
-> > > TO: Biju Das <biju.das.jz@bp.renesas.com>
-> > > CC: Stephen Boyd <sboyd@kernel.org>
-> > >
-> > > tree:
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new
-> > > version of the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> > > | Closes:
-> > %2BsY49B78%3D&reserved=3D0
-> > >
-> > > cocci warnings: (new ones prefixed by >>)
-> > > >> drivers/clk/clk-versaclock3.c:404:2-8: WARNING: do_div() does a
-> > > >> 64-
-> > > by-32 division, please consider using div64_ul instead.
-> > >
-> > > vim +404 drivers/clk/clk-versaclock3.c
-> > >
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  382
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  383  static long
-> > > vc3_pll_round_rate(struct clk_hw *hw, unsigned long rate,
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  384
-> unsigned
-> > > long *parent_rate)
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  385  {
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  386  	struct vc3_hw_data *vc3 =3D
-> > > container_of(hw, struct vc3_hw_data, hw);
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  387  	const struct vc3_pll_data
-> *pll
-> > > =3D vc3->data;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  388  	u64 div_frc;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  389
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  390  	if (rate < pll->vco_min)
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  391  		rate =3D pll->vco_min;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  392  	if (rate > pll->vco_max)
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  393  		rate =3D pll->vco_max;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  394
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  395  	vc3->div_int =3D rate /
-> > > *parent_rate;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  396
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  397  	if (pll->num =3D=3D VC3_PLL=
-2)
-> {
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  398  		if (vc3->div_int >
-> 0x7ff)
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  399  			rate =3D
-> *parent_rate
-> > > * 0x7ff;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  400
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  401  		/* Determine best
-> > > fractional part, which is 16 bit wide */
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  402  		div_frc =3D rate %
-> > > *parent_rate;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  403  		div_frc *=3D BIT(16) -
-> 1;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05 @404  		do_div(div_frc,
-> > > *parent_rate);
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  405
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  406  		vc3->div_frc =3D
-> > > (u32)div_frc;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  407  		rate =3D (*parent_rate
-> *
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  408  			(vc3->div_int
-> *
-> > > VC3_2_POW_16 + div_frc) / VC3_2_POW_16);
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  409  	} else {
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  410  		rate =3D *parent_rate
-> *
-> > > vc3->div_int;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  411  	}
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  412
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  413  	return rate;
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  414  }
-> > > 6e9aff555db7b6 Biju Das 2023-07-05  415
-> > >
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> >
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
