@@ -1,164 +1,106 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4769AA941
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 06:19:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690438758; x=1721974758;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eNOkX+Jlj6aFWnX9XN7vfYO6yOlmkOXGWl+u+hUdBc0=;
-  b=YCMqI3UVmoRpTa3zNvvqDApRrgrYrcGfPpwlnNZnp5ySqHlHLTLx5mbb
-   NU3HL13qqikOr0okmJFoSgkktn2BkU/U8psjMHkKA/lYSCjTHlhhKOXZx
-   ZQGyVitkRQjlT4MfbQrDgWEmSvwO1/Xw52PXFeETMkgt5AkYEwBaU/dIm
-   ygT7u4GkXVYZ4vc28qQ7KiZnx+fEmtj6Lrpy48EVGAf1Fq0/3+TOLaiE0
-   Ii0fQX3vPSJ7/Yrr8LLDAJqXGn1qI8aAeEznYEyRwun7zJjRM6MjcGLVn
-   RAzvDDfTOyU7h+XC2vaps8hBmjuE5nOZVNqoWhaCNftDap+xjJHA0nSeJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="347825929"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="347825929"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 23:19:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="762042079"
-X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="762042079"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 26 Jul 2023 23:12:37 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qOuEl-000206-1p;
-	Thu, 27 Jul 2023 06:12:35 +0000
-Date: Thu, 27 Jul 2023 14:12:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-kernelci 2/2] drivers/char/hw_random/amd-rng.c:167:24:
- error: implicit declaration of function 'ioport_map'; did you mean
- 'ioremap'?
-Message-ID: <202307271454.LeUzJPye-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58CBC125
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 07:07:52 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-522382c4840so782736a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 00:07:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690441670; x=1691046470;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fqOQsXekD6sFK6WYy17hOsZp5/7SJav2yrMJmcsMwVY=;
+        b=CkvLBbKQENAUcbdYvtjnKhFCuEDdLZPn61JZ57yc6kd0UPug8w5y/OYsJT5jKQJfWo
+         TGCTVwSYh/r5zyrfgk1bSPTWA1KVfxM0K0HJsawUrnztpVaGfy0hCGnpKL4QlHaT7Ycb
+         IAlmdhwQJDwzqOcPllqwITEJ8VELWlwVpImt58DEjCEPpKFUYOgKPKPua3Cgt3WvO/q8
+         pJ4TMPasE5wfrHQmCkSbzKKYLDFfvn7OeEHv6qyqLxnlQlTzkiWAJeazaFO/qEvIJXnb
+         pXCu1ghmG5fvaNo5bgVfStImnVYOH/8paAED3pWkCjTjuZoKZOBteInaBvGRuVe/+Wve
+         eO6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690441670; x=1691046470;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fqOQsXekD6sFK6WYy17hOsZp5/7SJav2yrMJmcsMwVY=;
+        b=QFVUFAXvwsy55t1zj25WSr2mkGU3WkkAUXjlcGAihTtQnof8akAP+nQscKJIsr6sUK
+         SOMYC/mylT7YwYEl8hjDHp54Vrqj9AI1dBWd72Tq4dRjVs+q29gpE2NW5PI0EwKP+JZR
+         QeEFk++EhGCPrA0ltvjE1rbQHLRb+N60wmelS3WOF36TZFXfJpPx6gTk3y6bvgEnv4BM
+         8fn6fP6zp0nA88FQ62MMQ3sLKd94gmW/EK4XwUIHLdC5QJiQAu4evNQHwutcyi/glmes
+         ORwL1cYYRbF+3fm87buAwPMvNFC6pu4gGzI0nDonYeKxaPGTeUR8crVfJRoWbAG43Ibi
+         pqpQ==
+X-Gm-Message-State: ABy/qLb1AyjzaG1lNc3UtYGjWPRdcvt66lZRgAnRp4w8Ycrph4IaE/3s
+	fJfCBT7HGUxTsqrfwVJqnIC7UA==
+X-Google-Smtp-Source: APBJJlH0jrNgLEoeZag63NmlA+d74+LDSnMgmUsHAoDTB3LniXqupxvPa61maXNWsNZ+1q5a7JpmTA==
+X-Received: by 2002:aa7:c490:0:b0:522:5855:ee78 with SMTP id m16-20020aa7c490000000b005225855ee78mr953040edq.32.1690441670722;
+        Thu, 27 Jul 2023 00:07:50 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id b21-20020a056402139500b005227e53cec2sm296242edv.50.2023.07.27.00.07.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 00:07:50 -0700 (PDT)
+Message-ID: <5bb55bec-6a38-3a88-3fc1-79b12cfe7e02@linaro.org>
+Date: Thu, 27 Jul 2023 09:07:48 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 1/3] input: pm8xxx-vib: refactor to easily support new
+ SPMI vibrator
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Fenglin Wu
+ <quic_fenglinw@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ robh+dt@kernel.org, agross@kernel.org, andersson@kernel.org,
+ dmitry.baryshkov@linaro.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ quic_collinsd@quicinc.com, quic_subbaram@quicinc.com,
+ quic_kamalw@quicinc.com, jestar@qti.qualcomm.com
+References: <20230725054138.129497-2-quic_fenglinw@quicinc.com>
+ <202307251741.PMtlVAgD-lkp@intel.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <202307251741.PMtlVAgD-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Rob,
+On 25/07/2023 12:01, kernel test robot wrote:
+> Hi Fenglin,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on dtor-input/next]
+> [also build test WARNING on dtor-input/for-linus linus/master v6.5-rc3 next-20230725]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Fenglin-Wu/input-pm8xxx-vib-refactor-to-easily-support-new-SPMI-vibrator/20230725-134504
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+> patch link:    https://lore.kernel.org/r/20230725054138.129497-2-quic_fenglinw%40quicinc.com
+> patch subject: [PATCH v3 1/3] input: pm8xxx-vib: refactor to easily support new SPMI vibrator
+> config: x86_64-buildonly-randconfig-r002-20230725 (https://download.01.org/0day-ci/archive/20230725/202307251741.PMtlVAgD-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce: (https://download.01.org/0day-ci/archive/20230725/202307251741.PMtlVAgD-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307251741.PMtlVAgD-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> drivers/input/misc/pm8xxx-vibrator.c:190:17: warning: cast to smaller integer type 'enum pm8xxx_vib_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+>            vib->hw_type = (enum pm8xxx_vib_type)of_device_get_match_data(dev);
+>                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    1 warning generated.
+> 
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+Remember to fix all the warnings.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   683789ff1e1c0a9373ca20daed4bbc700eccc22e
-commit: 683789ff1e1c0a9373ca20daed4bbc700eccc22e [2/2] hw_random: Enable COMPILE_TEST for more drivers
-config: openrisc-randconfig-r001-20230726 (https://download.01.org/0day-ci/archive/20230727/202307271454.LeUzJPye-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271454.LeUzJPye-lkp@intel.com/reproduce)
+Best regards,
+Krzysztof
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307271454.LeUzJPye-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/char/hw_random/amd-rng.c: In function 'amd_rng_mod_init':
->> drivers/char/hw_random/amd-rng.c:167:24: error: implicit declaration of function 'ioport_map'; did you mean 'ioremap'? [-Werror=implicit-function-declaration]
-     167 |         priv->iobase = ioport_map(pmbase + PMBASE_OFFSET, PMBASE_SIZE);
-         |                        ^~~~~~~~~~
-         |                        ioremap
-   drivers/char/hw_random/amd-rng.c:167:22: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     167 |         priv->iobase = ioport_map(pmbase + PMBASE_OFFSET, PMBASE_SIZE);
-         |                      ^
->> drivers/char/hw_random/amd-rng.c:187:9: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
-     187 |         ioport_unmap(priv->iobase);
-         |         ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +167 drivers/char/hw_random/amd-rng.c
-
-96d63c0297ccfd Michael Buesch   2006-06-26  126  
-f0d9ff8c8efb90 Randy Dunlap     2021-07-11  127  static int __init amd_rng_mod_init(void)
-96d63c0297ccfd Michael Buesch   2006-06-26  128  {
-b7c3635e56d656 Colin Ian King   2021-04-29  129  	int err;
-96d63c0297ccfd Michael Buesch   2006-06-26  130  	struct pci_dev *pdev = NULL;
-96d63c0297ccfd Michael Buesch   2006-06-26  131  	const struct pci_device_id *ent;
-96d63c0297ccfd Michael Buesch   2006-06-26  132  	u32 pmbase;
-7bad2cc062b343 Corentin LABBE   2016-08-26  133  	struct amd768_priv *priv;
-96d63c0297ccfd Michael Buesch   2006-06-26  134  
-96d63c0297ccfd Michael Buesch   2006-06-26  135  	for_each_pci_dev(pdev) {
-96d63c0297ccfd Michael Buesch   2006-06-26  136  		ent = pci_match_id(pci_tbl, pdev);
-96d63c0297ccfd Michael Buesch   2006-06-26  137  		if (ent)
-96d63c0297ccfd Michael Buesch   2006-06-26  138  			goto found;
-96d63c0297ccfd Michael Buesch   2006-06-26  139  	}
-96d63c0297ccfd Michael Buesch   2006-06-26  140  	/* Device not found. */
-7bad2cc062b343 Corentin LABBE   2016-08-26  141  	return -ENODEV;
-96d63c0297ccfd Michael Buesch   2006-06-26  142  
-96d63c0297ccfd Michael Buesch   2006-06-26  143  found:
-96d63c0297ccfd Michael Buesch   2006-06-26  144  	err = pci_read_config_dword(pdev, 0x58, &pmbase);
-96d63c0297ccfd Michael Buesch   2006-06-26  145  	if (err)
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  146  		goto put_dev;
-7bad2cc062b343 Corentin LABBE   2016-08-26  147  
-96d63c0297ccfd Michael Buesch   2006-06-26  148  	pmbase &= 0x0000FF00;
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  149  	if (pmbase == 0) {
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  150  		err = -EIO;
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  151  		goto put_dev;
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  152  	}
-7bad2cc062b343 Corentin LABBE   2016-08-26  153  
-69db7009318758 Prarit Bhargava  2017-03-14  154  	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  155  	if (!priv) {
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  156  		err = -ENOMEM;
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  157  		goto put_dev;
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  158  	}
-7bad2cc062b343 Corentin LABBE   2016-08-26  159  
-69db7009318758 Prarit Bhargava  2017-03-14  160  	if (!request_region(pmbase + PMBASE_OFFSET, PMBASE_SIZE, DRV_NAME)) {
-f8169bfb4955eb Corentin LABBE   2016-08-26  161  		dev_err(&pdev->dev, DRV_NAME " region 0x%x already in use!\n",
-bd68ccb390f0d9 Dmitry Baryshkov 2011-04-27  162  			pmbase + 0xF0);
-69db7009318758 Prarit Bhargava  2017-03-14  163  		err = -EBUSY;
-69db7009318758 Prarit Bhargava  2017-03-14  164  		goto out;
-bd68ccb390f0d9 Dmitry Baryshkov 2011-04-27  165  	}
-3c343a37644c5f Corentin LABBE   2016-08-26  166  
-69db7009318758 Prarit Bhargava  2017-03-14 @167  	priv->iobase = ioport_map(pmbase + PMBASE_OFFSET, PMBASE_SIZE);
-f7eca278a8f81e Wei Yongjun      2016-09-16  168  	if (!priv->iobase) {
-3c343a37644c5f Corentin LABBE   2016-08-26  169  		pr_err(DRV_NAME "Cannot map ioport\n");
-69db7009318758 Prarit Bhargava  2017-03-14  170  		err = -EINVAL;
-69db7009318758 Prarit Bhargava  2017-03-14  171  		goto err_iomap;
-3c343a37644c5f Corentin LABBE   2016-08-26  172  	}
-3c343a37644c5f Corentin LABBE   2016-08-26  173  
-7bad2cc062b343 Corentin LABBE   2016-08-26  174  	amd_rng.priv = (unsigned long)priv;
-69db7009318758 Prarit Bhargava  2017-03-14  175  	priv->pmbase = pmbase;
-7bad2cc062b343 Corentin LABBE   2016-08-26  176  	priv->pcidev = pdev;
-96d63c0297ccfd Michael Buesch   2006-06-26  177  
-f8169bfb4955eb Corentin LABBE   2016-08-26  178  	pr_info(DRV_NAME " detected\n");
-69db7009318758 Prarit Bhargava  2017-03-14  179  	err = hwrng_register(&amd_rng);
-69db7009318758 Prarit Bhargava  2017-03-14  180  	if (err) {
-69db7009318758 Prarit Bhargava  2017-03-14  181  		pr_err(DRV_NAME " registering failed (%d)\n", err);
-69db7009318758 Prarit Bhargava  2017-03-14  182  		goto err_hwrng;
-69db7009318758 Prarit Bhargava  2017-03-14  183  	}
-69db7009318758 Prarit Bhargava  2017-03-14  184  	return 0;
-69db7009318758 Prarit Bhargava  2017-03-14  185  
-69db7009318758 Prarit Bhargava  2017-03-14  186  err_hwrng:
-69db7009318758 Prarit Bhargava  2017-03-14 @187  	ioport_unmap(priv->iobase);
-69db7009318758 Prarit Bhargava  2017-03-14  188  err_iomap:
-69db7009318758 Prarit Bhargava  2017-03-14  189  	release_region(pmbase + PMBASE_OFFSET, PMBASE_SIZE);
-69db7009318758 Prarit Bhargava  2017-03-14  190  out:
-69db7009318758 Prarit Bhargava  2017-03-14  191  	kfree(priv);
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  192  put_dev:
-ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  193  	pci_dev_put(pdev);
-69db7009318758 Prarit Bhargava  2017-03-14  194  	return err;
-96d63c0297ccfd Michael Buesch   2006-06-26  195  }
-96d63c0297ccfd Michael Buesch   2006-06-26  196  
-
-:::::: The code at line 167 was first introduced by commit
-:::::: 69db7009318758769d625b023402161c750f7876 hwrng: amd - Revert managed API changes
-
-:::::: TO: Prarit Bhargava <prarit@redhat.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
