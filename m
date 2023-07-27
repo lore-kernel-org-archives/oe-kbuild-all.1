@@ -1,52 +1,44 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6658B20F1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 05:13:56 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-314417861b9so553785f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 22:13:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690434834; x=1691039634;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ms4Imiuy8EKPlBwbhJcl0rqifwGh1e3doJx4I3vmVvQ=;
-        b=RwB4ctSiG4gotI8gXGOmkJ+YY04bn9dQ6ZNptpH2irOhCFc3WKZBcplvhvPsw7t4a7
-         qo6n7fTSFM2b116LQmxEACCBJvtPv8S8B0h22kY8Exjlz85LghJeKYWopaglEptRJVln
-         cjTL2Mudx3ttff8X1zsJtjwtHIL5gkCl4zDdMC+7deCcIB/lZfHTAuWV8s0Sc+VyW8ha
-         aMZmAp9e82TyyW915sj1lIRul94HUIZXFkupT/M8S7YVsu8hw7jthNahRsuz3tqZli5w
-         U6ap6A19S2LHjLt54BKtzqQBYLPHjyQSOpHihTClM9tIbMcePJQunEcsFOShoPH191Qq
-         5C3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690434834; x=1691039634;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ms4Imiuy8EKPlBwbhJcl0rqifwGh1e3doJx4I3vmVvQ=;
-        b=bOxkPctSb3IjUfOrLHKCuyN+k7JrrKkfopQd3fLgdUnpLwa7ptUCc6fedXm1o7aaSy
-         fhE1Ef6/ixwR29hAvUbTbaBLDn2a8w/eM9BlbfpElM+/k/wmaHqG4SuV9BzrC6w1cKZh
-         yd/7KBskziJBTVTaEqv0q5thMtbZ5eBLmZt+D3gNXylILh977zEsQSY3iJeYzvxg5oMO
-         wyrtpxRoL3258b3lmV+3kW2x0X6T0zYJXFAGY2kBN+O5qRijsHME//C3BdDr9W0h0SSn
-         sMneii5xFXQdIH8UU4tZSBaHz79h1w5C/swVtk19u2Dtap9vvABvk/KgP3HKIJse0x/+
-         T9aw==
-X-Gm-Message-State: ABy/qLZqcX568J0yhMuoMHd2usmp0Q/dkPHB7Cpe9OF8DHFmyYmQZMjk
-	HpH/1KutdMq+Y38JO1j9w7yNMg==
-X-Google-Smtp-Source: APBJJlGaZecOr21g+QCaQjqbhPKMTK925noBExwDyAVrGeBj5YNKzUHzMh7YpOPgqhhCNdberX0jdQ==
-X-Received: by 2002:adf:fece:0:b0:314:2735:dc13 with SMTP id q14-20020adffece000000b003142735dc13mr895897wrs.47.1690434834323;
-        Wed, 26 Jul 2023 22:13:54 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y8-20020adffa48000000b003159d2dabbasm798202wrr.94.2023.07.26.22.13.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jul 2023 22:13:54 -0700 (PDT)
-Date: Thu, 27 Jul 2023 08:13:51 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Aman Deep <aman.deep@samsung.com>,
-	gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
-	laurent.pinchart@ideasonboard.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Aman Deep <aman.deep@samsung.com>,
-	Anuj Gupta <anuj01.gupta@samsung.com>
-Subject: Re: [PATCH] USB: Fix race condition during UVC webcam disconnect
-Message-ID: <8961ae64-35c4-4092-8bbe-6e903feaacd4@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81755253
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 05:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690435241; x=1721971241;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0yGQ/toy6CSjasMDdQeMqBFg2k3jMvhSejmfzgIsFiA=;
+  b=Nz9an6E/3QYw0kxaDk1RN6bOzT/dSqnbRS9VATHPZBbl10/hlMMTjYz2
+   zMlIiq/dravlTtP26KwErNwaVfvUVJLi8KGtow9dgGn89DTUNL341C8/g
+   M0Peb1tJI4LU1Mnb2JAatq/yvENC1bzmsXkvJ7fTJOmfg49L/HFokYB1D
+   o29BpRzMsDd/XzpRaFhFjyY5fJqEPLltBUwxQ9+YGpiSMmx8zFUQ+1hoj
+   5jT8ko9Jrb0okOHLtUI2SddCP9e+jZ7Dk1vsIqvc31QigBdhEYDcmfKx+
+   4zmXVwdfgNW0B6GfPV65J1U9n32txDe0b+AA21GeefVzN6OtVJwjN0WBS
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="358209676"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="358209676"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 22:20:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="756514548"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="756514548"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 26 Jul 2023 22:20:40 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOtQV-0001xf-0u;
+	Thu, 27 Jul 2023 05:20:39 +0000
+Date: Thu, 27 Jul 2023 13:20:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 6827/29744] htmldocs: Warning:
+ Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt references
+ a file that doesn't exist:
+ Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+Message-ID: <202307271332.vGbNENec-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,132 +47,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720113142.3070583-1-aman.deep@samsung.com>
 
-Hi Aman,
+Hi Yong,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aman-Deep/USB-Fix-race-condition-during-UVC-webcam-disconnect/20230720-202046
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230720113142.3070583-1-aman.deep%40samsung.com
-patch subject: [PATCH] USB: Fix race condition during UVC webcam disconnect
-config: parisc-randconfig-m041-20230726 (https://download.01.org/0day-ci/archive/20230727/202307270834.rpaexQSs-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270834.rpaexQSs-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   0f1298b513108857f083de27c14132caad1f1028
+commit: 70ef2cc4d51e006d23e5d2559f395e1c1e4e7dbc [6827/29744] UPSTREAM: dt-bindings: memory: mediatek: Convert SMI to DT schema
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271332.vGbNENec-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307270834.rpaexQSs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271332.vGbNENec-lkp@intel.com/
 
-smatch warnings:
-drivers/usb/core/message.c:1668 usb_set_interface() warn: inconsistent returns 'hcd->bandwidth_mutex'.
+All warnings (new ones prefixed by >>):
 
-vim +1668 drivers/usb/core/message.c
-
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1528  int usb_set_interface(struct usb_device *dev, int interface, int alternate)
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1529  {
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1530  	struct usb_interface *iface;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1531  	struct usb_host_interface *alt;
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1532  	struct usb_hcd *hcd = bus_to_hcd(dev->bus);
-7a7b562d08ad6d Hans de Goede                 2013-11-08  1533  	int i, ret, manual = 0;
-3e35bf39e0b909 Greg Kroah-Hartman            2008-01-30  1534  	unsigned int epaddr;
-3e35bf39e0b909 Greg Kroah-Hartman            2008-01-30  1535  	unsigned int pipe;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1536  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1537  	if (dev->state == USB_STATE_SUSPENDED)
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1538  		return -EHOSTUNREACH;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1539  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1540  	iface = usb_ifnum_to_if(dev, interface);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1541  	if (!iface) {
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1542  		dev_dbg(&dev->dev, "selecting invalid interface %d\n",
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1543  			interface);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1544  		return -EINVAL;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1545  	}
-e534c5b831c8b8 Alan Stern                    2011-07-01  1546  	if (iface->unregistering)
-e534c5b831c8b8 Alan Stern                    2011-07-01  1547  		return -ENODEV;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1548  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1549  	alt = usb_altnum_to_altsetting(iface, alternate);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1550  	if (!alt) {
-385f690bc058ba Thadeu Lima de Souza Cascardo 2010-01-17  1551  		dev_warn(&dev->dev, "selecting invalid altsetting %d\n",
-3b6004f3b5a8b4 Greg Kroah-Hartman            2008-08-14  1552  			 alternate);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1553  		return -EINVAL;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1554  	}
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1555  	/*
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1556  	 * usb3 hosts configure the interface in usb_hcd_alloc_bandwidth,
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1557  	 * including freeing dropped endpoint ring buffers.
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1558  	 * Make sure the interface endpoints are flushed before that
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1559  	 */
-f9a5b4f58b280c Mathias Nyman                 2018-09-03  1560  	usb_disable_interface(dev, iface, false);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1561  
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1562  	/* Make sure we have enough bandwidth for this alternate interface.
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1563  	 * Remove the current alt setting and add the new alt setting.
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1564  	 */
-d673bfcbfffdeb Sarah Sharp                   2010-10-15  1565  	mutex_lock(hcd->bandwidth_mutex);
-8306095fd2c110 Sarah Sharp                   2012-05-02  1566  	/* Disable LPM, and re-enable it once the new alt setting is installed,
-8306095fd2c110 Sarah Sharp                   2012-05-02  1567  	 * so that the xHCI driver can recalculate the U1/U2 timeouts.
-8306095fd2c110 Sarah Sharp                   2012-05-02  1568  	 */
-8306095fd2c110 Sarah Sharp                   2012-05-02  1569  	if (usb_disable_lpm(dev)) {
-1ccc417e6c3201 Joe Perches                   2017-12-05  1570  		dev_err(&iface->dev, "%s Failed to disable LPM\n", __func__);
-8306095fd2c110 Sarah Sharp                   2012-05-02  1571  		mutex_unlock(hcd->bandwidth_mutex);
-8306095fd2c110 Sarah Sharp                   2012-05-02  1572  		return -ENOMEM;
-8306095fd2c110 Sarah Sharp                   2012-05-02  1573  	}
-7a7b562d08ad6d Hans de Goede                 2013-11-08  1574  	/* Changing alt-setting also frees any allocated streams */
-7a7b562d08ad6d Hans de Goede                 2013-11-08  1575  	for (i = 0; i < iface->cur_altsetting->desc.bNumEndpoints; i++)
-7a7b562d08ad6d Hans de Goede                 2013-11-08  1576  		iface->cur_altsetting->endpoint[i].streams = 0;
-7a7b562d08ad6d Hans de Goede                 2013-11-08  1577  
-4682bbb9e2f196 Aman Deep                     2023-07-20  1578  	if (dev->state == USB_STATE_NOTATTACHED)
-4682bbb9e2f196 Aman Deep                     2023-07-20  1579  		return -ENODEV;
-
-
-mutex_unlock(hcd->bandwidth_mutex); before returning
-
-4682bbb9e2f196 Aman Deep                     2023-07-20  1580  
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1581  	ret = usb_hcd_alloc_bandwidth(dev, NULL, iface->cur_altsetting, alt);
-4682bbb9e2f196 Aman Deep                     2023-07-20  1582  
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1583  	if (ret < 0) {
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1584  		dev_info(&dev->dev, "Not enough bandwidth for altsetting %d\n",
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1585  				alternate);
-8306095fd2c110 Sarah Sharp                   2012-05-02  1586  		usb_enable_lpm(dev);
-d673bfcbfffdeb Sarah Sharp                   2010-10-15  1587  		mutex_unlock(hcd->bandwidth_mutex);
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1588  		return ret;
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1589  	}
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1590  
-392e1d9817d002 Alan Stern                    2008-03-11  1591  	if (dev->quirks & USB_QUIRK_NO_SET_INTF)
-392e1d9817d002 Alan Stern                    2008-03-11  1592  		ret = -EPIPE;
-392e1d9817d002 Alan Stern                    2008-03-11  1593  	else
-297e84c04d76b9 Greg Kroah-Hartman            2020-09-14  1594  		ret = usb_control_msg_send(dev, 0,
-297e84c04d76b9 Greg Kroah-Hartman            2020-09-14  1595  					   USB_REQ_SET_INTERFACE,
-297e84c04d76b9 Greg Kroah-Hartman            2020-09-14  1596  					   USB_RECIP_INTERFACE, alternate,
-ddd1198e3e0935 Oliver Neukum                 2020-09-23  1597  					   interface, NULL, 0, 5000,
-ddd1198e3e0935 Oliver Neukum                 2020-09-23  1598  					   GFP_NOIO);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1599  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1600  	/* 9.4.10 says devices don't need this and are free to STALL the
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1601  	 * request if the interface only has one alternate setting.
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1602  	 */
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1603  	if (ret == -EPIPE && iface->num_altsetting == 1) {
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1604  		dev_dbg(&dev->dev,
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1605  			"manual set_interface for iface %d, alt %d\n",
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1606  			interface, alternate);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1607  		manual = 1;
-297e84c04d76b9 Greg Kroah-Hartman            2020-09-14  1608  	} else if (ret) {
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1609  		/* Re-instate the old alt setting */
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1610  		usb_hcd_alloc_bandwidth(dev, NULL, alt, iface->cur_altsetting);
-8306095fd2c110 Sarah Sharp                   2012-05-02  1611  		usb_enable_lpm(dev);
-d673bfcbfffdeb Sarah Sharp                   2010-10-15  1612  		mutex_unlock(hcd->bandwidth_mutex);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1613  		return ret;
-3f0479e00a3fca Sarah Sharp                   2009-12-03  1614  	}
-d673bfcbfffdeb Sarah Sharp                   2010-10-15  1615  	mutex_unlock(hcd->bandwidth_mutex);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1616  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1617  	/* FIXME drivers shouldn't need to replicate/bugfix the logic here
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1618  	 * when they implement async or easily-killable versions of this or
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1619  	 * other "should-be-internal" functions (like clear_halt).
-^1da177e4c3f41 Linus Torvalds                2005-04-16  1620  	 * should hcd+usbcore postprocess control requests?
+>> Warning: Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
