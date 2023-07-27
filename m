@@ -1,112 +1,184 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAF820F1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 05:11:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E5D20F1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 05:12:26 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31763b2c5a4so585880f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 22:12:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WLI2PQVlmlLqnQBOZiBkXszrEUz4jrdKbRuQPFPU8R0=;
-  b=H2Agv8u4lZn0DppXh8Bst+Gn4LYkQv7sjj+ba/zzrLCvnAG72gNNscq+
-   8ByUIPXO4emYtwlocZNTwY9ba/j0DvvYTDxAmDItFv/lJTgE9FoypCdzB
-   mvBfT1p9MqwU+OCZFRs9psVAZ+B1BjbL5Gd//bmya+y1U2rHcUOWfZkVd
-   8=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,233,1684792800"; 
-   d="scan'208";a="62436284"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 07:10:32 +0200
-Date: Thu, 27 Jul 2023 07:10:31 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Biju Das <biju.das.jz@bp.renesas.com>
-cc: Linux Memory Management List <linux-mm@kvack.org>, 
-    Stephen Boyd <sboyd@kernel.org>, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 2742/4710] drivers/clk/clk-versaclock3.c:404:2-8:
- WARNING: do_div() does a 64-by-32 division, please consider using div64_ul
- instead. (fwd)
-Message-ID: <alpine.DEB.2.22.394.2307270709580.3082@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=linaro.org; s=google; t=1690434745; x=1691039545;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9GgkNgIPZuWwBvKwcRHA3Icc55jLNUA5tTeNCdLIPG0=;
+        b=fEWMl5pP7863Pd1nr9LkBeLbLC8LDD5JFDIUEnxXqXAPtiz377YGUXP7yyRqDYKx9e
+         ymi2dPbJ/MJ/3SCq3eY4bzhVWRDpZV2dh8mWm/c5LgVRnzDyEwEQCbxGBIKlAGOeZAvP
+         XVopwOW1tkF8Oopx07GU/MCQu6pS9p4/tMTbeuxhBGd7IxoqMHrP2RCFMoO58Oy78lVn
+         zCIEPIeAZNP4UOFFmkZWI3otIzt/DmE2GEsbwcgdWYp/UwCQzABKeXn5oFXnaw0poxZF
+         BmgwTz9jPOIDij4gCHQvht4au0DyLciLZqMi8/DtDWdGP3OB+3Tpj6pcET4Q6J98cgNp
+         xeqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690434745; x=1691039545;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9GgkNgIPZuWwBvKwcRHA3Icc55jLNUA5tTeNCdLIPG0=;
+        b=iDbplI2TD61mPlyNT+yPo+wfWOWg86Ecp978u1Xw4tCeJBHePbKpp+fezPj6BsDFHK
+         zlZzhJcFjK/GRjJPuysQc9O3GxDepfhW7k8DQ24NzTy4YNvmHSebBgZVETyp+CJRQhj4
+         8MHqERGWN/fym8FVHzIf5Bro+Dzud8j3EVJfsMZldvgXAqHIu4WTw+S76oPpp6+cTshc
+         VZ5ujgq3kjU++g2Hnu2tYY5z1NJcuXKl6zz1oJerMLsucge0/PyQ5eHTHygzWmFLWWuS
+         x6gloM3K7pliZM0wogAm1Z5xAnO30R5KfDQUAr08l8ndDEwhf7N++e3pPulOgQaqNVUl
+         5bZw==
+X-Gm-Message-State: ABy/qLYvXUXOsF0KzwcAUUzHKsdGGc/AZVf7zlzTNXk9Ln2rtW3R2ffF
+	K7mUzxmg46w+fXEv4wg1+SL5mpBSKzdpDOI796w=
+X-Google-Smtp-Source: APBJJlGHOmqFNZTfikbTKjuaqkaOKlyR4CP+vno1vsD2MfiqiTZmC/lEQRIn2+U1mOWFKTaVX2mkRQ==
+X-Received: by 2002:a05:6000:1807:b0:317:5e5e:60e0 with SMTP id m7-20020a056000180700b003175e5e60e0mr884675wrh.28.1690434744653;
+        Wed, 26 Jul 2023 22:12:24 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m12-20020adff38c000000b00313f031876esm837187wro.43.2023.07.26.22.12.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jul 2023 22:12:24 -0700 (PDT)
+Date: Thu, 27 Jul 2023 08:12:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Rae Moar <rmoar@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 4/9] kunit: Add ability to filter attributes
+Message-ID: <3cfb0706-0873-4839-b6e1-e8f1c994d6a6@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230725212522.1622716-5-rmoar@google.com>
 
+Hi Rae,
 
+kernel test robot noticed the following build warnings:
 
----------- Forwarded message ----------
-Date: Thu, 27 Jul 2023 08:50:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 2742/4710] drivers/clk/clk-versaclock3.c:404:2-8:
-    WARNING: do_div() does a 64-by-32 division,
-    please consider using div64_ul instead.
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Biju Das <biju.das.jz@bp.renesas.com>
-CC: Stephen Boyd <sboyd@kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0ba5d07205771c50789fd9063950aa75e7f1183f
-commit: 6e9aff555db7b6816076121ac3feebc3006de9ad [2742/4710] clk: Add support for versa3 clock driver
-:::::: branch date: 19 hours ago
-:::::: commit date: 7 days ago
-config: sparc64-randconfig-r061-20230726 (https://download.01.org/0day-ci/archive/20230727/202307270841.yr5HxYIl-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270841.yr5HxYIl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Rae-Moar/kunit-Add-test-attributes-API-structure/20230726-052754
+base:   64bd4641310c41a1ecf07c13c67bc0ed61045dfd
+patch link:    https://lore.kernel.org/r/20230725212522.1622716-5-rmoar%40google.com
+patch subject: [PATCH v3 4/9] kunit: Add ability to filter attributes
+config: parisc-randconfig-m041-20230726 (https://download.01.org/0day-ci/archive/20230727/202307270610.s0w4NKEn-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270610.s0w4NKEn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202307270841.yr5HxYIl-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307270610.s0w4NKEn-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/clk-versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
+New smatch warnings:
+lib/kunit/attributes.c:127 attr_enum_filter() error: uninitialized symbol 'input_int'.
+lib/kunit/attributes.c:262 kunit_get_filter_count() error: uninitialized symbol 'comma_index'.
+lib/kunit/attributes.c:284 kunit_next_attr_filter() error: uninitialized symbol 'comma_index'.
+lib/kunit/executor.c:168 kunit_filter_suites() error: uninitialized symbol 'filter_count'.
+lib/kunit/executor.c:171 kunit_filter_suites() error: uninitialized symbol 'parsed_filters'.
 
-vim +404 drivers/clk/clk-versaclock3.c
+Old smatch warnings:
+lib/kunit/attributes.c:267 kunit_get_filter_count() error: uninitialized symbol 'comma_index'.
+lib/kunit/executor.c:201 kunit_filter_suites() error: uninitialized symbol 'filter_count'.
+lib/kunit/executor.c:202 kunit_filter_suites() error: uninitialized symbol 'parsed_filters'.
 
-6e9aff555db7b6 Biju Das 2023-07-05  382
-6e9aff555db7b6 Biju Das 2023-07-05  383  static long vc3_pll_round_rate(struct clk_hw *hw, unsigned long rate,
-6e9aff555db7b6 Biju Das 2023-07-05  384  			       unsigned long *parent_rate)
-6e9aff555db7b6 Biju Das 2023-07-05  385  {
-6e9aff555db7b6 Biju Das 2023-07-05  386  	struct vc3_hw_data *vc3 = container_of(hw, struct vc3_hw_data, hw);
-6e9aff555db7b6 Biju Das 2023-07-05  387  	const struct vc3_pll_data *pll = vc3->data;
-6e9aff555db7b6 Biju Das 2023-07-05  388  	u64 div_frc;
-6e9aff555db7b6 Biju Das 2023-07-05  389
-6e9aff555db7b6 Biju Das 2023-07-05  390  	if (rate < pll->vco_min)
-6e9aff555db7b6 Biju Das 2023-07-05  391  		rate = pll->vco_min;
-6e9aff555db7b6 Biju Das 2023-07-05  392  	if (rate > pll->vco_max)
-6e9aff555db7b6 Biju Das 2023-07-05  393  		rate = pll->vco_max;
-6e9aff555db7b6 Biju Das 2023-07-05  394
-6e9aff555db7b6 Biju Das 2023-07-05  395  	vc3->div_int = rate / *parent_rate;
-6e9aff555db7b6 Biju Das 2023-07-05  396
-6e9aff555db7b6 Biju Das 2023-07-05  397  	if (pll->num == VC3_PLL2) {
-6e9aff555db7b6 Biju Das 2023-07-05  398  		if (vc3->div_int > 0x7ff)
-6e9aff555db7b6 Biju Das 2023-07-05  399  			rate = *parent_rate * 0x7ff;
-6e9aff555db7b6 Biju Das 2023-07-05  400
-6e9aff555db7b6 Biju Das 2023-07-05  401  		/* Determine best fractional part, which is 16 bit wide */
-6e9aff555db7b6 Biju Das 2023-07-05  402  		div_frc = rate % *parent_rate;
-6e9aff555db7b6 Biju Das 2023-07-05  403  		div_frc *= BIT(16) - 1;
-6e9aff555db7b6 Biju Das 2023-07-05 @404  		do_div(div_frc, *parent_rate);
-6e9aff555db7b6 Biju Das 2023-07-05  405
-6e9aff555db7b6 Biju Das 2023-07-05  406  		vc3->div_frc = (u32)div_frc;
-6e9aff555db7b6 Biju Das 2023-07-05  407  		rate = (*parent_rate *
-6e9aff555db7b6 Biju Das 2023-07-05  408  			(vc3->div_int * VC3_2_POW_16 + div_frc) / VC3_2_POW_16);
-6e9aff555db7b6 Biju Das 2023-07-05  409  	} else {
-6e9aff555db7b6 Biju Das 2023-07-05  410  		rate = *parent_rate * vc3->div_int;
-6e9aff555db7b6 Biju Das 2023-07-05  411  	}
-6e9aff555db7b6 Biju Das 2023-07-05  412
-6e9aff555db7b6 Biju Das 2023-07-05  413  	return rate;
-6e9aff555db7b6 Biju Das 2023-07-05  414  }
-6e9aff555db7b6 Biju Das 2023-07-05  415
+vim +/input_int +127 lib/kunit/attributes.c
+
+793862a3f94d2f Rae Moar 2023-07-25  102  static int attr_enum_filter(void *attr, const char *input, int *err,
+793862a3f94d2f Rae Moar 2023-07-25  103  		const char * const str_list[], int max)
+793862a3f94d2f Rae Moar 2023-07-25  104  {
+793862a3f94d2f Rae Moar 2023-07-25  105  	int i, j, input_int;
+                                                          ^^^^^^^^^
+
+793862a3f94d2f Rae Moar 2023-07-25  106  	long test_val = (long)attr;
+793862a3f94d2f Rae Moar 2023-07-25  107  	const char *input_val = NULL;
+793862a3f94d2f Rae Moar 2023-07-25  108  
+793862a3f94d2f Rae Moar 2023-07-25  109  	for (i = 0; input[i]; i++) {
+793862a3f94d2f Rae Moar 2023-07-25  110  		if (!strchr(op_list, input[i])) {
+793862a3f94d2f Rae Moar 2023-07-25  111  			input_val = input + i;
+793862a3f94d2f Rae Moar 2023-07-25  112  			break;
+793862a3f94d2f Rae Moar 2023-07-25  113  		}
+793862a3f94d2f Rae Moar 2023-07-25  114  	}
+793862a3f94d2f Rae Moar 2023-07-25  115  
+793862a3f94d2f Rae Moar 2023-07-25  116  	if (!input_val) {
+793862a3f94d2f Rae Moar 2023-07-25  117  		*err = -EINVAL;
+793862a3f94d2f Rae Moar 2023-07-25  118  		pr_err("kunit executor: filter value not found: %s\n", input);
+793862a3f94d2f Rae Moar 2023-07-25  119  		return false;
+793862a3f94d2f Rae Moar 2023-07-25  120  	}
+793862a3f94d2f Rae Moar 2023-07-25  121  
+793862a3f94d2f Rae Moar 2023-07-25  122  	for (j = 0; j <= max; j++) {
+793862a3f94d2f Rae Moar 2023-07-25  123  		if (!strcmp(input_val, str_list[j]))
+793862a3f94d2f Rae Moar 2023-07-25  124  			input_int = j;
+793862a3f94d2f Rae Moar 2023-07-25  125  	}
+793862a3f94d2f Rae Moar 2023-07-25  126  
+793862a3f94d2f Rae Moar 2023-07-25 @127  	if (!input_int) {
+
+This is a bug, but wait, what?  Why is the first element invalid?  Maybe
+do:
+	int input_int = -1;
+
+	for (j = 0; j <= max; j++) {
+		if found
+			input_int = j;
+	}
+
+	if (input_int == -1) {
+
+793862a3f94d2f Rae Moar 2023-07-25  128  		*err = -EINVAL;
+793862a3f94d2f Rae Moar 2023-07-25  129  		pr_err("kunit executor: invalid filter input: %s\n", input);
+793862a3f94d2f Rae Moar 2023-07-25  130  		return false;
+793862a3f94d2f Rae Moar 2023-07-25  131  	}
+793862a3f94d2f Rae Moar 2023-07-25  132  
+793862a3f94d2f Rae Moar 2023-07-25  133  	return int_filter(test_val, input, input_int, err);
+793862a3f94d2f Rae Moar 2023-07-25  134  }
+
+[ snip ]
+
+793862a3f94d2f Rae Moar 2023-07-25  256  int kunit_get_filter_count(char *input)
+793862a3f94d2f Rae Moar 2023-07-25  257  {
+793862a3f94d2f Rae Moar 2023-07-25  258  	int i, comma_index, count = 0;
+793862a3f94d2f Rae Moar 2023-07-25  259  
+793862a3f94d2f Rae Moar 2023-07-25  260  	for (i = 0; input[i]; i++) {
+793862a3f94d2f Rae Moar 2023-07-25  261  		if (input[i] == ',') {
+793862a3f94d2f Rae Moar 2023-07-25 @262  			if ((i - comma_index) > 1)
+
+initialize comma_index = 0
+
+793862a3f94d2f Rae Moar 2023-07-25  263  				count++;
+793862a3f94d2f Rae Moar 2023-07-25  264  			comma_index = i;
+793862a3f94d2f Rae Moar 2023-07-25  265  		}
+793862a3f94d2f Rae Moar 2023-07-25  266  	}
+793862a3f94d2f Rae Moar 2023-07-25  267  	if ((i - comma_index) > 0)
+793862a3f94d2f Rae Moar 2023-07-25  268  		count++;
+793862a3f94d2f Rae Moar 2023-07-25  269  	return count;
+793862a3f94d2f Rae Moar 2023-07-25  270  }
+793862a3f94d2f Rae Moar 2023-07-25  271  
+793862a3f94d2f Rae Moar 2023-07-25  272  struct kunit_attr_filter kunit_next_attr_filter(char **filters, int *err)
+793862a3f94d2f Rae Moar 2023-07-25  273  {
+793862a3f94d2f Rae Moar 2023-07-25  274  	struct kunit_attr_filter filter = {};
+793862a3f94d2f Rae Moar 2023-07-25  275  	int i, j, comma_index, new_start_index;
+793862a3f94d2f Rae Moar 2023-07-25  276  	int op_index = -1, attr_index = -1;
+793862a3f94d2f Rae Moar 2023-07-25  277  	char op;
+793862a3f94d2f Rae Moar 2023-07-25  278  	char *input = *filters;
+793862a3f94d2f Rae Moar 2023-07-25  279  
+793862a3f94d2f Rae Moar 2023-07-25  280  	/* Parse input until operation */
+793862a3f94d2f Rae Moar 2023-07-25  281  	for (i = 0; input[i]; i++) {
+793862a3f94d2f Rae Moar 2023-07-25  282  		if (op_index < 0 && strchr(op_list, input[i])) {
+793862a3f94d2f Rae Moar 2023-07-25  283  			op_index = i;
+793862a3f94d2f Rae Moar 2023-07-25 @284  		} else if (!comma_index && input[i] == ',') {
+
+same
+
+793862a3f94d2f Rae Moar 2023-07-25  285  			comma_index = i;
+793862a3f94d2f Rae Moar 2023-07-25  286  		} else if (comma_index && input[i] != ' ') {
+793862a3f94d2f Rae Moar 2023-07-25  287  			new_start_index = i;
+793862a3f94d2f Rae Moar 2023-07-25  288  			break;
+793862a3f94d2f Rae Moar 2023-07-25  289  		}
+793862a3f94d2f Rae Moar 2023-07-25  290  	}
+793862a3f94d2f Rae Moar 2023-07-25  291  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
