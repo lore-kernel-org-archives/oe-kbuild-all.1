@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (unknown [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CAF174F4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 14:11:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3771174D0;
+	Thu, 27 Jul 2023 14:23:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690467114; x=1722003114;
+  t=1690467781; x=1722003781;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QYpsTfU85fv+WzWEIABnx7+T9WeA0wobsRj1ERV9QsU=;
-  b=naHS7jW1dZ1gfHlxpObNvB5C6x1Ey6Ymd7uYkhe264tkgK4AuoGWW3Bn
-   dz559KdqhVPnqtdB/fj9g9gO8ZcEe2wi734W9vP4SAj9cGfDTKsl4TcGS
-   iph+aYwj5w269cFfIOWoExbAupG5NF7SNHywcjzhdPjjsNBJFkfkvriXp
-   a2SsSPEWn92mGmcUA+mwhQdTnAyoc8AtiCj8fpPYm0rpAnAJTlTnN4E7a
-   qA6ofYW9Z7ikMGwsHIlpgY/4ysUCS2LJOUHGVqY2xnd00666q8Pw33glf
-   clYYriBX3T+0n+zDJCjy4rVX5qE/VB+Izu9e1yeV+20TZ2vMvfogtFeCR
+  bh=tVmXn8OQubx5m3Wv00d0TOMJ2VIMCX79C3U8NiiaI2s=;
+  b=DZRdBUC8ta14iaC3GT9YOml7oYnPKk7/SXOtLHOKlQruCLWzLcjVGMzB
+   rA6qm8t/LysGl3Fo1DG1qIgq/ckw6O9ydH5zjplGHTHMg9OZmregpvjsR
+   i8eWfZAw1buqjNMRRZRSWeJmYrOloG5aEJK4QenRDK/S8b0rXPM2/DDEL
+   zfVK8soPkM28L3BR8XEJfGB+cwUge+LRV3gbg5GePAo/1qS7lEttVqiZm
+   AEmMkSkxWn/xWC7cwvLiij6Sz6E33UcfkqOA9Wx+7igiUei+gbIeLI2Z5
+   cf/kkyohl1pSp0Q7tD1+biEuFoOBYsS3IGJPWH3JG23GwmKTFOgBHkDnA
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="399256849"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="399260411"
 X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; 
-   d="scan'208";a="399256849"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 07:11:53 -0700
+   d="scan'208";a="399260411"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 07:22:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="720891890"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="900892893"
 X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; 
-   d="scan'208";a="720891890"
+   d="scan'208";a="900892893"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 27 Jul 2023 07:11:51 -0700
+  by orsmga005.jf.intel.com with ESMTP; 27 Jul 2023 07:22:03 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qP1iY-0002Jl-2R;
-	Thu, 27 Jul 2023 14:11:50 +0000
-Date: Thu, 27 Jul 2023 22:10:56 +0800
+	id 1qP1sQ-0002KR-2C;
+	Thu, 27 Jul 2023 14:22:02 +0000
+Date: Thu, 27 Jul 2023 22:21:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: John Ogness <john.ogness@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Subject: [rt-devel:linux-6.4.y-rt-rebase 50/85]
- kernel/printk/printk.c:3361:6: warning: no previous prototype for
+ kernel/printk/printk.c:3361:6: warning: no previous prototype for function
  'console_bkl_kthread_create'
-Message-ID: <202307272211.Nmc1i9bc-lkp@intel.com>
+Message-ID: <202307272243.gHGeMfJW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,20 +51,67 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.4.y-rt-rebase
 head:   fb7828286d1ee12dc132500e9fc84085ceadabc3
 commit: 6222f512e52abd73ca47462f12ede8872ff59f0f [50/85] printk: Add threaded printing support for BKL consoles.
-config: microblaze-randconfig-r025-20230727 (https://download.01.org/0day-ci/archive/20230727/202307272211.Nmc1i9bc-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307272211.Nmc1i9bc-lkp@intel.com/reproduce)
+config: hexagon-randconfig-r013-20230727 (https://download.01.org/0day-ci/archive/20230727/202307272243.gHGeMfJW-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307272243.gHGeMfJW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307272211.Nmc1i9bc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307272243.gHGeMfJW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/printk/printk.c:3361:6: warning: no previous prototype for 'console_bkl_kthread_create' [-Wmissing-prototypes]
+   In file included from kernel/printk/printk.c:24:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from kernel/printk/printk.c:24:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from kernel/printk/printk.c:24:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> kernel/printk/printk.c:3361:6: warning: no previous prototype for function 'console_bkl_kthread_create' [-Wmissing-prototypes]
     3361 | void console_bkl_kthread_create(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |      ^
+   kernel/printk/printk.c:3361:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3361 | void console_bkl_kthread_create(void)
+         | ^
+         | static 
+   7 warnings generated.
 
 
 vim +/console_bkl_kthread_create +3361 kernel/printk/printk.c
