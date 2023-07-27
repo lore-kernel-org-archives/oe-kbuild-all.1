@@ -1,207 +1,143 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (unknown [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3B2FBF9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 09:25:47 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-d16639e16e6so630996276.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 02:25:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690449946; x=1691054746;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FM7dbmsUNQ9ephJiHm7mnMG3bHxM2q6uJO1Stbh0MgY=;
-        b=lVB3E3dsB+i9axdSdSHQ03OHkQsXhPl5UjJEjhsEw8+QKnWrRoRf8gH17qmRlFuO95
-         hngX0kfBFmaxVakmxf6a2om/4N2FN58VZ+1Lod/bjNN7m+hppH40P97bAGDYJgJo7z7U
-         S+jkjTXGkLdHZG6oqiM3iqRyV4Y6sP5199sb2xdsqiE7PuQRMc7vOAf66GqJLtBzQICz
-         8eUoNAn5TUfkPiyFMuZy3hnUVyKKFls5HprMPkR6SPrmeV7IQaT/MS9I2IhSQHc/E9eH
-         eL1JSEOFwmSscaMooCShj0fU3er1jWiOkxUG7PLNmoVhCc/1caLMNnHABbHn04ERQQuN
-         GU6w==
-X-Gm-Message-State: ABy/qLa6NEG1GdZs6HFm3oqGhXR0MstvT8MEUYWIREf43p4OsY0OCdKG
-	GjVybBaJF8AR9ZKxXQNHVaLAUwCIdjQRDA==
-X-Google-Smtp-Source: APBJJlEBPabXYZHq03G/r0sTwBfF6+jzicT5qu0tv+/ZS6mijmvWtQXe1tJYJwele9AndJFSZGrCGA==
-X-Received: by 2002:a25:5d0f:0:b0:d23:829e:cd53 with SMTP id r15-20020a255d0f000000b00d23829ecd53mr742629ybb.20.1690449946100;
-        Thu, 27 Jul 2023 02:25:46 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id v125-20020a25c583000000b00d0b6ca620besm200387ybe.30.2023.07.27.02.25.44
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 02:25:45 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-579de633419so7924887b3.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 02:25:44 -0700 (PDT)
-X-Received: by 2002:a25:db04:0:b0:d18:1fbf:c11d with SMTP id
- g4-20020a25db04000000b00d181fbfc11dmr3898899ybf.47.1690449944618; Thu, 27 Jul
- 2023 02:25:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68065FBEF;
+	Thu, 27 Jul 2023 09:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690450676; x=1721986676;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FbZpzQ1BBEni3dpBgEom4Ae/NvmcXhfPSy1l5qubcrs=;
+  b=CyP1q4FI15w0Ew7wTTY0lWlG89c+2SlIx9kDwsYRKgQvIhDlYUI50RaA
+   m7j+D7BaHHycdv7upg6Aetpke/nI2Z9NIxDoXso1WW70ip290r21zqsoS
+   mOp7/8VNSGHAMSTa0XwKzliZuAcxc6mvctBNKTproyFyQgoSWcu3ZyBhB
+   DZXdLqslvOfi7VP58StvXGeynvzxUrw4aZn+uITMzgvvuEe8zPtdih8ak
+   A3IdFbzjl6lVCp9OEwlVol3Dhq3sv9K4YlAv0gXT9hrEojhskySQZaGhT
+   VjHvk34mj75UmxVelP7SvrQnHev5I3V39uYVxjBQ3DklDvz6HD6rRWc1U
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="370937234"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="370937234"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 02:37:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="900832275"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="900832275"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 27 Jul 2023 02:37:54 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOxQ2-00028n-2v;
+	Thu, 27 Jul 2023 09:36:54 +0000
+Date: Thu, 27 Jul 2023 17:29:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 61/98] drivers/tty/tty_buffer.c:325:14: warning:
+ comparison of distinct pointer types ('typeof (size - copied) *' (aka
+ 'unsigned int *') and 'typeof ((((((1UL) << 12) - sizeof(struct tty_buffer))
+ / 2) & ~255)) *' (aka 'unsigned long *'))
+Message-ID: <202307271754.XqkY0zbe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <alpine.DEB.2.22.394.2307270709580.3082@hadrien>
- <OS0PR01MB59227764417EB66A9CBDE69F8601A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <bf5c77ec-fc9f-419a-d0e8-15ad54df2fb@inria.fr> <OS0PR01MB592291F0C8AE19F7118DCF0F8601A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592291F0C8AE19F7118DCF0F8601A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 27 Jul 2023 11:25:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXhS-u-n+ZThnNM6w81rc0LsOUyaJ5UxXwbC44e7NFw8w@mail.gmail.com>
-Message-ID: <CAMuHMdXhS-u-n+ZThnNM6w81rc0LsOUyaJ5UxXwbC44e7NFw8w@mail.gmail.com>
-Subject: Re: [linux-next:master 2742/4710] drivers/clk/clk-versaclock3.c:404:2-8:
- WARNING: do_div() does a 64-by-32 division, please consider using div64_ul
- instead. (fwd)
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Julia Lawall <julia.lawall@inria.fr>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Stephen Boyd <sboyd@kernel.org>, 
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Biju,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   2400f7abb9deab7a2207b19d1fad47d9910077a9
+commit: 58dea2bfdf65b65a29a79d6227bff708ea95dc7c [61/98] tty: tty_buffer: use min() instead of min_t()
+config: i386-buildonly-randconfig-r004-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271754.XqkY0zbe-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271754.XqkY0zbe-lkp@intel.com/reproduce)
 
-On Thu, Jul 27, 2023 at 11:19=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
-om> wrote:
-> > versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32 division, plea=
-se
-> > consider using div64_ul instead. (fwd)
-> >
-> > On Thu, 27 Jul 2023, Biju Das wrote:
-> > > The reproduce link is not working for me.
-> > >
-> > > Can you please provide instruction to reproduce this issue?
-> >
-> > I don't think it's intended to be reproduced.  The issue is just that a
-> > long value is being passed to an integer that is 32 bit.  If the long
-> > value will never be very big, then you can just ignore the warning.
->
-> The rate values are well below max 32 bit, 4294967296. So I guess, it is =
-ok.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271754.XqkY0zbe-lkp@intel.com/
 
-The type of the parent_rate in/output parameter of clk_ops.round_rate()
-is unsigned long.  Hence you should use div64_ul().
+All warnings (new ones prefixed by >>):
 
-> > > > versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32 division,
-> > > > please consider using div64_ul instead. (fwd)
-> > > >
-> > > >
-> > > >
-> > > > ---------- Forwarded message ----------
-> > > > Date: Thu, 27 Jul 2023 08:50:37 +0800
-> > > > From: kernel test robot <lkp@intel.com>
-> > > > To: oe-kbuild@lists.linux.dev
-> > > > Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-> > > > Subject: [linux-next:master 2742/4710] drivers/clk/clk-
-> > > > versaclock3.c:404:2-8:
-> > > >     WARNING: do_div() does a 64-by-32 division,
-> > > >     please consider using div64_ul instead.
-> > > >
-> > > > BCC: lkp@intel.com
-> > > > CC: oe-kbuild-all@lists.linux.dev
-> > > > CC: Linux Memory Management List <linux-mm@kvack.org>
-> > > > TO: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > CC: Stephen Boyd <sboyd@kernel.org>
-> > > >
-> > > > tree:
-> > > >
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a ne=
-w
-> > > > version of the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> > > > | Closes:
-> > > %2BsY49B78%3D&reserved=3D0
-> > > >
-> > > > cocci warnings: (new ones prefixed by >>)
-> > > > >> drivers/clk/clk-versaclock3.c:404:2-8: WARNING: do_div() does a
-> > > > >> 64-
-> > > > by-32 division, please consider using div64_ul instead.
-> > > >
-> > > > vim +404 drivers/clk/clk-versaclock3.c
-> > > >
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  382
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  383  static long
-> > > > vc3_pll_round_rate(struct clk_hw *hw, unsigned long rate,
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  384
-> > unsigned
-> > > > long *parent_rate)
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  385  {
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  386   struct vc3_hw_data *vc3 =
-=3D
-> > > > container_of(hw, struct vc3_hw_data, hw);
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  387   const struct vc3_pll_data
-> > *pll
-> > > > =3D vc3->data;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  388   u64 div_frc;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  389
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  390   if (rate < pll->vco_min)
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  391           rate =3D pll->vco=
-_min;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  392   if (rate > pll->vco_max)
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  393           rate =3D pll->vco=
-_max;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  394
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  395   vc3->div_int =3D rate /
-> > > > *parent_rate;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  396
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  397   if (pll->num =3D=3D VC3_P=
-LL2)
-> > {
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  398           if (vc3->div_int =
->
-> > 0x7ff)
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  399                   rate =3D
-> > *parent_rate
-> > > > * 0x7ff;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  400
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  401           /* Determine best
-> > > > fractional part, which is 16 bit wide */
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  402           div_frc =3D rate =
-%
-> > > > *parent_rate;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  403           div_frc *=3D BIT(=
-16) -
-> > 1;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05 @404           do_div(div_frc,
-> > > > *parent_rate);
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  405
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  406           vc3->div_frc =3D
-> > > > (u32)div_frc;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  407           rate =3D (*parent=
-_rate
-> > *
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  408                   (vc3->div=
-_int
-> > *
-> > > > VC3_2_POW_16 + div_frc) / VC3_2_POW_16);
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  409   } else {
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  410           rate =3D *parent_=
-rate
-> > *
-> > > > vc3->div_int;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  411   }
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  412
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  413   return rate;
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  414  }
-> > > > 6e9aff555db7b6 Biju Das 2023-07-05  415
-> > > >
-> > > > --
-> > > > 0-DAY CI Kernel Test Service
-> > >
+>> drivers/tty/tty_buffer.c:325:14: warning: comparison of distinct pointer types ('typeof (size - copied) *' (aka 'unsigned int *') and 'typeof ((((((1UL) << 12) - sizeof(struct tty_buffer)) / 2) & ~255)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+                   int goal = min(size - copied, TTY_BUFFER_PAGE);
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:67:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+           __builtin_choose_expr(__safe_cmp(x, y), \
+                                 ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+                   (__typecheck(x, y) && __no_side_effects(x, y))
+                    ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   drivers/tty/tty_buffer.c:363:14: warning: comparison of distinct pointer types ('typeof (size - copied) *' (aka 'unsigned int *') and 'typeof ((((((1UL) << 12) - sizeof(struct tty_buffer)) / 2) & ~255)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+                   int goal = min(size - copied, TTY_BUFFER_PAGE);
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:67:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+           __builtin_choose_expr(__safe_cmp(x, y), \
+                                 ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+                   (__typecheck(x, y) && __no_side_effects(x, y))
+                    ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
+vim +325 drivers/tty/tty_buffer.c
 
---=20
-Gr{oetje,eeting}s,
+   305	
+   306	/**
+   307	 * tty_insert_flip_string_fixed_flag - add characters to the tty buffer
+   308	 * @port: tty port
+   309	 * @chars: characters
+   310	 * @flag: flag value for each character
+   311	 * @size: size
+   312	 *
+   313	 * Queue a series of bytes to the tty buffering. All the characters passed are
+   314	 * marked with the supplied flag.
+   315	 *
+   316	 * Returns: the number added.
+   317	 */
+   318	int tty_insert_flip_string_fixed_flag(struct tty_port *port, const u8 *chars,
+   319					      u8 flag, size_t size)
+   320	{
+   321		int copied = 0;
+   322		bool flags = flag != TTY_NORMAL;
+   323	
+   324		do {
+ > 325			int goal = min(size - copied, TTY_BUFFER_PAGE);
+   326			int space = __tty_buffer_request_room(port, goal, flags);
+   327			struct tty_buffer *tb = port->buf.tail;
+   328	
+   329			if (unlikely(space == 0))
+   330				break;
+   331			memcpy(char_buf_ptr(tb, tb->used), chars, space);
+   332			if (tb->flags)
+   333				memset(flag_buf_ptr(tb, tb->used), flag, space);
+   334			tb->used += space;
+   335			copied += space;
+   336			chars += space;
+   337			/* There is a small chance that we need to split the data over
+   338			 * several buffers. If this is the case we must loop.
+   339			 */
+   340		} while (unlikely(size > copied));
+   341		return copied;
+   342	}
+   343	EXPORT_SYMBOL(tty_insert_flip_string_fixed_flag);
+   344	
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
