@@ -1,252 +1,120 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (unknown [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7B827132
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 21:50:41 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fbb07e7155so30355e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 14:50:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690494639; x=1691099439;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RI0/6vL/m7bgkzyt2vUFGujFlbsSfvpOKZPzorAEEyc=;
-        b=0kz+ihkRydomSiHYc/gqMT7X2ms0VTHByJFGQ4RQj8hkFkpKQP7o6/1QtH0V0BiWAk
-         RlVEE557QqVqm4RQPjBU8Uev3dPTt6F1cLYc/ujNkpvLM7jQ/a9qoal64j1fFUKNF9WP
-         DoratLgAjK1SMzE2m18+o15Nq0jR5Sj9nWujMmkjp2LsO3sc43PxhtBcU6Z62g9TS2jb
-         iqBZj7Fcpsjo31xHFJFkqKUkQtNgAd/AoNKhyzroEIpBIK2bEKKMaps15vYK97gf/py/
-         Jb+AdcGFiu2OCPJJSrhIYalDBVHCkEVDN63hQoWxNioC30Wxc04ndbA1seszNSbTAw8j
-         gA1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690494639; x=1691099439;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RI0/6vL/m7bgkzyt2vUFGujFlbsSfvpOKZPzorAEEyc=;
-        b=k+3hUHH0Kk+sKvi6n5n117u7WcaaluSt1G8I3/qQ80Gm5DQWJtY7Tc0qQVqNdxX3JS
-         20uOM/oC/EdW8PaFRGzgVxuQ1d+Vb2ew3eYzfTZyMFzIRYdC3WW9TjrPA7MGPqd4BiEA
-         lRcw03sqk4qK6y7SWSdK8bfFrREl9I6mae+0LhmFjtcEoFTqIPiN6FflnCql9Rley+pi
-         7+K9KRCl3+6A+SFc8hr+RLvNB0riYTPhQ7NlaJUR9DcclL0od/R+kdiwrXGtjK1s8+3u
-         PkTIgWqoUBjwxsv5pyRmgnJ1s6uijuumMA2OQq1il8bX3/UjR9N9ZpWk69DlduR1VgYg
-         zaVA==
-X-Gm-Message-State: ABy/qLZZLguV/H4tzAp5+EoT20RMfqAmXM+WNhsZeIksfniLfB0vSx9f
-	1SXJQFJghUlvGOIYMjnCk+N8M2tvVK/vd68DHTarIA==
-X-Google-Smtp-Source: APBJJlEpi+j4SuzDxnrOmvVKFnq/Z9MusBXqaHl8J/+/7mrzDnD23tMUwzWnawJa3x4Qy5qvDHDfabEcDJvd5zXN7jM=
-X-Received: by 2002:a05:600c:4753:b0:3f6:f4b:d4a6 with SMTP id
- w19-20020a05600c475300b003f60f4bd4a6mr16057wmo.7.1690494639171; Thu, 27 Jul
- 2023 14:50:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C4117AC4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 21:56:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690494991; x=1722030991;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wpk82ysSeFnyUZUShNNBYpi2DaVb+3JvFAnuf4G1l+4=;
+  b=D0wlRawEiDlRbzfatpFqCAU6t5NJ4WMnH2iM2EldsY2Ci9FFKpJ7StT8
+   0kaWL2DGfZ/B+hTiVHp9E3JvkE8cZPuHLLa6AIU1Y6eKKZj7HV4xqgTMO
+   EPQIEgEPwZFxCH7TWrPZkS/p1vNeirLNlQkwTYcDVZWI6pxRHJXqejaV/
+   3be6oZ0nE7AGfMrtNIgU2cmaa6ySPvBtOU9m0C6bHGRbkUFj+iJY+etpI
+   w8na2EVNd8Kd2z3q5s1tKHEp9VGCaG0tj5FiRNizdbDGW9lGjiN5pVGGm
+   J3zplLVQcQ5wM2mZ4GOsvx0Efy9A1hQbU4XjuVXFZHeAg0BBDoALHosGa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="353350486"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
+   d="scan'208";a="353350486"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 14:56:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="900995018"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
+   d="scan'208";a="900995018"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 27 Jul 2023 14:56:25 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qP8y8-0002ct-2W;
+	Thu, 27 Jul 2023 21:56:24 +0000
+Date: Fri, 28 Jul 2023 05:55:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Avri Altman <avri.altman@wdc.com>, Ming Lei <ming.lei@redhat.com>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	Stanley Chu <stanley.chu@mediatek.com>,
+	Can Guo <quic_cang@quicinc.com>,
+	Asutosh Das <quic_asutoshd@quicinc.com>,
+	"Bao D. Nguyen" <quic_nguyenb@quicinc.com>,
+	Bean Huo <beanhuo@micron.com>,
+	Arthur Simchaev <Arthur.Simchaev@wdc.com>
+Subject: Re: [PATCH v4 6/7] scsi: ufs: Disable zone write locking
+Message-ID: <202307280537.bj45anmo-lkp@intel.com>
+References: <20230726193440.1655149-7-bvanassche@acm.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230725212522.1622716-5-rmoar@google.com> <3cfb0706-0873-4839-b6e1-e8f1c994d6a6@kadam.mountain>
-In-Reply-To: <3cfb0706-0873-4839-b6e1-e8f1c994d6a6@kadam.mountain>
-From: Rae Moar <rmoar@google.com>
-Date: Thu, 27 Jul 2023 17:50:26 -0400
-Message-ID: <CA+GJov4m=Rh4g8RxhK+Aq+grJK6yZvghEn_B2NXqCOuq_eDvxw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/9] kunit: Add ability to filter attributes
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230726193440.1655149-7-bvanassche@acm.org>
 
-On Thu, Jul 27, 2023 at 1:12=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> Hi Rae,
->
-> kernel test robot noticed the following build warnings:
->
+Hi Bart,
 
-Hello!
+kernel test robot noticed the following build warnings:
 
-Sorry for this bug. It looks like I have a few uninitialized
-variables. I am going to send out a fix for this in the next day or
-so.
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.5-rc3]
+[cannot apply to mkp-scsi/for-next jejb-scsi/for-next next-20230727]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Rae-Moar/kunit-Add=
--test-attributes-API-structure/20230726-052754
-> base:   64bd4641310c41a1ecf07c13c67bc0ed61045dfd
-> patch link:    https://lore.kernel.org/r/20230725212522.1622716-5-rmoar%4=
-0google.com
-> patch subject: [PATCH v3 4/9] kunit: Add ability to filter attributes
-> config: parisc-randconfig-m041-20230726 (https://download.01.org/0day-ci/=
-archive/20230727/202307270610.s0w4NKEn-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270610=
-.s0w4NKEn-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202307270610.s0w4NKEn-lkp@intel.com/
->
-> New smatch warnings:
-> lib/kunit/attributes.c:127 attr_enum_filter() error: uninitialized symbol=
- 'input_int'.
-> lib/kunit/attributes.c:262 kunit_get_filter_count() error: uninitialized =
-symbol 'comma_index'.
-> lib/kunit/attributes.c:284 kunit_next_attr_filter() error: uninitialized =
-symbol 'comma_index'.
-> lib/kunit/executor.c:168 kunit_filter_suites() error: uninitialized symbo=
-l 'filter_count'.
-> lib/kunit/executor.c:171 kunit_filter_suites() error: uninitialized symbo=
-l 'parsed_filters'.
+url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/block-Introduce-the-flag-QUEUE_FLAG_NO_ZONE_WRITE_LOCK/20230727-033820
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230726193440.1655149-7-bvanassche%40acm.org
+patch subject: [PATCH v4 6/7] scsi: ufs: Disable zone write locking
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230728/202307280537.bj45anmo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280537.bj45anmo-lkp@intel.com/reproduce)
 
-I'll initialize filter_count as 0. I'll also initialize parsed_filters
-as NULL and add an extra check for parsed_filters.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307280537.bj45anmo-lkp@intel.com/
 
->
-> Old smatch warnings:
-> lib/kunit/attributes.c:267 kunit_get_filter_count() error: uninitialized =
-symbol 'comma_index'.
-> lib/kunit/executor.c:201 kunit_filter_suites() error: uninitialized symbo=
-l 'filter_count'.
-> lib/kunit/executor.c:202 kunit_filter_suites() error: uninitialized symbo=
-l 'parsed_filters'.
->
-> vim +/input_int +127 lib/kunit/attributes.c
->
-> 793862a3f94d2f Rae Moar 2023-07-25  102  static int attr_enum_filter(void=
- *attr, const char *input, int *err,
-> 793862a3f94d2f Rae Moar 2023-07-25  103                 const char * cons=
-t str_list[], int max)
-> 793862a3f94d2f Rae Moar 2023-07-25  104  {
-> 793862a3f94d2f Rae Moar 2023-07-25  105         int i, j, input_int;
->                                                           ^^^^^^^^^
->
-> 793862a3f94d2f Rae Moar 2023-07-25  106         long test_val =3D (long)a=
-ttr;
-> 793862a3f94d2f Rae Moar 2023-07-25  107         const char *input_val =3D=
- NULL;
-> 793862a3f94d2f Rae Moar 2023-07-25  108
-> 793862a3f94d2f Rae Moar 2023-07-25  109         for (i =3D 0; input[i]; i=
-++) {
-> 793862a3f94d2f Rae Moar 2023-07-25  110                 if (!strchr(op_li=
-st, input[i])) {
-> 793862a3f94d2f Rae Moar 2023-07-25  111                         input_val=
- =3D input + i;
-> 793862a3f94d2f Rae Moar 2023-07-25  112                         break;
-> 793862a3f94d2f Rae Moar 2023-07-25  113                 }
-> 793862a3f94d2f Rae Moar 2023-07-25  114         }
-> 793862a3f94d2f Rae Moar 2023-07-25  115
-> 793862a3f94d2f Rae Moar 2023-07-25  116         if (!input_val) {
-> 793862a3f94d2f Rae Moar 2023-07-25  117                 *err =3D -EINVAL;
-> 793862a3f94d2f Rae Moar 2023-07-25  118                 pr_err("kunit exe=
-cutor: filter value not found: %s\n", input);
-> 793862a3f94d2f Rae Moar 2023-07-25  119                 return false;
-> 793862a3f94d2f Rae Moar 2023-07-25  120         }
-> 793862a3f94d2f Rae Moar 2023-07-25  121
-> 793862a3f94d2f Rae Moar 2023-07-25  122         for (j =3D 0; j <=3D max;=
- j++) {
-> 793862a3f94d2f Rae Moar 2023-07-25  123                 if (!strcmp(input=
-_val, str_list[j]))
-> 793862a3f94d2f Rae Moar 2023-07-25  124                         input_int=
- =3D j;
-> 793862a3f94d2f Rae Moar 2023-07-25  125         }
-> 793862a3f94d2f Rae Moar 2023-07-25  126
-> 793862a3f94d2f Rae Moar 2023-07-25 @127         if (!input_int) {
->
-> This is a bug, but wait, what?  Why is the first element invalid?  Maybe
-> do:
->         int input_int =3D -1;
->
->         for (j =3D 0; j <=3D max; j++) {
->                 if found
->                         input_int =3D j;
->         }
->
->         if (input_int =3D=3D -1) {
->
+All warnings (new ones prefixed by >>):
 
-What you have above looks like a great change.
+>> drivers/ufs/core/ufshcd.c:4340:6: warning: no previous prototype for 'ufshcd_update_no_zone_write_lock' [-Wmissing-prototypes]
+    4340 | void ufshcd_update_no_zone_write_lock(struct ufs_hba *hba,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-> 793862a3f94d2f Rae Moar 2023-07-25  128                 *err =3D -EINVAL;
-> 793862a3f94d2f Rae Moar 2023-07-25  129                 pr_err("kunit exe=
-cutor: invalid filter input: %s\n", input);
-> 793862a3f94d2f Rae Moar 2023-07-25  130                 return false;
-> 793862a3f94d2f Rae Moar 2023-07-25  131         }
-> 793862a3f94d2f Rae Moar 2023-07-25  132
-> 793862a3f94d2f Rae Moar 2023-07-25  133         return int_filter(test_va=
-l, input, input_int, err);
-> 793862a3f94d2f Rae Moar 2023-07-25  134  }
->
-> [ snip ]
->
-> 793862a3f94d2f Rae Moar 2023-07-25  256  int kunit_get_filter_count(char =
-*input)
-> 793862a3f94d2f Rae Moar 2023-07-25  257  {
-> 793862a3f94d2f Rae Moar 2023-07-25  258         int i, comma_index, count=
- =3D 0;
-> 793862a3f94d2f Rae Moar 2023-07-25  259
-> 793862a3f94d2f Rae Moar 2023-07-25  260         for (i =3D 0; input[i]; i=
-++) {
-> 793862a3f94d2f Rae Moar 2023-07-25  261                 if (input[i] =3D=
-=3D ',') {
-> 793862a3f94d2f Rae Moar 2023-07-25 @262                         if ((i - =
-comma_index) > 1)
->
-> initialize comma_index =3D 0
 
-I will change this to be initialized to 0.
+vim +/ufshcd_update_no_zone_write_lock +4340 drivers/ufs/core/ufshcd.c
 
->
-> 793862a3f94d2f Rae Moar 2023-07-25  263                                 c=
-ount++;
-> 793862a3f94d2f Rae Moar 2023-07-25  264                         comma_ind=
-ex =3D i;
-> 793862a3f94d2f Rae Moar 2023-07-25  265                 }
-> 793862a3f94d2f Rae Moar 2023-07-25  266         }
-> 793862a3f94d2f Rae Moar 2023-07-25  267         if ((i - comma_index) > 0=
-)
-> 793862a3f94d2f Rae Moar 2023-07-25  268                 count++;
-> 793862a3f94d2f Rae Moar 2023-07-25  269         return count;
-> 793862a3f94d2f Rae Moar 2023-07-25  270  }
-> 793862a3f94d2f Rae Moar 2023-07-25  271
-> 793862a3f94d2f Rae Moar 2023-07-25  272  struct kunit_attr_filter kunit_n=
-ext_attr_filter(char **filters, int *err)
-> 793862a3f94d2f Rae Moar 2023-07-25  273  {
-> 793862a3f94d2f Rae Moar 2023-07-25  274         struct kunit_attr_filter =
-filter =3D {};
-> 793862a3f94d2f Rae Moar 2023-07-25  275         int i, j, comma_index, ne=
-w_start_index;
-> 793862a3f94d2f Rae Moar 2023-07-25  276         int op_index =3D -1, attr=
-_index =3D -1;
-> 793862a3f94d2f Rae Moar 2023-07-25  277         char op;
-> 793862a3f94d2f Rae Moar 2023-07-25  278         char *input =3D *filters;
-> 793862a3f94d2f Rae Moar 2023-07-25  279
-> 793862a3f94d2f Rae Moar 2023-07-25  280         /* Parse input until oper=
-ation */
-> 793862a3f94d2f Rae Moar 2023-07-25  281         for (i =3D 0; input[i]; i=
-++) {
-> 793862a3f94d2f Rae Moar 2023-07-25  282                 if (op_index < 0 =
-&& strchr(op_list, input[i])) {
-> 793862a3f94d2f Rae Moar 2023-07-25  283                         op_index =
-=3D i;
-> 793862a3f94d2f Rae Moar 2023-07-25 @284                 } else if (!comma=
-_index && input[i] =3D=3D ',') {
->
-> same
+  4339	
+> 4340	void ufshcd_update_no_zone_write_lock(struct ufs_hba *hba,
+  4341					      bool set_no_zone_write_lock)
+  4342	{
+  4343		struct scsi_device *sdev;
+  4344	
+  4345		shost_for_each_device(sdev, hba->host)
+  4346			blk_freeze_queue_start(sdev->request_queue);
+  4347		shost_for_each_device(sdev, hba->host) {
+  4348			struct request_queue *q = sdev->request_queue;
+  4349	
+  4350			blk_mq_freeze_queue_wait(q);
+  4351			if (set_no_zone_write_lock)
+  4352				blk_queue_flag_set(QUEUE_FLAG_NO_ZONE_WRITE_LOCK, q);
+  4353			else
+  4354				blk_queue_flag_clear(QUEUE_FLAG_NO_ZONE_WRITE_LOCK, q);
+  4355			blk_mq_unfreeze_queue(q);
+  4356		}
+  4357	}
+  4358	
 
-I will also change this here.
-
->
-> 793862a3f94d2f Rae Moar 2023-07-25  285                         comma_ind=
-ex =3D i;
-> 793862a3f94d2f Rae Moar 2023-07-25  286                 } else if (comma_=
-index && input[i] !=3D ' ') {
-> 793862a3f94d2f Rae Moar 2023-07-25  287                         new_start=
-_index =3D i;
-> 793862a3f94d2f Rae Moar 2023-07-25  288                         break;
-> 793862a3f94d2f Rae Moar 2023-07-25  289                 }
-> 793862a3f94d2f Rae Moar 2023-07-25  290         }
-> 793862a3f94d2f Rae Moar 2023-07-25  291
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
