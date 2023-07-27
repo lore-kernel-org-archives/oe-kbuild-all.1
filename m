@@ -1,108 +1,297 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2109.outbound.protection.outlook.com [40.107.113.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7513ED532
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 08:59:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1690448375;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wM6TEnn+NJffXTv9Y3Obw9sX6bbN14vizzC7Lcy1RP8=;
-	b=W6l6bizATwX9RcZQLp5v0zh2VEOgJcJybC5woacq5WuQRc/V9PL2dWeT47jwyKXwgEKTRP
-	8m7PQd1VJ3NJvQx36/jn7wLpYHCzSQ0VYgpY3AcposH5lXfaNaQmI0/jgksoujuqST8KFn
-	ndvlWFkOl8ExAthf42U+DvBAnbdhDTg=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-692-7gpKV0RnNaOLKb70c9Aowg-1; Thu, 27 Jul 2023 04:59:33 -0400
-X-MC-Unique: 7gpKV0RnNaOLKb70c9Aowg-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-99bc711a20eso42924066b.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 01:59:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690448372; x=1691053172;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wM6TEnn+NJffXTv9Y3Obw9sX6bbN14vizzC7Lcy1RP8=;
-        b=Px6SozwA+yqVU9AHRPeClDivDfoj+mK0U1PjxvU7dL1Mzf2PnFjldI+7YRK/dTKMj0
-         KMOGuDXVuMBaH+PLmo2b19mOKJt+TVpjlhFYbDGZng3uvYJ6uMeFP1+ozueFcwTcHMba
-         cZulVRxlMfWWiaYGKzBJTY/6rXaxkAW72E837XA/n7WWXdGbzyU4/tsQ0mz0JKiHNBfO
-         ZPSBeSZJdIrl+X/HXDty1eL3o/9LqWCCowe833JDlUG+xdOqYsUcAaYUNvBgzYkF5gTA
-         0CZZI53rXkJwQhvwm8bsRKfxZP4f0vVLqR8CH5Fd12Coh8LIqLcH5BPlSp3YTzPICiGX
-         CMPw==
-X-Gm-Message-State: ABy/qLZg72c3CWi5zNP1j6zxz0jmb5QRvLFc6KPDD08bnMvKAjKmcoTG
-	wN3apIATRtQPkS6NN0hktlu3z1BrP+C5h/qFDc4aXZHfa0vpLYDGIVB553T2hSbRBghJqcaDDx2
-	FE0DLWx9AFPwFXfWnGHX0I+2wvQ==
-X-Received: by 2002:a17:906:ca:b0:994:4f6a:dbb with SMTP id 10-20020a17090600ca00b009944f6a0dbbmr1496091eji.27.1690448372830;
-        Thu, 27 Jul 2023 01:59:32 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFOGtxV672LHuBwo8IVK6mXlQeX9g+tGk4amvCV1LtLU0sPTvCxE0p04W52Jav0Wwzp9i9p5A==
-X-Received: by 2002:a17:906:ca:b0:994:4f6a:dbb with SMTP id 10-20020a17090600ca00b009944f6a0dbbmr1496077eji.27.1690448372450;
-        Thu, 27 Jul 2023 01:59:32 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id gw19-20020a170906f15300b0097404f4a124sm520959ejb.2.2023.07.27.01.59.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jul 2023 01:59:32 -0700 (PDT)
-Message-ID: <777c616d-fd2b-b7d7-c6e6-6e374d42c5ae@redhat.com>
-Date: Thu, 27 Jul 2023 10:59:31 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA018F9FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 09:19:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CEJuUIaU10XFG5ci5o93rVvn4ZaGAag06QeR6JodmZBWqrjQSkYgWvoLl7TS6d5mICU7QemK4O8BltFqtTIeOQTRrELSAF6hIBa8JX/t8yFzvkMj2VgADTvz3FpFWb2rlq+6w1Ns1ZKZGZSkU74l7NCIgknfx4v/eaev1KVee+vss+MRCLCmAgRV1NfYh297KijPopV+HA0TtktzCmaU3gxLBgzH1RqCYSYKLR7ip9cnpk+h93MU4eW0VLteqrDfxOb7spqWMMyFwCU7pTmMXoY06QMg4JGebFLeXY2z7EF6mZcONU39hiSysY6qLhbL1/wQrpY7mzUpbjFzmuMFAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q3GV14DiDreu6NcWDv3i/YWklhuHuxXy1zuLrw5CDQ8=;
+ b=PBYcWPF4/l7PSpqi6Whvquy+1zxwvOntXHKHNRnuSvkPa/ZLT1E9KC5N/1EQ74M9wXO2wzmw5PIoWxBP0oyy+WM0KuwxBYC8Jq4+8Jd+U6sLkjZvcRYQytlh9rCy4TM9k+t/T1asS9ZXxHwRSeuzAMfJA3bzw4oPI+IoMseC7WjJJplfx2cokio1hbHrTc23+jkJ+BxazNOumHRUvRhJxruMgZ8moy05D4TfQjCCGNn4pU1zLEimPPL+ye6f1pSU7/uI0KpPsKNvsYS7nMNUBXg9lEb/AzSSLdRJ4nFXjv5rZ6tYtNcdLVbq7BaZnTOoWdoQv15gmk//aRkeG+pJDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q3GV14DiDreu6NcWDv3i/YWklhuHuxXy1zuLrw5CDQ8=;
+ b=qk2I3VE/9sbhg5IxuVFOMa+//sABOw090isAUeqJOwOsNoInjbs+c4hNTxQHVQYE6R2c7BWmNR+Lqq0s4tIdV/1kAxMYVTgbbBmhHlf0zul9HYMnGbu4cMJpgJKZfwFu6vmzUZvQzXSPkc3Wmm/msY49axo6tF0/ulHMYJ7ErdU=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYYPR01MB8094.jpnprd01.prod.outlook.com (2603:1096:400:fb::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Thu, 27 Jul
+ 2023 09:19:24 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::8f98:d64b:f092:766]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::8f98:d64b:f092:766%6]) with mapi id 15.20.6631.026; Thu, 27 Jul 2023
+ 09:19:24 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+CC: Linux Memory Management List <linux-mm@kvack.org>, Stephen Boyd
+	<sboyd@kernel.org>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [linux-next:master 2742/4710]
+ drivers/clk/clk-versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32
+ division, please consider using div64_ul instead. (fwd)
+Thread-Topic: [linux-next:master 2742/4710]
+ drivers/clk/clk-versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32
+ division, please consider using div64_ul instead. (fwd)
+Thread-Index: AQHZwEiu5bV74iVB8UuLI4yLfkRI3a/NSKAggAADsACAAAilUA==
+Date: Thu, 27 Jul 2023 09:19:24 +0000
+Message-ID:
+ <OS0PR01MB592291F0C8AE19F7118DCF0F8601A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <alpine.DEB.2.22.394.2307270709580.3082@hadrien>
+ <OS0PR01MB59227764417EB66A9CBDE69F8601A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <bf5c77ec-fc9f-419a-d0e8-15ad54df2fb@inria.fr>
+In-Reply-To: <bf5c77ec-fc9f-419a-d0e8-15ad54df2fb@inria.fr>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYYPR01MB8094:EE_
+x-ms-office365-filtering-correlation-id: eac9abf4-2225-41b8-db84-08db8e8291a9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 15iaPx6FIL3CKhfeD6yWRtHk73+cWXN1PLf3oXry2qn2b4Bq8PONBPYIOedvexYiaIb2jsFAQ3hr/UVzPu0uo0K0alTmFOcnp3i+iispCyPWIUQOnOcajeQd5aCCf+xBj2BLDIpxQbP4fPvtEOsrQlSoWVf6MGH+bqEa6wr+9z8t8y0C4Y4PviodQUcqY3AbvQ9P1xWNyBtE0aSjvO8vna3SXWIQJBngLnFMlH1/jAfORawqFoDAy/ot1tBbeovuRJ212NV+HPvxcC7zzcbAktNC1s2ySMpH6f1Hqh9yihHyRuj+5fAx0VN3tzl4n7gOBNH80YgWImKxHYDnranUCvrJJIEQxsdW+IdnS16jWF1Bucy//ti2lxXs4v0EIGo8KC1ZriW0mggKUaUlFcDVQZ4ShAa1P5dR/5E3ThAVFTlHMJu2VRvvHzZVVS+8mv+87h95CK+LPGhs9TiUkZn560PAa+0/Yl7gzZz6SY22o0PIZ8piAR3hR1QI+2jnPuHejEYml2xjCQat75T11NT6kBz6iSfY52I8lVWRnue022qisotQREr9T3wT4ulkRb/3u4AYjFEQuerAgFSS7b+wq5FArhkp/mGzEVqEw6y7GM34j62hXoUAh30ke/RmscNa
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(396003)(39860400002)(366004)(346002)(451199021)(86362001)(186003)(6506007)(38070700005)(6916009)(66946007)(4326008)(76116006)(66476007)(64756008)(66446008)(66556008)(33656002)(9686003)(83380400001)(2906002)(122000001)(7696005)(478600001)(54906003)(71200400001)(41300700001)(38100700002)(55016003)(316002)(8676002)(5660300002)(52536014)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?Y4iI6/maawvUUR/BPBspzcrFlobIwk2OL5dqrln11BHH4ZRxRFdzf19crAMh?=
+ =?us-ascii?Q?d4LPvtgGw/GLsWNBrALnSc6LyRD81ekajEYyfoc2W27mB+aJbTumK7pV2grP?=
+ =?us-ascii?Q?fSW4n2gNdUOaDGJ2f71aGRas5+x2VqsUYZUmR/NJerOD8hR/xR6tXZ5GOsVY?=
+ =?us-ascii?Q?T7ZswzUwQasa8PZIdCrgIdKJdtsOQOTmeLh5JUAL1aNrj9lxHyty023oR6q3?=
+ =?us-ascii?Q?H5vQFwiW6NATNONNT75BXg0grTV1ijefSDZoKhXL+gGLEvnYXoQiBsHEGmQx?=
+ =?us-ascii?Q?x+EJiBPVuolMIuuB5cbhJRJmSsVccIciaSuo3vBVXBOTmxXz5lug+Fz4y/kp?=
+ =?us-ascii?Q?NJu4RKiRmwhFOzxWARvPm0PCeQINl/DUBsjR8Lum7CiunCnE1ANe+ch8NtHj?=
+ =?us-ascii?Q?t4FYizIsY+/R2Id0fhXhPcZ6wvDhVqkvYW1cB2hDl7TwfITrWBN9J8VqZOXT?=
+ =?us-ascii?Q?YfAFQsJWfZgrxq+wZhKvjCXfafxOw3JKI+sLt21WLO3si6yqkGELD1t97RcE?=
+ =?us-ascii?Q?79xr8JOWg65qLi4lQNjF/dph+GAsZKHMjfFrMGPGRyFvWY0r0yiP55JiscKm?=
+ =?us-ascii?Q?2Zed4zdfT7T+Av/5rBUjsqZg/DG0W/4Hp1Yiuyla/y+EfWbp6m7RH1n3WOdV?=
+ =?us-ascii?Q?1eOfyEB9Jt+ToFjH27Wy05cD+VsqvQYiyoq1Vy37cxrEzCJjNohm7kkUV5bi?=
+ =?us-ascii?Q?wEeEmtVRvPi1ObZkjFehkeXsidedpUaVmb3HCJgjKkm7Mc4cQdPa67up+cPE?=
+ =?us-ascii?Q?z4XclcXEcnmqczN0YZ8oOwz1S79h2Y/WBzFM+mclS/TZXnL7TVtBdHTw3zoy?=
+ =?us-ascii?Q?mxOhXNtYgXBYiamw9wxY3y0wvuKBEmr2c+5MZaNCUGPZ5fmSzZn3MHiN9G8C?=
+ =?us-ascii?Q?O4kAQxllK6HDsvxIzhPkqS/Rm4fyuf47PlaR1BLR6K+zEBSvu9enUZUA0hfQ?=
+ =?us-ascii?Q?ArpKgfigLgV0sB+a5/xNBZMI/TPRTibYv9v6dnjz4MN1KrLRyKtOj8riba3R?=
+ =?us-ascii?Q?Eqa+YRRbUzZWjrj2Rioab3cIH5K3FG6FXkrxqjqvVlMNv3XfGvlYDBLf/Ozt?=
+ =?us-ascii?Q?oy7hEyMu2xyMlVm0j4lLOT33DY3j/8FAeAtv7CFZ3Rzu+HB/ZdxoGu0ZBXSR?=
+ =?us-ascii?Q?aN0u+/e491n1CNEI9fAXaG/6aeNMhQ/bkyNsyqwd5KSMj6xCULABu8uNjx+4?=
+ =?us-ascii?Q?h96vHDMxJhjlBUEXBbBbIi3njZ5MOl39ZQqlPFwN6sS/OsaEDKxO8NamL3y9?=
+ =?us-ascii?Q?T6OmLAbHjAxEFHbTWg6e9I53XGNgtsNUCjH0L/NT9j3+U0EHtFhskFEUCmzp?=
+ =?us-ascii?Q?Ni9Md0NW4Zzd1yqfhMgM6oI0gKi7f9BmpS4Z60Q4viDBQgcLn6qwvp466YwE?=
+ =?us-ascii?Q?WGNHy0VZ6W1VcnwqLI0berxtOTAwtxt+WglIdGih0VfMIrw60Z13o0+l1kvS?=
+ =?us-ascii?Q?DztdeEzTM3o8qP2WSFvCkfWjqXPTVTu2S63oWNAq1+BvXz7kc8PPJlaGykX2?=
+ =?us-ascii?Q?suGC/qvVpowU9cs47XXV6q/36D7AyW2DzDjr14Cf3zr8xKjsgfvDLRmPVyLG?=
+ =?us-ascii?Q?ko+/PaeUA2n4Ad9n5J0=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [sailus-media-tree:master 10/20]
- drivers/media/i2c/imx290.c:1526:17: warning: incompatible integer to pointer
- conversion assigning to 'struct regmap *' from 'int'
-To: kernel test robot <lkp@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <202307271639.6vSx9BOA-lkp@intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <202307271639.6vSx9BOA-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eac9abf4-2225-41b8-db84-08db8e8291a9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jul 2023 09:19:24.3611
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iYvj4eo63CLYCjda1kHgBJtny+5GiUoHwxI2mYLxmmedAjM6fPKjRz4XhcxuYaU9dViYyRGbUW9fUBMph15xZCIkkztoxa8oUtwml+upIy0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB8094
 
-Hi Sakari,
+Hi Julia,
 
-On 7/27/23 10:16, kernel test robot wrote:
-> tree:   git://linuxtv.org/sailus/media_tree.git master
-> head:   215e4463b11d94668b841368cb6882f3a2968148
-> commit: 51b1f81e3b15a4cf6c5c1bfd6bb14ff8bc9951fb [10/20] media: imx290: Convert to new CCI register access helpers
-> config: arm-randconfig-r012-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271639.6vSx9BOA-lkp@intel.com/config)
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271639.6vSx9BOA-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307271639.6vSx9BOA-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/media/i2c/imx290.c:1526:19: error: implicit declaration of function 'devm_cci_regmap_init_i2c' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
->            imx290->regmap = devm_cci_regmap_init_i2c(client, 16);
+> versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32 division, please
+> consider using div64_ul instead. (fwd)
+>=20
+>=20
+>=20
+> On Thu, 27 Jul 2023, Biju Das wrote:
+>=20
+> > Hi,
+> >
+> > The reproduce link is not working for me.
+> >
+> >
+> > Can you please provide instruction to reproduce this issue?
+>=20
+> I don't think it's intended to be reproduced.  The issue is just that a
+> long value is being passed to an integer that is 32 bit.  If the long
+> value will never be very big, then you can just ignore the warning.
 
-This is caused by a mis-merge:
+The rate values are well below max 32 bit, 4294967296. So I guess, it is ok=
+.
 
-https://git.linuxtv.org/sailus/media_tree.git/commit/?id=51b1f81e3b15a4cf6c5c1bfd6bb14ff8bc9951fb
+xtal                                 0        0        0    24000000       =
+   0     0  50000         Y
+    ref                               0        0        0    24000000      =
+    0     0  50000         Y
+    pfd1                              0        0        0    24000000      =
+    0     0  50000         Y
+       pll1                           0        0        0   600000000      =
+    0     0  50000         Y
+          div2                        0        0        0    12000000      =
+    0     0  50000         Y
+             se3_mux                  0        0        0    12000000      =
+    0     0  50000         Y
+                se3                   0        0        0    12000000      =
+    0     0  50000         Y
+          div1_mux                    0        0        0   600000000      =
+    0     0  50000         Y
+             div1                     0        0        0    25000000      =
+    0     0  50000         Y
+                diff1_mux             0        0        0    25000000      =
+    0     0  50000         Y
+                   diff1              0        0        0    25000000      =
+    0     0  50000         Y
+    pfd3_mux                          0        0        0    24000000      =
+    0     0  50000         Y
+       pfd3                           0        0        0      960000      =
+    0     0  50000         Y
+          pll3                        0        0        0   564480000      =
+    0     0  50000         Y
+             div5                     0        0        0    11289600      =
+    0     0  50000         Y
+                se1_mux               0        0        0    11289600      =
+    0     0  50000         Y
+                   se1                0        0        0    11289600      =
+    0     0  50000         Y
+                se2_mux               0        0        0    11289600      =
+    0     0  50000         Y
+                   se2                0        0        0    11289600      =
+    0     0  50000         Y
+    pfd2_mux                          0        0        0    24000000      =
+    0     0  50000         Y
+       pfd2                           0        0        0    24000000      =
+    0     0  50000         Y
+          pll2                        0        0        0   491519897      =
+    0     0  50000         Y
+             div4_mux                 0        0        0   491519897      =
+    0     0  50000         Y
+                div4                  0        0        0    12287998      =
+    0     0  50000         Y
+             div3_mux                 0        0        0   491519897      =
+    0     0  50000         Y
+                div3                  0        0        0    12287998      =
+    0     0  50000         Y
+                   diff2_mux          0        0        0    12287998      =
+    0     0  50000         Y
+                      diff2           0        0        0    12287998      =
+    0     0  50000         Y
 
-Shows that the "select V4L2_CCI_I2C" was added to the ADV748X Kconfig block instead of to the IMX290 block.
 
-Regards,
+Cheers,
+Biju
 
-Hans
-
-
-p.s.
-
-Thank you for merging this series.
-
+> >
+> > > versaclock3.c:404:2-8: WARNING: do_div() does a 64-by-32 division,
+> > > please consider using div64_ul instead. (fwd)
+> > >
+> > >
+> > >
+> > > ---------- Forwarded message ----------
+> > > Date: Thu, 27 Jul 2023 08:50:37 +0800
+> > > From: kernel test robot <lkp@intel.com>
+> > > To: oe-kbuild@lists.linux.dev
+> > > Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+> > > Subject: [linux-next:master 2742/4710] drivers/clk/clk-
+> > > versaclock3.c:404:2-8:
+> > >     WARNING: do_div() does a 64-by-32 division,
+> > >     please consider using div64_ul instead.
+> > >
+> > > BCC: lkp@intel.com
+> > > CC: oe-kbuild-all@lists.linux.dev
+> > > CC: Linux Memory Management List <linux-mm@kvack.org>
+> > > TO: Biju Das <biju.das.jz@bp.renesas.com>
+> > > CC: Stephen Boyd <sboyd@kernel.org>
+> > >
+> > > tree:
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new
+> > > version of the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> > > | Closes:
+> > %2BsY49B78%3D&reserved=3D0
+> > >
+> > > cocci warnings: (new ones prefixed by >>)
+> > > >> drivers/clk/clk-versaclock3.c:404:2-8: WARNING: do_div() does a
+> > > >> 64-
+> > > by-32 division, please consider using div64_ul instead.
+> > >
+> > > vim +404 drivers/clk/clk-versaclock3.c
+> > >
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  382
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  383  static long
+> > > vc3_pll_round_rate(struct clk_hw *hw, unsigned long rate,
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  384
+> unsigned
+> > > long *parent_rate)
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  385  {
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  386  	struct vc3_hw_data *vc3 =3D
+> > > container_of(hw, struct vc3_hw_data, hw);
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  387  	const struct vc3_pll_data
+> *pll
+> > > =3D vc3->data;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  388  	u64 div_frc;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  389
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  390  	if (rate < pll->vco_min)
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  391  		rate =3D pll->vco_min;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  392  	if (rate > pll->vco_max)
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  393  		rate =3D pll->vco_max;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  394
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  395  	vc3->div_int =3D rate /
+> > > *parent_rate;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  396
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  397  	if (pll->num =3D=3D VC3_PLL=
+2)
+> {
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  398  		if (vc3->div_int >
+> 0x7ff)
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  399  			rate =3D
+> *parent_rate
+> > > * 0x7ff;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  400
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  401  		/* Determine best
+> > > fractional part, which is 16 bit wide */
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  402  		div_frc =3D rate %
+> > > *parent_rate;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  403  		div_frc *=3D BIT(16) -
+> 1;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05 @404  		do_div(div_frc,
+> > > *parent_rate);
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  405
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  406  		vc3->div_frc =3D
+> > > (u32)div_frc;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  407  		rate =3D (*parent_rate
+> *
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  408  			(vc3->div_int
+> *
+> > > VC3_2_POW_16 + div_frc) / VC3_2_POW_16);
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  409  	} else {
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  410  		rate =3D *parent_rate
+> *
+> > > vc3->div_int;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  411  	}
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  412
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  413  	return rate;
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  414  }
+> > > 6e9aff555db7b6 Biju Das 2023-07-05  415
+> > >
+> > > --
+> > > 0-DAY CI Kernel Test Service
+> >
