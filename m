@@ -1,108 +1,199 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (unknown [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B9FC2F1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 08:07:04 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fb4146e8ceso6885775e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 01:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690445222; x=1691050022;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9FYxBpzPpC5O6YqpkIvrfnMVqesGcNf08sa9kAENUdY=;
-        b=DPHqd4jJ4aCJ/ldSJMSi2jpGa9mD88lGm346gmWtivG/pxsYPMaWip1zoYbH/a4coT
-         1u6SknFx4FWBaUj+1vMwJ0oZicCLV8K9PG7TQkgYkxQyICErAjNTPFvGWLAh8lWw6dpY
-         q+i1F4j2Lf4KXij+sw2p6q2WkpVclXZTptS/Vr7lgFgU8IJs+YeRZair63x655FFyIBR
-         ScsonJm1JrPcdavl7kjoD49RAbj77BQVPfADOUA8GYdLyC88Ie3tCCgUJKFBVfxWjBLR
-         FibTVEScPEX8iUoEtf3jR3zNd61RhU4cxrNaGtBGbfjpcE8O8saA1d41XdwB/xiGsrZZ
-         1SLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690445222; x=1691050022;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9FYxBpzPpC5O6YqpkIvrfnMVqesGcNf08sa9kAENUdY=;
-        b=Tbs+SXUJJ5NJ12AZZU1hTpKYIoEIKy7CTwL1hxWdofWyq+40aWsAxoJinj/gR4dS6m
-         OScUzG4BL4Ps8/Gnry13OEavx7nM9+yOdwgXQiRCE86XQzRYAeF4d1+/jwUkYNxjY1CE
-         1vohi7zs8Xgz7P6gSnZXCzJZkih6LkTqZmELsni1AFJJF7u96xqfyiuYJ0qF2YIGY832
-         9qmzvClp6g25TaHM3sFzkMIQxspPzv6pmBnIKQW2Fx7YpME8vVgaL2mcnR19erRtooyj
-         0nyQ4w88B8mslPd2uUMSM+8zOjXfnawu1fqLO6b7uGXX/bBS4RGzBRnWHgl5X8II/MzT
-         bwoA==
-X-Gm-Message-State: ABy/qLYGhLNm9MfiZO3afRwymz7DYynJW6J1guKdHHqqtiGRQpn14xUh
-	LVjZMVlogw8NGt+711ZeZZ47wb7erSh9jXzgc6+EdQ==
-X-Google-Smtp-Source: APBJJlESVm3o8EnthSnO0wSdv89jxTgM1e60N2vrTcCIowIo43OPkYeplR8UZwVzk03vqs4NZslRBGLk21TmdRmjyEM=
-X-Received: by 2002:a05:600c:ad6:b0:3fc:2dfb:3cd3 with SMTP id
- c22-20020a05600c0ad600b003fc2dfb3cd3mr1012433wmr.41.1690445222226; Thu, 27
- Jul 2023 01:07:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CC1FBF2;
+	Thu, 27 Jul 2023 08:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690445437; x=1721981437;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zrfAmZ4o52ulOEe2NdPrWdHquCo9OaUriPnqqYF+iO0=;
+  b=hQR8S9CcDKSwjvBH4f+P/iDPWq4i1nPDwmqwunDPzq+Fiuq3NudrtKQv
+   RW2K+cmTUt3mU119QDr30o2eAsx0da8VUoiNBByCajdz313TYDQGgyL7u
+   jZ32JrmBU7KSPxHNBFt2cj3vVBcdtZR2nDcHSJbA4gBYUiNQvpWNvl1lQ
+   G1NB66etQZRjNpx5dZjqNSpMWYXIxdAgWoqsKH/uHtb7ttKhdtC2vDP7E
+   iLW74GZJxaWVEktn73fmKnWE9ZryNKUc3mNyS1Wf2QTI2+QOjjEQtQV6G
+   gCRNfa1UdLaFgWokEPj6b8c+WezvCtvTECQMWfbF+boqhte9tJ++sK4pl
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="399182052"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="399182052"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 01:10:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="850768991"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="850768991"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 27 Jul 2023 01:10:33 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOw4O-00024h-0b;
+	Thu, 27 Jul 2023 08:10:09 +0000
+Date: Thu, 27 Jul 2023 16:05:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [sailus-media-tree:master 9/20] drivers/media/i2c/ov5693.c:1280:19:
+ error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202307271519.XIXA0WQd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <9e72b7ea-9598-415d-bc55-f2f42b7fcb3b@kadam.mountain>
-In-Reply-To: <9e72b7ea-9598-415d-bc55-f2f42b7fcb3b@kadam.mountain>
-From: Marco Elver <elver@google.com>
-Date: Thu, 27 Jul 2023 10:06:25 +0200
-Message-ID: <CANpmjNMWqcseZAijhVP_TDORXxBTgj0GWbTzq5ive2e+0Xto+A@mail.gmail.com>
-Subject: Re: mm/kfence/kfence_test.c:287 test_alloc() warn: use 'gfp' here
- instead of GFP_KERNEL?
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Helge Deller <deller@gmx.de>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 27 Jul 2023 at 06:51, Dan Carpenter <dan.carpenter@linaro.org> wrote:
-[...]
-> smatch warnings:
-> mm/kfence/kfence_test.c:287 test_alloc() warn: use 'gfp' here instead of GFP_KERNEL?
->
-> (Just included these for the LOLs)
-> mm/kfence/kfence_test.c:395 test_double_free() error: double free of 'expect.addr'
-> mm/kfence/kfence_test.c:671 test_memcache_typesafe_by_rcu() error: dereferencing freed memory 'expect.addr'
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   215e4463b11d94668b841368cb6882f3a2968148
+commit: 6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c [9/20] media: ov5693: Convert to new CCI register access helpers
+config: mips-randconfig-r013-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271519.XIXA0WQd-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271519.XIXA0WQd-lkp@intel.com/reproduce)
 
-Nice! ;-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271519.XIXA0WQd-lkp@intel.com/
 
-> vim +/gfp +287 mm/kfence/kfence_test.c
->
-[...]
-> bc8fbc5f305aec Marco Elver     2021-02-25  278          do {
-> bc8fbc5f305aec Marco Elver     2021-02-25  279                  if (test_cache)
-> bc8fbc5f305aec Marco Elver     2021-02-25  280                          alloc = kmem_cache_alloc(test_cache, gfp);
-> bc8fbc5f305aec Marco Elver     2021-02-25  281                  else
-> bc8fbc5f305aec Marco Elver     2021-02-25  282                          alloc = kmalloc(size, gfp);
->                                                                                               ^^^
->
-> bc8fbc5f305aec Marco Elver     2021-02-25  283
-> bc8fbc5f305aec Marco Elver     2021-02-25  284                  if (is_kfence_address(alloc)) {
-> 8dae0cfed57357 Vlastimil Babka 2021-11-03  285                          struct slab *slab = virt_to_slab(alloc);
-> 588c7fa022d7b2 Hyeonggon Yoo   2021-06-28  286                          struct kmem_cache *s = test_cache ?:
-> 588c7fa022d7b2 Hyeonggon Yoo   2021-06-28 @287                                          kmalloc_caches[kmalloc_type(GFP_KERNEL)][__kmalloc_index(size, false)];
->                                                                                                                     ^^^^^^^^^^
-> I feel like using gfp might be correct but I'm not sure?  This code
-> is from prior to this commit.  Let's add Marco to the CC.
+All errors (new ones prefixed by >>):
 
-It's not a bug today: If we were testing something other than
-GFP_KERNEL, then yes, we should use gfp here. But the only reason
-"gfp" is a function arg at all, is that 1 test case also uses
-__GFP_ZERO, but that's irrelevant in getting the kmalloc type (at
-least today).
+>> drivers/media/i2c/ov5693.c:1280:19: error: call to undeclared function 'devm_cci_regmap_init_i2c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1280 |         ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
+         |                          ^
+>> drivers/media/i2c/ov5693.c:1280:17: error: incompatible integer to pointer conversion assigning to 'struct regmap *' from 'int' [-Wint-conversion]
+    1280 |         ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
+         |                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
-The cache is used to test the below "helpers return the right values
-even for KFENCE objects".
 
-I think when I wrote the test I just chose GFP_KERNEL, because none of
-the test cases use something else, and didn't give it a second
-thought. Not sure it's worth changing, because functionally it doesn't
-matter.
+vim +/devm_cci_regmap_init_i2c +1280 drivers/media/i2c/ov5693.c
 
-I'm open to changing it, if it makes this warning go away. Preferences?
+  1267	
+  1268	static int ov5693_probe(struct i2c_client *client)
+  1269	{
+  1270		struct ov5693_device *ov5693;
+  1271		u32 xvclk_rate;
+  1272		int ret = 0;
+  1273	
+  1274		ov5693 = devm_kzalloc(&client->dev, sizeof(*ov5693), GFP_KERNEL);
+  1275		if (!ov5693)
+  1276			return -ENOMEM;
+  1277	
+  1278		ov5693->dev = &client->dev;
+  1279	
+> 1280		ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
+  1281		if (IS_ERR(ov5693->regmap))
+  1282			return PTR_ERR(ov5693->regmap);
+  1283	
+  1284		ret = ov5693_check_hwcfg(ov5693);
+  1285		if (ret)
+  1286			return ret;
+  1287	
+  1288		mutex_init(&ov5693->lock);
+  1289	
+  1290		v4l2_i2c_subdev_init(&ov5693->sd, client, &ov5693_ops);
+  1291	
+  1292		ov5693->xvclk = devm_clk_get_optional(&client->dev, "xvclk");
+  1293		if (IS_ERR(ov5693->xvclk))
+  1294			return dev_err_probe(&client->dev, PTR_ERR(ov5693->xvclk),
+  1295					     "failed to get xvclk: %ld\n",
+  1296					     PTR_ERR(ov5693->xvclk));
+  1297	
+  1298		if (ov5693->xvclk) {
+  1299			xvclk_rate = clk_get_rate(ov5693->xvclk);
+  1300		} else {
+  1301			ret = fwnode_property_read_u32(dev_fwnode(&client->dev),
+  1302					     "clock-frequency",
+  1303					     &xvclk_rate);
+  1304	
+  1305			if (ret) {
+  1306				dev_err(&client->dev, "can't get clock frequency");
+  1307				return ret;
+  1308			}
+  1309		}
+  1310	
+  1311		if (xvclk_rate != OV5693_XVCLK_FREQ)
+  1312			dev_warn(&client->dev, "Found clk freq %u, expected %u\n",
+  1313				 xvclk_rate, OV5693_XVCLK_FREQ);
+  1314	
+  1315		ret = ov5693_configure_gpios(ov5693);
+  1316		if (ret)
+  1317			return ret;
+  1318	
+  1319		ret = ov5693_get_regulators(ov5693);
+  1320		if (ret)
+  1321			return dev_err_probe(&client->dev, ret,
+  1322					     "Error fetching regulators\n");
+  1323	
+  1324		ov5693->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+  1325		ov5693->pad.flags = MEDIA_PAD_FL_SOURCE;
+  1326		ov5693->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+  1327	
+  1328		ov5693->mode.crop = ov5693_default_crop;
+  1329		ov5693->mode.format = ov5693_default_fmt;
+  1330		ov5693->mode.vts = __ov5693_calc_vts(ov5693->mode.format.height);
+  1331	
+  1332		ret = ov5693_init_controls(ov5693);
+  1333		if (ret)
+  1334			return ret;
+  1335	
+  1336		ret = media_entity_pads_init(&ov5693->sd.entity, 1, &ov5693->pad);
+  1337		if (ret)
+  1338			goto err_ctrl_handler_free;
+  1339	
+  1340		/*
+  1341		 * We need the driver to work in the event that pm runtime is disable in
+  1342		 * the kernel, so power up and verify the chip now. In the event that
+  1343		 * runtime pm is disabled this will leave the chip on, so that streaming
+  1344		 * will work.
+  1345		 */
+  1346	
+  1347		ret = ov5693_sensor_powerup(ov5693);
+  1348		if (ret)
+  1349			goto err_media_entity_cleanup;
+  1350	
+  1351		ret = ov5693_detect(ov5693);
+  1352		if (ret)
+  1353			goto err_powerdown;
+  1354	
+  1355		pm_runtime_set_active(&client->dev);
+  1356		pm_runtime_get_noresume(&client->dev);
+  1357		pm_runtime_enable(&client->dev);
+  1358	
+  1359		ret = v4l2_async_register_subdev_sensor(&ov5693->sd);
+  1360		if (ret) {
+  1361			dev_err(&client->dev, "failed to register V4L2 subdev: %d",
+  1362				ret);
+  1363			goto err_pm_runtime;
+  1364		}
+  1365	
+  1366		pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+  1367		pm_runtime_use_autosuspend(&client->dev);
+  1368		pm_runtime_put_autosuspend(&client->dev);
+  1369	
+  1370		return ret;
+  1371	
+  1372	err_pm_runtime:
+  1373		pm_runtime_disable(&client->dev);
+  1374		pm_runtime_put_noidle(&client->dev);
+  1375	err_powerdown:
+  1376		ov5693_sensor_powerdown(ov5693);
+  1377	err_media_entity_cleanup:
+  1378		media_entity_cleanup(&ov5693->sd.entity);
+  1379	err_ctrl_handler_free:
+  1380		v4l2_ctrl_handler_free(&ov5693->ctrls.handler);
+  1381	
+  1382		return ret;
+  1383	}
+  1384	
 
-> bc8fbc5f305aec Marco Elver     2021-02-25  288
-> bc8fbc5f305aec Marco Elver     2021-02-25  289                          /*
-> bc8fbc5f305aec Marco Elver     2021-02-25  290                           * Verify that various helpers return the right values
-> bc8fbc5f305aec Marco Elver     2021-02-25  291                           * even for KFENCE objects; these are required so that
-> bc8fbc5f305aec Marco Elver     2021-02-25  292                           * memcg accounting works correctly.
-> bc8fbc5f305aec Marco Elver     2021-02-25  293                           */
-> 8dae0cfed57357 Vlastimil Babka 2021-11-03  294                          KUNIT_EXPECT_EQ(test, obj_to_index(s, slab, alloc), 0U);
-> 8dae0cfed57357 Vlastimil Babka 2021-11-03  295                          KUNIT_EXPECT_EQ(test, objs_per_slab(s, slab), 1);
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
