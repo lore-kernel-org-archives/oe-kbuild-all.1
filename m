@@ -1,57 +1,45 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5B320EB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 05:06:48 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fc0aecf15bso5845825e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 22:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690434407; x=1691039207;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=milfg91uG9nlhd9aFLAx/8EHBpoWNiimDW9/5MxR5qE=;
-        b=SqR9wDcJ/K9nwJZJepovao+MkVJ0TdNofeVh2YnRg6VO5GiudH5oFn9h/1FfQVVRvE
-         8ZlNCHSEvsdhsZZLJ/5/Qf6CQU21Up1ossb+IZGHnWbf3PBHoWsebzYMi7f6OFiplMtg
-         vxOHMSqN7wXgOitTUOvdlJvqxngxskbpjADUWJ5O9YwOwTDGd5d65DZWQXSIRGR3uIvh
-         eJFw4HlIr+gmRESJdtIIdDKmvInlWwYviZwGGR/2npA+DAy/Vx2D9df3Cyh2YOuxOaUw
-         UrJW3ILC8IxAsiSNhTUwdSZjzW5ONxcy9Uev32d5oWZE0JPFcth5s74HwccZfDhaNYbq
-         PLug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690434407; x=1691039207;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=milfg91uG9nlhd9aFLAx/8EHBpoWNiimDW9/5MxR5qE=;
-        b=aXFQzVHT4QWMNsCpmaWNRwQj2WZX7QdBBj2i1CAmD94q6WYoyodihsPbQelFDvKfTB
-         B2xSYtDVdR6xUVYN4IG94I5QFNHQa8ZZ+zZJGmJYXlBLaZLW7/aj8KfjQh4EIVhSvQ7e
-         yB5WLhFmHNED8ydQr977TxZDTmLFpcuqzMVc9MEGAbaAztqyuhNwjEeJr1C4AqS//ghU
-         q3GQ1p5T9lXHgDvR0dXhQzmJlrfi9FXoWqEhov9DqMENaTnG1F9SJndpgoDEnHaPY1jM
-         NTTRz3d6h/iFDnSORzPj4ZMtW22O+GesgdUUklMxyc0PL46C3ewe5tZ3l6Iazs+H5POR
-         450g==
-X-Gm-Message-State: ABy/qLaZwMCEi2ZPdD/ENKXhz7CDeZ+q7F3RKzwCzFfu2qx6jW9OQISS
-	ZWRnHb3LeMYTWlSJjSZNozg2hg==
-X-Google-Smtp-Source: APBJJlG46aaIJPrxFkx4O+Yb8zxZMWWUWxRjBLDV7QlqtwQ/xfDUhdChhPo0mRSZ0sY0wDCljBBp8w==
-X-Received: by 2002:adf:f4c6:0:b0:314:ca7:f30b with SMTP id h6-20020adff4c6000000b003140ca7f30bmr767822wrp.54.1690434407115;
-        Wed, 26 Jul 2023 22:06:47 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n7-20020a5d6b87000000b003175fef2a32sm820827wrx.55.2023.07.26.22.06.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jul 2023 22:06:46 -0700 (PDT)
-Date: Thu, 27 Jul 2023 08:06:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Anjelique Melendez <quic_amelende@quicinc.com>, pavel@ucw.cz,
-	lee@kernel.org, thierry.reding@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	agross@kernel.org, andersson@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, luca.weiss@fairphone.com,
-	konrad.dybcio@linaro.org, u.kleine-koenig@pengutronix.de,
-	quic_subbaram@quicinc.com, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: Re: [PATCH v2 3/7] soc: qcom: add QCOM PBS driver
-Message-ID: <85e4f0ef-baf8-4588-a10c-d64821c8c518@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74F01FAA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 05:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690434583; x=1721970583;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AodyxOY72Z8aGhmbbA8+nrajAbo9eqI9dKqRGFLwse8=;
+  b=PAgYxwVhzWtmMUNHW29lOdAfdwVngrMuZoIj50ZZsvPyycDmPOaYHcMs
+   gB/T26oGzk/t4ko0yHYeaMGxjKQMVTXXLUyCefT9b+rSAEKR/T3vvw07v
+   TWTOJrjDVBTq7SJHNjOX2V23t4jSA+OAB1wLMpR/vFSBTUloI/nU11mbI
+   xTocQBYFj5qHc2thIyfiuW2VEBroiNu7t8Uf+sThka8JMJ5nNXTQV6QK3
+   s2zqmZifew0uLFvDaZQQ2RXIgoh82i/+oNHCj41kw5bpRa2q+OiKAhICJ
+   B8V4XXAsfjjk3j6SC/rDJIkiH0DC3OX2eiBhHGqAEO77K/CTbYvES6CyK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="368222563"
+X-IronPort-AV: E=Sophos;i="6.01,233,1684825200"; 
+   d="scan'208";a="368222563"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 22:09:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="730121390"
+X-IronPort-AV: E=Sophos;i="6.01,233,1684825200"; 
+   d="scan'208";a="730121390"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 26 Jul 2023 22:09:40 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOtFn-0001wp-0k;
+	Thu, 27 Jul 2023 05:09:38 +0000
+Date: Thu, 27 Jul 2023 13:09:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: oe-kbuild-all@lists.linux.dev, Yury Norov <yury.norov@gmail.com>
+Subject: Re: [PATCH 6/6] bitmap: move bitmap_*_region functions to bitmap.h
+Message-ID: <202307271224.8Qeoqasq-lkp@intel.com>
+References: <20230727020207.36314-7-yury.norov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,82 +48,207 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230725193423.25047-4-quic_amelende@quicinc.com>
+In-Reply-To: <20230727020207.36314-7-yury.norov@gmail.com>
 
-Hi Anjelique,
+Hi Yury,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.5-rc3 next-20230726]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anjelique-Melendez/dt-bindings-soc-qcom-Add-qcom-pbs-bindings/20230726-034011
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230725193423.25047-4-quic_amelende%40quicinc.com
-patch subject: [PATCH v2 3/7] soc: qcom: add QCOM PBS driver
-config: parisc-randconfig-m041-20230726 (https://download.01.org/0day-ci/archive/20230727/202307270539.1JVFQf6W-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270539.1JVFQf6W-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yury-Norov/bitmap-fix-opencoded-bitmap_allocate_region/20230727-100500
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230727020207.36314-7-yury.norov%40gmail.com
+patch subject: [PATCH 6/6] bitmap: move bitmap_*_region functions to bitmap.h
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230727/202307271224.8Qeoqasq-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271224.8Qeoqasq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307270539.1JVFQf6W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271224.8Qeoqasq-lkp@intel.com/
 
-smatch warnings:
-drivers/soc/qcom/qcom-pbs.c:97 qcom_pbs_wait_for_ack() warn: should this be 'retries == -1'
+All error/warnings (new ones prefixed by >>):
 
-vim +97 drivers/soc/qcom/qcom-pbs.c
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   In file included from include/linux/cpumask.h:12,
+                    from arch/loongarch/include/asm/processor.h:9,
+                    from arch/loongarch/include/asm/thread_info.h:15,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/current.h:5,
+                    from ./arch/loongarch/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from arch/loongarch/kernel/asm-offsets.c:8:
+   include/linux/bitmap.h: In function 'bitmap_find_free_region':
+>> include/linux/bitmap.h:239:22: error: implicit declaration of function 'bitmap_allocate_region' [-Werror=implicit-function-declaration]
+     239 |                 if (!bitmap_allocate_region(bitmap, pos, order))
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h: In function 'bitmap_release_region':
+>> include/linux/bitmap.h:258:9: error: implicit declaration of function 'bitmap_clear'; did you mean 'bitmap_remap'? [-Werror=implicit-function-declaration]
+     258 |         bitmap_clear(bitmap, pos, pos + BIT(order));
+         |         ^~~~~~~~~~~~
+         |         bitmap_remap
+   include/linux/bitmap.h: At top level:
+>> include/linux/bitmap.h:272:19: error: static declaration of 'bitmap_allocate_region' follows non-static declaration
+     272 | static inline int bitmap_allocate_region(unsigned long *bitmap, unsigned int pos, int order)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:239:22: note: previous implicit declaration of 'bitmap_allocate_region' with type 'int()'
+     239 |                 if (!bitmap_allocate_region(bitmap, pos, order))
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h: In function 'bitmap_allocate_region':
+>> include/linux/bitmap.h:278:9: error: implicit declaration of function 'bitmap_set'; did you mean 'bitmap_cut'? [-Werror=implicit-function-declaration]
+     278 |         bitmap_set(bitmap, pos, nbits);
+         |         ^~~~~~~~~~
+         |         bitmap_cut
+   include/linux/bitmap.h: At top level:
+>> include/linux/bitmap.h:510:29: warning: conflicting types for 'bitmap_set'; have 'void(long unsigned int *, unsigned int,  unsigned int)'
+     510 | static __always_inline void bitmap_set(unsigned long *map, unsigned int start,
+         |                             ^~~~~~~~~~
+>> include/linux/bitmap.h:510:29: error: static declaration of 'bitmap_set' follows non-static declaration
+   include/linux/bitmap.h:278:9: note: previous implicit declaration of 'bitmap_set' with type 'void(long unsigned int *, unsigned int,  unsigned int)'
+     278 |         bitmap_set(bitmap, pos, nbits);
+         |         ^~~~~~~~~~
+>> include/linux/bitmap.h:526:29: warning: conflicting types for 'bitmap_clear'; have 'void(long unsigned int *, unsigned int,  unsigned int)'
+     526 | static __always_inline void bitmap_clear(unsigned long *map, unsigned int start,
+         |                             ^~~~~~~~~~~~
+>> include/linux/bitmap.h:526:29: error: static declaration of 'bitmap_clear' follows non-static declaration
+   include/linux/bitmap.h:258:9: note: previous implicit declaration of 'bitmap_clear' with type 'void(long unsigned int *, unsigned int,  unsigned int)'
+     258 |         bitmap_clear(bitmap, pos, pos + BIT(order));
+         |         ^~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+      17 | void output_ptreg_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+      64 | void output_task_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+      79 | void output_thread_info_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+      95 | void output_thread_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:138:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+     138 | void output_thread_fpu_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:178:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+     178 | void output_mm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:210:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+     210 | void output_sc_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:218:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
+     218 | void output_signal_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:256:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
+     256 | void output_smpboot_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:266:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
+     266 | void output_pbe_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:278:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
+     278 | void output_fgraph_ret_regs_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1287: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-c261225d90e1d3 Anjelique Melendez 2023-07-25   68  static int qcom_pbs_wait_for_ack(struct pbs_dev *pbs, u8 bit_pos)
-c261225d90e1d3 Anjelique Melendez 2023-07-25   69  {
-c261225d90e1d3 Anjelique Melendez 2023-07-25   70  	u16 retries = 2000, delay = 1000;
-c261225d90e1d3 Anjelique Melendez 2023-07-25   71  	int ret;
-c261225d90e1d3 Anjelique Melendez 2023-07-25   72  	u8 val;
-c261225d90e1d3 Anjelique Melendez 2023-07-25   73  
-c261225d90e1d3 Anjelique Melendez 2023-07-25   74  	while (retries--) {
 
-Change this to while (--retries) {
+vim +/bitmap_allocate_region +239 include/linux/bitmap.h
 
-c261225d90e1d3 Anjelique Melendez 2023-07-25   75  		ret = qcom_pbs_read(pbs, PBS_CLIENT_SCRATCH2, &val);
-c261225d90e1d3 Anjelique Melendez 2023-07-25   76  		if (ret < 0)
-c261225d90e1d3 Anjelique Melendez 2023-07-25   77  			return ret;
-c261225d90e1d3 Anjelique Melendez 2023-07-25   78  
-c261225d90e1d3 Anjelique Melendez 2023-07-25   79  		if (val == 0xFF) {
-c261225d90e1d3 Anjelique Melendez 2023-07-25   80  			/* PBS error - clear SCRATCH2 register */
-c261225d90e1d3 Anjelique Melendez 2023-07-25   81  			ret = qcom_pbs_write(pbs, PBS_CLIENT_SCRATCH2, 0);
-c261225d90e1d3 Anjelique Melendez 2023-07-25   82  			if (ret < 0)
-c261225d90e1d3 Anjelique Melendez 2023-07-25   83  				return ret;
-c261225d90e1d3 Anjelique Melendez 2023-07-25   84  
-c261225d90e1d3 Anjelique Melendez 2023-07-25   85  			dev_err(pbs->dev, "NACK from PBS for bit %u\n", bit_pos);
-c261225d90e1d3 Anjelique Melendez 2023-07-25   86  			return -EINVAL;
-c261225d90e1d3 Anjelique Melendez 2023-07-25   87  		}
-c261225d90e1d3 Anjelique Melendez 2023-07-25   88  
-c261225d90e1d3 Anjelique Melendez 2023-07-25   89  		if (val & BIT(bit_pos)) {
-c261225d90e1d3 Anjelique Melendez 2023-07-25   90  			dev_dbg(pbs->dev, "PBS sequence for bit %u executed!\n", bit_pos);
-c261225d90e1d3 Anjelique Melendez 2023-07-25   91  			break;
-c261225d90e1d3 Anjelique Melendez 2023-07-25   92  		}
-c261225d90e1d3 Anjelique Melendez 2023-07-25   93  
-c261225d90e1d3 Anjelique Melendez 2023-07-25   94  		usleep_range(delay, delay + 100);
-c261225d90e1d3 Anjelique Melendez 2023-07-25   95  	}
-c261225d90e1d3 Anjelique Melendez 2023-07-25   96  
-c261225d90e1d3 Anjelique Melendez 2023-07-25  @97  	if (!retries) {
-
-Otherwise this check needs to be: "if (retries == USHRT_MAX)".
-
-Btw, I really feel like people are generally better off declaring list
-iterators as int whenever possible.  I have written a very rude blog
-to that effect.
-https://staticthinking.wordpress.com/2022/06/01/unsigned-int-i-is-stupid/
-
-c261225d90e1d3 Anjelique Melendez 2023-07-25   98  		dev_err(pbs->dev, "Timeout for PBS ACK/NACK for bit %u\n", bit_pos);
-c261225d90e1d3 Anjelique Melendez 2023-07-25   99  		return -ETIMEDOUT;
-c261225d90e1d3 Anjelique Melendez 2023-07-25  100  	}
-c261225d90e1d3 Anjelique Melendez 2023-07-25  101  
-c261225d90e1d3 Anjelique Melendez 2023-07-25  102  	return 0;
-c261225d90e1d3 Anjelique Melendez 2023-07-25  103  }
+   202	
+   203	int bitmap_parse(const char *buf, unsigned int buflen,
+   204				unsigned long *dst, int nbits);
+   205	int bitmap_parse_user(const char __user *ubuf, unsigned int ulen,
+   206				unsigned long *dst, int nbits);
+   207	int bitmap_parselist(const char *buf, unsigned long *maskp,
+   208				int nmaskbits);
+   209	int bitmap_parselist_user(const char __user *ubuf, unsigned int ulen,
+   210				unsigned long *dst, int nbits);
+   211	void bitmap_remap(unsigned long *dst, const unsigned long *src,
+   212			const unsigned long *old, const unsigned long *new, unsigned int nbits);
+   213	int bitmap_bitremap(int oldbit,
+   214			const unsigned long *old, const unsigned long *new, int bits);
+   215	void bitmap_onto(unsigned long *dst, const unsigned long *orig,
+   216			const unsigned long *relmap, unsigned int bits);
+   217	void bitmap_fold(unsigned long *dst, const unsigned long *orig,
+   218			unsigned int sz, unsigned int nbits);
+   219	
+   220	/**
+   221	 * bitmap_find_free_region - find a contiguous aligned mem region
+   222	 *	@bitmap: array of unsigned longs corresponding to the bitmap
+   223	 *	@bits: number of bits in the bitmap
+   224	 *	@order: region size (log base 2 of number of bits) to find
+   225	 *
+   226	 * Find a region of free (zero) bits in a @bitmap of @bits bits and
+   227	 * allocate them (set them to one).  Only consider regions of length
+   228	 * a power (@order) of two, aligned to that power of two, which
+   229	 * makes the search algorithm much faster.
+   230	 *
+   231	 * Return the bit offset in bitmap of the allocated region,
+   232	 * or -errno on failure.
+   233	 */
+   234	static inline int bitmap_find_free_region(unsigned long *bitmap, unsigned int bits, int order)
+   235	{
+   236		unsigned int pos, end;		/* scans bitmap by regions of size order */
+   237	
+   238		for (pos = 0 ; (end = pos + (1U << order)) <= bits; pos = end)
+ > 239			if (!bitmap_allocate_region(bitmap, pos, order))
+   240				return pos;
+   241	
+   242		return -ENOMEM;
+   243	}
+   244	
+   245	/**
+   246	 * bitmap_release_region - release allocated bitmap region
+   247	 *	@bitmap: array of unsigned longs corresponding to the bitmap
+   248	 *	@pos: beginning of bit region to release
+   249	 *	@order: region size (log base 2 of number of bits) to release
+   250	 *
+   251	 * This is the complement to __bitmap_find_free_region() and releases
+   252	 * the found region (by clearing it in the bitmap).
+   253	 *
+   254	 * No return value.
+   255	 */
+   256	static inline void bitmap_release_region(unsigned long *bitmap, unsigned int pos, int order)
+   257	{
+ > 258		bitmap_clear(bitmap, pos, pos + BIT(order));
+   259	}
+   260	
+   261	/**
+   262	 * bitmap_allocate_region - allocate bitmap region
+   263	 *	@bitmap: array of unsigned longs corresponding to the bitmap
+   264	 *	@pos: beginning of bit region to allocate
+   265	 *	@order: region size (log base 2 of number of bits) to allocate
+   266	 *
+   267	 * Allocate (set bits in) a specified region of a bitmap.
+   268	 *
+   269	 * Return 0 on success, or %-EBUSY if specified region wasn't
+   270	 * free (not all bits were zero).
+   271	 */
+ > 272	static inline int bitmap_allocate_region(unsigned long *bitmap, unsigned int pos, int order)
+   273	{
+   274		unsigned int nbits = pos + BIT(order);
+   275	
+   276		if (find_next_bit(bitmap, pos, nbits) < nbits)
+   277			return -EBUSY;
+ > 278		bitmap_set(bitmap, pos, nbits);
+   279		return 0;
+   280	}
+   281	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
