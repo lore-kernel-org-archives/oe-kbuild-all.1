@@ -1,44 +1,54 @@
-Received: from mgamail.intel.com (unknown [192.55.52.115])
+Received: from mgamail.intel.com (unknown [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEC61FDD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 09:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777921FDD;
+	Thu, 27 Jul 2023 09:52:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690451547; x=1721987547;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z8SQQrc2+b/d5UxwfNqNEJzIDCvqg0CvUaI4FRGy3lM=;
-  b=Olv9ql/0R1hDJEco5SbTa2gE26Goep2sLgsF0Di0JPhSqphl1ptgtDvs
-   O4TSWGCAncJWDrQEjPs910RjBMx2Ss/awEssnciaBNtFXVb7I6Keo7OfV
-   RqB35QpmkWIPLzQ+R9ZFX8Lw79ZCQNpodET1wLiF4dTuvDbKL6Bl1hT4D
-   yrmQLBGP/3i01fEa39r2uzyzVBx0Dia+EMyCs+WnLa1gGcaLaNTK+N768
-   biV88Tox2iyC5jmeSyiyCIJuXHjTp3oB9Sy34h/8Zhv0WEiij9XW/ibzo
-   1/7I9P/QHZsAXSEjuujenP9vK6sOJjfJq7zGDE9jqy3+rRdfMX+DfGtm9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="368283160"
+  t=1690451576; x=1721987576;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7ywYBQt+k0wWV597TPC4S52IE0VKtrqKZaO1M88iGqQ=;
+  b=ZoqLQTuCqQoSMKHc2mLAeOKUKM5TmN+Tvvfh3ZTzHkUOwtXeTobIzYol
+   6I/DqqfzwOGLFbw3zws3J3t2AZNRdwBC/p5pgV/crRuDh9qIUK0MTEDgZ
+   1Raw9nbOH7AdJdfWtWmwoCJmc5lV7EtYCc9/PgpIQOq4DaG6cFkjUemAh
+   16UJvlGFzk2H2UzjL46ONxIiWyYrN88BENvs8qJmRNnCSxf6vfIjfJHMI
+   8VqK5BC7HyAPAaqnF1WKnoH8AfmLvDLpHv+J1m/lylIzX8grFvVUSycFi
+   OdB7oFnpTa7EOSZC1aq2blikyunJLVcX2Uvo8jh0QQfmJB9udOZdEY2qT
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="347876601"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="368283160"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 02:52:26 -0700
+   d="scan'208";a="347876601"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 02:52:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="840713451"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="973478188"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="840713451"
+   d="scan'208";a="973478188"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 27 Jul 2023 02:52:25 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 27 Jul 2023 02:52:51 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOxf5-00029X-0w;
-	Thu, 27 Jul 2023 09:52:07 +0000
-Date: Thu, 27 Jul 2023 17:50:42 +0800
+	id 1qOxfU-00029Z-13;
+	Thu, 27 Jul 2023 09:52:32 +0000
+Date: Thu, 27 Jul 2023 17:50:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [esmil:visionfive 25/75] arch/riscv/errata/andes/errata.c:29:23:
- error: storage size of 'ret' isn't known
-Message-ID: <202307271745.H11qViyI-lkp@intel.com>
+To: Charles Boyer <Charles.Boyer@fii-usa.com>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Andy Gross <agross@kernel.org>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Vivekanand Veeracholan <vveerach@google.com>,
+	Lancelot Kao <lancelot.cy.kao@fii-na.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Charles Boyer <Charles.Boyer@fii-usa.com>
+Subject: Re: [PATCH] ARM: dts: nuvoton: Add Fii Mori system
+Message-ID: <202307271704.EqCiK6kd-lkp@intel.com>
+References: <20230726184651.1221-1-Charles.Boyer@fii-usa.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,51 +57,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230726184651.1221-1-Charles.Boyer@fii-usa.com>
 
-tree:   https://github.com/esmil/linux visionfive
-head:   4370487fce31acaedcc03e8bd2e64f3a9c591821
-commit: fde37b6e790a93e8af8ec92d08f0ef9b48654876 [25/75] riscv: errata: Add Andes alternative ports
-config: riscv-randconfig-r051-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271745.H11qViyI-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271745.H11qViyI-lkp@intel.com/reproduce)
+Hi Charles,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.5-rc3 next-20230727]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Boyer/ARM-dts-nuvoton-Add-Fii-Mori-system/20230727-024931
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230726184651.1221-1-Charles.Boyer%40fii-usa.com
+patch subject: [PATCH] ARM: dts: nuvoton: Add Fii Mori system
+config: arm-randconfig-r004-20230726 (https://download.01.org/0day-ci/archive/20230727/202307271704.EqCiK6kd-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271704.EqCiK6kd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307271745.H11qViyI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271704.EqCiK6kd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/riscv/errata/andes/errata.c: In function 'ax45mp_iocp_sw_workaround':
->> arch/riscv/errata/andes/errata.c:29:23: error: storage size of 'ret' isn't known
-      29 |         struct sbiret ret;
-         |                       ^~~
->> arch/riscv/errata/andes/errata.c:35:15: error: implicit declaration of function 'sbi_ecall' [-Werror=implicit-function-declaration]
-      35 |         ret = sbi_ecall(ANDESTECH_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
-         |               ^~~~~~~~~
-   arch/riscv/errata/andes/errata.c:29:23: warning: unused variable 'ret' [-Wunused-variable]
-      29 |         struct sbiret ret;
-         |                       ^~~
-   cc1: some warnings being treated as errors
-
-
-vim +29 arch/riscv/errata/andes/errata.c
-
-    26	
-    27	static long ax45mp_iocp_sw_workaround(void)
-    28	{
-  > 29		struct sbiret ret;
-    30	
-    31		/*
-    32		 * ANDES_SBI_EXT_IOCP_SW_WORKAROUND SBI EXT checks if the IOCP is missing and
-    33		 * cache is controllable only then CMO will be applied to the platform.
-    34		 */
-  > 35		ret = sbi_ecall(ANDESTECH_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
-    36				0, 0, 0, 0, 0, 0);
-    37	
-    38		return ret.error ? 0 : ret.value;
-    39	}
-    40	
+>> Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:649.1-6 Label or path emc0 not found
+>> Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:662.1-7 Label or path ohci1 not found
+>> Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:666.1-5 Label or path aes not found
+>> Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:670.1-5 Label or path sha not found
+>> Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:761.1-8 Label or path sdhci0 not found
+   Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:769.1-7 Label or path ohci1 not found
+>> Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:773.1-6 Label or path vdma not found
+>> Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:777.1-9 Label or path pcimbox not found
+>> Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:781.1-5 Label or path vcd not found
+>> Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:785.1-5 Label or path ece not found
+>> Error: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-mori.dts:818.1-5 Label or path otp not found
+>> FATAL ERROR: Syntax error parsing input tree
 
 -- 
 0-DAY CI Kernel Test Service
