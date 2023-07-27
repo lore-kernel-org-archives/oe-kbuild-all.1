@@ -1,47 +1,45 @@
 Received: from mgamail.intel.com (unknown [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1F927124
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 17:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B388F41;
+	Thu, 27 Jul 2023 18:19:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690477667; x=1722013667;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=II4/iGw5o80kuCEwddcvTkX+C4IdTACHdyV4yZwK5oM=;
-  b=R9OUubdrnXtgOvN4xaA25t2FOxstUNWI0/LeWn1+xT845e9q4Rzp7iH6
-   WJ0BWoz1PVWGxxQClWn7WiClKVG9WSfB8r8BsFq3dm7l6/wFh6RY789LY
-   DxcgLaqctd1c9p8jcixmcrATmrqX/5lHSaZzJqF2x9Wx9Lire+R7MWr1t
-   t29AlimzXh7Hr7AIuVYDNSzRzKooYzZRrJakepYsZ9xMPFy9ExBDRaQTo
-   jqqmEaRyZmGbbMqB63PL2nlPU2pkYLUtx1RWZxB8XE1EcOCYu3wtd6Z9U
-   i3ujKoR49hzYyMLO2eqwC2m4VSEMjqYLW4Ykww6hdzF+PsxZFmTkPrnrH
+  t=1690481942; x=1722017942;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Y4byDQ/HgWXNyLa4+YHJ3J8Psh3qMV++FJiYC3YtX5I=;
+  b=XfSud7XtPszY5qofRH242DjJtUzirBsoDj0+Gl9tQe2DxtPnFror914x
+   IurU+OniEMSb3uMPsE6vVsAsUFK9YCYK3rg7foEO6ZgdenN6iCiQDc3yQ
+   6J8vQV/UrvC87tkPcZR2iYKz4ImpqJ2if7mPrY20eeqNK8WQgQ8gK8tIW
+   4PTj/H90lZ4tqL4L6DUwKNEZll9QRN2TCWvMufKi0W6Ra3WnZ8qxdbwXe
+   UcBNk4RfXMohO1AVFYk7ZsVKRe/xLyeC4Z+kjsNw2M1GDsX6RbWinfwJ9
+   QQYZPV8uVPtBmVAONx9n7qjDHuQBdZRVtzDZnurAB3+uq8v4jRNIeB7CG
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="358396274"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="358415747"
 X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; 
-   d="scan'208";a="358396274"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 10:07:44 -0700
+   d="scan'208";a="358415747"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 11:19:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="762248098"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="973700154"
 X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; 
-   d="scan'208";a="762248098"
+   d="scan'208";a="973700154"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 27 Jul 2023 10:07:32 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 27 Jul 2023 11:18:59 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qP4SZ-0002Rf-1C;
-	Thu, 27 Jul 2023 17:07:31 +0000
-Date: Fri, 28 Jul 2023 01:06:43 +0800
+	id 1qP5ZR-0002VL-32;
+	Thu, 27 Jul 2023 18:18:52 +0000
+Date: Fri, 28 Jul 2023 02:18:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ranjan Kumar <ranjan.kumar@broadcom.com>, linux-scsi@vger.kernel.org,
-	martin.petersen@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, rajsekhar.chundru@broadcom.com,
-	sathya.prakash@broadcom.com, sumit.saxena@broadcom.com,
-	chandrakanth.patil@broadcom.com, sreekanth.reddy@broadcom.com,
-	Ranjan Kumar <ranjan.kumar@broadcom.com>
-Subject: Re: [PATCH v1 4/6] mpi3mr: WriteSame implementation
-Message-ID: <202307280034.DXU5pTVV-lkp@intel.com>
-References: <20230724132303.19470-5-ranjan.kumar@broadcom.com>
+To: Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: [linux-next:master 3825/5027]
+ arch/mips/pic32/pic32mzda/config.c:22:8: error: type specifier missing,
+ defaults to 'int'; ISO C99 and later do not support implicit int
+Message-ID: <202307280212.w1lY1gCG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,111 +48,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230724132303.19470-5-ranjan.kumar@broadcom.com>
 
-Hi Ranjan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next linus/master v6.5-rc3 next-20230727]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ranjan-Kumar/mpi3mr-Invokes-soft-reset-upon-TSU-or-event-ack-time-out/20230724-212757
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20230724132303.19470-5-ranjan.kumar%40broadcom.com
-patch subject: [PATCH v1 4/6] mpi3mr: WriteSame implementation
-config: x86_64-randconfig-m001-20230726 (https://download.01.org/0day-ci/archive/20230728/202307280034.DXU5pTVV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280034.DXU5pTVV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   451cc82bd11eb6a374f4dbcfc1cf007eafea91ab
+commit: 657c45b303f87d77eb4ef49e9452f1c5d1fc363c [3825/5027] MIPS: Explicitly include correct DT includes
+config: mips-randconfig-r022-20230727 (https://download.01.org/0day-ci/archive/20230728/202307280212.w1lY1gCG-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280212.w1lY1gCG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307280034.DXU5pTVV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307280212.w1lY1gCG-lkp@intel.com/
 
-smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_os.c:4514 mpi3mr_target_alloc() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +4514 drivers/scsi/mpi3mr/mpi3mr_os.c
+>> arch/mips/pic32/pic32mzda/config.c:22:8: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      22 | static DEFINE_SPINLOCK(config_lock);
+         | ~~~~~~ ^
+         | int
+>> arch/mips/pic32/pic32mzda/config.c:22:24: error: a parameter list without types is only allowed in a function definition
+      22 | static DEFINE_SPINLOCK(config_lock);
+         |                        ^
+>> arch/mips/pic32/pic32mzda/config.c:41:2: error: call to undeclared function 'spin_lock_irqsave'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      41 |         spin_lock_irqsave(&config_lock, flags);
+         |         ^
+>> arch/mips/pic32/pic32mzda/config.c:41:21: error: use of undeclared identifier 'config_lock'
+      41 |         spin_lock_irqsave(&config_lock, flags);
+         |                            ^
+>> arch/mips/pic32/pic32mzda/config.c:46:2: error: call to undeclared function 'spin_unlock_irqrestore'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      46 |         spin_unlock_irqrestore(&config_lock, flags);
+         |         ^
+   arch/mips/pic32/pic32mzda/config.c:46:26: error: use of undeclared identifier 'config_lock'
+      46 |         spin_unlock_irqrestore(&config_lock, flags);
+         |                                 ^
+   6 errors generated.
 
-  4477	
-  4478	/**
-  4479	 * mpi3mr_target_alloc - Target alloc callback handler
-  4480	 * @starget: SCSI target reference
-  4481	 *
-  4482	 * Allocate per target private data and initialize it.
-  4483	 *
-  4484	 * Return: 0 on success -ENOMEM on memory allocation failure.
-  4485	 */
-  4486	static int mpi3mr_target_alloc(struct scsi_target *starget)
-  4487	{
-  4488		struct Scsi_Host *shost = dev_to_shost(&starget->dev);
-  4489		struct mpi3mr_ioc *mrioc = shost_priv(shost);
-  4490		struct mpi3mr_stgt_priv_data *scsi_tgt_priv_data;
-  4491		struct mpi3mr_tgt_dev *tgt_dev;
-  4492		unsigned long flags;
-  4493		int retval = 0;
-  4494		struct sas_rphy *rphy = NULL;
-  4495	
-  4496		scsi_tgt_priv_data = kzalloc(sizeof(*scsi_tgt_priv_data), GFP_KERNEL);
-  4497		if (!scsi_tgt_priv_data)
-  4498			return -ENOMEM;
-  4499	
-  4500		starget->hostdata = scsi_tgt_priv_data;
-  4501	
-  4502		spin_lock_irqsave(&mrioc->tgtdev_lock, flags);
-  4503		if (starget->channel == mrioc->scsi_device_channel) {
-  4504			tgt_dev = __mpi3mr_get_tgtdev_by_perst_id(mrioc, starget->id);
-  4505			if (tgt_dev && !tgt_dev->is_hidden) {
-  4506				scsi_tgt_priv_data->starget = starget;
-  4507				scsi_tgt_priv_data->dev_handle = tgt_dev->dev_handle;
-  4508				scsi_tgt_priv_data->perst_id = tgt_dev->perst_id;
-  4509				scsi_tgt_priv_data->dev_type = tgt_dev->dev_type;
-  4510				scsi_tgt_priv_data->tgt_dev = tgt_dev;
-  4511				tgt_dev->starget = starget;
-  4512				atomic_set(&scsi_tgt_priv_data->block_io, 0);
-  4513				retval = 0;
-> 4514			if ((tgt_dev->dev_type == MPI3_DEVICE_DEVFORM_PCIE) &&
-  4515			    ((tgt_dev->dev_spec.pcie_inf.dev_info &
-  4516			    MPI3_DEVICE0_PCIE_DEVICE_INFO_TYPE_MASK) ==
-  4517			    MPI3_DEVICE0_PCIE_DEVICE_INFO_TYPE_NVME_DEVICE) &&
-  4518			    ((tgt_dev->dev_spec.pcie_inf.dev_info &
-  4519			    MPI3_DEVICE0_PCIE_DEVICE_INFO_PITYPE_MASK) !=
-  4520			    MPI3_DEVICE0_PCIE_DEVICE_INFO_PITYPE_0))
-  4521				scsi_tgt_priv_data->dev_nvme_dif = 1;
-  4522			scsi_tgt_priv_data->io_throttle_enabled = tgt_dev->io_throttle_enabled;
-  4523			scsi_tgt_priv_data->wslen = tgt_dev->wslen;
-  4524			if (tgt_dev->dev_type == MPI3_DEVICE_DEVFORM_VD)
-  4525				scsi_tgt_priv_data->throttle_group = tgt_dev->dev_spec.vd_inf.tg;
-  4526			} else
-  4527				retval = -ENXIO;
-  4528		} else if (mrioc->sas_transport_enabled && !starget->channel) {
-  4529			rphy = dev_to_rphy(starget->dev.parent);
-  4530			tgt_dev = __mpi3mr_get_tgtdev_by_addr_and_rphy(mrioc,
-  4531			    rphy->identify.sas_address, rphy);
-  4532			if (tgt_dev && !tgt_dev->is_hidden && !tgt_dev->non_stl &&
-  4533			    (tgt_dev->dev_type == MPI3_DEVICE_DEVFORM_SAS_SATA)) {
-  4534				scsi_tgt_priv_data->starget = starget;
-  4535				scsi_tgt_priv_data->dev_handle = tgt_dev->dev_handle;
-  4536				scsi_tgt_priv_data->perst_id = tgt_dev->perst_id;
-  4537				scsi_tgt_priv_data->dev_type = tgt_dev->dev_type;
-  4538				scsi_tgt_priv_data->tgt_dev = tgt_dev;
-  4539				scsi_tgt_priv_data->io_throttle_enabled = tgt_dev->io_throttle_enabled;
-  4540				scsi_tgt_priv_data->wslen = tgt_dev->wslen;
-  4541				tgt_dev->starget = starget;
-  4542				atomic_set(&scsi_tgt_priv_data->block_io, 0);
-  4543				retval = 0;
-  4544			} else
-  4545				retval = -ENXIO;
-  4546		}
-  4547		spin_unlock_irqrestore(&mrioc->tgtdev_lock, flags);
-  4548	
-  4549		return retval;
-  4550	}
-  4551	
+
+vim +/int +22 arch/mips/pic32/pic32mzda/config.c
+
+2572f00db8a68bb Joshua Henderson 2016-01-13  20  
+2572f00db8a68bb Joshua Henderson 2016-01-13  21  static void __iomem *pic32_conf_base;
+2572f00db8a68bb Joshua Henderson 2016-01-13 @22  static DEFINE_SPINLOCK(config_lock);
+2572f00db8a68bb Joshua Henderson 2016-01-13  23  static u32 pic32_reset_status;
+2572f00db8a68bb Joshua Henderson 2016-01-13  24  
+2572f00db8a68bb Joshua Henderson 2016-01-13  25  static u32 pic32_conf_get_reg_field(u32 offset, u32 rshift, u32 mask)
+2572f00db8a68bb Joshua Henderson 2016-01-13  26  {
+2572f00db8a68bb Joshua Henderson 2016-01-13  27  	u32 v;
+2572f00db8a68bb Joshua Henderson 2016-01-13  28  
+2572f00db8a68bb Joshua Henderson 2016-01-13  29  	v = readl(pic32_conf_base + offset);
+2572f00db8a68bb Joshua Henderson 2016-01-13  30  	v >>= rshift;
+2572f00db8a68bb Joshua Henderson 2016-01-13  31  	v &= mask;
+2572f00db8a68bb Joshua Henderson 2016-01-13  32  
+2572f00db8a68bb Joshua Henderson 2016-01-13  33  	return v;
+2572f00db8a68bb Joshua Henderson 2016-01-13  34  }
+2572f00db8a68bb Joshua Henderson 2016-01-13  35  
+2572f00db8a68bb Joshua Henderson 2016-01-13  36  static u32 pic32_conf_modify_atomic(u32 offset, u32 mask, u32 set)
+2572f00db8a68bb Joshua Henderson 2016-01-13  37  {
+2572f00db8a68bb Joshua Henderson 2016-01-13  38  	u32 v;
+2572f00db8a68bb Joshua Henderson 2016-01-13  39  	unsigned long flags;
+2572f00db8a68bb Joshua Henderson 2016-01-13  40  
+2572f00db8a68bb Joshua Henderson 2016-01-13 @41  	spin_lock_irqsave(&config_lock, flags);
+2572f00db8a68bb Joshua Henderson 2016-01-13  42  	v = readl(pic32_conf_base + offset);
+2572f00db8a68bb Joshua Henderson 2016-01-13  43  	v &= ~mask;
+2572f00db8a68bb Joshua Henderson 2016-01-13  44  	v |= (set & mask);
+2572f00db8a68bb Joshua Henderson 2016-01-13  45  	writel(v, pic32_conf_base + offset);
+2572f00db8a68bb Joshua Henderson 2016-01-13 @46  	spin_unlock_irqrestore(&config_lock, flags);
+2572f00db8a68bb Joshua Henderson 2016-01-13  47  
+2572f00db8a68bb Joshua Henderson 2016-01-13  48  	return 0;
+2572f00db8a68bb Joshua Henderson 2016-01-13  49  }
+2572f00db8a68bb Joshua Henderson 2016-01-13  50  
+
+:::::: The code at line 22 was first introduced by commit
+:::::: 2572f00db8a68bb46001678c1c98ad8b70e04b31 MIPS: Add support for PIC32MZDA platform
+
+:::::: TO: Joshua Henderson <joshua.henderson@microchip.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
