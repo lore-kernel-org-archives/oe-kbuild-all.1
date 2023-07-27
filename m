@@ -1,49 +1,48 @@
-Received: from mgamail.intel.com (unknown [192.55.52.115])
+Received: from mgamail.intel.com (unknown [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E32E15ACE;
-	Thu, 27 Jul 2023 10:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595BF14A97;
+	Thu, 27 Jul 2023 11:14:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690453947; x=1721989947;
+  t=1690456465; x=1721992465;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JpLUaZit3jeF5SNebaf1CxVT6Zm72efM5wymKLXsgEE=;
-  b=JK+qK2fG0FsT5mP+eaIj9lx2lc0nmqi7KteKfPB9cv28Fdd+eNTrFZ0g
-   pXUErd6mA4c87mHP6sA/QzlatBEqd6CVcY4JZq4w2iMRoqiG5zpWuRFnY
-   lf434pex8Bu++nN9bwg7JX0KGls4tQlZRyQ75qA8Xcis9zHlMAisexrBt
-   5hU09Rwc7NALVN4JMnYwfxslevBOKsDfsG+mDZ5rXxznY19VQL++jjj12
-   wLj8NdovezIFxa8fc0xTWD1GWaLQvonhXg3JC+67mn5aBvLlPumhZGuwf
-   7Mz+4OZF2sJPRVfgH8h+M4VRYMzx/Itc9jheIZX5Dgo2WMnUrR5CQ2Klx
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="368290589"
+  bh=kyMBEzns/c1XLgB1MtkLgiBVHcXIiW5UPIbwlDICK5E=;
+  b=CuuX8QiyOifzamhjnm/R4u7VdGmvW8XuFR2qddDajfqAQdPGVpBI9HdY
+   WCuJqzkZSF34hAWx5NmnKLvTZPuueK8DJNW8QMhXmCkEnm15t0pSB3BUz
+   FsBCFXQrr9BrL9lOdukCaSnYr/QVzQRGOOT6BSHb/y9URRivypRenJE86
+   3pJLHqtKotRystmqfABdOXlJUO2QQpnodzVoG/f9Gm2q0A99lOtSYpqSr
+   XtgzbTGk3QYskUle3hc7UiuIVVyd30i/fuKNK5NixFHlTJ9IlTtihjgyf
+   /BMXiL4LzyJBIBAh7g4pDRpGsjleBwDkD6unlMKoUl5tpu61RIZs69ZoT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="432078879"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="368290589"
+   d="scan'208";a="432078879"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 03:32:22 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 04:14:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="870300098"
+   d="scan'208";a="870333490"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2023 03:32:19 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2023 04:14:22 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOyHg-0002CB-2M;
-	Thu, 27 Jul 2023 10:32:05 +0000
-Date: Thu, 27 Jul 2023 18:31:47 +0800
+	id 1qOywW-0002DT-1R;
+	Thu, 27 Jul 2023 11:14:07 +0000
+Date: Thu, 27 Jul 2023 19:13:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Feiyang Chen <chenfeiyang@loongson.cn>, andrew@lunn.ch,
-	hkallweit1@gmail.com, peppe.cavallaro@st.com,
-	alexandre.torgue@foss.st.com, joabreu@synopsys.com,
-	chenhuacai@loongson.cn
-Cc: oe-kbuild-all@lists.linux.dev, Feiyang Chen <chenfeiyang@loongson.cn>,
-	linux@armlinux.org.uk, dongbiao@loongson.cn,
-	loongson-kernel@lists.loongnix.cn, netdev@vger.kernel.org,
-	loongarch@lists.linux.dev, chris.chenfeiyang@gmail.com
-Subject: Re: [PATCH v2 03/10] net: stmmac: dwmac1000: Add multi-channel
- support
-Message-ID: <202307271817.7iWaIMw7-lkp@intel.com>
-References: <373259d4ac9ac0b9e1e64ad96d60a9bbd35b85aa.1690439335.git.chenfeiyang@loongson.cn>
+To: Tanmay Jagdale <tanmay@marvell.com>, will@kernel.org,
+	robin.murphy@arm.com, joro@8bytes.org, baolu.lu@linux.intel.com,
+	thunder.leizhen@huawei.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	gcherian@marvell.com, sgoutham@marvell.com, lcherian@marvell.com,
+	bbhushan2@marvell.com
+Subject: Re: [RESEND PATCH 1/4] iommu/arm-smmu-v3: Add support for ECMDQ
+ register mode
+Message-ID: <202307271849.sqXiM3CK-lkp@intel.com>
+References: <20230721063513.33431-2-tanmay@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,89 +51,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <373259d4ac9ac0b9e1e64ad96d60a9bbd35b85aa.1690439335.git.chenfeiyang@loongson.cn>
+In-Reply-To: <20230721063513.33431-2-tanmay@marvell.com>
 
-Hi Feiyang,
+Hi Tanmay,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net/main]
-[also build test WARNING on linus/master v6.5-rc3]
-[cannot apply to sunxi/sunxi/for-next net-next/main horms-ipvs/master next-20230727]
+[auto build test WARNING on v6.5-rc2]
+[also build test WARNING on linus/master next-20230727]
+[cannot apply to joro-iommu/next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Feiyang-Chen/net-stmmac-Pass-stmmac_priv-and-chan-in-some-callbacks/20230727-155954
-base:   net/main
-patch link:    https://lore.kernel.org/r/373259d4ac9ac0b9e1e64ad96d60a9bbd35b85aa.1690439335.git.chenfeiyang%40loongson.cn
-patch subject: [PATCH v2 03/10] net: stmmac: dwmac1000: Add multi-channel support
-config: alpha-randconfig-r012-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271817.7iWaIMw7-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271817.7iWaIMw7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tanmay-Jagdale/iommu-arm-smmu-v3-Add-support-for-ECMDQ-register-mode/20230721-143913
+base:   v6.5-rc2
+patch link:    https://lore.kernel.org/r/20230721063513.33431-2-tanmay%40marvell.com
+patch subject: [RESEND PATCH 1/4] iommu/arm-smmu-v3: Add support for ECMDQ register mode
+config: arm64-randconfig-r083-20230726 (https://download.01.org/0day-ci/archive/20230727/202307271849.sqXiM3CK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271849.sqXiM3CK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307271817.7iWaIMw7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271849.sqXiM3CK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3573:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct arm_smmu_ecmdq *ecmdq @@     got struct arm_smmu_ecmdq [noderef] __percpu * @@
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3573:23: sparse:     expected struct arm_smmu_ecmdq *ecmdq
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3573:23: sparse:     got struct arm_smmu_ecmdq [noderef] __percpu *
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3578:58: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct arm_smmu_ecmdq * @@
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3578:58: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3578:58: sparse:     got struct arm_smmu_ecmdq *
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3604:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *addr @@     got void [noderef] __iomem *base @@
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3604:45: sparse:     expected void const *addr
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3604:45: sparse:     got void [noderef] __iomem *base
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through arch/arm64/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
+   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
+   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
 
->> drivers/net/ethernet/stmicro/stmmac/dwmac1000_dma.c:114:6: warning: no previous prototype for 'dwmac1000_dma_init_channel' [-Wmissing-prototypes]
-     114 | void dwmac1000_dma_init_channel(struct stmmac_priv *priv, void __iomem *ioaddr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +3573 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-
-vim +/dwmac1000_dma_init_channel +114 drivers/net/ethernet/stmicro/stmmac/dwmac1000_dma.c
-
-   113	
- > 114	void dwmac1000_dma_init_channel(struct stmmac_priv *priv, void __iomem *ioaddr,
-   115					struct stmmac_dma_cfg *dma_cfg,
-   116					u32 chan)
-   117	{
-   118		u32 value;
-   119		int txpbl = dma_cfg->txpbl ?: dma_cfg->pbl;
-   120		int rxpbl = dma_cfg->rxpbl ?: dma_cfg->pbl;
-   121	
-   122		if (!priv->plat->dwmac_is_loongson)
-   123			return;
-   124	
-   125		/* common channel control register config */
-   126		value = readl(ioaddr + DMA_BUS_MODE + chan * DMA_CHAN_OFFSET);
-   127	
-   128		/*
-   129		 * Set the DMA PBL (Programmable Burst Length) mode.
-   130		 *
-   131		 * Note: before stmmac core 3.50 this mode bit was 4xPBL, and
-   132		 * post 3.5 mode bit acts as 8*PBL.
-   133		 */
-   134		if (dma_cfg->pblx8)
-   135			value |= DMA_BUS_MODE_MAXPBL;
-   136		value |= DMA_BUS_MODE_USP;
-   137		value &= ~(DMA_BUS_MODE_PBL_MASK | DMA_BUS_MODE_RPBL_MASK);
-   138		value |= (txpbl << DMA_BUS_MODE_PBL_SHIFT);
-   139		value |= (rxpbl << DMA_BUS_MODE_RPBL_SHIFT);
-   140	
-   141		/* Set the Fixed burst mode */
-   142		if (dma_cfg->fixed_burst)
-   143			value |= DMA_BUS_MODE_FB;
-   144	
-   145		/* Mixed Burst has no effect when fb is set */
-   146		if (dma_cfg->mixed_burst)
-   147			value |= DMA_BUS_MODE_MB;
-   148	
-   149		value |= DMA_BUS_MODE_ATDS;
-   150	
-   151		if (dma_cfg->aal)
-   152			value |= DMA_BUS_MODE_AAL;
-   153	
-   154		writel(value, ioaddr + DMA_BUS_MODE + chan * DMA_CHAN_OFFSET);
-   155	
-   156		/* Mask interrupts by writing to CSR7 */
-   157		writel(DMA_INTR_DEFAULT_MASK,
-   158		       ioaddr + DMA_INTR_ENA + chan * DMA_CHAN_OFFSET);
-   159	}
-   160	
+  3566	
+  3567	static int arm_smmu_ecmdq_layout(struct arm_smmu_device *smmu)
+  3568	{
+  3569		int cpu;
+  3570		struct arm_smmu_ecmdq *ecmdq;
+  3571	
+  3572		if (num_possible_cpus() <= smmu->nr_ecmdq) {
+> 3573			ecmdq = devm_alloc_percpu(smmu->dev, *ecmdq);
+  3574			if (!ecmdq)
+  3575				return -ENOMEM;
+  3576	
+  3577			for_each_possible_cpu(cpu)
+> 3578				*per_cpu_ptr(smmu->ecmdq, cpu) = per_cpu_ptr(ecmdq, cpu);
+  3579	
+  3580			/* A core requires at most one ECMDQ */
+  3581			smmu->nr_ecmdq = num_possible_cpus();
+  3582	
+  3583			return 0;
+  3584		}
+  3585	
+  3586		return -ENOSPC;
+  3587	}
+  3588	
+  3589	static int arm_smmu_ecmdq_probe(struct arm_smmu_device *smmu)
+  3590	{
+  3591		int ret, cpu;
+  3592		u32 i, nump, numq, gap;
+  3593		u32 reg, shift_increment;
+  3594		u64 addr, smmu_dma_base;
+  3595		void __iomem *cp_regs, *cp_base;
+  3596	
+  3597		/* IDR6 */
+  3598		reg = readl_relaxed(smmu->base + ARM_SMMU_IDR6);
+  3599		nump = 1 << FIELD_GET(IDR6_LOG2NUMP, reg);
+  3600		numq = 1 << FIELD_GET(IDR6_LOG2NUMQ, reg);
+  3601		smmu->nr_ecmdq = nump * numq;
+  3602		gap = ECMDQ_CP_RRESET_SIZE >> FIELD_GET(IDR6_LOG2NUMQ, reg);
+  3603	
+> 3604		smmu_dma_base = (vmalloc_to_pfn(smmu->base) << PAGE_SHIFT);
+  3605		cp_regs = ioremap(smmu_dma_base + ARM_SMMU_ECMDQ_CP_BASE, PAGE_SIZE);
+  3606		if (!cp_regs)
+  3607			return -ENOMEM;
+  3608	
+  3609		for (i = 0; i < nump; i++) {
+  3610			u64 val, pre_addr;
+  3611	
+  3612			val = readq_relaxed(cp_regs + 32 * i);
+  3613			if (!(val & ECMDQ_CP_PRESET)) {
+  3614				iounmap(cp_regs);
+  3615				dev_err(smmu->dev, "ecmdq control page %u is memory mode\n", i);
+  3616				return -EFAULT;
+  3617			}
+  3618	
+  3619			if (i && ((val & ECMDQ_CP_ADDR) != (pre_addr + ECMDQ_CP_RRESET_SIZE))) {
+  3620				iounmap(cp_regs);
+  3621				dev_err(smmu->dev, "ecmdq_cp memory region is not contiguous\n");
+  3622				return -EFAULT;
+  3623			}
+  3624	
+  3625			pre_addr = val & ECMDQ_CP_ADDR;
+  3626		}
+  3627	
+  3628		addr = readl_relaxed(cp_regs) & ECMDQ_CP_ADDR;
+  3629		iounmap(cp_regs);
+  3630	
+  3631		cp_base = devm_ioremap(smmu->dev, smmu_dma_base + addr, ECMDQ_CP_RRESET_SIZE * nump);
+  3632		if (!cp_base)
+  3633			return -ENOMEM;
+  3634	
+  3635		smmu->ecmdq = devm_alloc_percpu(smmu->dev, struct arm_smmu_ecmdq *);
+  3636		if (!smmu->ecmdq)
+  3637			return -ENOMEM;
+  3638	
+  3639		ret = arm_smmu_ecmdq_layout(smmu);
+  3640		if (ret)
+  3641			return ret;
+  3642	
+  3643		shift_increment = order_base_2(num_possible_cpus() / smmu->nr_ecmdq);
+  3644	
+  3645		addr = 0;
+  3646		for_each_possible_cpu(cpu) {
+  3647			struct arm_smmu_ecmdq *ecmdq;
+  3648			struct arm_smmu_queue *q;
+  3649	
+  3650			ecmdq = *per_cpu_ptr(smmu->ecmdq, cpu);
+  3651			ecmdq->base = cp_base + addr;
+  3652	
+  3653			q = &ecmdq->cmdq.q;
+  3654	
+  3655			q->llq.max_n_shift = ECMDQ_MAX_SZ_SHIFT + shift_increment;
+  3656			ret = arm_smmu_init_one_queue(smmu, q, ecmdq->base, ARM_SMMU_ECMDQ_PROD,
+  3657					ARM_SMMU_ECMDQ_CONS, CMDQ_ENT_DWORDS, "ecmdq");
+  3658			if (ret)
+  3659				return ret;
+  3660	
+  3661			q->ecmdq_prod = ECMDQ_PROD_EN;
+  3662			rwlock_init(&q->ecmdq_lock);
+  3663	
+  3664			ret = arm_smmu_ecmdq_init(&ecmdq->cmdq);
+  3665			if (ret) {
+  3666				dev_err(smmu->dev, "ecmdq[%d] init failed\n", i);
+  3667				return ret;
+  3668			}
+  3669	
+  3670			addr += gap;
+  3671		}
+  3672	
+  3673		return 0;
+  3674	}
+  3675	
 
 -- 
 0-DAY CI Kernel Test Service
