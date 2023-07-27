@@ -1,105 +1,252 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DA227136;
-	Thu, 27 Jul 2023 18:56:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11600C433CA;
-	Thu, 27 Jul 2023 18:56:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690484184;
-	bh=GdpvQy+TLxh28j9Lg5uaAuL2Xcd/FYyhWzOcnOULMlw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=s2Ew6aBZARlLfx31eWWZweVOcZIMUduWA+np7Jf9y2zLOu3nvAouIoUG6zEQRMdKy
-	 x1v1mqXsdPNJTDfQxJuPL3SuEUBIs/RuBRIYYxF0cJTowePuG2CwwNTX2BDomSfk2j
-	 7dk+YV8ikL2xOs3P8dr+Y9lJZ/wjL0EXA8OHCAhoswbXsbpqXI2Hl7bs8tPOKCjjJL
-	 latFIBBoOf+Z+MFj6tSLGN9TlTzT9IA8nPZ5ueEKpUG33gHgHEtzVNnffog0EXa2f4
-	 59JBDwscyq81amAoRXGntXfMuYwnacklvAt9ntnIyOV1srhKPbkMy/TjpDyB5SVD1z
-	 bzxQNjqkPOI2g==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2b9ba3d6157so19817071fa.3;
-        Thu, 27 Jul 2023 11:56:23 -0700 (PDT)
-X-Gm-Message-State: ABy/qLaKVVnpo56Qyr7IY2CFJk7HMIcaI2jCqobmH7YOszr0gWlZ5t8r
-	6xzdh6Iv4yv5Ey588nvUi26BJ8v1TcVm5jtp7g==
-X-Google-Smtp-Source: APBJJlG4rtYiGyh12FBhcTdOAmGuW518edMYvz47WsBMlAInLev7gPxJ/hJNCFkrTIilCdzsj9806LAk0wdKvNfhnTA=
-X-Received: by 2002:a2e:9796:0:b0:2b6:e536:a2a9 with SMTP id
- y22-20020a2e9796000000b002b6e536a2a9mr2503657lji.47.1690484182034; Thu, 27
- Jul 2023 11:56:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7B827132
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 21:50:41 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fbb07e7155so30355e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 14:50:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1690494639; x=1691099439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RI0/6vL/m7bgkzyt2vUFGujFlbsSfvpOKZPzorAEEyc=;
+        b=0kz+ihkRydomSiHYc/gqMT7X2ms0VTHByJFGQ4RQj8hkFkpKQP7o6/1QtH0V0BiWAk
+         RlVEE557QqVqm4RQPjBU8Uev3dPTt6F1cLYc/ujNkpvLM7jQ/a9qoal64j1fFUKNF9WP
+         DoratLgAjK1SMzE2m18+o15Nq0jR5Sj9nWujMmkjp2LsO3sc43PxhtBcU6Z62g9TS2jb
+         iqBZj7Fcpsjo31xHFJFkqKUkQtNgAd/AoNKhyzroEIpBIK2bEKKMaps15vYK97gf/py/
+         Jb+AdcGFiu2OCPJJSrhIYalDBVHCkEVDN63hQoWxNioC30Wxc04ndbA1seszNSbTAw8j
+         gA1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690494639; x=1691099439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RI0/6vL/m7bgkzyt2vUFGujFlbsSfvpOKZPzorAEEyc=;
+        b=k+3hUHH0Kk+sKvi6n5n117u7WcaaluSt1G8I3/qQ80Gm5DQWJtY7Tc0qQVqNdxX3JS
+         20uOM/oC/EdW8PaFRGzgVxuQ1d+Vb2ew3eYzfTZyMFzIRYdC3WW9TjrPA7MGPqd4BiEA
+         lRcw03sqk4qK6y7SWSdK8bfFrREl9I6mae+0LhmFjtcEoFTqIPiN6FflnCql9Rley+pi
+         7+K9KRCl3+6A+SFc8hr+RLvNB0riYTPhQ7NlaJUR9DcclL0od/R+kdiwrXGtjK1s8+3u
+         PkTIgWqoUBjwxsv5pyRmgnJ1s6uijuumMA2OQq1il8bX3/UjR9N9ZpWk69DlduR1VgYg
+         zaVA==
+X-Gm-Message-State: ABy/qLZZLguV/H4tzAp5+EoT20RMfqAmXM+WNhsZeIksfniLfB0vSx9f
+	1SXJQFJghUlvGOIYMjnCk+N8M2tvVK/vd68DHTarIA==
+X-Google-Smtp-Source: APBJJlEpi+j4SuzDxnrOmvVKFnq/Z9MusBXqaHl8J/+/7mrzDnD23tMUwzWnawJa3x4Qy5qvDHDfabEcDJvd5zXN7jM=
+X-Received: by 2002:a05:600c:4753:b0:3f6:f4b:d4a6 with SMTP id
+ w19-20020a05600c475300b003f60f4bd4a6mr16057wmo.7.1690494639171; Thu, 27 Jul
+ 2023 14:50:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202307280212.w1lY1gCG-lkp@intel.com>
-In-Reply-To: <202307280212.w1lY1gCG-lkp@intel.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 27 Jul 2023 12:56:10 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKGgt18rPaE1JsVZGru6Y-gwyf3t94gL+Knpt21QRW6sQ@mail.gmail.com>
-Message-ID: <CAL_JsqKGgt18rPaE1JsVZGru6Y-gwyf3t94gL+Knpt21QRW6sQ@mail.gmail.com>
-Subject: Re: [linux-next:master 3825/5027] arch/mips/pic32/pic32mzda/config.c:22:8:
- error: type specifier missing, defaults to 'int'; ISO C99 and later do not
- support implicit int
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+References: <20230725212522.1622716-5-rmoar@google.com> <3cfb0706-0873-4839-b6e1-e8f1c994d6a6@kadam.mountain>
+In-Reply-To: <3cfb0706-0873-4839-b6e1-e8f1c994d6a6@kadam.mountain>
+From: Rae Moar <rmoar@google.com>
+Date: Thu, 27 Jul 2023 17:50:26 -0400
+Message-ID: <CA+GJov4m=Rh4g8RxhK+Aq+grJK6yZvghEn_B2NXqCOuq_eDvxw@mail.gmail.com>
+Subject: Re: [PATCH v3 4/9] kunit: Add ability to filter attributes
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 27, 2023 at 12:19=E2=80=AFPM kernel test robot <lkp@intel.com> =
-wrote:
+On Thu, Jul 27, 2023 at 1:12=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
 >
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   451cc82bd11eb6a374f4dbcfc1cf007eafea91ab
-> commit: 657c45b303f87d77eb4ef49e9452f1c5d1fc363c [3825/5027] MIPS: Explic=
-itly include correct DT includes
-> config: mips-randconfig-r022-20230727 (https://download.01.org/0day-ci/ar=
-chive/20230728/202307280212.w1lY1gCG-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git =
-4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280212=
-.w1lY1gCG-lkp@intel.com/reproduce)
+> Hi Rae,
+>
+> kernel test robot noticed the following build warnings:
+>
+
+Hello!
+
+Sorry for this bug. It looks like I have a few uninitialized
+variables. I am going to send out a fix for this in the next day or
+so.
+
+> url:    https://github.com/intel-lab-lkp/linux/commits/Rae-Moar/kunit-Add=
+-test-attributes-API-structure/20230726-052754
+> base:   64bd4641310c41a1ecf07c13c67bc0ed61045dfd
+> patch link:    https://lore.kernel.org/r/20230725212522.1622716-5-rmoar%4=
+0google.com
+> patch subject: [PATCH v3 4/9] kunit: Add ability to filter attributes
+> config: parisc-randconfig-m041-20230726 (https://download.01.org/0day-ci/=
+archive/20230727/202307270610.s0w4NKEn-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230727/202307270610=
+.s0w4NKEn-lkp@intel.com/reproduce)
 >
 > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
 ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307280212.w1lY1gCG-lkp=
-@intel.com/
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202307270610.s0w4NKEn-lkp@intel.com/
 >
-> All errors (new ones prefixed by >>):
+> New smatch warnings:
+> lib/kunit/attributes.c:127 attr_enum_filter() error: uninitialized symbol=
+ 'input_int'.
+> lib/kunit/attributes.c:262 kunit_get_filter_count() error: uninitialized =
+symbol 'comma_index'.
+> lib/kunit/attributes.c:284 kunit_next_attr_filter() error: uninitialized =
+symbol 'comma_index'.
+> lib/kunit/executor.c:168 kunit_filter_suites() error: uninitialized symbo=
+l 'filter_count'.
+> lib/kunit/executor.c:171 kunit_filter_suites() error: uninitialized symbo=
+l 'parsed_filters'.
+
+I'll initialize filter_count as 0. I'll also initialize parsed_filters
+as NULL and add an extra check for parsed_filters.
+
 >
-> >> arch/mips/pic32/pic32mzda/config.c:22:8: error: type specifier missing=
-, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimpli=
-cit-int]
->       22 | static DEFINE_SPINLOCK(config_lock);
->          | ~~~~~~ ^
->          | int
-> >> arch/mips/pic32/pic32mzda/config.c:22:24: error: a parameter list with=
-out types is only allowed in a function definition
->       22 | static DEFINE_SPINLOCK(config_lock);
->          |                        ^
-> >> arch/mips/pic32/pic32mzda/config.c:41:2: error: call to undeclared fun=
-ction 'spin_lock_irqsave'; ISO C99 and later do not support implicit functi=
-on declarations [-Wimplicit-function-declaration]
->       41 |         spin_lock_irqsave(&config_lock, flags);
->          |         ^
-> >> arch/mips/pic32/pic32mzda/config.c:41:21: error: use of undeclared ide=
-ntifier 'config_lock'
->       41 |         spin_lock_irqsave(&config_lock, flags);
->          |                            ^
-> >> arch/mips/pic32/pic32mzda/config.c:46:2: error: call to undeclared fun=
-ction 'spin_unlock_irqrestore'; ISO C99 and later do not support implicit f=
-unction declarations [-Wimplicit-function-declaration]
->       46 |         spin_unlock_irqrestore(&config_lock, flags);
->          |         ^
->    arch/mips/pic32/pic32mzda/config.c:46:26: error: use of undeclared ide=
-ntifier 'config_lock'
->       46 |         spin_unlock_irqrestore(&config_lock, flags);
->          |                                 ^
->    6 errors generated.
+> Old smatch warnings:
+> lib/kunit/attributes.c:267 kunit_get_filter_count() error: uninitialized =
+symbol 'comma_index'.
+> lib/kunit/executor.c:201 kunit_filter_suites() error: uninitialized symbo=
+l 'filter_count'.
+> lib/kunit/executor.c:202 kunit_filter_suites() error: uninitialized symbo=
+l 'parsed_filters'.
+>
+> vim +/input_int +127 lib/kunit/attributes.c
+>
+> 793862a3f94d2f Rae Moar 2023-07-25  102  static int attr_enum_filter(void=
+ *attr, const char *input, int *err,
+> 793862a3f94d2f Rae Moar 2023-07-25  103                 const char * cons=
+t str_list[], int max)
+> 793862a3f94d2f Rae Moar 2023-07-25  104  {
+> 793862a3f94d2f Rae Moar 2023-07-25  105         int i, j, input_int;
+>                                                           ^^^^^^^^^
+>
+> 793862a3f94d2f Rae Moar 2023-07-25  106         long test_val =3D (long)a=
+ttr;
+> 793862a3f94d2f Rae Moar 2023-07-25  107         const char *input_val =3D=
+ NULL;
+> 793862a3f94d2f Rae Moar 2023-07-25  108
+> 793862a3f94d2f Rae Moar 2023-07-25  109         for (i =3D 0; input[i]; i=
+++) {
+> 793862a3f94d2f Rae Moar 2023-07-25  110                 if (!strchr(op_li=
+st, input[i])) {
+> 793862a3f94d2f Rae Moar 2023-07-25  111                         input_val=
+ =3D input + i;
+> 793862a3f94d2f Rae Moar 2023-07-25  112                         break;
+> 793862a3f94d2f Rae Moar 2023-07-25  113                 }
+> 793862a3f94d2f Rae Moar 2023-07-25  114         }
+> 793862a3f94d2f Rae Moar 2023-07-25  115
+> 793862a3f94d2f Rae Moar 2023-07-25  116         if (!input_val) {
+> 793862a3f94d2f Rae Moar 2023-07-25  117                 *err =3D -EINVAL;
+> 793862a3f94d2f Rae Moar 2023-07-25  118                 pr_err("kunit exe=
+cutor: filter value not found: %s\n", input);
+> 793862a3f94d2f Rae Moar 2023-07-25  119                 return false;
+> 793862a3f94d2f Rae Moar 2023-07-25  120         }
+> 793862a3f94d2f Rae Moar 2023-07-25  121
+> 793862a3f94d2f Rae Moar 2023-07-25  122         for (j =3D 0; j <=3D max;=
+ j++) {
+> 793862a3f94d2f Rae Moar 2023-07-25  123                 if (!strcmp(input=
+_val, str_list[j]))
+> 793862a3f94d2f Rae Moar 2023-07-25  124                         input_int=
+ =3D j;
+> 793862a3f94d2f Rae Moar 2023-07-25  125         }
+> 793862a3f94d2f Rae Moar 2023-07-25  126
+> 793862a3f94d2f Rae Moar 2023-07-25 @127         if (!input_int) {
+>
+> This is a bug, but wait, what?  Why is the first element invalid?  Maybe
+> do:
+>         int input_int =3D -1;
+>
+>         for (j =3D 0; j <=3D max; j++) {
+>                 if found
+>                         input_int =3D j;
+>         }
+>
+>         if (input_int =3D=3D -1) {
+>
 
-Already fixed in [1].
+What you have above looks like a great change.
 
-Rob
+> 793862a3f94d2f Rae Moar 2023-07-25  128                 *err =3D -EINVAL;
+> 793862a3f94d2f Rae Moar 2023-07-25  129                 pr_err("kunit exe=
+cutor: invalid filter input: %s\n", input);
+> 793862a3f94d2f Rae Moar 2023-07-25  130                 return false;
+> 793862a3f94d2f Rae Moar 2023-07-25  131         }
+> 793862a3f94d2f Rae Moar 2023-07-25  132
+> 793862a3f94d2f Rae Moar 2023-07-25  133         return int_filter(test_va=
+l, input, input_int, err);
+> 793862a3f94d2f Rae Moar 2023-07-25  134  }
+>
+> [ snip ]
+>
+> 793862a3f94d2f Rae Moar 2023-07-25  256  int kunit_get_filter_count(char =
+*input)
+> 793862a3f94d2f Rae Moar 2023-07-25  257  {
+> 793862a3f94d2f Rae Moar 2023-07-25  258         int i, comma_index, count=
+ =3D 0;
+> 793862a3f94d2f Rae Moar 2023-07-25  259
+> 793862a3f94d2f Rae Moar 2023-07-25  260         for (i =3D 0; input[i]; i=
+++) {
+> 793862a3f94d2f Rae Moar 2023-07-25  261                 if (input[i] =3D=
+=3D ',') {
+> 793862a3f94d2f Rae Moar 2023-07-25 @262                         if ((i - =
+comma_index) > 1)
+>
+> initialize comma_index =3D 0
 
-[1] https://lore.kernel.org/all/20230727012028.3933785-1-robh@kernel.org/
+I will change this to be initialized to 0.
+
+>
+> 793862a3f94d2f Rae Moar 2023-07-25  263                                 c=
+ount++;
+> 793862a3f94d2f Rae Moar 2023-07-25  264                         comma_ind=
+ex =3D i;
+> 793862a3f94d2f Rae Moar 2023-07-25  265                 }
+> 793862a3f94d2f Rae Moar 2023-07-25  266         }
+> 793862a3f94d2f Rae Moar 2023-07-25  267         if ((i - comma_index) > 0=
+)
+> 793862a3f94d2f Rae Moar 2023-07-25  268                 count++;
+> 793862a3f94d2f Rae Moar 2023-07-25  269         return count;
+> 793862a3f94d2f Rae Moar 2023-07-25  270  }
+> 793862a3f94d2f Rae Moar 2023-07-25  271
+> 793862a3f94d2f Rae Moar 2023-07-25  272  struct kunit_attr_filter kunit_n=
+ext_attr_filter(char **filters, int *err)
+> 793862a3f94d2f Rae Moar 2023-07-25  273  {
+> 793862a3f94d2f Rae Moar 2023-07-25  274         struct kunit_attr_filter =
+filter =3D {};
+> 793862a3f94d2f Rae Moar 2023-07-25  275         int i, j, comma_index, ne=
+w_start_index;
+> 793862a3f94d2f Rae Moar 2023-07-25  276         int op_index =3D -1, attr=
+_index =3D -1;
+> 793862a3f94d2f Rae Moar 2023-07-25  277         char op;
+> 793862a3f94d2f Rae Moar 2023-07-25  278         char *input =3D *filters;
+> 793862a3f94d2f Rae Moar 2023-07-25  279
+> 793862a3f94d2f Rae Moar 2023-07-25  280         /* Parse input until oper=
+ation */
+> 793862a3f94d2f Rae Moar 2023-07-25  281         for (i =3D 0; input[i]; i=
+++) {
+> 793862a3f94d2f Rae Moar 2023-07-25  282                 if (op_index < 0 =
+&& strchr(op_list, input[i])) {
+> 793862a3f94d2f Rae Moar 2023-07-25  283                         op_index =
+=3D i;
+> 793862a3f94d2f Rae Moar 2023-07-25 @284                 } else if (!comma=
+_index && input[i] =3D=3D ',') {
+>
+> same
+
+I will also change this here.
+
+>
+> 793862a3f94d2f Rae Moar 2023-07-25  285                         comma_ind=
+ex =3D i;
+> 793862a3f94d2f Rae Moar 2023-07-25  286                 } else if (comma_=
+index && input[i] !=3D ' ') {
+> 793862a3f94d2f Rae Moar 2023-07-25  287                         new_start=
+_index =3D i;
+> 793862a3f94d2f Rae Moar 2023-07-25  288                         break;
+> 793862a3f94d2f Rae Moar 2023-07-25  289                 }
+> 793862a3f94d2f Rae Moar 2023-07-25  290         }
+> 793862a3f94d2f Rae Moar 2023-07-25  291
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
