@@ -1,45 +1,45 @@
-Received: from mgamail.intel.com (unknown [192.55.52.151])
+Received: from mgamail.intel.com (unknown [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D583E56E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 11:56:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2AD1642F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 12:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690458967; x=1721994967;
+  t=1690460002; x=1721996002;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Efx8SU0zT/55gwggD9encEin8NWX/ogU9zQy6lkXD6U=;
-  b=grLyzPAzgIGENc4QtgxZPNecrb7v5z13WGdiAxVBYH8zVCwDzjAGDdfZ
-   jiAOVRB4pFAgzGem8UlZ8iD5YTXu2NveJGuPm/kvecQKurMyB+wx9BT8R
-   Zqrqr/jTe809gRXRaOLm9Nz/q1arDXs0YQCv0Vbq1YIeIF8RElzLfBGZS
-   vTG7dop3MZ5M/ADTnm/IrFF3aWOzl+7JgSl3YzYjKepj7abfl6kH83Y2L
-   D3kiI5MSBmxNgCHWJ8PnTaYoSajEEt5VEd+MemWm/bpAXdNO59ewrJZbN
-   te/8ThyAibEaxQ0kNUN9ePwYwi8lmoXX0Ym5kUV3TLU6KyYZFbaJ+Av3m
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="348567989"
+  bh=nj1bLAO6nWuDBL3butQPoSSnCKclxrz8U3Ia9YH9SxM=;
+  b=lNcqPXPufm0hIexxSXPQqJsH0HtLEH9kqsyfYiv5UzB+n2IhkUGiJLRJ
+   Y9nF4qdqxMkpfxbVO/T/3UANyQuut5T5XVFpxskAj3hnvSRwAdvvzqiIN
+   9vHLvQeuoTXiGOmLRX1mIpkClxz3KRx9eBqkoWprGwyyVECA1BzPW6KEc
+   VrMnAQTBhpSQqoSS8hAVmfe1p7Kv5GDd3hU/zohZXhVfBlyT7BVMR9+Zb
+   GV79+1y3XUMP5OlSXdY/7bic/m8E/eGAIUgtL6iIstcln5pNBlvAC3kgd
+   YtOX6emiA+J3aopNATKohOfAIeHLuWPf/7ll3TuQUxtwu5SRQ1ZmCwiHd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="367167780"
 X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
-   d="scan'208";a="348567989"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 04:56:04 -0700
+   d="scan'208";a="367167780"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 05:06:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="870339754"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="730252650"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="730252650"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2023 04:56:03 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 27 Jul 2023 05:06:02 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qOzb7-0002FJ-1A;
-	Thu, 27 Jul 2023 11:56:01 +0000
-Date: Thu, 27 Jul 2023 19:55:12 +0800
+	id 1qOzkn-0002Ff-2F;
+	Thu, 27 Jul 2023 12:06:01 +0000
+Date: Thu, 27 Jul 2023 20:05:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org
-Subject: [tip:x86/shstk 6/42] htmldocs: Warning: arch/x86/Kconfig references
- a file that doesn't exist: Documentation/x86/shstk.rst
-Message-ID: <202307271956.IxoG9X0c-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Arnd Bergmann <arnd@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>
+Subject: [linux-next:master 4460/5027] include/linux/jump_label.h:81:35:
+ error: implicit declaration of function 'WARN'
+Message-ID: <202307271907.B7vh0S4A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,19 +49,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/shstk
-head:   c19a153cc0b172c8e1869d6dee52f6aadd73d3c4
-commit: 18e66b695e787374ca762ecdeaa1ab5e3772af94 [6/42] x86/shstk: Add Kconfig option for shadow stack
-reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271956.IxoG9X0c-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   451cc82bd11eb6a374f4dbcfc1cf007eafea91ab
+commit: de2f542cfbec295ac0f9b6a832d7b3ba20df391f [4460/5027] fs/proc: Add /proc/cmdline_load for boot loader arguments
+config: arm64-randconfig-r061-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271907.B7vh0S4A-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271907.B7vh0S4A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307271956.IxoG9X0c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271907.B7vh0S4A-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the linux-next/master HEAD 451cc82bd11eb6a374f4dbcfc1cf007eafea91ab builds fine.
+      It may have been fixed somewhere.
 
->> Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/shstk.rst
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/static_key.h:1,
+                    from include/linux/kasan-enabled.h:5,
+                    from arch/arm64/include/asm/cache.h:41,
+                    from include/linux/cache.h:6,
+                    from include/linux/init.h:116,
+                    from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/fortify-string.h:5,
+                    from include/linux/string.h:254,
+                    from include/linux/uuid.h:11,
+                    from include/linux/mod_devicetable.h:14,
+                    from scripts/mod/devicetable-offsets.c:3:
+   include/linux/jump_label.h: In function 'static_key_fast_inc_not_disabled':
+>> include/linux/jump_label.h:81:35: error: implicit declaration of function 'WARN' [-Werror=implicit-function-declaration]
+      81 | #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,               \
+         |                                   ^~~~
+   include/linux/jump_label.h:286:9: note: in expansion of macro 'STATIC_KEY_CHECK_USE'
+     286 |         STATIC_KEY_CHECK_USE(key);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/jump_label.h: In function 'static_key_enable':
+>> include/linux/jump_label.h:322:17: error: implicit declaration of function 'WARN_ON_ONCE' [-Werror=implicit-function-declaration]
+     322 |                 WARN_ON_ONCE(atomic_read(&key->enabled) != 1);
+         |                 ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:116: scripts/mod/devicetable-offsets.s] Error 1
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1274: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/WARN +81 include/linux/jump_label.h
+
+c4b2c0c5f647aa Hannes Frederic Sowa 2013-10-19  80  
+5cdda5117e125e Borislav Petkov      2017-10-18 @81  #define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized,		      \
+5cdda5117e125e Borislav Petkov      2017-10-18  82  				    "%s(): static key '%pS' used before call to jump_label_init()", \
+5cdda5117e125e Borislav Petkov      2017-10-18  83  				    __func__, (key))
+d430d3d7e646eb Jason Baron          2011-03-16  84  
+
+:::::: The code at line 81 was first introduced by commit
+:::::: 5cdda5117e125e0dbb020425cc55a4c143c6febc locking/static_keys: Improve uninitialized key warning
+
+:::::: TO: Borislav Petkov <bp@suse.de>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
