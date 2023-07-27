@@ -1,53 +1,43 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874F85253
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 05:35:53 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fbc5d5746cso5770385e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Jul 2023 22:35:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690436151; x=1691040951;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ftumy01F0Ko1xW2hs0crQpUrNaDf+ViDOsglCguDcFA=;
-        b=o209E11dTN46mx03WZNxUbOse9BjutpAW3039IRt/ufJPO3Y7r+6uX88D8cgUdon+C
-         AIS1hOrTVAeyd0+477aaCPFGfgtem38oEjl+WRqT3nny8hjTe0MA7EF32bENY744LfW8
-         tiq+VG6FWm4UCZmIxnVEpXfdkgMLmhfBrnKUwqmSkY5CmUYPcMuHxShbtIAhk+WiaG39
-         MwHQp/EJDm7Z2BxRWu7FYZ5C/JrUf7SJ612B39gGWlB2utQ4xPqZOPSKgbtGBrht79Dj
-         HagP6RPEAdgmm/gtaN5TsADrsuKApe1iO48bsb44ZI6VSmrUlwUuMa5Fel45Vk6aGBfc
-         oCMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690436151; x=1691040951;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ftumy01F0Ko1xW2hs0crQpUrNaDf+ViDOsglCguDcFA=;
-        b=NKo97Yu/zviAc70naRVSy77P4KefSFwNJMk3v3nKnSThakSjeuCKZF7pAj0d2B/vDe
-         lIFr0BZgE5ycei3P3VoHTSIMjSSF6+ZVDnGN2SZVQtz7F3dJHAW2Kffn9nLnoR+0ZUtt
-         CL+C+JWZIURt8R0R/PCJcB/bRHJgas+txB4wvFGhwjhSTyl47UcpV1D01980/sTwnM1H
-         uwo9WXiFqiZd4eO5wgKk+SN/cTip2bD28wtRLlolU8w/f196smAmr1MUMOC6FNhiehRV
-         TLN7+4W5vhoWrhyOngnG90Z15CqwqGjr2/A9JtAHOlM0r22gBqL4Q9ZoIpIvJCiq8mzv
-         bpew==
-X-Gm-Message-State: ABy/qLbTJi1b+nlEST++/yIB+bj28hzFGyHOaTKVhiIOvZE31oVNXMh3
-	2rpHWRaRenLQ48g7h/BT8a/EF2gSZkxTmazDi4Y=
-X-Google-Smtp-Source: APBJJlEsJPQjvGo+rB2dJPNqvRvmfx49TydEw+OzOTWp5o/8mQYZWXfSc54kYmYKpjEgzau4Qg/y2A==
-X-Received: by 2002:adf:ff89:0:b0:317:6b16:497e with SMTP id j9-20020adfff89000000b003176b16497emr710486wrr.42.1690436151569;
-        Wed, 26 Jul 2023 22:35:51 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t4-20020a0560001a4400b003176053506fsm833310wry.99.2023.07.26.22.35.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jul 2023 22:35:51 -0700 (PDT)
-Date: Thu, 27 Jul 2023 08:35:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Helge Deller <deller@gmx.de>
-Cc: oe-kbuild@lists.linux.dev, Marco Elver <elver@google.com>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: mm/kfence/kfence_test.c:287 test_alloc() warn: use 'gfp' here
- instead of GFP_KERNEL?
-Message-ID: <7f9f8c77-044c-4c20-85ba-3c1ef4e6a358@kadam.mountain>
-References: <9e72b7ea-9598-415d-bc55-f2f42b7fcb3b@kadam.mountain>
- <fea8677b-348a-dd67-4eac-12c547afa00d@gmx.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4769AA941
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Jul 2023 06:19:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690438758; x=1721974758;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eNOkX+Jlj6aFWnX9XN7vfYO6yOlmkOXGWl+u+hUdBc0=;
+  b=YCMqI3UVmoRpTa3zNvvqDApRrgrYrcGfPpwlnNZnp5ySqHlHLTLx5mbb
+   NU3HL13qqikOr0okmJFoSgkktn2BkU/U8psjMHkKA/lYSCjTHlhhKOXZx
+   ZQGyVitkRQjlT4MfbQrDgWEmSvwO1/Xw52PXFeETMkgt5AkYEwBaU/dIm
+   ygT7u4GkXVYZ4vc28qQ7KiZnx+fEmtj6Lrpy48EVGAf1Fq0/3+TOLaiE0
+   Ii0fQX3vPSJ7/Yrr8LLDAJqXGn1qI8aAeEznYEyRwun7zJjRM6MjcGLVn
+   RAzvDDfTOyU7h+XC2vaps8hBmjuE5nOZVNqoWhaCNftDap+xjJHA0nSeJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="347825929"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="347825929"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 23:19:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="762042079"
+X-IronPort-AV: E=Sophos;i="6.01,234,1684825200"; 
+   d="scan'208";a="762042079"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 26 Jul 2023 23:12:37 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qOuEl-000206-1p;
+	Thu, 27 Jul 2023 06:12:35 +0000
+Date: Thu, 27 Jul 2023 14:12:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:for-kernelci 2/2] drivers/char/hw_random/amd-rng.c:167:24:
+ error: implicit declaration of function 'ioport_map'; did you mean
+ 'ioremap'?
+Message-ID: <202307271454.LeUzJPye-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,33 +46,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fea8677b-348a-dd67-4eac-12c547afa00d@gmx.de>
 
-On Thu, Jul 27, 2023 at 07:23:23AM +0200, Helge Deller wrote:
-> > bc8fbc5f305aec Marco Elver     2021-02-25  282  			alloc = kmalloc(size, gfp);
-> >                                                                                                ^^^
-> > 
-> > bc8fbc5f305aec Marco Elver     2021-02-25  283
-> > bc8fbc5f305aec Marco Elver     2021-02-25  284  		if (is_kfence_address(alloc)) {
-> > 8dae0cfed57357 Vlastimil Babka 2021-11-03  285  			struct slab *slab = virt_to_slab(alloc);
-> > 588c7fa022d7b2 Hyeonggon Yoo   2021-06-28  286  			struct kmem_cache *s = test_cache ?:
-> > 588c7fa022d7b2 Hyeonggon Yoo   2021-06-28 @287  					kmalloc_caches[kmalloc_type(GFP_KERNEL)][__kmalloc_index(size, false)];
-> >                                                                                                                      ^^^^^^^^^^
-> > I feel like using gfp might be correct but I'm not sure?  This code
-> > is from prior to this commit.  Let's add Marco to the CC.
-> 
-> Since this is a test program, I assume that "GFP_KERNEL" is used intentionally
-> instead of "gfp" here to check if the "kmalloc(size, gfp)" above gets the right kmalloc_caches[].
-> If so, is there a way to silence the smatch warning ("mm/kfence/kfence_test.c:287 test_alloc() warn: use 'gfp' here instead of GFP_KERNEL?") ?
-> But I'm not sure either, so adding Hyeonggon to the CC too...
+Hi Rob,
 
-Instead of silencing warnings, I prefer to just look at them one time
-and move on.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-Old warnings are included in the emails if someone touches the code
-again.  The other double free warnings are an example of this.  (Except
-that I never have forwarded them before because they're intentional as
-part of testing kfence.)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   683789ff1e1c0a9373ca20daed4bbc700eccc22e
+commit: 683789ff1e1c0a9373ca20daed4bbc700eccc22e [2/2] hw_random: Enable COMPILE_TEST for more drivers
+config: openrisc-randconfig-r001-20230726 (https://download.01.org/0day-ci/archive/20230727/202307271454.LeUzJPye-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271454.LeUzJPye-lkp@intel.com/reproduce)
 
-regards,
-dan carpenter
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307271454.LeUzJPye-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/char/hw_random/amd-rng.c: In function 'amd_rng_mod_init':
+>> drivers/char/hw_random/amd-rng.c:167:24: error: implicit declaration of function 'ioport_map'; did you mean 'ioremap'? [-Werror=implicit-function-declaration]
+     167 |         priv->iobase = ioport_map(pmbase + PMBASE_OFFSET, PMBASE_SIZE);
+         |                        ^~~~~~~~~~
+         |                        ioremap
+   drivers/char/hw_random/amd-rng.c:167:22: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     167 |         priv->iobase = ioport_map(pmbase + PMBASE_OFFSET, PMBASE_SIZE);
+         |                      ^
+>> drivers/char/hw_random/amd-rng.c:187:9: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
+     187 |         ioport_unmap(priv->iobase);
+         |         ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +167 drivers/char/hw_random/amd-rng.c
+
+96d63c0297ccfd Michael Buesch   2006-06-26  126  
+f0d9ff8c8efb90 Randy Dunlap     2021-07-11  127  static int __init amd_rng_mod_init(void)
+96d63c0297ccfd Michael Buesch   2006-06-26  128  {
+b7c3635e56d656 Colin Ian King   2021-04-29  129  	int err;
+96d63c0297ccfd Michael Buesch   2006-06-26  130  	struct pci_dev *pdev = NULL;
+96d63c0297ccfd Michael Buesch   2006-06-26  131  	const struct pci_device_id *ent;
+96d63c0297ccfd Michael Buesch   2006-06-26  132  	u32 pmbase;
+7bad2cc062b343 Corentin LABBE   2016-08-26  133  	struct amd768_priv *priv;
+96d63c0297ccfd Michael Buesch   2006-06-26  134  
+96d63c0297ccfd Michael Buesch   2006-06-26  135  	for_each_pci_dev(pdev) {
+96d63c0297ccfd Michael Buesch   2006-06-26  136  		ent = pci_match_id(pci_tbl, pdev);
+96d63c0297ccfd Michael Buesch   2006-06-26  137  		if (ent)
+96d63c0297ccfd Michael Buesch   2006-06-26  138  			goto found;
+96d63c0297ccfd Michael Buesch   2006-06-26  139  	}
+96d63c0297ccfd Michael Buesch   2006-06-26  140  	/* Device not found. */
+7bad2cc062b343 Corentin LABBE   2016-08-26  141  	return -ENODEV;
+96d63c0297ccfd Michael Buesch   2006-06-26  142  
+96d63c0297ccfd Michael Buesch   2006-06-26  143  found:
+96d63c0297ccfd Michael Buesch   2006-06-26  144  	err = pci_read_config_dword(pdev, 0x58, &pmbase);
+96d63c0297ccfd Michael Buesch   2006-06-26  145  	if (err)
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  146  		goto put_dev;
+7bad2cc062b343 Corentin LABBE   2016-08-26  147  
+96d63c0297ccfd Michael Buesch   2006-06-26  148  	pmbase &= 0x0000FF00;
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  149  	if (pmbase == 0) {
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  150  		err = -EIO;
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  151  		goto put_dev;
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  152  	}
+7bad2cc062b343 Corentin LABBE   2016-08-26  153  
+69db7009318758 Prarit Bhargava  2017-03-14  154  	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  155  	if (!priv) {
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  156  		err = -ENOMEM;
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  157  		goto put_dev;
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  158  	}
+7bad2cc062b343 Corentin LABBE   2016-08-26  159  
+69db7009318758 Prarit Bhargava  2017-03-14  160  	if (!request_region(pmbase + PMBASE_OFFSET, PMBASE_SIZE, DRV_NAME)) {
+f8169bfb4955eb Corentin LABBE   2016-08-26  161  		dev_err(&pdev->dev, DRV_NAME " region 0x%x already in use!\n",
+bd68ccb390f0d9 Dmitry Baryshkov 2011-04-27  162  			pmbase + 0xF0);
+69db7009318758 Prarit Bhargava  2017-03-14  163  		err = -EBUSY;
+69db7009318758 Prarit Bhargava  2017-03-14  164  		goto out;
+bd68ccb390f0d9 Dmitry Baryshkov 2011-04-27  165  	}
+3c343a37644c5f Corentin LABBE   2016-08-26  166  
+69db7009318758 Prarit Bhargava  2017-03-14 @167  	priv->iobase = ioport_map(pmbase + PMBASE_OFFSET, PMBASE_SIZE);
+f7eca278a8f81e Wei Yongjun      2016-09-16  168  	if (!priv->iobase) {
+3c343a37644c5f Corentin LABBE   2016-08-26  169  		pr_err(DRV_NAME "Cannot map ioport\n");
+69db7009318758 Prarit Bhargava  2017-03-14  170  		err = -EINVAL;
+69db7009318758 Prarit Bhargava  2017-03-14  171  		goto err_iomap;
+3c343a37644c5f Corentin LABBE   2016-08-26  172  	}
+3c343a37644c5f Corentin LABBE   2016-08-26  173  
+7bad2cc062b343 Corentin LABBE   2016-08-26  174  	amd_rng.priv = (unsigned long)priv;
+69db7009318758 Prarit Bhargava  2017-03-14  175  	priv->pmbase = pmbase;
+7bad2cc062b343 Corentin LABBE   2016-08-26  176  	priv->pcidev = pdev;
+96d63c0297ccfd Michael Buesch   2006-06-26  177  
+f8169bfb4955eb Corentin LABBE   2016-08-26  178  	pr_info(DRV_NAME " detected\n");
+69db7009318758 Prarit Bhargava  2017-03-14  179  	err = hwrng_register(&amd_rng);
+69db7009318758 Prarit Bhargava  2017-03-14  180  	if (err) {
+69db7009318758 Prarit Bhargava  2017-03-14  181  		pr_err(DRV_NAME " registering failed (%d)\n", err);
+69db7009318758 Prarit Bhargava  2017-03-14  182  		goto err_hwrng;
+69db7009318758 Prarit Bhargava  2017-03-14  183  	}
+69db7009318758 Prarit Bhargava  2017-03-14  184  	return 0;
+69db7009318758 Prarit Bhargava  2017-03-14  185  
+69db7009318758 Prarit Bhargava  2017-03-14  186  err_hwrng:
+69db7009318758 Prarit Bhargava  2017-03-14 @187  	ioport_unmap(priv->iobase);
+69db7009318758 Prarit Bhargava  2017-03-14  188  err_iomap:
+69db7009318758 Prarit Bhargava  2017-03-14  189  	release_region(pmbase + PMBASE_OFFSET, PMBASE_SIZE);
+69db7009318758 Prarit Bhargava  2017-03-14  190  out:
+69db7009318758 Prarit Bhargava  2017-03-14  191  	kfree(priv);
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  192  put_dev:
+ecadb5b0111ea1 Xiongfeng Wang   2022-12-02  193  	pci_dev_put(pdev);
+69db7009318758 Prarit Bhargava  2017-03-14  194  	return err;
+96d63c0297ccfd Michael Buesch   2006-06-26  195  }
+96d63c0297ccfd Michael Buesch   2006-06-26  196  
+
+:::::: The code at line 167 was first introduced by commit
+:::::: 69db7009318758769d625b023402161c750f7876 hwrng: amd - Revert managed API changes
+
+:::::: TO: Prarit Bhargava <prarit@redhat.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
