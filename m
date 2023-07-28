@@ -1,44 +1,42 @@
-Received: from mgamail.intel.com (unknown [134.134.136.65])
+Received: from mgamail.intel.com (unknown [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0384723B8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 21:54:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A8023B8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 22:04:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690581265; x=1722117265;
+  t=1690581873; x=1722117873;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tB0vUZod/MLqhGegN42+FU1vjFJh8etnNga3Zn7l+o8=;
-  b=RoJK2CZMGMcxu3p5B4rbwg2gyYDlKVRwd/SVigoOrrQBcV2Cv6BU4OLY
-   Yauk3hD7mu/3gx2VSOtvfOGI8avxKRSmf6miPoSDNszmZq2wbafz7G1/G
-   v1MbVwgENzBtZl2x+iiQGwf/Hyo4u86Jqi36IxeSQGahrmnYft/wICvg4
-   xxbx75KYsHTBj9N1RRhNgAtpr8vIns8LViOBivRAyZNCr5auzJzKzkL3f
-   OUg6c9doLdRUcm2WNkgsH1HyKVwWoyB82W2DDDqmHB1NksKYdDn5ZaMIo
-   2ze3QVN1lPNUWjrOECkV03RgQb/o9ULNhMrF9WQ/j3Soheiu3pOAu6OMv
+  bh=0G3z8/9pVQQQb/0FQFhENu825xJEDHBWCRKRVG/7SxQ=;
+  b=biuec5hZ5bjDVE1GrtPnoc5FhsIk/0KeoRTGwO7aNMSVjb4Ub4enz50y
+   ecAHMP+M28jmfFhMj6bevEJwcbLuf6tj0mYpsr893zxSyoxJ9So5c9sOd
+   einD875YZWnmrpLMcmJOXfCNXyDPDkNu5z+gxEd51+MSWnCZ/A/tVBHll
+   YIvWDN4e2CTK2QT9YLfHwGruGzrn3ohQc3ArHXlxk7fKzaISo9Q4ml9vq
+   GCiqnBbGOOZvCtVriH9BzfBipOjZ5N1KJgqiAXB6RmqEB503oJ7JqRM6z
+   AnmwKReU7bepYebzE+5Y5rF/DSp6e8OL0anRggiHVbsoQCX8SkNoD4TsM
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="372323094"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="367575959"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="372323094"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 14:54:25 -0700
+   d="scan'208";a="367575959"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 15:04:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="793048022"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="762720476"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="793048022"
+   d="scan'208";a="762720476"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 28 Jul 2023 14:54:23 -0700
+  by orsmga001.jf.intel.com with ESMTP; 28 Jul 2023 15:04:31 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPVPj-0003bX-03;
-	Fri, 28 Jul 2023 21:54:23 +0000
-Date: Sat, 29 Jul 2023 05:53:31 +0800
+	id 1qPVZW-0003c3-0b;
+	Fri, 28 Jul 2023 22:04:30 +0000
+Date: Sat, 29 Jul 2023 06:03:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Schnelle <svens@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Heiko Carstens <hca@linux.ibm.com>
-Subject: [linux-next:master 3523/5284] arch/s390/kernel/mcount.S:133: Error:
- Unrecognized opcode: `aghik'
-Message-ID: <202307290545.uivDhFHO-lkp@intel.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 61/98] drivers/tty/tty_buffer.c:325:28: sparse:
+ sparse: incompatible types in comparison expression (different type sizes):
+Message-ID: <202307290552.htfsP9es-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,46 +46,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d7b3af5a77e8d8da28f435f313e069aea5bcf172
-commit: 1256e70a082ad855efe351146dfa39207d5e3e70 [3523/5284] s390/ftrace: enable HAVE_FUNCTION_GRAPH_RETVAL
-config: s390-randconfig-m031-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290545.uivDhFHO-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290545.uivDhFHO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   2400f7abb9deab7a2207b19d1fad47d9910077a9
+commit: 58dea2bfdf65b65a29a79d6227bff708ea95dc7c [61/98] tty: tty_buffer: use min() instead of min_t()
+config: nios2-randconfig-r091-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290552.htfsP9es-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290552.htfsP9es-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307290545.uivDhFHO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307290552.htfsP9es-lkp@intel.com/
 
-Note: the linux-next/master HEAD d7b3af5a77e8d8da28f435f313e069aea5bcf172 builds fine.
-      It may have been fixed somewhere.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/tty/tty_buffer.c:325:28: sparse: sparse: incompatible types in comparison expression (different type sizes):
+>> drivers/tty/tty_buffer.c:325:28: sparse:    unsigned int *
+>> drivers/tty/tty_buffer.c:325:28: sparse:    unsigned long *
+   drivers/tty/tty_buffer.c:363:28: sparse: sparse: incompatible types in comparison expression (different type sizes):
+   drivers/tty/tty_buffer.c:363:28: sparse:    unsigned int *
+   drivers/tty/tty_buffer.c:363:28: sparse:    unsigned long *
 
-All errors (new ones prefixed by >>):
+vim +325 drivers/tty/tty_buffer.c
 
-   arch/s390/kernel/mcount.S: Assembler messages:
->> arch/s390/kernel/mcount.S:133: Error: Unrecognized opcode: `aghik'
-
-
-vim +133 arch/s390/kernel/mcount.S
-
-   127	
-   128	SYM_FUNC_START(return_to_handler)
-   129		stmg	%r2,%r5,32(%r15)
-   130		lgr	%r1,%r15
-   131		aghi	%r15,-(STACK_FRAME_OVERHEAD+__FGRAPH_RET_SIZE)
-   132		stg	%r1,__SF_BACKCHAIN(%r15)
- > 133		aghik	%r3,%r15,STACK_FRAME_OVERHEAD
-   134		stg	%r1,__FGRAPH_RET_FP(%r3)
-   135		stg	%r2,__FGRAPH_RET_GPR2(%r3)
-   136		lgr	%r2,%r3
-   137		brasl	%r14,ftrace_return_to_handler
-   138		aghi	%r15,STACK_FRAME_OVERHEAD+__FGRAPH_RET_SIZE
-   139		lgr	%r14,%r2
-   140		lmg	%r2,%r5,32(%r15)
-   141		BR_EX	%r14
-   142	SYM_FUNC_END(return_to_handler)
-   143	
+   305	
+   306	/**
+   307	 * tty_insert_flip_string_fixed_flag - add characters to the tty buffer
+   308	 * @port: tty port
+   309	 * @chars: characters
+   310	 * @flag: flag value for each character
+   311	 * @size: size
+   312	 *
+   313	 * Queue a series of bytes to the tty buffering. All the characters passed are
+   314	 * marked with the supplied flag.
+   315	 *
+   316	 * Returns: the number added.
+   317	 */
+   318	int tty_insert_flip_string_fixed_flag(struct tty_port *port, const u8 *chars,
+   319					      u8 flag, size_t size)
+   320	{
+   321		int copied = 0;
+   322		bool flags = flag != TTY_NORMAL;
+   323	
+   324		do {
+ > 325			int goal = min(size - copied, TTY_BUFFER_PAGE);
+   326			int space = __tty_buffer_request_room(port, goal, flags);
+   327			struct tty_buffer *tb = port->buf.tail;
+   328	
+   329			if (unlikely(space == 0))
+   330				break;
+   331			memcpy(char_buf_ptr(tb, tb->used), chars, space);
+   332			if (tb->flags)
+   333				memset(flag_buf_ptr(tb, tb->used), flag, space);
+   334			tb->used += space;
+   335			copied += space;
+   336			chars += space;
+   337			/* There is a small chance that we need to split the data over
+   338			 * several buffers. If this is the case we must loop.
+   339			 */
+   340		} while (unlikely(size > copied));
+   341		return copied;
+   342	}
+   343	EXPORT_SYMBOL(tty_insert_flip_string_fixed_flag);
+   344	
 
 -- 
 0-DAY CI Kernel Test Service
