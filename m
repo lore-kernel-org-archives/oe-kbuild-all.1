@@ -1,44 +1,49 @@
-Received: from mgamail.intel.com (unknown [192.55.52.115])
+Received: from mgamail.intel.com (unknown [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E794E168B3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 18:08:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677D81426E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 18:49:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690567685; x=1722103685;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NulXN+ROxffC2iCyg6Lgw79l/zCrBShlqR6llwtxQzw=;
-  b=W27B1b30N18O4pQ/N3NN8jAw7zNvrX4J1o/O8PvYnvmDJDSZg/88jpra
-   hq4A1ZbJ4Q9BpL0kSXjJBUSnh0UVGNpuPMIW3XOkyIXGJaOq988wlymS3
-   5Kn3y47c5M4H+RyyIK93bliQ1DF4D9HlS03xp3+Hw00cSKAdxmO7jfzEx
-   KQ1/G6ha9Zp4Aucbj+ytXVukV+XA6AC3VJzevJKWjFXy82tslT3P6fFRa
-   XEgGIZ/Kvx+BvyBb8YUWIImDja0DZSJCTzBi77W2uti8ojY4cSMtLbvNn
-   60rAMVh/XXB+HprUCigaLS2DqU9AzRoamHtqL9zExw9mNsFXZwm2QavQa
+  t=1690570187; x=1722106187;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AmRz+rAZ+Q2waodphVoUUAhBzbM9rXTd8pWInD22nsQ=;
+  b=VqiYIvZ8dNgSA3vnV/Ts9dT4UboF0qQBTNBhdn4X4lraE+vG3pzkr48n
+   mk8GCb0lRsxEw59dl8QQDf0bI3UCtvvktjKocKbmJzOd8GqNdpRPaM8eK
+   ejotMwQrEdw9DwgFA3dKL+pfs6C+rwNihpQnOLHPaZ1ai1GGYo7FBi2wH
+   bL3LnhwARdTZyKNxhosnp26XUEKhg02Z61PUhlfRFXt83xkJSiiIbdBAo
+   PFczfWm9Eqr5HfGOzvEjKQGZAe7jfddKl4qE1SS5qdKSbv+q091QzPXfZ
+   bvE/itcDAjjV0Idc1mkuTVjrQz8hlBgoj3JrqdvTczpCVIPBk3UIdhP7S
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="368666825"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="432473599"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="368666825"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 11:08:03 -0700
+   d="scan'208";a="432473599"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 11:49:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="797515986"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="721360000"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="797515986"
+   d="scan'208";a="721360000"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Jul 2023 11:08:01 -0700
+  by orsmga007.jf.intel.com with ESMTP; 28 Jul 2023 11:49:43 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPRsf-0003T7-0N;
-	Fri, 28 Jul 2023 18:08:01 +0000
-Date: Sat, 29 Jul 2023 02:07:05 +0800
+	id 1qPSX0-0003Ux-0z;
+	Fri, 28 Jul 2023 18:49:42 +0000
+Date: Sat, 29 Jul 2023 02:48:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rohan McLure <rmclure@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: drivers/bus/fsl-mc/dprc.c:494:9: warning: 'strncpy' specified bound
- 16 equals destination size
-Message-ID: <202307290251.hKiztLyo-lkp@intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, igt-dev@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] kunit: Allow kunit test modules to use test filtering
+Message-ID: <202307290255.bxxn7jm8-lkp@intel.com>
+References: <20230728154419.1810177-8-janusz.krzysztofik@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,93 +52,346 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230728154419.1810177-8-janusz.krzysztofik@linux.intel.com>
 
-Hi Rohan,
+Hi Janusz,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   57012c57536f8814dec92e74197ee96c3498d24e
-commit: 95567f46b4d20c047750a5e3029461afcdc67697 powerpc/{32,book3e}: kcsan: Extend KCSAN Support
-date:   7 weeks ago
-config: powerpc-randconfig-r032-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290251.hKiztLyo-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290251.hKiztLyo-lkp@intel.com/reproduce)
+[auto build test WARNING on shuah-kselftest/kunit-fixes]
+[also build test WARNING on linus/master v6.5-rc3]
+[cannot apply to shuah-kselftest/kunit next-20230728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Janusz-Krzysztofik/kunit-Report-the-count-of-test-suites-in-a-module/20230728-234736
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit-fixes
+patch link:    https://lore.kernel.org/r/20230728154419.1810177-8-janusz.krzysztofik%40linux.intel.com
+patch subject: [PATCH 3/3] kunit: Allow kunit test modules to use test filtering
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230729/202307290255.bxxn7jm8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290255.bxxn7jm8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307290251.hKiztLyo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307290255.bxxn7jm8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/bus/fsl-mc/dprc.c: In function 'dprc_get_obj':
-   drivers/bus/fsl-mc/dprc.c:453:9: warning: 'strncpy' output may be truncated copying 15 bytes from a string of length 15 [-Wstringop-truncation]
-     453 |         strncpy(obj_desc->type, rsp_params->type, 16);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/dprc.c:455:9: warning: 'strncpy' output may be truncated copying 15 bytes from a string of length 15 [-Wstringop-truncation]
-     455 |         strncpy(obj_desc->label, rsp_params->label, 16);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/dprc.c: In function 'dprc_set_obj_irq':
->> drivers/bus/fsl-mc/dprc.c:494:9: warning: 'strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
-     494 |         strncpy(cmd_params->obj_type, obj_type, 16);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/dprc.c: In function 'dprc_get_obj_region':
-   drivers/bus/fsl-mc/dprc.c:567:9: warning: 'strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
-     567 |         strncpy(cmd_params->obj_type, obj_type, 16);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor.c:182:42: warning: 'struct suite_set' declared inside parameter list will not be visible outside of this definition or declaration
+     182 | static void kunit_exec_list_tests(struct suite_set *suite_set)
+         |                                          ^~~~~~~~~
+   lib/kunit/executor.c: In function 'kunit_exec_list_tests':
+   lib/kunit/executor.c:190:32: error: invalid use of undefined type 'struct suite_set'
+     190 |         for (suites = suite_set->start; suites < suite_set->end; suites++)
+         |                                ^~
+   lib/kunit/executor.c:190:59: error: invalid use of undefined type 'struct suite_set'
+     190 |         for (suites = suite_set->start; suites < suite_set->end; suites++)
+         |                                                           ^~
+   lib/kunit/executor.c: In function 'kunit_run_all_tests':
+   lib/kunit/executor.c:198:16: error: variable 'suite_set' has initializer but incomplete type
+     198 |         struct suite_set suite_set = {__kunit_suites_start, __kunit_suites_end};
+         |                ^~~~~~~~~
+   lib/kunit/executor.c:198:39: warning: excess elements in struct initializer
+     198 |         struct suite_set suite_set = {__kunit_suites_start, __kunit_suites_end};
+         |                                       ^~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor.c:198:39: note: (near initialization for 'suite_set')
+   lib/kunit/executor.c:198:61: warning: excess elements in struct initializer
+     198 |         struct suite_set suite_set = {__kunit_suites_start, __kunit_suites_end};
+         |                                                             ^~~~~~~~~~~~~~~~~~
+   lib/kunit/executor.c:198:61: note: (near initialization for 'suite_set')
+   lib/kunit/executor.c:198:26: error: storage size of 'suite_set' isn't known
+     198 |         struct suite_set suite_set = {__kunit_suites_start, __kunit_suites_end};
+         |                          ^~~~~~~~~
+>> lib/kunit/executor.c:198:26: warning: unused variable 'suite_set' [-Wunused-variable]
+   In file included from lib/kunit/executor.c:230:
+   lib/kunit/executor_test.c: In function 'filter_suites_test':
+   lib/kunit/executor_test.c:45:16: error: variable 'suite_set' has initializer but incomplete type
+      45 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                ^~~~~~~~~
+   lib/kunit/executor_test.c:45:40: error: 'struct suite_set' has no member named 'start'
+      45 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                        ^~~~~
+   lib/kunit/executor_test.c:45:48: warning: excess elements in struct initializer
+      45 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                                ^~~~~~~~
+   lib/kunit/executor_test.c:45:48: note: (near initialization for 'suite_set')
+   lib/kunit/executor_test.c:45:59: error: 'struct suite_set' has no member named 'end'
+      45 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                                           ^~~
+   lib/kunit/executor_test.c:45:65: warning: excess elements in struct initializer
+      45 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                                                 ^
+   lib/kunit/executor_test.c:45:65: note: (near initialization for 'suite_set')
+   lib/kunit/executor_test.c:45:26: error: storage size of 'suite_set' isn't known
+      45 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                          ^~~~~~~~~
+   lib/kunit/executor_test.c:46:26: error: storage size of 'got' isn't known
+      46 |         struct suite_set got;
+         |                          ^~~
+   In file included from lib/kunit/executor.c:4:
+   include/kunit/test.h:737:29: warning: passing argument 1 of 'IS_ERR_OR_NULL' makes pointer from integer without a cast [-Wint-conversion]
+     737 |         if (!IS_ERR_OR_NULL(__ptr))                                            \
+         |                             ^~~~~
+         |                             |
+         |                             int
+   include/kunit/test.h:1418:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1418 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1415:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1415 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:54:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      54 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/processor.h:36,
+                    from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:53,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:79,
+                    from include/linux/smp.h:110,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/notifier.h:14,
+                    from include/linux/reboot.h:6,
+                    from lib/kunit/executor.c:3:
+   include/linux/err.h:70:68: note: expected 'const void *' but argument is of type 'int'
+      70 | static inline bool __must_check IS_ERR_OR_NULL(__force const void *ptr)
+         |                                                        ~~~~~~~~~~~~^~~
+   include/kunit/test.h:744:64: warning: initialization of 'const void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:510:49: note: in definition of macro '_KUNIT_FAILED'
+     510 |         const struct assert_class __assertion = INITIALIZER;                   \
+         |                                                 ^~~~~~~~~~~
+   include/kunit/test.h:744:23: note: in expansion of macro 'KUNIT_INIT_ASSERT'
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                       ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1418:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1418 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1415:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1415 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:54:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      54 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:744:64: note: (near initialization for '__assertion.value')
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:510:49: note: in definition of macro '_KUNIT_FAILED'
+     510 |         const struct assert_class __assertion = INITIALIZER;                   \
+         |                                                 ^~~~~~~~~~~
+   include/kunit/test.h:744:23: note: in expansion of macro 'KUNIT_INIT_ASSERT'
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                       ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1418:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1418 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1415:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1415 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:54:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      54 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:737:29: warning: passing argument 1 of 'IS_ERR_OR_NULL' makes pointer from integer without a cast [-Wint-conversion]
+     737 |         if (!IS_ERR_OR_NULL(__ptr))                                            \
+         |                             ^~~~~
+         |                             |
+         |                             int
+   include/kunit/test.h:1418:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1418 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1415:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1415 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:59:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      59 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start[0]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/err.h:70:68: note: expected 'const void *' but argument is of type 'int'
+      70 | static inline bool __must_check IS_ERR_OR_NULL(__force const void *ptr)
+         |                                                        ~~~~~~~~~~~~^~~
+   include/kunit/test.h:744:64: warning: initialization of 'const void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:510:49: note: in definition of macro '_KUNIT_FAILED'
+     510 |         const struct assert_class __assertion = INITIALIZER;                   \
+         |                                                 ^~~~~~~~~~~
+   include/kunit/test.h:744:23: note: in expansion of macro 'KUNIT_INIT_ASSERT'
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                       ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1418:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1418 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1415:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1415 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:59:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      59 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start[0]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:744:64: note: (near initialization for '__assertion.value')
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:510:49: note: in definition of macro '_KUNIT_FAILED'
+     510 |         const struct assert_class __assertion = INITIALIZER;                   \
+         |                                                 ^~~~~~~~~~~
+   include/kunit/test.h:744:23: note: in expansion of macro 'KUNIT_INIT_ASSERT'
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                       ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1418:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1418 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1415:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1415 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:59:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      59 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start[0]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/kunit/executor_test.c:46:26: warning: unused variable 'got' [-Wunused-variable]
+      46 |         struct suite_set got;
+         |                          ^~~
+>> lib/kunit/executor_test.c:45:26: warning: unused variable 'suite_set' [-Wunused-variable]
+      45 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                          ^~~~~~~~~
+   lib/kunit/executor_test.c: In function 'filter_suites_test_glob_test':
+   lib/kunit/executor_test.c:69:16: error: variable 'suite_set' has initializer but incomplete type
+      69 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                ^~~~~~~~~
+   lib/kunit/executor_test.c:69:40: error: 'struct suite_set' has no member named 'start'
+      69 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                        ^~~~~
+   lib/kunit/executor_test.c:69:48: warning: excess elements in struct initializer
+      69 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                                ^~~~~~~~
+   lib/kunit/executor_test.c:69:48: note: (near initialization for 'suite_set')
+   lib/kunit/executor_test.c:69:59: error: 'struct suite_set' has no member named 'end'
+      69 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                                           ^~~
+   lib/kunit/executor_test.c:69:65: warning: excess elements in struct initializer
+      69 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                                                                 ^
+   lib/kunit/executor_test.c:69:65: note: (near initialization for 'suite_set')
+   lib/kunit/executor_test.c:69:26: error: storage size of 'suite_set' isn't known
+      69 |         struct suite_set suite_set = {.start = subsuite, .end = &subsuite[2]};
+         |                          ^~~~~~~~~
+   lib/kunit/executor_test.c:70:26: error: storage size of 'got' isn't known
+      70 |         struct suite_set got;
+         |                          ^~~
+   include/kunit/test.h:737:29: warning: passing argument 1 of 'IS_ERR_OR_NULL' makes pointer from integer without a cast [-Wint-conversion]
+     737 |         if (!IS_ERR_OR_NULL(__ptr))                                            \
+         |                             ^~~~~
+         |                             |
+         |                             int
+   include/kunit/test.h:1418:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1418 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1415:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1415 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:78:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      78 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/err.h:70:68: note: expected 'const void *' but argument is of type 'int'
+      70 | static inline bool __must_check IS_ERR_OR_NULL(__force const void *ptr)
+         |                                                        ~~~~~~~~~~~~^~~
+   include/kunit/test.h:744:64: warning: initialization of 'const void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:510:49: note: in definition of macro '_KUNIT_FAILED'
+     510 |         const struct assert_class __assertion = INITIALIZER;                   \
+         |                                                 ^~~~~~~~~~~
+   include/kunit/test.h:744:23: note: in expansion of macro 'KUNIT_INIT_ASSERT'
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                       ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1418:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1418 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1415:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1415 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:78:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      78 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:744:64: note: (near initialization for '__assertion.value')
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:510:49: note: in definition of macro '_KUNIT_FAILED'
+     510 |         const struct assert_class __assertion = INITIALIZER;                   \
+         |                                                 ^~~~~~~~~~~
+   include/kunit/test.h:744:23: note: in expansion of macro 'KUNIT_INIT_ASSERT'
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                       ^~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1418:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1418 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1415:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1415 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:78:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      78 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:737:29: warning: passing argument 1 of 'IS_ERR_OR_NULL' makes pointer from integer without a cast [-Wint-conversion]
+     737 |         if (!IS_ERR_OR_NULL(__ptr))                                            \
+         |                             ^~~~~
+         |                             |
+         |                             int
+   include/kunit/test.h:1418:9: note: in expansion of macro 'KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION'
+    1418 |         KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                          \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1415:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG'
+    1415 |         KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/kunit/executor_test.c:83:9: note: in expansion of macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL'
+      83 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, got.start[0]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/err.h:70:68: note: expected 'const void *' but argument is of type 'int'
+      70 | static inline bool __must_check IS_ERR_OR_NULL(__force const void *ptr)
+         |                                                        ~~~~~~~~~~~~^~~
+   include/kunit/test.h:744:64: warning: initialization of 'const void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     744 |                       KUNIT_INIT_ASSERT(.text = #ptr, .value = __ptr),         \
+         |                                                                ^~~~~
+   include/kunit/test.h:510:49: note: in definition of macro '_KUNIT_FAILED'
 
 
-vim +/strncpy +494 drivers/bus/fsl-mc/dprc.c
+vim +/suite_set +198 lib/kunit/executor.c
 
-31c889653c10dd drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-03-05  460  
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  461  /**
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  462   * dprc_set_obj_irq() - Set IRQ information for object to trigger an interrupt.
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  463   * @mc_io:	Pointer to MC portal's I/O object
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  464   * @cmd_flags:	Command flags; one or more of 'MC_CMD_FLAG_'
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  465   * @token:	Token of DPRC object
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  466   * @obj_type:	Type of the object to set its IRQ
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  467   * @obj_id:	ID of the object to set its IRQ
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  468   * @irq_index:	The interrupt index to configure
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  469   * @irq_cfg:	IRQ configuration
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  470   *
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  471   * Return:	'0' on Success; Error code otherwise.
-e9bf3f206bd5e6 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-24  472   */
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  473  int dprc_set_obj_irq(struct fsl_mc_io *mc_io,
-ba72f25b2588e1 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-25  474  		     u32 cmd_flags,
-ba72f25b2588e1 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-25  475  		     u16 token,
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  476  		     char *obj_type,
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  477  		     int obj_id,
-ba72f25b2588e1 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-25  478  		     u8 irq_index,
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  479  		     struct dprc_irq_cfg *irq_cfg)
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  480  {
-5b04cedeca1888 drivers/bus/fsl-mc/dprc.c         Ioana Ciornei    2018-03-15  481  	struct fsl_mc_command cmd = { 0 };
-9989b59961a8ad drivers/staging/fsl-mc/bus/dprc.c Ioana Radulescu  2016-06-22  482  	struct dprc_cmd_set_obj_irq *cmd_params;
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  483  
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  484  	/* prepare command */
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  485  	cmd.header = mc_encode_cmd_header(DPRC_CMDID_SET_OBJ_IRQ,
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  486  					  cmd_flags,
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  487  					  token);
-9989b59961a8ad drivers/staging/fsl-mc/bus/dprc.c Ioana Radulescu  2016-06-22  488  	cmd_params = (struct dprc_cmd_set_obj_irq *)cmd.params;
-9989b59961a8ad drivers/staging/fsl-mc/bus/dprc.c Ioana Radulescu  2016-06-22  489  	cmd_params->irq_val = cpu_to_le32(irq_cfg->val);
-9989b59961a8ad drivers/staging/fsl-mc/bus/dprc.c Ioana Radulescu  2016-06-22  490  	cmd_params->irq_index = irq_index;
-9989b59961a8ad drivers/staging/fsl-mc/bus/dprc.c Ioana Radulescu  2016-06-22  491  	cmd_params->irq_addr = cpu_to_le64(irq_cfg->paddr);
-9989b59961a8ad drivers/staging/fsl-mc/bus/dprc.c Ioana Radulescu  2016-06-22  492  	cmd_params->irq_num = cpu_to_le32(irq_cfg->irq_num);
-9989b59961a8ad drivers/staging/fsl-mc/bus/dprc.c Ioana Radulescu  2016-06-22  493  	cmd_params->obj_id = cpu_to_le32(obj_id);
-9989b59961a8ad drivers/staging/fsl-mc/bus/dprc.c Ioana Radulescu  2016-06-22 @494  	strncpy(cmd_params->obj_type, obj_type, 16);
-9989b59961a8ad drivers/staging/fsl-mc/bus/dprc.c Ioana Radulescu  2016-06-22  495  	cmd_params->obj_type[15] = '\0';
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  496  
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  497  	/* send command to mc*/
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  498  	return mc_send_command(mc_io, &cmd);
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  499  }
-c9d57ea0b6fb0b drivers/staging/fsl-mc/bus/dprc.c Laurentiu Tudor  2017-11-17  500  EXPORT_SYMBOL_GPL(dprc_set_obj_irq);
-1ee695fab32e25 drivers/staging/fsl-mc/bus/dprc.c J. German Rivera 2015-09-23  501  
-
-:::::: The code at line 494 was first introduced by commit
-:::::: 9989b59961a8ad55d92df4588b556f0c6c838ec7 staging: fsl-mc: convert mc command build/parse to use C structs
-
-:::::: TO: Ioana Radulescu <ruxandra.radulescu@nxp.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+9c6b0e1d8993e47 Daniel Latypov  2021-09-30  195  
+9c6b0e1d8993e47 Daniel Latypov  2021-09-30  196  int kunit_run_all_tests(void)
+9c6b0e1d8993e47 Daniel Latypov  2021-09-30  197  {
+e5857d396f35e59 Daniel Latypov  2022-07-09 @198  	struct suite_set suite_set = {__kunit_suites_start, __kunit_suites_end};
+1b11063d32d7e11 Daniel Latypov  2022-05-13  199  	int err = 0;
+d20a6ba5e3be5f8 Joe Fradley     2022-08-23  200  	if (!kunit_enabled()) {
+d20a6ba5e3be5f8 Joe Fradley     2022-08-23  201  		pr_info("kunit: disabled\n");
+d20a6ba5e3be5f8 Joe Fradley     2022-08-23  202  		goto out;
+d20a6ba5e3be5f8 Joe Fradley     2022-08-23  203  	}
+aac35468ca20a3a Alan Maguire    2020-08-04  204  
+a02353f491622e4 Daniel Latypov  2022-05-11  205  	if (filter_glob_param) {
+a02353f491622e4 Daniel Latypov  2022-05-11  206  		suite_set = kunit_filter_suites(&suite_set, filter_glob_param, &err);
+a02353f491622e4 Daniel Latypov  2022-05-11  207  		if (err) {
+a02353f491622e4 Daniel Latypov  2022-05-11  208  			pr_err("kunit executor: error filtering suites: %d\n", err);
+1b11063d32d7e11 Daniel Latypov  2022-05-13  209  			goto out;
+a02353f491622e4 Daniel Latypov  2022-05-11  210  		}
+a02353f491622e4 Daniel Latypov  2022-05-11  211  	}
+45dcbb6f5ef78b0 Brendan Higgins 2020-08-04  212  
+9c6b0e1d8993e47 Daniel Latypov  2021-09-30  213  	if (!action_param)
+9c6b0e1d8993e47 Daniel Latypov  2021-09-30  214  		kunit_exec_run_tests(&suite_set);
+9c6b0e1d8993e47 Daniel Latypov  2021-09-30  215  	else if (strcmp(action_param, "list") == 0)
+9c6b0e1d8993e47 Daniel Latypov  2021-09-30  216  		kunit_exec_list_tests(&suite_set);
+9c6b0e1d8993e47 Daniel Latypov  2021-09-30  217  	else
+9c6b0e1d8993e47 Daniel Latypov  2021-09-30  218  		pr_err("kunit executor: unknown action '%s'\n", action_param);
+aac35468ca20a3a Alan Maguire    2020-08-04  219  
+e5857d396f35e59 Daniel Latypov  2022-07-09  220  	if (filter_glob_param) { /* a copy was made of each suite */
+a127b154a8f2317 Daniel Latypov  2021-09-14  221  		kunit_free_suite_set(suite_set);
+5d31f71efcb6bce Daniel Latypov  2021-02-05  222  	}
+5d31f71efcb6bce Daniel Latypov  2021-02-05  223  
+1b11063d32d7e11 Daniel Latypov  2022-05-13  224  out:
+1b11063d32d7e11 Daniel Latypov  2022-05-13  225  	kunit_handle_shutdown();
+1b11063d32d7e11 Daniel Latypov  2022-05-13  226  	return err;
+aac35468ca20a3a Alan Maguire    2020-08-04  227  }
+aac35468ca20a3a Alan Maguire    2020-08-04  228  
 
 -- 
 0-DAY CI Kernel Test Service
