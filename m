@@ -1,43 +1,48 @@
-Received: from mgamail.intel.com (unknown [134.134.136.100])
+Received: from mgamail.intel.com (unknown [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3490F23B8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 22:25:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADA1525C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 22:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690583133; x=1722119133;
+  t=1690585010; x=1722121010;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=J4OFRxMfAv1cz792gWvU9NGsLPBq5DCRpXpqK+nWRD8=;
-  b=QHyuM/UFso+3wDCM/RAUEG5e2be6fwnUkfXXnEieQTmwX0W77LxAxo+3
-   ql6t6XzldXlwlDTjFNU1h8vv7IQeUJUU2FlYplvJVoF6BuPaqEsfZ+Nq7
-   eRN0mK/ObzcjhhelU36uIdnyCh9l4FiD4IgyEsLNfdEsJz/a7AaRcZvYh
-   FurSI0aUh52BypLdcz3CfIe0j83pwO9hLYC2hcidyZbvzYlDYzwNfJ1Nv
-   QEZBDohunSmTMUzp1LpueB127RkSaOmpk5ZN0T0LsbYX3CYf4G6QTgOoy
-   i/OFAb0SAfnzqSU9CP5x/Ur0AJTDvfn3Qknkk3J8J81NBraMvusqe2vgn
+  bh=IUS/zgobdp00tWjroB1Igu16JTbPo1ZwgRINYeNVxL8=;
+  b=hzhsfYHIFU077QKzsUjNxEvY5OEmj9hBB9EhoPM9krIVL6fwZfmL0uS0
+   oHk6fc0oZXrtwXoHZZ3vsTLmBu2ZL+UZV7HdO2Pqqp5KCG21lkrlG/a60
+   pbodb8YatgJBE+QKKpYLf8u/L50qMEcMUgEPkWVmFYeskwXWbBwSJ+Rt2
+   K0uVEOFmjjSFVuCG5K+us8Xosqtr2SGXzUtxOr/LkOoZlm+idD57XyV29
+   zO4IvourKDYNiupvsKd3cDmrLtZEuF9TbrvfhJHius83V0AjwRtH+P5CI
+   0Z6/eWkRBnOAPl5l4Yq8ud/w0B4JYEIB6KE3aTqBEg++FD1S4sgILOoDS
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="434984531"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="399642071"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="434984531"
+   d="scan'208";a="399642071"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 15:25:32 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 15:56:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="677649809"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="677653032"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="677649809"
+   d="scan'208";a="677653032"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 28 Jul 2023 15:25:31 -0700
+  by orsmga003.jf.intel.com with ESMTP; 28 Jul 2023 15:56:32 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPVtq-0003d2-2Q;
-	Fri, 28 Jul 2023 22:25:30 +0000
-Date: Sat, 29 Jul 2023 06:24:43 +0800
+	id 1qPWNr-0003dn-0K;
+	Fri, 28 Jul 2023 22:56:31 +0000
+Date: Sat, 29 Jul 2023 06:55:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] selinux: optimize ebitmap_and()
-Message-ID: <202307290638.KswmmmnP-lkp@intel.com>
-References: <20230728155937.41580-1-cgzones@googlemail.com>
+To: Daniel Golle <daniel@makrotopia.org>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Johannes Berg <johannes.berg@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Richard Purdie <rpurdie@linux.intel.com>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH] led: trig: timer: stop offloading on deactivation
+Message-ID: <202307290641.SUCRTRMI-lkp@intel.com>
+References: <728da6e11d34a39f717be07e246dcc4964b0fd51.1690542871.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,97 +51,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230728155937.41580-1-cgzones@googlemail.com>
+In-Reply-To: <728da6e11d34a39f717be07e246dcc4964b0fd51.1690542871.git.daniel@makrotopia.org>
 
-Hi Christian,
+Hi Daniel,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on pcmoore-selinux/next]
-[also build test WARNING on linus/master v6.5-rc3 next-20230728]
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on wireless-next/main wireless/main linus/master pavel-leds/for-next v6.5-rc3 next-20230728]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-G-ttsche/selinux-optimize-ebitmap_and/20230729-000029
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
-patch link:    https://lore.kernel.org/r/20230728155937.41580-1-cgzones%40googlemail.com
-patch subject: [RFC PATCH] selinux: optimize ebitmap_and()
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20230729/202307290638.KswmmmnP-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290638.KswmmmnP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/led-trig-timer-stop-offloading-on-deactivation/20230728-203243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/728da6e11d34a39f717be07e246dcc4964b0fd51.1690542871.git.daniel%40makrotopia.org
+patch subject: [PATCH] led: trig: timer: stop offloading on deactivation
+config: mips-randconfig-r093-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290641.SUCRTRMI-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290641.SUCRTRMI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307290638.KswmmmnP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307290641.SUCRTRMI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/leds/trigger/ledtrig-timer.c:129:47: sparse: sparse: Using plain integer as NULL pointer
+   drivers/leds/trigger/ledtrig-timer.c:129:50: sparse: sparse: Using plain integer as NULL pointer
 
-   security/selinux/ss/ebitmap.c: In function 'ebitmap_and':
->> security/selinux/ss/ebitmap.c:99:54: warning: iteration 6 invokes undefined behavior [-Waggressive-loop-optimizations]
-      99 |                                 testmap[i] = n1->maps[i] & n2->maps[i];
-         |                                              ~~~~~~~~^~~
-   security/selinux/ss/ebitmap.c:98:39: note: within this loop
-      98 |                         for (i = 0; i < sizeof(testmap); i++) {
-         |                                     ~~^~~~~~~~~~~~~~~~~
+vim +129 drivers/leds/trigger/ledtrig-timer.c
 
-
-vim +99 security/selinux/ss/ebitmap.c
-
-    81	
-    82	int ebitmap_and(struct ebitmap *dst, const struct ebitmap *e1, const struct ebitmap *e2)
-    83	{
-    84		const struct ebitmap_node *n1, *n2;
-    85		struct ebitmap_node *new = NULL, **prev;
-    86	
-    87		ebitmap_init(dst);
-    88	
-    89		prev = &dst->node;
-    90		n1 = e1->node;
-    91		n2 = e2->node;
-    92		while (n1 && n2) {
-    93			if (n1->startbit == n2->startbit) {
-    94				unsigned long testmap[EBITMAP_UNIT_NUMS];
-    95				unsigned int i;
-    96				bool match = false;
-    97	
-    98				for (i = 0; i < sizeof(testmap); i++) {
-  > 99					testmap[i] = n1->maps[i] & n2->maps[i];
-   100					if (testmap[i] != 0)
-   101						match = true;
-   102				}
-   103	
-   104				if (match) {
-   105					new = kmem_cache_zalloc(ebitmap_node_cachep, GFP_ATOMIC);
-   106					if (!new) {
-   107						ebitmap_destroy(dst);
-   108						return -ENOMEM;
-   109					}
-   110					new->startbit = n1->startbit;
-   111					memcpy(new->maps, testmap, EBITMAP_SIZE / 8);
-   112					new->next = NULL;
-   113	
-   114					*prev = new;
-   115					prev = &(new->next);
-   116				}
-   117	
-   118				n1 = n1->next;
-   119				n2 = n2->next;
-   120			} else if (n1->startbit > n2->startbit) {
-   121				n2 = n2->next;
-   122			} else {
-   123				n1 = n1->next;
-   124			}
-   125		}
-   126	
-   127		if (new)
-   128			dst->highbit = new->startbit + EBITMAP_SIZE;
-   129	
-   130		return 0;
-   131	}
-   132	
+   123	
+   124	static void timer_trig_deactivate(struct led_classdev *led_cdev)
+   125	{
+   126		/* Stop blinking */
+   127		led_set_brightness(led_cdev, LED_OFF);
+   128		if (led_cdev->blink_set)
+ > 129			led_cdev->blink_set(led_cdev, 0, 0);
+   130	}
+   131	
 
 -- 
 0-DAY CI Kernel Test Service
