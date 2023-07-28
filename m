@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (unknown [192.55.52.136])
+Received: from mgamail.intel.com (unknown [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBA2134B0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 15:52:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D85134B0;
+	Fri, 28 Jul 2023 15:52:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690559553; x=1722095553;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kqjMPRaODT/h8tYLSyRbDpGbXJ4BApK6en9ly9/fAIw=;
-  b=Pv0OckY+m5QD04Yc8aeQklsuxNHAQadV3W5dF2gw65SEjbLFdKP7qB0Z
-   ERmrEV0IbYVzI4k8IUROy0Iu6onmKi4uKq9pbjG59Ub4BRLoXzc/L/6v5
-   uN8Ltph2fmPDszG3Nh8pZE3qIC9rJa/CvW5vQltqSSukm9jDvhu3BMwdf
-   3Lx5coDAen1engcpQiHpYJVmXXCP6H76+9Zd5Wg/V/kh/BkbTw+7IBwat
-   lBe90AKTXQF40acReFCFlgz/WSrk9Pf8zVapajyAfeaalzsWYFJ9VmIeI
-   eWU3KSARTjmoX+NbJqsslp4O7SoN1eLb+9/FPDjPozCdyd6xKlsmTNOpy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="348224001"
+  t=1690559579; x=1722095579;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xVo8tOXrAvebYog5HgRDT2/de9+JnRzcN/dfTLrM580=;
+  b=NT5egJYaY4O5spIjQqCRuCA3cj4YNsDBOyE9qT1vcTa8EIo6uXy7HaJM
+   HkSgiucmaxYpwy06HIIB5KSDLc+exqbNs/fQYip/uTinhrfT3tllSK36b
+   kCfN4e310TbyHXPl/HnFBZwBEIdzKXjfV0zXRyTRwOh695ghOJa02iVAA
+   DvVQo1qcsQ1G8K4fBquxSCW2me5QCeAvigrUz5eKd1BiYlbb0Rjz/CTpA
+   jtnHBUAJwN+1D0hUWsFZhRkupMpxLy3BtNrrzqwEclxcyFGPnUdBgxCyA
+   yvMw1xqgEv35+DJhgSd20eBz/vx15kiXD959V+wvKi3W9hCagNcvkUsC5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="434908174"
 X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
-   d="scan'208";a="348224001"
+   d="scan'208";a="434908174"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 08:52:32 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 08:52:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="762645761"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="762645827"
 X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
-   d="scan'208";a="762645761"
+   d="scan'208";a="762645827"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 28 Jul 2023 08:52:29 -0700
+  by orsmga001.jf.intel.com with ESMTP; 28 Jul 2023 08:52:54 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPPl2-0003Kp-0g;
-	Fri, 28 Jul 2023 15:52:08 +0000
-Date: Fri, 28 Jul 2023 23:51:21 +0800
+	id 1qPPlU-0003Kr-2F;
+	Fri, 28 Jul 2023 15:52:34 +0000
+Date: Fri, 28 Jul 2023 23:51:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kalesh Singh <kaleshsingh@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>, Fuad Tabba <tabba@google.com>
-Subject: arch/arm64/kvm/hyp/nvhe/stacktrace.c:10:1: sparse: sparse: symbol
- '__pcpu_scope_overflow_stack' was not declared. Should it be static?
-Message-ID: <202307282357.QKRJ2Zqf-lkp@intel.com>
+To: Animesh Manna <animesh.manna@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-gfx] [PATCH v3 4/6] drm/i915/panelreplay: Initializaton
+ and compute config for panel replay
+Message-ID: <202307282318.EVEl6EsL-lkp@intel.com>
+References: <20230728124609.2911830-5-animesh.manna@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,27 +48,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230728124609.2911830-5-animesh.manna@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   57012c57536f8814dec92e74197ee96c3498d24e
-commit: 548ec3336f323db56260b312c232ab37285f0284 KVM: arm64: On stack overflow switch to hyp overflow_stack
-date:   1 year ago
-config: arm64-randconfig-r071-20230728 (https://download.01.org/0day-ci/archive/20230728/202307282357.QKRJ2Zqf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307282357.QKRJ2Zqf-lkp@intel.com/reproduce)
+Hi Animesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Manna/drm-panelreplay-dpcd-register-definition-for-panelreplay/20230728-205902
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230728124609.2911830-5-animesh.manna%40intel.com
+patch subject: [Intel-gfx] [PATCH v3 4/6] drm/i915/panelreplay: Initializaton and compute config for panel replay
+config: x86_64-randconfig-x001-20230728 (https://download.01.org/0day-ci/archive/20230728/202307282318.EVEl6EsL-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307282318.EVEl6EsL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307282357.QKRJ2Zqf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307282318.EVEl6EsL-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/hyp/nvhe/stacktrace.c:10:1: sparse: sparse: symbol '__pcpu_scope_overflow_stack' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/__pcpu_scope_overflow_stack +10 arch/arm64/kvm/hyp/nvhe/stacktrace.c
+>> drivers/gpu/drm/i915/display/intel_dp.c:3386:27: warning: overlapping comparisons always evaluate to true [-Wtautological-overlap-compare]
+           if (vsc->revision != 0x5 || vsc->revision != 0x7)
+               ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-  > 10	#include <asm/percpu.h>
-    11	
+
+vim +3386 drivers/gpu/drm/i915/display/intel_dp.c
+
+  3361	
+  3362	static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+  3363					     struct dp_sdp *sdp, size_t size)
+  3364	{
+  3365		size_t length = sizeof(struct dp_sdp);
+  3366	
+  3367		if (size < length)
+  3368			return -ENOSPC;
+  3369	
+  3370		memset(sdp, 0, size);
+  3371	
+  3372		/*
+  3373		 * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
+  3374		 * VSC SDP Header Bytes
+  3375		 */
+  3376		sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
+  3377		sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
+  3378		sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
+  3379		sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
+  3380	
+  3381		/*
+  3382		 * Other than revision 0x5 which supports Pixel Encoding/Colorimetry
+  3383		 * Format as per DP 1.4a spec, revision 0x7 also supports Pixel
+  3384		 * Encoding/Colorimetry Format as per DP 2.0 spec.
+  3385		 */
+> 3386		if (vsc->revision != 0x5 || vsc->revision != 0x7)
+  3387			goto out;
+  3388	
+  3389		/* VSC SDP Payload for DB16 through DB18 */
+  3390		/* Pixel Encoding and Colorimetry Formats  */
+  3391		sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
+  3392		sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
+  3393	
+  3394		switch (vsc->bpc) {
+  3395		case 6:
+  3396			/* 6bpc: 0x0 */
+  3397			break;
+  3398		case 8:
+  3399			sdp->db[17] = 0x1; /* DB17[3:0] */
+  3400			break;
+  3401		case 10:
+  3402			sdp->db[17] = 0x2;
+  3403			break;
+  3404		case 12:
+  3405			sdp->db[17] = 0x3;
+  3406			break;
+  3407		case 16:
+  3408			sdp->db[17] = 0x4;
+  3409			break;
+  3410		default:
+  3411			MISSING_CASE(vsc->bpc);
+  3412			break;
+  3413		}
+  3414		/* Dynamic Range and Component Bit Depth */
+  3415		if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
+  3416			sdp->db[17] |= 0x80;  /* DB17[7] */
+  3417	
+  3418		/* Content Type */
+  3419		sdp->db[18] = vsc->content_type & 0x7;
+  3420	
+  3421	out:
+  3422		return length;
+  3423	}
+  3424	
 
 -- 
 0-DAY CI Kernel Test Service
