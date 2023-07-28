@@ -1,71 +1,43 @@
-Received: from mgamail.intel.com (unknown [134.134.136.126])
+Received: from mgamail.intel.com (unknown [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7232623B8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 22:15:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3490F23B8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 22:25:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690582540; x=1722118540;
+  t=1690583133; x=1722119133;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dkxWn9zA6NEMUYhLOvzMdteEPBXCCjOX+NYgb6juRSo=;
-  b=RHXfayJGbelfS1Mz0fvqLjXLYAPCKGvAmbeq09jBSw6StskGjiFLV6KZ
-   SBbT9V7oGw4Ubsv5j9F9KREowMnES7pzrEUMeR5TYAqc2dn3mxx8jkszI
-   lh+VfcZ1A8sOeJnLJGxMhGonm7gaI/hhk1MIRrf0MFbBypvGBYEbWSCE1
-   MgXlpohPduaFfHye8LbVoRH4OIQZIRrewxXTFSlef3Tbv5J2gOQ2kzTtZ
-   FRFbvPq11AJxm3e2+AWShDC+XKp7oPyP4wmrXtQY6EpuFjHwdGmuk6e94
-   Mx5KlfKXYIys3k6UrG+eKPPj0i1nQlFvQnvz2rFGjVWKlVq6Y8E386Fjb
+  bh=J4OFRxMfAv1cz792gWvU9NGsLPBq5DCRpXpqK+nWRD8=;
+  b=QHyuM/UFso+3wDCM/RAUEG5e2be6fwnUkfXXnEieQTmwX0W77LxAxo+3
+   ql6t6XzldXlwlDTjFNU1h8vv7IQeUJUU2FlYplvJVoF6BuPaqEsfZ+Nq7
+   eRN0mK/ObzcjhhelU36uIdnyCh9l4FiD4IgyEsLNfdEsJz/a7AaRcZvYh
+   FurSI0aUh52BypLdcz3CfIe0j83pwO9hLYC2hcidyZbvzYlDYzwNfJ1Nv
+   QEZBDohunSmTMUzp1LpueB127RkSaOmpk5ZN0T0LsbYX3CYf4G6QTgOoy
+   i/OFAb0SAfnzqSU9CP5x/Ur0AJTDvfn3Qknkk3J8J81NBraMvusqe2vgn
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="353601747"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="434984531"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="353601747"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 15:15:38 -0700
+   d="scan'208";a="434984531"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 15:25:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="721411763"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="677649809"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="721411763"
+   d="scan'208";a="677649809"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 28 Jul 2023 15:15:31 -0700
+  by orsmga003.jf.intel.com with ESMTP; 28 Jul 2023 15:25:31 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPVkA-0003cR-1V;
-	Fri, 28 Jul 2023 22:15:30 +0000
-Date: Sat, 29 Jul 2023 06:14:31 +0800
+	id 1qPVtq-0003d2-2Q;
+	Fri, 28 Jul 2023 22:25:30 +0000
+Date: Sat, 29 Jul 2023 06:24:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shenwei Wang <shenwei.wang@nxp.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Bhupesh Sharma <bhupesh.sharma@linaro.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Simon Horman <simon.horman@corigine.com>,
-	Andrew Halaney <ahalaney@redhat.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Shenwei Wang <shenwei.wang@nxp.com>,
-	Wong Vee Khee <veekhee@apple.com>
-Subject: Re: [PATCH v2 net 1/2] net: stmmac: add new mode parameter for
- fix_mac_speed
-Message-ID: <202307290635.TOWvHdhK-lkp@intel.com>
-References: <20230727152503.2199550-2-shenwei.wang@nxp.com>
+To: Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] selinux: optimize ebitmap_and()
+Message-ID: <202307290638.KswmmmnP-lkp@intel.com>
+References: <20230728155937.41580-1-cgzones@googlemail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,115 +46,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230727152503.2199550-2-shenwei.wang@nxp.com>
+In-Reply-To: <20230728155937.41580-1-cgzones@googlemail.com>
 
-Hi Shenwei,
+Hi Christian,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net/main]
+[auto build test WARNING on pcmoore-selinux/next]
+[also build test WARNING on linus/master v6.5-rc3 next-20230728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shenwei-Wang/net-stmmac-add-new-mode-parameter-for-fix_mac_speed/20230727-232922
-base:   net/main
-patch link:    https://lore.kernel.org/r/20230727152503.2199550-2-shenwei.wang%40nxp.com
-patch subject: [PATCH v2 net 1/2] net: stmmac: add new mode parameter for fix_mac_speed
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230729/202307290635.TOWvHdhK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290635.TOWvHdhK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-G-ttsche/selinux-optimize-ebitmap_and/20230729-000029
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
+patch link:    https://lore.kernel.org/r/20230728155937.41580-1-cgzones%40googlemail.com
+patch subject: [RFC PATCH] selinux: optimize ebitmap_and()
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20230729/202307290638.KswmmmnP-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290638.KswmmmnP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307290635.TOWvHdhK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307290638.KswmmmnP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c: In function 'starfive_dwmac_probe':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c:132:41: error: assignment to 'void (*)(void *, uint,  uint)' {aka 'void (*)(void *, unsigned int,  unsigned int)'} from incompatible pointer type 'void (*)(void *, unsigned int)' [-Werror=incompatible-pointer-types]
-     132 |                 plat_dat->fix_mac_speed = starfive_dwmac_fix_mac_speed;
-         |                                         ^
-   cc1: some warnings being treated as errors
---
-   drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c: In function 'sti_dwmac_probe':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c:296:33: error: assignment to 'void (*)(void *, uint,  uint)' {aka 'void (*)(void *, unsigned int,  unsigned int)'} from incompatible pointer type 'void (*)(void *, unsigned int)' [-Werror=incompatible-pointer-types]
-     296 |         plat_dat->fix_mac_speed = data->fix_retime_src;
-         |                                 ^
-   cc1: some warnings being treated as errors
---
-   drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c: In function 'tegra_eqos_probe':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c:359:29: error: assignment to 'void (*)(void *, uint,  uint)' {aka 'void (*)(void *, unsigned int,  unsigned int)'} from incompatible pointer type 'void (*)(void *, unsigned int)' [-Werror=incompatible-pointer-types]
-     359 |         data->fix_mac_speed = tegra_eqos_fix_speed;
-         |                             ^
-   cc1: some warnings being treated as errors
---
-   drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c: In function 'intel_eth_plat_probe':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c:108:49: error: assignment to 'void (*)(void *, uint,  uint)' {aka 'void (*)(void *, unsigned int,  unsigned int)'} from incompatible pointer type 'void (*)(void *, unsigned int)' [-Werror=incompatible-pointer-types]
-     108 |                         plat_dat->fix_mac_speed = dwmac->data->fix_mac_speed;
-         |                                                 ^
-   cc1: some warnings being treated as errors
+   security/selinux/ss/ebitmap.c: In function 'ebitmap_and':
+>> security/selinux/ss/ebitmap.c:99:54: warning: iteration 6 invokes undefined behavior [-Waggressive-loop-optimizations]
+      99 |                                 testmap[i] = n1->maps[i] & n2->maps[i];
+         |                                              ~~~~~~~~^~~
+   security/selinux/ss/ebitmap.c:98:39: note: within this loop
+      98 |                         for (i = 0; i < sizeof(testmap); i++) {
+         |                                     ~~^~~~~~~~~~~~~~~~~
 
 
-vim +132 drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c
+vim +99 security/selinux/ss/ebitmap.c
 
-b4a5afa51ceeca Samin Guo 2023-04-17   92  
-4bd3bb7b452690 Samin Guo 2023-04-17   93  static int starfive_dwmac_probe(struct platform_device *pdev)
-4bd3bb7b452690 Samin Guo 2023-04-17   94  {
-4bd3bb7b452690 Samin Guo 2023-04-17   95  	struct plat_stmmacenet_data *plat_dat;
-4bd3bb7b452690 Samin Guo 2023-04-17   96  	struct stmmac_resources stmmac_res;
-4bd3bb7b452690 Samin Guo 2023-04-17   97  	struct starfive_dwmac *dwmac;
-4bd3bb7b452690 Samin Guo 2023-04-17   98  	struct clk *clk_gtx;
-4bd3bb7b452690 Samin Guo 2023-04-17   99  	int err;
-4bd3bb7b452690 Samin Guo 2023-04-17  100  
-4bd3bb7b452690 Samin Guo 2023-04-17  101  	err = stmmac_get_platform_resources(pdev, &stmmac_res);
-4bd3bb7b452690 Samin Guo 2023-04-17  102  	if (err)
-4bd3bb7b452690 Samin Guo 2023-04-17  103  		return dev_err_probe(&pdev->dev, err,
-4bd3bb7b452690 Samin Guo 2023-04-17  104  				     "failed to get resources\n");
-4bd3bb7b452690 Samin Guo 2023-04-17  105  
-4bd3bb7b452690 Samin Guo 2023-04-17  106  	plat_dat = stmmac_probe_config_dt(pdev, stmmac_res.mac);
-4bd3bb7b452690 Samin Guo 2023-04-17  107  	if (IS_ERR(plat_dat))
-4bd3bb7b452690 Samin Guo 2023-04-17  108  		return dev_err_probe(&pdev->dev, PTR_ERR(plat_dat),
-4bd3bb7b452690 Samin Guo 2023-04-17  109  				     "dt configuration failed\n");
-4bd3bb7b452690 Samin Guo 2023-04-17  110  
-4bd3bb7b452690 Samin Guo 2023-04-17  111  	dwmac = devm_kzalloc(&pdev->dev, sizeof(*dwmac), GFP_KERNEL);
-4bd3bb7b452690 Samin Guo 2023-04-17  112  	if (!dwmac)
-4bd3bb7b452690 Samin Guo 2023-04-17  113  		return -ENOMEM;
-4bd3bb7b452690 Samin Guo 2023-04-17  114  
-4bd3bb7b452690 Samin Guo 2023-04-17  115  	dwmac->clk_tx = devm_clk_get_enabled(&pdev->dev, "tx");
-4bd3bb7b452690 Samin Guo 2023-04-17  116  	if (IS_ERR(dwmac->clk_tx))
-4bd3bb7b452690 Samin Guo 2023-04-17  117  		return dev_err_probe(&pdev->dev, PTR_ERR(dwmac->clk_tx),
-4bd3bb7b452690 Samin Guo 2023-04-17  118  				     "error getting tx clock\n");
-4bd3bb7b452690 Samin Guo 2023-04-17  119  
-4bd3bb7b452690 Samin Guo 2023-04-17  120  	clk_gtx = devm_clk_get_enabled(&pdev->dev, "gtx");
-4bd3bb7b452690 Samin Guo 2023-04-17  121  	if (IS_ERR(clk_gtx))
-4bd3bb7b452690 Samin Guo 2023-04-17  122  		return dev_err_probe(&pdev->dev, PTR_ERR(clk_gtx),
-4bd3bb7b452690 Samin Guo 2023-04-17  123  				     "error getting gtx clock\n");
-4bd3bb7b452690 Samin Guo 2023-04-17  124  
-4bd3bb7b452690 Samin Guo 2023-04-17  125  	/* Generally, the rgmii_tx clock is provided by the internal clock,
-4bd3bb7b452690 Samin Guo 2023-04-17  126  	 * which needs to match the corresponding clock frequency according
-4bd3bb7b452690 Samin Guo 2023-04-17  127  	 * to different speeds. If the rgmii_tx clock is provided by the
-4bd3bb7b452690 Samin Guo 2023-04-17  128  	 * external rgmii_rxin, there is no need to configure the clock
-4bd3bb7b452690 Samin Guo 2023-04-17  129  	 * internally, because rgmii_rxin will be adaptively adjusted.
-4bd3bb7b452690 Samin Guo 2023-04-17  130  	 */
-4bd3bb7b452690 Samin Guo 2023-04-17  131  	if (!device_property_read_bool(&pdev->dev, "starfive,tx-use-rgmii-clk"))
-4bd3bb7b452690 Samin Guo 2023-04-17 @132  		plat_dat->fix_mac_speed = starfive_dwmac_fix_mac_speed;
-4bd3bb7b452690 Samin Guo 2023-04-17  133  
-4bd3bb7b452690 Samin Guo 2023-04-17  134  	dwmac->dev = &pdev->dev;
-4bd3bb7b452690 Samin Guo 2023-04-17  135  	plat_dat->bsp_priv = dwmac;
-4bd3bb7b452690 Samin Guo 2023-04-17  136  	plat_dat->dma_cfg->dche = true;
-4bd3bb7b452690 Samin Guo 2023-04-17  137  
-b4a5afa51ceeca Samin Guo 2023-04-17  138  	err = starfive_dwmac_set_mode(plat_dat);
-b4a5afa51ceeca Samin Guo 2023-04-17  139  	if (err)
-b4a5afa51ceeca Samin Guo 2023-04-17  140  		return err;
-b4a5afa51ceeca Samin Guo 2023-04-17  141  
-4bd3bb7b452690 Samin Guo 2023-04-17  142  	err = stmmac_dvr_probe(&pdev->dev, plat_dat, &stmmac_res);
-4bd3bb7b452690 Samin Guo 2023-04-17  143  	if (err) {
-4bd3bb7b452690 Samin Guo 2023-04-17  144  		stmmac_remove_config_dt(pdev, plat_dat);
-4bd3bb7b452690 Samin Guo 2023-04-17  145  		return err;
-4bd3bb7b452690 Samin Guo 2023-04-17  146  	}
-4bd3bb7b452690 Samin Guo 2023-04-17  147  
-4bd3bb7b452690 Samin Guo 2023-04-17  148  	return 0;
-4bd3bb7b452690 Samin Guo 2023-04-17  149  }
-4bd3bb7b452690 Samin Guo 2023-04-17  150  
+    81	
+    82	int ebitmap_and(struct ebitmap *dst, const struct ebitmap *e1, const struct ebitmap *e2)
+    83	{
+    84		const struct ebitmap_node *n1, *n2;
+    85		struct ebitmap_node *new = NULL, **prev;
+    86	
+    87		ebitmap_init(dst);
+    88	
+    89		prev = &dst->node;
+    90		n1 = e1->node;
+    91		n2 = e2->node;
+    92		while (n1 && n2) {
+    93			if (n1->startbit == n2->startbit) {
+    94				unsigned long testmap[EBITMAP_UNIT_NUMS];
+    95				unsigned int i;
+    96				bool match = false;
+    97	
+    98				for (i = 0; i < sizeof(testmap); i++) {
+  > 99					testmap[i] = n1->maps[i] & n2->maps[i];
+   100					if (testmap[i] != 0)
+   101						match = true;
+   102				}
+   103	
+   104				if (match) {
+   105					new = kmem_cache_zalloc(ebitmap_node_cachep, GFP_ATOMIC);
+   106					if (!new) {
+   107						ebitmap_destroy(dst);
+   108						return -ENOMEM;
+   109					}
+   110					new->startbit = n1->startbit;
+   111					memcpy(new->maps, testmap, EBITMAP_SIZE / 8);
+   112					new->next = NULL;
+   113	
+   114					*prev = new;
+   115					prev = &(new->next);
+   116				}
+   117	
+   118				n1 = n1->next;
+   119				n2 = n2->next;
+   120			} else if (n1->startbit > n2->startbit) {
+   121				n2 = n2->next;
+   122			} else {
+   123				n1 = n1->next;
+   124			}
+   125		}
+   126	
+   127		if (new)
+   128			dst->highbit = new->startbit + EBITMAP_SIZE;
+   129	
+   130		return 0;
+   131	}
+   132	
 
 -- 
 0-DAY CI Kernel Test Service
