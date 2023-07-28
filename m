@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (unknown [134.134.136.31])
+Received: from mgamail.intel.com (unknown [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0AD1426E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 19:40:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C95DEDC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 20:21:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690573230; x=1722109230;
+  t=1690575692; x=1722111692;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YOjZKuUxxHiGhA2pOjH1UI6pwT6R7qzhpZ86ZJt+rfM=;
-  b=So4s5pjdMgxxlNzYDGMnx2NpSsJv1A1XGWMk8qO5wO5+qw++ON/K/hqc
-   J2cZQTF7ZB68pn4PND/rvdhm6TjzFPa3ucAjoTilTbUCFf2b+ZjkQvq2M
-   ckFTYIPC1HRpKrOyr5J91KtjpjxqsjHQnilPFghUfAZnn75C0ZxOsvUug
-   Qgr40JA1fA3kYXVcxkN7dXAJYJaUvSA92w0ZiKHTWCHRNM66Wb31LI4s3
-   019k+4MCN14IJJ5VEc1Zh/xhxaV5aa9DCxtAxin6wscS4nGw695NsXxQz
-   9b5HSziNXO6tyQjRylZSYepnPgIDBZYk+bxFSY9MQkiWSjq4p1JPf9wwL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="432482254"
+  bh=C3ZMdi9TewWNnWATxjQKGZS/WM0OUr3sM3rmc7hqh7I=;
+  b=CSYah00RLn/TBIWSFpf79nr5Mkvm2pAPYjjCOnoC9oXDwM2znQikpOmo
+   K+CblbIs2EI8ur8+GJsgQXW/npPtPVMgPd5/0pe7lymmQ2TvBTSdsG+q5
+   RTG1bWnH0Xgg3Vq+atmPchjxNXOqu1pmRMYjxHOJV3s6QyNpkIsZwQKuI
+   mMLlHUm/EN8bmZONsiLumBrVB0XnxFrRJ3ZC7Jnsu21p2w78Nrlp1eL9e
+   +iKhmSXRjLaKlvsVhfbAoSrqMykMErbTo2YJLM+bbu1S2zLv4d46GixHN
+   epb9NOlyngxknmT00MPhDIkQKU8pcAg29fKxqK6a/awK7+9ikAMtN5JW6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="348278923"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="432482254"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 12:40:30 -0700
+   d="scan'208";a="348278923"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 13:21:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="727574334"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="721380407"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="727574334"
+   d="scan'208";a="721380407"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 28 Jul 2023 12:40:28 -0700
+  by orsmga007.jf.intel.com with ESMTP; 28 Jul 2023 13:21:29 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPTK7-0003Wp-33;
-	Fri, 28 Jul 2023 19:40:27 +0000
-Date: Sat, 29 Jul 2023 03:39:51 +0800
+	id 1qPTxo-0003YJ-2a;
+	Fri, 28 Jul 2023 20:21:28 +0000
+Date: Sat, 29 Jul 2023 04:20:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qing Zhang <zhangqing@loongson.cn>
+To: Kalesh Singh <kaleshsingh@google.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: net/core/netpoll.c:317:9: sparse: sparse: incorrect type in argument
- 1 (different address spaces)
-Message-ID: <202307290318.zQhLsxWq-lkp@intel.com>
+	Marc Zyngier <maz@kernel.org>, Fuad Tabba <tabba@google.com>
+Subject: arch/arm64/kvm/arm.c:52:1: sparse: sparse: symbol
+ '__pcpu_scope_kvm_arm_hyp_stack_page' was not declared. Should it be static?
+Message-ID: <202307290417.WeNyFMib-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,112 +48,27 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   57012c57536f8814dec92e74197ee96c3498d24e
-commit: 93a4fa622eb061f75f87f0cf9609ab4e69c67d01 LoongArch: Add STACKTRACE support
-date:   12 months ago
-config: loongarch-randconfig-r072-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290318.zQhLsxWq-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290318.zQhLsxWq-lkp@intel.com/reproduce)
+head:   f837f0a3c94882a29e38ff211a36c1c8a0f07804
+commit: db129d486ebdf4e3168282236f9d9008b42cac7e KVM: arm64: Implement non-protected nVHE hyp stack unwinder
+date:   1 year ago
+config: arm64-randconfig-r071-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290417.WeNyFMib-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290417.WeNyFMib-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307290318.zQhLsxWq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307290417.WeNyFMib-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> net/core/netpoll.c:317:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/netpoll.c:317:9: sparse:     expected void *ptr
-   net/core/netpoll.c:317:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/netpoll.c:317:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/netpoll.c:317:9: sparse:     expected void *ptr
-   net/core/netpoll.c:317:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/netpoll.c:317:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/netpoll.c:317:9: sparse:     expected void *ptr
-   net/core/netpoll.c:317:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/netpoll.c:317:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/netpoll.c:317:9: sparse:     expected void *ptr
-   net/core/netpoll.c:317:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/netpoll.c:317:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/netpoll.c:317:9: sparse:     expected void *ptr
-   net/core/netpoll.c:317:9: sparse:     got int [noderef] __percpu *
->> net/core/netpoll.c:317:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/netpoll.c:317:9: sparse:     expected void *ptr
-   net/core/netpoll.c:317:9: sparse:     got int [noderef] __percpu *
->> net/core/netpoll.c:317:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/netpoll.c:317:9: sparse:     expected void *ptr
-   net/core/netpoll.c:317:9: sparse:     got int [noderef] __percpu *
->> net/core/netpoll.c:317:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/netpoll.c:317:9: sparse:     expected void *ptr
-   net/core/netpoll.c:317:9: sparse:     got int [noderef] __percpu *
-   net/core/netpoll.c:348:25: sparse: sparse: context imbalance in '__netpoll_send_skb' - different lock contexts for basic block
+>> arch/arm64/kvm/arm.c:52:1: sparse: sparse: symbol '__pcpu_scope_kvm_arm_hyp_stack_page' was not declared. Should it be static?
 
-vim +317 net/core/netpoll.c
+vim +/__pcpu_scope_kvm_arm_hyp_stack_page +52 arch/arm64/kvm/arm.c
 
-bea3348eef27e60 Stephen Hemminger   2007-10-03  307  
-2899656b494dcd1 Amerigo Wang        2012-08-10  308  /* call with IRQ disabled */
-1ddabdfaf70c202 Eric Dumazet        2020-05-07  309  static netdev_tx_t __netpoll_send_skb(struct netpoll *np, struct sk_buff *skb)
-^1da177e4c3f415 Linus Torvalds      2005-04-16  310  {
-a54776f2c4939bd Yunjian Wang        2020-04-29  311  	netdev_tx_t status = NETDEV_TX_BUSY;
-307f660d056b5eb Eric Dumazet        2020-05-07  312  	struct net_device *dev;
-2bdfe0baeca0e27 Stephen Hemminger   2006-10-26  313  	unsigned long tries;
-de85d99eb7b595f Herbert Xu          2010-06-10  314  	/* It is up to the caller to keep npinfo alive. */
-2899656b494dcd1 Amerigo Wang        2012-08-10  315  	struct netpoll_info *npinfo;
-f0d3459d0722782 Matt Mackall        2005-08-11  316  
-af0733937317e1e Frederic Weisbecker 2017-11-06 @317  	lockdep_assert_irqs_disabled();
-2899656b494dcd1 Amerigo Wang        2012-08-10  318  
-307f660d056b5eb Eric Dumazet        2020-05-07  319  	dev = np->dev;
-307f660d056b5eb Eric Dumazet        2020-05-07  320  	npinfo = rcu_dereference_bh(dev->npinfo);
-307f660d056b5eb Eric Dumazet        2020-05-07  321  
-2bdfe0baeca0e27 Stephen Hemminger   2006-10-26  322  	if (!npinfo || !netif_running(dev) || !netif_device_present(dev)) {
-080b3c19a4ffe46 Eric W. Biederman   2014-03-27  323  		dev_kfree_skb_irq(skb);
-1ddabdfaf70c202 Eric Dumazet        2020-05-07  324  		return NET_XMIT_DROP;
-^1da177e4c3f415 Linus Torvalds      2005-04-16  325  	}
-^1da177e4c3f415 Linus Torvalds      2005-04-16  326  
-2bdfe0baeca0e27 Stephen Hemminger   2006-10-26  327  	/* don't get messages out of order, and no recursion */
-bea3348eef27e60 Stephen Hemminger   2007-10-03  328  	if (skb_queue_len(&npinfo->txq) == 0 && !netpoll_owner_active(dev)) {
-fd2ea0a79faad82 David S. Miller     2008-07-17  329  		struct netdev_queue *txq;
-a49f99ffca57a2e Andrew Morton       2006-12-11  330  
-4bd97d51a5e602e Paolo Abeni         2019-03-20  331  		txq = netdev_core_pick_tx(dev, skb, NULL);
-fd2ea0a79faad82 David S. Miller     2008-07-17  332  
-2bdfe0baeca0e27 Stephen Hemminger   2006-10-26  333  		/* try until next clock tick */
-e37b8d931936f88 Andrew Morton       2006-12-09  334  		for (tries = jiffies_to_usecs(1)/USEC_PER_POLL;
-e37b8d931936f88 Andrew Morton       2006-12-09  335  		     tries > 0; --tries) {
-5efeac44cfca62f Eric W. Biederman   2014-03-27  336  			if (HARD_TX_TRYLOCK(dev, txq)) {
-944e294857033db Eric W. Biederman   2014-03-27  337  				if (!netif_xmit_stopped(txq))
-944e294857033db Eric W. Biederman   2014-03-27  338  					status = netpoll_start_xmit(skb, dev, txq);
-689971b44613883 Amerigo Wang        2012-08-10  339  
-5efeac44cfca62f Eric W. Biederman   2014-03-27  340  				HARD_TX_UNLOCK(dev, txq);
-^1da177e4c3f415 Linus Torvalds      2005-04-16  341  
-2c1644cf6d46a82 Feng Sun            2019-08-26  342  				if (dev_xmit_complete(status))
-2bdfe0baeca0e27 Stephen Hemminger   2006-10-26  343  					break;
-8834807b43200b1 Jeremy Fitzhardinge 2006-06-26  344  
-0db3dc73f7a3a73 Stephen Hemminger   2007-06-27  345  			}
-0db3dc73f7a3a73 Stephen Hemminger   2007-06-27  346  
-2bdfe0baeca0e27 Stephen Hemminger   2006-10-26  347  			/* tickle device maybe there is some cleanup */
-2a49e001cbe3ebf Joe Perches         2011-06-30  348  			netpoll_poll_dev(np->dev);
-^1da177e4c3f415 Linus Torvalds      2005-04-16  349  
-2bdfe0baeca0e27 Stephen Hemminger   2006-10-26  350  			udelay(USEC_PER_POLL);
-2bdfe0baeca0e27 Stephen Hemminger   2006-10-26  351  		}
-79b1bee888d43b1 Dongdong Deng       2009-08-21  352  
-79b1bee888d43b1 Dongdong Deng       2009-08-21  353  		WARN_ONCE(!irqs_disabled(),
-d75f773c86a2b8b Sakari Ailus        2019-03-25  354  			"netpoll_send_skb_on_dev(): %s enabled interrupts in poll (%pS)\n",
-944e294857033db Eric W. Biederman   2014-03-27  355  			dev->name, dev->netdev_ops->ndo_start_xmit);
-79b1bee888d43b1 Dongdong Deng       2009-08-21  356  
-e37b8d931936f88 Andrew Morton       2006-12-09  357  	}
-f0d3459d0722782 Matt Mackall        2005-08-11  358  
-2c1644cf6d46a82 Feng Sun            2019-08-26  359  	if (!dev_xmit_complete(status)) {
-5de4a473bda4955 Stephen Hemminger   2006-10-26  360  		skb_queue_tail(&npinfo->txq, skb);
-4c1ac1b49122b80 David Howells       2006-12-05  361  		schedule_delayed_work(&npinfo->tx_work,0);
-2bdfe0baeca0e27 Stephen Hemminger   2006-10-26  362  	}
-1ddabdfaf70c202 Eric Dumazet        2020-05-07  363  	return NETDEV_TX_OK;
-^1da177e4c3f415 Linus Torvalds      2005-04-16  364  }
-fb1eee476b0d3be Eric Dumazet        2020-05-07  365  
-
-:::::: The code at line 317 was first introduced by commit
-:::::: af0733937317e1e03b60f3af8cf9cd59d665593c netpoll: Use lockdep to assert IRQs are disabled/enabled
-
-:::::: TO: Frederic Weisbecker <frederic@kernel.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+    50	
+    51	DEFINE_PER_CPU(unsigned long, kvm_arm_hyp_stack_page);
+  > 52	DECLARE_KVM_NVHE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
