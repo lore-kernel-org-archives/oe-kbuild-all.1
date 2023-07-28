@@ -1,49 +1,44 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (unknown [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C65156C3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 21:07:23 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso28522535e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 14:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690578442; x=1691183242;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+tc5WwtQqVsq4j0Ng1nFQLroD3hTGoZzgxCO5bF57RU=;
-        b=hgfb1j8+G7jM0SKIFxCQ4YMrmQcm37/bIgbz+iH9Xr5WgM+IzWMQ0uuCEZR2J80atC
-         UvIWv9wpE/+L+bFrOXCQZi0RIz/B0CGjvhF5wiu6LnjVlYi+SkRzVMeH/LDbwU2fZ33D
-         w/iKZkQIDWfC1sYoNaBhcjyTcbzxs9W3eGqZxlRltsX05/WXniJyQhrxDrCsoTwD32n+
-         r6N8MWthvCiNPuV1wS7MiQb+SW0x/Jy14c2F4hq+9zqebL9r3cx6Sl26BbpH/6j5jNQd
-         h60Nbi+PxGBFk2HIE+Ont/euLFzhy0Mth2z7rdK181b7hLbZ63vWaWRbDxseNCWTVhNO
-         ug5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690578442; x=1691183242;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+tc5WwtQqVsq4j0Ng1nFQLroD3hTGoZzgxCO5bF57RU=;
-        b=BPe31p9l2sLEFgG4bGwERXOTu9H5aUGYMaDNeUkuF58j5Yjm9diW4RjmguU8RrN+F0
-         pHL9pqeHNqRC9zOYlYSnmb+8cj+nvIe/ICDTxFQf8vueRNAcNIAy3c3X0hBkxAb/zPgM
-         o+8xHUpOhEuNoQgUVPcKULH5K9QqT03FU8dn5zvOYaxu/rm8ElsIyCa07g20Xpsoookp
-         ExBIrPm64JWX+Cw5XmBl3KvJLHO7uZLePDIcUzKlBwScTnpRbZvmein29gpYu0IeyuUg
-         iqtLRMzi/Yvr+BidiH2NwpvlR6YaoKAWRNr38oCBGlYXif0zNQY05adW4h2fSjP2bWUt
-         DkKg==
-X-Gm-Message-State: ABy/qLaN/xGikK9qq155rzLIxdgUGCVml0O2sS7hJv+T2p/BkbMNlMt9
-	zIjBkXyTNcyCaquwRSLlYitFew==
-X-Google-Smtp-Source: APBJJlGs4F53MvZH94sNJVHkiwHSOMqi3atyD92zQwepoMb1wRHIcQFnsQuzBmz0B+w9U13MXQRZIA==
-X-Received: by 2002:a05:600c:214d:b0:3fd:4880:2aa5 with SMTP id v13-20020a05600c214d00b003fd48802aa5mr2968219wml.28.1690578441761;
-        Fri, 28 Jul 2023 14:07:21 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y17-20020a05600c20d100b003fba6709c68sm4996962wmm.47.2023.07.28.14.07.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jul 2023 14:07:21 -0700 (PDT)
-Date: Sat, 29 Jul 2023 00:07:18 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Simon Horman <horms@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/remoteproc/pru_rproc.c:341 pru_rproc_set_ctable() warn:
- variable dereferenced before IS_ERR check 'rproc' (see line 335)
-Message-ID: <ecf8338f-53dd-4de2-b5a1-e7c6f9229edc@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1FC1DA42;
+	Fri, 28 Jul 2023 21:23:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690579393; x=1722115393;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=au3jS5c503/YSiZLn/WbX/Bf8rD1c3n81dbW1VtJHqM=;
+  b=LPsJDKwOwT7lygcgUmD8x5Ejdv16Ow7mdeD8WsFfi0J5vTIRhVyjo0ls
+   Cder0Oqr6jj8N/cFqu98orOLMcqXdi+K9I4kNJVlD63pmPVkLEh0WSU38
+   U0bB1foe65A8mBnbm/BA+GAr2NZgs2X2E2QBObX58AgOym7rEdAOSAtb1
+   mhFIKGa1I0ShIkNUKy/f+8bWESKRJRxwj92sXoMf8RiTrRzQ1GMedV3O7
+   5pciQ+bP/Znb1VSE6yKeGQtnL7fpolQeWhPeVBBQi8lpACMmQnohePIGM
+   QHPLI3rGaAo9kblCgbFPhrv+G/sLHoMlIiyfCYanFFP10OZBJWGbFxymh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="353592841"
+X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
+   d="scan'208";a="353592841"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 14:23:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="817641292"
+X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
+   d="scan'208";a="817641292"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Jul 2023 14:23:10 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qPUvU-0003aV-05;
+	Fri, 28 Jul 2023 21:23:08 +0000
+Date: Sat, 29 Jul 2023 05:23:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: [stable:linux-5.15.y 3221/9999] lib/locking-selftest.c:2792:6:
+ warning: stack frame size (10112) exceeds limit (8192) in 'locking_selftest'
+Message-ID: <202307290545.6BFaYjDe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,65 +48,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Simon,
+Hi Kees,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+First bad commit (maybe != root cause):
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f837f0a3c94882a29e38ff211a36c1c8a0f07804
-commit: e752f9b924a1fd1afcf36e51b03dfa9c3096a3bd soc: ti: pruss: Allow compile-testing
-config: csky-randconfig-m041-20230727 (https://download.01.org/0day-ci/archive/20230729/202307290417.hrgfPCcg-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290417.hrgfPCcg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   09996673e3139a6d86fc3d95c852b3a020e2fe5f
+commit: 7434626c5eaaf4178c643f79828f8cf288308dfd [3221/9999] hardening: Remove Clang's enable flag for -ftrivial-auto-var-init=zero
+config: s390-randconfig-r015-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290545.6BFaYjDe-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290545.6BFaYjDe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307290417.hrgfPCcg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307290545.6BFaYjDe-lkp@intel.com/
 
-smatch warnings:
-drivers/remoteproc/pru_rproc.c:341 pru_rproc_set_ctable() warn: variable dereferenced before IS_ERR check 'rproc' (see line 335)
+All warnings (new ones prefixed by >>):
 
-vim +/rproc +341 drivers/remoteproc/pru_rproc.c
-
-102853400321bae Roger Quadros   2023-01-06  333  int pru_rproc_set_ctable(struct rproc *rproc, enum pru_ctable_idx c, u32 addr)
-102853400321bae Roger Quadros   2023-01-06  334  {
-102853400321bae Roger Quadros   2023-01-06 @335  	struct pru_rproc *pru = rproc->priv;
-                                                                                ^^^^^^^^^^^^
-Dereference
-
-102853400321bae Roger Quadros   2023-01-06  336  	unsigned int reg;
-102853400321bae Roger Quadros   2023-01-06  337  	u32 mask, set;
-102853400321bae Roger Quadros   2023-01-06  338  	u16 idx;
-102853400321bae Roger Quadros   2023-01-06  339  	u16 idx_mask;
-102853400321bae Roger Quadros   2023-01-06  340  
-102853400321bae Roger Quadros   2023-01-06 @341  	if (IS_ERR_OR_NULL(rproc))
-102853400321bae Roger Quadros   2023-01-06  342  		return -EINVAL;
-
-Checked too late.  Also ideally it would be:
-
-	if (IS_ERR_OR_NULL(rproc))
-		return PTR_ERR(rproc);
-
-If a pointer can be both error and NULL then generally the NULL is a
-special kind of success.  It means the option is turned off so there
-is nothing to do, so an early return is success.
-
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+>> lib/locking-selftest.c:2792:6: warning: stack frame size (10112) exceeds limit (8192) in 'locking_selftest' [-Wframe-larger-than]
+    2792 | void locking_selftest(void)
+         |      ^
+   1 warning generated.
 
 
-102853400321bae Roger Quadros   2023-01-06  343  
-102853400321bae Roger Quadros   2023-01-06  344  	if (!rproc->dev.parent || !is_pru_rproc(rproc->dev.parent))
-102853400321bae Roger Quadros   2023-01-06  345  		return -ENODEV;
-102853400321bae Roger Quadros   2023-01-06  346  
-102853400321bae Roger Quadros   2023-01-06  347  	/* pointer is 16 bit and index is 8-bit so mask out the rest */
-102853400321bae Roger Quadros   2023-01-06  348  	idx_mask = (c >= PRU_C28) ? 0xFFFF : 0xFF;
-102853400321bae Roger Quadros   2023-01-06  349  
-102853400321bae Roger Quadros   2023-01-06  350  	/* ctable uses bit 8 and upwards only */
-102853400321bae Roger Quadros   2023-01-06  351  	idx = (addr >> 8) & idx_mask;
+vim +/locking_selftest +2792 lib/locking-selftest.c
+
+8946ccc25ed22d Boqun Feng  2021-06-19  2791  
+cae2ed9aa57341 Ingo Molnar 2006-07-03 @2792  void locking_selftest(void)
+
+:::::: The code at line 2792 was first introduced by commit
+:::::: cae2ed9aa573415c6e5de9a09b7ff0d74af793bc [PATCH] lockdep: locking API self tests
+
+:::::: TO: Ingo Molnar <mingo@elte.hu>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
