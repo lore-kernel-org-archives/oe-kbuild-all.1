@@ -1,56 +1,43 @@
-Received: from mgamail.intel.com (unknown [192.55.52.88])
+Received: from mgamail.intel.com (unknown [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D98C2C0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 07:27:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F37C8DA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 08:06:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690529220; x=1722065220;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4mUBuKQHXM+NNtp1lxugGVSkC/2iGT32uWxUetY8AQk=;
-  b=oEa3HvgCVNwDWZC83+6GxZVOh5DxJaiSjJjH0A5a0dRrr/90j5DB+t98
-   gSHWZmRygSdWiAJju7/Y00gmkjsVo6l8eOOpqEChcJu/Qskska2nTOYGe
-   6Pvij5QvdQx64r1PpuRWnl9Sto8wTiv3cQ21cadnSG1OjgD/+ZUI/BGrf
-   9mRoJyHuphLi67qHS5rJYfK+y1/+oiaw9QytpRZx0U71N1rqxrGio/NIZ
-   fQzfcTqckXCwqiXMm0lmG/vgjTlRqzosbX63nG7HO73AFPH+s4802i3l6
-   S700hPc+9M1UhTqLlbySA5FAFDvmezBCUOsfEVCenpRxF2ml6St+k286d
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="399466549"
+  t=1690531619; x=1722067619;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=rrYT9CCdhkSNefmeirL7ue1ZwzOjsW5kwHQ4XAoWSvo=;
+  b=VLIx2z0T6KD1ojYceYMxR64Vo1VHvaJVgwZRtdG8YE6ErBRcp0OspdTJ
+   iyAFL9fwpui2DGssZMOHMxekVLJmHiYMHYYvkYXsx8+J4hxX9HXyxOc0v
+   4CgJGHapee0cc2mirJt0aRFazZCvRdmPoZLA2LkdS0NM9VLT7mGW8k4hq
+   MEg1uWJD3J3PQrXAhUAGsYLeoPiIeej4aDeJfIS+8iNPRRUruSk8Usy3C
+   PqHTLHQx/D48CCSokbq3sYc62mH1xBwvxxJe3QEDDIP3vFSWhDZNqZjwk
+   bbpCADVVKNehND8gIDUFnijdPj8uEoOWHcqvDaU2y/Cg2+6LD6JsSjtXG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="348138500"
 X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="399466549"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 00:26:59 -0700
+   d="scan'208";a="348138500"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 01:06:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="841183018"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="901136292"
 X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="841183018"
+   d="scan'208";a="901136292"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Jul 2023 00:26:55 -0700
+  by orsmga005.jf.intel.com with ESMTP; 28 Jul 2023 01:06:57 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPHsE-0002yZ-1e;
-	Fri, 28 Jul 2023 07:26:54 +0000
-Date: Fri, 28 Jul 2023 15:26:40 +0800
+	id 1qPIUy-00030r-1n;
+	Fri, 28 Jul 2023 08:06:56 +0000
+Date: Fri, 28 Jul 2023 16:05:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jackson <lee.jackson@arducam.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Shawn Tu <shawnx.tu@intel.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	kieran.bingham@ideasonboard.com,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	jacopo.mondi@ideasonboard.com,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: Re: [PATCH 2/2] media: i2c: imx519: Support for the Sony IMX519
- sensor
-Message-ID: <202307281538.bqZ5kcV9-lkp@intel.com>
-References: <20230727154108.308320-3-umang.jain@ideasonboard.com>
+To: Jijie Shao <shaojijie@huawei.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net 2/6] net: hns3: restore user pause configure when
+ disable autoneg
+Message-ID: <ZMN2uXx/GXoC61VD@c507f7d2ae6a>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,96 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230727154108.308320-3-umang.jain@ideasonboard.com>
+In-Reply-To: <20230728075840.4022760-3-shaojijie@huawei.com>
 
-Hi Umang,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on soc/for-next linus/master v6.5-rc3 next-20230727]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-dt-bindings-imx519-Add-IMX519-DT-bindings/20230727-234440
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230727154108.308320-3-umang.jain%40ideasonboard.com
-patch subject: [PATCH 2/2] media: i2c: imx519: Support for the Sony IMX519 sensor
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230728/202307281538.bqZ5kcV9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281538.bqZ5kcV9-lkp@intel.com/reproduce)
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH net 2/6] net: hns3: restore user pause configure when disable autoneg
+Link: https://lore.kernel.org/stable/20230728075840.4022760-3-shaojijie%40huawei.com
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307281538.bqZ5kcV9-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/i2c/imx519.c: In function 'imx519_open':
->> drivers/media/i2c/imx519.c:1170:30: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
-    1170 |         try_fmt_meta->code = MEDIA_BUS_FMT_SENSOR_DATA;
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx519.c:1170:30: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/media/i2c/imx519.c: In function 'imx519_enum_mbus_code':
-   drivers/media/i2c/imx519.c:1319:30: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
-    1319 |                 code->code = MEDIA_BUS_FMT_SENSOR_DATA;
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx519.c: In function 'imx519_enum_frame_size':
-   drivers/media/i2c/imx519.c:1346:34: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
-    1346 |                 if (fse->code != MEDIA_BUS_FMT_SENSOR_DATA || fse->index > 0)
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx519.c: In function 'imx519_update_metadata_pad_format':
-   drivers/media/i2c/imx519.c:1382:28: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
-    1382 |         fmt->format.code = MEDIA_BUS_FMT_SENSOR_DATA;
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx519.c: In function 'imx519_get_pad_format':
-   drivers/media/i2c/imx519.c:1404:33: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
-    1404 |                                 MEDIA_BUS_FMT_SENSOR_DATA;
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/MEDIA_BUS_FMT_SENSOR_DATA +1170 drivers/media/i2c/imx519.c
-
-  1149	
-  1150	static int imx519_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-  1151	{
-  1152		struct imx519 *imx519 = to_imx519(sd);
-  1153		struct v4l2_mbus_framefmt *try_fmt_img =
-  1154			v4l2_subdev_get_try_format(sd, fh->state, IMAGE_PAD);
-  1155		struct v4l2_mbus_framefmt *try_fmt_meta =
-  1156			v4l2_subdev_get_try_format(sd, fh->state, METADATA_PAD);
-  1157		struct v4l2_rect *try_crop;
-  1158	
-  1159		mutex_lock(&imx519->mutex);
-  1160	
-  1161		/* Initialize try_fmt for the image pad */
-  1162		try_fmt_img->width = supported_modes_10bit[0].width;
-  1163		try_fmt_img->height = supported_modes_10bit[0].height;
-  1164		try_fmt_img->code = imx519_get_format_code(imx519);
-  1165		try_fmt_img->field = V4L2_FIELD_NONE;
-  1166	
-  1167		/* Initialize try_fmt for the embedded metadata pad */
-  1168		try_fmt_meta->width = IMX519_EMBEDDED_LINE_WIDTH;
-  1169		try_fmt_meta->height = IMX519_NUM_EMBEDDED_LINES;
-> 1170		try_fmt_meta->code = MEDIA_BUS_FMT_SENSOR_DATA;
-  1171		try_fmt_meta->field = V4L2_FIELD_NONE;
-  1172	
-  1173		/* Initialize try_crop */
-  1174		try_crop = v4l2_subdev_get_try_crop(sd, fh->state, IMAGE_PAD);
-  1175		try_crop->left = IMX519_PIXEL_ARRAY_LEFT;
-  1176		try_crop->top = IMX519_PIXEL_ARRAY_TOP;
-  1177		try_crop->width = IMX519_PIXEL_ARRAY_WIDTH;
-  1178		try_crop->height = IMX519_PIXEL_ARRAY_HEIGHT;
-  1179	
-  1180		mutex_unlock(&imx519->mutex);
-  1181	
-  1182		return 0;
-  1183	}
-  1184	
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
