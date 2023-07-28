@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (unknown [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE58A17EC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 03:39:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB8A17EC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 03:50:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690515576; x=1722051576;
+  t=1690516250; x=1722052250;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fF1iD1JPES47DLkkP+M3b6eez0SDDe7G3R8JHz4KPQU=;
-  b=O8MA8e5K/5Qvkfi9hvQxjAGzjYoEiOCdn5UmRBomdNgV0eoWtTLvcFVJ
-   iZxwTmiAmzu6czBCLRzu1GDYq+Ggj3OL/1te89wwoqOi0F29qoUsTiK0H
-   18tgNmp/3+X8iHHJ9Q/l3WPmHd0+2ryLrK1ny31Y9F3b6JQgRZv/CjeNY
-   akcHGk00gbA++4yGCaxJBcn402yfv2X0IEXZgw3L2OCyWJRGgC/bn4otn
-   dtjACxvS7VbKBw9sS+GQSrYXoGT5gJ/aTNo0CGjebTMRPzAC+aBq5AeeD
-   PhzRL9BaA8SDMTZPf5tZyyXnv05i9onsPV1BQIdGDZWfeapirMZ4rk4cq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="365955762"
+  bh=cECDbxDZFUSWKZUfhiN9w2vwuTwHoluuOJblIEFlaOs=;
+  b=eUmvirHuDRlz8DB+W/8Ri6vbTkKMN7HsVi+PsQfLCAuar94Uis8n4Lpg
+   g4SwQym9dCKpAHu3EOggapWhvHWswKshfVUI7p5dzl/kzcoNe6ZTZlm5B
+   ij5NYxu9zAF2fv/EjC7FJMQdoivZ9fXQMd+S519vGw7uDC2ExvSgoK7mI
+   zAAX3sHzQhzNSFryLYtavTIPa0SfviN++vuW2XbaB56m5uRTIApNk23+r
+   1KddRGpg8ERo/m6R+AjU9dSfCO+Z7wAaKKsSJuJs1JgbuKc7TOE4OVWjy
+   8caq7RSyLfXUPmQZtTe5dtyFcKZxXYNBkBxgZ9E5G1hlQVLWv+VFdnnWK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="348778610"
 X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="365955762"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 20:39:35 -0700
+   d="scan'208";a="348778610"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 20:50:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="1057964022"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="730589923"
 X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="1057964022"
+   d="scan'208";a="730589923"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Jul 2023 20:39:30 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 27 Jul 2023 20:50:48 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPEKA-0002qd-07;
-	Fri, 28 Jul 2023 03:39:30 +0000
-Date: Fri, 28 Jul 2023 11:38:38 +0800
+	id 1qPEUo-0002qt-1j;
+	Fri, 28 Jul 2023 03:50:33 +0000
+Date: Fri, 28 Jul 2023 11:49:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Yonghong Song <yonghong.song@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
 Subject: [bpf-next:master 3/20] kernel/bpf/verifier.c:5895:21: warning:
  suggest parentheses around comparison in operand of '=='
-Message-ID: <202307281133.wi0c4SqG-lkp@intel.com>
+Message-ID: <202307281143.mznt0RMy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,14 +49,14 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
 head:   f7e6bd33d1d404608515addcd84cf25ac5289314
 commit: 1f9a1ea821ff25353a0e80d971e7958cd55b47a3 [3/20] bpf: Support new sign-extension load insns
-config: arc-randconfig-r043-20230728 (https://download.01.org/0day-ci/archive/20230728/202307281133.wi0c4SqG-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281133.wi0c4SqG-lkp@intel.com/reproduce)
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230728/202307281143.mznt0RMy-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281143.mznt0RMy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307281133.wi0c4SqG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307281143.mznt0RMy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
