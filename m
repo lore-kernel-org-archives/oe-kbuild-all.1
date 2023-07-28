@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (unknown [192.55.52.115])
+Received: from mgamail.intel.com (unknown [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46798134BD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 13:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBA2134B0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 15:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690551615; x=1722087615;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=3tjnsgmfUMH9FUviQhsXvpNDxJRRTmls36zy4yA0BaU=;
-  b=dGTEDzvaeq8hfKnnQfllThLAVfDC+lIF0l5A/gQST5EMVS+kXC0JlML2
-   g10iNWmcnr34QyV1UMjZUGI+nmmvlbFQ+m5Uws+lbBPfVaN2qgJYu49d/
-   5lTlQl4FLDPle+0lsw8S1C0i1pSChbUAzTFLo650dw3nS8rsZoUkpffhv
-   ZUS0887RFoyY/8h9cWqobgNYlb35Sarfq9O4Vig35xcv+2/Imozd+hVQV
-   lJzVOLjCjm7RPNeMeSLG2cCckeuvYnE74W8Q2nd2HeXYPkoX5e4ZUL39Q
-   R1afLIlndDaMxeTFQL1pbl7Q2BkbG857sygkS6gwBBHIJUaqjeMVr6LJ2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="368607843"
+  t=1690559553; x=1722095553;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kqjMPRaODT/h8tYLSyRbDpGbXJ4BApK6en9ly9/fAIw=;
+  b=Pv0OckY+m5QD04Yc8aeQklsuxNHAQadV3W5dF2gw65SEjbLFdKP7qB0Z
+   ERmrEV0IbYVzI4k8IUROy0Iu6onmKi4uKq9pbjG59Ub4BRLoXzc/L/6v5
+   uN8Ltph2fmPDszG3Nh8pZE3qIC9rJa/CvW5vQltqSSukm9jDvhu3BMwdf
+   3Lx5coDAen1engcpQiHpYJVmXXCP6H76+9Zd5Wg/V/kh/BkbTw+7IBwat
+   lBe90AKTXQF40acReFCFlgz/WSrk9Pf8zVapajyAfeaalzsWYFJ9VmIeI
+   eWU3KSARTjmoX+NbJqsslp4O7SoN1eLb+9/FPDjPozCdyd6xKlsmTNOpy
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="348224001"
 X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
-   d="scan'208";a="368607843"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 06:40:14 -0700
+   d="scan'208";a="348224001"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 08:52:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="677542473"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="762645761"
 X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
-   d="scan'208";a="677542473"
+   d="scan'208";a="762645761"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 28 Jul 2023 06:40:12 -0700
+  by orsmga001.jf.intel.com with ESMTP; 28 Jul 2023 08:52:29 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPNhB-0003Fn-2u;
-	Fri, 28 Jul 2023 13:39:59 +0000
-Date: Fri, 28 Jul 2023 21:39:52 +0800
+	id 1qPPl2-0003Kp-0g;
+	Fri, 28 Jul 2023 15:52:08 +0000
+Date: Fri, 28 Jul 2023 23:51:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Remi Pommarel <repk@triplefau.lt>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net] batman-adv: Do not get eth header before
- batadv_check_management_packet
-Message-ID: <ZMPFKLFOqbnJOdDW@c507f7d2ae6a>
+To: Kalesh Singh <kaleshsingh@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Marc Zyngier <maz@kernel.org>, Fuad Tabba <tabba@google.com>
+Subject: arch/arm64/kvm/hyp/nvhe/stacktrace.c:10:1: sparse: sparse: symbol
+ '__pcpu_scope_overflow_stack' was not declared. Should it be static?
+Message-ID: <202307282357.QKRJ2Zqf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +46,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230728133850.5974-1-repk@triplefau.lt>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   57012c57536f8814dec92e74197ee96c3498d24e
+commit: 548ec3336f323db56260b312c232ab37285f0284 KVM: arm64: On stack overflow switch to hyp overflow_stack
+date:   1 year ago
+config: arm64-randconfig-r071-20230728 (https://download.01.org/0day-ci/archive/20230728/202307282357.QKRJ2Zqf-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307282357.QKRJ2Zqf-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307282357.QKRJ2Zqf-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/hyp/nvhe/stacktrace.c:10:1: sparse: sparse: symbol '__pcpu_scope_overflow_stack' was not declared. Should it be static?
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH net] batman-adv: Do not get eth header before batadv_check_management_packet
-Link: https://lore.kernel.org/stable/20230728133850.5974-1-repk%40triplefau.lt
+vim +/__pcpu_scope_overflow_stack +10 arch/arm64/kvm/hyp/nvhe/stacktrace.c
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+  > 10	#include <asm/percpu.h>
+    11	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
