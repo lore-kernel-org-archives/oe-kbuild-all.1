@@ -1,140 +1,255 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (unknown [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF2D1844
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 08:26:28 +0000 (UTC)
-Received: from [192.168.1.108] (unknown [103.86.18.216])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A61028DA;
-	Fri, 28 Jul 2023 10:16:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1690532208;
-	bh=K7YpSXytgf5L+qYcFuRlbKHUV6MG1D33noUTvi8jI4M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h7fqUqjjzLS2AWYjIqijo2Boti1lF44IA362h2EJ7ARLsawbO9Pzk/EPWKk/E31p9
-	 ZSAy4cWmAUaZ8C4FGeU2wXFFtTxP+Tc3NLfW26DlbCCUYwpInyviuI8L2KxyS9rWBY
-	 MEADY5qcwwrcgp1G3ouJFQS2RGDMvljvoOVt7Gbw=
-Message-ID: <1070170e-830c-4752-bad5-8f653ebd80a4@ideasonboard.com>
-Date: Fri, 28 Jul 2023 13:47:36 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1C7125B3;
+	Fri, 28 Jul 2023 08:30:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690533058; x=1722069058;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=29/niJndPeZ3E+e15le0HpMBhvjA0mlq6ZWEZErA8H4=;
+  b=C02DccZeg6BaO5wnZlePuVZpolqxCm6//8b57FHJDDCuvJuBNyHPUko5
+   DCfyeu/txkb0tvbTY9zDgWbBB9PpEon6rz+V2+QGFY9JXgNuKpBiMbaUM
+   CGGPTeLpYaKeXBqQOfjyI5J7SWOeaA9ee99hTQzdV9gDDGrRWcgWnQRJh
+   uUE+MZPceLJQWPnutRNHmBjm83L3IpcdsqqT5aWcLmI5TwWwZk9FHiU3R
+   h7gitO24mGUH4UjNJ8QX1UIS1qboQ8HUUNch9zmdbb215dELfD4wnxVi8
+   s2Jyj8oxgQkTElIMLiX3jLGL85lUwA4D2M287g7Zpvi3GapXGgRyhtwzQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="365999505"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
+   d="scan'208";a="365999505"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 01:30:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="817415413"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
+   d="scan'208";a="817415413"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Jul 2023 01:30:55 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qPIqs-00032F-1K;
+	Fri, 28 Jul 2023 08:30:03 +0000
+Date: Fri, 28 Jul 2023 16:29:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 5015/5284] arch/powerpc/mm/init_64.c:201:15:
+ error: no previous prototype for function '__vmemmap_populate'
+Message-ID: <202307281617.OxcXz84j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/2] media: i2c: imx519: Support for the Sony IMX519
- sensor
-To: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jackson <lee.jackson@arducam.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, Shawn Tu <shawnx.tu@intel.com>,
- Nicholas Roth <nicholas@rothemail.net>,
- Mikhail Rudenko <mike.rudenko@gmail.com>, kieran.bingham@ideasonboard.com,
- Marco Felsch <m.felsch@pengutronix.de>, jacopo.mondi@ideasonboard.com
-References: <20230727154108.308320-3-umang.jain@ideasonboard.com>
- <202307281538.bqZ5kcV9-lkp@intel.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <202307281538.bqZ5kcV9-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d7b3af5a77e8d8da28f435f313e069aea5bcf172
+commit: 5d1acc0d9b24e48fde5297a6a40cb9c1a682d740 [5015/5284] powerpc/book3s64/radix: remove mmu_vmemmap_psize
+config: powerpc-ppc64e_defconfig (https://download.01.org/0day-ci/archive/20230728/202307281617.OxcXz84j-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281617.OxcXz84j-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307281617.OxcXz84j-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+                   __do_##name al;                                 \
+                   ^~~~~~~~~~~~~~
+   <scratch space>:231:1: note: expanded from here
+   __do_insw
+   ^
+   arch/powerpc/include/asm/io.h:610:56: note: expanded from macro '__do_insw'
+   #define __do_insw(p, b, n)      readsw((PCI_IO_ADDR)_IO_BASE+(p), (b), (n))
+                                          ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from arch/powerpc/mm/init_64.c:27:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:672:
+   arch/powerpc/include/asm/io-defs.h:47:1: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+   DEF_PCI_AC_NORET(insl, (unsigned long p, void *b, unsigned long c),
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:669:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+                   __do_##name al;                                 \
+                   ^~~~~~~~~~~~~~
+   <scratch space>:233:1: note: expanded from here
+   __do_insl
+   ^
+   arch/powerpc/include/asm/io.h:611:56: note: expanded from macro '__do_insl'
+   #define __do_insl(p, b, n)      readsl((PCI_IO_ADDR)_IO_BASE+(p), (b), (n))
+                                          ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from arch/powerpc/mm/init_64.c:27:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:672:
+   arch/powerpc/include/asm/io-defs.h:49:1: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+   DEF_PCI_AC_NORET(outsb, (unsigned long p, const void *b, unsigned long c),
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:669:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+                   __do_##name al;                                 \
+                   ^~~~~~~~~~~~~~
+   <scratch space>:235:1: note: expanded from here
+   __do_outsb
+   ^
+   arch/powerpc/include/asm/io.h:612:58: note: expanded from macro '__do_outsb'
+   #define __do_outsb(p, b, n)     writesb((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from arch/powerpc/mm/init_64.c:27:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:672:
+   arch/powerpc/include/asm/io-defs.h:51:1: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+   DEF_PCI_AC_NORET(outsw, (unsigned long p, const void *b, unsigned long c),
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:669:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+                   __do_##name al;                                 \
+                   ^~~~~~~~~~~~~~
+   <scratch space>:237:1: note: expanded from here
+   __do_outsw
+   ^
+   arch/powerpc/include/asm/io.h:613:58: note: expanded from macro '__do_outsw'
+   #define __do_outsw(p, b, n)     writesw((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from arch/powerpc/mm/init_64.c:27:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:672:
+   arch/powerpc/include/asm/io-defs.h:53:1: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
+   DEF_PCI_AC_NORET(outsl, (unsigned long p, const void *b, unsigned long c),
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:669:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+                   __do_##name al;                                 \
+                   ^~~~~~~~~~~~~~
+   <scratch space>:239:1: note: expanded from here
+   __do_outsl
+   ^
+   arch/powerpc/include/asm/io.h:614:58: note: expanded from macro '__do_outsl'
+   #define __do_outsl(p, b, n)     writesl((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+>> arch/powerpc/mm/init_64.c:201:15: error: no previous prototype for function '__vmemmap_populate' [-Werror,-Wmissing-prototypes]
+   int __meminit __vmemmap_populate(unsigned long start, unsigned long end, int node,
+                 ^
+   arch/powerpc/mm/init_64.c:201:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int __meminit __vmemmap_populate(unsigned long start, unsigned long end, int node,
+   ^
+   static 
+   13 errors generated.
 
 
+vim +/__vmemmap_populate +201 arch/powerpc/mm/init_64.c
 
-On 7/28/23 12:56 PM, kernel test robot wrote:
-> Hi Umang,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on media-tree/master]
-> [also build test ERROR on soc/for-next linus/master v6.5-rc3 next-20230727]
-> [cannot apply to sailus-media-tree/streams]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-dt-bindings-imx519-Add-IMX519-DT-bindings/20230727-234440
-> base:   git://linuxtv.org/media_tree.git master
-> patch link:    https://lore.kernel.org/r/20230727154108.308320-3-umang.jain%40ideasonboard.com
-> patch subject: [PATCH 2/2] media: i2c: imx519: Support for the Sony IMX519 sensor
-> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230728/202307281538.bqZ5kcV9-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281538.bqZ5kcV9-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307281538.bqZ5kcV9-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     drivers/media/i2c/imx519.c: In function 'imx519_open':
->>> drivers/media/i2c/imx519.c:1170:30: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
+   200	
+ > 201	int __meminit __vmemmap_populate(unsigned long start, unsigned long end, int node,
+   202					 struct vmem_altmap *altmap)
+   203	{
+   204		bool altmap_alloc;
+   205		unsigned long page_size = 1 << mmu_psize_defs[mmu_vmemmap_psize].shift;
+   206	
+   207		/* Align to the page size of the linear mapping. */
+   208		start = ALIGN_DOWN(start, page_size);
+   209	
+   210		pr_debug("vmemmap_populate %lx..%lx, node %d\n", start, end, node);
+   211	
+   212		for (; start < end; start += page_size) {
+   213			void *p = NULL;
+   214			int rc;
+   215	
+   216			/*
+   217			 * This vmemmap range is backing different subsections. If any
+   218			 * of that subsection is marked valid, that means we already
+   219			 * have initialized a page table covering this range and hence
+   220			 * the vmemmap range is populated.
+   221			 */
+   222			if (vmemmap_populated(start, page_size))
+   223				continue;
+   224	
+   225			/*
+   226			 * Allocate from the altmap first if we have one. This may
+   227			 * fail due to alignment issues when using 16MB hugepages, so
+   228			 * fall back to system memory if the altmap allocation fail.
+   229			 */
+   230			if (altmap && !altmap_cross_boundary(altmap, start, page_size)) {
+   231				p = vmemmap_alloc_block_buf(page_size, node, altmap);
+   232				if (!p)
+   233					pr_debug("altmap block allocation failed, falling back to system memory");
+   234				else
+   235					altmap_alloc = true;
+   236			}
+   237			if (!p) {
+   238				p = vmemmap_alloc_block_buf(page_size, node, NULL);
+   239				altmap_alloc = false;
+   240			}
+   241			if (!p)
+   242				return -ENOMEM;
+   243	
+   244			if (vmemmap_list_populate(__pa(p), start, node)) {
+   245				/*
+   246				 * If we don't populate vmemap list, we don't have
+   247				 * the ability to free the allocated vmemmap
+   248				 * pages in section_deactivate. Hence free them
+   249				 * here.
+   250				 */
+   251				int nr_pfns = page_size >> PAGE_SHIFT;
+   252				unsigned long page_order = get_order(page_size);
+   253	
+   254				if (altmap_alloc)
+   255					vmem_altmap_free(altmap, nr_pfns);
+   256				else
+   257					free_pages((unsigned long)p, page_order);
+   258				return -ENOMEM;
+   259			}
+   260	
+   261			pr_debug("      * %016lx..%016lx allocated at %p\n",
+   262				 start, start + page_size, p);
+   263	
+   264			rc = vmemmap_create_mapping(start, page_size, __pa(p));
+   265			if (rc < 0) {
+   266				pr_warn("%s: Unable to create vmemmap mapping: %d\n",
+   267					__func__, rc);
+   268				return -EFAULT;
+   269			}
+   270		}
+   271	
+   272		return 0;
+   273	}
+   274	
 
-This comes from the bcm2835-unicam for Rpi's that's being worked upon. 
-And I was testing this driver on top of it.
->      1170 |         try_fmt_meta->code = MEDIA_BUS_FMT_SENSOR_DATA;
->           |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
->     drivers/media/i2c/imx519.c:1170:30: note: each undeclared identifier is reported only once for each function it appears in
->     drivers/media/i2c/imx519.c: In function 'imx519_enum_mbus_code':
->     drivers/media/i2c/imx519.c:1319:30: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
->      1319 |                 code->code = MEDIA_BUS_FMT_SENSOR_DATA;
->           |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
->     drivers/media/i2c/imx519.c: In function 'imx519_enum_frame_size':
->     drivers/media/i2c/imx519.c:1346:34: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
->      1346 |                 if (fse->code != MEDIA_BUS_FMT_SENSOR_DATA || fse->index > 0)
->           |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
->     drivers/media/i2c/imx519.c: In function 'imx519_update_metadata_pad_format':
->     drivers/media/i2c/imx519.c:1382:28: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
->      1382 |         fmt->format.code = MEDIA_BUS_FMT_SENSOR_DATA;
->           |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
->     drivers/media/i2c/imx519.c: In function 'imx519_get_pad_format':
->     drivers/media/i2c/imx519.c:1404:33: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
->      1404 |                                 MEDIA_BUS_FMT_SENSOR_DATA;
->           |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
->
->
-> vim +/MEDIA_BUS_FMT_SENSOR_DATA +1170 drivers/media/i2c/imx519.c
->
->    1149	
->    1150	static int imx519_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
->    1151	{
->    1152		struct imx519 *imx519 = to_imx519(sd);
->    1153		struct v4l2_mbus_framefmt *try_fmt_img =
->    1154			v4l2_subdev_get_try_format(sd, fh->state, IMAGE_PAD);
->    1155		struct v4l2_mbus_framefmt *try_fmt_meta =
->    1156			v4l2_subdev_get_try_format(sd, fh->state, METADATA_PAD);
->    1157		struct v4l2_rect *try_crop;
->    1158	
->    1159		mutex_lock(&imx519->mutex);
->    1160	
->    1161		/* Initialize try_fmt for the image pad */
->    1162		try_fmt_img->width = supported_modes_10bit[0].width;
->    1163		try_fmt_img->height = supported_modes_10bit[0].height;
->    1164		try_fmt_img->code = imx519_get_format_code(imx519);
->    1165		try_fmt_img->field = V4L2_FIELD_NONE;
->    1166	
->    1167		/* Initialize try_fmt for the embedded metadata pad */
->    1168		try_fmt_meta->width = IMX519_EMBEDDED_LINE_WIDTH;
->    1169		try_fmt_meta->height = IMX519_NUM_EMBEDDED_LINES;
->> 1170		try_fmt_meta->code = MEDIA_BUS_FMT_SENSOR_DATA;
->    1171		try_fmt_meta->field = V4L2_FIELD_NONE;
->    1172	
->    1173		/* Initialize try_crop */
->    1174		try_crop = v4l2_subdev_get_try_crop(sd, fh->state, IMAGE_PAD);
->    1175		try_crop->left = IMX519_PIXEL_ARRAY_LEFT;
->    1176		try_crop->top = IMX519_PIXEL_ARRAY_TOP;
->    1177		try_crop->width = IMX519_PIXEL_ARRAY_WIDTH;
->    1178		try_crop->height = IMX519_PIXEL_ARRAY_HEIGHT;
->    1179	
->    1180		mutex_unlock(&imx519->mutex);
->    1181	
->    1182		return 0;
->    1183	}
->    1184	
->
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
