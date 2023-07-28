@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (unknown [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EE07C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 00:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B907C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 01:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690505556; x=1722041556;
+  t=1690506999; x=1722042999;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z6TDDIpK/6eGhakcq0q2KGpTUq5IhOZE35rsHiARiA0=;
-  b=BsdWD4GJUdmPWTROc5hPG/4KMH1FS4eZGU7wQiAGqZQktZpAznhvDnyZ
-   B4cqdroq7rzza0sQcOpCDUi/MSZr3j7+zRgJOBoe9FGPNzVpYZQEIp0ua
-   qsO55jmHFZwJ7SjgKWgSJ3hGmWzMzF+WGtnx8QF38vOAKDKkF10DI1GWi
-   1niQUstnVcKGloGuytMGtI83qfw7eCZaKjVMzZLrYnWcbM9oz7AzFrFcE
-   zNADXZphu5KZQDp7MivD8eR5w2BFfE2EWO+KMUOdeQeWPSj1ISmhtdAG7
-   rWzTg0R4vmhh2z75+YgVzItRr6INiQKWpveibGhyEs/pa0E3yVA0ShVyg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="399409335"
+  bh=8KfMBGcONL4k4Z7W2j3Cvr/WVIqdymkJqkOec38jGdU=;
+  b=SruQTVb82h6uKNponIElyDfuCdPlHqLcQGw9xsePSZaDua6tD6DReu2K
+   22aX8wMmh9MIleFj4+YuT3K5VV6Yo2bz/kDv5NGiPYipWr8UnDPxtt9C2
+   TNVvGhbgKQv9yRDvVAct7qQvbw2AlzSbwE4ZzJuIl4DTyeZT/3r8zKegI
+   z35W6o+1SRZnXkR4WLDRW/UzIcwKyZWOV6wEwvsm7kT9BPOvwAzjKVnUi
+   poxZ+8Meumc4Lz6cEwS3VZClH4WXa6AiBBb4mWkeMDj3zGwHOap903QZR
+   YA3ozdyZVHDSQO4ERbzJe9YO6RI6NsE1eAD+CXnM5I18yWSWCUSpIU09E
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="432289206"
 X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="399409335"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 17:52:35 -0700
+   d="scan'208";a="432289206"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 18:16:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="870651201"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="792692843"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
+   d="scan'208";a="792692843"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2023 17:52:35 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 27 Jul 2023 18:16:36 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPBi7-0002jT-0o;
-	Fri, 28 Jul 2023 00:52:33 +0000
-Date: Fri, 28 Jul 2023 08:51:54 +0800
+	id 1qPC5H-0002k3-0f;
+	Fri, 28 Jul 2023 01:16:25 +0000
+Date: Fri, 28 Jul 2023 09:13:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/140-pci 10/15]
- drivers/pci/controller/pcie-apple.c:468:40: error: implicit declaration of
- function 'FIELD_PREP'
-Message-ID: <202307280816.rY6C5dfe-lkp@intel.com>
+To: Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Richard Weinberger <richard@nod.at>
+Subject: drivers/spi/spi-stm32-qspi.c:468:27: warning: 'op' is used
+ uninitialized
+Message-ID: <202307280915.PELlO3TQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,92 +47,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Hector,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/AsahiLinux/linux bits/140-pci
-head:   924aefff015d104293101a46281fca901e2ccd3f
-commit: f5cbf03cdd67d8c68765cde5f8de62feac0230de [10/15] PCIE: apple: Add T602x PCIe support
-config: powerpc-randconfig-r013-20230727 (https://download.01.org/0day-ci/archive/20230728/202307280816.rY6C5dfe-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280816.rY6C5dfe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   57012c57536f8814dec92e74197ee96c3498d24e
+commit: 68f5d3f3b6543266b29e047cfaf9842333019b4c um: add PCI over virtio emulation driver
+date:   2 years, 1 month ago
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230728/202307280915.PELlO3TQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280915.PELlO3TQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307280816.rY6C5dfe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307280915.PELlO3TQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/io.h:13,
-                    from include/linux/iopoll.h:14,
-                    from drivers/pci/controller/pcie-apple.c:23:
-   drivers/pci/controller/pcie-apple.c: In function 'apple_pcie_port_setup_irq':
->> drivers/pci/controller/pcie-apple.c:468:40: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     468 |                         writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
-         |                                        ^~~~~~~~~~
-   arch/powerpc/include/asm/io.h:695:40: note: in definition of macro 'writel_relaxed'
-     695 | #define writel_relaxed(v, addr) writel(v, addr)
-         |                                        ^
-   cc1: some warnings being treated as errors
+   drivers/spi/spi-stm32-qspi.c: In function 'stm32_qspi_dirmap_read':
+>> drivers/spi/spi-stm32-qspi.c:468:27: warning: 'op' is used uninitialized [-Wuninitialized]
+     468 |         struct spi_mem_op op;
+         |                           ^~
+   drivers/spi/spi-stm32-qspi.c:468:27: note: 'op' declared here
+     468 |         struct spi_mem_op op;
+         |                           ^~
 
 
-vim +/FIELD_PREP +468 drivers/pci/controller/pcie-apple.c
+vim +/op +468 drivers/spi/spi-stm32-qspi.c
 
-   430	
-   431	static int apple_pcie_port_setup_irq(struct apple_pcie_port *port)
-   432	{
-   433		struct fwnode_handle *fwnode = &port->np->fwnode;
-   434		struct apple_pcie *pcie = port->pcie;
-   435		unsigned int irq;
-   436	
-   437		/* FIXME: consider moving each interrupt under each port */
-   438		irq = irq_of_parse_and_map(to_of_node(dev_fwnode(port->pcie->dev)),
-   439					   port->idx);
-   440		if (!irq)
-   441			return -ENXIO;
-   442	
-   443		port->domain = irq_domain_create_linear(fwnode, 32,
-   444							&apple_port_irq_domain_ops,
-   445							port);
-   446		if (!port->domain)
-   447			return -ENOMEM;
-   448	
-   449		/* Disable all interrupts */
-   450		writel_relaxed(~0, port->base + PORT_INTMSK);
-   451		writel_relaxed(~0, port->base + PORT_INTSTAT);
-   452		writel_relaxed(~0, port->base + PORT_LINKCMDSTS);
-   453	
-   454		irq_set_chained_handler_and_data(irq, apple_port_irq_handler, port);
-   455	
-   456		/* Configure MSI base address */
-   457		BUG_ON(upper_32_bits(DOORBELL_ADDR));
-   458		writel_relaxed(lower_32_bits(DOORBELL_ADDR),
-   459			       port->base + pcie->hw->port_msiaddr);
-   460		if (pcie->hw->port_msiaddr_hi)
-   461			writel_relaxed(0, port->base + pcie->hw->port_msiaddr_hi);
-   462	
-   463		/* Enable MSIs, shared between all ports */
-   464		if (pcie->hw->port_msimap) {
-   465			int i;
-   466	
-   467			for (i = 0; i < pcie->nvecs; i++) {
- > 468				writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
-   469					       PORT_MSIMAP_ENABLE,
-   470					       port->base + pcie->hw->port_msimap + 4 * i);
-   471			}
-   472	
-   473			writel_relaxed(PORT_MSICFG_EN, port->base + PORT_MSICFG);
-   474		} else {
-   475			writel_relaxed(0, port->base + PORT_MSIBASE);
-   476			writel_relaxed((ilog2(pcie->nvecs) << PORT_MSICFG_L2MSINUM_SHIFT) |
-   477				PORT_MSICFG_EN, port->base + PORT_MSICFG);
-   478		}
-   479	
-   480		return 0;
-   481	}
-   482	
+18674dee3cd651 Patrice Chotard 2021-04-19  463  
+18674dee3cd651 Patrice Chotard 2021-04-19  464  static ssize_t stm32_qspi_dirmap_read(struct spi_mem_dirmap_desc *desc,
+18674dee3cd651 Patrice Chotard 2021-04-19  465  				      u64 offs, size_t len, void *buf)
+18674dee3cd651 Patrice Chotard 2021-04-19  466  {
+18674dee3cd651 Patrice Chotard 2021-04-19  467  	struct stm32_qspi *qspi = spi_controller_get_devdata(desc->mem->spi->master);
+18674dee3cd651 Patrice Chotard 2021-04-19 @468  	struct spi_mem_op op;
+18674dee3cd651 Patrice Chotard 2021-04-19  469  	u32 addr_max;
+18674dee3cd651 Patrice Chotard 2021-04-19  470  	int ret;
+18674dee3cd651 Patrice Chotard 2021-04-19  471  
+18674dee3cd651 Patrice Chotard 2021-04-19  472  	ret = pm_runtime_get_sync(qspi->dev);
+18674dee3cd651 Patrice Chotard 2021-04-19  473  	if (ret < 0) {
+18674dee3cd651 Patrice Chotard 2021-04-19  474  		pm_runtime_put_noidle(qspi->dev);
+18674dee3cd651 Patrice Chotard 2021-04-19  475  		return ret;
+18674dee3cd651 Patrice Chotard 2021-04-19  476  	}
+18674dee3cd651 Patrice Chotard 2021-04-19  477  
+18674dee3cd651 Patrice Chotard 2021-04-19  478  	mutex_lock(&qspi->lock);
+18674dee3cd651 Patrice Chotard 2021-04-19  479  	/* make a local copy of desc op_tmpl and complete dirmap rdesc
+18674dee3cd651 Patrice Chotard 2021-04-19  480  	 * spi_mem_op template with offs, len and *buf in  order to get
+18674dee3cd651 Patrice Chotard 2021-04-19  481  	 * all needed transfer information into struct spi_mem_op
+18674dee3cd651 Patrice Chotard 2021-04-19  482  	 */
+18674dee3cd651 Patrice Chotard 2021-04-19  483  	memcpy(&op, &desc->info.op_tmpl, sizeof(struct spi_mem_op));
+14ef64ebdc2a45 Arnd Bergmann   2021-04-22  484  	dev_dbg(qspi->dev, "%s len = 0x%zx offs = 0x%llx buf = 0x%p\n", __func__, len, offs, buf);
+18674dee3cd651 Patrice Chotard 2021-04-19  485  
+18674dee3cd651 Patrice Chotard 2021-04-19  486  	op.data.nbytes = len;
+18674dee3cd651 Patrice Chotard 2021-04-19  487  	op.addr.val = desc->info.offset + offs;
+18674dee3cd651 Patrice Chotard 2021-04-19  488  	op.data.buf.in = buf;
+18674dee3cd651 Patrice Chotard 2021-04-19  489  
+18674dee3cd651 Patrice Chotard 2021-04-19  490  	addr_max = op.addr.val + op.data.nbytes + 1;
+18674dee3cd651 Patrice Chotard 2021-04-19  491  	if (addr_max < qspi->mm_size && op.addr.buswidth)
+18674dee3cd651 Patrice Chotard 2021-04-19  492  		qspi->fmode = CCR_FMODE_MM;
+18674dee3cd651 Patrice Chotard 2021-04-19  493  	else
+18674dee3cd651 Patrice Chotard 2021-04-19  494  		qspi->fmode = CCR_FMODE_INDR;
+18674dee3cd651 Patrice Chotard 2021-04-19  495  
+18674dee3cd651 Patrice Chotard 2021-04-19  496  	ret = stm32_qspi_send(desc->mem, &op);
+18674dee3cd651 Patrice Chotard 2021-04-19  497  	mutex_unlock(&qspi->lock);
+18674dee3cd651 Patrice Chotard 2021-04-19  498  
+18674dee3cd651 Patrice Chotard 2021-04-19  499  	pm_runtime_mark_last_busy(qspi->dev);
+18674dee3cd651 Patrice Chotard 2021-04-19  500  	pm_runtime_put_autosuspend(qspi->dev);
+18674dee3cd651 Patrice Chotard 2021-04-19  501  
+18674dee3cd651 Patrice Chotard 2021-04-19  502  	return ret ?: len;
+18674dee3cd651 Patrice Chotard 2021-04-19  503  }
+18674dee3cd651 Patrice Chotard 2021-04-19  504  
+
+:::::: The code at line 468 was first introduced by commit
+:::::: 18674dee3cd651279eb3d9ba789fe483ddfe1137 spi: stm32-qspi: Add dirmap support
+
+:::::: TO: Patrice Chotard <patrice.chotard@foss.st.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
