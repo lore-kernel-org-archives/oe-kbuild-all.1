@@ -1,43 +1,49 @@
-Received: from mgamail.intel.com (unknown [192.55.52.136])
+Received: from mgamail.intel.com (unknown [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D927CC8EF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 08:19:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2253C8EF;
+	Fri, 28 Jul 2023 08:19:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690532346; x=1722068346;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C/7uIRQlPW+EOdwEYz9Mnj86i/Oz3Rltu5JxWi2hMQ0=;
-  b=hqS2ir0i0i3EGKUWW2zfz0xhavv6Kb25O+kYFAcRPLT66CIYQ90bU2R+
-   3DfzI5vIBY12kSWBrdW5SaDO6iVMmk2NeU6uKzHRr9XpUAe67YwrrXxbX
-   LBHk6qsB1dK1JOnVcQSgg34jkHhouri+OuQtwwv0sqFyJTAD24nDi6omr
-   767Wvm6JVVcG+sXULJAOpgFdnwF1Sx4q8B1mVbyB5wj0TaUd8aL1fXPs0
-   NJdgyIA03DKPgiXbz4Pk5ll/WfR54dZBKePCFBIiw5QODQFPZI2CIXVlO
-   X4NKV41G69BUKo5zAmCNGRniBnDZS8ZGKrTFDCk80GxUptOiPfU28HBCk
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="348140321"
+  t=1690532349; x=1722068349;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b/epiay7cjfSEFmhvgmiHCozve2Mrb9TOzKISarVum8=;
+  b=bauMP/jeGEiFXbPrr2Y5s9B4hUhIAN7umsuoBCypN6AYyAgVDNQyXoMg
+   rbjU2XCLh+5dMNmpMRWyZE3kiP/JTuxOBy+ddYxVSBSum27zSbJhHQjKd
+   kYz5Ivn9kLHBxVzKB8NLf944CIJGIjaJMR3CXMZIg1YsDeXWslmu2ZBue
+   3mdKKxeXYCmL95iOy9Q4m/611//JmsvKHzyxKIhmslUNpeXvEFj2dI7Lv
+   WnxbV7zdP1mUGMvfwWDZVHglHIWY63bHyQ+ZhXJKahMnNOub9CdLqG0bs
+   xGyjZ+wHZmszcauIy7W1XLNObVntgpuxPtWi2KsOJxq7jhYmVF2e9EPyk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="367415187"
 X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="348140321"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 01:19:06 -0700
+   d="scan'208";a="367415187"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 01:19:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="901139134"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="1058040615"
 X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="901139134"
+   d="scan'208";a="1058040615"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 28 Jul 2023 01:19:04 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 28 Jul 2023 01:19:04 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPIgi-00031j-0i;
+	id 1qPIgi-00031l-0m;
 	Fri, 28 Jul 2023 08:19:04 +0000
-Date: Fri, 28 Jul 2023 16:18:50 +0800
+Date: Fri, 28 Jul 2023 16:18:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Russell King <rmk+kernel@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rmk-arm:clearfog 80/160]
- drivers/net/dsa/mv88e6xxx/mv88e6xxx_debugfs.c:52:12: warning:
- '_mv88e6xxx_pvt_read' defined but not used
-Message-ID: <202307281624.2IUjOCxU-lkp@intel.com>
+To: Tanmay Jagdale <tanmay@marvell.com>, will@kernel.org,
+	robin.murphy@arm.com, joro@8bytes.org, baolu.lu@linux.intel.com,
+	thunder.leizhen@huawei.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, gcherian@marvell.com,
+	sgoutham@marvell.com, lcherian@marvell.com, bbhushan2@marvell.com
+Subject: Re: [RESEND PATCH 1/4] iommu/arm-smmu-v3: Add support for ECMDQ
+ register mode
+Message-ID: <202307281657.K3A7kRax-lkp@intel.com>
+References: <20230721063513.33431-2-tanmay@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,57 +52,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230721063513.33431-2-tanmay@marvell.com>
 
-Hi Russell,
+Hi Tanmay,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm clearfog
-head:   558beff41fd56fc77bb3946d9f9c238da55d61fd
-commit: 1f7da4229ad7be3738e76e3e5592b27475474ed4 [80/160] net: dsa: mv88e6xxx: debugfs hacks to fix the compile
-config: i386-randconfig-i015-20230727 (https://download.01.org/0day-ci/archive/20230728/202307281624.2IUjOCxU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281624.2IUjOCxU-lkp@intel.com/reproduce)
+[auto build test WARNING on v6.5-rc2]
+[also build test WARNING on linus/master next-20230728]
+[cannot apply to joro-iommu/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tanmay-Jagdale/iommu-arm-smmu-v3-Add-support-for-ECMDQ-register-mode/20230721-143913
+base:   v6.5-rc2
+patch link:    https://lore.kernel.org/r/20230721063513.33431-2-tanmay%40marvell.com
+patch subject: [RESEND PATCH 1/4] iommu/arm-smmu-v3: Add support for ECMDQ register mode
+config: arm64-randconfig-r032-20230727 (https://download.01.org/0day-ci/archive/20230728/202307281657.K3A7kRax-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281657.K3A7kRax-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307281624.2IUjOCxU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307281657.K3A7kRax-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/dsa/mv88e6xxx/chip.c:3922:
->> drivers/net/dsa/mv88e6xxx/mv88e6xxx_debugfs.c:52:12: warning: '_mv88e6xxx_pvt_read' defined but not used [-Wunused-function]
-      52 | static int _mv88e6xxx_pvt_read(struct mv88e6xxx_chip *chip, int src_dev,
-         |            ^~~~~~~~~~~~~~~~~~~
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3619:39: warning: variable 'pre_addr' is uninitialized when used here [-Wuninitialized]
+    3619 |                 if (i && ((val & ECMDQ_CP_ADDR) != (pre_addr + ECMDQ_CP_RRESET_SIZE))) {
+         |                                                     ^~~~~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3610:20: note: initialize the variable 'pre_addr' to silence this warning
+    3610 |                 u64 val, pre_addr;
+         |                                  ^
+         |                                   = 0
+   1 warning generated.
 
 
-vim +/_mv88e6xxx_pvt_read +52 drivers/net/dsa/mv88e6xxx/mv88e6xxx_debugfs.c
+vim +/pre_addr +3619 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-ed98cbcc120366 Vivien Didelot 2015-10-22  51  
-ed98cbcc120366 Vivien Didelot 2015-10-22 @52  static int _mv88e6xxx_pvt_read(struct mv88e6xxx_chip *chip, int src_dev,
-ed98cbcc120366 Vivien Didelot 2015-10-22  53  			       int src_port, u16 *data)
-ed98cbcc120366 Vivien Didelot 2015-10-22  54  {
-ed98cbcc120366 Vivien Didelot 2015-10-22  55  	int ret;
-ed98cbcc120366 Vivien Didelot 2015-10-22  56  
-ed98cbcc120366 Vivien Didelot 2015-10-22  57  	ret = _mv88e6xxx_pvt_wait(chip);
-ed98cbcc120366 Vivien Didelot 2015-10-22  58  	if (ret < 0)
-ed98cbcc120366 Vivien Didelot 2015-10-22  59  		return ret;
-ed98cbcc120366 Vivien Didelot 2015-10-22  60  
-ed98cbcc120366 Vivien Didelot 2015-10-22  61  	ret = _mv88e6xxx_pvt_cmd(chip, src_dev, src_port,
-ed98cbcc120366 Vivien Didelot 2015-10-22  62  				GLOBAL2_PVT_ADDR_OP_READ);
-ed98cbcc120366 Vivien Didelot 2015-10-22  63  	if (ret < 0)
-ed98cbcc120366 Vivien Didelot 2015-10-22  64  		return ret;
-ed98cbcc120366 Vivien Didelot 2015-10-22  65  
-ed98cbcc120366 Vivien Didelot 2015-10-22  66  	return mv88e6xxx_g2_read(chip, GLOBAL2_PVT_DATA, data);
-ed98cbcc120366 Vivien Didelot 2015-10-22  67  }
-ed98cbcc120366 Vivien Didelot 2015-10-22  68  
-
-:::::: The code at line 52 was first introduced by commit
-:::::: ed98cbcc120366baaddcc70c2d9fae9abfacc790 net: dsa: mv88e6xxx: add debugfs interface
-
-:::::: TO: Vivien Didelot <vivien.didelot@savoirfairelinux.com>
-:::::: CC: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+  3588	
+  3589	static int arm_smmu_ecmdq_probe(struct arm_smmu_device *smmu)
+  3590	{
+  3591		int ret, cpu;
+  3592		u32 i, nump, numq, gap;
+  3593		u32 reg, shift_increment;
+  3594		u64 addr, smmu_dma_base;
+  3595		void __iomem *cp_regs, *cp_base;
+  3596	
+  3597		/* IDR6 */
+  3598		reg = readl_relaxed(smmu->base + ARM_SMMU_IDR6);
+  3599		nump = 1 << FIELD_GET(IDR6_LOG2NUMP, reg);
+  3600		numq = 1 << FIELD_GET(IDR6_LOG2NUMQ, reg);
+  3601		smmu->nr_ecmdq = nump * numq;
+  3602		gap = ECMDQ_CP_RRESET_SIZE >> FIELD_GET(IDR6_LOG2NUMQ, reg);
+  3603	
+  3604		smmu_dma_base = (vmalloc_to_pfn(smmu->base) << PAGE_SHIFT);
+  3605		cp_regs = ioremap(smmu_dma_base + ARM_SMMU_ECMDQ_CP_BASE, PAGE_SIZE);
+  3606		if (!cp_regs)
+  3607			return -ENOMEM;
+  3608	
+  3609		for (i = 0; i < nump; i++) {
+  3610			u64 val, pre_addr;
+  3611	
+  3612			val = readq_relaxed(cp_regs + 32 * i);
+  3613			if (!(val & ECMDQ_CP_PRESET)) {
+  3614				iounmap(cp_regs);
+  3615				dev_err(smmu->dev, "ecmdq control page %u is memory mode\n", i);
+  3616				return -EFAULT;
+  3617			}
+  3618	
+> 3619			if (i && ((val & ECMDQ_CP_ADDR) != (pre_addr + ECMDQ_CP_RRESET_SIZE))) {
+  3620				iounmap(cp_regs);
+  3621				dev_err(smmu->dev, "ecmdq_cp memory region is not contiguous\n");
+  3622				return -EFAULT;
+  3623			}
+  3624	
+  3625			pre_addr = val & ECMDQ_CP_ADDR;
+  3626		}
+  3627	
+  3628		addr = readl_relaxed(cp_regs) & ECMDQ_CP_ADDR;
+  3629		iounmap(cp_regs);
+  3630	
+  3631		cp_base = devm_ioremap(smmu->dev, smmu_dma_base + addr, ECMDQ_CP_RRESET_SIZE * nump);
+  3632		if (!cp_base)
+  3633			return -ENOMEM;
+  3634	
+  3635		smmu->ecmdq = devm_alloc_percpu(smmu->dev, struct arm_smmu_ecmdq *);
+  3636		if (!smmu->ecmdq)
+  3637			return -ENOMEM;
+  3638	
+  3639		ret = arm_smmu_ecmdq_layout(smmu);
+  3640		if (ret)
+  3641			return ret;
+  3642	
+  3643		shift_increment = order_base_2(num_possible_cpus() / smmu->nr_ecmdq);
+  3644	
+  3645		addr = 0;
+  3646		for_each_possible_cpu(cpu) {
+  3647			struct arm_smmu_ecmdq *ecmdq;
+  3648			struct arm_smmu_queue *q;
+  3649	
+  3650			ecmdq = *per_cpu_ptr(smmu->ecmdq, cpu);
+  3651			ecmdq->base = cp_base + addr;
+  3652	
+  3653			q = &ecmdq->cmdq.q;
+  3654	
+  3655			q->llq.max_n_shift = ECMDQ_MAX_SZ_SHIFT + shift_increment;
+  3656			ret = arm_smmu_init_one_queue(smmu, q, ecmdq->base, ARM_SMMU_ECMDQ_PROD,
+  3657					ARM_SMMU_ECMDQ_CONS, CMDQ_ENT_DWORDS, "ecmdq");
+  3658			if (ret)
+  3659				return ret;
+  3660	
+  3661			q->ecmdq_prod = ECMDQ_PROD_EN;
+  3662			rwlock_init(&q->ecmdq_lock);
+  3663	
+  3664			ret = arm_smmu_ecmdq_init(&ecmdq->cmdq);
+  3665			if (ret) {
+  3666				dev_err(smmu->dev, "ecmdq[%d] init failed\n", i);
+  3667				return ret;
+  3668			}
+  3669	
+  3670			addr += gap;
+  3671		}
+  3672	
+  3673		return 0;
+  3674	}
+  3675	
 
 -- 
 0-DAY CI Kernel Test Service
