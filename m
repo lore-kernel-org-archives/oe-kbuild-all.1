@@ -1,166 +1,88 @@
-Received: from mgamail.intel.com (unknown [134.134.136.20])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D24D2EC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 08:09:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690531740; x=1722067740;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Zf3u9MqOYiM0cW/8pxHoBN78bqdIoMm8eVEVTQKPBoo=;
-  b=esac5/HOS1JeBz3FH1mpu14O3bTpoo2hF7t9BFQD0qXg47e5v1u89NBD
-   Y7ecIalzIAetqkWBdbqAZ75+PYDW7tw0u0wwTN/l7ek/BzXPbTcYxnyLe
-   EDsO3YOXgz0zXkSASn5Mv1FAwqfAzyCLraz+tTeGgJlp8HxewQnkFQeTW
-   WsJ89skqxRb+HQaCmcz2+0STGOyCyroBhjc8hOnv//SFcXGlzQRnKc3i/
-   DfkVATdG3pJ5i7dZRi2pLeLvg2IzWwBKx2E+Iq5EptlVlkS5hgnpkcTEf
-   LwFirZ8vRu57UZ+f04dtcNhlt847PvS+JPVKtVGxsKOWwD7XZcKg03wgt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="358562646"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="358562646"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 01:09:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="817411261"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="817411261"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Jul 2023 01:08:57 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qPIWu-000311-2M;
-	Fri, 28 Jul 2023 08:08:56 +0000
-Date: Fri, 28 Jul 2023 16:08:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Laight <David.Laight@aculab.com>,
-	"'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>,
-	'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
-	'Andrew Morton' <akpm@linux-foundation.org>,
-	"'Matthew Wilcox (Oracle)'" <willy@infradead.org>,
-	'Christoph Hellwig' <hch@infradead.org>,
-	"'Jason A. Donenfeld'" <Jason@zx2c4.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH next resend 5/5] minmax: Relax check to allow comparison
- between int and small unsigned constants.
-Message-ID: <202307281556.iTVIR4tJ-lkp@intel.com>
-References: <48c2cd0407f14859919d4fcbe526234a@AcuMS.aculab.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8AAC8EF;
+	Fri, 28 Jul 2023 08:12:42 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::227])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 6C3F9C8F74;
+	Fri, 28 Jul 2023 07:57:41 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 014CB20007;
+	Fri, 28 Jul 2023 07:57:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1690531053;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ScMUZsSjWFnfnPG0k7Ki0OUsZkd3isIUjZzdal89Kfg=;
+	b=EjBnhjUQKkvZ25HLo5W1nEJPJqG4q3xhpEP8pQc9NUQMbGmJBn4Bi3JpqZPy8mlme+bY+U
+	JtNbbbBCRnfeBfY7fY4G3/9JqPCF+tX0fEM3ow2ROXTLMtdJN1WnG39xwQg43VSjAq1QQu
+	KQKw1UO7wZIhYJy7z4ARlicVnS8bBLbnVmSfOmmq8z0vwBpBMPHQZDC+wWZjn8V+qU3pYe
+	kEQYamoBLqW2+gAZy8ZCM2umL6kQ3DOpJTLYlCta/kaLmxSiVOHv1F5x4YSZh0JYT0N4X+
+	1ERH319JSFpkTE7nvPiFjBbEkKVA5Wa5PAQgpwjMjQ+sxLRt0RFO74QdlASXqg==
+Date: Fri, 28 Jul 2023 09:57:29 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Arseniy Krasnov <AVKrasnov@sberdevices.ru>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev
+Subject: Re: [mtd:nand/next 31/32] drivers/mtd/nand/raw/meson_nand.c:244:59:
+ error: initializer element is not a compile-time constant
+Message-ID: <20230728095729.0acda79b@xps-13>
+In-Reply-To: <202307281007.MMuVjmJ9-lkp@intel.com>
+References: <202307281007.MMuVjmJ9-lkp@intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <48c2cd0407f14859919d4fcbe526234a@AcuMS.aculab.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hi David,
+Hi Arseniy,
 
-kernel test robot noticed the following build warnings:
+lkp@intel.com wrote on Fri, 28 Jul 2023 10:57:07 +0800:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master crng-random/master v6.5-rc3 next-20230728]
-[cannot apply to next-20230725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nan=
+d/next
+> head:   6680d8b67921fc732a59792dec6d3f94c031451c
+> commit: 0e1db39336d8be4ddeb9f0d99720056f3ff41310 [31/32] mtd: rawnand: me=
+son: support for 512B ECC step size
+> config: x86_64-buildonly-randconfig-r003-20230727 (https://download.01.or=
+g/0day-ci/archive/20230728/202307281007.MMuVjmJ9-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git =
+ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281007=
+.MMuVjmJ9-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307281007.MMuVjmJ9-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> >> drivers/mtd/nand/raw/meson_nand.c:244:59: error: initializer element i=
+s not a compile-time constant =20
+>    static const struct nand_ecc_step_info axg_stepinfo[] =3D { axg_stepin=
+fo_1024, axg_stepinfo_512 };
+>                                                              ^~~~~~~~~~~~=
+~~~~~
+>    1 error generated.
+>=20
+>=20
+> vim +244 drivers/mtd/nand/raw/meson_nand.c
+>=20
+>    243=09
+>  > 244	static const struct nand_ecc_step_info axg_stepinfo[] =3D { axg_st=
+epinfo_1024, axg_stepinfo_512 }; =20
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Allow-min-max-clamp-if-the-arguments-have-the-same-signedness/20230725-204940
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/48c2cd0407f14859919d4fcbe526234a%40AcuMS.aculab.com
-patch subject: [PATCH next resend 5/5] minmax: Relax check to allow comparison between int and small unsigned constants.
-config: xtensa-randconfig-r093-20230725 (https://download.01.org/0day-ci/archive/20230728/202307281556.iTVIR4tJ-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281556.iTVIR4tJ-lkp@intel.com/reproduce)
+Could you have a look?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307281556.iTVIR4tJ-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   mm/kmemleak.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported Xtensa ABI
->> mm/kmemleak.c:1429:32: sparse: sparse: incompatible types for operation (>=):
->> mm/kmemleak.c:1429:32: sparse:    void *
->> mm/kmemleak.c:1429:32: sparse:    int
->> mm/kmemleak.c:1429:32: sparse: sparse: bad constant expression type
->> mm/kmemleak.c:1429:32: sparse: sparse: incompatible types for operation (>=):
->> mm/kmemleak.c:1429:32: sparse:    void *
->> mm/kmemleak.c:1429:32: sparse:    int
->> mm/kmemleak.c:1429:32: sparse: sparse: incompatible types for operation (>=):
->> mm/kmemleak.c:1429:32: sparse:    void *end
->> mm/kmemleak.c:1429:32: sparse:    int
->> mm/kmemleak.c:1429:32: sparse: sparse: incompatible types for operation (>=):
->> mm/kmemleak.c:1429:32: sparse:    void *
->> mm/kmemleak.c:1429:32: sparse:    int
->> mm/kmemleak.c:1429:32: sparse: sparse: incompatible types for operation (>=):
->> mm/kmemleak.c:1429:32: sparse:    void *end
->> mm/kmemleak.c:1429:32: sparse:    int
-   mm/kmemleak.c:1429:32: sparse: sparse: incompatible types for operation (<):
-   mm/kmemleak.c:1429:32: sparse:    bad type __UNIQUE_ID___x229
-   mm/kmemleak.c:1429:32: sparse:    bad type __UNIQUE_ID___y230
-
-vim +1429 mm/kmemleak.c
-
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1396  
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1397  /*
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1398   * Scan a memory block corresponding to a kmemleak_object. A condition is
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1399   * that object->use_count >= 1.
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1400   */
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1401  static void scan_object(struct kmemleak_object *object)
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1402  {
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1403  	struct kmemleak_scan_area *area;
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1404  	unsigned long flags;
-0c24e061196c21 Patrick Wang     2022-06-11  1405  	void *obj_ptr;
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1406  
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1407  	/*
-21ae2956ce289f Uwe Kleine-König 2009-10-07  1408  	 * Once the object->lock is acquired, the corresponding memory block
-21ae2956ce289f Uwe Kleine-König 2009-10-07  1409  	 * cannot be freed (the same lock is acquired in delete_object).
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1410  	 */
-8c96f1bc6fc49c He Zhe           2020-01-30  1411  	raw_spin_lock_irqsave(&object->lock, flags);
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1412  	if (object->flags & OBJECT_NO_SCAN)
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1413  		goto out;
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1414  	if (!(object->flags & OBJECT_ALLOCATED))
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1415  		/* already freed object */
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1416  		goto out;
-0c24e061196c21 Patrick Wang     2022-06-11  1417  
-0c24e061196c21 Patrick Wang     2022-06-11  1418  	obj_ptr = object->flags & OBJECT_PHYS ?
-0c24e061196c21 Patrick Wang     2022-06-11  1419  		  __va((phys_addr_t)object->pointer) :
-0c24e061196c21 Patrick Wang     2022-06-11  1420  		  (void *)object->pointer;
-0c24e061196c21 Patrick Wang     2022-06-11  1421  
-dba82d9431770e Catalin Marinas  2019-09-23  1422  	if (hlist_empty(&object->area_list) ||
-dba82d9431770e Catalin Marinas  2019-09-23  1423  	    object->flags & OBJECT_FULL_SCAN) {
-0c24e061196c21 Patrick Wang     2022-06-11  1424  		void *start = obj_ptr;
-0c24e061196c21 Patrick Wang     2022-06-11  1425  		void *end = obj_ptr + object->size;
-93ada579b0eea0 Catalin Marinas  2015-06-24  1426  		void *next;
-af98603dad87e3 Catalin Marinas  2009-08-27  1427  
-93ada579b0eea0 Catalin Marinas  2015-06-24  1428  		do {
-93ada579b0eea0 Catalin Marinas  2015-06-24 @1429  			next = min(start + MAX_SCAN_SIZE, end);
-93ada579b0eea0 Catalin Marinas  2015-06-24  1430  			scan_block(start, next, object);
-93ada579b0eea0 Catalin Marinas  2015-06-24  1431  
-93ada579b0eea0 Catalin Marinas  2015-06-24  1432  			start = next;
-93ada579b0eea0 Catalin Marinas  2015-06-24  1433  			if (start >= end)
-93ada579b0eea0 Catalin Marinas  2015-06-24  1434  				break;
-af98603dad87e3 Catalin Marinas  2009-08-27  1435  
-8c96f1bc6fc49c He Zhe           2020-01-30  1436  			raw_spin_unlock_irqrestore(&object->lock, flags);
-af98603dad87e3 Catalin Marinas  2009-08-27  1437  			cond_resched();
-8c96f1bc6fc49c He Zhe           2020-01-30  1438  			raw_spin_lock_irqsave(&object->lock, flags);
-93ada579b0eea0 Catalin Marinas  2015-06-24  1439  		} while (object->flags & OBJECT_ALLOCATED);
-af98603dad87e3 Catalin Marinas  2009-08-27  1440  	} else
-b67bfe0d42cac5 Sasha Levin      2013-02-27  1441  		hlist_for_each_entry(area, &object->area_list, node)
-c017b4be3e8417 Catalin Marinas  2009-10-28  1442  			scan_block((void *)area->start,
-c017b4be3e8417 Catalin Marinas  2009-10-28  1443  				   (void *)(area->start + area->size),
-93ada579b0eea0 Catalin Marinas  2015-06-24  1444  				   object);
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1445  out:
-8c96f1bc6fc49c He Zhe           2020-01-30  1446  	raw_spin_unlock_irqrestore(&object->lock, flags);
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1447  }
-3c7b4e6b8be4c1 Catalin Marinas  2009-06-11  1448  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Miqu=C3=A8l
