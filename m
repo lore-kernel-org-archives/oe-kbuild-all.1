@@ -1,89 +1,83 @@
-Received: from mgamail.intel.com (unknown [192.55.52.43])
+Received: from h1.cmg1.smtp.forpsi.com (h1.cmg1.smtp.forpsi.com [81.2.195.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369F92F35;
-	Fri, 28 Jul 2023 06:35:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690526103; x=1722062103;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uCAYqtPO646FojTPeUaVaOlxNfh1eZtXR/rGcjHLlXA=;
-  b=f1t/c31CUGbEumzcDkat+8ibCdnKzeJ7B8JAW7E/cajvbooW15e38TGh
-   jAND/j92K6nJyZm3MvB8OL85FInwCuqlKPqzDRMRK7lCGCDbtVOkWaYsD
-   sFkq1L7byLWsoTxdc1bGf2xdzllZFXAN9vD96w7U31W3VBgAiwQUTy7Xt
-   XztWNhD0ctSUvX8Gm+PqMMKE60pRyHFdgb8SznHXvi9BYh+taewUp8CIP
-   BoyvG3u6O6ggK3qguVF79YuUEM7GfwZ7smHCkamoiy37UAuAtldXYkBXq
-   n8HLhHx5Z4syadkUAlqQplMYwOzxeBfIJWajG9qCgwxjlQsrVQulz8YXj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="454882807"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="454882807"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2023 23:34:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="727352725"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; 
-   d="scan'208";a="727352725"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 27 Jul 2023 23:34:46 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qPH3l-0002wx-0G;
-	Fri, 28 Jul 2023 06:34:45 +0000
-Date: Fri, 28 Jul 2023 14:34:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Emil Renner Berthing <kernel@esmil.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [esmil:visionfive 33/75] drivers/soc/sifive/sifive_ccache.c:156:21:
- error: '__section__' attribute only applies to functions, global variables,
- Objective-C methods, and Objective-C properties
-Message-ID: <202307281457.a61VNqfJ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80287AD5C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 06:53:24 +0000 (UTC)
+Received: from [192.168.1.166] ([91.218.190.200])
+	by cmgsmtp with ESMTPSA
+	id PHGuqQdvWPm6CPHGwqknNL; Fri, 28 Jul 2023 08:48:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+	t=1690526903; bh=wNCr6ECi53A9+aj5+69BlskR7OtUltgiHZXVfwsSghI=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version;
+	b=Pd7E5VNjX8JQvOheV+6el81wzHB2N8eG1Yy2csQGd0pAzeHa932zd692MSL0jlcol
+	 EgXW9WCRcnR+6t5uErQcyOIt3yfh8+Ks3JT865pZMZzz3rNAf8a6OibuD/JYILecBO
+	 l/XQ/i3XHR1YtFTycUxnZPqGPlxDe4D0pOqpcb4bpXIiALD2ORcDa1p3boEZPFCnVM
+	 9WNSjpfia1zVdXTc4K6kLbq9W4RQiQqY9MqRZ7a3aNem2gHYkZI/GHXDXkmORMz18S
+	 6xfhMMgDmoBg8/J9Lk20RzY+KpmuF+60ICxNLyYQmcJ+EEugaLoDdx6U90fiprRDKi
+	 reNDwNgrFjQUg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
+	t=1690526903; bh=wNCr6ECi53A9+aj5+69BlskR7OtUltgiHZXVfwsSghI=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version;
+	b=Pd7E5VNjX8JQvOheV+6el81wzHB2N8eG1Yy2csQGd0pAzeHa932zd692MSL0jlcol
+	 EgXW9WCRcnR+6t5uErQcyOIt3yfh8+Ks3JT865pZMZzz3rNAf8a6OibuD/JYILecBO
+	 l/XQ/i3XHR1YtFTycUxnZPqGPlxDe4D0pOqpcb4bpXIiALD2ORcDa1p3boEZPFCnVM
+	 9WNSjpfia1zVdXTc4K6kLbq9W4RQiQqY9MqRZ7a3aNem2gHYkZI/GHXDXkmORMz18S
+	 6xfhMMgDmoBg8/J9Lk20RzY+KpmuF+60ICxNLyYQmcJ+EEugaLoDdx6U90fiprRDKi
+	 reNDwNgrFjQUg==
+Message-ID: <fbceb8e5444eab23788501b002926e07f54fdd7c.camel@triops.cz>
+Subject: Re: [usb:usb-testing 25/42] drivers/usb/dwc3/dwc3-octeon.c:403:10:
+ warning: shift count >= width of type
+From: Ladislav Michl <ladis@triops.cz>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel test robot
+	 <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-usb@vger.kernel.org
+Date: Fri, 28 Jul 2023 08:48:20 +0200
+In-Reply-To: <2023072653-viewable-harmonics-09e0@gregkh>
+References: <202307260537.MROrhVNM-lkp@intel.com>
+	 <2023072653-viewable-harmonics-09e0@gregkh>
+Organization: Triops, s.r.o.
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-CMAE-Envelope: MS4wfJEvISPn+xE8iYqJouYIpnSQ0RL60IieVgfhbgeJFAK0k0hQ2zMHO713m3FaJ9QegWffSg17lbVogstW6+U1LwFfuBxvHB7dA1S2FPstwxQcSFCL3/E9
+ s0AfghZhOEly6UCdf/m+9QsDBBe3frppc4hbKcyWi8LB2VMGSgmCdfPLzfu9gjiMHG+h3aOEt34kxLXQsFqtIC3PbtlMHSDWitNACcZAmxBeJTxoWpPpRzPG
+ n2s6wXVxoCwAUubis4oUWX1TVyiLEZ/x4M5LIfwzTvibpbScfkqUIF36LE+sQYUo5ym4JuHsYTzCRMP7d9ZiyQ==
 
-tree:   https://github.com/esmil/linux visionfive
-head:   4370487fce31acaedcc03e8bd2e64f3a9c591821
-commit: 49753f0d8f50a1e78df6b1d095eb548e72f4f205 [33/75] soc: sifive: ccache: Support cache management operations
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20230728/202307281457.a61VNqfJ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281457.a61VNqfJ-lkp@intel.com/reproduce)
+Hi Greg,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307281457.a61VNqfJ-lkp@intel.com/
+I'm sorry for late reply (travelling)
 
-All errors (new ones prefixed by >>):
+On Wed, 2023-07-26 at 06:39 +0200, Greg Kroah-Hartman wrote:
+> On Wed, Jul 26, 2023 at 05:09:56AM +0800, kernel test robot wrote:
+> > Hi Ladislav,
+> >=20
+> > First bad commit (maybe !=3D root cause):
+> >=20
+> > tree:=C2=A0=C2=A0
+> > https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git=C2=A0usb=
+-
+> > testing
+> > head:=C2=A0=C2=A0 ac47051f0bb8ccf1eaedb296a19fcb541474db53
+> > commit: b3061c5a15fe460502e9574b4663dd7c6ed80b48 [25/42] usb: dwc3:
+> > dwc3-octeon: Convert to glue driver
+>=20
+> Ladislav, I've dropped your dwc3-octeon patches from my tree now,
+> please fix up and resend when you have this resolved.
 
->> drivers/soc/sifive/sifive_ccache.c:156:21: error: '__section__' attribute only applies to functions, global variables, Objective-C methods, and Objective-C properties
-     156 | static const struct __initdata riscv_cache_ops ccache_mgmt_ops = {
-         |                     ^
-   include/linux/init.h:53:20: note: expanded from macro '__initdata'
-      53 | #define __initdata      __section(".init.data")
-         |                         ^
-   include/linux/compiler_attributes.h:334:56: note: expanded from macro '__section'
-     334 | #define __section(section)              __attribute__((__section__(section)))
-         |                                                        ^
-   1 error generated.
+As I didn't find a better place to ask, I'm asking here:
+all registers are 64bit and driver is now using GENMASK and BIT
+macros to access their values. Reported problem comes from 32bit
+configuration, where BIT is UL(1) << (nr) and BITS_PER_LONG is 32.
+Is using GENMASK_ULL and BIT_ULL preferred way to go here? I'm not a
+bit fan of "fixing" code just to silence warning on irrelevant
+configurations, but will do it unless someone points me to better way.
 
-
-vim +/__section__ +156 drivers/soc/sifive/sifive_ccache.c
-
-   155	
- > 156	static const struct __initdata riscv_cache_ops ccache_mgmt_ops = {
-   157		.wback = &ccache_flush_range,
-   158		.inv = &ccache_flush_range,
-   159		.wback_inv = &ccache_flush_range,
-   160	};
-   161	#endif /* CONFIG_RISCV_NONSTANDARD_CACHE_OPS */
-   162	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you,
+	l.
