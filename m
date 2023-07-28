@@ -1,42 +1,71 @@
-Received: from mgamail.intel.com (unknown [192.55.52.120])
+Received: from mgamail.intel.com (unknown [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A8023B8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 22:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7232623B8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 22:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690581873; x=1722117873;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0G3z8/9pVQQQb/0FQFhENu825xJEDHBWCRKRVG/7SxQ=;
-  b=biuec5hZ5bjDVE1GrtPnoc5FhsIk/0KeoRTGwO7aNMSVjb4Ub4enz50y
-   ecAHMP+M28jmfFhMj6bevEJwcbLuf6tj0mYpsr893zxSyoxJ9So5c9sOd
-   einD875YZWnmrpLMcmJOXfCNXyDPDkNu5z+gxEd51+MSWnCZ/A/tVBHll
-   YIvWDN4e2CTK2QT9YLfHwGruGzrn3ohQc3ArHXlxk7fKzaISo9Q4ml9vq
-   GCiqnBbGOOZvCtVriH9BzfBipOjZ5N1KJgqiAXB6RmqEB503oJ7JqRM6z
-   AnmwKReU7bepYebzE+5Y5rF/DSp6e8OL0anRggiHVbsoQCX8SkNoD4TsM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="367575959"
+  t=1690582540; x=1722118540;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dkxWn9zA6NEMUYhLOvzMdteEPBXCCjOX+NYgb6juRSo=;
+  b=RHXfayJGbelfS1Mz0fvqLjXLYAPCKGvAmbeq09jBSw6StskGjiFLV6KZ
+   SBbT9V7oGw4Ubsv5j9F9KREowMnES7pzrEUMeR5TYAqc2dn3mxx8jkszI
+   lh+VfcZ1A8sOeJnLJGxMhGonm7gaI/hhk1MIRrf0MFbBypvGBYEbWSCE1
+   MgXlpohPduaFfHye8LbVoRH4OIQZIRrewxXTFSlef3Tbv5J2gOQ2kzTtZ
+   FRFbvPq11AJxm3e2+AWShDC+XKp7oPyP4wmrXtQY6EpuFjHwdGmuk6e94
+   Mx5KlfKXYIys3k6UrG+eKPPj0i1nQlFvQnvz2rFGjVWKlVq6Y8E386Fjb
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="353601747"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="367575959"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 15:04:32 -0700
+   d="scan'208";a="353601747"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 15:15:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="762720476"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="721411763"
 X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; 
-   d="scan'208";a="762720476"
+   d="scan'208";a="721411763"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 28 Jul 2023 15:04:31 -0700
+  by orsmga007.jf.intel.com with ESMTP; 28 Jul 2023 15:15:31 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPVZW-0003c3-0b;
-	Fri, 28 Jul 2023 22:04:30 +0000
-Date: Sat, 29 Jul 2023 06:03:51 +0800
+	id 1qPVkA-0003cR-1V;
+	Fri, 28 Jul 2023 22:15:30 +0000
+Date: Sat, 29 Jul 2023 06:14:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 61/98] drivers/tty/tty_buffer.c:325:28: sparse:
- sparse: incompatible types in comparison expression (different type sizes):
-Message-ID: <202307290552.htfsP9es-lkp@intel.com>
+To: Shenwei Wang <shenwei.wang@nxp.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Bhupesh Sharma <bhupesh.sharma@linaro.org>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Simon Horman <simon.horman@corigine.com>,
+	Andrew Halaney <ahalaney@redhat.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Shenwei Wang <shenwei.wang@nxp.com>,
+	Wong Vee Khee <veekhee@apple.com>
+Subject: Re: [PATCH v2 net 1/2] net: stmmac: add new mode parameter for
+ fix_mac_speed
+Message-ID: <202307290635.TOWvHdhK-lkp@intel.com>
+References: <20230727152503.2199550-2-shenwei.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,69 +74,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230727152503.2199550-2-shenwei.wang@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   2400f7abb9deab7a2207b19d1fad47d9910077a9
-commit: 58dea2bfdf65b65a29a79d6227bff708ea95dc7c [61/98] tty: tty_buffer: use min() instead of min_t()
-config: nios2-randconfig-r091-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290552.htfsP9es-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290552.htfsP9es-lkp@intel.com/reproduce)
+Hi Shenwei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shenwei-Wang/net-stmmac-add-new-mode-parameter-for-fix_mac_speed/20230727-232922
+base:   net/main
+patch link:    https://lore.kernel.org/r/20230727152503.2199550-2-shenwei.wang%40nxp.com
+patch subject: [PATCH v2 net 1/2] net: stmmac: add new mode parameter for fix_mac_speed
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230729/202307290635.TOWvHdhK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290635.TOWvHdhK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307290552.htfsP9es-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307290635.TOWvHdhK-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/tty/tty_buffer.c:325:28: sparse: sparse: incompatible types in comparison expression (different type sizes):
->> drivers/tty/tty_buffer.c:325:28: sparse:    unsigned int *
->> drivers/tty/tty_buffer.c:325:28: sparse:    unsigned long *
-   drivers/tty/tty_buffer.c:363:28: sparse: sparse: incompatible types in comparison expression (different type sizes):
-   drivers/tty/tty_buffer.c:363:28: sparse:    unsigned int *
-   drivers/tty/tty_buffer.c:363:28: sparse:    unsigned long *
+All errors (new ones prefixed by >>):
 
-vim +325 drivers/tty/tty_buffer.c
+   drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c: In function 'starfive_dwmac_probe':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c:132:41: error: assignment to 'void (*)(void *, uint,  uint)' {aka 'void (*)(void *, unsigned int,  unsigned int)'} from incompatible pointer type 'void (*)(void *, unsigned int)' [-Werror=incompatible-pointer-types]
+     132 |                 plat_dat->fix_mac_speed = starfive_dwmac_fix_mac_speed;
+         |                                         ^
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c: In function 'sti_dwmac_probe':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c:296:33: error: assignment to 'void (*)(void *, uint,  uint)' {aka 'void (*)(void *, unsigned int,  unsigned int)'} from incompatible pointer type 'void (*)(void *, unsigned int)' [-Werror=incompatible-pointer-types]
+     296 |         plat_dat->fix_mac_speed = data->fix_retime_src;
+         |                                 ^
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c: In function 'tegra_eqos_probe':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-dwc-qos-eth.c:359:29: error: assignment to 'void (*)(void *, uint,  uint)' {aka 'void (*)(void *, unsigned int,  unsigned int)'} from incompatible pointer type 'void (*)(void *, unsigned int)' [-Werror=incompatible-pointer-types]
+     359 |         data->fix_mac_speed = tegra_eqos_fix_speed;
+         |                             ^
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c: In function 'intel_eth_plat_probe':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c:108:49: error: assignment to 'void (*)(void *, uint,  uint)' {aka 'void (*)(void *, unsigned int,  unsigned int)'} from incompatible pointer type 'void (*)(void *, unsigned int)' [-Werror=incompatible-pointer-types]
+     108 |                         plat_dat->fix_mac_speed = dwmac->data->fix_mac_speed;
+         |                                                 ^
+   cc1: some warnings being treated as errors
 
-   305	
-   306	/**
-   307	 * tty_insert_flip_string_fixed_flag - add characters to the tty buffer
-   308	 * @port: tty port
-   309	 * @chars: characters
-   310	 * @flag: flag value for each character
-   311	 * @size: size
-   312	 *
-   313	 * Queue a series of bytes to the tty buffering. All the characters passed are
-   314	 * marked with the supplied flag.
-   315	 *
-   316	 * Returns: the number added.
-   317	 */
-   318	int tty_insert_flip_string_fixed_flag(struct tty_port *port, const u8 *chars,
-   319					      u8 flag, size_t size)
-   320	{
-   321		int copied = 0;
-   322		bool flags = flag != TTY_NORMAL;
-   323	
-   324		do {
- > 325			int goal = min(size - copied, TTY_BUFFER_PAGE);
-   326			int space = __tty_buffer_request_room(port, goal, flags);
-   327			struct tty_buffer *tb = port->buf.tail;
-   328	
-   329			if (unlikely(space == 0))
-   330				break;
-   331			memcpy(char_buf_ptr(tb, tb->used), chars, space);
-   332			if (tb->flags)
-   333				memset(flag_buf_ptr(tb, tb->used), flag, space);
-   334			tb->used += space;
-   335			copied += space;
-   336			chars += space;
-   337			/* There is a small chance that we need to split the data over
-   338			 * several buffers. If this is the case we must loop.
-   339			 */
-   340		} while (unlikely(size > copied));
-   341		return copied;
-   342	}
-   343	EXPORT_SYMBOL(tty_insert_flip_string_fixed_flag);
-   344	
+
+vim +132 drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.c
+
+b4a5afa51ceeca Samin Guo 2023-04-17   92  
+4bd3bb7b452690 Samin Guo 2023-04-17   93  static int starfive_dwmac_probe(struct platform_device *pdev)
+4bd3bb7b452690 Samin Guo 2023-04-17   94  {
+4bd3bb7b452690 Samin Guo 2023-04-17   95  	struct plat_stmmacenet_data *plat_dat;
+4bd3bb7b452690 Samin Guo 2023-04-17   96  	struct stmmac_resources stmmac_res;
+4bd3bb7b452690 Samin Guo 2023-04-17   97  	struct starfive_dwmac *dwmac;
+4bd3bb7b452690 Samin Guo 2023-04-17   98  	struct clk *clk_gtx;
+4bd3bb7b452690 Samin Guo 2023-04-17   99  	int err;
+4bd3bb7b452690 Samin Guo 2023-04-17  100  
+4bd3bb7b452690 Samin Guo 2023-04-17  101  	err = stmmac_get_platform_resources(pdev, &stmmac_res);
+4bd3bb7b452690 Samin Guo 2023-04-17  102  	if (err)
+4bd3bb7b452690 Samin Guo 2023-04-17  103  		return dev_err_probe(&pdev->dev, err,
+4bd3bb7b452690 Samin Guo 2023-04-17  104  				     "failed to get resources\n");
+4bd3bb7b452690 Samin Guo 2023-04-17  105  
+4bd3bb7b452690 Samin Guo 2023-04-17  106  	plat_dat = stmmac_probe_config_dt(pdev, stmmac_res.mac);
+4bd3bb7b452690 Samin Guo 2023-04-17  107  	if (IS_ERR(plat_dat))
+4bd3bb7b452690 Samin Guo 2023-04-17  108  		return dev_err_probe(&pdev->dev, PTR_ERR(plat_dat),
+4bd3bb7b452690 Samin Guo 2023-04-17  109  				     "dt configuration failed\n");
+4bd3bb7b452690 Samin Guo 2023-04-17  110  
+4bd3bb7b452690 Samin Guo 2023-04-17  111  	dwmac = devm_kzalloc(&pdev->dev, sizeof(*dwmac), GFP_KERNEL);
+4bd3bb7b452690 Samin Guo 2023-04-17  112  	if (!dwmac)
+4bd3bb7b452690 Samin Guo 2023-04-17  113  		return -ENOMEM;
+4bd3bb7b452690 Samin Guo 2023-04-17  114  
+4bd3bb7b452690 Samin Guo 2023-04-17  115  	dwmac->clk_tx = devm_clk_get_enabled(&pdev->dev, "tx");
+4bd3bb7b452690 Samin Guo 2023-04-17  116  	if (IS_ERR(dwmac->clk_tx))
+4bd3bb7b452690 Samin Guo 2023-04-17  117  		return dev_err_probe(&pdev->dev, PTR_ERR(dwmac->clk_tx),
+4bd3bb7b452690 Samin Guo 2023-04-17  118  				     "error getting tx clock\n");
+4bd3bb7b452690 Samin Guo 2023-04-17  119  
+4bd3bb7b452690 Samin Guo 2023-04-17  120  	clk_gtx = devm_clk_get_enabled(&pdev->dev, "gtx");
+4bd3bb7b452690 Samin Guo 2023-04-17  121  	if (IS_ERR(clk_gtx))
+4bd3bb7b452690 Samin Guo 2023-04-17  122  		return dev_err_probe(&pdev->dev, PTR_ERR(clk_gtx),
+4bd3bb7b452690 Samin Guo 2023-04-17  123  				     "error getting gtx clock\n");
+4bd3bb7b452690 Samin Guo 2023-04-17  124  
+4bd3bb7b452690 Samin Guo 2023-04-17  125  	/* Generally, the rgmii_tx clock is provided by the internal clock,
+4bd3bb7b452690 Samin Guo 2023-04-17  126  	 * which needs to match the corresponding clock frequency according
+4bd3bb7b452690 Samin Guo 2023-04-17  127  	 * to different speeds. If the rgmii_tx clock is provided by the
+4bd3bb7b452690 Samin Guo 2023-04-17  128  	 * external rgmii_rxin, there is no need to configure the clock
+4bd3bb7b452690 Samin Guo 2023-04-17  129  	 * internally, because rgmii_rxin will be adaptively adjusted.
+4bd3bb7b452690 Samin Guo 2023-04-17  130  	 */
+4bd3bb7b452690 Samin Guo 2023-04-17  131  	if (!device_property_read_bool(&pdev->dev, "starfive,tx-use-rgmii-clk"))
+4bd3bb7b452690 Samin Guo 2023-04-17 @132  		plat_dat->fix_mac_speed = starfive_dwmac_fix_mac_speed;
+4bd3bb7b452690 Samin Guo 2023-04-17  133  
+4bd3bb7b452690 Samin Guo 2023-04-17  134  	dwmac->dev = &pdev->dev;
+4bd3bb7b452690 Samin Guo 2023-04-17  135  	plat_dat->bsp_priv = dwmac;
+4bd3bb7b452690 Samin Guo 2023-04-17  136  	plat_dat->dma_cfg->dche = true;
+4bd3bb7b452690 Samin Guo 2023-04-17  137  
+b4a5afa51ceeca Samin Guo 2023-04-17  138  	err = starfive_dwmac_set_mode(plat_dat);
+b4a5afa51ceeca Samin Guo 2023-04-17  139  	if (err)
+b4a5afa51ceeca Samin Guo 2023-04-17  140  		return err;
+b4a5afa51ceeca Samin Guo 2023-04-17  141  
+4bd3bb7b452690 Samin Guo 2023-04-17  142  	err = stmmac_dvr_probe(&pdev->dev, plat_dat, &stmmac_res);
+4bd3bb7b452690 Samin Guo 2023-04-17  143  	if (err) {
+4bd3bb7b452690 Samin Guo 2023-04-17  144  		stmmac_remove_config_dt(pdev, plat_dat);
+4bd3bb7b452690 Samin Guo 2023-04-17  145  		return err;
+4bd3bb7b452690 Samin Guo 2023-04-17  146  	}
+4bd3bb7b452690 Samin Guo 2023-04-17  147  
+4bd3bb7b452690 Samin Guo 2023-04-17  148  	return 0;
+4bd3bb7b452690 Samin Guo 2023-04-17  149  }
+4bd3bb7b452690 Samin Guo 2023-04-17  150  
 
 -- 
 0-DAY CI Kernel Test Service
