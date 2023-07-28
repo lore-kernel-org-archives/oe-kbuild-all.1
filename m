@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (unknown [134.134.136.100])
+Received: from mgamail.intel.com (unknown [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A416D11C87
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Jul 2023 10:05:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33B111196;
+	Fri, 28 Jul 2023 10:15:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690538710; x=1722074710;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AEw6dvmTAVAnapmwCuubvD/pYINs6cTijB5oUR3wZ3w=;
-  b=Kk2hea1QVusI5LpGbXvj3TLvKAKe9Sv0NhaYOSPskgYpd2Hz3c7V5JDd
-   U0vc2JqQCVmGxwUBgg8q/wxvV9SxJ35iZukspuDBnlKfUR8DEYAiqNB6H
-   RJ4J2hpxTAG065r5sHM9yJX3V2AkiSThTI7+mPV1hsV7QsyxZGAxl9HLy
-   H1C7WwGpYX0vuBMBVI/Im5vt7dew3qdNKKexxM7raG3azVMvbUpdOnhPp
-   U1aqqAH/rmXy4KBZfN4D94McQo/wDOuyFePjUpiOX0Gb2MHbjqtgStZK6
-   /178GEzoU+3oUC3UWkT1oUygB89kJw8U6t3tLgr61NL9TkxCNmIjMOEeK
+  t=1690539332; x=1722075332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gppWwEh4vKYikEB34tiSdMvJImtb2EFH9Rdji2+jxY8=;
+  b=R/P+MQJsjlYfCIH4CLGzZCv13FcpfZpIckIf6su2662G9cZug1BW+yN9
+   PyPARx5ASkHthBNF6ZuvPgmqvNuS0h9F1JCpt9xzqZ0zABbvSyQI7ahKA
+   kMUc1OiXPDr+tGm8xB+0+m4/JqCczc2iVioxdpBJd+/Z1n3WC5lfMuHh6
+   msGikMBT7fUbUQ76A3oCfa8WrxwGOrbNE/w8KauXmhYyclhfgxI/H6BNs
+   PCPIraQQMRMo4HC5xwVMFO2TSXb54bsHdmlIYFuWZZK+PMljef5N79pHK
+   CZQIM9xYJm9hwhdIJf40yZMzv6ZSozu/Ekhh0afRdvO91E2t+JguG9gGt
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="434841573"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="372177156"
 X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
-   d="scan'208";a="434841573"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 03:05:09 -0700
+   d="scan'208";a="372177156"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 03:15:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="730684779"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="757117938"
 X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; 
-   d="scan'208";a="730684779"
+   d="scan'208";a="757117938"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Jul 2023 03:05:08 -0700
+  by orsmga008.jf.intel.com with ESMTP; 28 Jul 2023 03:15:29 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPKLM-00035D-0K;
-	Fri, 28 Jul 2023 10:05:08 +0000
-Date: Fri, 28 Jul 2023 18:04:18 +0800
+	id 1qPKV9-00035V-2v;
+	Fri, 28 Jul 2023 10:15:21 +0000
+Date: Fri, 28 Jul 2023 18:14:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: huqinghong <huqinghong@uniontech.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [audit:pr/148 2/2] kernel/auditsc.c:2450:23: error: passing argument
- 1 of 'strlen' from incompatible pointer type
-Message-ID: <202307281731.vdTnR4YQ-lkp@intel.com>
+To: Geliang Tang <geliang.tang@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC bpf-next v6] bpf: Force to MPTCP
+Message-ID: <202307281719.yQt7Sa5A-lkp@intel.com>
+References: <c0647d0d3c7158b96dec4604ba317df311c5012d.1690531142.git.geliang.tang@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,188 +46,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c0647d0d3c7158b96dec4604ba317df311c5012d.1690531142.git.geliang.tang@suse.com>
 
-tree:   https://github.com/linux-audit/audit-kernel pr/148
-head:   a3f0ed3f07b3262461c74c68df101e7c04adaa06
-commit: a3f0ed3f07b3262461c74c68df101e7c04adaa06 [2/2] Influence: audit log
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230728/202307281731.vdTnR4YQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281731.vdTnR4YQ-lkp@intel.com/reproduce)
+Hi Geliang,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/bpf-Force-to-MPTCP/20230728-160441
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/c0647d0d3c7158b96dec4604ba317df311c5012d.1690531142.git.geliang.tang%40suse.com
+patch subject: [RFC bpf-next v6] bpf: Force to MPTCP
+config: um-randconfig-r025-20230727 (https://download.01.org/0day-ci/archive/20230728/202307281719.yQt7Sa5A-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281719.yQt7Sa5A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307281731.vdTnR4YQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307281719.yQt7Sa5A-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/auditsc.c: In function '__audit_inode_child':
->> kernel/auditsc.c:2450:23: error: passing argument 1 of 'strlen' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2450 |         dlen = strlen(dname);
-         |                       ^~~~~
-         |                       |
-         |                       const struct qstr *
-   In file included from arch/x86/include/asm/string.h:5,
-                    from arch/x86/include/asm/cpuid.h:9,
-                    from arch/x86/include/asm/processor.h:19,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:53,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from kernel/auditsc.c:37:
-   arch/x86/include/asm/string_64.h:72:27: note: expected 'const char *' but argument is of type 'const struct qstr *'
-      72 | size_t strlen(const char *s);
-         |               ~~~~~~~~~~~~^
-   kernel/auditsc.c:2458:51: error: invalid operands to binary != (have 'struct qstr' and 'int')
-    2458 |                 if (n_file_name && dname[dlen -1] != '/' && n->name->name[name_len - 1] == '/')
-         |                                    ~~~~~~~~~~~~~~ ^~
-         |                                         |
-         |                                         struct qstr
-   cc1: some warnings being treated as errors
+   In file included from net/socket.c:55:
+   In file included from include/linux/bpf-cgroup.h:5:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from net/socket.c:55:
+   In file included from include/linux/bpf-cgroup.h:5:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from net/socket.c:55:
+   In file included from include/linux/bpf-cgroup.h:5:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> net/socket.c:1647:14: warning: no previous prototype for function 'update_socket_protocol' [-Wmissing-prototypes]
+    1647 | noinline int update_socket_protocol(int family, int type, int protocol)
+         |              ^
+   net/socket.c:1647:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1647 | noinline int update_socket_protocol(int family, int type, int protocol)
+         |          ^
+         |          static 
+   13 warnings generated.
 
 
-vim +/strlen +2450 kernel/auditsc.c
+vim +/update_socket_protocol +1647 net/socket.c
 
-  2393	
-  2394	/**
-  2395	 * __audit_inode_child - collect inode info for created/removed objects
-  2396	 * @parent: inode of dentry parent
-  2397	 * @dentry: dentry being audited
-  2398	 * @type:   AUDIT_TYPE_* value that we're looking for
-  2399	 *
-  2400	 * For syscalls that create or remove filesystem objects, audit_inode
-  2401	 * can only collect information for the filesystem object's parent.
-  2402	 * This call updates the audit context with the child's information.
-  2403	 * Syscalls that create a new filesystem object must be hooked after
-  2404	 * the object is created.  Syscalls that remove a filesystem object
-  2405	 * must be hooked prior, in order to capture the target inode during
-  2406	 * unsuccessful attempts.
-  2407	 */
-  2408	void __audit_inode_child(struct inode *parent,
-  2409				 const struct dentry *dentry,
-  2410				 const unsigned char type)
-  2411	{
-  2412		struct audit_context *context = audit_context();
-  2413		struct inode *inode = d_backing_inode(dentry);
-  2414		const struct qstr *dname = &dentry->d_name;
-  2415		struct audit_names *n, *found_parent = NULL, *found_child = NULL;
-  2416		struct audit_entry *e;
-  2417		struct list_head *list = &audit_filter_list[AUDIT_FILTER_FS];
-  2418		int i;
-  2419		char *n_file_name = NULL;
-  2420		int dlen;
-  2421		int name_len;
-  2422		bool special_end = false;
-  2423	
-  2424		if (context->context == AUDIT_CTX_UNUSED)
-  2425			return;
-  2426	
-  2427		rcu_read_lock();
-  2428		list_for_each_entry_rcu(e, list, list) {
-  2429			for (i = 0; i < e->rule.field_count; i++) {
-  2430				struct audit_field *f = &e->rule.fields[i];
-  2431	
-  2432				if (f->type == AUDIT_FSTYPE
-  2433				    && audit_comparator(parent->i_sb->s_magic,
-  2434							f->op, f->val)
-  2435				    && e->rule.action == AUDIT_NEVER) {
-  2436					rcu_read_unlock();
-  2437					return;
-  2438				}
-  2439			}
-  2440		}
-  2441		rcu_read_unlock();
-  2442	
-  2443		if (inode)
-  2444			handle_one(inode);
-  2445	
-  2446		n_file_name = kmalloc(PATH_MAX, GFP_KERNEL);
-  2447		if (n_file_name) {
-  2448			memset(n_file_name, '\0', PATH_MAX);
-  2449		}
-> 2450		dlen = strlen(dname);
-  2451		/* look for a parent entry first */
-  2452		list_for_each_entry(n, &context->names_list, list) {
-  2453			if (!n->name ||
-  2454			    (n->type != AUDIT_TYPE_PARENT &&
-  2455			     n->type != AUDIT_TYPE_UNKNOWN))
-  2456				continue;
-  2457			name_len = strlen(n->name->name);
-  2458			if (n_file_name && dname[dlen -1] != '/' && n->name->name[name_len - 1] == '/')
-  2459			{
-  2460				strncpy(n_file_name, n->name->name, name_len - 1);
-  2461				special_end = true;
-  2462			}
-  2463			if (n->ino == parent->i_ino && n->dev == parent->i_sb->s_dev &&
-  2464			    !audit_compare_dname_path(dname,
-  2465					special_end ? n_file_name : n->name->name, n->name_len)) {
-  2466				if (n->type == AUDIT_TYPE_UNKNOWN)
-  2467					n->type = AUDIT_TYPE_PARENT;
-  2468				found_parent = n;
-  2469				break;
-  2470			}
-  2471			if (special_end) {
-  2472				memset(n_file_name, '\0', name_len + 1);
-  2473			}
-  2474			special_end = false;
-  2475		}
-  2476		if (n_file_name) {
-  2477			kfree(n_file_name);
-  2478		}
-  2479		/* is there a matching child entry? */
-  2480		list_for_each_entry(n, &context->names_list, list) {
-  2481			/* can only match entries that have a name */
-  2482			if (!n->name ||
-  2483			    (n->type != type && n->type != AUDIT_TYPE_UNKNOWN))
-  2484				continue;
-  2485	
-  2486			if (!strcmp(dname->name, n->name->name) ||
-  2487			    !audit_compare_dname_path(dname, n->name->name,
-  2488							found_parent ?
-  2489							found_parent->name_len :
-  2490							AUDIT_NAME_FULL)) {
-  2491				if (n->type == AUDIT_TYPE_UNKNOWN)
-  2492					n->type = type;
-  2493				found_child = n;
-  2494				break;
-  2495			}
-  2496		}
-  2497	
-  2498		if (!found_parent) {
-  2499			/* create a new, "anonymous" parent record */
-  2500			n = audit_alloc_name(context, AUDIT_TYPE_PARENT);
-  2501			if (!n)
-  2502				return;
-  2503			audit_copy_inode(n, NULL, parent, 0);
-  2504		}
-  2505	
-  2506		if (!found_child) {
-  2507			found_child = audit_alloc_name(context, type);
-  2508			if (!found_child)
-  2509				return;
-  2510	
-  2511			/* Re-use the name belonging to the slot for a matching parent
-  2512			 * directory. All names for this context are relinquished in
-  2513			 * audit_free_names() */
-  2514			if (found_parent) {
-  2515				found_child->name = found_parent->name;
-  2516				found_child->name_len = AUDIT_NAME_FULL;
-  2517				found_child->name->refcnt++;
-  2518			}
-  2519		}
-  2520	
-  2521		if (inode)
-  2522			audit_copy_inode(found_child, dentry, inode, 0);
-  2523		else
-  2524			found_child->ino = AUDIT_INO_UNSET;
-  2525	}
-  2526	EXPORT_SYMBOL_GPL(__audit_inode_child);
-  2527	
+  1646	
+> 1647	noinline int update_socket_protocol(int family, int type, int protocol)
+  1648	{
+  1649		return protocol;
+  1650	}
+  1651	
 
 -- 
 0-DAY CI Kernel Test Service
