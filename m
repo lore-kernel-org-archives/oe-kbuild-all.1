@@ -1,51 +1,47 @@
-Received: from mgamail.intel.com (unknown [134.134.136.100])
+Received: from mgamail.intel.com (unknown [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4177C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 09:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C937C;
+	Sat, 29 Jul 2023 09:31:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690622721; x=1722158721;
+  t=1690623119; x=1722159119;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S/3RlvQtNmTMQrZdArWv4udXKUyqBI6whsz5JfZbzp0=;
-  b=OhEwUTxF+Q1KzH+Cdt7f9Q0rXsFfgmGoJPndGUUU8OaZv0Fgyy9QmEGv
-   K7n7KIvMmW9b64xF8tGDuUA8KAM3lemmqkDiqKdaAmEheIltv+lCAw9VL
-   11OxLl2cZ/M0DehlCsbr/PO6rYgurB5H72tYzD38/1FYN3w9qs1n8LLSa
-   Z7yaDt+NdeGSKSz1BvInpq2EBy0QHYzgytqRALuwKXizjgK52fia0RI2x
-   w398GLW3t+xtxYd78XHB/LzbWr/h0ycg60YgWdz71PP2u1rVvmcDVg2Vz
-   QuVhhuCbPA5LQOeXMmNPluNqK9NmRD2o306rPh7v7Trm+xWnWBdg0zMDZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="435038123"
+  bh=9E5/hXQ/a43ajYHMI2GY6Ykrx/VZGK1+tUN3LvEjnJ0=;
+  b=Cj+6LMDUUk+FT8OhFrg6RRzlvhH57iuOC3gkHapplkCehhDRGfcKnIle
+   /W1d5IDjeMSMoWMgBy/AlzadEy4eYfdWDOGKMFGdOAphpXnd4ppOiP26x
+   5RSHDEsV+tVQXgWFwQYgMDzttK/DSD94yReHMqlK1xXS9jh+QD2d+oQB9
+   FlFMcm8iH2ZASV3sHxHuiLQUdpUOEvfUiDhah3cT1nm5NGOeXqd2R4xXm
+   S5O/7vUPYSHGrQa0lNWBDETAHKZI4Js0Y6RmUa7k2Jrb5xjD2QOaLbn0Z
+   pzneNO7dXtu9QBFDloqe3Byxp4F5e9mNoudSsB8aANjZGQI/CMivqYQ+c
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="371445470"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="435038123"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 02:25:21 -0700
+   d="scan'208";a="371445470"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 02:31:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="762828232"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="704849257"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="762828232"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 29 Jul 2023 02:25:18 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qPgCL-0003wp-39;
-	Sat, 29 Jul 2023 09:25:17 +0000
-Date: Sat, 29 Jul 2023 17:25:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Georgi Djakov <djakov@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH 1/4] interconnect: qcom: icc-rpm: Add AB/IB calculations
- coefficients
-Message-ID: <202307291745.0JcdYvBz-lkp@intel.com>
-References: <20230726-topic-icc_coeff-v1-1-31616960818c@linaro.org>
+   d="scan'208";a="704849257"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 02:31:56 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 1EC4411F81F;
+	Sat, 29 Jul 2023 12:31:54 +0300 (EEST)
+Date: Sat, 29 Jul 2023 09:31:54 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [sailus-media-tree:master 9/20]
+ drivers/media/i2c/ov5693.c:1280:17: warning: incompatible integer to pointer
+ conversion assigning to 'struct regmap *' from 'int'
+Message-ID: <ZMTcirgM3W+C0rag@kekkonen.localdomain>
+References: <202307271517.dPa1bTSi-lkp@intel.com>
+ <8848c668-4736-a478-a277-e0cf1aa96ad4@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,79 +50,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230726-topic-icc_coeff-v1-1-31616960818c@linaro.org>
+In-Reply-To: <8848c668-4736-a478-a277-e0cf1aa96ad4@redhat.com>
 
-Hi Konrad,
+Hi Hans,
 
-kernel test robot noticed the following build warnings:
+On Thu, Jul 27, 2023 at 10:57:15AM +0200, Hans de Goede wrote:
+> Hi Sakari,
+> 
+> On 7/27/23 09:34, kernel test robot wrote:
+> > tree:   git://linuxtv.org/sailus/media_tree.git master
+> > head:   215e4463b11d94668b841368cb6882f3a2968148
+> > commit: 6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c [9/20] media: ov5693: Convert to new CCI register access helpers
+> > config: arm-randconfig-r012-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271517.dPa1bTSi-lkp@intel.com/config)
+> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> > reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271517.dPa1bTSi-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202307271517.dPa1bTSi-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    drivers/media/i2c/ov5693.c:1280:19: error: implicit declaration of function 'devm_cci_regmap_init_i2c' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+> >            ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
+> 
+> This is caused by a mis-merge:
+> 
+> https://git.linuxtv.org/sailus/media_tree.git/commit/?id=6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c
+> 
+> Shows that the "select V4L2_CCI_I2C" was added to the DW9768 Kconfig block instead of to the OV5693 block.
 
-[auto build test WARNING on 1e25dd7772483f477f79986d956028e9f47f990a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/interconnect-qcom-icc-rpm-Add-AB-IB-calculations-coefficients/20230727-002710
-base:   1e25dd7772483f477f79986d956028e9f47f990a
-patch link:    https://lore.kernel.org/r/20230726-topic-icc_coeff-v1-1-31616960818c%40linaro.org
-patch subject: [PATCH 1/4] interconnect: qcom: icc-rpm: Add AB/IB calculations coefficients
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230729/202307291745.0JcdYvBz-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291745.0JcdYvBz-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307291745.0JcdYvBz-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/interconnect/qcom/icc-rpm.c: In function 'qcom_icc_bus_aggregate':
->> drivers/interconnect/qcom/icc-rpm.c:302:27: warning: variable 'agg_peak_rate' set but not used [-Wunused-but-set-variable]
-     302 |         u64 agg_avg_rate, agg_peak_rate, agg_rate;
-         |                           ^~~~~~~~~~~~~
-
-
-vim +/agg_peak_rate +302 drivers/interconnect/qcom/icc-rpm.c
-
-   293	
-   294	/**
-   295	 * qcom_icc_bus_aggregate - calculate bus clock rates by traversing all nodes
-   296	 * @provider: generic interconnect provider
-   297	 * @agg_clk_rate: array containing the aggregated clock rates in kHz
-   298	 */
-   299	static void qcom_icc_bus_aggregate(struct icc_provider *provider, u64 *agg_clk_rate)
-   300	{
-   301		struct qcom_icc_provider *qp = to_qcom_provider(provider);
- > 302		u64 agg_avg_rate, agg_peak_rate, agg_rate;
-   303		struct qcom_icc_node *qn;
-   304		struct icc_node *node;
-   305		u16 percent;
-   306		int i;
-   307	
-   308		/*
-   309		 * Iterate nodes on the provider, aggregate bandwidth requests for
-   310		 * every bucket and convert them into bus clock rates.
-   311		 */
-   312		list_for_each_entry(node, &provider->nodes, node_list) {
-   313			qn = node->data;
-   314			for (i = 0; i < QCOM_SMD_RPM_STATE_NUM; i++) {
-   315				if (qn->channels)
-   316					agg_avg_rate = div_u64(qn->sum_avg[i], qn->channels);
-   317				else
-   318					agg_avg_rate = qn->sum_avg[i];
-   319	
-   320				percent = qp->ab_percent ? qp->ab_percent : 100;
-   321				agg_avg_rate = mult_frac(percent, agg_avg_rate, 100);
-   322	
-   323				percent = qn->ib_percent ? qn->ib_percent : 100;
-   324				agg_peak_rate = mult_frac(percent, qn->max_peak[i], 100);
-   325	
-   326				agg_rate = max_t(u64, agg_avg_rate, qn->max_peak[i]);
-   327				do_div(agg_rate, qn->buswidth);
-   328	
-   329				agg_clk_rate[i] = max_t(u64, agg_clk_rate[i], agg_rate);
-   330			}
-   331		}
-   332	}
-   333	
+Oops. Probably a result of the automatic merge, as both mine and your
+patches changed the surrounding lines. I'll send a patch to fix this as
+well as the other issue. Thanks for pointing this out.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kind regards,
+
+Sakari Ailus
