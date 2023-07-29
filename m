@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (unknown [192.55.52.43])
+Received: from mgamail.intel.com (unknown [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1EB7C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 20:42:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB467C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 21:12:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690663355; x=1722199355;
+  t=1690665134; x=1722201134;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K6DFC6MulgB643qbjFg/D4n6h0V/KwiJQP5vs6znntI=;
-  b=NcdngaRdB/ixXRo66RMSQC47D0bJEFitknHSaGyc0/I/i7m0h/toRFYc
-   zv2s8oejBkHpNSpkq9LZUtPyct+sVq+C1Mo7Y7QRWOUiCAdSazdbuzfsw
-   yeyFFnI5f8YoXlyr35n8lyTgBAa2GBx9pvPo6jehln8wZ1RcR7Rl77g0O
-   J4Uc2+ZYyYXHW6aEsnuxocG+jDdBdzwv1AqDNgmd7GMZAQ0JwzJTWzuu9
-   +yLLWzvLC2Bpmoasek2xA3HBmGmVSCQaUouFeHJATDm2RMCW+WmOrhEq8
-   cCK36VP1u6o6ziPCR4daTxg/qptb8kYiF8anm+SYTHRO4I/0oCSFFFflW
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="455151512"
+  bh=t5xinBK6hSPWsJrE1kfLgF5/KuC/H8qIsScD2vc0HOc=;
+  b=KVP+iff5aITp64gIpis+haUY7FaQQtH6ChwUeTrb9kWfqGpVCg5O0rQr
+   Gbnt0KYoa8d3wunjVzIgQ4R+4bYhWESdPoQG/xPuY52Zm/c4dw5ucl6lj
+   Ya4Eeqi3oMYar2FnO2cb2iGCh56l4DF834PoHoAslAozS9D9JSwNGXOWI
+   Ncr5wkdXkuk1HlhGv7VzfXf7Dy5IXAQw2ghxPdBOoRfvkPmTPmahlCTDv
+   Pac9PRhYmeoyfXbXU0szkMFfM+2ZPnzWxBf53ievJcZxF+FODRGamSVya
+   KXdrx/NHWMC8CmsoRlaEz+v2mtY+vub9xupVGvWig37tXPmsVfKUXvNkg
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="358822208"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="455151512"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 13:42:20 -0700
+   d="scan'208";a="358822208"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 14:12:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="841702363"
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="677869719"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="841702363"
+   d="scan'208";a="677869719"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 29 Jul 2023 13:42:18 -0700
+  by orsmga003.jf.intel.com with ESMTP; 29 Jul 2023 14:12:10 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPqlW-0004IF-0n;
-	Sat, 29 Jul 2023 20:42:18 +0000
-Date: Sun, 30 Jul 2023 04:41:28 +0800
+	id 1qPrED-0004IV-20;
+	Sat, 29 Jul 2023 21:12:02 +0000
+Date: Sun, 30 Jul 2023 05:11:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: arch/x86/kernel/callthunks.c:303:20: sparse: sparse: incorrect type
- in initializer (different address spaces)
-Message-ID: <202307300433.nmumrsXO-lkp@intel.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:kvm-arm64/get_writeable_feature_regs 3/3]
+ arch/arm64/kvm/sys_regs.c:3642:5: warning: no previous prototype for
+ 'kvm_get_writeable_feature_regs'
+Message-ID: <202307300555.SplHph7G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,43 +47,129 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   12214540ad87ce824a8a791a3f063e6121ec5b66
-commit: f5c1bb2afe93396d41c5cbdcb909b08a75b8dde4 x86/calldepth: Add ret/call counting for debug
-date:   10 months ago
-config: x86_64-randconfig-x062-20230729 (https://download.01.org/0day-ci/archive/20230730/202307300433.nmumrsXO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300433.nmumrsXO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/get_writeable_feature_regs
+head:   940bf6a71f52952f6d9e77bc3af0579af83e10b8
+commit: 940bf6a71f52952f6d9e77bc3af0579af83e10b8 [3/3] KVM: arm64: kvm_get_writeable_feature_regs
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230730/202307300555.SplHph7G-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300555.SplHph7G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307300433.nmumrsXO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307300555.SplHph7G-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/callthunks.c:303:20: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/x86/kernel/callthunks.c:303:20: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/kernel/callthunks.c:303:20: sparse:     got unsigned long long *
-   arch/x86/kernel/callthunks.c:306:20: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/x86/kernel/callthunks.c:306:20: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/kernel/callthunks.c:306:20: sparse:     got unsigned long long *
+All warnings (new ones prefixed by >>):
 
-vim +303 arch/x86/kernel/callthunks.c
+   arch/arm64/kvm/sys_regs.c:1130:20: warning: initialized field overwritten [-Woverride-init]
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2345:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2345 |         PMU_PMEVTYPER_EL0(23),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: note: (near initialization for 'sys_reg_descs[380].reset')
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2345:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2345 |         PMU_PMEVTYPER_EL0(23),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: warning: initialized field overwritten [-Woverride-init]
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2346:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2346 |         PMU_PMEVTYPER_EL0(24),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: note: (near initialization for 'sys_reg_descs[381].reset')
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2346:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2346 |         PMU_PMEVTYPER_EL0(24),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: warning: initialized field overwritten [-Woverride-init]
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2347:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2347 |         PMU_PMEVTYPER_EL0(25),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: note: (near initialization for 'sys_reg_descs[382].reset')
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2347:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2347 |         PMU_PMEVTYPER_EL0(25),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: warning: initialized field overwritten [-Woverride-init]
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2348:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2348 |         PMU_PMEVTYPER_EL0(26),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: note: (near initialization for 'sys_reg_descs[383].reset')
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2348:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2348 |         PMU_PMEVTYPER_EL0(26),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: warning: initialized field overwritten [-Woverride-init]
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2349:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2349 |         PMU_PMEVTYPER_EL0(27),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: note: (near initialization for 'sys_reg_descs[384].reset')
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2349:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2349 |         PMU_PMEVTYPER_EL0(27),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: warning: initialized field overwritten [-Woverride-init]
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2350:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2350 |         PMU_PMEVTYPER_EL0(28),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: note: (near initialization for 'sys_reg_descs[385].reset')
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2350:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2350 |         PMU_PMEVTYPER_EL0(28),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: warning: initialized field overwritten [-Woverride-init]
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2351:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2351 |         PMU_PMEVTYPER_EL0(29),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: note: (near initialization for 'sys_reg_descs[386].reset')
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2351:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2351 |         PMU_PMEVTYPER_EL0(29),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: warning: initialized field overwritten [-Woverride-init]
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2352:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2352 |         PMU_PMEVTYPER_EL0(30),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:1130:20: note: (near initialization for 'sys_reg_descs[387].reset')
+    1130 |           .reset = reset_pmevtyper,                                     \
+         |                    ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2352:9: note: in expansion of macro 'PMU_PMEVTYPER_EL0'
+    2352 |         PMU_PMEVTYPER_EL0(30),
+         |         ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2358:20: warning: initialized field overwritten [-Woverride-init]
+    2358 |           .reset = reset_val, .reg = PMCCFILTR_EL0, .val = 0 },
+         |                    ^~~~~~~~~
+   arch/arm64/kvm/sys_regs.c:2358:20: note: (near initialization for 'sys_reg_descs[388].reset')
+>> arch/arm64/kvm/sys_regs.c:3642:5: warning: no previous prototype for 'kvm_get_writeable_feature_regs' [-Wmissing-prototypes]
+    3642 | int kvm_get_writeable_feature_regs(struct kvm *kvm, u64 __user *masks)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   296	
-   297	#if defined(CONFIG_CALL_THUNKS_DEBUG) && defined(CONFIG_DEBUG_FS)
-   298	static int callthunks_debug_show(struct seq_file *m, void *p)
-   299	{
-   300		unsigned long cpu = (unsigned long)m->private;
-   301	
-   302		seq_printf(m, "C: %16llu R: %16llu S: %16llu X: %16llu\n,",
- > 303			   per_cpu(__x86_call_count, cpu),
-   304			   per_cpu(__x86_ret_count, cpu),
-   305			   per_cpu(__x86_stuffs_count, cpu),
-   306			   per_cpu(__x86_ctxsw_count, cpu));
-   307		return 0;
-   308	}
-   309	
+
+vim +/kvm_get_writeable_feature_regs +3642 arch/arm64/kvm/sys_regs.c
+
+  3641	
+> 3642	int kvm_get_writeable_feature_regs(struct kvm *kvm, u64 __user *masks)
 
 -- 
 0-DAY CI Kernel Test Service
