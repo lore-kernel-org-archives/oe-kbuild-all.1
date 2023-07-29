@@ -1,46 +1,44 @@
-Received: from mgamail.intel.com (unknown [134.134.136.126])
+Received: from mgamail.intel.com (unknown [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9081388
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 03:44:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94DC15A2;
+	Sat, 29 Jul 2023 04:15:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690602296; x=1722138296;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B1tIYUOTE5ds17iq06h6LoUQaptKxSnLkllCbTxj6xk=;
-  b=VUlkdwRGVuc9Si+gtm35vOHLz24GFsok0CfA60mSpojEEc7FuwzcuLNx
-   eOV0S2eAooPWTtBFMr/fEZJSlzBjM0BQe+jTfoWFkDDQFsAMd5gSV6/TR
-   iyykG3R/C7+dC0aD6ZBx909ky6ennYzYyAJDAQERolIJYIzrMbVBuPOZF
-   7DoUzWmCiyTBOOdmPWcq8E4UvW6cmzgop6ERWvP8pWfzO2m3oYZlhCOf+
-   vQLMFviWpm/mH1gYgcvggeELtnWjieCA3gb/TZ3NKxmLxsf/pQacKODka
-   Tw+HE4z++ya1yBDLIzHRe4uC4Sj7MRYXIbC2kMUANPuO7C6jl1W3E++Hj
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="353632107"
+  t=1690604111; x=1722140111;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6JjkIB1til5iATvizLRxylhLnofc2vlREGqZ0dcjo0w=;
+  b=OlqheQLn4sCwiIqfBgwqO8OLf7TORRLNjUpQYSbdzjDQJvAQAR1sjEBg
+   O0VtEut93TR87yH9Fznk4aLR0jNYCkGdla/dngx8xwh/rRIhWfPXSDgt2
+   Vgvfj4mD75Xmk/oDCy5ET3aVhAS6Gt76CE/rR5vR4Bbw/DXtomyk0W8FO
+   1RdshefeEDjEtR8DFT2wzd+6BL5E0lbyHo4+tYunVv2yPyNMLFwb5OL8U
+   vvKgbgqxLEKZU0FdbnuVYFft0HRI0g8BgcfhMMciFnt/L2cX/lyqHWkXT
+   jicz93JU2r8agEK4685darJdoIj0tnVAu/rxSwnIPsi6ud5Zx+ceGL/ik
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="367611482"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="353632107"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 20:44:54 -0700
+   d="scan'208";a="367611482"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 21:15:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="871041149"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="901515511"
+X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
+   d="scan'208";a="901515511"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2023 20:44:54 -0700
+  by orsmga005.jf.intel.com with ESMTP; 28 Jul 2023 21:15:08 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPast-0003nz-37;
-	Sat, 29 Jul 2023 03:44:51 +0000
-Date: Sat, 29 Jul 2023 11:44:00 +0800
+	id 1qPbM5-0003oj-1m;
+	Sat, 29 Jul 2023 04:15:02 +0000
+Date: Sat, 29 Jul 2023 12:14:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Donnefort <vdonnefort@google.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel-team@android.com,
-	Vincent Donnefort <vdonnefort@google.com>
-Subject: Re: [PATCH v5 1/2] ring-buffer: Introducing ring-buffer mapping
- functions
-Message-ID: <202307291143.HTPVZOsb-lkp@intel.com>
-References: <20230728164754.460767-2-vdonnefort@google.com>
+To: Martin KaFai Lau <martin.lau@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Martin KaFai Lau <martin.lau@linux.dev>
+Subject: [martin-lau-bpf-next:tcx_warn_dbg 1/1]
+ net/sched/sch_generic.c:1146:4: warning: format specifies type 'unsigned
+ long' but the argument has type 'int'
+Message-ID: <202307291227.ci4Th2Ua-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,107 +47,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230728164754.460767-2-vdonnefort@google.com>
 
-Hi Vincent,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[cannot apply to rostedt-trace/for-next rostedt-trace/for-next-urgent]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Donnefort/ring-buffer-Introducing-ring-buffer-mapping-functions/20230729-005300
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230728164754.460767-2-vdonnefort%40google.com
-patch subject: [PATCH v5 1/2] ring-buffer: Introducing ring-buffer mapping functions
-config: arm-randconfig-r046-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291143.HTPVZOsb-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291143.HTPVZOsb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/martin.lau/bpf-next.git tcx_warn_dbg
+head:   60e4b66be28ba06cc6c12d45f741e2ff760ed18f
+commit: 607f95d32fb730e23c398b33976594cd41dedd10 [1/1] dbg print for tcx warn splat
+config: riscv-randconfig-r025-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291227.ci4Th2Ua-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291227.ci4Th2Ua-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307291143.HTPVZOsb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307291227.ci4Th2Ua-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm/include/asm/page.h:193,
-                    from arch/arm/include/asm/thread_info.h:14,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/percpu.h:6,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-                    from kernel/trace/ring_buffer.c:7:
-   kernel/trace/ring_buffer.c: In function 'rb_free_page_ids':
->> kernel/trace/ring_buffer.c:5946:50: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-    5946 |                 virt_to_page(cpu_buffer->page_ids[i])->mapping = NULL;
-         |                              ~~~~~~~~~~~~~~~~~~~~^~~
-         |                                                  |
-         |                                                  long unsigned int
-   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                              ^~~
-   kernel/trace/ring_buffer.c:5946:17: note: in expansion of macro 'virt_to_page'
-    5946 |                 virt_to_page(cpu_buffer->page_ids[i])->mapping = NULL;
-         |                 ^~~~~~~~~~~~
-   In file included from arch/arm/include/asm/page.h:188:
-   arch/arm/include/asm/memory.h:296:53: note: expected 'const void *' but argument is of type 'long unsigned int'
-     296 | static inline unsigned long virt_to_pfn(const void *p)
-         |                                         ~~~~~~~~~~~~^
-   kernel/trace/ring_buffer.c: In function 'rb_free_meta_page':
-   kernel/trace/ring_buffer.c:5968:22: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-    5968 |         virt_to_page(addr)->mapping = NULL;
-         |                      ^~~~
-         |                      |
-         |                      long unsigned int
-   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                              ^~~
-   kernel/trace/ring_buffer.c:5968:9: note: in expansion of macro 'virt_to_page'
-    5968 |         virt_to_page(addr)->mapping = NULL;
-         |         ^~~~~~~~~~~~
-   arch/arm/include/asm/memory.h:296:53: note: expected 'const void *' but argument is of type 'long unsigned int'
-     296 | static inline unsigned long virt_to_pfn(const void *p)
-         |                                         ~~~~~~~~~~~~^
-   kernel/trace/ring_buffer.c: In function 'ring_buffer_map_fault':
-   kernel/trace/ring_buffer.c:6156:49: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
-    6156 |         return virt_to_page(cpu_buffer->page_ids[pgoff]);
-         |                             ~~~~~~~~~~~~~~~~~~~~^~~~~~~
-         |                                                 |
-         |                                                 long unsigned int
-   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                              ^~~
-   kernel/trace/ring_buffer.c:6156:16: note: in expansion of macro 'virt_to_page'
-    6156 |         return virt_to_page(cpu_buffer->page_ids[pgoff]);
-         |                ^~~~~~~~~~~~
-   arch/arm/include/asm/memory.h:296:53: note: expected 'const void *' but argument is of type 'long unsigned int'
-     296 | static inline unsigned long virt_to_pfn(const void *p)
-         |                                         ~~~~~~~~~~~~^
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from net/sched/sch_generic.c:17:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from net/sched/sch_generic.c:17:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from net/sched/sch_generic.c:17:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from net/sched/sch_generic.c:17:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from net/sched/sch_generic.c:17:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+                                                     ~~~~~~~~~~ ^
+>> net/sched/sch_generic.c:1146:4: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
+                           dev_ingress_queue(dev) == dev_queue ? 0xdead : dev_queue - &dev->_tx[0],
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:528:34: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+                                   ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   14 warnings generated.
 
 
-vim +/virt_to_pfn +5946 kernel/trace/ring_buffer.c
+vim +1146 net/sched/sch_generic.c
 
-  5940	
-  5941	static void rb_free_page_ids(struct ring_buffer_per_cpu *cpu_buffer)
-  5942	{
-  5943		int i;
-  5944	
-  5945		for (i = 0; i < cpu_buffer->nr_pages + 1; i++)
-> 5946			virt_to_page(cpu_buffer->page_ids[i])->mapping = NULL;
-  5947	
-  5948		kfree(cpu_buffer->page_ids);
-  5949		cpu_buffer->page_ids = NULL;
-  5950	}
-  5951	
+  1131	
+  1132	static void shutdown_scheduler_queue(struct net_device *dev,
+  1133					     struct netdev_queue *dev_queue,
+  1134					     void *_qdisc_default)
+  1135	{
+  1136		struct Qdisc *qdisc = rtnl_dereference(dev_queue->qdisc_sleeping);
+  1137		struct Qdisc *qdisc_default = _qdisc_default;
+  1138	
+  1139		if (qdisc) {
+  1140			rcu_assign_pointer(dev_queue->qdisc, qdisc_default);
+  1141			rcu_assign_pointer(dev_queue->qdisc_sleeping, qdisc_default);
+  1142	
+  1143			qdisc_put(qdisc);
+  1144			pr_info("%s dev %s %lx txq %lx qdisc %lx refcnt %d\n",
+  1145				__func__, dev->name, (long)dev,
+> 1146				dev_ingress_queue(dev) == dev_queue ? 0xdead : dev_queue - &dev->_tx[0],
+  1147				(long)qdisc->dev_queue, refcount_read(&qdisc->refcnt));
+  1148		}
+  1149	}
+  1150	
 
 -- 
 0-DAY CI Kernel Test Service
