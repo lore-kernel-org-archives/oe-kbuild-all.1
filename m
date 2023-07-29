@@ -1,51 +1,43 @@
-Received: from mgamail.intel.com (unknown [134.134.136.20])
+Received: from mgamail.intel.com (unknown [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9333218E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 04:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA79817F4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 05:18:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690605431; x=1722141431;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JKrVpxqY+0XkwkxhHP0wveZd6Ls3koVT52X+k7YompA=;
-  b=hoN/rB1HVvJXG3S912zct1310zZ21A9cFzPAkMse3AbYgkt5W3XEmlPZ
-   mBu3RzqpyPb52Z5trFYtm87Jcq4untnaPhfg1/TcYb5VnTysHba+Bu9RF
-   Dk+sOeTFyt9OGHK7tM2f8XvBZMOK9kD7PqxveVjr+udJ2GIsKRBKkAinx
-   IC9PI1SRpozRMjgWq8nreLBP2QbZR54UUphHu4WRvT3LVyh62A7EnELMV
-   du/pMIUv9zFzL5jEbHR07GtGy53cB+15uIgVJoRALva9VqqErc3kc4n6U
-   jzrGWfB77AJucY9smySRIFsAt7jcuEBn+wMgjASSjpgNFDml47exdL5Ap
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="358761409"
+  t=1690607891; x=1722143891;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aOgSLXEwJDcw3u9TzHA8JZ1aJJbNFrhmarPVlI9IUbE=;
+  b=GMyCV1wsPg13picebANhs8WNxGikUhdQUgLN5h1KscZWXCdeQWCvfUid
+   BKGrC5lZF8NgYxF8TmBW/mvdn54EvYBydUzPws5AOAWnFutJmzpnht1Im
+   RivDZl9oFsIHxP+yFZ1DrkmLTnDWBTURibWNcSTy+kJn4A7cqgArCc/zO
+   PjcohrnyYyZxBt2jGlvC5HjhAmOD6dtwyA/H1zvEnfqiplQtdxm5RHfyR
+   uAspzIGreSFWbL3ZMMv6ov0mOg0z5z33yj9UkQQnwXZJRcpYcCnnU5d1f
+   0XvaNJES/g3r5ySZXeKYb3ENgQXC6biXd1yALqinIXDWA7WiUR7BqtVd5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="348337819"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="358761409"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 21:37:10 -0700
+   d="scan'208";a="348337819"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 22:18:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="817728373"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="974294879"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="817728373"
+   d="scan'208";a="974294879"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Jul 2023 21:37:08 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 28 Jul 2023 22:18:09 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPbhT-0003pT-24;
-	Sat, 29 Jul 2023 04:37:07 +0000
-Date: Sat, 29 Jul 2023 12:36:24 +0800
+	id 1qPcLA-0003qp-1B;
+	Sat, 29 Jul 2023 05:18:08 +0000
+Date: Sat, 29 Jul 2023 13:18:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanley Chang <stanley_chang@realtek.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Stanley Chang <stanley_chang@realtek.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] usb: dwc3: add Realtek DHC RTD SoC dwc3 glue
- layer driver
-Message-ID: <202307291202.NBP2coNC-lkp@intel.com>
-References: <20230728035318.18741-1-stanley_chang@realtek.com>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.5-rc1 138/146] fs/resctrl/rdtgroup.c:850:22:
+ warning: assignment to 'struct kset *' from 'int' makes pointer from integer
+ without a cast
+Message-ID: <202307291325.2C4oY1vp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,54 +46,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230728035318.18741-1-stanley_chang@realtek.com>
 
-Hi Stanley,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.5-rc3 next-20230728]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanley-Chang/doc-dt-bindings-usb-realtek-dwc3-Add-Realtek-DHC-RTD-SoC-DWC3-USB/20230728-115507
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230728035318.18741-1-stanley_chang%40realtek.com
-patch subject: [PATCH v1 1/2] usb: dwc3: add Realtek DHC RTD SoC dwc3 glue layer driver
-config: x86_64-randconfig-r072-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291202.NBP2coNC-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.5-rc1
+head:   8a35b09275f16d009ed31e93b8b4b3004b04bceb
+commit: 9e9af35cd8e4b32e9ccba2fa49c1ce600b3066b8 [138/146] fs/resctrl: Add support for assigning iommu_groups to resctrl groups
+config: x86_64-buildonly-randconfig-r003-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291325.2C4oY1vp-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291202.NBP2coNC-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291325.2C4oY1vp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307291202.NBP2coNC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307291325.2C4oY1vp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `dwc3_rtk_remove_role_switch':
->> drivers/usb/dwc3/dwc3-rtk.c:196: undefined reference to `usb_role_switch_unregister'
+   fs/resctrl/rdtgroup.c: In function 'show_rdt_iommu':
+   fs/resctrl/rdtgroup.c:850:24: error: implicit declaration of function 'iommu_get_group_kset'; did you mean 'iommu_group_get'? [-Werror=implicit-function-declaration]
+     850 |         iommu_groups = iommu_get_group_kset();
+         |                        ^~~~~~~~~~~~~~~~~~~~
+         |                        iommu_group_get
+>> fs/resctrl/rdtgroup.c:850:22: warning: assignment to 'struct kset *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     850 |         iommu_groups = iommu_get_group_kset();
+         |                      ^
+   cc1: some warnings being treated as errors
 
 
-vim +196 drivers/usb/dwc3/dwc3-rtk.c
+vim +850 fs/resctrl/rdtgroup.c
 
-   192	
-   193	static int dwc3_rtk_remove_role_switch(struct dwc3_rtk *rtk)
-   194	{
-   195		if (rtk->role_switch)
- > 196			usb_role_switch_unregister(rtk->role_switch);
-   197	
-   198		rtk->role_switch = NULL;
-   199	
-   200		return 0;
-   201	}
-   202	#else
-   203	#define dwc3_rtk_setup_role_switch(x) 0
-   204	#define dwc3_rtk_remove_role_switch(x) 0
-   205	#endif
-   206	
+   839	
+   840	static void show_rdt_iommu(struct rdtgroup *r, struct seq_file *s)
+   841	{
+   842		struct kset *iommu_groups;
+   843		struct iommu_group *group;
+   844		struct kobject *group_kobj = NULL;
+   845	
+   846		if (!IS_ENABLED(CONFIG_RESCTRL_IOMMU) ||
+   847		    !static_branch_unlikely(&resctrl_abi_playground))
+   848			return;
+   849	
+ > 850		iommu_groups = iommu_get_group_kset();
+   851	
+   852		while ((group_kobj = kset_get_next_obj(iommu_groups, group_kobj))) {
+   853	
+   854			/* iommu_group_get_from_kobj() wants to drop a reference */
+   855			kobject_get(group_kobj);
+   856	
+   857			group = iommu_group_get_from_kobj(group_kobj);
+   858			if (!group)
+   859				continue;
+   860	
+   861			if (iommu_matches_rdtgroup(group, r))
+   862				seq_printf(s, "iommu_group:%s\n", group_kobj->name);
+   863		}
+   864	
+   865		kset_put(iommu_groups);
+   866	}
+   867	
 
 -- 
 0-DAY CI Kernel Test Service
