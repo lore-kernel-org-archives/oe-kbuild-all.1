@@ -1,43 +1,46 @@
 Received: from mgamail.intel.com (unknown [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42E638C;
-	Sat, 29 Jul 2023 03:44:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9081388
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 03:44:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690602294; x=1722138294;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dmBgKM+Qa68YExJMGzjV+jVaYPaBUJUv8PIN/rRNWrE=;
-  b=X7J5LbN+pW3Tq7//v24iPx5/c7+WpyPS6oJHcHznFJXhlRsTnP/NcRO+
-   Il9wS1cyQXsr00ivYKk45bSmXRkl2nbCFMTSDHAoaRZ6Rf+FtV/UDet6v
-   UQj/9I7pbH0cfYTr5RLwb/R7a7MtDJx5fkG/Rl8CZ9BcI0PEXUN6qNmoa
-   KGGjHlf4q8lIuRtg1yaDp1qeiKmHMYvR5mGbBh584oDxXTsTR1/yJuXGr
-   1+wvzXN23Yu2X0OfItFUS6+EoU9L6QvBaB3jAu/6FTF34Ux01qTb2ZpI7
-   Y8Z5bqORQffjpn5VRAy2sT87km+wgqyHFIDQjXd9U4CfkqDfb7HPZlIBN
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="353632106"
+  t=1690602296; x=1722138296;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B1tIYUOTE5ds17iq06h6LoUQaptKxSnLkllCbTxj6xk=;
+  b=VUlkdwRGVuc9Si+gtm35vOHLz24GFsok0CfA60mSpojEEc7FuwzcuLNx
+   eOV0S2eAooPWTtBFMr/fEZJSlzBjM0BQe+jTfoWFkDDQFsAMd5gSV6/TR
+   iyykG3R/C7+dC0aD6ZBx909ky6ennYzYyAJDAQERolIJYIzrMbVBuPOZF
+   7DoUzWmCiyTBOOdmPWcq8E4UvW6cmzgop6ERWvP8pWfzO2m3oYZlhCOf+
+   vQLMFviWpm/mH1gYgcvggeELtnWjieCA3gb/TZ3NKxmLxsf/pQacKODka
+   Tw+HE4z++ya1yBDLIzHRe4uC4Sj7MRYXIbC2kMUANPuO7C6jl1W3E++Hj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="353632107"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="353632106"
+   d="scan'208";a="353632107"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 20:44:54 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="871041148"
+   d="scan'208";a="871041149"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
   by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2023 20:44:54 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPast-0003o1-3D;
+	id 1qPast-0003nz-37;
 	Sat, 29 Jul 2023 03:44:51 +0000
-Date: Sat, 29 Jul 2023 11:43:59 +0800
+Date: Sat, 29 Jul 2023 11:44:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin KaFai Lau <martin.lau@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Martin KaFai Lau <martin.lau@linux.dev>
-Subject: [martin-lau-bpf-next:tcx_warn_dbg 1/1]
- net/sched/sch_generic.c:1146:4: warning: format specifies type 'unsigned
- long' but the argument has type 'int'
-Message-ID: <202307291120.NRPh3Ffw-lkp@intel.com>
+To: Vincent Donnefort <vdonnefort@google.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kernel-team@android.com,
+	Vincent Donnefort <vdonnefort@google.com>
+Subject: Re: [PATCH v5 1/2] ring-buffer: Introducing ring-buffer mapping
+ functions
+Message-ID: <202307291143.HTPVZOsb-lkp@intel.com>
+References: <20230728164754.460767-2-vdonnefort@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,58 +49,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230728164754.460767-2-vdonnefort@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/martin.lau/bpf-next.git tcx_warn_dbg
-head:   60e4b66be28ba06cc6c12d45f741e2ff760ed18f
-commit: 60e4b66be28ba06cc6c12d45f741e2ff760ed18f [1/1] dbg print for tcx warn splat
-config: i386-randconfig-i012-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291120.NRPh3Ffw-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291120.NRPh3Ffw-lkp@intel.com/reproduce)
+Hi Vincent,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[cannot apply to rostedt-trace/for-next rostedt-trace/for-next-urgent]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Donnefort/ring-buffer-Introducing-ring-buffer-mapping-functions/20230729-005300
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230728164754.460767-2-vdonnefort%40google.com
+patch subject: [PATCH v5 1/2] ring-buffer: Introducing ring-buffer mapping functions
+config: arm-randconfig-r046-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291143.HTPVZOsb-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291143.HTPVZOsb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307291120.NRPh3Ffw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307291143.HTPVZOsb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/sched/sch_generic.c:1146:4: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-                           dev_ingress_queue(dev) == dev_queue ? 0xdead : dev_queue - &dev->_tx[0],
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:528:34: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-                                   ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   1 warning generated.
+   In file included from arch/arm/include/asm/page.h:193,
+                    from arch/arm/include/asm/thread_info.h:14,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arm/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/percpu.h:6,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/trace_recursion.h:5,
+                    from kernel/trace/ring_buffer.c:7:
+   kernel/trace/ring_buffer.c: In function 'rb_free_page_ids':
+>> kernel/trace/ring_buffer.c:5946:50: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    5946 |                 virt_to_page(cpu_buffer->page_ids[i])->mapping = NULL;
+         |                              ~~~~~~~~~~~~~~~~~~~~^~~
+         |                                                  |
+         |                                                  long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   kernel/trace/ring_buffer.c:5946:17: note: in expansion of macro 'virt_to_page'
+    5946 |                 virt_to_page(cpu_buffer->page_ids[i])->mapping = NULL;
+         |                 ^~~~~~~~~~~~
+   In file included from arch/arm/include/asm/page.h:188:
+   arch/arm/include/asm/memory.h:296:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     296 | static inline unsigned long virt_to_pfn(const void *p)
+         |                                         ~~~~~~~~~~~~^
+   kernel/trace/ring_buffer.c: In function 'rb_free_meta_page':
+   kernel/trace/ring_buffer.c:5968:22: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    5968 |         virt_to_page(addr)->mapping = NULL;
+         |                      ^~~~
+         |                      |
+         |                      long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   kernel/trace/ring_buffer.c:5968:9: note: in expansion of macro 'virt_to_page'
+    5968 |         virt_to_page(addr)->mapping = NULL;
+         |         ^~~~~~~~~~~~
+   arch/arm/include/asm/memory.h:296:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     296 | static inline unsigned long virt_to_pfn(const void *p)
+         |                                         ~~~~~~~~~~~~^
+   kernel/trace/ring_buffer.c: In function 'ring_buffer_map_fault':
+   kernel/trace/ring_buffer.c:6156:49: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+    6156 |         return virt_to_page(cpu_buffer->page_ids[pgoff]);
+         |                             ~~~~~~~~~~~~~~~~~~~~^~~~~~~
+         |                                                 |
+         |                                                 long unsigned int
+   include/asm-generic/memory_model.h:18:46: note: in definition of macro '__pfn_to_page'
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                              ^~~
+   kernel/trace/ring_buffer.c:6156:16: note: in expansion of macro 'virt_to_page'
+    6156 |         return virt_to_page(cpu_buffer->page_ids[pgoff]);
+         |                ^~~~~~~~~~~~
+   arch/arm/include/asm/memory.h:296:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     296 | static inline unsigned long virt_to_pfn(const void *p)
+         |                                         ~~~~~~~~~~~~^
 
 
-vim +1146 net/sched/sch_generic.c
+vim +/virt_to_pfn +5946 kernel/trace/ring_buffer.c
 
-  1131	
-  1132	static void shutdown_scheduler_queue(struct net_device *dev,
-  1133					     struct netdev_queue *dev_queue,
-  1134					     void *_qdisc_default)
-  1135	{
-  1136		struct Qdisc *qdisc = rtnl_dereference(dev_queue->qdisc_sleeping);
-  1137		struct Qdisc *qdisc_default = _qdisc_default;
-  1138	
-  1139		if (qdisc) {
-  1140			rcu_assign_pointer(dev_queue->qdisc, qdisc_default);
-  1141			rcu_assign_pointer(dev_queue->qdisc_sleeping, qdisc_default);
-  1142	
-  1143			qdisc_put(qdisc);
-  1144			pr_info("%s dev %s %lx txq %lx qdisc %lx refcnt %d\n",
-  1145				__func__, dev->name, (long)dev,
-> 1146				dev_ingress_queue(dev) == dev_queue ? 0xdead : dev_queue - &dev->_tx[0],
-  1147				(long)qdisc->dev_queue, refcount_read(&qdisc->refcnt));
-  1148		}
-  1149	}
-  1150	
+  5940	
+  5941	static void rb_free_page_ids(struct ring_buffer_per_cpu *cpu_buffer)
+  5942	{
+  5943		int i;
+  5944	
+  5945		for (i = 0; i < cpu_buffer->nr_pages + 1; i++)
+> 5946			virt_to_page(cpu_buffer->page_ids[i])->mapping = NULL;
+  5947	
+  5948		kfree(cpu_buffer->page_ids);
+  5949		cpu_buffer->page_ids = NULL;
+  5950	}
+  5951	
 
 -- 
 0-DAY CI Kernel Test Service
