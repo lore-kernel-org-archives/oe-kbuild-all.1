@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (unknown [134.134.136.24])
+Received: from mgamail.intel.com (unknown [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E0D7C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 02:11:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829737C;
+	Sat, 29 Jul 2023 02:22:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690596706; x=1722132706;
+  t=1690597325; x=1722133325;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=afVEVL+qLb96uoYJzObpGi8s9n5ICgCEQNAZ6Gs8pNM=;
-  b=SdrKWtxbzgg63WLzdxjIMmeKSypEyZ/1Ew3KP7YtHf82mcNDwW9PC656
-   AOfqyPT//8e+zCAX2rs2YDtjIvobtpEUM7GcyD5h5qhSMqQFVdJpwsUgS
-   7Ax3z3pZaOwGP29Gb/5MRnh4MB8fZInzUMLdi70Sx2Tx3U23fDHXRUdri
-   oj81gRboPf37vTqkm+qZgK6r9xH2sdx7SbiosXCYj3FnUZVsz5VvZ/itX
-   sP9zbplq/u8aQ1AJgG6JNZhNZaVPhsB/+iItlvdOIHq0OyzUwEfWEwYsK
-   ITg3pJA1M/VZDu1VceHhJBZU9Ni2QumRMORr+PvNNemunWhVeXStMlSD4
+  bh=ZIJtkSFP4C1Jdyx5k7KpDlEks33oF6Mr+AuBW9d9A0U=;
+  b=WT5Oaz6oma9+x+CRE413jJHRdAPG/NujAWF8f2YhmCRfb2flI5fNjdxU
+   /SGXYdiZXYz/3Seahg6GSJKPWG6bgLAINih6ZRPXYKRhkfeweSMFFQk1l
+   4YZ8/HdsaPxbH92l3P19lsiAVbP4L9eUJOn1SJ9hrccHvJvJ03naAgUxe
+   xl4ExMh8M7pNRNS9mnFM4trlJTfYGfsdMwr7kZdaR29njqllTT7Q1l0k3
+   zRTwKnknPUBpXyUxJn8k4/7Y2FhKywzcNPJ6DgrthnwhHBf/cyGGAIDjZ
+   Nm4ST5q2bD+xvCpHkdaKMFCJGtDqsA99rPWUecL+4yln2ARScz9+Vgn4V
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="371419491"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="358752703"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="371419491"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 19:11:46 -0700
+   d="scan'208";a="358752703"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 19:22:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="901499558"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="762768503"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="901499558"
+   d="scan'208";a="762768503"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 28 Jul 2023 19:11:44 -0700
+  by orsmga001.jf.intel.com with ESMTP; 28 Jul 2023 19:21:45 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPZQm-0003kx-0r;
-	Sat, 29 Jul 2023 02:11:44 +0000
-Date: Sat, 29 Jul 2023 10:11:10 +0800
+	id 1qPZaS-0003l5-15;
+	Sat, 29 Jul 2023 02:21:44 +0000
+Date: Sat, 29 Jul 2023 10:21:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanley Chang <stanley_chang@realtek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [usb:usb-next 27/67] drivers/phy/realtek/phy-rtk-usb3.c:349:
- undefined reference to `usb_debug_root'
-Message-ID: <202307291022.3pVeTR9z-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: arch/mips/kernel/jump_label.c:93:6: warning: no previous prototype
+ for function 'jump_label_apply_nops'
+Message-ID: <202307291002.3EsIxC16-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,47 +47,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-head:   ba0b3af706305e5b11fd832eecd2c4a7fce57156
-commit: adda6e82a7de7d6d478f6c8ef127f0ac51c510a1 [27/67] phy: realtek: usb: Add driver for the Realtek SoC USB 3.0 PHY
-config: openrisc-randconfig-r005-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291022.3pVeTR9z-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291022.3pVeTR9z-lkp@intel.com/reproduce)
+Hi Ard,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   122e7943b252fcf48b4d085dec084e24fc8bec45
+commit: fdfd42892f311e2b3695852036e5be23661dc590 jump_label: mips: move module NOP patching into arch code
+date:   1 year, 1 month ago
+config: mips-randconfig-r024-20230729 (https://download.01.org/0day-ci/archive/20230729/202307291002.3EsIxC16-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291002.3EsIxC16-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307291022.3pVeTR9z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307291002.3EsIxC16-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   or1k-linux-ld: drivers/phy/realtek/phy-rtk-usb2.o: in function `create_phy_debug_root':
-   drivers/phy/realtek/phy-rtk-usb2.c:715: undefined reference to `usb_debug_root'
-   or1k-linux-ld: drivers/phy/realtek/phy-rtk-usb2.c:715: undefined reference to `usb_debug_root'
-   or1k-linux-ld: drivers/phy/realtek/phy-rtk-usb2.c:717: undefined reference to `usb_debug_root'
-   or1k-linux-ld: drivers/phy/realtek/phy-rtk-usb3.o: in function `create_phy_debug_root':
->> drivers/phy/realtek/phy-rtk-usb3.c:349: undefined reference to `usb_debug_root'
->> or1k-linux-ld: drivers/phy/realtek/phy-rtk-usb3.c:349: undefined reference to `usb_debug_root'
-   or1k-linux-ld: drivers/phy/realtek/phy-rtk-usb3.o:drivers/phy/realtek/phy-rtk-usb3.c:351: more undefined references to `usb_debug_root' follow
-   pahole: .tmp_vmlinux.btf: Invalid argument
-   .btf.vmlinux.bin.o: file not recognized: file format not recognized
+>> arch/mips/kernel/jump_label.c:93:6: warning: no previous prototype for function 'jump_label_apply_nops' [-Wmissing-prototypes]
+      93 | void jump_label_apply_nops(struct module *mod)
+         |      ^
+   arch/mips/kernel/jump_label.c:93:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      93 | void jump_label_apply_nops(struct module *mod)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +349 drivers/phy/realtek/phy-rtk-usb3.c
+vim +/jump_label_apply_nops +93 arch/mips/kernel/jump_label.c
 
-   343	
-   344	#ifdef CONFIG_DEBUG_FS
-   345	static struct dentry *create_phy_debug_root(void)
-   346	{
-   347		struct dentry *phy_debug_root;
-   348	
- > 349		phy_debug_root = debugfs_lookup("phy", usb_debug_root);
-   350		if (!phy_debug_root)
-   351			phy_debug_root = debugfs_create_dir("phy", usb_debug_root);
-   352	
-   353		return phy_debug_root;
-   354	}
-   355	
+    91	
+    92	#ifdef CONFIG_MODULES
+  > 93	void jump_label_apply_nops(struct module *mod)
 
 -- 
 0-DAY CI Kernel Test Service
