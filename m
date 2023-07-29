@@ -1,179 +1,417 @@
-Received: from mgamail.intel.com (unknown [192.55.52.88])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC487C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 08:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690619641; x=1722155641;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qmTXT116gWzq3ihRSwJGAHyvUdaICdKa0NS/+Kv7siA=;
-  b=Z0CpeG7wQXUIRQuy0qQt2XqXDtzdGodmkS7qFNXckoi+4wc4GCJiryxy
-   b8doGePj82qcmgpryTHdXiHR6j8MG20CvPb1Y5P9HX3n/k9Ft9MeakooR
-   pM5fQYGWvIstdJxvhBTJzEtB03RmPd0wzgtmgLN6J7YAkNqj74hjGeWj3
-   7jXvJpfeXp9iqO0fg6kYpdEqrPNTdshTcbc3MK0CBBvl912bSHSOlzLX1
-   jZt5VhYqmNEsQgArz0siiASg2N929rkAONt02GCVmjjsYWh5ktNkL3oeR
-   c1Rh9+goGdQ8nRH5peUJvTMtrRa4yb8skj9pQVPJ709qWkyJXjeLDI3JE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="399686634"
-X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="399686634"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 01:34:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="762820478"
-X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="762820478"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 29 Jul 2023 01:33:58 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qPfOf-0003vb-0i;
-	Sat, 29 Jul 2023 08:33:57 +0000
-Date: Sat, 29 Jul 2023 16:33:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	David Gow <davidgow@google.com>, Takashi Iwai <tiwai@suse.de>
-Subject: [linux-next:master 2386/5284] ERROR: modpost: "iounmap"
- [drivers/net/ethernet/smsc/smc91c92_cs.ko] undefined!
-Message-ID: <202307291629.xrY9Uorg-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57417C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 08:56:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1690621009;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tbx6dJbPrEFv1t+u6ZnZGkl1qIHwHTY31J8LJeLYjGM=;
+	b=QWCEwOY14AE1e2Y+whyo7uAk/zXVQLWxnhlVjzOrhEa3dQeYuZnyC9tCmRtNGkiMfCqO1E
+	I5E7oLxiVY9EYcw8hjNuumngQUnyfB7sV0XT6NYXOzELOOOfELRY1tU8p1Yq+HefeHmPmz
+	oelaLSYT4ZlK8ol6w1hBm/7Fg3AYb34=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-qTUs_MmCOFeljT4sUeYr4Q-1; Sat, 29 Jul 2023 04:56:43 -0400
+X-MC-Unique: qTUs_MmCOFeljT4sUeYr4Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1ECBB2A5957A;
+	Sat, 29 Jul 2023 08:56:43 +0000 (UTC)
+Received: from localhost (ovpn-12-39.pek2.redhat.com [10.72.12.39])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EA5640C2063;
+	Sat, 29 Jul 2023 08:56:40 +0000 (UTC)
+Date: Sat, 29 Jul 2023 16:56:36 +0800
+From: Baoquan He <bhe@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, glaubitz@physik.fu-berlin.de,
+	arnd@arndb.de, geert@linux-m68k.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-unstable 197/338] include/asm-generic/io.h:636:15:
+ error: redefinition of 'inb_p'
+Message-ID: <ZMTURDfFP5/cQCXm@MiWiFi-R3L-srv>
+References: <202307291412.zoTsMe9U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <202307291412.zoTsMe9U-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mark,
+On 07/29/23 at 02:30pm, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> head:   d7928c9026c83acc1b3dd2a10ef48489aa0c56d0
+> commit: c1302338f919fd201d8cd44417e19e1e66ab9cef [197/338] sh: add <asm-generic/io.h> including
+> config: sh-randconfig-r002-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291412.zoTsMe9U-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291412.zoTsMe9U-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307291412.zoTsMe9U-lkp@intel.com/
 
-First bad commit (maybe != root cause):
+Known issue, reported again and I ever explained the reason in last
+report:
+https://lore.kernel.org/all/ZLk2fos0aWNOSCo3@MiWiFi-R3L-srv/T/#u
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d7b3af5a77e8d8da28f435f313e069aea5bcf172
-commit: a0c74f6c9ea9cebd7a8f38142bf87e7c12c2905d [2386/5284] platform: Provide stubs for !HAS_IOMEM builds
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230729/202307291629.xrY9Uorg-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291629.xrY9Uorg-lkp@intel.com/reproduce)
+Arnd has patch and alternative solution here:
+https://lore.kernel.org/all/09094baf-dadf-4bce-9f63-f2a1f255f9a8@app.fastmail.com/T/#u
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307291629.xrY9Uorg-lkp@intel.com/
+If no objection, I will send Arnd's patch out to mute LKP.
 
-Note: the linux-next/master HEAD d7b3af5a77e8d8da28f435f313e069aea5bcf172 builds fine.
-      It may have been fixed somewhere.
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from arch/sh/include/asm/io.h:314,
+>                     from include/linux/io.h:13,
+>                     from include/linux/irq.h:20,
+>                     from include/asm-generic/hardirq.h:17,
+>                     from arch/sh/include/asm/hardirq.h:9,
+>                     from include/linux/hardirq.h:11,
+>                     from include/linux/interrupt.h:11,
+>                     from include/linux/kernel_stat.h:9,
+>                     from include/linux/cgroup.h:26,
+>                     from include/linux/memcontrol.h:13,
+>                     from include/linux/swap.h:9,
+>                     from include/linux/suspend.h:5,
+>                     from arch/sh/kernel/asm-offsets.c:16:
+> >> include/asm-generic/io.h:636:15: error: redefinition of 'inb_p'
+>      636 | #define inb_p inb_p
+>          |               ^~~~~
+>    include/asm-generic/io.h:637:18: note: in expansion of macro 'inb_p'
+>      637 | static inline u8 inb_p(unsigned long addr)
+>          |                  ^~~~~
+>    arch/sh/include/asm/io.h:185:25: note: previous definition of 'inb_p' with type 'u8(long unsigned int)' {aka 'unsigned char(long unsigned int)'}
+>      185 | static inline type pfx##in##bwlq##p(unsigned long port)                 \
+>          |                         ^~
+>    arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+>      199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+>          |         ^~~~~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+>      202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+>          |         ^~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:204:1: note: in expansion of macro 'BUILDIO_IOPORT'
+>      204 | BUILDIO_IOPORT(b, u8)
+>          | ^~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:644:15: error: redefinition of 'inw_p'
+>      644 | #define inw_p inw_p
+>          |               ^~~~~
+>    include/asm-generic/io.h:645:19: note: in expansion of macro 'inw_p'
+>      645 | static inline u16 inw_p(unsigned long addr)
+>          |                   ^~~~~
+>    arch/sh/include/asm/io.h:185:25: note: previous definition of 'inw_p' with type 'u16(long unsigned int)' {aka 'short unsigned int(long unsigned int)'}
+>      185 | static inline type pfx##in##bwlq##p(unsigned long port)                 \
+>          |                         ^~
+>    arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+>      199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+>          |         ^~~~~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+>      202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+>          |         ^~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:205:1: note: in expansion of macro 'BUILDIO_IOPORT'
+>      205 | BUILDIO_IOPORT(w, u16)
+>          | ^~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:652:15: error: redefinition of 'inl_p'
+>      652 | #define inl_p inl_p
+>          |               ^~~~~
+>    include/asm-generic/io.h:653:19: note: in expansion of macro 'inl_p'
+>      653 | static inline u32 inl_p(unsigned long addr)
+>          |                   ^~~~~
+>    arch/sh/include/asm/io.h:185:25: note: previous definition of 'inl_p' with type 'u32(long unsigned int)' {aka 'unsigned int(long unsigned int)'}
+>      185 | static inline type pfx##in##bwlq##p(unsigned long port)                 \
+>          |                         ^~
+>    arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+>      199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+>          |         ^~~~~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+>      202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+>          |         ^~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:206:1: note: in expansion of macro 'BUILDIO_IOPORT'
+>      206 | BUILDIO_IOPORT(l, u32)
+>          | ^~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:660:16: error: redefinition of 'outb_p'
+>      660 | #define outb_p outb_p
+>          |                ^~~~~~
+>    include/asm-generic/io.h:661:20: note: in expansion of macro 'outb_p'
+>      661 | static inline void outb_p(u8 value, unsigned long addr)
+>          |                    ^~~~~~
+>    arch/sh/include/asm/io.h:176:25: note: previous definition of 'outb_p' with type 'void(u8,  long unsigned int)' {aka 'void(unsigned char,  long unsigned int)'}
+>      176 | static inline void pfx##out##bwlq##p(type val, unsigned long port)      \
+>          |                         ^~~
+>    arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+>      199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+>          |         ^~~~~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+>      202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+>          |         ^~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:204:1: note: in expansion of macro 'BUILDIO_IOPORT'
+>      204 | BUILDIO_IOPORT(b, u8)
+>          | ^~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:668:16: error: redefinition of 'outw_p'
+>      668 | #define outw_p outw_p
+>          |                ^~~~~~
+>    include/asm-generic/io.h:669:20: note: in expansion of macro 'outw_p'
+>      669 | static inline void outw_p(u16 value, unsigned long addr)
+>          |                    ^~~~~~
+>    arch/sh/include/asm/io.h:176:25: note: previous definition of 'outw_p' with type 'void(u16,  long unsigned int)' {aka 'void(short unsigned int,  long unsigned int)'}
+>      176 | static inline void pfx##out##bwlq##p(type val, unsigned long port)      \
+>          |                         ^~~
+>    arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+>      199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+>          |         ^~~~~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+>      202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+>          |         ^~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:205:1: note: in expansion of macro 'BUILDIO_IOPORT'
+>      205 | BUILDIO_IOPORT(w, u16)
+>          | ^~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:676:16: error: redefinition of 'outl_p'
+>      676 | #define outl_p outl_p
+>          |                ^~~~~~
+>    include/asm-generic/io.h:677:20: note: in expansion of macro 'outl_p'
+>      677 | static inline void outl_p(u32 value, unsigned long addr)
+>          |                    ^~~~~~
+>    arch/sh/include/asm/io.h:176:25: note: previous definition of 'outl_p' with type 'void(u32,  long unsigned int)' {aka 'void(unsigned int,  long unsigned int)'}
+>      176 | static inline void pfx##out##bwlq##p(type val, unsigned long port)      \
+>          |                         ^~~
+>    arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+>      199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+>          |         ^~~~~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+>      202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+>          |         ^~~~~~~~~~~~~~~~~~
+>    arch/sh/include/asm/io.h:206:1: note: in expansion of macro 'BUILDIO_IOPORT'
+>      206 | BUILDIO_IOPORT(l, u32)
+>          | ^~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:689:14: error: redefinition of 'insb'
+>      689 | #define insb insb
+>          |              ^~~~
+>    include/asm-generic/io.h:690:20: note: in expansion of macro 'insb'
+>      690 | static inline void insb(unsigned long addr, void *buffer, unsigned int count)
+>          |                    ^~~~
+>    arch/sh/include/asm/io.h:222:20: note: previous definition of 'insb' with type 'void(long unsigned int,  void *, unsigned int)'
+>      222 | static inline void ins##bwlq(unsigned long port, void *addr,            \
+>          |                    ^~~
+>    arch/sh/include/asm/io.h:233:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+>      233 | __BUILD_IOPORT_STRING(b, u8)
+>          | ^~~~~~~~~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:697:14: error: redefinition of 'insw'
+>      697 | #define insw insw
+>          |              ^~~~
+>    include/asm-generic/io.h:698:20: note: in expansion of macro 'insw'
+>      698 | static inline void insw(unsigned long addr, void *buffer, unsigned int count)
+>          |                    ^~~~
+>    arch/sh/include/asm/io.h:222:20: note: previous definition of 'insw' with type 'void(long unsigned int,  void *, unsigned int)'
+>      222 | static inline void ins##bwlq(unsigned long port, void *addr,            \
+>          |                    ^~~
+>    arch/sh/include/asm/io.h:234:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+>      234 | __BUILD_IOPORT_STRING(w, u16)
+>          | ^~~~~~~~~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:705:14: error: redefinition of 'insl'
+>      705 | #define insl insl
+>          |              ^~~~
+>    include/asm-generic/io.h:706:20: note: in expansion of macro 'insl'
+>      706 | static inline void insl(unsigned long addr, void *buffer, unsigned int count)
+>          |                    ^~~~
+>    arch/sh/include/asm/io.h:222:20: note: previous definition of 'insl' with type 'void(long unsigned int,  void *, unsigned int)'
+>      222 | static inline void ins##bwlq(unsigned long port, void *addr,            \
+>          |                    ^~~
+>    arch/sh/include/asm/io.h:235:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+>      235 | __BUILD_IOPORT_STRING(l, u32)
+>          | ^~~~~~~~~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:713:15: error: redefinition of 'outsb'
+>      713 | #define outsb outsb
+>          |               ^~~~~
+>    include/asm-generic/io.h:714:20: note: in expansion of macro 'outsb'
+>      714 | static inline void outsb(unsigned long addr, const void *buffer,
+>          |                    ^~~~~
+>    arch/sh/include/asm/io.h:211:20: note: previous definition of 'outsb' with type 'void(long unsigned int,  const void *, unsigned int)'
+>      211 | static inline void outs##bwlq(unsigned long port, const void *addr,     \
+>          |                    ^~~~
+>    arch/sh/include/asm/io.h:233:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+>      233 | __BUILD_IOPORT_STRING(b, u8)
+>          | ^~~~~~~~~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:722:15: error: redefinition of 'outsw'
+>      722 | #define outsw outsw
+>          |               ^~~~~
+>    include/asm-generic/io.h:723:20: note: in expansion of macro 'outsw'
+>      723 | static inline void outsw(unsigned long addr, const void *buffer,
+>          |                    ^~~~~
+>    arch/sh/include/asm/io.h:211:20: note: previous definition of 'outsw' with type 'void(long unsigned int,  const void *, unsigned int)'
+>      211 | static inline void outs##bwlq(unsigned long port, const void *addr,     \
+>          |                    ^~~~
+>    arch/sh/include/asm/io.h:234:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+>      234 | __BUILD_IOPORT_STRING(w, u16)
+>          | ^~~~~~~~~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:731:15: error: redefinition of 'outsl'
+>      731 | #define outsl outsl
+>          |               ^~~~~
+>    include/asm-generic/io.h:732:20: note: in expansion of macro 'outsl'
+>      732 | static inline void outsl(unsigned long addr, const void *buffer,
+>          |                    ^~~~~
+>    arch/sh/include/asm/io.h:211:20: note: previous definition of 'outsl' with type 'void(long unsigned int,  const void *, unsigned int)'
+>      211 | static inline void outs##bwlq(unsigned long port, const void *addr,     \
+>          |                    ^~~~
+>    arch/sh/include/asm/io.h:235:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+>      235 | __BUILD_IOPORT_STRING(l, u32)
+>          | ^~~~~~~~~~~~~~~~~~~~~
+> >> include/asm-generic/io.h:1137:20: error: static declaration of 'ioport_map' follows non-static declaration
+>     1137 | #define ioport_map ioport_map
+>          |                    ^~~~~~~~~~
+>    include/asm-generic/io.h:1138:29: note: in expansion of macro 'ioport_map'
+>     1138 | static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
+>          |                             ^~~~~~~~~~
+>    In file included from arch/sh/include/asm/io.h:22:
+>    include/asm-generic/iomap.h:92:22: note: previous declaration of 'ioport_map' with type 'void *(long unsigned int,  unsigned int)'
+>       92 | extern void __iomem *ioport_map(unsigned long port, unsigned int nr);
+>          |                      ^~~~~~~~~~
+> >> include/asm-generic/io.h:1147:22: error: static declaration of 'ioport_unmap' follows non-static declaration
+>     1147 | #define ioport_unmap ioport_unmap
+>          |                      ^~~~~~~~~~~~
+>    include/asm-generic/io.h:1148:20: note: in expansion of macro 'ioport_unmap'
+>     1148 | static inline void ioport_unmap(void __iomem *p)
+>          |                    ^~~~~~~~~~~~
+>    include/asm-generic/iomap.h:93:13: note: previous declaration of 'ioport_unmap' with type 'void(void *)'
+>       93 | extern void ioport_unmap(void __iomem *);
+>          |             ^~~~~~~~~~~~
+>    make[3]: *** [scripts/Makefile.build:116: arch/sh/kernel/asm-offsets.s] Error 1 shuffle=1821004678
+>    make[3]: Target 'prepare' not remade because of errors.
+>    make[2]: *** [Makefile:1287: prepare0] Error 2 shuffle=1821004678
+>    make[2]: Target 'prepare' not remade because of errors.
+>    make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=1821004678
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:234: __sub-make] Error 2 shuffle=1821004678
+>    make: Target 'prepare' not remade because of errors.
+> 
+> 
+> vim +/inb_p +636 include/asm-generic/io.h
+> 
+> f009c89df79abe John Garry     2020-03-28  634  
+> 9216efafc52ff9 Thierry Reding 2014-10-01  635  #ifndef inb_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01 @636  #define inb_p inb_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01  637  static inline u8 inb_p(unsigned long addr)
+> 9216efafc52ff9 Thierry Reding 2014-10-01  638  {
+> 9216efafc52ff9 Thierry Reding 2014-10-01  639  	return inb(addr);
+> 9216efafc52ff9 Thierry Reding 2014-10-01  640  }
+> 9216efafc52ff9 Thierry Reding 2014-10-01  641  #endif
+> 9216efafc52ff9 Thierry Reding 2014-10-01  642  
+> 9216efafc52ff9 Thierry Reding 2014-10-01  643  #ifndef inw_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01 @644  #define inw_p inw_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01  645  static inline u16 inw_p(unsigned long addr)
+> 9216efafc52ff9 Thierry Reding 2014-10-01  646  {
+> 9216efafc52ff9 Thierry Reding 2014-10-01  647  	return inw(addr);
+> 9216efafc52ff9 Thierry Reding 2014-10-01  648  }
+> 9216efafc52ff9 Thierry Reding 2014-10-01  649  #endif
+> 9216efafc52ff9 Thierry Reding 2014-10-01  650  
+> 9216efafc52ff9 Thierry Reding 2014-10-01  651  #ifndef inl_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01 @652  #define inl_p inl_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01  653  static inline u32 inl_p(unsigned long addr)
+> 9216efafc52ff9 Thierry Reding 2014-10-01  654  {
+> 9216efafc52ff9 Thierry Reding 2014-10-01  655  	return inl(addr);
+> 9216efafc52ff9 Thierry Reding 2014-10-01  656  }
+> 9216efafc52ff9 Thierry Reding 2014-10-01  657  #endif
+> 9216efafc52ff9 Thierry Reding 2014-10-01  658  
+> 9216efafc52ff9 Thierry Reding 2014-10-01  659  #ifndef outb_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01 @660  #define outb_p outb_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01  661  static inline void outb_p(u8 value, unsigned long addr)
+> 9216efafc52ff9 Thierry Reding 2014-10-01  662  {
+> 9216efafc52ff9 Thierry Reding 2014-10-01  663  	outb(value, addr);
+> 9216efafc52ff9 Thierry Reding 2014-10-01  664  }
+> 9216efafc52ff9 Thierry Reding 2014-10-01  665  #endif
+> 9216efafc52ff9 Thierry Reding 2014-10-01  666  
+> 9216efafc52ff9 Thierry Reding 2014-10-01  667  #ifndef outw_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01 @668  #define outw_p outw_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01  669  static inline void outw_p(u16 value, unsigned long addr)
+> 9216efafc52ff9 Thierry Reding 2014-10-01  670  {
+> 9216efafc52ff9 Thierry Reding 2014-10-01  671  	outw(value, addr);
+> 9216efafc52ff9 Thierry Reding 2014-10-01  672  }
+> 9216efafc52ff9 Thierry Reding 2014-10-01  673  #endif
+> 9216efafc52ff9 Thierry Reding 2014-10-01  674  
+> 9216efafc52ff9 Thierry Reding 2014-10-01  675  #ifndef outl_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01 @676  #define outl_p outl_p
+> 9216efafc52ff9 Thierry Reding 2014-10-01  677  static inline void outl_p(u32 value, unsigned long addr)
+> 9216efafc52ff9 Thierry Reding 2014-10-01  678  {
+> 9216efafc52ff9 Thierry Reding 2014-10-01  679  	outl(value, addr);
+> 9216efafc52ff9 Thierry Reding 2014-10-01  680  }
+> 9216efafc52ff9 Thierry Reding 2014-10-01  681  #endif
+> 9216efafc52ff9 Thierry Reding 2014-10-01  682  
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  683  /*
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  684   * {in,out}s{b,w,l}{,_p}() are variants of the above that repeatedly access a
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  685   * single I/O port multiple times.
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  686   */
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  687  
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  688  #ifndef insb
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04 @689  #define insb insb
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  690  static inline void insb(unsigned long addr, void *buffer, unsigned int count)
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  691  {
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  692  	readsb(PCI_IOBASE + addr, buffer, count);
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  693  }
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  694  #endif
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  695  
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  696  #ifndef insw
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04 @697  #define insw insw
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  698  static inline void insw(unsigned long addr, void *buffer, unsigned int count)
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  699  {
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  700  	readsw(PCI_IOBASE + addr, buffer, count);
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  701  }
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  702  #endif
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  703  
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  704  #ifndef insl
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04 @705  #define insl insl
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  706  static inline void insl(unsigned long addr, void *buffer, unsigned int count)
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  707  {
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  708  	readsl(PCI_IOBASE + addr, buffer, count);
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  709  }
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  710  #endif
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  711  
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  712  #ifndef outsb
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04 @713  #define outsb outsb
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  714  static inline void outsb(unsigned long addr, const void *buffer,
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  715  			 unsigned int count)
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  716  {
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  717  	writesb(PCI_IOBASE + addr, buffer, count);
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  718  }
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  719  #endif
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  720  
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  721  #ifndef outsw
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04 @722  #define outsw outsw
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  723  static inline void outsw(unsigned long addr, const void *buffer,
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  724  			 unsigned int count)
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  725  {
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  726  	writesw(PCI_IOBASE + addr, buffer, count);
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  727  }
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  728  #endif
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  729  
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  730  #ifndef outsl
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04 @731  #define outsl outsl
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  732  static inline void outsl(unsigned long addr, const void *buffer,
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  733  			 unsigned int count)
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  734  {
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  735  	writesl(PCI_IOBASE + addr, buffer, count);
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  736  }
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  737  #endif
+> 9ab3a7a0d2b417 Thierry Reding 2014-07-04  738  
+> 
+> :::::: The code at line 636 was first introduced by commit
+> :::::: 9216efafc52ff99e9351ef60de5fcafc2bc8adb6 asm-generic/io.h: Reconcile I/O accessor overrides
+> 
+> :::::: TO: Thierry Reding <treding@nvidia.com>
+> :::::: CC: Thierry Reding <treding@nvidia.com>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/ccwgroup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/vfio_ccw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_diag_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_eckd_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_fba_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dcssblk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/raw3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/con3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/fs3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/net/lcs.o
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/fujitsu/fmvj18x_cs.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/net/ethernet/fujitsu/fmvj18x_cs.ko] undefined!
->> ERROR: modpost: "iounmap" [drivers/net/ethernet/smsc/smc91c92_cs.ko] undefined!
->> ERROR: modpost: "ioremap" [drivers/net/ethernet/smsc/smc91c92_cs.ko] undefined!
-WARNING: modpost: suppressed 9 unresolved symbol warnings because there were too many)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
