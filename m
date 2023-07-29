@@ -1,86 +1,132 @@
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+Received: from mgamail.intel.com (unknown [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFC27C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 09:03:06 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.95)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1qPfn0-001g52-GV; Sat, 29 Jul 2023 10:59:06 +0200
-Received: from ip5b40320d.dynamic.kabel-deutschland.de ([91.64.50.13] helo=[192.168.178.58])
-          by inpost2.zedat.fu-berlin.de (Exim 4.95)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1qPfn0-002gv6-A6; Sat, 29 Jul 2023 10:59:06 +0200
-Message-ID: <d59f2172d559574e43fa512531363cb3e755fe1b.camel@physik.fu-berlin.de>
-Subject: Re: [akpm-mm:mm-unstable 197/338] include/asm-generic/io.h:636:15:
- error: redefinition of 'inb_p'
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Baoquan He <bhe@redhat.com>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de, geert@linux-m68k.org,
- Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List
- <linux-mm@kvack.org>
-Date: Sat, 29 Jul 2023 10:59:05 +0200
-In-Reply-To: <ZMTURDfFP5/cQCXm@MiWiFi-R3L-srv>
-References: <202307291412.zoTsMe9U-lkp@intel.com>
-	 <ZMTURDfFP5/cQCXm@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4177C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 09:25:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690622721; x=1722158721;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=S/3RlvQtNmTMQrZdArWv4udXKUyqBI6whsz5JfZbzp0=;
+  b=OhEwUTxF+Q1KzH+Cdt7f9Q0rXsFfgmGoJPndGUUU8OaZv0Fgyy9QmEGv
+   K7n7KIvMmW9b64xF8tGDuUA8KAM3lemmqkDiqKdaAmEheIltv+lCAw9VL
+   11OxLl2cZ/M0DehlCsbr/PO6rYgurB5H72tYzD38/1FYN3w9qs1n8LLSa
+   Z7yaDt+NdeGSKSz1BvInpq2EBy0QHYzgytqRALuwKXizjgK52fia0RI2x
+   w398GLW3t+xtxYd78XHB/LzbWr/h0ycg60YgWdz71PP2u1rVvmcDVg2Vz
+   QuVhhuCbPA5LQOeXMmNPluNqK9NmRD2o306rPh7v7Trm+xWnWBdg0zMDZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="435038123"
+X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
+   d="scan'208";a="435038123"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 02:25:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="762828232"
+X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
+   d="scan'208";a="762828232"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 29 Jul 2023 02:25:18 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qPgCL-0003wp-39;
+	Sat, 29 Jul 2023 09:25:17 +0000
+Date: Sat, 29 Jul 2023 17:25:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Georgi Djakov <djakov@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH 1/4] interconnect: qcom: icc-rpm: Add AB/IB calculations
+ coefficients
+Message-ID: <202307291745.0JcdYvBz-lkp@intel.com>
+References: <20230726-topic-icc_coeff-v1-1-31616960818c@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 91.64.50.13
-X-ZEDAT-Hint: PO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230726-topic-icc_coeff-v1-1-31616960818c@linaro.org>
 
-Hello Baoquan!
+Hi Konrad,
 
-On Sat, 2023-07-29 at 16:56 +0800, Baoquan He wrote:
-> On 07/29/23 at 02:30pm, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-=
-unstable
-> > head:   d7928c9026c83acc1b3dd2a10ef48489aa0c56d0
-> > commit: c1302338f919fd201d8cd44417e19e1e66ab9cef [197/338] sh: add <asm=
--generic/io.h> including
-> > config: sh-randconfig-r002-20230728 (https://download.01.org/0day-ci/ar=
-chive/20230729/202307291412.zoTsMe9U-lkp@intel.com/config)
-> > compiler: sh4-linux-gcc (GCC) 12.3.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20230729/2023072914=
-12.zoTsMe9U-lkp@intel.com/reproduce)
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202307291412.zoTsMe9U-l=
-kp@intel.com/
->=20
-> Known issue, reported again and I ever explained the reason in last
-> report:
-> https://lore.kernel.org/all/ZLk2fos0aWNOSCo3@MiWiFi-R3L-srv/T/#u
->=20
-> Arnd has patch and alternative solution here:
-> https://lore.kernel.org/all/09094baf-dadf-4bce-9f63-f2a1f255f9a8@app.fast=
-mail.com/T/#u
->=20
-> If no objection, I will send Arnd's patch out to mute LKP.
+kernel test robot noticed the following build warnings:
 
-Sorry, there is sometimes a bit too much noise across my mailing list subsc=
-riptions
-that I am missing such mails. I will check Arnd'd patch and approve it if i=
-t's OK.
+[auto build test WARNING on 1e25dd7772483f477f79986d956028e9f47f990a]
 
-Adrian
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/interconnect-qcom-icc-rpm-Add-AB-IB-calculations-coefficients/20230727-002710
+base:   1e25dd7772483f477f79986d956028e9f47f990a
+patch link:    https://lore.kernel.org/r/20230726-topic-icc_coeff-v1-1-31616960818c%40linaro.org
+patch subject: [PATCH 1/4] interconnect: qcom: icc-rpm: Add AB/IB calculations coefficients
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230729/202307291745.0JcdYvBz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291745.0JcdYvBz-lkp@intel.com/reproduce)
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307291745.0JcdYvBz-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/interconnect/qcom/icc-rpm.c: In function 'qcom_icc_bus_aggregate':
+>> drivers/interconnect/qcom/icc-rpm.c:302:27: warning: variable 'agg_peak_rate' set but not used [-Wunused-but-set-variable]
+     302 |         u64 agg_avg_rate, agg_peak_rate, agg_rate;
+         |                           ^~~~~~~~~~~~~
+
+
+vim +/agg_peak_rate +302 drivers/interconnect/qcom/icc-rpm.c
+
+   293	
+   294	/**
+   295	 * qcom_icc_bus_aggregate - calculate bus clock rates by traversing all nodes
+   296	 * @provider: generic interconnect provider
+   297	 * @agg_clk_rate: array containing the aggregated clock rates in kHz
+   298	 */
+   299	static void qcom_icc_bus_aggregate(struct icc_provider *provider, u64 *agg_clk_rate)
+   300	{
+   301		struct qcom_icc_provider *qp = to_qcom_provider(provider);
+ > 302		u64 agg_avg_rate, agg_peak_rate, agg_rate;
+   303		struct qcom_icc_node *qn;
+   304		struct icc_node *node;
+   305		u16 percent;
+   306		int i;
+   307	
+   308		/*
+   309		 * Iterate nodes on the provider, aggregate bandwidth requests for
+   310		 * every bucket and convert them into bus clock rates.
+   311		 */
+   312		list_for_each_entry(node, &provider->nodes, node_list) {
+   313			qn = node->data;
+   314			for (i = 0; i < QCOM_SMD_RPM_STATE_NUM; i++) {
+   315				if (qn->channels)
+   316					agg_avg_rate = div_u64(qn->sum_avg[i], qn->channels);
+   317				else
+   318					agg_avg_rate = qn->sum_avg[i];
+   319	
+   320				percent = qp->ab_percent ? qp->ab_percent : 100;
+   321				agg_avg_rate = mult_frac(percent, agg_avg_rate, 100);
+   322	
+   323				percent = qn->ib_percent ? qn->ib_percent : 100;
+   324				agg_peak_rate = mult_frac(percent, qn->max_peak[i], 100);
+   325	
+   326				agg_rate = max_t(u64, agg_avg_rate, qn->max_peak[i]);
+   327				do_div(agg_rate, qn->buswidth);
+   328	
+   329				agg_clk_rate[i] = max_t(u64, agg_clk_rate[i], agg_rate);
+   330			}
+   331		}
+   332	}
+   333	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
