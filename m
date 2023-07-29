@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (unknown [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFD938A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 07:21:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B3A1C06
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 07:32:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690615307; x=1722151307;
+  t=1690615959; x=1722151959;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JwbFr9oDSyicgz2+nk5xaiKTl5fjsaGtSIGIRfwAflk=;
-  b=RznmyKr08apKTj6s7BypuOCy7t5krF/vpux59v51NJV9PTTwf0qeb+TV
-   8TLGl+gtPggroUxgaLXTZIX++L5F1SEeRp+4VVdTXIWc7mov7LISmSlnc
-   pQS+KL4H8d2tTqIlUFtlgtr404rFWTezXW5Q9m+fKKAYZrlqcUzOLaRMi
-   FbFtkBaIlcIe9kX7To7li5Hy7hoo6d3wanHblupF5dom7JY+9ly+zLBNP
-   I5GBWtIav51ERJ2R09T8D8PnR5bppVHpD70yWwINqSNQwHXFegNhszFzy
-   iv8MwoxPdE1rehHMkvTVXVYt66emtMDnK7tbVO/LrCOPazbZz1UfxJnCX
+  bh=HKQl+WHC4yF+B2wgCr3Cv8EiaTct3YdNyk8c+/E6UgQ=;
+  b=RC+5Vy2uTpCoTqCWbTIo9L6Yv7/mBARXDr5OXL0idMQka6qaB9d3JTdC
+   lXJKvPwdctmcWGqw4clJi2fSwiyHutH58PQuWM5e8orihnGSAWHPBNx8T
+   nd10pvkoEgv51MB/YA36aUNuuUOxD3Rk3tVl/1mFer2iKZXY/epemEr7v
+   Aj4DSeaMuhWMMcCf3NOHPSfcU1D71lU0LC0/QL9KNZWHrJzMtd8LPFUKM
+   XH8cpQMRzbEeo/mQ/aJP4DFtZA1sUFDaD8ssLOWC20EpfPFQXfnonhR5I
+   39cdOpJAUV5CKfo7tvr88ueb3IUjhBKE4Cz12CKJWbRxG5yP4KsQ3g56/
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="348343994"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="435030642"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="348343994"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 00:21:45 -0700
+   d="scan'208";a="435030642"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 00:32:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="793144679"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="677747694"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="793144679"
+   d="scan'208";a="677747694"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Jul 2023 00:21:44 -0700
+  by orsmga003.jf.intel.com with ESMTP; 29 Jul 2023 00:32:37 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPeGm-0003tn-0T;
-	Sat, 29 Jul 2023 07:21:44 +0000
-Date: Sat, 29 Jul 2023 15:20:47 +0800
+	id 1qPeQw-0003uE-2Y;
+	Sat, 29 Jul 2023 07:32:23 +0000
+Date: Sat, 29 Jul 2023 15:30:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: James Morse <james.morse@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morse:mpam/monitors_and_locking/v5 2/24]
- arch/x86/kernel/cpu/resctrl/monitor.c:684:30: warning: variable 'r' set but
- not used
-Message-ID: <202307291548.IVY1Oqee-lkp@intel.com>
+Subject: [morse:mpam/snapshot/v6.5-rc1 138/146] fs/resctrl/rdtgroup.c:850:24:
+ error: implicit declaration of function 'iommu_get_group_kset'; did you mean
+ 'iommu_group_get'?
+Message-ID: <202307291552.hKumxtsD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,59 +47,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/monitors_and_locking/v5
-head:   562c8d6543a4f032152fa2f72fc36f65bd9dae42
-commit: 0437b39583fbda0c114011e7cafda702009e6cc4 [2/24] x86/resctrl: Access per-rmid structures by index
-config: i386-randconfig-i002-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291548.IVY1Oqee-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.5-rc1
+head:   8a35b09275f16d009ed31e93b8b4b3004b04bceb
+commit: 9e9af35cd8e4b32e9ccba2fa49c1ce600b3066b8 [138/146] fs/resctrl: Add support for assigning iommu_groups to resctrl groups
+config: x86_64-buildonly-randconfig-r003-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291552.hKumxtsD-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291548.IVY1Oqee-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291552.hKumxtsD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307291548.IVY1Oqee-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307291552.hKumxtsD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/x86/kernel/cpu/resctrl/monitor.c: In function 'cqm_handle_limbo':
->> arch/x86/kernel/cpu/resctrl/monitor.c:684:30: warning: variable 'r' set but not used [-Wunused-but-set-variable]
-     684 |         struct rdt_resource *r;
-         |                              ^
+   fs/resctrl/rdtgroup.c: In function 'show_rdt_iommu':
+>> fs/resctrl/rdtgroup.c:850:24: error: implicit declaration of function 'iommu_get_group_kset'; did you mean 'iommu_group_get'? [-Werror=implicit-function-declaration]
+     850 |         iommu_groups = iommu_get_group_kset();
+         |                        ^~~~~~~~~~~~~~~~~~~~
+         |                        iommu_group_get
+   fs/resctrl/rdtgroup.c:850:22: warning: assignment to 'struct kset *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     850 |         iommu_groups = iommu_get_group_kset();
+         |                      ^
+   cc1: some warnings being treated as errors
 
 
-vim +/r +684 arch/x86/kernel/cpu/resctrl/monitor.c
+vim +850 fs/resctrl/rdtgroup.c
 
-e33026831bdb5f arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-07-25  675  
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  676  /*
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  677   * Handler to scan the limbo list and move the RMIDs
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  678   * to free list whose occupancy < threshold_occupancy.
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  679   */
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  680  void cqm_handle_limbo(struct work_struct *work)
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  681  {
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  682  	unsigned long delay = msecs_to_jiffies(CQM_LIMBOCHECK_INTERVAL);
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  683  	int cpu = smp_processor_id();
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15 @684  	struct rdt_resource *r;
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  685  	struct rdt_domain *d;
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  686  
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  687  	mutex_lock(&rdtgroup_mutex);
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  688  
-63c8b1231929b8 arch/x86/kernel/cpu/resctrl/monitor.c   James Morse    2021-07-28  689  	r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
-f995801ba3a066 arch/x86/kernel/cpu/resctrl/monitor.c   James Morse    2020-07-08  690  	d = container_of(work, struct rdt_domain, cqm_limbo.work);
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  691  
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  692  	__check_limbo(d, false);
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  693  
-0437b39583fbda arch/x86/kernel/cpu/resctrl/monitor.c   James Morse    2020-10-13  694  	if (has_busy_rmid(d))
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  695  		schedule_delayed_work_on(cpu, &d->cqm_limbo, delay);
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  696  
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  697  	mutex_unlock(&rdtgroup_mutex);
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  698  }
-24247aeeabe99e arch/x86/kernel/cpu/intel_rdt_monitor.c Vikas Shivappa 2017-08-15  699  
-
-:::::: The code at line 684 was first introduced by commit
-:::::: 24247aeeabe99eab13b798ccccc2dec066dd6f07 x86/intel_rdt/cqm: Improve limbo list processing
-
-:::::: TO: Vikas Shivappa <vikas.shivappa@linux.intel.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+   839	
+   840	static void show_rdt_iommu(struct rdtgroup *r, struct seq_file *s)
+   841	{
+   842		struct kset *iommu_groups;
+   843		struct iommu_group *group;
+   844		struct kobject *group_kobj = NULL;
+   845	
+   846		if (!IS_ENABLED(CONFIG_RESCTRL_IOMMU) ||
+   847		    !static_branch_unlikely(&resctrl_abi_playground))
+   848			return;
+   849	
+ > 850		iommu_groups = iommu_get_group_kset();
+   851	
+   852		while ((group_kobj = kset_get_next_obj(iommu_groups, group_kobj))) {
+   853	
+   854			/* iommu_group_get_from_kobj() wants to drop a reference */
+   855			kobject_get(group_kobj);
+   856	
+   857			group = iommu_group_get_from_kobj(group_kobj);
+   858			if (!group)
+   859				continue;
+   860	
+   861			if (iommu_matches_rdtgroup(group, r))
+   862				seq_printf(s, "iommu_group:%s\n", group_kobj->name);
+   863		}
+   864	
+   865		kset_put(iommu_groups);
+   866	}
+   867	
 
 -- 
 0-DAY CI Kernel Test Service
