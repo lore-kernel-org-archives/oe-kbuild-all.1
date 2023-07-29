@@ -1,47 +1,55 @@
-Received: from mgamail.intel.com (unknown [192.55.52.88])
+Received: from mgamail.intel.com (unknown [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01552F55
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 12:51:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B0914299;
+	Sat, 29 Jul 2023 15:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690635091; x=1722171091;
+  t=1690643606; x=1722179606;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Logke5jGkCA3/7hxc2IPFDsWV1n65Ev/SRiHfDeV8Mk=;
-  b=Klb/c0Sv4zB+kwDNF2NftNL1GkCezMi/+2QMZ3sjmkz0BxsEYItwMILI
-   YeAJV2FqvMMjHsmmC0NTNTw7o0ELan4Hr5Y1VqEiIQ/RIugJ6BYmMCUqt
-   SdJ9R7LJTlB9MitAOOoWVnJik1uWUXtvQsqkBIhu8bWbEA9ftTcrZ828G
-   fu3zpdxfNF8jqI/her4nrVhAp67DK2yTRILkJn3a5dnVUoGE7Lq6lHFzX
-   zvk06Zw59GdgJ5FFsYrOySPLmd2teomOXpaSPd0oYD2hGs734hzc0P5+A
-   GypVi5lpilKHbSBMNrKweJnDKm7x5oxMXVR9U+qEofeVU+wRpTH1FkuGt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="399703151"
+  bh=qYNctRq7UP223cDLMDHpgil/19stlw90kyEgzmhtG2A=;
+  b=Ef6EqEv87NWq1SyyFvaRbpvW2gBr+DoU+IdbfuFs9tPRFOc5PNO1jJf5
+   6oDmxk8bh/7QTmaOjcfr09qUSNVxLwD3dGfQ1m/wO26zyBOK+gGgFDkP+
+   L4I93UtAmS3nk8HgsiaDBZMSWZY8nG7uYOFYcu/O6teIN47MXdOg575I0
+   Welp0Hd/DtWV/Afg00+kBfn4LuN+6GmZEbH+Hrhga4re9CNSmXYX9c1yu
+   /tv0V/B/Gf2JOS50KVdIVeggKofsx2KTked5AEU6L2mJATydh45eanb9K
+   BSgMXTZhw2rRwqANTFebfsJwzCcDKbBSJ8/2ypEAJFFa080R+RHd/Ed9m
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="371468532"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="399703151"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 05:51:30 -0700
+   d="scan'208";a="371468532"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 08:13:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="757450492"
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="727758995"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="757450492"
+   d="scan'208";a="727758995"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 29 Jul 2023 05:51:28 -0700
+  by orsmga002.jf.intel.com with ESMTP; 29 Jul 2023 08:13:20 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPjPr-00042N-1j;
-	Sat, 29 Jul 2023 12:51:27 +0000
-Date: Sat, 29 Jul 2023 20:50:32 +0800
+	id 1qPld9-00046l-0a;
+	Sat, 29 Jul 2023 15:13:19 +0000
+Date: Sat, 29 Jul 2023 23:12:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aleksa Savic <savicaleksa83@gmail.com>, linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Aleksa Savic <savicaleksa83@gmail.com>,
-	stable@vger.kernel.org, Jack Doan <me@jackdoan.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add selective 200ms delay
- after sending ctrl report
-Message-ID: <202307292011.c34ZumSF-lkp@intel.com>
-References: <20230729112732.5516-1-savicaleksa83@gmail.com>
+To: Daniel Golle <daniel@makrotopia.org>, Felix Fietkau <nbd@nbd.name>,
+	John Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH net-next] net: ethernet: mtk_eth_soc: support per-flow
+ accounting on MT7988
+Message-ID: <202307292316.uxGTiSPC-lkp@intel.com>
+References: <801c89963e95e5ce8f1ab7dbda894dd9da0125cc.1690638748.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,98 +58,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230729112732.5516-1-savicaleksa83@gmail.com>
+In-Reply-To: <801c89963e95e5ce8f1ab7dbda894dd9da0125cc.1690638748.git.daniel@makrotopia.org>
 
-Hi Aleksa,
+Hi Daniel,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.5-rc3 next-20230728]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Savic/hwmon-aquacomputer_d5next-Add-selective-200ms-delay-after-sending-ctrl-report/20230729-193038
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20230729112732.5516-1-savicaleksa83%40gmail.com
-patch subject: [PATCH] hwmon: (aquacomputer_d5next) Add selective 200ms delay after sending ctrl report
-config: arm-randconfig-r005-20230729 (https://download.01.org/0day-ci/archive/20230729/202307292011.c34ZumSF-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307292011.c34ZumSF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/net-ethernet-mtk_eth_soc-support-per-flow-accounting-on-MT7988/20230729-215634
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/801c89963e95e5ce8f1ab7dbda894dd9da0125cc.1690638748.git.daniel%40makrotopia.org
+patch subject: [PATCH net-next] net: ethernet: mtk_eth_soc: support per-flow accounting on MT7988
+config: hexagon-randconfig-r023-20230729 (https://download.01.org/0day-ci/archive/20230729/202307292316.uxGTiSPC-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307292316.uxGTiSPC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307292011.c34ZumSF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307292316.uxGTiSPC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/hwmon/aquacomputer_d5next.c: In function 'aqc_send_ctrl_data':
->> drivers/hwmon/aquacomputer_d5next.c:674:17: error: implicit declaration of function 'msleep' [-Werror=implicit-function-declaration]
-     674 |                 msleep(200);
-         |                 ^~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/net/ethernet/mediatek/mtk_ppe.c:5:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/net/ethernet/mediatek/mtk_ppe.c:5:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/net/ethernet/mediatek/mtk_ppe.c:5:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/net/ethernet/mediatek/mtk_ppe.c:112:3: error: use of undeclared identifier 'bytes_cnt_low'; did you mean 'byte_cnt_low'?
+     112 |                 bytes_cnt_low = cnt_r0;
+         |                 ^~~~~~~~~~~~~
+         |                 byte_cnt_low
+   drivers/net/ethernet/mediatek/mtk_ppe.c:95:6: note: 'byte_cnt_low' declared here
+      95 |         u32 byte_cnt_low, byte_cnt_high, pkt_cnt_low, pkt_cnt_high;
+         |             ^
+>> drivers/net/ethernet/mediatek/mtk_ppe.c:113:3: error: use of undeclared identifier 'bytes_cnt_high'; did you mean 'byte_cnt_high'?
+     113 |                 bytes_cnt_high = cnt_r1;
+         |                 ^~~~~~~~~~~~~~
+         |                 byte_cnt_high
+   drivers/net/ethernet/mediatek/mtk_ppe.c:95:20: note: 'byte_cnt_high' declared here
+      95 |         u32 byte_cnt_low, byte_cnt_high, pkt_cnt_low, pkt_cnt_high;
+         |                           ^
+   6 warnings and 2 errors generated.
 
 
-vim +/msleep +674 drivers/hwmon/aquacomputer_d5next.c
+vim +112 drivers/net/ethernet/mediatek/mtk_ppe.c
 
-   627	
-   628	/* Expects the mutex to be locked */
-   629	static int aqc_send_ctrl_data(struct aqc_data *priv)
-   630	{
-   631		int ret;
-   632		u16 checksum;
-   633	
-   634		/* Checksum is not needed for Aquaero */
-   635		if (priv->kind != aquaero) {
-   636			/* Init and xorout value for CRC-16/USB is 0xffff */
-   637			checksum = crc16(0xffff, priv->buffer + priv->checksum_start,
-   638					 priv->checksum_length);
-   639			checksum ^= 0xffff;
-   640	
-   641			/* Place the new checksum at the end of the report */
-   642			put_unaligned_be16(checksum, priv->buffer + priv->checksum_offset);
-   643		}
-   644	
-   645		/* Send the patched up report back to the device */
-   646		ret = hid_hw_raw_request(priv->hdev, priv->ctrl_report_id, priv->buffer, priv->buffer_size,
-   647					 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-   648		if (ret < 0)
-   649			return ret;
-   650	
-   651		/* The official software sends this report after every change, so do it here as well */
-   652		ret = hid_hw_raw_request(priv->hdev, priv->secondary_ctrl_report_id,
-   653					 priv->secondary_ctrl_report, priv->secondary_ctrl_report_size,
-   654					 HID_FEATURE_REPORT, HID_REQ_SET_REPORT);
-   655		if (ret < 0)
-   656			return ret;
-   657	
-   658		/*
-   659		 * Wait 200ms before returning to make sure that the device actually processed both reports
-   660		 * and saved ctrl data to memory. Otherwise, an aqc_get_ctrl_data() call made shortly after
-   661		 * may fail with -EPIPE because the device is still busy and can't provide data. This can
-   662		 * happen when userspace tools, such as fancontrol or liquidctl, write to sysfs entries in
-   663		 * quick succession.
-   664		 *
-   665		 * 200ms was found to be the sweet spot between fixing the issue and not significantly
-   666		 * prolonging the call. Quadro, Octo, D5 Next and Aquaero are currently known to be
-   667		 * affected.
-   668		 */
-   669		switch (priv->kind) {
-   670		case quadro:
-   671		case octo:
-   672		case d5next:
-   673		case aquaero:
- > 674			msleep(200);
-   675			break;
-   676		default:
-   677			break;
-   678		}
-   679	
-   680		return ret;
-   681	}
-   682	
+    92	
+    93	static int mtk_mib_entry_read(struct mtk_ppe *ppe, u16 index, u64 *bytes, u64 *packets)
+    94	{
+    95		u32 byte_cnt_low, byte_cnt_high, pkt_cnt_low, pkt_cnt_high;
+    96		u32 val, cnt_r0, cnt_r1, cnt_r2;
+    97		int ret;
+    98	
+    99		val = FIELD_PREP(MTK_PPE_MIB_SER_CR_ADDR, index) | MTK_PPE_MIB_SER_CR_ST;
+   100		ppe_w32(ppe, MTK_PPE_MIB_SER_CR, val);
+   101	
+   102		ret = mtk_ppe_mib_wait_busy(ppe);
+   103		if (ret)
+   104			return ret;
+   105	
+   106		cnt_r0 = readl(ppe->base + MTK_PPE_MIB_SER_R0);
+   107		cnt_r1 = readl(ppe->base + MTK_PPE_MIB_SER_R1);
+   108		cnt_r2 = readl(ppe->base + MTK_PPE_MIB_SER_R2);
+   109	
+   110		if (mtk_is_netsys_v3_or_greater(ppe->eth)) {
+   111			/* 64 bit for each counter */
+ > 112			bytes_cnt_low = cnt_r0;
+ > 113			bytes_cnt_high = cnt_r1;
+   114			pkt_cnt_low = cnt_r2;
+   115			pkt_cnt_high = readl(ppe->base + MTK_PPE_MIB_SER_R3);
+   116		} else {
+   117			/* 48 bit for each counter */
+   118			byte_cnt_low = FIELD_GET(MTK_PPE_MIB_SER_R0_BYTE_CNT_LOW, cnt_r0);
+   119			byte_cnt_high = FIELD_GET(MTK_PPE_MIB_SER_R1_BYTE_CNT_HIGH, cnt_r1);
+   120			pkt_cnt_low = FIELD_GET(MTK_PPE_MIB_SER_R1_PKT_CNT_LOW, cnt_r1);
+   121			pkt_cnt_high = FIELD_GET(MTK_PPE_MIB_SER_R2_PKT_CNT_HIGH, cnt_r2);
+   122		}
+   123	
+   124		*bytes = ((u64)byte_cnt_high << 32) | byte_cnt_low;
+   125		*packets = (pkt_cnt_high << 16) | pkt_cnt_low;
+   126	
+   127		return 0;
+   128	}
+   129	
 
 -- 
 0-DAY CI Kernel Test Service
