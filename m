@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (unknown [134.134.136.24])
+Received: from mgamail.intel.com (unknown [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C937C;
-	Sat, 29 Jul 2023 09:31:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E8C7C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 09:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690623119; x=1722159119;
+  t=1690624582; x=1722160582;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9E5/hXQ/a43ajYHMI2GY6Ykrx/VZGK1+tUN3LvEjnJ0=;
-  b=Cj+6LMDUUk+FT8OhFrg6RRzlvhH57iuOC3gkHapplkCehhDRGfcKnIle
-   /W1d5IDjeMSMoWMgBy/AlzadEy4eYfdWDOGKMFGdOAphpXnd4ppOiP26x
-   5RSHDEsV+tVQXgWFwQYgMDzttK/DSD94yReHMqlK1xXS9jh+QD2d+oQB9
-   FlFMcm8iH2ZASV3sHxHuiLQUdpUOEvfUiDhah3cT1nm5NGOeXqd2R4xXm
-   S5O/7vUPYSHGrQa0lNWBDETAHKZI4Js0Y6RmUa7k2Jrb5xjD2QOaLbn0Z
-   pzneNO7dXtu9QBFDloqe3Byxp4F5e9mNoudSsB8aANjZGQI/CMivqYQ+c
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="371445470"
+  bh=lYIdpUI6ON6LSWkOvjPT6/fKgb2akcDCdX/fI1Rv+8E=;
+  b=mJgR0VkTBvPSR39Q7/WhfDWM6idMskNQvUDcXvLdAR/qjzbY05Ke+gQe
+   /w8K5xZZihy/Qq5lnFyzgjxCHroLRe9GAMxg3VHNs226v6+j7aDr5NhDz
+   LLeSZ6TRLdEJqJPPeCvHQT+M9bH6N8vFfxoecAwZUtxBoefT3kXaljg0s
+   l2aU64nhI3FpyiE7slJULnmK3b/970uIyCyoyhMvz4z1ssRdRMWh0i9hT
+   jHKwN9B47T7y6nYE4RVzqZcYG1x50pEydYlkWrbi8XI/RXu3a+apxVi6Y
+   gsUsT+0klljGmLS09I+EcWjuXl/wejePh1CXy+UbPfh/iru0NvOHLNF2n
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="349044927"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="371445470"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 02:31:58 -0700
+   d="scan'208";a="349044927"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 02:56:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="704849257"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="851501028"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="704849257"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 02:31:56 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1EC4411F81F;
-	Sat, 29 Jul 2023 12:31:54 +0300 (EEST)
-Date: Sat, 29 Jul 2023 09:31:54 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [sailus-media-tree:master 9/20]
- drivers/media/i2c/ov5693.c:1280:17: warning: incompatible integer to pointer
- conversion assigning to 'struct regmap *' from 'int'
-Message-ID: <ZMTcirgM3W+C0rag@kekkonen.localdomain>
-References: <202307271517.dPa1bTSi-lkp@intel.com>
- <8848c668-4736-a478-a277-e0cf1aa96ad4@redhat.com>
+   d="scan'208";a="851501028"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 29 Jul 2023 02:56:19 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qPggM-0003xr-2P;
+	Sat, 29 Jul 2023 09:56:18 +0000
+Date: Sat, 29 Jul 2023 17:55:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amritha Nambiar <amritha.nambiar@intel.com>, netdev@vger.kernel.org,
+	kuba@kernel.org, davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, sridhar.samudrala@intel.com,
+	amritha.nambiar@intel.com
+Subject: Re: [net-next PATCH v1 1/9] net: Introduce new fields for napi and
+ queue associations
+Message-ID: <202307291714.SUP7uQyV-lkp@intel.com>
+References: <169059161688.3736.18170697577939556255.stgit@anambiarhost.jf.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,42 +49,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8848c668-4736-a478-a277-e0cf1aa96ad4@redhat.com>
+In-Reply-To: <169059161688.3736.18170697577939556255.stgit@anambiarhost.jf.intel.com>
 
-Hi Hans,
+Hi Amritha,
 
-On Thu, Jul 27, 2023 at 10:57:15AM +0200, Hans de Goede wrote:
-> Hi Sakari,
-> 
-> On 7/27/23 09:34, kernel test robot wrote:
-> > tree:   git://linuxtv.org/sailus/media_tree.git master
-> > head:   215e4463b11d94668b841368cb6882f3a2968148
-> > commit: 6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c [9/20] media: ov5693: Convert to new CCI register access helpers
-> > config: arm-randconfig-r012-20230727 (https://download.01.org/0day-ci/archive/20230727/202307271517.dPa1bTSi-lkp@intel.com/config)
-> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> > reproduce: (https://download.01.org/0day-ci/archive/20230727/202307271517.dPa1bTSi-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202307271517.dPa1bTSi-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >    drivers/media/i2c/ov5693.c:1280:19: error: implicit declaration of function 'devm_cci_regmap_init_i2c' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-> >            ov5693->regmap = devm_cci_regmap_init_i2c(client, 16);
-> 
-> This is caused by a mis-merge:
-> 
-> https://git.linuxtv.org/sailus/media_tree.git/commit/?id=6ca0d78da91133ec78ecfbdaa7d066849b1b0c0c
-> 
-> Shows that the "select V4L2_CCI_I2C" was added to the DW9768 Kconfig block instead of to the OV5693 block.
+kernel test robot noticed the following build errors:
 
-Oops. Probably a result of the automatic merge, as both mine and your
-patches changed the surrounding lines. I'll send a patch to fix this as
-well as the other issue. Thanks for pointing this out.
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amritha-Nambiar/net-Introduce-new-fields-for-napi-and-queue-associations/20230729-083646
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/169059161688.3736.18170697577939556255.stgit%40anambiarhost.jf.intel.com
+patch subject: [net-next PATCH v1 1/9] net: Introduce new fields for napi and queue associations
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230729/202307291714.SUP7uQyV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291714.SUP7uQyV-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307291714.SUP7uQyV-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/infiniband/sw/rxe/rxe_comp.c:11:
+>> drivers/infiniband/sw/rxe/rxe_queue.h:53:6: error: redeclaration of 'enum queue_type'
+      53 | enum queue_type {
+         |      ^~~~~~~~~~
+   In file included from include/net/sock.h:46,
+                    from include/linux/tcp.h:19,
+                    from include/linux/ipv6.h:94,
+                    from include/net/ipv6.h:12,
+                    from include/rdma/ib_verbs.h:25,
+                    from drivers/infiniband/sw/rxe/rxe.h:17,
+                    from drivers/infiniband/sw/rxe/rxe_comp.c:9:
+   include/linux/netdevice.h:348:6: note: originally defined here
+     348 | enum queue_type {
+         |      ^~~~~~~~~~
+
+
+vim +53 drivers/infiniband/sw/rxe/rxe_queue.h
+
+8700e3e7c4857d Moni Shoua  2016-06-16   9  
+ae6e843fe08d0e Bob Pearson 2021-09-14  10  /* Implements a simple circular buffer that is shared between user
+ae6e843fe08d0e Bob Pearson 2021-09-14  11   * and the driver and can be resized. The requested element size is
+ae6e843fe08d0e Bob Pearson 2021-09-14  12   * rounded up to a power of 2 and the number of elements in the buffer
+ae6e843fe08d0e Bob Pearson 2021-09-14  13   * is also rounded up to a power of 2. Since the queue is empty when
+ae6e843fe08d0e Bob Pearson 2021-09-14  14   * the producer and consumer indices match the maximum capacity of the
+ae6e843fe08d0e Bob Pearson 2021-09-14  15   * queue is one less than the number of element slots.
+5bcf5a59c41e19 Bob Pearson 2021-05-27  16   *
+5bcf5a59c41e19 Bob Pearson 2021-05-27  17   * Notes:
+ae6e843fe08d0e Bob Pearson 2021-09-14  18   *   - The driver indices are always masked off to q->index_mask
+5bcf5a59c41e19 Bob Pearson 2021-05-27  19   *     before storing so do not need to be checked on reads.
+ae6e843fe08d0e Bob Pearson 2021-09-14  20   *   - The user whether user space or kernel is generally
+ae6e843fe08d0e Bob Pearson 2021-09-14  21   *     not trusted so its parameters are masked to make sure
+ae6e843fe08d0e Bob Pearson 2021-09-14  22   *     they do not access the queue out of bounds on reads.
+ae6e843fe08d0e Bob Pearson 2021-09-14  23   *   - The driver indices for queues must not be written
+ae6e843fe08d0e Bob Pearson 2021-09-14  24   *     by user so a local copy is used and a shared copy is
+ae6e843fe08d0e Bob Pearson 2021-09-14  25   *     stored when the local copy is changed.
+5bcf5a59c41e19 Bob Pearson 2021-05-27  26   *   - By passing the type in the parameter list separate from q
+5bcf5a59c41e19 Bob Pearson 2021-05-27  27   *     the compiler can eliminate the switch statement when the
+ae6e843fe08d0e Bob Pearson 2021-09-14  28   *     actual queue type is known when the function is called at
+ae6e843fe08d0e Bob Pearson 2021-09-14  29   *     compile time.
+ae6e843fe08d0e Bob Pearson 2021-09-14  30   *   - These queues are lock free. The user and driver must protect
+ae6e843fe08d0e Bob Pearson 2021-09-14  31   *     changes to their end of the queues with locks if more than one
+ae6e843fe08d0e Bob Pearson 2021-09-14  32   *     CPU can be accessing it at the same time.
+8700e3e7c4857d Moni Shoua  2016-06-16  33   */
+8700e3e7c4857d Moni Shoua  2016-06-16  34  
+ae6e843fe08d0e Bob Pearson 2021-09-14  35  /**
+ae6e843fe08d0e Bob Pearson 2021-09-14  36   * enum queue_type - type of queue
+ae6e843fe08d0e Bob Pearson 2021-09-14  37   * @QUEUE_TYPE_TO_CLIENT:	Queue is written by rxe driver and
+a77a52385e9a76 Bob Pearson 2023-02-14  38   *				read by client which may be a user space
+a77a52385e9a76 Bob Pearson 2023-02-14  39   *				application or a kernel ulp.
+a77a52385e9a76 Bob Pearson 2023-02-14  40   *				Used by rxe internals only.
+ae6e843fe08d0e Bob Pearson 2021-09-14  41   * @QUEUE_TYPE_FROM_CLIENT:	Queue is written by client and
+a77a52385e9a76 Bob Pearson 2023-02-14  42   *				read by rxe driver.
+a77a52385e9a76 Bob Pearson 2023-02-14  43   *				Used by rxe internals only.
+a77a52385e9a76 Bob Pearson 2023-02-14  44   * @QUEUE_TYPE_FROM_ULP:	Queue is written by kernel ulp and
+a77a52385e9a76 Bob Pearson 2023-02-14  45   *				read by rxe driver.
+a77a52385e9a76 Bob Pearson 2023-02-14  46   *				Used by kernel verbs APIs only on
+a77a52385e9a76 Bob Pearson 2023-02-14  47   *				behalf of ulps.
+a77a52385e9a76 Bob Pearson 2023-02-14  48   * @QUEUE_TYPE_TO_ULP:		Queue is written by rxe driver and
+a77a52385e9a76 Bob Pearson 2023-02-14  49   *				read by kernel ulp.
+a77a52385e9a76 Bob Pearson 2023-02-14  50   *				Used by kernel verbs APIs only on
+a77a52385e9a76 Bob Pearson 2023-02-14  51   *				behalf of ulps.
+ae6e843fe08d0e Bob Pearson 2021-09-14  52   */
+59daff49f25fbb Bob Pearson 2021-05-27 @53  enum queue_type {
+ae6e843fe08d0e Bob Pearson 2021-09-14  54  	QUEUE_TYPE_TO_CLIENT,
+ae6e843fe08d0e Bob Pearson 2021-09-14  55  	QUEUE_TYPE_FROM_CLIENT,
+a77a52385e9a76 Bob Pearson 2023-02-14  56  	QUEUE_TYPE_FROM_ULP,
+a77a52385e9a76 Bob Pearson 2023-02-14  57  	QUEUE_TYPE_TO_ULP,
+59daff49f25fbb Bob Pearson 2021-05-27  58  };
+59daff49f25fbb Bob Pearson 2021-05-27  59  
 
 -- 
-Kind regards,
-
-Sakari Ailus
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
