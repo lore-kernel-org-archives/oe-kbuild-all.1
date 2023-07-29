@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (unknown [192.55.52.43])
+Received: from mgamail.intel.com (unknown [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77D038A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 06:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA78F1C02
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 06:32:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690612360; x=1722148360;
+  t=1690612362; x=1722148362;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hKyg/cV/OIJAErqjqS3ESTvPXb2zSUEq3WKihZ8dr5A=;
-  b=A3fx5aBLATmIX1zVWcOdJPfjkHApBZ2UbCC+w5OccRnfrXvuwWJqegxN
-   89z72jUWYJjfzjGspxQRmSf+ypVROLvi2WyyrEQHdTNrJOKRXYTT7nchK
-   s2nY5Zm865lU1kIwlGlzUyPaqBu7rzBefuZaYP7dhL7hyslxUExTbp4N3
-   9L8Ek8PsMeJEnMFpFrAvDpW+cY/Y4WKbW6KMufDoWPCzATihv2Lnsm0so
-   gX1WvubJgYNO2txZbVNQfhmI/VfriqUV7HmSl5q98qX3N/Don8JCG8SiW
-   mwaQDAtCdkiPtpJ8gLQzHAosH45bfmT9LWBgrudJnziuK6xuH/aCcRMQf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="455095076"
+  bh=Houfw+3T5WyGblAMfeCySlmAfZrGzNPh7DikS3wpYVc=;
+  b=kv89jtmANr9ulAuWmqPux9abwghFgdkpIsZw8Ubf9m2c9lEpTvF1mtqp
+   jKkxOf7cDLoZh89oGsHdXONlFPjXP9wxYWrZO/3TK5RzvcYt2K4Uunx6y
+   Zg0Wsdp8fkDNFquwbOOAQ3FQ/1rDGkJz3USqDH7m8wwaf/x+VS4SBmFy4
+   j/I2MorNq/jraV2Krpw0gdrZ5JDUoOLR3+UCPurfRziiuzOMpQmKCuSSm
+   tWBcThvP7yC508tDCv2IQ/9K1Aq1DjIQiUEnF18ZjCb5ptSXa1DJIxURr
+   yy2O7lPQLX2zsxAnk0VeHNMNYpbwcXG64LmD8ZxIcI9rxKkdH0MagFgVx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="366205161"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="455095076"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 23:32:40 -0700
+   d="scan'208";a="366205161"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2023 23:32:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="797654631"
+X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="730995256"
 X-IronPort-AV: E=Sophos;i="6.01,239,1684825200"; 
-   d="scan'208";a="797654631"
+   d="scan'208";a="730995256"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Jul 2023 23:32:39 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 28 Jul 2023 23:32:40 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPdU4-0003sl-0A;
-	Sat, 29 Jul 2023 06:32:08 +0000
+	id 1qPdVG-0003sn-1g;
+	Sat, 29 Jul 2023 06:32:38 +0000
 Date: Sat, 29 Jul 2023 14:30:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morse:mpam/snapshot/v6.5-rc1 142/146]
- drivers/perf/resctrl_pmu.c:77:52: warning: passing argument 3 of
- 'resctrl_arch_mon_ctx_free' makes pointer from integer without a cast
-Message-ID: <202307291440.eye7GIIa-lkp@intel.com>
+To: Baoquan He <bhe@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 197/338] include/asm-generic/io.h:636:15:
+ error: redefinition of 'inb_p'
+Message-ID: <202307291412.zoTsMe9U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,185 +48,355 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.5-rc1
-head:   8a35b09275f16d009ed31e93b8b4b3004b04bceb
-commit: 6f03509946c70fd34341fe086038e2135d65d0a1 [142/146] drivers/perf: Add PMU to support reading resctrl counters via perf
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230729/202307291440.eye7GIIa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291440.eye7GIIa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   d7928c9026c83acc1b3dd2a10ef48489aa0c56d0
+commit: c1302338f919fd201d8cd44417e19e1e66ab9cef [197/338] sh: add <asm-generic/io.h> including
+config: sh-randconfig-r002-20230728 (https://download.01.org/0day-ci/archive/20230729/202307291412.zoTsMe9U-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230729/202307291412.zoTsMe9U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307291440.eye7GIIa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307291412.zoTsMe9U-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/perf/resctrl_pmu.c: In function 'resctrl_pmu_event_destroy':
->> drivers/perf/resctrl_pmu.c:77:52: warning: passing argument 3 of 'resctrl_arch_mon_ctx_free' makes pointer from integer without a cast [-Wint-conversion]
-      77 |         resctrl_arch_mon_ctx_free(r, event_num, hwc->idx);
-         |                                                 ~~~^~~~~
-         |                                                    |
-         |                                                    int
-   In file included from include/linux/resctrl.h:12,
-                    from drivers/perf/resctrl_pmu.c:8:
-   arch/x86/include/asm/resctrl.h:213:52: note: expected 'void *' but argument is of type 'int'
-     213 |                                              void *ctx) { };
-         |                                              ~~~~~~^~~
-   drivers/perf/resctrl_pmu.c: In function 'resctrl_pmu_event_init':
->> drivers/perf/resctrl_pmu.c:147:18: warning: assignment to 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
-     147 |         hwc->idx = resctrl_arch_mon_ctx_alloc_no_wait(r, event_num);
-         |                  ^
-   drivers/perf/resctrl_pmu.c: In function 'resctrl_pmu_event_update':
->> drivers/perf/resctrl_pmu.c:186:66: warning: passing argument 7 of 'resctrl_arch_rmid_read' makes pointer from integer without a cast [-Wint-conversion]
-     186 |                                              event_num, &now, hwc->idx);
-         |                                                               ~~~^~~~~
-         |                                                                  |
-         |                                                                  int
-   include/linux/resctrl.h:430:44: note: expected 'void *' but argument is of type 'int'
-     430 |                            u64 *val, void *arch_mon_ctx);
-         |                                      ~~~~~~^~~~~~~~~~~~
+   In file included from arch/sh/include/asm/io.h:314,
+                    from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/sh/include/asm/hardirq.h:9,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:9,
+                    from include/linux/cgroup.h:26,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/sh/kernel/asm-offsets.c:16:
+>> include/asm-generic/io.h:636:15: error: redefinition of 'inb_p'
+     636 | #define inb_p inb_p
+         |               ^~~~~
+   include/asm-generic/io.h:637:18: note: in expansion of macro 'inb_p'
+     637 | static inline u8 inb_p(unsigned long addr)
+         |                  ^~~~~
+   arch/sh/include/asm/io.h:185:25: note: previous definition of 'inb_p' with type 'u8(long unsigned int)' {aka 'unsigned char(long unsigned int)'}
+     185 | static inline type pfx##in##bwlq##p(unsigned long port)                 \
+         |                         ^~
+   arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+     199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+     202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:204:1: note: in expansion of macro 'BUILDIO_IOPORT'
+     204 | BUILDIO_IOPORT(b, u8)
+         | ^~~~~~~~~~~~~~
+>> include/asm-generic/io.h:644:15: error: redefinition of 'inw_p'
+     644 | #define inw_p inw_p
+         |               ^~~~~
+   include/asm-generic/io.h:645:19: note: in expansion of macro 'inw_p'
+     645 | static inline u16 inw_p(unsigned long addr)
+         |                   ^~~~~
+   arch/sh/include/asm/io.h:185:25: note: previous definition of 'inw_p' with type 'u16(long unsigned int)' {aka 'short unsigned int(long unsigned int)'}
+     185 | static inline type pfx##in##bwlq##p(unsigned long port)                 \
+         |                         ^~
+   arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+     199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+     202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:205:1: note: in expansion of macro 'BUILDIO_IOPORT'
+     205 | BUILDIO_IOPORT(w, u16)
+         | ^~~~~~~~~~~~~~
+>> include/asm-generic/io.h:652:15: error: redefinition of 'inl_p'
+     652 | #define inl_p inl_p
+         |               ^~~~~
+   include/asm-generic/io.h:653:19: note: in expansion of macro 'inl_p'
+     653 | static inline u32 inl_p(unsigned long addr)
+         |                   ^~~~~
+   arch/sh/include/asm/io.h:185:25: note: previous definition of 'inl_p' with type 'u32(long unsigned int)' {aka 'unsigned int(long unsigned int)'}
+     185 | static inline type pfx##in##bwlq##p(unsigned long port)                 \
+         |                         ^~
+   arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+     199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+     202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:206:1: note: in expansion of macro 'BUILDIO_IOPORT'
+     206 | BUILDIO_IOPORT(l, u32)
+         | ^~~~~~~~~~~~~~
+>> include/asm-generic/io.h:660:16: error: redefinition of 'outb_p'
+     660 | #define outb_p outb_p
+         |                ^~~~~~
+   include/asm-generic/io.h:661:20: note: in expansion of macro 'outb_p'
+     661 | static inline void outb_p(u8 value, unsigned long addr)
+         |                    ^~~~~~
+   arch/sh/include/asm/io.h:176:25: note: previous definition of 'outb_p' with type 'void(u8,  long unsigned int)' {aka 'void(unsigned char,  long unsigned int)'}
+     176 | static inline void pfx##out##bwlq##p(type val, unsigned long port)      \
+         |                         ^~~
+   arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+     199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+     202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:204:1: note: in expansion of macro 'BUILDIO_IOPORT'
+     204 | BUILDIO_IOPORT(b, u8)
+         | ^~~~~~~~~~~~~~
+>> include/asm-generic/io.h:668:16: error: redefinition of 'outw_p'
+     668 | #define outw_p outw_p
+         |                ^~~~~~
+   include/asm-generic/io.h:669:20: note: in expansion of macro 'outw_p'
+     669 | static inline void outw_p(u16 value, unsigned long addr)
+         |                    ^~~~~~
+   arch/sh/include/asm/io.h:176:25: note: previous definition of 'outw_p' with type 'void(u16,  long unsigned int)' {aka 'void(short unsigned int,  long unsigned int)'}
+     176 | static inline void pfx##out##bwlq##p(type val, unsigned long port)      \
+         |                         ^~~
+   arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+     199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+     202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:205:1: note: in expansion of macro 'BUILDIO_IOPORT'
+     205 | BUILDIO_IOPORT(w, u16)
+         | ^~~~~~~~~~~~~~
+>> include/asm-generic/io.h:676:16: error: redefinition of 'outl_p'
+     676 | #define outl_p outl_p
+         |                ^~~~~~
+   include/asm-generic/io.h:677:20: note: in expansion of macro 'outl_p'
+     677 | static inline void outl_p(u32 value, unsigned long addr)
+         |                    ^~~~~~
+   arch/sh/include/asm/io.h:176:25: note: previous definition of 'outl_p' with type 'void(u32,  long unsigned int)' {aka 'void(unsigned int,  long unsigned int)'}
+     176 | static inline void pfx##out##bwlq##p(type val, unsigned long port)      \
+         |                         ^~~
+   arch/sh/include/asm/io.h:199:9: note: in expansion of macro '__BUILD_IOPORT_SINGLE'
+     199 |         __BUILD_IOPORT_SINGLE(bus, bwlq, type, _p, SLOW_DOWN_IO)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:202:9: note: in expansion of macro '__BUILD_IOPORT_PFX'
+     202 |         __BUILD_IOPORT_PFX(, bwlq, type)
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/sh/include/asm/io.h:206:1: note: in expansion of macro 'BUILDIO_IOPORT'
+     206 | BUILDIO_IOPORT(l, u32)
+         | ^~~~~~~~~~~~~~
+>> include/asm-generic/io.h:689:14: error: redefinition of 'insb'
+     689 | #define insb insb
+         |              ^~~~
+   include/asm-generic/io.h:690:20: note: in expansion of macro 'insb'
+     690 | static inline void insb(unsigned long addr, void *buffer, unsigned int count)
+         |                    ^~~~
+   arch/sh/include/asm/io.h:222:20: note: previous definition of 'insb' with type 'void(long unsigned int,  void *, unsigned int)'
+     222 | static inline void ins##bwlq(unsigned long port, void *addr,            \
+         |                    ^~~
+   arch/sh/include/asm/io.h:233:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+     233 | __BUILD_IOPORT_STRING(b, u8)
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/io.h:697:14: error: redefinition of 'insw'
+     697 | #define insw insw
+         |              ^~~~
+   include/asm-generic/io.h:698:20: note: in expansion of macro 'insw'
+     698 | static inline void insw(unsigned long addr, void *buffer, unsigned int count)
+         |                    ^~~~
+   arch/sh/include/asm/io.h:222:20: note: previous definition of 'insw' with type 'void(long unsigned int,  void *, unsigned int)'
+     222 | static inline void ins##bwlq(unsigned long port, void *addr,            \
+         |                    ^~~
+   arch/sh/include/asm/io.h:234:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+     234 | __BUILD_IOPORT_STRING(w, u16)
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/io.h:705:14: error: redefinition of 'insl'
+     705 | #define insl insl
+         |              ^~~~
+   include/asm-generic/io.h:706:20: note: in expansion of macro 'insl'
+     706 | static inline void insl(unsigned long addr, void *buffer, unsigned int count)
+         |                    ^~~~
+   arch/sh/include/asm/io.h:222:20: note: previous definition of 'insl' with type 'void(long unsigned int,  void *, unsigned int)'
+     222 | static inline void ins##bwlq(unsigned long port, void *addr,            \
+         |                    ^~~
+   arch/sh/include/asm/io.h:235:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+     235 | __BUILD_IOPORT_STRING(l, u32)
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/io.h:713:15: error: redefinition of 'outsb'
+     713 | #define outsb outsb
+         |               ^~~~~
+   include/asm-generic/io.h:714:20: note: in expansion of macro 'outsb'
+     714 | static inline void outsb(unsigned long addr, const void *buffer,
+         |                    ^~~~~
+   arch/sh/include/asm/io.h:211:20: note: previous definition of 'outsb' with type 'void(long unsigned int,  const void *, unsigned int)'
+     211 | static inline void outs##bwlq(unsigned long port, const void *addr,     \
+         |                    ^~~~
+   arch/sh/include/asm/io.h:233:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+     233 | __BUILD_IOPORT_STRING(b, u8)
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/io.h:722:15: error: redefinition of 'outsw'
+     722 | #define outsw outsw
+         |               ^~~~~
+   include/asm-generic/io.h:723:20: note: in expansion of macro 'outsw'
+     723 | static inline void outsw(unsigned long addr, const void *buffer,
+         |                    ^~~~~
+   arch/sh/include/asm/io.h:211:20: note: previous definition of 'outsw' with type 'void(long unsigned int,  const void *, unsigned int)'
+     211 | static inline void outs##bwlq(unsigned long port, const void *addr,     \
+         |                    ^~~~
+   arch/sh/include/asm/io.h:234:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+     234 | __BUILD_IOPORT_STRING(w, u16)
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/io.h:731:15: error: redefinition of 'outsl'
+     731 | #define outsl outsl
+         |               ^~~~~
+   include/asm-generic/io.h:732:20: note: in expansion of macro 'outsl'
+     732 | static inline void outsl(unsigned long addr, const void *buffer,
+         |                    ^~~~~
+   arch/sh/include/asm/io.h:211:20: note: previous definition of 'outsl' with type 'void(long unsigned int,  const void *, unsigned int)'
+     211 | static inline void outs##bwlq(unsigned long port, const void *addr,     \
+         |                    ^~~~
+   arch/sh/include/asm/io.h:235:1: note: in expansion of macro '__BUILD_IOPORT_STRING'
+     235 | __BUILD_IOPORT_STRING(l, u32)
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/io.h:1137:20: error: static declaration of 'ioport_map' follows non-static declaration
+    1137 | #define ioport_map ioport_map
+         |                    ^~~~~~~~~~
+   include/asm-generic/io.h:1138:29: note: in expansion of macro 'ioport_map'
+    1138 | static inline void __iomem *ioport_map(unsigned long port, unsigned int nr)
+         |                             ^~~~~~~~~~
+   In file included from arch/sh/include/asm/io.h:22:
+   include/asm-generic/iomap.h:92:22: note: previous declaration of 'ioport_map' with type 'void *(long unsigned int,  unsigned int)'
+      92 | extern void __iomem *ioport_map(unsigned long port, unsigned int nr);
+         |                      ^~~~~~~~~~
+>> include/asm-generic/io.h:1147:22: error: static declaration of 'ioport_unmap' follows non-static declaration
+    1147 | #define ioport_unmap ioport_unmap
+         |                      ^~~~~~~~~~~~
+   include/asm-generic/io.h:1148:20: note: in expansion of macro 'ioport_unmap'
+    1148 | static inline void ioport_unmap(void __iomem *p)
+         |                    ^~~~~~~~~~~~
+   include/asm-generic/iomap.h:93:13: note: previous declaration of 'ioport_unmap' with type 'void(void *)'
+      93 | extern void ioport_unmap(void __iomem *);
+         |             ^~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:116: arch/sh/kernel/asm-offsets.s] Error 1 shuffle=1821004678
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1287: prepare0] Error 2 shuffle=1821004678
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=1821004678
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2 shuffle=1821004678
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/resctrl_arch_mon_ctx_free +77 drivers/perf/resctrl_pmu.c
+vim +/inb_p +636 include/asm-generic/io.h
 
-    66	
-    67	static void resctrl_pmu_event_destroy(struct perf_event *event)
-    68	{
-    69		struct hw_perf_event *hwc = &event->hw;
-    70		u16 event_num = get_event(event);
-    71		struct rdt_resource *r;
-    72	
-    73		r = resctrl_event_get_resource(event_num);
-    74		if (!r)
-    75			return;
-    76	
-  > 77		resctrl_arch_mon_ctx_free(r, event_num, hwc->idx);
-    78	}
-    79	
-    80	static int resctrl_pmu_event_init(struct perf_event *event)
-    81	{
-    82		struct hw_perf_event *hwc = &event->hw;
-    83		struct resctrl_pmu *resctrl_pmu = to_resctrl_pmu(event->pmu);
-    84		struct device *dev = resctrl_pmu->dev;
-    85		struct perf_event *sibling;
-    86		struct rdt_resource *r;
-    87		struct rdt_domain *d;
-    88		u16 event_num, domain_id;
-    89		u32 closid, rmid;
-    90		int err;
-    91		u64 id;
-    92	
-    93		if (event->attr.type != event->pmu->type)
-    94			return -ENOENT;
-    95	
-    96		if (is_sampling_event(event) || event->attach_state & PERF_ATTACH_TASK)
-    97			return -EOPNOTSUPP;
-    98	
-    99		if (event->cpu < 0) {
-   100			dev_dbg(dev, "Per-task mode not supported\n");
-   101			return -EOPNOTSUPP;
-   102		}
-   103	
-   104		/* Verify specified event is supported on this PMU */
-   105		event_num = get_event(event);
-   106		if (!resctrl_event_supported(event_num)) {
-   107			dev_dbg(dev, "Invalid event %d for this PMU\n", event_num);
-   108			return -EINVAL;
-   109		}
-   110	
-   111		/* Verify the resctrl group currently exists */
-   112		id = get_resctrl_id(event);
-   113		err = resctrl_id_decode(id, &closid, &rmid);
-   114		if (err)
-   115			return err;
-   116	
-   117		/* Sanity check we have a resource and domain for this event */
-   118		r = resctrl_event_get_resource(event_num);
-   119		if (!r)
-   120			return -EINVAL;
-   121	
-   122		domain_id = get_domain(event);
-   123		cpus_read_lock();
-   124		d = resctrl_arch_find_domain(r, domain_id);
-   125		if (!d || WARN_ON_ONCE(cpumask_empty(&d->cpu_mask))) {
-   126			cpus_read_unlock();
-   127			return -EINVAL;
-   128		}
-   129	
-   130		/* This must run on one of the domain's CPUs */
-   131		event->cpu = cpumask_any(&d->cpu_mask);
-   132		cpus_read_unlock();
-   133	
-   134		if (!is_software_event(event->group_leader)) {
-   135			if (event->group_leader->pmu != event->pmu)
-   136				return -EINVAL;
-   137		}
-   138	
-   139		/* Don't allow groups with other PMUs, except for s/w events */
-   140		for_each_sibling_event(sibling, event->group_leader) {
-   141			if (is_software_event(sibling))
-   142				continue;
-   143			if (sibling->pmu != event->pmu)
-   144				return -EINVAL;
-   145		}
-   146	
- > 147		hwc->idx = resctrl_arch_mon_ctx_alloc_no_wait(r, event_num);
-   148		if (hwc->idx == -ENOSPC)
-   149			return -ENOSPC;
-   150		event->destroy = resctrl_pmu_event_destroy;
-   151		local64_set(&hwc->prev_count, 0);
-   152		local64_set(&event->count, 0);
-   153	
-   154		return err;
-   155	}
-   156	
-   157	static void resctrl_pmu_event_update(struct perf_event *event)
-   158	{
-   159		struct hw_perf_event *hwc = &event->hw;
-   160		u64 delta, now, prev, id;
-   161		u16 event_num, domain_id;
-   162		struct rdt_resource *r;
-   163		struct rdt_domain *d;
-   164		u32 closid, rmid;
-   165		int err;
-   166	
-   167		event_num = get_event(event);
-   168		id = get_resctrl_id(event);
-   169		__resctrl_id_decode(id, &closid, &rmid);
-   170	
-   171		r = resctrl_event_get_resource(event_num);
-   172		if (!r)
-   173			return;
-   174		domain_id = get_domain(event);
-   175		d = resctrl_arch_find_domain(r, domain_id);
-   176		if (!d)
-   177			return;
-   178	
-   179		if (!cpumask_test_cpu(smp_processor_id(), &d->cpu_mask))
-   180			return;
-   181	
-   182		do {
-   183			prev = local64_read(&hwc->prev_count);
-   184	
-   185			err = resctrl_arch_rmid_read(r, d, closid, rmid,
- > 186						     event_num, &now, hwc->idx);
-   187			if (err)
-   188				return;
-   189		} while (local64_cmpxchg(&hwc->prev_count, prev, now) != prev);
-   190	
-   191		/*
-   192		 * Discard the first reading to initialise prev_count.
-   193		 * Resctrl already handled overflow.
-   194		 */
-   195		if (prev != 0) {
-   196			delta = now - prev;
-   197			local64_add(delta, &event->count);
-   198		}
-   199	
-   200		set_bit(PERF_HES_UPTODATE, (long *)&hwc->state);
-   201	}
-   202	
+f009c89df79abe John Garry     2020-03-28  634  
+9216efafc52ff9 Thierry Reding 2014-10-01  635  #ifndef inb_p
+9216efafc52ff9 Thierry Reding 2014-10-01 @636  #define inb_p inb_p
+9216efafc52ff9 Thierry Reding 2014-10-01  637  static inline u8 inb_p(unsigned long addr)
+9216efafc52ff9 Thierry Reding 2014-10-01  638  {
+9216efafc52ff9 Thierry Reding 2014-10-01  639  	return inb(addr);
+9216efafc52ff9 Thierry Reding 2014-10-01  640  }
+9216efafc52ff9 Thierry Reding 2014-10-01  641  #endif
+9216efafc52ff9 Thierry Reding 2014-10-01  642  
+9216efafc52ff9 Thierry Reding 2014-10-01  643  #ifndef inw_p
+9216efafc52ff9 Thierry Reding 2014-10-01 @644  #define inw_p inw_p
+9216efafc52ff9 Thierry Reding 2014-10-01  645  static inline u16 inw_p(unsigned long addr)
+9216efafc52ff9 Thierry Reding 2014-10-01  646  {
+9216efafc52ff9 Thierry Reding 2014-10-01  647  	return inw(addr);
+9216efafc52ff9 Thierry Reding 2014-10-01  648  }
+9216efafc52ff9 Thierry Reding 2014-10-01  649  #endif
+9216efafc52ff9 Thierry Reding 2014-10-01  650  
+9216efafc52ff9 Thierry Reding 2014-10-01  651  #ifndef inl_p
+9216efafc52ff9 Thierry Reding 2014-10-01 @652  #define inl_p inl_p
+9216efafc52ff9 Thierry Reding 2014-10-01  653  static inline u32 inl_p(unsigned long addr)
+9216efafc52ff9 Thierry Reding 2014-10-01  654  {
+9216efafc52ff9 Thierry Reding 2014-10-01  655  	return inl(addr);
+9216efafc52ff9 Thierry Reding 2014-10-01  656  }
+9216efafc52ff9 Thierry Reding 2014-10-01  657  #endif
+9216efafc52ff9 Thierry Reding 2014-10-01  658  
+9216efafc52ff9 Thierry Reding 2014-10-01  659  #ifndef outb_p
+9216efafc52ff9 Thierry Reding 2014-10-01 @660  #define outb_p outb_p
+9216efafc52ff9 Thierry Reding 2014-10-01  661  static inline void outb_p(u8 value, unsigned long addr)
+9216efafc52ff9 Thierry Reding 2014-10-01  662  {
+9216efafc52ff9 Thierry Reding 2014-10-01  663  	outb(value, addr);
+9216efafc52ff9 Thierry Reding 2014-10-01  664  }
+9216efafc52ff9 Thierry Reding 2014-10-01  665  #endif
+9216efafc52ff9 Thierry Reding 2014-10-01  666  
+9216efafc52ff9 Thierry Reding 2014-10-01  667  #ifndef outw_p
+9216efafc52ff9 Thierry Reding 2014-10-01 @668  #define outw_p outw_p
+9216efafc52ff9 Thierry Reding 2014-10-01  669  static inline void outw_p(u16 value, unsigned long addr)
+9216efafc52ff9 Thierry Reding 2014-10-01  670  {
+9216efafc52ff9 Thierry Reding 2014-10-01  671  	outw(value, addr);
+9216efafc52ff9 Thierry Reding 2014-10-01  672  }
+9216efafc52ff9 Thierry Reding 2014-10-01  673  #endif
+9216efafc52ff9 Thierry Reding 2014-10-01  674  
+9216efafc52ff9 Thierry Reding 2014-10-01  675  #ifndef outl_p
+9216efafc52ff9 Thierry Reding 2014-10-01 @676  #define outl_p outl_p
+9216efafc52ff9 Thierry Reding 2014-10-01  677  static inline void outl_p(u32 value, unsigned long addr)
+9216efafc52ff9 Thierry Reding 2014-10-01  678  {
+9216efafc52ff9 Thierry Reding 2014-10-01  679  	outl(value, addr);
+9216efafc52ff9 Thierry Reding 2014-10-01  680  }
+9216efafc52ff9 Thierry Reding 2014-10-01  681  #endif
+9216efafc52ff9 Thierry Reding 2014-10-01  682  
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  683  /*
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  684   * {in,out}s{b,w,l}{,_p}() are variants of the above that repeatedly access a
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  685   * single I/O port multiple times.
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  686   */
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  687  
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  688  #ifndef insb
+9ab3a7a0d2b417 Thierry Reding 2014-07-04 @689  #define insb insb
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  690  static inline void insb(unsigned long addr, void *buffer, unsigned int count)
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  691  {
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  692  	readsb(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  693  }
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  694  #endif
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  695  
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  696  #ifndef insw
+9ab3a7a0d2b417 Thierry Reding 2014-07-04 @697  #define insw insw
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  698  static inline void insw(unsigned long addr, void *buffer, unsigned int count)
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  699  {
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  700  	readsw(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  701  }
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  702  #endif
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  703  
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  704  #ifndef insl
+9ab3a7a0d2b417 Thierry Reding 2014-07-04 @705  #define insl insl
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  706  static inline void insl(unsigned long addr, void *buffer, unsigned int count)
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  707  {
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  708  	readsl(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  709  }
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  710  #endif
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  711  
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  712  #ifndef outsb
+9ab3a7a0d2b417 Thierry Reding 2014-07-04 @713  #define outsb outsb
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  714  static inline void outsb(unsigned long addr, const void *buffer,
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  715  			 unsigned int count)
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  716  {
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  717  	writesb(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  718  }
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  719  #endif
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  720  
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  721  #ifndef outsw
+9ab3a7a0d2b417 Thierry Reding 2014-07-04 @722  #define outsw outsw
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  723  static inline void outsw(unsigned long addr, const void *buffer,
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  724  			 unsigned int count)
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  725  {
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  726  	writesw(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  727  }
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  728  #endif
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  729  
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  730  #ifndef outsl
+9ab3a7a0d2b417 Thierry Reding 2014-07-04 @731  #define outsl outsl
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  732  static inline void outsl(unsigned long addr, const void *buffer,
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  733  			 unsigned int count)
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  734  {
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  735  	writesl(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  736  }
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  737  #endif
+9ab3a7a0d2b417 Thierry Reding 2014-07-04  738  
+
+:::::: The code at line 636 was first introduced by commit
+:::::: 9216efafc52ff99e9351ef60de5fcafc2bc8adb6 asm-generic/io.h: Reconcile I/O accessor overrides
+
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
