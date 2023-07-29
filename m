@@ -1,69 +1,69 @@
-Received: from mgamail.intel.com (unknown [134.134.136.24])
+Received: from mgamail.intel.com (unknown [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A95F4FE;
-	Sat, 29 Jul 2023 15:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49E1F4FE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Jul 2023 16:14:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690646286; x=1722182286;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=8B2ZXTX/T+9iJs7GisviUMJRO157mD7QeorTcPRymOo=;
-  b=Rq0ZCDG9hFb/jAVogQOAJ2+D3h1K/mHDEGKNY3uCGZO12Xe3BW65/zBW
-   WVUEnwrHHb09GnzyH7DLdnzBb6dh+i8LiEw96MRiC8rrEiyDYx5BsUKoS
-   UsGvQjEu+p3EY5jMLl5uNDJ4wlUeZDALC2AB/rB2HR1pA3hvqYPETY/0p
-   ZCkN4nVS/8KiGzRK6gVZAYgNOKengfkdtppFIhncg3qRMTevBWUNKcuoG
-   z7eqqFH1Qg4vOC4zsYu0jXVecxnQ/4O5d1v1zGPo6xueCRDCiQ0bid3YF
-   WgrBhzkvuS7gPVG/2i0TdzvPWu3THHbFfeHcI0wLo+7k9lgtAz9nXcwmL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="371471165"
+  t=1690647290; x=1722183290;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0QQWZDndvU4c08Vtpol4fX/EygzRrbaH6YEIFRTmqOo=;
+  b=GUN8SuW2tdzFTUP9qLupO1A91TXMcONnKNFMori+YvR4kJz4h6H4sp9e
+   WBksPxGppC9ZhnKA4UGr/bpXSd16JaysNrizSko46PFTif1QMApEDSRra
+   PRdyM0kXKEDcX0P9nAC/flkHmk3gnVprPCJ3edkuPFwzA/RW38g4KViHT
+   UF7Os1Wb1YZmOTYLQ9gBW7jaJnqhg1AbPvkcUGU3AEyld8VHvBt8eOUe8
+   VL9eRGIZiTuboDkGKp1pydkho17eLov1IP48STtDeZv9tPwEeDPGRdKoi
+   TP2prYffgTGOH2JdTjVemnm1TEd0GrCX4rLWT4ketR5rDM9ptwQBigXCn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="349073211"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="371471165"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 08:58:05 -0700
+   d="scan'208";a="349073211"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 09:14:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="793225232"
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="677830964"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="793225232"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.213.23.199])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 08:58:02 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <davidgow@google.com>, kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- igt-dev@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: Re: [PATCH 3/3] kunit: Allow kunit test modules to use test filtering
-Date: Sat, 29 Jul 2023 17:57:59 +0200
-Message-ID: <3204833.aV6nBDHxoP@jkrzyszt-mobl2.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <202307290124.BnnhRy8b-lkp@intel.com>
-References:
- <20230728154419.1810177-8-janusz.krzysztofik@linux.intel.com>
- <202307290124.BnnhRy8b-lkp@intel.com>
+   d="scan'208";a="677830964"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 29 Jul 2023 09:14:48 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qPmad-00049r-0K;
+	Sat, 29 Jul 2023 16:14:47 +0000
+Date: Sun, 30 Jul 2023 00:14:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+ 8/127] htmldocs: Warning:
+ Documentation/devicetree/bindings/power/wakeup-source.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+Message-ID: <202307300057.Nu3Bktoo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Friday, 28 July 2023 19:24:55 CEST kernel test robot wrote:
-> >> lib/kunit/executor.c:182:42: warning: declaration of 'struct suite_set' 
-will not be visible outside of this function [-Wvisibility]
->      182 | static void kunit_exec_list_tests(struct suite_set *suite_set)
->          |                                          ^
+tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+head:   7179a80b8df2e202b85c6ee6956876b61464bdc9
+commit: 921b2eea1a2b457c6ba01c33ee273a8f86693293 [8/127] dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
+reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300057.Nu3Bktoo-lkp@intel.com/reproduce)
 
-I've apparently broken this patch while reordering patches in the series.  
-Sorry for submitting that untested.  Please expect v2 soon.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307300057.Nu3Bktoo-lkp@intel.com/
 
-Thanks,
-Janusz
+All warnings (new ones prefixed by >>):
 
+>> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
