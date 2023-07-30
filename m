@@ -1,41 +1,43 @@
-Received: from mgamail.intel.com (unknown [134.134.136.20])
+Received: from mgamail.intel.com (unknown [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C15369;
-	Sun, 30 Jul 2023 11:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864B9363
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Jul 2023 13:34:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690716107; x=1722252107;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=ObR6JzKrAxIQbiL2j7UMR6a22efiB/GVYK6zIj5Nrp0=;
-  b=cSkUNwHzZgk0W8qMWmyUoJf/bLx96dek7ErYrAOz9AZKd0UwH/ppXw2C
-   slc8uV0hr7aql7dTHejkfmyGtZ7M+XEUmD7W29vCW7oBSdveZuDQy8loO
-   lBPqPgE9kCtqhs8wXVDhaWRDEnM29VBaZtFna6Fr/xbSt30SYwKpi8CtD
-   DPh78BuZPMpZfsFDIHpU9CbdXbErJ8JVy+25/yy0h4Y2gs4BYJYT/Auq2
-   nBp5tIfNU7CceQcT2sro9/RKFRA6bA5kLx3YKl3ZbvToIaIxXrpVSo1J0
-   cmln3wEsC2dvwFxNyNt5cOk2I2BKZtS/oIVHcR0hxNabyCoQI/BtQ7uEn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="358870995"
+  t=1690724066; x=1722260066;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y3dz5uA2VWVjyOfQs+NqQIp9p/FGgGgzhIGNlYFIr3I=;
+  b=kVHmiSBMvi8PNgPWu1/oU0QerY4XyvNgTJtSFz5nyAy+NR/nvisLEK1p
+   s0I69+E3LHHT9qEo3tEk0W5obL0bGCeXNqgPIe1B5giEQ91UfNjGHOAlO
+   JnXFepRgdUvjTCDpoEpC3+H7uSQx+ZmLybvhOHUwqhNk7gOkC7SFSBnLK
+   NwhdOuIkNOI/WAYHMmDbey8MAb+Si151/n/etwdcFyLIN99swxAWZA7w4
+   SlU5r/P21FxEZrEPBRPvnVg7E40I46z5oAGKgB32PoFgNrN7V7JdkL1w/
+   H5IshJAduGWKKzyqi+6ydKB6pZ5orETBziIu5cWB+n6iiA8nIOpSIy+Ld
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="399794763"
 X-IronPort-AV: E=Sophos;i="6.01,242,1684825200"; 
-   d="scan'208";a="358870995"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 04:21:46 -0700
+   d="scan'208";a="399794763"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 06:34:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="793408603"
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="841893330"
 X-IronPort-AV: E=Sophos;i="6.01,242,1684825200"; 
-   d="scan'208";a="793408603"
+   d="scan'208";a="841893330"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Jul 2023 04:21:45 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2023 06:34:24 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQ4Ub-0004Z1-0F;
-	Sun, 30 Jul 2023 11:21:45 +0000
-Date: Sun, 30 Jul 2023 19:21:14 +0800
+	id 1qQ6YX-0004bH-2H;
+	Sun, 30 Jul 2023 13:34:10 +0000
+Date: Sun, 30 Jul 2023 21:33:19 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: clang: error: unsupported option '-fsanitize=thread' for target
- 'powerpc-unknown-linux-gnu'
-Message-ID: <202307301929.fDdnJJob-lkp@intel.com>
+To: Andrea Merello <andrea.merello@iit.it>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC] IIO: MPU6050: fix level-triggered IRQ support caused crash
+Message-ID: <202307302126.2umrKegl-lkp@intel.com>
+References: <20230726090212.10641-1-andrea.merello@iit.it>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,40 +46,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230726090212.10641-1-andrea.merello@iit.it>
 
-CC: linux-kernel@vger.kernel.org
-TO: Rohan McLure <rmclure@linux.ibm.com>
-CC: Michael Ellerman <mpe@ellerman.id.au>
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>
+Hi Andrea,
 
-Hi Rohan,
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[auto build test WARNING on v6.5-rc3]
+[also build test WARNING on linus/master]
+[cannot apply to jic23-iio/togreg next-20230728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d31e3792919e5c97d572c8a27a5a7c1eb9de5aca
-commit: 95567f46b4d20c047750a5e3029461afcdc67697 powerpc/{32,book3e}: kcsan: Extend KCSAN Support
-date:   7 weeks ago
-config: powerpc-randconfig-r005-20230730 (https://download.01.org/0day-ci/archive/20230730/202307301929.fDdnJJob-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230730/202307301929.fDdnJJob-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-Merello/IIO-MPU6050-fix-level-triggered-IRQ-support-caused-crash/20230726-172345
+base:   v6.5-rc3
+patch link:    https://lore.kernel.org/r/20230726090212.10641-1-andrea.merello%40iit.it
+patch subject: [RFC] IIO: MPU6050: fix level-triggered IRQ support caused crash
+config: um-randconfig-r091-20230730 (https://download.01.org/0day-ci/archive/20230730/202307302126.2umrKegl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230730/202307302126.2umrKegl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307301929.fDdnJJob-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307302126.2umrKegl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> clang: error: unsupported option '-fsanitize=thread' for target 'powerpc-unknown-linux-gnu'
->> clang: error: unsupported option '-fsanitize=thread' for target 'powerpc-unknown-linux-gnu'
-   make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error 1 shuffle=1218860924
-   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1 shuffle=1218860924
-   make[2]: Target 'scripts/mod/' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2 shuffle=1218860924
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2 shuffle=1218860924
-   make: Target 'prepare' not remade because of errors.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/imu/inv_mpu6050/inv_mpu_trigger.c:220:13: sparse: sparse: symbol 'inv_mpu6050_trigger_irq' was not declared. Should it be static?
+>> drivers/iio/imu/inv_mpu6050/inv_mpu_trigger.c:228:13: sparse: sparse: symbol 'inv_mpu6050_trigger_thread_fn' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
