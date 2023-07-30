@@ -1,269 +1,194 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (unknown [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AAA7FD
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Jul 2023 05:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cTR1YMvV3+LXIWQMsGvqN/d5Gs1kiONs/JYr7hAoopU=;
-  b=sei0jnX3vbl1qQCT/951oCMnVqcW9fruE28sa+mNNZZmduxi9EWYG3ru
-   M7d9eWhPriDt2dm/EZARX0YUTWPhHWSgl+crBLdguZUKcFci6pyOI1apE
-   FcNqGgB/lctu+6TpCqrJ1RNe0FjRmkHfpi8CeUaT20a+g6tX4R7Hy0mOu
-   Y=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,240,1684792800"; 
-   d="scan'208";a="119571879"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 07:46:43 +0200
-Date: Sun, 30 Jul 2023 07:46:43 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: cros-kernel-buildreports@googlegroups.com
-cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:arcvm12-5.10-gki-base 4/12] drivers/virtio/virtio_wl.c:892:31-32:
- WARNING opportunity for kvmalloc (fwd)
-Message-ID: <alpine.DEB.2.22.394.2307300743420.3203@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7913564B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Jul 2023 06:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690697136; x=1722233136;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fZGgkNpe4Vs5ZtR61tU4HYAdIrpmPOXCRFUtY0yqXZQ=;
+  b=hDDcHu/kWON+/9jC2RRqkqvNpda+yoouMi9V11ArqnQnEgPqTZ3kXXpT
+   VJ9rLM61VptRhzWaWHD5SfbBbFyavPaA6Cq3Q4nBfotRqB4tCD+tYNccZ
+   Pj3pFCnPbSAYAAa5McO7cx0Nd0d2Qa1eg33cPOl2IqiJb6JOl3u38Wqwx
+   AcvUywmZ87IuFNQpljEzFw7aqRrwKbsPRkSPMEXOTSeGeTVRkFY3THGc/
+   uH1PngROLlGpfLaLgHu6FJ++/H0t7m+tsOLM9POZNqytIoJNDcsd64n2U
+   Eb6V3HZVThaL+XMuJsBUAhnPZ+ioHyGwk4RMW4dVPjhyR0KMqEpfiw0z1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="358848745"
+X-IronPort-AV: E=Sophos;i="6.01,242,1684825200"; 
+   d="scan'208";a="358848745"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 23:05:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="974523282"
+X-IronPort-AV: E=Sophos;i="6.01,242,1684825200"; 
+   d="scan'208";a="974523282"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 29 Jul 2023 23:05:29 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qPzYW-0004TL-2n;
+	Sun, 30 Jul 2023 06:05:28 +0000
+Date: Sun, 30 Jul 2023 14:05:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>, agross@kernel.org,
+	andersson@kernel.org, konrad.dybcio@linaro.org,
+	mathieu.poirier@linaro.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	mturquette@baylibre.com, sboyd@kernel.org, quic_eberman@quicinc.com,
+	kvalo@kernel.org, loic.poulain@linaro.org,
+	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_srichara@quicinc.com,
+	quic_sjaganat@quicinc.com, quic_kathirav@quicinc.com,
+	quic_anusha@quicinc.com, quic_varada@quicinc.com
+Subject: Re: [PATCH v4 09/11] remoteproc: qcom: Add Hexagon based multipd
+ rproc driver
+Message-ID: <202307301307.LGjSxmY8-lkp@intel.com>
+References: <20230728063412.1641856-10-quic_mmanikan@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230728063412.1641856-10-quic_mmanikan@quicinc.com>
 
-kvmalloc could be used on line 892.  On the other hand, you need the
-vmalloced variable.  This information can be obtained using
-is_vmalloc_addr(addr).  You can decide whether this would be a good idea,
-or whether you prefer the current code.
+Hi Manikanta,
 
-julia
+kernel test robot noticed the following build errors:
 
----------- Forwarded message ----------
-Date: Sun, 30 Jul 2023 07:55:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [android-common:arcvm12-5.10-gki-base 4/12]
-    drivers/virtio/virtio_wl.c:892:31-32: WARNING opportunity for kvmalloc
+[auto build test ERROR on next-20230728]
+[also build test ERROR on v6.5-rc3]
+[cannot apply to remoteproc/rproc-next clk/clk-next robh/for-next linus/master v6.5-rc3 v6.5-rc2 v6.5-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-
-tree:   https://android.googlesource.com/kernel/common arcvm12-5.10-gki-base
-head:   493b9ea1b1db17b6eccedcd2a4cb54b6d10f7a71
-commit: 25cf89572247d2cc441b0bd849a038fb4981720a [4/12] CHROMIUM: virtio-wl: Use vmalloc for larger messages in virtwl_vfd_send().
-:::::: branch date: 2 days ago
-:::::: commit date: 7 weeks ago
-config: i386-randconfig-i052-20230730 (https://download.01.org/0day-ci/archive/20230730/202307300746.EDkNLJDL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300746.EDkNLJDL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Mylavarapu/dt-bindings-remoteproc-qcom-Add-support-for-multipd-model/20230728-160337
+base:   next-20230728
+patch link:    https://lore.kernel.org/r/20230728063412.1641856-10-quic_mmanikan%40quicinc.com
+patch subject: [PATCH v4 09/11] remoteproc: qcom: Add Hexagon based multipd rproc driver
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230730/202307301307.LGjSxmY8-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230730/202307301307.LGjSxmY8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202307300746.EDkNLJDL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307301307.LGjSxmY8-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/virtio/virtio_wl.c:892:31-32: WARNING opportunity for kvmalloc
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +892 drivers/virtio/virtio_wl.c
-
-c57ccf06374bd0 Zach Reizner     2017-08-14  792
-c57ccf06374bd0 Zach Reizner     2017-08-14  793  static int virtwl_vfd_send(struct file *filp, const char __user *buffer,
-c57ccf06374bd0 Zach Reizner     2017-08-14  794  					       u32 len, int *vfd_fds)
-c57ccf06374bd0 Zach Reizner     2017-08-14  795  {
-c57ccf06374bd0 Zach Reizner     2017-08-14  796  	struct virtwl_vfd *vfd = filp->private_data;
-c57ccf06374bd0 Zach Reizner     2017-08-14  797  	struct virtwl_info *vi = vfd->vi;
-c57ccf06374bd0 Zach Reizner     2017-08-14  798  	struct fd vfd_files[VIRTWL_SEND_MAX_ALLOCS] = { { 0 } };
-c57ccf06374bd0 Zach Reizner     2017-08-14  799  	struct virtwl_vfd *vfds[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
-c57ccf06374bd0 Zach Reizner     2017-08-14  800  #ifdef SEND_VIRTGPU_RESOURCES
-c57ccf06374bd0 Zach Reizner     2017-08-14  801  	struct dma_buf *virtgpu_dma_bufs[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
-84f65ea7620d8a David Stevens    2020-04-22  802  	struct dma_fence *virtgpu_dma_fence[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
-c57ccf06374bd0 Zach Reizner     2017-08-14  803  	bool foreign_id = false;
-c57ccf06374bd0 Zach Reizner     2017-08-14  804  #endif
-c57ccf06374bd0 Zach Reizner     2017-08-14  805  	size_t vfd_count = 0;
-c57ccf06374bd0 Zach Reizner     2017-08-14  806  	size_t vfd_ids_size;
-c57ccf06374bd0 Zach Reizner     2017-08-14  807  	size_t ctrl_send_size;
-c57ccf06374bd0 Zach Reizner     2017-08-14  808  	struct virtio_wl_ctrl_vfd_send *ctrl_send;
-c57ccf06374bd0 Zach Reizner     2017-08-14  809  	u8 *vfd_ids;
-c57ccf06374bd0 Zach Reizner     2017-08-14  810  	u8 *out_buffer;
-c57ccf06374bd0 Zach Reizner     2017-08-14  811  	struct completion finish_completion;
-c57ccf06374bd0 Zach Reizner     2017-08-14  812  	struct scatterlist out_sg;
-c57ccf06374bd0 Zach Reizner     2017-08-14  813  	struct scatterlist in_sg;
-25cf89572247d2 Suleiman Souhlal 2021-06-08  814  	struct sg_table sgt;
-25cf89572247d2 Suleiman Souhlal 2021-06-08  815  	struct vm_struct *area;
-25cf89572247d2 Suleiman Souhlal 2021-06-08  816  	bool vmalloced;
-c57ccf06374bd0 Zach Reizner     2017-08-14  817  	int ret;
-c57ccf06374bd0 Zach Reizner     2017-08-14  818  	int i;
-c57ccf06374bd0 Zach Reizner     2017-08-14  819
-c57ccf06374bd0 Zach Reizner     2017-08-14  820  	if (vfd_fds) {
-c57ccf06374bd0 Zach Reizner     2017-08-14  821  		for (i = 0; i < VIRTWL_SEND_MAX_ALLOCS; i++) {
-c57ccf06374bd0 Zach Reizner     2017-08-14  822  			struct fd vfd_file;
-c57ccf06374bd0 Zach Reizner     2017-08-14  823  			int fd = vfd_fds[i];
-c57ccf06374bd0 Zach Reizner     2017-08-14  824
-c57ccf06374bd0 Zach Reizner     2017-08-14  825  			if (fd < 0)
-c57ccf06374bd0 Zach Reizner     2017-08-14  826  				break;
-c57ccf06374bd0 Zach Reizner     2017-08-14  827
-c57ccf06374bd0 Zach Reizner     2017-08-14  828  			vfd_file = fdget(vfd_fds[i]);
-c57ccf06374bd0 Zach Reizner     2017-08-14  829  			if (!vfd_file.file) {
-c57ccf06374bd0 Zach Reizner     2017-08-14  830  				ret = -EBADFD;
-c57ccf06374bd0 Zach Reizner     2017-08-14  831  				goto put_files;
-c57ccf06374bd0 Zach Reizner     2017-08-14  832  			}
-c57ccf06374bd0 Zach Reizner     2017-08-14  833
-c57ccf06374bd0 Zach Reizner     2017-08-14  834  			if (vfd_file.file->f_op == &virtwl_vfd_fops) {
-c57ccf06374bd0 Zach Reizner     2017-08-14  835  				vfd_files[i] = vfd_file;
-c57ccf06374bd0 Zach Reizner     2017-08-14  836
-c57ccf06374bd0 Zach Reizner     2017-08-14  837  				vfds[i] = vfd_file.file->private_data;
-c57ccf06374bd0 Zach Reizner     2017-08-14  838  				if (vfds[i] && vfds[i]->id) {
-c57ccf06374bd0 Zach Reizner     2017-08-14  839  					vfd_count++;
-c57ccf06374bd0 Zach Reizner     2017-08-14  840  					continue;
-c57ccf06374bd0 Zach Reizner     2017-08-14  841  				}
-c57ccf06374bd0 Zach Reizner     2017-08-14  842
-c57ccf06374bd0 Zach Reizner     2017-08-14  843  				ret = -EINVAL;
-c57ccf06374bd0 Zach Reizner     2017-08-14  844  				goto put_files;
-c57ccf06374bd0 Zach Reizner     2017-08-14  845  			} else {
-c57ccf06374bd0 Zach Reizner     2017-08-14  846  				struct dma_buf *dma_buf = ERR_PTR(-EINVAL);
-84f65ea7620d8a David Stevens    2020-04-22  847  				struct dma_fence *dma_fence = ERR_PTR(-EINVAL);
-84f65ea7620d8a David Stevens    2020-04-22  848  				bool handled = false;
-84f65ea7620d8a David Stevens    2020-04-22  849
-c57ccf06374bd0 Zach Reizner     2017-08-14  850  #ifdef SEND_VIRTGPU_RESOURCES
-c57ccf06374bd0 Zach Reizner     2017-08-14  851  				dma_buf = dma_buf_get(vfd_fds[i]);
-84f65ea7620d8a David Stevens    2020-04-22  852  				dma_fence = vi->use_send_vfd_v2
-84f65ea7620d8a David Stevens    2020-04-22  853  					? sync_file_get_fence(vfd_fds[i])
-84f65ea7620d8a David Stevens    2020-04-22  854  					: ERR_PTR(-EINVAL);
-84f65ea7620d8a David Stevens    2020-04-22  855  				handled = !IS_ERR(dma_buf) ||
-84f65ea7620d8a David Stevens    2020-04-22  856  					  !IS_ERR(dma_fence);
-84f65ea7620d8a David Stevens    2020-04-22  857
-c57ccf06374bd0 Zach Reizner     2017-08-14  858  				if (!IS_ERR(dma_buf)) {
-c57ccf06374bd0 Zach Reizner     2017-08-14  859  					virtgpu_dma_bufs[i] = dma_buf;
-84f65ea7620d8a David Stevens    2020-04-22  860  				} else {
-84f65ea7620d8a David Stevens    2020-04-22  861  					virtgpu_dma_fence[i] = dma_fence;
-84f65ea7620d8a David Stevens    2020-04-22  862  				}
-84f65ea7620d8a David Stevens    2020-04-22  863
-c57ccf06374bd0 Zach Reizner     2017-08-14  864  				foreign_id = true;
-c57ccf06374bd0 Zach Reizner     2017-08-14  865  				vfd_count++;
-c57ccf06374bd0 Zach Reizner     2017-08-14  866  #endif
-c57ccf06374bd0 Zach Reizner     2017-08-14  867  				fdput(vfd_file);
-84f65ea7620d8a David Stevens    2020-04-22  868  				if (!handled) {
-84f65ea7620d8a David Stevens    2020-04-22  869  					ret = IS_ERR(dma_buf) ?
-84f65ea7620d8a David Stevens    2020-04-22  870  						PTR_ERR(dma_buf) :
-84f65ea7620d8a David Stevens    2020-04-22  871  						PTR_ERR(dma_fence);
-c57ccf06374bd0 Zach Reizner     2017-08-14  872  					goto put_files;
-c57ccf06374bd0 Zach Reizner     2017-08-14  873  				}
-c57ccf06374bd0 Zach Reizner     2017-08-14  874  			}
-c57ccf06374bd0 Zach Reizner     2017-08-14  875  		}
-84f65ea7620d8a David Stevens    2020-04-22  876  	}
-c57ccf06374bd0 Zach Reizner     2017-08-14  877
-c57ccf06374bd0 Zach Reizner     2017-08-14  878  	/* Empty writes always succeed. */
-c57ccf06374bd0 Zach Reizner     2017-08-14  879  	if (len == 0 && vfd_count == 0)
-c57ccf06374bd0 Zach Reizner     2017-08-14  880  		return 0;
-c57ccf06374bd0 Zach Reizner     2017-08-14  881
-c57ccf06374bd0 Zach Reizner     2017-08-14  882  	vfd_ids_size = vfd_count * sizeof(__le32);
-c57ccf06374bd0 Zach Reizner     2017-08-14  883  #ifdef SEND_VIRTGPU_RESOURCES
-c57ccf06374bd0 Zach Reizner     2017-08-14  884  	if (foreign_id) {
-84f65ea7620d8a David Stevens    2020-04-22  885  		vfd_ids_size = vfd_count * (vi->use_send_vfd_v2
-84f65ea7620d8a David Stevens    2020-04-22  886  			? sizeof(struct virtio_wl_ctrl_vfd_send_vfd_v2)
-84f65ea7620d8a David Stevens    2020-04-22  887  			: sizeof(struct virtio_wl_ctrl_vfd_send_vfd));
-c57ccf06374bd0 Zach Reizner     2017-08-14  888  	}
-c57ccf06374bd0 Zach Reizner     2017-08-14  889  #endif
-c57ccf06374bd0 Zach Reizner     2017-08-14  890  	ctrl_send_size = sizeof(*ctrl_send) + vfd_ids_size + len;
-25cf89572247d2 Suleiman Souhlal 2021-06-08  891  	vmalloced = false;
-25cf89572247d2 Suleiman Souhlal 2021-06-08 @892  	if (ctrl_send_size < PAGE_SIZE)
-c57ccf06374bd0 Zach Reizner     2017-08-14  893  		ctrl_send = kzalloc(ctrl_send_size, GFP_KERNEL);
-25cf89572247d2 Suleiman Souhlal 2021-06-08  894  	else {
-25cf89572247d2 Suleiman Souhlal 2021-06-08  895  		vmalloced = true;
-25cf89572247d2 Suleiman Souhlal 2021-06-08  896  		ctrl_send = vzalloc(ctrl_send_size);
-25cf89572247d2 Suleiman Souhlal 2021-06-08  897  	}
-c57ccf06374bd0 Zach Reizner     2017-08-14  898  	if (!ctrl_send) {
-c57ccf06374bd0 Zach Reizner     2017-08-14  899  		ret = -ENOMEM;
-c57ccf06374bd0 Zach Reizner     2017-08-14  900  		goto put_files;
-c57ccf06374bd0 Zach Reizner     2017-08-14  901  	}
-c57ccf06374bd0 Zach Reizner     2017-08-14  902
-c57ccf06374bd0 Zach Reizner     2017-08-14  903  	vfd_ids = (u8 *)ctrl_send + sizeof(*ctrl_send);
-c57ccf06374bd0 Zach Reizner     2017-08-14  904  	out_buffer = (u8 *)ctrl_send + ctrl_send_size - len;
-c57ccf06374bd0 Zach Reizner     2017-08-14  905
-c57ccf06374bd0 Zach Reizner     2017-08-14  906  	ctrl_send->hdr.type = VIRTIO_WL_CMD_VFD_SEND;
-c57ccf06374bd0 Zach Reizner     2017-08-14  907  #ifdef SEND_VIRTGPU_RESOURCES
-c57ccf06374bd0 Zach Reizner     2017-08-14  908  	if (foreign_id) {
-84f65ea7620d8a David Stevens    2020-04-22  909  		struct virtio_wl_ctrl_vfd_send_vfd *v1 = NULL;
-84f65ea7620d8a David Stevens    2020-04-22  910  		struct virtio_wl_ctrl_vfd_send_vfd_v2 *v2 = NULL;
-84f65ea7620d8a David Stevens    2020-04-22  911
-84f65ea7620d8a David Stevens    2020-04-22  912  		if (vi->use_send_vfd_v2)
-84f65ea7620d8a David Stevens    2020-04-22  913  			v2 = (struct virtio_wl_ctrl_vfd_send_vfd_v2 *) vfd_ids;
-84f65ea7620d8a David Stevens    2020-04-22  914  		else
-84f65ea7620d8a David Stevens    2020-04-22  915  			v1 = (struct virtio_wl_ctrl_vfd_send_vfd *) vfd_ids;
-84f65ea7620d8a David Stevens    2020-04-22  916
-c57ccf06374bd0 Zach Reizner     2017-08-14  917  		ctrl_send->hdr.type = VIRTIO_WL_CMD_VFD_SEND_FOREIGN_ID;
-84f65ea7620d8a David Stevens    2020-04-22  918  		ret = encode_vfd_ids_foreign(vfds,
-84f65ea7620d8a David Stevens    2020-04-22  919  			virtgpu_dma_bufs, virtgpu_dma_fence, vfd_count,
-84f65ea7620d8a David Stevens    2020-04-22  920  			v1, v2);
-c57ccf06374bd0 Zach Reizner     2017-08-14  921  	} else {
-c57ccf06374bd0 Zach Reizner     2017-08-14  922  		ret = encode_vfd_ids(vfds, vfd_count, (__le32 *)vfd_ids);
-c57ccf06374bd0 Zach Reizner     2017-08-14  923  	}
-c57ccf06374bd0 Zach Reizner     2017-08-14  924  #else
-c57ccf06374bd0 Zach Reizner     2017-08-14  925  	ret = encode_vfd_ids(vfds, vfd_count, (__le32 *)vfd_ids);
-c57ccf06374bd0 Zach Reizner     2017-08-14  926  #endif
-c57ccf06374bd0 Zach Reizner     2017-08-14  927  	if (ret)
-c57ccf06374bd0 Zach Reizner     2017-08-14  928  		goto free_ctrl_send;
-c57ccf06374bd0 Zach Reizner     2017-08-14  929  	ctrl_send->vfd_id = vfd->id;
-c57ccf06374bd0 Zach Reizner     2017-08-14  930  	ctrl_send->vfd_count = vfd_count;
-c57ccf06374bd0 Zach Reizner     2017-08-14  931
-c57ccf06374bd0 Zach Reizner     2017-08-14  932  	if (copy_from_user(out_buffer, buffer, len)) {
-c57ccf06374bd0 Zach Reizner     2017-08-14  933  		ret = -EFAULT;
-c57ccf06374bd0 Zach Reizner     2017-08-14  934  		goto free_ctrl_send;
-c57ccf06374bd0 Zach Reizner     2017-08-14  935  	}
-c57ccf06374bd0 Zach Reizner     2017-08-14  936
-c57ccf06374bd0 Zach Reizner     2017-08-14  937  	init_completion(&finish_completion);
-25cf89572247d2 Suleiman Souhlal 2021-06-08  938  	if (!vmalloced) {
-c57ccf06374bd0 Zach Reizner     2017-08-14  939  		sg_init_one(&out_sg, ctrl_send, ctrl_send_size);
-25cf89572247d2 Suleiman Souhlal 2021-06-08  940  		sg_init_one(&in_sg, ctrl_send,
-25cf89572247d2 Suleiman Souhlal 2021-06-08  941  		    sizeof(struct virtio_wl_ctrl_hdr));
-c57ccf06374bd0 Zach Reizner     2017-08-14  942  		ret = vq_queue_out(vi, &out_sg, &in_sg, &finish_completion,
-c57ccf06374bd0 Zach Reizner     2017-08-14  943  		    filp->f_flags & O_NONBLOCK);
-25cf89572247d2 Suleiman Souhlal 2021-06-08  944  	} else {
-25cf89572247d2 Suleiman Souhlal 2021-06-08  945  		area = find_vm_area(ctrl_send);
-25cf89572247d2 Suleiman Souhlal 2021-06-08  946  		ret = sg_alloc_table_from_pages(&sgt, area->pages,
-25cf89572247d2 Suleiman Souhlal 2021-06-08  947  		    area->nr_pages, 0, ctrl_send_size, GFP_KERNEL);
-c57ccf06374bd0 Zach Reizner     2017-08-14  948  		if (ret)
-c57ccf06374bd0 Zach Reizner     2017-08-14  949  			goto free_ctrl_send;
-c57ccf06374bd0 Zach Reizner     2017-08-14  950
-25cf89572247d2 Suleiman Souhlal 2021-06-08  951  		sg_init_table(&in_sg, 1);
-25cf89572247d2 Suleiman Souhlal 2021-06-08  952  		sg_set_page(&in_sg, area->pages[0],
-25cf89572247d2 Suleiman Souhlal 2021-06-08  953  		    sizeof(struct virtio_wl_ctrl_hdr), 0);
-25cf89572247d2 Suleiman Souhlal 2021-06-08  954
-25cf89572247d2 Suleiman Souhlal 2021-06-08  955  		ret = vq_queue_out(vi, sgt.sgl, &in_sg, &finish_completion,
-25cf89572247d2 Suleiman Souhlal 2021-06-08  956  		    filp->f_flags & O_NONBLOCK);
-25cf89572247d2 Suleiman Souhlal 2021-06-08  957  	}
-25cf89572247d2 Suleiman Souhlal 2021-06-08  958  	if (ret)
-25cf89572247d2 Suleiman Souhlal 2021-06-08  959  		goto free_sgt;
-25cf89572247d2 Suleiman Souhlal 2021-06-08  960
-c57ccf06374bd0 Zach Reizner     2017-08-14  961  	wait_for_completion(&finish_completion);
-c57ccf06374bd0 Zach Reizner     2017-08-14  962
-c57ccf06374bd0 Zach Reizner     2017-08-14  963  	ret = virtwl_resp_err(ctrl_send->hdr.type);
-c57ccf06374bd0 Zach Reizner     2017-08-14  964
-25cf89572247d2 Suleiman Souhlal 2021-06-08  965  free_sgt:
-25cf89572247d2 Suleiman Souhlal 2021-06-08  966  	if (vmalloced)
-25cf89572247d2 Suleiman Souhlal 2021-06-08  967  		sg_free_table(&sgt);
-c57ccf06374bd0 Zach Reizner     2017-08-14  968  free_ctrl_send:
-25cf89572247d2 Suleiman Souhlal 2021-06-08  969  	kvfree(ctrl_send);
-c57ccf06374bd0 Zach Reizner     2017-08-14  970  put_files:
-c57ccf06374bd0 Zach Reizner     2017-08-14  971  	for (i = 0; i < VIRTWL_SEND_MAX_ALLOCS; i++) {
-c57ccf06374bd0 Zach Reizner     2017-08-14  972  		if (vfd_files[i].file)
-c57ccf06374bd0 Zach Reizner     2017-08-14  973  			fdput(vfd_files[i]);
-c57ccf06374bd0 Zach Reizner     2017-08-14  974  #ifdef SEND_VIRTGPU_RESOURCES
-c57ccf06374bd0 Zach Reizner     2017-08-14  975  		if (virtgpu_dma_bufs[i])
-c57ccf06374bd0 Zach Reizner     2017-08-14  976  			dma_buf_put(virtgpu_dma_bufs[i]);
-84f65ea7620d8a David Stevens    2020-04-22  977  		if (virtgpu_dma_fence[i])
-84f65ea7620d8a David Stevens    2020-04-22  978  			dma_fence_put(virtgpu_dma_fence[i]);
-c57ccf06374bd0 Zach Reizner     2017-08-14  979  #endif
-c57ccf06374bd0 Zach Reizner     2017-08-14  980  	}
-c57ccf06374bd0 Zach Reizner     2017-08-14  981  	return ret;
-c57ccf06374bd0 Zach Reizner     2017-08-14  982  }
-c57ccf06374bd0 Zach Reizner     2017-08-14  983
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
+>> ERROR: modpost: "q6v5_fatal_interrupt" [drivers/remoteproc/qcom_q6v5_mpd.ko] undefined!
+>> ERROR: modpost: "q6v5_ready_interrupt" [drivers/remoteproc/qcom_q6v5_mpd.ko] undefined!
+>> ERROR: modpost: "q6v5_stop_interrupt" [drivers/remoteproc/qcom_q6v5_mpd.ko] undefined!
+>> ERROR: modpost: "q6v5_spawn_interrupt" [drivers/remoteproc/qcom_q6v5_mpd.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
