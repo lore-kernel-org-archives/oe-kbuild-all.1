@@ -1,43 +1,48 @@
-Received: from mgamail.intel.com (unknown [192.55.52.88])
+Received: from mgamail.intel.com (unknown [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4881FDA;
-	Sun, 30 Jul 2023 18:42:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DFA14F6B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Jul 2023 19:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690742575; x=1722278575;
+  t=1690745629; x=1722281629;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3fbJTRy58WzCreIvObfz1pyeiAINqRH2l7m+JVJJejk=;
-  b=Z84YIw94zXaQntaacoTY/xaiBBR9LyC/Lwl7vVz0BuJ2tMU9NQd0LqmU
-   tkWdw3MhOwOS1Q0rGMWDxiviukHaEd5SSUYDAI9ZOk9rm/W0n6haQ9Oh4
-   Kj0qxfYeNHmiHAHlNpw/XmgM8eD8AhTFW7Ff8IfgiGmMK2XThIt3IlSYv
-   Z2I3n7+el3+mmmX3/whAGvHyoF6JiMwniaAEvciHw8MwNbbY6lxycsz1s
-   dQCwtRJUXkkh3+uHAqRNzMEIRw2+aGJEZzaepsgsf6Syafg/k8jXrlv2z
-   D5VD39ojTqVOK+HW8tAfebv5r5LHFjgUIaW5CBUYFJt4C1R5bgiEaK9lu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="399819357"
+  bh=S67jVmUCAunF8JsytsqO9gyKo71S+VkEoVn6n4arx8A=;
+  b=LLgYsq5lWC3Vee0gvo/M402DejICjEY77YBlryYuvgZNsX7gEuMmRlF9
+   9KrGvYfjzNVqmbITS2GRMc+uKD8byITzQJ+nlsmvXNonjmeHsabcxnKwF
+   QbXvzoWptOeeW0qkDWcgudTSawhl2SEEtwpxgKnXrEeimDe49vRXPIwoG
+   uhkiuZb8cK0o5foiBvC0paOneDY9qVVLOtSmz4DBLSA9H6ZNkDTLAyzWM
+   8gxMJ69VBE20YjA9OTec982TEiBvf5aW2r3qqIFJ4DpxDDPP3S2phhd/Q
+   CVfn67eagH9BYTS0kTEAfz96zp+rt0CkDHkJ8Etlzteqm18sdjTe0Havc
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="455244755"
 X-IronPort-AV: E=Sophos;i="6.01,242,1684825200"; 
-   d="scan'208";a="399819357"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 11:42:54 -0700
+   d="scan'208";a="455244755"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 12:33:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="871392689"
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="851805916"
+X-IronPort-AV: E=Sophos;i="6.01,242,1684825200"; 
+   d="scan'208";a="851805916"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2023 11:42:55 -0700
+  by orsmga004.jf.intel.com with ESMTP; 30 Jul 2023 12:33:44 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQBNU-0004jj-0K;
-	Sun, 30 Jul 2023 18:42:52 +0000
-Date: Mon, 31 Jul 2023 02:42:34 +0800
+	id 1qQCAi-0004kh-0E;
+	Sun, 30 Jul 2023 19:33:44 +0000
+Date: Mon, 31 Jul 2023 03:33:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maximilian Luz <luzmaximilian@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 2/3] firmware: qcom_scm: Add support for Qualcomm
- Secure Execution Environment SCM interface
-Message-ID: <202307310258.hnVz1dfE-lkp@intel.com>
-References: <20230730161906.606163-3-luzmaximilian@gmail.com>
+To: Usama Arif <usama.arif@bytedance.com>, linux-mm@kvack.org,
+	muchun.song@linux.dev, mike.kravetz@oracle.com, rppt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	fam.zheng@bytedance.com, liangma@liangbit.com,
+	simon.evans@bytedance.com, punit.agrawal@bytedance.com,
+	Usama Arif <usama.arif@bytedance.com>
+Subject: Re: [v2 6/6] mm: hugetlb: Skip initialization of struct pages freed
+ later by HVO
+Message-ID: <202307310358.frHhrM7f-lkp@intel.com>
+References: <20230730151606.2871391-7-usama.arif@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,164 +51,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230730161906.606163-3-luzmaximilian@gmail.com>
+In-Reply-To: <20230730151606.2871391-7-usama.arif@bytedance.com>
 
-Hi Maximilian,
+Hi Usama,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.5-rc3 next-20230728]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Luz/lib-ucs2_string-Add-UCS-2-strscpy-function/20230731-002132
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230730161906.606163-3-luzmaximilian%40gmail.com
-patch subject: [PATCH v5 2/3] firmware: qcom_scm: Add support for Qualcomm Secure Execution Environment SCM interface
-config: riscv-randconfig-r022-20230731 (https://download.01.org/0day-ci/archive/20230731/202307310258.hnVz1dfE-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307310258.hnVz1dfE-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/mm-hugetlb-Skip-prep-of-tail-pages-when-HVO-is-enabled/20230730-231750
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230730151606.2871391-7-usama.arif%40bytedance.com
+patch subject: [v2 6/6] mm: hugetlb: Skip initialization of struct pages freed later by HVO
+config: riscv-randconfig-r014-20230730 (https://download.01.org/0day-ci/archive/20230731/202307310358.frHhrM7f-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230731/202307310358.frHhrM7f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307310258.hnVz1dfE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307310358.frHhrM7f-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/misc/fastrpc.c:7:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/misc/fastrpc.c:7:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     743 |         insb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/misc/fastrpc.c:7:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     751 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/misc/fastrpc.c:7:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     759 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/misc/fastrpc.c:7:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     768 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/misc/fastrpc.c:7:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     777 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/misc/fastrpc.c:7:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     786 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/misc/fastrpc.c:7:
-   In file included from include/linux/dma-buf.h:16:
-   In file included from include/linux/iosys-map.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1134 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   In file included from drivers/misc/fastrpc.c:21:
->> include/linux/firmware/qcom/qcom_scm.h:133:5: warning: no previous prototype for function 'qcom_scm_qseecom_app_get_id' [-Wmissing-prototypes]
-     133 | int qcom_scm_qseecom_app_get_id(const char *app_name, u32 *app_id)
-         |     ^
-   include/linux/firmware/qcom/qcom_scm.h:133:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     133 | int qcom_scm_qseecom_app_get_id(const char *app_name, u32 *app_id)
-         | ^
-         | static 
->> include/linux/firmware/qcom/qcom_scm.h:138:5: warning: no previous prototype for function 'qcom_scm_qseecom_app_send' [-Wmissing-prototypes]
-     138 | int qcom_scm_qseecom_app_send(u32 app_id, void *req, size_t req_size, void *rsp,
-         |     ^
-   include/linux/firmware/qcom/qcom_scm.h:138:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     138 | int qcom_scm_qseecom_app_send(u32 app_id, void *req, size_t req_size, void *rsp,
-         | ^
-         | static 
-   15 warnings generated.
-
-
-vim +/qcom_scm_qseecom_app_get_id +133 include/linux/firmware/qcom/qcom_scm.h
-
-   132	
- > 133	int qcom_scm_qseecom_app_get_id(const char *app_name, u32 *app_id)
-   134	{
-   135		return -EINVAL;
-   136	}
-   137	
- > 138	int qcom_scm_qseecom_app_send(u32 app_id, void *req, size_t req_size, void *rsp,
-   139				      size_t rsp_size)
-   140	{
-   141		return -EINVAL;
-   142	}
-   143	
+   riscv64-linux-ld: mm/hugetlb.o: in function `.LVL1074':
+>> hugetlb.c:(.init.text+0xf4): undefined reference to `vmemmap_optimize_enabled'
+   riscv64-linux-ld: mm/hugetlb.o: in function `.LVL1075':
+   hugetlb.c:(.init.text+0xf8): undefined reference to `vmemmap_optimize_enabled'
+   riscv64-linux-ld: mm/hugetlb.o: in function `.L0 ':
+   hugetlb.c:(.init.text+0x16e): undefined reference to `vmemmap_optimize_enabled'
+>> riscv64-linux-ld: hugetlb.c:(.init.text+0x172): undefined reference to `vmemmap_optimize_enabled'
 
 -- 
 0-DAY CI Kernel Test Service
