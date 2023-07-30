@@ -1,303 +1,161 @@
-Received: from mgamail.intel.com (unknown [192.55.52.43])
+Received: from mgamail.intel.com (unknown [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFBFE565;
-	Sun, 30 Jul 2023 17:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223E8E565
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Jul 2023 17:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690738910; x=1722274910;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3/IvuaZiw1J2Iu62MLuZEpUdgtbNY4eoQTSeAszgu3o=;
-  b=HV628HjpF/m8jzq09UrGyjsF4gPISrDvuAwC0b7OGtjy2KElfxVR8Bl2
-   DA/B4mK4jwFHoFwAvO6mUr5fJGCuX5QX5zbamGBfbckUakliqA7cw/psg
-   Udq06XYRWlcHpUgVjFY1XflCx2p07xxQm5uJL/978O1TWIiRWD2mjQy4M
-   +UyLwmsKIz1E7UJVqO2SDeMomaMIpsvXKuOFWXovpuFe5ZzXj6PFYPuLc
-   QZfbPskWkT3gpIgPyeTKgf88CQXjC7itGgNePR2coT4houN5573egZSob
-   fbEexCVCy2HMrOfngXnHlxpvTwajWnFjhLkeBLFpiEnI/t7TxyhFJaolG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="455235214"
+  t=1690739200; x=1722275200;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=eAJaSkAChynKE4gOAwYxOwtGsW24N7yRZED4KOGAT4w=;
+  b=iSkqbJduB6yRf5hlaaXKJICTddNSMkhqem3A3/MKK2iSEJE/7HY+lMpC
+   CtZ3BMoa4IefiKRFJtAFqCUx5Kf9UeIwlTIEfH6hMlCvUFCqH+mXtCZJ+
+   07gRbv1g+kDFCsb+mkkFriwaa+zzQgbt1CLbNpf5rM0ISifV9j0Fv6xQz
+   FdJ8ESVjET5eErXRb5e4lrAkFt5Ta3Ikd77AYELn21f2NzT6Ls9ztSkC2
+   g9z/k8tWWYcxWguBC8Q0aq8gEvBXYe+wlcDe4ipXJUMUc8JEe2At0ozOP
+   igVKupV/S3ki2iFcwJQncIX+uxJ+CuQZOBmtu05hPH85HqeHyCZkrxLtb
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="366343198"
 X-IronPort-AV: E=Sophos;i="6.01,242,1684825200"; 
-   d="scan'208";a="455235214"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 10:41:49 -0700
+   d="scan'208";a="366343198"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 10:46:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="974640969"
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="793462026"
 X-IronPort-AV: E=Sophos;i="6.01,242,1684825200"; 
-   d="scan'208";a="974640969"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Jul 2023 10:41:48 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qQAQN-0004if-27;
-	Sun, 30 Jul 2023 17:41:47 +0000
-Date: Mon, 31 Jul 2023 01:40:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Subject: [chao:dev-test 4/8] fs/f2fs/gc.c:1843:4: error: call to undeclared
- function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202307310126.tGW78dZh-lkp@intel.com>
+   d="scan'208";a="793462026"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga008.fm.intel.com with ESMTP; 30 Jul 2023 10:46:39 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Sun, 30 Jul 2023 10:46:38 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Sun, 30 Jul 2023 10:46:38 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.170)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Sun, 30 Jul 2023 10:46:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D/c1UxreBtI6WxxR7xfoV6v4hLngNWKyy+n7nS/yDjAxShJx3szviy7U9Qh246/awIy5s68abDdPUVIh778H4mR3GZeOig0UeN4BOcq5iHYMDsqoTIDEr+OZ2o5xKtad0aHlYCFCTciU+w6I1exMe0ODLEmL3PMllSqfAwA+B8KJH8zIsj+6r8osNsDKq+IeY/dBnVufwRXD0MZ6O9mUar4/4mKH39bhrplkvpq9tUEgHOxmHN8o+gJ4Qq4jk8FO8Fd7XOjclvDqgPClLATWbdCUHp4oOYZbUQLGHuCt15XPk9yNUCyJV3JhXenNoPQoNsNTwg09/xyVP3CWLo4RNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=adxlE8vkQtRr2nAj3dlB1q5iiqfPqbO0ogMfojQ1Mto=;
+ b=TfQ6wJNpLyYQhEqs7OGbYavMtU0Cbd9NFdyLLFjqM/STMn2itBDr4HEZ/YSPL/rev7ntiyXIdrYqISYyGw2Cmg81edLdXziEvtmkJqO1ou+9eXKzUesfL2dOCPwZiBLXLsqa9+wFZ91yKuXe45ecfmk+JkJ16SO0KFq4vKWphVKuyYGQW/QHzuU5BK7jVauAWYiv1bLOtp/fJ8Y6vZm2k+0sDp29ua7ZxtWkN8GFHTUO4wfvv6aFSE690ybi4iGIjYt2zX9imjFsFwJqX1VfqHqWfdoEki+tX9yLTscy6KT29VerouQQEr1Q1rj1UYwlvHdibdC+uxS8jGEMUIJhaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN2PR11MB4093.namprd11.prod.outlook.com (2603:10b6:208:13f::21)
+ by DS0PR11MB7285.namprd11.prod.outlook.com (2603:10b6:8:13d::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.42; Sun, 30 Jul
+ 2023 17:46:32 +0000
+Received: from MN2PR11MB4093.namprd11.prod.outlook.com
+ ([fe80::63d1:e2f7:dd1f:c047]) by MN2PR11MB4093.namprd11.prod.outlook.com
+ ([fe80::63d1:e2f7:dd1f:c047%7]) with mapi id 15.20.6631.042; Sun, 30 Jul 2023
+ 17:46:31 +0000
+From: "Winkler, Tomas" <tomas.winkler@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, lkp <lkp@intel.com>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
+Subject: RE: [char-misc:char-misc-testing 5/9]
+ include/linux/moduleparam.h:24:9: error: expected ',' or ';' before 'static'
+Thread-Topic: [char-misc:char-misc-testing 5/9]
+ include/linux/moduleparam.h:24:9: error: expected ',' or ';' before 'static'
+Thread-Index: AQHZwv1KfoymJ7tzl0yFE+zsOMZxSq/SfAiAgAABRQCAABNycA==
+Date: Sun, 30 Jul 2023 17:46:31 +0000
+Message-ID: <MN2PR11MB4093128DC829C1BA6AFA3F68E504A@MN2PR11MB4093.namprd11.prod.outlook.com>
+References: <202307302340.4uDUBI3T-lkp@intel.com>
+ <2023073042-reroute-handball-d944@gregkh>
+ <2023073031-hypnosis-laborer-4ebb@gregkh>
+In-Reply-To: <2023073031-hypnosis-laborer-4ebb@gregkh>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR11MB4093:EE_|DS0PR11MB7285:EE_
+x-ms-office365-filtering-correlation-id: c17fc9a5-45a5-41c0-c265-08db9124e8cf
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 6k8drf0Hfa1F7EObQ2kJ2usNxgP+sPMO1t1mt2Y9QnDtGkkYD/JBL6rstB/wHIaqVVpDeDbFFlWF+l+f30qhMCTqGa5J0VdffqEGYfPqPqULLbaRlXHa9haq8nVCHWpjibFwyp0kFBfelOjMXr8O65sDOG0UeTV69p/tqpKIARZHrmPjx6FLIYSgkaKgiyduDa0YaBuqUQIT17Fx/+cWCEKE2dwPMxa5tuBByi3Fw97BeX/mxZk3Fb/YCZt7e4HpJmj06ZI1u5i0d4sCe7rvM6kVrP2B8iIVnVnPb/gmVyS0qyV549gDZdUgJIuwYKJv1wkWzUnVkVR0Ml6bORKr2IK/rtQRKKB6jFc+vWxa8xivr53Rkyfvd6DhORapJhU6RbjT/cPKKr7EO+vSraNEJ4N0vHzHSRUBIj0672ipL/nYE01PmuskIRVjbVVc4+6tJAiSssEK0HCmBKUQtfa5WKJA3V3WCDpNZmrBPpxYIMBidOngo7GFzSWWCqNIhZftawYMwHDesICDI6KDnHlCgxrXmm33xLMwee+H/HfasNkrxbYbMhQ2WsjPnkheAH9YwGvs5jy7XALUjnv/s6rPHh43fnFivoeI6JXow3tHKYo=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB4093.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(39860400002)(136003)(376002)(366004)(346002)(451199021)(38100700002)(82960400001)(122000001)(55016003)(86362001)(38070700005)(33656002)(9686003)(966005)(478600001)(71200400001)(7696005)(53546011)(186003)(6506007)(26005)(8676002)(8936002)(5660300002)(52536014)(76116006)(66946007)(66556008)(66476007)(2906002)(66446008)(64756008)(110136005)(41300700001)(316002)(4744005)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?G77ypGSDzw6JTV3W+iohQjhjfiQtijQOOkOGcK6mFEFWos1Tm2Wn1gZ3n+x2?=
+ =?us-ascii?Q?rdSomeWZ66m6NMYKyzxRtP+rjV13sqG0K3QdGbgV17FKCZtKwEA38xHeH0Cl?=
+ =?us-ascii?Q?R1mNRXplRHQEA743Anw+FP1/L7OnKv/V6/OHd63pgZtPqvRAHkR1hx36qV2G?=
+ =?us-ascii?Q?QBVVdlRuLNKePNwCLPGJjPMybEZeqcGawRskaJ1+fggWcjDV3+0vnLEXMiy1?=
+ =?us-ascii?Q?vZV4hQoV0hEK8qaD8AMIIO6giReclvSFQad3bRGlhrH55E9uDIP4wLejIgMV?=
+ =?us-ascii?Q?CUSP+B96c2aqlxnVMcaC7xUnKG0ydWvZ/GkKRplvx6yrBc/a4ZuS+EULZ3/7?=
+ =?us-ascii?Q?0uW4uZ/P6q84pWVw9jQsymAd73AaOJejVnwbNz34EBgioKyhtWQSBP82zc5/?=
+ =?us-ascii?Q?+W+Pw85vtGHKvgjVSM5DI5pbAbWKTKW+fHq+8oegfkcgpRaQXfdL+ZGCuRI9?=
+ =?us-ascii?Q?euhQSf68Yv9SOHOzmF/e02YiPjcT++3blVn4H4ACj3QR/Z+Q/V3p6n8hO1re?=
+ =?us-ascii?Q?nNcX+emyk/OmMnnkJdoVaLnk7OJb++Gj+wR5sNE/EltkbF+g0HgVZcv8Xx0e?=
+ =?us-ascii?Q?HAmt1mFqWddz232ujTa+4c/nyxIPQ21eZjfLgQX65rIG11JHFrBmUCGpgiko?=
+ =?us-ascii?Q?ySqXbLl6O1ROG+TYHPLjO7s6eIeHcbv5GjQej9UwDd63hJ0FCRO7hwl7GYBM?=
+ =?us-ascii?Q?g4YAhCe5ER583GTHaIjxoXEDPnec4ghEeRFaPP1EBAJSfXnCNqsshV5PmiGK?=
+ =?us-ascii?Q?K/6Xf+qPBG0tWmDjh5ATBUirBlw8QOcJjcuRbGJXvJhlSZXAK02dqvlQX8pa?=
+ =?us-ascii?Q?OGR5f0sODGomk3my0KBHcOpe7w6niUgU8jwax/gcTvuOjy1mhJzYlZj/EvTm?=
+ =?us-ascii?Q?Y7SfrIMPzSZ4KLR0uq+tVkS58QZNB0Tl8rvw9IXyCGbhmKwK9yl+/iK1Rdhd?=
+ =?us-ascii?Q?UQfhy8MypktwRAL0dqInylSKp3FkgXyCRXbYHmEHKwKA7TVNGIOHWMOQfyuS?=
+ =?us-ascii?Q?ITvm+MT3YNcJ6hDxU4tLlgRK/lMk+4KMAEWn0czKJBYj/iLblC8oZQhsQ8w1?=
+ =?us-ascii?Q?iiRuEP/hhS72wphr5s3EtmUv/Fnd8SbtDbjw77CT7j0ixFFOfAURAOpWoRd5?=
+ =?us-ascii?Q?mbJdHi7u24jtTj4ZHqE6BB1LN0qJ5PlgeqcNJBQY452XNE4b6i1tBoWw5ybi?=
+ =?us-ascii?Q?87pQwMO6wNG4mtZoF1zgQt2pY+Kjtzk9syMXQQJGBES8IkepweWomcz2XVBj?=
+ =?us-ascii?Q?v6Yb4xtNwDNJwMl7HTgIaxSo4HT2dQTPXvDJWwYw50Z9D1i2upkKBPzhUBQh?=
+ =?us-ascii?Q?PSU9SRYG4wmyCcogwUDOgpka8wYnblENhvXAkvZrJKRc7dS+sfNTUo5Sdc0j?=
+ =?us-ascii?Q?9mFRnNyY03empg6aSzcRC1hcCuLWCTkdTAoCOeqV4ClMUy9izxiO5jsXEgm3?=
+ =?us-ascii?Q?6FjVOOjPXWPT+37Sq0Fds/fst011iIXWNnpkTvvn4QcwTLscqqQQQ0Vby6yK?=
+ =?us-ascii?Q?v/gaaXB3qGBaceFGtl5FPSqlrYXCM0iJkfqUMIwLO9qmwz4XXakqWv0ZTHWb?=
+ =?us-ascii?Q?IusOaHw7eewVCfDPV8ETZtZVfTuzLFmHgMktn2cu?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git dev-test
-head:   e116872fdeb425635580ffa6b237b96c39bc6611
-commit: 1a73e225829f7724fcac9191f47e4ac41c6ef2e3 [4/8] f2fs: fix to account cp stats correctly
-config: x86_64-randconfig-x014-20230730 (https://download.01.org/0day-ci/archive/20230731/202307310126.tGW78dZh-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307310126.tGW78dZh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307310126.tGW78dZh-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/f2fs/gc.c:1843:4: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           stat_inc_cp_call_count(sbi, FOREGROUND);
-                           ^
-   fs/f2fs/gc.c:1892:4: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           stat_inc_cp_call_count(sbi, FOREGROUND);
-                           ^
-   fs/f2fs/gc.c:1908:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/gc.c:2036:2: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           stat_inc_cp_call_count(sbi, FOREGROUND);
-           ^
-   fs/f2fs/gc.c:2229:2: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           stat_inc_cp_call_count(sbi, FOREGROUND);
-           ^
-   5 errors generated.
---
->> fs/f2fs/namei.c:387:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/namei.c:438:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/namei.c:659:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/namei.c:746:4: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           stat_inc_cp_call_count(sbi, FOREGROUND);
-                           ^
-   fs/f2fs/namei.c:799:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/namei.c:855:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/namei.c:1138:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/namei.c:1303:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   8 errors generated.
---
->> fs/f2fs/segment.c:516:2: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           stat_inc_cp_call_count(sbi, from_bg ? BACKGROUND : FOREGROUND);
-           ^
-   fs/f2fs/segment.c:3234:2: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           stat_inc_cp_call_count(sbi, FOREGROUND);
-           ^
-   2 errors generated.
---
->> fs/f2fs/recovery.c:927:4: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           stat_inc_cp_call_count(sbi, FOREGROUND);
-                           ^
-   1 error generated.
---
->> fs/f2fs/super.c:1604:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/super.c:1614:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/super.c:2237:2: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           stat_inc_cp_call_count(sbi, FOREGROUND);
-           ^
-   fs/f2fs/super.c:2274:2: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           stat_inc_cp_call_count(sbi, FOREGROUND);
-           ^
-   fs/f2fs/super.c:2450:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   5 errors generated.
---
->> fs/f2fs/file.c:323:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/file.c:2251:3: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   stat_inc_cp_call_count(sbi, FOREGROUND);
-                   ^
-   fs/f2fs/file.c:2573:2: error: call to undeclared function 'stat_inc_cp_call_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           stat_inc_cp_call_count(sbi, FOREGROUND);
-           ^
-   3 errors generated.
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4093.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c17fc9a5-45a5-41c0-c265-08db9124e8cf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2023 17:46:31.3253
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Snh+WRxq9Vg6Jjb4dN4ijXSo8/yiH61JZNhTDPjKAOj8jWmYkFclgr6f8BBQafRNlkMpVd6HB3CTMTly7U4B3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7285
+X-OriginatorOrg: intel.com
 
 
-vim +/stat_inc_cp_call_count +1843 fs/f2fs/gc.c
 
-  1796	
-  1797	int f2fs_gc(struct f2fs_sb_info *sbi, struct f2fs_gc_control *gc_control)
-  1798	{
-  1799		int gc_type = gc_control->init_gc_type;
-  1800		unsigned int segno = gc_control->victim_segno;
-  1801		int sec_freed = 0, seg_freed = 0, total_freed = 0, total_sec_freed = 0;
-  1802		int ret = 0;
-  1803		struct cp_control cpc;
-  1804		struct gc_inode_list gc_list = {
-  1805			.ilist = LIST_HEAD_INIT(gc_list.ilist),
-  1806			.iroot = RADIX_TREE_INIT(gc_list.iroot, GFP_NOFS),
-  1807		};
-  1808		unsigned int skipped_round = 0, round = 0;
-  1809		unsigned int upper_secs;
-  1810	
-  1811		trace_f2fs_gc_begin(sbi->sb, gc_type, gc_control->no_bg_gc,
-  1812					gc_control->nr_free_secs,
-  1813					get_pages(sbi, F2FS_DIRTY_NODES),
-  1814					get_pages(sbi, F2FS_DIRTY_DENTS),
-  1815					get_pages(sbi, F2FS_DIRTY_IMETA),
-  1816					free_sections(sbi),
-  1817					free_segments(sbi),
-  1818					reserved_segments(sbi),
-  1819					prefree_segments(sbi));
-  1820	
-  1821		cpc.reason = __get_cp_reason(sbi);
-  1822	gc_more:
-  1823		sbi->skipped_gc_rwsem = 0;
-  1824		if (unlikely(!(sbi->sb->s_flags & SB_ACTIVE))) {
-  1825			ret = -EINVAL;
-  1826			goto stop;
-  1827		}
-  1828		if (unlikely(f2fs_cp_error(sbi))) {
-  1829			ret = -EIO;
-  1830			goto stop;
-  1831		}
-  1832	
-  1833		/* Let's run FG_GC, if we don't have enough space. */
-  1834		if (has_not_enough_free_secs(sbi, 0, 0)) {
-  1835			gc_type = FG_GC;
-  1836	
-  1837			/*
-  1838			 * For example, if there are many prefree_segments below given
-  1839			 * threshold, we can make them free by checkpoint. Then, we
-  1840			 * secure free segments which doesn't need fggc any more.
-  1841			 */
-  1842			if (prefree_segments(sbi)) {
-> 1843				stat_inc_cp_call_count(sbi, FOREGROUND);
-  1844				ret = f2fs_write_checkpoint(sbi, &cpc);
-  1845				if (ret)
-  1846					goto stop;
-  1847				/* Reset due to checkpoint */
-  1848				sec_freed = 0;
-  1849			}
-  1850		}
-  1851	
-  1852		/* f2fs_balance_fs doesn't need to do BG_GC in critical path. */
-  1853		if (gc_type == BG_GC && gc_control->no_bg_gc) {
-  1854			ret = -EINVAL;
-  1855			goto stop;
-  1856		}
-  1857	retry:
-  1858		ret = __get_victim(sbi, &segno, gc_type);
-  1859		if (ret) {
-  1860			/* allow to search victim from sections has pinned data */
-  1861			if (ret == -ENODATA && gc_type == FG_GC &&
-  1862					f2fs_pinned_section_exists(DIRTY_I(sbi))) {
-  1863				f2fs_unpin_all_sections(sbi, false);
-  1864				goto retry;
-  1865			}
-  1866			goto stop;
-  1867		}
-  1868	
-  1869		seg_freed = do_garbage_collect(sbi, segno, &gc_list, gc_type,
-  1870					gc_control->should_migrate_blocks);
-  1871		total_freed += seg_freed;
-  1872	
-  1873		if (seg_freed == f2fs_usable_segs_in_sec(sbi, segno)) {
-  1874			sec_freed++;
-  1875			total_sec_freed++;
-  1876		}
-  1877	
-  1878		if (gc_type == FG_GC) {
-  1879			sbi->cur_victim_sec = NULL_SEGNO;
-  1880	
-  1881			if (has_enough_free_secs(sbi, sec_freed, 0)) {
-  1882				if (!gc_control->no_bg_gc &&
-  1883				    total_sec_freed < gc_control->nr_free_secs)
-  1884					goto go_gc_more;
-  1885				goto stop;
-  1886			}
-  1887			if (sbi->skipped_gc_rwsem)
-  1888				skipped_round++;
-  1889			round++;
-  1890			if (skipped_round > MAX_SKIP_GC_COUNT &&
-  1891					skipped_round * 2 >= round) {
-  1892				stat_inc_cp_call_count(sbi, FOREGROUND);
-  1893				ret = f2fs_write_checkpoint(sbi, &cpc);
-  1894				goto stop;
-  1895			}
-  1896		} else if (has_enough_free_secs(sbi, 0, 0)) {
-  1897			goto stop;
-  1898		}
-  1899	
-  1900		__get_secs_required(sbi, NULL, &upper_secs, NULL);
-  1901	
-  1902		/*
-  1903		 * Write checkpoint to reclaim prefree segments.
-  1904		 * We need more three extra sections for writer's data/node/dentry.
-  1905		 */
-  1906		if (free_sections(sbi) <= upper_secs + NR_GC_CHECKPOINT_SECS &&
-  1907					prefree_segments(sbi)) {
-  1908			stat_inc_cp_call_count(sbi, FOREGROUND);
-  1909			ret = f2fs_write_checkpoint(sbi, &cpc);
-  1910			if (ret)
-  1911				goto stop;
-  1912			/* Reset due to checkpoint */
-  1913			sec_freed = 0;
-  1914		}
-  1915	go_gc_more:
-  1916		segno = NULL_SEGNO;
-  1917		goto gc_more;
-  1918	
-  1919	stop:
-  1920		SIT_I(sbi)->last_victim[ALLOC_NEXT] = 0;
-  1921		SIT_I(sbi)->last_victim[FLUSH_DEVICE] = gc_control->victim_segno;
-  1922	
-  1923		if (gc_type == FG_GC)
-  1924			f2fs_unpin_all_sections(sbi, true);
-  1925	
-  1926		trace_f2fs_gc_end(sbi->sb, ret, total_freed, total_sec_freed,
-  1927					get_pages(sbi, F2FS_DIRTY_NODES),
-  1928					get_pages(sbi, F2FS_DIRTY_DENTS),
-  1929					get_pages(sbi, F2FS_DIRTY_IMETA),
-  1930					free_sections(sbi),
-  1931					free_segments(sbi),
-  1932					reserved_segments(sbi),
-  1933					prefree_segments(sbi));
-  1934	
-  1935		f2fs_up_write(&sbi->gc_lock);
-  1936	
-  1937		put_gc_inode(&gc_list);
-  1938	
-  1939		if (gc_control->err_gc_skipped && !ret)
-  1940			ret = total_sec_freed ? 0 : -EAGAIN;
-  1941		return ret;
-  1942	}
-  1943	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> -----Original Message-----
+> From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Sent: Sunday, July 30, 2023 7:20 PM
+> To: lkp <lkp@intel.com>; Winkler, Tomas <tomas.winkler@intel.com>; oe-
+> kbuild-all@lists.linux.dev
+> Subject: Re: [char-misc:char-misc-testing 5/9]
+> include/linux/moduleparam.h:24:9: error: expected ',' or ';' before 'stat=
+ic'
+>=20
+> On Sun, Jul 30, 2023 at 06:15:07PM +0200, Greg Kroah-Hartman wrote:
+> > On Sun, Jul 30, 2023 at 11:47:52PM +0800, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-
+> misc.git char-misc-testing
+> > > head:   94e4fbf7c8756d824c51c04be3b58588d67411a4
+> > > commit: c8de1d2815aa6669b319d2d71401f35b68bb9aa9 [5/9] mei: gsc:
+> add module description
+> >
+> > I'll go drop this as obviously it was not actually compiled by anyone :=
+(
+>=20
+> Nevermind, I fixed it up by hand...
+Thanks, sorry for the mess.=20
