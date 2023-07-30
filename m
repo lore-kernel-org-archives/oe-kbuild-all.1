@@ -1,52 +1,42 @@
-Received: from mgamail.intel.com (unknown [192.55.52.93])
+Received: from mgamail.intel.com (unknown [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722A828E3;
-	Sat, 29 Jul 2023 23:25:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C785018F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Jul 2023 00:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690673134; x=1722209134;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lg5Z2zadJltzEJU5eTPAO7fkXvwEPhVsT0zhAmujkSU=;
-  b=Ux/xsRnl3WhBb4Otez1dvh5R8O6L2i2/GVQXpbsVNd3Gi53+LmMtwvHX
-   QhiNfALZVnPqsJT4MfCoGjf+eVUGK0GfGIA6JrAO5i1PDfpD6VPStdG2d
-   VsNptawZC4TP2Po/xS+tcM2WQr+zMEYANj0i60FT4XCCfEaJ6+tbfTB/j
-   6SVevxs3T6I26KZFFi7AOr7pxEKWgsOXfrubThExThfm4I+VoIaBpOI3z
-   YFA/EQehO04EiFmxfzvPJVprQ0jvMC8wA+YuEqXePurkV47Dfk6HIoa9W
-   ftkR1VsBtVhEwNVcxB5hodCXMyddpUW9mlOaXUap8PPUXIcJ3y67PdavC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="366266756"
+  t=1690676252; x=1722212252;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Cx6rvQi/jVxl5uR9AZN67RII3e3A44QXJOi9h6o0rao=;
+  b=aybB7RQXK9YHffV0qjGnqthVRxZ57f1jk5/RY8LqiW6c6wuwgN+I9NK5
+   fFyezvA7qbnzX0ZavefZlSCluLN4IkTDFr8P0/ZE2c9vBuB1jz5X24En5
+   WGBsHn69/M5ABRfObTwJNaLyn1YtSaQN5Gbu4XDPyy8g0aY6pUofc/N1T
+   Tj1akeljoJP/DPlYxoKWXRfUp7Bx8YTsvS/WXpwesrnvDpqgNY9uZFVWS
+   kvW+6GvYt5Htc/zBhIi1PzezMr9z4+oAALYRaSeLS6WhsNLo0915HraaS
+   MpQI/dmgQcBz6jhGQgWpVbWLymyrRokEy6lhxUNv+ePoLPGbFtHpqtqMa
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="367682443"
 X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="366266756"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 16:25:33 -0700
+   d="scan'208";a="367682443"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2023 17:17:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="974471634"
-X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; 
-   d="scan'208";a="974471634"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="871209480"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 29 Jul 2023 16:25:29 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 29 Jul 2023 17:17:32 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qPtJQ-0004Kl-2g;
-	Sat, 29 Jul 2023 23:25:28 +0000
-Date: Sun, 30 Jul 2023 07:25:07 +0800
+	id 1qPu7l-0004Lv-1Z;
+	Sun, 30 Jul 2023 00:17:29 +0000
+Date: Sun, 30 Jul 2023 08:16:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH 1/2] rust: upgrade to Rust 1.71.0
-Message-ID: <202307300737.8GuKiWIl-lkp@intel.com>
-References: <20230729220317.416771-1-ojeda@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+Subject: drivers/remoteproc/stm32_rproc.c:139:20: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202307300850.Xb9OMlVI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,81 +45,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230729220317.416771-1-ojeda@kernel.org>
 
-Hi Miguel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 7c74839b2acc9b5a5d16d3a1737741dd64e1804b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Miguel-Ojeda/rust-enable-no_mangle_with_rust_abi-Clippy-lint/20230730-060434
-base:   7c74839b2acc9b5a5d16d3a1737741dd64e1804b
-patch link:    https://lore.kernel.org/r/20230729220317.416771-1-ojeda%40kernel.org
-patch subject: [PATCH 1/2] rust: upgrade to Rust 1.71.0
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230730/202307300737.8GuKiWIl-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300737.8GuKiWIl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   12214540ad87ce824a8a791a3f063e6121ec5b66
+commit: 03bd158e1535e68bcd2b1e095b0ebcad7c84bd20 remoteproc: stm32: use correct format strings on 64-bit
+date:   5 weeks ago
+config: m68k-randconfig-r091-20230730 (https://download.01.org/0day-ci/archive/20230730/202307300850.Xb9OMlVI-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300850.Xb9OMlVI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307300737.8GuKiWIl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307300850.Xb9OMlVI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/remoteproc/stm32_rproc.c:122:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *va @@     got void [noderef] __iomem * @@
+   drivers/remoteproc/stm32_rproc.c:122:12: sparse:     expected void *va
+   drivers/remoteproc/stm32_rproc.c:122:12: sparse:     got void [noderef] __iomem *
+>> drivers/remoteproc/stm32_rproc.c:139:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *va @@
+   drivers/remoteproc/stm32_rproc.c:139:20: sparse:     expected void [noderef] __iomem *addr
+   drivers/remoteproc/stm32_rproc.c:139:20: sparse:     got void *va
+   drivers/remoteproc/stm32_rproc.c:644:17: sparse: sparse: cast removes address space '__iomem' of expression
 
->> thread 'main' panicked at '"ftrace_branch_data_union_(anonymous_at_include/linux/compiler_types_h_146_2)" is not a valid Ident', /opt/cross/rustc-1.71.0-bindgen-0.56.0/cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.24/src/fallback.rs:693:9
-   stack backtrace:
-      0: rust_begin_unwind
-                at /rustc/8ede3aae28fe6e4d52b38157d7bfe0d3bceef225/library/std/src/panicking.rs:593:5
-      1: core::panicking::panic_fmt
-                at /rustc/8ede3aae28fe6e4d52b38157d7bfe0d3bceef225/library/core/src/panicking.rs:67:14
-      2: proc_macro2::fallback::Ident::_new
-      3: proc_macro2::Ident::new
-      4: bindgen::ir::context::BindgenContext::rust_ident
-      5: <bindgen::ir::comp::CompInfo as bindgen::codegen::CodeGenerator>::codegen
-      6: <bindgen::ir::ty::Type as bindgen::codegen::CodeGenerator>::codegen
-      7: <bindgen::ir::item::Item as bindgen::codegen::CodeGenerator>::codegen
-      8: <bindgen::ir::comp::CompInfo as bindgen::codegen::CodeGenerator>::codegen
-      9: <bindgen::ir::ty::Type as bindgen::codegen::CodeGenerator>::codegen
-     10: <bindgen::ir::item::Item as bindgen::codegen::CodeGenerator>::codegen
-     11: <bindgen::ir::module::Module as bindgen::codegen::CodeGenerator>::codegen
-     12: <bindgen::ir::item::Item as bindgen::codegen::CodeGenerator>::codegen
-     13: bindgen::ir::context::BindgenContext::gen
-     14: bindgen::Builder::generate
-     15: bindgen::main
-   note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
-   make[3]: *** [rust/Makefile:316: rust/uapi/uapi_generated.rs] Error 1
-   make[3]: *** Deleting file 'rust/uapi/uapi_generated.rs'
->> thread 'main' panicked at '"ftrace_branch_data_union_(anonymous_at_include/linux/compiler_types_h_146_2)" is not a valid Ident', /opt/cross/rustc-1.71.0-bindgen-0.56.0/cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.24/src/fallback.rs:693:9
-   stack backtrace:
-      0: rust_begin_unwind
-                at /rustc/8ede3aae28fe6e4d52b38157d7bfe0d3bceef225/library/std/src/panicking.rs:593:5
-      1: core::panicking::panic_fmt
-                at /rustc/8ede3aae28fe6e4d52b38157d7bfe0d3bceef225/library/core/src/panicking.rs:67:14
-      2: proc_macro2::fallback::Ident::_new
-      3: proc_macro2::Ident::new
-      4: bindgen::ir::context::BindgenContext::rust_ident
-      5: <bindgen::ir::comp::CompInfo as bindgen::codegen::CodeGenerator>::codegen
-      6: <bindgen::ir::ty::Type as bindgen::codegen::CodeGenerator>::codegen
-      7: <bindgen::ir::item::Item as bindgen::codegen::CodeGenerator>::codegen
-      8: <bindgen::ir::comp::CompInfo as bindgen::codegen::CodeGenerator>::codegen
-      9: <bindgen::ir::ty::Type as bindgen::codegen::CodeGenerator>::codegen
-     10: <bindgen::ir::item::Item as bindgen::codegen::CodeGenerator>::codegen
-     11: <bindgen::ir::module::Module as bindgen::codegen::CodeGenerator>::codegen
-     12: <bindgen::ir::item::Item as bindgen::codegen::CodeGenerator>::codegen
-     13: bindgen::ir::context::BindgenContext::gen
-     14: bindgen::Builder::generate
-     15: bindgen::main
-   note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
-   make[3]: *** [rust/Makefile:310: rust/bindings/bindings_generated.rs] Error 1
-   make[3]: *** Deleting file 'rust/bindings/bindings_generated.rs'
-   make[3]: Target 'rust/' not remade because of errors.
-   make[2]: *** [Makefile:1281: prepare] Error 2
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +139 drivers/remoteproc/stm32_rproc.c
+
+13140de09cc2dd Fabien Dessenne 2019-05-14  134  
+13140de09cc2dd Fabien Dessenne 2019-05-14  135  static int stm32_rproc_mem_release(struct rproc *rproc,
+13140de09cc2dd Fabien Dessenne 2019-05-14  136  				   struct rproc_mem_entry *mem)
+13140de09cc2dd Fabien Dessenne 2019-05-14  137  {
+13140de09cc2dd Fabien Dessenne 2019-05-14  138  	dev_dbg(rproc->dev.parent, "unmap memory: %pa\n", &mem->dma);
+13140de09cc2dd Fabien Dessenne 2019-05-14 @139  	iounmap(mem->va);
+13140de09cc2dd Fabien Dessenne 2019-05-14  140  
+13140de09cc2dd Fabien Dessenne 2019-05-14  141  	return 0;
+13140de09cc2dd Fabien Dessenne 2019-05-14  142  }
+13140de09cc2dd Fabien Dessenne 2019-05-14  143  
+
+:::::: The code at line 139 was first introduced by commit
+:::::: 13140de09cc2dd5e5166ad42292bb82af4e23cef remoteproc: stm32: add an ST stm32_rproc driver
+
+:::::: TO: Fabien Dessenne <fabien.dessenne@st.com>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
