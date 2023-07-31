@@ -1,45 +1,44 @@
-Received: from mgamail.intel.com (unknown [134.134.136.31])
+Received: from mgamail.intel.com (unknown [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C27363;
-	Mon, 31 Jul 2023 02:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0244762D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 02:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690770753; x=1722306753;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cwj1dWkccQrL9SYy7anSD3GwlkOhYGdHTTkSsYxs3B8=;
-  b=J79kVaZ3kIe5TxqVenoAiiynM68gJn8oIxxoX9Ex3k8lco9qiXYP/9SG
-   zVS0rPRNZeyU0Ty1g1L/Genz+VKn2wLZiN0azOp8JLDOjvOADHuAEawMb
-   cSnWf3ckgYcZx5pryB175mpJMjdI/ncEx6m+v8M3nawq790x/5cNei682
-   zT7sUIhuAa15Kdi5VLgng2jeLsiFjh6wt3Q9OGiN0O1ykjsm2afgDGHEF
-   x9C7tixHGUnYKVdprkHy9Y/dnWcCUjH+MgylSCdV2nDR3e8tIQqdKHl1K
-   43BUW3MYsylzoKJPOzCIFtsrph8rSQCuQlIh1g/QSFpBDcPG2o6Kt47bN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="432712556"
+  t=1690771999; x=1722307999;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=toPniKK8ArY3sEMs4fRUsoY2eCeqhoRn0nyipDtGpBg=;
+  b=UrDwYtOeTxH0ZKYz0pnMDSn82QGY9xw+Z+RBZYMrN0IWxb0cu5/GQ1CU
+   tLYX4xMyHL2l8YHfXj+X0P1e2ioLf/VI1ATwc5ICcGhMd0gD9DT8NJxVx
+   e9k924B6HY5C8GlVTSNUeOHIRYD/6Y7vgkX1VPThJPRERfRhegFf/zrzP
+   hOY9REF3/ycJzFYBhWoImjVdWlSD4ri0DdjnnzEH+XwC1KHTWzXcZkypp
+   en/NbUQsZOT90DY+3qP/iD+5zMqpIvx629vW2yJXlc97fzLfXxmqXMi0l
+   v1RqP++03g5u+KyqRxflpNetOC7UcPfG6uD3QqSu5Ng/WjHHO4zODFCey
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="353818046"
 X-IronPort-AV: E=Sophos;i="6.01,243,1684825200"; 
-   d="scan'208";a="432712556"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 19:32:32 -0700
+   d="scan'208";a="353818046"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 19:53:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="731421621"
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="1058769256"
 X-IronPort-AV: E=Sophos;i="6.01,243,1684825200"; 
-   d="scan'208";a="731421621"
+   d="scan'208";a="1058769256"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Jul 2023 19:32:30 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 30 Jul 2023 19:53:17 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQIhl-0004tB-3D;
-	Mon, 31 Jul 2023 02:32:28 +0000
-Date: Mon, 31 Jul 2023 10:31:27 +0800
+	id 1qQJ24-0004tf-1K;
+	Mon, 31 Jul 2023 02:53:16 +0000
+Date: Mon, 31 Jul 2023 10:52:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [andi-shyti:i2c/andi-for-next 23/27]
- drivers/i2c/busses/i2c-virtio.c:270:3: error: field designator 'freeze' does
- not refer to any field in type 'struct virtio_driver'
-Message-ID: <202307311024.dAcru88T-lkp@intel.com>
+To: Rong Tao <rtoax@foxmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] samples/hw_breakpoint: Fix kernel BUG 'invalid opcode:
+ 0000'
+Message-ID: <202307311055.gvBkinJW-lkp@intel.com>
+References: <tencent_E626A858BED28C4E21C219780BC566015D0A@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,116 +47,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <tencent_E626A858BED28C4E21C219780BC566015D0A@qq.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/andi-for-next
-head:   1851a80ee87d2decf774ee5785c8dd25e30bd118
-commit: 73d546c76235b5329c0b6d370c836777443fd208 [23/27] i2c: virtio: Remove #ifdef guards for PM related functions
-config: hexagon-randconfig-r004-20230731 (https://download.01.org/0day-ci/archive/20230731/202307311024.dAcru88T-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311024.dAcru88T-lkp@intel.com/reproduce)
+Hi Rong,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+[also build test ERROR on bpf/master linus/master v6.5-rc4]
+[cannot apply to next-20230728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Tao/samples-hw_breakpoint-Fix-kernel-BUG-invalid-opcode-0000/20230724-185721
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/tencent_E626A858BED28C4E21C219780BC566015D0A%40qq.com
+patch subject: [PATCH] samples/hw_breakpoint: Fix kernel BUG 'invalid opcode: 0000'
+config: i386-randconfig-i063-20230730 (https://download.01.org/0day-ci/archive/20230731/202307311055.gvBkinJW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311055.gvBkinJW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307311024.dAcru88T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307311055.gvBkinJW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/i2c/busses/i2c-virtio.c:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/i2c/busses/i2c-virtio.c:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/i2c/busses/i2c-virtio.c:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/i2c/busses/i2c-virtio.c:270:3: error: field designator 'freeze' does not refer to any field in type 'struct virtio_driver'
-     270 |         .freeze                 = pm_sleep_ptr(virtio_i2c_freeze),
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/i2c/busses/i2c-virtio.c:271:3: error: field designator 'restore' does not refer to any field in type 'struct virtio_driver'
-     271 |         .restore                = pm_sleep_ptr(virtio_i2c_restore),
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   6 warnings and 2 errors generated.
+   samples/hw_breakpoint/data_breakpoint.c: In function 'hw_break_module_exit':
+>> samples/hw_breakpoint/data_breakpoint.c:73:9: error: implicit declaration of function '__symbol_put'; did you mean '__symbol_get'? [-Werror=implicit-function-declaration]
+      73 |         __symbol_put(ksym_name);
+         |         ^~~~~~~~~~~~
+         |         __symbol_get
+   cc1: some warnings being treated as errors
 
 
-vim +270 drivers/i2c/busses/i2c-virtio.c
+vim +73 samples/hw_breakpoint/data_breakpoint.c
 
-   260	
-   261	static struct virtio_driver virtio_i2c_driver = {
-   262		.feature_table		= features,
-   263		.feature_table_size	= ARRAY_SIZE(features),
-   264		.id_table		= id_table,
-   265		.probe			= virtio_i2c_probe,
-   266		.remove			= virtio_i2c_remove,
-   267		.driver			= {
-   268			.name	= "i2c_virtio",
-   269		},
- > 270		.freeze			= pm_sleep_ptr(virtio_i2c_freeze),
- > 271		.restore		= pm_sleep_ptr(virtio_i2c_restore),
-   272	};
-   273	module_virtio_driver(virtio_i2c_driver);
-   274	
+    69	
+    70	static void __exit hw_break_module_exit(void)
+    71	{
+    72		unregister_wide_hw_breakpoint(sample_hbp);
+  > 73		__symbol_put(ksym_name);
+    74		printk(KERN_INFO "HW Breakpoint for %s write uninstalled\n", ksym_name);
+    75	}
+    76	
 
 -- 
 0-DAY CI Kernel Test Service
