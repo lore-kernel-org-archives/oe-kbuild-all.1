@@ -1,43 +1,49 @@
-Received: from mgamail.intel.com (unknown [134.134.136.20])
+Received: from mgamail.intel.com (unknown [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB2517744;
-	Mon, 31 Jul 2023 10:12:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8591426B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 10:22:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690798356; x=1722334356;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=dT5IIav0dUcp0rDI+sTuQmKVo0RmKVULnvbHffqxu4w=;
-  b=YybVhVnOMHPYLgx9wxBJXq6hlSlIewPZFe9KlVzOJZXhPK9J5bYhhYQU
-   IUawXsf8UVHwjBHfaUVI32VsO1Lxkan2eEQTLcmTl5Q1FS0FzP19Fby8p
-   aZ57DGi30W1HXvg3Epnvl8gQ8ycvzv0ptw6PyYOY1c3w908S+c1uCsJZh
-   A6gE4ULtLSMJ60k+wE/96p2d89CbOEpZuKn3fh58Q8BIkKF1cb0KHXpI6
-   f/gIB3sw6sowNGYdGVjgbf0Ft3ayrQqOn4oyBL/aUcfhrX0y8ONgMBBtT
-   QDcZWgecjlWJ6kG5PQTU05qpOgmy2GkYOl5yGOViVjjhtK31UExpludb6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="359015565"
+  t=1690798966; x=1722334966;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PCMtkKQspwiJhUzhgqFCwoHLXmi/Ay0Pc3VA0Pbub2g=;
+  b=b//bKHdppwjwET114RhPM0UGp0iFBB6PQ8gzvIHk6ZuTbViSuCNIqe+H
+   05SIM04OdmnbZLKtAQmW4+W2GPSYwc4sTU9HmOgAGT0WVxblqoZJ+1LHx
+   5Ugs18wMG3ttU1ePbJKq4onte1wlE1KlWyoiDZcV3psseumdmZX0IMu3V
+   k5yglXMyVWRqZCH5JSbNeTqH+vXxSSRDBB/q5GD1/qngebeuBi5qoE+J+
+   TmB6BOFM2cLsCnNmC3OlKoBNrg/m7WI56TNtZgzpdFU0rbWYyHxahOyDl
+   5F6MqNLI88J2xStYpc7QMaRvs/j+ql4/5pv3J0vandTPVJWuR1SJuJBMx
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="349283043"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="359015565"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 03:12:36 -0700
+   d="scan'208";a="349283043"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 03:22:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="728250334"
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="722013538"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="728250334"
+   d="scan'208";a="722013538"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 31 Jul 2023 03:12:35 -0700
+  by orsmga007.jf.intel.com with ESMTP; 31 Jul 2023 03:22:35 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQPt9-00053f-2o;
-	Mon, 31 Jul 2023 10:12:32 +0000
-Date: Mon, 31 Jul 2023 18:11:52 +0800
+	id 1qQQ2s-00053j-1g;
+	Mon, 31 Jul 2023 10:22:34 +0000
+Date: Mon, 31 Jul 2023 18:22:12 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: ld.lld: error: vmlinux.a(init/main.o):(function
- __traceiter_initcall_level: .text+0x10): relocation R_RISCV_HI20 out of
- range: 531482 is not in [-524288, 524287]; references
- '__tracepoint_initcall_level'
-Message-ID: <202307311845.TZgGkg4U-lkp@intel.com>
+To: LeoLiu-oc <LeoLiu-oc@zhaoxin.com>, olivia@selenic.com,
+	herbert@gondor.apana.org.au, jiajie.ho@starfivetech.com,
+	conor.dooley@microchip.com, martin@kaiser.cx, mmyangfl@gmail.com,
+	jenny.zhang@starfivetech.com, linux-kernel@vger.kernel.org,
+	linux-crypto@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, leoliu@zhaoxin.com, CobeChen@zhaoxin.com,
+	YunShen@zhaoxin.com, TonyWWang@zhaoxin.com,
+	leoliu-oc <leoliu-oc@zhaoxin.com>
+Subject: Re: [PATCH v2 2/2] hwrng: add Zhaoxin HW RNG driver
+Message-ID: <202307311838.VQTSuKH4-lkp@intel.com>
+References: <20230731084515.2057375-3-LeoLiu-oc@zhaoxin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,75 +52,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230731084515.2057375-3-LeoLiu-oc@zhaoxin.com>
 
-CC: linux-kernel@vger.kernel.org
-TO: Jesse Taube <mr.bossman075@gmail.com>
-CC: Conor Dooley <conor.dooley@microchip.com>
-CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Hi LeoLiu-oc,
 
-Hi Jesse,
+kernel test robot noticed the following build warnings:
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master linus/master v6.5-rc4 next-20230731]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5d0c230f1de8c7515b6567d9afba1f196fb4e2f4
-commit: 49f965b6fbca63904d7397ce96066fa992f401a3 soc: canaan: Make K210_SYSCTL depend on CLK_K210
-date:   5 months ago
-config: riscv-randconfig-r025-20230731 (https://download.01.org/0day-ci/archive/20230731/202307311845.TZgGkg4U-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311845.TZgGkg4U-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/LeoLiu-oc/hwrng-via-rng-convert-to-x86_cpu_id-probing/20230731-164950
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20230731084515.2057375-3-LeoLiu-oc%40zhaoxin.com
+patch subject: [PATCH v2 2/2] hwrng: add Zhaoxin HW RNG driver
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230731/202307311838.VQTSuKH4-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311838.VQTSuKH4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307311845.TZgGkg4U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307311838.VQTSuKH4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(init/main.o):(function __traceiter_initcall_level: .text+0x10): relocation R_RISCV_HI20 out of range: 531482 is not in [-524288, 524287]; references '__tracepoint_initcall_level'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function __traceiter_initcall_start: .text+0x64): relocation R_RISCV_HI20 out of range: 531482 is not in [-524288, 524287]; references '__tracepoint_initcall_start'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function get_cpu_mask: .text+0x3d4): relocation R_RISCV_HI20 out of range: 528113 is not in [-524288, 524287]; references 'cpu_bit_bitmap'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(kernel/cpu.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(.text+0x40c): relocation R_RISCV_HI20 out of range: 527434 is not in [-524288, 524287]; references '__init_begin'
-   >>> referenced by main.c
-   >>> defined in ./arch/riscv/kernel/vmlinux.lds:26
---
->> ld.lld: error: vmlinux.a(init/main.o):(.text+0x414): relocation R_RISCV_HI20 out of range: 528111 is not in [-524288, 524287]; references '__init_end'
-   >>> referenced by main.c
-   >>> defined in ./arch/riscv/kernel/vmlinux.lds:69
---
->> ld.lld: error: vmlinux.a(init/main.o):(.text+0x41c): relocation R_RISCV_HI20 out of range: 530403 is not in [-524288, 524287]; references '.L.str.80'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function trace_raw_output_initcall_level: .text+0x480): relocation R_RISCV_HI20 out of range: 530334 is not in [-524288, 524287]; references '.L.str.23'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function trace_raw_output_initcall_start: .text+0x514): relocation R_RISCV_HI20 out of range: 530369 is not in [-524288, 524287]; references '.L.str.26'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function trace_raw_output_initcall_finish: .text+0x5a4): relocation R_RISCV_HI20 out of range: 530239 is not in [-524288, 524287]; references '.L.str.29'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function rcu_lock_acquire: .text+0x5e8): relocation R_RISCV_HI20 out of range: 530495 is not in [-524288, 524287]; references 'rcu_lock_map'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(kernel/rcu/update.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function rcu_lock_release: .text+0x610): relocation R_RISCV_HI20 out of range: 530495 is not in [-524288, 524287]; references 'rcu_lock_map'
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(kernel/rcu/update.o)
-..
+   In file included from arch/loongarch/include/asm/inst.h:10,
+                    from arch/loongarch/include/asm/uprobes.h:5,
+                    from include/linux/uprobes.h:49,
+                    from include/linux/mm_types.h:16,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/char/hw_random/zhaoxin-rng.c:10:
+>> arch/loongarch/include/asm/asm.h:35: warning: "STACK_ALIGN" redefined
+      35 | #define STACK_ALIGN     ~(0xf)
+         | 
+   In file included from drivers/char/hw_random/zhaoxin-rng.c:9:
+   include/crypto/padlock.h:19: note: this is the location of the previous definition
+      19 | #define STACK_ALIGN 16
+         | 
+   drivers/char/hw_random/zhaoxin-rng.c:16:10: fatal error: asm/cpu_device_id.h: No such file or directory
+      16 | #include <asm/cpu_device_id.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +/STACK_ALIGN +35 arch/loongarch/include/asm/asm.h
+
+b738c106f7355e Huacai Chen 2022-05-31  31  
+b738c106f7355e Huacai Chen 2022-05-31  32  /*
+b738c106f7355e Huacai Chen 2022-05-31  33   * Stack alignment
+b738c106f7355e Huacai Chen 2022-05-31  34   */
+b738c106f7355e Huacai Chen 2022-05-31 @35  #define STACK_ALIGN	~(0xf)
+b738c106f7355e Huacai Chen 2022-05-31  36  
 
 -- 
 0-DAY CI Kernel Test Service
