@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (unknown [192.55.52.43])
+Received: from mgamail.intel.com (unknown [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580D5362
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 02:06:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE67A629
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 02:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690769214; x=1722305214;
+  t=1690769982; x=1722305982;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sDeVNrybkSNdjrHb3huAycJbr3IXx1FcBU+b7c56RVc=;
-  b=ZFbavFnNf50qAHLhs/JatCtVZ4lc9nQ7puSszcV/pgm5MLWHH7ip0DNB
-   JMam09mW3g4YUyRm7cEM2nzm/r4fPe/Yf643ZpcCsOwALqBk6fR70eLgp
-   5y2viArNsK0N4CDq5mb9L2M/ZZZvIMyY/PEcfrIBzeHu5I8Bvz1gbOcIp
-   s8AvNdKXqPi4gr+XwkYGDkeBGgkagy23+SmKw5fxH8KaCa50Q9MgE+AVa
-   +Ce3opIQKmEj+x8DlhvRI/GgdwkyzN95mSh3i8+YJOK6dftLob65Y4Td6
-   MztiGG0OnEHMOoGb8mxLX+WJbocBWGPiGGNnAsN8Lk83DGcIwocNeHR1r
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="455273469"
+  bh=gWjNSYPsvxtveHG2f6HrYkEJtRYlRmwXuEgv6hJjIuk=;
+  b=PbjUmo+UcH4FGPJWsXPy6vkiYrohUE5NnB4IlpDFkwo/soS0rKE31ARG
+   sBlywcVf2SdH9Ye5zABq6quKrAv1X/jFPR9RUCxjebc69f5MY0249E76B
+   S3DYQqu3tqQioDkQCgeTNIL+n7AeiZLWA2Pk8KDWydsVB4sbnd+ih0WjI
+   fzg3AWHXy2ybtqRm58bc+9rcdjY7S6WLCg+rjjVm92HTkY56/5H+w2VGo
+   MfCvxFT9+NYASSmKJZ0l9wngvgCYZLUIvuWf91l9mn9IWVdpC5w3RCbtT
+   dpIAKgNqydq9h91U6hdYMrQ8cKVrhZMAry1CMrLF3fuvm9UzzpINnB7Ib
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="358937323"
 X-IronPort-AV: E=Sophos;i="6.01,243,1684825200"; 
-   d="scan'208";a="455273469"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 19:06:53 -0700
+   d="scan'208";a="358937323"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 19:19:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="974714032"
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="757772208"
 X-IronPort-AV: E=Sophos;i="6.01,243,1684825200"; 
-   d="scan'208";a="974714032"
+   d="scan'208";a="757772208"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Jul 2023 19:06:52 -0700
+  by orsmga008.jf.intel.com with ESMTP; 30 Jul 2023 19:19:39 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQIJ9-0004rr-2b;
-	Mon, 31 Jul 2023 02:06:51 +0000
-Date: Mon, 31 Jul 2023 10:06:35 +0800
+	id 1qQIVI-0004sp-3C;
+	Mon, 31 Jul 2023 02:19:27 +0000
+Date: Mon, 31 Jul 2023 10:18:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.4 111/141]
- drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:71:6: warning: variable 'ret' set
- but not used
-Message-ID: <202307310925.KyE2S5zu-lkp@intel.com>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: oe-kbuild-all@lists.linux.dev, Andi Shyti <andi.shyti@kernel.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [andi-shyti:i2c/andi-for-next 23/27]
+ drivers/i2c/busses/i2c-virtio.c:270:10: error: 'struct virtio_driver' has no
+ member named 'freeze'
+Message-ID: <202307311024.v8oxwdyi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,66 +48,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.4
-head:   ade14a1785368ef634f78e4a46ce217f7937b066
-commit: 4e26ad911226b36d88aa2bd48a39917a276afdfa [111/141] RDMA/bnxt_re: Enhance the existing functions that wait for FW responses
-config: x86_64-randconfig-r011-20230731 (https://download.01.org/0day-ci/archive/20230731/202307310925.KyE2S5zu-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307310925.KyE2S5zu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/andi-for-next
+head:   1851a80ee87d2decf774ee5785c8dd25e30bd118
+commit: 73d546c76235b5329c0b6d370c836777443fd208 [23/27] i2c: virtio: Remove #ifdef guards for PM related functions
+config: microblaze-randconfig-r025-20230731 (https://download.01.org/0day-ci/archive/20230731/202307311024.v8oxwdyi-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311024.v8oxwdyi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307310925.KyE2S5zu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307311024.v8oxwdyi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:71:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-           int ret;
-               ^
-   1 warning generated.
+>> drivers/i2c/busses/i2c-virtio.c:270:10: error: 'struct virtio_driver' has no member named 'freeze'
+     270 |         .freeze                 = pm_sleep_ptr(virtio_i2c_freeze),
+         |          ^~~~~~
+   In file included from include/linux/cpumask.h:10,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from drivers/i2c/busses/i2c-virtio.c:11:
+>> include/linux/kernel.h:58:33: error: initialization of 'const struct virtio_device_id *' from incompatible pointer type 'int (*)(struct virtio_device *)' [-Werror=incompatible-pointer-types]
+      58 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^
+   include/linux/pm.h:452:28: note: in expansion of macro 'PTR_IF'
+     452 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   drivers/i2c/busses/i2c-virtio.c:270:35: note: in expansion of macro 'pm_sleep_ptr'
+     270 |         .freeze                 = pm_sleep_ptr(virtio_i2c_freeze),
+         |                                   ^~~~~~~~~~~~
+   include/linux/kernel.h:58:33: note: (near initialization for 'virtio_i2c_driver.id_table')
+      58 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^
+   include/linux/pm.h:452:28: note: in expansion of macro 'PTR_IF'
+     452 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   drivers/i2c/busses/i2c-virtio.c:270:35: note: in expansion of macro 'pm_sleep_ptr'
+     270 |         .freeze                 = pm_sleep_ptr(virtio_i2c_freeze),
+         |                                   ^~~~~~~~~~~~
+   include/linux/kernel.h:58:33: warning: initialized field overwritten [-Woverride-init]
+      58 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^
+   include/linux/pm.h:452:28: note: in expansion of macro 'PTR_IF'
+     452 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   drivers/i2c/busses/i2c-virtio.c:270:35: note: in expansion of macro 'pm_sleep_ptr'
+     270 |         .freeze                 = pm_sleep_ptr(virtio_i2c_freeze),
+         |                                   ^~~~~~~~~~~~
+   include/linux/kernel.h:58:33: note: (near initialization for 'virtio_i2c_driver.id_table')
+      58 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^
+   include/linux/pm.h:452:28: note: in expansion of macro 'PTR_IF'
+     452 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   drivers/i2c/busses/i2c-virtio.c:270:35: note: in expansion of macro 'pm_sleep_ptr'
+     270 |         .freeze                 = pm_sleep_ptr(virtio_i2c_freeze),
+         |                                   ^~~~~~~~~~~~
+>> drivers/i2c/busses/i2c-virtio.c:271:10: error: 'struct virtio_driver' has no member named 'restore'
+     271 |         .restore                = pm_sleep_ptr(virtio_i2c_restore),
+         |          ^~~~~~~
+>> include/linux/kernel.h:58:33: error: initialization of 'const unsigned int *' from incompatible pointer type 'int (*)(struct virtio_device *)' [-Werror=incompatible-pointer-types]
+      58 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^
+   include/linux/pm.h:452:28: note: in expansion of macro 'PTR_IF'
+     452 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   drivers/i2c/busses/i2c-virtio.c:271:35: note: in expansion of macro 'pm_sleep_ptr'
+     271 |         .restore                = pm_sleep_ptr(virtio_i2c_restore),
+         |                                   ^~~~~~~~~~~~
+   include/linux/kernel.h:58:33: note: (near initialization for 'virtio_i2c_driver.feature_table')
+      58 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^
+   include/linux/pm.h:452:28: note: in expansion of macro 'PTR_IF'
+     452 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   drivers/i2c/busses/i2c-virtio.c:271:35: note: in expansion of macro 'pm_sleep_ptr'
+     271 |         .restore                = pm_sleep_ptr(virtio_i2c_restore),
+         |                                   ^~~~~~~~~~~~
+   include/linux/kernel.h:58:33: warning: initialized field overwritten [-Woverride-init]
+      58 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^
+   include/linux/pm.h:452:28: note: in expansion of macro 'PTR_IF'
+     452 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   drivers/i2c/busses/i2c-virtio.c:271:35: note: in expansion of macro 'pm_sleep_ptr'
+     271 |         .restore                = pm_sleep_ptr(virtio_i2c_restore),
+         |                                   ^~~~~~~~~~~~
+   include/linux/kernel.h:58:33: note: (near initialization for 'virtio_i2c_driver.feature_table')
+      58 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^
+   include/linux/pm.h:452:28: note: in expansion of macro 'PTR_IF'
+     452 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+         |                            ^~~~~~
+   drivers/i2c/busses/i2c-virtio.c:271:35: note: in expansion of macro 'pm_sleep_ptr'
+     271 |         .restore                = pm_sleep_ptr(virtio_i2c_restore),
+         |                                   ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/ret +71 drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
+vim +270 drivers/i2c/busses/i2c-virtio.c
 
-    55	
-    56	/**
-    57	 * __wait_for_resp   -	Don't hold the cpu context and wait for response
-    58	 * @rcfw      -   rcfw channel instance of rdev
-    59	 * @cookie    -   cookie to track the command
-    60	 *
-    61	 * Wait for command completion in sleepable context.
-    62	 *
-    63	 * Returns:
-    64	 * 0 if command is completed by firmware.
-    65	 * Non zero error code for rest of the case.
-    66	 */
-    67	static int __wait_for_resp(struct bnxt_qplib_rcfw *rcfw, u16 cookie)
-    68	{
-    69		struct bnxt_qplib_cmdq_ctx *cmdq;
-    70		u16 cbit;
-  > 71		int ret;
-    72	
-    73		cmdq = &rcfw->cmdq;
-    74		cbit = cookie % rcfw->cmdq_depth;
-    75	
-    76		do {
-    77			/* Non zero means command completed */
-    78			ret = wait_event_timeout(cmdq->waitq,
-    79						 !test_bit(cbit, cmdq->cmdq_bitmap),
-    80						 msecs_to_jiffies(10000));
-    81	
-    82			if (!test_bit(cbit, cmdq->cmdq_bitmap))
-    83				return 0;
-    84	
-    85			bnxt_qplib_service_creq(&rcfw->creq.creq_tasklet);
-    86	
-    87			if (!test_bit(cbit, cmdq->cmdq_bitmap))
-    88				return 0;
-    89	
-    90		} while (true);
-    91	};
-    92	
+   260	
+   261	static struct virtio_driver virtio_i2c_driver = {
+   262		.feature_table		= features,
+   263		.feature_table_size	= ARRAY_SIZE(features),
+   264		.id_table		= id_table,
+   265		.probe			= virtio_i2c_probe,
+   266		.remove			= virtio_i2c_remove,
+   267		.driver			= {
+   268			.name	= "i2c_virtio",
+   269		},
+ > 270		.freeze			= pm_sleep_ptr(virtio_i2c_freeze),
+ > 271		.restore		= pm_sleep_ptr(virtio_i2c_restore),
+   272	};
+   273	module_virtio_driver(virtio_i2c_driver);
+   274	
 
 -- 
 0-DAY CI Kernel Test Service
