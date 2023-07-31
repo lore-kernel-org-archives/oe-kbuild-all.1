@@ -1,32 +1,53 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873E081B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 08:55:06 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1qQOfr-0004jn-6K; Mon, 31 Jul 2023 10:54:43 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1qQOfn-0004Bl-Pb; Mon, 31 Jul 2023 10:54:39 +0200
-Date: Mon, 31 Jul 2023 10:54:39 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	peppe.cavallaro@st.com, alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com,
-	oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next v3 2/2] net: stmmac: add support for phy-supply
-Message-ID: <20230731085439.yj3iakjparweziis@pengutronix.de>
-References: <20230720072304.3358701-2-m.felsch@pengutronix.de>
- <202307220459.2gaQtSqH-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C8D111D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 09:22:46 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-31771a876b5so3539190f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 02:22:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690795365; x=1691400165;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lgbharsQKntdUER6lVZNSvC7uX5P5g4vU3d2CiQCSZI=;
+        b=HBx4eY3No4DDP4Mdjht6hrsNHYqF6NcaEYh9FQgreZ5QM0Ro0AaR4H9JY9SW4lNLmB
+         0vkl+WKJHjlBHiBtFksEDJgky4JhfD6Z2kpgb1VhlKU1M/Pe2ZPIosafh9SrIQoETvf/
+         udwaMy+HPCNj8LTKYJkwyW9DRime67iPoE1jpoDUaYI/83Gje/Z1BexzfK8sRKd569hO
+         Tcbg8o2YVx5lk6EOa80PE7fxES85bJVYUIl0S19WXLUNAn09pS5c8Mk5fc/jPgmA/fzr
+         Xc4AAtaheSvuKWNfOOIxggvikrSDSDWipMFNYCEQTCIbCaoG/DOcFo/utzoyG0YMMUQJ
+         vJGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690795365; x=1691400165;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lgbharsQKntdUER6lVZNSvC7uX5P5g4vU3d2CiQCSZI=;
+        b=LLegiYce/Ha7snkbMn+7/WdDI4iNmapsC0h+whWW4aXbqhgccRhuRLyhTYEja6V8+w
+         b3gKsLy7rrQHiByWddzsBm5O8qZ0rn4P3Mh8kiigOjx6e+Awu/XJ5QG22zXdIjZpMmTp
+         3IieAFo+Z0AJXD37/FRfJsaib7BlpMJgQGZ9zvLc9yg3dk5ndidmQhpob1Q7KvMI7Q6W
+         SPJFVrg5hUD6259nxRYpnO1DW44ddbHT4yu8McOmcehZXRfGE3D8JiPwSGfUhuld+4jh
+         Kfx2R9cs9itcept60/mFEHh2SQwKR3RtzHBDN0+8JiK09T9iP5emjK+EJsLeVs96tYeb
+         rTJg==
+X-Gm-Message-State: ABy/qLY4JlNRHrXJBG8S5o8WFyJLPmXLWy/wD9cHzoNAMXncQ8W1S5qf
+	C612YA5Y8siXoLrLThtIiFj62w==
+X-Google-Smtp-Source: APBJJlHw/GcIf7e08/QXfEbqiKdJncACDTkw/RFbul2a8Frea13WRXYpNkpCKC1KOZOxvCu1scRxyQ==
+X-Received: by 2002:adf:e586:0:b0:314:4915:689 with SMTP id l6-20020adfe586000000b0031449150689mr6522564wrm.34.1690795364743;
+        Mon, 31 Jul 2023 02:22:44 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f17-20020adffcd1000000b00313f61889ecsm12520466wrs.66.2023.07.31.02.22.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jul 2023 02:22:44 -0700 (PDT)
+Date: Mon, 31 Jul 2023 08:40:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Sergey Temerkhanov <sergey.temerkhanov@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Jacob Keller <jacob.e.keller@intel.com>
+Subject: [tnguy-next-queue:dev-queue 20/51]
+ drivers/net/ethernet/intel/ice/ice_ptp_hw.c:2181
+ ice_read_phy_and_phc_time_e822() warn: if statement not indented
+Message-ID: <f7214ccb-4adb-4184-9f62-09fba84bd744@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,47 +56,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202307220459.2gaQtSqH-lkp@intel.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-On 23-07-22, kernel test robot wrote:
-> Hi Marco,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/net-stmmac-add-support-for-phy-supply/20230720-152642
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20230720072304.3358701-2-m.felsch%40pengutronix.de
-> patch subject: [PATCH net-next v3 2/2] net: stmmac: add support for phy-supply
-> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230722/202307220459.2gaQtSqH-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230722/202307220459.2gaQtSqH-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307220459.2gaQtSqH-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_suspend':
-> >> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:7706:32: error: 'struct plat_stmmacenet_data' has no member named 'use_phy_wol'
->     7706 |                 if (!priv->plat->use_phy_wol)
->          |                                ^~
->    drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_resume':
->    drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:7790:32: error: 'struct plat_stmmacenet_data' has no member named 'use_phy_wol'
->     7790 |                 if (!priv->plat->use_phy_wol)
->          |                                ^~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+head:   79dc5308c824de000283d82a4496567bbedae5db
+commit: a9c0311851c4ab40093e5c629881499f2639f229 [20/51] ice: prefix clock timer command enumeration values with ICE_PTP
+config: i386-randconfig-m021-20230728 (https://download.01.org/0day-ci/archive/20230730/202307300951.kWJSF1tX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300951.kWJSF1tX-lkp@intel.com/reproduce)
 
-The fixed v4 can be found here:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307300951.kWJSF1tX-lkp@intel.com/
 
-https://lore.kernel.org/all/20230721110345.3925719-1-m.felsch@pengutronix.de/
+smatch warnings:
+drivers/net/ethernet/intel/ice/ice_ptp_hw.c:2181 ice_read_phy_and_phc_time_e822() warn: if statement not indented
 
-Regards,
-  Marco
+vim +2181 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
+
+3a7496234d179a Jacob Keller       2021-10-13  2165  static int
+3a7496234d179a Jacob Keller       2021-10-13  2166  ice_read_phy_and_phc_time_e822(struct ice_hw *hw, u8 port, u64 *phy_time,
+3a7496234d179a Jacob Keller       2021-10-13  2167  			       u64 *phc_time)
+3a7496234d179a Jacob Keller       2021-10-13  2168  {
+3a7496234d179a Jacob Keller       2021-10-13  2169  	u64 tx_time, rx_time;
+3a7496234d179a Jacob Keller       2021-10-13  2170  	u32 zo, lo;
+3a7496234d179a Jacob Keller       2021-10-13  2171  	u8 tmr_idx;
+3a7496234d179a Jacob Keller       2021-10-13  2172  	int err;
+3a7496234d179a Jacob Keller       2021-10-13  2173  
+3a7496234d179a Jacob Keller       2021-10-13  2174  	tmr_idx = ice_get_ptp_src_clock_index(hw);
+3a7496234d179a Jacob Keller       2021-10-13  2175  
+a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2176  	/* Prepare the PHC timer for a ICE_PTP_READ_TIME capture command */
+a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2177  	ice_ptp_src_cmd(hw, ICE_PTP_READ_TIME);
+3a7496234d179a Jacob Keller       2021-10-13  2178  
+a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2179  	/* Prepare the PHY timer for a ICE_PTP_READ_TIME capture command */
+a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2180  	err = ice_ptp_one_port_cmd(hw, port, ICE_PTP_READ_TIME);
+3a7496234d179a Jacob Keller       2021-10-13 @2181  	if (err)
+
+return err; statement is somehow missing.
+
+3a7496234d179a Jacob Keller       2021-10-13  2182  
+a9c0311851c4ab Sergey Temerkhanov 2023-07-10  2183  	/* Issue the sync to start the ICE_PTP_READ_TIME capture */
+3a7496234d179a Jacob Keller       2021-10-13  2184  	ice_ptp_exec_tmr_cmd(hw);
+3a7496234d179a Jacob Keller       2021-10-13  2185  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
