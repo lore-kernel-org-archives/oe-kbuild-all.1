@@ -1,43 +1,51 @@
-Received: from mgamail.intel.com (unknown [134.134.136.24])
+Received: from mgamail.intel.com (unknown [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6751E18C16
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 14:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A15182C7;
+	Mon, 31 Jul 2023 14:48:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690814492; x=1722350492;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=nS0HdeQOiH4dmoeESh3uoO/rKMus+p58YCjgIzfObDc=;
-  b=VfrQjxNdmHhPurAKlGLK9cGnh6AOOn/simtTZdipvCBvVGRdPW13biqC
-   hWpoqxqNYfxYW7gO1+7hbXfTyhEa8Ju1XYEhXwhHljYbb9A9a1wSmEdCF
-   UVJAvRfEdr3o7mZLshm85OdKdM6nUf0eATPpjKdDm9FGUWK2X76Vx2ZwW
-   poEOqO7m7eiXTG/hINmnJx35NYGiOcIhaNuqvxJD5/UWJ52ZbQaEF23b5
-   pi1BTA59gA3KomjjiORtK3N3vJKPLa05vP4grg1Se5uovl0ZD2Jl2LYwu
-   SCgHNkliancAHLlQxMlV114kMFo+xns92Q5Tiwzvme7iNAm5l2VXaVILr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="371742655"
+  t=1690814932; x=1722350932;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HFPGYWs4/zmSmWP047R6mExq1+V62JkVraQ6iMi1zME=;
+  b=FAOWEGXc/MMTm50+TlADW5V2HxoD4HssyKlDl5CDZS6inLCX7WFOhRq1
+   StXMaQcGKR47u2thI6NwuHfuNuhVOU0KbH8O5y/nHhbshAp0lo3EIrGaj
+   Zcw3ThmGZTMBYOlC3FAduz0sc+aLumc3BNl44ryuwM6rUjFZcML0726LF
+   An1AfctgHapuQAOJlGoOie7gLXKgzwb3MKBlmQPGNs3cy1qXk4LG6kmW8
+   Ir0KsIzldaBz6c1GZvdb1FAfLD9qpiEqAMf40H2i6/vWGqSRLJCT+BSmg
+   HdoULNkDTJQ98Yb9+M25V0DNGY3nsJSbeErLd/mp9SVlGAVybYfHpaAa2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="353959254"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="371742655"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 07:41:30 -0700
+   d="scan'208";a="353959254"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 07:41:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="798252272"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="757966589"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="798252272"
+   d="scan'208";a="757966589"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 31 Jul 2023 07:41:29 -0700
+  by orsmga008.jf.intel.com with ESMTP; 31 Jul 2023 07:41:14 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQU5B-0005Af-1P;
-	Mon, 31 Jul 2023 14:41:17 +0000
-Date: Mon, 31 Jul 2023 22:39:56 +0800
+	id 1qQU4H-0005Ac-0g;
+	Mon, 31 Jul 2023 14:40:31 +0000
+Date: Mon, 31 Jul 2023 22:39:55 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Brandon Brnich <b-brnich@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y 82/107] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/media/cnm,wave5.yaml
-Message-ID: <202307312205.gjgGSxTE-lkp@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lizhi Hou <lizhi.hou@amd.com>, Brian Xu <brian.xu@amd.com>,
+	Raj Kumar Rampelli <raj.kumar.rampelli@amd.com>,
+	Vinod Koul <vkoul@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Michal Simek <monstr@monstr.eu>, Max Zhen <max.zhen@amd.com>,
+	Sonal Santan <sonal.santan@amd.com>, dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH 4/4] dmaengine: xilinx: xdma: Support cyclic transfers
+Message-ID: <202307312225.9ewyJsVx-lkp@intel.com>
+References: <20230731101442.792514-5-miquel.raynal@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,20 +54,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230731101442.792514-5-miquel.raynal@bootlin.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
-head:   607bd344fe026c652150d4af0aa1e922b06585ee
-commit: ac2b9636c2e0a1c48d9058b58c3e399a571ea240 [82/107] media: chips-media: wave5: Add wave5 driver to maintainers file
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307312205.gjgGSxTE-lkp@intel.com/reproduce)
+Hi Miquel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc4 next-20230731]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/dmaengine-xilinx-xdma-Fix-interrupt-vector-setting/20230731-181620
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230731101442.792514-5-miquel.raynal%40bootlin.com
+patch subject: [PATCH 4/4] dmaengine: xilinx: xdma: Support cyclic transfers
+config: powerpc-randconfig-r026-20230731 (https://download.01.org/0day-ci/archive/20230731/202307312225.9ewyJsVx-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230731/202307312225.9ewyJsVx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307312205.gjgGSxTE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307312225.9ewyJsVx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/cnm,wave5.yaml
+>> drivers/dma/xilinx/xdma.c:716:6: warning: variable 'desc' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     716 |         if (vd)
+         |             ^~
+   drivers/dma/xilinx/xdma.c:718:7: note: uninitialized use occurs here
+     718 |         if (!desc || !desc->cyclic) {
+         |              ^~~~
+   drivers/dma/xilinx/xdma.c:716:2: note: remove the 'if' if its condition is always true
+     716 |         if (vd)
+         |         ^~~~~~~
+     717 |                 desc = to_xdma_desc(vd);
+         | ~~~~~~~~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:703:24: note: initialize the variable 'desc' to silence this warning
+     703 |         struct xdma_desc *desc;
+         |                               ^
+         |                                = NULL
+   1 warning generated.
+
+
+vim +716 drivers/dma/xilinx/xdma.c
+
+   697	
+   698	static enum dma_status xdma_tx_status(struct dma_chan *chan, dma_cookie_t cookie,
+   699					      struct dma_tx_state *state)
+   700	{
+   701		struct xdma_chan *xdma_chan = to_xdma_chan(chan);
+   702		struct virt_dma_desc *vd;
+   703		struct xdma_desc *desc;
+   704		enum dma_status ret;
+   705		unsigned long flags;
+   706		unsigned int period_idx;
+   707		u32 residue = 0;
+   708	
+   709		ret = dma_cookie_status(chan, cookie, state);
+   710		if (ret == DMA_COMPLETE || !state)
+   711			return ret;
+   712	
+   713		spin_lock_irqsave(&xdma_chan->vchan.lock, flags);
+   714	
+   715		vd = vchan_find_desc(&xdma_chan->vchan, cookie);
+ > 716		if (vd)
+   717			desc = to_xdma_desc(vd);
+   718		if (!desc || !desc->cyclic) {
+   719			spin_unlock_irqrestore(&xdma_chan->vchan.lock, flags);
+   720			return ret;
+   721		}
+   722	
+   723		period_idx = desc->completed_desc_num % desc->periods;
+   724		residue = (desc->periods - period_idx) * desc->period_size;
+   725	
+   726		spin_unlock_irqrestore(&xdma_chan->vchan.lock, flags);
+   727	
+   728		dma_set_residue(state, residue);
+   729	
+   730		return ret;
+   731	}
+   732	
 
 -- 
 0-DAY CI Kernel Test Service
