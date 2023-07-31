@@ -1,103 +1,113 @@
-Received: from h2.cmg1.smtp.forpsi.com (h2.cmg1.smtp.forpsi.com [81.2.195.163])
+Received: from mgamail.intel.com (unknown [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D4218C28
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 15:55:30 +0000 (UTC)
-Received: from [192.168.1.166] ([91.218.190.200])
-	by cmgsmtp with ESMTPSA
-	id QVEuqzesOPm6CQVEvqrTep; Mon, 31 Jul 2023 17:55:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-	t=1690818922; bh=Yp95+3EY9f7hBdv+WzMvSHfhSdPzd3L/hdIpYvXs3nI=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version;
-	b=uOruI7o76E0/KCiYfTcvDrBhcZ9jBJLIhkjz/03vnp4znL1fhN74f4uIlthPgjXgl
-	 GCv3tlVm5R/ghFuVx02EDP9+RobTlvIP0QEq3mhEuwmSMar79JYbhltebAdy/LNBQg
-	 6Z4z3cC2q0YCl6P6XPQdVNXRXLqCRbxxWKfGSdEisQa0Q3rZG9Mav3SpAqLlupJ7ro
-	 9V2WXeUETZUVEyiv6wB7h52tWzk3TfG+I+2KnxDjLQrb4yqb7YoKUpCunXX5wT/Lm6
-	 KHM3lq3nomX/qOtM0lAHo+7DFlLT3irgV8q8zg2IZ2nvayibUsHr7lQgEIO/Ql8PQk
-	 wUFbs3bp+CfLg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triops.cz; s=f2019;
-	t=1690818922; bh=Yp95+3EY9f7hBdv+WzMvSHfhSdPzd3L/hdIpYvXs3nI=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version;
-	b=uOruI7o76E0/KCiYfTcvDrBhcZ9jBJLIhkjz/03vnp4znL1fhN74f4uIlthPgjXgl
-	 GCv3tlVm5R/ghFuVx02EDP9+RobTlvIP0QEq3mhEuwmSMar79JYbhltebAdy/LNBQg
-	 6Z4z3cC2q0YCl6P6XPQdVNXRXLqCRbxxWKfGSdEisQa0Q3rZG9Mav3SpAqLlupJ7ro
-	 9V2WXeUETZUVEyiv6wB7h52tWzk3TfG+I+2KnxDjLQrb4yqb7YoKUpCunXX5wT/Lm6
-	 KHM3lq3nomX/qOtM0lAHo+7DFlLT3irgV8q8zg2IZ2nvayibUsHr7lQgEIO/Ql8PQk
-	 wUFbs3bp+CfLg==
-Message-ID: <f833e6f20a0e745163d5abd4bdb62d6d3b7e156e.camel@triops.cz>
-Subject: Re: [usb:usb-testing 25/42] drivers/usb/dwc3/dwc3-octeon.c:403:10:
- warning: shift count >= width of type
-From: Ladislav Michl <ladis@triops.cz>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel test robot
-	 <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-usb@vger.kernel.org
-Date: Mon, 31 Jul 2023 17:55:20 +0200
-In-Reply-To: <20230731154906.GA1823389@dev-arch.thelio-3990X>
-References: <202307260537.MROrhVNM-lkp@intel.com>
-	 <2023072653-viewable-harmonics-09e0@gregkh>
-	 <fbceb8e5444eab23788501b002926e07f54fdd7c.camel@triops.cz>
-	 <20230731154906.GA1823389@dev-arch.thelio-3990X>
-Organization: Triops, s.r.o.
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5765319BB0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 16:03:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690819415; x=1722355415;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=REwXaTrc9DrEQJyU3ZSNpbQ6T+OlGjj3Kmewbegq26o=;
+  b=d5ZrBs2jtySv/wD8Rdm6waVLkjogUe/OoSB2nSD2DqFaHrYJPL1JChwk
+   szaa3Qpy31zLNK7xvvGC29x7zVnrXcx6mfpdm3DE4YyAaQ6iwdLjIZQfM
+   nrOJBQL44vCuRjQ8iCSuiav8R7E/0qfxjecfQ6GVfHCJNrBDcyi+34ShL
+   Uy4Wd4ZVjtno29htSvz0l2Us8/qrZAp8VVGmODInYPKCTf/lyNJQL+GNa
+   EQCPmKFqMriAtLN03URARiadFGXAEAp0z1+y1xuP5ho1j1Uzl6MAZgn5o
+   BFNPzx8IgiCdlTJAEV2nZRyU8EVf9Uy3dy1/2gE8cUW4E0SrHCUhe1xZ/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="348655048"
+X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
+   d="scan'208";a="348655048"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 09:03:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="842318617"
+X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
+   d="scan'208";a="842318617"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 31 Jul 2023 09:03:10 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qQVMT-0005DJ-2c;
+	Mon, 31 Jul 2023 16:03:09 +0000
+Date: Tue, 1 Aug 2023 00:02:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wentong Wu <wentong.wu@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:master 41/41]
+ drivers/media/pci/intel/ivsc/mei_ace.c:444:41: warning: implicit conversion
+ from 'enum ace_cmd_id' to 'enum ace_camera_owner'
+Message-ID: <202308010053.Fi9ibMjW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfHDUUouenX+wc09TBc9VfvKOpMzH53Yj/b6ZHML7s/r+2FfeP/0nZQbstfEobNT3QqTK1A9Vaz4Ag20LCq1nBFiihi/r64UhvyGnztEQNZdprW2/UJGS
- 1XNV6rdquitKLLfLH4aTRqP2ikRfqTxAmDoL1HSKgiGTz3ov+oeLxTjuJBfHqeSvIJ1VOojtjodiWg0Ifw+vhkUbhkwrINIEBoklaSnJjgJVJ3DPfJXYJpoV
- QYynnrZgcuRqU0kDCe4NabxBrng3fg8l/nDfKiTmN3LeMfHuLD4Sdp/h4choOTbOez8M7XmPpnFxHL+yDulymeRAOaX4tHAHAe7bxcPbs1Y=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Nathan,
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   f6a458a2c82c225125c937cfd5675c2a3c494b33
+commit: f6a458a2c82c225125c937cfd5675c2a3c494b33 [41/41] media: pci: intel: ivsc: Add ACE submodule
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230801/202308010053.Fi9ibMjW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230801/202308010053.Fi9ibMjW-lkp@intel.com/reproduce)
 
-On Mon, 2023-07-31 at 08:49 -0700, Nathan Chancellor wrote:
-> Hi Ladislav,
->=20
-> On Fri, Jul 28, 2023 at 08:48:20AM +0200, Ladislav Michl wrote:
-> > Hi Greg,
-> >=20
-> > I'm sorry for late reply (travelling)
-> >=20
-> > On Wed, 2023-07-26 at 06:39 +0200, Greg Kroah-Hartman wrote:
-> > > On Wed, Jul 26, 2023 at 05:09:56AM +0800, kernel test robot
-> > > wrote:
-> > > > Hi Ladislav,
-> > > >=20
-> > > > First bad commit (maybe !=3D root cause):
-> > > >=20
-> > > > tree:=C2=A0=C2=A0
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git=C2=
-=A0
-> > > > usb-
-> > > > testing
-> > > > head:=C2=A0=C2=A0 ac47051f0bb8ccf1eaedb296a19fcb541474db53
-> > > > commit: b3061c5a15fe460502e9574b4663dd7c6ed80b48 [25/42] usb:
-> > > > dwc3:
-> > > > dwc3-octeon: Convert to glue driver
-> > >=20
-> > > Ladislav, I've dropped your dwc3-octeon patches from my tree now,
-> > > please fix up and resend when you have this resolved.
-> >=20
-> > As I didn't find a better place to ask, I'm asking here:
-> > all registers are 64bit and driver is now using GENMASK and BIT
-> > macros to access their values. Reported problem comes from 32bit
-> > configuration, where BIT is UL(1) << (nr) and BITS_PER_LONG is 32.
-> > Is using GENMASK_ULL and BIT_ULL preferred way to go here? I'm not
-> > a bit fan of "fixing" code just to silence warning on irrelevant
-> > configurations, but will do it unless someone points me to better
-> > way.
->=20
-> I am not Greg but I see you did not get a response on this yet. Yes,
-> you should use the _ULL macros to ensure the values are always 64-
-> bit, which will avoid this issue altogether.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308010053.Fi9ibMjW-lkp@intel.com/
 
-Thanks for an answer. Although it comes a bit late as v5 with mentioned
-change was sent to mailing list a few hours ago :) Let's see what else
-pops up...
+All warnings (new ones prefixed by >>):
 
-Best regards,
-	l.
+   drivers/media/pci/intel/ivsc/mei_ace.c: In function 'mei_ace_post_probe_work':
+>> drivers/media/pci/intel/ivsc/mei_ace.c:444:41: warning: implicit conversion from 'enum ace_cmd_id' to 'enum ace_camera_owner' [-Wenum-conversion]
+     444 |         ret = ace_set_camera_owner(ace, ACE_SWITCH_CAMERA_TO_HOST);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_ace.c: In function 'mei_ace_remove':
+   drivers/media/pci/intel/ivsc/mei_ace.c:529:35: warning: implicit conversion from 'enum ace_cmd_id' to 'enum ace_camera_owner' [-Wenum-conversion]
+     529 |         ace_set_camera_owner(ace, ACE_SWITCH_CAMERA_TO_IVSC);
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_ace.c: In function 'mei_ace_runtime_suspend':
+   drivers/media/pci/intel/ivsc/mei_ace.c:538:42: warning: implicit conversion from 'enum ace_cmd_id' to 'enum ace_camera_owner' [-Wenum-conversion]
+     538 |         return ace_set_camera_owner(ace, ACE_SWITCH_CAMERA_TO_IVSC);
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_ace.c: In function 'mei_ace_runtime_resume':
+   drivers/media/pci/intel/ivsc/mei_ace.c:545:42: warning: implicit conversion from 'enum ace_cmd_id' to 'enum ace_camera_owner' [-Wenum-conversion]
+     545 |         return ace_set_camera_owner(ace, ACE_SWITCH_CAMERA_TO_HOST);
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +444 drivers/media/pci/intel/ivsc/mei_ace.c
+
+   432	
+   433	/* switch camera to host before probe sensor device */
+   434	static void mei_ace_post_probe_work(struct work_struct *work)
+   435	{
+   436		struct acpi_device *adev;
+   437		struct mei_ace *ace;
+   438		struct device *dev;
+   439		int ret;
+   440	
+   441		ace = container_of(work, struct mei_ace, work);
+   442		dev = &ace->cldev->dev;
+   443	
+ > 444		ret = ace_set_camera_owner(ace, ACE_SWITCH_CAMERA_TO_HOST);
+   445		if (ret) {
+   446			dev_err(dev, "switch camera to host failed: %d\n", ret);
+   447			return;
+   448		}
+   449	
+   450		adev = ACPI_COMPANION(dev->parent);
+   451		if (!adev)
+   452			return;
+   453	
+   454		acpi_dev_clear_dependencies(adev);
+   455	}
+   456	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
