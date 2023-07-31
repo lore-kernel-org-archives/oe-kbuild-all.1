@@ -1,43 +1,47 @@
-Received: from mgamail.intel.com (unknown [192.55.52.115])
+Received: from mgamail.intel.com (unknown [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EC462D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 03:26:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075DF62D;
+	Mon, 31 Jul 2023 03:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690774020; x=1722310020;
+  t=1690775839; x=1722311839;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bsk0r+qPizK1WmIQJ2hjbWPwZjDyt59aI1j4g4ScYaQ=;
-  b=g35trRabpM0vCj4+JVgvc2/1nRXcs46eRQNZ/QNs/EIQ8Q9AcpYe6/DH
-   o61RD8gFyEZfDmvUtkDhNhoWX2LOzzkbboWcKqgAZuQEXVDHZQyg5GNG7
-   Hq8xtyn5a+kfElB7/uvJYvzl7LrUT4yAcgofohDwXELVjCJUYvOdrLW4D
-   31q4yD+MT4CXKcd8KK7Sz5S4neRGwxgHAPYWVKxKVp/U726M1klhvCVsp
-   5ZqyCY91kNT7cvD7QSEuiPPC2/dRFp92cK2QgEYjg7G2m52dtd3zFlWgz
-   qkh4VQsHEaWUiyAKuL7OH7kfmvMcmOmy5mqFqzYZTjv4Yw9cvPcbUG9PL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="368922794"
+  bh=YdTa927pxNiekVVILvmjD2ho5UjOjenDnP3CDC2vxf4=;
+  b=ZN+nyKYD6lJMrZSlV+QsBDpHLfgbmuT+tOLnR8CaMhnbYqEY99HYyHrD
+   m2ObtwKeKHFqniWH3a1z/RRp+jXjJVcay36e6p003CTKdAPC7Pc+m0ATY
+   PYWcmGSV0b0PJSWjCZBRUjV45to7HyPWVT2deisHQTbK+zTXoIGfd+E4q
+   R80+fduJTZMQVZzoyPnrDky11EraGPan7oUerrqtqn7ha4hvA/D+8fvzI
+   Dz42Vjg/6eOmUc222bo3h6RZ9nR3IKjb5ueRRwUf1ohGyJq3rgzk7wXLR
+   J7nejRA14kfGTP8omc7sJH0xCXxTCCD6O2rUizdxDamHnlPrLeANacUj0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="371624102"
 X-IronPort-AV: E=Sophos;i="6.01,243,1684825200"; 
-   d="scan'208";a="368922794"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 20:26:59 -0700
+   d="scan'208";a="371624102"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2023 20:57:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="818173553"
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="721916538"
 X-IronPort-AV: E=Sophos;i="6.01,243,1684825200"; 
-   d="scan'208";a="818173553"
+   d="scan'208";a="721916538"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 30 Jul 2023 20:26:58 -0700
+  by orsmga007.jf.intel.com with ESMTP; 30 Jul 2023 20:57:15 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQJYM-0004uQ-1Y;
-	Mon, 31 Jul 2023 03:26:48 +0000
-Date: Mon, 31 Jul 2023 11:26:25 +0800
+	id 1qQK1z-0004vD-01;
+	Mon, 31 Jul 2023 03:57:15 +0000
+Date: Mon, 31 Jul 2023 11:56:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.4 114/141]
- drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:173:20: warning: variable
- 'opcode' set but not used
-Message-ID: <202307311121.DRq7chlS-lkp@intel.com>
+To: Fangrui Song <maskray@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nathan Chancellor <natechancellor@gmail.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [stable:linux-4.19.y 2317/9999] lib/mpi/generic_mpih-mul2.c:49:24:
+ error: invalid use of a cast in a inline asm context requiring an lvalue:
+ remove the cast or build with -fheinous-gnu-extensions
+Message-ID: <202307311111.jPEdYIJR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,126 +51,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.4
-head:   ade14a1785368ef634f78e4a46ce217f7937b066
-commit: a8bafc8e2d78f6fd12d43c313d833bf2cedc959c [114/141] RDMA/bnxt_re: Simplify the function that sends the FW commands
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230731/202307311121.DRq7chlS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311121.DRq7chlS-lkp@intel.com/reproduce)
+Hi Fangrui,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   767049cead76cf699707290d5aeefb3e4d0d5b43
+commit: 69c122751164c3c343eea205fd5c3e1d5132f967 [2317/9999] Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
+config: mips-randconfig-r036-20230731 (https://download.01.org/0day-ci/archive/20230731/202307311111.jPEdYIJR-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311111.jPEdYIJR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307311121.DRq7chlS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307311111.jPEdYIJR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c: In function '__wait_for_resp':
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     108 |         int ret;
-         |             ^~~
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c: In function '__send_message':
->> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:173:20: warning: variable 'opcode' set but not used [-Wunused-but-set-variable]
-     173 |         u32 bsize, opcode, free_slots, required_slots;
-         |                    ^~~~~~
+>> drivers/net/netdevsim/netdev.c:167:35: warning: unused variable 'nsim_switchdev_ops' [-Wunused-const-variable]
+     167 | static const struct switchdev_ops nsim_switchdev_ops = {
+         |                                   ^
+   1 warning generated.
+--
+>> lib/mpi/generic_mpih-mul2.c:49:24: error: invalid use of a cast in a inline asm context requiring an lvalue: remove the cast or build with -fheinous-gnu-extensions
+      49 |                 umul_ppmm(prod_high, prod_low, s1_ptr[j], s2_limb);
+         |                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/mpi/longlong.h:652:20: note: expanded from macro 'umul_ppmm'
+     652 |         : "=l" ((USItype)(w0)), \
+         |                 ~~~~~~~~~~^~~
+>> lib/mpi/generic_mpih-mul2.c:49:3: error: invalid output constraint '=h' in asm
+      49 |                 umul_ppmm(prod_high, prod_low, s1_ptr[j], s2_limb);
+         |                 ^
+   lib/mpi/longlong.h:653:7: note: expanded from macro 'umul_ppmm'
+     653 |              "=h" ((USItype)(w1)) \
+         |              ^
+   2 errors generated.
+--
+   lib/mpi/generic_mpih-mul3.c:49:24: error: invalid use of a cast in a inline asm context requiring an lvalue: remove the cast or build with -fheinous-gnu-extensions
+      49 |                 umul_ppmm(prod_high, prod_low, s1_ptr[j], s2_limb);
+         |                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/mpi/longlong.h:652:20: note: expanded from macro 'umul_ppmm'
+     652 |         : "=l" ((USItype)(w0)), \
+         |                 ~~~~~~~~~~^~~
+>> lib/mpi/generic_mpih-mul3.c:49:3: error: invalid output constraint '=h' in asm
+      49 |                 umul_ppmm(prod_high, prod_low, s1_ptr[j], s2_limb);
+         |                 ^
+   lib/mpi/longlong.h:653:7: note: expanded from macro 'umul_ppmm'
+     653 |              "=h" ((USItype)(w1)) \
+         |              ^
+   2 errors generated.
+--
+>> lib/mpi/mpih-div.c:142:20: error: invalid use of a cast in a inline asm context requiring an lvalue: remove the cast or build with -fheinous-gnu-extensions
+     142 |                                         umul_ppmm(n1, n0, d0, q);
+         |                                         ~~~~~~~~~~~~~~^~~~~~~~~~
+   lib/mpi/longlong.h:652:20: note: expanded from macro 'umul_ppmm'
+     652 |         : "=l" ((USItype)(w0)), \
+         |                 ~~~~~~~~~~^~~
+>> lib/mpi/mpih-div.c:142:6: error: invalid output constraint '=h' in asm
+     142 |                                         umul_ppmm(n1, n0, d0, q);
+         |                                         ^
+   lib/mpi/longlong.h:653:7: note: expanded from macro 'umul_ppmm'
+     653 |              "=h" ((USItype)(w1)) \
+         |              ^
+   lib/mpi/mpih-div.c:205:20: error: invalid use of a cast in a inline asm context requiring an lvalue: remove the cast or build with -fheinous-gnu-extensions
+     205 |                                         umul_ppmm(n1, n0, d1, q);
+         |                                         ~~~~~~~~~~~~~~^~~~~~~~~~
+   lib/mpi/longlong.h:652:20: note: expanded from macro 'umul_ppmm'
+     652 |         : "=l" ((USItype)(w0)), \
+         |                 ~~~~~~~~~~^~~
+   lib/mpi/mpih-div.c:205:6: error: invalid output constraint '=h' in asm
+     205 |                                         umul_ppmm(n1, n0, d1, q);
+         |                                         ^
+   lib/mpi/longlong.h:653:7: note: expanded from macro 'umul_ppmm'
+     653 |              "=h" ((USItype)(w1)) \
+         |              ^
+   4 errors generated.
+--
+>> lib/mpi/generic_mpih-mul1.c:50:24: error: invalid use of a cast in a inline asm context requiring an lvalue: remove the cast or build with -fheinous-gnu-extensions
+      50 |                 umul_ppmm(prod_high, prod_low, s1_ptr[j], s2_limb);
+         |                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/mpi/longlong.h:652:20: note: expanded from macro 'umul_ppmm'
+     652 |         : "=l" ((USItype)(w0)), \
+         |                 ~~~~~~~~~~^~~
+>> lib/mpi/generic_mpih-mul1.c:50:3: error: invalid output constraint '=h' in asm
+      50 |                 umul_ppmm(prod_high, prod_low, s1_ptr[j], s2_limb);
+         |                 ^
+   lib/mpi/longlong.h:653:7: note: expanded from macro 'umul_ppmm'
+     653 |              "=h" ((USItype)(w1)) \
+         |              ^
+   2 errors generated.
 
 
-vim +/opcode +173 drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
+vim +49 lib/mpi/generic_mpih-mul2.c
 
-   169	
-   170	static int __send_message(struct bnxt_qplib_rcfw *rcfw,
-   171				  struct bnxt_qplib_cmdqmsg *msg)
-   172	{
- > 173		u32 bsize, opcode, free_slots, required_slots;
-   174		struct bnxt_qplib_cmdq_ctx *cmdq;
-   175		struct bnxt_qplib_crsqe *crsqe;
-   176		struct bnxt_qplib_cmdqe *cmdqe;
-   177		struct bnxt_qplib_hwq *hwq;
-   178		u32 sw_prod, cmdq_prod;
-   179		struct pci_dev *pdev;
-   180		unsigned long flags;
-   181		u16 cookie, cbit;
-   182		u8 *preq;
-   183	
-   184		cmdq = &rcfw->cmdq;
-   185		hwq = &cmdq->hwq;
-   186		pdev = rcfw->pdev;
-   187	
-   188		opcode = __get_cmdq_base_opcode(msg->req, msg->req_sz);
-   189	
-   190		if (test_bit(FIRMWARE_TIMED_OUT, &cmdq->flags))
-   191			return -ETIMEDOUT;
-   192	
-   193		/* Cmdq are in 16-byte units, each request can consume 1 or more
-   194		 * cmdqe
-   195		 */
-   196		spin_lock_irqsave(&hwq->lock, flags);
-   197		required_slots = bnxt_qplib_get_cmd_slots(msg->req);
-   198		free_slots = HWQ_FREE_SLOTS(hwq);
-   199		cookie = cmdq->seq_num & RCFW_MAX_COOKIE_VALUE;
-   200		cbit = cookie % rcfw->cmdq_depth;
-   201	
-   202		if (required_slots >= free_slots ||
-   203		    test_bit(cbit, cmdq->cmdq_bitmap)) {
-   204			dev_info_ratelimited(&pdev->dev,
-   205					     "CMDQ is full req/free %d/%d!",
-   206					     required_slots, free_slots);
-   207			spin_unlock_irqrestore(&hwq->lock, flags);
-   208			return -EAGAIN;
-   209		}
-   210		if (msg->block)
-   211			cookie |= RCFW_CMD_IS_BLOCKING;
-   212		set_bit(cbit, cmdq->cmdq_bitmap);
-   213		__set_cmdq_base_cookie(msg->req, msg->req_sz, cpu_to_le16(cookie));
-   214		crsqe = &rcfw->crsqe_tbl[cbit];
-   215		bsize = bnxt_qplib_set_cmd_slots(msg->req);
-   216		crsqe->free_slots = free_slots;
-   217		crsqe->resp = (struct creq_qp_event *)msg->resp;
-   218		crsqe->resp->cookie = cpu_to_le16(cookie);
-   219		crsqe->req_size = __get_cmdq_base_cmd_size(msg->req, msg->req_sz);
-   220		if (__get_cmdq_base_resp_size(msg->req, msg->req_sz) && msg->sb) {
-   221			struct bnxt_qplib_rcfw_sbuf *sbuf = msg->sb;
-   222	
-   223			__set_cmdq_base_resp_addr(msg->req, msg->req_sz,
-   224						  cpu_to_le64(sbuf->dma_addr));
-   225			__set_cmdq_base_resp_size(msg->req, msg->req_sz,
-   226						  ALIGN(sbuf->size,
-   227							BNXT_QPLIB_CMDQE_UNITS));
-   228		}
-   229	
-   230		preq = (u8 *)msg->req;
-   231		do {
-   232			/* Locate the next cmdq slot */
-   233			sw_prod = HWQ_CMP(hwq->prod, hwq);
-   234			cmdqe = bnxt_qplib_get_qe(hwq, sw_prod, NULL);
-   235			/* Copy a segment of the req cmd to the cmdq */
-   236			memset(cmdqe, 0, sizeof(*cmdqe));
-   237			memcpy(cmdqe, preq, min_t(u32, bsize, sizeof(*cmdqe)));
-   238			preq += min_t(u32, bsize, sizeof(*cmdqe));
-   239			bsize -= min_t(u32, bsize, sizeof(*cmdqe));
-   240			hwq->prod++;
-   241		} while (bsize > 0);
-   242		cmdq->seq_num++;
-   243	
-   244		cmdq_prod = hwq->prod & 0xFFFF;
-   245		if (test_bit(FIRMWARE_FIRST_FLAG, &cmdq->flags)) {
-   246			/* The very first doorbell write
-   247			 * is required to set this flag
-   248			 * which prompts the FW to reset
-   249			 * its internal pointers
-   250			 */
-   251			cmdq_prod |= BIT(FIRMWARE_FIRST_FLAG);
-   252			clear_bit(FIRMWARE_FIRST_FLAG, &cmdq->flags);
-   253		}
-   254		/* ring CMDQ DB */
-   255		wmb();
-   256		writel(cmdq_prod, cmdq->cmdq_mbox.prod);
-   257		writel(RCFW_CMDQ_TRIG_VAL, cmdq->cmdq_mbox.db);
-   258		spin_unlock_irqrestore(&hwq->lock, flags);
-   259		/* Return the CREQ response pointer */
-   260		return 0;
-   261	}
-   262	
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  31  
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  32  mpi_limb_t
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  33  mpihelp_addmul_1(mpi_ptr_t res_ptr, mpi_ptr_t s1_ptr,
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  34  		 mpi_size_t s1_size, mpi_limb_t s2_limb)
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  35  {
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  36  	mpi_limb_t cy_limb;
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  37  	mpi_size_t j;
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  38  	mpi_limb_t prod_high, prod_low;
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  39  	mpi_limb_t x;
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  40  
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  41  	/* The loop counter and index J goes from -SIZE to -1.  This way
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  42  	 * the loop becomes faster.  */
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  43  	j = -s1_size;
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  44  	res_ptr -= j;
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  45  	s1_ptr -= j;
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  46  
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  47  	cy_limb = 0;
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31  48  	do {
+cdec9cb5167ab1 Dmitry Kasatkin 2011-08-31 @49  		umul_ppmm(prod_high, prod_low, s1_ptr[j], s2_limb);
+
+:::::: The code at line 49 was first introduced by commit
+:::::: cdec9cb5167ab1113ba9c58e395f664d9d3f9acb crypto: GnuPG based MPI lib - source files (part 1)
+
+:::::: TO: Dmitry Kasatkin <dmitry.kasatkin@intel.com>
+:::::: CC: Dmitry Kasatkin <dmitry.kasatkin@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
