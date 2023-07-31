@@ -1,133 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E6A14F8E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 15:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690816864; x=1722352864;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/EscTkRtD7jAqlvkMCVgNtGWa02l8XolWSZOn4umt9g=;
-  b=iQrX/08q5xV0ZrU4qu0wiuPRQFPYe8VMxpD/vBqRjov7JTNoxU084Pzw
-   Fo+egPafgsjrGn/SdlGF9A6NFdXj7QCYJz9+tt0cZZZBWwIFyDLmEo+3k
-   VNCGLnyNCUL8vBTcS68yMRIa588vkvPwBTETnB+l36sBgMvaqBWZe0EBc
-   GmwYYG4l01wqKvZGtKbNfAw8s7UzTX0NzsxuoQI8h5zNTet710BR7sgEj
-   2593y6qzp+VYZYYszzNiB1dT4rgBrysVGAseNgVh66IEnazabFED+rI4h
-   rGaY2OJHt+xxhsO4sE2YEV4bAmI+ZZyaD2rOM6g++5j0zAUnyS4hzredg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="348643321"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="348643321"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 08:21:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="793754615"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="793754615"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 31 Jul 2023 08:21:01 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qQUhh-0005C7-0Y;
-	Mon, 31 Jul 2023 15:21:01 +0000
-Date: Mon, 31 Jul 2023 23:20:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wentong Wu <wentong.wu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:master 40/41]
- drivers/media/pci/intel/ivsc/mei_csi.c:574:40: warning: 'struct
- v4l2_async_subdev' declared inside parameter list will not be visible
- outside of this definition or declaration
-Message-ID: <202307312307.t1gJlUux-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2924E182DA;
+	Mon, 31 Jul 2023 15:49:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 472A3C433CB;
+	Mon, 31 Jul 2023 15:49:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690818548;
+	bh=IiqjtFljpF3JFBsgdPWDkjyDlc2GqaguJSDXrS94mrg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fo84xOZQ19JMnvS1yPw9YGAtTMoMhJjihcZ2js3t+lNfe3qW7IbwgNzn32zAITt5f
+	 DDLVJrLte8TxT90Qh4Moz5PRiwcx9+uCHKRtgMiJNP2Ae/eGjCJLmp0j2ffUTIDlXX
+	 oMLDFKKwteCAsw1Lcbhl8bFyUnSsJyHaI48UGqumQpY7qLr4/sv4R0qhyq3FUjcuVM
+	 McHxI0pxh7Yq7C6ZskiGYAv8wwXijg9rfeOSWJfA7qQkbF8HUUJ/7r5lmqoRlZtGIf
+	 a9WJI0jiJkRqb3wm5rpeeMm4xmc/Qh2UqKS3T7W1jp25leUwGmpflLvJ4XBh2YcZ2o
+	 MLrRG6XZvdawA==
+Date: Mon, 31 Jul 2023 08:49:06 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Ladislav Michl <ladis@triops.cz>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org
+Subject: Re: [usb:usb-testing 25/42] drivers/usb/dwc3/dwc3-octeon.c:403:10:
+ warning: shift count >= width of type
+Message-ID: <20230731154906.GA1823389@dev-arch.thelio-3990X>
+References: <202307260537.MROrhVNM-lkp@intel.com>
+ <2023072653-viewable-harmonics-09e0@gregkh>
+ <fbceb8e5444eab23788501b002926e07f54fdd7c.camel@triops.cz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fbceb8e5444eab23788501b002926e07f54fdd7c.camel@triops.cz>
 
-tree:   git://linuxtv.org/sailus/media_tree.git master
-head:   f6a458a2c82c225125c937cfd5675c2a3c494b33
-commit: cc561f8b16e6ce155c6368eb6bb3497f3d51332b [40/41] media: pci: intel: ivsc: Add CSI submodule
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230731/202307312307.t1gJlUux-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307312307.t1gJlUux-lkp@intel.com/reproduce)
+Hi Ladislav,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307312307.t1gJlUux-lkp@intel.com/
+On Fri, Jul 28, 2023 at 08:48:20AM +0200, Ladislav Michl wrote:
+> Hi Greg,
+> 
+> I'm sorry for late reply (travelling)
+> 
+> On Wed, 2023-07-26 at 06:39 +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Jul 26, 2023 at 05:09:56AM +0800, kernel test robot wrote:
+> > > Hi Ladislav,
+> > > 
+> > > First bad commit (maybe != root cause):
+> > > 
+> > > tree:  
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-
+> > > testing
+> > > head:   ac47051f0bb8ccf1eaedb296a19fcb541474db53
+> > > commit: b3061c5a15fe460502e9574b4663dd7c6ed80b48 [25/42] usb: dwc3:
+> > > dwc3-octeon: Convert to glue driver
+> > 
+> > Ladislav, I've dropped your dwc3-octeon patches from my tree now,
+> > please fix up and resend when you have this resolved.
+> 
+> As I didn't find a better place to ask, I'm asking here:
+> all registers are 64bit and driver is now using GENMASK and BIT
+> macros to access their values. Reported problem comes from 32bit
+> configuration, where BIT is UL(1) << (nr) and BITS_PER_LONG is 32.
+> Is using GENMASK_ULL and BIT_ULL preferred way to go here? I'm not a
+> bit fan of "fixing" code just to silence warning on irrelevant
+> configurations, but will do it unless someone points me to better way.
 
-All warnings (new ones prefixed by >>):
+I am not Greg but I see you did not get a response on this yet. Yes, you
+should use the _ULL macros to ensure the values are always 64-bit, which
+will avoid this issue altogether.
 
->> drivers/media/pci/intel/ivsc/mei_csi.c:574:40: warning: 'struct v4l2_async_subdev' declared inside parameter list will not be visible outside of this definition or declaration
-     574 |                                 struct v4l2_async_subdev *asd)
-         |                                        ^~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c: In function 'mei_csi_notify_bound':
-   drivers/media/pci/intel/ivsc/mei_csi.c:579:63: error: invalid use of undefined type 'struct v4l2_async_subdev'
-     579 |         pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
-         |                                                               ^~
-   drivers/media/pci/intel/ivsc/mei_csi.c: At top level:
-   drivers/media/pci/intel/ivsc/mei_csi.c:595:42: warning: 'struct v4l2_async_subdev' declared inside parameter list will not be visible outside of this definition or declaration
-     595 |                                   struct v4l2_async_subdev *asd)
-         |                                          ^~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:603:18: error: initialization of 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
-     603 |         .bound = mei_csi_notify_bound,
-         |                  ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:603:18: note: (near initialization for 'mei_csi_notify_ops.bound')
-   drivers/media/pci/intel/ivsc/mei_csi.c:604:19: error: initialization of 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
-     604 |         .unbind = mei_csi_notify_unbind,
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:604:19: note: (near initialization for 'mei_csi_notify_ops.unbind')
-   drivers/media/pci/intel/ivsc/mei_csi.c: In function 'mei_csi_parse_firmware':
-   drivers/media/pci/intel/ivsc/mei_csi.c:669:9: error: too few arguments to function 'v4l2_async_nf_init'
-     669 |         v4l2_async_nf_init(&csi->notifier);
-         |         ^~~~~~~~~~~~~~~~~~
-   In file included from drivers/media/pci/intel/ivsc/mei_csi.c:28:
-   include/media/v4l2-async.h:159:6: note: declared here
-     159 | void v4l2_async_nf_init(struct v4l2_async_notifier *notifier,
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:673:40: error: invalid application of 'sizeof' to incomplete type 'struct v4l2_async_subdev'
-     673 |                                        struct v4l2_async_subdev);
-         |                                        ^~~~~~
-   include/media/v4l2-async.h:196:70: note: in definition of macro 'v4l2_async_nf_add_fwnode'
-     196 |         ((type *)__v4l2_async_nf_add_fwnode(notifier, fwnode, sizeof(type)))
-         |                                                                      ^~~~
-   drivers/media/pci/intel/ivsc/mei_csi.c:685:15: error: implicit declaration of function 'v4l2_async_subdev_nf_register'; did you mean 'v4l2_async_subdev_nf_init'? [-Werror=implicit-function-declaration]
-     685 |         ret = v4l2_async_subdev_nf_register(&csi->subdev, &csi->notifier);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               v4l2_async_subdev_nf_init
-   cc1: some warnings being treated as errors
-
-
-vim +574 drivers/media/pci/intel/ivsc/mei_csi.c
-
-   571	
-   572	static int mei_csi_notify_bound(struct v4l2_async_notifier *notifier,
-   573					struct v4l2_subdev *subdev,
- > 574					struct v4l2_async_subdev *asd)
-   575	{
-   576		struct mei_csi *csi = notifier_to_csi(notifier);
-   577		int pad;
-   578	
-   579		pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
-   580						  MEDIA_PAD_FL_SOURCE);
-   581		if (pad < 0)
-   582			return pad;
-   583	
-   584		csi->remote = subdev;
-   585		csi->remote_pad = pad;
-   586	
-   587		return media_create_pad_link(&subdev->entity, pad,
-   588					     &csi->subdev.entity, 1,
-   589					     MEDIA_LNK_FL_ENABLED |
-   590					     MEDIA_LNK_FL_IMMUTABLE);
-   591	}
-   592	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
