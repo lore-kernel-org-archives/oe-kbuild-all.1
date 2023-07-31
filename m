@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (unknown [134.134.136.31])
+Received: from mgamail.intel.com (unknown [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DF017FEB;
-	Mon, 31 Jul 2023 12:04:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D8917FEB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 12:04:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690805080; x=1722341080;
+  t=1690805093; x=1722341093;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Scbc1k97nOjYXKL92XVgiWyP02TWnisk0n+vpo+gYPk=;
-  b=Du5vLpMD3P20Icw+Tn/XCWDJRUQ+hZRUN/OkKtJgG75wBD13nyJZdsew
-   RtlUDxqAW37uV5/G8JsifAKMfYXih4AC42Z4ssgHaaomcUcCU4jprl+cx
-   HXWIX2HyTOcA15h3pEdqYTVR+gokWAhwWP086n1XIztPJbClnbXf33FNQ
-   Br3DcGwcFemv6TMPncxuNiZv/VzIX6QSDgKBnZBIUbzhu/uHQjMEBeCzR
-   CsN1UGQk4j5Ygm1YDxAMkDrJuOeaY1L2Q3D+seHSriMGQ1dR5Et2dyr3e
-   f8PgvUYPRqufEn9EiQjBiYreOkGXJOinKPdL/Am2Vt+X/TXC+yxh1i+vR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="432816283"
+  bh=3c6oBoFpHQziMzfCMoTU2TqpujXOOndbTD+TwZIrDJo=;
+  b=eLIwkANx2gLD6i8Rmjgg1Sryce7NrrAIviQPGxzt5WPRpM8sg3yaTQGZ
+   u60d0DYiaIbhu/PO/EilmZ3vCututTLQTsoleYKHNqRp6qptmNSlDrlOY
+   qP+xUeVUYOPuRKePOPqWD1GOrYckDyOQJjFVok5jGnWehtl7kL+3YuZS5
+   S+f31Ejgbiqnj9bq7R2/u2vyy7wC4jWQ9qpEtKn2ky7LKpDgsr/upEqsk
+   Ag6NN5GYkDElbZr5EhxC92watBVY0oRGkU2jtdmS14v+hza4jKpB87Gcd
+   EPya/QkUJ/WqBodE184Em1kHQi3QWfVE5rEVIpNjzukfLx1230Ex7AihR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="369014397"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="432816283"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 05:04:39 -0700
+   d="scan'208";a="369014397"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 05:04:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="678311425"
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="728286546"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="678311425"
+   d="scan'208";a="728286546"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 31 Jul 2023 05:04:34 -0700
+  by orsmga002.jf.intel.com with ESMTP; 31 Jul 2023 05:04:34 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQRdZ-00056n-2a;
+	id 1qQRdZ-00056l-2Q;
 	Mon, 31 Jul 2023 12:04:33 +0000
-Date: Mon, 31 Jul 2023 20:04:23 +0800
+Date: Mon, 31 Jul 2023 20:04:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: LeoLiu-oc <LeoLiu-oc@zhaoxin.com>, olivia@selenic.com,
 	herbert@gondor.apana.org.au, jiajie.ho@starfivetech.com,
 	conor.dooley@microchip.com, martin@kaiser.cx, mmyangfl@gmail.com,
 	jenny.zhang@starfivetech.com, linux-kernel@vger.kernel.org,
 	linux-crypto@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, leoliu@zhaoxin.com,
-	CobeChen@zhaoxin.com, YunShen@zhaoxin.com, TonyWWang@zhaoxin.com,
+Cc: oe-kbuild-all@lists.linux.dev, leoliu@zhaoxin.com, CobeChen@zhaoxin.com,
+	YunShen@zhaoxin.com, TonyWWang@zhaoxin.com,
 	leoliu-oc <leoliu-oc@zhaoxin.com>
 Subject: Re: [PATCH v2 2/2] hwrng: add Zhaoxin HW RNG driver
-Message-ID: <202307311920.0ZdHwXvk-lkp@intel.com>
+Message-ID: <202307311942.Qpu13qjG-lkp@intel.com>
 References: <20230731084515.2057375-3-LeoLiu-oc@zhaoxin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -68,54 +68,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/LeoLiu-oc/hwrng-via-rng-c
 base:   char-misc/char-misc-testing
 patch link:    https://lore.kernel.org/r/20230731084515.2057375-3-LeoLiu-oc%40zhaoxin.com
 patch subject: [PATCH v2 2/2] hwrng: add Zhaoxin HW RNG driver
-config: hexagon-randconfig-r024-20230731 (https://download.01.org/0day-ci/archive/20230731/202307311920.0ZdHwXvk-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311920.0ZdHwXvk-lkp@intel.com/reproduce)
+config: openrisc-randconfig-r025-20230731 (https://download.01.org/0day-ci/archive/20230731/202307311942.Qpu13qjG-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311942.Qpu13qjG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307311920.0ZdHwXvk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307311942.Qpu13qjG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/char/hw_random/zhaoxin-rng.c:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/char/hw_random/zhaoxin-rng.c:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/char/hw_random/zhaoxin-rng.c:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/char/hw_random/zhaoxin-rng.c:16:10: fatal error: 'asm/cpu_device_id.h' file not found
-   #include <asm/cpu_device_id.h>
-            ^~~~~~~~~~~~~~~~~~~~~
-   6 warnings and 1 error generated.
+>> drivers/char/hw_random/zhaoxin-rng.c:16:10: fatal error: asm/cpu_device_id.h: No such file or directory
+      16 | #include <asm/cpu_device_id.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
 vim +16 drivers/char/hw_random/zhaoxin-rng.c
