@@ -1,183 +1,154 @@
-Received: from mgamail.intel.com (unknown [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0F918AFE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 16:15:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690820151; x=1722356151;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uDqz4QbIPBx8qkdOShBFJqN2xE5FJpN2fMynEKpHsOs=;
-  b=STeluzPU4TgJSpthzGGPGiUFNJT5Dy4hZf3JNE1NAE6dLpqgnH/RG+W3
-   NbXn1hQI2yd8lkao1Cgs6oAECbdNVaTVnfCDBUoO4zVRdzpveVAaBq76t
-   siCxpcR2ZVYkZdQStYcLL6bsBsPtm6Srj9v3qKstBGTXpAY2p+ZsCujyp
-   C8yDDQARRoMll6meLacPpRAfeekTyMHT1zhKUggboboOkTiGtGNMfhC6S
-   GIoRaDK2Jbh2Ss0I37V7HejRTNrWOnpCH74pht7w9TQG+7zCLNBnb8g40
-   EbTmdoElLRQGsZqGUmm8jMvJIXG4IHO9SaCKMPezeLbv443d7SBcb9RdY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="371772693"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="371772693"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 09:13:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="852107020"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="852107020"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 31 Jul 2023 09:13:11 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qQVWB-0005Dn-0D;
-	Mon, 31 Jul 2023 16:13:11 +0000
-Date: Tue, 1 Aug 2023 00:12:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jindong Yue <jindong.yue@nxp.com>, lpieralisi@kernel.org, kw@linux.com,
-	robh@kernel.org, bhelgaas@google.com, hongxing.zhu@nxp.com,
-	l.stach@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PCI: imx6: Support building it as a module
-Message-ID: <202307312343.O4nBKjOL-lkp@intel.com>
-References: <20230731082623.975824-1-jindong.yue@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A5419BC4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 16:20:30 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-99bdf08860dso868926166b.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 09:20:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1690820428; x=1691425228;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wJrbOYv6i5PeF0wtsFoLOFvwpUVFe5rN1cgTxxjnkV8=;
+        b=RLq43g84OMso7mZZtBLTZ1HW3YvHbYBi7H3SSBO8ulU1RdttcZ/Y2hxFpVUp9GvSC5
+         f2bmj7Hqg9GoFYBtF+4z3PbJxsTDBkqal5MV11egsOdIjBgRjLd5eckOCpyjk9Ppcs9L
+         UZ79HnTL2Rk13OE6Ag9z67X9PH8Uu5PHqXPrE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690820428; x=1691425228;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wJrbOYv6i5PeF0wtsFoLOFvwpUVFe5rN1cgTxxjnkV8=;
+        b=fusNGdcIQHnym5aWtZCIxf/lSGBr57CWfvUwrlSGYFcMbjxrxNFIlfXFwlWefo3/y7
+         YOUkkdcOmKMULtvcx/s+uE39KdGdziXpVrAITB1amxIWpJT/BUp5DUixHk0GEVOnF6LN
+         IALpqMI4RGjq6KivbLRLE3NhbPI5KuEAMK3unHIwAUGL2KveWz2x9h6XEFG+1F8ldWkF
+         LbWl11h1ZJylcYVDjhd7Ah54nuRfN4vd6SU0HLuOeOVFF4286Hk1X0ZbrLX3bO/beQXh
+         zJpWi8Fj9y2kMNGf4kKWSLwyZdkYjP5cThrKG6ksCZiKxhh8yfiH6fCtEnVJFV6t1s9u
+         OAoA==
+X-Gm-Message-State: ABy/qLZe5PM0/kvs8jlWkSC3BoP4gOUGnA+MxOiN+R9lss+QvzveiZvi
+	qC5DTzcuy4ik8GDv/zbvau0oonm4ZFo7xh9+HaMLMg==
+X-Google-Smtp-Source: APBJJlEfrw0tEH15ivpVxG2iquJmVmFqopiK6R7b9Yz6XO3+vKlYzsyEUUeQ4OZJNPmu3LJaDxDy5g==
+X-Received: by 2002:a17:907:a079:b0:993:f611:7c97 with SMTP id ia25-20020a170907a07900b00993f6117c97mr316159ejc.33.1690820427924;
+        Mon, 31 Jul 2023 09:20:27 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
+        by smtp.gmail.com with ESMTPSA id lu20-20020a170906fad400b00993664a9987sm6353246ejb.103.2023.07.31.09.20.27
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Jul 2023 09:20:27 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5223910acf2so18519a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 09:20:27 -0700 (PDT)
+X-Received: by 2002:a50:d510:0:b0:522:2dd2:afa5 with SMTP id
+ u16-20020a50d510000000b005222dd2afa5mr154984edi.7.1690820426772; Mon, 31 Jul
+ 2023 09:20:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230731082623.975824-1-jindong.yue@nxp.com>
+References: <202307310955.pLZDhpnl-lkp@intel.com>
+In-Reply-To: <202307310955.pLZDhpnl-lkp@intel.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 31 Jul 2023 09:20:14 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UMnns_tBG+pgKFaFB3EL7oKw=KXEkraLUF852LEkHjfw@mail.gmail.com>
+Message-ID: <CAD=FV=UMnns_tBG+pgKFaFB3EL7oKw=KXEkraLUF852LEkHjfw@mail.gmail.com>
+Subject: Re: kernel/watchdog.c:162:1: warning: the frame size of 1248 bytes is
+ larger than 1024 bytes
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jindong,
+Hi,
 
-kernel test robot noticed the following build errors:
+On Sun, Jul 30, 2023 at 6:24=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   5d0c230f1de8c7515b6567d9afba1f196fb4e2f4
+> commit: 77c12fc95980d100fdc49e88a5727c242d0dfedc watchdog/hardlockup: add=
+ a "cpu" param to watchdog_hardlockup_check()
+> date:   7 weeks ago
+> config: x86_64-intel-next-customedconfig-intel_next_rpm_defconfig (https:=
+//download.01.org/0day-ci/archive/20230731/202307310955.pLZDhpnl-lkp@intel.=
+com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230731/202307310955=
+.pLZDhpnl-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307310955.pLZDhpnl-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    kernel/watchdog.c: In function 'watchdog_hardlockup_check':
+> >> kernel/watchdog.c:162:1: warning: the frame size of 1248 bytes is larg=
+er than 1024 bytes [-Wframe-larger-than=3D]
+>      162 | }
+>          | ^
+>
+>
+> vim +162 kernel/watchdog.c
+>
+> 81972551df9d16 Douglas Anderson 2023-05-19  116
+> 77c12fc95980d1 Douglas Anderson 2023-05-19  117  void watchdog_hardlockup=
+_check(unsigned int cpu, struct pt_regs *regs)
+> 81972551df9d16 Douglas Anderson 2023-05-19  118  {
+> 1610611aadc224 Douglas Anderson 2023-05-19  119         /*
+> 1610611aadc224 Douglas Anderson 2023-05-19  120          * Check for a ha=
+rdlockup by making sure the CPU's timer
+> 1610611aadc224 Douglas Anderson 2023-05-19  121          * interrupt is i=
+ncrementing. The timer interrupt should have
+> 81972551df9d16 Douglas Anderson 2023-05-19  122          * fired multiple=
+ times before we overflow'd. If it hasn't
+> 81972551df9d16 Douglas Anderson 2023-05-19  123          * then this is a=
+ good indication the cpu is stuck
+> 81972551df9d16 Douglas Anderson 2023-05-19  124          */
+> 77c12fc95980d1 Douglas Anderson 2023-05-19  125         if (is_hardlockup=
+(cpu)) {
+> 1610611aadc224 Douglas Anderson 2023-05-19  126                 unsigned =
+int this_cpu =3D smp_processor_id();
+> 77c12fc95980d1 Douglas Anderson 2023-05-19  127                 struct cp=
+umask backtrace_mask =3D *cpu_online_mask;
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.5-rc4 next-20230731]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Ah, so I assume the problem is right here where I put a "struct
+cpumask" on the stack. FWIW, the direct copy above changed to:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jindong-Yue/PCI-imx6-Support-building-it-as-a-module/20230731-162411
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20230731082623.975824-1-jindong.yue%40nxp.com
-patch subject: [PATCH] PCI: imx6: Support building it as a module
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230731/202307312343.O4nBKjOL-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307312343.O4nBKjOL-lkp@intel.com/reproduce)
+  struct cpumask backtrace_mask;
+  cpumask_copy(&backtrace_mask, cpu_online_mask);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307312343.O4nBKjOL-lkp@intel.com/
+...in commit 7a71d8e650b0 ("watchdog/hardlockup: in
+watchdog_hardlockup_check() use cpumask_copy()"), but that won't
+change the stack usage...
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+The failing config says:
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "dw_pcie_ep_raise_msix_irq" [drivers/pci/controller/dwc/pci-imx6.ko] undefined!
+  CONFIG_NR_CPUS=3D8192
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+That means that this structure is taking 8192 / 8 =3D 1024 bytes and so
+just having this structure on the stack at all will cause the yell.
+Indeed, grepping through the source code shows that putting `struct
+cpumask` is not common presumably because of this exact issue.
+
+OK, so this doesn't look too hard to solve. We only ever do the
+backtrace on one CPU anyway (see the test and set of
+`watchdog_hardlockup_all_cpu_dumped`) so I can just make the structure
+`static` and only mess with it if we're actually dumping the stack.
+It'll use up 1KB of "static" memory all the time if you've set max
+CPUs to 8K, but that seems better than trying to do a malloc when we
+know the system is hard locked.
+
+Patch to fix this is posted at:
+
+https://lore.kernel.org/r/20230731091754.1.I501ab68cb926ee33a7c87e063d207ab=
+f09b9943c@changeid
+
+-Doug
