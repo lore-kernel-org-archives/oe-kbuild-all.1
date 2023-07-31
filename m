@@ -1,55 +1,43 @@
-Received: from mgamail.intel.com (unknown [192.55.52.136])
+Received: from mgamail.intel.com (unknown [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB3D28F8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 13:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6751E18C16
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 14:41:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690811947; x=1722347947;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LD0Jk6p5bWP7qLJTOMjICkXoypyC0RxseKDoyTGk9cc=;
-  b=IKSxE/yqA4wvXmWVPfTi9xcNveQVh778YiXAbvLevIYpTd7g76nZk2he
-   PeDutrB+OddTfHdJf0DM5/EM4ZumjZ/32oCLbYV9uOrwm8YpTeoB6JcLY
-   bPb6ByjhTaBLuj1eoX5JUSa8IxkbDdjbmJwjZ39MjLJC2bmIYVFEHT3o7
-   NRTTKQG1x5PYk+TSc+bzvpkKvpdcbbILETRIh4CxafLrPsGCqqYlOeS3e
-   vVc93gW9ec15dKjZxhX0BpLvk4T13R6YneCugZ8U3xfsuaCJdwTXNQgYe
-   OHRWbXsJQqhgELqCWqIAUTChUI7VWyXJuLsHmqfyKdYXz557cp92eqDhz
+  t=1690814492; x=1722350492;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=nS0HdeQOiH4dmoeESh3uoO/rKMus+p58YCjgIzfObDc=;
+  b=VfrQjxNdmHhPurAKlGLK9cGnh6AOOn/simtTZdipvCBvVGRdPW13biqC
+   hWpoqxqNYfxYW7gO1+7hbXfTyhEa8Ju1XYEhXwhHljYbb9A9a1wSmEdCF
+   UVJAvRfEdr3o7mZLshm85OdKdM6nUf0eATPpjKdDm9FGUWK2X76Vx2ZwW
+   poEOqO7m7eiXTG/hINmnJx35NYGiOcIhaNuqvxJD5/UWJ52ZbQaEF23b5
+   pi1BTA59gA3KomjjiORtK3N3vJKPLa05vP4grg1Se5uovl0ZD2Jl2LYwu
+   SCgHNkliancAHLlQxMlV114kMFo+xns92Q5Tiwzvme7iNAm5l2VXaVILr
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="348620988"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="371742655"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="348620988"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 06:59:04 -0700
+   d="scan'208";a="371742655"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 07:41:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="974862822"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="798252272"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="974862822"
+   d="scan'208";a="798252272"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Jul 2023 06:59:00 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 31 Jul 2023 07:41:29 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQTPv-000595-1F;
-	Mon, 31 Jul 2023 13:58:42 +0000
-Date: Mon, 31 Jul 2023 21:58:19 +0800
+	id 1qQU5B-0005Af-1P;
+	Mon, 31 Jul 2023 14:41:17 +0000
+Date: Mon, 31 Jul 2023 22:39:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mike Kravetz <mike.kravetz@oracle.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Mina Almasry <almasrymina@google.com>, kirill@shutemov.name,
-	joel@joelfernandes.org, william.kucharski@oracle.com,
-	kaleshsingh@google.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH 2/4] mm: mremap: use flush_pmd_tlb_range() in
- move_normal_pmd()
-Message-ID: <202307312137.ormxuS5g-lkp@intel.com>
-References: <20230731074829.79309-3-wangkefeng.wang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Brandon Brnich <b-brnich@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y 82/107] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/media/cnm,wave5.yaml
+Message-ID: <202307312205.gjgGSxTE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,79 +46,20 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230731074829.79309-3-wangkefeng.wang@huawei.com>
 
-Hi Kefeng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on arm-perf/for-next/perf linus/master v6.5-rc4 next-20230731]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-hugetlb-use-flush_hugetlb_tlb_range-in-move_hugetlb_page_tables/20230731-154016
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230731074829.79309-3-wangkefeng.wang%40huawei.com
-patch subject: [PATCH 2/4] mm: mremap: use flush_pmd_tlb_range() in move_normal_pmd()
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230731/202307312137.ormxuS5g-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307312137.ormxuS5g-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
+head:   607bd344fe026c652150d4af0aa1e922b06585ee
+commit: ac2b9636c2e0a1c48d9058b58c3e399a571ea240 [82/107] media: chips-media: wave5: Add wave5 driver to maintainers file
+reproduce: (https://download.01.org/0day-ci/archive/20230731/202307312205.gjgGSxTE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307312137.ormxuS5g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307312205.gjgGSxTE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   In function 'move_normal_pmd',
-       inlined from 'move_pgt_entry' at mm/mremap.c:463:11,
-       inlined from 'move_page_tables' at mm/mremap.c:565:8:
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_338' declared with attribute error: BUILD_BUG failed
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^~~~~~~~~~~~~~~~
-   include/linux/pgtable.h:1415:49: note: in expansion of macro 'BUILD_BUG'
-    1415 | #define flush_pmd_tlb_range(vma, addr, end)     BUILD_BUG()
-         |                                                 ^~~~~~~~~
-   mm/mremap.c:287:9: note: in expansion of macro 'flush_pmd_tlb_range'
-     287 |         flush_pmd_tlb_range(vma, old_addr, old_addr + PMD_SIZE);
-         |         ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_338 +397 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/cnm,wave5.yaml
 
 -- 
 0-DAY CI Kernel Test Service
