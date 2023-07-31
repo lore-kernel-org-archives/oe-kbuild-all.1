@@ -1,157 +1,132 @@
-Received: from mgamail.intel.com (unknown [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5A318AFE;
-	Mon, 31 Jul 2023 15:11:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E6A14F8E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 15:21:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690816289; x=1722352289;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mUu6+yfnyxQJAA5NSnj31iuaf0Yk0pV/eZsjbLf6OW8=;
-  b=EbJQga/GFykgQD8VjzDujrq4hgkiFeYEvhaeiBsZvpVABcD9Zl8Bj/KQ
-   zr8Hg3BIC7YDGhG0z1nlC3o3mb2UsBwG2ox/EAYK8r9pimPWlQJwGNll+
-   NPpEl/jqdR531jKsNXTZ5+MbKSdzwl+iBigSdSxItCxaPf1VCaKMrqf0H
-   dDGNpwq90A7bkuCuDvxf7fB4Z5uGG9GtPBF0XLlkPhEdJ6wFTsyOIxGNL
-   BK8SKugaqB0+xrZmQrelaRgJqe4hmSe1cLHGvxTyUbqO9B8WKAmO3DxV5
-   TEblm01R7kVVrzeEUwii7XmsEto/ZbxiiW9o0BEYDM4rabkchE7Pr/xim
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="359078923"
+  t=1690816864; x=1722352864;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/EscTkRtD7jAqlvkMCVgNtGWa02l8XolWSZOn4umt9g=;
+  b=iQrX/08q5xV0ZrU4qu0wiuPRQFPYe8VMxpD/vBqRjov7JTNoxU084Pzw
+   Fo+egPafgsjrGn/SdlGF9A6NFdXj7QCYJz9+tt0cZZZBWwIFyDLmEo+3k
+   VNCGLnyNCUL8vBTcS68yMRIa588vkvPwBTETnB+l36sBgMvaqBWZe0EBc
+   GmwYYG4l01wqKvZGtKbNfAw8s7UzTX0NzsxuoQI8h5zNTet710BR7sgEj
+   2593y6qzp+VYZYYszzNiB1dT4rgBrysVGAseNgVh66IEnazabFED+rI4h
+   rGaY2OJHt+xxhsO4sE2YEV4bAmI+ZZyaD2rOM6g++5j0zAUnyS4hzredg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="348643321"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="359078923"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 08:11:29 -0700
+   d="scan'208";a="348643321"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 08:21:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="757971876"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="793754615"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="757971876"
+   d="scan'208";a="793754615"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 31 Jul 2023 08:11:27 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 31 Jul 2023 08:21:01 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQUYH-0005Bj-1F;
-	Mon, 31 Jul 2023 15:11:21 +0000
-Date: Mon, 31 Jul 2023 23:10:17 +0800
+	id 1qQUhh-0005C7-0Y;
+	Mon, 31 Jul 2023 15:21:01 +0000
+Date: Mon, 31 Jul 2023 23:20:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: [peterz-queue:x86/core 2/4] arch/x86/kernel/kprobes/core.c:326:7:
- error: call to undeclared function 'is_cfi_trap'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202307312330.LTRLoRgL-lkp@intel.com>
+To: Wentong Wu <wentong.wu@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:master 40/41]
+ drivers/media/pci/intel/ivsc/mei_csi.c:574:40: warning: 'struct
+ v4l2_async_subdev' declared inside parameter list will not be visible
+ outside of this definition or declaration
+Message-ID: <202307312307.t1gJlUux-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/core
-head:   81eb8da91648604113321d4f2f966236c91cb3f3
-commit: 4ac2082c5d1ddfbbfe701e8038fd6778cfa50f41 [2/4] x86/kprobes: Prohibit probing on compiler generated CFI checking code
-config: i386-randconfig-r014-20230731 (https://download.01.org/0day-ci/archive/20230731/202307312330.LTRLoRgL-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307312330.LTRLoRgL-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   f6a458a2c82c225125c937cfd5675c2a3c494b33
+commit: cc561f8b16e6ce155c6368eb6bb3497f3d51332b [40/41] media: pci: intel: ivsc: Add CSI submodule
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230731/202307312307.t1gJlUux-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230731/202307312307.t1gJlUux-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307312330.LTRLoRgL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307312307.t1gJlUux-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/kprobes/core.c:326:7: error: call to undeclared function 'is_cfi_trap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   if (is_cfi_trap(addr + offset))
-                       ^
-   1 error generated.
+>> drivers/media/pci/intel/ivsc/mei_csi.c:574:40: warning: 'struct v4l2_async_subdev' declared inside parameter list will not be visible outside of this definition or declaration
+     574 |                                 struct v4l2_async_subdev *asd)
+         |                                        ^~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_csi.c: In function 'mei_csi_notify_bound':
+   drivers/media/pci/intel/ivsc/mei_csi.c:579:63: error: invalid use of undefined type 'struct v4l2_async_subdev'
+     579 |         pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
+         |                                                               ^~
+   drivers/media/pci/intel/ivsc/mei_csi.c: At top level:
+   drivers/media/pci/intel/ivsc/mei_csi.c:595:42: warning: 'struct v4l2_async_subdev' declared inside parameter list will not be visible outside of this definition or declaration
+     595 |                                   struct v4l2_async_subdev *asd)
+         |                                          ^~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_csi.c:603:18: error: initialization of 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
+     603 |         .bound = mei_csi_notify_bound,
+         |                  ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_csi.c:603:18: note: (near initialization for 'mei_csi_notify_ops.bound')
+   drivers/media/pci/intel/ivsc/mei_csi.c:604:19: error: initialization of 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
+     604 |         .unbind = mei_csi_notify_unbind,
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_csi.c:604:19: note: (near initialization for 'mei_csi_notify_ops.unbind')
+   drivers/media/pci/intel/ivsc/mei_csi.c: In function 'mei_csi_parse_firmware':
+   drivers/media/pci/intel/ivsc/mei_csi.c:669:9: error: too few arguments to function 'v4l2_async_nf_init'
+     669 |         v4l2_async_nf_init(&csi->notifier);
+         |         ^~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/pci/intel/ivsc/mei_csi.c:28:
+   include/media/v4l2-async.h:159:6: note: declared here
+     159 | void v4l2_async_nf_init(struct v4l2_async_notifier *notifier,
+         |      ^~~~~~~~~~~~~~~~~~
+   drivers/media/pci/intel/ivsc/mei_csi.c:673:40: error: invalid application of 'sizeof' to incomplete type 'struct v4l2_async_subdev'
+     673 |                                        struct v4l2_async_subdev);
+         |                                        ^~~~~~
+   include/media/v4l2-async.h:196:70: note: in definition of macro 'v4l2_async_nf_add_fwnode'
+     196 |         ((type *)__v4l2_async_nf_add_fwnode(notifier, fwnode, sizeof(type)))
+         |                                                                      ^~~~
+   drivers/media/pci/intel/ivsc/mei_csi.c:685:15: error: implicit declaration of function 'v4l2_async_subdev_nf_register'; did you mean 'v4l2_async_subdev_nf_init'? [-Werror=implicit-function-declaration]
+     685 |         ret = v4l2_async_subdev_nf_register(&csi->subdev, &csi->notifier);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               v4l2_async_subdev_nf_init
+   cc1: some warnings being treated as errors
 
 
-vim +/is_cfi_trap +326 arch/x86/kernel/kprobes/core.c
+vim +574 drivers/media/pci/intel/ivsc/mei_csi.c
 
-   254	
-   255	/* Check if paddr is at an instruction boundary */
-   256	static int can_probe(unsigned long paddr)
-   257	{
-   258		unsigned long addr, __addr, offset = 0;
-   259		struct insn insn;
-   260		kprobe_opcode_t buf[MAX_INSN_SIZE];
-   261	
-   262		if (!kallsyms_lookup_size_offset(paddr, NULL, &offset))
-   263			return 0;
-   264	
-   265		/* Decode instructions */
-   266		addr = paddr - offset;
-   267		while (addr < paddr) {
-   268			int ret;
-   269	
-   270			/*
-   271			 * Check if the instruction has been modified by another
-   272			 * kprobe, in which case we replace the breakpoint by the
-   273			 * original instruction in our buffer.
-   274			 * Also, jump optimization will change the breakpoint to
-   275			 * relative-jump. Since the relative-jump itself is
-   276			 * normally used, we just go through if there is no kprobe.
-   277			 */
-   278			__addr = recover_probed_instruction(buf, addr);
-   279			if (!__addr)
-   280				return 0;
-   281	
-   282			ret = insn_decode_kernel(&insn, (void *)__addr);
-   283			if (ret < 0)
-   284				return 0;
-   285	
-   286	#ifdef CONFIG_KGDB
-   287			/*
-   288			 * If there is a dynamically installed kgdb sw breakpoint,
-   289			 * this function should not be probed.
-   290			 */
-   291			if (insn.opcode.bytes[0] == INT3_INSN_OPCODE &&
-   292			    kgdb_has_hit_break(addr))
-   293				return 0;
-   294	#endif
-   295			addr += insn.length;
-   296		}
-   297		if (IS_ENABLED(CONFIG_CFI_CLANG)) {
-   298			/*
-   299			 * The compiler generates the following instruction sequence
-   300			 * for indirect call checks and cfi.c decodes this;
-   301			 *
-   302			 *   movl    -<id>, %r10d       ; 6 bytes
-   303			 *   addl    -4(%reg), %r10d    ; 4 bytes
-   304			 *   je      .Ltmp1             ; 2 bytes
-   305			 *   ud2                        ; <- regs->ip
-   306			 *   .Ltmp1:
-   307			 *
-   308			 * Also, these movl and addl are used for showing expected
-   309			 * type. So those must not be touched.
-   310			 */
-   311			__addr = recover_probed_instruction(buf, addr);
-   312			if (!__addr)
-   313				return 0;
-   314	
-   315			if (insn_decode_kernel(&insn, (void *)__addr) < 0)
-   316				return 0;
-   317	
-   318			if (insn.opcode.value == 0xBA)
-   319				offset = 12;
-   320			else if (insn.opcode.value == 0x3)
-   321				offset = 6;
-   322			else
-   323				goto out;
-   324	
-   325			/* This movl/addl is used for decoding CFI. */
- > 326			if (is_cfi_trap(addr + offset))
-   327				return 0;
-   328		}
-   329	
-   330	out:
-   331		return (addr == paddr);
-   332	}
-   333	
+   571	
+   572	static int mei_csi_notify_bound(struct v4l2_async_notifier *notifier,
+   573					struct v4l2_subdev *subdev,
+ > 574					struct v4l2_async_subdev *asd)
+   575	{
+   576		struct mei_csi *csi = notifier_to_csi(notifier);
+   577		int pad;
+   578	
+   579		pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
+   580						  MEDIA_PAD_FL_SOURCE);
+   581		if (pad < 0)
+   582			return pad;
+   583	
+   584		csi->remote = subdev;
+   585		csi->remote_pad = pad;
+   586	
+   587		return media_create_pad_link(&subdev->entity, pad,
+   588					     &csi->subdev.entity, 1,
+   589					     MEDIA_LNK_FL_ENABLED |
+   590					     MEDIA_LNK_FL_IMMUTABLE);
+   591	}
+   592	
 
 -- 
 0-DAY CI Kernel Test Service
