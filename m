@@ -1,55 +1,43 @@
-Received: from mgamail.intel.com (unknown [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCC417AAF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 09:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CEA1426B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 31 Jul 2023 10:06:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690797157; x=1722333157;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PAoEQuTB+M6/Mb3C/VaAtLqfjQYPblPsfV7KVnusHG0=;
-  b=YzPHm1Q3hi8/2AYsbJyHVAPlaqXePkq3O4+hSt3pbeMrakxm9PzQvTLl
-   KJbP7kmcGgKvRVh+Hp80VcUMwADezo/C5Op5BzCsrKijgjvxk97FM3PP3
-   T4ZfQys6wamgORceTKweBslPS+ziBLdldn8udOCpX8G4bf74HsBu3u9LW
-   sI6fipK+o8K7nwBCWPqOwA7kSEcSS0uJPM3VtYt4QaQ4h/7A+cm3YUAUR
-   N8Et4nW+P87uJmLAmDwohCF4yWm1jBXEiNpKpAnKyaZRsHR9HkR7OICg+
-   7x/eBy6X50y4bcLz3n7OYxZjTpv3PEc4MOS/WLTFEnmmMZSlVDtmmF0Fp
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="348573368"
+  t=1690797994; x=1722333994;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=IaxYmHm4EZaKSgC5suwMmVZEvDpb9ol6gvHs5vhMcaM=;
+  b=jkkdsJxWmYkwD1qmow4SCXrFnqQGGBHaQRLibq1M62UIfo/vkAyGup88
+   LTom/FfWiGsqUDJUTDcmW54k/B3xvjPwdg5BhB7L0NbVqIFAAquF8DZHj
+   u+EhR0HSxH5IwgI6tYnAAwA2B3eQopS6WNjnIOpepB4xvlZuwkBfLERwm
+   WuaIXGPQZzep8jmQl13lAX7QD9bB+80o4L2iZTD6CypeOj4Z/jCUzzn9L
+   Mv7xtMbBvtpmZW5PN64AkjBgSZJgiqL3ZIk0crqwbcykHMEgKoojaIXnE
+   26IoPU6T7s9/opj89x9K4fM+Kv4E8CF2RTrg+T3l9o0NIqakJ7mSJ3Kuy
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="435281148"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="348573368"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 02:52:36 -0700
+   d="scan'208";a="435281148"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 03:06:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="902059850"
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="793667637"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="902059850"
+   d="scan'208";a="793667637"
 Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 31 Jul 2023 02:52:32 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 31 Jul 2023 03:06:32 -0700
 Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQPZn-00053G-25;
-	Mon, 31 Jul 2023 09:52:31 +0000
-Date: Mon, 31 Jul 2023 17:51:35 +0800
+	id 1qQPnL-00053b-2j;
+	Mon, 31 Jul 2023 10:06:31 +0000
+Date: Mon, 31 Jul 2023 18:06:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-	freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 3/3] usb: typec: nb7vpq904m: switch to
- DRM_SIMPLE_BRIDGE
-Message-ID: <202307311724.2bAqJu6o-lkp@intel.com>
-References: <20230731071930.3928150-4-dmitry.baryshkov@linaro.org>
+To: Mingzheng Xing <xingmingzheng@iscas.ac.cn>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3] riscv: Handle zicsr/zifencei issue between gcc and
+ binutils
+Message-ID: <ZMeHiXvIBHAn3Ugo@c507f7d2ae6a>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,65 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230731071930.3928150-4-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230731095936.23397-1-xingmingzheng@iscas.ac.cn>
 
-Hi Dmitry,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on usb/usb-testing usb/usb-next usb/usb-linus drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc4 next-20230731]
-[cannot apply to drm-intel/for-linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-add-transparent-bridge-helper/20230731-152746
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230731071930.3928150-4-dmitry.baryshkov%40linaro.org
-patch subject: [PATCH v2 3/3] usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
-config: xtensa-randconfig-r004-20230731 (https://download.01.org/0day-ci/archive/20230731/202307311724.2bAqJu6o-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311724.2bAqJu6o-lkp@intel.com/reproduce)
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH v3] riscv: Handle zicsr/zifencei issue between gcc and binutils
+Link: https://lore.kernel.org/stable/20230731095936.23397-1-xingmingzheng%40iscas.ac.cn
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307311724.2bAqJu6o-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/display/drm_simple_bridge.c: In function 'drm_simple_bridge_probe':
->> drivers/gpu/drm/display/drm_simple_bridge.c:105:21: error: 'struct drm_bridge' has no member named 'of_node'
-     105 |         data->bridge.of_node = data->dev->of_node;
-         |                     ^
-
-
-vim +105 drivers/gpu/drm/display/drm_simple_bridge.c
-
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   88  
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   89  static int drm_simple_bridge_probe(struct auxiliary_device *auxdev,
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   90  				   const struct auxiliary_device_id *id)
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   91  {
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   92  	struct drm_simple_bridge_data *data;
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   93  
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   94  	data = devm_kzalloc(&auxdev->dev, sizeof(*data), GFP_KERNEL);
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   95  	if (!data)
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   96  		return -ENOMEM;
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   97  
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   98  	data->dev = &auxdev->dev;
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31   99  	data->next_bridge = devm_drm_of_get_bridge(&auxdev->dev, auxdev->dev.of_node, 0, 0);
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31  100  	if (IS_ERR(data->next_bridge))
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31  101  		return dev_err_probe(&auxdev->dev, PTR_ERR(data->next_bridge),
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31  102  				     "failed to acquire drm_bridge\n");
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31  103  
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31  104  	data->bridge.funcs = &drm_simple_bridge_funcs;
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31 @105  	data->bridge.of_node = data->dev->of_node;
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31  106  
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31  107  	return devm_drm_bridge_add(data->dev, &data->bridge);
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31  108  }
-1b4ddd588d7e97 Dmitry Baryshkov 2023-07-31  109  
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
