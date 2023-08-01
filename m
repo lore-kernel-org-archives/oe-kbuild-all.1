@@ -1,117 +1,108 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (unknown [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986CC4DC6B;
-	Tue,  1 Aug 2023 20:27:11 +0000 (UTC)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-63cef62a944so39750166d6.1;
-        Tue, 01 Aug 2023 13:27:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690921630; x=1691526430;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UH+96n1dxGiQRmm/Y8iuGfDIC+4CahwM19klE8HcHso=;
-        b=ANbBy17uXBlXL9O0hN4pSlYwLkkvDhpQyFaqbAo4yGGVxOcuUj4M0X4tyn7A9sVuvb
-         ozX12dfoizOD9u/CFDel09kYw5br7c2MiBtP4Qua/XA1W9khF+HrqL5YTw3m7BThKAIh
-         FZ9ijPeJWjricMYrmvamoa9Gmg0GTNPlE/3EY1AkZhqYX+ISFSq+gA1l9N33Joxr6+uD
-         9/nxxbUKPhi14hQeNV0AnYDruWwmO+4UCLcjhmBTixYLRqBbPYgzt5Bi5+s2x5b+Nccm
-         oWx/otFTodC/dMvvLRd86X93PB8r3kF72dtNEexPTMkeyTQUmgQt8Q/DnH78h/lqO7ab
-         S9tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690921630; x=1691526430;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UH+96n1dxGiQRmm/Y8iuGfDIC+4CahwM19klE8HcHso=;
-        b=erGb2buyxPr1CRqWcoUnQF0s31/XavsYIZ82y20wgeKlRmFVBRJ39xsN9DQv33HcKg
-         PynUFLS4LO4Mp8ZJmj05wS3mTIFORaSHloGPc5suEsX/MoyHTJXHVOvskUwvAqdGr4Ey
-         M0hhTiE2TFvXfjST6KaqSgn+bmM0cvAmvwTF4L+fuG7ih+2bIGw0QmyMIVcW6vQxvVqC
-         6XMABmMJAx85zKi6H4IQ5iFIbi3XHa6NzKK4m5wBN67gA1HMWz5fEfnuEu4x+godPlaw
-         zH3NxG/fledH9I7Ur7p5MRSPHCNJObCRX7ZTEj1glolpE6+yQZc35eMMp/akuhC3iJ7g
-         Fvxg==
-X-Gm-Message-State: ABy/qLZZ5CwNCIcKV2ogim4hAMcQQHl+/zGaPlOv8wPsHQNwrCp5ZkfX
-	koSLicJZWowzJ7YBmdICqxQ=
-X-Google-Smtp-Source: APBJJlE6VBKShw0Rlyj1OLHXOFeaJpygktQJo+MxOm+odspLGrCYUNuKiGwVY8FgDFNYgU1uuNTFNA==
-X-Received: by 2002:a0c:e2d0:0:b0:5ef:5e1b:a365 with SMTP id t16-20020a0ce2d0000000b005ef5e1ba365mr16104431qvl.10.1690921630267;
-        Tue, 01 Aug 2023 13:27:10 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id d28-20020a0caa1c000000b006363f2c37f0sm4924337qvb.91.2023.08.01.13.27.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Aug 2023 13:27:09 -0700 (PDT)
-Message-ID: <15f84f96-1150-0fbf-424c-65efa316454c@gmail.com>
-Date: Tue, 1 Aug 2023 13:27:06 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E64263AD
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Aug 2023 21:39:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690925985; x=1722461985;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NpKbs896n8PObHfMtiWpVNqOsXd/fNuStxvlzVyxdxE=;
+  b=UUZyJj3bwGMiuiwhUmnu+KXFyg792Cvad8t5pUxMqyuc5p824qR9UW80
+   0jw8TeLsNrPYua/ZAv7N23Sm7YIjZs1147Az60NlDOLW6JOeWF8/nX6w7
+   kxvIXN0g5eaqJuuDA9dcLhW8Jc36uFfZfPrzPOC3SCq2qmYM2PgoBcSB4
+   rSw/A0U8+K+zTC6VL+qncqDj0U0dvysovxtTH2rZCq/I4R1kMSsjJUB2H
+   dweiJ1/JrFMaiJs5s+aBOJekZJm0RxNT72IovhwFU+ttAcqcSMaIXxBrh
+   B0/mjVA3Py6+5bxQpwExL4j8wtu0hY7Cm2tc3CSL4oYg1JBLIRk4/qm84
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="349722347"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
+   d="scan'208";a="349722347"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 14:39:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="1059577483"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
+   d="scan'208";a="1059577483"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 01 Aug 2023 14:39:43 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qQx5i-0000bp-2R;
+	Tue, 01 Aug 2023 21:39:42 +0000
+Date: Wed, 2 Aug 2023 05:39:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
+	skeggsb@gmail.com
+Subject: Re: [PATCH] drm/nouveau: fixup the uapi header file.
+Message-ID: <202308020519.O6kM2q1k-lkp@intel.com>
+References: <20230731191557.4179175-1-airlied@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [stable:linux-4.19.y 2317/9999]
- lib/mpi/generic_mpih-mul2.c:49:24: error: invalid use of a cast in a inline
- asm context requiring an lvalue: remove the cast or build with
- -fheinous-gnu-extensions
-Content-Language: en-US
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Fangrui Song <maskray@google.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Masahiro Yamada <masahiroy@kernel.org>, kernel test robot <lkp@intel.com>
-References: <202307311111.jPEdYIJR-lkp@intel.com>
- <CAKwvOdmgunghdn9fpfXcz8O0+tDuK7GgNrKCUF+-7=nTHOp2nQ@mail.gmail.com>
-From: Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <CAKwvOdmgunghdn9fpfXcz8O0+tDuK7GgNrKCUF+-7=nTHOp2nQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230731191557.4179175-1-airlied@gmail.com>
 
-On 8/1/23 13:15, Nick Desaulniers wrote:
-> On Sun, Jul 30, 2023 at 8:57 PM kernel test robot <lkp@intel.com> wrote:
->>
->> Hi Fangrui,
->>
->> First bad commit (maybe != root cause):
->>
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
->> head:   767049cead76cf699707290d5aeefb3e4d0d5b43
->> commit: 69c122751164c3c343eea205fd5c3e1d5132f967 [2317/9999] Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
-> 
-> These aren't a result of Fangrui's change.  Fangrui's change probably
-> allows this config to mostly build, modulo the below error in
-> lib/mpi/generic_mpih-mul2.c.
-> 
->> config: mips-randconfig-r036-20230731 (https://download.01.org/0day-ci/archive/20230731/202307311111.jPEdYIJR-lkp@intel.com/config)
->> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
->> reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311111.jPEdYIJR-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202307311111.jPEdYIJR-lkp@intel.com/
->>
->> All error/warnings (new ones prefixed by >>):
->>
->>>> drivers/net/netdevsim/netdev.c:167:35: warning: unused variable 'nsim_switchdev_ops' [-Wunused-const-variable]
->>       167 | static const struct switchdev_ops nsim_switchdev_ops = {
->>           |                                   ^
->>     1 warning generated.
-> 
-> ^ fixed by
-> commit e58df56c8564 ("netdevsim: Implement ndo_get_port_parent_id()")
-> in v5.1-rc1 (this report is against 4.19.y)
-> Florian, does it make sense for the stable maintainers to cherry-pick
-> e58df56c8564 to 4.19.y in isolation?
+Hi Dave,
 
-In isolation no, because you will get a build failure because 
-netdevice_ops has no ndo_get_port_parent_id member. The complete patch 
-set was 12 patches:
+kernel test robot noticed the following build errors:
 
-https://lore.kernel.org/all/20190205235326.14600-1-f.fainelli@gmail.com/
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc4 next-20230801]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-which is too big for a stable candidate. IMHO the simplest way is to 
-mark the structure as __maybe_unused since this configured has 
-CONFIG_NET_SWITCHDEV=n presumably?
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-nouveau-fixup-the-uapi-header-file/20230801-031705
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230731191557.4179175-1-airlied%40gmail.com
+patch subject: [PATCH] drm/nouveau: fixup the uapi header file.
+config: i386-randconfig-m021-20230730 (https://download.01.org/0day-ci/archive/20230802/202308020519.O6kM2q1k-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230802/202308020519.O6kM2q1k-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308020519.O6kM2q1k-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+>> ./usr/include/drm/nouveau_drm.h:48:9: error: unknown type name 'uint64_t'
+      48 |         uint64_t param;
+         |         ^~~~~~~~
+   ./usr/include/drm/nouveau_drm.h:49:9: error: unknown type name 'uint64_t'
+      49 |         uint64_t value;
+         |         ^~~~~~~~
+>> ./usr/include/drm/nouveau_drm.h:53:9: error: unknown type name 'uint32_t'
+      53 |         uint32_t     fb_ctxdma_handle;
+         |         ^~~~~~~~
+   ./usr/include/drm/nouveau_drm.h:54:9: error: unknown type name 'uint32_t'
+      54 |         uint32_t     tt_ctxdma_handle;
+         |         ^~~~~~~~
+   ./usr/include/drm/nouveau_drm.h:57:9: error: unknown type name 'uint32_t'
+      57 |         uint32_t     pushbuf_domains;
+         |         ^~~~~~~~
+   ./usr/include/drm/nouveau_drm.h:60:9: error: unknown type name 'uint32_t'
+      60 |         uint32_t     notifier_handle;
+         |         ^~~~~~~~
+   ./usr/include/drm/nouveau_drm.h:64:17: error: unknown type name 'uint32_t'
+      64 |                 uint32_t handle;
+         |                 ^~~~~~~~
+   ./usr/include/drm/nouveau_drm.h:65:17: error: unknown type name 'uint32_t'
+      65 |                 uint32_t grclass;
+         |                 ^~~~~~~~
+   ./usr/include/drm/nouveau_drm.h:67:9: error: unknown type name 'uint32_t'
+      67 |         uint32_t nr_subchan;
+         |         ^~~~~~~~
+
 -- 
-Florian
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
