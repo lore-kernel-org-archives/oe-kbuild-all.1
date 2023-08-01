@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (unknown [192.55.52.115])
+Received: from mgamail.intel.com (unknown [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6961ADCA;
-	Tue,  1 Aug 2023 15:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2461ADCC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Aug 2023 16:09:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690904944; x=1722440944;
+  t=1690906176; x=1722442176;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ijHKWyxMDFX2U0gtiiQl9OLeh2+s4wzjS1aKzHDmD7Y=;
-  b=UEtnMj82SfCDRJeYfzbzm1EHQrWcwfsvYPtsAnaduCELB7aazoIWiG+S
-   +SUrzLWGsvuPkOIFIUsow+TfOKhPPfqXs881vJTL3Pb3pceifCLWEKlL1
-   pxOEMIasI5grsbWxzXwOmyf5xAG6vVvh93I0yKF5vNXyA8IfojMqh5PSO
-   pbxE42JtBQWWDV2CkQRrLuDW26ZPwaB8Fx/SQ2S+C7BDN3EGiUI/CMbzm
-   87Gsh7TlB9URgIw9DDhEyPSk9Q+FTWY5e6okF0OP/59QqA3UWeFidOQJb
-   +tPRE9IykENbpW+sLIsqcnLLJsA7gzcL7To2Lw0aadBZPExfydRcHljaV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="369330144"
+  bh=jpbeiMW1haUpo8QTTHn/ZV9DdlpORD52MMmpGXK1SI4=;
+  b=lmQRxTTmPbJjeDUF+TdIv8q1LzqTbOqYCbSwVgI9JSk1eE2qwJbruUBx
+   B5M6khGsbfg2+QbWFdVni4DoWKLsPGvd8zgbXLqlwvH6FDpAuNRx1AU9J
+   D5Au/Zs6cAP0Iilkx0Qik17C7KCtm18amvzlT7/JIuFIkqV7hyR9cIxZ5
+   QtnnmB6WqD+tpWooEUwDplnZWD47NsyMPqmSbXakf3iVP9urIEle5QZZE
+   OVNKB4OiqKqEr4Dt2MJ2iOy5u+3XmdkqGcdZ1Ih8KRFddGi8qtzzIrvmg
+   27vRgnev1nNfvLsMpQKXqe4F1HSW1su0R80eophnsQzT3mKCNLBmMerIk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="455713777"
 X-IronPort-AV: E=Sophos;i="6.01,247,1684825200"; 
-   d="scan'208";a="369330144"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 08:49:03 -0700
+   d="scan'208";a="455713777"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 09:09:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="975358851"
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="722524362"
 X-IronPort-AV: E=Sophos;i="6.01,247,1684825200"; 
-   d="scan'208";a="975358851"
+   d="scan'208";a="722524362"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 08:49:02 -0700
+  by orsmga007.jf.intel.com with ESMTP; 01 Aug 2023 09:09:25 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQrcL-0000P5-0V;
-	Tue, 01 Aug 2023 15:49:01 +0000
-Date: Tue, 1 Aug 2023 23:48:34 +0800
+	id 1qQrw4-0000Q7-37;
+	Tue, 01 Aug 2023 16:09:24 +0000
+Date: Wed, 2 Aug 2023 00:08:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:timers/softirq-preemptible 5/6]
- kernel/time/timer.c:1700:3: error: implicit declaration of function
- 'local_bh_vec_disable' is invalid in C99
-Message-ID: <202308012358.5V8YXhOZ-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [stable:linux-4.19.y 368/9999] futex.c:undefined reference to
+ `atomic64_read_386'
+Message-ID: <202308020014.cTK0KMYs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,151 +47,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/softirq-preemptible
-head:   c233aee141ddb78d07b2f7311be38cfc286de654
-commit: e54180a8daee54a469b182cd7e753d17e52394ef [5/6] timers: Introduce soft-interruptible timers
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230801/202308012358.5V8YXhOZ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230801/202308012358.5V8YXhOZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   767049cead76cf699707290d5aeefb3e4d0d5b43
+commit: e6d506cd2243aa8f6e19fdb4dc61d85275c2c918 [368/9999] futex: Fix inode life-time issue
+config: um-randconfig-r014-20230801 (https://download.01.org/0day-ci/archive/20230802/202308020014.cTK0KMYs-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230802/202308020014.cTK0KMYs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308012358.5V8YXhOZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308020014.cTK0KMYs-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/time/timer.c:21:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/time/timer.c:21:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/time/timer.c:21:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> kernel/time/timer.c:1700:3: error: implicit declaration of function 'local_bh_vec_disable' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   local_bh_vec_disable(1 << TIMER_SOFTIRQ);
-                   ^
-   kernel/time/timer.c:1700:3: note: did you mean 'local_bh_disable'?
-   include/linux/bottom_half.h:18:20: note: 'local_bh_disable' declared here
-   static inline void local_bh_disable(void)
-                      ^
->> kernel/time/timer.c:1719:3: error: implicit declaration of function 'local_bh_vec_enable' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   local_bh_vec_enable(1 << TIMER_SOFTIRQ);
-                   ^
-   kernel/time/timer.c:1719:3: note: did you mean 'local_bh_enable'?
-   include/linux/bottom_half.h:31:20: note: 'local_bh_enable' declared here
-   static inline void local_bh_enable(void)
-                      ^
-   12 warnings and 2 errors generated.
-
-
-vim +/local_bh_vec_disable +1700 kernel/time/timer.c
-
-  1693	
-  1694		if (IS_ENABLED(CONFIG_PREEMPT_RT) &&
-  1695		    IS_ENABLED(CONFIG_ARCH_HAS_SOFTIRQ_DISABLED_MASK) &&
-  1696		    timer->flags & TIMER_SOFTINTERRUPTIBLE)
-  1697			softinterruptible = true;
-  1698	
-  1699		if (softinterruptible) {
-> 1700			local_bh_vec_disable(1 << TIMER_SOFTIRQ);
-  1701			local_bh_exit();
-  1702		}
-  1703	
-  1704		/*
-  1705		 * Couple the lock chain with the lock chain at
-  1706		 * timer_delete_sync() by acquiring the lock_map around the fn()
-  1707		 * call here and in timer_delete_sync().
-  1708		 */
-  1709		lock_map_acquire(&lockdep_map);
-  1710	
-  1711		trace_timer_expire_entry(timer, baseclk);
-  1712		fn(timer);
-  1713		trace_timer_expire_exit(timer);
-  1714	
-  1715		lock_map_release(&lockdep_map);
-  1716	
-  1717		if (softinterruptible) {
-  1718			local_bh_enter();
-> 1719			local_bh_vec_enable(1 << TIMER_SOFTIRQ);
-  1720		}
-  1721	
-  1722	
-  1723		if (count != preempt_count()) {
-  1724			WARN_ONCE(1, "timer: %pS preempt leak: %08x -> %08x\n",
-  1725				  fn, count, preempt_count());
-  1726			/*
-  1727			 * Restore the preempt count. That gives us a decent
-  1728			 * chance to survive and extract information. If the
-  1729			 * callback kept a lock held, bad luck, but not worse
-  1730			 * than the BUG() we had.
-  1731			 */
-  1732			preempt_count_set(count);
-  1733		}
-  1734	}
-  1735	
+   ld: warning: lib/lib-ksyms.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   /usr/bin/ld: warning: lib/lib-ksyms.o: missing .note.GNU-stack section implies executable stack
+   /usr/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   /usr/bin/ld: kernel/sched/fair.o: in function `update_curr.constprop.0':
+   fair.c:(.text+0x4d7): undefined reference to `atomic64_add_386'
+   /usr/bin/ld: kernel/futex.o: in function `get_inode_sequence_number':
+>> futex.c:(.text+0xc6): undefined reference to `atomic64_read_386'
+>> /usr/bin/ld: futex.c:(.text+0xf1): undefined reference to `atomic64_add_return_386'
+>> /usr/bin/ld: futex.c:(.text+0x11a): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: fs/inode.o: in function `inode_init_always':
+   inode.c:(.text+0x21e): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: fs/inode.o: in function `generic_update_time':
+   inode.c:(.text+0xa5c): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: inode.c:(.text+0xaaa): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: fs/inode.o: in function `file_update_time':
+   inode.c:(.text+0xdcf): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: fs/namespace.o: in function `alloc_mnt_ns':
+   namespace.c:(.text+0x14f): undefined reference to `atomic64_add_return_386'
+   /usr/bin/ld: fs/ext4/mballoc.o: in function `ext4_mb_mark_diskspace_used':
+   mballoc.c:(.text+0x4de6): undefined reference to `atomic64_sub_386'
+   /usr/bin/ld: fs/ext4/mballoc.o: in function `ext4_free_blocks':
+   mballoc.c:(.text+0x62dc): undefined reference to `atomic64_add_386'
+   /usr/bin/ld: fs/ext4/mballoc.o: in function `ext4_group_add_blocks':
+   mballoc.c:(.text+0x6b1c): undefined reference to `atomic64_add_386'
+   /usr/bin/ld: fs/ext4/super.o: in function `ext4_alloc_inode':
+   super.c:(.text+0xff0): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: fs/ext4/super.o: in function `ext4_statfs':
+   super.c:(.text+0x156e): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: fs/ext4/super.o: in function `ext4_fill_super':
+   super.c:(.text+0x7273): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: super.c:(.text+0x7454): undefined reference to `atomic64_add_386'
+   /usr/bin/ld: fs/ext4/sysfs.o: in function `ext4_attr_store':
+   sysfs.c:(.text+0xf8): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: fs/ext4/sysfs.o: in function `ext4_attr_show':
+   sysfs.c:(.text+0x2ba): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: fs/fat/inode.o: in function `fat_read_root':
+   inode.c:(.text+0x1250): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: inode.c:(.text+0x1286): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: fs/fat/inode.o: in function `fat_fill_super':
+   inode.c:(.text+0x1a78): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: fs/fat/inode.o: in function `fat_fill_inode':
+   inode.c:(.text+0x211d): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: inode.c:(.text+0x2153): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: fs/fat/inode.o: in function `fat_build_inode':
+   inode.c:(.text+0x2530): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: fs/fat/namei_vfat.o: in function `vfat_revalidate_shortname':
+   namei_vfat.c:(.text+0x14): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: fs/fat/namei_vfat.o: in function `vfat_rename':
+   namei_vfat.c:(.text+0xf10): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: namei_vfat.c:(.text+0xf58): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: namei_vfat.c:(.text+0x1000): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: namei_vfat.c:(.text+0x10ea): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: fs/fat/namei_vfat.o: in function `vfat_rmdir':
+   namei_vfat.c:(.text+0x1398): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: namei_vfat.c:(.text+0x13d6): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: fs/fat/namei_vfat.o: in function `vfat_unlink':
+   namei_vfat.c:(.text+0x14d2): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: namei_vfat.c:(.text+0x1510): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: fs/fat/namei_vfat.o: in function `vfat_mkdir':
+   namei_vfat.c:(.text+0x160f): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: namei_vfat.c:(.text+0x163f): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: namei_vfat.c:(.text+0x1699): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: namei_vfat.c:(.text+0x16c6): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: fs/fat/namei_vfat.o: in function `vfat_create':
+   namei_vfat.c:(.text+0x17c2): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: namei_vfat.c:(.text+0x17ef): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: namei_vfat.c:(.text+0x183e): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: namei_vfat.c:(.text+0x186b): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: fs/fat/namei_vfat.o: in function `vfat_lookup':
+   namei_vfat.c:(.text+0x19d0): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: namei_vfat.c:(.text+0x19f5): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: fs/f2fs/extent_cache.o: in function `f2fs_lookup_extent_tree':
+   extent_cache.c:(.text+0x1e4): undefined reference to `atomic64_inc_386'
+   /usr/bin/ld: extent_cache.c:(.text+0x224): undefined reference to `atomic64_inc_386'
+   /usr/bin/ld: extent_cache.c:(.text+0x299): undefined reference to `atomic64_inc_386'
+   /usr/bin/ld: fs/f2fs/debug.o: in function `update_general_status':
+   debug.c:(.text+0x13): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: debug.c:(.text+0x24): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: debug.c:(.text+0x35): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: debug.c:(.text+0x5c): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: fs/f2fs/debug.o: in function `f2fs_build_stats':
+   debug.c:(.text+0x1206): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: debug.c:(.text+0x1211): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: debug.c:(.text+0x121c): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: debug.c:(.text+0x1227): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: lib/atomic64_test.o: in function `test_atomic64':
+   atomic64_test.c:(.init.text+0x1dae): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1dea): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1e2d): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1e3e): undefined reference to `atomic64_add_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1e45): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1e5b): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1e8f): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1e9b): undefined reference to `atomic64_add_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1ea2): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1eb8): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1eec): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1efd): undefined reference to `atomic64_sub_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1f04): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1f1a): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1f4e): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1f5a): undefined reference to `atomic64_sub_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1f61): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1f77): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1fab): undefined reference to `atomic64_set_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x1fdf): undefined reference to `cmpxchg8b_emu'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x2000): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x2016): undefined reference to `atomic64_read_386'
+   /usr/bin/ld: atomic64_test.c:(.init.text+0x204a): undefined reference to `atomic64_set_386'
 
 -- 
 0-DAY CI Kernel Test Service
