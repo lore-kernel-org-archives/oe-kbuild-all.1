@@ -1,44 +1,47 @@
-Received: from mgamail.intel.com (unknown [192.55.52.120])
+Received: from mgamail.intel.com (unknown [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DC91E503
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Aug 2023 14:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA904DC60
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Aug 2023 14:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690900083; x=1722436083;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5Zk7yaqDkbCYbH2qUXxx+3672mFEjWUxbYAYAkl6m5g=;
-  b=i7xx0eQwRL5xFCGQ2E09A/XD5ELuMXKDZNS4LJVgJPOTi4iWw1/Sjycl
-   T7JC0zw7U9EL0BJEnzEnWWzerJbINRxPXwHVxjq1+wQa4Zny9Ehspsd/E
-   N7XGQXHqeRZZLmdPtFfwLZ/a48IlLmQaA8ofMbQkwWAPNJ+P7ZUE0FcG9
-   0hkPwer7er0L1gk+LS4wjFBaEHifOLHLBd9oMq98zKEQwPUSKdwM7msHu
-   UIP1aRom8dh00Xz/3B8HkX5Ns5zT/vxpf413hqWGWENk8C229SuA2o9pm
-   Os5Y5pwNYb4yP7oN0dtDOyBFNCs41i+psXmMsL+QhNA2tp5S7gZ6/2QWc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="368206608"
+  t=1690901958; x=1722437958;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9WtORg9ICe4cJKnB5dQPkrNEObZycRB/xV8WTCzQTxY=;
+  b=Dz1D52j+hnuDOLnIoVyZRD1WjAp/pXbXiyUF0WonBAH+Ak4pVfDeQhJP
+   AJ2LXHfa23a13hfj2JFUps3hAQoh/ksit1QMlMfcjQGXJXHqFEAm0Msl8
+   h9Kwu5FUE2ZvOs03TsvJRgDucMIqZugM6RIqHO16DDvu/9LkiX7sEEoFG
+   rY5lDqVyPu0GO2QSyKsvS5y0xDv8syDDtC/u4jHjEnfAsRGeup8Cr1vsS
+   ICGK9EuYcxlbRmDGwMZmX8ecaZ9b5ChophIDql1wZ4DfK1AI8oT7lHKbZ
+   nMusugGRRLYiS8RSTzwJtcq9+PBV8yOfZTjOjzBgPQt3nTZClp/yGbW8C
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="369313282"
 X-IronPort-AV: E=Sophos;i="6.01,247,1684825200"; 
-   d="scan'208";a="368206608"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 07:28:01 -0700
+   d="scan'208";a="369313282"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 07:58:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="732007337"
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="705846281"
 X-IronPort-AV: E=Sophos;i="6.01,247,1684825200"; 
-   d="scan'208";a="732007337"
+   d="scan'208";a="705846281"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Aug 2023 07:28:00 -0700
+  by orsmga006.jf.intel.com with ESMTP; 01 Aug 2023 07:58:00 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQqLv-0000M7-1J;
-	Tue, 01 Aug 2023 14:27:59 +0000
-Date: Tue, 1 Aug 2023 22:27:27 +0800
+	id 1qQqox-0000N1-2U;
+	Tue, 01 Aug 2023 14:57:59 +0000
+Date: Tue, 1 Aug 2023 22:57:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-4.19.y 437/6360] net/core/sock.c:1090: Error:
- unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
-Message-ID: <202308012242.812YWFDD-lkp@intel.com>
+To: zhouscd <zhouscd@gmail.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, dan.scally@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com, m.grzeschik@pengutronix.de,
+	john@keeping.me.uk, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, zhouscd <zhouscd@gmail.com>
+Subject: Re: [PATCH] USB: gadget: Fix the function name error in
+ sourcesink/loopback.
+Message-ID: <202308012224.vyXfjJMA-lkp@intel.com>
+References: <20230801045449.156348-1-zhouscd@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,59 +50,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230801045449.156348-1-zhouscd@gmail.com>
 
-Hi Eric,
+Hi zhouscd,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
-head:   767049cead76cf699707290d5aeefb3e4d0d5b43
-commit: 0512a9aede6e4417c4fa6e0042a7ca8bc7e06b86 [437/6360] af_unix: fix races in sk_peer_pid and sk_peer_cred accesses
-config: riscv-randconfig-r036-20230801 (https://download.01.org/0day-ci/archive/20230801/202308012242.812YWFDD-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230801/202308012242.812YWFDD-lkp@intel.com/reproduce)
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.5-rc4 next-20230801]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhouscd/USB-gadget-Fix-the-function-name-error-in-sourcesink-loopback/20230801-125745
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230801045449.156348-1-zhouscd%40gmail.com
+patch subject: [PATCH] USB: gadget: Fix the function name error in sourcesink/loopback.
+config: sparc-randconfig-r015-20230731 (https://download.01.org/0day-ci/archive/20230801/202308012224.vyXfjJMA-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230801/202308012224.vyXfjJMA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308012242.812YWFDD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308012224.vyXfjJMA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/core/sock.c: Assembler messages:
-   net/core/sock.c:1112: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   net/core/sock.c:1112: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
-   net/core/sock.c:1420: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   net/core/sock.c:1420: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
-   net/core/sock.c:1267: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   net/core/sock.c:1267: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
->> net/core/sock.c:1090: Error: unrecognized opcode `csrs sstatus,s3', extension `zicsr' required
->> net/core/sock.c:1090: Error: unrecognized opcode `csrc sstatus,s3', extension `zicsr' required
-   net/core/sock.c:673: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
-   net/core/sock.c:673: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
-
-
-vim +1090 net/core/sock.c
-
-3f551f9436c05a3 Eric W. Biederman 2010-06-13  1083  
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1084  static int groups_to_user(gid_t __user *dst, const struct group_info *src)
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1085  {
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1086  	struct user_namespace *user_ns = current_user_ns();
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1087  	int i;
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1088  
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1089  	for (i = 0; i < src->ngroups; i++)
-28b5ba2aa0f55d8 David Herrmann    2017-06-21 @1090  		if (put_user(from_kgid_munged(user_ns, src->gid[i]), dst + i))
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1091  			return -EFAULT;
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1092  
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1093  	return 0;
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1094  }
-28b5ba2aa0f55d8 David Herrmann    2017-06-21  1095  
-
-:::::: The code at line 1090 was first introduced by commit
-:::::: 28b5ba2aa0f55d80adb2624564ed2b170c19519e net: introduce SO_PEERGROUPS getsockopt
-
-:::::: TO: David Herrmann <dh.herrmann@gmail.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   sparc64-linux-ld: drivers/usb/gadget/function/f_sourcesink.o: in function `sourcesinkmod_init':
+>> f_sourcesink.c:(.init.text+0x0): multiple definition of `init_module'; drivers/usb/gadget/function/f_loopback.o:f_loopback.c:(.init.text+0x0): first defined here
+   sparc64-linux-ld: drivers/usb/gadget/function/f_sourcesink.o: in function `sourcesinkmod_exit':
+>> f_sourcesink.c:(.exit.text+0x0): multiple definition of `cleanup_module'; drivers/usb/gadget/function/f_loopback.o:f_loopback.c:(.exit.text+0x0): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
