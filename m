@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (unknown [192.55.52.115])
+Received: from mgamail.intel.com (unknown [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF39182C0
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Aug 2023 18:33:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F26E4DC89
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Aug 2023 18:43:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690914823; x=1722450823;
+  t=1690915421; x=1722451421;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qAJ/Gqam9ncHQnGpbz+Yi0HIWtq0SEtal+K4GhpADvk=;
-  b=ctJz/i6bqzgFc7jWNfNaVYwBKEwkUhFMYtT4EPD+BteTbytR8zHe2HpG
-   WLlyk+iZCWvHYtfKF0NzLfND/DS28peS/RVp5w7yKsgUf2NmgLerYMI2J
-   OdfdllKYd6psbr97JatkDU8leDFcfmrDg1yeKq2IYCNdPehIXdACBwefP
-   vbuhvtwQR5xMswbuvhAUiwVrIJzYSYs1eetNP+DIfpCKm5bMd1gpArytM
-   RHqZitq4PRqzG8N2hk/nbJipCyZqfn+utAaShTCw48FXN7eKjimHtc5bD
-   YoB4Fy5q17MGZMrkL6mMxYioAmlbtMZwowE78MKLFuukZrF+3uj2+Jd0p
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="369383836"
+  bh=yBVL6kOwEqZnzmoz9oCG+uTCB4l95uiDVOvH1ypkU2I=;
+  b=bJf8fglUMi6kZfIONWpCjTkc49frE8I1CdSD8aebJ/9mwjegqnucyke3
+   Hegpl9X7XtbHdX6TTd4w+XsjskaZlvqGCLZzJyRAIT70sOab5/JqDtnVt
+   0tY7buUbzFx3Wr1f9WFTFFd63yTpEEMGS9cna4LoO1ntCkx+3Rt6xAzd2
+   8oHL7udr2NRPHwx1cQLorKBvvu9w7fnP0eJXKqIHh5781BTxkkQRRGCkP
+   rtBIuroMvef+S3UMk4d8/oHgEalVExW01STGvd3NwsvIwA/i7zbLk8q2H
+   bc++I7JB24A8ADEK4TFzTBqCgbjH7VAnhP4Ny0fze8Cq64/O0x5xzScXB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="349688524"
 X-IronPort-AV: E=Sophos;i="6.01,247,1684825200"; 
-   d="scan'208";a="369383836"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 11:33:40 -0700
+   d="scan'208";a="349688524"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 11:43:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="705880069"
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="798780083"
 X-IronPort-AV: E=Sophos;i="6.01,247,1684825200"; 
-   d="scan'208";a="705880069"
+   d="scan'208";a="798780083"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 01 Aug 2023 11:33:38 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 01 Aug 2023 11:43:38 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qQuBd-0000WN-28;
-	Tue, 01 Aug 2023 18:33:37 +0000
-Date: Wed, 2 Aug 2023 02:33:04 +0800
+	id 1qQuLJ-0000Wh-2V;
+	Tue, 01 Aug 2023 18:43:37 +0000
+Date: Wed, 2 Aug 2023 02:43:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:set_ptes 26/38]
- arch/sparc/include/asm/pgtable_64.h:933:9: error: implicit declaration of
- function 'arch_enter_lazy_mmu_mode'
-Message-ID: <202308020232.X2lHrWaK-lkp@intel.com>
+To: "Tobin C. Harding" <tobin@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-4.14.y 6518/9999] lib/string.c:312:7: error:
+ redefinition of 'stpcpy'
+Message-ID: <202308020214.xzsfpaPo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,126 +49,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/willy/pagecache set_ptes
-head:   7952e5c7f83e890b26d3d18a31ef300cd9c3bfe8
-commit: d7068f73da4df760f32bd49d79583f7d68dc501d [26/38] sparc64: Implement the new page table range API
-config: sparc64-randconfig-r015-20230731 (https://download.01.org/0day-ci/archive/20230802/202308020232.X2lHrWaK-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230802/202308020232.X2lHrWaK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.14.y
+head:   60a6e3043cc8b918c989707a5eba5fd6830a08a4
+commit: fe072e50be403fc52c426c15073b8c38ce301416 [6518/9999] lib/string: Add strscpy_pad() function
+config: openrisc-alldefconfig (https://download.01.org/0day-ci/archive/20230802/202308020214.xzsfpaPo-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230802/202308020214.xzsfpaPo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308020232.X2lHrWaK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308020214.xzsfpaPo-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/sparc/include/asm/pgtable.h:5,
-                    from arch/sparc/include/asm/uaccess_64.h:14,
-                    from arch/sparc/include/asm/uaccess.h:8,
-                    from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/proc_fs.h:10,
-                    from arch/sparc/include/asm/prom.h:18,
-                    from include/linux/of.h:255,
-                    from arch/sparc/include/asm/openprom.h:15,
-                    from arch/sparc/include/asm/device.h:8,
-                    from include/linux/device.h:34,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from drivers/of/cpu.c:2:
-   arch/sparc/include/asm/pgtable_64.h: In function 'set_ptes':
->> arch/sparc/include/asm/pgtable_64.h:933:9: error: implicit declaration of function 'arch_enter_lazy_mmu_mode' [-Werror=implicit-function-declaration]
-     933 |         arch_enter_lazy_mmu_mode();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
->> arch/sparc/include/asm/pgtable_64.h:942:9: error: implicit declaration of function 'arch_leave_lazy_mmu_mode' [-Werror=implicit-function-declaration]
-     942 |         arch_leave_lazy_mmu_mode();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/sparc/include/asm/tlbflush.h:5,
-                    from arch/sparc/include/asm/pgtable_64.h:1140:
-   arch/sparc/include/asm/tlbflush_64.h: At top level:
->> arch/sparc/include/asm/tlbflush_64.h:45:6: warning: conflicting types for 'arch_enter_lazy_mmu_mode'; have 'void(void)'
-      45 | void arch_enter_lazy_mmu_mode(void);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/sparc/include/asm/pgtable_64.h:933:9: note: previous implicit declaration of 'arch_enter_lazy_mmu_mode' with type 'void(void)'
-     933 |         arch_enter_lazy_mmu_mode();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
->> arch/sparc/include/asm/tlbflush_64.h:46:6: warning: conflicting types for 'arch_leave_lazy_mmu_mode'; have 'void(void)'
-      46 | void arch_leave_lazy_mmu_mode(void);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/sparc/include/asm/pgtable_64.h:942:9: note: previous implicit declaration of 'arch_leave_lazy_mmu_mode' with type 'void(void)'
-     942 |         arch_leave_lazy_mmu_mode();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/sparc/include/asm/pgtable.h:5,
-                    from arch/sparc/include/asm/uaccess_64.h:14,
-                    from arch/sparc/include/asm/uaccess.h:8,
-                    from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/proc_fs.h:10,
-                    from arch/sparc/include/asm/prom.h:18,
-                    from include/linux/of.h:255,
-                    from arch/sparc/include/asm/openprom.h:15,
-                    from arch/sparc/include/asm/device.h:8,
-                    from include/linux/device.h:34,
-                    from include/linux/amba/bus.h:15,
-                    from drivers/of/platform.c:14:
-   arch/sparc/include/asm/pgtable_64.h: In function 'set_ptes':
->> arch/sparc/include/asm/pgtable_64.h:933:9: error: implicit declaration of function 'arch_enter_lazy_mmu_mode' [-Werror=implicit-function-declaration]
-     933 |         arch_enter_lazy_mmu_mode();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
->> arch/sparc/include/asm/pgtable_64.h:942:9: error: implicit declaration of function 'arch_leave_lazy_mmu_mode' [-Werror=implicit-function-declaration]
-     942 |         arch_leave_lazy_mmu_mode();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/sparc/include/asm/tlbflush.h:5,
-                    from arch/sparc/include/asm/pgtable_64.h:1140:
-   arch/sparc/include/asm/tlbflush_64.h: At top level:
->> arch/sparc/include/asm/tlbflush_64.h:45:6: warning: conflicting types for 'arch_enter_lazy_mmu_mode'; have 'void(void)'
-      45 | void arch_enter_lazy_mmu_mode(void);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/sparc/include/asm/pgtable_64.h:933:9: note: previous implicit declaration of 'arch_enter_lazy_mmu_mode' with type 'void(void)'
-     933 |         arch_enter_lazy_mmu_mode();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
->> arch/sparc/include/asm/tlbflush_64.h:46:6: warning: conflicting types for 'arch_leave_lazy_mmu_mode'; have 'void(void)'
-      46 | void arch_leave_lazy_mmu_mode(void);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/sparc/include/asm/pgtable_64.h:942:9: note: previous implicit declaration of 'arch_leave_lazy_mmu_mode' with type 'void(void)'
-     942 |         arch_leave_lazy_mmu_mode();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/of/platform.c:34:34: warning: 'of_skipped_node_table' defined but not used [-Wunused-const-variable=]
-      34 | static const struct of_device_id of_skipped_node_table[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> lib/string.c:312:7: error: redefinition of 'stpcpy'
+     312 | char *stpcpy(char *__restrict__ dest, const char *__restrict__ src)
+         |       ^~~~~~
+   lib/string.c:255:7: note: previous definition of 'stpcpy' with type 'char *(char *, const char *)'
+     255 | char *stpcpy(char *__restrict__ dest, const char *__restrict__ src)
+         |       ^~~~~~
 
 
-vim +/arch_enter_lazy_mmu_mode +933 arch/sparc/include/asm/pgtable_64.h
+vim +/stpcpy +312 lib/string.c
 
-   929	
-   930	static inline void set_ptes(struct mm_struct *mm, unsigned long addr,
-   931			pte_t *ptep, pte_t pte, unsigned int nr)
-   932	{
- > 933		arch_enter_lazy_mmu_mode();
-   934		for (;;) {
-   935			__set_pte_at(mm, addr, ptep, pte, 0);
-   936			if (--nr == 0)
-   937				break;
-   938			ptep++;
-   939			pte_val(pte) += PAGE_SIZE;
-   940			addr += PAGE_SIZE;
-   941		}
- > 942		arch_leave_lazy_mmu_mode();
-   943	}
-   944	#define set_ptes set_ptes
-   945	
+fe072e50be403f Tobin C. Harding               2019-04-05  295  
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  296  #ifndef __HAVE_ARCH_STRCAT
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  297  /**
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  298   * strcat - Append one %NUL-terminated string to another
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  299   * @dest: The string to be appended to
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  300   * @src: The string to append to it
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  301   */
+0c28130b5c9e8f Paolo 'Blaisorblade' Giarrusso 2005-05-05  302  #undef strcat
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  303  char *strcat(char *dest, const char *src)
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  304  {
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  305  	char *tmp = dest;
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  306  
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  307  	while (*dest)
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  308  		dest++;
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  309  	while ((*dest++ = *src++) != '\0')
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  310  		;
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  311  	return tmp;
+^1da177e4c3f41 Linus Torvalds                 2005-04-16 @312  }
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  313  EXPORT_SYMBOL(strcat);
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  314  #endif
+^1da177e4c3f41 Linus Torvalds                 2005-04-16  315  
+
+:::::: The code at line 312 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
