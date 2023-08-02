@@ -1,88 +1,105 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 998B1ED7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 06:24:50 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
-	by gateway (Coremail) with SMTP id _____8Bxyequ9slk3bMOAA--.24962S3;
-	Wed, 02 Aug 2023 14:24:46 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Dx_yOd9slkZSZFAA--.7441S3;
-	Wed, 02 Aug 2023 14:24:43 +0800 (CST)
-Message-ID: <36fb3a2c-cac9-3e63-b2f9-71345f57c89d@loongson.cn>
-Date: Wed, 2 Aug 2023 14:24:29 +0800
+Received: from mgamail.intel.com (unknown [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25177184F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 06:28:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690957698; x=1722493698;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JAqHigCANm/GHKxKWVCTL5vDntCZpuz1yr5nqOR1EPU=;
+  b=YjQWCtPHzz2LksrVfjvF++QfBCDZIhUgYUAAhneNCM3HosTCDopJRhGE
+   KsAQQeeWZK0bRQ0p0pWtOLV5TMRJHoLgZ26Bbp70+hyckZ81oh+nbcCHZ
+   XhjqbEu/43DUlhA675rK21t/vkxk2NeJjsyXKBHN7gmQ4JoK02aHWYVq9
+   dvy+m+aYipJ/2YijNjBDGhJHsZjqKZwUeNaImKEwQ7o7VJZn/69Z9G70k
+   7m0I57kUTx0EhgbFgH8fuGmL6MMEoCxz+3ZIkRqFnwkwOtTh1oQrKj0oE
+   VbU7KwTrhra8dxG4yy9wxCRrfBKuoYdy//LbimapvpAHQCcICpBA3N8xR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="349094314"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
+   d="scan'208";a="349094314"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 23:28:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="819062250"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
+   d="scan'208";a="819062250"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 01 Aug 2023 23:28:15 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qR5LC-0000wd-1T;
+	Wed, 02 Aug 2023 06:28:14 +0000
+Date: Wed, 2 Aug 2023 14:27:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nilesh Javali <njavali@marvell.com>, martin.petersen@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	GR-QLogic-Storage-Upstream@marvell.com, agurumurthy@marvell.com,
+	sdeodhar@marvell.com
+Subject: Re: [PATCH 01/10] qla2xxx: Add NVMe Disconnect support
+Message-ID: <202308021445.txlNq7UC-lkp@intel.com>
+References: <20230801114057.27039-2-njavali@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] PCI/VGA: Fixup the firmware fb address om demanding time
-To: kernel test robot <lkp@intel.com>, Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- loongson-kernel@lists.loongnix.cn
-References: <20230801183706.702567-1-suijingfeng@loongson.cn>
- <202308021153.w0leLadx-lkp@intel.com>
-Content-Language: en-US
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <202308021153.w0leLadx-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:AQAAf8Dx_yOd9slkZSZFAA--.7441S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Cw1kZry3Wr4DKF47Zw47GFX_yoW8ZrW8pa
-	y8GFZxKrs5Jr1xGayxtr4Du3ZIvan8A345WFWDCr18uF98Zry8ur4IkrZxXF9I9rn7G34r
-	AF9aqr1kK34UGagCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
-	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv
-	67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
-	AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
-	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw
-	1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
-	xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
-	4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jY
-	SoJUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230801114057.27039-2-njavali@marvell.com>
 
-Hi,
+Hi Nilesh,
 
-On 2023/8/2 11:40, kernel test robot wrote:
-> Hi Sui,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on pci/next]
-> [also build test ERROR on pci/for-linus linus/master v6.5-rc4 next-20230801]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/PCI-VGA-Fixup-the-firmware-fb-address-om-demanding-time/20230802-023743
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> patch link:    https://lore.kernel.org/r/20230801183706.702567-1-suijingfeng%40loongson.cn
-> patch subject: [PATCH] PCI/VGA: Fixup the firmware fb address om demanding time
-> config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20230802/202308021153.w0leLadx-lkp@intel.com/config)
-> compiler: hppa64-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021153.w0leLadx-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308021153.w0leLadx-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     hppa64-linux-ld: drivers/pci/vgaarb.o: in function `vga_arb_firmware_fb_addr_tracker':
->>> (.text+0x1d0): undefined reference to `screen_info'
->>> hppa64-linux-ld: (.text+0x1d4): undefined reference to `screen_info'
+kernel test robot noticed the following build errors:
 
-How does this problem related to my patch?
-The dependency was introduce since the commit 86fd887b7fe3
-('vgaarb: Don't default exclusively to first video device with mem+io')
+[auto build test ERROR on 7e9609d2daea0ebe4add444b26b76479ecfda504]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Nilesh-Javali/qla2xxx-Add-NVMe-Disconnect-support/20230801-194339
+base:   7e9609d2daea0ebe4add444b26b76479ecfda504
+patch link:    https://lore.kernel.org/r/20230801114057.27039-2-njavali%40marvell.com
+patch subject: [PATCH 01/10] qla2xxx: Add NVMe Disconnect support
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230802/202308021445.txlNq7UC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021445.txlNq7UC-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308021445.txlNq7UC-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/kernel/cpu/mce/mce-inject.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/kvm/kvm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/kvm/kvm-intel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/hwpoison-inject.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfsd/nfsd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/acpi/nfit/nfit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/brd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/hmem/dax_hmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/device_dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/kmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/isci/isci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/netdevsim/netdevsim.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_btt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_e820.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+>> ERROR: modpost: "nvme_fc_rcv_ls_req" [drivers/scsi/qla2xxx/qla2xxx.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
