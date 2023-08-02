@@ -1,168 +1,123 @@
-Received: from mgamail.intel.com (unknown [134.134.136.126])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A638E7F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 00:24:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690935888; x=1722471888;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KB5yXlZbIHLRQx6wmnTV87Bl/V/xoga6+vkyoklnLgM=;
-  b=Pt7hBEX5OPpV92yA7ajaOeNxUUGhl9IciH1u6pcRjBua6GWmHHfxq4Jv
-   u/hidR2QF6djW6n4cr2101+H1xBFYMiyZbayTE5+lqfs7ofTNR9OcIIB/
-   3SLWMoe9WvaD8ZL9nt/uyvQju0lXiszdgd9C2Fhpu4dkIcXguYFJI7Z2U
-   CFq2GBTuJ90fdbnMJD52GlCldVjHrK4zB5sO89MpNCtLCuZXji0/hL66b
-   DmjtlFr5Z9jaVn14lWk79riQcrb0yzbbTntAxoZvE4jaO49dFRb68Unnr
-   woMxGuWgr//JWt9nuwjLqPMEVHtO+Bujz3r9xYEufNNlqvw9YFn79duhp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="354370940"
-X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
-   d="scan'208";a="354370940"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 17:24:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="852675752"
-X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
-   d="scan'208";a="852675752"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 01 Aug 2023 17:24:47 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qQzfS-0000hv-1J;
-	Wed, 02 Aug 2023 00:24:46 +0000
-Date: Wed, 2 Aug 2023 08:24:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hansg:media-ov2680 28/29] ERROR: modpost: "__udivdi3"
- [drivers/media/i2c/ov2680.ko] undefined!
-Message-ID: <202308020834.LIc810Di-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303C57E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 00:48:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1690937281;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/WTjnlr6J0y/o8fIoHqz5xjVWoYkBmBoC0BuoVomMA0=;
+	b=h1ARKC5cNszVuWXtEr5zvqtXj7HXl22iFm1YzJfENfLvONsYPIfNQoj+5iVbGbwk9QkPJC
+	Sw3XNnSHXn1mW9zyCe1ek07xFRlWUoI9Xg1YZycq/32jsU7ICbvAKom8d5Wyxi43Y7FxF8
+	1U9jwi0Kr5jtCjZo5tbWAe4VDQqZhZ8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-313-L9YhFVOcP32CRkwdmltgKg-1; Tue, 01 Aug 2023 20:47:59 -0400
+X-MC-Unique: L9YhFVOcP32CRkwdmltgKg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54BA386802C;
+	Wed,  2 Aug 2023 00:47:59 +0000 (UTC)
+Received: from lorien.usersys.redhat.com (unknown [10.22.16.141])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 27393401DA9;
+	Wed,  2 Aug 2023 00:47:59 +0000 (UTC)
+Date: Tue, 1 Aug 2023 20:47:58 -0400
+From: Phil Auld <pauld@redhat.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [peterz-queue:sched/core 6/6] kernel/sched/fair.c:6274:6: error:
+ redefinition of 'cfs_task_bw_constrained'
+Message-ID: <20230802004758.GA269190@lorien.usersys.redhat.com>
+References: <202308020619.VgTRqYwU-lkp@intel.com>
+ <20230801225727.GE119080@hirez.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20230801225727.GE119080@hirez.programming.kicks-ass.net>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git media-ov2680
-head:   a7a34b42e2edeb443a669f2b0787619468eabffe
-commit: 8cc2256ca094536e3d3e1b9f484ebb61faeb4824 [28/29] media: ov2680: Add link-freq and pixel-rate controls
-config: i386-randconfig-i001-20230731 (https://download.01.org/0day-ci/archive/20230802/202308020834.LIc810Di-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230802/202308020834.LIc810Di-lkp@intel.com/reproduce)
+On Wed, Aug 02, 2023 at 12:57:27AM +0200 Peter Zijlstra wrote:
+> On Wed, Aug 02, 2023 at 06:51:37AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+> > head:   e8d5ff8258bf73b585e921af5bd967057f17a738
+> > commit: e8d5ff8258bf73b585e921af5bd967057f17a738 [6/6] sched/fair: Block nohz tick_stop when cfs bandwidth in use
+> > config: i386-buildonly-randconfig-r005-20230731 (https://download.01.org/0day-ci/archive/20230802/202308020619.VgTRqYwU-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20230802/202308020619.VgTRqYwU-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202308020619.VgTRqYwU-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    kernel/sched/fair.c:6261:6: warning: no previous prototype for 'init_cfs_bandwidth' [-Wmissing-prototypes]
+> >     6261 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b, struct cfs_bandwidth *parent) {}
+> >          |      ^~~~~~~~~~~~~~~~~~
+> > >> kernel/sched/fair.c:6274:6: error: redefinition of 'cfs_task_bw_constrained'
+> >     6274 | bool cfs_task_bw_constrained(struct task_struct *p)
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~~
+> >    In file included from kernel/sched/fair.c:55:
+> >    kernel/sched/sched.h:498:20: note: previous definition of 'cfs_task_bw_constrained' with type 'bool(struct task_struct *)' {aka '_Bool(struct task_struct *)'}
+> >      498 | static inline bool cfs_task_bw_constrained(struct task_struct *p) { return false; }
+> >          |                    ^~~~~~~~~~~~~~~~~~~~~~~
+> >    kernel/sched/fair.c:12881:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
+> >    12881 | void free_fair_sched_group(struct task_group *tg) { }
+> >          |      ^~~~~~~~~~~~~~~~~~~~~
+> >    kernel/sched/fair.c:12883:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
+> >    12883 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
+> >          |     ^~~~~~~~~~~~~~~~~~~~~~
+> >    kernel/sched/fair.c:12888:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
+> >    12888 | void online_fair_sched_group(struct task_group *tg) { }
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~~
+> >    kernel/sched/fair.c:12890:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
+> >    12890 | void unregister_fair_sched_group(struct task_group *tg) { }
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > 
+> > 
+> > vim +/cfs_task_bw_constrained +6274 kernel/sched/fair.c
+> > 
+> >   6266	
+> >   6267	static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
+> >   6268	{
+> >   6269		return NULL;
+> >   6270	}
+> >   6271	static inline void destroy_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+> >   6272	static inline void update_runtime_enabled(struct rq *rq) {}
+> >   6273	static inline void unthrottle_offline_cfs_rqs(struct rq *rq) {}
+> > > 6274	bool cfs_task_bw_constrained(struct task_struct *p)
+> >   6275	{
+> >   6276		return false;
+> >   6277	}
+> >   6278	
+> 
+> Argh.. Phil, I'm about to crash, if you have a spare cycle can you fetch
+> this commit (I've already modified it to fix an earlier build fail) and
+> make it work for this .config?
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308020834.LIc810Di-lkp@intel.com/
+Argh is right, sorry!  I though I'd tried all the combinations of NOHZ and
+CFS_BANDWIDTH etc. Clearly I missed something...
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+I'll look at this first thing tomorrow.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-gw-pld.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/acpi/custom_method.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/efficeon-agp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/nvidia-agp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/via-agp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/phy/mdio_devres.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/phy/phylink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/phy/sfp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/phy/bcm87xx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/acpi_mdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/fwnode_mdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/of_mdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/mdio-bitbang.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/arcnet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/arc-rawmode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/capmode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/com90xx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/com90io.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/arc-rimi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/com20020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/com20020-isa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/com20020-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/netdevsim/netdevsim.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/common/usb-otg-fsm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-pxa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/simatic-ipc-wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/mISDN/l1oip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/speedfax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/w6692.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/isdn/hardware/mISDN/mISDNisar.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/simple/simatic-ipc-leds.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-vbtn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/intel/intel-rst.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/amilo-rfkill.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/ibm_rtl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/classmate-laptop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/x86/simatic-ipc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/core/selftests.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/p8022.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/psnap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/fddi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/stp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
->> ERROR: modpost: "__udivdi3" [drivers/media/i2c/ov2680.ko] undefined!
->> ERROR: modpost: "__divdi3" [drivers/media/i2c/ov2680.ko] undefined!
+
+Cheers,
+Phil
+
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
