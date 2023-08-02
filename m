@@ -1,177 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB56746C;
-	Wed,  2 Aug 2023 13:30:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690983007; x=1722519007;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JIJIitavy8CJp9oU+Xf/+J9SpW9XcjtMHKwzJbGtCG8=;
-  b=ElZ8FSYSbHI7CJVGO7EqvI0ykM2r51Lt2mCr7bEZTb4AAwzFw0wpdV9m
-   jJmsb0qySyVteuYHTtB5fhUjn2PKFnk5Ve6b/jSeGhLcD170+4PYOKP7X
-   bIg9YVVqXh10rJ06UEAP+jcNeyNakd22QaelZR1ArpgjIe5DauiXyK+Nd
-   lnNh4Wy53kn3M+u7/SLAwHEd/qkqkW0ie+ZCkTyVcJSJHAeTjeKJP9zjM
-   e9wFR7UEnYTS01AcuYQ3ygumvcarmFe2mPTTbzBqFIGMAe0JTGf6zITob
-   R8t8AE637UNEFBYtSEJ5S/hvKQtMrak+Z8v8At/+0XPFsN4rHRwCa3VRi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="400530791"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="400530791"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 06:30:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="872497309"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Aug 2023 06:30:06 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qRBvP-0001Dz-16;
-	Wed, 02 Aug 2023 13:30:03 +0000
-Date: Wed, 2 Aug 2023 21:29:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: William Tseng <william.tseng@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Juha-Pekka Heikkil <juha-pekka.heikkila@intel.com>,
-	William Tseng <william.tseng@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/xelpd: Calculate
- first_line_bpg_offset for DSC 1.1
-Message-ID: <202308022109.Mp7MKSId-lkp@intel.com>
-References: <20230802101541.10045-1-william.tseng@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2FA79CF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 13:49:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1690984148;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ljqv0aY8Vh4bc8YGNnhSAsoafeEwk8pa6UNJIxAEh/8=;
+	b=GsqerZHUBISciq+ttW+GakzkmEisUG2oi4Kq8l3S2hUc/HX0U8N/EeK3V8Kf4lut0BlpLg
+	FbGGdOeNfT+WNcwhRSyaUnYiX2QjxeynaEdz8bjoCvGTWU1UweIkfPL2cU8aNE7Jsm4es4
+	T11zV+oKkbtOeV31pquB7qAep9R4nrM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-388-ZkT3aCzYPCaFRrqmoqdqow-1; Wed, 02 Aug 2023 09:49:06 -0400
+X-MC-Unique: ZkT3aCzYPCaFRrqmoqdqow-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12AED805AF7;
+	Wed,  2 Aug 2023 13:49:06 +0000 (UTC)
+Received: from lorien.usersys.redhat.com (unknown [10.39.192.77])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B1A5440C2063;
+	Wed,  2 Aug 2023 13:49:04 +0000 (UTC)
+Date: Wed, 2 Aug 2023 09:49:00 -0400
+From: Phil Auld <pauld@redhat.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [peterz-queue:sched/core 6/6] kernel/sched/fair.c:6274:6: error:
+ redefinition of 'cfs_task_bw_constrained'
+Message-ID: <20230802134900.GA325565@lorien.usersys.redhat.com>
+References: <202308020619.VgTRqYwU-lkp@intel.com>
+ <20230801225727.GE119080@hirez.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20230801225727.GE119080@hirez.programming.kicks-ass.net>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230802101541.10045-1-william.tseng@intel.com>
 
-Hi William,
+Hi Peter,
 
-kernel test robot noticed the following build errors:
+On Wed, Aug 02, 2023 at 12:57:27AM +0200 Peter Zijlstra wrote:
+> On Wed, Aug 02, 2023 at 06:51:37AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+> > head:   e8d5ff8258bf73b585e921af5bd967057f17a738
+> > commit: e8d5ff8258bf73b585e921af5bd967057f17a738 [6/6] sched/fair: Block nohz tick_stop when cfs bandwidth in use
+> > config: i386-buildonly-randconfig-r005-20230731 (https://download.01.org/0day-ci/archive/20230802/202308020619.VgTRqYwU-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20230802/202308020619.VgTRqYwU-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202308020619.VgTRqYwU-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    kernel/sched/fair.c:6261:6: warning: no previous prototype for 'init_cfs_bandwidth' [-Wmissing-prototypes]
+> >     6261 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b, struct cfs_bandwidth *parent) {}
+> >          |      ^~~~~~~~~~~~~~~~~~
+> > >> kernel/sched/fair.c:6274:6: error: redefinition of 'cfs_task_bw_constrained'
+> >     6274 | bool cfs_task_bw_constrained(struct task_struct *p)
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~~
+> >    In file included from kernel/sched/fair.c:55:
+> >    kernel/sched/sched.h:498:20: note: previous definition of 'cfs_task_bw_constrained' with type 'bool(struct task_struct *)' {aka '_Bool(struct task_struct *)'}
+> >      498 | static inline bool cfs_task_bw_constrained(struct task_struct *p) { return false; }
+> >          |                    ^~~~~~~~~~~~~~~~~~~~~~~
+> >    kernel/sched/fair.c:12881:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
+> >    12881 | void free_fair_sched_group(struct task_group *tg) { }
+> >          |      ^~~~~~~~~~~~~~~~~~~~~
+> >    kernel/sched/fair.c:12883:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
+> >    12883 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
+> >          |     ^~~~~~~~~~~~~~~~~~~~~~
+> >    kernel/sched/fair.c:12888:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
+> >    12888 | void online_fair_sched_group(struct task_group *tg) { }
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~~
+> >    kernel/sched/fair.c:12890:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
+> >    12890 | void unregister_fair_sched_group(struct task_group *tg) { }
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > 
+> > 
+> > vim +/cfs_task_bw_constrained +6274 kernel/sched/fair.c
+> > 
+> >   6266	
+> >   6267	static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
+> >   6268	{
+> >   6269		return NULL;
+> >   6270	}
+> >   6271	static inline void destroy_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+> >   6272	static inline void update_runtime_enabled(struct rq *rq) {}
+> >   6273	static inline void unthrottle_offline_cfs_rqs(struct rq *rq) {}
+> > > 6274	bool cfs_task_bw_constrained(struct task_struct *p)
+> >   6275	{
+> >   6276		return false;
+> >   6277	}
+> >   6278	
+> 
+> Argh.. Phil, I'm about to crash, if you have a spare cycle can you fetch
+> this commit (I've already modified it to fix an earlier build fail) and
+> make it work for this .config?
 
-[auto build test ERROR on drm-intel/for-linux-next-fixes]
-[also build test ERROR on linus/master v6.5-rc4 next-20230802]
-[cannot apply to drm-tip/drm-tip drm-intel/for-linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I missed the !CGROUP_SCHED case...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/William-Tseng/drm-i915-xelpd-Calculate-first_line_bpg_offset-for-DSC-1-1/20230802-181626
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
-patch link:    https://lore.kernel.org/r/20230802101541.10045-1-william.tseng%40intel.com
-patch subject: [Intel-gfx] [PATCH] drm/i915/xelpd: Calculate first_line_bpg_offset for DSC 1.1
-config: x86_64-randconfig-r016-20230731 (https://download.01.org/0day-ci/archive/20230802/202308022109.Mp7MKSId-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230802/202308022109.Mp7MKSId-lkp@intel.com/reproduce)
+I think the below will fix this.   The kconfig system enforces a dependency
+for the !CGROUP_SCHED case (forcing !CFS_BANDWIDTH) but the actual ideffery
+doesn't.  So with !CGROUP_SCHED we get the !CFS_BANDWIDTH code too and
+so duplicate definitions.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308022109.Mp7MKSId-lkp@intel.com/
+I could not find a way to get that added static dummy definition to
+help anything w/o causing this duplicate.  It would require not
+compiling fair.c as far as I can tell.
 
-All errors (new ones prefixed by >>):
+I'm still running through my now expanded config matrix. It takes a while
+on my 4 core lappie :)
 
->> drivers/gpu/drm/i915/display/intel_vdsc.c:83:4: error: use of undeclared identifier 'rc'
-                           rc->first_line_bpg_offset = 12;
-                           ^
-   drivers/gpu/drm/i915/display/intel_vdsc.c:85:4: error: use of undeclared identifier 'rc'
-                           rc->first_line_bpg_offset = 15;
-                           ^
-   2 errors generated.
+Cheers,
+Phil
+
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index 6e79de26a25d..c28206499a3d 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -6271,11 +6271,12 @@ static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
+ static inline void destroy_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+ static inline void update_runtime_enabled(struct rq *rq) {}
+ static inline void unthrottle_offline_cfs_rqs(struct rq *rq) {}
++#ifdef CONFIG_CGROUP_SCHED
+ bool cfs_task_bw_constrained(struct task_struct *p)
+ {
+ 	return false;
+ }
+-
++#endif
+ #endif /* CONFIG_CFS_BANDWIDTH */
+ 
+ #if !defined(CONFIG_CFS_BANDWIDTH) || !defined(CONFIG_NO_HZ_FULL)
 
 
-vim +/rc +83 drivers/gpu/drm/i915/display/intel_vdsc.c
 
-    54	
-    55	static void
-    56	calculate_rc_params(struct drm_dsc_config *vdsc_cfg)
-    57	{
-    58		int bpc = vdsc_cfg->bits_per_component;
-    59		int bpp = vdsc_cfg->bits_per_pixel >> 4;
-    60		static const s8 ofs_und6[] = {
-    61			0, -2, -2, -4, -6, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
-    62		};
-    63		static const s8 ofs_und8[] = {
-    64			2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12
-    65		};
-    66		static const s8 ofs_und12[] = {
-    67			2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12
-    68		};
-    69		static const s8 ofs_und15[] = {
-    70			10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10, -10, -12, -12, -12
-    71		};
-    72		int qp_bpc_modifier = (bpc - 8) * 2;
-    73		u32 res, buf_i, bpp_i;
-    74	
-    75		if (vdsc_cfg->dsc_version_minor == 2) {
-    76			if (vdsc_cfg->slice_height >= 8)
-    77				vdsc_cfg->first_line_bpg_offset =
-    78					12 + DIV_ROUND_UP((9 * min(34, vdsc_cfg->slice_height - 8)), 100);
-    79			else
-    80				vdsc_cfg->first_line_bpg_offset = 2 * (vdsc_cfg->slice_height - 1);
-    81		} else {
-    82			if (bpp == 8)
-  > 83				rc->first_line_bpg_offset = 12;
-    84			else
-    85				rc->first_line_bpg_offset = 15;
-    86		}
-    87	
-    88		/* Our hw supports only 444 modes as of today */
-    89		if (bpp >= 12)
-    90			vdsc_cfg->initial_offset = 2048;
-    91		else if (bpp >= 10)
-    92			vdsc_cfg->initial_offset = 5632 - DIV_ROUND_UP(((bpp - 10) * 3584), 2);
-    93		else if (bpp >= 8)
-    94			vdsc_cfg->initial_offset = 6144 - DIV_ROUND_UP(((bpp - 8) * 512), 2);
-    95		else
-    96			vdsc_cfg->initial_offset = 6144;
-    97	
-    98		/* initial_xmit_delay = rc_model_size/2/compression_bpp */
-    99		vdsc_cfg->initial_xmit_delay = DIV_ROUND_UP(DSC_RC_MODEL_SIZE_CONST, 2 * bpp);
-   100	
-   101		vdsc_cfg->flatness_min_qp = 3 + qp_bpc_modifier;
-   102		vdsc_cfg->flatness_max_qp = 12 + qp_bpc_modifier;
-   103	
-   104		vdsc_cfg->rc_quant_incr_limit0 = 11 + qp_bpc_modifier;
-   105		vdsc_cfg->rc_quant_incr_limit1 = 11 + qp_bpc_modifier;
-   106	
-   107		bpp_i  = (2 * (bpp - 6));
-   108		for (buf_i = 0; buf_i < DSC_NUM_BUF_RANGES; buf_i++) {
-   109			u8 range_bpg_offset;
-   110	
-   111			/* Read range_minqp and range_max_qp from qp tables */
-   112			vdsc_cfg->rc_range_params[buf_i].range_min_qp =
-   113				intel_lookup_range_min_qp(bpc, buf_i, bpp_i, vdsc_cfg->native_420);
-   114			vdsc_cfg->rc_range_params[buf_i].range_max_qp =
-   115				intel_lookup_range_max_qp(bpc, buf_i, bpp_i, vdsc_cfg->native_420);
-   116	
-   117			/* Calculate range_bpg_offset */
-   118			if (bpp <= 6) {
-   119				range_bpg_offset = ofs_und6[buf_i];
-   120			} else if (bpp <= 8) {
-   121				res = DIV_ROUND_UP(((bpp - 6) * (ofs_und8[buf_i] - ofs_und6[buf_i])), 2);
-   122				range_bpg_offset = ofs_und6[buf_i] + res;
-   123			} else if (bpp <= 12) {
-   124				range_bpg_offset = ofs_und8[buf_i];
-   125			} else if (bpp <= 15) {
-   126				res = DIV_ROUND_UP(((bpp - 12) * (ofs_und15[buf_i] - ofs_und12[buf_i])), 3);
-   127				range_bpg_offset = ofs_und12[buf_i] + res;
-   128			} else {
-   129				range_bpg_offset = ofs_und15[buf_i];
-   130			}
-   131	
-   132			vdsc_cfg->rc_range_params[buf_i].range_bpg_offset =
-   133				range_bpg_offset & DSC_RANGE_BPG_OFFSET_MASK;
-   134		}
-   135	}
-   136	
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
