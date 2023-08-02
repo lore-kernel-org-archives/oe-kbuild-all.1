@@ -1,98 +1,176 @@
-Received: from mgamail.intel.com (unknown [192.55.52.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1850D63C6
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 10:26:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690972005; x=1722508005;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RljGlw3peibrHMvrvL9Zo+t3sqqwY5SPLptaScys/SA=;
-  b=JoDPuBeVsrxXIXpYthr9QzyqO4kQ8vc0ezdBmncj4yo+f4JFKlc7edcD
-   9MTbTko+0Uy7GKLkYPcSnvp5tf0JFMyXsBF1TxGd4Fwr8CrB/gbvI12s5
-   4cLNSysK9zYBua1bozmauYI9Y4uJr9RaGvCOLXNUIL57QStW4qKVGYxu4
-   9FzDUwuWeTXDBgXzun90tawioLuTiXJnIFBP7NJnyRM0BxqCs0C5ppuVW
-   cqprD3WbIlj7c0pM4656zpk9GMMk65fgE5wET0u3BhCXkYjvU/LlfwmVS
-   DgE5RytotbJ94tF1Jl4vhG9nbt3/gbcioEdUzQ3I+SJ1Vxi3aqk5EHlWj
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="400492142"
-X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
-   d="scan'208";a="400492142"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 03:26:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="764171284"
-X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
-   d="scan'208";a="764171284"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 02 Aug 2023 03:26:25 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qR93g-00017f-1c;
-	Wed, 02 Aug 2023 10:26:24 +0000
-Date: Wed, 2 Aug 2023 18:25:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Deren Wu <deren.wu@mediatek.com>, Felix Fietkau <nbd@nbd.name>,
-	Lorenzo Bianconi <lorenzo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Sean Wang <sean.wang@mediatek.com>,
-	Ryder Lee <ryder.lee@mediatek.com>,
-	Shayne Chen <shayne.chen@mediatek.com>,
-	linux-wireless <linux-wireless@vger.kernel.org>,
-	linux-mediatek <linux-mediatek@lists.infradead.org>,
-	Deren Wu <deren.wu@mediatek.com>
-Subject: Re: [PATCH 17/17] wifi: mt76: add mt7925 to Kconfig
-Message-ID: <202308021841.dVQEY7mc-lkp@intel.com>
-References: <12bafb6334728c3c12cdd8ab3e7505a963d4356d.1690864199.git.deren.wu@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D656FC2;
+	Wed,  2 Aug 2023 10:30:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D13D3C433C8;
+	Wed,  2 Aug 2023 10:30:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690972203;
+	bh=icrV2iWRYzGOijkbBaIBlJibB5TFzlCFeWs5f2CsTTo=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=sYsFzPQqcNsntpoOjd9mf5FvrwB7vth5AHO6tLzHCeFz4UmLFIB7g83sgZicqLhCw
+	 WXOKGs9fcc/z5fn7Wj2E/biMUZL3TUJbuCqNGuh5NeGmtxrEmSAvC0jXRjcNZ9RXn+
+	 fVesafQD8AUtthxmhCmEDdsJQJOmZ8yUazgtAsRcLXcBdVwLQCIgXBb5115McNpnrw
+	 3ciiXnRYnzvAElwR/YPARbPV+PbvBQuJljcrZflevdjFZgIh5K9MEilHc3Hy82njQF
+	 JJJfyIyQH9Xouwawv46fCNMhTgkQ8FE9dS42+q7n6v7HA85/cEYQAweBe3DO4bVJjT
+	 KQSEXHKwfyNYg==
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12bafb6334728c3c12cdd8ab3e7505a963d4356d.1690864199.git.deren.wu@mediatek.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 02 Aug 2023 13:29:59 +0300
+Message-Id: <CUHZM83XY8SR.26DNCWK3OYNG0@suppilovahvero>
+Subject: Re: [jarkko-tpmdd:next 2/2] drivers/char/tpm/tpm-interface.c:284:5:
+ error: conflicting types for 'tpm_pcr_read'
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "kernel test robot" <lkp@intel.com>, "Tom Rix" <trix@redhat.com>
+Cc: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>
+X-Mailer: aerc 0.14.0
+References: <202308021728.fOa8AzbO-lkp@intel.com>
+In-Reply-To: <202308021728.fOa8AzbO-lkp@intel.com>
 
-Hi Deren,
+On Wed Aug 2, 2023 at 12:13 PM EEST, kernel test robot wrote:
+> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.=
+git next
+> head:   d7f8088ec1a42c58d8cafdde40077db04608c497
+> commit: d7f8088ec1a42c58d8cafdde40077db04608c497 [2/2] sysctl: set variab=
+le key_sysctls storage-class-specifier to static
+> config: i386-randconfig-r026-20230801 (https://download.01.org/0day-ci/ar=
+chive/20230802/202308021728.fOa8AzbO-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git =
+ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021728=
+.fOa8AzbO-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308021728.fOa8AzbO-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from drivers/char/tpm/tpm-sysfs.c:16:
+>    In file included from drivers/char/tpm/tpm.h:28:
+>    include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' s=
+et but not used [-Wunused-but-set-variable]
+>            int mapping_size;
+>                ^
+> >> drivers/char/tpm/tpm-sysfs.c:368:42: error: too few arguments to funct=
+ion call, expected 4, have 3
+>            rc =3D tpm_pcr_read(chip, ha->pcr, &digest);
+>                 ~~~~~~~~~~~~                       ^
+>    include/linux/tpm.h:427:12: note: 'tpm_pcr_read' declared here
+>    extern int tpm_pcr_read(struct tpm_chip *chip, u32 pcr_idx,
+>               ^
+>    1 warning and 1 error generated.
+> --
+>    In file included from drivers/char/tpm/tpm-interface.c:28:
+>    include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' s=
+et but not used [-Wunused-but-set-variable]
+>            int mapping_size;
+>                ^
+> >> drivers/char/tpm/tpm-interface.c:284:5: error: conflicting types for '=
+tpm_pcr_read'
+>    int tpm_pcr_read(struct tpm_chip *chip, u32 pcr_idx,
+>        ^
+>    include/linux/tpm.h:427:12: note: previous declaration is here
+>    extern int tpm_pcr_read(struct tpm_chip *chip, u32 pcr_idx,
+>               ^
+>    1 warning and 1 error generated.
+> --
+>    In file included from drivers/char/tpm/tpm2-cmd.c:14:
+>    In file included from drivers/char/tpm/tpm.h:28:
+>    include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' s=
+et but not used [-Wunused-but-set-variable]
+>            int mapping_size;
+>                ^
+> >> drivers/char/tpm/tpm2-cmd.c:161:5: error: conflicting types for 'tpm2_=
+pcr_read'
+>    int tpm2_pcr_read(struct tpm_chip *chip, u32 pcr_idx,
+>        ^
+>    drivers/char/tpm/tpm.h:291:5: note: previous declaration is here
+>    int tpm2_pcr_read(struct tpm_chip *chip, u32 pcr_idx,
+>        ^
+>    1 warning and 1 error generated.
+>
+>
+> vim +/tpm_pcr_read +284 drivers/char/tpm/tpm-interface.c
+>
+> 954650efb79f99 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2015-05-3=
+0  275 =20
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  276  /**
+> aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-0=
+5  277   * tpm_pcr_read - read a PCR value from SHA1 bank
+> aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-0=
+5  278   * @chip:	a &struct tpm_chip instance, %NULL for the default chip
+> aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-0=
+5  279   * @pcr_idx:	the PCR to be retrieved
+> 879b589210a9a0 drivers/char/tpm/tpm-interface.c Roberto Sassu   2019-02-0=
+6  280   * @digest:	the PCR bank and buffer current PCR value is written to
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  281   *
+> aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-0=
+5  282   * Return: same as with tpm_transmit_cmd()
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  283   */
+> 879b589210a9a0 drivers/char/tpm/tpm-interface.c Roberto Sassu   2019-02-0=
+6 @284  int tpm_pcr_read(struct tpm_chip *chip, u32 pcr_idx,
+> 879b589210a9a0 drivers/char/tpm/tpm-interface.c Roberto Sassu   2019-02-0=
+6  285  		 struct tpm_digest *digest)
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  286  {
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  287  	int rc;
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  288 =20
+> fc1d52b745bae6 drivers/char/tpm/tpm-interface.c Stefan Berger   2018-06-2=
+6  289  	chip =3D tpm_find_get_ops(chip);
+> aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-0=
+5  290  	if (!chip)
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  291  		return -ENODEV;
+> d4a31756320716 drivers/char/tpm/tpm-interface.c Tomas Winkler   2018-10-1=
+9  292 =20
+> 7a1d7e6dd76a20 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2014-12-1=
+2  293  	if (chip->flags & TPM_CHIP_FLAG_TPM2)
+> 879b589210a9a0 drivers/char/tpm/tpm-interface.c Roberto Sassu   2019-02-0=
+6  294  		rc =3D tpm2_pcr_read(chip, pcr_idx, digest, NULL);
+> 7a1d7e6dd76a20 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2014-12-1=
+2  295  	else
+> 879b589210a9a0 drivers/char/tpm/tpm-interface.c Roberto Sassu   2019-02-0=
+6  296  		rc =3D tpm1_pcr_read(chip, pcr_idx, digest->digest);
+> d4a31756320716 drivers/char/tpm/tpm-interface.c Tomas Winkler   2018-10-1=
+9  297 =20
+> 4e26195f240d73 drivers/char/tpm/tpm-interface.c Jason Gunthorpe 2016-02-1=
+2  298  	tpm_put_ops(chip);
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  299  	return rc;
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  300  }
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  301  EXPORT_SYMBOL_GPL(tpm_pcr_read);
+> 659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-0=
+2  302 =20
+>
+> :::::: The code at line 284 was first introduced by commit
+> :::::: 879b589210a9a0c9f77d301aaf0ddee20f2c5052 tpm: retrieve digest size=
+ of unknown algorithms with PCR read
+>
+> :::::: TO: Roberto Sassu <roberto.sassu@huawei.com>
+> :::::: CC: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+>
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-kernel test robot noticed the following build errors:
+Sorry I messed up my next branch, now it is fixed.
 
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v6.5-rc4 next-20230802]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Deren-Wu/wifi-mt76-mt7925-add-Kconfig/20230801-223655
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/12bafb6334728c3c12cdd8ab3e7505a963d4356d.1690864199.git.deren.wu%40mediatek.com
-patch subject: [PATCH 17/17] wifi: mt76: add mt7925 to Kconfig
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230802/202308021841.dVQEY7mc-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021841.dVQEY7mc-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308021841.dVQEY7mc-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/net/wireless/mediatek/mt76/mt7925/mac.c:7:
->> drivers/net/wireless/mediatek/mt76/mt7925/mt7925.h:7:10: fatal error: ../mt792x.h: No such file or directory
-       7 | #include "../mt792x.h"
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +7 drivers/net/wireless/mediatek/mt76/mt7925/mt7925.h
-
-d5f8016ffd8fd01 Deren Wu 2023-08-01  6  
-d5f8016ffd8fd01 Deren Wu 2023-08-01 @7  #include "../mt792x.h"
-d5f8016ffd8fd01 Deren Wu 2023-08-01  8  #include "regs.h"
-d5f8016ffd8fd01 Deren Wu 2023-08-01  9  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+BR, Jarkko
