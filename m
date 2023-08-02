@@ -1,43 +1,52 @@
-Received: from mgamail.intel.com (unknown [134.134.136.31])
+Received: from mgamail.intel.com (unknown [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3BD652
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 22:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1866134B6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 23:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691015856; x=1722551856;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=4S3IF0RAhW42ZjBIxofsaWIMpjQYbrQax1eqiAvEwZw=;
-  b=I9rPj9/nvODy+h/2MB5WlbsNCiaiSTqCo9b3K60sN+zDuWaJ0edC+nOg
-   Khi2Soet+QkN08VP5vZ2EqPvJsI31emRmv47HjaWwnbGazuBsMhgSxUBH
-   ckyFqie0bMSBWleSeewK7jAodwFvoSRTwckFEdCDWhY+tKhijOfNu0gm5
-   XLDCziCuRx5Ftp/5zA/lUYRV6FGPVOfPQkZb/M99+INkllqoZa+46s0i7
-   XAjScPwGTAbYNBmISm7Z3rD+SzKdzUO2A1ET5mm4S2Fseg4f33A4yg57y
-   mGe9oJ7ytwSNxUx45eM3bO6lba90Fr/hla4v581Jgv06Fd2VzV4z9EtSj
+  t=1691018317; x=1722554317;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SnhoA5/+6/yFD18HW0GV1yHz1WPLSZnPwIv9nFl7vTg=;
+  b=EFsFrXTYXa2oWl1XWHZW2oKe+xJBavdMSKyqjqwze/3PK0HjOKOKO0Q/
+   efikLjYuGVTS2rnQyUa5MXNVt++stpy8Bn0Fs/Vs8UFpaJrIba9G0+s/D
+   LqoYyIPoEkHG/XwwtOFPrW3r72NKA9ViNZOaIX+E1t7zl1z5u47yP//PM
+   VzJgqbTub8qR8uYjcna4PC7mSPtoXyOvzIV56bHQ7i5mPArPdC+QOl5eo
+   KMCA11T1JIZrIbQONY9YjJYmzNLFF21hMKd4Kuq8lL1nXec0pf6gmtvJM
+   BaoYI5N3zkS2QRN8+AJJ+6oGB7QonkMiQnmKVko1J7raa6MrA6v3UPpH1
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="433557740"
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="349320362"
 X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="433557740"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 15:37:35 -0700
+   d="scan'208";a="349320362"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 16:18:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="794763659"
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="679262015"
 X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="794763659"
+   d="scan'208";a="679262015"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Aug 2023 15:37:31 -0700
+  by orsmga003.jf.intel.com with ESMTP; 02 Aug 2023 16:18:32 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRKTD-0001XQ-07
-	for oe-kbuild-all@lists.linux.dev;
-	Wed, 02 Aug 2023 22:37:31 +0000
-Date: Thu, 3 Aug 2023 06:36:40 +0800
+	id 1qRL6t-0001ZD-2w;
+	Wed, 02 Aug 2023 23:18:31 +0000
+Date: Thu, 3 Aug 2023 07:17:40 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 13446/30000]
- drivers/soc/qcom/rpmh-rsc.c:697:16: error: expected declaration specifiers
- or '...' before string constant
-Message-ID: <202308030607.vJmdsaU7-lkp@intel.com>
+To: Gerd Bayer <gbayer@linux.ibm.com>, Wenjia Zhang <wenjia@linux.ibm.com>,
+	Jan Karcher <jaka@linux.ibm.com>,
+	Tony Lu <tonylu@linux.alibaba.com>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Karsten Graul <kgraul@linux.ibm.com>,
+	"D . Wythe" <alibuda@linux.alibaba.com>,
+	Wen Gu <guwen@linux.alibaba.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net 2/2] net/smc: Use correct buffer sizes when switching
+ between TCP and SMC
+Message-ID: <202308030722.dV3X9uUQ-lkp@intel.com>
+References: <20230802093313.1501605-3-gbayer@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,37 +55,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230802093313.1501605-3-gbayer@linux.ibm.com>
 
-Hi Will,
+Hi Gerd,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   7f46da99d47faba52b98b09371755ba4821a116d
-commit: 1ee367d36875a25c92ae7bb66d4b6f25f0d386d5 [13446/30000] ANDROID: GKI: drivers: qcom: rpmh-rsc: Add tristate support for qcom,rpmh-rsc driver
-config: sparc-randconfig-r033-20230801 (https://download.01.org/0day-ci/archive/20230803/202308030607.vJmdsaU7-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030607.vJmdsaU7-lkp@intel.com/reproduce)
+[auto build test ERROR on net-next/main]
+[also build test ERROR on linus/master v6.5-rc4 next-20230802]
+[cannot apply to net/main]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gerd-Bayer/net-smc-Fix-setsockopt-and-sysctl-to-specify-same-buffer-size-again/20230802-193805
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230802093313.1501605-3-gbayer%40linux.ibm.com
+patch subject: [PATCH net 2/2] net/smc: Use correct buffer sizes when switching between TCP and SMC
+config: nios2-randconfig-r006-20230731 (https://download.01.org/0day-ci/archive/20230803/202308030722.dV3X9uUQ-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030722.dV3X9uUQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308030607.vJmdsaU7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308030722.dV3X9uUQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/soc/qcom/rpmh-rsc.c:697:16: error: expected declaration specifiers or '...' before string constant
-     697 | MODULE_LICENSE("GPL v2");
-         |                ^~~~~~~~
-   drivers/soc/qcom/rpmh-rsc.c:698:20: error: expected declaration specifiers or '...' before string constant
-     698 | MODULE_DESCRIPTION("Qualcomm RPM-Hardened (RPMH) Communication driver");
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/smc/af_smc.c: In function 'smc_adjust_sock_bufsizes':
+>> net/smc/af_smc.c:465:27: error: 'possible_net_t' has no member named 'net'
+     465 |         nnet = nsk->sk_net.net;
+         |                           ^
 
 
-vim +697 drivers/soc/qcom/rpmh-rsc.c
+vim +465 net/smc/af_smc.c
 
-   696	
- > 697	MODULE_LICENSE("GPL v2");
+   438	
+   439	/* copy only relevant settings and flags of SOL_SOCKET level from smc to
+   440	 * clc socket (since smc is not called for these options from net/core)
+   441	 */
+   442	
+   443	#define SK_FLAGS_SMC_TO_CLC ((1UL << SOCK_URGINLINE) | \
+   444				     (1UL << SOCK_KEEPOPEN) | \
+   445				     (1UL << SOCK_LINGER) | \
+   446				     (1UL << SOCK_BROADCAST) | \
+   447				     (1UL << SOCK_TIMESTAMP) | \
+   448				     (1UL << SOCK_DBG) | \
+   449				     (1UL << SOCK_RCVTSTAMP) | \
+   450				     (1UL << SOCK_RCVTSTAMPNS) | \
+   451				     (1UL << SOCK_LOCALROUTE) | \
+   452				     (1UL << SOCK_TIMESTAMPING_RX_SOFTWARE) | \
+   453				     (1UL << SOCK_RXQ_OVFL) | \
+   454				     (1UL << SOCK_WIFI_STATUS) | \
+   455				     (1UL << SOCK_NOFCS) | \
+   456				     (1UL << SOCK_FILTER_LOCKED) | \
+   457				     (1UL << SOCK_TSTAMP_NEW))
+   458	
+   459	/* if set, use value set by setsockopt() - else use IPv4 or SMC sysctl value */
+   460	static void smc_adjust_sock_bufsizes(struct sock *nsk, struct sock *osk,
+   461					     unsigned long mask)
+   462	{
+   463		struct net *nnet;
+   464	
+ > 465		nnet = nsk->sk_net.net;
+   466	
+   467		nsk->sk_userlocks = osk->sk_userlocks;
+   468	
+   469		if (osk->sk_userlocks & SOCK_SNDBUF_LOCK) {
+   470			nsk->sk_sndbuf = osk->sk_sndbuf;
+   471		} else {
+   472			if (mask == SK_FLAGS_SMC_TO_CLC)
+   473				WRITE_ONCE(nsk->sk_sndbuf,
+   474					   READ_ONCE(nnet->ipv4.sysctl_tcp_wmem[1]));
+   475			else
+   476				WRITE_ONCE(nsk->sk_sndbuf,
+   477					   2 * READ_ONCE(nnet->smc.sysctl_wmem));
+   478		}
+   479		if (osk->sk_userlocks & SOCK_RCVBUF_LOCK) {
+   480			nsk->sk_rcvbuf = osk->sk_rcvbuf;
+   481		} else {
+   482			if (mask == SK_FLAGS_SMC_TO_CLC)
+   483				WRITE_ONCE(nsk->sk_rcvbuf,
+   484					   READ_ONCE(nnet->ipv4.sysctl_tcp_rmem[1]));
+   485			else
+   486				WRITE_ONCE(nsk->sk_rcvbuf,
+   487					   2 * READ_ONCE(nnet->smc.sysctl_rmem));
+   488		}
+   489	}
+   490	
 
 -- 
 0-DAY CI Kernel Test Service
