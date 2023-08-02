@@ -1,46 +1,51 @@
-Received: from mgamail.intel.com (unknown [192.55.52.93])
+Received: from mgamail.intel.com (unknown [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4813A7E;
-	Wed,  2 Aug 2023 02:28:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A507E6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 02:50:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690943287; x=1722479287;
+  t=1690944608; x=1722480608;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=00ybSWj/CYZrSLL9FE5JS5iIpOHI720pdL7DCsfZB0A=;
-  b=jHXYQSKf9+2nlbuL9+XvMPAcK7wt8yVOUgxzc2iiYJfc9+ykK48/fwJF
-   jvgcQQzSfUZnMzBkZxYwwdzXx4VYz3L/Sxpzc2Tz/OIfH8hYdSAQ8zFDt
-   LfxbcFO2teNJUFRbHVHuwU/cuzNFdvsxTUtOenLdFMDgfzMXP5whavGes
-   nFmA2B54FoHgixdBI/LNOYP9fwsQE0fjNpG0ex4FC5bqrz0iSoW0rMK78
-   7viGp9QYrmv+BlnTrtFl3I6fX3oS2ny5PVr7iusKKdxVndSKClR9OvB+N
-   DTf3geX+6sAJe1SClWUKPLVJ8G9aWNd6lE5ssTR27FXyXA82FStNBkTMC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="366925868"
+  bh=HIvP5FSmZX7RP8RIYNqnbo+QbCazoG1k/FHH/7gLQaM=;
+  b=gOZi2ZAEdyRhzS7tm+OcXJbcDK5LiCGXzKRt3mFipiiHi2doVtsYJfMQ
+   l/D6QZ0wo7MSHqs0CsMYVhS8R5Y59CMIn5ecI6wAY7nkCyJIh+31vWaB/
+   e2opNJCiNMnXxaRR/CqKwKxLktL10NYBIxm7B95H0dEhfxDP3KI7gbJMe
+   Oj+ia1lHgiIVNt9jhrX958D0VkE/ZklBDBYiEhvX8zG0TioxqaOhYfRqV
+   1TfZqqwKQFtdtFeJp83yy+4SNazMZz3gUY0sZVcJP91QkYY22jupjCZE7
+   yCNiR0372v1dkThVqq1tiJ9cbwHCa/xmhzm097Hc0BL4HwEHf3G4WrjDd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="433303050"
 X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
-   d="scan'208";a="366925868"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 19:28:06 -0700
+   d="scan'208";a="433303050"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 19:50:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="732204942"
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="728936236"
 X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; 
-   d="scan'208";a="732204942"
+   d="scan'208";a="728936236"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Aug 2023 19:28:04 -0700
+  by orsmga002.jf.intel.com with ESMTP; 01 Aug 2023 19:50:04 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qR1al-0000mJ-11;
-	Wed, 02 Aug 2023 02:28:03 +0000
-Date: Wed, 2 Aug 2023 10:27:39 +0800
+	id 1qR1w3-0000n1-2d;
+	Wed, 02 Aug 2023 02:50:03 +0000
+Date: Wed, 2 Aug 2023 10:49:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn
-Subject: Re: [PATCH] PCI/VGA: Fixup the firmware fb address om demanding time
-Message-ID: <202308021027.rCgALJ5d-lkp@intel.com>
-References: <20230801183706.702567-1-suijingfeng@loongson.cn>
+To: Rob Herring <robh@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+	"Enrico Weigelt, metux IT consult" <info@metux.net>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Petr Mladek <pmladek@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] of: dynamic: Refactor action prints to not use
+ "%pOF" inside devtree_lock
+Message-ID: <202308021009.r1Hzc7YD-lkp@intel.com>
+References: <20230801-dt-changeset-fixes-v1-2-b5203e3fc22f@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,125 +54,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230801183706.702567-1-suijingfeng@loongson.cn>
+In-Reply-To: <20230801-dt-changeset-fixes-v1-2-b5203e3fc22f@kernel.org>
 
-Hi Sui,
+Hi Rob,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.5-rc4 next-20230801]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on e251a4e28a27884e8bfb7fccbf53b24736f3ef87]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/PCI-VGA-Fixup-the-firmware-fb-address-om-demanding-time/20230802-023743
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20230801183706.702567-1-suijingfeng%40loongson.cn
-patch subject: [PATCH] PCI/VGA: Fixup the firmware fb address om demanding time
-config: arm-randconfig-r004-20230731 (https://download.01.org/0day-ci/archive/20230802/202308021027.rCgALJ5d-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021027.rCgALJ5d-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring/of-unittest-Fix-EXPECT-for-parse_phandle_with_args_map-test/20230802-055739
+base:   e251a4e28a27884e8bfb7fccbf53b24736f3ef87
+patch link:    https://lore.kernel.org/r/20230801-dt-changeset-fixes-v1-2-b5203e3fc22f%40kernel.org
+patch subject: [PATCH 2/5] of: dynamic: Refactor action prints to not use "%pOF" inside devtree_lock
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230802/202308021009.r1Hzc7YD-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021009.r1Hzc7YD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308021027.rCgALJ5d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308021009.r1Hzc7YD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pci/vgaarb.c:133:7: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                              old_fb_start, old_fb_end,
-                              ^~~~~~~~~~~~
-   drivers/pci/vgaarb.c:13:69: note: expanded from macro 'vgaarb_dbg'
-   #define vgaarb_dbg(dev, fmt, arg...)    dev_dbg(dev, "vgaarb: " fmt, ##arg)
-                                                                   ~~~    ^~~
-   include/linux/dev_printk.h:163:47: note: expanded from macro 'dev_dbg'
-                   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
-                                                       ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
-                   _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-                                           ~~~    ^~~~~~~~~~~
-   drivers/pci/vgaarb.c:133:21: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                              old_fb_start, old_fb_end,
-                                            ^~~~~~~~~~
-   drivers/pci/vgaarb.c:13:69: note: expanded from macro 'vgaarb_dbg'
-   #define vgaarb_dbg(dev, fmt, arg...)    dev_dbg(dev, "vgaarb: " fmt, ##arg)
-                                                                   ~~~    ^~~
-   include/linux/dev_printk.h:163:47: note: expanded from macro 'dev_dbg'
-                   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
-                                                       ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
-                   _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-                                           ~~~    ^~~~~~~~~~~
-   drivers/pci/vgaarb.c:134:7: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                              firmware_fb.start, firmware_fb.end);
-                              ^~~~~~~~~~~~~~~~~
-   drivers/pci/vgaarb.c:13:69: note: expanded from macro 'vgaarb_dbg'
-   #define vgaarb_dbg(dev, fmt, arg...)    dev_dbg(dev, "vgaarb: " fmt, ##arg)
-                                                                   ~~~    ^~~
-   include/linux/dev_printk.h:163:47: note: expanded from macro 'dev_dbg'
-                   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
-                                                       ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
-                   _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-                                           ~~~    ^~~~~~~~~~~
-   drivers/pci/vgaarb.c:134:26: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-                              firmware_fb.start, firmware_fb.end);
-                                                 ^~~~~~~~~~~~~~~
-   drivers/pci/vgaarb.c:13:69: note: expanded from macro 'vgaarb_dbg'
-   #define vgaarb_dbg(dev, fmt, arg...)    dev_dbg(dev, "vgaarb: " fmt, ##arg)
-                                                                   ~~~    ^~~
-   include/linux/dev_printk.h:163:47: note: expanded from macro 'dev_dbg'
-                   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
-                                                       ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
-                   _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-                                           ~~~    ^~~~~~~~~~~
-   4 warnings generated.
+   In file included from include/linux/printk.h:564,
+                    from include/asm-generic/bug.h:22,
+                    from arch/loongarch/include/asm/bug.h:59,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:5,
+                    from ./arch/loongarch/include/generated/asm/current.h:1,
+                    from include/linux/mutex.h:14,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from drivers/of/dynamic.c:12:
+   drivers/of/dynamic.c: In function 'of_reconfig_notify':
+>> include/linux/dynamic_debug.h:219:58: error: expected expression before 'do'
+     219 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:246:9: note: in expansion of macro '__dynamic_func_call_cls'
+     246 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
+     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:267:9: note: in expansion of macro '_dynamic_func_call'
+     267 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/of/dynamic.c:88:13: note: in expansion of macro 'pr_debug'
+      88 |         if (pr_debug("notify "))
+         |             ^~~~~~~~
+   drivers/of/dynamic.c: In function '__of_changeset_entry_apply':
+>> include/linux/dynamic_debug.h:219:58: error: expected expression before 'do'
+     219 | #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+         |                                                          ^~
+   include/linux/dynamic_debug.h:246:9: note: in expansion of macro '__dynamic_func_call_cls'
+     246 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
+     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:267:9: note: in expansion of macro '_dynamic_func_call'
+     267 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/of/dynamic.c:572:13: note: in expansion of macro 'pr_debug'
+     572 |         if (pr_debug("changeset: applying: cset<%p> ", ce))
+         |             ^~~~~~~~
 
 
-vim +133 drivers/pci/vgaarb.c
+vim +/do +219 include/linux/dynamic_debug.h
 
-   104	
-   105	static bool vga_arb_get_fb_range_from_tracker(resource_size_t *start,
-   106						      resource_size_t *end)
-   107	{
-   108		struct pci_dev *pdev = firmware_fb.pdev;
-   109		resource_size_t new_vram_base;
-   110		resource_size_t new_fb_start;
-   111		resource_size_t old_fb_start;
-   112		resource_size_t old_fb_end;
-   113	
-   114		/*
-   115		 * No firmware framebuffer support or No aperture that contains the
-   116		 * firmware FB is found, in this case, the firmware_fb.pdev will be
-   117		 * NULL. We will return immediately.
-   118		 */
-   119		if (!pdev)
-   120			return false;
-   121	
-   122		new_vram_base = pdev->resource[firmware_fb.bar].start;
-   123		new_fb_start = new_vram_base + firmware_fb.offset;
-   124		old_fb_start = firmware_fb.start;
-   125		old_fb_end = firmware_fb.end;
-   126	
-   127		if (new_fb_start != old_fb_start) {
-   128			firmware_fb.start = new_fb_start;
-   129			firmware_fb.end = new_fb_start + firmware_fb.size - 1;
-   130			/* Firmware fb address range moved */
-   131			vgaarb_dbg(&pdev->dev,
-   132				   "[0x%llx, 0x%llx] -> [0x%llx, 0x%llx]\n",
- > 133				   old_fb_start, old_fb_end,
-   134				   firmware_fb.start, firmware_fb.end);
-   135		}
-   136	
-   137		*start = firmware_fb.start;
-   138		*end = firmware_fb.end;
-   139	
-   140		return true;
-   141	}
-   142	
+9049fc745300c5 Jason Baron      2016-08-03  207  
+ca90fca7f7b518 Jim Cromie       2022-09-04  208  /*
+ca90fca7f7b518 Jim Cromie       2022-09-04  209   * Factory macros: ($prefix)dynamic_func_call($suffix)
+ca90fca7f7b518 Jim Cromie       2022-09-04  210   *
+ca90fca7f7b518 Jim Cromie       2022-09-04  211   * Lower layer (with __ prefix) gets the callsite metadata, and wraps
+ca90fca7f7b518 Jim Cromie       2022-09-04  212   * the func inside a debug-branch/static-key construct.  Upper layer
+ca90fca7f7b518 Jim Cromie       2022-09-04  213   * (with _ prefix) does the UNIQUE_ID once, so that lower can ref the
+ca90fca7f7b518 Jim Cromie       2022-09-04  214   * name/label multiple times, and tie the elements together.
+ca90fca7f7b518 Jim Cromie       2022-09-04  215   * Multiple flavors:
+ca90fca7f7b518 Jim Cromie       2022-09-04  216   * (|_cls):	adds in _DPRINT_CLASS_DFLT as needed
+ca90fca7f7b518 Jim Cromie       2022-09-04  217   * (|_no_desc):	former gets callsite descriptor as 1st arg (for prdbgs)
+ca90fca7f7b518 Jim Cromie       2022-09-04  218   */
+ca90fca7f7b518 Jim Cromie       2022-09-04 @219  #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {	\
+ca90fca7f7b518 Jim Cromie       2022-09-04  220  	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);	\
+47cdd64be4832f Rasmus Villemoes 2019-03-07  221  	if (DYNAMIC_DEBUG_BRANCH(id))				\
+47cdd64be4832f Rasmus Villemoes 2019-03-07  222  		func(&id, ##__VA_ARGS__);			\
+e9d376f0fa66bd Jason Baron      2009-02-05  223  } while (0)
+ca90fca7f7b518 Jim Cromie       2022-09-04  224  #define __dynamic_func_call(id, fmt, func, ...)				\
+ca90fca7f7b518 Jim Cromie       2022-09-04  225  	__dynamic_func_call_cls(id, _DPRINTK_CLASS_DFLT, fmt,		\
+ca90fca7f7b518 Jim Cromie       2022-09-04  226  				func, ##__VA_ARGS__)
+e9d376f0fa66bd Jason Baron      2009-02-05  227  
 
 -- 
 0-DAY CI Kernel Test Service
