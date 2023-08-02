@@ -1,43 +1,46 @@
 Received: from mgamail.intel.com (unknown [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07F963C0;
-	Wed,  2 Aug 2023 11:38:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACED363B1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 12:39:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690976284; x=1722512284;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KzHpMYa2YX+7JCRMaapa2OxiUUc49nQWGd7iOGULhGk=;
-  b=U+GpNp8QKNbedArNSpL/1kP/B0BDHcxfft+YSwom15+sFbmSvmiRFFQ0
-   fpL58+x2gvKCB2PCSqpQCtiAQB8v/cG0bVkcEGmChe5rWTtSmxMXK99zK
-   HY7b0MXFbKI0tkFqRoZ6x/ygHUid0bHpoGq2iqC95VlUr/oqeRFb8iPn/
-   2YBJBURP/xeP7d8/rvk+RTTMAn6C+Hbjk0kLlfXRAa2uuWqfAm+Tn39Th
-   CPYqK8HuWEVmfTl1BrSWWdfqyzHJks9/mjOHRb9D2qkbSH1MjjFi5i1tR
-   m1CkVS7+OkY3Hgml5jI9g9MoZDCUpyZaut5FZv9z+WyqMOjXISMExqVZl
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="359597318"
+  t=1690979945; x=1722515945;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n1m8qL3JLkVxK779dfb16Lcr8X3Rxm76d8UaFYlkENY=;
+  b=fE3HI2bNrheY6rtJm66kwNTdSRaef7Zk6HZk2CXoAzVB5eCNQfnCgLON
+   NZEOByrmonlOQIV5UtyT7H/XBZOwSBNaX59RAEFe9JkVv2oCRYYYwlcu6
+   ookHpKWx9WKVmlGr6f7/r0Cr5qNtuu1Crd0GCcbWSEPts6VW6yJp1iwN4
+   ieSM+98aIcZjjpmuGB2LLRsQuixIuh4vIlyafnVRxn9LqDUDUCkDMmbej
+   8nV36xAudITej/koBy1wBx7BSxuU/nu9o06MDEyXY2wM7H7fxmzUCh+kI
+   ZBN6jXSdD57H3xHwNFdN/MuUMA8LPD27k1a0ROzBQTp/OdPh3VQzGN7tU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="359607790"
 X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="359597318"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 04:38:03 -0700
+   d="scan'208";a="359607790"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 05:39:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="729076643"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
-   d="scan'208";a="729076643"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="872473741"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 02 Aug 2023 04:38:02 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 02 Aug 2023 05:39:05 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRAAz-0001Bd-2R;
-	Wed, 02 Aug 2023 11:38:01 +0000
-Date: Wed, 2 Aug 2023 19:37:24 +0800
+	id 1qRB82-0001CR-0T;
+	Wed, 02 Aug 2023 12:39:02 +0000
+Date: Wed, 2 Aug 2023 20:38:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [rmk-arm:ktext-current 3/19] arch/arm64/mm/kasan_init.c:248:2:
- error: call to '__compiletime_assert_415' declared with 'error' attribute:
- BUILD_BUG_ON failed: VMALLOC_START != MODULES_END
-Message-ID: <202308021957.HNRIsqLw-lkp@intel.com>
+To: William Tseng <william.tseng@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Juha-Pekka Heikkil <juha-pekka.heikkila@intel.com>,
+	William Tseng <william.tseng@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/xelpd: Calculate
+ first_line_bpg_offset for DSC 1.1
+Message-ID: <202308022035.wnMRWpdC-lkp@intel.com>
+References: <20230802101541.10045-1-william.tseng@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,126 +49,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230802101541.10045-1-william.tseng@intel.com>
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm ktext-current
-head:   f62358852613b0387dc8941896a2ac63ac520c9b
-commit: a976a51f5a679dc2e4ee0239859ed09ea5fdfef7 [3/19] arm64: place kernel in its own L0 page table entry
-config: arm64-randconfig-r014-20230731 (https://download.01.org/0day-ci/archive/20230802/202308021957.HNRIsqLw-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021957.HNRIsqLw-lkp@intel.com/reproduce)
+Hi William,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-intel/for-linux-next-fixes]
+[also build test ERROR on linus/master v6.5-rc4 next-20230802]
+[cannot apply to drm-tip/drm-tip drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/William-Tseng/drm-i915-xelpd-Calculate-first_line_bpg_offset-for-DSC-1-1/20230802-181626
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
+patch link:    https://lore.kernel.org/r/20230802101541.10045-1-william.tseng%40intel.com
+patch subject: [Intel-gfx] [PATCH] drm/i915/xelpd: Calculate first_line_bpg_offset for DSC 1.1
+config: x86_64-buildonly-randconfig-r002-20230731 (https://download.01.org/0day-ci/archive/20230802/202308022035.wnMRWpdC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230802/202308022035.wnMRWpdC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308021957.HNRIsqLw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308022035.wnMRWpdC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/mm/kasan_init.c:10:
-   In file included from include/linux/kasan.h:20:
-   In file included from arch/arm64/include/asm/kasan.h:8:
-   arch/arm64/include/asm/memory.h:56:6: warning: 'CONFIG_ARM64_4K_PAGES' is not defined, evaluates to 0 [-Wundef]
-      56 | #if (CONFIG_ARM64_4K_PAGES && CONFIG_PGTABLE_LEVELS < 4) || \
-         |      ^
-   arch/arm64/include/asm/memory.h:57:6: warning: 'CONFIG_ARM64_16K_PAGES' is not defined, evaluates to 0 [-Wundef]
-      57 |     (CONFIG_ARM64_16K_PAGES && CONFIG_PGTABLE_LEVELS < 3) || \
-         |      ^
->> arch/arm64/mm/kasan_init.c:248:2: error: call to '__compiletime_assert_415' declared with 'error' attribute: BUILD_BUG_ON failed: VMALLOC_START != MODULES_END
-     248 |         BUILD_BUG_ON(VMALLOC_START != MODULES_END);
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-     385 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:176:1: note: expanded from here
-     176 | __compiletime_assert_415
-         | ^
-   2 warnings and 1 error generated.
+   drivers/gpu/drm/i915/display/intel_vdsc.c: In function 'calculate_rc_params':
+>> drivers/gpu/drm/i915/display/intel_vdsc.c:83:25: error: 'rc' undeclared (first use in this function); did you mean 'rq'?
+      83 |                         rc->first_line_bpg_offset = 12;
+         |                         ^~
+         |                         rq
+   drivers/gpu/drm/i915/display/intel_vdsc.c:83:25: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +248 arch/arm64/mm/kasan_init.c
+vim +83 drivers/gpu/drm/i915/display/intel_vdsc.c
 
-39d114ddc68223 Andrey Ryabinin  2015-10-12  213  
-afe6ef80dcecf2 Andrey Konovalov 2020-12-22  214  static void __init kasan_init_shadow(void)
-39d114ddc68223 Andrey Ryabinin  2015-10-12  215  {
-f9040773b7bbbd Ard Biesheuvel   2016-02-16  216  	u64 kimg_shadow_start, kimg_shadow_end;
-55123afffe931a Mark Rutland     2023-05-30  217  	u64 mod_shadow_start;
-9a0732efa77418 Lecopzer Chen    2021-03-24  218  	u64 vmalloc_shadow_end;
-b10d6bca87204c Mike Rapoport    2020-10-13  219  	phys_addr_t pa_start, pa_end;
-b10d6bca87204c Mike Rapoport    2020-10-13  220  	u64 i;
-39d114ddc68223 Andrey Ryabinin  2015-10-12  221  
-7d7b88ff5f8fd7 Lecopzer Chen    2021-03-24  222  	kimg_shadow_start = (u64)kasan_mem_to_shadow(KERNEL_START) & PAGE_MASK;
-7d7b88ff5f8fd7 Lecopzer Chen    2021-03-24  223  	kimg_shadow_end = PAGE_ALIGN((u64)kasan_mem_to_shadow(KERNEL_END));
-f9040773b7bbbd Ard Biesheuvel   2016-02-16  224  
-f80fb3a3d50843 Ard Biesheuvel   2016-01-26  225  	mod_shadow_start = (u64)kasan_mem_to_shadow((void *)MODULES_VADDR);
-f80fb3a3d50843 Ard Biesheuvel   2016-01-26  226  
-9a0732efa77418 Lecopzer Chen    2021-03-24  227  	vmalloc_shadow_end = (u64)kasan_mem_to_shadow((void *)VMALLOC_END);
-9a0732efa77418 Lecopzer Chen    2021-03-24  228  
-39d114ddc68223 Andrey Ryabinin  2015-10-12  229  	/*
-39d114ddc68223 Andrey Ryabinin  2015-10-12  230  	 * We are going to perform proper setup of shadow memory.
-0293c8ba807c86 Kyrylo Tkachov   2018-10-04  231  	 * At first we should unmap early shadow (clear_pgds() call below).
-39d114ddc68223 Andrey Ryabinin  2015-10-12  232  	 * However, instrumented code couldn't execute without shadow memory.
-39d114ddc68223 Andrey Ryabinin  2015-10-12  233  	 * tmp_pg_dir used to keep early shadow mapped until full shadow
-39d114ddc68223 Andrey Ryabinin  2015-10-12  234  	 * setup will be finished.
-39d114ddc68223 Andrey Ryabinin  2015-10-12  235  	 */
-39d114ddc68223 Andrey Ryabinin  2015-10-12  236  	memcpy(tmp_pg_dir, swapper_pg_dir, sizeof(tmp_pg_dir));
-c1a88e9124a499 Mark Rutland     2016-01-25  237  	dsb(ishst);
-1682c45b920643 Ard Biesheuvel   2022-06-24  238  	cpu_replace_ttbr1(lm_alias(tmp_pg_dir), idmap_pg_dir);
-39d114ddc68223 Andrey Ryabinin  2015-10-12  239  
-39d114ddc68223 Andrey Ryabinin  2015-10-12  240  	clear_pgds(KASAN_SHADOW_START, KASAN_SHADOW_END);
-39d114ddc68223 Andrey Ryabinin  2015-10-12  241  
-e17d8025f07e4f Will Deacon      2017-11-15  242  	kasan_map_populate(kimg_shadow_start, kimg_shadow_end,
-7d7b88ff5f8fd7 Lecopzer Chen    2021-03-24  243  			   early_pfn_to_nid(virt_to_pfn(lm_alias(KERNEL_START))));
-f9040773b7bbbd Ard Biesheuvel   2016-02-16  244  
-77ad4ce69321ab Mark Rutland     2019-08-14  245  	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)PAGE_END),
-f80fb3a3d50843 Ard Biesheuvel   2016-01-26  246  				   (void *)mod_shadow_start);
-9a0732efa77418 Lecopzer Chen    2021-03-24  247  
-9a0732efa77418 Lecopzer Chen    2021-03-24 @248  	BUILD_BUG_ON(VMALLOC_START != MODULES_END);
-9a0732efa77418 Lecopzer Chen    2021-03-24  249  	kasan_populate_early_shadow((void *)vmalloc_shadow_end,
-9a0732efa77418 Lecopzer Chen    2021-03-24  250  				    (void *)KASAN_SHADOW_END);
-f80fb3a3d50843 Ard Biesheuvel   2016-01-26  251  
-b10d6bca87204c Mike Rapoport    2020-10-13  252  	for_each_mem_range(i, &pa_start, &pa_end) {
-b10d6bca87204c Mike Rapoport    2020-10-13  253  		void *start = (void *)__phys_to_virt(pa_start);
-b10d6bca87204c Mike Rapoport    2020-10-13  254  		void *end = (void *)__phys_to_virt(pa_end);
-39d114ddc68223 Andrey Ryabinin  2015-10-12  255  
-39d114ddc68223 Andrey Ryabinin  2015-10-12  256  		if (start >= end)
-39d114ddc68223 Andrey Ryabinin  2015-10-12  257  			break;
-39d114ddc68223 Andrey Ryabinin  2015-10-12  258  
-e17d8025f07e4f Will Deacon      2017-11-15  259  		kasan_map_populate((unsigned long)kasan_mem_to_shadow(start),
-3f9ec80f7b22ec Andrey Ryabinin  2017-07-10  260  				   (unsigned long)kasan_mem_to_shadow(end),
-800cb2e553d445 Mark Rutland     2018-04-16  261  				   early_pfn_to_nid(virt_to_pfn(start)));
-39d114ddc68223 Andrey Ryabinin  2015-10-12  262  	}
-39d114ddc68223 Andrey Ryabinin  2015-10-12  263  
-7b1af9795773d7 Ard Biesheuvel   2016-01-11  264  	/*
-9577dd74864877 Andrey Konovalov 2018-12-28  265  	 * KAsan may reuse the contents of kasan_early_shadow_pte directly,
-9577dd74864877 Andrey Konovalov 2018-12-28  266  	 * so we should make sure that it maps the zero page read-only.
-7b1af9795773d7 Ard Biesheuvel   2016-01-11  267  	 */
-7b1af9795773d7 Ard Biesheuvel   2016-01-11  268  	for (i = 0; i < PTRS_PER_PTE; i++)
-9577dd74864877 Andrey Konovalov 2018-12-28  269  		set_pte(&kasan_early_shadow_pte[i],
-9577dd74864877 Andrey Konovalov 2018-12-28  270  			pfn_pte(sym_to_pfn(kasan_early_shadow_page),
-9577dd74864877 Andrey Konovalov 2018-12-28  271  				PAGE_KERNEL_RO));
-7b1af9795773d7 Ard Biesheuvel   2016-01-11  272  
-080eb83f54cf5b Andrey Konovalov 2018-12-28  273  	memset(kasan_early_shadow_page, KASAN_SHADOW_INIT, PAGE_SIZE);
-1682c45b920643 Ard Biesheuvel   2022-06-24  274  	cpu_replace_ttbr1(lm_alias(swapper_pg_dir), idmap_pg_dir);
-afe6ef80dcecf2 Andrey Konovalov 2020-12-22  275  }
-afe6ef80dcecf2 Andrey Konovalov 2020-12-22  276  
-
-:::::: The code at line 248 was first introduced by commit
-:::::: 9a0732efa77418fc85b1bdc5ddee619e62f59545 arm64: kasan: don't populate vmalloc area for CONFIG_KASAN_VMALLOC
-
-:::::: TO: Lecopzer Chen <lecopzer.chen@mediatek.com>
-:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+    54	
+    55	static void
+    56	calculate_rc_params(struct drm_dsc_config *vdsc_cfg)
+    57	{
+    58		int bpc = vdsc_cfg->bits_per_component;
+    59		int bpp = vdsc_cfg->bits_per_pixel >> 4;
+    60		static const s8 ofs_und6[] = {
+    61			0, -2, -2, -4, -6, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
+    62		};
+    63		static const s8 ofs_und8[] = {
+    64			2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12
+    65		};
+    66		static const s8 ofs_und12[] = {
+    67			2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12
+    68		};
+    69		static const s8 ofs_und15[] = {
+    70			10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10, -10, -12, -12, -12
+    71		};
+    72		int qp_bpc_modifier = (bpc - 8) * 2;
+    73		u32 res, buf_i, bpp_i;
+    74	
+    75		if (vdsc_cfg->dsc_version_minor == 2) {
+    76			if (vdsc_cfg->slice_height >= 8)
+    77				vdsc_cfg->first_line_bpg_offset =
+    78					12 + DIV_ROUND_UP((9 * min(34, vdsc_cfg->slice_height - 8)), 100);
+    79			else
+    80				vdsc_cfg->first_line_bpg_offset = 2 * (vdsc_cfg->slice_height - 1);
+    81		} else {
+    82			if (bpp == 8)
+  > 83				rc->first_line_bpg_offset = 12;
+    84			else
+    85				rc->first_line_bpg_offset = 15;
+    86		}
+    87	
+    88		/* Our hw supports only 444 modes as of today */
+    89		if (bpp >= 12)
+    90			vdsc_cfg->initial_offset = 2048;
+    91		else if (bpp >= 10)
+    92			vdsc_cfg->initial_offset = 5632 - DIV_ROUND_UP(((bpp - 10) * 3584), 2);
+    93		else if (bpp >= 8)
+    94			vdsc_cfg->initial_offset = 6144 - DIV_ROUND_UP(((bpp - 8) * 512), 2);
+    95		else
+    96			vdsc_cfg->initial_offset = 6144;
+    97	
+    98		/* initial_xmit_delay = rc_model_size/2/compression_bpp */
+    99		vdsc_cfg->initial_xmit_delay = DIV_ROUND_UP(DSC_RC_MODEL_SIZE_CONST, 2 * bpp);
+   100	
+   101		vdsc_cfg->flatness_min_qp = 3 + qp_bpc_modifier;
+   102		vdsc_cfg->flatness_max_qp = 12 + qp_bpc_modifier;
+   103	
+   104		vdsc_cfg->rc_quant_incr_limit0 = 11 + qp_bpc_modifier;
+   105		vdsc_cfg->rc_quant_incr_limit1 = 11 + qp_bpc_modifier;
+   106	
+   107		bpp_i  = (2 * (bpp - 6));
+   108		for (buf_i = 0; buf_i < DSC_NUM_BUF_RANGES; buf_i++) {
+   109			u8 range_bpg_offset;
+   110	
+   111			/* Read range_minqp and range_max_qp from qp tables */
+   112			vdsc_cfg->rc_range_params[buf_i].range_min_qp =
+   113				intel_lookup_range_min_qp(bpc, buf_i, bpp_i, vdsc_cfg->native_420);
+   114			vdsc_cfg->rc_range_params[buf_i].range_max_qp =
+   115				intel_lookup_range_max_qp(bpc, buf_i, bpp_i, vdsc_cfg->native_420);
+   116	
+   117			/* Calculate range_bpg_offset */
+   118			if (bpp <= 6) {
+   119				range_bpg_offset = ofs_und6[buf_i];
+   120			} else if (bpp <= 8) {
+   121				res = DIV_ROUND_UP(((bpp - 6) * (ofs_und8[buf_i] - ofs_und6[buf_i])), 2);
+   122				range_bpg_offset = ofs_und6[buf_i] + res;
+   123			} else if (bpp <= 12) {
+   124				range_bpg_offset = ofs_und8[buf_i];
+   125			} else if (bpp <= 15) {
+   126				res = DIV_ROUND_UP(((bpp - 12) * (ofs_und15[buf_i] - ofs_und12[buf_i])), 3);
+   127				range_bpg_offset = ofs_und12[buf_i] + res;
+   128			} else {
+   129				range_bpg_offset = ofs_und15[buf_i];
+   130			}
+   131	
+   132			vdsc_cfg->rc_range_params[buf_i].range_bpg_offset =
+   133				range_bpg_offset & DSC_RANGE_BPG_OFFSET_MASK;
+   134		}
+   135	}
+   136	
 
 -- 
 0-DAY CI Kernel Test Service
