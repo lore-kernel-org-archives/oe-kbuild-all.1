@@ -1,105 +1,125 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5521863B1;
-	Wed,  2 Aug 2023 12:46:45 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4656440002;
-	Wed,  2 Aug 2023 12:46:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1690980404;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cVTldcbbPgJzCZAyPVUaTznIo/cxygxAPNS8Ayeoui4=;
-	b=G+sQNZprV2IpUHiP3QW5ps4HqkIRy/VLtA4fPayqEbu5mOZOD8M32P3qGb6TSjJijF9VHI
-	ostbsJE31JUOee3+DFwMf63RrGNEDRMIcdpRi3/PQBu3E1S/bCUp8VhqseUmhkHKK8/EIr
-	RSKQgxlj77VXtPuKPPeMykSyX4DMuoVaL0Z1/43K3mgCr+1cvq3OzkkKXM7rn9d+e7EArf
-	awplI3aFY4kLWZiZ38ZIOjRNuEbrre2CG1zC8gbg3iE8gMVx/n32yVomH58oTv5RFHEGTs
-	coj0QLeb03McHGR5yxgO4H1T6zrF44Oya5kaPQt9/9r6B6zPH7Oxc4cTis7IIg==
-Date: Wed, 2 Aug 2023 14:46:42 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 7/7] nvmem: core: Expose cells through sysfs
-Message-ID: <20230802144642.3d003c2e@xps-13>
-In-Reply-To: <202308021505.FG8g7tZG-lkp@intel.com>
-References: <20230801182132.1058707-8-miquel.raynal@bootlin.com>
-	<202308021505.FG8g7tZG-lkp@intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934B47485
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 13:19:29 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3fbc244d384so63754835e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Aug 2023 06:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1690982367; x=1691587167;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=O/2WIVROlZsV9PaE7ZRV5iugvs6edZ71omTT4F/SSvo=;
+        b=b5ttnfL5oEhNHJ+OuMs3TaY01QRb+YOyogeni8rOKLZRF34u4K7seXIEgc9zybGmDy
+         i6CL1VdjafelnmnuFFrUfjUn2XCMDV0Dn0c/CIQ9VnH35f0a/AmkWcnQFD931P2VnAvi
+         ppn66jIET8cdYTFhWERY2AFPKxopY+IyxBsAoKoVMSGyYaEEJ8wLYHFH0qM/WdDzm75M
+         DzRsx+xyBo/RoEwtmvScNiwcPUmZqmpPSfsQ8SI1HOKOfgCjojPjI/zbXUF++XjXeVIu
+         Hc7uLzGLqp0iKRBZg5lmWkB4q5qcyV1ZRNIRmrHJzWBF5GaE84d3dQLZxFnfxu2x7ca0
+         6FBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690982367; x=1691587167;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O/2WIVROlZsV9PaE7ZRV5iugvs6edZ71omTT4F/SSvo=;
+        b=Xa21AkCpLWi3vEV272Wa1VhjT82Wh8iLwV01qy53BPUu2yAfmIWeYHiXzhzjhyEbTb
+         tirZHArKXOAi1KqsXeUOh9oEAtu9DSJaO4oWQ+nO7pWIi6hfk0h8punOyo7F7y/lUb3M
+         tIUSy9OUVd18KuV6I2Bt4tiGTXY8bPxVW4X8DkEN3dGSGEOKLHshkcGorO/oLIFJ1txz
+         /TYcte+bBKp9Mu8dC9k540ADMqyflPYE7feUwMMf39D7kJCueczYThOX2IuKlJRQLeCT
+         S568BV01vxEY8Nh6ZtoBvcXnRjjKbT4g2F9rQh0Gwv9k9u3Pj6UG31XcECq50GHka09/
+         sApg==
+X-Gm-Message-State: ABy/qLa1daQZ4idSy/M9WvNEGstGR9/gR8qE20Yhpx5FadTa4D2/Bu8Q
+	Zfq/8QubImMaeBIAylofGAO5Kw==
+X-Google-Smtp-Source: APBJJlHDtPxPkjUQDc9Cgo3moh4rigDIqtwormB9fceq6QeriPzioOsRh/evkwesGLHEjyC7EvY7hw==
+X-Received: by 2002:adf:f44c:0:b0:317:3f64:4901 with SMTP id f12-20020adff44c000000b003173f644901mr4651149wrp.41.1690982367568;
+        Wed, 02 Aug 2023 06:19:27 -0700 (PDT)
+Received: from [192.168.1.14] (host-92-17-103-66.as13285.net. [92.17.103.66])
+        by smtp.gmail.com with ESMTPSA id d14-20020adff2ce000000b003176053506fsm15276105wrp.99.2023.08.02.06.19.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Aug 2023 06:19:27 -0700 (PDT)
+Message-ID: <2c0860e2-40d6-ec91-60cf-2684edd52676@linaro.org>
+Date: Wed, 2 Aug 2023 14:19:26 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/power/supply/qcom_pmi8998_charger.c:565
+ smb2_status_change_work() error: uninitialized symbol 'usb_online'.
+Content-Language: en-US
+To: kernel test robot <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+References: <ZMNWCD66TAhahJ2Y@kadam>
+From: Caleb Connolly <caleb.connolly@linaro.org>
+In-Reply-To: <ZMNWCD66TAhahJ2Y@kadam>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Transfer-Encoding: 7bit
 
-Hello,
 
-lkp@intel.com wrote on Wed, 2 Aug 2023 15:40:10 +0800:
 
-> Hi Miquel,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on char-misc/char-misc-testing]
-> [also build test WARNING on char-misc/char-misc-next char-misc/char-misc-=
-linus linus/master v6.5-rc4 next-20230801]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/nvme=
-m-core-Create-all-cells-before-adding-the-nvmem-device/20230802-022331
-> base:   char-misc/char-misc-testing
-> patch link:    https://lore.kernel.org/r/20230801182132.1058707-8-miquel.=
-raynal%40bootlin.com
-> patch subject: [PATCH v7 7/7] nvmem: core: Expose cells through sysfs
-> config: x86_64-randconfig-x005-20230731 (https://download.01.org/0day-ci/=
-archive/20230802/202308021505.FG8g7tZG-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git =
-ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021505=
-.FG8g7tZG-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+On 28/07/2023 06:45, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   57012c57536f8814dec92e74197ee96c3498d24e
+> commit: 8648aeb5d7b70e13264ff5f444f22081d37d4670 power: supply: add Qualcomm PMI8998 SMB2 Charger driver
+> config: arm-randconfig-m041-20230727 (https://download.01.org/0day-ci/archive/20230728/202307280638.556PrzIS-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280638.556PrzIS-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308021505.FG8g7tZG-lkp=
-@intel.com/
->=20
-> All warnings (new ones prefixed by >>):
->=20
-> >> drivers/nvmem/core.c:2264:1: warning: unused label 'del_cells' [-Wunus=
-ed-label] =20
->    del_cells:
->    ^~~~~~~~~~
->    1 warning generated.
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202307280638.556PrzIS-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/power/supply/qcom_pmi8998_charger.c:565 smb2_status_change_work() error: uninitialized symbol 'usb_online'.
 
-This warning triggers with CONFIG_NVMEM_SYSFS=3Dn, I'll fix that.
-I'll wait a bit anyway to get some feedback about the new approach.
+Hi, thanks for the report.
+> 
+> vim +/usb_online +565 drivers/power/supply/qcom_pmi8998_charger.c
+> 
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  556  static void smb2_status_change_work(struct work_struct *work)
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  557  {
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  558  	unsigned int charger_type, current_ua;
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  559  	int usb_online, count, rc;
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  560  	struct smb2_chip *chip;
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  561  
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  562  	chip = container_of(work, struct smb2_chip, status_change_work.work);
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  563  
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  564  	smb2_get_prop_usb_online(chip, &usb_online);
+> 
+> This can only happen if regmap_read() fails, and in real life they
+> can't actually fail can they?  We can't really recover if regmap
+> breaks so in that situation this uninitialized variable would be the
+> least of our concerns.  Right?
 
->=20
->=20
-> vim +/del_cells +2264 drivers/nvmem/core.c
->=20
->   2261=09
->   2262		return 0;
->   2263=09
-> > 2264	del_cells: =20
->   2265		nvmem_device_remove_all_cells(nvmem);
->   2266	put_layout:
->   2267		nvmem_layout_put(nvmem->layout);
->   2268		return ret;
->   2269	}
->   2270=09
->=20
+In this case, the driver is for a peripheral on the SPMI bus, a read
+failing is extremely unlikely but under some conditions like bandwidth
+constraints it could happen. Though admittedly there are likely bigger
+issues to deal with in that situation heh.
 
+It's a trivial fix so I'll send a patch over.
+> 
+> So what I could do is just delete the regmap_read error paths from
+> the DB.  I just add these two lines to smatch_data/db/kernel.delete.return_states
+> 
+> regmap_read (-22)
+> regmap_read (-4095)-(-1)
+> 
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26 @565  	if (!usb_online)
+>                                                      ^^^^^^^^^^
+> 
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  566  		return;
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  567  
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  568  	for (count = 0; count < 3; count++) {
+> 8648aeb5d7b70e Caleb Connolly 2023-05-26  569  		dev_dbg(chip->dev, "get charger type retry %d\n", count);
+> 
 
-Thanks,
-Miqu=C3=A8l
+-- 
+// Caleb (they/them)
