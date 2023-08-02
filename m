@@ -1,125 +1,177 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934B47485
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 13:19:29 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3fbc244d384so63754835e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Aug 2023 06:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690982367; x=1691587167;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=O/2WIVROlZsV9PaE7ZRV5iugvs6edZ71omTT4F/SSvo=;
-        b=b5ttnfL5oEhNHJ+OuMs3TaY01QRb+YOyogeni8rOKLZRF34u4K7seXIEgc9zybGmDy
-         i6CL1VdjafelnmnuFFrUfjUn2XCMDV0Dn0c/CIQ9VnH35f0a/AmkWcnQFD931P2VnAvi
-         ppn66jIET8cdYTFhWERY2AFPKxopY+IyxBsAoKoVMSGyYaEEJ8wLYHFH0qM/WdDzm75M
-         DzRsx+xyBo/RoEwtmvScNiwcPUmZqmpPSfsQ8SI1HOKOfgCjojPjI/zbXUF++XjXeVIu
-         Hc7uLzGLqp0iKRBZg5lmWkB4q5qcyV1ZRNIRmrHJzWBF5GaE84d3dQLZxFnfxu2x7ca0
-         6FBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690982367; x=1691587167;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/2WIVROlZsV9PaE7ZRV5iugvs6edZ71omTT4F/SSvo=;
-        b=Xa21AkCpLWi3vEV272Wa1VhjT82Wh8iLwV01qy53BPUu2yAfmIWeYHiXzhzjhyEbTb
-         tirZHArKXOAi1KqsXeUOh9oEAtu9DSJaO4oWQ+nO7pWIi6hfk0h8punOyo7F7y/lUb3M
-         tIUSy9OUVd18KuV6I2Bt4tiGTXY8bPxVW4X8DkEN3dGSGEOKLHshkcGorO/oLIFJ1txz
-         /TYcte+bBKp9Mu8dC9k540ADMqyflPYE7feUwMMf39D7kJCueczYThOX2IuKlJRQLeCT
-         S568BV01vxEY8Nh6ZtoBvcXnRjjKbT4g2F9rQh0Gwv9k9u3Pj6UG31XcECq50GHka09/
-         sApg==
-X-Gm-Message-State: ABy/qLa1daQZ4idSy/M9WvNEGstGR9/gR8qE20Yhpx5FadTa4D2/Bu8Q
-	Zfq/8QubImMaeBIAylofGAO5Kw==
-X-Google-Smtp-Source: APBJJlHDtPxPkjUQDc9Cgo3moh4rigDIqtwormB9fceq6QeriPzioOsRh/evkwesGLHEjyC7EvY7hw==
-X-Received: by 2002:adf:f44c:0:b0:317:3f64:4901 with SMTP id f12-20020adff44c000000b003173f644901mr4651149wrp.41.1690982367568;
-        Wed, 02 Aug 2023 06:19:27 -0700 (PDT)
-Received: from [192.168.1.14] (host-92-17-103-66.as13285.net. [92.17.103.66])
-        by smtp.gmail.com with ESMTPSA id d14-20020adff2ce000000b003176053506fsm15276105wrp.99.2023.08.02.06.19.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Aug 2023 06:19:27 -0700 (PDT)
-Message-ID: <2c0860e2-40d6-ec91-60cf-2684edd52676@linaro.org>
-Date: Wed, 2 Aug 2023 14:19:26 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB56746C;
+	Wed,  2 Aug 2023 13:30:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690983007; x=1722519007;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JIJIitavy8CJp9oU+Xf/+J9SpW9XcjtMHKwzJbGtCG8=;
+  b=ElZ8FSYSbHI7CJVGO7EqvI0ykM2r51Lt2mCr7bEZTb4AAwzFw0wpdV9m
+   jJmsb0qySyVteuYHTtB5fhUjn2PKFnk5Ve6b/jSeGhLcD170+4PYOKP7X
+   bIg9YVVqXh10rJ06UEAP+jcNeyNakd22QaelZR1ArpgjIe5DauiXyK+Nd
+   lnNh4Wy53kn3M+u7/SLAwHEd/qkqkW0ie+ZCkTyVcJSJHAeTjeKJP9zjM
+   e9wFR7UEnYTS01AcuYQ3ygumvcarmFe2mPTTbzBqFIGMAe0JTGf6zITob
+   R8t8AE637UNEFBYtSEJ5S/hvKQtMrak+Z8v8At/+0XPFsN4rHRwCa3VRi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="400530791"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; 
+   d="scan'208";a="400530791"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 06:30:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="872497309"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 02 Aug 2023 06:30:06 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qRBvP-0001Dz-16;
+	Wed, 02 Aug 2023 13:30:03 +0000
+Date: Wed, 2 Aug 2023 21:29:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: William Tseng <william.tseng@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Juha-Pekka Heikkil <juha-pekka.heikkila@intel.com>,
+	William Tseng <william.tseng@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/xelpd: Calculate
+ first_line_bpg_offset for DSC 1.1
+Message-ID: <202308022109.Mp7MKSId-lkp@intel.com>
+References: <20230802101541.10045-1-william.tseng@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/power/supply/qcom_pmi8998_charger.c:565
- smb2_status_change_work() error: uninitialized symbol 'usb_online'.
-Content-Language: en-US
-To: kernel test robot <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-References: <ZMNWCD66TAhahJ2Y@kadam>
-From: Caleb Connolly <caleb.connolly@linaro.org>
-In-Reply-To: <ZMNWCD66TAhahJ2Y@kadam>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230802101541.10045-1-william.tseng@intel.com>
+
+Hi William,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-intel/for-linux-next-fixes]
+[also build test ERROR on linus/master v6.5-rc4 next-20230802]
+[cannot apply to drm-tip/drm-tip drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/William-Tseng/drm-i915-xelpd-Calculate-first_line_bpg_offset-for-DSC-1-1/20230802-181626
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
+patch link:    https://lore.kernel.org/r/20230802101541.10045-1-william.tseng%40intel.com
+patch subject: [Intel-gfx] [PATCH] drm/i915/xelpd: Calculate first_line_bpg_offset for DSC 1.1
+config: x86_64-randconfig-r016-20230731 (https://download.01.org/0day-ci/archive/20230802/202308022109.Mp7MKSId-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230802/202308022109.Mp7MKSId-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308022109.Mp7MKSId-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/display/intel_vdsc.c:83:4: error: use of undeclared identifier 'rc'
+                           rc->first_line_bpg_offset = 12;
+                           ^
+   drivers/gpu/drm/i915/display/intel_vdsc.c:85:4: error: use of undeclared identifier 'rc'
+                           rc->first_line_bpg_offset = 15;
+                           ^
+   2 errors generated.
 
 
+vim +/rc +83 drivers/gpu/drm/i915/display/intel_vdsc.c
 
-On 28/07/2023 06:45, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   57012c57536f8814dec92e74197ee96c3498d24e
-> commit: 8648aeb5d7b70e13264ff5f444f22081d37d4670 power: supply: add Qualcomm PMI8998 SMB2 Charger driver
-> config: arm-randconfig-m041-20230727 (https://download.01.org/0day-ci/archive/20230728/202307280638.556PrzIS-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230728/202307280638.556PrzIS-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202307280638.556PrzIS-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/power/supply/qcom_pmi8998_charger.c:565 smb2_status_change_work() error: uninitialized symbol 'usb_online'.
-
-Hi, thanks for the report.
-> 
-> vim +/usb_online +565 drivers/power/supply/qcom_pmi8998_charger.c
-> 
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  556  static void smb2_status_change_work(struct work_struct *work)
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  557  {
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  558  	unsigned int charger_type, current_ua;
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  559  	int usb_online, count, rc;
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  560  	struct smb2_chip *chip;
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  561  
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  562  	chip = container_of(work, struct smb2_chip, status_change_work.work);
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  563  
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  564  	smb2_get_prop_usb_online(chip, &usb_online);
-> 
-> This can only happen if regmap_read() fails, and in real life they
-> can't actually fail can they?  We can't really recover if regmap
-> breaks so in that situation this uninitialized variable would be the
-> least of our concerns.  Right?
-
-In this case, the driver is for a peripheral on the SPMI bus, a read
-failing is extremely unlikely but under some conditions like bandwidth
-constraints it could happen. Though admittedly there are likely bigger
-issues to deal with in that situation heh.
-
-It's a trivial fix so I'll send a patch over.
-> 
-> So what I could do is just delete the regmap_read error paths from
-> the DB.  I just add these two lines to smatch_data/db/kernel.delete.return_states
-> 
-> regmap_read (-22)
-> regmap_read (-4095)-(-1)
-> 
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26 @565  	if (!usb_online)
->                                                      ^^^^^^^^^^
-> 
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  566  		return;
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  567  
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  568  	for (count = 0; count < 3; count++) {
-> 8648aeb5d7b70e Caleb Connolly 2023-05-26  569  		dev_dbg(chip->dev, "get charger type retry %d\n", count);
-> 
+    54	
+    55	static void
+    56	calculate_rc_params(struct drm_dsc_config *vdsc_cfg)
+    57	{
+    58		int bpc = vdsc_cfg->bits_per_component;
+    59		int bpp = vdsc_cfg->bits_per_pixel >> 4;
+    60		static const s8 ofs_und6[] = {
+    61			0, -2, -2, -4, -6, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
+    62		};
+    63		static const s8 ofs_und8[] = {
+    64			2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12
+    65		};
+    66		static const s8 ofs_und12[] = {
+    67			2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12
+    68		};
+    69		static const s8 ofs_und15[] = {
+    70			10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10, -10, -12, -12, -12
+    71		};
+    72		int qp_bpc_modifier = (bpc - 8) * 2;
+    73		u32 res, buf_i, bpp_i;
+    74	
+    75		if (vdsc_cfg->dsc_version_minor == 2) {
+    76			if (vdsc_cfg->slice_height >= 8)
+    77				vdsc_cfg->first_line_bpg_offset =
+    78					12 + DIV_ROUND_UP((9 * min(34, vdsc_cfg->slice_height - 8)), 100);
+    79			else
+    80				vdsc_cfg->first_line_bpg_offset = 2 * (vdsc_cfg->slice_height - 1);
+    81		} else {
+    82			if (bpp == 8)
+  > 83				rc->first_line_bpg_offset = 12;
+    84			else
+    85				rc->first_line_bpg_offset = 15;
+    86		}
+    87	
+    88		/* Our hw supports only 444 modes as of today */
+    89		if (bpp >= 12)
+    90			vdsc_cfg->initial_offset = 2048;
+    91		else if (bpp >= 10)
+    92			vdsc_cfg->initial_offset = 5632 - DIV_ROUND_UP(((bpp - 10) * 3584), 2);
+    93		else if (bpp >= 8)
+    94			vdsc_cfg->initial_offset = 6144 - DIV_ROUND_UP(((bpp - 8) * 512), 2);
+    95		else
+    96			vdsc_cfg->initial_offset = 6144;
+    97	
+    98		/* initial_xmit_delay = rc_model_size/2/compression_bpp */
+    99		vdsc_cfg->initial_xmit_delay = DIV_ROUND_UP(DSC_RC_MODEL_SIZE_CONST, 2 * bpp);
+   100	
+   101		vdsc_cfg->flatness_min_qp = 3 + qp_bpc_modifier;
+   102		vdsc_cfg->flatness_max_qp = 12 + qp_bpc_modifier;
+   103	
+   104		vdsc_cfg->rc_quant_incr_limit0 = 11 + qp_bpc_modifier;
+   105		vdsc_cfg->rc_quant_incr_limit1 = 11 + qp_bpc_modifier;
+   106	
+   107		bpp_i  = (2 * (bpp - 6));
+   108		for (buf_i = 0; buf_i < DSC_NUM_BUF_RANGES; buf_i++) {
+   109			u8 range_bpg_offset;
+   110	
+   111			/* Read range_minqp and range_max_qp from qp tables */
+   112			vdsc_cfg->rc_range_params[buf_i].range_min_qp =
+   113				intel_lookup_range_min_qp(bpc, buf_i, bpp_i, vdsc_cfg->native_420);
+   114			vdsc_cfg->rc_range_params[buf_i].range_max_qp =
+   115				intel_lookup_range_max_qp(bpc, buf_i, bpp_i, vdsc_cfg->native_420);
+   116	
+   117			/* Calculate range_bpg_offset */
+   118			if (bpp <= 6) {
+   119				range_bpg_offset = ofs_und6[buf_i];
+   120			} else if (bpp <= 8) {
+   121				res = DIV_ROUND_UP(((bpp - 6) * (ofs_und8[buf_i] - ofs_und6[buf_i])), 2);
+   122				range_bpg_offset = ofs_und6[buf_i] + res;
+   123			} else if (bpp <= 12) {
+   124				range_bpg_offset = ofs_und8[buf_i];
+   125			} else if (bpp <= 15) {
+   126				res = DIV_ROUND_UP(((bpp - 12) * (ofs_und15[buf_i] - ofs_und12[buf_i])), 3);
+   127				range_bpg_offset = ofs_und12[buf_i] + res;
+   128			} else {
+   129				range_bpg_offset = ofs_und15[buf_i];
+   130			}
+   131	
+   132			vdsc_cfg->rc_range_params[buf_i].range_bpg_offset =
+   133				range_bpg_offset & DSC_RANGE_BPG_OFFSET_MASK;
+   134		}
+   135	}
+   136	
 
 -- 
-// Caleb (they/them)
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
