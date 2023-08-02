@@ -1,53 +1,45 @@
-Received: from mgamail.intel.com (unknown [134.134.136.100])
+Received: from mgamail.intel.com (unknown [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2A515AC6
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 20:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158ACDF61
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Aug 2023 20:44:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691007812; x=1722543812;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wNJE+tHOkA2JBFbffGog0gKl+eASCvV9DEWQPDfL5Iw=;
-  b=cuv4y5qXR1HwfTcfHSvWcm9t87no7fLMQ6dpOoW4VNRCudwH6eQwD0lC
-   0m7/EWXxnjCVv/ZWIqXyH2cOAoPbOxgJquUTTgAJ57pGyP9Bg6h6ggHMt
-   iKFZgETogvQotGi1U8x/DSFO/1Ls+mA8Ivx0RB9E8EOEslrZJUKdsbUIN
-   G8jdl5kYDmT20vjjtDwfyMhXVUkb3G7So5qbHiBbjOQqwZ53p0fu1J8Xf
-   avBQYCwHOvSZrFuytsjcAYVLgI46fvIQO/qBQz0ly/9G2LDOY9pJG4Y8C
-   mS42khyK2c0QkH6b7hOuwvn6cJUCFt2AKXI/xA3pfgbCkmWtHMFEm8TQF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="436007940"
+  t=1691009068; x=1722545068;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qfUs7dIIMXqaIRKzaSQAAWRUV4nJmz+R8F3dtqbdyqQ=;
+  b=bFY7060DnvmGuZBmDipIWYyKkw3IhXG8zqwboeGpH28KjyklOZ1YhseE
+   kcR6e72VtN4L/d6tVuIFwuenJHaVRy9QKTprYGwHCnxuuGXxNRk4+0s44
+   3CvEdArD9/2KBEQ5286pkapVVys5iuKVkB+rm8QVvc3i3vC7P/JaFrnhf
+   M2Jbeznx4kBgEXSqRe6rloLn8jocgYe0Gc6mW8LGKsTkrqVvkDjOI2zhf
+   vCpwMMJWeK8VtvhVW2Z6hUyFjuK9px9kUtvEAOCC7p0NZnEuwzIcxSS7E
+   xRz+oe200cVtqy/wf0gPLICqwBUiE947QiS8cFuxzzw+clVs4rONCeYOL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="369698551"
 X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="436007940"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 13:23:31 -0700
+   d="scan'208";a="369698551"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 13:44:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="975808122"
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="794731759"
 X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="975808122"
+   d="scan'208";a="794731759"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 02 Aug 2023 13:23:26 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 02 Aug 2023 13:44:25 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRINQ-0001Sh-31;
-	Wed, 02 Aug 2023 20:23:24 +0000
-Date: Thu, 3 Aug 2023 04:23:03 +0800
+	id 1qRIhl-0001TD-0P;
+	Wed, 02 Aug 2023 20:44:25 +0000
+Date: Thu, 3 Aug 2023 04:43:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>, perex@perex.cz,
-	tiwai@suse.com, pierre-louis.bossart@linux.intel.com,
-	zhangyiqun@phytium.com.cn, peter.ujfalusi@linux.intel.com,
-	broonie@kernel.org, chenhuacai@kernel.org,
-	cezary.rojewski@intel.com, siyanteng@loongson.cn,
-	amadeuszx.slawinski@linux.intel.com, evan.quan@amd.com,
-	jasontao@glenfly.com, kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, mkumard@nvidia.com,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, CobeChen@zhaoxin.com, TimGuo@zhaoxin.com,
-	LeoLiu-oc@zhaoxin.com
-Subject: Re: [PATCH] ALSA: hda: Zhaoxin: Add HDAC PCI IDs and HDMI Codec
- Vendor IDs
-Message-ID: <202308030402.Y1yMDGnZ-lkp@intel.com>
-References: <20230731055932.4336-1-TonyWWang-oc@zhaoxin.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>, linux-doc@vger.kernel.org
+Subject: [brauner-vfs:b4/vfs-super-exclusive.v2 6/6] htmldocs:
+ Documentation/filesystems/api-summary:38: ./fs/super.c:558: WARNING:
+ Unexpected indentation.
+Message-ID: <202308030438.UYcxIMES-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,55 +48,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230731055932.4336-1-TonyWWang-oc@zhaoxin.com>
 
-Hi Tony,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on next-20230802]
-[cannot apply to tiwai-sound/for-linus linus/master v6.5-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tony-W-Wang-oc/ALSA-hda-Zhaoxin-Add-HDAC-PCI-IDs-and-HDMI-Codec-Vendor-IDs/20230731-140118
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230731055932.4336-1-TonyWWang-oc%40zhaoxin.com
-patch subject: [PATCH] ALSA: hda: Zhaoxin: Add HDAC PCI IDs and HDMI Codec Vendor IDs
-config: nios2-randconfig-r093-20230730 (https://download.01.org/0day-ci/archive/20230803/202308030402.Y1yMDGnZ-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030402.Y1yMDGnZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git b4/vfs-super-exclusive.v2
+head:   cdcc91fd53b39d6b68bfdca0b21a7883cc6ec4ba
+commit: cdcc91fd53b39d6b68bfdca0b21a7883cc6ec4ba [6/6] fs: add FSCONFIG_CMD_CREATE_EXCL
+reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030438.UYcxIMES-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308030402.Y1yMDGnZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308030438.UYcxIMES-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/pci/hda/hda_controller.c:1051:38: sparse: sparse: cast removes address space '__iomem' of expression
->> sound/pci/hda/hda_controller.c:1051:66: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
-   sound/pci/hda/hda_controller.c:1051:66: sparse:     expected void volatile [noderef] __iomem *addr
-   sound/pci/hda/hda_controller.c:1051:66: sparse:     got char *
-   sound/pci/hda/hda_controller.c:1053:44: sparse: sparse: cast removes address space '__iomem' of expression
-   sound/pci/hda/hda_controller.c:1053:72: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
-   sound/pci/hda/hda_controller.c:1053:72: sparse:     expected void volatile [noderef] __iomem *addr
-   sound/pci/hda/hda_controller.c:1053:72: sparse:     got char *
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +1051 sound/pci/hda/hda_controller.c
-
-  1046	
-  1047	static void azx_rirb_zxdelay(struct azx *chip, int enable)
-  1048	{
-  1049		if (chip->remap_diu_addr) {
-  1050			if (!enable)
-> 1051				writel(0x0, (char *)chip->remap_diu_addr + 0x490a8);
-  1052			else
-  1053				writel(0x1000000, (char *)chip->remap_diu_addr + 0x490a8);
-  1054		}
-  1055	}
-  1056	
+>> Documentation/filesystems/api-summary:38: ./fs/super.c:558: WARNING: Unexpected indentation.
+>> Documentation/filesystems/api-summary:38: ./fs/super.c:559: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> Documentation/filesystems/api-summary:38: ./fs/super.c:561: WARNING: Enumerated list ends without a blank line; unexpected unindent.
 
 -- 
 0-DAY CI Kernel Test Service
