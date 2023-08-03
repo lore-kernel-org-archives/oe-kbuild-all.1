@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (unknown [134.134.136.24])
+Received: from mgamail.intel.com (unknown [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA425387;
-	Thu,  3 Aug 2023 01:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174BC748C
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Aug 2023 03:32:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691027438; x=1722563438;
+  t=1691033574; x=1722569574;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LRsDLJhvTUpYRlixB+9UVWHr77vJPkh7RO04vqPXvEQ=;
-  b=Oi8zzRW2aH6q9rOT+hW9a3yH60cthUqID+CLNYW5A8fTzl/xZSQMPBZh
-   5u4SvS6k5IOhe45ToxjOPmUOd0RyX5rjFwQNqhfhcXDJK2S4QBmIP1/Q9
-   EFn0pJ0fHd3impe5yNJK4ufH6iA3wL9k4kQlSUsfF9VA2mz8vEC6W8UvE
-   Bn8FnymBCv90X8DIfCgdtZVZi8IShMWy0IsU4Djkog6ykdITh2Y0TP4Jd
-   6q9BkhtKwz8Sq5bQtrxXBHK5qXUje3g6lf9uDau1sNwwLf6zyD//PPZLw
-   Hz6Kkt/R8N4HkVQ94g1tBsKG/CZfJUNBMNhOzSJKm0FK5v5HlrFsG4hY+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="372480194"
-X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="372480194"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 18:50:37 -0700
+  bh=gSS0hvImjpO1adm2Mq8VLtMcxJ5H5BGdVcXARqQ03Cs=;
+  b=NdtA478zyWrf2HNcCuLYhaOa6k9jx3fb3S0QUq72lW12dEzroLZapQ5F
+   zgzIjxM9hvZCOBsbNj56+O2wh4CJdK92GmEQMOx87YZGes7zi3vRQ0JBB
+   iUY8uR2l5VPhR1Gy74IJXQHXYSj52oVuHE9P0khp9UE1ogOmfDqa+8t+L
+   ZoO5o/AOJn/Lo9thQvIINZ8z2GK45cRWpflvzsb8guuyz2WLwkGiT/MU7
+   k4MLh2WEeoHUL+ZzPoR05M65/ZIWeh0KPRC/venI2UFml5pSl5k0qHd1S
+   v5d9kdPWtnMS52LQSrS8llPEQJLupS/5cokGDgVS85xhJW6kcsV1xhL/7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="433599012"
+X-IronPort-AV: E=Sophos;i="6.01,251,1684825200"; 
+   d="scan'208";a="433599012"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 20:32:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="729357739"
-X-IronPort-AV: E=Sophos;i="6.01,250,1684825200"; 
-   d="scan'208";a="729357739"
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="853085616"
+X-IronPort-AV: E=Sophos;i="6.01,251,1684825200"; 
+   d="scan'208";a="853085616"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 02 Aug 2023 18:50:36 -0700
+  by orsmga004.jf.intel.com with ESMTP; 02 Aug 2023 20:32:52 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRNU3-0001eV-0n;
-	Thu, 03 Aug 2023 01:50:35 +0000
-Date: Thu, 3 Aug 2023 09:50:33 +0800
+	id 1qRP51-0001iV-39;
+	Thu, 03 Aug 2023 03:32:51 +0000
+Date: Thu, 3 Aug 2023 11:32:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:perf/core 15/17]
- drivers/platform/x86/intel/speed_select_if/isst_if_common.c:723:2: error:
- use of undeclared identifier 'INTEL_FAM6_SIERRAFOREST_X'
-Message-ID: <202308030949.RgZ4Lz9T-lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mhiramat:topic/fprobe-ftrace-regs 1/2]
+ samples/fprobe/fprobe_example.c:96:36: error: assignment to 'int (*)(struct
+ fprobe *, long unsigned int,  long unsigned int,  struct ftrace_regs *, void
+ *)' from incompatible pointer type 'int (*)(struct fprobe *, long unsigned
+ int,  long unsigned int,  s...
+Message-ID: <202308031143.bzGztFoO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,47 +49,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/core
-head:   322e3d171eb9e48484a86fc187e26132f063e5c4
-commit: 271f9a993c86023cf4dfd331e7a6d3e7a8f8bdeb [15/17] x86/cpu: Fix Crestmont uarch
-config: x86_64-randconfig-x003-20230731 (https://download.01.org/0day-ci/archive/20230803/202308030949.RgZ4Lz9T-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030949.RgZ4Lz9T-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-ftrace-regs
+head:   b12390ba014e308f5c07512a3e077d802f5ac793
+commit: 24a7af19b386f8b943b0246774e700e8aaa98b0d [1/2] fprobe: Use fprobe_regs in fprobe entry handler
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230803/202308031143.bzGztFoO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230803/202308031143.bzGztFoO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308030949.RgZ4Lz9T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308031143.bzGztFoO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/platform/x86/intel/speed_select_if/isst_if_common.c:723:2: error: use of undeclared identifier 'INTEL_FAM6_SIERRAFOREST_X'
-           X86_MATCH_INTEL_FAM6_MODEL(SIERRAFOREST_X,      NULL),
-           ^
-   arch/x86/include/asm/cpu_device_id.h:161:39: note: expanded from macro 'X86_MATCH_INTEL_FAM6_MODEL'
-           X86_MATCH_VENDOR_FAM_MODEL(INTEL, 6, INTEL_FAM6_##model, data)
-                                                ^
-   <scratch space>:142:1: note: expanded from here
-   INTEL_FAM6_SIERRAFOREST_X
-   ^
-   1 error generated.
+   samples/fprobe/fprobe_example.c: In function 'fprobe_init':
+>> samples/fprobe/fprobe_example.c:96:36: error: assignment to 'int (*)(struct fprobe *, long unsigned int,  long unsigned int,  struct ftrace_regs *, void *)' from incompatible pointer type 'int (*)(struct fprobe *, long unsigned int,  long unsigned int,  struct pt_regs *, void *)' [-Werror=incompatible-pointer-types]
+      96 |         sample_probe.entry_handler = sample_entry_handler;
+         |                                    ^
+   cc1: some warnings being treated as errors
 
 
-vim +/INTEL_FAM6_SIERRAFOREST_X +723 drivers/platform/x86/intel/speed_select_if/isst_if_common.c
+vim +96 samples/fprobe/fprobe_example.c
 
-35f2c14d2a076b drivers/platform/x86/intel_speed_select_if/isst_if_common.c Srinivas Pandruvada 2019-06-26  720  
-e6d3418130cdf7 drivers/platform/x86/intel/speed_select_if/isst_if_common.c Srinivas Pandruvada 2023-03-07  721  static const struct x86_cpu_id hpm_cpu_ids[] = {
-e6d3418130cdf7 drivers/platform/x86/intel/speed_select_if/isst_if_common.c Srinivas Pandruvada 2023-03-07  722  	X86_MATCH_INTEL_FAM6_MODEL(GRANITERAPIDS_X,	NULL),
-e6d3418130cdf7 drivers/platform/x86/intel/speed_select_if/isst_if_common.c Srinivas Pandruvada 2023-03-07 @723  	X86_MATCH_INTEL_FAM6_MODEL(SIERRAFOREST_X,	NULL),
-e6d3418130cdf7 drivers/platform/x86/intel/speed_select_if/isst_if_common.c Srinivas Pandruvada 2023-03-07  724  	{}
-e6d3418130cdf7 drivers/platform/x86/intel/speed_select_if/isst_if_common.c Srinivas Pandruvada 2023-03-07  725  };
-e6d3418130cdf7 drivers/platform/x86/intel/speed_select_if/isst_if_common.c Srinivas Pandruvada 2023-03-07  726  
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15   89  
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15   90  static int __init fprobe_init(void)
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15   91  {
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15   92  	char *p, *symbuf = NULL;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15   93  	const char **syms;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15   94  	int ret, count, i;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15   95  
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  @96  	sample_probe.entry_handler = sample_entry_handler;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15   97  	sample_probe.exit_handler = sample_exit_handler;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15   98  
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15   99  	if (strchr(symbol, '*')) {
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  100  		/* filter based fprobe */
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  101  		ret = register_fprobe(&sample_probe, symbol,
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  102  				      nosymbol[0] == '\0' ? NULL : nosymbol);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  103  		goto out;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  104  	} else if (!strchr(symbol, ',')) {
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  105  		symbuf = symbol;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  106  		ret = register_fprobe_syms(&sample_probe, (const char **)&symbuf, 1);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  107  		goto out;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  108  	}
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  109  
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  110  	/* Comma separated symbols */
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  111  	symbuf = kstrdup(symbol, GFP_KERNEL);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  112  	if (!symbuf)
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  113  		return -ENOMEM;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  114  	p = symbuf;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  115  	count = 1;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  116  	while ((p = strchr(++p, ',')) != NULL)
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  117  		count++;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  118  
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  119  	pr_info("%d symbols found\n", count);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  120  
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  121  	syms = kcalloc(count, sizeof(char *), GFP_KERNEL);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  122  	if (!syms) {
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  123  		kfree(symbuf);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  124  		return -ENOMEM;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  125  	}
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  126  
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  127  	p = symbuf;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  128  	for (i = 0; i < count; i++)
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  129  		syms[i] = strsep(&p, ",");
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  130  
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  131  	ret = register_fprobe_syms(&sample_probe, syms, count);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  132  	kfree(syms);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  133  	kfree(symbuf);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  134  out:
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  135  	if (ret < 0)
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  136  		pr_err("register_fprobe failed, returned %d\n", ret);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  137  	else
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  138  		pr_info("Planted fprobe at %s\n", symbol);
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  139  
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  140  	return ret;
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  141  }
+6ee64cc3020b5b Masami Hiramatsu 2022-03-15  142  
 
-:::::: The code at line 723 was first introduced by commit
-:::::: e6d3418130cdf718eff72db9a05d7262ebb49cff platform/x86: ISST: Add support for MSR 0x54
+:::::: The code at line 96 was first introduced by commit
+:::::: 6ee64cc3020b5b5537827c71d8eaac814ad4d346 fprobe: Add sample program for fprobe
 
-:::::: TO: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-:::::: CC: Hans de Goede <hdegoede@redhat.com>
+:::::: TO: Masami Hiramatsu <mhiramat@kernel.org>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
