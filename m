@@ -1,202 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4EC25178
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Aug 2023 19:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D860225178
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Aug 2023 19:50:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691091650; x=1722627650;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=J5BmdgRwqzUiKNIDnRcFwp1joEXUv/AmCXQNT0e8s+s=;
-  b=GFY5cwLu7ZSK4PNbo9FmUx951h1wkSWm4CjbtMrRS40+MigXjB5pMh/d
-   zBr737Xqpn03MtXjVh82vkvCkt+C2pY7ZjN60rHsGvtrGtqS6tQHfbiQW
-   ybnKGH1hYYcB0UkxmGNFKtS76eq31QXS4TgoXwOrx0/1TnjBhu6oROTA8
-   bDMbKCYfnTJ+i2eou5o3WbuzhNuNwp+pJeqGJxZAFflyeYg4O2UYGwEle
-   Npr6dTeBIq5dqrRDQvB5zSOaqyw2ExE1fJUSdbLYrEM0is8ziYnCGd2wg
-   gLKKfvU3HXtmimQ9NgVdIAZsjdG5BOU/cPpJRCI6YlWs9GJkgEw6C+dQB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="368881707"
+  t=1691092255; x=1722628255;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZVKaHsPewinJ8bUp/yim/klLHsP8D7rZbBCfSOQsA4o=;
+  b=gREaQijm4oDNsNYE/zcqqS4q6d8GjLWzrse2CBewItOS63RWLsxyG+Iq
+   zK+utQta0fDf1E0TW5S/l2DtFHNXtknp58qHUG8VYkUPqtePaSIQ1YChg
+   6nVQLrjSUQOBKPfCkLhm11/qO/CNlgWm7LKSersiJVclkM28I1AolZg63
+   +1P/Ct64ADmIJCeEXTqT74ARQK75EdM2qF+b0L0oRnbSTmswGJlTlbVRI
+   M5Hqe9B7wMvxRLX9OUdK1m/ELO5ZGRTH1OShVYkrVqDUBMypViF6w2HBA
+   KT2bmWO+5hrsShxJoxZaDwJs/O2GJiOXUPFtJh/ruYrEyEB9qAkXwz5J7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="349575688"
 X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
-   d="scan'208";a="368881707"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 12:40:49 -0700
+   d="scan'208";a="349575688"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 12:50:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="1060437128"
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="729773715"
 X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
-   d="scan'208";a="1060437128"
+   d="scan'208";a="729773715"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Aug 2023 12:40:46 -0700
+  by orsmga002.jf.intel.com with ESMTP; 03 Aug 2023 12:50:47 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qReBh-0002Jj-34;
-	Thu, 03 Aug 2023 19:40:45 +0000
-Date: Fri, 4 Aug 2023 03:39:57 +0800
+	id 1qReLO-0002KH-0i;
+	Thu, 03 Aug 2023 19:50:46 +0000
+Date: Fri, 4 Aug 2023 03:50:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
-	linux-kernel@vger.kernel.org, robh+dt@kernel.org,
-	bhelgaas@google.com, linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, krzysztof.kozlowski@linaro.org,
-	lpieralisi@kernel.org, bharat.kumar.gogada@amd.com,
-	michal.simek@amd.com, linux-arm-kernel@lists.infradead.org,
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>
-Subject: Re: [PATCH] PCI: xilinx-nwl: Remove unnecessary code and updating
- ecam default value.
-Message-ID: <202308040330.eMTjX3tF-lkp@intel.com>
-References: <20230803115016.4266-1-thippeswamy.havalige@amd.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:mgctime 4/10] fs/orangefs/symlink.c:18:24: error:
+ initialization of 'int (*)(struct inode *, int)' from incompatible pointer
+ type 'int (*)(struct inode *, struct timespec64 *, int)'
+Message-ID: <202308040336.pI9J8T2V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230803115016.4266-1-thippeswamy.havalige@amd.com>
 
-Hi Thippeswamy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.5-rc4 next-20230803]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thippeswamy-Havalige/PCI-xilinx-nwl-Remove-unnecessary-code-and-updating-ecam-default-value/20230803-195228
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20230803115016.4266-1-thippeswamy.havalige%40amd.com
-patch subject: [PATCH] PCI: xilinx-nwl: Remove unnecessary code and updating ecam default value.
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230804/202308040330.eMTjX3tF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308040330.eMTjX3tF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgctime
+head:   ffef667f9698cae637fe41b46df59816f79c050f
+commit: 8e5568e178ddba11db584128ea843e8fba301dba [4/10] fs: change update_time prototype
+config: arm-randconfig-r024-20230731 (https://download.01.org/0day-ci/archive/20230804/202308040336.pI9J8T2V-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308040336.pI9J8T2V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308040330.eMTjX3tF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308040336.pI9J8T2V-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/pcie-xilinx-nwl.c: In function 'nwl_pcie_bridge_init':
->> drivers/pci/controller/pcie-xilinx-nwl.c:628:33: warning: unused variable 'first_busno' [-Wunused-variable]
-     628 |         u32 breg_val, ecam_val, first_busno = 0;
-         |                                 ^~~~~~~~~~~
+>> fs/orangefs/symlink.c:18:24: error: initialization of 'int (*)(struct inode *, int)' from incompatible pointer type 'int (*)(struct inode *, struct timespec64 *, int)' [-Werror=incompatible-pointer-types]
+      18 |         .update_time = orangefs_update_time,
+         |                        ^~~~~~~~~~~~~~~~~~~~
+   fs/orangefs/symlink.c:18:24: note: (near initialization for 'orangefs_symlink_inode_operations.update_time')
+   In file included from fs/orangefs/protocol.h:287,
+                    from fs/orangefs/symlink.c:8:
+   fs/orangefs/orangefs-debug.h:86:18: warning: 'num_kmod_keyword_mask_map' defined but not used [-Wunused-const-variable=]
+      86 | static const int num_kmod_keyword_mask_map = (int)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+>> fs/orangefs/namei.c:445:24: error: initialization of 'int (*)(struct inode *, int)' from incompatible pointer type 'int (*)(struct inode *, struct timespec64 *, int)' [-Werror=incompatible-pointer-types]
+     445 |         .update_time = orangefs_update_time,
+         |                        ^~~~~~~~~~~~~~~~~~~~
+   fs/orangefs/namei.c:445:24: note: (near initialization for 'orangefs_dir_inode_operations.update_time')
+   In file included from fs/orangefs/protocol.h:287,
+                    from fs/orangefs/namei.c:12:
+   fs/orangefs/orangefs-debug.h:86:18: warning: 'num_kmod_keyword_mask_map' defined but not used [-Wunused-const-variable=]
+      86 | static const int num_kmod_keyword_mask_map = (int)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/first_busno +628 drivers/pci/controller/pcie-xilinx-nwl.c
+vim +18 fs/orangefs/symlink.c
 
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  623  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  624  static int nwl_pcie_bridge_init(struct nwl_pcie *pcie)
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  625  {
-adf9e284b4f76d drivers/pci/host/pcie-xilinx-nwl.c       Bjorn Helgaas        2016-10-06  626  	struct device *dev = pcie->dev;
-adf9e284b4f76d drivers/pci/host/pcie-xilinx-nwl.c       Bjorn Helgaas        2016-10-06  627  	struct platform_device *pdev = to_platform_device(dev);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06 @628  	u32 breg_val, ecam_val, first_busno = 0;
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  629  	int err;
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  630  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  631  	breg_val = nwl_bridge_readl(pcie, E_BREG_CAPABILITIES) & BREG_PRESENT;
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  632  	if (!breg_val) {
-adf9e284b4f76d drivers/pci/host/pcie-xilinx-nwl.c       Bjorn Helgaas        2016-10-06  633  		dev_err(dev, "BREG is not present\n");
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  634  		return breg_val;
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  635  	}
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  636  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  637  	/* Write bridge_off to breg base */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  638  	nwl_bridge_writel(pcie, lower_32_bits(pcie->phys_breg_base),
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  639  			  E_BREG_BASE_LO);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  640  	nwl_bridge_writel(pcie, upper_32_bits(pcie->phys_breg_base),
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  641  			  E_BREG_BASE_HI);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  642  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  643  	/* Enable BREG */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  644  	nwl_bridge_writel(pcie, ~BREG_ENABLE_FORCE & BREG_ENABLE,
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  645  			  E_BREG_CONTROL);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  646  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  647  	/* Disable DMA channel registers */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  648  	nwl_bridge_writel(pcie, nwl_bridge_readl(pcie, BRCFG_PCIE_RX0) |
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  649  			  CFG_DMA_REG_BAR, BRCFG_PCIE_RX0);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  650  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  651  	/* Enable Ingress subtractive decode translation */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  652  	nwl_bridge_writel(pcie, SET_ISUB_CONTROL, I_ISUB_CONTROL);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  653  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  654  	/* Enable msg filtering details */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  655  	nwl_bridge_writel(pcie, CFG_ENABLE_MSG_FILTER_MASK,
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  656  			  BRCFG_PCIE_RX_MSG_FILTER);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  657  
-213e1220523288 drivers/pci/controller/pcie-xilinx-nwl.c Bharat Kumar Gogada  2021-02-22  658  	/* This routes the PCIe DMA traffic to go through CCI path */
-213e1220523288 drivers/pci/controller/pcie-xilinx-nwl.c Bharat Kumar Gogada  2021-02-22  659  	if (of_dma_is_coherent(dev->of_node))
-213e1220523288 drivers/pci/controller/pcie-xilinx-nwl.c Bharat Kumar Gogada  2021-02-22  660  		nwl_bridge_writel(pcie, nwl_bridge_readl(pcie, BRCFG_PCIE_RX1) |
-213e1220523288 drivers/pci/controller/pcie-xilinx-nwl.c Bharat Kumar Gogada  2021-02-22  661  				  CFG_PCIE_CACHE, BRCFG_PCIE_RX1);
-213e1220523288 drivers/pci/controller/pcie-xilinx-nwl.c Bharat Kumar Gogada  2021-02-22  662  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  663  	err = nwl_wait_for_link(pcie);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  664  	if (err)
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  665  		return err;
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  666  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  667  	ecam_val = nwl_bridge_readl(pcie, E_ECAM_CAPABILITIES) & E_ECAM_PRESENT;
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  668  	if (!ecam_val) {
-adf9e284b4f76d drivers/pci/host/pcie-xilinx-nwl.c       Bjorn Helgaas        2016-10-06  669  		dev_err(dev, "ECAM is not present\n");
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  670  		return ecam_val;
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  671  	}
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  672  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  673  	/* Enable ECAM */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  674  	nwl_bridge_writel(pcie, nwl_bridge_readl(pcie, E_ECAM_CONTROL) |
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  675  			  E_ECAM_CR_ENABLE, E_ECAM_CONTROL);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  676  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  677  	nwl_bridge_writel(pcie, nwl_bridge_readl(pcie, E_ECAM_CONTROL) |
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  678  			  (pcie->ecam_value << E_ECAM_SIZE_SHIFT),
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  679  			  E_ECAM_CONTROL);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  680  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  681  	nwl_bridge_writel(pcie, lower_32_bits(pcie->phys_ecam_base),
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  682  			  E_ECAM_BASE_LO);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  683  	nwl_bridge_writel(pcie, upper_32_bits(pcie->phys_ecam_base),
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  684  			  E_ECAM_BASE_HI);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  685  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  686  	if (nwl_pcie_link_up(pcie))
-adf9e284b4f76d drivers/pci/host/pcie-xilinx-nwl.c       Bjorn Helgaas        2016-10-06  687  		dev_info(dev, "Link is UP\n");
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  688  	else
-adf9e284b4f76d drivers/pci/host/pcie-xilinx-nwl.c       Bjorn Helgaas        2016-10-06  689  		dev_info(dev, "Link is DOWN\n");
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  690  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  691  	/* Get misc IRQ number */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  692  	pcie->irq_misc = platform_get_irq_byname(pdev, "misc");
-caecb05c800081 drivers/pci/controller/pcie-xilinx-nwl.c Krzysztof Wilczyński 2020-08-02  693  	if (pcie->irq_misc < 0)
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  694  		return -EINVAL;
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  695  
-adf9e284b4f76d drivers/pci/host/pcie-xilinx-nwl.c       Bjorn Helgaas        2016-10-06  696  	err = devm_request_irq(dev, pcie->irq_misc,
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  697  			       nwl_pcie_misc_handler, IRQF_SHARED,
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  698  			       "nwl_pcie:misc", pcie);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  699  	if (err) {
-adf9e284b4f76d drivers/pci/host/pcie-xilinx-nwl.c       Bjorn Helgaas        2016-10-06  700  		dev_err(dev, "fail to register misc IRQ#%d\n",
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  701  			pcie->irq_misc);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  702  		return err;
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  703  	}
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  704  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  705  	/* Disable all misc interrupts */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  706  	nwl_bridge_writel(pcie, (u32)~MSGF_MISC_SR_MASKALL, MSGF_MISC_MASK);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  707  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  708  	/* Clear pending misc interrupts */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  709  	nwl_bridge_writel(pcie, nwl_bridge_readl(pcie, MSGF_MISC_STATUS) &
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  710  			  MSGF_MISC_SR_MASKALL, MSGF_MISC_STATUS);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  711  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  712  	/* Enable all misc interrupts */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  713  	nwl_bridge_writel(pcie, MSGF_MISC_SR_MASKALL, MSGF_MISC_MASK);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  714  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  715  	/* Disable all legacy interrupts */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  716  	nwl_bridge_writel(pcie, (u32)~MSGF_LEG_SR_MASKALL, MSGF_LEG_MASK);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  717  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  718  	/* Clear pending legacy interrupts */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  719  	nwl_bridge_writel(pcie, nwl_bridge_readl(pcie, MSGF_LEG_STATUS) &
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  720  			  MSGF_LEG_SR_MASKALL, MSGF_LEG_STATUS);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  721  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  722  	/* Enable all legacy interrupts */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  723  	nwl_bridge_writel(pcie, MSGF_LEG_SR_MASKALL, MSGF_LEG_MASK);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  724  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  725  	/* Enable the bridge config interrupt */
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  726  	nwl_bridge_writel(pcie, nwl_bridge_readl(pcie, BRCFG_INTERRUPT) |
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  727  			  BRCFG_INTERRUPT_MASK, BRCFG_INTERRUPT);
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  728  
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  729  	return 0;
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  730  }
-ab597d35ef11d2 drivers/pci/host/pcie-xilinx-nwl.c       Bharat Kumar Gogada  2016-03-06  731  
+1182fca3bc0044 Mike Marshall      2015-07-17  11  
+6f3fc1070be028 Al Viro            2016-05-14  12  const struct inode_operations orangefs_symlink_inode_operations = {
+a7d3e78ab53ff4 Mike Marshall      2016-03-14  13  	.get_link = simple_get_link,
+8bb8aefd5afb54 Yi Liu             2015-11-24  14  	.setattr = orangefs_setattr,
+8bb8aefd5afb54 Yi Liu             2015-11-24  15  	.getattr = orangefs_getattr,
+8bb8aefd5afb54 Yi Liu             2015-11-24  16  	.listxattr = orangefs_listxattr,
+933287da750ede Martin Brandenburg 2016-01-30  17  	.permission = orangefs_permission,
+a55f2d86158500 Martin Brandenburg 2017-11-07 @18  	.update_time = orangefs_update_time,
+
+:::::: The code at line 18 was first introduced by commit
+:::::: a55f2d861585006f493e933ad32d65d71ba631fa orangefs: stop setting atime on inode dirty
+
+:::::: TO: Martin Brandenburg <martin@omnibond.com>
+:::::: CC: Mike Marshall <hubcap@omnibond.com>
 
 -- 
 0-DAY CI Kernel Test Service
