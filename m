@@ -1,65 +1,43 @@
-Received: from mgamail.intel.com (unknown [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D501E528
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Aug 2023 13:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD5A200BD;
+	Thu,  3 Aug 2023 14:09:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691068839; x=1722604839;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YxMDdwofIrNP7i680TZcMe4YpznNLpYvBUEHi/vv6ZU=;
-  b=afrDbXv/mDL8sBkCuYZvdDptBvY2AvQakQtpCSOtWAo7850VcdYSmL+4
-   PJTgeaLBPutyNnUX1yYgUvf/RmcTP9yrvYfdK+G1rzL2nWKapmQBxqPh0
-   vW0XWUx+PBGbddNeBJs7hX5OQrpNqy4LnAJUzOjdLtdiySjmOCzbK7MFk
-   jTy4S5yYIe6PTObU593Zz2i2yD80dPXvqsPhcECQtjvFGjW6uP4t8FTcP
-   5kFEeSAzfnx9Uj2AXz9GDOXOx04bzefePfzLXMWNQJ/SUA4HtlEpvFgeK
-   iBli+Ue0odsw2YhOX9otUi7P2hOG1PPAwY4XIPJhwhtP5szGlxlWNZs7n
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="367323737"
+  t=1691071771; x=1722607771;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oEWKjkJ6HVvpZ65l3Le2wL6xq336wjjshWphPPiyjF8=;
+  b=DvDQ/ZBd5ehACSM9B48znhxvTv80erwlkt38WfpsU2H7vG2sRi85oRGE
+   Y1J1RdOpT2No4ntanLQCSz5Dk+2a9pHNGJNPAKvRJV4zTfw+IsfLAWDRT
+   +G0PFuBEw09jFuldtCl/Yco6m2oMNsNJjrlmPaZs1yjNWy3WTsiDR5QLS
+   dZsa49umez1AZhlpV3/QOZWh8ZdpxDmorro5vnmYF2QCeJzbKBddRsRFT
+   P4nOIBGYvv82+5Ejdix3+BI2UudS3RRIphpodYUueDUNfiWgsJMzSL2cr
+   8QWSVWR10YyhLwWNpWARnvwtl+X6p8WCKq7Di2QzygrJGO5Bmpk+w9HIN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="367341643"
 X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
-   d="scan'208";a="367323737"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 06:18:35 -0700
+   d="scan'208";a="367341643"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 07:09:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="853250382"
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="799567599"
 X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
-   d="scan'208";a="853250382"
+   d="scan'208";a="799567599"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 03 Aug 2023 06:18:27 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 03 Aug 2023 07:09:29 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRYDi-00027j-1M;
-	Thu, 03 Aug 2023 13:18:26 +0000
-Date: Thu, 3 Aug 2023 21:17:43 +0800
+	id 1qRZ16-00028x-0v;
+	Thu, 03 Aug 2023 14:09:28 +0000
+Date: Thu, 3 Aug 2023 22:09:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geliang Tang <geliang.tang@suse.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Florent Revest <revest@chromium.org>,
-	Brendan Jackman <jackmanb@chromium.org>,
-	Matthieu Baerts <matthieu.baerts@tessares.net>,
-	Mat Martineau <martineau@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	John Johansen <john.johansen@canonical.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Eric Paris <eparis@parisplace.org>, Mykola Lysenko <mykolal@fb.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Geliang Tang <geliang.tang@suse.com>, bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next v8 1/4] bpf: Add update_socket_protocol hook
-Message-ID: <202308032054.aq4D9VOg-lkp@intel.com>
-References: <120b307aacd1791fac016d33e112069ffb7db21a.1691047403.git.geliang.tang@suse.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/220-tso 3/4]
+ arch/arm64/kernel/cpufeature_impdef.c:11:6: warning: no previous prototype
+ for function 'has_tso_fixed'
+Message-ID: <202308032238.YGGL6y3j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,49 +46,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <120b307aacd1791fac016d33e112069ffb7db21a.1691047403.git.geliang.tang@suse.com>
 
-Hi Geliang,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/bpf-Add-update_socket_protocol-hook/20230803-153209
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/120b307aacd1791fac016d33e112069ffb7db21a.1691047403.git.geliang.tang%40suse.com
-patch subject: [PATCH bpf-next v8 1/4] bpf: Add update_socket_protocol hook
-config: nios2-randconfig-r006-20230731 (https://download.01.org/0day-ci/archive/20230803/202308032054.aq4D9VOg-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032054.aq4D9VOg-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/220-tso
+head:   6a8bd3529f0e9a26ebabd614ab6582cda3337142
+commit: 2a13d04cf14b7cb9432177840c840fb42fb411a6 [3/4] arm64: Implement PR_{GET,SET}_MEM_MODEL for always-TSO CPUs
+config: arm64-randconfig-r021-20230731 (https://download.01.org/0day-ci/archive/20230803/202308032238.YGGL6y3j-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032238.YGGL6y3j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308032054.aq4D9VOg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308032238.YGGL6y3j-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/socket.c:1648: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    *      A hook for bpf progs to attach to and update socket protocol.
+>> arch/arm64/kernel/cpufeature_impdef.c:11:6: warning: no previous prototype for function 'has_tso_fixed' [-Wmissing-prototypes]
+   bool has_tso_fixed(const struct arm64_cpu_capabilities *entry, int scope)
+        ^
+   arch/arm64/kernel/cpufeature_impdef.c:11:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool has_tso_fixed(const struct arm64_cpu_capabilities *entry, int scope)
+   ^
+   static 
+>> arch/arm64/kernel/cpufeature_impdef.c:36:13: warning: no previous prototype for function 'init_cpu_hwcaps_indirect_list_impdef' [-Wmissing-prototypes]
+   void __init init_cpu_hwcaps_indirect_list_impdef(void)
+               ^
+   arch/arm64/kernel/cpufeature_impdef.c:36:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init init_cpu_hwcaps_indirect_list_impdef(void)
+   ^
+   static 
+   2 warnings generated.
+--
+>> arch/arm64/kernel/cpufeature.c:959:1: warning: no previous prototype for function 'init_cpu_hwcaps_indirect_list_from_array' [-Wmissing-prototypes]
+   init_cpu_hwcaps_indirect_list_from_array(const struct arm64_cpu_capabilities *caps)
+   ^
+   arch/arm64/kernel/cpufeature.c:958:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init
+   ^
+   static 
+>> arch/arm64/kernel/cpufeature.c:1428:1: warning: no previous prototype for function 'feature_matches' [-Wmissing-prototypes]
+   feature_matches(u64 reg, const struct arm64_cpu_capabilities *entry)
+   ^
+   arch/arm64/kernel/cpufeature.c:1427:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool
+   ^
+   static 
+   2 warnings generated.
 
 
-vim +1648 net/socket.c
+vim +/has_tso_fixed +11 arch/arm64/kernel/cpufeature_impdef.c
 
-  1646	
-  1647	/**
-> 1648	 *	A hook for bpf progs to attach to and update socket protocol.
-  1649	 *
-  1650	 *	A static noinline declaration here could cause the compiler to
-  1651	 *	optimize away the function. A global noinline declaration will
-  1652	 *	keep the definition, but may optimize away the callsite.
-  1653	 *	Therefore, __weak is needed to ensure that the call is still
-  1654	 *	emitted, by telling the compiler that we don't know what the
-  1655	 *	function might eventually be.
-  1656	 *
-  1657	 *	__diag_* below are needed to dismiss the missing prototype warning.
-  1658	 */
-  1659	
+    10	
+  > 11	bool has_tso_fixed(const struct arm64_cpu_capabilities *entry, int scope)
+    12	{
+    13		/* List of CPUs that always use the TSO memory model */
+    14		static const struct midr_range fixed_tso_list[] = {
+    15			MIDR_ALL_VERSIONS(MIDR_NVIDIA_DENVER),
+    16			MIDR_ALL_VERSIONS(MIDR_NVIDIA_CARMEL),
+    17			MIDR_ALL_VERSIONS(MIDR_FUJITSU_A64FX),
+    18			{ /* sentinel */ }
+    19		};
+    20	
+    21		return is_midr_in_range_list(read_cpuid_id(), fixed_tso_list);
+    22	}
+    23	
+    24	static const struct arm64_cpu_capabilities arm64_impdef_features[] = {
+    25	#ifdef CONFIG_ARM64_MEMORY_MODEL_CONTROL
+    26		{
+    27			.desc = "TSO memory model (Fixed)",
+    28			.capability = ARM64_HAS_TSO_FIXED,
+    29			.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+    30			.matches = has_tso_fixed,
+    31		},
+    32	#endif
+    33		{},
+    34	};
+    35	
+  > 36	void __init init_cpu_hwcaps_indirect_list_impdef(void)
 
 -- 
 0-DAY CI Kernel Test Service
