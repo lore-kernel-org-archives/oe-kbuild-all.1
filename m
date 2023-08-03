@@ -1,42 +1,42 @@
 Received: from mgamail.intel.com (unknown [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44378BFF
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Aug 2023 03:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C0A8BFF
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Aug 2023 03:53:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691034834; x=1722570834;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=M0RSPalJN9y+9ZfmAKgYDAGmFXo8U9aQQkq9B4Jpjks=;
-  b=Z7aY1PqczVQw6PXt+8UhlVsaXr6cVltgkM/Svh+I/ShZtWL//arNaKYF
-   ZY5rVPBe8cUOb2MrSzh7/KHon6A7qkkDypLGXteNhVnmSaOi8+FIu0qil
-   uYQ4kqm2vkgW6AxaXXTGbK1jqXgCO9+W9dVzfbqVhF6AvEDhoy0jnMOy7
-   QJ/UaCgZ25YAf2jYxR8ykZFK9xL6nJ3xZ+6fuOjjDiSVfYNDbkG8Eh//R
-   VutgXV0DMrVJyXYbowjxwce44PYGoPzYXvLk1VIYdtzse5sUBw7zK19yL
-   +vgQuuNexUrg2FC1aG2a2f3uMXIQsqLHmX39L7NXKjxOWrz9Ht9BDAngn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="368661791"
+  t=1691034836; x=1722570836;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JIa9MHhHsrS0J760uFjx+IvYzg/Nwxio97JBcx5kqMQ=;
+  b=D15vxr9Hx1SkWBO7zHQ5Qqmb0cqw3aJgHKkMVN5obuF4jEvx4x+Ql9PR
+   jcs+hp+3Yf4lEZFj8s1Gu+w/adhx8hhq8bo9LzMh+KPEDeRJfmYrk8sBu
+   fe/zO5+RbYIBLfzGVPCR/XbK1OjXBm8Qh+3jBSFJSsdwj4dzzdgRYITyV
+   A4n5IJlQ3uWlRsFvCmYxtNBkjKlsShx3QinbFFCEBGNtaRpHxKw+8Lqrq
+   OnRxEIv7TbRv3hkHU3tBSHq76gJGTgqdWi13yPbJ3gknWSn4Oe/+57Of5
+   ddr6AkSnvij1tq16/nBLDULLKBbO5hOlvvYlZ1dCYg2FZ/no2LJGhGaxj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="368661793"
 X-IronPort-AV: E=Sophos;i="6.01,251,1684825200"; 
-   d="scan'208";a="368661791"
+   d="scan'208";a="368661793"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2023 20:53:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="975926456"
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="975926455"
 X-IronPort-AV: E=Sophos;i="6.01,251,1684825200"; 
-   d="scan'208";a="975926456"
+   d="scan'208";a="975926455"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
   by fmsmga006.fm.intel.com with ESMTP; 02 Aug 2023 20:53:53 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRPPM-0001jJ-1W
-	for oe-kbuild-all@lists.linux.dev;
+	id 1qRPPM-0001jL-1a;
 	Thu, 03 Aug 2023 03:53:52 +0000
-Date: Thu, 3 Aug 2023 11:53:10 +0800
+Date: Thu, 3 Aug 2023 11:53:11 +0800
 From: kernel test robot <lkp@intel.com>
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 14046/30000] kernel/dma/removed.c:61:12:
- warning: 'dma_assign_removed_region' defined but not used
-Message-ID: <202308031152.Uin7c9eq-lkp@intel.com>
+Subject: [zen:6.4/prjc 379/387] kernel/sched/alt_core.c:2516:6: warning: no
+ previous prototype for 'call_function_single_prep_ipi'
+Message-ID: <202308031137.Bwm08PbM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,103 +46,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   7f46da99d47faba52b98b09371755ba4821a116d
-commit: c9a574054dbbc299aac39781a1d19a36fe0bc35a [14046/30000] ANDROID: GKI: drivers: Add dma removed ops
-config: i386-randconfig-r004-20230801 (https://download.01.org/0day-ci/archive/20230803/202308031152.Uin7c9eq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230803/202308031152.Uin7c9eq-lkp@intel.com/reproduce)
+Hi Alfred,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/zen-kernel/zen-kernel 6.4/prjc
+head:   81c27c2ecb3019a7e76026b3fced2f750c2faf0a
+commit: 217029dcc8414f797711c3cac589493f62a4dc13 [379/387] sched/alt: [Sync] 68f4ff04dbad sched, smp: Trace smp callback causing an IPI
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230803/202308031137.Bwm08PbM-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230803/202308031137.Bwm08PbM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308031152.Uin7c9eq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308031137.Bwm08PbM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:22,
-                    from include/linux/module.h:13,
-                    from kernel/dma/removed.c:6:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1171:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
-    1171 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1162:27: note: 'mem_section' declared here
-    1162 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   kernel/dma/removed.c: At top level:
-   kernel/dma/removed.c:71:7: warning: no previous prototype for 'removed_alloc' [-Wmissing-prototypes]
-      71 | void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
-         |       ^~~~~~~~~~~~~
-   kernel/dma/removed.c:131:5: warning: no previous prototype for 'removed_mmap' [-Wmissing-prototypes]
-     131 | int removed_mmap(struct device *dev, struct vm_area_struct *vma,
-         |     ^~~~~~~~~~~~
-   kernel/dma/removed.c:138:6: warning: no previous prototype for 'removed_free' [-Wmissing-prototypes]
-     138 | void removed_free(struct device *dev, size_t size, void *cpu_addr,
+   kernel/sched/alt_core.c:1006:6: warning: no previous prototype for 'resched_curr' [-Wmissing-prototypes]
+    1006 | void resched_curr(struct rq *rq)
          |      ^~~~~~~~~~~~
-   kernel/dma/removed.c:187:6: warning: no previous prototype for 'removed_sync_single_for_device' [-Wmissing-prototypes]
-     187 | void removed_sync_single_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:193:6: warning: no previous prototype for 'removed_sync_sg_for_cpu' [-Wmissing-prototypes]
-     193 | void removed_sync_sg_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:199:6: warning: no previous prototype for 'removed_sync_sg_for_device' [-Wmissing-prototypes]
-     199 | void removed_sync_sg_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:211:6: warning: no previous prototype for 'removed_unremap' [-Wmissing-prototypes]
-     211 | void removed_unremap(struct device *dev, void *remapped_address, size_t size)
-         |      ^~~~~~~~~~~~~~~
->> kernel/dma/removed.c:61:12: warning: 'dma_assign_removed_region' defined but not used [-Wunused-function]
-      61 | static int dma_assign_removed_region(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/dma/removed.c:33:12: warning: 'dma_init_removed_memory' defined but not used [-Wunused-function]
-      33 | static int dma_init_removed_memory(phys_addr_t phys_addr, size_t size,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1029:6: warning: no previous prototype for 'resched_cpu' [-Wmissing-prototypes]
+    1029 | void resched_cpu(int cpu)
+         |      ^~~~~~~~~~~
+   kernel/sched/alt_core.c:1044:6: warning: no previous prototype for 'select_nohz_load_balancer' [-Wmissing-prototypes]
+    1044 | void select_nohz_load_balancer(int stop_tick) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1046:6: warning: no previous prototype for 'set_cpu_sd_state_idle' [-Wmissing-prototypes]
+    1046 | void set_cpu_sd_state_idle(void) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:2473:6: warning: no previous prototype for 'sched_ttwu_pending' [-Wmissing-prototypes]
+    2473 | void sched_ttwu_pending(void *arg)
+         |      ^~~~~~~~~~~~~~~~~~
+>> kernel/sched/alt_core.c:2516:6: warning: no previous prototype for 'call_function_single_prep_ipi' [-Wmissing-prototypes]
+    2516 | bool call_function_single_prep_ipi(int cpu)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function 'choose_next_task':
+   kernel/sched/alt_core.c:4639:17: error: implicit declaration of function 'hrtick_start'; did you mean 'hrtimer_start'? [-Werror=implicit-function-declaration]
+    4639 |                 hrtick_start(rq, next->time_slice);
+         |                 ^~~~~~~~~~~~
+         |                 hrtimer_start
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:7347:5: warning: no previous prototype for 'sched_cpu_activate' [-Wmissing-prototypes]
+    7347 | int sched_cpu_activate(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7386:5: warning: no previous prototype for 'sched_cpu_deactivate' [-Wmissing-prototypes]
+    7386 | int sched_cpu_deactivate(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7450:5: warning: no previous prototype for 'sched_cpu_starting' [-Wmissing-prototypes]
+    7450 | int sched_cpu_starting(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: In function 'sched_init_topology_cpumask':
+   kernel/sched/alt_core.c:7578:57: error: implicit declaration of function 'cpu_coregroup_mask' [-Werror=implicit-function-declaration]
+    7578 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
+         |                                                         ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7578:57: warning: passing argument 1 of 'cpumask_first' makes pointer from integer without a cast [-Wint-conversion]
+    7578 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
+         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                                         |
+         |                                                         int
+   In file included from include/linux/smp.h:13,
+                    from include/linux/sched/clock.h:5,
+                    from kernel/sched/alt_core.c:14:
+   include/linux/cpumask.h:160:64: note: expected 'const struct cpumask *' but argument is of type 'int'
+     160 | static inline unsigned int cpumask_first(const struct cpumask *srcp)
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~^~~~
+   kernel/sched/alt_core.c:7580:45: warning: passing argument 3 of 'cpumask_and' makes pointer from integer without a cast [-Wint-conversion]
+    7580 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             int
+   kernel/sched/alt_core.c:7553:37: note: in definition of macro 'TOPOLOGY_CPUMASK'
+    7553 |         if (cpumask_and(topo, topo, mask)) {                                    \
+         |                                     ^~~~
+   include/linux/cpumask.h:567:54: note: expected 'const struct cpumask *' but argument is of type 'int'
+     567 |                                const struct cpumask *src2p)
+         |                                ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   kernel/sched/alt_core.c:7580:45: warning: passing argument 2 of 'cpumask_copy' makes pointer from integer without a cast [-Wint-conversion]
+    7580 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             int
+   kernel/sched/alt_core.c:7554:36: note: in definition of macro 'TOPOLOGY_CPUMASK'
+    7554 |                 cpumask_copy(topo, mask);                                       \
+         |                                    ^~~~
+   include/linux/cpumask.h:738:55: note: expected 'const struct cpumask *' but argument is of type 'int'
+     738 |                                 const struct cpumask *srcp)
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/cpumask.h:28:37: error: invalid type argument of '->' (have 'int')
+      28 | #define cpumask_bits(maskp) ((maskp)->bits)
+         |                                     ^~
+   kernel/sched/alt_core.c:7559:55: note: in expansion of macro 'cpumask_bits'
+    7559 |                 bitmap_complement(cpumask_bits(topo), cpumask_bits(mask),       \
+         |                                                       ^~~~~~~~~~~~
+   kernel/sched/alt_core.c:7580:17: note: in expansion of macro 'TOPOLOGY_CPUMASK'
+    7580 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
+         |                 ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c: At top level:
+   kernel/sched/alt_core.c:7595:13: warning: no previous prototype for 'sched_init_smp' [-Wmissing-prototypes]
+    7595 | void __init sched_init_smp(void)
+         |             ^~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:7655:13: warning: no previous prototype for 'sched_init' [-Wmissing-prototypes]
+    7655 | void __init sched_init(void)
+         |             ^~~~~~~~~~
+   kernel/sched/alt_core.c:8011:20: warning: no previous prototype for 'sched_create_group' [-Wmissing-prototypes]
+    8011 | struct task_group *sched_create_group(struct task_group *parent)
+         |                    ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8022:6: warning: no previous prototype for 'sched_online_group' [-Wmissing-prototypes]
+    8022 | void sched_online_group(struct task_group *tg, struct task_group *parent)
+         |      ^~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8033:6: warning: no previous prototype for 'sched_destroy_group' [-Wmissing-prototypes]
+    8033 | void sched_destroy_group(struct task_group *tg)
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8039:6: warning: no previous prototype for 'sched_release_group' [-Wmissing-prototypes]
+    8039 | void sched_release_group(struct task_group *tg)
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8107:5: warning: no previous prototype for 'sched_group_set_shares' [-Wmissing-prototypes]
+    8107 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8177:27: warning: initialized field overwritten [-Woverride-init]
+    8177 |         .legacy_cftypes = cpu_legacy_files,
+         |                           ^~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:8177:27: note: (near initialization for 'cpu_cgrp_subsys.legacy_cftypes')
+   cc1: some warnings being treated as errors
 
 
-vim +/dma_assign_removed_region +61 kernel/dma/removed.c
+vim +/call_function_single_prep_ipi +2516 kernel/sched/alt_core.c
 
-    32	
-  > 33	static int dma_init_removed_memory(phys_addr_t phys_addr, size_t size,
-    34					struct removed_region **mem)
-    35	{
-    36		struct removed_region *dma_mem = NULL;
-    37		int pages = size >> PAGE_SHIFT;
-    38		int bitmap_size = BITS_TO_LONGS(pages) * sizeof(long);
-    39	
-    40		dma_mem = kzalloc(sizeof(struct removed_region), GFP_KERNEL);
-    41		if (!dma_mem)
-    42			goto out;
-    43		dma_mem->bitmap = kzalloc(bitmap_size, GFP_KERNEL);
-    44		if (!dma_mem->bitmap)
-    45			goto free1_out;
-    46	
-    47		dma_mem->base = phys_addr;
-    48		dma_mem->nr_pages = pages;
-    49		mutex_init(&dma_mem->lock);
-    50	
-    51		*mem = dma_mem;
-    52	
-    53		return 0;
-    54	
-    55	free1_out:
-    56		kfree(dma_mem);
-    57	out:
-    58		return -ENOMEM;
-    59	}
-    60	
-  > 61	static int dma_assign_removed_region(struct device *dev,
-    62						struct removed_region *mem)
-    63	{
-    64		if (dev->removed_mem)
-    65			return -EBUSY;
-    66	
-    67		dev->removed_mem = mem;
-    68		return 0;
-    69	}
-    70	
+  2509	
+  2510	/*
+  2511	 * Prepare the scene for sending an IPI for a remote smp_call
+  2512	 *
+  2513	 * Returns true if the caller can proceed with sending the IPI.
+  2514	 * Returns false otherwise.
+  2515	 */
+> 2516	bool call_function_single_prep_ipi(int cpu)
+  2517	{
+  2518		if (set_nr_if_polling(cpu_rq(cpu)->idle)) {
+  2519			trace_sched_wake_idle_without_ipi(cpu);
+  2520			return false;
+  2521		}
+  2522	
+  2523		return true;
+  2524	}
+  2525	
 
 -- 
 0-DAY CI Kernel Test Service
