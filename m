@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DDD200B4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Aug 2023 17:15:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9826200B4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Aug 2023 17:16:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691082947; x=1722618947;
+  t=1691082965; x=1722618965;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+P+0FsCiuHEuXzYk/zugcVycgCefTItYzYQl9cRBWhY=;
-  b=glxCQ//nG4RziMeK0kkdn6vxCdSIYYI+ynLObMHfB1dhaTnsCdTcksDL
-   Aj9w2WdjCFE6cX1ek2MxIFYFXDC0tpd88PuD+xONSeqMcKHKKwpW/YHd8
-   +uhbrmFTcEjC3YxBod98B2jOSBL5SXcIOTdFaWqyEjw22Kr7S3YDQr0o/
-   NdgEUJspuP+4qOruonIYrp2AZVo8aL3A1mNyZqKkOpOyYBTt6UZGdwvNP
-   vt7Azr0HqVR1lxF4ZVHiVCD5c6lGovemx2SiLHIW7yGZBs6Yp73VQ6HIY
-   2ZUojbCCQ5919gvzon+HloyUAx+pc4/xxy/lpBRL2VFsfXYxurwMWSnRF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="350243311"
+  bh=abnmQtC/jcZ/cT3qF61c7k8d0pNVyE7nuDOM3uWcksw=;
+  b=ZM8SjNSbNhXxCJ/E9yM0UPmSRirq2pEwGUg1Y3Ql/B5tTd5hq8iJvSys
+   iI7ZycztT1zg7jF41I6tSecu0rdNdUgR6Fnxhvuxcfv7j3SUvbeTyWB1p
+   kn0D23WJk8CmbPJqq885RIc4wcpz63AJ5ZX9OqUCZtVH9kWpdVPh1Fuz2
+   nFSUIGxI8y7An6Xz1RIH/zyqzWxHhAAuoaeYUi7E6ZWtglT4SIa/I/Ytz
+   gozQZGdYO58Uv9O2F0VClNw8sTNN3Yi2edZUc+Vg8raRgAFlfp2lzIqa2
+   kqxoJYl/6r8tWiYwHm1hXqyeQAYQkgsEt6YyjsCnznY7IKTEGLnnR2U0S
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="400899115"
 X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
-   d="scan'208";a="350243311"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 10:15:45 -0700
+   d="scan'208";a="400899115"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 10:15:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="819739528"
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="732870171"
 X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; 
-   d="scan'208";a="819739528"
+   d="scan'208";a="732870171"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 03 Aug 2023 10:15:44 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 03 Aug 2023 10:15:44 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRbvL-0002FT-1I;
+	id 1qRbvL-0002FV-1M;
 	Thu, 03 Aug 2023 17:15:43 +0000
-Date: Fri, 4 Aug 2023 01:15:42 +0800
+Date: Fri, 4 Aug 2023 01:15:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
+To: Hector Martin <marcan@marcan.st>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:mgctime 4/10] fs/orangefs/inode.c:908:36: warning: passing
- argument 2 of 'generic_update_time' makes integer from pointer without a
- cast
-Message-ID: <202308040121.DS3WVdeA-lkp@intel.com>
+Subject: [asahilinux:bits/010-soc 6/12] drivers/soc/apple/rtkit.c:639:37:
+ error: 'struct apple_rtkit' has no member named 'mbox_chan'
+Message-ID: <202308040143.3RniuVPI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,78 +46,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgctime
-head:   ffef667f9698cae637fe41b46df59816f79c050f
-commit: 8e5568e178ddba11db584128ea843e8fba301dba [4/10] fs: change update_time prototype
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230804/202308040121.DS3WVdeA-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308040121.DS3WVdeA-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   1d78c04b8f6f12e0ef63a95d381a97eee5201ba7
+commit: c354dae36471380b138804fcaeee26374ecbff66 [6/12] soc: apple: rtkit: Port to the internal mailbox driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230804/202308040143.3RniuVPI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308040143.3RniuVPI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308040121.DS3WVdeA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308040143.3RniuVPI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/orangefs/inode.c: In function 'orangefs_update_time':
->> fs/orangefs/inode.c:908:36: warning: passing argument 2 of 'generic_update_time' makes integer from pointer without a cast [-Wint-conversion]
-     908 |         generic_update_time(inode, time, flags);
-         |                                    ^~~~
-         |                                    |
-         |                                    struct timespec64 *
-   In file included from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/blkdev.h:9,
-                    from fs/orangefs/inode.c:13:
-   include/linux/fs.h:2346:48: note: expected 'int' but argument is of type 'struct timespec64 *'
-    2346 | extern int generic_update_time(struct inode *, int);
-         |                                                ^~~
-   fs/orangefs/inode.c:908:9: error: too many arguments to function 'generic_update_time'
-     908 |         generic_update_time(inode, time, flags);
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/fs.h:2346:12: note: declared here
-    2346 | extern int generic_update_time(struct inode *, int);
-         |            ^~~~~~~~~~~~~~~~~~~
-   fs/orangefs/inode.c: At top level:
-   fs/orangefs/inode.c:974:24: error: initialization of 'int (*)(struct inode *, int)' from incompatible pointer type 'int (*)(struct inode *, struct timespec64 *, int)' [-Werror=incompatible-pointer-types]
-     974 |         .update_time = orangefs_update_time,
-         |                        ^~~~~~~~~~~~~~~~~~~~
-   fs/orangefs/inode.c:974:24: note: (near initialization for 'orangefs_file_inode_operations.update_time')
-   In file included from fs/orangefs/protocol.h:287,
-                    from fs/orangefs/inode.c:15:
-   fs/orangefs/orangefs-debug.h:86:18: warning: 'num_kmod_keyword_mask_map' defined but not used [-Wunused-const-variable=]
-      86 | static const int num_kmod_keyword_mask_map = (int)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/soc/apple/rtkit.c: In function 'apple_rtkit_send_message_wait':
+>> drivers/soc/apple/rtkit.c:639:37: error: 'struct apple_rtkit' has no member named 'mbox_chan'
+     639 |                 ret = mbox_flush(rtk->mbox_chan, timeout);
+         |                                     ^~
 
 
-vim +/generic_update_time +908 fs/orangefs/inode.c
+vim +639 drivers/soc/apple/rtkit.c
 
-933287da750ede Martin Brandenburg 2016-01-30  902  
-95582b00838837 Deepa Dinamani     2018-05-08  903  int orangefs_update_time(struct inode *inode, struct timespec64 *time, int flags)
-a55f2d86158500 Martin Brandenburg 2017-11-07  904  {
-a55f2d86158500 Martin Brandenburg 2017-11-07  905  	struct iattr iattr;
-a55f2d86158500 Martin Brandenburg 2017-11-07  906  	gossip_debug(GOSSIP_INODE_DEBUG, "orangefs_update_time: %pU\n",
-a55f2d86158500 Martin Brandenburg 2017-11-07  907  	    get_khandle_from_ino(inode));
-a55f2d86158500 Martin Brandenburg 2017-11-07 @908  	generic_update_time(inode, time, flags);
-a55f2d86158500 Martin Brandenburg 2017-11-07  909  	memset(&iattr, 0, sizeof iattr);
-a55f2d86158500 Martin Brandenburg 2017-11-07  910          if (flags & S_ATIME)
-a55f2d86158500 Martin Brandenburg 2017-11-07  911  		iattr.ia_valid |= ATTR_ATIME;
-a55f2d86158500 Martin Brandenburg 2017-11-07  912  	if (flags & S_CTIME)
-a55f2d86158500 Martin Brandenburg 2017-11-07  913  		iattr.ia_valid |= ATTR_CTIME;
-a55f2d86158500 Martin Brandenburg 2017-11-07  914  	if (flags & S_MTIME)
-a55f2d86158500 Martin Brandenburg 2017-11-07  915  		iattr.ia_valid |= ATTR_MTIME;
-afd9fb2a31797b Martin Brandenburg 2018-02-13  916  	return __orangefs_setattr(inode, &iattr);
-a55f2d86158500 Martin Brandenburg 2017-11-07  917  }
-a55f2d86158500 Martin Brandenburg 2017-11-07  918  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  626  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  627  int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  628  				  unsigned long timeout, bool atomic)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  629  {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  630  	DECLARE_COMPLETION_ONSTACK(completion);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  631  	int ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  632  	long t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  633  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  634  	ret = apple_rtkit_send_message(rtk, ep, message, &completion, atomic);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  635  	if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  636  		return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  637  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  638  	if (atomic) {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01 @639  		ret = mbox_flush(rtk->mbox_chan, timeout);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  640  		if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  641  			return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  642  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  643  		if (try_wait_for_completion(&completion))
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  644  			return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  645  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  646  		return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  647  	} else {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  648  		t = wait_for_completion_interruptible_timeout(
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  649  			&completion, msecs_to_jiffies(timeout));
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  650  		if (t < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  651  			return t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  652  		else if (t == 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  653  			return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  654  		return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  655  	}
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  656  }
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  657  EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  658  
 
-:::::: The code at line 908 was first introduced by commit
-:::::: a55f2d861585006f493e933ad32d65d71ba631fa orangefs: stop setting atime on inode dirty
+:::::: The code at line 639 was first introduced by commit
+:::::: 9bd1d9a0d8bb1a549831fd98fcc3105960f7068b soc: apple: Add RTKit IPC library
 
-:::::: TO: Martin Brandenburg <martin@omnibond.com>
-:::::: CC: Mike Marshall <hubcap@omnibond.com>
+:::::: TO: Sven Peter <sven@svenpeter.dev>
+:::::: CC: Sven Peter <sven@svenpeter.dev>
 
 -- 
 0-DAY CI Kernel Test Service
