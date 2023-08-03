@@ -1,43 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45694263BD
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Aug 2023 22:25:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDE3263BD;
+	Thu,  3 Aug 2023 22:25:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691101554; x=1722637554;
+  t=1691101556; x=1722637556;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9JTVnmz2yViS8n2e94J60m4iF5+07SMDhO4XfYOt7uw=;
-  b=iWko7vp9BmDPMMGcbjDOHADATVXBz35rxDk0isKdZl5JFl/3zz9dyBul
-   kzW4z95NbshSuvGn7KVy8GGyfxjpYc8UuoNG0qyxrOnxXpIBVYFsNtNLH
-   sM5ey832kDIpnx/MxOy9P8Z3fhKaoiZoz4OaePxq1+j6214vqmSCXKei1
-   11dspJT+IPYPebWeLalr/sqAb3/Ft4swX+hLuQo2Ck5L/RdQDsLoM9Klw
-   EStolp9hpdk/4SUhlMzZoh0/jnZJ9SSlUnS8yIjEgeaL8ZZMlJIfGORkg
-   ux/irxKa8i3lnjUMUs1SNmcyJx2ETq9/AIjcbSha/dGPXzzySAc+4KKvj
+  bh=mJ6W9URh+8DKMfM06sE1vD68va+3oPToTrVe+MWStTw=;
+  b=W2RfAA1lXtLgdwVBaP8o+XzVi5WDMGFLc0Fq1KFK59OegvaYxjSNbXga
+   j02uLV5byuAhbmg7IofV8ssG2nQAQ7tvGbyHx4GOYBFjVSMEAehTXi3ZI
+   r2h/bSHrwKyINeasxm9aXeJJOrjGJLP3FGqkmKnGCg4LbZGUcfTbjBc66
+   asMT9RKOSa5ew+zzozpLgrBmchf4VAaAeO7ROwLp4yNmf69Gch4r/Mo9Q
+   vInb6rDpgoZ3Aj4Xhghrqm7KfDeAYRa+7YIdYVFvEuRRv+vb/+mHCC+H3
+   A//++p3kOYerfDyymC87scaSFu86PWnRMyecEDpSOpcSQ0THYn9qOoCx/
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="349601582"
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="349601586"
 X-IronPort-AV: E=Sophos;i="6.01,253,1684825200"; 
-   d="scan'208";a="349601582"
+   d="scan'208";a="349601586"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 15:25:53 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 15:25:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="679647386"
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="679647389"
 X-IronPort-AV: E=Sophos;i="6.01,253,1684825200"; 
-   d="scan'208";a="679647386"
+   d="scan'208";a="679647389"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 03 Aug 2023 15:25:51 -0700
+  by orsmga003.jf.intel.com with ESMTP; 03 Aug 2023 15:25:52 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRglT-0002PJ-0W;
+	id 1qRglT-0002PH-0S;
 	Thu, 03 Aug 2023 22:25:51 +0000
 Date: Fri, 4 Aug 2023 06:25:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Martin KaFai Lau <martin.lau@kernel.org>
-Subject: [bpf-next:master 3/4]
- drivers/net/ethernet/freescale/dpaa/dpaa_eth.h:46:29: error: field 'xdp_rxq'
- has incomplete type
-Message-ID: <202308040620.ty8oYNOP-lkp@intel.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sudeep-holla:ffa_v1.1_notif 9/13]
+ drivers/firmware/arm_ffa/driver.c:976:9: error: call to undeclared function
+ 'acpi_register_gsi'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202308040652.qWlKWfEN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,48 +48,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-head:   648880e9331c68b2008430fd90f3648d1795399d
-commit: 680ee0456a5712309db9ec2692e908ea1d6b1644 [3/4] net: invert the netdevice.h vs xdp.h dependency
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230804/202308040620.ty8oYNOP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308040620.ty8oYNOP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git ffa_v1.1_notif
+head:   40e36d14dadfa296f30d2e2da01fa30de86166be
+commit: 6fc3f0af1086ba56ba2811ab4bc44c09571b5386 [9/13] firmware: arm_ffa: Initial support for scheduler receiver interrupt
+config: arm64-randconfig-r026-20230731 (https://download.01.org/0day-ci/archive/20230804/202308040652.qWlKWfEN-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308040652.qWlKWfEN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308040620.ty8oYNOP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308040652.qWlKWfEN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/freescale/dpaa/dpaa_ethtool.c:13:
->> drivers/net/ethernet/freescale/dpaa/dpaa_eth.h:46:29: error: field 'xdp_rxq' has incomplete type
-      46 |         struct xdp_rxq_info xdp_rxq;
-         |                             ^~~~~~~
+>> drivers/firmware/arm_ffa/driver.c:976:9: error: call to undeclared function 'acpi_register_gsi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     976 |                 irq = acpi_register_gsi(NULL, sr_intid, ACPI_EDGE_SENSITIVE,
+         |                       ^
+   1 error generated.
 
 
-vim +/xdp_rxq +46 drivers/net/ethernet/freescale/dpaa/dpaa_eth.h
+vim +/acpi_register_gsi +976 drivers/firmware/arm_ffa/driver.c
 
-9ad1a37493338c Madalin Bucur 2016-11-15  35  
-9ad1a37493338c Madalin Bucur 2016-11-15  36  struct dpaa_fq {
-9ad1a37493338c Madalin Bucur 2016-11-15  37  	struct qman_fq fq_base;
-9ad1a37493338c Madalin Bucur 2016-11-15  38  	struct list_head list;
-9ad1a37493338c Madalin Bucur 2016-11-15  39  	struct net_device *net_dev;
-9ad1a37493338c Madalin Bucur 2016-11-15  40  	bool init;
-9ad1a37493338c Madalin Bucur 2016-11-15  41  	u32 fqid;
-9ad1a37493338c Madalin Bucur 2016-11-15  42  	u32 flags;
-9ad1a37493338c Madalin Bucur 2016-11-15  43  	u16 channel;
-9ad1a37493338c Madalin Bucur 2016-11-15  44  	u8 wq;
-9ad1a37493338c Madalin Bucur 2016-11-15  45  	enum dpaa_fq_type fq_type;
-d57e57d0cd04be Camelia Groza 2020-11-25 @46  	struct xdp_rxq_info xdp_rxq;
-9ad1a37493338c Madalin Bucur 2016-11-15  47  };
-9ad1a37493338c Madalin Bucur 2016-11-15  48  
-
-:::::: The code at line 46 was first introduced by commit
-:::::: d57e57d0cd04be5ee533a0e1e6d13ba9251114b7 dpaa_eth: add XDP_TX support
-
-:::::: TO: Camelia Groza <camelia.groza@nxp.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+   950	
+   951	static int ffa_sched_recv_irq_map(void)
+   952	{
+   953		int ret, irq, sr_intid;
+   954	
+   955		ret = ffa_features(FFA_FEAT_SCHEDULE_RECEIVER_INT, 0, &sr_intid, NULL);
+   956		if (ret < 0) {
+   957			if (ret != -EOPNOTSUPP)
+   958				pr_err("Failed to retrieve scheduler Rx interrupt\n");
+   959			return ret;
+   960		}
+   961	
+   962		if (acpi_disabled) {
+   963			struct of_phandle_args oirq = {};
+   964			struct device_node *gic;
+   965	
+   966			gic = of_find_compatible_node(NULL, NULL, "arm,gic-v3");
+   967			if (!gic)
+   968				return -ENXIO;
+   969	
+   970			oirq.np = gic;
+   971			oirq.args_count = 1;
+   972			oirq.args[0] = sr_intid;
+   973			irq = irq_create_of_mapping(&oirq);
+   974			of_node_put(gic);
+   975		} else {
+ > 976			irq = acpi_register_gsi(NULL, sr_intid, ACPI_EDGE_SENSITIVE,
+   977						ACPI_ACTIVE_HIGH);
+   978		}
+   979	
+   980		if (irq <= 0) {
+   981			pr_err("Failed to create IRQ mapping!\n");
+   982			return -ENODATA;
+   983		}
+   984	
+   985		return irq;
+   986	}
+   987	
 
 -- 
 0-DAY CI Kernel Test Service
