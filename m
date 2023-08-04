@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A21C746B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 07:19:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98958479
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 09:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691133554; x=1722669554;
+  t=1691140832; x=1722676832;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BDuVT36s7rZhAHeXZPbnbKNVyVqHUNqlGW4Nm9uSNYM=;
-  b=WI5m/KhcP4W1a2nU2Ybj4RUFygYOJ/QHyi78CnZxHUHl+lkZ2fPuw0Pm
-   CZUlkJh5lWTviFjJy0DaR4vPtSZMckmCUQkMI0ubjI7II1D+Delvd784f
-   8cmsrSdtZx4Ttu2uv9MC5SQC08puFGWWWdB+54QzqUyWcQhXlTP8by6DA
-   yejIq/M/U/aAGOaaJJ8ihwYyd2B4xVgMlHy07D2O+ae7TLjsvQavwKRP2
-   jHVSrHmvPXwEo8WdNdVM0tyMdidRwnC9WoThqgZN1YJKmnaBLrO2+FNPO
-   wOVvgD4S54INXRASFhEv7TI5B3f31gMq28mvmUr2z8eJ4YMMjKOSXMjRr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="373737464"
+  bh=pmb5GBWYUbmb/mU/OgOHBE///YNoVPvnDrOtq39Lsf0=;
+  b=CGa1Z/tCW/xtXLVqvedJ6iRiXm0+eoO9WSZvUwcOYUYkFkKdbPAg/9gm
+   YTURldTF7uWFG6+qoW9yTXdnjG56J49tgiNPKWPYnW1vkWUD+n5qx1XFF
+   V4XUZhpUrKrrePToZVss07x1OJSfU7Jilbw70oqjiTJk3/11dg0tY0ooL
+   TWQGprvQzYW5+n/FM31F5eF5VlWXoj4KBfwhxfO9+G4Q2iXPW7HhrG8Io
+   qQ7aT/2lZDVJeQ/IsnQ7gkDB82ivACJ2ylVSNSBSH0hWFBnc5zzUVviyj
+   sFkPP6iv4UDw3VHnnbY40pO1L+NQq5IwjPu90CkhB63S45c4fE179EuTj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="349707077"
 X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="373737464"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 00:19:12 -0700
+   d="scan'208";a="349707077"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 02:20:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="759451252"
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="1060676075"
 X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="759451252"
+   d="scan'208";a="1060676075"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 Aug 2023 00:19:08 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 04 Aug 2023 02:20:14 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRp5X-0002ij-2o;
-	Fri, 04 Aug 2023 07:19:07 +0000
-Date: Fri, 4 Aug 2023 15:18:13 +0800
+	id 1qRqyj-0002lX-2o;
+	Fri, 04 Aug 2023 09:20:13 +0000
+Date: Fri, 4 Aug 2023 17:19:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chunkuang.hu@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	ehristev@collabora.com, wenst@chromium.org, matthias.bgg@gmail.com,
-	kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
-	angelogioacchino.delregno@collabora.com
-Subject: Re: [PATCH v9 07/16] drm/mediatek: aal: Use bitfield macros
-Message-ID: <202308041431.xXkaXQ8u-lkp@intel.com>
-References: <20230803110214.163645-8-angelogioacchino.delregno@collabora.com>
+To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com, jerry.zuo@amd.com,
+	Wayne Lin <Wayne.Lin@amd.com>
+Subject: Re: [PATCH 2/3] drm/mst: Refactor the flow for payload
+ allocation/removement
+Message-ID: <202308041635.WkgWWX5r-lkp@intel.com>
+References: <20230804062029.5686-3-Wayne.Lin@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,67 +49,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230803110214.163645-8-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230804062029.5686-3-Wayne.Lin@amd.com>
 
-Hi AngeloGioacchino,
+Hi Wayne,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on pza/reset/next]
-[cannot apply to pza/imx-drm/next mbgg-mediatek/for-next]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-intel/for-linux-next-fixes drm/drm-next linus/master v6.5-rc4 next-20230804]
+[cannot apply to drm-intel/for-linux-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/drm-mediatek-gamma-Adjust-mtk_drm_gamma_set_common-parameters/20230803-190918
+url:    https://github.com/intel-lab-lkp/linux/commits/Wayne-Lin/drm-mst-delete-unnecessary-case-in-drm_dp_add_payload_part2/20230804-142405
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230803110214.163645-8-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v9 07/16] drm/mediatek: aal: Use bitfield macros
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230804/202308041431.xXkaXQ8u-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041431.xXkaXQ8u-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20230804062029.5686-3-Wayne.Lin%40amd.com
+patch subject: [PATCH 2/3] drm/mst: Refactor the flow for payload allocation/removement
+config: microblaze-randconfig-r021-20230731 (https://download.01.org/0day-ci/archive/20230804/202308041635.WkgWWX5r-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041635.WkgWWX5r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308041431.xXkaXQ8u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308041635.WkgWWX5r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/mediatek/mtk_disp_aal.c: In function 'mtk_aal_config':
->> drivers/gpu/drm/mediatek/mtk_disp_aal.c:63:14: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-      63 |         sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
-         |              ^~~~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_disp_aal.c:63:25: error: 'DISP_GAMMA_SIZE_HSIZE' undeclared (first use in this function); did you mean 'DISP_AAL_SIZE_HSIZE'?
-      63 |         sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-         |                         DISP_AAL_SIZE_HSIZE
-   drivers/gpu/drm/mediatek/mtk_disp_aal.c:63:25: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/gpu/drm/mediatek/mtk_disp_aal.c:64:26: error: 'DISP_GAMMA_SIZE_VSIZE' undeclared (first use in this function); did you mean 'DISP_AAL_SIZE_VSIZE'?
-      64 |         sz |= FIELD_PREP(DISP_GAMMA_SIZE_VSIZE, h);
-         |                          ^~~~~~~~~~~~~~~~~~~~~
-         |                          DISP_AAL_SIZE_VSIZE
-   cc1: some warnings being treated as errors
+   drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_msto_prepare':
+>> drivers/gpu/drm/nouveau/dispnv50/disp.c:919:53: warning: variable 'old_payload' set but not used [-Wunused-but-set-variable]
+     919 |         struct drm_dp_mst_atomic_payload *payload, *old_payload;
+         |                                                     ^~~~~~~~~~~
 
 
-vim +/FIELD_PREP +63 drivers/gpu/drm/mediatek/mtk_disp_aal.c
+vim +/old_payload +919 drivers/gpu/drm/nouveau/dispnv50/disp.c
 
-    55	
-    56	void mtk_aal_config(struct device *dev, unsigned int w,
-    57				   unsigned int h, unsigned int vrefresh,
-    58				   unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-    59	{
-    60		struct mtk_disp_aal *aal = dev_get_drvdata(dev);
-    61		u32 sz;
-    62	
-  > 63		sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
-    64		sz |= FIELD_PREP(DISP_GAMMA_SIZE_VSIZE, h);
-    65	
-    66		mtk_ddp_write(cmdq_pkt, sz, &aal->cmdq_reg, aal->regs, DISP_AAL_SIZE);
-    67		mtk_ddp_write(cmdq_pkt, sz, &aal->cmdq_reg, aal->regs, DISP_AAL_OUTPUT_SIZE);
-    68	}
-    69	
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  908  
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  909  static void
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  910  nv50_msto_prepare(struct drm_atomic_state *state,
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  911  		  struct drm_dp_mst_topology_state *mst_state,
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  912  		  struct drm_dp_mst_topology_mgr *mgr,
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  913  		  struct nv50_msto *msto)
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  914  {
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  915  	struct nouveau_drm *drm = nouveau_drm(msto->encoder.dev);
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  916  	struct nv50_mstc *mstc = msto->mstc;
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  917  	struct nv50_mstm *mstm = mstc->mstm;
+8fb3e25c3dd1a2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-06-13  918  	struct drm_dp_mst_topology_state *old_mst_state;
+8fb3e25c3dd1a2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-06-13 @919  	struct drm_dp_mst_atomic_payload *payload, *old_payload;
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  920  
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  921  	NV_ATOMIC(drm, "%s: msto prepare\n", msto->encoder.name);
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  922  
+8fb3e25c3dd1a2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-06-13  923  	old_mst_state = drm_atomic_get_old_mst_topology_state(state, mgr);
+8fb3e25c3dd1a2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-06-13  924  
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  925  	payload = drm_atomic_get_mst_payload_state(mst_state, mstc->port);
+8fb3e25c3dd1a2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-06-13  926  	old_payload = drm_atomic_get_mst_payload_state(old_mst_state, mstc->port);
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  927  
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  928  	// TODO: Figure out if we want to do a better job of handling VCPI allocation failures here?
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  929  	if (msto->disabled) {
+c9e8c7f37133c0 drivers/gpu/drm/nouveau/dispnv50/disp.c Wayne Lin  2023-08-04  930  		drm_dp_remove_payload_part1(mgr, mst_state, payload);
+8c7d980da9ba3e drivers/gpu/drm/nouveau/dispnv50/disp.c Ben Skeggs 2022-06-01  931  
+8c7d980da9ba3e drivers/gpu/drm/nouveau/dispnv50/disp.c Ben Skeggs 2022-06-01  932  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index, 0, 0, 0, 0);
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  933  	} else {
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  934  		if (msto->enabled)
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  935  			drm_dp_add_payload_part1(mgr, mst_state, payload);
+4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  936  
+8c7d980da9ba3e drivers/gpu/drm/nouveau/dispnv50/disp.c Ben Skeggs 2022-06-01  937  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index,
+8c7d980da9ba3e drivers/gpu/drm/nouveau/dispnv50/disp.c Ben Skeggs 2022-06-01  938  				      payload->vc_start_slot, payload->time_slots,
+8c7d980da9ba3e drivers/gpu/drm/nouveau/dispnv50/disp.c Ben Skeggs 2022-06-01  939  				      payload->pbn, payload->time_slots * mst_state->pbn_div);
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  940  	}
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  941  }
+f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  942  
 
 -- 
 0-DAY CI Kernel Test Service
