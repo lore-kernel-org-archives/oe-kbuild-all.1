@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFA51AA79
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 17:43:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF361BEEE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 18:13:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691171025; x=1722707025;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oC/XLWDE0cUVjCrfm5DH9U2J72qWkBfDG3kqn5pux4Y=;
-  b=IQSQqBjGZoTu1ffjseh+TWVkCqAxCHmVPs6Oh05fwAuZAXqG6MxltGGg
-   1/SjqQJMJXUrRlg/5Fcp5QGENriTNbU2rjrTbHG5w53fLIR3xQwlYqed5
-   GZlLqTQEI7xviLiZR7dcLIJJvuAOCPrdWRE+D+QuBkNeJX6T3hsIwjJvg
-   ML9pnociRJGoFUiD0W8TpjTjVDTduCA7sp7fubiZ5GUWzZvYk2zibJC2c
-   n3g8RgOiZrKPv4Fh4RtQCs6XLiDWe/rR/eYePGeoGwRAMt05wM3AZLVSA
-   6GXpFyzYXIArMI4xp/4akrTFmxQWycFYQz0igbiq2LKj11h4UqZ65JQHJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="456587129"
+  t=1691172827; x=1722708827;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sfSTliH/n3/hO5ePpH60SsfPlOqVTw/to3bUaVZLTo4=;
+  b=bPjKyMquZaNhmwMHReT81UdROhYSeAz/gvuZ3xT0CI4vW0qVEpJLIKJI
+   gK5WiTwLZAlg5598VNwepx6lmkGNX1SCF2yQOWmDPP/Mtf1D9peqpkw2z
+   4cKWjweZJ9kloZAWX7Vk2JHLSxMBIqYaEIHYMSbUaOPAsthq+8PG4ivP1
+   zRU4zOLhYKlB0D3Spl+HUT9Qe+cnsHLXMc8lCU+KdhOB4nq6mxBe/1Ywf
+   FscgnTFnjZZZ5HokDuglPrAoXEdIEeXzspPBzmruGa+1RAfwYAq8acY//
+   dY1xFmJoLSBG05fi2MPCNUV4tsWRDU4Cg9mqjNYQL8Opea9FTZq/5Csvc
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="372959569"
 X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
-   d="scan'208";a="456587129"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 10:43:44 -0700
+   d="scan'208";a="372959569"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 11:13:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="795489445"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="853843916"
 X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
-   d="scan'208";a="795489445"
+   d="scan'208";a="853843916"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 04 Aug 2023 10:43:43 -0700
+  by orsmga004.jf.intel.com with ESMTP; 04 Aug 2023 11:13:44 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRypy-00031D-32;
-	Fri, 04 Aug 2023 17:43:42 +0000
-Date: Sat, 5 Aug 2023 01:43:01 +0800
+	id 1qRzJ1-00031x-1S;
+	Fri, 04 Aug 2023 18:13:43 +0000
+Date: Sat, 5 Aug 2023 02:13:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
+To: Thomas Gleixner <tglx@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7] vfs, security: Fix automount superblock LSM init
- problem, preventing NFS sb sharing
-Message-ID: <202308050110.6Zheq1P5-lkp@intel.com>
-References: <20230804-master-v7-1-5d4e48407298@kernel.org>
+Subject: [tglx-devel:x86/topo-full 142/149]
+ arch/x86/events/intel/uncore_snbep.c:1447:58: error: implicit declaration of
+ function 'topology_phys_to_logical_pkg'; did you mean
+ 'topology_get_logical_id'?
+Message-ID: <202308050251.1OxAbtFL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,97 +47,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230804-master-v7-1-5d4e48407298@kernel.org>
 
-Hi Jeff,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 5d0c230f1de8c7515b6567d9afba1f196fb4e2f4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/vfs-security-Fix-automount-superblock-LSM-init-problem-preventing-NFS-sb-sharing/20230805-001234
-base:   5d0c230f1de8c7515b6567d9afba1f196fb4e2f4
-patch link:    https://lore.kernel.org/r/20230804-master-v7-1-5d4e48407298%40kernel.org
-patch subject: [PATCH v7] vfs, security: Fix automount superblock LSM init problem, preventing NFS sb sharing
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230805/202308050110.6Zheq1P5-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050110.6Zheq1P5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topo-full
+head:   e3c8d0478a9b26ce42ad1bdc0c9e70abecf6f1ee
+commit: 351a5810dab5f15e574c60f43bcf55c68077349a [142/149] x86/cpu/topology: Use topology logical mapping mechanism
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230805/202308050251.1OxAbtFL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050251.1OxAbtFL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308050110.6Zheq1P5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308050251.1OxAbtFL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   security/smack/smack_lsm.c: In function 'smack_fs_context_init':
->> security/smack/smack_lsm.c:631:66: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-     631 |         if (!reference || fc->purpose != FS_CONTEXT_FOR_SUBMOUNT);
-         |                                                                  ^
->> security/smack/smack_lsm.c:631:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-     631 |         if (!reference || fc->purpose != FS_CONTEXT_FOR_SUBMOUNT);
-         |         ^~
-   security/smack/smack_lsm.c:632:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-     632 |                 return 0;
-         |                 ^~~~~~
+   arch/x86/events/intel/uncore_snbep.c: In function 'snbep_pci2phy_map_init':
+>> arch/x86/events/intel/uncore_snbep.c:1447:58: error: implicit declaration of function 'topology_phys_to_logical_pkg'; did you mean 'topology_get_logical_id'? [-Werror=implicit-function-declaration]
+    1447 |                                                 die_id = topology_phys_to_logical_pkg(i);
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                          topology_get_logical_id
+   cc1: some warnings being treated as errors
 
 
-vim +/if +631 security/smack/smack_lsm.c
+vim +1447 arch/x86/events/intel/uncore_snbep.c
 
-   616	
-   617	/**
-   618	 * smack_fs_context_init - Initialise security data for a filesystem context
-   619	 * @fc: The filesystem context.
-   620	 * @reference: Reference dentry (automount/reconfigure) or NULL
-   621	 *
-   622	 * Returns 0 on success or -ENOMEM on error.
-   623	 */
-   624	static int smack_fs_context_init(struct fs_context *fc,
-   625					 struct dentry *reference)
-   626	{
-   627		struct superblock_smack *sbsp;
-   628		struct smack_mnt_opts *ctx;
-   629		struct inode_smack *isp;
-   630	
- > 631		if (!reference || fc->purpose != FS_CONTEXT_FOR_SUBMOUNT);
-   632			return 0;
-   633	
-   634		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-   635		if (!ctx)
-   636			return -ENOMEM;
-   637		fc->security = ctx;
-   638	
-   639		sbsp = smack_superblock(reference->d_sb);
-   640		isp = smack_inode(reference->d_sb->s_root->d_inode);
-   641	
-   642		if (sbsp->smk_default) {
-   643			ctx->fsdefault = kstrdup(sbsp->smk_default->smk_known, GFP_KERNEL);
-   644			if (!ctx->fsdefault)
-   645				return -ENOMEM;
-   646		}
-   647	
-   648		if (sbsp->smk_floor) {
-   649			ctx->fsfloor = kstrdup(sbsp->smk_floor->smk_known, GFP_KERNEL);
-   650			if (!ctx->fsfloor)
-   651				return -ENOMEM;
-   652		}
-   653	
-   654		if (sbsp->smk_hat) {
-   655			ctx->fshat = kstrdup(sbsp->smk_hat->smk_known, GFP_KERNEL);
-   656			if (!ctx->fshat)
-   657				return -ENOMEM;
-   658		}
-   659	
-   660		if (isp->smk_flags & SMK_INODE_TRANSMUTE) {
-   661			if (sbsp->smk_root) {
-   662				ctx->fstransmute = kstrdup(sbsp->smk_root->smk_known, GFP_KERNEL);
-   663				if (!ctx->fstransmute)
-   664					return -ENOMEM;
-   665			}
-   666		}
-   667		return 0;
-   668	}
-   669	
+c4aebdb3b5f50f arch/x86/events/intel/uncore_snbep.c                Alexander Antonov 2022-11-17  1398  
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1399  /*
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1400   * build pci bus to socket mapping
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1401   */
+68ce4a0dea168e arch/x86/events/intel/uncore_snbep.c                Kan Liang         2016-08-16  1402  static int snbep_pci2phy_map_init(int devid, int nodeid_loc, int idmap_loc, bool reverse)
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1403  {
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1404  	struct pci_dev *ubox_dev = NULL;
+ba9506be4e402e arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1405  	int i, bus, nodeid, segment, die_id;
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1406  	struct pci2phy_map *map;
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1407  	int err = 0;
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1408  	u32 config = 0;
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1409  
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1410  	while (1) {
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1411  		/* find the UBOX device */
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1412  		ubox_dev = pci_get_device(PCI_VENDOR_ID_INTEL, devid, ubox_dev);
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1413  		if (!ubox_dev)
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1414  			break;
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1415  		bus = ubox_dev->bus->number;
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1416  		/*
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1417  		 * The nodeid and idmap registers only contain enough
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1418  		 * information to handle 8 nodes.  On systems with more
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1419  		 * than 8 nodes, we need to rely on NUMA information,
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1420  		 * filled in from BIOS supplied information, to determine
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1421  		 * the topology.
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1422  		 */
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1423  		if (nr_node_ids <= 8) {
+c4aebdb3b5f50f arch/x86/events/intel/uncore_snbep.c                Alexander Antonov 2022-11-17  1424  			err = upi_nodeid_groupid(ubox_dev, nodeid_loc, idmap_loc,
+c4aebdb3b5f50f arch/x86/events/intel/uncore_snbep.c                Alexander Antonov 2022-11-17  1425  						 &nodeid, &config);
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1426  			if (err)
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1427  				break;
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1428  
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1429  			segment = pci_domain_nr(ubox_dev->bus);
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1430  			raw_spin_lock(&pci2phy_map_lock);
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1431  			map = __find_pci2phy_map(segment);
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1432  			if (!map) {
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1433  				raw_spin_unlock(&pci2phy_map_lock);
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1434  				err = -ENOMEM;
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1435  				break;
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1436  			}
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1437  
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1438  			/*
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1439  			 * every three bits in the Node ID mapping register maps
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1440  			 * to a particular node.
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1441  			 */
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1442  			for (i = 0; i < 8; i++) {
+c4aebdb3b5f50f arch/x86/events/intel/uncore_snbep.c                Alexander Antonov 2022-11-17  1443  				if (nodeid == GIDNIDMAP(config, i)) {
+ba9506be4e402e arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1444  					if (topology_max_die_per_package() > 1)
+ba9506be4e402e arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1445  						die_id = i;
+ba9506be4e402e arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1446  					else
+ba9506be4e402e arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08 @1447  						die_id = topology_phys_to_logical_pkg(i);
+4a0e3ff30980b7 arch/x86/events/intel/uncore_snbep.c                Kan Liang         2021-05-26  1448  					if (die_id < 0)
+4a0e3ff30980b7 arch/x86/events/intel/uncore_snbep.c                Kan Liang         2021-05-26  1449  						die_id = -ENODEV;
+ba9506be4e402e arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1450  					map->pbus_to_dieid[bus] = die_id;
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1451  					break;
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1452  				}
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1453  			}
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1454  			raw_spin_unlock(&pci2phy_map_lock);
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1455  		} else {
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1456  			segment = pci_domain_nr(ubox_dev->bus);
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1457  			raw_spin_lock(&pci2phy_map_lock);
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1458  			map = __find_pci2phy_map(segment);
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1459  			if (!map) {
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1460  				raw_spin_unlock(&pci2phy_map_lock);
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1461  				err = -ENOMEM;
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1462  				break;
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1463  			}
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1464  
+dbf061b26221fa arch/x86/events/intel/uncore_snbep.c                Kan Liang         2023-01-12  1465  			map->pbus_to_dieid[bus] = die_id = uncore_device_to_die(ubox_dev);
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1466  
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1467  			raw_spin_unlock(&pci2phy_map_lock);
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1468  
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1469  			if (WARN_ON_ONCE(die_id == -1)) {
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1470  				err = -EINVAL;
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1471  				break;
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1472  			}
+9a7832ce3d9204 arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1473  		}
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1474  	}
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1475  
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1476  	if (!err) {
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1477  		/*
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1478  		 * For PCI bus with no UBOX device, find the next bus
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1479  		 * that has UBOX device and use its mapping.
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1480  		 */
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1481  		raw_spin_lock(&pci2phy_map_lock);
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1482  		list_for_each_entry(map, &pci2phy_map_head, list) {
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1483  			i = -1;
+68ce4a0dea168e arch/x86/events/intel/uncore_snbep.c                Kan Liang         2016-08-16  1484  			if (reverse) {
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1485  				for (bus = 255; bus >= 0; bus--) {
+4a0e3ff30980b7 arch/x86/events/intel/uncore_snbep.c                Kan Liang         2021-05-26  1486  					if (map->pbus_to_dieid[bus] != -1)
+ba9506be4e402e arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1487  						i = map->pbus_to_dieid[bus];
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1488  					else
+ba9506be4e402e arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1489  						map->pbus_to_dieid[bus] = i;
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1490  				}
+68ce4a0dea168e arch/x86/events/intel/uncore_snbep.c                Kan Liang         2016-08-16  1491  			} else {
+68ce4a0dea168e arch/x86/events/intel/uncore_snbep.c                Kan Liang         2016-08-16  1492  				for (bus = 0; bus <= 255; bus++) {
+4a0e3ff30980b7 arch/x86/events/intel/uncore_snbep.c                Kan Liang         2021-05-26  1493  					if (map->pbus_to_dieid[bus] != -1)
+ba9506be4e402e arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1494  						i = map->pbus_to_dieid[bus];
+68ce4a0dea168e arch/x86/events/intel/uncore_snbep.c                Kan Liang         2016-08-16  1495  					else
+ba9506be4e402e arch/x86/events/intel/uncore_snbep.c                Steve Wahl        2021-01-08  1496  						map->pbus_to_dieid[bus] = i;
+68ce4a0dea168e arch/x86/events/intel/uncore_snbep.c                Kan Liang         2016-08-16  1497  				}
+68ce4a0dea168e arch/x86/events/intel/uncore_snbep.c                Kan Liang         2016-08-16  1498  			}
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1499  		}
+712df65ccb63da arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Taku Izumi        2015-09-24  1500  		raw_spin_unlock(&pci2phy_map_lock);
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1501  	}
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1502  
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1503  	pci_dev_put(ubox_dev);
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1504  
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1505  	return err ? pcibios_err_to_errno(err) : 0;
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1506  }
+8268fdfc45b747 arch/x86/kernel/cpu/perf_event_intel_uncore_snbep.c Yan, Zheng        2014-07-30  1507  
+
+:::::: The code at line 1447 was first introduced by commit
+:::::: ba9506be4e402ee597b8f41204008b97989b5eef perf/x86/intel/uncore: Store the logical die id instead of the physical die id.
+
+:::::: TO: Steve Wahl <steve.wahl@hpe.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
