@@ -1,108 +1,80 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90908BA4F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 14:09:30 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-997c4107d62so303690866b.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 04 Aug 2023 07:09:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1691158167; x=1691762967;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rwW5Q2M6AjXWAB+1icBhvQ77itKOd8GQunKGa5u2rS0=;
-        b=eIYF9KaxBr4XTwuEewPtxymxCEEuA5k3rPSqtpTNMqQ/QmCGXH87v2kEgvWrmRPr8U
-         2KRLTVnn6lYBADANQ0ViOp806Htd4CGdeXUIYEJ3ZbASkp4G+D0qFJNBpYFcXlpXc+1c
-         jyM4W+WxLT37zS87G+FTIr4EvhB7nX11NjCUQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691158167; x=1691762967;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rwW5Q2M6AjXWAB+1icBhvQ77itKOd8GQunKGa5u2rS0=;
-        b=BO95wYfq4kB54PE0+kDf1K88xVZqO0jYsBLkYKS324rPYnr1i2hn/nvxcLNOluZ9cA
-         xq2+N9Fu5ToUT/uDUTvOw7JAorEGAI7UNAqtOWA1x8ql037wXMpAOcG0hHMl00Y+f/Tg
-         UA3KnbngiW7rzI6EMAwJ8Qinyp3z3rcVmpwJeGfOR310bHIkqT6/fPkIq/c8EUEIhR8s
-         BtwPqJmkVfFHjxBFekQ3msRETlDz7BdEDAd/SYMvzAZ6uklI3tl/A3GKkC3s8wEjmYMW
-         PKetuBFN6yxX/Ovn7PFosYSwTjkU7hmRotiqafQY7GtMjQxKUkQ5XOBNlv/t+018Gn/y
-         YNJg==
-X-Gm-Message-State: AOJu0YxROZ9qmv34wM5NlY0HMRBpOT14mIwET2SA9SFIRmQojsqkPlNW
-	vlfPcM8rtDQiFQxDF4d+unF/fv4twZvHDJuL51SmaGET
-X-Google-Smtp-Source: AGHT+IGM5UmDhQDe8cvbfVZiUYT3xDPsbg7bEzfoeAaDVEu+jUnj4K8RZnsISuSIgQM0VD2WKPdRLA==
-X-Received: by 2002:a17:907:2c42:b0:99b:ef86:60d8 with SMTP id hf2-20020a1709072c4200b0099bef8660d8mr1404120ejc.5.1691158167109;
-        Fri, 04 Aug 2023 07:09:27 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
-        by smtp.gmail.com with ESMTPSA id dt20-20020a170906b79400b0098e16f8c198sm1374752ejb.18.2023.08.04.07.09.26
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Aug 2023 07:09:26 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-521e046f6c7so9471a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 04 Aug 2023 07:09:26 -0700 (PDT)
-X-Received: by 2002:a50:d610:0:b0:522:41c9:9b9 with SMTP id
- x16-20020a50d610000000b0052241c909b9mr59434edi.5.1691158166384; Fri, 04 Aug
- 2023 07:09:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24C1BA4F;
+	Fri,  4 Aug 2023 14:26:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71796C433CA;
+	Fri,  4 Aug 2023 14:26:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691159183;
+	bh=E3e/RrfDh8oIx0OZAQHQ+IDfpwQVMEWdT14roAUdV4Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=OCLpdh7eoaScz11goFs38Ng2rtjJ8uzfmOnQpOygNjtun+9bMnKoH4phYDWX16uez
+	 cEwhoXE7qL3uSHw+F6qQZusKpKc4KX8Eg9xvUVcGUK98ifBK66kSV+yGQheeDOyd1a
+	 ijczwVMBK3ex69WwTknCblUC7NcJ0zOEHy2hitxdrVMR86N4ihKqMfGAWXjxXAtp2z
+	 zkkETMsadN400FO2EoH6wIeZMkX7F3RoLU1c4C3LF5DNEF5tyN5yxwm3aiV1B31soX
+	 eB8fTzK4Etphyl18h5khS5HxJx3cD6L16J4tJqHVP92rvE7OwkAnvtBfOgi5QAODIS
+	 sMCsuFf2cQF2Q==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b9cf2b1309so27288051fa.0;
+        Fri, 04 Aug 2023 07:26:23 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyUUaqQCD235B/kwfQycJSZ/uOfFK2lObeqc5ICRiQBxW9rf6Ew
+	0uIYW7go4UZcVc6HdO5MLN8tSekHaOcO1wsrgg==
+X-Google-Smtp-Source: AGHT+IGVwA3t/rc+I8YxkRQqV7zrIm/I886EhP+qYvTae2ciEnvfPlYw7WitcST/wmTl7QqZA9FKIl0ERIQIB+2ZgeU=
+X-Received: by 2002:a2e:b5c8:0:b0:2b9:b1fb:5ff4 with SMTP id
+ g8-20020a2eb5c8000000b002b9b1fb5ff4mr667905ljn.21.1691159181464; Fri, 04 Aug
+ 2023 07:26:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202308041501.2T8kM1gb-lkp@intel.com>
-In-Reply-To: <202308041501.2T8kM1gb-lkp@intel.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 4 Aug 2023 07:09:14 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UjeDqVd6gCwk68WWdLXw8p2cBk9Q9RqCtdmcC3NCJhGQ@mail.gmail.com>
-Message-ID: <CAD=FV=UjeDqVd6gCwk68WWdLXw8p2cBk9Q9RqCtdmcC3NCJhGQ@mail.gmail.com>
-Subject: Re: [linux-next:master 6492/7272] kernel/watchdog.c:111:12: warning:
- 'hardlockup_all_cpu_backtrace_proc_handler' defined but not used
+References: <202308042049.8R2tNRoo-lkp@intel.com>
+In-Reply-To: <202308042049.8R2tNRoo-lkp@intel.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 4 Aug 2023 08:26:08 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKn3vm_LQ64eo-fgQ09RBPtSH=CdC-u=ezyOQs=kMHmBQ@mail.gmail.com>
+Message-ID: <CAL_JsqKn3vm_LQ64eo-fgQ09RBPtSH=CdC-u=ezyOQs=kMHmBQ@mail.gmail.com>
+Subject: Re: [herbert-cryptodev-2.6:master 83/83] drivers/char/hw_random/xgene-rng.c:110:2:
+ error: call to undeclared function 'writel'; ISO C99 and later do not support
+ implicit function declarations
 To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-crypto@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Fri, Aug 4, 2023 at 12:19=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
+On Fri, Aug 4, 2023 at 6:14=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
 >
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   bdffb18b5dd8071cd25685b966f380a30b1fadaa
-> commit: 838b3b76220d5b1bc53e4186d8936c5ec6810bf0 [6492/7272] watchdog/har=
-dlockup: avoid large stack frames in watchdog_hardlockup_check()
-> config: x86_64-randconfig-x012-20230731 (https://download.01.org/0day-ci/=
-archive/20230804/202308041501.2T8kM1gb-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041501=
-.2T8kM1gb-lkp@intel.com/reproduce)
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev=
+-2.6.git master
+> head:   1ce1cd8208ad6060e4fcf6e09068c8954687c127
+> commit: 1ce1cd8208ad6060e4fcf6e09068c8954687c127 [83/83] hwrng: Enable CO=
+MPILE_TEST for more drivers
+> config: s390-randconfig-r015-20230801 (https://download.01.org/0day-ci/ar=
+chive/20230804/202308042049.8R2tNRoo-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git =
+4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce: (https://download.01.org/0day-ci/archive/20230804/202308042049=
+.8R2tNRoo-lkp@intel.com/reproduce)
 >
 > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
 ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308041501.2T8kM1gb-lkp=
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308042049.8R2tNRoo-lkp=
 @intel.com/
 >
-> All warnings (new ones prefixed by >>):
+> All errors (new ones prefixed by >>):
 >
-> >> kernel/watchdog.c:111:12: warning: 'hardlockup_all_cpu_backtrace_proc_=
-handler' defined but not used [-Wunused-function]
->      111 | static int hardlockup_all_cpu_backtrace_proc_handler(struct ct=
-l_table *table, int write,
->          |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
->
-> vim +/hardlockup_all_cpu_backtrace_proc_handler +111 kernel/watchdog.c
->
->    110
->  > 111  static int hardlockup_all_cpu_backtrace_proc_handler(struct ctl_t=
-able *table, int write,
+> >> drivers/char/hw_random/xgene-rng.c:110:2: error: call to undeclared fu=
+nction 'writel'; ISO C99 and later do not support implicit function declara=
+tions [-Wimplicit-function-declaration]
+>      110 |         writel(fro_val, ctx->csr_base + RNG_FRODETUNE);
+>          |         ^
 
-Leaving breadcrumbs here. The expected plan to fix this is to replace
-the v2 patch with v4:
+Looks like my DT header clean-up patch collides with this one. An
+explicit io.h include is needed.
 
-https://lore.kernel.org/r/20230804065935.v4.2.I501ab68cb926ee33a7c87e063d20=
-7abf09b9943c@changeid/
-
--Doug
+Rob
