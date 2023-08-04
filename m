@@ -1,56 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9746FBE7C;
-	Fri,  4 Aug 2023 16:51:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54267C433C7;
-	Fri,  4 Aug 2023 16:51:09 +0000 (UTC)
-Date: Fri, 4 Aug 2023 12:51:07 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Zheng Yejian <zhengyejian1@huawei.com>, mhiramat@kernel.org,
- vnagarnaik@google.com, shuah@kernel.org, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 1/2] tracing: Fix cpu buffers unavailable due to
- 'record_disabled' messed
-Message-ID: <20230804125107.41d6cdb1@gandalf.local.home>
-In-Reply-To: <202308050048.bUnVeBjV-lkp@intel.com>
-References: <20230804124549.2562977-2-zhengyejian1@huawei.com>
-	<202308050048.bUnVeBjV-lkp@intel.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FAE198B2
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 16:52:55 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4fe21e7f3d1so4015248e87.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 04 Aug 2023 09:52:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691167974; x=1691772774;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QnaCosAexdGAygEMqKp7KjQb9b47vUaddFUualtAX0w=;
+        b=iVTGTZEBZCtC/nqh5uQDsnt9lMgfb2zfYh0yxe7vtDs9V7/SbcpNbqaK47hcTNENNz
+         5TPUziv/zdtYo06k4vcCB0a0ul9Z8HOLK+zs8SKocPIlVcxmxlOiBwoX6O8oO9cGzvEv
+         wz+f9xaVDPlVIlDUkRqJq0Mhsq7MRpdM1d7DvbMSoC7TZPDykTEtJGF96l4dghzCNpC7
+         tfJIY6IkHzIlcuTFmJk8u5vPDB8AQdjcDEyFTDk2N60D9tnqbtwPDABG9xOCNvHmS3Gu
+         cnocXuoq/+EdOW/8Ac49vS4t7A7Zg/alNEFDm1jA9MCKvAeVnHwmf54MceivEz5pHrAX
+         3izg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691167974; x=1691772774;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QnaCosAexdGAygEMqKp7KjQb9b47vUaddFUualtAX0w=;
+        b=Ffz5YNXesZE7oApxHMpEMXJrf8SOYJH600YOoKw/qxVMPYPuPYGStL8FF9payEgiSF
+         +QhTSGKJfFXG23dryAHzADWE4nHOOsX758Y3X7oW9+Y2hTNu54zibGjn8tmUMmFTRY7v
+         DVqoT3wpZRSd8Z3CG4Ef8oHJpIH6yOy+YDK0mTQK6rJeb36LFuMl25ZQ6a+4/pS4QNOb
+         2vUE555lpenIk57qpxFPIPQK5W6ukeFScVwNxxu0haDjKTHVFWNzzan7Gq2OXHIE1Ht1
+         UC3phztRrH6KK+OtJ5pnXcg5WYBYzwgunRMCpoZarcKTBcQce2HF2GEhj4REwt6GNE+n
+         vnrw==
+X-Gm-Message-State: AOJu0YzRVlktAh5UmxGX/6scu2H1LMqHoBZ7On1CJxkHvCg/9+gCuNoZ
+	ZpiNGJirfNyhfA07T7ukE+kszQ==
+X-Google-Smtp-Source: AGHT+IEcTiwnzo+QgT2pIdD4HCLDKR2pZSc/Rapzz6vl/kltVHoTpSph39il3efrnL3YZtkQYfoQsg==
+X-Received: by 2002:a05:6512:208c:b0:4fe:17d9:6755 with SMTP id t12-20020a056512208c00b004fe17d96755mr1465840lfr.25.1691167973564;
+        Fri, 04 Aug 2023 09:52:53 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v13-20020a1cf70d000000b003fe17901fcdsm7209490wmh.32.2023.08.04.09.52.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 09:52:53 -0700 (PDT)
+Date: Fri, 4 Aug 2023 19:52:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: oe-kbuild@lists.linux.dev, Md Sadre Alam <quic_mdalam@quicinc.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Sricharan Ramabadhran <quic_srichara@quicinc.com>,
+	Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [linux-next:master 1937/6910]
+ drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error:
+ uninitialized symbol 'ret'.
+Message-ID: <3604e2ed-8d30-4f7b-9e56-7af5b23b2ac5@kadam.mountain>
+References: <7ad1160b-5f8c-47af-a1c5-51b34f656fab@kadam.mountain>
+ <20230804184550.0cb12369@xps-13>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230804184550.0cb12369@xps-13>
 
-On Sat, 5 Aug 2023 00:41:13 +0800
-kernel test robot <lkp@intel.com> wrote:
+On Fri, Aug 04, 2023 at 06:45:50PM +0200, Miquel Raynal wrote:
+> Hi Sadre, Sricharan & Manivannan,
+> 
+> A couple of questions for you below.
+> 
+> dan.carpenter@linaro.org wrote on Thu, 3 Aug 2023 15:20:56 +0300:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   fb4327106e5250ee360d0d8b056c1eef7eeb9a98
+> > commit: 89550beb098e04b951df079483fb064eafc0e5fa [1937/6910] mtd: rawnand: qcom: Implement exec_op()
+> > config: riscv-randconfig-m031-20230730 (https://download.01.org/0day-ci/archive/20230803/202308032022.SnXkKyFs-lkp@intel.com/config)
+> > compiler: riscv64-linux-gcc (GCC) 12.3.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032022.SnXkKyFs-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202308032022.SnXkKyFs-lkp@intel.com/
+> > 
+> > New smatch warnings:
+> > drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error: uninitialized symbol 'ret'.
+> > drivers/mtd/nand/raw/qcom_nandc.c:3369 qcom_check_op() warn: was && intended here instead of ||?
+> > 
+> > Old smatch warnings:
+> > drivers/mtd/nand/raw/qcom_nandc.c:3076 qcom_read_status_exec() warn: inconsistent indenting
+> > 
+> > vim +/ret +2941 drivers/mtd/nand/raw/qcom_nandc.c
+> > 
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2909  static int qcom_op_cmd_mapping(struct qcom_nand_controller *nandc, u8 cmd,
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2910  			       struct qcom_op *q_op)
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2911  {
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2912  	int ret;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2913  
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2914  	switch (cmd) {
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2915  	case NAND_CMD_RESET:
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2916  		ret = OP_RESET_DEVICE;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2917  		break;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2918  	case NAND_CMD_READID:
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2919  		ret = OP_FETCH_ID;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2920  		break;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2921  	case NAND_CMD_PARAM:
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2922  		if (nandc->props->qpic_v2)
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2923  			ret = OP_PAGE_READ_ONFI_READ;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2924  		else
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2925  			ret = OP_PAGE_READ;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2926  		break;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2927  	case NAND_CMD_ERASE1:
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2928  	case NAND_CMD_ERASE2:
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2929  		ret = OP_BLOCK_ERASE;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2930  		break;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2931  	case NAND_CMD_STATUS:
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2932  		ret = OP_CHECK_STATUS;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2933  		break;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2934  	case NAND_CMD_PAGEPROG:
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2935  		ret = OP_PROGRAM_PAGE;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2936  		q_op->flag = OP_PROGRAM_PAGE;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2937  		nandc->exec_opwrite = true;
+> > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2938  		break;
+> > 
+> > No default case.  I'm more concerned about the && vs || warning, but
+> > the zero day bot doesn't include that code into the email.
+> 
+> The default case here is in theory not possible, as long as
+> qcom_check_op() is properly implemented. We should however silence the
+> warning by handling it. Maybe a WARN_ON_ONCE() + ret = <anything that
+> will produce an error when executing the command> would work.
+> 
 
->   5276			if (cpumask_test_cpu(cpu, tr->tracing_cpumask) &&
->   5277					!cpumask_test_cpu(cpu, tracing_cpumask_new)) {
->   5278				atomic_inc(&per_cpu_ptr(tr->array_buffer.data, cpu)->disabled);
->   5279				ring_buffer_record_disable_cpu(tr->array_buffer.buffer, cpu);
-> > 5280				ring_buffer_record_disable_cpu(tr->max_buffer.buffer, cpu);  
+The kbuild-bot runs without the cross function database so it has a lot
+of false positives that you wouldn't see if you had the DB.  (There
+isn't really a way to build with the cross function DB.  It takes way
+way way too long.  Also it sometimes finds bug which are complicated to
+explain or to assign blame for in an automated way).  But these false
+positives are frustrating to me.
 
-The access to max_buffer requires a:
+In real life, GCC is going to automatically initialize stack variables
+to zero on production systems.
 
-#ifdef CONFIG_TRACER_MAX_TRACE
+> However I doubt the following piece of code has been successfully
+> tested:
+> 
+>         for (op_id = 0; op_id < op->ninstrs; op_id++) {
+>                 instr = &op->instrs[op_id];
+> 
+>                 switch (instr->type) {
+>                 case NAND_OP_CMD_INSTR:
+>                         if (instr->ctx.cmd.opcode != NAND_CMD_RESET ||
+>                             instr->ctx.cmd.opcode != NAND_CMD_READID ||
+>                             instr->ctx.cmd.opcode != NAND_CMD_PARAM ||
+>                             instr->ctx.cmd.opcode != NAND_CMD_ERASE1 ||
+>                             instr->ctx.cmd.opcode != NAND_CMD_ERASE2 ||
+>                             instr->ctx.cmd.opcode != NAND_CMD_STATUS ||
+>                             instr->ctx.cmd.opcode != NAND_CMD_PAGEPROG)
+>                                 return -ENOTSUPP;
+>                         break;
+> 
+> The || should be &&, otherwise it cannot work, or am I missing
+> something?
 
-Around them.
+Yeah.  That's how this bug normally looks like.  NAND_OP_CMD_INSTR
+always returns -ENOTSUPP.
 
--- Steve
+regards,
+dan carpenter
 
->   5281			}
->   5282			if (!cpumask_test_cpu(cpu, tr->tracing_cpumask) &&
->   5283					cpumask_test_cpu(cpu, tracing_cpumask_new)) {
->   5284				atomic_dec(&per_cpu_ptr(tr->array_buffer.data, cpu)->disabled);
->   5285				ring_buffer_record_enable_cpu(tr->array_buffer.buffer, cpu);
->   5286				ring_buffer_record_enable_cpu(tr->max_buffer.buffer, cpu);
->   5287			}
->   5288		}
->   5289		arch_spin_unlock(&tr->max_lock);
