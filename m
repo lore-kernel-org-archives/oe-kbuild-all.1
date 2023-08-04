@@ -1,58 +1,44 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E982919
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 09:29:21 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2b9cdbf682eso29262911fa.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 04 Aug 2023 02:29:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691141359; x=1691746159;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dnn3YjqK0gYS2d3cBmIF54I2GW/nHeks1WnBWbPsCqA=;
-        b=LSoxPSq6PqUSUyUwQor3UO7ej1NFQ1w4NXKg0U9UgkTQuNs7Wc5AVke2/McAMrWT+4
-         /DtkaJ4zVQshHs/utXvU0hppM4B988NMvyyIH3sk1n0Vq4mrLnt8dQ4oa8goPba7vExa
-         vx2slalXu7r2P1NFZ2LlJ1BDujQihTqO19ZhgRyF1Vb6ZVovAFIEI6Ujb6w+vQBiKb2Z
-         urt5JNTo3bq83k1jYouWXynVOT80QpAKIYfO4qigVB7bRH8siqUZLzd3wXljoqbGC3R7
-         aL43JH45KlCDdUmPkbCb2oNJ4Ea3wLh1ubtIOAj/QGX/sNXtlNGZd5JADjXRL/Thgpe9
-         23CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691141359; x=1691746159;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Dnn3YjqK0gYS2d3cBmIF54I2GW/nHeks1WnBWbPsCqA=;
-        b=N8kQBZeAwprQBiUl3i6ICGq/7WEj1mFfM887cqJqQEUrAKoMzsIR9zbz3EYPFPO2Sn
-         U5BsE/RVxtZ+/eUMVhZYUO366Wd8lceV8UToAGwOUnZmXZ4tGOFZ21UihWPB8Hbr33ja
-         OtgjTxfz8HvScjGhdRX0rr9O8jkVt5uBC+gnAoKtF2vrEQENeLxnNETnRun61/t7MvXc
-         QmkZuvdAHEYeI5vT2bGrvLTaf0nZUj1AFFhJL7oqAToCPVj03b6KXCFFMbRu8aHAG2gb
-         V03BCZhB3pBB+osKB1JA0zi/BngR7TTsj6hZ2OBYQF4BJZElgTGE7jDNdvHi34tkZIql
-         esWg==
-X-Gm-Message-State: AOJu0YyffpZ0VZ/x88mr1rGg7t9ZgbzHFgtwC70XrGQ3QEGjoJp4O9B2
-	YzHh5p0Tz0ne2Ea8aPTgqsH6/A==
-X-Google-Smtp-Source: AGHT+IEHiVe4K3MqLOjm+DVCGQ3jTlV9XKFXZSedQKFKvv1j9d815up6QRwY2QCphNtBD8WAdX0iUw==
-X-Received: by 2002:a05:651c:102a:b0:2b6:fc60:776f with SMTP id w10-20020a05651c102a00b002b6fc60776fmr972258ljm.30.1691141359043;
-        Fri, 04 Aug 2023 02:29:19 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id b13-20020a05600c11cd00b003fba6709c68sm1877070wmi.47.2023.08.04.02.29.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 02:29:18 -0700 (PDT)
-Date: Fri, 4 Aug 2023 12:29:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Rob Clark <robdclark@gmail.com>,
-	dri-devel@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	"open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Pavel Machek <pavel@ucw.cz>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v3 4/9] PM / QoS: Decouple request alloc from
- dev_pm_qos_mtx
-Message-ID: <1085ed08-ac8f-4847-b232-0dcea6a61d77@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEAEA929;
+	Fri,  4 Aug 2023 09:51:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691142679; x=1722678679;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=atB+0l+Lu+t706a438LCjBf2ULDH+DgjLgq5kcQ1cnM=;
+  b=eIG9ei3SB8/y3L7PLyogfmKF/5gRkkqLVol7ZOHr2tpOfOk6l+2wlgIo
+   ekozLwiVIOTsvXPV0D6R0prG9Lbs6zAPD71PfMdExJL4zaOoAlourqC+W
+   5IcqGkBEYfni0WYt6JhoeAP1Y8CropTR22Ki0D1ZuusfmSjbbWKzyT/bb
+   XVB5OqLy0vlFrIdjrfhjsZ1oY2ERwH4TQ7W7SVmqSenEhvcLctR67hw62
+   3BrrVpy5cZZ4pBIKSZ3uRyPiJ8aZ0bxEDAMi03q9iKgLBMsaclkzuD7c+
+   S0IUADSGTFCj7Hs4ABn6aW5ndo9nJP6LwdyGo5v2oWAWYxGDZDdhsnAfr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="433966822"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
+   d="scan'208";a="433966822"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 02:51:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="976521357"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
+   d="scan'208";a="976521357"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 04 Aug 2023 02:51:17 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qRrSm-0002mN-30;
+	Fri, 04 Aug 2023 09:51:16 +0000
+Date: Fri, 4 Aug 2023 17:50:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zhongkun He <hezhongkun.hzk@bytedance.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH RESEND v2 1/2] memcg: Add support for zram object
+ charge
+Message-ID: <202308041718.hENRizMc-lkp@intel.com>
+References: <20230804075736.207995-1-hezhongkun.hzk@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,90 +47,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230803220202.78036-5-robdclark@gmail.com>
+In-Reply-To: <20230804075736.207995-1-hezhongkun.hzk@bytedance.com>
 
-Hi Rob,
+Hi Zhongkun,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on akpm-mm/mm-everything linus/master v6.5-rc4 next-20230804]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/PM-devfreq-Drop-unneed-locking-to-appease-lockdep/20230804-060505
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230803220202.78036-5-robdclark%40gmail.com
-patch subject: [PATCH v3 4/9] PM / QoS: Decouple request alloc from dev_pm_qos_mtx
-config: i386-randconfig-m021-20230730 (https://download.01.org/0day-ci/archive/20230804/202308041725.Npwswh0L-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041725.Npwswh0L-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhongkun-He/memcg-Add-support-for-zram-object-charge/20230804-155952
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230804075736.207995-1-hezhongkun.hzk%40bytedance.com
+patch subject: [RFC PATCH RESEND v2 1/2] memcg: Add support for zram object charge
+config: arm-randconfig-r032-20230801 (https://download.01.org/0day-ci/archive/20230804/202308041718.hENRizMc-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041718.hENRizMc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308041725.Npwswh0L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308041718.hENRizMc-lkp@intel.com/
 
-smatch warnings:
-drivers/base/power/qos.c:973 dev_pm_qos_update_user_latency_tolerance() warn: possible memory leak of 'req'
+All error/warnings (new ones prefixed by >>):
 
-vim +/req +973 drivers/base/power/qos.c
+   In file included from mm/damon/core.c:10:
+   In file included from include/linux/damon.h:11:
+>> include/linux/memcontrol.h:1886:5: warning: no previous prototype for function 'obj_cgroup_charge_zram' [-Wmissing-prototypes]
+   int obj_cgroup_charge_zram(struct obj_cgroup *objcg, gfp_t gfp,
+       ^
+   include/linux/memcontrol.h:1886:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int obj_cgroup_charge_zram(struct obj_cgroup *objcg, gfp_t gfp,
+   ^
+   static 
+>> include/linux/memcontrol.h:1892:6: warning: no previous prototype for function 'obj_cgroup_uncharge_zram' [-Wmissing-prototypes]
+   void obj_cgroup_uncharge_zram(struct obj_cgroup *objcg, size_t size)
+        ^
+   include/linux/memcontrol.h:1892:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void obj_cgroup_uncharge_zram(struct obj_cgroup *objcg, size_t size)
+   ^
+   static 
+   2 warnings generated.
+--
+   In file included from drivers/gpu/drm/tilcdc/tilcdc_panel.c:7:
+   In file included from include/linux/backlight.h:13:
+   In file included from include/linux/fb.h:7:
+   In file included from include/uapi/linux/fb.h:6:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+>> include/linux/memcontrol.h:1886:5: error: no previous prototype for function 'obj_cgroup_charge_zram' [-Werror,-Wmissing-prototypes]
+   int obj_cgroup_charge_zram(struct obj_cgroup *objcg, gfp_t gfp,
+       ^
+   include/linux/memcontrol.h:1886:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int obj_cgroup_charge_zram(struct obj_cgroup *objcg, gfp_t gfp,
+   ^
+   static 
+>> include/linux/memcontrol.h:1892:6: error: no previous prototype for function 'obj_cgroup_uncharge_zram' [-Werror,-Wmissing-prototypes]
+   void obj_cgroup_uncharge_zram(struct obj_cgroup *objcg, size_t size)
+        ^
+   include/linux/memcontrol.h:1892:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void obj_cgroup_uncharge_zram(struct obj_cgroup *objcg, size_t size)
+   ^
+   static 
+   2 errors generated.
 
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  923  int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  924  {
-b5ac35ff4296f7 Rob Clark         2023-08-03  925  	struct dev_pm_qos_request *req = NULL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  926  	int ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  927  
-211fb32e3a0547 Rob Clark         2023-08-03  928  	ret = dev_pm_qos_constraints_ensure_allocated(dev);
-211fb32e3a0547 Rob Clark         2023-08-03  929  	if (ret)
-211fb32e3a0547 Rob Clark         2023-08-03  930  		return ret;
-211fb32e3a0547 Rob Clark         2023-08-03  931  
-b5ac35ff4296f7 Rob Clark         2023-08-03  932  	if (!dev->power.qos->latency_tolerance_req)
-b5ac35ff4296f7 Rob Clark         2023-08-03  933  		req = kzalloc(sizeof(*req), GFP_KERNEL);
-b5ac35ff4296f7 Rob Clark         2023-08-03  934  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  935  	mutex_lock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  936  
-211fb32e3a0547 Rob Clark         2023-08-03  937  	if (!dev->power.qos->latency_tolerance_req) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  938  		if (val < 0) {
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  939  			if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT)
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  940  				ret = 0;
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  941  			else
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  942  				ret = -EINVAL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  943  			goto out;
 
-kfree(req);?
+vim +/obj_cgroup_charge_zram +1886 include/linux/memcontrol.h
 
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  944  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  945  		if (!req) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  946  			ret = -ENOMEM;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  947  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  948  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  949  		ret = __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LATENCY_TOLERANCE, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  950  		if (ret < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  951  			kfree(req);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  952  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  953  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  954  		dev->power.qos->latency_tolerance_req = req;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  955  	} else {
-b5ac35ff4296f7 Rob Clark         2023-08-03  956  		/*
-b5ac35ff4296f7 Rob Clark         2023-08-03  957  		 * If we raced with another thread to allocate the request,
-b5ac35ff4296f7 Rob Clark         2023-08-03  958  		 * simply free the redundant allocation and move on.
-b5ac35ff4296f7 Rob Clark         2023-08-03  959  		 */
-b5ac35ff4296f7 Rob Clark         2023-08-03  960  		if (req)
-b5ac35ff4296f7 Rob Clark         2023-08-03  961  			kfree(req);
-b5ac35ff4296f7 Rob Clark         2023-08-03  962  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  963  		if (val < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  964  			__dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LATENCY_TOLERANCE);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  965  			ret = 0;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  966  		} else {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  967  			ret = __dev_pm_qos_update_request(dev->power.qos->latency_tolerance_req, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  968  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  969  	}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  970  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  971   out:
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  972  	mutex_unlock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11 @973  	return ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  974  }
+  1885	
+> 1886	int obj_cgroup_charge_zram(struct obj_cgroup *objcg, gfp_t gfp,
+  1887						size_t size)
+  1888	{
+  1889		return 0;
+  1890	}
+  1891	
+> 1892	void obj_cgroup_uncharge_zram(struct obj_cgroup *objcg, size_t size)
+  1893	{
+  1894	}
+  1895	#endif /* CONFIG_MEMCG_KMEM */
+  1896	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
