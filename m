@@ -1,64 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414511FC8
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 05:17:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691126233; x=1722662233;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e1cpoVNcGs0kUXxIvP1Pk1UFLtW1Z3PkHvbpqT0KCQE=;
-  b=Uc1TKH2xsKJlLcFid5zCBV872WTzkmaI84NZGNedaAc4auUh489LcRzE
-   3TrcrmXowmU7t6774yGrEQWQnmUbZ854FFp1/66SlU+Fx++OESJNty4tc
-   rffmxjtSZBrkjCD1P64Yn4ygpXmAhj3y02vLrwKls6Cavhxb1j1ikimal
-   kJOGAeV4Vv140rESP4zCq7ktPN0/0dv/7S/4d/3YZDj6UsH2h6nID1iSq
-   BlflAlNyZxvlTe95nNZT9k4En3ls4nV0KTi+FmKpU1xeJIqn6TjoFkDNl
-   bC7yRfFY+0k/7GmfImRbkoEotaM47SiA6RoMnaMMnjyEzkMoSXqTo2mE6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="349660667"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="349660667"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 22:17:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="1060583122"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="1060583122"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Aug 2023 22:17:05 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qRnBQ-0002dU-1y;
-	Fri, 04 Aug 2023 05:17:04 +0000
-Date: Fri, 4 Aug 2023 13:16:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Charlie Jenkins <charlie@rivosinc.com>, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ard Biesheuvel <ardb@kernel.org>, Anup Patel <anup@brainfault.org>,
-	Atish Patra <atishp@atishpatra.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	Luke Nelson <luke.r.nels@gmail.com>, Xi Wang <xi.wang@gmail.com>,
-	Nam Cao <namcaov@gmail.com>
-Subject: Re: [PATCH 10/10] RISC-V: Refactor bug and traps instructions
-Message-ID: <202308041213.o49SRQWZ-lkp@intel.com>
-References: <20230803-master-refactor-instructions-v4-v1-10-2128e61fa4ff@rivosinc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E661FC8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 05:20:08 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-317716a4622so1486735f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 03 Aug 2023 22:20:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691126407; x=1691731207;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g/azxbjU48alN7RCsivjCgkRTH8UZaCezXDGgcFlKkA=;
+        b=zKsHCcX4gqdpdIKzTJM/pyeZFZwvQXpBefkbDaXgWucF2XAxafcOnXlTEUHxDsLDeb
+         93NcCnfdAXju9Pb5wyHH/Rk70LZ1yYTwxeQPwuBlXKOfgtey6hQ6xM1MmDjv/3YClqXU
+         dg/wdtvT5MBJTli6X8X03PSlbCJCLKHzE4raJO4N6mpUwzyscWIFciSZvCd8tSWUxUvv
+         91sQvxL3Xs1j4wzvboDVsjqQ7ae2p8553pXzwcyX1OlLYc1l6Gq0Bq5L70XGqOmFgv/r
+         p1Ahm1eZd6fCdf9OLc4FVY7hzSozGZSsh0F0IqRBPV+qbpDwzkK6kNXJ4ZUVLG0oSQhZ
+         EWXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691126407; x=1691731207;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g/azxbjU48alN7RCsivjCgkRTH8UZaCezXDGgcFlKkA=;
+        b=Tfs0pAvlKfWcOdJHayTHpIfVhR2KQftdnv3fheSd7fFRczNy4iYzlMqvdoCNaB6Jkk
+         kzLnU07B9aBz/+XfFjOLnCJoBt3I2W6VMfTjQKVqrSfsZGj2wCqZMGJ1NrS808btOsUX
+         oM0f4S8QtB2gAOM/daUc01qOlLKGvilMt/bn0k8aDsOhzH/XG1jmO1/PcfNrSuXPgDwX
+         Zn/3V+S/BI5KQWoQ2pdLXEHFTJjDcYeEnbX+5NKXteVATNDyES5zhVGwYMjvVnSOv5vx
+         jJG+sHbR6wGe6e7iGqyT09NUb0GPQv1Elmu3c9Xsed3dbLXEjwj3tA2aG0oU5Z4WBYCN
+         BCQg==
+X-Gm-Message-State: AOJu0YyexyKHNo4XlOE2b3xzM+U4UT87M7eTKkSDU7ZRYpPwxw4hHBA/
+	9Gtd8CepR7ZlLxaA8fkwlokGCQ==
+X-Google-Smtp-Source: AGHT+IEmqVF8qGeEfmnIY+0mIneIix3hdl20UIum3fTzSAwnErhOsveCmkFon1vau4W95puFdT5W4A==
+X-Received: by 2002:adf:d844:0:b0:314:21b:1ea2 with SMTP id k4-20020adfd844000000b00314021b1ea2mr341391wrl.39.1691126406835;
+        Thu, 03 Aug 2023 22:20:06 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id b3-20020adfee83000000b0031773e3cf46sm1518910wro.61.2023.08.03.22.20.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Aug 2023 22:20:06 -0700 (PDT)
+Date: Fri, 4 Aug 2023 08:20:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Roi Dayan <roid@nvidia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Saeed Mahameed <saeedm@nvidia.com>, Eli Cohen <elic@nvidia.com>,
+	Shay Drory <shayd@nvidia.com>
+Subject: [linux-next:master 4511/6910]
+ drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:264
+ mlx5_devcom_send_event() warn: variable dereferenced before IS_ERR check
+ 'devcom' (see line 259)
+Message-ID: <a181425f-6c87-4813-a703-dddca235454a@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,62 +56,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230803-master-refactor-instructions-v4-v1-10-2128e61fa4ff@rivosinc.com>
 
-Hi Charlie,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 5d0c230f1de8c7515b6567d9afba1f196fb4e2f4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/RISC-V-Expand-instruction-definitions/20230804-101437
-base:   5d0c230f1de8c7515b6567d9afba1f196fb4e2f4
-patch link:    https://lore.kernel.org/r/20230803-master-refactor-instructions-v4-v1-10-2128e61fa4ff%40rivosinc.com
-patch subject: [PATCH 10/10] RISC-V: Refactor bug and traps instructions
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20230804/202308041213.o49SRQWZ-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041213.o49SRQWZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fb4327106e5250ee360d0d8b056c1eef7eeb9a98
+commit: 88d162b479815f5d6b6a4ff5fdb07aec9dc6280c [4511/6910] net/mlx5: Devcom, Infrastructure changes
+config: x86_64-randconfig-m001-20230803 (https://download.01.org/0day-ci/archive/20230804/202308041028.AkXYDwJ6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041028.AkXYDwJ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308041213.o49SRQWZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202308041028.AkXYDwJ6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:264 mlx5_devcom_send_event() warn: variable dereferenced before IS_ERR check 'devcom' (see line 259)
 
->> arch/riscv/kernel/elf_kexec.c:326: warning: "RV_X" redefined
-     326 | #define RV_X(x, s, n)  (((x) >> (s)) & ((1 << (n)) - 1))
-         | 
-   In file included from arch/riscv/include/asm/bug.h:14,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/riscv/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/ipc.h:5,
-                    from include/uapi/linux/sem.h:5,
-                    from include/linux/sem.h:5,
-                    from include/linux/compat.h:14,
-                    from arch/riscv/include/asm/elf.h:12,
-                    from include/linux/elf.h:6,
-                    from arch/riscv/kernel/elf_kexec.c:15:
-   arch/riscv/include/asm/insn.h:1915: note: this is the location of the previous definition
-    1915 | #define RV_X(X, s, mask)  (((X) >> (s)) & (mask))
-         | 
+vim +/devcom +264 drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c
 
+88d162b479815f Roi Dayan   2023-05-04  255  int mlx5_devcom_send_event(struct mlx5_devcom_comp_dev *devcom,
+e2a82bf8a42816 Shay Drory  2023-02-06  256  			   int event, int rollback_event,
+fadd59fc50d010 Aviv Heller 2018-12-04  257  			   void *event_data)
+fadd59fc50d010 Aviv Heller 2018-12-04  258  {
+88d162b479815f Roi Dayan   2023-05-04 @259  	struct mlx5_devcom_comp *comp = devcom->comp;
+                                                                                ^^^^^^^^^^^^
+Dereference
 
-vim +/RV_X +326 arch/riscv/kernel/elf_kexec.c
+88d162b479815f Roi Dayan   2023-05-04  260  	struct mlx5_devcom_comp_dev *pos;
+88d162b479815f Roi Dayan   2023-05-04  261  	int err = 0;
+88d162b479815f Roi Dayan   2023-05-04  262  	void *data;
+fadd59fc50d010 Aviv Heller 2018-12-04  263  
+fadd59fc50d010 Aviv Heller 2018-12-04 @264  	if (IS_ERR_OR_NULL(devcom))
+                                                                   ^^^^^^
+Checked too late
 
-6261586e0c91db1 Liao Chang 2022-04-08  325  
-838b3e28488f702 Li Zhengyu 2022-04-08 @326  #define RV_X(x, s, n)  (((x) >> (s)) & ((1 << (n)) - 1))
-838b3e28488f702 Li Zhengyu 2022-04-08  327  #define RISCV_IMM_BITS 12
-838b3e28488f702 Li Zhengyu 2022-04-08  328  #define RISCV_IMM_REACH (1LL << RISCV_IMM_BITS)
-838b3e28488f702 Li Zhengyu 2022-04-08  329  #define RISCV_CONST_HIGH_PART(x) \
-838b3e28488f702 Li Zhengyu 2022-04-08  330  	(((x) + (RISCV_IMM_REACH >> 1)) & ~(RISCV_IMM_REACH - 1))
-838b3e28488f702 Li Zhengyu 2022-04-08  331  #define RISCV_CONST_LOW_PART(x) ((x) - RISCV_CONST_HIGH_PART(x))
-838b3e28488f702 Li Zhengyu 2022-04-08  332  
+88d162b479815f Roi Dayan   2023-05-04  265  		return -ENODEV;
+fadd59fc50d010 Aviv Heller 2018-12-04  266  
+fadd59fc50d010 Aviv Heller 2018-12-04  267  	down_write(&comp->sem);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
