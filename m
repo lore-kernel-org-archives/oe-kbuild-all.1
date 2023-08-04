@@ -1,83 +1,56 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18B419892;
-	Fri,  4 Aug 2023 16:48:10 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 49CAEC0003;
-	Fri,  4 Aug 2023 16:47:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1691167683;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0cU9ENbCHDNBrym2EhNzJUF5RqsANfxJ7c9bMDP5JSI=;
-	b=fFOxVYzN2JXmoVot41WaWR9E/3J8gerDMdVwjmar/38qNZZahpgnWUSjaxd6CZFJN3UfbV
-	oTmAIpNW1Q6Sva0KK4o30tXpF6bPn0WdVoK7ZDsURfPH4YMfo3l0mDc6JB1NYA71vHJart
-	qOYjZ4t/FRfstSaaYPmv3/02q3kSG9gvlBZ7DAJlk21XaKoh6mHLDqubJV0qkyWL1df6NM
-	Z/bGs5pj7+G8GjOsKGDDYhNhNWAN872VVlclEBjUPhv6Zdw4XxmNw4XWQd3sOLAxdRYj/n
-	2ASyWV/e72pza8asQs3FB6mGgSdwz01nG07/tcoMUiuaTUAOCxpaFGEE7yFKVQ==
-Date: Fri, 4 Aug 2023 18:47:57 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Robert Marko <robert.marko@sartura.hr>,
- Luka Perkov <luka.perkov@sartura.hr>, Michael Walle <michael@walle.cc>,
- linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>, Chen-Yu
- Tsai <wenst@chromium.org>, Daniel Golle <daniel@makrotopia.org>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject: Re: [PATCH v7 5/7] nvmem: core: Rework layouts to become platform
- devices
-Message-ID: <20230804184757.66bc6abe@xps-13>
-In-Reply-To: <3a4aa779-f8b8-4178-8d65-b6aae9183fb7@kadam.mountain>
-References: <20230801182132.1058707-6-miquel.raynal@bootlin.com>
-	<b9040273-aca8-432a-83aa-b0d6b1b88529@kadam.mountain>
-	<20230804173903.2b298cd3@xps-13>
-	<20230804174625.4c27fe9a@xps-13>
-	<3a4aa779-f8b8-4178-8d65-b6aae9183fb7@kadam.mountain>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9746FBE7C;
+	Fri,  4 Aug 2023 16:51:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54267C433C7;
+	Fri,  4 Aug 2023 16:51:09 +0000 (UTC)
+Date: Fri, 4 Aug 2023 12:51:07 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Zheng Yejian <zhengyejian1@huawei.com>, mhiramat@kernel.org,
+ vnagarnaik@google.com, shuah@kernel.org, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 1/2] tracing: Fix cpu buffers unavailable due to
+ 'record_disabled' messed
+Message-ID: <20230804125107.41d6cdb1@gandalf.local.home>
+In-Reply-To: <202308050048.bUnVeBjV-lkp@intel.com>
+References: <20230804124549.2562977-2-zhengyejian1@huawei.com>
+	<202308050048.bUnVeBjV-lkp@intel.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Dan,
+On Sat, 5 Aug 2023 00:41:13 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-dan.carpenter@linaro.org wrote on Fri, 4 Aug 2023 19:05:20 +0300:
+>   5276			if (cpumask_test_cpu(cpu, tr->tracing_cpumask) &&
+>   5277					!cpumask_test_cpu(cpu, tracing_cpumask_new)) {
+>   5278				atomic_inc(&per_cpu_ptr(tr->array_buffer.data, cpu)->disabled);
+>   5279				ring_buffer_record_disable_cpu(tr->array_buffer.buffer, cpu);
+> > 5280				ring_buffer_record_disable_cpu(tr->max_buffer.buffer, cpu);  
 
-> On Fri, Aug 04, 2023 at 05:46:25PM +0200, Miquel Raynal wrote:
-> > Actually of_nvmem_layout_get_container() already returns NULL if
-> > CONFIG_OF is not defined. This helper returns either a valid pointer of
-> > NULL. Where can it return an error pointer? =20
->=20
-> This is from linux-next.
+The access to max_buffer requires a:
 
-Ah! Ok I missed that one, we don't need this double implementation, as
-of_nvmem_layout_get_container just calls a function that already has a
-static inline counterpart in the of.h header, which returns NULL. I'll
-make the change, thanks for the pointer.
+#ifdef CONFIG_TRACER_MAX_TRACE
 
->=20
-> include/linux/nvmem-consumer.h
->    256  static inline struct device_node *
->    257  of_nvmem_layout_get_container(struct nvmem_device *nvmem)
->    258  {
->    259          return ERR_PTR(-EOPNOTSUPP);
->    260  }
->    261  #endif /* CONFIG_NVMEM && CONFIG_OF */
->=20
-> regards,
-> dan carpenter
+Around them.
 
+-- Steve
 
-Thanks,
-Miqu=C3=A8l
+>   5281			}
+>   5282			if (!cpumask_test_cpu(cpu, tr->tracing_cpumask) &&
+>   5283					cpumask_test_cpu(cpu, tracing_cpumask_new)) {
+>   5284				atomic_dec(&per_cpu_ptr(tr->array_buffer.data, cpu)->disabled);
+>   5285				ring_buffer_record_enable_cpu(tr->array_buffer.buffer, cpu);
+>   5286				ring_buffer_record_enable_cpu(tr->max_buffer.buffer, cpu);
+>   5287			}
+>   5288		}
+>   5289		arch_spin_unlock(&tr->max_lock);
