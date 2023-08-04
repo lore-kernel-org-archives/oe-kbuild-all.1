@@ -1,46 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98958479
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 09:20:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691140832; x=1722676832;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pmb5GBWYUbmb/mU/OgOHBE///YNoVPvnDrOtq39Lsf0=;
-  b=CGa1Z/tCW/xtXLVqvedJ6iRiXm0+eoO9WSZvUwcOYUYkFkKdbPAg/9gm
-   YTURldTF7uWFG6+qoW9yTXdnjG56J49tgiNPKWPYnW1vkWUD+n5qx1XFF
-   V4XUZhpUrKrrePToZVss07x1OJSfU7Jilbw70oqjiTJk3/11dg0tY0ooL
-   TWQGprvQzYW5+n/FM31F5eF5VlWXoj4KBfwhxfO9+G4Q2iXPW7HhrG8Io
-   qQ7aT/2lZDVJeQ/IsnQ7gkDB82ivACJ2ylVSNSBSH0hWFBnc5zzUVviyj
-   sFkPP6iv4UDw3VHnnbY40pO1L+NQq5IwjPu90CkhB63S45c4fE179EuTj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="349707077"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="349707077"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 02:20:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="1060676075"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="1060676075"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 04 Aug 2023 02:20:14 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qRqyj-0002lX-2o;
-	Fri, 04 Aug 2023 09:20:13 +0000
-Date: Fri, 4 Aug 2023 17:19:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com, jerry.zuo@amd.com,
-	Wayne Lin <Wayne.Lin@amd.com>
-Subject: Re: [PATCH 2/3] drm/mst: Refactor the flow for payload
- allocation/removement
-Message-ID: <202308041635.WkgWWX5r-lkp@intel.com>
-References: <20230804062029.5686-3-Wayne.Lin@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E982919
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 09:29:21 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2b9cdbf682eso29262911fa.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 04 Aug 2023 02:29:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691141359; x=1691746159;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dnn3YjqK0gYS2d3cBmIF54I2GW/nHeks1WnBWbPsCqA=;
+        b=LSoxPSq6PqUSUyUwQor3UO7ej1NFQ1w4NXKg0U9UgkTQuNs7Wc5AVke2/McAMrWT+4
+         /DtkaJ4zVQshHs/utXvU0hppM4B988NMvyyIH3sk1n0Vq4mrLnt8dQ4oa8goPba7vExa
+         vx2slalXu7r2P1NFZ2LlJ1BDujQihTqO19ZhgRyF1Vb6ZVovAFIEI6Ujb6w+vQBiKb2Z
+         urt5JNTo3bq83k1jYouWXynVOT80QpAKIYfO4qigVB7bRH8siqUZLzd3wXljoqbGC3R7
+         aL43JH45KlCDdUmPkbCb2oNJ4Ea3wLh1ubtIOAj/QGX/sNXtlNGZd5JADjXRL/Thgpe9
+         23CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691141359; x=1691746159;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dnn3YjqK0gYS2d3cBmIF54I2GW/nHeks1WnBWbPsCqA=;
+        b=N8kQBZeAwprQBiUl3i6ICGq/7WEj1mFfM887cqJqQEUrAKoMzsIR9zbz3EYPFPO2Sn
+         U5BsE/RVxtZ+/eUMVhZYUO366Wd8lceV8UToAGwOUnZmXZ4tGOFZ21UihWPB8Hbr33ja
+         OtgjTxfz8HvScjGhdRX0rr9O8jkVt5uBC+gnAoKtF2vrEQENeLxnNETnRun61/t7MvXc
+         QmkZuvdAHEYeI5vT2bGrvLTaf0nZUj1AFFhJL7oqAToCPVj03b6KXCFFMbRu8aHAG2gb
+         V03BCZhB3pBB+osKB1JA0zi/BngR7TTsj6hZ2OBYQF4BJZElgTGE7jDNdvHi34tkZIql
+         esWg==
+X-Gm-Message-State: AOJu0YyffpZ0VZ/x88mr1rGg7t9ZgbzHFgtwC70XrGQ3QEGjoJp4O9B2
+	YzHh5p0Tz0ne2Ea8aPTgqsH6/A==
+X-Google-Smtp-Source: AGHT+IEHiVe4K3MqLOjm+DVCGQ3jTlV9XKFXZSedQKFKvv1j9d815up6QRwY2QCphNtBD8WAdX0iUw==
+X-Received: by 2002:a05:651c:102a:b0:2b6:fc60:776f with SMTP id w10-20020a05651c102a00b002b6fc60776fmr972258ljm.30.1691141359043;
+        Fri, 04 Aug 2023 02:29:19 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id b13-20020a05600c11cd00b003fba6709c68sm1877070wmi.47.2023.08.04.02.29.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 02:29:18 -0700 (PDT)
+Date: Fri, 4 Aug 2023 12:29:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Rob Clark <robdclark@gmail.com>,
+	dri-devel@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	"open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v3 4/9] PM / QoS: Decouple request alloc from
+ dev_pm_qos_mtx
+Message-ID: <1085ed08-ac8f-4847-b232-0dcea6a61d77@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,78 +61,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230804062029.5686-3-Wayne.Lin@amd.com>
+In-Reply-To: <20230803220202.78036-5-robdclark@gmail.com>
 
-Hi Wayne,
+Hi Rob,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm/drm-next linus/master v6.5-rc4 next-20230804]
-[cannot apply to drm-intel/for-linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wayne-Lin/drm-mst-delete-unnecessary-case-in-drm_dp_add_payload_part2/20230804-142405
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/PM-devfreq-Drop-unneed-locking-to-appease-lockdep/20230804-060505
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230804062029.5686-3-Wayne.Lin%40amd.com
-patch subject: [PATCH 2/3] drm/mst: Refactor the flow for payload allocation/removement
-config: microblaze-randconfig-r021-20230731 (https://download.01.org/0day-ci/archive/20230804/202308041635.WkgWWX5r-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041635.WkgWWX5r-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20230803220202.78036-5-robdclark%40gmail.com
+patch subject: [PATCH v3 4/9] PM / QoS: Decouple request alloc from dev_pm_qos_mtx
+config: i386-randconfig-m021-20230730 (https://download.01.org/0day-ci/archive/20230804/202308041725.Npwswh0L-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041725.Npwswh0L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308041635.WkgWWX5r-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202308041725.Npwswh0L-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/base/power/qos.c:973 dev_pm_qos_update_user_latency_tolerance() warn: possible memory leak of 'req'
 
-   drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_msto_prepare':
->> drivers/gpu/drm/nouveau/dispnv50/disp.c:919:53: warning: variable 'old_payload' set but not used [-Wunused-but-set-variable]
-     919 |         struct drm_dp_mst_atomic_payload *payload, *old_payload;
-         |                                                     ^~~~~~~~~~~
+vim +/req +973 drivers/base/power/qos.c
 
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  923  int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  924  {
+b5ac35ff4296f7 Rob Clark         2023-08-03  925  	struct dev_pm_qos_request *req = NULL;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  926  	int ret;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  927  
+211fb32e3a0547 Rob Clark         2023-08-03  928  	ret = dev_pm_qos_constraints_ensure_allocated(dev);
+211fb32e3a0547 Rob Clark         2023-08-03  929  	if (ret)
+211fb32e3a0547 Rob Clark         2023-08-03  930  		return ret;
+211fb32e3a0547 Rob Clark         2023-08-03  931  
+b5ac35ff4296f7 Rob Clark         2023-08-03  932  	if (!dev->power.qos->latency_tolerance_req)
+b5ac35ff4296f7 Rob Clark         2023-08-03  933  		req = kzalloc(sizeof(*req), GFP_KERNEL);
+b5ac35ff4296f7 Rob Clark         2023-08-03  934  
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  935  	mutex_lock(&dev_pm_qos_mtx);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  936  
+211fb32e3a0547 Rob Clark         2023-08-03  937  	if (!dev->power.qos->latency_tolerance_req) {
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  938  		if (val < 0) {
+80a6f7c79b7822 Andrew Lutomirski 2016-11-29  939  			if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT)
+80a6f7c79b7822 Andrew Lutomirski 2016-11-29  940  				ret = 0;
+80a6f7c79b7822 Andrew Lutomirski 2016-11-29  941  			else
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  942  				ret = -EINVAL;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  943  			goto out;
 
-vim +/old_payload +919 drivers/gpu/drm/nouveau/dispnv50/disp.c
+kfree(req);?
 
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  908  
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  909  static void
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  910  nv50_msto_prepare(struct drm_atomic_state *state,
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  911  		  struct drm_dp_mst_topology_state *mst_state,
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  912  		  struct drm_dp_mst_topology_mgr *mgr,
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  913  		  struct nv50_msto *msto)
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  914  {
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  915  	struct nouveau_drm *drm = nouveau_drm(msto->encoder.dev);
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  916  	struct nv50_mstc *mstc = msto->mstc;
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  917  	struct nv50_mstm *mstm = mstc->mstm;
-8fb3e25c3dd1a2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-06-13  918  	struct drm_dp_mst_topology_state *old_mst_state;
-8fb3e25c3dd1a2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-06-13 @919  	struct drm_dp_mst_atomic_payload *payload, *old_payload;
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  920  
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  921  	NV_ATOMIC(drm, "%s: msto prepare\n", msto->encoder.name);
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  922  
-8fb3e25c3dd1a2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-06-13  923  	old_mst_state = drm_atomic_get_old_mst_topology_state(state, mgr);
-8fb3e25c3dd1a2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-06-13  924  
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  925  	payload = drm_atomic_get_mst_payload_state(mst_state, mstc->port);
-8fb3e25c3dd1a2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-06-13  926  	old_payload = drm_atomic_get_mst_payload_state(old_mst_state, mstc->port);
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  927  
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  928  	// TODO: Figure out if we want to do a better job of handling VCPI allocation failures here?
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  929  	if (msto->disabled) {
-c9e8c7f37133c0 drivers/gpu/drm/nouveau/dispnv50/disp.c Wayne Lin  2023-08-04  930  		drm_dp_remove_payload_part1(mgr, mst_state, payload);
-8c7d980da9ba3e drivers/gpu/drm/nouveau/dispnv50/disp.c Ben Skeggs 2022-06-01  931  
-8c7d980da9ba3e drivers/gpu/drm/nouveau/dispnv50/disp.c Ben Skeggs 2022-06-01  932  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index, 0, 0, 0, 0);
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  933  	} else {
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  934  		if (msto->enabled)
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  935  			drm_dp_add_payload_part1(mgr, mst_state, payload);
-4d07b0bc403403 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2022-08-17  936  
-8c7d980da9ba3e drivers/gpu/drm/nouveau/dispnv50/disp.c Ben Skeggs 2022-06-01  937  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index,
-8c7d980da9ba3e drivers/gpu/drm/nouveau/dispnv50/disp.c Ben Skeggs 2022-06-01  938  				      payload->vc_start_slot, payload->time_slots,
-8c7d980da9ba3e drivers/gpu/drm/nouveau/dispnv50/disp.c Ben Skeggs 2022-06-01  939  				      payload->pbn, payload->time_slots * mst_state->pbn_div);
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  940  	}
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  941  }
-f479c0ba4a170a drivers/gpu/drm/nouveau/nv50_display.c  Ben Skeggs 2016-11-04  942  
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  944  		}
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  945  		if (!req) {
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  946  			ret = -ENOMEM;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  947  			goto out;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  948  		}
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  949  		ret = __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LATENCY_TOLERANCE, val);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  950  		if (ret < 0) {
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  951  			kfree(req);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  952  			goto out;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  953  		}
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  954  		dev->power.qos->latency_tolerance_req = req;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  955  	} else {
+b5ac35ff4296f7 Rob Clark         2023-08-03  956  		/*
+b5ac35ff4296f7 Rob Clark         2023-08-03  957  		 * If we raced with another thread to allocate the request,
+b5ac35ff4296f7 Rob Clark         2023-08-03  958  		 * simply free the redundant allocation and move on.
+b5ac35ff4296f7 Rob Clark         2023-08-03  959  		 */
+b5ac35ff4296f7 Rob Clark         2023-08-03  960  		if (req)
+b5ac35ff4296f7 Rob Clark         2023-08-03  961  			kfree(req);
+b5ac35ff4296f7 Rob Clark         2023-08-03  962  
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  963  		if (val < 0) {
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  964  			__dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LATENCY_TOLERANCE);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  965  			ret = 0;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  966  		} else {
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  967  			ret = __dev_pm_qos_update_request(dev->power.qos->latency_tolerance_req, val);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  968  		}
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  969  	}
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  970  
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  971   out:
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  972  	mutex_unlock(&dev_pm_qos_mtx);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11 @973  	return ret;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  974  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
