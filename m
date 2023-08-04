@@ -1,139 +1,174 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B969134B3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 15:42:06 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-63cf7cce5fbso14374076d6.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 04 Aug 2023 08:42:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1691163725; x=1691768525;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LMB9HKP4nLwJw3q1s/3PxzF/3mcaB2FmzehgLjwrVXQ=;
-        b=luBKmkxS4KkoBKCMcnSbLsA2xPo/yzjRAPnE2Iste//wyFoCcQlJGz/22eRjpreXEA
-         mXHBlnWEOoOwjGsLTOYAGGE2JEnHi8clhNz+XXqF5sZqS9zngrBydHfzVDzoa4cyUSE7
-         Zg9BBa5JSAgFrSM2Lcn+Y7VJ0wlW6a1ib9psgWEv4gnT7cZAEurA8SEx6CMZ4E/gUw6a
-         5lSfoM9hDSAmdvrkiRyvZ3L9+nVJFp1Qz/rsyu+3cgf1zL83a8qDh46nW7v1cmlplZ6B
-         GtbclzizXIP5nqAYzguk1QcdwMpE9hnJ0hG1O4bfphu3TrtKg9bhZ4fRXtwWBOIF+if0
-         hQDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691163725; x=1691768525;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LMB9HKP4nLwJw3q1s/3PxzF/3mcaB2FmzehgLjwrVXQ=;
-        b=fq98VGIlhQWd8AQYXTbkirZpzX/pWqdCeIavYJpVk5j8vz4Gd7bgwxuo0/LNrm6UTD
-         OVqPd8iWqCaqv6IAgrizminXpOqkaKH+WwnhICwmrDPyqX3co/Xfz3ivsgkPceBO9OEm
-         ZnJyAkFGr5jg4P+wpZ8mg8FRgJTrXGYJPJN3hgVXSF98K8QW8AKJrGFgGmVMHW2lClBW
-         Pt9/3l0RlwbPQitaH8cET1RGJ1kAm2hAZ3MZzle42o1IGvuMkuM5tV4mOvmgg3STPdcR
-         6OMkEcFQ6QByjcL6WgWFsQV+sciKMgTgSNv4LkxPM7217g+3FeA8R1txK5Cd5ISC9ksQ
-         5z3w==
-X-Gm-Message-State: AOJu0YwSCbNkM1rNkVTYoO+PdG9kw4+b9AjeiFQl0NHl3SKDtcEIkyMO
-	rom58bJozrucwNBgWx9CPj8FF7JBeSTkhyNl3U8UvA==
-X-Google-Smtp-Source: AGHT+IExVmYTNrYfBnYNOSGaqMCNi67nZElsdl9+XH2gLzLR6yr4pGYdCNAjcxcttnRulmkVHf7kJZQ42nRF7F72f2U=
-X-Received: by 2002:a0c:aa42:0:b0:62d:ee5a:514b with SMTP id
- e2-20020a0caa42000000b0062dee5a514bmr1900649qvb.11.1691163725237; Fri, 04 Aug
- 2023 08:42:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09DFBE7B;
+	Fri,  4 Aug 2023 15:53:01 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id C8762CCDCB;
+	Fri,  4 Aug 2023 15:39:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C8FEA2000A;
+	Fri,  4 Aug 2023 15:39:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691163547;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9eqVdQmb69nE6gA2ZPZcqVY0YmH//5Gzc/TTIiSEFwA=;
+	b=DjNRsXa/WlgfoqNCGgY6+APxCq0EOnlVc08V72+fG9DtrH+cyl5N3VVyjH67xKXQiiXKp1
+	YXzesO5t8jit/8LAo6/UUirgqRChhhmnJEMA2k+z9hSJ8TZ975BLFwrF/b5c9BDKP46J0Y
+	Tza755a7UyMi0VPj5frZweZAwfpGUD4uOAZlCz46eA+SlSpxSmbT6FHFuvOGU/y5skVCre
+	3DPcFjkqfTM7qAn3lGj4s+Baf22Y+nJmyeDot+LuF/fExQslDyX1SsG/NstdH5GBbsykHS
+	zwuzSJMQD4FPaOl4wk9p5nxqrvxXsUPU/r0xSKAGaJrmJLb27s1Sy7oXiAigPw==
+Date: Fri, 4 Aug 2023 17:39:03 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Robert Marko <robert.marko@sartura.hr>,
+ Luka Perkov <luka.perkov@sartura.hr>, Michael Walle <michael@walle.cc>,
+ linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>, Chen-Yu
+ Tsai <wenst@chromium.org>, Daniel Golle <daniel@makrotopia.org>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH v7 5/7] nvmem: core: Rework layouts to become platform
+ devices
+Message-ID: <20230804173903.2b298cd3@xps-13>
+In-Reply-To: <b9040273-aca8-432a-83aa-b0d6b1b88529@kadam.mountain>
+References: <20230801182132.1058707-6-miquel.raynal@bootlin.com>
+ <b9040273-aca8-432a-83aa-b0d6b1b88529@kadam.mountain>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202308040553.nMR9oB8v-lkp@intel.com> <20230804153749.GA2148888@dev-arch.thelio-3990X>
-In-Reply-To: <20230804153749.GA2148888@dev-arch.thelio-3990X>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 4 Aug 2023 08:41:54 -0700
-Message-ID: <CAKwvOdk7VrGMy95heyyLhdhgNWb1LyV48WmzvhpNUrqaYBin_A@mail.gmail.com>
-Subject: Re: [stable:linux-4.14.y 4459/9999] lib/mpi/mpih-div.c:142:20: error:
- invalid use of a cast in a inline asm context requiring an lvalue: remove the
- cast or build with -fheinous-gnu-extensions
-To: Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>
-Cc: Fangrui Song <maskray@google.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Chancellor <natechancellor@gmail.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-On Fri, Aug 4, 2023 at 8:37=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
-> wrote:
->
-> On Fri, Aug 04, 2023 at 05:32:55AM +0800, kernel test robot wrote:
-> > Hi Fangrui,
-> >
-> > First bad commit (maybe !=3D root cause):
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-st=
-able.git linux-4.14.y
-> > head:   60a6e3043cc8b918c989707a5eba5fd6830a08a4
-> > commit: 71749b1181eca12af96654a781cabcd058c37c8f [4459/9999] Makefile: =
-Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
-> > config: mips-randconfig-r035-20230731 (https://download.01.org/0day-ci/=
-archive/20230804/202308040553.nMR9oB8v-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.gi=
-t 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > reproduce: (https://download.01.org/0day-ci/archive/20230804/2023080405=
-53.nMR9oB8v-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202308040553.nMR9oB8v-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> > >> lib/mpi/mpih-div.c:142:20: error: invalid use of a cast in a inline =
-asm context requiring an lvalue: remove the cast or build with -fheinous-gn=
-u-extensions
-> >      142 |                                         umul_ppmm(n1, n0, d0=
-, q);
-> >          |                                         ~~~~~~~~~~~~~~^~~~~~=
-~~~~
-> >    lib/mpi/longlong.h:652:20: note: expanded from macro 'umul_ppmm'
-> >      652 |         : "=3Dl" ((USItype)(w0)), \
-> >          |                 ~~~~~~~~~~^~~
->
-> This is the same as [1] but the upstream solution (b0c091ae04f6) could
-> cause breakage in 4.14 for compilers older than GCC 4.4; 4.14 claims to
-> support GCC 3.2 as a minimum version. An alternative solution if we care
-> about fixing this issue in 4.14 without any regression possiblity would
-> be something like:
+Hi Dan,
 
-In our own CI, we don't test mips until 5.4.
-https://github.com/ClangBuiltLinux/continuous-integration2/blob/main/genera=
-tor.yml#L1691-L1698
+dan.carpenter@linaro.org wrote on Thu, 3 Aug 2023 13:13:04 +0300:
 
-Another solution is perhaps to ask kindly that the kernel test robot
-team not test branches of stable w/ clang for ARCH=3Dmips.
+> Hi Miquel,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/nvme=
+m-core-Create-all-cells-before-adding-the-nvmem-device/20230802-022331
+> base:   char-misc/char-misc-testing
+> patch link:    https://lore.kernel.org/r/20230801182132.1058707-6-miquel.=
+raynal%40bootlin.com
+> patch subject: [PATCH v7 5/7] nvmem: core: Rework layouts to become platf=
+orm devices
+> config: x86_64-randconfig-m001-20230730 (https://download.01.org/0day-ci/=
+archive/20230803/202308030002.DnSFOrMB-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230803/202308030002=
+.DnSFOrMB-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit
+> (i.e. not just a new version of the same patch/commit),
+
+(Nice addition, a lot of newcomers would always add these tags
+otherwise.)
+
+> kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202308030002.DnSFOrMB-lkp@intel.com/
+>=20
+> New smatch warnings:
+> drivers/nvmem/core.c:1003 nvmem_register() warn: 'layout_np' is an error =
+pointer or valid
+> drivers/nvmem/core.c:2130 nvmem_try_loading_layout_driver() warn: 'layout=
+_np' is an error pointer or valid
+>=20
+> Old smatch warnings:
+> drivers/nvmem/core.c:761 nvmem_add_cells_from_fixed_layout() warn: 'layou=
+t_np' is an error pointer or valid
+> drivers/nvmem/core.c:802 nvmem_layout_get() warn: 'layout_np' is an error=
+ pointer or valid
+>=20
+> vim +/layout_np +1003 drivers/nvmem/core.c
+>=20
+> 266570f496b90d Michael Walle         2023-04-04  1000 =20
+> 00d059fd6702f0 Miquel Raynal         2023-08-01  1001  	/* Populate layou=
+ts as devices */
+> 00d059fd6702f0 Miquel Raynal         2023-08-01  1002  	layout_np =3D of_=
+nvmem_layout_get_container(nvmem);
+> 00d059fd6702f0 Miquel Raynal         2023-08-01 @1003  	if (layout_np) {
+>=20
+> So, ugh, of_nvmem_layout_get_container() return NULL on error or error
+> pointer if either CONFIG_NVMEM or CONFIG_OF is turned off.  I feel like
+> that's a mistake.  Normally when a function returns both error pointers
+> and NULL then the NULL means the feature is disabled and the error
+> pointers mean there was an error.  Here it is the opposite.
+>=20
+> I have written a blog about this:
+> https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and=
+-null/
+
+Nice (besides the huge spider which stared at me unexpectedly :-) )
+
+> At first I thought that this was to do with CONFIG_COMPILE_TEST but
+> actually that is disabled.  The issue here is that CONFIG_OF is turned
+> off.  So this is a genuine bug, we're compiling a module which will
+> always crash.
+>=20
+> So I guess the fix is easy that this should return NULL if either
+> CONFIG_NVMEM or CONFIG_OF is turned off.  That was a long explanation
+> which is no longer required now that it's not a COMPILE_TEST issue.  :P
+
+I wanted to disable CONFIG_OF to make the test, I totally forget, I'll
+handle this case and return NULL when this happens.
+
+However I don't understand why you mention CONFIG_NVMEM, because if it
+is not defined, this file will not compile at all?
+
+> 00d059fd6702f0 Miquel Raynal         2023-08-01  1004  		rval =3D of_plat=
+form_populate(nvmem->dev.of_node, NULL, NULL, NULL);
+> 00d059fd6702f0 Miquel Raynal         2023-08-01  1005  		if (rval)
+> 00d059fd6702f0 Miquel Raynal         2023-08-01  1006  			goto err_remove=
+_cells;
+> 00d059fd6702f0 Miquel Raynal         2023-08-01  1007  		of_node_put(layo=
+ut_np);
+> 00d059fd6702f0 Miquel Raynal         2023-08-01  1008  	}
+> 00d059fd6702f0 Miquel Raynal         2023-08-01  1009 =20
+> 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1010  	mutex_lock(&nvmem=
+_devices_mutex);
+> 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1011  	list_add_tail(&nv=
+mem->node, &nvmem_devices_list);
+> 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1012  	mutex_unlock(&nvm=
+em_devices_mutex);
+> 25c9b5d3aa24a0 Miquel Raynal         2023-08-01  1013 =20
+> f4853e1c321edb Bartosz Golaszewski   2019-02-15  1014  	blocking_notifier=
+_call_chain(&nvmem_notifier, NVMEM_ADD, nvmem);
+> bee1138bea15a6 Bartosz Golaszewski   2018-09-21  1015 =20
+> eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1016  	return nvmem;
+> 3360acdf839170 Johan Hovold          2017-06-09  1017 =20
+> b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21  1018  err_remove_cells:
+> b985f4cba6dbb3 Bartosz Golaszewski   2018-09-21  1019  	nvmem_device_remo=
+ve_all_cells(nvmem);
+> fa72d847d68d78 Bartosz Golaszewski   2018-09-21  1020  	if (config->compa=
+t)
+> ae0c2d725512f3 Srinivas Kandagatla   2019-04-16  1021  		nvmem_sysfs_remo=
+ve_compat(nvmem, config);
+> 3360acdf839170 Johan Hovold          2017-06-09  1022  err_put_device:
+> 3360acdf839170 Johan Hovold          2017-06-09  1023  	put_device(&nvmem=
+->dev);
+> 3360acdf839170 Johan Hovold          2017-06-09  1024 =20
+> b6c217ab9be689 Andrew Lunn           2016-02-26  1025  	return ERR_PTR(rv=
+al);
+> eace75cfdcf7d9 Srinivas Kandagatla   2015-07-27  1026  }
+>=20
 
 
->
-> diff --git a/lib/mpi/longlong.h b/lib/mpi/longlong.h
-> index 6c5229f98c9e..42076c124e23 100644
-> --- a/lib/mpi/longlong.h
-> +++ b/lib/mpi/longlong.h
-> @@ -639,7 +639,7 @@ do { \
->         **************  MIPS  *****************
->         ***************************************/
->  #if defined(__mips__) && W_TYPE_SIZE =3D=3D 32
-> -#if (__GNUC__ >=3D 5) || (__GNUC__ >=3D 4 && __GNUC_MINOR__ >=3D 4)
-> +#if (__GNUC__ >=3D 5) || (__GNUC__ >=3D 4 && __GNUC_MINOR__ >=3D 4) || d=
-efined(__clang__)
->  #define umul_ppmm(w1, w0, u, v)                        \
->  do {                                           \
->         UDItype __ll =3D (UDItype)(u) * (v);      \
->
-> [1]: https://lore.kernel.org/20230801202602.GA2589710@dev-arch.thelio-399=
-0X/
->
-> Cheers,
-> Nathan
->
-
-
---=20
 Thanks,
-~Nick Desaulniers
+Miqu=C3=A8l
