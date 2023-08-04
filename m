@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC798F7D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 10:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F99B9479;
+	Fri,  4 Aug 2023 12:14:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691146646; x=1722682646;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=QPNpGrplDFi/bkhbG4LeRBXgYmZRvH4AZEuR5h3iZ5c=;
-  b=n+ryn4myK6rVHBvcjRlsuh8aDFCJdGm6zmdTA0njOU0uqgJmDmEAUsdG
-   1HWnn4VxZH/Hd3ImzboZ4G3rn69tHqLWs9MHmRRuOpjPguVTUyR1nDq4a
-   9a9x+RLXDYmbI8nOnYBWfzPn3glb+zoZdTa1oabyXFxkegGcmWPebUtc1
-   tT0Jfmpc98ChOelcjJSb5a04x0JEA7tCWwQFsCjDrEn5ulF36pTZKtW61
-   47AccyW4Z8Oh6vtLS7AcSUSQMfgs8i/yWz44LdaqPdE1x26lTdWNDj7wu
-   dlqmDPQzpur2Ceax0pfmavWkGDznXQ5lt4nn0/wWg6CxvfwgIZBJiqpNN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="350429199"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="350429199"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 03:57:25 -0700
+  t=1691151268; x=1722687268;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o0H+lB4Rk6RDirf2lIgh9LS32KH7E9uhgY3k8BxKG0g=;
+  b=Da7dJbx0o10xLUAET1/SZVuvyjQhbkW/i91UJRg3dCT4AwLS/Cv/BQmI
+   x0vob9LLgpbvQEL+cSfpininB1/v1DnacZDS/gWZfEWzXa9e1iNI4Cv5S
+   xhRH2Fgr9GI87dTYvpAFMlA5w4IirH3GqR/69gqoNZoGRszenqZ7/JZIE
+   NGEJPQZ6IBP82kPqIxcwFqtqqdf0LyZSgwDMeWgbKLtItDOx5DeEZmkOx
+   hUdjAgaFJdaM0Xxtx1XsTjc/KHrdOuvx1ed9D6OBGXgC2A36xbPIcqs4O
+   RLPk42kCgyzkEf6r4AW7hSOmPKLwDMhHR2/HHupn62YPzZMPQw+l+uMic
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="370126470"
+X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
+   d="scan'208";a="370126470"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 05:14:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="795376160"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="795376160"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="723640417"
+X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
+   d="scan'208";a="723640417"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 04 Aug 2023 03:57:24 -0700
+  by orsmga007.jf.intel.com with ESMTP; 04 Aug 2023 05:14:25 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRsUl-0002o3-0p;
-	Fri, 04 Aug 2023 10:57:23 +0000
-Date: Fri, 4 Aug 2023 18:57:04 +0800
+	id 1qRthI-0002pv-1O;
+	Fri, 04 Aug 2023 12:14:24 +0000
+Date: Fri, 4 Aug 2023 20:14:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: max.chou@realtek.com
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] Bluetooth: btrtl: Load FW v2 otherwise FW v1 for
- RTL8852C
-Message-ID: <ZMzZgAI8XBD+8aP5@11d7ca01dc46>
+To: Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-crypto@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: [herbert-cryptodev-2.6:master 83/83]
+ drivers/char/hw_random/xgene-rng.c:110:2: error: call to undeclared function
+ 'writel'; ISO C99 and later do not support implicit function declarations
+Message-ID: <202308042049.8R2tNRoo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +48,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230804104735.9281-1-max.chou@realtek.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+head:   1ce1cd8208ad6060e4fcf6e09068c8954687c127
+commit: 1ce1cd8208ad6060e4fcf6e09068c8954687c127 [83/83] hwrng: Enable COMPILE_TEST for more drivers
+config: s390-randconfig-r015-20230801 (https://download.01.org/0day-ci/archive/20230804/202308042049.8R2tNRoo-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308042049.8R2tNRoo-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308042049.8R2tNRoo-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH v2] Bluetooth: btrtl: Load FW v2 otherwise FW v1 for RTL8852C
-Link: https://lore.kernel.org/stable/20230804104735.9281-1-max.chou%40realtek.com
+>> drivers/char/hw_random/xgene-rng.c:110:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     110 |         writel(fro_val, ctx->csr_base + RNG_FRODETUNE);
+         |         ^
+>> drivers/char/hw_random/xgene-rng.c:120:8: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     120 |         val = readl(ctx->csr_base + RNG_INTR_STS_ACK);
+         |               ^
+   drivers/char/hw_random/xgene-rng.c:196:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     196 |         writel(val, ctx->csr_base + RNG_INTR_STS_ACK);
+         |         ^
+   drivers/char/hw_random/xgene-rng.c:215:9: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     215 |                 val = readl(ctx->csr_base + RNG_INTR_STS_ACK);
+         |                       ^
+   drivers/char/hw_random/xgene-rng.c:230:13: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     230 |                 data[i] = readl(ctx->csr_base + RNG_INOUT_0 + i * 4);
+         |                           ^
+   drivers/char/hw_random/xgene-rng.c:233:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     233 |         writel(READY_MASK, ctx->csr_base + RNG_INTR_STS_ACK);
+         |         ^
+   drivers/char/hw_random/xgene-rng.c:242:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     242 |         writel(0x00000000, ctx->csr_base + RNG_CONTROL);
+         |         ^
+   drivers/char/hw_random/xgene-rng.c:280:18: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     280 |         ctx->revision = readl(ctx->csr_base + RNG_EIP_REV);
+         |                         ^
+   8 errors generated.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+
+vim +/writel +110 drivers/char/hw_random/xgene-rng.c
+
+a91ae4eba9f9977 Feng Kan 2014-08-22  104  
+a91ae4eba9f9977 Feng Kan 2014-08-22  105  /*
+a91ae4eba9f9977 Feng Kan 2014-08-22  106   * Initialize or reinit free running oscillators (FROs)
+a91ae4eba9f9977 Feng Kan 2014-08-22  107   */
+a91ae4eba9f9977 Feng Kan 2014-08-22  108  static void xgene_rng_init_fro(struct xgene_rng_dev *ctx, u32 fro_val)
+a91ae4eba9f9977 Feng Kan 2014-08-22  109  {
+a91ae4eba9f9977 Feng Kan 2014-08-22 @110  	writel(fro_val, ctx->csr_base + RNG_FRODETUNE);
+a91ae4eba9f9977 Feng Kan 2014-08-22  111  	writel(0x00000000, ctx->csr_base + RNG_ALARMMASK);
+a91ae4eba9f9977 Feng Kan 2014-08-22  112  	writel(0x00000000, ctx->csr_base + RNG_ALARMSTOP);
+a91ae4eba9f9977 Feng Kan 2014-08-22  113  	writel(0xFFFFFFFF, ctx->csr_base + RNG_FROENABLE);
+a91ae4eba9f9977 Feng Kan 2014-08-22  114  }
+a91ae4eba9f9977 Feng Kan 2014-08-22  115  
+a91ae4eba9f9977 Feng Kan 2014-08-22  116  static void xgene_rng_chk_overflow(struct xgene_rng_dev *ctx)
+a91ae4eba9f9977 Feng Kan 2014-08-22  117  {
+a91ae4eba9f9977 Feng Kan 2014-08-22  118  	u32 val;
+a91ae4eba9f9977 Feng Kan 2014-08-22  119  
+a91ae4eba9f9977 Feng Kan 2014-08-22 @120  	val = readl(ctx->csr_base + RNG_INTR_STS_ACK);
+a91ae4eba9f9977 Feng Kan 2014-08-22  121  	if (val & MONOBIT_FAIL_MASK)
+a91ae4eba9f9977 Feng Kan 2014-08-22  122  		/*
+a91ae4eba9f9977 Feng Kan 2014-08-22  123  		 * LFSR detected an out-of-bounds number of 1s after
+a91ae4eba9f9977 Feng Kan 2014-08-22  124  		 * checking 20,000 bits (test T1 as specified in the
+a91ae4eba9f9977 Feng Kan 2014-08-22  125  		 * AIS-31 standard)
+a91ae4eba9f9977 Feng Kan 2014-08-22  126  		 */
+a91ae4eba9f9977 Feng Kan 2014-08-22  127  		dev_err(ctx->dev, "test monobit failure error 0x%08X\n", val);
+a91ae4eba9f9977 Feng Kan 2014-08-22  128  	if (val & POKER_FAIL_MASK)
+a91ae4eba9f9977 Feng Kan 2014-08-22  129  		/*
+a91ae4eba9f9977 Feng Kan 2014-08-22  130  		 * LFSR detected an out-of-bounds value in at least one
+a91ae4eba9f9977 Feng Kan 2014-08-22  131  		 * of the 16 poker_count_X counters or an out of bounds sum
+a91ae4eba9f9977 Feng Kan 2014-08-22  132  		 * of squares value after checking 20,000 bits (test T2 as
+a91ae4eba9f9977 Feng Kan 2014-08-22  133  		 * specified in the AIS-31 standard)
+a91ae4eba9f9977 Feng Kan 2014-08-22  134  		 */
+a91ae4eba9f9977 Feng Kan 2014-08-22  135  		dev_err(ctx->dev, "test poker failure error 0x%08X\n", val);
+a91ae4eba9f9977 Feng Kan 2014-08-22  136  	if (val & LONG_RUN_FAIL_MASK)
+a91ae4eba9f9977 Feng Kan 2014-08-22  137  		/*
+a91ae4eba9f9977 Feng Kan 2014-08-22  138  		 * LFSR detected a sequence of 34 identical bits
+a91ae4eba9f9977 Feng Kan 2014-08-22  139  		 * (test T4 as specified in the AIS-31 standard)
+a91ae4eba9f9977 Feng Kan 2014-08-22  140  		 */
+a91ae4eba9f9977 Feng Kan 2014-08-22  141  		dev_err(ctx->dev, "test long run failure error 0x%08X\n", val);
+a91ae4eba9f9977 Feng Kan 2014-08-22  142  	if (val & RUN_FAIL_MASK)
+a91ae4eba9f9977 Feng Kan 2014-08-22  143  		/*
+a91ae4eba9f9977 Feng Kan 2014-08-22  144  		 * LFSR detected an outof-bounds value for at least one
+a91ae4eba9f9977 Feng Kan 2014-08-22  145  		 * of the running counters after checking 20,000 bits
+a91ae4eba9f9977 Feng Kan 2014-08-22  146  		 * (test T3 as specified in the AIS-31 standard)
+a91ae4eba9f9977 Feng Kan 2014-08-22  147  		 */
+a91ae4eba9f9977 Feng Kan 2014-08-22  148  		dev_err(ctx->dev, "test run failure error 0x%08X\n", val);
+a91ae4eba9f9977 Feng Kan 2014-08-22  149  	if (val & NOISE_FAIL_MASK)
+a91ae4eba9f9977 Feng Kan 2014-08-22  150  		/* LFSR detected a sequence of 48 identical bits */
+a91ae4eba9f9977 Feng Kan 2014-08-22  151  		dev_err(ctx->dev, "noise failure error 0x%08X\n", val);
+a91ae4eba9f9977 Feng Kan 2014-08-22  152  	if (val & STUCK_OUT_MASK)
+a91ae4eba9f9977 Feng Kan 2014-08-22  153  		/*
+a91ae4eba9f9977 Feng Kan 2014-08-22  154  		 * Detected output data registers generated same value twice
+a91ae4eba9f9977 Feng Kan 2014-08-22  155  		 * in a row
+a91ae4eba9f9977 Feng Kan 2014-08-22  156  		 */
+a91ae4eba9f9977 Feng Kan 2014-08-22  157  		dev_err(ctx->dev, "stuck out failure error 0x%08X\n", val);
+a91ae4eba9f9977 Feng Kan 2014-08-22  158  
+a91ae4eba9f9977 Feng Kan 2014-08-22  159  	if (val & SHUTDOWN_OFLO_MASK) {
+a91ae4eba9f9977 Feng Kan 2014-08-22  160  		u32 frostopped;
+a91ae4eba9f9977 Feng Kan 2014-08-22  161  
+a91ae4eba9f9977 Feng Kan 2014-08-22  162  		/* FROs shut down after a second error event. Try recover. */
+a91ae4eba9f9977 Feng Kan 2014-08-22  163  		if (++ctx->failure_cnt == 1) {
+a91ae4eba9f9977 Feng Kan 2014-08-22  164  			/* 1st time, just recover */
+a91ae4eba9f9977 Feng Kan 2014-08-22  165  			ctx->failure_ts = jiffies;
+a91ae4eba9f9977 Feng Kan 2014-08-22  166  			frostopped = readl(ctx->csr_base + RNG_ALARMSTOP);
+a91ae4eba9f9977 Feng Kan 2014-08-22  167  			xgene_rng_init_fro(ctx, frostopped);
+a91ae4eba9f9977 Feng Kan 2014-08-22  168  
+a91ae4eba9f9977 Feng Kan 2014-08-22  169  			/*
+a91ae4eba9f9977 Feng Kan 2014-08-22  170  			 * We must start a timer to clear out this error
+a91ae4eba9f9977 Feng Kan 2014-08-22  171  			 * in case the system timer wrap around
+a91ae4eba9f9977 Feng Kan 2014-08-22  172  			 */
+a91ae4eba9f9977 Feng Kan 2014-08-22  173  			xgene_rng_start_timer(ctx);
+a91ae4eba9f9977 Feng Kan 2014-08-22  174  		} else {
+a91ae4eba9f9977 Feng Kan 2014-08-22  175  			/* 2nd time failure in lesser than 1 minute? */
+a91ae4eba9f9977 Feng Kan 2014-08-22  176  			if (time_after(ctx->failure_ts + 60 * HZ, jiffies)) {
+a91ae4eba9f9977 Feng Kan 2014-08-22  177  				dev_err(ctx->dev,
+a91ae4eba9f9977 Feng Kan 2014-08-22  178  					"FRO shutdown failure error 0x%08X\n",
+a91ae4eba9f9977 Feng Kan 2014-08-22  179  					val);
+a91ae4eba9f9977 Feng Kan 2014-08-22  180  			} else {
+a91ae4eba9f9977 Feng Kan 2014-08-22  181  				/* 2nd time failure after 1 minutes, recover */
+a91ae4eba9f9977 Feng Kan 2014-08-22  182  				ctx->failure_ts = jiffies;
+a91ae4eba9f9977 Feng Kan 2014-08-22  183  				ctx->failure_cnt = 1;
+a91ae4eba9f9977 Feng Kan 2014-08-22  184  				/*
+a91ae4eba9f9977 Feng Kan 2014-08-22  185  				 * We must start a timer to clear out this
+a91ae4eba9f9977 Feng Kan 2014-08-22  186  				 * error in case the system timer wrap
+a91ae4eba9f9977 Feng Kan 2014-08-22  187  				 * around
+a91ae4eba9f9977 Feng Kan 2014-08-22  188  				 */
+a91ae4eba9f9977 Feng Kan 2014-08-22  189  				xgene_rng_start_timer(ctx);
+a91ae4eba9f9977 Feng Kan 2014-08-22  190  			}
+a91ae4eba9f9977 Feng Kan 2014-08-22  191  			frostopped = readl(ctx->csr_base + RNG_ALARMSTOP);
+a91ae4eba9f9977 Feng Kan 2014-08-22  192  			xgene_rng_init_fro(ctx, frostopped);
+a91ae4eba9f9977 Feng Kan 2014-08-22  193  		}
+a91ae4eba9f9977 Feng Kan 2014-08-22  194  	}
+a91ae4eba9f9977 Feng Kan 2014-08-22  195  	/* Clear them all */
+a91ae4eba9f9977 Feng Kan 2014-08-22  196  	writel(val, ctx->csr_base + RNG_INTR_STS_ACK);
+a91ae4eba9f9977 Feng Kan 2014-08-22  197  }
+a91ae4eba9f9977 Feng Kan 2014-08-22  198  
+
+:::::: The code at line 110 was first introduced by commit
+:::::: a91ae4eba9f9977863b57f2ac61e2e8e780375a8 hwrng: xgene - add support for APM X-Gene SoC RNG support
+
+:::::: TO: Feng Kan <fkan@apm.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
