@@ -1,141 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FB0CA6E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 15:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691163580; x=1722699580;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1E6eBVBk3/ME/98VQQ4HvkFcCz8GV8Eq0u+ZOXYzs/Y=;
-  b=ZD17kSoAf/Pwhlnv1Cb6U0dQVCYm+AJoWt2ThqNf+ihq7uDtVXl7bMKu
-   ekC+ybYnEcVUfWodAeZEoYlW9p2G1Y4kXC25N+XbwbmNUiPqqgfJ/wgCO
-   zOCmzhpbRQpGGNs6jfyoysl4f6k/nc+VTKrRFAvxQAttDtzAtXLouXiwo
-   FQM/bTFtmLHZPyLduEpYVqD9oQhcA7wF3vaU18ERFB3hqhlhj7YGBv8F0
-   Ebfs/4jxuSjVPWgfXrinAv/O4CSGRdg48a+aXUrR48e36mik3liPdmDPr
-   855ETjycHsqp4saInVe12sY/imZ0qCK15QucL9K+Y5kPNcpT9AKiBhqpZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="373828391"
-X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
-   d="scan'208";a="373828391"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 08:39:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="873439389"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2023 08:39:40 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qRwtt-0002vn-1J;
-	Fri, 04 Aug 2023 15:39:37 +0000
-Date: Fri, 4 Aug 2023 23:39:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 18/18] <command-line>: warning: format '%llu'
- expects argument of type 'long long unsigned int', but argument 11 has type
- 'size_t' {aka 'long unsigned int'}
-Message-ID: <202308042358.KhVfYgG8-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B969134B3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 15:42:06 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-63cf7cce5fbso14374076d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 04 Aug 2023 08:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1691163725; x=1691768525;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LMB9HKP4nLwJw3q1s/3PxzF/3mcaB2FmzehgLjwrVXQ=;
+        b=luBKmkxS4KkoBKCMcnSbLsA2xPo/yzjRAPnE2Iste//wyFoCcQlJGz/22eRjpreXEA
+         mXHBlnWEOoOwjGsLTOYAGGE2JEnHi8clhNz+XXqF5sZqS9zngrBydHfzVDzoa4cyUSE7
+         Zg9BBa5JSAgFrSM2Lcn+Y7VJ0wlW6a1ib9psgWEv4gnT7cZAEurA8SEx6CMZ4E/gUw6a
+         5lSfoM9hDSAmdvrkiRyvZ3L9+nVJFp1Qz/rsyu+3cgf1zL83a8qDh46nW7v1cmlplZ6B
+         GtbclzizXIP5nqAYzguk1QcdwMpE9hnJ0hG1O4bfphu3TrtKg9bhZ4fRXtwWBOIF+if0
+         hQDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691163725; x=1691768525;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LMB9HKP4nLwJw3q1s/3PxzF/3mcaB2FmzehgLjwrVXQ=;
+        b=fq98VGIlhQWd8AQYXTbkirZpzX/pWqdCeIavYJpVk5j8vz4Gd7bgwxuo0/LNrm6UTD
+         OVqPd8iWqCaqv6IAgrizminXpOqkaKH+WwnhICwmrDPyqX3co/Xfz3ivsgkPceBO9OEm
+         ZnJyAkFGr5jg4P+wpZ8mg8FRgJTrXGYJPJN3hgVXSF98K8QW8AKJrGFgGmVMHW2lClBW
+         Pt9/3l0RlwbPQitaH8cET1RGJ1kAm2hAZ3MZzle42o1IGvuMkuM5tV4mOvmgg3STPdcR
+         6OMkEcFQ6QByjcL6WgWFsQV+sciKMgTgSNv4LkxPM7217g+3FeA8R1txK5Cd5ISC9ksQ
+         5z3w==
+X-Gm-Message-State: AOJu0YwSCbNkM1rNkVTYoO+PdG9kw4+b9AjeiFQl0NHl3SKDtcEIkyMO
+	rom58bJozrucwNBgWx9CPj8FF7JBeSTkhyNl3U8UvA==
+X-Google-Smtp-Source: AGHT+IExVmYTNrYfBnYNOSGaqMCNi67nZElsdl9+XH2gLzLR6yr4pGYdCNAjcxcttnRulmkVHf7kJZQ42nRF7F72f2U=
+X-Received: by 2002:a0c:aa42:0:b0:62d:ee5a:514b with SMTP id
+ e2-20020a0caa42000000b0062dee5a514bmr1900649qvb.11.1691163725237; Fri, 04 Aug
+ 2023 08:42:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202308040553.nMR9oB8v-lkp@intel.com> <20230804153749.GA2148888@dev-arch.thelio-3990X>
+In-Reply-To: <20230804153749.GA2148888@dev-arch.thelio-3990X>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Fri, 4 Aug 2023 08:41:54 -0700
+Message-ID: <CAKwvOdk7VrGMy95heyyLhdhgNWb1LyV48WmzvhpNUrqaYBin_A@mail.gmail.com>
+Subject: Re: [stable:linux-4.14.y 4459/9999] lib/mpi/mpih-div.c:142:20: error:
+ invalid use of a cast in a inline asm context requiring an lvalue: remove the
+ cast or build with -fheinous-gnu-extensions
+To: Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>
+Cc: Fangrui Song <maskray@google.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Chancellor <natechancellor@gmail.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
-head:   672499b5bfaeda1769d9eab9c9a08f4c2b2e4bf5
-commit: 672499b5bfaeda1769d9eab9c9a08f4c2b2e4bf5 [18/18] ceph: Don't use data_pages
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230804/202308042358.KhVfYgG8-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308042358.KhVfYgG8-lkp@intel.com/reproduce)
+On Fri, Aug 4, 2023 at 8:37=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
+> wrote:
+>
+> On Fri, Aug 04, 2023 at 05:32:55AM +0800, kernel test robot wrote:
+> > Hi Fangrui,
+> >
+> > First bad commit (maybe !=3D root cause):
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-st=
+able.git linux-4.14.y
+> > head:   60a6e3043cc8b918c989707a5eba5fd6830a08a4
+> > commit: 71749b1181eca12af96654a781cabcd058c37c8f [4459/9999] Makefile: =
+Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
+> > config: mips-randconfig-r035-20230731 (https://download.01.org/0day-ci/=
+archive/20230804/202308040553.nMR9oB8v-lkp@intel.com/config)
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.gi=
+t 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> > reproduce: (https://download.01.org/0day-ci/archive/20230804/2023080405=
+53.nMR9oB8v-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202308040553.nMR9oB8v-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> lib/mpi/mpih-div.c:142:20: error: invalid use of a cast in a inline =
+asm context requiring an lvalue: remove the cast or build with -fheinous-gn=
+u-extensions
+> >      142 |                                         umul_ppmm(n1, n0, d0=
+, q);
+> >          |                                         ~~~~~~~~~~~~~~^~~~~~=
+~~~~
+> >    lib/mpi/longlong.h:652:20: note: expanded from macro 'umul_ppmm'
+> >      652 |         : "=3Dl" ((USItype)(w0)), \
+> >          |                 ~~~~~~~~~~^~~
+>
+> This is the same as [1] but the upstream solution (b0c091ae04f6) could
+> cause breakage in 4.14 for compilers older than GCC 4.4; 4.14 claims to
+> support GCC 3.2 as a minimum version. An alternative solution if we care
+> about fixing this issue in 4.14 without any regression possiblity would
+> be something like:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308042358.KhVfYgG8-lkp@intel.com/
+In our own CI, we don't test mips until 5.4.
+https://github.com/ClangBuiltLinux/continuous-integration2/blob/main/genera=
+tor.yml#L1691-L1698
 
-All warnings (new ones prefixed by >>):
+Another solution is perhaps to ask kindly that the kernel test robot
+team not test branches of stable w/ clang for ARCH=3Dmips.
 
-   fs/ceph/addr.c: In function 'finish_netfs_read':
-   fs/ceph/addr.c:272:75: error: 'struct ceph_osd_data' has no member named 'pages'
-     272 |                         err = ceph_fscrypt_decrypt_extents(inode, osd_data->pages,
-         |                                                                           ^~
-   In file included from include/linux/string.h:5,
-                    from include/linux/ceph/ceph_debug.h:7,
-                    from fs/ceph/addr.c:2:
-   fs/ceph/addr.c: In function 'writepages_finish':
-   fs/ceph/addr.c:877:42: error: 'CEPH_OSD_DATA_TYPE_PAGES' undeclared (first use in this function); did you mean 'CEPH_OSD_DATA_TYPE_ITER'?
-     877 |                 BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   fs/ceph/addr.c:877:17: note: in expansion of macro 'BUG_ON'
-     877 |                 BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
-         |                 ^~~~~~
-   fs/ceph/addr.c:877:42: note: each undeclared identifier is reported only once for each function it appears in
-     877 |                 BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   fs/ceph/addr.c:877:17: note: in expansion of macro 'BUG_ON'
-     877 |                 BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
-         |                 ^~~~~~
-   fs/ceph/addr.c:879:57: error: 'struct ceph_osd_data' has no member named 'offset'
-     879 |                 num_pages = calc_pages_for((u64)osd_data->offset,
-         |                                                         ^~
-   fs/ceph/addr.c:883:40: error: 'struct ceph_osd_data' has no member named 'pages'
-     883 |                         page = osd_data->pages[j];
-         |                                        ^~
-   fs/ceph/addr.c:886:66: error: 'struct ceph_osd_data' has no member named 'pages'
-     886 |                                 fscrypt_free_bounce_page(osd_data->pages[j]);
-         |                                                                  ^~
-   fs/ceph/addr.c:887:41: error: 'struct ceph_osd_data' has no member named 'pages'
-     887 |                                 osd_data->pages[j] = page;
-         |                                         ^~
->> <command-line>: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 11 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
-   include/linux/ceph/ceph_debug.h:5:21: note: in expansion of macro 'KBUILD_MODNAME'
-       5 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |                     ^~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:222:29: note: in expansion of macro 'pr_fmt'
-     222 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:246:9: note: in expansion of macro '__dynamic_func_call_cls'
-     246 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
-     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:267:9: note: in expansion of macro '_dynamic_func_call'
-     267 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
-     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/ceph/ceph_debug.h:23:9: note: in expansion of macro 'pr_debug'
-      23 |         pr_debug("%.*s %12.12s:%-4d : [%pU %lld] " fmt,                 \
-         |         ^~~~~~~~
-   fs/ceph/addr.c:907:17: note: in expansion of macro 'doutc'
-     907 |                 doutc(cl, "%llx.%llx wrote %llu bytes cleaned %d pages\n",
-         |                 ^~~~~
-   fs/ceph/addr.c:911:39: error: 'struct ceph_osd_data' has no member named 'pages'
-     911 |                 release_pages(osd_data->pages, num_pages);
-         |                                       ^~
-   fs/ceph/addr.c:920:21: error: 'struct ceph_osd_data' has no member named 'pages_from_pool'
-     920 |         if (osd_data->pages_from_pool)
-         |                     ^~
-   fs/ceph/addr.c:921:38: error: 'struct ceph_osd_data' has no member named 'pages'
-     921 |                 mempool_free(osd_data->pages, ceph_wb_pagevec_pool);
-         |                                      ^~
-   fs/ceph/addr.c:923:31: error: 'struct ceph_osd_data' has no member named 'pages'
-     923 |                 kfree(osd_data->pages);
-         |                               ^~
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> diff --git a/lib/mpi/longlong.h b/lib/mpi/longlong.h
+> index 6c5229f98c9e..42076c124e23 100644
+> --- a/lib/mpi/longlong.h
+> +++ b/lib/mpi/longlong.h
+> @@ -639,7 +639,7 @@ do { \
+>         **************  MIPS  *****************
+>         ***************************************/
+>  #if defined(__mips__) && W_TYPE_SIZE =3D=3D 32
+> -#if (__GNUC__ >=3D 5) || (__GNUC__ >=3D 4 && __GNUC_MINOR__ >=3D 4)
+> +#if (__GNUC__ >=3D 5) || (__GNUC__ >=3D 4 && __GNUC_MINOR__ >=3D 4) || d=
+efined(__clang__)
+>  #define umul_ppmm(w1, w0, u, v)                        \
+>  do {                                           \
+>         UDItype __ll =3D (UDItype)(u) * (v);      \
+>
+> [1]: https://lore.kernel.org/20230801202602.GA2589710@dev-arch.thelio-399=
+0X/
+>
+> Cheers,
+> Nathan
+>
+
+
+--=20
+Thanks,
+~Nick Desaulniers
