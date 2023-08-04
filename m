@@ -1,220 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE431BEF2;
-	Fri,  4 Aug 2023 18:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691173430; x=1722709430;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GW0TyDddHAK0Kcz+xQUxve6r2tMCScXalKtjToOQkqc=;
-  b=imCjH9IVkqH//tWd+m+NlWD7o1DFAUWl3B0C7Zv9HX3Bwhs/fY7DwDB5
-   k9rLvgLkIkAEsv0TT3R8DogADGw0fowWWB21tYnKKY1p3JI1QsyHUvpj/
-   kXwnfTJe3xxE1iktpKRArYBlwBcSuMIg6WykOPtLu9Tmo/nrjahLA94kX
-   O9UlWzBXwtnuizbBHQF3q3d6M8aMUIW7h5V3LreLTGwd0140zkBxMjStR
-   gAqnftZvZWLSF/fM4GfqdV28V5Ck1UvL/kOnDo6ntDTfzQS6/8JFMMF7L
-   cDw9zG5F6J/UDZabckWk1rVurKZZjaYgmPDuCmO1B+aZuRmyBx07C+sbf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="434066484"
-X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
-   d="scan'208";a="434066484"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 11:23:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="759675762"
-X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
-   d="scan'208";a="759675762"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 Aug 2023 11:23:44 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qRzSh-00032L-1w;
-	Fri, 04 Aug 2023 18:23:43 +0000
-Date: Sat, 5 Aug 2023 02:23:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/topo-full 134/149]
- arch/x86/include/asm/apic.h:196:20: error: redefinition of
- 'topology_apply_cmdline_limits_early'
-Message-ID: <202308050241.kWZol13h-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BFCCA55
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 18:42:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB333C433C7;
+	Fri,  4 Aug 2023 18:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691174523;
+	bh=pUPuOSzewORwqV7IeCfIBTPdc7Lzixhc7Cz/6O/40IU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=VJAdYI/FicmNuYS7x6sWiixt1QvXtPjOW2CioSUVFRCZT8gzOgvT4j18gzw+Xgljb
+	 /etMG+VgP80R5BjOHMjXm9sPGkgQr5fwQNog4dan3E28kxqH/7TirQlZbChYusgWM7
+	 AiC5m4q276BNgTiFRXUbd2NFxdvaebKwLNMZBwI87JkYRWmPvu/xI/qxolrJ7OO0YT
+	 KtdbpIyUB1B5xnQg3Mu20mPetczq7PBYfE+BzXQ79/B7YuzYfMCRfqroaFbx5y7ZiC
+	 W5S8s16ODIXtRi1Ozc1FxvSXgArh9nyC5UT3k83woXhuv0Tupo6Mg9s+GrXN1uU7jV
+	 naTPnpPYIfUWw==
+Message-ID: <25449d00b11d5319b3e5405e89f287a96e95dc26.camel@kernel.org>
+Subject: Re: [PATCH v7] vfs, security: Fix automount superblock LSM init
+ problem, preventing NFS sb sharing
+From: Jeff Layton <jlayton@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Date: Fri, 04 Aug 2023 14:42:01 -0400
+In-Reply-To: <202308050110.6Zheq1P5-lkp@intel.com>
+References: <20230804-master-v7-1-5d4e48407298@kernel.org>
+	 <202308050110.6Zheq1P5-lkp@intel.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topo-full
-head:   e3c8d0478a9b26ce42ad1bdc0c9e70abecf6f1ee
-commit: 26b8ede3134771a5fedb9478e0d1af4d8040a6cd [134/149] x86/cpu/topology: Rework possible CPU management
-config: i386-randconfig-i004-20230802 (https://download.01.org/0day-ci/archive/20230805/202308050241.kWZol13h-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050241.kWZol13h-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308050241.kWZol13h-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/kernel/irq_32.c:23:
->> arch/x86/include/asm/apic.h:196:20: error: redefinition of 'topology_apply_cmdline_limits_early'
-   static inline void topology_apply_cmdline_limits_early(void) { }
-                      ^
-   arch/x86/include/asm/topology.h:208:20: note: previous definition is here
-   static inline void topology_apply_cmdline_limits_early(void) { }
-                      ^
-   1 error generated.
---
-   In file included from arch/x86/kernel/paravirt.c:29:
->> arch/x86/include/asm/apic.h:196:20: error: redefinition of 'topology_apply_cmdline_limits_early'
-   static inline void topology_apply_cmdline_limits_early(void) { }
-                      ^
-   arch/x86/include/asm/topology.h:208:20: note: previous definition is here
-   static inline void topology_apply_cmdline_limits_early(void) { }
-                      ^
-   arch/x86/kernel/paravirt.c:76:13: warning: no previous prototype for function 'native_pv_lock_init' [-Wmissing-prototypes]
-   void __init native_pv_lock_init(void)
-               ^
-   arch/x86/kernel/paravirt.c:76:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init native_pv_lock_init(void)
+On Sat, 2023-08-05 at 01:43 +0800, kernel test robot wrote:
+> Hi Jeff,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> [auto build test WARNING on 5d0c230f1de8c7515b6567d9afba1f196fb4e2f4]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/vfs-se=
+curity-Fix-automount-superblock-LSM-init-problem-preventing-NFS-sb-sharing/=
+20230805-001234
+> base:   5d0c230f1de8c7515b6567d9afba1f196fb4e2f4
+> patch link:    https://lore.kernel.org/r/20230804-master-v7-1-5d4e4840729=
+8%40kernel.org
+> patch subject: [PATCH v7] vfs, security: Fix automount superblock LSM ini=
+t problem, preventing NFS sb sharing
+> config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/2=
+0230805/202308050110.6Zheq1P5-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230805/202308050110=
+.6Zheq1P5-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202308050110.6Zheq1P5-lkp=
+@intel.com/
+>=20
+> All warnings (new ones prefixed by >>):
+>=20
+>    security/smack/smack_lsm.c: In function 'smack_fs_context_init':
+> > > security/smack/smack_lsm.c:631:66: warning: suggest braces around emp=
+ty body in an 'if' statement [-Wempty-body]
+>      631 |         if (!reference || fc->purpose !=3D FS_CONTEXT_FOR_SUBM=
+OUNT);
+>          |                                                               =
    ^
-   static 
-   arch/x86/kernel/paravirt.c:299:4: warning: cast from 'void (*)(struct mmu_gather *, struct page *)' to 'void (*)(struct mmu_gather *, void *)' converts to incompatible function type [-Wcast-function-type-strict]
-                           (void (*)(struct mmu_gather *, void *))tlb_remove_page,
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings and 1 error generated.
---
-   In file included from arch/x86/kernel/kvmclock.c:10:
->> arch/x86/include/asm/apic.h:196:20: error: redefinition of 'topology_apply_cmdline_limits_early'
-   static inline void topology_apply_cmdline_limits_early(void) { }
-                      ^
-   arch/x86/include/asm/topology.h:208:20: note: previous definition is here
-   static inline void topology_apply_cmdline_limits_early(void) { }
-                      ^
-   In file included from arch/x86/kernel/kvmclock.c:16:
-   In file included from include/linux/mm.h:1007:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/kvmclock.c:16:
-   In file included from include/linux/mm.h:1007:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/kvmclock.c:16:
-   In file included from include/linux/mm.h:1007:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/kvmclock.c:16:
-   In file included from include/linux/mm.h:1007:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/kvmclock.c:16:
-   In file included from include/linux/mm.h:1007:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                           (set1->sig[2] == set2->sig[2]) &&
-                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/kvmclock.c:16:
-   In file included from include/linux/mm.h:1007:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                           (set1->sig[2] == set2->sig[2]) &&
-                                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/kvmclock.c:16:
-   In file included from include/linux/mm.h:1007:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:156:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-   _SIG_SET_BINOP(sigorsets, _sig_or)
-   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:137:8: note: expanded from macro '_SIG_SET_BINOP'
-                   a3 = a->sig[3]; a2 = a->sig[2];                         \
-                        ^      ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/kvmclock.c:16:
+> > > security/smack/smack_lsm.c:631:9: warning: this 'if' clause does not =
+guard... [-Wmisleading-indentation]
+>      631 |         if (!reference || fc->purpose !=3D FS_CONTEXT_FOR_SUBM=
+OUNT);
+>          |         ^~
+>    security/smack/smack_lsm.c:632:17: note: ...this statement, but the la=
+tter is misleadingly indented as if it were guarded by the 'if'
+>      632 |                 return 0;
+>          |                 ^~~~~~
+>=20
+>=20
+> vim +/if +631 security/smack/smack_lsm.c
+>=20
+>    616=09
+>    617	/**
+>    618	 * smack_fs_context_init - Initialise security data for a filesyst=
+em context
+>    619	 * @fc: The filesystem context.
+>    620	 * @reference: Reference dentry (automount/reconfigure) or NULL
+>    621	 *
+>    622	 * Returns 0 on success or -ENOMEM on error.
+>    623	 */
+>    624	static int smack_fs_context_init(struct fs_context *fc,
+>    625					 struct dentry *reference)
+>    626	{
+>    627		struct superblock_smack *sbsp;
+>    628		struct smack_mnt_opts *ctx;
+>    629		struct inode_smack *isp;
+>    630=09
+>  > 631		if (!reference || fc->purpose !=3D FS_CONTEXT_FOR_SUBMOUNT);
 
+Ouch! Bad semicolon on the end. Fixed in my tree.
 
-vim +/topology_apply_cmdline_limits_early +196 arch/x86/include/asm/apic.h
+>    632			return 0;
+>    633=09
+>    634		ctx =3D kzalloc(sizeof(*ctx), GFP_KERNEL);
+>    635		if (!ctx)
+>    636			return -ENOMEM;
+>    637		fc->security =3D ctx;
+>    638=09
+>    639		sbsp =3D smack_superblock(reference->d_sb);
+>    640		isp =3D smack_inode(reference->d_sb->s_root->d_inode);
+>    641=09
+>    642		if (sbsp->smk_default) {
+>    643			ctx->fsdefault =3D kstrdup(sbsp->smk_default->smk_known, GFP_KER=
+NEL);
+>    644			if (!ctx->fsdefault)
+>    645				return -ENOMEM;
+>    646		}
+>    647=09
+>    648		if (sbsp->smk_floor) {
+>    649			ctx->fsfloor =3D kstrdup(sbsp->smk_floor->smk_known, GFP_KERNEL)=
+;
+>    650			if (!ctx->fsfloor)
+>    651				return -ENOMEM;
+>    652		}
+>    653=09
+>    654		if (sbsp->smk_hat) {
+>    655			ctx->fshat =3D kstrdup(sbsp->smk_hat->smk_known, GFP_KERNEL);
+>    656			if (!ctx->fshat)
+>    657				return -ENOMEM;
+>    658		}
+>    659=09
+>    660		if (isp->smk_flags & SMK_INODE_TRANSMUTE) {
+>    661			if (sbsp->smk_root) {
+>    662				ctx->fstransmute =3D kstrdup(sbsp->smk_root->smk_known, GFP_KER=
+NEL);
+>    663				if (!ctx->fstransmute)
+>    664					return -ENOMEM;
+>    665			}
+>    666		}
+>    667		return 0;
+>    668	}
+>    669=09
+>=20
 
-   181	
-   182	#else /* !CONFIG_X86_LOCAL_APIC */
-   183	static inline void lapic_shutdown(void) { }
-   184	#define local_apic_timer_c2_ok		1
-   185	static inline void init_apic_mappings(void) { }
-   186	static inline void disable_local_APIC(void) { }
-   187	# define setup_boot_APIC_clock x86_init_noop
-   188	# define setup_secondary_APIC_clock x86_init_noop
-   189	static inline void lapic_update_tsc_freq(void) { }
-   190	static inline void init_bsp_APIC(void) { }
-   191	static inline void apic_intr_mode_select(void) { }
-   192	static inline void apic_intr_mode_init(void) { }
-   193	static inline void lapic_assign_system_vectors(void) { }
-   194	static inline void lapic_assign_legacy_vector(unsigned int i, bool r) { }
-   195	static inline bool apic_needs_pit(void) { return true; }
- > 196	static inline void topology_apply_cmdline_limits_early(void) { }
-   197	static inline void topology_init_possible_cpus(void) { }
-   198	#endif /* !CONFIG_X86_LOCAL_APIC */
-   199	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Jeff Layton <jlayton@kernel.org>
