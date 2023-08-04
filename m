@@ -1,44 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62679746B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 07:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F42279D0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 07:19:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691133552; x=1722669552;
+  t=1691133553; x=1722669553;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g/U0m0ZcBzeTaUjohAoZyrFsm/+cqIU7PBCwnqMOwys=;
-  b=cHr5POlGYwu4QAF6vhh3KHhGeHQbHEeFR7JMt82FCB6UBMluRCp+cJeJ
-   meaUvDxscJqPO8OQA/ksT8Bf96u7uGlu7LoSg+bTGo+s++afaF6Ed6Wrb
-   wbiMWzULqKIUGiFIPhIU9wh6JaHYJjEoVI8FqZ2ISw7Jm07eD/KRaZcQi
-   00iuVqUwedSjek9DQWSDS74VXOa31U+1c1tPpx7Rt7xzs7Ks2Rq3WHapQ
-   dKOBWULluk1f5YVJ0lDvqisUA1sVxkwVe3+ZNwxQKm0LZ1y7X+cBtv+1a
-   QqnFbFnOzn1bFd6T470bKLiHY52Kia/+YCYJI5U3LTjobkfAhRpVORUid
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="373737455"
+  bh=W/vxscF9XbaGrfJAFr8idYQDN8jl+VU2PN3cSW4wuSc=;
+  b=aRtcVK6m/9QjrU7BHGzDI6NxDvdfIANpHF2CBHeTBDPpAidUyXgdnytl
+   +VyHWa3uCQpFMB6+WAXhZnrNq43ZqZ8VYpTER0P7Hg+Szu4vDr0OFWBR6
+   mOfaAnjj5p0zp+ko7ivu0VUUXDlyWid+0hrgOmHJEW8fc/ApUm+YGKaOM
+   shyCHtL2cDyRjb3W8g18dK4p3p99O4yMERwC4EotBzuVMwzmrFsVzwtaX
+   MZJ6hB7Sj0EuezC7UxL97vSytfQQO/j4yxIa0mlJSnBBpsUF2OF2nPQ8e
+   KmxPLYBQor7byKlxBYg+t5bLJhmUdsLhV5gQYM+iPLAPN1sIMuhkeYQyT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="373737456"
 X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="373737455"
+   d="scan'208";a="373737456"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 00:19:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="759451251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="759451249"
 X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
-   d="scan'208";a="759451251"
+   d="scan'208";a="759451249"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 04 Aug 2023 00:19:08 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRp5X-0002il-2r;
+	id 1qRp5X-0002id-2S;
 	Fri, 04 Aug 2023 07:19:07 +0000
-Date: Fri, 4 Aug 2023 15:18:21 +0800
+Date: Fri, 4 Aug 2023 15:18:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 6492/7272] kernel/watchdog.c:111:12: warning:
- 'hardlockup_all_cpu_backtrace_proc_handler' defined but not used
-Message-ID: <202308041501.2T8kM1gb-lkp@intel.com>
+To: Li Zetao <lizetao1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: [axboe-block:for-6.6/block 30/30] arch/x86/include/asm/atomic.h:23:
+ undefined reference to `__tracepoint_block_touch_buffer'
+Message-ID: <202308041420.2nsxiGV4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,51 +47,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bdffb18b5dd8071cd25685b966f380a30b1fadaa
-commit: 838b3b76220d5b1bc53e4186d8936c5ec6810bf0 [6492/7272] watchdog/hardlockup: avoid large stack frames in watchdog_hardlockup_check()
-config: x86_64-randconfig-x012-20230731 (https://download.01.org/0day-ci/archive/20230804/202308041501.2T8kM1gb-lkp@intel.com/config)
+Hi Li,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.6/block
+head:   0f842210d97a7a02d14ee44c3766bcc1ceabf99c
+commit: 0f842210d97a7a02d14ee44c3766bcc1ceabf99c [30/30] fs/Kconfig: Fix compile error for romfs
+config: i386-randconfig-r004-20230801 (https://download.01.org/0day-ci/archive/20230804/202308041420.2nsxiGV4-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041501.2T8kM1gb-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041420.2nsxiGV4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308041501.2T8kM1gb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308041420.2nsxiGV4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/watchdog.c:111:12: warning: 'hardlockup_all_cpu_backtrace_proc_handler' defined but not used [-Wunused-function]
-     111 | static int hardlockup_all_cpu_backtrace_proc_handler(struct ctl_table *table, int write,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ld: fs/buffer.o: in function `arch_atomic_read':
+>> arch/x86/include/asm/atomic.h:23: undefined reference to `__tracepoint_block_touch_buffer'
+   ld: fs/buffer.o: in function `trace_block_touch_buffer':
+>> include/trace/events/block.h:46: undefined reference to `__tracepoint_block_touch_buffer'
+>> ld: include/trace/events/block.h:46: undefined reference to `__SCT__tp_func_block_touch_buffer'
+   ld: fs/buffer.o: in function `arch_atomic_read':
+>> arch/x86/include/asm/atomic.h:23: undefined reference to `__tracepoint_block_dirty_buffer'
+>> ld: arch/x86/include/asm/atomic.h:23: undefined reference to `__tracepoint_block_dirty_buffer'
+   ld: fs/buffer.o: in function `trace_block_dirty_buffer':
+>> include/trace/events/block.h:59: undefined reference to `__tracepoint_block_dirty_buffer'
+>> ld: include/trace/events/block.h:59: undefined reference to `__SCT__tp_func_block_dirty_buffer'
+   ld: fs/buffer.o: in function `end_bio_bh_io_sync':
+   fs/buffer.c:2789: undefined reference to `bio_put'
+   ld: fs/buffer.o: in function `bio_alloc':
+   include/linux/bio.h:427: undefined reference to `fs_bio_set'
+   ld: include/linux/bio.h:427: undefined reference to `bio_alloc_bioset'
+   ld: fs/buffer.o: in function `submit_bh_wbc':
+   fs/buffer.c:2821: undefined reference to `__bio_add_page'
+   ld: fs/buffer.c:2827: undefined reference to `guard_bio_eod'
+   ld: fs/buffer.c:2834: undefined reference to `submit_bio'
+   ld: fs/buffer.o: in function `arch_atomic_read':
+>> arch/x86/include/asm/atomic.h:23: undefined reference to `__tracepoint_block_touch_buffer'
+   ld: fs/buffer.o: in function `trace_block_touch_buffer':
+>> include/trace/events/block.h:46: undefined reference to `__tracepoint_block_touch_buffer'
+>> ld: include/trace/events/block.h:46: undefined reference to `__SCT__tp_func_block_touch_buffer'
+   ld: fs/mpage.o: in function `mpage_bio_submit_read':
+   fs/mpage.c:81: undefined reference to `guard_bio_eod'
+   ld: fs/mpage.c:82: undefined reference to `submit_bio'
+>> ld: fs/mpage.c:81: undefined reference to `guard_bio_eod'
+   ld: fs/mpage.c:82: undefined reference to `submit_bio'
+   ld: fs/mpage.o: in function `bio_alloc':
+   include/linux/bio.h:427: undefined reference to `fs_bio_set'
+   ld: include/linux/bio.h:427: undefined reference to `bio_alloc_bioset'
+   ld: fs/mpage.o: in function `do_mpage_readpage':
+   fs/mpage.c:306: undefined reference to `bio_add_folio'
+   ld: fs/mpage.o: in function `mpage_bio_submit_read':
+   fs/mpage.c:81: undefined reference to `guard_bio_eod'
+   ld: fs/mpage.c:82: undefined reference to `submit_bio'
+   ld: fs/mpage.o: in function `mpage_bio_submit_write':
+   fs/mpage.c:89: undefined reference to `guard_bio_eod'
+   ld: fs/mpage.c:90: undefined reference to `submit_bio'
+   ld: fs/mpage.o: in function `mpage_bio_submit_read':
+   fs/mpage.c:81: undefined reference to `guard_bio_eod'
+   ld: fs/mpage.c:82: undefined reference to `submit_bio'
+>> ld: fs/mpage.c:81: undefined reference to `guard_bio_eod'
+   ld: fs/mpage.c:82: undefined reference to `submit_bio'
+   ld: fs/mpage.o: in function `mpage_write_end_io':
+   fs/mpage.c:65: undefined reference to `blk_status_to_errno'
+   ld: fs/mpage.c:75: undefined reference to `bio_put'
+   ld: fs/mpage.o: in function `mpage_read_end_io':
+   fs/mpage.c:49: undefined reference to `blk_status_to_errno'
+   ld: fs/mpage.c:59: undefined reference to `bio_put'
+   ld: fs/mpage.c:59: undefined reference to `bio_put'
+   ld: fs/mpage.o: in function `mpage_bio_submit_write':
+   fs/mpage.c:89: undefined reference to `guard_bio_eod'
+   ld: fs/mpage.c:90: undefined reference to `submit_bio'
+   ld: fs/mpage.o: in function `__mpage_writepage':
+   fs/mpage.c:624: undefined reference to `bio_add_folio'
+   ld: fs/mpage.o: in function `mpage_bio_submit_write':
+   fs/mpage.c:89: undefined reference to `guard_bio_eod'
+   ld: fs/mpage.c:90: undefined reference to `submit_bio'
+   ld: fs/mpage.o: in function `bio_alloc':
+   include/linux/bio.h:427: undefined reference to `fs_bio_set'
+   ld: include/linux/bio.h:427: undefined reference to `bio_alloc_bioset'
+   ld: fs/mpage.o: in function `mpage_bio_submit_write':
+   fs/mpage.c:89: undefined reference to `guard_bio_eod'
+   ld: fs/mpage.c:90: undefined reference to `submit_bio'
+   ld: fs/mpage.c:89: undefined reference to `guard_bio_eod'
+   ld: fs/mpage.c:90: undefined reference to `submit_bio'
+   ld: fs/mpage.o: in function `do_mpage_readpage':
+   fs/mpage.c:306: undefined reference to `bio_add_folio'
 
 
-vim +/hardlockup_all_cpu_backtrace_proc_handler +111 kernel/watchdog.c
+vim +23 arch/x86/include/asm/atomic.h
 
-   110	
- > 111	static int hardlockup_all_cpu_backtrace_proc_handler(struct ctl_table *table, int write,
-   112			  void *buffer, size_t *lenp, loff_t *ppos)
-   113	{
-   114		int ret;
-   115	
-   116		ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-   117	
-   118		/*
-   119		 * Only allocate memory for the backtrace mask if userspace actually
-   120		 * wants to trace all CPUs since this can take up 1K of space on a
-   121		 * system with CONFIG_NR_CPUS=8192.
-   122		 */
-   123		if (sysctl_hardlockup_all_cpu_backtrace && !hardlockup_backtrace_mask) {
-   124			hardlockup_backtrace_mask =
-   125				   kzalloc(sizeof(*hardlockup_backtrace_mask), GFP_KERNEL);
-   126		} else if (!sysctl_hardlockup_all_cpu_backtrace && hardlockup_backtrace_mask) {
-   127			kfree(hardlockup_backtrace_mask);
-   128			hardlockup_backtrace_mask = NULL;
-   129		}
-   130	
-   131		return ret;
-   132	}
-   133	
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  11  
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  12  /*
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  13   * Atomic operations that C can't guarantee us.  Useful for
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  14   * resource counting etc..
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  15   */
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  16  
+8bf705d130396e Dmitry Vyukov  2018-01-29  17  static __always_inline int arch_atomic_read(const atomic_t *v)
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  18  {
+ac605bee0bfab4 Dmitry Vyukov  2018-01-29  19  	/*
+ac605bee0bfab4 Dmitry Vyukov  2018-01-29  20  	 * Note for KASAN: we deliberately don't use READ_ONCE_NOCHECK() here,
+ac605bee0bfab4 Dmitry Vyukov  2018-01-29  21  	 * it's non-inlined function that increases binary size and stack usage.
+ac605bee0bfab4 Dmitry Vyukov  2018-01-29  22  	 */
+37f8173dd84936 Peter Zijlstra 2020-01-24 @23  	return __READ_ONCE((v)->counter);
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  24  }
+5abbbbf0b0cd4a Brian Gerst    2010-01-07  25  
+
+:::::: The code at line 23 was first introduced by commit
+:::::: 37f8173dd84936ea78000ed1cad24f8b18d48ebb locking/atomics: Flip fallbacks and instrumentation
+
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
