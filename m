@@ -1,45 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F99B9479;
-	Fri,  4 Aug 2023 12:14:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AEA98F52
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Aug 2023 12:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691151268; x=1722687268;
+  t=1691152542; x=1722688542;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o0H+lB4Rk6RDirf2lIgh9LS32KH7E9uhgY3k8BxKG0g=;
-  b=Da7dJbx0o10xLUAET1/SZVuvyjQhbkW/i91UJRg3dCT4AwLS/Cv/BQmI
-   x0vob9LLgpbvQEL+cSfpininB1/v1DnacZDS/gWZfEWzXa9e1iNI4Cv5S
-   xhRH2Fgr9GI87dTYvpAFMlA5w4IirH3GqR/69gqoNZoGRszenqZ7/JZIE
-   NGEJPQZ6IBP82kPqIxcwFqtqqdf0LyZSgwDMeWgbKLtItDOx5DeEZmkOx
-   hUdjAgaFJdaM0Xxtx1XsTjc/KHrdOuvx1ed9D6OBGXgC2A36xbPIcqs4O
-   RLPk42kCgyzkEf6r4AW7hSOmPKLwDMhHR2/HHupn62YPzZMPQw+l+uMic
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="370126470"
+  bh=HgnjO/qLr6u1oSqNzyW/DmrupcfLmyGHYPegjiA8WXg=;
+  b=Q9JSudHxA1TLAW3JBI1n7w3BGKInaj+cGqkXrSBwJXNimLc8jC2wWIZy
+   BiDL4UAb1BsbCT9ANMg0383GWptUcilV01dBZhySGBut4Xwm2Sz5isvPu
+   oREnYvIhCaFC0GNkPi3iadSKG88IrsqDjbv9OHWZjWjTGJNzXXGtcqvEq
+   uEfoSweculOpaHIs3NOyw/djrUEVcMkwon21IuDzE1N4qmPBcj6bxtssT
+   gLuEuoT3nNcLsDGq1AR+Ypg89fIxYsiugECBezbRwFVUmW0NoglF+vefW
+   5h95MkwgPocAQVSliEXMqpGArPQ56tWuM8Xy3LCzph0MHmqjkTvqX9HpO
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="349735638"
 X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
-   d="scan'208";a="370126470"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 05:14:27 -0700
+   d="scan'208";a="349735638"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 05:35:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="723640417"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="730065601"
 X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; 
-   d="scan'208";a="723640417"
+   d="scan'208";a="730065601"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 04 Aug 2023 05:14:25 -0700
+  by orsmga002.jf.intel.com with ESMTP; 04 Aug 2023 05:35:25 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qRthI-0002pv-1O;
-	Fri, 04 Aug 2023 12:14:24 +0000
-Date: Fri, 4 Aug 2023 20:14:10 +0800
+	id 1qRu1c-0002qR-2K;
+	Fri, 04 Aug 2023 12:35:24 +0000
+Date: Fri, 4 Aug 2023 20:34:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-crypto@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [herbert-cryptodev-2.6:master 83/83]
- drivers/char/hw_random/xgene-rng.c:110:2: error: call to undeclared function
- 'writel'; ISO C99 and later do not support implicit function declarations
-Message-ID: <202308042049.8R2tNRoo-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/010-soc 5/12] drivers/soc/apple/mailbox.c:151:24:
+ error: implicit declaration of function 'FIELD_PREP'
+Message-ID: <202308042033.LUEnXm9Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,150 +46,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-head:   1ce1cd8208ad6060e4fcf6e09068c8954687c127
-commit: 1ce1cd8208ad6060e4fcf6e09068c8954687c127 [83/83] hwrng: Enable COMPILE_TEST for more drivers
-config: s390-randconfig-r015-20230801 (https://download.01.org/0day-ci/archive/20230804/202308042049.8R2tNRoo-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308042049.8R2tNRoo-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   1d78c04b8f6f12e0ef63a95d381a97eee5201ba7
+commit: 9e9a00442991832b4d8a237610c0b248631f07a1 [5/12] soc: apple: mailbox: Add ASC/M3 mailbox driver
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230804/202308042033.LUEnXm9Q-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308042033.LUEnXm9Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308042049.8R2tNRoo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308042033.LUEnXm9Q-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/char/hw_random/xgene-rng.c:110:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     110 |         writel(fro_val, ctx->csr_base + RNG_FRODETUNE);
-         |         ^
->> drivers/char/hw_random/xgene-rng.c:120:8: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     120 |         val = readl(ctx->csr_base + RNG_INTR_STS_ACK);
-         |               ^
-   drivers/char/hw_random/xgene-rng.c:196:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     196 |         writel(val, ctx->csr_base + RNG_INTR_STS_ACK);
-         |         ^
-   drivers/char/hw_random/xgene-rng.c:215:9: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     215 |                 val = readl(ctx->csr_base + RNG_INTR_STS_ACK);
-         |                       ^
-   drivers/char/hw_random/xgene-rng.c:230:13: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     230 |                 data[i] = readl(ctx->csr_base + RNG_INOUT_0 + i * 4);
-         |                           ^
-   drivers/char/hw_random/xgene-rng.c:233:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     233 |         writel(READY_MASK, ctx->csr_base + RNG_INTR_STS_ACK);
-         |         ^
-   drivers/char/hw_random/xgene-rng.c:242:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     242 |         writel(0x00000000, ctx->csr_base + RNG_CONTROL);
-         |         ^
-   drivers/char/hw_random/xgene-rng.c:280:18: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     280 |         ctx->revision = readl(ctx->csr_base + RNG_EIP_REV);
-         |                         ^
-   8 errors generated.
+   drivers/soc/apple/mailbox.c: In function 'apple_mbox_send':
+>> drivers/soc/apple/mailbox.c:151:24: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     151 |         writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+         |                        ^~~~~~~~~~
+   drivers/soc/apple/mailbox.c: In function 'apple_mbox_poll_locked':
+>> drivers/soc/apple/mailbox.c:188:28: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     188 |                 msg.msg1 = FIELD_GET(
+         |                            ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/writel +110 drivers/char/hw_random/xgene-rng.c
+vim +/FIELD_PREP +151 drivers/soc/apple/mailbox.c
 
-a91ae4eba9f9977 Feng Kan 2014-08-22  104  
-a91ae4eba9f9977 Feng Kan 2014-08-22  105  /*
-a91ae4eba9f9977 Feng Kan 2014-08-22  106   * Initialize or reinit free running oscillators (FROs)
-a91ae4eba9f9977 Feng Kan 2014-08-22  107   */
-a91ae4eba9f9977 Feng Kan 2014-08-22  108  static void xgene_rng_init_fro(struct xgene_rng_dev *ctx, u32 fro_val)
-a91ae4eba9f9977 Feng Kan 2014-08-22  109  {
-a91ae4eba9f9977 Feng Kan 2014-08-22 @110  	writel(fro_val, ctx->csr_base + RNG_FRODETUNE);
-a91ae4eba9f9977 Feng Kan 2014-08-22  111  	writel(0x00000000, ctx->csr_base + RNG_ALARMMASK);
-a91ae4eba9f9977 Feng Kan 2014-08-22  112  	writel(0x00000000, ctx->csr_base + RNG_ALARMSTOP);
-a91ae4eba9f9977 Feng Kan 2014-08-22  113  	writel(0xFFFFFFFF, ctx->csr_base + RNG_FROENABLE);
-a91ae4eba9f9977 Feng Kan 2014-08-22  114  }
-a91ae4eba9f9977 Feng Kan 2014-08-22  115  
-a91ae4eba9f9977 Feng Kan 2014-08-22  116  static void xgene_rng_chk_overflow(struct xgene_rng_dev *ctx)
-a91ae4eba9f9977 Feng Kan 2014-08-22  117  {
-a91ae4eba9f9977 Feng Kan 2014-08-22  118  	u32 val;
-a91ae4eba9f9977 Feng Kan 2014-08-22  119  
-a91ae4eba9f9977 Feng Kan 2014-08-22 @120  	val = readl(ctx->csr_base + RNG_INTR_STS_ACK);
-a91ae4eba9f9977 Feng Kan 2014-08-22  121  	if (val & MONOBIT_FAIL_MASK)
-a91ae4eba9f9977 Feng Kan 2014-08-22  122  		/*
-a91ae4eba9f9977 Feng Kan 2014-08-22  123  		 * LFSR detected an out-of-bounds number of 1s after
-a91ae4eba9f9977 Feng Kan 2014-08-22  124  		 * checking 20,000 bits (test T1 as specified in the
-a91ae4eba9f9977 Feng Kan 2014-08-22  125  		 * AIS-31 standard)
-a91ae4eba9f9977 Feng Kan 2014-08-22  126  		 */
-a91ae4eba9f9977 Feng Kan 2014-08-22  127  		dev_err(ctx->dev, "test monobit failure error 0x%08X\n", val);
-a91ae4eba9f9977 Feng Kan 2014-08-22  128  	if (val & POKER_FAIL_MASK)
-a91ae4eba9f9977 Feng Kan 2014-08-22  129  		/*
-a91ae4eba9f9977 Feng Kan 2014-08-22  130  		 * LFSR detected an out-of-bounds value in at least one
-a91ae4eba9f9977 Feng Kan 2014-08-22  131  		 * of the 16 poker_count_X counters or an out of bounds sum
-a91ae4eba9f9977 Feng Kan 2014-08-22  132  		 * of squares value after checking 20,000 bits (test T2 as
-a91ae4eba9f9977 Feng Kan 2014-08-22  133  		 * specified in the AIS-31 standard)
-a91ae4eba9f9977 Feng Kan 2014-08-22  134  		 */
-a91ae4eba9f9977 Feng Kan 2014-08-22  135  		dev_err(ctx->dev, "test poker failure error 0x%08X\n", val);
-a91ae4eba9f9977 Feng Kan 2014-08-22  136  	if (val & LONG_RUN_FAIL_MASK)
-a91ae4eba9f9977 Feng Kan 2014-08-22  137  		/*
-a91ae4eba9f9977 Feng Kan 2014-08-22  138  		 * LFSR detected a sequence of 34 identical bits
-a91ae4eba9f9977 Feng Kan 2014-08-22  139  		 * (test T4 as specified in the AIS-31 standard)
-a91ae4eba9f9977 Feng Kan 2014-08-22  140  		 */
-a91ae4eba9f9977 Feng Kan 2014-08-22  141  		dev_err(ctx->dev, "test long run failure error 0x%08X\n", val);
-a91ae4eba9f9977 Feng Kan 2014-08-22  142  	if (val & RUN_FAIL_MASK)
-a91ae4eba9f9977 Feng Kan 2014-08-22  143  		/*
-a91ae4eba9f9977 Feng Kan 2014-08-22  144  		 * LFSR detected an outof-bounds value for at least one
-a91ae4eba9f9977 Feng Kan 2014-08-22  145  		 * of the running counters after checking 20,000 bits
-a91ae4eba9f9977 Feng Kan 2014-08-22  146  		 * (test T3 as specified in the AIS-31 standard)
-a91ae4eba9f9977 Feng Kan 2014-08-22  147  		 */
-a91ae4eba9f9977 Feng Kan 2014-08-22  148  		dev_err(ctx->dev, "test run failure error 0x%08X\n", val);
-a91ae4eba9f9977 Feng Kan 2014-08-22  149  	if (val & NOISE_FAIL_MASK)
-a91ae4eba9f9977 Feng Kan 2014-08-22  150  		/* LFSR detected a sequence of 48 identical bits */
-a91ae4eba9f9977 Feng Kan 2014-08-22  151  		dev_err(ctx->dev, "noise failure error 0x%08X\n", val);
-a91ae4eba9f9977 Feng Kan 2014-08-22  152  	if (val & STUCK_OUT_MASK)
-a91ae4eba9f9977 Feng Kan 2014-08-22  153  		/*
-a91ae4eba9f9977 Feng Kan 2014-08-22  154  		 * Detected output data registers generated same value twice
-a91ae4eba9f9977 Feng Kan 2014-08-22  155  		 * in a row
-a91ae4eba9f9977 Feng Kan 2014-08-22  156  		 */
-a91ae4eba9f9977 Feng Kan 2014-08-22  157  		dev_err(ctx->dev, "stuck out failure error 0x%08X\n", val);
-a91ae4eba9f9977 Feng Kan 2014-08-22  158  
-a91ae4eba9f9977 Feng Kan 2014-08-22  159  	if (val & SHUTDOWN_OFLO_MASK) {
-a91ae4eba9f9977 Feng Kan 2014-08-22  160  		u32 frostopped;
-a91ae4eba9f9977 Feng Kan 2014-08-22  161  
-a91ae4eba9f9977 Feng Kan 2014-08-22  162  		/* FROs shut down after a second error event. Try recover. */
-a91ae4eba9f9977 Feng Kan 2014-08-22  163  		if (++ctx->failure_cnt == 1) {
-a91ae4eba9f9977 Feng Kan 2014-08-22  164  			/* 1st time, just recover */
-a91ae4eba9f9977 Feng Kan 2014-08-22  165  			ctx->failure_ts = jiffies;
-a91ae4eba9f9977 Feng Kan 2014-08-22  166  			frostopped = readl(ctx->csr_base + RNG_ALARMSTOP);
-a91ae4eba9f9977 Feng Kan 2014-08-22  167  			xgene_rng_init_fro(ctx, frostopped);
-a91ae4eba9f9977 Feng Kan 2014-08-22  168  
-a91ae4eba9f9977 Feng Kan 2014-08-22  169  			/*
-a91ae4eba9f9977 Feng Kan 2014-08-22  170  			 * We must start a timer to clear out this error
-a91ae4eba9f9977 Feng Kan 2014-08-22  171  			 * in case the system timer wrap around
-a91ae4eba9f9977 Feng Kan 2014-08-22  172  			 */
-a91ae4eba9f9977 Feng Kan 2014-08-22  173  			xgene_rng_start_timer(ctx);
-a91ae4eba9f9977 Feng Kan 2014-08-22  174  		} else {
-a91ae4eba9f9977 Feng Kan 2014-08-22  175  			/* 2nd time failure in lesser than 1 minute? */
-a91ae4eba9f9977 Feng Kan 2014-08-22  176  			if (time_after(ctx->failure_ts + 60 * HZ, jiffies)) {
-a91ae4eba9f9977 Feng Kan 2014-08-22  177  				dev_err(ctx->dev,
-a91ae4eba9f9977 Feng Kan 2014-08-22  178  					"FRO shutdown failure error 0x%08X\n",
-a91ae4eba9f9977 Feng Kan 2014-08-22  179  					val);
-a91ae4eba9f9977 Feng Kan 2014-08-22  180  			} else {
-a91ae4eba9f9977 Feng Kan 2014-08-22  181  				/* 2nd time failure after 1 minutes, recover */
-a91ae4eba9f9977 Feng Kan 2014-08-22  182  				ctx->failure_ts = jiffies;
-a91ae4eba9f9977 Feng Kan 2014-08-22  183  				ctx->failure_cnt = 1;
-a91ae4eba9f9977 Feng Kan 2014-08-22  184  				/*
-a91ae4eba9f9977 Feng Kan 2014-08-22  185  				 * We must start a timer to clear out this
-a91ae4eba9f9977 Feng Kan 2014-08-22  186  				 * error in case the system timer wrap
-a91ae4eba9f9977 Feng Kan 2014-08-22  187  				 * around
-a91ae4eba9f9977 Feng Kan 2014-08-22  188  				 */
-a91ae4eba9f9977 Feng Kan 2014-08-22  189  				xgene_rng_start_timer(ctx);
-a91ae4eba9f9977 Feng Kan 2014-08-22  190  			}
-a91ae4eba9f9977 Feng Kan 2014-08-22  191  			frostopped = readl(ctx->csr_base + RNG_ALARMSTOP);
-a91ae4eba9f9977 Feng Kan 2014-08-22  192  			xgene_rng_init_fro(ctx, frostopped);
-a91ae4eba9f9977 Feng Kan 2014-08-22  193  		}
-a91ae4eba9f9977 Feng Kan 2014-08-22  194  	}
-a91ae4eba9f9977 Feng Kan 2014-08-22  195  	/* Clear them all */
-a91ae4eba9f9977 Feng Kan 2014-08-22  196  	writel(val, ctx->csr_base + RNG_INTR_STS_ACK);
-a91ae4eba9f9977 Feng Kan 2014-08-22  197  }
-a91ae4eba9f9977 Feng Kan 2014-08-22  198  
-
-:::::: The code at line 110 was first introduced by commit
-:::::: a91ae4eba9f9977863b57f2ac61e2e8e780375a8 hwrng: xgene - add support for APM X-Gene SoC RNG support
-
-:::::: TO: Feng Kan <fkan@apm.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+    95	
+    96	int apple_mbox_send(struct apple_mbox *mbox, const struct apple_mbox_msg msg,
+    97			    bool atomic)
+    98	{
+    99		unsigned long flags;
+   100		int ret;
+   101		u32 mbox_ctrl;
+   102		long t;
+   103	
+   104		spin_lock_irqsave(&mbox->tx_lock, flags);
+   105		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+   106	
+   107		while (mbox_ctrl & mbox->hw->control_full) {
+   108			if (atomic) {
+   109				ret = readl_poll_timeout_atomic(
+   110					mbox->regs + mbox->hw->a2i_control, mbox_ctrl,
+   111					!(mbox_ctrl & mbox->hw->control_full), 100,
+   112					APPLE_MBOX_TX_TIMEOUT * 1000);
+   113	
+   114				if (ret) {
+   115					spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   116					return ret;
+   117				}
+   118	
+   119				break;
+   120			}
+   121			/*
+   122			 * The interrupt is level triggered and will keep firing as long as the
+   123			 * FIFO is empty. It will also keep firing if the FIFO was empty
+   124			 * at any point in the past until it has been acknowledged at the
+   125			 * mailbox level. By acknowledging it here we can ensure that we will
+   126			 * only get the interrupt once the FIFO has been cleared again.
+   127			 * If the FIFO is already empty before the ack it will fire again
+   128			 * immediately after the ack.
+   129			 */
+   130			if (mbox->hw->has_irq_controls) {
+   131				writel_relaxed(mbox->hw->irq_bit_send_empty,
+   132					       mbox->regs + mbox->hw->irq_ack);
+   133			}
+   134			enable_irq(mbox->irq_send_empty);
+   135			reinit_completion(&mbox->tx_empty);
+   136			spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   137	
+   138			t = wait_for_completion_interruptible_timeout(
+   139				&mbox->tx_empty,
+   140				msecs_to_jiffies(APPLE_MBOX_TX_TIMEOUT));
+   141			if (t < 0)
+   142				return t;
+   143			else if (t == 0)
+   144				return -ETIMEDOUT;
+   145	
+   146			spin_lock_irqsave(&mbox->tx_lock, flags);
+   147			mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+   148		}
+   149	
+   150		writeq_relaxed(msg.msg0, mbox->regs + mbox->hw->a2i_send0);
+ > 151		writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+   152			       mbox->regs + mbox->hw->a2i_send1);
+   153	
+   154		spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   155	
+   156		return 0;
+   157	}
+   158	EXPORT_SYMBOL(apple_mbox_send);
+   159	
+   160	static irqreturn_t apple_mbox_send_empty_irq(int irq, void *data)
+   161	{
+   162		struct apple_mbox *mbox = data;
+   163	
+   164		/*
+   165		 * We don't need to acknowledge the interrupt at the mailbox level
+   166		 * here even if supported by the hardware. It will keep firing but that
+   167		 * doesn't matter since it's disabled at the main interrupt controller.
+   168		 * apple_mbox_send will acknowledge it before enabling
+   169		 * it at the main controller again.
+   170		 */
+   171		spin_lock(&mbox->tx_lock);
+   172		disable_irq_nosync(mbox->irq_send_empty);
+   173		complete(&mbox->tx_empty);
+   174		spin_unlock(&mbox->tx_lock);
+   175	
+   176		return IRQ_HANDLED;
+   177	}
+   178	
+   179	static int apple_mbox_poll_locked(struct apple_mbox *mbox)
+   180	{
+   181		struct apple_mbox_msg msg;
+   182		int ret = 0;
+   183	
+   184		u32 mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+   185	
+   186		while (!(mbox_ctrl & mbox->hw->control_empty)) {
+   187			msg.msg0 = readq_relaxed(mbox->regs + mbox->hw->i2a_recv0);
+ > 188			msg.msg1 = FIELD_GET(
+   189				APPLE_MBOX_MSG1_MSG,
+   190				readq_relaxed(mbox->regs + mbox->hw->i2a_recv1));
+   191	
+   192			mbox->rx(mbox, msg, mbox->cookie);
+   193			ret++;
+   194			mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+   195		}
+   196	
+   197		/*
+   198		 * The interrupt will keep firing even if there are no more messages
+   199		 * unless we also acknowledge it at the mailbox level here.
+   200		 * There's no race if a message comes in between the check in the while
+   201		 * loop above and the ack below: If a new messages arrives inbetween
+   202		 * those two the interrupt will just fire again immediately after the
+   203		 * ack since it's level triggered.
+   204		 */
+   205		if (mbox->hw->has_irq_controls) {
+   206			writel_relaxed(mbox->hw->irq_bit_recv_not_empty,
+   207				       mbox->regs + mbox->hw->irq_ack);
+   208		}
+   209	
+   210		return ret;
+   211	}
+   212	
 
 -- 
 0-DAY CI Kernel Test Service
