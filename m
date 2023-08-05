@@ -1,46 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180811FA0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 17:36:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0011FA0;
+	Sat,  5 Aug 2023 18:08:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691257009; x=1722793009;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3h6nILr9UL+BLePXOp7NPhaaw8e7hHJ2derl0zm20tw=;
-  b=kqfCFV6bnnYBuS9oiK3k6gPsPzfzWhaZB91/M9d/KNBtQwqJKZDPjyDj
-   +gtZ0ebqHX83z2lLg9EVI5ez700aTgyo7DN+Nonf47DCvR//G+CI1zdRz
-   eutHLRbW7OeKYqiAduzQs27jcSP07hNgqEo4HvuhscYETkJqp2GzoE/CC
-   c47ohliIf1xBbNHvKmraNOU81YJCT92mv/Tq4rUPa+Mw3pPuhBN9PpqDh
-   ZVRCe3W/SlFbW3a+s+uDyvqv+zzEI0HuOPDWDgO4RHlYjggxtsg+GguV+
-   J3y6+B7hFAbQSPHxTJ+KJg9Qfgy24vmseel5baNixVfm1d8gA01SS77tw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="367786071"
+  t=1691258935; x=1722794935;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SlIWjz5NxHrgtMwRNUVUa4FFSQMpSktfbAOtU0tYsqo=;
+  b=QdozlGgfr3zXf8Vp4MhCagB1I+Lf9yERp0BvNQm4kzptSBIFxlUwPhok
+   8iFg+cTRzykZpB61K5kSMoakHuO3Bhv/wlswA3xjhq1bw+3eEHWaUiQ6Y
+   yqQoOxdY3hGAmL6GxKEIoRFkBoEBOvUd0wOyPKWEolbhXSi8ntHdyNzjM
+   T0Gq+PEzk9cgtfqSWlauWm3J4JJl0vQ6HOS6xE5oQjC/Ij5xE2y2afQXp
+   2jtcm230YkDJgave4Y5Abgs8brFVe3LnDyfm+k/P5KD4Lwh58y2Jd6fv6
+   4r+PNErPj30mTcmc5jKrma+IsVjxkGTBi0NlR3iQchETe/LmYJBbjadkO
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="349920742"
 X-IronPort-AV: E=Sophos;i="6.01,258,1684825200"; 
-   d="scan'208";a="367786071"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 10:36:46 -0700
+   d="scan'208";a="349920742"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 11:08:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="707351759"
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="854158159"
 X-IronPort-AV: E=Sophos;i="6.01,258,1684825200"; 
-   d="scan'208";a="707351759"
+   d="scan'208";a="854158159"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 05 Aug 2023 10:36:44 -0700
+  by orsmga004.jf.intel.com with ESMTP; 05 Aug 2023 11:08:45 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSLCm-0003np-0s;
-	Sat, 05 Aug 2023 17:36:44 +0000
-Date: Sun, 6 Aug 2023 01:36:41 +0800
+	id 1qSLhk-0003om-2m;
+	Sat, 05 Aug 2023 18:08:44 +0000
+Date: Sun, 6 Aug 2023 02:08:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 392/474] include/linux/compiler_types.h:397:45:
- error: call to '__compiletime_assert_294' declared with attribute error:
- BUILD_BUG_ON failed: IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT >
- PAGE_SHIFT)
-Message-ID: <202308060105.IP2Npoqr-lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/5] fprobe: rethook: Use fprobe_regs in fprobe exit
+ handler and rethook
+Message-ID: <202308060258.tcSDAfJA-lkp@intel.com>
+References: <169124749229.186149.1426658495303367593.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,70 +47,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <169124749229.186149.1426658495303367593.stgit@devnote2>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   84d9f657acaecc43dc52f25d52230db85fd5ffdd
-commit: 7b4ad9400126434e6997c0249ee61dd648c04d42 [392/474] mips: implement the new page table range API
-config: mips-randconfig-r002-20230806 (https://download.01.org/0day-ci/archive/20230806/202308060105.IP2Npoqr-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230806/202308060105.IP2Npoqr-lkp@intel.com/reproduce)
+Hi Masami,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+[also build test ERROR on bpf/master tip/x86/core linus/master v6.5-rc4 next-20230804]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/fprobe-Use-fprobe_regs-in-fprobe-entry-handler/20230805-230025
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/169124749229.186149.1426658495303367593.stgit%40devnote2
+patch subject: [RFC PATCH 2/5] fprobe: rethook: Use fprobe_regs in fprobe exit handler and rethook
+config: i386-randconfig-r014-20230805 (https://download.01.org/0day-ci/archive/20230806/202308060258.tcSDAfJA-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230806/202308060258.tcSDAfJA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308060105.IP2Npoqr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308060258.tcSDAfJA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/mips/mm/init.c:60:6: warning: no previous prototype for 'setup_zero_pages' [-Wmissing-prototypes]
-      60 | void setup_zero_pages(void)
-         |      ^~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   arch/mips/mm/init.c: In function 'mem_init':
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_294' declared with attribute error: BUILD_BUG_ON failed: IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT)
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/mips/mm/init.c:459:9: note: in expansion of macro 'BUILD_BUG_ON'
-     459 |         BUILD_BUG_ON(IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT));
-         |         ^~~~~~~~~~~~
+>> kernel/kprobes.c:2146:25: error: call to undeclared function 'ftrace_get_regs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                                  ^
+>> kernel/kprobes.c:2146:18: error: incompatible integer to pointer conversion initializing 'struct pt_regs *' with an expression of type 'int' [-Wint-conversion]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+--
+>> arch/x86/kernel/rethook.c:111:25: error: call to undeclared function 'ftrace_get_regs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                                  ^
+>> arch/x86/kernel/rethook.c:111:18: error: incompatible integer to pointer conversion initializing 'struct pt_regs *' with an expression of type 'int' [-Wint-conversion]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/rethook.c:121:25: error: call to undeclared function 'ftrace_get_regs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                                  ^
+   arch/x86/kernel/rethook.c:121:18: error: incompatible integer to pointer conversion initializing 'struct pt_regs *' with an expression of type 'int' [-Wint-conversion]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
+--
+>> kernel/trace/rethook.c:298:2: error: call to undeclared function 'ftrace_regs_set_instruction_pointer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ftrace_regs_set_instruction_pointer(fregs, correct_ret_addr);
+           ^
+   1 error generated.
 
 
-vim +/__compiletime_assert_294 +397 include/linux/compiler_types.h
+vim +/ftrace_get_regs +2146 kernel/kprobes.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
-
-:::::: The code at line 397 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+  2140	
+  2141	static void kretprobe_rethook_handler(struct rethook_node *rh, void *data,
+  2142					      unsigned long ret_addr,
+  2143					      struct ftrace_regs *fregs)
+  2144	{
+  2145		struct kretprobe *rp = (struct kretprobe *)data;
+> 2146		struct pt_regs *regs = ftrace_get_regs(fregs);
+  2147		struct kretprobe_instance *ri;
+  2148		struct kprobe_ctlblk *kcb;
+  2149	
+  2150		/* This is bug because this depends on HAVE_PT_REGS_COMPAT_FTRACE_REGS */
+  2151		if (WARN_ON_ONCE(!regs))
+  2152			return;
+  2153	
+  2154		/* The data must NOT be null. This means rethook data structure is broken. */
+  2155		if (WARN_ON_ONCE(!data) || !rp->handler)
+  2156			return;
+  2157	
+  2158		__this_cpu_write(current_kprobe, &rp->kp);
+  2159		kcb = get_kprobe_ctlblk();
+  2160		kcb->kprobe_status = KPROBE_HIT_ACTIVE;
+  2161	
+  2162		ri = container_of(rh, struct kretprobe_instance, node);
+  2163		rp->handler(ri, regs);
+  2164	
+  2165		__this_cpu_write(current_kprobe, NULL);
+  2166	}
+  2167	NOKPROBE_SYMBOL(kretprobe_rethook_handler);
+  2168	
 
 -- 
 0-DAY CI Kernel Test Service
