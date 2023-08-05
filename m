@@ -1,51 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BA615A6
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 03:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA3315A6
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 03:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691205554; x=1722741554;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6BUZMrgcIdifnOs6mbPytqxS1JGu/yhvfT9qNZo3fPA=;
-  b=jOQkaKyIlUwkoaYAHIfzCqQ+vk9+vE/OGm9EAauLM95YqDAeehESFDlZ
-   QxUvorE+kFOP/UnO4WVdv25XzxaTk93Yn3QxCsKR9kj+0potSnI7+xDqg
-   8c3W9WdvIN5fNYSBzGg2a4VPchxv9JBkVARXtN0tkuTOMF0XzcsQD+cd1
-   HNcy/ht3hC1hWzto8mBFEudNrnb7rpVqJhTV9tzM4mRkdaY27Clz+Gl51
-   SDWl/+0SlvtOoi/G8qIfAyJY2HzuVU4udxJPzhDK6JcOADLVsWPxvpmi0
-   jHUVyQrDMG7raLGXRmApPbvEtj8IFmC/fLyH1t/Ib7PvR6iGLgBiA1B+7
+  t=1691207411; x=1722743411;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G9LC6Ems030i941y9wTYJfyBt3QDODWyS99RcLnj+OM=;
+  b=hxDRCk/agzAXHcp9zCWQmo/ZdiXQSuJoZtnEKQeq7Wc+B31MXoZ2oosE
+   rZZSSGXkL8lIhf+WYCKHiQG931hx5e7NGphMH6wgbZ5AOOc9OKk3LyeAv
+   TEpsHPYMVjHrbra/EcxnfjCcj9PCPxWTaUFBXW8CydOv9jhCLxzBKqx3k
+   gzxWrT1pXzBTPFvuJf10cw9P7EcGhhah/FCk/LfxAG5DqywPsrSr4lugy
+   /UAiseoOa6Vv2DTNhefXEYUEb0D1jkmXliVg4HrKNcKQ+mXiktB5XQel9
+   DFfsj5/yDkTwFH9TcYS1TSLLj2puni52/cmi45+aBGHyOHCtw7LsZusB7
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="456666387"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="401249135"
 X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="456666387"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 20:19:12 -0700
+   d="scan'208";a="401249135"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 20:50:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="733492416"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="795670350"
 X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="733492416"
+   d="scan'208";a="795670350"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 04 Aug 2023 20:19:09 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 04 Aug 2023 20:50:10 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qS7oq-0003HP-1u;
-	Sat, 05 Aug 2023 03:19:08 +0000
-Date: Sat, 5 Aug 2023 11:18:15 +0800
+	id 1qS8Ir-0003IF-10;
+	Sat, 05 Aug 2023 03:50:09 +0000
+Date: Sat, 5 Aug 2023 11:50:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@arm.com>, Leo Yan <leo.yan@linaro.org>,
-	coresight@lists.linaro.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] coresight: etm: Make cycle count threshold user
- configurable
-Message-ID: <202308051014.Uzl7XY32-lkp@intel.com>
-References: <20230804044720.1478900-1-anshuman.khandual@arm.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mhiramat:topic/fprobe-ftrace-regs 2/3] kernel/kprobes.c:2134:32:
+ error: implicit declaration of function 'ftrace_get_regs'
+Message-ID: <202308051129.wf2KLovu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,162 +45,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230804044720.1478900-1-anshuman.khandual@arm.com>
 
-Hi Anshuman,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on linus/master v6.5-rc4 next-20230804]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/coresight-etm-Make-cycle-count-threshold-user-configurable/20230804-124850
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20230804044720.1478900-1-anshuman.khandual%40arm.com
-patch subject: [PATCH] coresight: etm: Make cycle count threshold user configurable
-config: arm64-randconfig-r004-20230731 (https://download.01.org/0day-ci/archive/20230805/202308051014.Uzl7XY32-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051014.Uzl7XY32-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-ftrace-regs
+head:   5a524ad2b9f37524f51bd16099d16814c3b624a1
+commit: 5d93c6a3e4c0b1911bb29f888466aea92f1fae05 [2/3] fprobe: rethook: Use fprobe_regs in fprobe exit handler and rethook
+config: x86_64-buildonly-randconfig-r003-20230731 (https://download.01.org/0day-ci/archive/20230805/202308051129.wf2KLovu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051129.wf2KLovu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308051014.Uzl7XY32-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308051129.wf2KLovu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/hwtracing/coresight/coresight-etm4x-core.c: In function 'etm4_parse_event_config':
->> drivers/hwtracing/coresight/coresight-etm4x-core.c:661:17: error: 'cc_treshold' undeclared (first use in this function); did you mean 'cc_threshold'?
-     661 |                 cc_treshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
-         |                 ^~~~~~~~~~~
-         |                 cc_threshold
-   drivers/hwtracing/coresight/coresight-etm4x-core.c:661:17: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/kprobes.c: In function 'kretprobe_rethook_handler':
+>> kernel/kprobes.c:2134:32: error: implicit declaration of function 'ftrace_get_regs' [-Werror=implicit-function-declaration]
+    2134 |         struct pt_regs *regs = ftrace_get_regs(fregs);
+         |                                ^~~~~~~~~~~~~~~
+   kernel/kprobes.c:2134:32: warning: initialization of 'struct pt_regs *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   cc1: some warnings being treated as errors
+--
+   arch/x86/kernel/rethook.c: In function 'arch_rethook_fixup_return':
+>> arch/x86/kernel/rethook.c:111:32: error: implicit declaration of function 'ftrace_get_regs' [-Werror=implicit-function-declaration]
+     111 |         struct pt_regs *regs = ftrace_get_regs(fregs);
+         |                                ^~~~~~~~~~~~~~~
+   arch/x86/kernel/rethook.c:111:32: warning: initialization of 'struct pt_regs *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   arch/x86/kernel/rethook.c: In function 'arch_rethook_prepare':
+   arch/x86/kernel/rethook.c:121:32: warning: initialization of 'struct pt_regs *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     121 |         struct pt_regs *regs = ftrace_get_regs(fregs);
+         |                                ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   kernel/trace/rethook.c: In function 'rethook_trampoline_handler':
+>> kernel/trace/rethook.c:298:9: error: implicit declaration of function 'ftrace_regs_set_instruction_pointer' [-Werror=implicit-function-declaration]
+     298 |         ftrace_regs_set_instruction_pointer(fregs, correct_ret_addr);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +661 drivers/hwtracing/coresight/coresight-etm4x-core.c
+vim +/ftrace_get_regs +2134 kernel/kprobes.c
 
-   629	
-   630	static int etm4_parse_event_config(struct coresight_device *csdev,
-   631					   struct perf_event *event)
-   632	{
-   633		int ret = 0;
-   634		struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-   635		struct etmv4_config *config = &drvdata->config;
-   636		struct perf_event_attr *attr = &event->attr;
-   637		unsigned long cfg_hash;
-   638		int preset, cc_threshold;
-   639	
-   640		/* Clear configuration from previous run */
-   641		memset(config, 0, sizeof(struct etmv4_config));
-   642	
-   643		if (attr->exclude_kernel)
-   644			config->mode = ETM_MODE_EXCL_KERN;
-   645	
-   646		if (attr->exclude_user)
-   647			config->mode = ETM_MODE_EXCL_USER;
-   648	
-   649		/* Always start from the default config */
-   650		etm4_set_default_config(config);
-   651	
-   652		/* Configure filters specified on the perf cmd line, if any. */
-   653		ret = etm4_set_event_filters(drvdata, event);
-   654		if (ret)
-   655			goto out;
-   656	
-   657		/* Go from generic option to ETMv4 specifics */
-   658		if (attr->config & BIT(ETM_OPT_CYCACC)) {
-   659			config->cfg |= TRCCONFIGR_CCI;
-   660			/* TRM: Must program this for cycacc to work */
- > 661			cc_treshold = attr->config3 & ETM_CYC_THRESHOLD_MASK;
-   662			if (cc_treshold) {
-   663				if (cc_treshold < drvdata->ccitmin)
-   664					config->ccctlr = drvdata->ccitmin;
-   665				else
-   666					config->ccctlr = cc_threshold;
-   667			} else {
-   668				config->ccctlr = ETM_CYC_THRESHOLD_DEFAULT;
-   669			}
-   670		}
-   671		if (attr->config & BIT(ETM_OPT_TS)) {
-   672			/*
-   673			 * Configure timestamps to be emitted at regular intervals in
-   674			 * order to correlate instructions executed on different CPUs
-   675			 * (CPU-wide trace scenarios).
-   676			 */
-   677			ret = etm4_config_timestamp_event(drvdata);
-   678	
-   679			/*
-   680			 * No need to go further if timestamp intervals can't
-   681			 * be configured.
-   682			 */
-   683			if (ret)
-   684				goto out;
-   685	
-   686			/* bit[11], Global timestamp tracing bit */
-   687			config->cfg |= TRCCONFIGR_TS;
-   688		}
-   689	
-   690		/* Only trace contextID when runs in root PID namespace */
-   691		if ((attr->config & BIT(ETM_OPT_CTXTID)) &&
-   692		    task_is_in_init_pid_ns(current))
-   693			/* bit[6], Context ID tracing bit */
-   694			config->cfg |= TRCCONFIGR_CID;
-   695	
-   696		/*
-   697		 * If set bit ETM_OPT_CTXTID2 in perf config, this asks to trace VMID
-   698		 * for recording CONTEXTIDR_EL2.  Do not enable VMID tracing if the
-   699		 * kernel is not running in EL2.
-   700		 */
-   701		if (attr->config & BIT(ETM_OPT_CTXTID2)) {
-   702			if (!is_kernel_in_hyp_mode()) {
-   703				ret = -EINVAL;
-   704				goto out;
-   705			}
-   706			/* Only trace virtual contextID when runs in root PID namespace */
-   707			if (task_is_in_init_pid_ns(current))
-   708				config->cfg |= TRCCONFIGR_VMID | TRCCONFIGR_VMIDOPT;
-   709		}
-   710	
-   711		/* return stack - enable if selected and supported */
-   712		if ((attr->config & BIT(ETM_OPT_RETSTK)) && drvdata->retstack)
-   713			/* bit[12], Return stack enable bit */
-   714			config->cfg |= TRCCONFIGR_RS;
-   715	
-   716		/*
-   717		 * Set any selected configuration and preset.
-   718		 *
-   719		 * This extracts the values of PMU_FORMAT_ATTR(configid) and PMU_FORMAT_ATTR(preset)
-   720		 * in the perf attributes defined in coresight-etm-perf.c.
-   721		 * configid uses bits 63:32 of attr->config2, preset uses bits 3:0 of attr->config.
-   722		 * A zero configid means no configuration active, preset = 0 means no preset selected.
-   723		 */
-   724		if (attr->config2 & GENMASK_ULL(63, 32)) {
-   725			cfg_hash = (u32)(attr->config2 >> 32);
-   726			preset = attr->config & 0xF;
-   727			ret = cscfg_csdev_enable_active_config(csdev, cfg_hash, preset);
-   728		}
-   729	
-   730		/* branch broadcast - enable if selected and supported */
-   731		if (attr->config & BIT(ETM_OPT_BRANCH_BROADCAST)) {
-   732			if (!drvdata->trcbb) {
-   733				/*
-   734				 * Missing BB support could cause silent decode errors
-   735				 * so fail to open if it's not supported.
-   736				 */
-   737				ret = -EINVAL;
-   738				goto out;
-   739			} else {
-   740				config->cfg |= BIT(ETM4_CFG_BIT_BB);
-   741			}
-   742		}
-   743	
-   744	out:
-   745		return ret;
-   746	}
-   747	
+  2128	
+  2129	static void kretprobe_rethook_handler(struct rethook_node *rh, void *data,
+  2130					      unsigned long ret_addr,
+  2131					      struct ftrace_regs *fregs)
+  2132	{
+  2133		struct kretprobe *rp = (struct kretprobe *)data;
+> 2134		struct pt_regs *regs = ftrace_get_regs(fregs);
+  2135		struct kretprobe_instance *ri;
+  2136		struct kprobe_ctlblk *kcb;
+  2137	
+  2138		/* This is bug because this depends on HAVE_PT_REGS_COMPAT_FTRACE_REGS */
+  2139		if (WARN_ON_ONCE(!regs))
+  2140			return;
+  2141	
+  2142		/* The data must NOT be null. This means rethook data structure is broken. */
+  2143		if (WARN_ON_ONCE(!data) || !rp->handler)
+  2144			return;
+  2145	
+  2146		__this_cpu_write(current_kprobe, &rp->kp);
+  2147		kcb = get_kprobe_ctlblk();
+  2148		kcb->kprobe_status = KPROBE_HIT_ACTIVE;
+  2149	
+  2150		ri = container_of(rh, struct kretprobe_instance, node);
+  2151		rp->handler(ri, regs);
+  2152	
+  2153		__this_cpu_write(current_kprobe, NULL);
+  2154	}
+  2155	NOKPROBE_SYMBOL(kretprobe_rethook_handler);
+  2156	
 
 -- 
 0-DAY CI Kernel Test Service
