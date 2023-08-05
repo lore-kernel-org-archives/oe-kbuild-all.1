@@ -1,188 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6DF1FA5;
-	Sat,  5 Aug 2023 06:55:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84FCEC433C8;
-	Sat,  5 Aug 2023 06:55:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691218515;
-	bh=CWuiwNpYaagDLL/LrQOC3RkL/Tw83UVKw2ZR/aOcvKU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K0Zy+XPZZso7N5yfqEPNfN0WQiLnvUCJ0C8WUrGQiCcewD2skHPlxqugoIQ4PMGxP
-	 y60ozeZVrBJfTfPkJCM+8Yx8+RNsRyjUSkQiGXA+yhZsJFaFnw2qR64kNyTKQVgidi
-	 h+FPHrNRHVSSAZ0ld5iF6hwNqvjdBWBL1MC3WpxJ6Rw+yABo5oRiEm1mJfAC1bdSSI
-	 VXNe2f/jBrjStGYqZ4V6g3zGwHtzEzBD49wVd5uyw8O6MyoA15paHTDkl4tdzTToEY
-	 6o33PqgLZzntfmA0kEG/ydJn7D3Tc72RLVsQeiKJiuFg/L60mCzkik1w5ZPx1LrzEi
-	 U9iLz803jJdfA==
-Date: Sat, 5 Aug 2023 12:25:10 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
-	Md Sadre Alam <quic_mdalam@quicinc.com>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Sricharan Ramabadhran <quic_srichara@quicinc.com>
-Subject: Re: [linux-next:master 1937/6910]
- drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error:
- uninitialized symbol 'ret'.
-Message-ID: <20230805065510.GA18650@thinkpad>
-References: <7ad1160b-5f8c-47af-a1c5-51b34f656fab@kadam.mountain>
- <20230804184550.0cb12369@xps-13>
- <3604e2ed-8d30-4f7b-9e56-7af5b23b2ac5@kadam.mountain>
- <20230804190750.3367a044@xps-13>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687AF79D8;
+	Sat,  5 Aug 2023 07:26:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691220381; x=1722756381;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UqF/d5iiHLyiH7XIXE8R+Toinf2zfbbfnaBnMVML3rE=;
+  b=YEaZtUwZqt128TITV4s4CYpPOqW1wIp0f+GGNfWElSKUA4ehzGBfNJ3r
+   SARASsFTG5ZE2sG4+vwaFiaK44gHa16Rd24HVCM2NTf3hC95Q13tfg58D
+   W5faNWdogYGkwKcbDqaLyAaSNz3pY1A6yspwr2/F+xNw04NmG+WllwNFl
+   QGcqJgoQHzqzmXQgc0onmM8DfeV/Nm2BuCTFwe4mrfbrSmISYkRKtuPF7
+   bjFruOlyFDBOAW03ZmnWtalv6JgFslavZYxGpee/YyoC+hmM9baS5g8xM
+   99pnuIQ6soH8KTv5dLIogOYKo5uO7QA+dKTTQ2FHYyeRhMo1dYITkWtiw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="350606243"
+X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; 
+   d="scan'208";a="350606243"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 00:26:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="844379742"
+X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; 
+   d="scan'208";a="844379742"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 05 Aug 2023 00:26:19 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qSBg2-0003Nn-1R;
+	Sat, 05 Aug 2023 07:26:18 +0000
+Date: Sat, 5 Aug 2023 15:25:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v7] vfs, security: Fix automount superblock LSM init
+ problem, preventing NFS sb sharing
+Message-ID: <202308051526.dsbiTn6m-lkp@intel.com>
+References: <20230804-master-v7-1-5d4e48407298@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230804190750.3367a044@xps-13>
+In-Reply-To: <20230804-master-v7-1-5d4e48407298@kernel.org>
 
-On Fri, Aug 04, 2023 at 07:07:50PM +0200, Miquel Raynal wrote:
-> Hi Dan,
-> 
-> dan.carpenter@linaro.org wrote on Fri, 4 Aug 2023 19:52:50 +0300:
-> 
-> > On Fri, Aug 04, 2023 at 06:45:50PM +0200, Miquel Raynal wrote:
-> > > Hi Sadre, Sricharan & Manivannan,
-> > > 
-> > > A couple of questions for you below.
-> > > 
-> > > dan.carpenter@linaro.org wrote on Thu, 3 Aug 2023 15:20:56 +0300:
-> > >   
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > > head:   fb4327106e5250ee360d0d8b056c1eef7eeb9a98
-> > > > commit: 89550beb098e04b951df079483fb064eafc0e5fa [1937/6910] mtd: rawnand: qcom: Implement exec_op()
-> > > > config: riscv-randconfig-m031-20230730 (https://download.01.org/0day-ci/archive/20230803/202308032022.SnXkKyFs-lkp@intel.com/config)
-> > > > compiler: riscv64-linux-gcc (GCC) 12.3.0
-> > > > reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032022.SnXkKyFs-lkp@intel.com/reproduce)
-> > > > 
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > > | Closes: https://lore.kernel.org/r/202308032022.SnXkKyFs-lkp@intel.com/
-> > > > 
-> > > > New smatch warnings:
-> > > > drivers/mtd/nand/raw/qcom_nandc.c:2941 qcom_op_cmd_mapping() error: uninitialized symbol 'ret'.
-> > > > drivers/mtd/nand/raw/qcom_nandc.c:3369 qcom_check_op() warn: was && intended here instead of ||?
-> > > > 
-> > > > Old smatch warnings:
-> > > > drivers/mtd/nand/raw/qcom_nandc.c:3076 qcom_read_status_exec() warn: inconsistent indenting
-> > > > 
-> > > > vim +/ret +2941 drivers/mtd/nand/raw/qcom_nandc.c
-> > > > 
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2909  static int qcom_op_cmd_mapping(struct qcom_nand_controller *nandc, u8 cmd,
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2910  			       struct qcom_op *q_op)
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2911  {
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2912  	int ret;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2913  
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2914  	switch (cmd) {
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2915  	case NAND_CMD_RESET:
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2916  		ret = OP_RESET_DEVICE;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2917  		break;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2918  	case NAND_CMD_READID:
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2919  		ret = OP_FETCH_ID;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2920  		break;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2921  	case NAND_CMD_PARAM:
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2922  		if (nandc->props->qpic_v2)
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2923  			ret = OP_PAGE_READ_ONFI_READ;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2924  		else
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2925  			ret = OP_PAGE_READ;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2926  		break;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2927  	case NAND_CMD_ERASE1:
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2928  	case NAND_CMD_ERASE2:
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2929  		ret = OP_BLOCK_ERASE;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2930  		break;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2931  	case NAND_CMD_STATUS:
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2932  		ret = OP_CHECK_STATUS;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2933  		break;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2934  	case NAND_CMD_PAGEPROG:
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2935  		ret = OP_PROGRAM_PAGE;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2936  		q_op->flag = OP_PROGRAM_PAGE;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2937  		nandc->exec_opwrite = true;
-> > > > 89550beb098e04 drivers/mtd/nand/raw/qcom_nandc.c Md Sadre Alam 2023-07-10  2938  		break;
-> > > > 
-> > > > No default case.  I'm more concerned about the && vs || warning, but
-> > > > the zero day bot doesn't include that code into the email.  
-> > > 
-> > > The default case here is in theory not possible, as long as
-> > > qcom_check_op() is properly implemented. We should however silence the
-> > > warning by handling it. Maybe a WARN_ON_ONCE() + ret = <anything that
-> > > will produce an error when executing the command> would work.
-> > >   
-> > 
-> > The kbuild-bot runs without the cross function database so it has a lot
-> > of false positives that you wouldn't see if you had the DB.  (There
-> > isn't really a way to build with the cross function DB.  It takes way
-> > way way too long.  Also it sometimes finds bug which are complicated to
-> > explain or to assign blame for in an automated way).  But these false
-> > positives are frustrating to me.
-> 
-> I understand.
-> 
-> > In real life, GCC is going to automatically initialize stack variables
-> > to zero on production systems.
-> 
-> Well, we must silence this by setting reg in all cases, but here the
-> variable is badly named, it should be s/ret/cmd/. That's why, if we
-> silence it properly, I would go for a runtime warning if we ever
-> encounter the situation because this is a purely software bug.
-> 
+Hi Jeff,
 
-I agree, it is better to add a default case for sanity. Regarding the variable
-naming, I agree it should be improved. Something like,
+kernel test robot noticed the following build warnings:
 
-s/cmd/opcode
-s/ret/cmd
+[auto build test WARNING on 5d0c230f1de8c7515b6567d9afba1f196fb4e2f4]
 
-Also, I do not want to add WARN_ON_ONCE() here, but rather a dev_err().
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/vfs-security-Fix-automount-superblock-LSM-init-problem-preventing-NFS-sb-sharing/20230805-001234
+base:   5d0c230f1de8c7515b6567d9afba1f196fb4e2f4
+patch link:    https://lore.kernel.org/r/20230804-master-v7-1-5d4e48407298%40kernel.org
+patch subject: [PATCH v7] vfs, security: Fix automount superblock LSM init problem, preventing NFS sb sharing
+config: hexagon-randconfig-r041-20230801 (https://download.01.org/0day-ci/archive/20230805/202308051526.dsbiTn6m-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051526.dsbiTn6m-lkp@intel.com/reproduce)
 
-> > > However I doubt the following piece of code has been successfully
-> > > tested:
-> > > 
-> > >         for (op_id = 0; op_id < op->ninstrs; op_id++) {
-> > >                 instr = &op->instrs[op_id];
-> > > 
-> > >                 switch (instr->type) {
-> > >                 case NAND_OP_CMD_INSTR:
-> > >                         if (instr->ctx.cmd.opcode != NAND_CMD_RESET ||
-> > >                             instr->ctx.cmd.opcode != NAND_CMD_READID ||
-> > >                             instr->ctx.cmd.opcode != NAND_CMD_PARAM ||
-> > >                             instr->ctx.cmd.opcode != NAND_CMD_ERASE1 ||
-> > >                             instr->ctx.cmd.opcode != NAND_CMD_ERASE2 ||
-> > >                             instr->ctx.cmd.opcode != NAND_CMD_STATUS ||
-> > >                             instr->ctx.cmd.opcode != NAND_CMD_PAGEPROG)
-> > >                                 return -ENOTSUPP;
-> > >                         break;
-> > > 
-> > > The || should be &&, otherwise it cannot work, or am I missing
-> > > something?  
-> > 
-> > Yeah.  That's how this bug normally looks like.  NAND_OP_CMD_INSTR
-> > always returns -ENOTSUPP.
-> > 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308051526.dsbiTn6m-lkp@intel.com/
 
-Yes, this is a bug.
+All warnings (new ones prefixed by >>):
 
-I didn't get a chance to review the exec_op conversion series (blame myself).
-Now I see scope for a cleaup series :/
+   In file included from security/smack/smack_lsm.c:19:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from security/smack/smack_lsm.c:19:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from security/smack/smack_lsm.c:19:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> security/smack/smack_lsm.c:631:59: warning: if statement has empty body [-Wempty-body]
+     631 |         if (!reference || fc->purpose != FS_CONTEXT_FOR_SUBMOUNT);
+         |                                                                  ^
+   security/smack/smack_lsm.c:631:59: note: put the semicolon on a separate line to silence this warning
+   7 warnings generated.
 
-Let me spin something by the end of today.
 
-- Mani
+vim +631 security/smack/smack_lsm.c
 
-> > regards,
-> > dan carpenter
-> > 
-> 
-> 
-> Thanks,
-> Miquèl
+   616	
+   617	/**
+   618	 * smack_fs_context_init - Initialise security data for a filesystem context
+   619	 * @fc: The filesystem context.
+   620	 * @reference: Reference dentry (automount/reconfigure) or NULL
+   621	 *
+   622	 * Returns 0 on success or -ENOMEM on error.
+   623	 */
+   624	static int smack_fs_context_init(struct fs_context *fc,
+   625					 struct dentry *reference)
+   626	{
+   627		struct superblock_smack *sbsp;
+   628		struct smack_mnt_opts *ctx;
+   629		struct inode_smack *isp;
+   630	
+ > 631		if (!reference || fc->purpose != FS_CONTEXT_FOR_SUBMOUNT);
+   632			return 0;
+   633	
+   634		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+   635		if (!ctx)
+   636			return -ENOMEM;
+   637		fc->security = ctx;
+   638	
+   639		sbsp = smack_superblock(reference->d_sb);
+   640		isp = smack_inode(reference->d_sb->s_root->d_inode);
+   641	
+   642		if (sbsp->smk_default) {
+   643			ctx->fsdefault = kstrdup(sbsp->smk_default->smk_known, GFP_KERNEL);
+   644			if (!ctx->fsdefault)
+   645				return -ENOMEM;
+   646		}
+   647	
+   648		if (sbsp->smk_floor) {
+   649			ctx->fsfloor = kstrdup(sbsp->smk_floor->smk_known, GFP_KERNEL);
+   650			if (!ctx->fsfloor)
+   651				return -ENOMEM;
+   652		}
+   653	
+   654		if (sbsp->smk_hat) {
+   655			ctx->fshat = kstrdup(sbsp->smk_hat->smk_known, GFP_KERNEL);
+   656			if (!ctx->fshat)
+   657				return -ENOMEM;
+   658		}
+   659	
+   660		if (isp->smk_flags & SMK_INODE_TRANSMUTE) {
+   661			if (sbsp->smk_root) {
+   662				ctx->fstransmute = kstrdup(sbsp->smk_root->smk_known, GFP_KERNEL);
+   663				if (!ctx->fstransmute)
+   664					return -ENOMEM;
+   665			}
+   666		}
+   667		return 0;
+   668	}
+   669	
 
 -- 
-மணிவண்ணன் சதாசிவம்
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
