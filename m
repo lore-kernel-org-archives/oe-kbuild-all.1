@@ -1,44 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998E3EBE;
-	Sat,  5 Aug 2023 04:31:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D2E1381
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 04:41:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691209873; x=1722745873;
+  t=1691210477; x=1722746477;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EKIMg1s7TxnyhInBuXvogh8gxQa65xRg5GieUu8ap7I=;
-  b=KIiDL3/Ps+xd4Dm+0kMVRZuBycuXzYDo2Mgnr5Rmzyn9h04eig3a4fQ+
-   btU683PLf3KjMvSniKpl9lHtMs49g4FMuXbtinSPKC0Wvh3kGgR6qORfW
-   Y3TJGT1kvWWzRN6LuS8j9MiPjfhElTdagvb35epZMXcdhDi9zz3myG2lr
-   QVIhG6vqrTkvJElHwZ/+B6ARQHi+xQoeBpD9l3dSJfer2N8ozlDVi2ilr
-   8r4teueKYtqdty2yM6LjmWkjH3uIAK8I4TRNUjeWm1xEvsxmegsYZVYW4
-   dytU5K4ocmjUW9r3DaI7kMj6gUKMyxrXGpYU+T1m4RqeLjrduNWdRI0Dg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="360353491"
+  bh=a7/Jr8fTHwApa11pziKbW5GeuOaqvV5geKlMz8Klkag=;
+  b=DDdUfEze3XwluJtJ5dCEJ+A1ICQUcT0altqBmAcT9lr7TIiwVlhGUe/9
+   18lHyx/vk1s+US/O+/kQxlKdRZ8W8z4OjdADPmcNv8v8JEI5y+zjtsxkz
+   yjsZpJhup9okO0kd7CsFKdwiS5XfveN/uyMbga7/rAXDPxA05UP4r3XWl
+   6qXKFEF1QIwzvUSCwbjw5KKqCpkeXmP0UXddgkIEL+oliz3TyOd7/fybd
+   Y+Kt3YSBOxzAgOZuWxbqqLEznjrpe5h95CJxKvSMQYk1dvI0Z/tAxcQKo
+   ShkCntPxFgnM/ajko2BCBamj9DdRzaRujspuJZuzxVZaIUlupZexxEItp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="373037940"
 X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="360353491"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 21:31:12 -0700
+   d="scan'208";a="373037940"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 21:41:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="759849642"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="904108098"
 X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="759849642"
+   d="scan'208";a="904108098"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 Aug 2023 21:31:10 -0700
+  by orsmga005.jf.intel.com with ESMTP; 04 Aug 2023 21:41:15 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qS8wY-0003JP-0R;
-	Sat, 05 Aug 2023 04:31:10 +0000
-Date: Sat, 5 Aug 2023 12:30:30 +0800
+	id 1qS96I-0003Ju-2Q;
+	Sat, 05 Aug 2023 04:41:14 +0000
+Date: Sat, 5 Aug 2023 12:40:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-nonmm-unstable 54/56] kernel/watchdog.c:526:36: error:
- too many arguments to function call, expected 0, have 1
-Message-ID: <202308051236.R7HDiE39-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 1/1] mm/page_alloc.c:1167:31: sparse:
+ sparse: cast from restricted fpi_t
+Message-ID: <202308051227.nS4zaaAP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,194 +46,163 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   b1cb25d092e113f8a4424a37c94b1d41cb430511
-commit: 0ca1d340a231ec8e8f2586c4bf2dc8c4f7d4ddc9 [54/56] nmi_backtrace: allow excluding an arbitrary CPU
-config: um-randconfig-r034-20230731 (https://download.01.org/0day-ci/archive/20230805/202308051236.R7HDiE39-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051236.R7HDiE39-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   f9dbe76124d63e620471a49c356ea93dfcaa7ce8
+commit: 00b1ba8b15f9d161d165afee26d7409a12deca98 [1/1] ANDROID: vendor_hooks: vendor hook for MM
+config: i386-randconfig-i063-20230730 (https://download.01.org/0day-ci/archive/20230805/202308051227.nS4zaaAP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051227.nS4zaaAP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308051236.R7HDiE39-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308051227.nS4zaaAP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/page_alloc.c:1167:31: sparse: sparse: cast from restricted fpi_t
+>> mm/page_alloc.c:1167:31: sparse: sparse: cast from restricted fpi_t
+>> mm/page_alloc.c:1167:31: sparse: sparse: cast from restricted fpi_t
+   mm/page_alloc.c:3614:9: sparse: sparse: context imbalance in 'free_unref_page' - different lock contexts for basic block
+   mm/page_alloc.c:3693:17: sparse: sparse: context imbalance in 'free_unref_page_list' - unexpected unlock
+>> mm/page_alloc.c:1167:31: sparse: sparse: cast from restricted fpi_t
+   mm/page_alloc.c:3895:20: sparse: sparse: context imbalance in 'rmqueue_pcplist' - different lock contexts for basic block
+   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/gfp.h:383:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:383:27: sparse: sparse: restricted gfp_t degrades to integer
+   mm/page_alloc.c:5622:9: sparse: sparse: context imbalance in '__alloc_pages_bulk' - different lock contexts for basic block
+   include/linux/gfp.h:383:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:383:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:383:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:383:27: sparse: sparse: restricted gfp_t degrades to integer
 
-   In file included from kernel/watchdog.c:21:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/watchdog.c:21:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/watchdog.c:21:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> kernel/watchdog.c:526:36: error: too many arguments to function call, expected 0, have 1
-                           trigger_allbutcpu_cpu_backtrace(smp_processor_id());
-                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~
-   include/linux/smp.h:271:29: note: expanded from macro 'smp_processor_id'
-   # define smp_processor_id() __smp_processor_id()
-                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/smp.h:264:31: note: expanded from macro '__smp_processor_id'
-   #define __smp_processor_id(x) raw_smp_processor_id(x)
-                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/smp.h:198:34: note: expanded from macro 'raw_smp_processor_id'
-   #define raw_smp_processor_id()                  0
-                                                   ^
-   include/linux/nmi.h:193:20: note: 'trigger_allbutcpu_cpu_backtrace' declared here
-   static inline bool trigger_allbutcpu_cpu_backtrace(void)
-                      ^
-   12 warnings and 1 error generated.
+vim +1167 mm/page_alloc.c
 
-
-vim +526 kernel/watchdog.c
-
-   441	
-   442	/* watchdog kicker functions */
-   443	static enum hrtimer_restart watchdog_timer_fn(struct hrtimer *hrtimer)
-   444	{
-   445		unsigned long touch_ts, period_ts, now;
-   446		struct pt_regs *regs = get_irq_regs();
-   447		int duration;
-   448		int softlockup_all_cpu_backtrace = sysctl_softlockup_all_cpu_backtrace;
-   449	
-   450		if (!watchdog_enabled)
-   451			return HRTIMER_NORESTART;
-   452	
-   453		watchdog_hardlockup_kick();
-   454	
-   455		/* kick the softlockup detector */
-   456		if (completion_done(this_cpu_ptr(&softlockup_completion))) {
-   457			reinit_completion(this_cpu_ptr(&softlockup_completion));
-   458			stop_one_cpu_nowait(smp_processor_id(),
-   459					softlockup_fn, NULL,
-   460					this_cpu_ptr(&softlockup_stop_work));
-   461		}
-   462	
-   463		/* .. and repeat */
-   464		hrtimer_forward_now(hrtimer, ns_to_ktime(sample_period));
-   465	
-   466		/*
-   467		 * Read the current timestamp first. It might become invalid anytime
-   468		 * when a virtual machine is stopped by the host or when the watchog
-   469		 * is touched from NMI.
-   470		 */
-   471		now = get_timestamp();
-   472		/*
-   473		 * If a virtual machine is stopped by the host it can look to
-   474		 * the watchdog like a soft lockup. This function touches the watchdog.
-   475		 */
-   476		kvm_check_and_clear_guest_paused();
-   477		/*
-   478		 * The stored timestamp is comparable with @now only when not touched.
-   479		 * It might get touched anytime from NMI. Make sure that is_softlockup()
-   480		 * uses the same (valid) value.
-   481		 */
-   482		period_ts = READ_ONCE(*this_cpu_ptr(&watchdog_report_ts));
-   483	
-   484		/* Reset the interval when touched by known problematic code. */
-   485		if (period_ts == SOFTLOCKUP_DELAY_REPORT) {
-   486			if (unlikely(__this_cpu_read(softlockup_touch_sync))) {
-   487				/*
-   488				 * If the time stamp was touched atomically
-   489				 * make sure the scheduler tick is up to date.
-   490				 */
-   491				__this_cpu_write(softlockup_touch_sync, false);
-   492				sched_clock_tick();
-   493			}
-   494	
-   495			update_report_ts();
-   496			return HRTIMER_RESTART;
-   497		}
-   498	
-   499		/* Check for a softlockup. */
-   500		touch_ts = __this_cpu_read(watchdog_touch_ts);
-   501		duration = is_softlockup(touch_ts, period_ts, now);
-   502		if (unlikely(duration)) {
-   503			/*
-   504			 * Prevent multiple soft-lockup reports if one cpu is already
-   505			 * engaged in dumping all cpu back traces.
-   506			 */
-   507			if (softlockup_all_cpu_backtrace) {
-   508				if (test_and_set_bit_lock(0, &soft_lockup_nmi_warn))
-   509					return HRTIMER_RESTART;
-   510			}
-   511	
-   512			/* Start period for the next softlockup warning. */
-   513			update_report_ts();
-   514	
-   515			pr_emerg("BUG: soft lockup - CPU#%d stuck for %us! [%s:%d]\n",
-   516				smp_processor_id(), duration,
-   517				current->comm, task_pid_nr(current));
-   518			print_modules();
-   519			print_irqtrace_events(current);
-   520			if (regs)
-   521				show_regs(regs);
-   522			else
-   523				dump_stack();
-   524	
-   525			if (softlockup_all_cpu_backtrace) {
- > 526				trigger_allbutcpu_cpu_backtrace(smp_processor_id());
-   527				clear_bit_unlock(0, &soft_lockup_nmi_warn);
-   528			}
-   529	
-   530			add_taint(TAINT_SOFTLOCKUP, LOCKDEP_STILL_OK);
-   531			if (softlockup_panic)
-   532				panic("softlockup: hung tasks");
-   533		}
-   534	
-   535		return HRTIMER_RESTART;
-   536	}
-   537	
+  1128	
+  1129	/*
+  1130	 * Freeing function for a buddy system allocator.
+  1131	 *
+  1132	 * The concept of a buddy system is to maintain direct-mapped table
+  1133	 * (containing bit values) for memory blocks of various "orders".
+  1134	 * The bottom level table contains the map for the smallest allocatable
+  1135	 * units of memory (here, pages), and each level above it describes
+  1136	 * pairs of units from the levels below, hence, "buddies".
+  1137	 * At a high level, all that happens here is marking the table entry
+  1138	 * at the bottom level available, and propagating the changes upward
+  1139	 * as necessary, plus some accounting needed to play nicely with other
+  1140	 * parts of the VM system.
+  1141	 * At each level, we keep a list of pages, which are heads of continuous
+  1142	 * free pages of length of (1 << order) and marked with PageBuddy.
+  1143	 * Page's order is recorded in page_private(page) field.
+  1144	 * So when we are allocating or freeing one, we can derive the state of the
+  1145	 * other.  That is, if we allocate a small block, and both were
+  1146	 * free, the remainder of the region must be split into blocks.
+  1147	 * If a block is freed, and its buddy is also free, then this
+  1148	 * triggers coalescing into a block of larger size.
+  1149	 *
+  1150	 * -- nyc
+  1151	 */
+  1152	
+  1153	static inline void __free_one_page(struct page *page,
+  1154			unsigned long pfn,
+  1155			struct zone *zone, unsigned int order,
+  1156			int migratetype, fpi_t fpi_flags)
+  1157	{
+  1158		struct capture_control *capc = task_capc(zone);
+  1159		unsigned long buddy_pfn;
+  1160		unsigned long combined_pfn;
+  1161		unsigned int max_order;
+  1162		struct page *buddy;
+  1163		bool to_tail;
+  1164		bool bypass = false;
+  1165	
+  1166		trace_android_vh_free_one_page_bypass(page, zone, order,
+> 1167			migratetype, (int)fpi_flags, &bypass);
+  1168	
+  1169		if (bypass)
+  1170			return;
+  1171	
+  1172		max_order = min_t(unsigned int, MAX_ORDER - 1, pageblock_order);
+  1173	
+  1174		VM_BUG_ON(!zone_is_initialized(zone));
+  1175		VM_BUG_ON_PAGE(page->flags & PAGE_FLAGS_CHECK_AT_PREP, page);
+  1176	
+  1177		VM_BUG_ON(migratetype == -1);
+  1178		if (likely(!is_migrate_isolate(migratetype)))
+  1179			__mod_zone_freepage_state(zone, 1 << order, migratetype);
+  1180	
+  1181		VM_BUG_ON_PAGE(pfn & ((1 << order) - 1), page);
+  1182		VM_BUG_ON_PAGE(bad_range(zone, page), page);
+  1183	
+  1184	continue_merging:
+  1185		while (order < max_order) {
+  1186			if (compaction_capture(capc, page, order, migratetype)) {
+  1187				__mod_zone_freepage_state(zone, -(1 << order),
+  1188									migratetype);
+  1189				return;
+  1190			}
+  1191			buddy_pfn = __find_buddy_pfn(pfn, order);
+  1192			buddy = page + (buddy_pfn - pfn);
+  1193	
+  1194			if (!page_is_buddy(page, buddy, order))
+  1195				goto done_merging;
+  1196			/*
+  1197			 * Our buddy is free or it is CONFIG_DEBUG_PAGEALLOC guard page,
+  1198			 * merge with it and move up one order.
+  1199			 */
+  1200			if (page_is_guard(buddy))
+  1201				clear_page_guard(zone, buddy, order, migratetype);
+  1202			else
+  1203				del_page_from_free_list(buddy, zone, order);
+  1204			combined_pfn = buddy_pfn & pfn;
+  1205			page = page + (combined_pfn - pfn);
+  1206			pfn = combined_pfn;
+  1207			order++;
+  1208		}
+  1209		if (order < MAX_ORDER - 1) {
+  1210			/* If we are here, it means order is >= pageblock_order.
+  1211			 * We want to prevent merge between freepages on isolate
+  1212			 * pageblock and normal pageblock. Without this, pageblock
+  1213			 * isolation could cause incorrect freepage or CMA accounting.
+  1214			 *
+  1215			 * We don't want to hit this code for the more frequent
+  1216			 * low-order merging.
+  1217			 */
+  1218			if (unlikely(has_isolate_pageblock(zone))) {
+  1219				int buddy_mt;
+  1220	
+  1221				buddy_pfn = __find_buddy_pfn(pfn, order);
+  1222				buddy = page + (buddy_pfn - pfn);
+  1223				buddy_mt = get_pageblock_migratetype(buddy);
+  1224	
+  1225				if (migratetype != buddy_mt
+  1226						&& (is_migrate_isolate(migratetype) ||
+  1227							is_migrate_isolate(buddy_mt)))
+  1228					goto done_merging;
+  1229			}
+  1230			max_order = order + 1;
+  1231			goto continue_merging;
+  1232		}
+  1233	
+  1234	done_merging:
+  1235		set_buddy_order(page, order);
+  1236	
+  1237		if (fpi_flags & FPI_TO_TAIL)
+  1238			to_tail = true;
+  1239		else if (is_shuffle_order(order))
+  1240			to_tail = shuffle_pick_tail();
+  1241		else
+  1242			to_tail = buddy_merge_likely(pfn, buddy_pfn, page, order);
+  1243	
+  1244		if (to_tail)
+  1245			add_to_free_list_tail(page, zone, order, migratetype);
+  1246		else
+  1247			add_to_free_list(page, zone, order, migratetype);
+  1248	
+  1249		/* Notify page reporting subsystem of freed page */
+  1250		if (!(fpi_flags & FPI_SKIP_REPORT_NOTIFY))
+  1251			page_reporting_notify_free(order);
+  1252	}
+  1253	
 
 -- 
 0-DAY CI Kernel Test Service
