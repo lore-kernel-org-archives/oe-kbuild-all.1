@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399EF17C6
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 05:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C1B187E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 05:12:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691211678; x=1722747678;
+  t=1691212339; x=1722748339;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hxxRlWXwCFRoJkbg3tYoyPxZ82HWVNpZ4btppfXHyDA=;
-  b=BVBF0a0JbZ/WU0IBEYiQY4vzX/GAgygv2Y4dqU7ARKheaWqLCibANBEw
-   /vGylQeEOTHeonzt/ykS6H/R4wON64iumCA7QDUssseV3S6BmJR2RHiew
-   xTKlHR9RIvlmls1blFY6cSqlie/AEdR8j6lOZyMKU+sbDjgLWeY2qIjxr
-   VdNDt8ArXnRq2iSR+53z0EQSw2if1+VC/q416Lv+VGSm6K5y+SOl6rWto
-   I8kPM3M1AbNqrrk0uD6YdUVCc2fe+vC0GNBOuhd+lUpJU3J7TvHbY7NbQ
-   CSC349HeLcqfE6nFbw8ubFfP9wfXU9fVpmuHUGBfyL1Vbg0SBQo2NwAkp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="350599555"
+  bh=cj9QUPnMSC3QzUf5+xKLz0OtlqDYMpjdxbtiP+TM4jY=;
+  b=JKp5nHxpHtk9OsonVGR4Lt8wBvLphcK6NvNvNL09YDyP2gbBzk4VmKL8
+   WfxNSP4yv3ofs939Y0OCJh/HSQtIp+lXc72GROhJVRwQU/xPXb4nhlmTL
+   ul1cgOvqhGOysGq+5eULYgrYYszjelzL2Q3dIgadbhwzp/PkJsb9LA3HU
+   lra+b9nekL1a9Y+MJ1llfVeOI8Rlzc4cGdPrKahzGpHmTa0/UcU2GfcXY
+   iBQgsk7KpXEI/8wmoqf6A/H6QXO7OwHQcb9XaORN1ryoztUPl2f382Aqm
+   PtRxuyak9K8mz4IF97jKdLFfkZIm6OHlZ9lj88orwu7tbjWG3YUUAIP4F
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="370280857"
 X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="350599555"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 22:01:17 -0700
+   d="scan'208";a="370280857"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 22:12:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="723903590"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="733513796"
 X-IronPort-AV: E=Sophos;i="6.01,256,1684825200"; 
-   d="scan'208";a="723903590"
+   d="scan'208";a="733513796"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 04 Aug 2023 22:01:16 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 04 Aug 2023 22:12:16 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qS9Pf-0003KN-0S;
-	Sat, 05 Aug 2023 05:01:15 +0000
-Date: Sat, 5 Aug 2023 13:01:05 +0800
+	id 1qS9aJ-0003Kd-2D;
+	Sat, 05 Aug 2023 05:12:15 +0000
+Date: Sat, 5 Aug 2023 13:11:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tianyu Lan <tiala@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
-	Michael Kelley <mikelley@microsoft.com>
-Subject: [hyperv:hyperv-next 7/8] arch/x86/include/asm/mshyperv.h:251:12:
- warning: 'hv_snp_boot_ap' defined but not used
-Message-ID: <202308051235.6ooe6dyM-lkp@intel.com>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-nonmm-unstable 54/56] kernel/watchdog.c:526:25: error:
+ too many arguments to function 'trigger_allbutcpu_cpu_backtrace'
+Message-ID: <202308051325.L5GexhAl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,51 +48,129 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git hyperv-next
-head:   3a5274c555c28bd6906103b0d9bbfd6e9e9df1ff
-commit: 78812dcc77c23c72b019e517b296f15943922bd7 [7/8] x86/hyperv: Add smp support for SEV-SNP guest
-config: i386-buildonly-randconfig-r005-20230731 (https://download.01.org/0day-ci/archive/20230805/202308051235.6ooe6dyM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051235.6ooe6dyM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   b1cb25d092e113f8a4424a37c94b1d41cb430511
+commit: 0ca1d340a231ec8e8f2586c4bf2dc8c4f7d4ddc9 [54/56] nmi_backtrace: allow excluding an arbitrary CPU
+config: sparc-randconfig-r036-20230731 (https://download.01.org/0day-ci/archive/20230805/202308051325.L5GexhAl-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051325.L5GexhAl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308051235.6ooe6dyM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308051325.L5GexhAl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/hv/channel.c:22:
-   arch/x86/include/asm/mshyperv.h: In function 'hv_snp_boot_ap':
-   arch/x86/include/asm/mshyperv.h:251:1: error: no return statement in function returning non-void [-Werror=return-type]
-     251 | static int hv_snp_boot_ap(int cpu, unsigned long start_ip) {}
-         | ^~~~~~
-   arch/x86/include/asm/mshyperv.h: At top level:
->> arch/x86/include/asm/mshyperv.h:251:12: warning: 'hv_snp_boot_ap' defined but not used [-Wunused-function]
-     251 | static int hv_snp_boot_ap(int cpu, unsigned long start_ip) {}
-         |            ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   kernel/watchdog.c: In function 'watchdog_timer_fn':
+>> kernel/watchdog.c:526:25: error: too many arguments to function 'trigger_allbutcpu_cpu_backtrace'
+     526 |                         trigger_allbutcpu_cpu_backtrace(smp_processor_id());
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/watchdog.c:17:
+   include/linux/nmi.h:193:20: note: declared here
+     193 | static inline bool trigger_allbutcpu_cpu_backtrace(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/hv_snp_boot_ap +251 arch/x86/include/asm/mshyperv.h
+vim +/trigger_allbutcpu_cpu_backtrace +526 kernel/watchdog.c
 
-   237	
-   238	#ifdef CONFIG_AMD_MEM_ENCRYPT
-   239	void hv_ghcb_msr_write(u64 msr, u64 value);
-   240	void hv_ghcb_msr_read(u64 msr, u64 *value);
-   241	bool hv_ghcb_negotiate_protocol(void);
-   242	void __noreturn hv_ghcb_terminate(unsigned int set, unsigned int reason);
-   243	void hv_vtom_init(void);
-   244	int hv_snp_boot_ap(int cpu, unsigned long start_ip);
-   245	#else
-   246	static inline void hv_ghcb_msr_write(u64 msr, u64 value) {}
-   247	static inline void hv_ghcb_msr_read(u64 msr, u64 *value) {}
-   248	static inline bool hv_ghcb_negotiate_protocol(void) { return false; }
-   249	static inline void hv_ghcb_terminate(unsigned int set, unsigned int reason) {}
-   250	static inline void hv_vtom_init(void) {}
- > 251	static int hv_snp_boot_ap(int cpu, unsigned long start_ip) {}
-   252	#endif
-   253	
+   441	
+   442	/* watchdog kicker functions */
+   443	static enum hrtimer_restart watchdog_timer_fn(struct hrtimer *hrtimer)
+   444	{
+   445		unsigned long touch_ts, period_ts, now;
+   446		struct pt_regs *regs = get_irq_regs();
+   447		int duration;
+   448		int softlockup_all_cpu_backtrace = sysctl_softlockup_all_cpu_backtrace;
+   449	
+   450		if (!watchdog_enabled)
+   451			return HRTIMER_NORESTART;
+   452	
+   453		watchdog_hardlockup_kick();
+   454	
+   455		/* kick the softlockup detector */
+   456		if (completion_done(this_cpu_ptr(&softlockup_completion))) {
+   457			reinit_completion(this_cpu_ptr(&softlockup_completion));
+   458			stop_one_cpu_nowait(smp_processor_id(),
+   459					softlockup_fn, NULL,
+   460					this_cpu_ptr(&softlockup_stop_work));
+   461		}
+   462	
+   463		/* .. and repeat */
+   464		hrtimer_forward_now(hrtimer, ns_to_ktime(sample_period));
+   465	
+   466		/*
+   467		 * Read the current timestamp first. It might become invalid anytime
+   468		 * when a virtual machine is stopped by the host or when the watchog
+   469		 * is touched from NMI.
+   470		 */
+   471		now = get_timestamp();
+   472		/*
+   473		 * If a virtual machine is stopped by the host it can look to
+   474		 * the watchdog like a soft lockup. This function touches the watchdog.
+   475		 */
+   476		kvm_check_and_clear_guest_paused();
+   477		/*
+   478		 * The stored timestamp is comparable with @now only when not touched.
+   479		 * It might get touched anytime from NMI. Make sure that is_softlockup()
+   480		 * uses the same (valid) value.
+   481		 */
+   482		period_ts = READ_ONCE(*this_cpu_ptr(&watchdog_report_ts));
+   483	
+   484		/* Reset the interval when touched by known problematic code. */
+   485		if (period_ts == SOFTLOCKUP_DELAY_REPORT) {
+   486			if (unlikely(__this_cpu_read(softlockup_touch_sync))) {
+   487				/*
+   488				 * If the time stamp was touched atomically
+   489				 * make sure the scheduler tick is up to date.
+   490				 */
+   491				__this_cpu_write(softlockup_touch_sync, false);
+   492				sched_clock_tick();
+   493			}
+   494	
+   495			update_report_ts();
+   496			return HRTIMER_RESTART;
+   497		}
+   498	
+   499		/* Check for a softlockup. */
+   500		touch_ts = __this_cpu_read(watchdog_touch_ts);
+   501		duration = is_softlockup(touch_ts, period_ts, now);
+   502		if (unlikely(duration)) {
+   503			/*
+   504			 * Prevent multiple soft-lockup reports if one cpu is already
+   505			 * engaged in dumping all cpu back traces.
+   506			 */
+   507			if (softlockup_all_cpu_backtrace) {
+   508				if (test_and_set_bit_lock(0, &soft_lockup_nmi_warn))
+   509					return HRTIMER_RESTART;
+   510			}
+   511	
+   512			/* Start period for the next softlockup warning. */
+   513			update_report_ts();
+   514	
+   515			pr_emerg("BUG: soft lockup - CPU#%d stuck for %us! [%s:%d]\n",
+   516				smp_processor_id(), duration,
+   517				current->comm, task_pid_nr(current));
+   518			print_modules();
+   519			print_irqtrace_events(current);
+   520			if (regs)
+   521				show_regs(regs);
+   522			else
+   523				dump_stack();
+   524	
+   525			if (softlockup_all_cpu_backtrace) {
+ > 526				trigger_allbutcpu_cpu_backtrace(smp_processor_id());
+   527				clear_bit_unlock(0, &soft_lockup_nmi_warn);
+   528			}
+   529	
+   530			add_taint(TAINT_SOFTLOCKUP, LOCKDEP_STILL_OK);
+   531			if (softlockup_panic)
+   532				panic("softlockup: hung tasks");
+   533		}
+   534	
+   535		return HRTIMER_RESTART;
+   536	}
+   537	
 
 -- 
 0-DAY CI Kernel Test Service
