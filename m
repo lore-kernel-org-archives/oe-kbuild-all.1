@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFCD1FA0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 18:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96882CA6;
+	Sat,  5 Aug 2023 20:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691258937; x=1722794937;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3k30z60D6fayYhHFuac8dXSMyUoOB4Sp/06IH8tyUSY=;
-  b=eqAoKqWNM4GlsNQW7bvcXabDWcHxkHJR0dUy/M3fW99E7uzTDQXPZsii
-   iz8pegXWaVaLsZYWEYz2vMrmEAsNG50zIlMD0nXJTG6andzVDYicwyX/O
-   RMyPUbiEC4kD9KQyQFtIGk41DtCo3x9h3pE6dkl/6Rvg7idOAaLL0uYlx
-   eHoAEoepuD66MZXluF+tptFnlb7vRh4LwtxIyVnNDxvk33za4w+YOmitr
-   3bJXudF8v7wRs2qNrKYOey0031pQFCaZAYXuIagbxGUu7WVD0pSb7a9iC
-   4IlJIPBR1L6cfwyH7NKPBgY3iU9cMDhorPTWM4pgzMJuSXCLuUCdETWUC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="349920740"
+  t=1691265650; x=1722801650;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a/uzrtbXHXhqrxxTqvocPj7by47tjIa8lXpB4uuDFQo=;
+  b=W85JkMc444ovrpebIfFS+JX9Ea00ZA7GtfXW6CySrrYqInwosS3jafBI
+   CcHdKHcybEnRF/mtxRBl4IGr7hnYhKf+kTJAnK0r8q3xY6CFqvL7rD6pD
+   2prPpUpFcxopaxS3TL7gMXh17K60gUUlI5Nm8EZIb12m2X3EhCxvHOuNj
+   h0g39/X3eJD6mubdlaVwPbuZlB4j0FGJ7eKsR+mStHx86Ha8zujENUdI4
+   ji1j2HRBr6Wy+jwFF+KfaJkoG7miYmCzO/Nql7sGPxQIwEeTWkNKShHNn
+   PA/45E/s/fvJe61xhBsMRTpSLx9QTO87Db7qIJrqGgP+cPMx3AohPbBTs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="456714392"
 X-IronPort-AV: E=Sophos;i="6.01,258,1684825200"; 
-   d="scan'208";a="349920740"
+   d="scan'208";a="456714392"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 11:08:46 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 13:00:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="854158161"
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="854171310"
 X-IronPort-AV: E=Sophos;i="6.01,258,1684825200"; 
-   d="scan'208";a="854158161"
+   d="scan'208";a="854171310"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 Aug 2023 11:08:45 -0700
+  by orsmga004.jf.intel.com with ESMTP; 05 Aug 2023 13:00:47 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSLhk-0003op-2p;
-	Sat, 05 Aug 2023 18:08:44 +0000
-Date: Sun, 6 Aug 2023 02:08:03 +0800
+	id 1qSNSA-0003rj-1j;
+	Sat, 05 Aug 2023 20:00:46 +0000
+Date: Sun, 6 Aug 2023 04:00:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 4/5] ftrace: Add ftrace_partial_regs() for converting
- ftrace_regs to pt_regs
-Message-ID: <202308060110.eb8bH6SE-lkp@intel.com>
-References: <169124751584.186149.17291016280237570755.stgit@devnote2>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mhiramat:topic/fprobe-ftrace-regs 2/5]
+ kernel/trace/rethook.c:298:2: error: call to undeclared function
+ 'ftrace_regs_set_instruction_pointer'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202308060332.Ctrtt6hj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,67 +47,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <169124751584.186149.17291016280237570755.stgit@devnote2>
 
-Hi Masami,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-[also build test ERROR on bpf/master tip/x86/core linus/master v6.5-rc4 next-20230804]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/fprobe-Use-fprobe_regs-in-fprobe-entry-handler/20230805-230025
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/169124751584.186149.17291016280237570755.stgit%40devnote2
-patch subject: [RFC PATCH 4/5] ftrace: Add ftrace_partial_regs() for converting ftrace_regs to pt_regs
-config: arm64-randconfig-r034-20230805 (https://download.01.org/0day-ci/archive/20230806/202308060110.eb8bH6SE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230806/202308060110.eb8bH6SE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-ftrace-regs
+head:   069e6430a717ff19937b79b565595cc7765791d0
+commit: 5d93c6a3e4c0b1911bb29f888466aea92f1fae05 [2/5] fprobe: rethook: Use fprobe_regs in fprobe exit handler and rethook
+config: x86_64-buildonly-randconfig-r003-20230806 (https://download.01.org/0day-ci/archive/20230806/202308060332.Ctrtt6hj-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230806/202308060332.Ctrtt6hj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308060110.eb8bH6SE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308060332.Ctrtt6hj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/ftrace.h:23,
-                    from arch/arm64/kernel/asm-offsets.c:12:
-   arch/arm64/include/asm/ftrace.h: In function 'ftrace_partial_regs':
->> arch/arm64/include/asm/ftrace.h:146:13: error: 'struct pt_regs' has no member named 'x'
-     146 |         regs->x[29] = fregs->fp;
-         |             ^~
-   arch/arm64/include/asm/ftrace.h:147:13: error: 'struct pt_regs' has no member named 'x'
-     147 |         regs->x[30] = fregs->lr;
-         |             ^~
-   make[3]: *** [scripts/Makefile.build:116: arch/arm64/kernel/asm-offsets.s] Error 1 shuffle=1275155403
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1287: prepare0] Error 2 shuffle=1275155403
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=1275155403
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=1275155403
-   make: Target 'prepare' not remade because of errors.
+>> kernel/trace/rethook.c:298:2: error: call to undeclared function 'ftrace_regs_set_instruction_pointer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ftrace_regs_set_instruction_pointer(fregs, correct_ret_addr);
+           ^
+   1 error generated.
+--
+>> kernel/kprobes.c:2134:25: error: call to undeclared function 'ftrace_get_regs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                                  ^
+>> kernel/kprobes.c:2134:18: error: incompatible integer to pointer conversion initializing 'struct pt_regs *' with an expression of type 'int' [-Wint-conversion]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+--
+>> arch/x86/kernel/rethook.c:111:25: error: call to undeclared function 'ftrace_get_regs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                                  ^
+>> arch/x86/kernel/rethook.c:111:18: error: incompatible integer to pointer conversion initializing 'struct pt_regs *' with an expression of type 'int' [-Wint-conversion]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/rethook.c:121:25: error: call to undeclared function 'ftrace_get_regs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                                  ^
+   arch/x86/kernel/rethook.c:121:18: error: incompatible integer to pointer conversion initializing 'struct pt_regs *' with an expression of type 'int' [-Wint-conversion]
+           struct pt_regs *regs = ftrace_get_regs(fregs);
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
 
 
-vim +146 arch/arm64/include/asm/ftrace.h
+vim +/ftrace_regs_set_instruction_pointer +298 kernel/trace/rethook.c
 
-   139	
-   140	static __always_inline struct pt_regs *
-   141	ftrace_partial_regs(const struct ftrace_regs *fregs, struct pt_regs *regs)
-   142	{
-   143		memcpy(regs->regs, fregs->regs, sizeof(u64) * 10);
-   144		regs->sp = fregs->sp;
-   145		regs->pc = fregs->pc;
- > 146		regs->x[29] = fregs->fp;
-   147		regs->x[30] = fregs->lr;
-   148		return regs;
-   149	}
-   150	
+   282	
+   283	/* This function will be called from each arch-defined trampoline. */
+   284	unsigned long rethook_trampoline_handler(struct ftrace_regs *fregs,
+   285						 unsigned long frame)
+   286	{
+   287		struct llist_node *first, *node = NULL;
+   288		unsigned long correct_ret_addr;
+   289		rethook_handler_t handler;
+   290		struct rethook_node *rhn;
+   291	
+   292		correct_ret_addr = __rethook_find_ret_addr(current, &node);
+   293		if (!correct_ret_addr) {
+   294			pr_err("rethook: Return address not found! Maybe there is a bug in the kernel\n");
+   295			BUG_ON(1);
+   296		}
+   297	
+ > 298		ftrace_regs_set_instruction_pointer(fregs, correct_ret_addr);
 
 -- 
 0-DAY CI Kernel Test Service
