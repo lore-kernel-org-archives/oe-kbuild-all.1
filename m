@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD1F8F6F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 11:39:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7531523E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 12:10:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691235572; x=1722771572;
+  t=1691237432; x=1722773432;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uVSNOYTCgGQ1CuYSkUhGtCPGVLEPCv2giiOj53yjfkM=;
-  b=fvyJrAaDFvb0mUfB8Lo4RUzcZKBTIrMlBJlHw+dnvQ2EDTRuAWALzofo
-   0d2zPIqdzeB0szDRqZMGYocdmjboFvWJWcAcHnKgY6zKr5ZlNiC6xKtpO
-   SCCHqkyEl9Awv7i2mE2/loYGiaTJQlopPyuj4AwKrV8foLzxDz8bPEAZe
-   DC9C1bQIUYIhSvn51t9DiUpjf4ij2+Ks+AoIrSpvaslLjInHN3Ib+lKPy
-   opTRUhzBOcs3p6smo1NEAQ1eSmsZf6wawrR/QjWrVXM+d+J0t70AdZZYV
-   du0CL9CfQY8f9E3tfA+D2GlVMq2Dfem01bNh5/imWiYblG7jvIzVItppI
+  bh=ssoGci8Wb7PWefq4yyKXd7gfOrw8PaGXbQh4Vb+6o+Q=;
+  b=FvTjVLZFl9/hJG503x5ckk5WIsc/FL7fUzDM0b0GLpVsRAuMloWtImvJ
+   3RZ3GFKHYtet5cItzEyhN0ASGWu5wQOIOOSm2Zl29q/nZyoK3TPndEzJI
+   YUTSLtBtIWl65ErkGvUoTo13sWJWQOhubD23AMqVt5s3BxrUuveYJVYSW
+   hkckjnnC10oMlIAfjBZHplbd+LJbrWbs5TRlTOQy4bQ3LA9K8RLzifcvy
+   bhpzKI8BtJOE1kFBtpJSgpSKwruwkTqgn2o5lEt6v8huBhEVCez2CzbL/
+   IYRgrk67TSbLbCnjLgEsvib4WOrBfHCQoMvPqwGdU3hZFO523gLIPLTkG
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="373967796"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="401274350"
 X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; 
-   d="scan'208";a="373967796"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 04:39:31 -0700
+   d="scan'208";a="401274350"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 05:10:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="976889202"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="820446295"
 X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; 
-   d="scan'208";a="976889202"
+   d="scan'208";a="820446295"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Aug 2023 04:39:30 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Aug 2023 05:10:31 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSFd3-0003UF-2T;
-	Sat, 05 Aug 2023 11:39:29 +0000
-Date: Sat, 5 Aug 2023 19:39:29 +0800
+	id 1qSG74-0003VP-1N;
+	Sat, 05 Aug 2023 12:10:30 +0000
+Date: Sat, 5 Aug 2023 20:10:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:mgctime 4/10] fs/orangefs/inode.c:906:13: warning: unused
- variable 'dirty_flags'
-Message-ID: <202308051903.k8ld1GlO-lkp@intel.com>
+Subject: [jlayton:mgctime 5/10] fs/btrfs/inode.c:6066:27: warning: unused
+ variable 'now'
+Message-ID: <202308052000.Y5GRBebJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,51 +48,44 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgctime
 head:   e84ede6c44e4d6e1716d0d54bbda0b1b298cc801
-commit: 9eb0ea317f50681da8fe3c40899d1ca67301fb13 [4/10] fs: rework generic_update_time to update timestamps itself
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230805/202308051903.k8ld1GlO-lkp@intel.com/config)
+commit: d337fa60b28d72d78c829e3985805e062c2fd2c6 [5/10] fs: drop the timespec64 argument from update_time prototype
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230805/202308052000.Y5GRBebJ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051903.k8ld1GlO-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308052000.Y5GRBebJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308051903.k8ld1GlO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308052000.Y5GRBebJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/orangefs/inode.c: In function 'orangefs_update_time':
->> fs/orangefs/inode.c:906:13: warning: unused variable 'dirty_flags' [-Wunused-variable]
-     906 |         int dirty_flags = 0;
-         |             ^~~~~~~~~~~
-   In file included from fs/orangefs/protocol.h:287,
-                    from fs/orangefs/inode.c:15:
-   fs/orangefs/orangefs-debug.h: At top level:
-   fs/orangefs/orangefs-debug.h:86:18: warning: 'num_kmod_keyword_mask_map' defined but not used [-Wunused-const-variable=]
-      86 | static const int num_kmod_keyword_mask_map = (int)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c: In function 'btrfs_update_time':
+>> fs/btrfs/inode.c:6066:27: warning: unused variable 'now' [-Wunused-variable]
+    6066 |         struct timespec64 now = current_time(inode);
+         |                           ^~~
 
 
-vim +/dirty_flags +906 fs/orangefs/inode.c
+vim +/now +6066 fs/btrfs/inode.c
 
-   902	
-   903	int orangefs_update_time(struct inode *inode, struct timespec64 *time, int flags)
-   904	{
-   905		struct iattr iattr;
- > 906		int dirty_flags = 0;
-   907	
-   908		gossip_debug(GOSSIP_INODE_DEBUG, "orangefs_update_time: %pU\n",
-   909		    get_khandle_from_ino(inode));
-   910		flags = generic_update_time(inode, flags);
-   911		memset(&iattr, 0, sizeof iattr);
-   912	        if (flags & S_ATIME)
-   913			iattr.ia_valid |= ATTR_ATIME;
-   914		if (flags & S_CTIME)
-   915			iattr.ia_valid |= ATTR_CTIME;
-   916		if (flags & S_MTIME)
-   917			iattr.ia_valid |= ATTR_MTIME;
-   918		return __orangefs_setattr(inode, &iattr);
-   919	}
-   920	
+  6057	
+  6058	/*
+  6059	 * This is a copy of file_update_time.  We need this so we can return error on
+  6060	 * ENOSPC for updating the inode in the case of file write and mmap writes.
+  6061	 */
+  6062	static int btrfs_update_time(struct inode *inode, int flags)
+  6063	{
+  6064		struct btrfs_root *root = BTRFS_I(inode)->root;
+  6065		bool dirty = flags & ~S_VERSION;
+> 6066		struct timespec64 now = current_time(inode);
+  6067	
+  6068		if (btrfs_root_readonly(root))
+  6069			return -EROFS;
+  6070	
+  6071		dirty = inode_update_timestamps(inode, flags);
+  6072		return dirty ? btrfs_dirty_inode(BTRFS_I(inode)) : 0;
+  6073	}
+  6074	
 
 -- 
 0-DAY CI Kernel Test Service
