@@ -1,42 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E5323A2
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 10:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425145238
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Aug 2023 11:19:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691231907; x=1722767907;
+  t=1691234372; x=1722770372;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o43VoDQc/795d54Z7KfWpU0aMp+iZiic0mhOaCxQOfw=;
-  b=ia4sucG1exkGkyJU7tW4Qd4RIO2+vEVi8pnlEOr95S2b9Erk5EfqjN/D
-   P3REp9pPT5aTbCmV40qbMjncAfm2Vzx/hh+6ikQkeTwdnlCuHYaEExW6U
-   DJj/3rG3DZv6O5yu2Q87BRKGkqSzW45gOmTYlrFUEw/E4bJ+oZuF55e5T
-   OcgGYEavD8fKlWqrx//XC/hsjGkJ13YI11zbZq3jWISJNE60HLQDTJdUD
-   Cud3iWe+q5jDdoFel/Fz09l54gISCG6iZx0vjm3uc7k4sEiy+wIpKve7m
-   ZohS5OKNkOYbHxy/j23UdzgajbDn9tzw4xudoWygq2ONUKidaMRgHnh/k
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="355236282"
+  bh=edJFgUYPS5vQd5+oDlPu23nwC0cXqwIrOUu8lSZi3w0=;
+  b=dTbwmblN9ymTXIphpsuwkHZiaHXamo379N20zPpZe6J/ObIrYiDx7BEv
+   I+HCrVs16DJ7L7dOBC6tmEh/pvQFs+1XKavo6SR56CePn4VH070Zi+9hg
+   9/Qo/wYAClJ+2CQUPYtjeIQMdBmN4lsX7ufQ+bS815dvnMmv5oQAOJYMi
+   9VRNkfcKdfPGde9DmNMRNeXrpLkEY3Oh4rHmzEvGOC0I/pH9or4M8+V+m
+   PS2gbJTlWDIVcAOpz21jxjgxq3q7hAzE4wZOBxZiYqGuB5lvH7PCpwMRQ
+   uCdGArSshcWeQyx9QiDRer2yhkVUP26iIFogyCujFp+zCQW4l5OeCEDDo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="349899466"
 X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; 
-   d="scan'208";a="355236282"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 03:38:26 -0700
+   d="scan'208";a="349899466"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 04:19:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="759911664"
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="844419967"
 X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; 
-   d="scan'208";a="759911664"
+   d="scan'208";a="844419967"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 05 Aug 2023 03:38:25 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 05 Aug 2023 04:19:29 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSEfw-0003Sj-2D;
-	Sat, 05 Aug 2023 10:38:24 +0000
-Date: Sat, 5 Aug 2023 18:37:47 +0800
+	id 1qSFJh-0003Ti-07;
+	Sat, 05 Aug 2023 11:19:29 +0000
+Date: Sat, 5 Aug 2023 19:19:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 18/18] fs/ceph/file.c:1740:33: error: too
- many arguments to function 'osd_req_op_extent_osd_databuf'
-Message-ID: <202308051818.ieKtZN1d-lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Dave Airlie <airlied@redhat.com>
+Subject: [drm-misc:for-linux-next 11/12]
+ drivers/gpu/drm/nouveau/nouveau_exec.c:299:19: sparse: sparse: dereference
+ of noderef expression
+Message-ID: <202308051951.bErKWZ2A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,436 +48,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
-head:   672499b5bfaeda1769d9eab9c9a08f4c2b2e4bf5
-commit: 672499b5bfaeda1769d9eab9c9a08f4c2b2e4bf5 [18/18] ceph: Don't use data_pages
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230805/202308051818.ieKtZN1d-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051818.ieKtZN1d-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   82d750e9d2f5d0594c8f7057ce59127e701af781
+commit: b88baab828713ce0b49b185444b2ee83bed373a8 [11/12] drm/nouveau: implement new VM_BIND uAPI
+config: s390-randconfig-r071-20230730 (https://download.01.org/0day-ci/archive/20230805/202308051951.bErKWZ2A-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308051951.bErKWZ2A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308051818.ieKtZN1d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308051951.bErKWZ2A-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/nouveau/nouveau_exec.c:299:19: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_exec.c:300:19: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_exec.c:301:20: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_exec.c:302:20: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_exec.c:303:21: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_exec.c:304:21: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_exec.c:374:43: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_exec.c:389:13: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_exec.c:390:17: sparse: sparse: dereference of noderef expression
+--
+   drivers/gpu/drm/nouveau/nouveau_drm.c:401:41: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/gpu/drm/nouveau/nouveau_drm.c:401:41: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/gpu/drm/nouveau/nouveau_drm.c:402:41: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/gpu/drm/nouveau/nouveau_drm.c:402:41: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/gpu/drm/nouveau/nouveau_drm.c:402:41: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/gpu/drm/nouveau/nouveau_drm.c:402:41: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/gpu/drm/nouveau/nouveau_drm.c:406:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/gpu/drm/nouveau/nouveau_drm.c:406:33: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/gpu/drm/nouveau/nouveau_drm.c:1214:9: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( [usertype] *func )( ... ) @@     got int ( * )( ... ) @@
+   drivers/gpu/drm/nouveau/nouveau_drm.c:1214:9: sparse:     expected int ( [usertype] *func )( ... )
+   drivers/gpu/drm/nouveau/nouveau_drm.c:1214:9: sparse:     got int ( * )( ... )
+   drivers/gpu/drm/nouveau/nouveau_drm.c:1215:9: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( [usertype] *func )( ... ) @@     got int ( * )( ... ) @@
+   drivers/gpu/drm/nouveau/nouveau_drm.c:1215:9: sparse:     expected int ( [usertype] *func )( ... )
+   drivers/gpu/drm/nouveau/nouveau_drm.c:1215:9: sparse:     got int ( * )( ... )
+   drivers/gpu/drm/nouveau/nouveau_drm.c:1216:9: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( [usertype] *func )( ... ) @@     got int ( * )( ... ) @@
+   drivers/gpu/drm/nouveau/nouveau_drm.c:1216:9: sparse:     expected int ( [usertype] *func )( ... )
+   drivers/gpu/drm/nouveau/nouveau_drm.c:1216:9: sparse:     got int ( * )( ... )
+--
+   drivers/gpu/drm/nouveau/nouveau_uvmm.c:1656:1: sparse: sparse: symbol 'nouveau_uvmm_ioctl_vm_init' redeclared with different type (incompatible argument 2 (different address spaces)):
+>> drivers/gpu/drm/nouveau/nouveau_uvmm.c:1656:1: sparse:    int extern [addressable] [signed] [toplevel] nouveau_uvmm_ioctl_vm_init( ... )
+   drivers/gpu/drm/nouveau/nouveau_uvmm.c: note: in included file (through drivers/gpu/drm/nouveau/nouveau_drv.h):
+   drivers/gpu/drm/nouveau/nouveau_uvmm.h:92:5: sparse: note: previously declared as:
+>> drivers/gpu/drm/nouveau/nouveau_uvmm.h:92:5: sparse:    int extern [addressable] [signed] [toplevel] nouveau_uvmm_ioctl_vm_init( ... )
+   drivers/gpu/drm/nouveau/nouveau_uvmm.c:283:17: sparse: sparse: context imbalance in '__nouveau_uvma_region_insert' - unexpected unlock
+>> drivers/gpu/drm/nouveau/nouveau_uvmm.c:1693:19: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_uvmm.c:1694:19: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_uvmm.c:1695:20: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_uvmm.c:1696:20: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_uvmm.c:1697:19: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_uvmm.c:1698:19: sparse: sparse: dereference of noderef expression
+   drivers/gpu/drm/nouveau/nouveau_uvmm.c:1701:23: sparse: sparse: dereference of noderef expression
 
-   fs/ceph/file.c: In function 'ceph_sync_write':
->> fs/ceph/file.c:1740:33: error: too many arguments to function 'osd_req_op_extent_osd_databuf'
-    1740 |                                 osd_req_op_extent_osd_databuf(req, 0, dbuf,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/ceph/libceph.h:24,
-                    from fs/ceph/super.h:24,
-                    from fs/ceph/file.c:16:
-   include/linux/ceph/osd_client.h:458:13: note: declared here
-     458 | extern void osd_req_op_extent_osd_databuf(struct ceph_osd_request *req,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/ceph/file.c:1769:58: error: 'pages' undeclared (first use in this function); did you mean 'page'?
-    1769 |                                                         &pages[num_pages - 1],
-         |                                                          ^~~~~
-         |                                                          page
-   fs/ceph/file.c:1769:58: note: each undeclared identifier is reported only once for each function it appears in
+vim +299 drivers/gpu/drm/nouveau/nouveau_exec.c
 
-
-vim +/osd_req_op_extent_osd_databuf +1740 fs/ceph/file.c
-
-  1608	
-  1609	/*
-  1610	 * Synchronous write, straight from __user pointer or user pages.
-  1611	 *
-  1612	 * If write spans object boundary, just do multiple writes.  (For a
-  1613	 * correct atomic write, we should e.g. take write locks on all
-  1614	 * objects, rollback on failure, etc.)
-  1615	 */
-  1616	static ssize_t
-  1617	ceph_sync_write(struct kiocb *iocb, struct iov_iter *from, loff_t pos,
-  1618			struct ceph_snap_context *snapc)
-  1619	{
-  1620		struct file *file = iocb->ki_filp;
-  1621		struct inode *inode = file_inode(file);
-  1622		struct ceph_inode_info *ci = ceph_inode(inode);
-  1623		struct ceph_fs_client *fsc = ceph_inode_to_fs_client(inode);
-  1624		struct ceph_client *cl = fsc->client;
-  1625		struct ceph_osd_client *osdc = &fsc->client->osdc;
-  1626		struct ceph_osd_request *req;
-  1627		struct ceph_databuf *dbuf = NULL;
-  1628		u64 len;
-  1629		int num_pages;
-  1630		int written = 0;
-  1631		int ret;
-  1632		bool check_caps = false;
-  1633		struct timespec64 mtime = current_time(inode);
-  1634		size_t count = iov_iter_count(from);
-  1635	
-  1636		if (ceph_snap(file_inode(file)) != CEPH_NOSNAP)
-  1637			return -EROFS;
-  1638	
-  1639		doutc(cl, "on file %p %lld~%u snapc %p seq %lld\n", file, pos,
-  1640		      (unsigned)count, snapc, snapc->seq);
-  1641	
-  1642		ret = filemap_write_and_wait_range(inode->i_mapping,
-  1643						   pos, pos + count - 1);
-  1644		if (ret < 0)
-  1645			return ret;
-  1646	
-  1647		ceph_fscache_invalidate(inode, false);
-  1648	
-  1649		while ((len = iov_iter_count(from)) > 0) {
-  1650			size_t left;
-  1651			int n;
-  1652			u64 write_pos = pos;
-  1653			u64 write_len = len;
-  1654			u64 objnum, objoff;
-  1655			u32 xlen;
-  1656			u64 assert_ver = 0;
-  1657			bool rmw;
-  1658			bool first, last;
-  1659			struct iov_iter saved_iter = *from;
-  1660			size_t off;
-  1661	
-  1662			ceph_fscrypt_adjust_off_and_len(inode, &write_pos, &write_len);
-  1663	
-  1664			/* clamp the length to the end of first object */
-  1665			ceph_calc_file_object_mapping(&ci->i_layout, write_pos,
-  1666							write_len, &objnum, &objoff,
-  1667							&xlen);
-  1668			write_len = xlen;
-  1669	
-  1670			/* adjust len downward if it goes beyond current object */
-  1671			if (pos + len > write_pos + write_len)
-  1672				len = write_pos + write_len - pos;
-  1673	
-  1674			/*
-  1675			 * If we had to adjust the length or position to align with a
-  1676			 * crypto block, then we must do a read/modify/write cycle. We
-  1677			 * use a version assertion to redrive the thing if something
-  1678			 * changes in between.
-  1679			 */
-  1680			first = pos != write_pos;
-  1681			last = (pos + len) != (write_pos + write_len);
-  1682			rmw = first || last;
-  1683	
-  1684			doutc(cl, "ino %llx %lld~%llu adjusted %lld~%llu -- %srmw\n",
-  1685			      ci->i_vino.ino, pos, len, write_pos, write_len,
-  1686			      rmw ? "" : "no ");
-  1687	
-  1688			/*
-  1689			 * The data is emplaced into the page as it would be if it were in
-  1690			 * an array of pagecache pages.
-  1691			 */
-  1692			num_pages = calc_pages_for(write_pos, write_len);
-  1693			dbuf = ceph_databuf_alloc(num_pages, num_pages * PAGE_SIZE, GFP_KERNEL);
-  1694			if (!dbuf) {
-  1695				ret = -ENOMEM;
-  1696				break;
-  1697			}
-  1698	
-  1699			/* Do we need to preload the pages? */
-  1700			if (rmw) {
-  1701				u64 first_pos = write_pos;
-  1702				u64 last_pos = (write_pos + write_len) - CEPH_FSCRYPT_BLOCK_SIZE;
-  1703				u64 read_len = CEPH_FSCRYPT_BLOCK_SIZE;
-  1704				struct ceph_osd_req_op *op;
-  1705	
-  1706				/* We should only need to do this for encrypted inodes */
-  1707				WARN_ON_ONCE(!IS_ENCRYPTED(inode));
-  1708	
-  1709				/* No need to do two reads if first and last blocks are same */
-  1710				if (first && last_pos == first_pos)
-  1711					last = false;
-  1712	
-  1713				/*
-  1714				 * Allocate a read request for one or two extents, depending
-  1715				 * on how the request was aligned.
-  1716				 */
-  1717				req = ceph_osdc_new_request(osdc, &ci->i_layout,
-  1718						ci->i_vino, first ? first_pos : last_pos,
-  1719						&read_len, 0, (first && last) ? 2 : 1,
-  1720						CEPH_OSD_OP_SPARSE_READ, CEPH_OSD_FLAG_READ,
-  1721						NULL, ci->i_truncate_seq,
-  1722						ci->i_truncate_size, false);
-  1723				if (IS_ERR(req)) {
-  1724					ret = PTR_ERR(req);
-  1725					break;
-  1726				}
-  1727	
-  1728				/* Something is misaligned! */
-  1729				if (read_len != CEPH_FSCRYPT_BLOCK_SIZE) {
-  1730					ceph_osdc_put_request(req);
-  1731					ret = -EIO;
-  1732					break;
-  1733				}
-  1734	
-  1735				/* Add extent for first block? */
-  1736				op = &req->r_ops[0];
-  1737	
-  1738				if (first) {
-  1739					iov_iter_advance(&dbuf->iter, offset_in_page(first_pos));
-> 1740					osd_req_op_extent_osd_databuf(req, 0, dbuf,
-  1741								 CEPH_FSCRYPT_BLOCK_SIZE);
-  1742					dbuf = NULL;
-  1743					/* We only expect a single extent here */
-  1744					ret = __ceph_alloc_sparse_ext_map(op, 1);
-  1745					if (ret) {
-  1746						ceph_osdc_put_request(req);
-  1747						break;
-  1748					}
-  1749				}
-  1750	
-  1751				/* Add extent for last block */
-  1752				if (last) {
-  1753					/* Init the other extent if first extent has been used */
-  1754					if (first) {
-  1755						op = &req->r_ops[1];
-  1756						osd_req_op_extent_init(req, 1, CEPH_OSD_OP_SPARSE_READ,
-  1757								last_pos, CEPH_FSCRYPT_BLOCK_SIZE,
-  1758								ci->i_truncate_size,
-  1759								ci->i_truncate_seq);
-  1760					}
-  1761	
-  1762					ret = __ceph_alloc_sparse_ext_map(op, 1);
-  1763					if (ret) {
-  1764						ceph_osdc_put_request(req);
-  1765						break;
-  1766					}
-  1767	
-  1768					osd_req_op_extent_osd_data_pages(req, first ? 1 : 0,
-> 1769								&pages[num_pages - 1],
-  1770								CEPH_FSCRYPT_BLOCK_SIZE,
-  1771								offset_in_page(last_pos),
-  1772								false, false);
-  1773				}
-  1774	
-  1775				ceph_osdc_start_request(osdc, req);
-  1776				ret = ceph_osdc_wait_request(osdc, req);
-  1777	
-  1778				/* FIXME: length field is wrong if there are 2 extents */
-  1779				ceph_update_read_metrics(&fsc->mdsc->metric,
-  1780							 req->r_start_latency,
-  1781							 req->r_end_latency,
-  1782							 read_len, ret);
-  1783	
-  1784				/* Ok if object is not already present */
-  1785				if (ret == -ENOENT) {
-  1786					/*
-  1787					 * If there is no object, then we can't assert
-  1788					 * on its version. Set it to 0, and we'll use an
-  1789					 * exclusive create instead.
-  1790					 */
-  1791					ceph_osdc_put_request(req);
-  1792					ret = 0;
-  1793	
-  1794					/*
-  1795					 * zero out the soon-to-be uncopied parts of the
-  1796					 * first and last pages.
-  1797					 */
-  1798					if (first)
-  1799						zero_user_segment(pages[0], 0,
-  1800								  offset_in_page(first_pos));
-  1801					if (last)
-  1802						zero_user_segment(pages[num_pages - 1],
-  1803								  offset_in_page(last_pos),
-  1804								  PAGE_SIZE);
-  1805				} else {
-  1806					if (ret < 0) {
-  1807						ceph_osdc_put_request(req);
-  1808						ceph_release_page_vector(pages, num_pages);
-  1809						break;
-  1810					}
-  1811	
-  1812					op = &req->r_ops[0];
-  1813					if (op->extent.sparse_ext_cnt == 0) {
-  1814						if (first)
-  1815							zero_user_segment(pages[0], 0,
-  1816									  offset_in_page(first_pos));
-  1817						else
-  1818							zero_user_segment(pages[num_pages - 1],
-  1819									  offset_in_page(last_pos),
-  1820									  PAGE_SIZE);
-  1821					} else if (op->extent.sparse_ext_cnt != 1 ||
-  1822						   ceph_sparse_ext_map_end(op) !=
-  1823							CEPH_FSCRYPT_BLOCK_SIZE) {
-  1824						ret = -EIO;
-  1825						ceph_osdc_put_request(req);
-  1826						ceph_release_page_vector(pages, num_pages);
-  1827						break;
-  1828					}
-  1829	
-  1830					if (first && last) {
-  1831						op = &req->r_ops[1];
-  1832						if (op->extent.sparse_ext_cnt == 0) {
-  1833							zero_user_segment(pages[num_pages - 1],
-  1834									  offset_in_page(last_pos),
-  1835									  PAGE_SIZE);
-  1836						} else if (op->extent.sparse_ext_cnt != 1 ||
-  1837							   ceph_sparse_ext_map_end(op) !=
-  1838								CEPH_FSCRYPT_BLOCK_SIZE) {
-  1839							ret = -EIO;
-  1840							ceph_osdc_put_request(req);
-  1841							ceph_release_page_vector(pages, num_pages);
-  1842							break;
-  1843						}
-  1844					}
-  1845	
-  1846					/* Grab assert version. It must be non-zero. */
-  1847					assert_ver = req->r_version;
-  1848					WARN_ON_ONCE(ret > 0 && assert_ver == 0);
-  1849	
-  1850					ceph_osdc_put_request(req);
-  1851					if (first) {
-  1852						ret = ceph_fscrypt_decrypt_block_inplace(inode,
-  1853								pages[0],
-  1854								CEPH_FSCRYPT_BLOCK_SIZE,
-  1855								offset_in_page(first_pos),
-  1856								first_pos >> CEPH_FSCRYPT_BLOCK_SHIFT);
-  1857						if (ret < 0) {
-  1858							ceph_release_page_vector(pages, num_pages);
-  1859							break;
-  1860						}
-  1861					}
-  1862					if (last) {
-  1863						ret = ceph_fscrypt_decrypt_block_inplace(inode,
-  1864								pages[num_pages - 1],
-  1865								CEPH_FSCRYPT_BLOCK_SIZE,
-  1866								offset_in_page(last_pos),
-  1867								last_pos >> CEPH_FSCRYPT_BLOCK_SHIFT);
-  1868						if (ret < 0) {
-  1869							ceph_release_page_vector(pages, num_pages);
-  1870							break;
-  1871						}
-  1872					}
-  1873				}
-  1874			}
-  1875	
-  1876			left = len;
-  1877			off = offset_in_page(pos);
-  1878			for (n = 0; n < num_pages; n++) {
-  1879				size_t plen = min_t(size_t, left, PAGE_SIZE - off);
-  1880	
-  1881				/* copy the data */
-  1882				ret = copy_page_from_iter(pages[n], off, plen, from);
-  1883				if (ret != plen) {
-  1884					ret = -EFAULT;
-  1885					break;
-  1886				}
-  1887				off = 0;
-  1888				left -= ret;
-  1889			}
-  1890			if (ret < 0) {
-  1891				doutc(cl, "write failed with %d\n", ret);
-  1892				ceph_release_page_vector(pages, num_pages);
-  1893				break;
-  1894			}
-  1895	
-  1896			if (IS_ENCRYPTED(inode)) {
-  1897				ret = ceph_fscrypt_encrypt_pages(inode, pages,
-  1898								 write_pos, write_len,
-  1899								 GFP_KERNEL);
-  1900				if (ret < 0) {
-  1901					doutc(cl, "encryption failed with %d\n", ret);
-  1902					ceph_release_page_vector(pages, num_pages);
-  1903					break;
-  1904				}
-  1905			}
-  1906	
-  1907			req = ceph_osdc_new_request(osdc, &ci->i_layout,
-  1908						    ci->i_vino, write_pos, &write_len,
-  1909						    rmw ? 1 : 0, rmw ? 2 : 1,
-  1910						    CEPH_OSD_OP_WRITE,
-  1911						    CEPH_OSD_FLAG_WRITE,
-  1912						    snapc, ci->i_truncate_seq,
-  1913						    ci->i_truncate_size, false);
-  1914			if (IS_ERR(req)) {
-  1915				ret = PTR_ERR(req);
-  1916				ceph_release_page_vector(pages, num_pages);
-  1917				break;
-  1918			}
-  1919	
-  1920			doutc(cl, "write op %lld~%llu\n", write_pos, write_len);
-  1921			osd_req_op_extent_osd_data_pages(req, rmw ? 1 : 0, pages, write_len,
-  1922							 offset_in_page(write_pos), false,
-  1923							 true);
-  1924			req->r_inode = inode;
-  1925			req->r_mtime = mtime;
-  1926	
-  1927			/* Set up the assertion */
-  1928			if (rmw) {
-  1929				/*
-  1930				 * Set up the assertion. If we don't have a version number,
-  1931				 * then the object doesn't exist yet. Use an exclusive create
-  1932				 * instead of a version assertion in that case.
-  1933				 */
-  1934				if (assert_ver) {
-  1935					osd_req_op_init(req, 0, CEPH_OSD_OP_ASSERT_VER, 0);
-  1936					req->r_ops[0].assert_ver.ver = assert_ver;
-  1937				} else {
-  1938					osd_req_op_init(req, 0, CEPH_OSD_OP_CREATE,
-  1939							CEPH_OSD_OP_FLAG_EXCL);
-  1940				}
-  1941			}
-  1942	
-  1943			ceph_osdc_start_request(osdc, req);
-  1944			ret = ceph_osdc_wait_request(osdc, req);
-  1945	
-  1946			ceph_update_write_metrics(&fsc->mdsc->metric, req->r_start_latency,
-  1947						  req->r_end_latency, len, ret);
-  1948			ceph_osdc_put_request(req);
-  1949			if (ret != 0) {
-  1950				doutc(cl, "osd write returned %d\n", ret);
-  1951				/* Version changed! Must re-do the rmw cycle */
-  1952				if ((assert_ver && (ret == -ERANGE || ret == -EOVERFLOW)) ||
-  1953				     (!assert_ver && ret == -EEXIST)) {
-  1954					/* We should only ever see this on a rmw */
-  1955					WARN_ON_ONCE(!rmw);
-  1956	
-  1957					/* The version should never go backward */
-  1958					WARN_ON_ONCE(ret == -EOVERFLOW);
-  1959	
-  1960					*from = saved_iter;
-  1961	
-  1962					/* FIXME: limit number of times we loop? */
-  1963					continue;
-  1964				}
-  1965				ceph_set_error_write(ci);
-  1966				break;
-  1967			}
-  1968	
-  1969			ceph_clear_error_write(ci);
-  1970	
-  1971			/*
-  1972			 * We successfully wrote to a range of the file. Declare
-  1973			 * that region of the pagecache invalid.
-  1974			 */
-  1975			ret = invalidate_inode_pages2_range(
-  1976					inode->i_mapping,
-  1977					pos >> PAGE_SHIFT,
-  1978					(pos + len - 1) >> PAGE_SHIFT);
-  1979			if (ret < 0) {
-  1980				doutc(cl, "invalidate_inode_pages2_range returned %d\n",
-  1981				      ret);
-  1982				ret = 0;
-  1983			}
-  1984			pos += len;
-  1985			written += len;
-  1986			doutc(cl, "written %d\n", written);
-  1987			if (pos > i_size_read(inode)) {
-  1988				check_caps = ceph_inode_set_size(inode, pos);
-  1989				if (check_caps)
-  1990					ceph_check_caps(ceph_inode(inode),
-  1991							CHECK_CAPS_AUTHONLY);
-  1992			}
-  1993	
-  1994		}
-  1995	
-  1996		ceph_databuf_release(dbuf);
-  1997		if (ret != -EOLDSNAPC && written > 0) {
-  1998			ret = written;
-  1999			iocb->ki_pos = pos;
-  2000		}
-  2001		doutc(cl, "returning %d\n", ret);
-  2002		return ret;
-  2003	}
-  2004	
+   293	
+   294	static int
+   295	nouveau_exec_ucopy(struct nouveau_exec_job_args *args,
+   296			   struct drm_nouveau_exec __user *req)
+   297	{
+   298		struct drm_nouveau_sync **s;
+ > 299		u32 inc = req->wait_count;
+   300		u64 ins = req->wait_ptr;
+   301		u32 outc = req->sig_count;
+   302		u64 outs = req->sig_ptr;
+   303		u32 pushc = req->push_count;
+   304		u64 pushs = req->push_ptr;
+   305		int ret;
+   306	
+   307		if (pushc) {
+   308			args->push.count = pushc;
+   309			args->push.s = u_memcpya(pushs, pushc, sizeof(*args->push.s));
+   310			if (IS_ERR(args->push.s))
+   311				return PTR_ERR(args->push.s);
+   312		}
+   313	
+   314		if (inc) {
+   315			s = &args->in_sync.s;
+   316	
+   317			args->in_sync.count = inc;
+   318			*s = u_memcpya(ins, inc, sizeof(**s));
+   319			if (IS_ERR(*s)) {
+   320				ret = PTR_ERR(*s);
+   321				goto err_free_pushs;
+   322			}
+   323		}
+   324	
+   325		if (outc) {
+   326			s = &args->out_sync.s;
+   327	
+   328			args->out_sync.count = outc;
+   329			*s = u_memcpya(outs, outc, sizeof(**s));
+   330			if (IS_ERR(*s)) {
+   331				ret = PTR_ERR(*s);
+   332				goto err_free_ins;
+   333			}
+   334		}
+   335	
+   336		return 0;
+   337	
+   338	err_free_pushs:
+   339		u_free(args->push.s);
+   340	err_free_ins:
+   341		u_free(args->in_sync.s);
+   342		return ret;
+   343	}
+   344	
 
 -- 
 0-DAY CI Kernel Test Service
