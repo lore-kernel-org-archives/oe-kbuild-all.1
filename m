@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F473D67
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 16:36:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B267F0
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 18:39:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691339783; x=1722875783;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=bk1nlwLHxxwancBcvNC3t81VktVIWVJfplkB0vGy9GY=;
-  b=LOq7NZJRBKCHlthLw6iM6xtGzMU0Kjz5yb3nGXahPZHQvGbFTVKeW5AF
-   g/ivtrMwKk1heFhKeG51G78P0/17K5lL+ckZAOedExkjWXSmQrQz6h9Qp
-   8EMLEzzvb6hSk5x9YfRtITsSeI/67gzZNDMrGbpOA/DFFaqA5BVx+yVvc
-   f9wEuIMO8AJye9R6jF6DUkukxfe0HXhFAubkG25IoQaVyYb2kqDfdJ3Nl
-   tuPoGRQMvq+7g/vQ2DaTfTN736zmlnwiGhgvShrdBKqzonkch2P7FwvQl
-   XlssUgr7eK8rnYqltPU7MSNbOhSjLSHNU7ER4lnINeqq6bU+ZEDvY4Flx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="355334702"
+  t=1691347157; x=1722883157;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e41Ddhxv3ZuR62jOcnYljme+uGvyOqba7nBFbxn3P48=;
+  b=l9UiHy+QZdM61lon3W+7fY48cNh9WgAnf6lbUGrQ2ROpMWvsLoVFCePA
+   7wHpHBLqdhCenD7jhAg+e+kExsjVnpuAB+KPd3sURvKRhysbk/1BxAcc7
+   ncUm5n1Kmt+J23Ro/liYxQFd3SvY8i9euDM9CHjwZ3zoM+OtRrPRn6fX+
+   NTyiRC/GR4G5KwerxRe+Oi1YkqjGjNEuhiaIo4L7sUk4wb1RANo5ks0M5
+   49zuPpYo6Uq8h/xj8YbX1kejyhFceXJMYZ0MqBmfvJ0CQmIjfu+6GuIP9
+   TC/kqA0h2lMwLCAmzGhwUwdkLmIPonVIc3bG5k8F2zEoD1nNMR3zSuS9Z
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="374065252"
 X-IronPort-AV: E=Sophos;i="6.01,260,1684825200"; 
-   d="scan'208";a="355334702"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 09:36:14 -0700
+   d="scan'208";a="374065252"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 11:39:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="730644542"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="904469895"
 X-IronPort-AV: E=Sophos;i="6.01,260,1684825200"; 
-   d="scan'208";a="730644542"
+   d="scan'208";a="904469895"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 06 Aug 2023 09:36:13 -0700
+  by orsmga005.jf.intel.com with ESMTP; 06 Aug 2023 11:39:15 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSgjk-0004Iq-2m
-	for oe-kbuild-all@lists.linux.dev;
-	Sun, 06 Aug 2023 16:36:12 +0000
-Date: Mon, 7 Aug 2023 00:36:05 +0800
+	id 1qSieo-0004L1-1D;
+	Sun, 06 Aug 2023 18:39:14 +0000
+Date: Mon, 7 Aug 2023 02:39:07 +0800
 From: kernel test robot <lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 14616/30000]
- drivers/usb/host/xhci-mem.c:1880:56: sparse: sparse: restricted __le32
- degrades to integer
-Message-ID: <202308070033.2zGEzJ0w-lkp@intel.com>
+Subject: [sashal-stable:pending-5.15 11/60]
+ drivers/firmware/arm_scmi/smc.c:39:6: error: duplicate member 'irq'
+Message-ID: <202308070210.02YncwNG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,198 +46,147 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   7f46da99d47faba52b98b09371755ba4821a116d
-commit: 5dfdaa15caebc782d1c90ff6513d4cc9f6ac3663 [14616/30000] ANDROID: GKI: usb: xhci: Add support for secondary interrupters
-config: sh-randconfig-r093-20230806 (https://download.01.org/0day-ci/archive/20230807/202308070033.2zGEzJ0w-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230807/202308070033.2zGEzJ0w-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.15
+head:   eec50650bd392904c7b2acbea142ac47dba8e4fd
+commit: 9ee0700cb50085b8ea63c0fabd8c458c56e66a51 [11/60] firmware: arm_scmi: Fix chan_free cleanup on SMC
+config: arm-randconfig-r046-20230806 (https://download.01.org/0day-ci/archive/20230807/202308070210.02YncwNG-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230807/202308070210.02YncwNG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308070033.2zGEzJ0w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308070210.02YncwNG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/usb/host/xhci-mem.c:936:6: sparse: sparse: symbol 'xhci_free_virt_devices_depth_first' was not declared. Should it be static?
->> drivers/usb/host/xhci-mem.c:1880:56: sparse: sparse: restricted __le32 degrades to integer
->> drivers/usb/host/xhci-mem.c:1840:6: sparse: sparse: symbol 'xhci_handle_sec_intr_events' was not declared. Should it be static?
->> drivers/usb/host/xhci-mem.c:1947:6: sparse: sparse: symbol 'xhci_event_ring_cleanup' was not declared. Should it be static?
->> drivers/usb/host/xhci-mem.c:2486:5: sparse: sparse: symbol 'xhci_event_ring_setup' was not declared. Should it be static?
->> drivers/usb/host/xhci-mem.c:2590:5: sparse: sparse: symbol 'xhci_event_ring_init' was not declared. Should it be static?
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/idr.h:16,
-                    from include/linux/kernfs.h:14,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/device.h:16,
-                    from include/linux/usb/ch9.h:36,
-                    from include/linux/usb.h:6,
-                    from drivers/usb/host/xhci-mem.c:11:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1172:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
-    1172 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1163:27: note: 'mem_section' declared here
-    1163 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   drivers/usb/host/xhci-mem.c: At top level:
-   drivers/usb/host/xhci-mem.c:936:6: warning: no previous prototype for 'xhci_free_virt_devices_depth_first' [-Wmissing-prototypes]
-     936 | void xhci_free_virt_devices_depth_first(struct xhci_hcd *xhci, int slot_id)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-mem.c:1840:6: warning: no previous prototype for 'xhci_handle_sec_intr_events' [-Wmissing-prototypes]
-    1840 | void xhci_handle_sec_intr_events(struct xhci_hcd *xhci, int intr_num)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-mem.c:1947:6: warning: no previous prototype for 'xhci_event_ring_cleanup' [-Wmissing-prototypes]
-    1947 | void xhci_event_ring_cleanup(struct xhci_hcd *xhci)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-mem.c:2486:5: warning: no previous prototype for 'xhci_event_ring_setup' [-Wmissing-prototypes]
-    2486 | int xhci_event_ring_setup(struct xhci_hcd *xhci, struct xhci_ring **er,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-mem.c:2590:5: warning: no previous prototype for 'xhci_event_ring_init' [-Wmissing-prototypes]
-    2590 | int xhci_event_ring_init(struct xhci_hcd *xhci, gfp_t flags)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'xhci' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'num_segs' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'cycle_state' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'type' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'max_packet' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'flags' not described in 'xhci_ring_alloc'
+All errors (new ones prefixed by >>):
 
-vim +1880 drivers/usb/host/xhci-mem.c
+>> drivers/firmware/arm_scmi/smc.c:39:6: error: duplicate member 'irq'
+           int irq;
+               ^
+   drivers/firmware/arm_scmi/smc.c:34:6: note: previous declaration is here
+           int irq;
+               ^
+>> drivers/firmware/arm_scmi/smc.c:116:20: error: use of undeclared identifier 'irq'
+                   scmi_info->irq = irq;
+                                    ^
+   2 errors generated.
 
-  1839	
-> 1840	void xhci_handle_sec_intr_events(struct xhci_hcd *xhci, int intr_num)
-  1841	{
-  1842		union xhci_trb *erdp_trb, *current_trb;
-  1843		struct xhci_segment	*seg;
-  1844		u64 erdp_reg;
-  1845		u32 iman_reg;
-  1846		dma_addr_t deq;
-  1847		unsigned long segment_offset;
-  1848	
-  1849		/* disable irq, ack pending interrupt and ack all pending events */
-  1850	
-  1851		iman_reg =
-  1852			readl_relaxed(&xhci->sec_ir_set[intr_num]->irq_pending);
-  1853		iman_reg &= ~IMAN_IE;
-  1854		writel_relaxed(iman_reg,
-  1855				&xhci->sec_ir_set[intr_num]->irq_pending);
-  1856		iman_reg =
-  1857			readl_relaxed(&xhci->sec_ir_set[intr_num]->irq_pending);
-  1858		if (iman_reg & IMAN_IP)
-  1859			writel_relaxed(iman_reg,
-  1860				&xhci->sec_ir_set[intr_num]->irq_pending);
-  1861	
-  1862		/* last acked event trb is in erdp reg  */
-  1863		erdp_reg =
-  1864			xhci_read_64(xhci, &xhci->sec_ir_set[intr_num]->erst_dequeue);
-  1865		deq = (dma_addr_t)(erdp_reg & ~ERST_PTR_MASK);
-  1866		if (!deq) {
-  1867			pr_debug("%s: event ring handling not required\n", __func__);
-  1868			return;
-  1869		}
-  1870	
-  1871		seg = xhci->sec_event_ring[intr_num]->first_seg;
-  1872		segment_offset = deq - seg->dma;
-  1873	
-  1874		/* find out virtual address of the last acked event trb */
-  1875		erdp_trb = current_trb = &seg->trbs[0] +
-  1876					(segment_offset/sizeof(*current_trb));
-  1877	
-  1878		/* read cycle state of the last acked trb to find out CCS */
-  1879		xhci->sec_event_ring[intr_num]->cycle_state =
-> 1880					(current_trb->event_cmd.flags & TRB_CYCLE);
-  1881	
-  1882		while (1) {
-  1883			/* last trb of the event ring: toggle cycle state */
-  1884			if (current_trb == &seg->trbs[TRBS_PER_SEGMENT - 1]) {
-  1885				xhci->sec_event_ring[intr_num]->cycle_state ^= 1;
-  1886				current_trb = &seg->trbs[0];
-  1887			} else {
-  1888				current_trb++;
-  1889			}
-  1890	
-  1891			/* cycle state transition */
-  1892			if ((le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE) !=
-  1893			    xhci->sec_event_ring[intr_num]->cycle_state)
-  1894				break;
-  1895		}
-  1896	
-  1897		if (erdp_trb != current_trb) {
-  1898			deq =
-  1899			xhci_trb_virt_to_dma(xhci->sec_event_ring[intr_num]->deq_seg,
-  1900						current_trb);
-  1901			if (deq == 0)
-  1902				xhci_warn(xhci,
-  1903					"WARN invalid SW event ring dequeue ptr.\n");
-  1904			/* Update HC event ring dequeue pointer */
-  1905			erdp_reg &= ERST_PTR_MASK;
-  1906			erdp_reg |= ((u64) deq & (u64) ~ERST_PTR_MASK);
-  1907		}
-  1908	
-  1909		/* Clear the event handler busy flag (RW1C); event ring is empty. */
-  1910		erdp_reg |= ERST_EHB;
-  1911		xhci_write_64(xhci, erdp_reg,
-  1912				&xhci->sec_ir_set[intr_num]->erst_dequeue);
-  1913	}
-  1914	
-  1915	int xhci_sec_event_ring_cleanup(struct usb_hcd *hcd, unsigned int intr_num)
-  1916	{
-  1917		int size;
-  1918		struct xhci_hcd *xhci = hcd_to_xhci(hcd);
-  1919		struct device	*dev = xhci_to_hcd(xhci)->self.sysdev;
-  1920	
-  1921		if (intr_num >= xhci->max_interrupters) {
-  1922			xhci_err(xhci, "invalid secondary interrupter num %d\n",
-  1923				intr_num);
-  1924			return -EINVAL;
-  1925		}
-  1926	
-  1927		size =
-  1928		sizeof(struct xhci_erst_entry)*(xhci->sec_erst[intr_num].num_entries);
-  1929		if (xhci->sec_erst[intr_num].entries) {
-  1930			xhci_handle_sec_intr_events(xhci, intr_num);
-  1931			dma_free_coherent(dev, size, xhci->sec_erst[intr_num].entries,
-  1932					xhci->sec_erst[intr_num].erst_dma_addr);
-  1933			xhci->sec_erst[intr_num].entries = NULL;
-  1934		}
-  1935		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed SEC ERST#%d",
-  1936			intr_num);
-  1937		if (xhci->sec_event_ring[intr_num])
-  1938			xhci_ring_free(xhci, xhci->sec_event_ring[intr_num]);
-  1939	
-  1940		xhci->sec_event_ring[intr_num] = NULL;
-  1941		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
-  1942			"Freed sec event ring");
-  1943	
-  1944		return 0;
-  1945	}
-  1946	
-> 1947	void xhci_event_ring_cleanup(struct xhci_hcd *xhci)
-  1948	{
-  1949		unsigned int i;
-  1950	
-  1951		/* sec event ring clean up */
-  1952		for (i = 1; i < xhci->max_interrupters; i++)
-  1953			xhci_sec_event_ring_cleanup(xhci_to_hcd(xhci), i);
-  1954	
-  1955		kfree(xhci->sec_ir_set);
-  1956		xhci->sec_ir_set = NULL;
-  1957		kfree(xhci->sec_erst);
-  1958		xhci->sec_erst = NULL;
-  1959		kfree(xhci->sec_event_ring);
-  1960		xhci->sec_event_ring = NULL;
-  1961	
-  1962		/* primary event ring clean up */
-  1963		xhci_free_erst(xhci, &xhci->erst);
-  1964		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed primary ERST");
-  1965		if (xhci->event_ring)
-  1966			xhci_ring_free(xhci, xhci->event_ring);
-  1967		xhci->event_ring = NULL;
-  1968		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed priamry event ring");
-  1969	}
-  1970	
+
+vim +/irq +39 drivers/firmware/arm_scmi/smc.c
+
+1dc6558062dadf Peng Fan         2020-03-08   20  
+1dc6558062dadf Peng Fan         2020-03-08   21  /**
+1dc6558062dadf Peng Fan         2020-03-08   22   * struct scmi_smc - Structure representing a SCMI smc transport
+1dc6558062dadf Peng Fan         2020-03-08   23   *
+9ee0700cb50085 Cristian Marussi 2023-07-19   24   * @irq: An optional IRQ for completion
+1dc6558062dadf Peng Fan         2020-03-08   25   * @cinfo: SCMI channel info
+1dc6558062dadf Peng Fan         2020-03-08   26   * @shmem: Transmit/Receive shared memory area
+a4ee9d0194c245 Sudeep Holla     2020-07-09   27   * @shmem_lock: Lock to protect access to Tx/Rx shared memory area
+1dc6558062dadf Peng Fan         2020-03-08   28   * @func_id: smc/hvc call function id
+dd820ee21d5e07 Jim Quinlan      2020-12-22   29   * @irq: Optional; employed when platforms indicates msg completion by intr.
+dd820ee21d5e07 Jim Quinlan      2020-12-22   30   * @tx_complete: Optional, employed only when irq is valid.
+1dc6558062dadf Peng Fan         2020-03-08   31   */
+1dc6558062dadf Peng Fan         2020-03-08   32  
+1dc6558062dadf Peng Fan         2020-03-08   33  struct scmi_smc {
+9ee0700cb50085 Cristian Marussi 2023-07-19   34  	int irq;
+1dc6558062dadf Peng Fan         2020-03-08   35  	struct scmi_chan_info *cinfo;
+1dc6558062dadf Peng Fan         2020-03-08   36  	struct scmi_shared_mem __iomem *shmem;
+18988265b87615 Sudeep Holla     2020-03-27   37  	struct mutex shmem_lock;
+1dc6558062dadf Peng Fan         2020-03-08   38  	u32 func_id;
+dd820ee21d5e07 Jim Quinlan      2020-12-22  @39  	int irq;
+dd820ee21d5e07 Jim Quinlan      2020-12-22   40  	struct completion tx_complete;
+1dc6558062dadf Peng Fan         2020-03-08   41  };
+1dc6558062dadf Peng Fan         2020-03-08   42  
+dd820ee21d5e07 Jim Quinlan      2020-12-22   43  static irqreturn_t smc_msg_done_isr(int irq, void *data)
+dd820ee21d5e07 Jim Quinlan      2020-12-22   44  {
+dd820ee21d5e07 Jim Quinlan      2020-12-22   45  	struct scmi_smc *scmi_info = data;
+dd820ee21d5e07 Jim Quinlan      2020-12-22   46  
+dd820ee21d5e07 Jim Quinlan      2020-12-22   47  	complete(&scmi_info->tx_complete);
+dd820ee21d5e07 Jim Quinlan      2020-12-22   48  
+dd820ee21d5e07 Jim Quinlan      2020-12-22   49  	return IRQ_HANDLED;
+dd820ee21d5e07 Jim Quinlan      2020-12-22   50  }
+dd820ee21d5e07 Jim Quinlan      2020-12-22   51  
+1dc6558062dadf Peng Fan         2020-03-08   52  static bool smc_chan_available(struct device *dev, int idx)
+1dc6558062dadf Peng Fan         2020-03-08   53  {
+8aa6e12bbf9dd6 Sudeep Holla     2020-03-27   54  	struct device_node *np = of_parse_phandle(dev->of_node, "shmem", 0);
+8aa6e12bbf9dd6 Sudeep Holla     2020-03-27   55  	if (!np)
+8aa6e12bbf9dd6 Sudeep Holla     2020-03-27   56  		return false;
+8aa6e12bbf9dd6 Sudeep Holla     2020-03-27   57  
+8aa6e12bbf9dd6 Sudeep Holla     2020-03-27   58  	of_node_put(np);
+1dc6558062dadf Peng Fan         2020-03-08   59  	return true;
+1dc6558062dadf Peng Fan         2020-03-08   60  }
+1dc6558062dadf Peng Fan         2020-03-08   61  
+1dc6558062dadf Peng Fan         2020-03-08   62  static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+1dc6558062dadf Peng Fan         2020-03-08   63  			  bool tx)
+1dc6558062dadf Peng Fan         2020-03-08   64  {
+1dc6558062dadf Peng Fan         2020-03-08   65  	struct device *cdev = cinfo->dev;
+1dc6558062dadf Peng Fan         2020-03-08   66  	struct scmi_smc *scmi_info;
+1dc6558062dadf Peng Fan         2020-03-08   67  	resource_size_t size;
+1dc6558062dadf Peng Fan         2020-03-08   68  	struct resource res;
+1dc6558062dadf Peng Fan         2020-03-08   69  	struct device_node *np;
+1dc6558062dadf Peng Fan         2020-03-08   70  	u32 func_id;
+9ee0700cb50085 Cristian Marussi 2023-07-19   71  	int ret;
+1dc6558062dadf Peng Fan         2020-03-08   72  
+1dc6558062dadf Peng Fan         2020-03-08   73  	if (!tx)
+1dc6558062dadf Peng Fan         2020-03-08   74  		return -ENODEV;
+1dc6558062dadf Peng Fan         2020-03-08   75  
+1dc6558062dadf Peng Fan         2020-03-08   76  	scmi_info = devm_kzalloc(dev, sizeof(*scmi_info), GFP_KERNEL);
+1dc6558062dadf Peng Fan         2020-03-08   77  	if (!scmi_info)
+1dc6558062dadf Peng Fan         2020-03-08   78  		return -ENOMEM;
+1dc6558062dadf Peng Fan         2020-03-08   79  
+1dc6558062dadf Peng Fan         2020-03-08   80  	np = of_parse_phandle(cdev->of_node, "shmem", 0);
+507cd4d2c5eb2d Sudeep Holla     2021-06-02   81  	if (!of_device_is_compatible(np, "arm,scmi-shmem"))
+507cd4d2c5eb2d Sudeep Holla     2021-06-02   82  		return -ENXIO;
+507cd4d2c5eb2d Sudeep Holla     2021-06-02   83  
+1dc6558062dadf Peng Fan         2020-03-08   84  	ret = of_address_to_resource(np, 0, &res);
+1dc6558062dadf Peng Fan         2020-03-08   85  	of_node_put(np);
+1dc6558062dadf Peng Fan         2020-03-08   86  	if (ret) {
+1dc6558062dadf Peng Fan         2020-03-08   87  		dev_err(cdev, "failed to get SCMI Tx shared memory\n");
+1dc6558062dadf Peng Fan         2020-03-08   88  		return ret;
+1dc6558062dadf Peng Fan         2020-03-08   89  	}
+1dc6558062dadf Peng Fan         2020-03-08   90  
+1dc6558062dadf Peng Fan         2020-03-08   91  	size = resource_size(&res);
+1dc6558062dadf Peng Fan         2020-03-08   92  	scmi_info->shmem = devm_ioremap(dev, res.start, size);
+1dc6558062dadf Peng Fan         2020-03-08   93  	if (!scmi_info->shmem) {
+1dc6558062dadf Peng Fan         2020-03-08   94  		dev_err(dev, "failed to ioremap SCMI Tx shared memory\n");
+1dc6558062dadf Peng Fan         2020-03-08   95  		return -EADDRNOTAVAIL;
+1dc6558062dadf Peng Fan         2020-03-08   96  	}
+1dc6558062dadf Peng Fan         2020-03-08   97  
+1dc6558062dadf Peng Fan         2020-03-08   98  	ret = of_property_read_u32(dev->of_node, "arm,smc-id", &func_id);
+1dc6558062dadf Peng Fan         2020-03-08   99  	if (ret < 0)
+1dc6558062dadf Peng Fan         2020-03-08  100  		return ret;
+1dc6558062dadf Peng Fan         2020-03-08  101  
+dd820ee21d5e07 Jim Quinlan      2020-12-22  102  	/*
+dd820ee21d5e07 Jim Quinlan      2020-12-22  103  	 * If there is an interrupt named "a2p", then the service and
+dd820ee21d5e07 Jim Quinlan      2020-12-22  104  	 * completion of a message is signaled by an interrupt rather than by
+dd820ee21d5e07 Jim Quinlan      2020-12-22  105  	 * the return of the SMC call.
+dd820ee21d5e07 Jim Quinlan      2020-12-22  106  	 */
+9ee0700cb50085 Cristian Marussi 2023-07-19  107  	scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
+9ee0700cb50085 Cristian Marussi 2023-07-19  108  	if (scmi_info->irq > 0) {
+9ee0700cb50085 Cristian Marussi 2023-07-19  109  		ret = request_irq(scmi_info->irq, smc_msg_done_isr,
+9ee0700cb50085 Cristian Marussi 2023-07-19  110  				  IRQF_NO_SUSPEND, dev_name(dev), scmi_info);
+dd820ee21d5e07 Jim Quinlan      2020-12-22  111  		if (ret) {
+dd820ee21d5e07 Jim Quinlan      2020-12-22  112  			dev_err(dev, "failed to setup SCMI smc irq\n");
+dd820ee21d5e07 Jim Quinlan      2020-12-22  113  			return ret;
+dd820ee21d5e07 Jim Quinlan      2020-12-22  114  		}
+dd820ee21d5e07 Jim Quinlan      2020-12-22  115  		init_completion(&scmi_info->tx_complete);
+dd820ee21d5e07 Jim Quinlan      2020-12-22 @116  		scmi_info->irq = irq;
+dd820ee21d5e07 Jim Quinlan      2020-12-22  117  	}
+dd820ee21d5e07 Jim Quinlan      2020-12-22  118  
+1dc6558062dadf Peng Fan         2020-03-08  119  	scmi_info->func_id = func_id;
+1dc6558062dadf Peng Fan         2020-03-08  120  	scmi_info->cinfo = cinfo;
+18988265b87615 Sudeep Holla     2020-03-27  121  	mutex_init(&scmi_info->shmem_lock);
+1dc6558062dadf Peng Fan         2020-03-08  122  	cinfo->transport_info = scmi_info;
+1dc6558062dadf Peng Fan         2020-03-08  123  
+1dc6558062dadf Peng Fan         2020-03-08  124  	return 0;
+1dc6558062dadf Peng Fan         2020-03-08  125  }
+1dc6558062dadf Peng Fan         2020-03-08  126  
+
+:::::: The code at line 39 was first introduced by commit
+:::::: dd820ee21d5e0795096a6e0e47c0183d96464949 firmware: arm_scmi: Augment SMC/HVC to allow optional interrupt
+
+:::::: TO: Jim Quinlan <jim2101024@gmail.com>
+:::::: CC: Sudeep Holla <sudeep.holla@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
