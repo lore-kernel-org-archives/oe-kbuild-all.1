@@ -1,71 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673BA15B7
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 02:49:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D89515B7
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 03:19:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691290148; x=1722826148;
+  t=1691291942; x=1722827942;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PhAZR5+gYK6dezZ4NV0mKUs5qP6QH8F/+UUezWgYV/8=;
-  b=DZRi1A8mdby2RDMUO4M6iioBeFLCW0ooxWPaazu6AEhoJQXXav4UsH4I
-   RGQET/VCXX01pKu4KfwMT0QfW8hEanN5jMpDFE/eUa1Ou9lH1UyuPzZo+
-   Gk9hfkUf8ftTZyLbiyG/SdqNAQ6HDkp6mi5Yb+DpMMqONCnckNGQvje6B
-   nitOd+L2l5keP6cbxA9g8uK+1DYlvIeUIaVjrU/MVCsc7GmodFpleDJaP
-   EtlTtaAZWcLWsJkkMT8YSUkWF6aabh6h7Yb68W8lyJcE16WQ1ii78Ddju
-   jaPoryvkQ6rlew7tYDLsT5XZ8iWZAhIMvM5F5I8VzK9WVx6aSrxkul6qR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="350662141"
+  bh=ScmOnTXq6deJiStHxhinP1/Sh4Q6nqP68b+5e4/rojk=;
+  b=c1VCy+hlj8k2XaiRZXWzokutsZKLva30qjbPHon3DYKREpE42xcdZ+YZ
+   w4Vgx+ej1qZ0ZUUHV7TUGXbVn8PaV3pHRY7e9q3NWcGg/TT2lQzOdv+Oe
+   tPLXXpLqy4pDq3hRCwSuqtvYcC2kOW4l97lfvZNcZflqLuMmovD4qwPUH
+   u3eJopQqcKUwKmwO16bO4vea2VRhxKOF9b4GD9ijiWYkrCPlHON3kif56
+   TQEx3F6qGnG5qC855eaUB0x/ICqsDb7F3oZ3FNhGiLGXDiZ40bhxABk+H
+   krN2l3APgi73wMuf4xCuTJ+Czc+fFQAmXJn8JmxZTC8BgMyMR0a2jA999
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="355283886"
 X-IronPort-AV: E=Sophos;i="6.01,259,1684825200"; 
-   d="scan'208";a="350662141"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 19:49:07 -0700
+   d="scan'208";a="355283886"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 20:19:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="800528124"
-X-IronPort-AV: E=Sophos;i="6.01,259,1684825200"; 
-   d="scan'208";a="800528124"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="873845917"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Aug 2023 19:48:59 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2023 20:19:02 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSTpD-0003zv-0K;
-	Sun, 06 Aug 2023 02:48:59 +0000
-Date: Sun, 6 Aug 2023 10:48:18 +0800
+	id 1qSUIF-00040F-15;
+	Sun, 06 Aug 2023 03:18:59 +0000
+Date: Sun, 6 Aug 2023 11:18:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shenwei Wang <shenwei.wang@nxp.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Bhupesh Sharma <bhupesh.sharma@linaro.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Simon Horman <simon.horman@corigine.com>,
-	Andrew Halaney <ahalaney@redhat.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Shenwei Wang <shenwei.wang@nxp.com>
-Subject: Re: [PATCH v4 net-next 1/2] net: stmmac: add new mode parameter for
- fix_mac_speed
-Message-ID: <202308061048.nLnNqNUP-lkp@intel.com>
-References: <20230804144629.358455-2-shenwei.wang@nxp.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/5] fprobe: rethook: Use fprobe_regs in fprobe exit
+ handler and rethook
+Message-ID: <202308061111.cUlfueXw-lkp@intel.com>
+References: <169124749229.186149.1426658495303367593.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,100 +46,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230804144629.358455-2-shenwei.wang@nxp.com>
+In-Reply-To: <169124749229.186149.1426658495303367593.stgit@devnote2>
 
-Hi Shenwei,
+Hi Masami,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on bpf-next/master]
+[also build test WARNING on bpf/master tip/x86/core linus/master v6.5-rc4 next-20230804]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shenwei-Wang/net-stmmac-add-new-mode-parameter-for-fix_mac_speed/20230804-224841
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230804144629.358455-2-shenwei.wang%40nxp.com
-patch subject: [PATCH v4 net-next 1/2] net: stmmac: add new mode parameter for fix_mac_speed
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230806/202308061048.nLnNqNUP-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/fprobe-Use-fprobe_regs-in-fprobe-entry-handler/20230805-230025
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/169124749229.186149.1426658495303367593.stgit%40devnote2
+patch subject: [RFC PATCH 2/5] fprobe: rethook: Use fprobe_regs in fprobe exit handler and rethook
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230806/202308061111.cUlfueXw-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230806/202308061048.nLnNqNUP-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230806/202308061111.cUlfueXw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308061048.nLnNqNUP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308061111.cUlfueXw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c: In function 'sti_dwmac_probe':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c:295:33: error: assignment to 'void (*)(void *, unsigned int,  unsigned int)' from incompatible pointer type 'void (*)(void *, unsigned int)' [-Werror=incompatible-pointer-types]
-     295 |         plat_dat->fix_mac_speed = data->fix_retime_src;
-         |                                 ^
+   kernel/kprobes.c: In function 'kretprobe_rethook_handler':
+   kernel/kprobes.c:2146:32: error: implicit declaration of function 'ftrace_get_regs' [-Werror=implicit-function-declaration]
+    2146 |         struct pt_regs *regs = ftrace_get_regs(fregs);
+         |                                ^~~~~~~~~~~~~~~
+>> kernel/kprobes.c:2146:32: warning: initialization of 'struct pt_regs *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   cc1: some warnings being treated as errors
+--
+   arch/x86/kernel/rethook.c: In function 'arch_rethook_fixup_return':
+   arch/x86/kernel/rethook.c:111:32: error: implicit declaration of function 'ftrace_get_regs' [-Werror=implicit-function-declaration]
+     111 |         struct pt_regs *regs = ftrace_get_regs(fregs);
+         |                                ^~~~~~~~~~~~~~~
+>> arch/x86/kernel/rethook.c:111:32: warning: initialization of 'struct pt_regs *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   arch/x86/kernel/rethook.c: In function 'arch_rethook_prepare':
+   arch/x86/kernel/rethook.c:121:32: warning: initialization of 'struct pt_regs *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     121 |         struct pt_regs *regs = ftrace_get_regs(fregs);
+         |                                ^~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +295 drivers/net/ethernet/stmicro/stmmac/dwmac-sti.c
+vim +2146 kernel/kprobes.c
 
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  257  
-8387ee21f972de Joachim Eastwood    2015-07-29  258  static int sti_dwmac_probe(struct platform_device *pdev)
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  259  {
-8387ee21f972de Joachim Eastwood    2015-07-29  260  	struct plat_stmmacenet_data *plat_dat;
-07ca3749cec2b8 Joachim Eastwood    2015-07-29  261  	const struct sti_dwmac_of_data *data;
-8387ee21f972de Joachim Eastwood    2015-07-29  262  	struct stmmac_resources stmmac_res;
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  263  	struct sti_dwmac *dwmac;
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  264  	int ret;
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  265  
-149adedd7696cb Joachim Eastwood    2015-07-29  266  	data = of_device_get_match_data(&pdev->dev);
-149adedd7696cb Joachim Eastwood    2015-07-29  267  	if (!data) {
-149adedd7696cb Joachim Eastwood    2015-07-29  268  		dev_err(&pdev->dev, "No OF match data provided\n");
-149adedd7696cb Joachim Eastwood    2015-07-29  269  		return -EINVAL;
-149adedd7696cb Joachim Eastwood    2015-07-29  270  	}
-149adedd7696cb Joachim Eastwood    2015-07-29  271  
-8387ee21f972de Joachim Eastwood    2015-07-29  272  	ret = stmmac_get_platform_resources(pdev, &stmmac_res);
-8387ee21f972de Joachim Eastwood    2015-07-29  273  	if (ret)
-8387ee21f972de Joachim Eastwood    2015-07-29  274  		return ret;
-8387ee21f972de Joachim Eastwood    2015-07-29  275  
-83216e3988cd19 Michael Walle       2021-04-12  276  	plat_dat = stmmac_probe_config_dt(pdev, stmmac_res.mac);
-8387ee21f972de Joachim Eastwood    2015-07-29  277  	if (IS_ERR(plat_dat))
-8387ee21f972de Joachim Eastwood    2015-07-29  278  		return PTR_ERR(plat_dat);
-8387ee21f972de Joachim Eastwood    2015-07-29  279  
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  280  	dwmac = devm_kzalloc(&pdev->dev, sizeof(*dwmac), GFP_KERNEL);
-d2ed0a7755fe14 Johan Hovold        2016-11-30  281  	if (!dwmac) {
-d2ed0a7755fe14 Johan Hovold        2016-11-30  282  		ret = -ENOMEM;
-d2ed0a7755fe14 Johan Hovold        2016-11-30  283  		goto err_remove_config_dt;
-d2ed0a7755fe14 Johan Hovold        2016-11-30  284  	}
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  285  
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  286  	ret = sti_dwmac_parse_data(dwmac, pdev);
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  287  	if (ret) {
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  288  		dev_err(&pdev->dev, "Unable to parse OF data\n");
-d2ed0a7755fe14 Johan Hovold        2016-11-30  289  		goto err_remove_config_dt;
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  290  	}
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  291  
-16b1adbb16c8a5 Joachim Eastwood    2015-07-29  292  	dwmac->fix_retime_src = data->fix_retime_src;
-16b1adbb16c8a5 Joachim Eastwood    2015-07-29  293  
-8387ee21f972de Joachim Eastwood    2015-07-29  294  	plat_dat->bsp_priv = dwmac;
-16b1adbb16c8a5 Joachim Eastwood    2015-07-29 @295  	plat_dat->fix_mac_speed = data->fix_retime_src;
-8387ee21f972de Joachim Eastwood    2015-07-29  296  
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  297  	ret = clk_prepare_enable(dwmac->clk);
-8387ee21f972de Joachim Eastwood    2015-07-29  298  	if (ret)
-d2ed0a7755fe14 Johan Hovold        2016-11-30  299  		goto err_remove_config_dt;
-8387ee21f972de Joachim Eastwood    2015-07-29  300  
-0eebedc2fd284e Joachim Eastwood    2016-11-04  301  	ret = sti_dwmac_set_mode(dwmac);
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  302  	if (ret)
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  303  		goto disable_clk;
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  304  
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  305  	ret = stmmac_dvr_probe(&pdev->dev, plat_dat, &stmmac_res);
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  306  	if (ret)
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  307  		goto disable_clk;
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  308  
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  309  	return 0;
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  310  
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  311  disable_clk:
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  312  	clk_disable_unprepare(dwmac->clk);
-d2ed0a7755fe14 Johan Hovold        2016-11-30  313  err_remove_config_dt:
-d2ed0a7755fe14 Johan Hovold        2016-11-30  314  	stmmac_remove_config_dt(pdev, plat_dat);
-0a9e22715ee384 Johan Hovold        2016-11-30  315  
-b89cbfb01a2855 Joachim Eastwood    2016-11-04  316  	return ret;
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  317  }
-d15891ca1fdd7f Srinivas Kandagatla 2014-02-11  318  
+  2140	
+  2141	static void kretprobe_rethook_handler(struct rethook_node *rh, void *data,
+  2142					      unsigned long ret_addr,
+  2143					      struct ftrace_regs *fregs)
+  2144	{
+  2145		struct kretprobe *rp = (struct kretprobe *)data;
+> 2146		struct pt_regs *regs = ftrace_get_regs(fregs);
+  2147		struct kretprobe_instance *ri;
+  2148		struct kprobe_ctlblk *kcb;
+  2149	
+  2150		/* This is bug because this depends on HAVE_PT_REGS_COMPAT_FTRACE_REGS */
+  2151		if (WARN_ON_ONCE(!regs))
+  2152			return;
+  2153	
+  2154		/* The data must NOT be null. This means rethook data structure is broken. */
+  2155		if (WARN_ON_ONCE(!data) || !rp->handler)
+  2156			return;
+  2157	
+  2158		__this_cpu_write(current_kprobe, &rp->kp);
+  2159		kcb = get_kprobe_ctlblk();
+  2160		kcb->kprobe_status = KPROBE_HIT_ACTIVE;
+  2161	
+  2162		ri = container_of(rh, struct kretprobe_instance, node);
+  2163		rp->handler(ri, regs);
+  2164	
+  2165		__this_cpu_write(current_kprobe, NULL);
+  2166	}
+  2167	NOKPROBE_SYMBOL(kretprobe_rethook_handler);
+  2168	
 
 -- 
 0-DAY CI Kernel Test Service
