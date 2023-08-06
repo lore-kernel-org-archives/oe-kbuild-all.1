@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C84D1C26
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 05:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CABB1C26
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 06:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691300584; x=1722836584;
+  t=1691302446; x=1722838446;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4eEh3Of/i1CYwdfoZgh7UoCjO1J0dZ1tchZLzh3M38s=;
-  b=d4O9Nk1HNcfw71Cfx2mYzzu+7VsDdM2S2955cMKHGStuFvM8XFgjWCBD
-   gOXQa42h/i7fswh2TxRwaDCOtbuT4u1BmV2kEn7Z1OmLg/pt32RvbUUCa
-   OGyKYk7rRkxWSh/qBQdfWH1z6GKNYdY2bSmGHAcCiCx+IuEnr88HgIiSe
-   th28DZBbk++PadMyrioehmBFP90xS72rMfM0T73y4x6x9LOO4wnryiT9a
-   NCxXAATcLgmFNFUTDKa2mDq/2mjoVxoPkHji2xjIEmuvMKWmXTqNZ30Sf
-   ksZyhrwLiSLFyPXHewDy2c/U9K4AQ+95j83FC0MbR45/D8LhHRWY8JiXP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="360426952"
+  bh=gF3fqUudaj28p9fOfuZiquNNPMtEEcCBr5jGNlfnbxs=;
+  b=VM1bVyvZZ37YapCTBmE7kw9HusdBLVrMY3VnvfX89y6gOu9mvAfZx0wS
+   6Wj9Qhe9liH6te8OacFGOjNqMlnTxSi1cvzDzUeHchgHFPHQF4bYObXYe
+   IUC8DUFu9iijce/P98agxnPGXV44DSK5xge/fxG6VT3FJ088ezG+3Mn+S
+   JGmsUDz6FRBFfiwBHHFHi5QgIgR8FkFroAhASbEGOotPZVnrroicMljGX
+   mxYHKMMbNBtWSQiWr/yDslL6Bv5cvNN1cY9BKEhKMQBvCUK4kEr0qVR+u
+   LnRDz5qXsk5bFVmt17PdGTLKpZEpJXvk2q/CeJMU74wKnJ2JXma0cj3g0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="373110082"
 X-IronPort-AV: E=Sophos;i="6.01,259,1684825200"; 
-   d="scan'208";a="360426952"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 22:43:03 -0700
+   d="scan'208";a="373110082"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 23:14:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="1061217286"
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="724136143"
 X-IronPort-AV: E=Sophos;i="6.01,259,1684825200"; 
-   d="scan'208";a="1061217286"
+   d="scan'208";a="724136143"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Aug 2023 22:43:01 -0700
+  by orsmga007.jf.intel.com with ESMTP; 05 Aug 2023 23:14:04 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSWXc-000435-2a;
-	Sun, 06 Aug 2023 05:43:00 +0000
-Date: Sun, 6 Aug 2023 13:42:23 +0800
+	id 1qSX1f-00044t-0z;
+	Sun, 06 Aug 2023 06:14:03 +0000
+Date: Sun, 6 Aug 2023 14:13:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 6109/6443] include/linux/pgtable.h:1044:17:
- error: unknown type name 'spinlock_t'
-Message-ID: <202308061331.VqEtceSZ-lkp@intel.com>
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_acpi_b2_v1 87/91]
+ drivers/acpi/riscv/irqchip.c:303:13: warning: no previous prototype for
+ 'riscv_acpi_aplic_platform_init'
+Message-ID: <202308061457.W6TiLH02-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,455 +47,225 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bdffb18b5dd8071cd25685b966f380a30b1fadaa
-commit: 4d448d6c17c1bb5041ede2dcf2bf20e4a153fd4d [6109/6443] pgtable: create struct ptdesc
-config: xtensa-nommu_kc705_defconfig (https://download.01.org/0day-ci/archive/20230806/202308061331.VqEtceSZ-lkp@intel.com/config)
-compiler: xtensa-de212-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230806/202308061331.VqEtceSZ-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_acpi_b2_v1
+head:   b09364548457cec51680b8f8b1a5e917b5e74cf5
+commit: 1e43843fbed95aec33a929dab9e89204171ce94d [87/91] ACPI: RISC-V: Create APLIC platform device
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230806/202308061457.W6TiLH02-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230806/202308061457.W6TiLH02-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308061331.VqEtceSZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308061457.W6TiLH02-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/xtensa/include/asm/io.h:19,
-                    from include/linux/io.h:13,
-                    from lib/iomap_copy.c:7:
-   include/linux/pgtable.h:1041:5: warning: "ALLOC_SPLIT_PTLOCKS" is not defined, evaluates to 0 [-Wundef]
-    1041 | #if ALLOC_SPLIT_PTLOCKS
-         |     ^~~~~~~~~~~~~~~~~~~
->> include/linux/pgtable.h:1044:17: error: unknown type name 'spinlock_t'
-    1044 |                 spinlock_t ptl;
-         |                 ^~~~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from include/linux/io.h:10:
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1056:1: note: in expansion of macro 'TABLE_MATCH'
-    1056 | TABLE_MATCH(flags, __page_flags);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1056:1: note: in expansion of macro 'TABLE_MATCH'
-    1056 | TABLE_MATCH(flags, __page_flags);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1057:1: note: in expansion of macro 'TABLE_MATCH'
-    1057 | TABLE_MATCH(compound_head, pt_list);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1057:1: note: in expansion of macro 'TABLE_MATCH'
-    1057 | TABLE_MATCH(compound_head, pt_list);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1058:1: note: in expansion of macro 'TABLE_MATCH'
-    1058 | TABLE_MATCH(compound_head, _pt_pad_1);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1058:1: note: in expansion of macro 'TABLE_MATCH'
-    1058 | TABLE_MATCH(compound_head, _pt_pad_1);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1059:1: note: in expansion of macro 'TABLE_MATCH'
-    1059 | TABLE_MATCH(pmd_huge_pte, pmd_huge_pte);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1059:1: note: in expansion of macro 'TABLE_MATCH'
-    1059 | TABLE_MATCH(pmd_huge_pte, pmd_huge_pte);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1060:1: note: in expansion of macro 'TABLE_MATCH'
-    1060 | TABLE_MATCH(mapping, __page_mapping);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1060:1: note: in expansion of macro 'TABLE_MATCH'
-    1060 | TABLE_MATCH(mapping, __page_mapping);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1061:1: note: in expansion of macro 'TABLE_MATCH'
-    1061 | TABLE_MATCH(pt_mm, pt_mm);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1061:1: note: in expansion of macro 'TABLE_MATCH'
-    1061 | TABLE_MATCH(pt_mm, pt_mm);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1062:1: note: in expansion of macro 'TABLE_MATCH'
-    1062 | TABLE_MATCH(ptl, ptl);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1062:1: note: in expansion of macro 'TABLE_MATCH'
-    1062 | TABLE_MATCH(ptl, ptl);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1063:1: note: in expansion of macro 'TABLE_MATCH'
-    1063 | TABLE_MATCH(rcu_head, pt_rcu_head);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1063:1: note: in expansion of macro 'TABLE_MATCH'
-    1063 | TABLE_MATCH(rcu_head, pt_rcu_head);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1064:1: note: in expansion of macro 'TABLE_MATCH'
-    1064 | TABLE_MATCH(page_type, __page_type);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1064:1: note: in expansion of macro 'TABLE_MATCH'
-    1064 | TABLE_MATCH(page_type, __page_type);
-         | ^~~~~~~~~~~
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1065:1: note: in expansion of macro 'TABLE_MATCH'
-    1065 | TABLE_MATCH(_refcount, _refcount);
-         | ^~~~~~~~~~~
-   include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1065:1: note: in expansion of macro 'TABLE_MATCH'
-    1065 | TABLE_MATCH(_refcount, _refcount);
-         | ^~~~~~~~~~~
-   include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct page'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1067:1: note: in expansion of macro 'TABLE_MATCH'
-    1067 | TABLE_MATCH(memcg_data, pt_memcg_data);
-         | ^~~~~~~~~~~
-   include/linux/stddef.h:16:33: error: expression in static assertion is not an integer
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1055:9: note: in expansion of macro 'static_assert'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |         ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1055:23: note: in expansion of macro 'offsetof'
-    1055 |         static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-         |                       ^~~~~~~~
-   include/linux/pgtable.h:1067:1: note: in expansion of macro 'TABLE_MATCH'
-    1067 | TABLE_MATCH(memcg_data, pt_memcg_data);
-         | ^~~~~~~~~~~
-   include/linux/pgtable.h:1070:47: error: invalid application of 'sizeof' to incomplete type 'struct page'
-    1070 | static_assert(sizeof(struct ptdesc) <= sizeof(struct page));
-         |                                               ^~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1070:1: note: in expansion of macro 'static_assert'
-    1070 | static_assert(sizeof(struct ptdesc) <= sizeof(struct page));
-         | ^~~~~~~~~~~~~
-   include/linux/pgtable.h:1070:15: error: expression in static assertion is not an integer
-    1070 | static_assert(sizeof(struct ptdesc) <= sizeof(struct page));
-         |               ^~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/pgtable.h:1070:1: note: in expansion of macro 'static_assert'
-    1070 | static_assert(sizeof(struct ptdesc) <= sizeof(struct page));
-         | ^~~~~~~~~~~~~
+   drivers/acpi/riscv/irqchip.c:110:13: warning: no previous prototype for 'riscv_acpi_imsic_platform_init' [-Wmissing-prototypes]
+     110 | void __init riscv_acpi_imsic_platform_init(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/acpi/riscv/irqchip.c:303:13: warning: no previous prototype for 'riscv_acpi_aplic_platform_init' [-Wmissing-prototypes]
+     303 | void __init riscv_acpi_aplic_platform_init(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/spinlock_t +1044 include/linux/pgtable.h
+vim +/riscv_acpi_aplic_platform_init +303 drivers/acpi/riscv/irqchip.c
 
-  1000	
-  1001	
-  1002	/**
-  1003	 * struct ptdesc -    Memory descriptor for page tables.
-  1004	 * @__page_flags:     Same as page flags. Unused for page tables.
-  1005	 * @pt_rcu_head:      For freeing page table pages.
-  1006	 * @pt_list:          List of used page tables. Used for s390 and x86.
-  1007	 * @_pt_pad_1:        Padding that aliases with page's compound head.
-  1008	 * @pmd_huge_pte:     Protected by ptdesc->ptl, used for THPs.
-  1009	 * @__page_mapping:   Aliases with page->mapping. Unused for page tables.
-  1010	 * @pt_mm:            Used for x86 pgds.
-  1011	 * @pt_frag_refcount: For fragmented page table tracking. Powerpc and s390 only.
-  1012	 * @_pt_pad_2:        Padding to ensure proper alignment.
-  1013	 * @ptl:              Lock for the page table.
-  1014	 * @__page_type:      Same as page->page_type. Unused for page tables.
-  1015	 * @_refcount:        Same as page refcount. Used for s390 page tables.
-  1016	 * @pt_memcg_data:    Memcg data. Tracked for page tables here.
-  1017	 *
-  1018	 * This struct overlays struct page for now. Do not modify without a good
-  1019	 * understanding of the issues.
-  1020	 */
-  1021	struct ptdesc {
-  1022		unsigned long __page_flags;
-  1023	
-  1024		union {
-  1025			struct rcu_head pt_rcu_head;
-  1026			struct list_head pt_list;
-  1027			struct {
-  1028				unsigned long _pt_pad_1;
-  1029				pgtable_t pmd_huge_pte;
-  1030			};
-  1031		};
-  1032		unsigned long __page_mapping;
-  1033	
-  1034		union {
-  1035			struct mm_struct *pt_mm;
-  1036			atomic_t pt_frag_refcount;
-  1037		};
-  1038	
-  1039		union {
-  1040			unsigned long _pt_pad_2;
-  1041	#if ALLOC_SPLIT_PTLOCKS
-  1042			spinlock_t *ptl;
-  1043	#else
-> 1044			spinlock_t ptl;
-  1045	#endif
-  1046		};
-  1047		unsigned int __page_type;
-  1048		atomic_t _refcount;
-  1049	#ifdef CONFIG_MEMCG
-  1050		unsigned long pt_memcg_data;
-  1051	#endif
-  1052	};
-  1053	
-  1054	#define TABLE_MATCH(pg, pt)						\
-  1055		static_assert(offsetof(struct page, pg) == offsetof(struct ptdesc, pt))
-  1056	TABLE_MATCH(flags, __page_flags);
-  1057	TABLE_MATCH(compound_head, pt_list);
-  1058	TABLE_MATCH(compound_head, _pt_pad_1);
-  1059	TABLE_MATCH(pmd_huge_pte, pmd_huge_pte);
-  1060	TABLE_MATCH(mapping, __page_mapping);
-  1061	TABLE_MATCH(pt_mm, pt_mm);
-  1062	TABLE_MATCH(ptl, ptl);
-  1063	TABLE_MATCH(rcu_head, pt_rcu_head);
-  1064	TABLE_MATCH(page_type, __page_type);
-  1065	TABLE_MATCH(_refcount, _refcount);
-  1066	#ifdef CONFIG_MEMCG
-  1067	TABLE_MATCH(memcg_data, pt_memcg_data);
-  1068	#endif
-  1069	#undef TABLE_MATCH
-> 1070	static_assert(sizeof(struct ptdesc) <= sizeof(struct page));
-  1071	
+   109	
+ > 110	void __init riscv_acpi_imsic_platform_init(void)
+   111	{
+   112		struct platform_device *pdev;
+   113		int ret;
+   114	
+   115		if (!acpi_riscv_get_msi_fwnode(NULL)) {
+   116			pci_no_msi();
+   117			return;
+   118		}
+   119	
+   120		pdev = platform_device_alloc("riscv-imsic", 0);
+   121		if (!pdev)
+   122			return;
+   123	
+   124		pdev->dev.fwnode = acpi_riscv_get_msi_fwnode(NULL);
+   125		ret = platform_device_add(pdev);
+   126		if (ret)
+   127			platform_device_put(pdev);
+   128	}
+   129	
+   130	/*
+   131	 * The ext_intc_id format is as follows:
+   132	 * Bits [31:24] APLIC/PLIC ID
+   133	 * Bits [15:0] APLIC IDC ID / PLIC S-Mode Context ID for this hart
+   134	 */
+   135	#define APLIC_PLIC_ID(x) ((x) >> 24)
+   136	#define IDC_CONTEXT_ID(x) ((x) & 0x0000ffff)
+   137	
+   138	static struct fwnode_handle *acpi_ext_intc_get_rintc_fwnode(u8 aplic_plic_id, u16 index)
+   139	{
+   140		struct riscv_irqchip_list *rintc_element;
+   141		struct fwnode_handle *fwnode;
+   142		struct list_head *i, *tmp;
+   143		u32 id;
+   144		int rc;
+   145	
+   146		list_for_each_safe(i, tmp, &rintc_list) {
+   147			rintc_element = list_entry(i, struct riscv_irqchip_list, list);
+   148			fwnode = rintc_element->fwnode;
+   149			rc = fwnode_property_read_u32_array(fwnode, "riscv,ext-intc-id", &id, 1);
+   150			if (rc)
+   151				continue;
+   152	
+   153			if ((APLIC_PLIC_ID(id) == aplic_plic_id) && (IDC_CONTEXT_ID(id) == index))
+   154				return fwnode;
+   155		}
+   156	
+   157		return NULL;
+   158	}
+   159	
+   160	static struct fwnode_handle *acpi_aplic_create_fwnode(struct acpi_madt_aplic *aplic)
+   161	{
+   162		struct fwnode_handle *fwnode, *parent_fwnode;
+   163		struct riscv_irqchip_list *aplic_element;
+   164		struct software_node_ref_args *refs;
+   165		struct property_entry props[8] = {};
+   166		unsigned int i;
+   167	
+   168		props[0] = PROPERTY_ENTRY_U32("riscv,gsi-base", aplic->gsi_base);
+   169		props[1] = PROPERTY_ENTRY_U32("riscv,num-sources", aplic->num_sources);
+   170		props[2] = PROPERTY_ENTRY_U32("riscv,num-idcs", aplic->num_idcs);
+   171		props[3] = PROPERTY_ENTRY_U32("riscv,aplic-id", aplic->id);
+   172		props[4] = PROPERTY_ENTRY_U64("riscv,aplic-base", aplic->base_addr);
+   173		props[5] = PROPERTY_ENTRY_U32("riscv,aplic-size", aplic->size);
+   174		if (aplic->num_idcs) {
+   175			refs = kcalloc(aplic->num_idcs, sizeof(*refs), GFP_KERNEL);
+   176			if (!refs)
+   177				return NULL;
+   178	
+   179			for (i = 0; i < aplic->num_idcs; i++) {
+   180				parent_fwnode = acpi_ext_intc_get_rintc_fwnode(aplic->id, i);
+   181				refs[i] = SOFTWARE_NODE_REFERENCE(to_software_node(parent_fwnode),
+   182								  RV_IRQ_EXT);
+   183			}
+   184			props[6] = PROPERTY_ENTRY_REF_ARRAY_LEN("interrupts-extended",
+   185								refs, aplic->num_idcs);
+   186		} else {
+   187			props[6] = PROPERTY_ENTRY_BOOL("msi-parent");
+   188		}
+   189	
+   190		fwnode = fwnode_create_software_node_early(props, NULL);
+   191	
+   192		if (fwnode) {
+   193			aplic_element = kzalloc(sizeof(*aplic_element), GFP_KERNEL);
+   194			if (!aplic_element) {
+   195				fwnode_remove_software_node(fwnode);
+   196				return NULL;
+   197			}
+   198	
+   199			aplic_element->fwnode = fwnode;
+   200			list_add_tail(&aplic_element->list, &aplic_list);
+   201		}
+   202	
+   203		return fwnode;
+   204	}
+   205	
+   206	static struct fwnode_handle *aplic_get_gsi_domain_id(u32 gsi)
+   207	{
+   208		struct riscv_irqchip_list *aplic_element;
+   209		struct fwnode_handle *fwnode;
+   210		struct list_head *i, *tmp;
+   211		u32 gsi_base;
+   212		u32 nr_irqs;
+   213		int rc;
+   214	
+   215		list_for_each_safe(i, tmp, &aplic_list) {
+   216			aplic_element = list_entry(i, struct riscv_irqchip_list, list);
+   217			fwnode = aplic_element->fwnode;
+   218			rc = fwnode_property_read_u32_array(fwnode, "riscv,gsi-base", &gsi_base, 1);
+   219			if (!rc) {
+   220				rc = fwnode_property_read_u32_array(fwnode, "riscv,num-sources",
+   221								    &nr_irqs, 1);
+   222				if (!rc && (gsi >= gsi_base && gsi < gsi_base + nr_irqs))
+   223					return fwnode;
+   224			}
+   225		}
+   226	
+   227		return NULL;
+   228	}
+   229	
+   230	static u32 __init aplic_gsi_to_irq(u32 gsi)
+   231	{
+   232		return acpi_register_gsi(NULL, gsi, ACPI_LEVEL_SENSITIVE, ACPI_ACTIVE_HIGH);
+   233	}
+   234	
+   235	static int __init aplic_create_platform_device(struct fwnode_handle *fwnode)
+   236	{
+   237		struct platform_device *pdev;
+   238		u32 aplic_size, aplic_id;
+   239		struct resource *res;
+   240		u64 aplic_base;
+   241		int ret;
+   242	
+   243		if (!fwnode)
+   244			return -ENODEV;
+   245	
+   246		ret = fwnode_property_read_u64_array(fwnode, "riscv,aplic-base", &aplic_base, 1);
+   247		if (ret)
+   248			return -ENODEV;
+   249	
+   250		ret = fwnode_property_read_u32_array(fwnode, "riscv,aplic-size", &aplic_size, 1);
+   251		if (ret)
+   252			return -ENODEV;
+   253	
+   254		ret = fwnode_property_read_u32_array(fwnode, "riscv,aplic-id", &aplic_id, 1);
+   255		if (ret)
+   256			return -ENODEV;
+   257	
+   258		pdev = platform_device_alloc("riscv-aplic", aplic_id);
+   259		if (!pdev)
+   260			return -ENOMEM;
+   261	
+   262		res = kcalloc(1, sizeof(*res), GFP_KERNEL);
+   263		if (!res) {
+   264			ret = -ENOMEM;
+   265			goto dev_put;
+   266		}
+   267	
+   268		res->start = aplic_base;
+   269		res->end = res->start + aplic_size - 1;
+   270		res->flags = IORESOURCE_MEM;
+   271		ret = platform_device_add_resources(pdev, res, 1);
+   272		/*
+   273		 * Resources are duplicated in platform_device_add_resources,
+   274		 * free their allocated memory
+   275		 */
+   276		kfree(res);
+   277	
+   278		pdev->dev.fwnode = fwnode;
+   279		ret = platform_device_add(pdev);
+   280		if (ret)
+   281			goto dev_put;
+   282	
+   283		return 0;
+   284	
+   285	dev_put:
+   286		platform_device_put(pdev);
+   287		return ret;
+   288	}
+   289	
+   290	static int __init aplic_parse_madt(union acpi_subtable_headers *header,
+   291					   const unsigned long end)
+   292	{
+   293		struct acpi_madt_aplic *aplic = (struct acpi_madt_aplic *)header;
+   294		struct fwnode_handle *fwnode;
+   295	
+   296		fwnode = acpi_aplic_create_fwnode(aplic);
+   297		if (fwnode)
+   298			aplic_create_platform_device(fwnode);
+   299	
+   300		return 0;
+   301	}
+   302	
+ > 303	void __init riscv_acpi_aplic_platform_init(void)
 
 -- 
 0-DAY CI Kernel Test Service
