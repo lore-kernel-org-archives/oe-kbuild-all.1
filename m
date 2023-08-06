@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E87628EF
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 14:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F473D67
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 16:36:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691332994; x=1722868994;
+  t=1691339783; x=1722875783;
   h=date:from:cc:subject:message-id:mime-version;
-  bh=HI8C4ogdImd9n2X1cma/0NweAs43MgFH2DxA0WN4KMM=;
-  b=OR3LTFakZRaiZnZGaOQfqS592PNk2NL7srCbPknX3VXDv8eYR5FpFds9
-   tji3FNrRPDT1aTxheVtlnwkT1masrLT16wB1y+qGamSXdTyg6yB/ycCMw
-   xjOk/xDDTqy22wwrY1w+oqP8OSD4Id2rnZHd/NkqBsyq5ijr2CK9LrqYZ
-   ZTpcSIeDHhq2BWYsU1h+JZERHeNtroVOSSR+j2ddoO8/Sy4m2xO3Rr8aS
-   kf/0v6SkGg8e2bhRPZKZM0jS0ddp54g6ECLjmWgn0y8D7sFsjkzzig4RC
-   S8sEJoXcvwGhXRjbrg/LD8ZZU5Baf+uqojVbL7/WnWKlMDV1cVQt47yOt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="436722147"
+  bh=bk1nlwLHxxwancBcvNC3t81VktVIWVJfplkB0vGy9GY=;
+  b=LOq7NZJRBKCHlthLw6iM6xtGzMU0Kjz5yb3nGXahPZHQvGbFTVKeW5AF
+   g/ivtrMwKk1heFhKeG51G78P0/17K5lL+ckZAOedExkjWXSmQrQz6h9Qp
+   8EMLEzzvb6hSk5x9YfRtITsSeI/67gzZNDMrGbpOA/DFFaqA5BVx+yVvc
+   f9wEuIMO8AJye9R6jF6DUkukxfe0HXhFAubkG25IoQaVyYb2kqDfdJ3Nl
+   tuPoGRQMvq+7g/vQ2DaTfTN736zmlnwiGhgvShrdBKqzonkch2P7FwvQl
+   XlssUgr7eK8rnYqltPU7MSNbOhSjLSHNU7ER4lnINeqq6bU+ZEDvY4Flx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="355334702"
 X-IronPort-AV: E=Sophos;i="6.01,260,1684825200"; 
-   d="scan'208";a="436722147"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 07:43:13 -0700
+   d="scan'208";a="355334702"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 09:36:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="760166731"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="730644542"
 X-IronPort-AV: E=Sophos;i="6.01,260,1684825200"; 
-   d="scan'208";a="760166731"
+   d="scan'208";a="730644542"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 06 Aug 2023 07:43:12 -0700
+  by orsmga002.jf.intel.com with ESMTP; 06 Aug 2023 09:36:13 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSeyN-0004Gi-1m
+	id 1qSgjk-0004Iq-2m
 	for oe-kbuild-all@lists.linux.dev;
-	Sun, 06 Aug 2023 14:43:11 +0000
-Date: Sun, 6 Aug 2023 22:42:54 +0800
+	Sun, 06 Aug 2023 16:36:12 +0000
+Date: Mon, 7 Aug 2023 00:36:05 +0800
 From: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 14046/30000] kernel/dma/removed.c:107:30:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202308062220.WbOgmv4F-lkp@intel.com>
+Subject: [intel-lts:4.19/android_s 14616/30000]
+ drivers/usb/host/xhci-mem.c:1880:56: sparse: sparse: restricted __le32
+ degrades to integer
+Message-ID: <202308070033.2zGEzJ0w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,248 +49,196 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
 head:   7f46da99d47faba52b98b09371755ba4821a116d
-commit: c9a574054dbbc299aac39781a1d19a36fe0bc35a [14046/30000] ANDROID: GKI: drivers: Add dma removed ops
-config: sh-randconfig-r093-20230806 (https://download.01.org/0day-ci/archive/20230806/202308062220.WbOgmv4F-lkp@intel.com/config)
+commit: 5dfdaa15caebc782d1c90ff6513d4cc9f6ac3663 [14616/30000] ANDROID: GKI: usb: xhci: Add support for secondary interrupters
+config: sh-randconfig-r093-20230806 (https://download.01.org/0day-ci/archive/20230807/202308070033.2zGEzJ0w-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230806/202308062220.WbOgmv4F-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230807/202308070033.2zGEzJ0w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308062220.WbOgmv4F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308070033.2zGEzJ0w-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> kernel/dma/removed.c:107:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void * @@
-   kernel/dma/removed.c:107:30: sparse:     expected void [noderef] <asn:2> *addr
-   kernel/dma/removed.c:107:30: sparse:     got void *
->> kernel/dma/removed.c:119:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *[assigned] addr @@     got void * @@
-   kernel/dma/removed.c:119:38: sparse:     expected void [noderef] <asn:2> *[assigned] addr
-   kernel/dma/removed.c:119:38: sparse:     got void *
->> kernel/dma/removed.c:127:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] <asn:2> *[assigned] addr @@
-   kernel/dma/removed.c:127:16: sparse:     expected void *
-   kernel/dma/removed.c:127:16: sparse:     got void [noderef] <asn:2> *[assigned] addr
->> kernel/dma/removed.c:71:6: sparse: sparse: symbol 'removed_alloc' was not declared. Should it be static?
->> kernel/dma/removed.c:131:5: sparse: sparse: symbol 'removed_mmap' was not declared. Should it be static?
->> kernel/dma/removed.c:146:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void *cpu_addr @@
-   kernel/dma/removed.c:146:25: sparse:     expected void [noderef] <asn:2> *addr
-   kernel/dma/removed.c:146:25: sparse:     got void *cpu_addr
->> kernel/dma/removed.c:138:6: sparse: sparse: symbol 'removed_free' was not declared. Should it be static?
->> kernel/dma/removed.c:187:6: sparse: sparse: symbol 'removed_sync_single_for_device' was not declared. Should it be static?
->> kernel/dma/removed.c:193:6: sparse: sparse: symbol 'removed_sync_sg_for_cpu' was not declared. Should it be static?
->> kernel/dma/removed.c:199:6: sparse: sparse: symbol 'removed_sync_sg_for_device' was not declared. Should it be static?
->> kernel/dma/removed.c:213:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void *remapped_address @@
-   kernel/dma/removed.c:213:17: sparse:     expected void [noderef] <asn:2> *addr
-   kernel/dma/removed.c:213:17: sparse:     got void *remapped_address
->> kernel/dma/removed.c:211:6: sparse: sparse: symbol 'removed_unremap' was not declared. Should it be static?
->> kernel/dma/removed.c:228:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *( *remap )( ... ) @@     got void [noderef] <asn:2> *( * )( ... ) @@
-   kernel/dma/removed.c:228:35: sparse:     expected void *( *remap )( ... )
-   kernel/dma/removed.c:228:35: sparse:     got void [noderef] <asn:2> *( * )( ... )
+   drivers/usb/host/xhci-mem.c:936:6: sparse: sparse: symbol 'xhci_free_virt_devices_depth_first' was not declared. Should it be static?
+>> drivers/usb/host/xhci-mem.c:1880:56: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/usb/host/xhci-mem.c:1840:6: sparse: sparse: symbol 'xhci_handle_sec_intr_events' was not declared. Should it be static?
+>> drivers/usb/host/xhci-mem.c:1947:6: sparse: sparse: symbol 'xhci_event_ring_cleanup' was not declared. Should it be static?
+>> drivers/usb/host/xhci-mem.c:2486:5: sparse: sparse: symbol 'xhci_event_ring_setup' was not declared. Should it be static?
+>> drivers/usb/host/xhci-mem.c:2590:5: sparse: sparse: symbol 'xhci_event_ring_init' was not declared. Should it be static?
    In file included from include/linux/gfp.h:6,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:22,
-                    from include/linux/module.h:13,
-                    from kernel/dma/removed.c:6:
+                    from include/linux/idr.h:16,
+                    from include/linux/kernfs.h:14,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/device.h:16,
+                    from include/linux/usb/ch9.h:36,
+                    from include/linux/usb.h:6,
+                    from drivers/usb/host/xhci-mem.c:11:
    include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1171:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
-    1171 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+   include/linux/mmzone.h:1172:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1172 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
          |             ^
-   include/linux/mmzone.h:1162:27: note: 'mem_section' declared here
-    1162 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+   include/linux/mmzone.h:1163:27: note: 'mem_section' declared here
+    1163 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
          |                           ^~~~~~~~~~~
-   kernel/dma/removed.c: At top level:
-   kernel/dma/removed.c:71:7: warning: no previous prototype for 'removed_alloc' [-Wmissing-prototypes]
-      71 | void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
-         |       ^~~~~~~~~~~~~
-   kernel/dma/removed.c:131:5: warning: no previous prototype for 'removed_mmap' [-Wmissing-prototypes]
-     131 | int removed_mmap(struct device *dev, struct vm_area_struct *vma,
-         |     ^~~~~~~~~~~~
-   kernel/dma/removed.c:138:6: warning: no previous prototype for 'removed_free' [-Wmissing-prototypes]
-     138 | void removed_free(struct device *dev, size_t size, void *cpu_addr,
-         |      ^~~~~~~~~~~~
-   kernel/dma/removed.c:187:6: warning: no previous prototype for 'removed_sync_single_for_device' [-Wmissing-prototypes]
-     187 | void removed_sync_single_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:193:6: warning: no previous prototype for 'removed_sync_sg_for_cpu' [-Wmissing-prototypes]
-     193 | void removed_sync_sg_for_cpu(struct device *dev,
+   drivers/usb/host/xhci-mem.c: At top level:
+   drivers/usb/host/xhci-mem.c:936:6: warning: no previous prototype for 'xhci_free_virt_devices_depth_first' [-Wmissing-prototypes]
+     936 | void xhci_free_virt_devices_depth_first(struct xhci_hcd *xhci, int slot_id)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/xhci-mem.c:1840:6: warning: no previous prototype for 'xhci_handle_sec_intr_events' [-Wmissing-prototypes]
+    1840 | void xhci_handle_sec_intr_events(struct xhci_hcd *xhci, int intr_num)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/xhci-mem.c:1947:6: warning: no previous prototype for 'xhci_event_ring_cleanup' [-Wmissing-prototypes]
+    1947 | void xhci_event_ring_cleanup(struct xhci_hcd *xhci)
          |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:199:6: warning: no previous prototype for 'removed_sync_sg_for_device' [-Wmissing-prototypes]
-     199 | void removed_sync_sg_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:211:6: warning: no previous prototype for 'removed_unremap' [-Wmissing-prototypes]
-     211 | void removed_unremap(struct device *dev, void *remapped_address, size_t size)
-         |      ^~~~~~~~~~~~~~~
-   kernel/dma/removed.c:61:12: warning: 'dma_assign_removed_region' defined but not used [-Wunused-function]
-      61 | static int dma_assign_removed_region(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:33:12: warning: 'dma_init_removed_memory' defined but not used [-Wunused-function]
-      33 | static int dma_init_removed_memory(phys_addr_t phys_addr, size_t size,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/xhci-mem.c:2486:5: warning: no previous prototype for 'xhci_event_ring_setup' [-Wmissing-prototypes]
+    2486 | int xhci_event_ring_setup(struct xhci_hcd *xhci, struct xhci_ring **er,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/xhci-mem.c:2590:5: warning: no previous prototype for 'xhci_event_ring_init' [-Wmissing-prototypes]
+    2590 | int xhci_event_ring_init(struct xhci_hcd *xhci, gfp_t flags)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'xhci' not described in 'xhci_ring_alloc'
+   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'num_segs' not described in 'xhci_ring_alloc'
+   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'cycle_state' not described in 'xhci_ring_alloc'
+   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'type' not described in 'xhci_ring_alloc'
+   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'max_packet' not described in 'xhci_ring_alloc'
+   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'flags' not described in 'xhci_ring_alloc'
 
-vim +107 kernel/dma/removed.c
+vim +1880 drivers/usb/host/xhci-mem.c
 
-    70	
-  > 71	void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
-    72			    gfp_t gfp, unsigned long attrs)
-    73	{
-    74		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
-    75		bool skip_zeroing = attrs & DMA_ATTR_SKIP_ZEROING;
-    76		int pageno;
-    77		unsigned long order;
-    78		void __iomem *addr = NULL;
-    79		struct removed_region *dma_mem = dev->removed_mem;
-    80		int nbits;
-    81		unsigned int align;
-    82	
-    83		if (!gfpflags_allow_blocking(gfp))
-    84			return NULL;
-    85	
-    86		size = PAGE_ALIGN(size);
-    87		nbits = size >> PAGE_SHIFT;
-    88		order = get_order(size);
-    89	
-    90		if (order > get_order(SZ_1M))
-    91			order = get_order(SZ_1M);
-    92	
-    93		align = (1 << order) - 1;
-    94	
-    95	
-    96		mutex_lock(&dma_mem->lock);
-    97		pageno = bitmap_find_next_zero_area(dma_mem->bitmap, dma_mem->nr_pages,
-    98							0, nbits, align);
-    99	
-   100		if (pageno < dma_mem->nr_pages) {
-   101			phys_addr_t base = dma_mem->base + pageno * PAGE_SIZE;
-   102			*handle = base;
-   103	
-   104			bitmap_set(dma_mem->bitmap, pageno, nbits);
-   105	
-   106			if (no_kernel_mapping && skip_zeroing) {
- > 107				addr = (void *)NO_KERNEL_MAPPING_DUMMY;
-   108				goto out;
-   109			}
-   110	
-   111			addr = ioremap_wc(base, size);
-   112			if (WARN_ON(!addr)) {
-   113				bitmap_clear(dma_mem->bitmap, pageno, nbits);
-   114			} else {
-   115				if (!skip_zeroing)
-   116					memset_io(addr, 0, size);
-   117				if (no_kernel_mapping) {
-   118					iounmap(addr);
- > 119					addr = (void *)NO_KERNEL_MAPPING_DUMMY;
-   120				}
-   121				*handle = base;
-   122			}
-   123		}
-   124	
-   125	out:
-   126		mutex_unlock(&dma_mem->lock);
- > 127		return addr;
-   128	}
-   129	
-   130	
- > 131	int removed_mmap(struct device *dev, struct vm_area_struct *vma,
-   132			 void *cpu_addr, dma_addr_t dma_addr, size_t size,
-   133			 unsigned long attrs)
-   134	{
-   135		return -ENXIO;
-   136	}
-   137	
- > 138	void removed_free(struct device *dev, size_t size, void *cpu_addr,
-   139			  dma_addr_t handle, unsigned long attrs)
-   140	{
-   141		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
-   142		struct removed_region *dma_mem = dev->removed_mem;
-   143	
-   144		size = PAGE_ALIGN(size);
-   145		if (!no_kernel_mapping)
- > 146			iounmap(cpu_addr);
-   147		mutex_lock(&dma_mem->lock);
-   148		bitmap_clear(dma_mem->bitmap, (handle - dma_mem->base) >> PAGE_SHIFT,
-   149					size >> PAGE_SHIFT);
-   150		mutex_unlock(&dma_mem->lock);
-   151	}
-   152	
-   153	static dma_addr_t removed_map_page(struct device *dev, struct page *page,
-   154				unsigned long offset, size_t size,
-   155				enum dma_data_direction dir,
-   156				unsigned long attrs)
-   157	{
-   158		return ~(dma_addr_t)0;
-   159	}
-   160	
-   161	static void removed_unmap_page(struct device *dev, dma_addr_t dma_handle,
-   162			size_t size, enum dma_data_direction dir,
-   163			unsigned long attrs)
-   164	{
-   165	}
-   166	
-   167	static int removed_map_sg(struct device *dev, struct scatterlist *sg,
-   168				int nents, enum dma_data_direction dir,
-   169				unsigned long attrs)
-   170	{
-   171		return 0;
-   172	}
-   173	
-   174	static void removed_unmap_sg(struct device *dev,
-   175				struct scatterlist *sg, int nents,
-   176				enum dma_data_direction dir,
-   177				unsigned long attrs)
-   178	{
-   179	}
-   180	
-   181	static void removed_sync_single_for_cpu(struct device *dev,
-   182				dma_addr_t dma_handle, size_t size,
-   183				enum dma_data_direction dir)
-   184	{
-   185	}
-   186	
- > 187	void removed_sync_single_for_device(struct device *dev,
-   188				dma_addr_t dma_handle, size_t size,
-   189				enum dma_data_direction dir)
-   190	{
-   191	}
-   192	
- > 193	void removed_sync_sg_for_cpu(struct device *dev,
-   194				struct scatterlist *sg, int nents,
-   195				enum dma_data_direction dir)
-   196	{
-   197	}
-   198	
- > 199	void removed_sync_sg_for_device(struct device *dev,
-   200				struct scatterlist *sg, int nents,
-   201				enum dma_data_direction dir)
-   202	{
-   203	}
-   204	
-   205	static void __iomem *removed_remap(struct device *dev, void *cpu_addr,
-   206				dma_addr_t handle, size_t size, unsigned long attrs)
-   207	{
-   208		return ioremap_wc(handle, size);
-   209	}
-   210	
- > 211	void removed_unremap(struct device *dev, void *remapped_address, size_t size)
-   212	{
- > 213		iounmap(remapped_address);
-   214	}
-   215	
-   216	const struct dma_map_ops removed_dma_ops = {
-   217		.alloc			= removed_alloc,
-   218		.free			= removed_free,
-   219		.mmap			= removed_mmap,
-   220		.map_page		= removed_map_page,
-   221		.unmap_page		= removed_unmap_page,
-   222		.map_sg			= removed_map_sg,
-   223		.unmap_sg		= removed_unmap_sg,
-   224		.sync_single_for_cpu	= removed_sync_single_for_cpu,
-   225		.sync_single_for_device	= removed_sync_single_for_device,
-   226		.sync_sg_for_cpu	= removed_sync_sg_for_cpu,
-   227		.sync_sg_for_device	= removed_sync_sg_for_device,
- > 228		.remap			= removed_remap,
-   229		.unremap		= removed_unremap,
-   230	};
-   231	EXPORT_SYMBOL(removed_dma_ops);
-   232	
+  1839	
+> 1840	void xhci_handle_sec_intr_events(struct xhci_hcd *xhci, int intr_num)
+  1841	{
+  1842		union xhci_trb *erdp_trb, *current_trb;
+  1843		struct xhci_segment	*seg;
+  1844		u64 erdp_reg;
+  1845		u32 iman_reg;
+  1846		dma_addr_t deq;
+  1847		unsigned long segment_offset;
+  1848	
+  1849		/* disable irq, ack pending interrupt and ack all pending events */
+  1850	
+  1851		iman_reg =
+  1852			readl_relaxed(&xhci->sec_ir_set[intr_num]->irq_pending);
+  1853		iman_reg &= ~IMAN_IE;
+  1854		writel_relaxed(iman_reg,
+  1855				&xhci->sec_ir_set[intr_num]->irq_pending);
+  1856		iman_reg =
+  1857			readl_relaxed(&xhci->sec_ir_set[intr_num]->irq_pending);
+  1858		if (iman_reg & IMAN_IP)
+  1859			writel_relaxed(iman_reg,
+  1860				&xhci->sec_ir_set[intr_num]->irq_pending);
+  1861	
+  1862		/* last acked event trb is in erdp reg  */
+  1863		erdp_reg =
+  1864			xhci_read_64(xhci, &xhci->sec_ir_set[intr_num]->erst_dequeue);
+  1865		deq = (dma_addr_t)(erdp_reg & ~ERST_PTR_MASK);
+  1866		if (!deq) {
+  1867			pr_debug("%s: event ring handling not required\n", __func__);
+  1868			return;
+  1869		}
+  1870	
+  1871		seg = xhci->sec_event_ring[intr_num]->first_seg;
+  1872		segment_offset = deq - seg->dma;
+  1873	
+  1874		/* find out virtual address of the last acked event trb */
+  1875		erdp_trb = current_trb = &seg->trbs[0] +
+  1876					(segment_offset/sizeof(*current_trb));
+  1877	
+  1878		/* read cycle state of the last acked trb to find out CCS */
+  1879		xhci->sec_event_ring[intr_num]->cycle_state =
+> 1880					(current_trb->event_cmd.flags & TRB_CYCLE);
+  1881	
+  1882		while (1) {
+  1883			/* last trb of the event ring: toggle cycle state */
+  1884			if (current_trb == &seg->trbs[TRBS_PER_SEGMENT - 1]) {
+  1885				xhci->sec_event_ring[intr_num]->cycle_state ^= 1;
+  1886				current_trb = &seg->trbs[0];
+  1887			} else {
+  1888				current_trb++;
+  1889			}
+  1890	
+  1891			/* cycle state transition */
+  1892			if ((le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE) !=
+  1893			    xhci->sec_event_ring[intr_num]->cycle_state)
+  1894				break;
+  1895		}
+  1896	
+  1897		if (erdp_trb != current_trb) {
+  1898			deq =
+  1899			xhci_trb_virt_to_dma(xhci->sec_event_ring[intr_num]->deq_seg,
+  1900						current_trb);
+  1901			if (deq == 0)
+  1902				xhci_warn(xhci,
+  1903					"WARN invalid SW event ring dequeue ptr.\n");
+  1904			/* Update HC event ring dequeue pointer */
+  1905			erdp_reg &= ERST_PTR_MASK;
+  1906			erdp_reg |= ((u64) deq & (u64) ~ERST_PTR_MASK);
+  1907		}
+  1908	
+  1909		/* Clear the event handler busy flag (RW1C); event ring is empty. */
+  1910		erdp_reg |= ERST_EHB;
+  1911		xhci_write_64(xhci, erdp_reg,
+  1912				&xhci->sec_ir_set[intr_num]->erst_dequeue);
+  1913	}
+  1914	
+  1915	int xhci_sec_event_ring_cleanup(struct usb_hcd *hcd, unsigned int intr_num)
+  1916	{
+  1917		int size;
+  1918		struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+  1919		struct device	*dev = xhci_to_hcd(xhci)->self.sysdev;
+  1920	
+  1921		if (intr_num >= xhci->max_interrupters) {
+  1922			xhci_err(xhci, "invalid secondary interrupter num %d\n",
+  1923				intr_num);
+  1924			return -EINVAL;
+  1925		}
+  1926	
+  1927		size =
+  1928		sizeof(struct xhci_erst_entry)*(xhci->sec_erst[intr_num].num_entries);
+  1929		if (xhci->sec_erst[intr_num].entries) {
+  1930			xhci_handle_sec_intr_events(xhci, intr_num);
+  1931			dma_free_coherent(dev, size, xhci->sec_erst[intr_num].entries,
+  1932					xhci->sec_erst[intr_num].erst_dma_addr);
+  1933			xhci->sec_erst[intr_num].entries = NULL;
+  1934		}
+  1935		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed SEC ERST#%d",
+  1936			intr_num);
+  1937		if (xhci->sec_event_ring[intr_num])
+  1938			xhci_ring_free(xhci, xhci->sec_event_ring[intr_num]);
+  1939	
+  1940		xhci->sec_event_ring[intr_num] = NULL;
+  1941		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+  1942			"Freed sec event ring");
+  1943	
+  1944		return 0;
+  1945	}
+  1946	
+> 1947	void xhci_event_ring_cleanup(struct xhci_hcd *xhci)
+  1948	{
+  1949		unsigned int i;
+  1950	
+  1951		/* sec event ring clean up */
+  1952		for (i = 1; i < xhci->max_interrupters; i++)
+  1953			xhci_sec_event_ring_cleanup(xhci_to_hcd(xhci), i);
+  1954	
+  1955		kfree(xhci->sec_ir_set);
+  1956		xhci->sec_ir_set = NULL;
+  1957		kfree(xhci->sec_erst);
+  1958		xhci->sec_erst = NULL;
+  1959		kfree(xhci->sec_event_ring);
+  1960		xhci->sec_event_ring = NULL;
+  1961	
+  1962		/* primary event ring clean up */
+  1963		xhci_free_erst(xhci, &xhci->erst);
+  1964		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed primary ERST");
+  1965		if (xhci->event_ring)
+  1966			xhci_ring_free(xhci, xhci->event_ring);
+  1967		xhci->event_ring = NULL;
+  1968		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed priamry event ring");
+  1969	}
+  1970	
 
 -- 
 0-DAY CI Kernel Test Service
