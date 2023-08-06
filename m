@@ -1,54 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B087128EF
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 12:31:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E87628EF
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 14:43:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691325075; x=1722861075;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WG+jMRSs1giuugV7/S2AhBZlclIgxIwrnVuxY1rUKxk=;
-  b=gGetMhj4azODuSd6nUbIl0hY+NPTfD2h7CHc73qQL8iE3be/Mykjlc9w
-   c1Jk3TqMkpVDWJ+eFls1gYa2FxdQX61xbpb9IM49VKlMBhGAA1AAx+rFZ
-   Y9in3v5XQ7BCb99d/0Epi5mRmebXLtU4qIs1WdUUCWhe9Q60CsQzUXiDP
-   ecQ+I/+CYCMGXPO3vfj3S8mHPP/l/bPvioW+xaWSiP59wydoYIzB4dB1G
-   1Mf2XD/Zbhinm0DqV4TQ/9zP/YvcAGGLpvCrJvgkAQjVo2zVSKPN/ffff
-   GPtSHmYSJ2/3V1QXzyChliX1eITpZpLoYkOJwDB9MIuu546o184De4iOC
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="434222195"
-X-IronPort-AV: E=Sophos;i="6.01,259,1684825200"; 
-   d="scan'208";a="434222195"
+  t=1691332994; x=1722868994;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=HI8C4ogdImd9n2X1cma/0NweAs43MgFH2DxA0WN4KMM=;
+  b=OR3LTFakZRaiZnZGaOQfqS592PNk2NL7srCbPknX3VXDv8eYR5FpFds9
+   tji3FNrRPDT1aTxheVtlnwkT1masrLT16wB1y+qGamSXdTyg6yB/ycCMw
+   xjOk/xDDTqy22wwrY1w+oqP8OSD4Id2rnZHd/NkqBsyq5ijr2CK9LrqYZ
+   ZTpcSIeDHhq2BWYsU1h+JZERHeNtroVOSSR+j2ddoO8/Sy4m2xO3Rr8aS
+   kf/0v6SkGg8e2bhRPZKZM0jS0ddp54g6ECLjmWgn0y8D7sFsjkzzig4RC
+   S8sEJoXcvwGhXRjbrg/LD8ZZU5Baf+uqojVbL7/WnWKlMDV1cVQt47yOt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="436722147"
+X-IronPort-AV: E=Sophos;i="6.01,260,1684825200"; 
+   d="scan'208";a="436722147"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 05:31:15 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 07:43:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="760144574"
-X-IronPort-AV: E=Sophos;i="6.01,259,1684825200"; 
-   d="scan'208";a="760144574"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="760166731"
+X-IronPort-AV: E=Sophos;i="6.01,260,1684825200"; 
+   d="scan'208";a="760166731"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 06 Aug 2023 05:31:11 -0700
+  by orsmga008.jf.intel.com with ESMTP; 06 Aug 2023 07:43:12 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qScub-0004Df-34;
-	Sun, 06 Aug 2023 12:31:09 +0000
-Date: Sun, 6 Aug 2023 20:30:35 +0800
+	id 1qSeyN-0004Gi-1m
+	for oe-kbuild-all@lists.linux.dev;
+	Sun, 06 Aug 2023 14:43:11 +0000
+Date: Sun, 6 Aug 2023 22:42:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-	freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 1/3] drm/display: add transparent bridge helper
-Message-ID: <202308062017.iKU92hML-lkp@intel.com>
-References: <20230802011845.4176631-2-dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:4.19/android_s 14046/30000] kernel/dma/removed.c:107:30:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202308062220.WbOgmv4F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,33 +45,251 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230802011845.4176631-2-dmitry.baryshkov@linaro.org>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on usb/usb-testing usb/usb-next usb/usb-linus drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc4 next-20230804]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-add-transparent-bridge-helper/20230802-091932
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230802011845.4176631-2-dmitry.baryshkov%40linaro.org
-patch subject: [PATCH v3 1/3] drm/display: add transparent bridge helper
-config: i386-randconfig-r072-20230806 (https://download.01.org/0day-ci/archive/20230806/202308062017.iKU92hML-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230806/202308062017.iKU92hML-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   7f46da99d47faba52b98b09371755ba4821a116d
+commit: c9a574054dbbc299aac39781a1d19a36fe0bc35a [14046/30000] ANDROID: GKI: drivers: Add dma removed ops
+config: sh-randconfig-r093-20230806 (https://download.01.org/0day-ci/archive/20230806/202308062220.WbOgmv4F-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230806/202308062220.WbOgmv4F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308062017.iKU92hML-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308062220.WbOgmv4F-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/display/drm_simple_bridge.c:118:25: sparse: sparse: symbol 'drm_simple_bridge_drv' was not declared. Should it be static?
+>> kernel/dma/removed.c:107:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void * @@
+   kernel/dma/removed.c:107:30: sparse:     expected void [noderef] <asn:2> *addr
+   kernel/dma/removed.c:107:30: sparse:     got void *
+>> kernel/dma/removed.c:119:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *[assigned] addr @@     got void * @@
+   kernel/dma/removed.c:119:38: sparse:     expected void [noderef] <asn:2> *[assigned] addr
+   kernel/dma/removed.c:119:38: sparse:     got void *
+>> kernel/dma/removed.c:127:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] <asn:2> *[assigned] addr @@
+   kernel/dma/removed.c:127:16: sparse:     expected void *
+   kernel/dma/removed.c:127:16: sparse:     got void [noderef] <asn:2> *[assigned] addr
+>> kernel/dma/removed.c:71:6: sparse: sparse: symbol 'removed_alloc' was not declared. Should it be static?
+>> kernel/dma/removed.c:131:5: sparse: sparse: symbol 'removed_mmap' was not declared. Should it be static?
+>> kernel/dma/removed.c:146:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void *cpu_addr @@
+   kernel/dma/removed.c:146:25: sparse:     expected void [noderef] <asn:2> *addr
+   kernel/dma/removed.c:146:25: sparse:     got void *cpu_addr
+>> kernel/dma/removed.c:138:6: sparse: sparse: symbol 'removed_free' was not declared. Should it be static?
+>> kernel/dma/removed.c:187:6: sparse: sparse: symbol 'removed_sync_single_for_device' was not declared. Should it be static?
+>> kernel/dma/removed.c:193:6: sparse: sparse: symbol 'removed_sync_sg_for_cpu' was not declared. Should it be static?
+>> kernel/dma/removed.c:199:6: sparse: sparse: symbol 'removed_sync_sg_for_device' was not declared. Should it be static?
+>> kernel/dma/removed.c:213:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void *remapped_address @@
+   kernel/dma/removed.c:213:17: sparse:     expected void [noderef] <asn:2> *addr
+   kernel/dma/removed.c:213:17: sparse:     got void *remapped_address
+>> kernel/dma/removed.c:211:6: sparse: sparse: symbol 'removed_unremap' was not declared. Should it be static?
+>> kernel/dma/removed.c:228:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *( *remap )( ... ) @@     got void [noderef] <asn:2> *( * )( ... ) @@
+   kernel/dma/removed.c:228:35: sparse:     expected void *( *remap )( ... )
+   kernel/dma/removed.c:228:35: sparse:     got void [noderef] <asn:2> *( * )( ... )
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:22,
+                    from include/linux/module.h:13,
+                    from kernel/dma/removed.c:6:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1171:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1171 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1162:27: note: 'mem_section' declared here
+    1162 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   kernel/dma/removed.c: At top level:
+   kernel/dma/removed.c:71:7: warning: no previous prototype for 'removed_alloc' [-Wmissing-prototypes]
+      71 | void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
+         |       ^~~~~~~~~~~~~
+   kernel/dma/removed.c:131:5: warning: no previous prototype for 'removed_mmap' [-Wmissing-prototypes]
+     131 | int removed_mmap(struct device *dev, struct vm_area_struct *vma,
+         |     ^~~~~~~~~~~~
+   kernel/dma/removed.c:138:6: warning: no previous prototype for 'removed_free' [-Wmissing-prototypes]
+     138 | void removed_free(struct device *dev, size_t size, void *cpu_addr,
+         |      ^~~~~~~~~~~~
+   kernel/dma/removed.c:187:6: warning: no previous prototype for 'removed_sync_single_for_device' [-Wmissing-prototypes]
+     187 | void removed_sync_single_for_device(struct device *dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/removed.c:193:6: warning: no previous prototype for 'removed_sync_sg_for_cpu' [-Wmissing-prototypes]
+     193 | void removed_sync_sg_for_cpu(struct device *dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/removed.c:199:6: warning: no previous prototype for 'removed_sync_sg_for_device' [-Wmissing-prototypes]
+     199 | void removed_sync_sg_for_device(struct device *dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/removed.c:211:6: warning: no previous prototype for 'removed_unremap' [-Wmissing-prototypes]
+     211 | void removed_unremap(struct device *dev, void *remapped_address, size_t size)
+         |      ^~~~~~~~~~~~~~~
+   kernel/dma/removed.c:61:12: warning: 'dma_assign_removed_region' defined but not used [-Wunused-function]
+      61 | static int dma_assign_removed_region(struct device *dev,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/removed.c:33:12: warning: 'dma_init_removed_memory' defined but not used [-Wunused-function]
+      33 | static int dma_init_removed_memory(phys_addr_t phys_addr, size_t size,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+
+vim +107 kernel/dma/removed.c
+
+    70	
+  > 71	void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
+    72			    gfp_t gfp, unsigned long attrs)
+    73	{
+    74		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
+    75		bool skip_zeroing = attrs & DMA_ATTR_SKIP_ZEROING;
+    76		int pageno;
+    77		unsigned long order;
+    78		void __iomem *addr = NULL;
+    79		struct removed_region *dma_mem = dev->removed_mem;
+    80		int nbits;
+    81		unsigned int align;
+    82	
+    83		if (!gfpflags_allow_blocking(gfp))
+    84			return NULL;
+    85	
+    86		size = PAGE_ALIGN(size);
+    87		nbits = size >> PAGE_SHIFT;
+    88		order = get_order(size);
+    89	
+    90		if (order > get_order(SZ_1M))
+    91			order = get_order(SZ_1M);
+    92	
+    93		align = (1 << order) - 1;
+    94	
+    95	
+    96		mutex_lock(&dma_mem->lock);
+    97		pageno = bitmap_find_next_zero_area(dma_mem->bitmap, dma_mem->nr_pages,
+    98							0, nbits, align);
+    99	
+   100		if (pageno < dma_mem->nr_pages) {
+   101			phys_addr_t base = dma_mem->base + pageno * PAGE_SIZE;
+   102			*handle = base;
+   103	
+   104			bitmap_set(dma_mem->bitmap, pageno, nbits);
+   105	
+   106			if (no_kernel_mapping && skip_zeroing) {
+ > 107				addr = (void *)NO_KERNEL_MAPPING_DUMMY;
+   108				goto out;
+   109			}
+   110	
+   111			addr = ioremap_wc(base, size);
+   112			if (WARN_ON(!addr)) {
+   113				bitmap_clear(dma_mem->bitmap, pageno, nbits);
+   114			} else {
+   115				if (!skip_zeroing)
+   116					memset_io(addr, 0, size);
+   117				if (no_kernel_mapping) {
+   118					iounmap(addr);
+ > 119					addr = (void *)NO_KERNEL_MAPPING_DUMMY;
+   120				}
+   121				*handle = base;
+   122			}
+   123		}
+   124	
+   125	out:
+   126		mutex_unlock(&dma_mem->lock);
+ > 127		return addr;
+   128	}
+   129	
+   130	
+ > 131	int removed_mmap(struct device *dev, struct vm_area_struct *vma,
+   132			 void *cpu_addr, dma_addr_t dma_addr, size_t size,
+   133			 unsigned long attrs)
+   134	{
+   135		return -ENXIO;
+   136	}
+   137	
+ > 138	void removed_free(struct device *dev, size_t size, void *cpu_addr,
+   139			  dma_addr_t handle, unsigned long attrs)
+   140	{
+   141		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
+   142		struct removed_region *dma_mem = dev->removed_mem;
+   143	
+   144		size = PAGE_ALIGN(size);
+   145		if (!no_kernel_mapping)
+ > 146			iounmap(cpu_addr);
+   147		mutex_lock(&dma_mem->lock);
+   148		bitmap_clear(dma_mem->bitmap, (handle - dma_mem->base) >> PAGE_SHIFT,
+   149					size >> PAGE_SHIFT);
+   150		mutex_unlock(&dma_mem->lock);
+   151	}
+   152	
+   153	static dma_addr_t removed_map_page(struct device *dev, struct page *page,
+   154				unsigned long offset, size_t size,
+   155				enum dma_data_direction dir,
+   156				unsigned long attrs)
+   157	{
+   158		return ~(dma_addr_t)0;
+   159	}
+   160	
+   161	static void removed_unmap_page(struct device *dev, dma_addr_t dma_handle,
+   162			size_t size, enum dma_data_direction dir,
+   163			unsigned long attrs)
+   164	{
+   165	}
+   166	
+   167	static int removed_map_sg(struct device *dev, struct scatterlist *sg,
+   168				int nents, enum dma_data_direction dir,
+   169				unsigned long attrs)
+   170	{
+   171		return 0;
+   172	}
+   173	
+   174	static void removed_unmap_sg(struct device *dev,
+   175				struct scatterlist *sg, int nents,
+   176				enum dma_data_direction dir,
+   177				unsigned long attrs)
+   178	{
+   179	}
+   180	
+   181	static void removed_sync_single_for_cpu(struct device *dev,
+   182				dma_addr_t dma_handle, size_t size,
+   183				enum dma_data_direction dir)
+   184	{
+   185	}
+   186	
+ > 187	void removed_sync_single_for_device(struct device *dev,
+   188				dma_addr_t dma_handle, size_t size,
+   189				enum dma_data_direction dir)
+   190	{
+   191	}
+   192	
+ > 193	void removed_sync_sg_for_cpu(struct device *dev,
+   194				struct scatterlist *sg, int nents,
+   195				enum dma_data_direction dir)
+   196	{
+   197	}
+   198	
+ > 199	void removed_sync_sg_for_device(struct device *dev,
+   200				struct scatterlist *sg, int nents,
+   201				enum dma_data_direction dir)
+   202	{
+   203	}
+   204	
+   205	static void __iomem *removed_remap(struct device *dev, void *cpu_addr,
+   206				dma_addr_t handle, size_t size, unsigned long attrs)
+   207	{
+   208		return ioremap_wc(handle, size);
+   209	}
+   210	
+ > 211	void removed_unremap(struct device *dev, void *remapped_address, size_t size)
+   212	{
+ > 213		iounmap(remapped_address);
+   214	}
+   215	
+   216	const struct dma_map_ops removed_dma_ops = {
+   217		.alloc			= removed_alloc,
+   218		.free			= removed_free,
+   219		.mmap			= removed_mmap,
+   220		.map_page		= removed_map_page,
+   221		.unmap_page		= removed_unmap_page,
+   222		.map_sg			= removed_map_sg,
+   223		.unmap_sg		= removed_unmap_sg,
+   224		.sync_single_for_cpu	= removed_sync_single_for_cpu,
+   225		.sync_single_for_device	= removed_sync_single_for_device,
+   226		.sync_sg_for_cpu	= removed_sync_sg_for_cpu,
+   227		.sync_sg_for_device	= removed_sync_sg_for_device,
+ > 228		.remap			= removed_remap,
+   229		.unremap		= removed_unremap,
+   230	};
+   231	EXPORT_SYMBOL(removed_dma_ops);
+   232	
 
 -- 
 0-DAY CI Kernel Test Service
