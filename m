@@ -1,44 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9006DA933
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 20:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9E22F26
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Aug 2023 22:27:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691353338; x=1722889338;
+  t=1691360825; x=1722896825;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R/6OYnpe472+kWoTBdL9FXSrZKdfElKq1RPgOpOAK58=;
-  b=mCg/H2t96/Gk2xpHPgU8Sw4peuicBbrzTsWyb4L7VFJNownJZ5wWsek8
-   lRA3V1TD4OGqHVdIbsau2TUI5NiktkgCP7nNGojIAbcQfBP0T3Nv//P5e
-   4ZjbI4lcGucT08lycKJxWzkHMpvwilEEdhF3lSqA48sFTrL1HYL7LH+n8
-   C0ctTMcRJ5BK+B7xcIYy/iJB1iqxvOSINnFw8rtpRWKI+DuqWCvZ07OW7
-   IEwOx5UH1zEoLHn8R+jYGLa+Urz+JHfLSw/2bUHTZ+lLqRL0mF6aLk6k9
-   o+Cl1pNHEFnKiu5aXOFDguYQE/TtH9eS8VE6BJVbNlZsBGOdScLl4qfX3
+  bh=9uJVr1+6SXndNMzXI+bsyWWIPNBqJVF7wr3w3a8Inb4=;
+  b=aOQ2xnHYDX7xYjJGEoKE/2N0Pq3GTijnGCG1rZsfzRfSeqdDkW15M57+
+   VhgRsY2nitYe99BpfbzVjL9lc/IMOK/956mmA+3SPDMMXEkOIox3iNNyI
+   fNCLv4FB45tAlhZQx644ei4vhreqW7D8fnDp8wuEHS2sBNW3nCq8BB7yT
+   z6mktbPdLbU9awaz4RO+wOV1dQCmNRoITxVKnu2GwJsCpbc8MXskSqItU
+   ukHy11YmsGDcK7+0gvT16CubMEUbq68ehZFqEOVNciP5ToCIYqPFqpRja
+   cQ7VpxehnRTVQi1GueMyXbhuHtjrToXYzwFHxblR69yG85NdzExbdiSEk
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="373159125"
-X-IronPort-AV: E=Sophos;i="6.01,260,1684825200"; 
-   d="scan'208";a="373159125"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 13:22:17 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="434254984"
+X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
+   d="scan'208";a="434254984"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 15:27:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="796050406"
-X-IronPort-AV: E=Sophos;i="6.01,260,1684825200"; 
-   d="scan'208";a="796050406"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="733878645"
+X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
+   d="scan'208";a="733878645"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 06 Aug 2023 13:22:16 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 06 Aug 2023 15:27:03 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSkGV-0004Mh-2q;
-	Sun, 06 Aug 2023 20:22:15 +0000
-Date: Mon, 7 Aug 2023 04:21:59 +0800
+	id 1qSmDG-0004OV-0n;
+	Sun, 06 Aug 2023 22:27:02 +0000
+Date: Mon, 7 Aug 2023 06:26:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 486/7272]
- drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202308070441.J6UHTRw5-lkp@intel.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.5-rc1-esp32wifi 19/36] ERROR: modpost:
+ "esp_deinit_bt" [drivers/net/wireless/espressif/main.ko] undefined!
+Message-ID: <202308070629.I2I9HCXB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,64 +46,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bdffb18b5dd8071cd25685b966f380a30b1fadaa
-commit: f39db26c54281da6a785259498ca74b5e470476f [486/7272] drm: Add kms driver for loongson display controller
-config: powerpc-randconfig-r071-20230807 (https://download.01.org/0day-ci/archive/20230807/202308070441.J6UHTRw5-lkp@intel.com/config)
+Hi Max,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.5-rc1-esp32wifi
+head:   18210f36f84a7701132797304ab62294bc7b10ac
+commit: 686647ff768e7504ab7ef2a15e2abcd73be88735 [19/36] esp_wifi: drop static esp_adapter and esp_get_adapter()
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230807/202308070629.I2I9HCXB-lkp@intel.com/config)
 compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230807/202308070441.J6UHTRw5-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230807/202308070629.I2I9HCXB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308070441.J6UHTRw5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308070629.I2I9HCXB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *d @@     got void *kptr @@
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     expected void volatile [noderef] __iomem *d
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     got void *kptr
->> drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *s @@     got void *kptr @@
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     expected void const volatile [noderef] __iomem *s
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     got void *kptr
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +27 drivers/gpu/drm/loongson/lsdc_benchmark.c
-
-    12	
-    13	typedef void (*lsdc_copy_proc_t)(struct lsdc_bo *src_bo,
-    14					 struct lsdc_bo *dst_bo,
-    15					 unsigned int size,
-    16					 int n);
-    17	
-    18	static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
-    19					      struct lsdc_bo *dst_bo,
-    20					      unsigned int size,
-    21					      int n)
-    22	{
-    23		lsdc_bo_kmap(src_bo);
-    24		lsdc_bo_kmap(dst_bo);
-    25	
-    26		while (n--)
-  > 27			memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
-    28	
-    29		lsdc_bo_kunmap(src_bo);
-    30		lsdc_bo_kunmap(dst_bo);
-    31	}
-    32	
-    33	static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
-    34					      struct lsdc_bo *dst_bo,
-    35					      unsigned int size,
-    36					      int n)
-    37	{
-    38		lsdc_bo_kmap(src_bo);
-    39		lsdc_bo_kmap(dst_bo);
-    40	
-    41		while (n--)
-  > 42			memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
-    43	
-    44		lsdc_bo_kunmap(src_bo);
-    45		lsdc_bo_kunmap(dst_bo);
-    46	}
-    47	
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
+ERROR: modpost: "cmd_set_mac" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "cmd_set_mcast_mac_list" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "process_event_esp_bootup" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "ap_bssid" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "process_cmd_resp" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "process_cmd_event" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "esp_hci_update_rx_counter" [drivers/net/wireless/espressif/main.ko] undefined!
+>> ERROR: modpost: "esp_deinit_bt" [drivers/net/wireless/espressif/main.ko] undefined!
+>> ERROR: modpost: "esp_init_bt" [drivers/net/wireless/espressif/main.ko] undefined!
+>> ERROR: modpost: "esp_commands_setup" [drivers/net/wireless/espressif/main.ko] undefined!
+WARNING: modpost: suppressed 26 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
