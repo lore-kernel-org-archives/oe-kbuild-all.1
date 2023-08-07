@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F46219D
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 01:12:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325F9392
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 01:22:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691370733; x=1722906733;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=271S4J3j+FSe+3Y8XHSVaJTGkOlmMxkVfHIaGin/v/M=;
-  b=JSy6iwdYOZArvOXIzgiTrAG/85Kvm4IR3LZirXelnlCFPqo1HRuD43PI
-   LcGOKJjeqcQByX02hsREz+Gv1z4fidubHWXuvpZUyfN1uE5+awPdnYB4t
-   WQfGw0s7orTTBS01wujg8UCwekStKIYFvo8brOU8T2VdVnckc4Jm5WpYT
-   akNIqMBmj3QMd25QZxo/7ZnmKR7taEjlGSdgV3v1etgGjZ4ixDEnhYJJA
-   AnXxENixMu7kcZiGqxArmNyqSQvoolKCjzMAb/OMLYaTJOfX36/iFTmax
-   KBVVedtKf6Kw1DfyHvlOXMCh1ssWnEQ/fd+SA88KqwGZbxspQs1cY5TF5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="350736314"
+  t=1691371344; x=1722907344;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AolYnn8169BcSG9q877x5L4uUa/7PqAdjoDXHCuCaDE=;
+  b=Zqzavde+Ympa/okx+gQPijfVwYJZIQ4rmKpV4TUh1ehM1uceAVBujHcc
+   BP/hskFjQub4e0M5IoooABtMomCkKBtNBHGkkMoM+WyxBCWqyUS9jY8oY
+   jAKgEJoOF87WMWyKTd3BQ4ecg8JICq/NcCBX4Q6wC6QV0EgjMQpgc6Osd
+   sN1/c7wSbr+YzuyHysj+sp/fRrmIFfFPoyz9T5wn0/xUyt2yW/DmWEzgu
+   fGikyRaEOpqsO82c0YNEzW/xXicIsLq8hqq/6tbPtUNDY/pm8MdXRGuXg
+   FLG0CA++It0nVphyroaU80z+UVb+SWQ4Mbg5jy1rJ+vLdGaxi0yKDvmhZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="373179412"
 X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
-   d="scan'208";a="350736314"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 18:12:12 -0700
+   d="scan'208";a="373179412"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 18:22:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="760273872"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="680630419"
 X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
-   d="scan'208";a="760273872"
+   d="scan'208";a="680630419"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 06 Aug 2023 18:12:11 -0700
+  by orsmga003.jf.intel.com with ESMTP; 06 Aug 2023 18:22:22 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSon4-0004S7-0p
-	for oe-kbuild-all@lists.linux.dev;
-	Mon, 07 Aug 2023 01:12:10 +0000
-Date: Mon, 7 Aug 2023 09:11:42 +0800
+	id 1qSowv-0004SX-1K;
+	Mon, 07 Aug 2023 01:22:21 +0000
+Date: Mon, 7 Aug 2023 09:22:13 +0800
 From: kernel test robot <lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 14660/30000] kernel/sched/stubs.c:8:5:
- warning: no previous prototype for 'sched_isolate_cpu'
-Message-ID: <202308070938.Vs2uFYOF-lkp@intel.com>
+Subject: [sashal-stable:pending-5.15 11/60]
+ drivers/firmware/arm_scmi/smc.c:116:34: error: 'irq' undeclared; did you
+ mean 'rq'?
+Message-ID: <202308070912.4UYUVJVJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,79 +47,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Quentin,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   7f46da99d47faba52b98b09371755ba4821a116d
-commit: eead51495c8760858c32d9ad0332ffc94397aa82 [14660/30000] ANDROID: GKI: sched: stub sched_isolate symbols
-config: h8300-allnoconfig (https://download.01.org/0day-ci/archive/20230807/202308070938.Vs2uFYOF-lkp@intel.com/config)
-compiler: h8300-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230807/202308070938.Vs2uFYOF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.15
+head:   eec50650bd392904c7b2acbea142ac47dba8e4fd
+commit: 9ee0700cb50085b8ea63c0fabd8c458c56e66a51 [11/60] firmware: arm_scmi: Fix chan_free cleanup on SMC
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230807/202308070912.4UYUVJVJ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230807/202308070912.4UYUVJVJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308070938.Vs2uFYOF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308070912.4UYUVJVJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/h8300/include/asm/bug.h:8,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from include/asm-generic/current.h:5,
-                    from ./arch/h8300/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from kernel/sched/sched.h:5,
-                    from kernel/sched/stubs.c:6:
-   include/linux/dma-mapping.h: In function 'dma_map_resource':
-   include/asm-generic/page.h:91:40: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
-      91 | #define pfn_valid(pfn)          ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-         |                                        ^~
-   include/asm-generic/bug.h:188:36: note: in definition of macro 'BUG_ON'
-     188 | #define BUG_ON(condition) do { if (condition) BUG(); } while (0)
-         |                                    ^~~~~~~~~
-   include/linux/dma-mapping.h:338:16: note: in expansion of macro 'pfn_valid'
-     338 |         BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
-         |                ^~~~~~~~~
-   kernel/sched/stubs.c: At top level:
->> kernel/sched/stubs.c:8:5: warning: no previous prototype for 'sched_isolate_cpu' [-Wmissing-prototypes]
-       8 | int sched_isolate_cpu(int cpu)
-         |     ^~~~~~~~~~~~~~~~~
->> kernel/sched/stubs.c:14:5: warning: no previous prototype for 'sched_unisolate_cpu_unlocked' [-Wmissing-prototypes]
-      14 | int sched_unisolate_cpu_unlocked(int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/stubs.c:20:5: warning: no previous prototype for 'sched_unisolate_cpu' [-Wmissing-prototypes]
-      20 | int sched_unisolate_cpu(int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~
->> kernel/sched/stubs.c:26:5: warning: no previous prototype for 'set_task_boost' [-Wmissing-prototypes]
-      26 | int set_task_boost(int boost, u64 period)
-         |     ^~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/smc.c:39:13: error: duplicate member 'irq'
+      39 |         int irq;
+         |             ^~~
+   drivers/firmware/arm_scmi/smc.c: In function 'smc_chan_setup':
+>> drivers/firmware/arm_scmi/smc.c:116:34: error: 'irq' undeclared (first use in this function); did you mean 'rq'?
+     116 |                 scmi_info->irq = irq;
+         |                                  ^~~
+         |                                  rq
+   drivers/firmware/arm_scmi/smc.c:116:34: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/sched_isolate_cpu +8 kernel/sched/stubs.c
+vim +116 drivers/firmware/arm_scmi/smc.c
 
-     7	
-   > 8	int sched_isolate_cpu(int cpu)
-     9	{
-    10		return -EINVAL;
-    11	}
-    12	EXPORT_SYMBOL_GPL(sched_isolate_cpu);
-    13	
-  > 14	int sched_unisolate_cpu_unlocked(int cpu)
-    15	{
-    16		return -EINVAL;
-    17	}
-    18	EXPORT_SYMBOL_GPL(sched_unisolate_cpu_unlocked);
-    19	
-  > 20	int sched_unisolate_cpu(int cpu)
-    21	{
-    22		return -EINVAL;
-    23	}
-    24	EXPORT_SYMBOL_GPL(sched_unisolate_cpu);
-    25	
-  > 26	int set_task_boost(int boost, u64 period)
+1dc6558062dadf Peng Fan         2020-03-08   61  
+1dc6558062dadf Peng Fan         2020-03-08   62  static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+1dc6558062dadf Peng Fan         2020-03-08   63  			  bool tx)
+1dc6558062dadf Peng Fan         2020-03-08   64  {
+1dc6558062dadf Peng Fan         2020-03-08   65  	struct device *cdev = cinfo->dev;
+1dc6558062dadf Peng Fan         2020-03-08   66  	struct scmi_smc *scmi_info;
+1dc6558062dadf Peng Fan         2020-03-08   67  	resource_size_t size;
+1dc6558062dadf Peng Fan         2020-03-08   68  	struct resource res;
+1dc6558062dadf Peng Fan         2020-03-08   69  	struct device_node *np;
+1dc6558062dadf Peng Fan         2020-03-08   70  	u32 func_id;
+9ee0700cb50085 Cristian Marussi 2023-07-19   71  	int ret;
+1dc6558062dadf Peng Fan         2020-03-08   72  
+1dc6558062dadf Peng Fan         2020-03-08   73  	if (!tx)
+1dc6558062dadf Peng Fan         2020-03-08   74  		return -ENODEV;
+1dc6558062dadf Peng Fan         2020-03-08   75  
+1dc6558062dadf Peng Fan         2020-03-08   76  	scmi_info = devm_kzalloc(dev, sizeof(*scmi_info), GFP_KERNEL);
+1dc6558062dadf Peng Fan         2020-03-08   77  	if (!scmi_info)
+1dc6558062dadf Peng Fan         2020-03-08   78  		return -ENOMEM;
+1dc6558062dadf Peng Fan         2020-03-08   79  
+1dc6558062dadf Peng Fan         2020-03-08   80  	np = of_parse_phandle(cdev->of_node, "shmem", 0);
+507cd4d2c5eb2d Sudeep Holla     2021-06-02   81  	if (!of_device_is_compatible(np, "arm,scmi-shmem"))
+507cd4d2c5eb2d Sudeep Holla     2021-06-02   82  		return -ENXIO;
+507cd4d2c5eb2d Sudeep Holla     2021-06-02   83  
+1dc6558062dadf Peng Fan         2020-03-08   84  	ret = of_address_to_resource(np, 0, &res);
+1dc6558062dadf Peng Fan         2020-03-08   85  	of_node_put(np);
+1dc6558062dadf Peng Fan         2020-03-08   86  	if (ret) {
+1dc6558062dadf Peng Fan         2020-03-08   87  		dev_err(cdev, "failed to get SCMI Tx shared memory\n");
+1dc6558062dadf Peng Fan         2020-03-08   88  		return ret;
+1dc6558062dadf Peng Fan         2020-03-08   89  	}
+1dc6558062dadf Peng Fan         2020-03-08   90  
+1dc6558062dadf Peng Fan         2020-03-08   91  	size = resource_size(&res);
+1dc6558062dadf Peng Fan         2020-03-08   92  	scmi_info->shmem = devm_ioremap(dev, res.start, size);
+1dc6558062dadf Peng Fan         2020-03-08   93  	if (!scmi_info->shmem) {
+1dc6558062dadf Peng Fan         2020-03-08   94  		dev_err(dev, "failed to ioremap SCMI Tx shared memory\n");
+1dc6558062dadf Peng Fan         2020-03-08   95  		return -EADDRNOTAVAIL;
+1dc6558062dadf Peng Fan         2020-03-08   96  	}
+1dc6558062dadf Peng Fan         2020-03-08   97  
+1dc6558062dadf Peng Fan         2020-03-08   98  	ret = of_property_read_u32(dev->of_node, "arm,smc-id", &func_id);
+1dc6558062dadf Peng Fan         2020-03-08   99  	if (ret < 0)
+1dc6558062dadf Peng Fan         2020-03-08  100  		return ret;
+1dc6558062dadf Peng Fan         2020-03-08  101  
+dd820ee21d5e07 Jim Quinlan      2020-12-22  102  	/*
+dd820ee21d5e07 Jim Quinlan      2020-12-22  103  	 * If there is an interrupt named "a2p", then the service and
+dd820ee21d5e07 Jim Quinlan      2020-12-22  104  	 * completion of a message is signaled by an interrupt rather than by
+dd820ee21d5e07 Jim Quinlan      2020-12-22  105  	 * the return of the SMC call.
+dd820ee21d5e07 Jim Quinlan      2020-12-22  106  	 */
+9ee0700cb50085 Cristian Marussi 2023-07-19  107  	scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
+9ee0700cb50085 Cristian Marussi 2023-07-19  108  	if (scmi_info->irq > 0) {
+9ee0700cb50085 Cristian Marussi 2023-07-19  109  		ret = request_irq(scmi_info->irq, smc_msg_done_isr,
+9ee0700cb50085 Cristian Marussi 2023-07-19  110  				  IRQF_NO_SUSPEND, dev_name(dev), scmi_info);
+dd820ee21d5e07 Jim Quinlan      2020-12-22  111  		if (ret) {
+dd820ee21d5e07 Jim Quinlan      2020-12-22  112  			dev_err(dev, "failed to setup SCMI smc irq\n");
+dd820ee21d5e07 Jim Quinlan      2020-12-22  113  			return ret;
+dd820ee21d5e07 Jim Quinlan      2020-12-22  114  		}
+dd820ee21d5e07 Jim Quinlan      2020-12-22  115  		init_completion(&scmi_info->tx_complete);
+dd820ee21d5e07 Jim Quinlan      2020-12-22 @116  		scmi_info->irq = irq;
+dd820ee21d5e07 Jim Quinlan      2020-12-22  117  	}
+dd820ee21d5e07 Jim Quinlan      2020-12-22  118  
+1dc6558062dadf Peng Fan         2020-03-08  119  	scmi_info->func_id = func_id;
+1dc6558062dadf Peng Fan         2020-03-08  120  	scmi_info->cinfo = cinfo;
+18988265b87615 Sudeep Holla     2020-03-27  121  	mutex_init(&scmi_info->shmem_lock);
+1dc6558062dadf Peng Fan         2020-03-08  122  	cinfo->transport_info = scmi_info;
+1dc6558062dadf Peng Fan         2020-03-08  123  
+1dc6558062dadf Peng Fan         2020-03-08  124  	return 0;
+1dc6558062dadf Peng Fan         2020-03-08  125  }
+1dc6558062dadf Peng Fan         2020-03-08  126  
+
+:::::: The code at line 116 was first introduced by commit
+:::::: dd820ee21d5e0795096a6e0e47c0183d96464949 firmware: arm_scmi: Augment SMC/HVC to allow optional interrupt
+
+:::::: TO: Jim Quinlan <jim2101024@gmail.com>
+:::::: CC: Sudeep Holla <sudeep.holla@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
