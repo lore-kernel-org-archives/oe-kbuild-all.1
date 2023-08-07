@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6375EFBFD
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 18:55:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A0BFBFD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 18:55:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691434510; x=1722970510;
+  t=1691434513; x=1722970513;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eKFNVUBenPc8eQYz55tglVOopCORS/aF8eoKx+vD6Os=;
-  b=L52s7mMQJmCecqH9bY6nIpVKB4YlaoY6ChCD8/mrbpgiAqDS0Nhoht0O
-   sPPsOmuw4fuEPi+gv4lYhvGJxTPOn8EN0cbt3HBV6LYyJx5GhLKhjHBd0
-   ESTqvU/+SOmRr9qxb2re0Z717YkcLU4c/FjqeWEUQhWhOEYLdb87RZKqR
-   pnexbSX2mNPo9Y8sU8eVZjU8732b5LkCnwwqHCDLB2t/frZbM4Qv7eIDx
-   CYea6FLv1EyJ2j8e50dcd+PIEmy9zo2h9NPdWpW64eO0MSjOzEKACDfLd
-   Y8bU0J6hlnnhk8M1aNpjZab+XbyF9IrWjZf+csANcckhY8vminHes/YQl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="350216632"
+  bh=nOI5frD7aIiKToXDzxssoiEowrEps8BCLRWroJ9k+fg=;
+  b=hytlQW6iSaGqplyQ9Fvn6l3pz0U/NpDHWBTd4mEbLOoaNrOhlgQI7ksa
+   NMgANOaqdxD0gs4dWao5qUJu2Y7QeInLWHo0S5LPBbPoNtQUtYfytWY1V
+   CHWogcI25Ks5QpuLOjIk+vHC+IYj+R4vJcwmzawZDfPEMKqdG3qgBTWuR
+   zOWCJhEvoo8Wjl/XBqehEOD3lONwlOGw2zPhI1SAJtr7bLjWzX9wZOWbM
+   1F+/QtAJ8QRGIVdLpsGtkdQg6KQUK0zJs98FLrKdSt6uAYFtG0zNszOGw
+   Cx3UFOExievHkW9iU+s/ml2AiCMRpwFB7HvSPlEoIVpJVLuIelQ+pUnFa
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="370618295"
 X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
-   d="scan'208";a="350216632"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 11:55:09 -0700
+   d="scan'208";a="370618295"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 11:55:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="766096555"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="734189417"
 X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
-   d="scan'208";a="766096555"
+   d="scan'208";a="734189417"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 07 Aug 2023 11:55:08 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 07 Aug 2023 11:55:09 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qT5Nj-0004p1-2e;
+	id 1qT5Nj-0004oz-2Z;
 	Mon, 07 Aug 2023 18:55:07 +0000
-Date: Tue, 8 Aug 2023 02:54:37 +0800
+Date: Tue, 8 Aug 2023 02:54:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: Hector Martin <marcan@marcan.st>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/220-tso 4/4]
- arch/arm64/kernel/cpufeature_impdef.c:12:6: warning: no previous prototype
- for 'has_apple_feature'
-Message-ID: <202308080237.oLpG1MjA-lkp@intel.com>
+Subject: [asahilinux:bits/030-misc 12/25] drivers/of/property.c:1155:28:
+ warning: 'parse_backlight' defined but not used
+Message-ID: <202308080257.em18i4Lj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,46 +46,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/220-tso
-head:   6a8bd3529f0e9a26ebabd614ab6582cda3337142
-commit: 6a8bd3529f0e9a26ebabd614ab6582cda3337142 [4/4] arm64: Implement Apple IMPDEF TSO memory model control
-config: arm64-randconfig-r035-20230807 (https://download.01.org/0day-ci/archive/20230808/202308080237.oLpG1MjA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230808/202308080237.oLpG1MjA-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/030-misc
+head:   843ecdb79e6589c39f5b6e2c7374b47ecda1c875
+commit: 9a63406a9d26211f442fa9b236c9335ee4f82d5a [12/25] of: HACK: disable backlight supplier binding if not needed
+config: i386-randconfig-r036-20230807 (https://download.01.org/0day-ci/archive/20230808/202308080257.em18i4Lj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230808/202308080257.em18i4Lj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308080237.oLpG1MjA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308080257.em18i4Lj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/kernel/cpufeature_impdef.c:12:6: warning: no previous prototype for 'has_apple_feature' [-Wmissing-prototypes]
-      12 | bool has_apple_feature(const struct arm64_cpu_capabilities *entry, int scope)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpufeature_impdef.c:24:6: warning: no previous prototype for 'has_tso_fixed' [-Wmissing-prototypes]
-      24 | bool has_tso_fixed(const struct arm64_cpu_capabilities *entry, int scope)
-         |      ^~~~~~~~~~~~~
-   arch/arm64/kernel/cpufeature_impdef.c:59:13: warning: no previous prototype for 'init_cpu_hwcaps_indirect_list_impdef' [-Wmissing-prototypes]
-      59 | void __init init_cpu_hwcaps_indirect_list_impdef(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/of/property.c:1155:28: warning: 'parse_backlight' defined but not used [-Wunused-function]
+    1155 | static struct device_node *parse_##fname(struct device_node *np,          \
+         |                            ^~~~~~
+   drivers/of/property.c:1268:1: note: in expansion of macro 'DEFINE_SIMPLE_PROP'
+    1268 | DEFINE_SIMPLE_PROP(backlight, "backlight", NULL)
+         | ^~~~~~~~~~~~~~~~~~
 
 
-vim +/has_apple_feature +12 arch/arm64/kernel/cpufeature_impdef.c
+vim +/parse_backlight +1155 drivers/of/property.c
 
-    11	
-  > 12	bool has_apple_feature(const struct arm64_cpu_capabilities *entry, int scope)
-    13	{
-    14		u64 val;
-    15		WARN_ON(scope != SCOPE_SYSTEM);
-    16	
-    17		if (read_cpuid_implementor() != ARM_CPU_IMP_APPLE)
-    18			return false;
-    19	
-    20		val = read_sysreg(aidr_el1);
-    21		return feature_matches(val, entry);
-    22	}
-    23	
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1153  
+a436ef4aba1f01 Saravana Kannan 2019-11-04  1154  #define DEFINE_SIMPLE_PROP(fname, name, cells)				  \
+a436ef4aba1f01 Saravana Kannan 2019-11-04 @1155  static struct device_node *parse_##fname(struct device_node *np,	  \
+a436ef4aba1f01 Saravana Kannan 2019-11-04  1156  					const char *prop_name, int index) \
+a436ef4aba1f01 Saravana Kannan 2019-11-04  1157  {									  \
+a436ef4aba1f01 Saravana Kannan 2019-11-04  1158  	return parse_prop_cells(np, prop_name, index, name, cells);	  \
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1159  }
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1160  
+
+:::::: The code at line 1155 was first introduced by commit
+:::::: a436ef4aba1f011fa25f35fe7922d577ecde6c7c of: property: Make it easy to add device links from DT properties
+
+:::::: TO: Saravana Kannan <saravanak@google.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
