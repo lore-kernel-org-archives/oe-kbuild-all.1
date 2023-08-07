@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B138438D
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 02:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DA0642
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 02:59:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691375908; x=1722911908;
+  t=1691377149; x=1722913149;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=15iXcyUEwwMKUljd4HgyFz/Rf1ro1HA3jmtv8jSng+4=;
-  b=nRf1BKEdCZSaJ3kgwZJq+j4xqknf6wWbicY/pbQkNbm2vIDcjrV6mwJu
-   1XqwpbtTclTZBbRHYevz2iNfpuYbEJM3GM1K1iA8BkcnnLuaLVSJyg/Dx
-   tQdMRhXMPQBPV564H8C69Vpbl3dnT2OSo3gpn1pGsEnCtqretSXL3Ce6X
-   JfFIC4FI39SiK39RCnLavTuY7byHtTMo9Ly8A572kP6z2i4SpVoO8B/Ey
-   +Zz5sjsNw/y0M2/KNh3BP1fARJ4NxtasneBaGDdYUF1AXeFLtnqLWX9Uy
-   igyAmPPgrp3D2HL62+CS4+EYoT3HPcAG5pg5hJNj58Nog0MwcF+FTCHur
+  bh=hhK8/eSkfPAY2j7QLmWTNFc3IKIknwQ0SMdG8chi5Ms=;
+  b=NyuFAubPG4UVAqNpvA0q+N7a3/gk6K8oD/vgNTPCKeKCrQuQ6EtFBaMp
+   YqGj2OKiOthVNZHvf+Vk+PnQXK/Mr+ZczYCvDctnVuJeB5P/3G/MlXvM6
+   p+B4m0C9I+IAPqeG7hqDs3Fvz5Y429hWOgGlixg97xS3uvagYwiyYDPGs
+   ZYEAHmNopRNsJrfdDIiK3jj9NDK6CA69/ob8GnKM1lE/hVuZu0oPTQ3H2
+   e5sjSAmgw41i0dLvB2lILCJm7re+MbqMXwwIe7is6gwLQP/ZsrH3FxWKl
+   cvy5eVpDhOMynLlf6da7Xp+/ezeuAknFuFJhIUGC10VT+UNilRfhKUMPS
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="374110198"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="434287515"
 X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
-   d="scan'208";a="374110198"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 19:38:28 -0700
+   d="scan'208";a="434287515"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2023 19:59:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="874099288"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="977268350"
+X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
+   d="scan'208";a="977268350"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Aug 2023 19:38:29 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 06 Aug 2023 19:59:07 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSq8Y-0004Uj-0u;
-	Mon, 07 Aug 2023 02:38:26 +0000
-Date: Mon, 7 Aug 2023 10:38:23 +0800
+	id 1qSqSY-0004VD-2A;
+	Mon, 07 Aug 2023 02:59:06 +0000
+Date: Mon, 7 Aug 2023 10:58:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.15 59/60]
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c:176:20: error:
- 'drm_plane_helper_destroy' undeclared here (not in a function); did you mean
- 'drm_primary_helper_destroy'?
-Message-ID: <202308071050.r9rY0y1i-lkp@intel.com>
+To: Benjamin Gray <bgray@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: arch/powerpc/platforms/powermac/time.c:210:24: sparse: sparse: cast
+ removes address space '__iomem' of expression
+Message-ID: <202308071025.KCEf7Mhd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,38 +48,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.15
-head:   eec50650bd392904c7b2acbea142ac47dba8e4fd
-commit: 7c213395d3c878e6d8b1b1dc452d5884c216396c [59/60] drm/fsl-dcu: Use drm_plane_helper_destroy()
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230807/202308071050.r9rY0y1i-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230807/202308071050.r9rY0y1i-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   52a93d39b17dc7eb98b6aa3edb93943248e03b2f
+commit: 86582e6189dd8f9f52c25d46c70fe5d111da6345 powerpc/powermac: Use early_* IO variants in via_calibrate_decr()
+date:   5 days ago
+config: powerpc-randconfig-r071-20230807 (https://download.01.org/0day-ci/archive/20230807/202308071025.KCEf7Mhd-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230807/202308071025.KCEf7Mhd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308071050.r9rY0y1i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308071025.KCEf7Mhd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/powerpc/platforms/powermac/time.c:210:24: sparse: sparse: cast removes address space '__iomem' of expression
+>> arch/powerpc/platforms/powermac/time.c:210:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
+   arch/powerpc/platforms/powermac/time.c:210:24: sparse:     expected void [noderef] __iomem *addr
+   arch/powerpc/platforms/powermac/time.c:210:24: sparse:     got void *
+   arch/powerpc/platforms/powermac/time.c:192:30: sparse: sparse: dereference of noderef expression
+   arch/powerpc/platforms/powermac/time.c:192:30: sparse: sparse: dereference of noderef expression
+   arch/powerpc/platforms/powermac/time.c:196:27: sparse: sparse: cast truncates bits from constant value (b798 becomes 98)
 
->> drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c:176:20: error: 'drm_plane_helper_destroy' undeclared here (not in a function); did you mean 'drm_primary_helper_destroy'?
-     176 |         .destroy = drm_plane_helper_destroy,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                    drm_primary_helper_destroy
+vim +/__iomem +210 arch/powerpc/platforms/powermac/time.c
 
-
-vim +176 drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c
-
-   172	
-   173	static const struct drm_plane_funcs fsl_dcu_drm_plane_funcs = {
-   174		.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
-   175		.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
- > 176		.destroy = drm_plane_helper_destroy,
-   177		.disable_plane = drm_atomic_helper_disable_plane,
-   178		.reset = drm_atomic_helper_plane_reset,
-   179		.update_plane = drm_atomic_helper_update_plane,
-   180	};
-   181	
+   161	
+   162	#ifdef CONFIG_PPC32
+   163	/*
+   164	 * Calibrate the decrementer register using VIA timer 1.
+   165	 * This is used both on powermacs and CHRP machines.
+   166	 */
+   167	static int __init via_calibrate_decr(void)
+   168	{
+   169		struct device_node *vias;
+   170		volatile unsigned char __iomem *via;
+   171		int count = VIA_TIMER_FREQ_6 / 100;
+   172		unsigned int dstart, dend;
+   173		struct resource rsrc;
+   174	
+   175		vias = of_find_node_by_name(NULL, "via-cuda");
+   176		if (vias == NULL)
+   177			vias = of_find_node_by_name(NULL, "via-pmu");
+   178		if (vias == NULL)
+   179			vias = of_find_node_by_name(NULL, "via");
+   180		if (vias == NULL || of_address_to_resource(vias, 0, &rsrc)) {
+   181		        of_node_put(vias);
+   182			return 0;
+   183		}
+   184		of_node_put(vias);
+   185		via = early_ioremap(rsrc.start, resource_size(&rsrc));
+   186		if (via == NULL) {
+   187			printk(KERN_ERR "Failed to map VIA for timer calibration !\n");
+   188			return 0;
+   189		}
+   190	
+   191		/* set timer 1 for continuous interrupts */
+   192		out_8(&via[ACR], (via[ACR] & ~T1MODE) | T1MODE_CONT);
+   193		/* set the counter to a small value */
+   194		out_8(&via[T1CH], 2);
+   195		/* set the latch to `count' */
+   196		out_8(&via[T1LL], count);
+   197		out_8(&via[T1LH], count >> 8);
+   198		/* wait until it hits 0 */
+   199		while ((in_8(&via[IFR]) & T1_INT) == 0)
+   200			;
+   201		dstart = get_dec();
+   202		/* clear the interrupt & wait until it hits 0 again */
+   203		in_8(&via[T1CL]);
+   204		while ((in_8(&via[IFR]) & T1_INT) == 0)
+   205			;
+   206		dend = get_dec();
+   207	
+   208		ppc_tb_freq = (dstart - dend) * 100 / 6;
+   209	
+ > 210		early_iounmap((void *)via, resource_size(&rsrc));
+   211	
+   212		return 1;
+   213	}
+   214	#endif
+   215	
 
 -- 
 0-DAY CI Kernel Test Service
