@@ -1,42 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B89C8F0;
-	Mon,  7 Aug 2023 10:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A5F10781
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 12:30:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691402813; x=1722938813;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F34KCTTqtYECA7LCT8HXib7AF7jB5QS+kY5V/IVEtcY=;
-  b=a8tUcve6FubQ1E8me2MXJnNfx8G3n/KALYbrmREy40S0RwkQdsyyJMHb
-   Oja8IYHCJbPx8t49P4Q0V8ThugCaGC5tn61xyTgOa2jAjbVa07sPCW9Gd
-   ovnXWlKI67URDF6Eb80oERbRoqKuvl152Mg0XHexwhEaIghAOsuMjQwfD
-   YBbbC0Uln2dL6QQsYCGNc4Jp26wGG3O3qc2KyHm6rFSJh5xfPv5qIbZ+E
-   KERWgCOV8uXbkYBtxSiQ/Dz+auZ/NtGV75o8QB+KOJjXPsk261SFr6Qvr
-   wDiziTmOT9NxZQeNiv/x1DBva5XiAd2bE+oaw3VXMKQciGZo1jbOpn1m8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="355445514"
-X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
-   d="scan'208";a="355445514"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 03:06:52 -0700
+  t=1691411410; x=1722947410;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FXJTq45AIqsfuwWwSJ2t/zwiSaFYQ3Xi7vuToBn1yV0=;
+  b=OlwiE2YbiO/YFbplkywYbw21p62nw0NLKumankxjiaNacKauT47OXhVb
+   CRh1AdSy82Ia5zEPAOsTb05+PhaGQheqrMz5YKP3E9AWFjbw8BGonXdYQ
+   DzGayBHSikiz5RwAVJ347c0dhh5+eT2VqAO3zwrfRsthgAJdkUEOO3JE3
+   P/u9/GJW7y1jR5diXe4uvXbp8ydxbNhk6kI8T3eZn/FqJBkAfF1BvzYSu
+   BTzb362eGpPsimz8Ca7HRumn14tvS7ipXi5TXfqN8ti4TTghAwftW/JlP
+   yOcjgMxNKKZiW0EJejD1FAMz2x/lnP8u+9x/AuvYNqgnwYlkVj90UT8sF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="436861965"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
+   d="scan'208";a="436861965"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 05:28:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="724460973"
-X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
-   d="scan'208";a="724460973"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="707852437"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
+   d="scan'208";a="707852437"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 07 Aug 2023 03:06:51 -0700
+  by orsmga006.jf.intel.com with ESMTP; 07 Aug 2023 05:28:54 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qSx8U-0004dv-1v;
-	Mon, 07 Aug 2023 10:06:50 +0000
-Date: Mon, 7 Aug 2023 18:06:05 +0800
+	id 1qSzLx-0004fz-0D;
+	Mon, 07 Aug 2023 12:28:53 +0000
+Date: Mon, 7 Aug 2023 20:28:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [mhiramat:topic/fprobe-ftrace-regs 2/6]
- include/linux/ftrace.h:121:8: error: redefinition of 'ftrace_regs'
-Message-ID: <202308071822.mEjeFIsP-lkp@intel.com>
+To: Dylan Jhong <dylan@andestech.com>, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, ajones@ventanamicro.com,
+	alexghiti@rivosinc.com, anup@brainfault.org, rppt@kernel.org,
+	samuel@sholland.org, panqinglin2020@iscas.ac.cn,
+	sergey.matyukevich@syntacore.com, maz@kernel.org,
+	linux-riscv@lists.infradead.org, conor.dooley@microchip.com,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ycliang@andestech.com,
+	x5710999x@gmail.com, tim609@andestech.com,
+	Dylan Jhong <dylan@andestech.com>
+Subject: Re: [PATCH 1/1] riscv: Implement arch_sync_kernel_mappings() for
+ "preventive" TLB flush
+Message-ID: <202308072050.0T0FlSpT-lkp@intel.com>
+References: <20230807082305.198784-2-dylan@andestech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,182 +55,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230807082305.198784-2-dylan@andestech.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-ftrace-regs
-head:   298df4ba011e52faed28ca583fa4b54b5319e8fd
-commit: 930fb8269e0e9deb82d22f8c7406c639f291e6ba [2/6] tracing: Expose ftrace_regs regardless of CONFIG_FUNCTION_TRACER
-config: s390-randconfig-r044-20230807 (https://download.01.org/0day-ci/archive/20230807/202308071822.mEjeFIsP-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230807/202308071822.mEjeFIsP-lkp@intel.com/reproduce)
+Hi Dylan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.5-rc5 next-20230807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dylan-Jhong/riscv-Implement-arch_sync_kernel_mappings-for-preventive-TLB-flush/20230807-162922
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230807082305.198784-2-dylan%40andestech.com
+patch subject: [PATCH 1/1] riscv: Implement arch_sync_kernel_mappings() for "preventive" TLB flush
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230807/202308072050.0T0FlSpT-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230807/202308072050.0T0FlSpT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308071822.mEjeFIsP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308072050.0T0FlSpT-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:27:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:32:
->> include/linux/ftrace.h:121:8: error: redefinition of 'ftrace_regs'
-     121 | struct ftrace_regs {
-         |        ^
-   arch/s390/include/asm/ftrace.h:44:8: note: previous definition is here
-      44 | struct ftrace_regs {
-         |        ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:32:
->> include/linux/ftrace.h:135:9: warning: 'ftrace_regs_get_argument' macro redefined [-Wmacro-redefined]
-     135 | #define ftrace_regs_get_argument(fregs, n) \
-         |         ^
-   arch/s390/include/asm/ftrace.h:70:9: note: previous definition is here
-      70 | #define ftrace_regs_get_argument(fregs, n) \
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:32:
->> include/linux/ftrace.h:137:9: warning: 'ftrace_regs_get_stack_pointer' macro redefined [-Wmacro-redefined]
-     137 | #define ftrace_regs_get_stack_pointer(fregs) \
-         |         ^
-   arch/s390/include/asm/ftrace.h:72:9: note: previous definition is here
-      72 | #define ftrace_regs_get_stack_pointer(fregs) \
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:32:
->> include/linux/ftrace.h:139:9: warning: 'ftrace_regs_return_value' macro redefined [-Wmacro-redefined]
-     139 | #define ftrace_regs_return_value(fregs) \
-         |         ^
-   arch/s390/include/asm/ftrace.h:74:9: note: previous definition is here
-      74 | #define ftrace_regs_return_value(fregs) \
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:32:
->> include/linux/ftrace.h:141:9: warning: 'ftrace_regs_set_return_value' macro redefined [-Wmacro-redefined]
-     141 | #define ftrace_regs_set_return_value(fregs, ret) \
-         |         ^
-   arch/s390/include/asm/ftrace.h:76:9: note: previous definition is here
-      76 | #define ftrace_regs_set_return_value(fregs, ret) \
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:32:
->> include/linux/ftrace.h:143:9: warning: 'ftrace_override_function_with_return' macro redefined [-Wmacro-redefined]
-     143 | #define ftrace_override_function_with_return(fregs) \
-         |         ^
-   arch/s390/include/asm/ftrace.h:78:9: note: previous definition is here
-      78 | #define ftrace_override_function_with_return(fregs) \
-         |         ^
-   17 warnings and 1 error generated.
-   make[3]: *** [scripts/Makefile.build:116: arch/s390/kernel/asm-offsets.s] Error 1 shuffle=2245968790
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2 shuffle=2245968790
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=2245968790
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=2245968790
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +/ftrace_regs +121 include/linux/ftrace.h
-
-02a474ca266a47 Steven Rostedt (VMware    2020-10-27  120) 
-d19ad0775dcd64 Steven Rostedt (VMware    2020-10-28 @121) struct ftrace_regs {
-d19ad0775dcd64 Steven Rostedt (VMware    2020-10-28  122) 	struct pt_regs		regs;
-d19ad0775dcd64 Steven Rostedt (VMware    2020-10-28  123) };
-02a474ca266a47 Steven Rostedt (VMware    2020-10-27  124) #define arch_ftrace_get_regs(fregs) (&(fregs)->regs)
-02a474ca266a47 Steven Rostedt (VMware    2020-10-27  125) 
-2860cd8a235375 Steven Rostedt (VMware    2020-10-28  126) /*
-0ef86097f127d0 Mark Rutland              2022-11-03  127   * ftrace_regs_set_instruction_pointer() is to be defined by the architecture
-0ef86097f127d0 Mark Rutland              2022-11-03  128   * if to allow setting of the instruction pointer from the ftrace_regs when
-0ef86097f127d0 Mark Rutland              2022-11-03  129   * HAVE_DYNAMIC_FTRACE_WITH_ARGS is set and it supports live kernel patching.
-2860cd8a235375 Steven Rostedt (VMware    2020-10-28  130)  */
-0ef86097f127d0 Mark Rutland              2022-11-03  131  #define ftrace_regs_set_instruction_pointer(fregs, ip) do { } while (0)
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  132) 
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  133) #define ftrace_regs_get_instruction_pointer(fregs) \
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  134) 	instruction_pointer(ftrace_get_regs(fregs))
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07 @135) #define ftrace_regs_get_argument(fregs, n) \
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  136) 	regs_get_kernel_argument(ftrace_get_regs(fregs), n)
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07 @137) #define ftrace_regs_get_stack_pointer(fregs) \
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  138) 	kernel_stack_pointer(ftrace_get_regs(fregs))
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07 @139) #define ftrace_regs_return_value(fregs) \
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  140) 	regs_return_value(ftrace_get_regs(fregs))
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07 @141) #define ftrace_regs_set_return_value(fregs, ret) \
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  142) 	regs_set_return_value(ftrace_get_regs(fregs), ret)
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07 @143) #define ftrace_override_function_with_return(fregs) \
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  144) 	override_function_with_return(ftrace_get_regs(fregs))
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  145) #define ftrace_regs_query_register_offset(name) \
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  146) 	regs_query_register_offset(name)
-930fb8269e0e9d Masami Hiramatsu (Google  2023-08-07  147) 
-
-:::::: The code at line 121 was first introduced by commit
-:::::: d19ad0775dcd64b49eecf4fa79c17959ebfbd26b ftrace: Have the callbacks receive a struct ftrace_regs instead of pt_regs
-
-:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
+   riscv64-linux-ld: mm/memory.o: in function `.L1539':
+>> memory.c:(.text+0x3b5c): undefined reference to `arch_sync_kernel_mappings'
+   riscv64-linux-ld: mm/vmalloc.o: in function `.L301':
+>> vmalloc.c:(.text+0xd24): undefined reference to `arch_sync_kernel_mappings'
+   riscv64-linux-ld: mm/vmalloc.o: in function `vb_alloc.constprop.0':
+   vmalloc.c:(.text+0x2c4e): undefined reference to `arch_sync_kernel_mappings'
+   riscv64-linux-ld: mm/vmalloc.o: in function `.L0 ':
+   vmalloc.c:(.text+0x2f2c): undefined reference to `arch_sync_kernel_mappings'
 
 -- 
 0-DAY CI Kernel Test Service
