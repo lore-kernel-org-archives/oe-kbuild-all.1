@@ -1,97 +1,103 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D008DC8C0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 09:02:17 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d35e565071aso4538599276.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 07 Aug 2023 02:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691398936; x=1692003736;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+LnORt0w2WaBBTXxnGuGRnHMAouDS1iv7SlCa9HMty8=;
-        b=YnHh0CSrVsRhnZQ8IR9haybhkmEtN4T5+9MeOfpwVrIfnHAhvav9BGGn26woWf43j/
-         pBcfeXh+zb+KA5QDK3qtQwxl93pOLX2KlDB5DGhhXmZCpHYjF3t9Ok3wDVTnqeEeSyqD
-         urG+PUkn2FIML1zPiPT/Y0iVcVWnSoEKLW2DkE6OiJV0WTMj/RHCCQM7yL/1+gCzrQuu
-         U+s6H1Ml5QaINxbPyZmpy3cc3kuYKPyh08bV7MF0gCJUzAgoujux3kfBaATktbeIh2e1
-         AkqLB8zqKPNrIWf34bcSvZuuW6L0hICBvX93PcB9mZswWpwysE7Dycr/QL17cDl3fxvK
-         N7Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691398936; x=1692003736;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+LnORt0w2WaBBTXxnGuGRnHMAouDS1iv7SlCa9HMty8=;
-        b=Nzz3w1T7DlM4WZ6K6rK/lpPM6obZasIYIUStPgR0QcXvw4dWiuLGNr6aF5YgLLq7i5
-         rZ9Lh5HtHLVPCcPtDUP792IMFVwr1QlS0lNNQ5XAX1vclq7FitT44UhRCxHivyEFzNj9
-         74btWvSoNTFoYOmCervGnpgpkRifXhQAOyitLIC6CGjkEEqNN+brvO+anYYx5oxj1G9j
-         qgE8ivPoXb78TjvWtsHiqi1uAdYwKbLyGRx5htC5rmeQlSRRttDiHc11aYkkDelk72df
-         rGkWgJo+EKVy7FgFEF4tvQQ66mCPdPwUTblxM0vvebdEVkY0jlvaoHY0CGXmQFiCSfcF
-         4ydg==
-X-Gm-Message-State: AOJu0YxoKMHq7IdwGTWB+aIsYaFWnt4kZaahgzeQOhKaB1DLph4mUGJL
-	VyzcIY+MBkLYLjh+wTEeoj4nKEBo7iA90DLrI1mMhA==
-X-Google-Smtp-Source: AGHT+IFUQqODHoeAVuP9Czlc9nQuP+oHH0JOPYjo1jINrz/Uekb/1EK1zrJaDHwi4fTURWcUqkNXJ9c5jxnFuQ64zyw=
-X-Received: by 2002:a5b:20e:0:b0:d07:5b87:ec56 with SMTP id
- z14-20020a5b020e000000b00d075b87ec56mr6801980ybl.14.1691398936634; Mon, 07
- Aug 2023 02:02:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838374434
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 09:35:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691400957; x=1722936957;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qMW43ds/GMoPc3kZKkSLfKnoG98LT0/FA99fXV4M2+0=;
+  b=T4gJpZwOM071PDbPdkeSGTP199F7pe0oD4IObGYGW39vrWU35JOi1HZm
+   Vooi3hVlpHX/miVEgSPjhYttZmSBv2pgD762jBJo7t7sjx7V9fmTtJQyh
+   biXPG1TZ31GSMPPrCfI1Mhs0zw/hUZnYEWVzgj4tPsg7M41+eTgJMAval
+   TrGVHYe0AdA6BH3WrR7EQjWUKDVgD5VkC98zie9NfuDFTifyGSgYXkxGo
+   kiFnfe49zDx6L1kYWTOi1pP/Tv9ZMdJ0s2C1L+kD+p8a89YB5YrVAVJOR
+   F1HHiZ/fRFt0RJjn4Z019LspQY7l1UL3VhHT6Phns4iG8UdZ4RLZqA2an
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="350092982"
+X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
+   d="scan'208";a="350092982"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 02:35:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="760408927"
+X-IronPort-AV: E=Sophos;i="6.01,261,1684825200"; 
+   d="scan'208";a="760408927"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 07 Aug 2023 02:35:50 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qSweU-0004dP-02;
+	Mon, 07 Aug 2023 09:35:50 +0000
+Date: Mon, 7 Aug 2023 17:35:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dylan Jhong <dylan@andestech.com>, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, ajones@ventanamicro.com,
+	alexghiti@rivosinc.com, anup@brainfault.org, rppt@kernel.org,
+	samuel@sholland.org, panqinglin2020@iscas.ac.cn,
+	sergey.matyukevich@syntacore.com, maz@kernel.org,
+	linux-riscv@lists.infradead.org, conor.dooley@microchip.com,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ycliang@andestech.com,
+	x5710999x@gmail.com, tim609@andestech.com,
+	Dylan Jhong <dylan@andestech.com>
+Subject: Re: [PATCH 1/1] riscv: Implement arch_sync_kernel_mappings() for
+ "preventive" TLB flush
+Message-ID: <202308071710.irjERWVF-lkp@intel.com>
+References: <20230807082305.198784-2-dylan@andestech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1689934361-32642-1-git-send-email-quic_srichara@quicinc.com>
-In-Reply-To: <1689934361-32642-1-git-send-email-quic_srichara@quicinc.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 7 Aug 2023 11:02:05 +0200
-Message-ID: <CACRpkdb_VLSVm4s7wLcbRri7kdsuMEZ6p_kiaSP0SFWM+0HwtA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: qcom: Remove the unused _groups variable build warning
-To: Sricharan Ramabadhran <quic_srichara@quicinc.com>
-Cc: agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org, 
-	quic_varada@quicinc.com, linux-arm-msm@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230807082305.198784-2-dylan@andestech.com>
 
-On Fri, Jul 21, 2023 at 12:13=E2=80=AFPM Sricharan Ramabadhran
-<quic_srichara@quicinc.com> wrote:
+Hi Dylan,
 
-> When building with clang toolchain and arm64-randconfig-r015-20230712
-> kernel test robot reports the below warning.
->
->  drivers/pinctrl/qcom/pinctrl-ipq5018.c:244:27: warning: unused variable =
-'_groups' [-Wunused-const-variable]
->    static const char * const _groups[] =3D {
->                              ^
->    1 warning generated.
->
->      static const char * const _groups[] =3D {
->              "gpio0", "gpio1", "gpio2", "gpio3", "gpio4", "gpio5", "gpio6=
-", "gpio7",
->              "gpio8", "gpio9", "gpio10", "gpio11", "gpio12", "gpio13", "g=
-pio14",
->              "gpio15", "gpio16", "gpio17", "gpio18", "gpio19", "gpio20", =
-"gpio21",
->              "gpio22", "gpio23", "gpio24", "gpio25", "gpio26", "gpio27", =
-"gpio28",
->              "gpio29", "gpio30", "gpio31", "gpio32", "gpio33", "gpio34", =
-"gpio35",
->              "gpio36", "gpio37", "gpio38", "gpio39", "gpio40", "gpio41", =
-"gpio42",
->              "gpio43", "gpio44", "gpio45", "gpio46",
->    };
->
-> Fixing it by removing the variable.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202307120814.vWPY6URk-lkp@i=
-ntel.com/
-> Fixes: 725d1c891658 ("pinctrl: qcom: Add IPQ5018 pinctrl driver")
-> Signed-off-by: Sricharan Ramabadhran <quic_srichara@quicinc.com>
+kernel test robot noticed the following build warnings:
 
-Patch applied, thanks for fixing this!
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc5 next-20230807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Yours,
-Linus Walleij
+url:    https://github.com/intel-lab-lkp/linux/commits/Dylan-Jhong/riscv-Implement-arch_sync_kernel_mappings-for-preventive-TLB-flush/20230807-162922
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230807082305.198784-2-dylan%40andestech.com
+patch subject: [PATCH 1/1] riscv: Implement arch_sync_kernel_mappings() for "preventive" TLB flush
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20230807/202308071710.irjERWVF-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230807/202308071710.irjERWVF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308071710.irjERWVF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/riscv/mm/tlbflush.c:159:6: warning: no previous prototype for 'arch_sync_kernel_mappings' [-Wmissing-prototypes]
+     159 | void arch_sync_kernel_mappings(unsigned long start, unsigned long end)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/arch_sync_kernel_mappings +159 arch/riscv/mm/tlbflush.c
+
+   152	
+   153	/*
+   154	 * Since RISC-V is a microarchitecture that allows caching invalid entries in the TLB,
+   155	 * it is necessary to issue a "preventive" SFENCE.VMA to ensure that each core obtains
+   156	 * the correct kernel mapping. arch_sync_kernel_mappings() will ensure that kernel
+   157	 * page table mappings created via vmap/vmalloc() are updated before switching MM.
+   158	 */
+ > 159	void arch_sync_kernel_mappings(unsigned long start, unsigned long end)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
