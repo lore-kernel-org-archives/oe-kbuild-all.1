@@ -1,111 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2545BA40
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 15:52:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691423527; x=1722959527;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZVKLzrrushSEdPIOaadQo5BPqRmO2n4y934G75JJZ8k=;
-  b=jR/5pI+qQq8EUpiL+iwl6ceGBO1fGdDqar0YQ/v4pG1J4yMkE8hvTcqz
-   TbNfTg9xdr4CdfytR5Jvl5qUXV0Dt8Gbli32x2QzybEsjcczWJtJrI2bv
-   Ibjf696Pa9wsB8zA48hNmylLTEmFXK4E+pTRE7R1EHbKPAdl9GpIt+yS9
-   1S8YrQGdBWBe28lRVMY1xS5NoUFgBcYl0+SUxmlrJD7rmr0cKt937Bgqu
-   kTpu3Mbza5FOj/7qUlu3MA9iEbXhRQafqOsq5fPtNYTte/vZr59lCwezg
-   8Rj8tcllMTFILyYpxxXz26RQfB6Ew14vsxYKz7x09vaQ/UAcnuOY6TW9Q
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="434427553"
-X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
-   d="scan'208";a="434427553"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 08:52:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="821018766"
-X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
-   d="scan'208";a="821018766"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Aug 2023 08:52:01 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qT2WW-0004jv-2X;
-	Mon, 07 Aug 2023 15:52:00 +0000
-Date: Mon, 7 Aug 2023 23:51:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-2023-06 6543/10956]
- arch/arm64/kvm/hyp_trace.c:38:17: error: use of undeclared identifier
- 'STRUCT_HYP_BUFFER_PAGE_SIZE'
-Message-ID: <202308072320.OssTNOfH-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBE211C95
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 16:19:32 +0000 (UTC)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-63ce8bea776so26479156d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 07 Aug 2023 09:19:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1691425171; x=1692029971;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LPJnGrRfrqTcFmM1+fKcLOPow/cxlZkJNS27itglHYY=;
+        b=p9f8T/0c2mLFtWQTlr7f8LDvoDunJVOgB6fGL1rGBgdw1Pfh0bq1W2adT1arcPAPss
+         GxDg9zHzK6ZsiKW6CV8daCmVtwVMVoJtxylgiMAg2V/QvuHKdR3V8J78dU2GuqzImcz+
+         BrPvvXG33syUZEhv1Bkc8AUNC2Oj5B3aZIIAwBsaKBsw1igREq1Of5NtiW3HMAfmByO4
+         azORNELxRrYfxDRHi8p7C+P8GzFLPVh/aSdkvI3thYbbap/oPFKf7vADq3UkA+o7eJnx
+         y42w9ElPwpDuqDF8gAqTqCSGgOcJ9pcymUu4GvhVZNpy4V2RCXM2ymmx8JFkGXTvE8QX
+         +UpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691425171; x=1692029971;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LPJnGrRfrqTcFmM1+fKcLOPow/cxlZkJNS27itglHYY=;
+        b=crEutOJZmBOia7/SMyQndEVqgyYhIz8EqcF1y2NrrIGJq2S186ojsk6cJGwsIM+B/9
+         yYOOmbe99ZF300kEv1/hlGqyUuFhg4s3lpQ4coAgah717PpZtsuAWgJKuIqdWcqyZ0L8
+         O6KAv/NndcGzhy8fGm3af2p4JeJKH8DQ+t983pbXRD8yaIEldi8jhD5/iFG0AR1a/3U0
+         ERHunnotBpw3GsEIlu0q3YYzGLlNoCB6wQhjTzNV7vt8XMJxbSh/D/lz7RnzcYcU6SqJ
+         d6+vrae2VhFny62wskcB6lF/2hNn/V3x32FTZTvQssybZa5dksOuwGXzLNX2ov42fGB2
+         71mw==
+X-Gm-Message-State: AOJu0Yydu+oJbsv6cTfDBIYC67dpnY+E5zDbhZgt4i4oB8PHcq04qAcM
+	hrfC0gAdbWV7c+PTmGkMS+nH8AYiIijPMh3Q+TipDA==
+X-Google-Smtp-Source: AGHT+IEoEDNA6GxnW+ViDsmeCqIO9Q5P6sp4c349+g/L2BJWZ2fenuHgxtv40V7icYfhg/FegnnWJ0s5h88o+1Fs71k=
+X-Received: by 2002:a0c:9ccc:0:b0:630:7a8:f602 with SMTP id
+ j12-20020a0c9ccc000000b0063007a8f602mr7673549qvf.7.1691425170989; Mon, 07 Aug
+ 2023 09:19:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202308040553.nMR9oB8v-lkp@intel.com> <20230804153749.GA2148888@dev-arch.thelio-3990X>
+ <CAKwvOdk7VrGMy95heyyLhdhgNWb1LyV48WmzvhpNUrqaYBin_A@mail.gmail.com> <2a1061fb250905545c4a514b5328e3d36ab6f8f7.camel@intel.com>
+In-Reply-To: <2a1061fb250905545c4a514b5328e3d36ab6f8f7.camel@intel.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Mon, 7 Aug 2023 09:19:20 -0700
+Message-ID: <CAKwvOd=LMeeeA68ydcQtFgzd1vv0F4i=DJYCxEiHahN7+OP5_A@mail.gmail.com>
+Subject: Re: [stable:linux-4.14.y 4459/9999] lib/mpi/mpih-div.c:142:20: error:
+ invalid use of a cast in a inline asm context requiring an lvalue: remove the
+ cast or build with -fheinous-gnu-extensions
+To: "Liu, Yujie" <yujie.liu@intel.com>
+Cc: "nathan@kernel.org" <nathan@kernel.org>, lkp <lkp@intel.com>, 
+	"llvm@lists.linux.dev" <llvm@lists.linux.dev>, 
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Vincent,
+On Sun, Aug 6, 2023 at 11:52=E2=80=AFPM Liu, Yujie <yujie.liu@intel.com> wr=
+ote:
+>
+> On Fri, 2023-08-04 at 08:41 -0700, Nick Desaulniers wrote:
+> > On Fri, Aug 4, 2023 at 8:37=E2=80=AFAM Nathan Chancellor <nathan@kernel=
+.org>
+> > wrote:
+> > >
+> > > On Fri, Aug 04, 2023 at 05:32:55AM +0800, kernel test robot wrote:
+> > > > Hi Fangrui,
+> > > >
+> > > > First bad commit (maybe !=3D root cause):
+> > > >
+> > > > tree:
+> > > > https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable=
+.git
+> > > >  linux-4.14.y
+> > > > head:   60a6e3043cc8b918c989707a5eba5fd6830a08a4
+> > > > commit: 71749b1181eca12af96654a781cabcd058c37c8f [4459/9999]
+> > > > Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross
+> > > > compilation
+> > > > config: mips-randconfig-r035-20230731
+> > > > (https://download.01.org/0day-ci/archive/20230804/202308040553.nM
+> > > > R9oB8v-lkp@intel.com/config)
+> > > > compiler: clang version 17.0.0
+> > > > (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1
+> > > > ffa0299048db4c88a)
+> > > > reproduce:
+> > > > (https://download.01.org/0day-ci/archive/20230804/202308040553.nM
+> > > > R9oB8v-lkp@intel.com/reproduce)
+> > > >
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a
+> > > > new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > > Closes:
+> > > > > https://lore.kernel.org/oe-kbuild-all/202308040553.nMR9oB8v-lkp@i=
+ntel.com/
+> > > >
+> > > > All errors (new ones prefixed by >>):
+> > > >
+> > > > > > lib/mpi/mpih-div.c:142:20: error: invalid use of a cast in a
+> > > > > > inline asm context requiring an lvalue: remove the cast or
+> > > > > > build with -fheinous-gnu-extensions
+> > > >      142 |                                         umul_ppmm(n1,
+> > > > n0, d0, q);
+> > > >          |
+> > > > ~~~~~~~~~~~~~~^~~~~~~~~~
+> > > >    lib/mpi/longlong.h:652:20: note: expanded from macro
+> > > > 'umul_ppmm'
+> > > >      652 |         : "=3Dl" ((USItype)(w0)), \
+> > > >          |                 ~~~~~~~~~~^~~
+> > >
+> > > This is the same as [1] but the upstream solution (b0c091ae04f6)
+> > > could
+> > > cause breakage in 4.14 for compilers older than GCC 4.4; 4.14
+> > > claims to
+> > > support GCC 3.2 as a minimum version. An alternative solution if we
+> > > care
+> > > about fixing this issue in 4.14 without any regression possiblity
+> > > would
+> > > be something like:
+> >
+> > In our own CI, we don't test mips until 5.4.
+> > https://github.com/ClangBuiltLinux/continuous-integration2/blob/main/ge=
+nerator.yml#L1691-L1698
+> >
+> > Another solution is perhaps to ask kindly that the kernel test robot
+> > team not test branches of stable w/ clang for ARCH=3Dmips.
 
-FYI, the error/warning still remains.
+^ specifically branches linux-4.19.y and linux-4.14.y.  Newer branches
+should be tested for ARCH=3Dmips LLVM=3D1.
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-2023-06
-head:   886f4b317ef198a14020e218b2f78cdc9b963b24
-commit: 34305ad4b1bbf0b1938712ef0070a78d8b2c3583 [6543/10956] ANDROID: KVM: arm64: Add host support for the nVHE hyp tracing
-config: arm64-randconfig-r021-20230807 (https://download.01.org/0day-ci/archive/20230807/202308072320.OssTNOfH-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230807/202308072320.OssTNOfH-lkp@intel.com/reproduce)
+>
+> Thanks for this info. We've configured the kernel test robot to do so.
+>
+> --
+> Best Regards,
+> Yujie
+>
+> >
+> > >
+> > > diff --git a/lib/mpi/longlong.h b/lib/mpi/longlong.h
+> > > index 6c5229f98c9e..42076c124e23 100644
+> > > --- a/lib/mpi/longlong.h
+> > > +++ b/lib/mpi/longlong.h
+> > > @@ -639,7 +639,7 @@ do { \
+> > >         **************  MIPS  *****************
+> > >         ***************************************/
+> > >  #if defined(__mips__) && W_TYPE_SIZE =3D=3D 32
+> > > -#if (__GNUC__ >=3D 5) || (__GNUC__ >=3D 4 && __GNUC_MINOR__ >=3D 4)
+> > > +#if (__GNUC__ >=3D 5) || (__GNUC__ >=3D 4 && __GNUC_MINOR__ >=3D 4) =
+||
+> > > defined(__clang__)
+> > >  #define umul_ppmm(w1, w0, u, v)                        \
+> > >  do {                                           \
+> > >         UDItype __ll =3D (UDItype)(u) * (v);      \
+> > >
+> > > [1]:
+> > > https://lore.kernel.org/20230801202602.GA2589710@dev-arch.thelio-3990=
+X/
+> > >
+> > > Cheers,
+> > > Nathan
+> > >
+> >
+> >
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308072320.OssTNOfH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> arch/arm64/kvm/hyp_trace.c:38:17: error: use of undeclared identifier 'STRUCT_HYP_BUFFER_PAGE_SIZE'
-      38 |         backing_size = STRUCT_HYP_BUFFER_PAGE_SIZE *
-         |                        ^
-   arch/arm64/kvm/hyp_trace.c:488:5: warning: no previous prototype for function 'hyp_trace_release' [-Wmissing-prototypes]
-     488 | int hyp_trace_release(struct inode *inode, struct file *file)
-         |     ^
-   arch/arm64/kvm/hyp_trace.c:488:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     488 | int hyp_trace_release(struct inode *inode, struct file *file)
-         | ^
-         | static 
-   1 warning and 1 error generated.
-
-
-vim +/STRUCT_HYP_BUFFER_PAGE_SIZE +38 arch/arm64/kvm/hyp_trace.c
-
-    29	
-    30	static int bpage_backing_setup(struct hyp_trace_pack *pack)
-    31	{
-    32		size_t backing_size;
-    33		void *start;
-    34	
-    35		if (hyp_buffer_pages_backing.start)
-    36			return -EBUSY;
-    37	
-  > 38		backing_size = STRUCT_HYP_BUFFER_PAGE_SIZE *
-    39			       pack->trace_buffer_pack.total_pages;
-    40		backing_size = PAGE_ALIGN(backing_size);
-    41	
-    42		start = alloc_pages_exact(backing_size, GFP_KERNEL_ACCOUNT);
-    43		if (!start)
-    44			return -ENOMEM;
-    45	
-    46		hyp_buffer_pages_backing.start = (unsigned long)start;
-    47		hyp_buffer_pages_backing.size = backing_size;
-    48		pack->backing.start = (unsigned long)start;
-    49		pack->backing.size = backing_size;
-    50	
-    51		return 0;
-    52	}
-    53	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Thanks,
+~Nick Desaulniers
