@@ -1,187 +1,123 @@
-Received: from mx1.mythic-beasts.com (mx1.mythic-beasts.com [46.235.224.141])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9837C15ACD;
-	Mon,  7 Aug 2023 19:53:03 +0000 (UTC)
-Received: by mailhub-cam-d.mythic-beasts.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <jic23@jic23.retrosnub.co.uk>)
-	id 1qT603-006bGM-IH; Mon, 07 Aug 2023 20:34:44 +0100
-Date: Mon, 7 Aug 2023 20:34:21 +0100
-From: Jonathan Cameron <jic23@jic23.retrosnub.co.uk>
-To: kernel test robot <lkp@intel.com>
-Cc: Stefan Windfeldt-Prytz <stefan.windfeldt-prytz@axis.com>,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>
-Subject: Re: drivers/iio/light/opt4001.c:215:9: error: call to
- '__compiletime_assert_355' declared with 'error' attribute: FIELD_PREP:
- value too large for the field
-Message-ID: <20230807203421.4b62f931@jic23-huawei>
-In-Reply-To: <202308061902.0gVz6bSe-lkp@intel.com>
-References: <202308061902.0gVz6bSe-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27A315ACD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Aug 2023 19:57:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691438233; x=1722974233;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EGWTvH3BtEoo3bJ/y3xWDVF+B+lf4EKOQrmRmsoPVzI=;
+  b=ZMCDr2eLX1luw4ZzJNtLuduc2A2shGSlia1/fGUva74KmtLmsWTjpuzG
+   1NHxiAjV53MJ5mk6vtljPskt4U8nAPKgk7nGRguPIyPSDfB1whOVHG1Dg
+   2T4k26L8qy9Bm7vRlTCEKDBSiz/FM5e2eUmXQaPrF6BQsCViyyGFbk+jh
+   V7I84pN2yph8dwonT5T9M4E/+ulpxSTBmPmW4G8D2Tb8MYQTvCZIletPy
+   Ox0HuOI7FH/uotubhTeaaMwTk/1XVKqE4lRESaF5gw5Pm1r6K/CCI0G5y
+   3L9oVfZrpt74+78+dp8E+q7imt4MAvnNbNdU1WatvdEKFmjed3UeTQxN8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="369537707"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
+   d="scan'208";a="369537707"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 12:57:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="707990772"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; 
+   d="scan'208";a="707990772"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 07 Aug 2023 12:57:11 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qT6Lm-0004qo-2w;
+	Mon, 07 Aug 2023 19:57:10 +0000
+Date: Tue, 8 Aug 2023 03:56:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 38/38] ASoC: soc-dai.h: remove unused call back functions
+Message-ID: <202308080309.UN2MfAcQ-lkp@intel.com>
+References: <87r0oms1iy.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-BlackCat-Spam-Score: 4
-X-Spam-Status: No, score=0.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87r0oms1iy.wl-kuninori.morimoto.gx@renesas.com>
 
-On Sun, 6 Aug 2023 20:00:10 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Kuninori,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   f0ab9f34e59e0c01a1c31142e0b336245367fd86
-> commit: 9a9608418292bb8733805c3f3123dfe0454fadac iio: light: Add support for TI OPT4001 light sensor
-> date:   3 months ago
-> config: s390-randconfig-r034-20230806 (https://download.01.org/0day-ci/archive/20230806/202308061902.0gVz6bSe-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce: (https://download.01.org/0day-ci/archive/20230806/202308061902.0gVz6bSe-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308061902.0gVz6bSe-lkp@intel.com/
-> 	
-> All errors (new ones prefixed by >>):
-> 
->    In file included from drivers/iio/light/opt4001.c:16:
->    In file included from include/linux/regmap.h:20:
->    In file included from include/linux/iopoll.h:14:
->    In file included from include/linux/io.h:13:
->    In file included from arch/s390/include/asm/io.h:75:
->    include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      547 |         val = __raw_readb(PCI_IOBASE + addr);
->          |                           ~~~~~~~~~~ ^
->    include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->          |                                                         ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
->       37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
->          |                                                           ^
->    include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
->      102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
->          |                                                      ^
->    In file included from drivers/iio/light/opt4001.c:16:
->    In file included from include/linux/regmap.h:20:
->    In file included from include/linux/iopoll.h:14:
->    In file included from include/linux/io.h:13:
->    In file included from arch/s390/include/asm/io.h:75:
->    include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
->          |                                                         ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
->       35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
->          |                                                           ^
->    include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
->      115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
->          |                                                      ^
->    In file included from drivers/iio/light/opt4001.c:16:
->    In file included from include/linux/regmap.h:20:
->    In file included from include/linux/iopoll.h:14:
->    In file included from include/linux/io.h:13:
->    In file included from arch/s390/include/asm/io.h:75:
->    include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      584 |         __raw_writeb(value, PCI_IOBASE + addr);
->          |                             ~~~~~~~~~~ ^
->    include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
->          |                                                       ~~~~~~~~~~ ^
->    include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
->          |                                                       ~~~~~~~~~~ ^
->    include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      692 |         readsb(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      700 |         readsw(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      708 |         readsl(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      717 |         writesb(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
->    include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      726 |         writesw(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
->    include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      735 |         writesl(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
-> >> drivers/iio/light/opt4001.c:215:9: error: call to '__compiletime_assert_355' declared with 'error' attribute: FIELD_PREP: value too large for the field  
->      215 |         reg |= FIELD_PREP(OPT4001_CTRL_CONV_TIME_MASK, chip->int_time);
->          |                ^
->    include/linux/bitfield.h:114:3: note: expanded from macro 'FIELD_PREP'
->      114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
->          |                 ^
->    include/linux/bitfield.h:68:3: note: expanded from macro '__BF_FIELD_CHECK'
->       68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
->          |                 ^
->    include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
->       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->          |                                     ^
->    note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
->    include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
->      385 |         __compiletime_assert(condition, msg, prefix, suffix)
->          |         ^
->    include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
->      378 |                         prefix ## suffix();                             \
->          |                         ^
->    <scratch space>:55:1: note: expanded from here
->       55 | __compiletime_assert_355
->          | ^
->    12 warnings and 1 error generated.
-> 
-> 
-> vim +215 drivers/iio/light/opt4001.c
-> 
->    207	
->    208	static int opt4001_set_conf(struct opt4001_chip *chip)
->    209	{
->    210		struct device *dev = &chip->client->dev;
->    211		u16 reg;
->    212		int ret;
->    213	
->    214		reg = FIELD_PREP(OPT4001_CTRL_RANGE_MASK, OPT4001_CTRL_LIGHT_SCALE_AUTO);
->  > 215		reg |= FIELD_PREP(OPT4001_CTRL_CONV_TIME_MASK, chip->int_time);  
->    216		reg |= FIELD_PREP(OPT4001_CTRL_OPER_MODE_MASK, OPT4001_CTRL_OPER_MODE_CONTINUOUS);
->    217	
->    218		ret = regmap_write(chip->regmap, OPT4001_CTRL, reg);
->    219		if (ret)
->    220			dev_err(dev, "Failed to set configuration\n");
->    221	
->    222		return ret;
->    223	}
->    224	
+kernel test robot noticed the following build errors:
 
-This took me a few mins to conjecture what it might be finding.
-I think it's managing to spot the missing divide by 2 in here which ends up in int_time
-and could potentially go as high as 21 - overflowing the field,
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on next-20230807]
+[cannot apply to tegra/for-next sunxi/sunxi/for-next rockchip/for-next linus/master v6.5-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-static int opt4001_als_time_to_index(const u32 als_integration_time)
-{
-	int i;
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/ASoC-ti-merge-DAI-call-back-functions-into-ops/20230802-095312
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/87r0oms1iy.wl-kuninori.morimoto.gx%40renesas.com
+patch subject: [PATCH 38/38] ASoC: soc-dai.h: remove unused call back functions
+config: mips-db1xxx_defconfig (https://download.01.org/0day-ci/archive/20230808/202308080309.UN2MfAcQ-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230808/202308080309.UN2MfAcQ-lkp@intel.com/reproduce)
 
-	for (i = 0; i < ARRAY_SIZE(opt4001_int_time_available); i++) {
-		if (als_integration_time == opt4001_int_time_available[i][1])
-			return i;
-	}
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308080309.UN2MfAcQ-lkp@intel.com/
 
-	return -EINVAL;
-}
+All error/warnings (new ones prefixed by >>):
 
-ARRAY_SIZE is applied to an Nx2 array so that should be ARRAY_SIZE()/2 to index over just
-the first dimension as intended.  I'll send a patch shortly once I've checked with the
-reproducer.  It's a bug either way (I think!)
-
-Jonathan
+   sound/soc/au1x/psc-ac97.c: In function 'au1xpsc_ac97_hw_params':
+   sound/soc/au1x/psc-ac97.c:213:13: warning: variable 'chans' set but not used [-Wunused-but-set-variable]
+     213 |         int chans, t, stype = substream->stream;
+         |             ^~~~~
+   sound/soc/au1x/psc-ac97.c: At top level:
+>> sound/soc/au1x/psc-ac97.c:342:10: error: 'const struct snd_soc_dai_driver' has no member named 'probe'
+     342 |         .probe                  = au1xpsc_ac97_probe,
+         |          ^~~~~
+>> sound/soc/au1x/psc-ac97.c:342:35: error: initialization of 'const char *' from incompatible pointer type 'int (*)(struct snd_soc_dai *)' [-Werror=incompatible-pointer-types]
+     342 |         .probe                  = au1xpsc_ac97_probe,
+         |                                   ^~~~~~~~~~~~~~~~~~
+   sound/soc/au1x/psc-ac97.c:342:35: note: (near initialization for 'au1xpsc_ac97_dai_template.name')
+   cc1: some warnings being treated as errors
+--
+>> sound/soc/au1x/ac97c.c:209:10: error: 'struct snd_soc_dai_driver' has no member named 'probe'
+     209 |         .probe                  = au1xac97c_dai_probe,
+         |          ^~~~~
+>> sound/soc/au1x/ac97c.c:209:35: warning: initialization of 'unsigned int' from 'int (*)(struct snd_soc_dai *)' makes integer from pointer without a cast [-Wint-conversion]
+     209 |         .probe                  = au1xac97c_dai_probe,
+         |                                   ^~~~~~~~~~~~~~~~~~~
+   sound/soc/au1x/ac97c.c:209:35: note: (near initialization for 'au1xac97c_dai_driver.id')
 
 
+vim +342 sound/soc/au1x/psc-ac97.c
 
-> 
+0f83d639d84c99 Manuel Lauss 2009-10-31  340  
+ffc4fdbbe1b4be Manuel Lauss 2010-08-26  341  static const struct snd_soc_dai_driver au1xpsc_ac97_dai_template = {
+0f83d639d84c99 Manuel Lauss 2009-10-31 @342  	.probe			= au1xpsc_ac97_probe,
+0f83d639d84c99 Manuel Lauss 2009-10-31  343  	.playback = {
+0f83d639d84c99 Manuel Lauss 2009-10-31  344  		.rates		= AC97_RATES,
+0f83d639d84c99 Manuel Lauss 2009-10-31  345  		.formats	= AC97_FMTS,
+0f83d639d84c99 Manuel Lauss 2009-10-31  346  		.channels_min	= 2,
+0f83d639d84c99 Manuel Lauss 2009-10-31  347  		.channels_max	= 2,
+0f83d639d84c99 Manuel Lauss 2009-10-31  348  	},
+0f83d639d84c99 Manuel Lauss 2009-10-31  349  	.capture = {
+0f83d639d84c99 Manuel Lauss 2009-10-31  350  		.rates		= AC97_RATES,
+0f83d639d84c99 Manuel Lauss 2009-10-31  351  		.formats	= AC97_FMTS,
+0f83d639d84c99 Manuel Lauss 2009-10-31  352  		.channels_min	= 2,
+0f83d639d84c99 Manuel Lauss 2009-10-31  353  		.channels_max	= 2,
+0f83d639d84c99 Manuel Lauss 2009-10-31  354  	},
+0f83d639d84c99 Manuel Lauss 2009-10-31  355  	.ops = &au1xpsc_ac97_dai_ops,
+0f83d639d84c99 Manuel Lauss 2009-10-31  356  };
+0f83d639d84c99 Manuel Lauss 2009-10-31  357  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
