@@ -1,43 +1,42 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B314216437
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Aug 2023 19:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8093916437
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Aug 2023 19:16:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691522172; x=1723058172;
+  t=1691522174; x=1723058174;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eek10/BmlgFBkU1EuTCLDzKtX91GjRYQjMrJpBVmYmw=;
-  b=Q5rheT4B7FbNP5cG0HvQYv6NtDV82xmpaiT0Me/AXlIA9mdfJuffWaTD
-   vN5nDk9TiYaDVJg/n+1E7tVi19u/ux1itvxw2fIgvM8bxLqN09MzPeNXX
-   lHtPBUoXs6HQqSMP7RclgiAjUfCPPsRRxCapRtcmcms8WXj7Ezol1SRfo
-   paXNVkuLoiH5bNleaNg+iaK8v3/d04VzQdRo81WGxZCvF9s3cHHSk/kOI
-   bqxSU5I1PcpIqMHmYCakdp4fbGUDPFoj9l/NgryZGzwvzl8sFRzhMJOW0
-   w19FFxZHExXKM4iIaTo56WUhWHbJKzxeFsLI/goasydipDYbli3iKxC/a
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="373710769"
+  bh=B3ZaKRRBOywOyoHMu3uvVVSvIQjqHCOSwxZdQ9pfIIk=;
+  b=eFfd5EiC1SGrFsXuNPei2NJ0FUyJhllU9hBnCvpTCKiFTeb2yEn0HRXY
+   ZM7nY8gbN+OIGPH+Q2q5D3MvBAp3s9mJJfcVbgN35T2WXTqFSjLOTtZcJ
+   6Nlb+wlj4+sn7LyfQ65YwAMuHZ6pGiMe0BHqBedRvszlBCopaaQb/zWTI
+   ZzsOMmWgxPzY2D3h2vRgVxy1aA11O19q4F18nXVVPngWa76WaQb1taAaO
+   cEbwvh9jwGnhF7cJzv3sc7T0bPgJx5Sy04PpHE3o6yTO4Y3Z+Zgkpo6ft
+   7uUY2XbzA6oQuT98v+8+wIKTL98H1JrvrZARhXsufxPesaorG178lKPUi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="373710771"
 X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
-   d="scan'208";a="373710769"
+   d="scan'208";a="373710771"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 12:16:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="801445413"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="801445417"
 X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
-   d="scan'208";a="801445413"
+   d="scan'208";a="801445417"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 08 Aug 2023 12:16:10 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTSBd-0005Yi-38;
-	Tue, 08 Aug 2023 19:16:09 +0000
-Date: Wed, 9 Aug 2023 03:15:47 +0800
+	id 1qTSBe-0005Yn-01;
+	Tue, 08 Aug 2023 19:16:10 +0000
+Date: Wed, 9 Aug 2023 03:15:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: include/linux/compiler_types.h:319:45: error: call to
- '__compiletime_assert_242' declared with attribute error: BUILD_BUG_ON
- failed: FIX_KMAP_SLOTS > PTRS_PER_PTE
-Message-ID: <202308090326.y25drfEn-lkp@intel.com>
+To: Joel Granados <j.granados@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [joelgranados:jag/sysctl-testing-for-0day 54/67] ERROR: modpost:
+ "__register_sysctl_table" [net/llc/llc2.ko] undefined!
+Message-ID: <202308090318.U9zCGvJs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,71 +46,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Thomas,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   02aee814d37c563e24b73bcd0f9cb608fbd403d4
-commit: 39cac191ff37939544af80d5d2af6b870fd94c9b arc/mm/highmem: Use generic kmap atomic implementation
-date:   2 years, 9 months ago
-config: arc-randconfig-r031-20230808 (https://download.01.org/0day-ci/archive/20230809/202308090326.y25drfEn-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308090326.y25drfEn-lkp@intel.com/reproduce)
+tree:   https://github.com/Joelgranados/linux.git jag/sysctl-testing-for-0day
+head:   8958c484809b25f8d552560d679fcb6bdd441c88
+commit: 8ab9c9bf315ce95177e9a7cac46d7aa95d3fec7b [54/67] networking: rm sentinel element from ctl_table array
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20230809/202308090318.U9zCGvJs-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308090318.U9zCGvJs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308090326.y25drfEn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308090318.U9zCGvJs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from <command-line>:
-   arch/arc/mm/highmem.c: In function 'kmap_init':
->> include/linux/compiler_types.h:319:45: error: call to '__compiletime_assert_242' declared with attribute error: BUILD_BUG_ON failed: FIX_KMAP_SLOTS > PTRS_PER_PTE
-     319 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:300:25: note: in definition of macro '__compiletime_assert'
-     300 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:319:9: note: in expansion of macro '_compiletime_assert'
-     319 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/arc/mm/highmem.c:69:9: note: in expansion of macro 'BUILD_BUG_ON'
-      69 |         BUILD_BUG_ON(FIX_KMAP_SLOTS > PTRS_PER_PTE);
-         |         ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_242 +319 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  305  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  306  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  307  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  308  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  309  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  310   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  311   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  312   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  313   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  314   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  315   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  316   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  317   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  318  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @319  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  320  
-
-:::::: The code at line 319 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs_common/grace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv3.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfsd/nfsd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha256.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/macmodes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/udl/udl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/dummy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/bsd_comp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_deflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/slip/slhc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-dj.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech-hidpp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/p8022.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/psnap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
+>> ERROR: modpost: "__register_sysctl_table" [net/llc/llc2.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
