@@ -1,75 +1,126 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B75E569
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Aug 2023 21:28:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BA3E569;
+	Tue,  8 Aug 2023 21:29:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691530158; x=1723066158;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LF3AsSScAlFVJsyVVLtHUoIyYl8CsXpyTzmcybTygaQ=;
-  b=VUihDfuUblQ9v8uejG/HDMBNYpvJYQK8JfuuAqSxUUJ0T2Dbv5dJ3LaA
-   2dm7ppOocj/PNFVATClXA8VE2vDYU555IhqZZ5pgKt3kA2z3ZKFrLe6e+
-   UIfsH1eGCHYtP2fLDokt/LZZH24lAokg3GBw96C8FepdlcXF21zM7Pj/l
-   E=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,157,1684792800"; 
-   d="scan'208";a="63206877"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 23:27:00 +0200
-Date: Tue, 8 Aug 2023 23:27:00 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-cc: Mark Brown <broonie@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-    Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 5193/7933] sound/soc/sh/rcar/core.c:1287:1-23:
- WARNING: Function "for_each_child_of_node" should have of_node_put() before
- break around line 1296. (fwd)
-Message-ID: <alpine.DEB.2.22.394.2308082326260.3146@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+  bh=7CI5gLJfERGZqbKPNE5VN7Av0UrIx51a4AyX+qyjFn4=;
+  b=niPQ767JkQtYMkIbhZUaIQENTjjXekMAQI7iqJOx4/lI8ZMFhCp4lcM1
+   4LRgXady2QX7YQwDHlmoz5zX6UidGNfusmNkhaoceIi1EKyqQ9ZbV9jSq
+   8Z1t8oBnjJsewytU7qFnIUgPmff+ueQaWFEXVnj2qz+wFjWvmQDuQZj5w
+   +comTvSw1eWV7Xfn0USw9uFsEE7tXTS1fobCxZenQVKAV8Ra1O9IyJPwc
+   B6qr6vL9R9HpIZCMDqJ/x5jHRUAHyanGM6n7qSmRPNwU77YreFZB3Hyk7
+   qh2zaAVx1XpsdpEbF1cJELNqN8THyQPw4GvkkrEK7Caux1nwaYGOd/+lF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="350546394"
+X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
+   d="scan'208";a="350546394"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 14:29:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="845658201"
+X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
+   d="scan'208";a="845658201"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2023 14:29:15 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qTUGQ-0005dU-30;
+	Tue, 08 Aug 2023 21:29:14 +0000
+Date: Wed, 9 Aug 2023 05:28:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Christopher M. Riedl" <cmr@bluescreens.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+	Benjamin Gray <bgray@linux.ibm.com>
+Subject: arch/powerpc/include/asm/book3s/32/tlbflush.h:83:2: error: call to
+ __compiletime_assert_179 declared with 'error' attribute: BUILD_BUG failed
+Message-ID: <202308090515.ItaRqhnW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi Christopher,
 
+FYI, the error/warning still remains.
 
----------- Forwarded message ----------
-Date: Wed, 9 Aug 2023 05:07:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 5193/7933] sound/soc/sh/rcar/core.c:1287:1-23:
-    WARNING: Function "for_each_child_of_node" should have of_node_put() before
-    break around line 1296.
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: Mark Brown <broonie@kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   71cd4fc492ec41e4acd85e98bbf7a13753fc1e03
-commit: 547b02f74e4ac1e7d295a6266d5bc93a647cd4ac [5193/7933] ASoC: rsnd: enable multi Component support for Audio Graph Card/Card2
-:::::: branch date: 16 hours ago
-:::::: commit date: 8 days ago
-config: arm-randconfig-r053-20230808 (https://download.01.org/0day-ci/archive/20230809/202308090538.FnBjBHsL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308090538.FnBjBHsL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   02aee814d37c563e24b73bcd0f9cb608fbd403d4
+commit: c28c15b6d28a776538482101522cbcd9f906b15c powerpc/code-patching: Use temporary mm for Radix MMU
+date:   8 months ago
+config: powerpc-randconfig-r021-20230807 (https://download.01.org/0day-ci/archive/20230809/202308090515.ItaRqhnW-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308090515.ItaRqhnW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202308090538.FnBjBHsL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308090515.ItaRqhnW-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> sound/soc/sh/rcar/core.c:1287:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before break around line 1296.
-   sound/soc/sh/rcar/core.c:1306:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before break around line 1315.
+All errors (new ones prefixed by >>):
+
+   In file included from arch/powerpc/lib/code-patching.c:6:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:29:
+   In file included from include/linux/mm.h:29:
+   In file included from include/linux/pgtable.h:6:
+   In file included from arch/powerpc/include/asm/pgtable.h:11:
+   In file included from arch/powerpc/include/asm/tlbflush.h:6:
+   In file included from arch/powerpc/include/asm/book3s/tlbflush.h:8:
+>> arch/powerpc/include/asm/book3s/32/tlbflush.h:83:2: error: call to __compiletime_assert_179 declared with 'error' attribute: BUILD_BUG failed
+           BUILD_BUG();
+           ^
+   include/linux/build_bug.h:59:21: note: expanded from macro 'BUILD_BUG'
+   #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+                       ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:357:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:345:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:338:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:28:1: note: expanded from here
+   __compiletime_assert_179
+   ^
+   1 error generated.
+
+
+vim +/error +83 arch/powerpc/include/asm/book3s/32/tlbflush.h
+
+274d842fa1efd9 Benjamin Gray 2022-11-09  79  
+274d842fa1efd9 Benjamin Gray 2022-11-09  80  static inline void local_flush_tlb_page_psize(struct mm_struct *mm,
+274d842fa1efd9 Benjamin Gray 2022-11-09  81  					      unsigned long vmaddr, int psize)
+274d842fa1efd9 Benjamin Gray 2022-11-09  82  {
+274d842fa1efd9 Benjamin Gray 2022-11-09 @83  	BUILD_BUG();
+274d842fa1efd9 Benjamin Gray 2022-11-09  84  }
+274d842fa1efd9 Benjamin Gray 2022-11-09  85  
+
+:::::: The code at line 83 was first introduced by commit
+:::::: 274d842fa1efd9449e62222c8896e0be11621f1f powerpc/tlb: Add local flush for page given mm_struct and psize
+
+:::::: TO: Benjamin Gray <bgray@linux.ibm.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
