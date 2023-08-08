@@ -1,49 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A986A382;
-	Tue,  8 Aug 2023 02:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D2F1384
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Aug 2023 03:45:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691462738; x=1722998738;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0z+zOqNkDGFTtr7pqf9PD+lHQCQkE8xsKx0TOsjhCnE=;
-  b=MZKq3uplyoAAgsmVDw46oMvctRP7XwWp6cMQLd6liNnWRTPaJmIroKzA
-   5c9Rs0/KVDGzX7DEcQvxY6XT3J371VASo4qxxR8lnUjKz2H/bY3FDFQxN
-   FkwGSFVn8kN48cIJVypObrIeUMbnUM3gm2CNiFsczB+g4aO0eJIL3bSAr
-   X3UQwJ61KZ+TQoScsWd2gpDnbniOoj8nomSVWIoECXKek8rRuFGzN0Xtr
-   9ZqXjYmm44aJeUmsc+kq36fbbW2TA+QO2GzJsr6M0LBV0jj6Zkgvm8/JN
-   5qn6WiyFQ6cm0/ReKUaMj1tkiMG5i4ZhHAiem0pKLqF+4Msj/rmfrmaKD
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="370695213"
+  t=1691466342; x=1723002342;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Oh0/1MbOyZr5XYP6jDQCd6NwZmQ4wqIkRfFcJQiFawE=;
+  b=GKzf20qJclHtWq42gqS/wtNFC17erxCPhoqCqmJMagMLZ1jPKwAbEHkg
+   4PAEFCWpDOTdVPJEcuQUmh9ql7kERZmCucYTr4hpyecSyhTpkz2NEyClJ
+   AmiPfFBVSapGC9QJIn5jQhibVC8LjilUo6IHjQs5TBEndcTSUBptKHs3M
+   3Eo5E7Iyu07HQYWTDaqu8eWwQVt58wEev/iVggyBrPxzpzeyjALgzW706
+   pwn0EPNS/bL/ai6+Faezrq9miFapzDFLIooVy+jAn1o5fu0ILa27Js2CH
+   oG5607pzEYCC8KdRDngh3FvXUQ8LPswAXZiHgPNHuM+skxr/8mUR+/KDA
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="368163492"
 X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
-   d="scan'208";a="370695213"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 19:45:37 -0700
+   d="scan'208";a="368163492"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 20:45:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="801170047"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="821199170"
 X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
-   d="scan'208";a="801170047"
+   d="scan'208";a="821199170"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Aug 2023 19:45:34 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Aug 2023 20:45:39 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTCiz-00051t-0x;
-	Tue, 08 Aug 2023 02:45:33 +0000
-Date: Tue, 8 Aug 2023 10:44:56 +0800
+	id 1qTDf8-00054K-2U;
+	Tue, 08 Aug 2023 03:45:38 +0000
+Date: Tue, 8 Aug 2023 11:45:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Desaulniers <ndesaulniers@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v2] Makefile.extrawarn: enable
- -Wmissing-variable-declarations for W=1
-Message-ID: <202308081050.sZEw4cQ5-lkp@intel.com>
-References: <20230807-missing_proto-v2-1-3ae2e188bb0c@google.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Sourabh Jain <sourabhjain@linux.ibm.com>
+Subject: [akpm-mm:mm-nonmm-unstable 56/63] kernel/crash_core.c:331:23: error:
+ invalid use of undefined type 'struct crash_mem'
+Message-ID: <202308081133.DyoThWwi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,383 +48,339 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230807-missing_proto-v2-1-3ae2e188bb0c@google.com>
 
-Hi Nick,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 52a93d39b17dc7eb98b6aa3edb93943248e03b2f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Desaulniers/Makefile-extrawarn-enable-Wmissing-variable-declarations-for-W-1/20230808-005859
-base:   52a93d39b17dc7eb98b6aa3edb93943248e03b2f
-patch link:    https://lore.kernel.org/r/20230807-missing_proto-v2-1-3ae2e188bb0c%40google.com
-patch subject: [PATCH v2] Makefile.extrawarn: enable -Wmissing-variable-declarations for W=1
-config: um-randconfig-r031-20230807 (https://download.01.org/0day-ci/archive/20230808/202308081050.sZEw4cQ5-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230808/202308081050.sZEw4cQ5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   6a41fd4665e650c659412a54f90cf364c592039a
+commit: 626775922a575bc420a5f1b5caf30f9898fe9cf6 [56/63] crash: move a few code bits to setup support of crash hotplug
+config: arc-randconfig-r026-20230807 (https://download.01.org/0day-ci/archive/20230808/202308081133.DyoThWwi-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230808/202308081133.DyoThWwi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308081050.sZEw4cQ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308081133.DyoThWwi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:20:
-   In file included from arch/x86/include/asm/string.h:5:
-   In file included from arch/x86/include/asm/string_64.h:6:
-   In file included from include/linux/jump_label.h:255:
-   In file included from include/linux/atomic.h:7:
-   In file included from arch/x86/include/asm/atomic.h:7:
-   In file included from arch/x86/include/asm/alternative.h:7:
->> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-                          ^
-   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-            ^
-   1 warning generated.
---
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   arch/x86/um/shared/sysdep/kernel-offsets.h:9:6: warning: no previous prototype for function 'foo' [-Wmissing-prototypes]
-   void foo(void)
-        ^
-   arch/x86/um/shared/sysdep/kernel-offsets.h:9:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void foo(void)
-   ^
-   static 
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:3:
-   In file included from include/linux/sched.h:12:
-   In file included from ./arch/um/include/generated/asm/current.h:1:
-   In file included from include/asm-generic/current.h:5:
-   In file included from include/linux/thread_info.h:27:
-   In file included from include/linux/bitops.h:34:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/x86/um/asm/barrier.h:6:
-   In file included from arch/x86/include/asm/alternative.h:7:
->> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-                          ^
-   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-            ^
-   2 warnings generated.
---
-   In file included from arch/um/drivers/hostaudio_kern.c:6:
-   In file included from include/linux/fs.h:6:
-   In file included from include/linux/wait_bit.h:8:
-   In file included from include/linux/wait.h:7:
-   In file included from include/linux/list.h:11:
-   In file included from arch/x86/um/asm/barrier.h:6:
-   In file included from arch/x86/include/asm/alternative.h:7:
->> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-                          ^
-   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-            ^
->> arch/um/drivers/hostaudio_kern.c:316:3: warning: no previous extern declaration for non-static variable 'module_data' [-Wmissing-variable-declarations]
-   } module_data;
-     ^
-   arch/um/drivers/hostaudio_kern.c:313:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-   struct {
-   ^
-   2 warnings generated.
---
-   In file included from arch/um/drivers/daemon_kern.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from arch/um/drivers/daemon_kern.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from arch/um/drivers/daemon_kern.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from arch/um/drivers/daemon_kern.c:10:
-   In file included from include/linux/netdevice.h:24:
-   In file included from include/linux/timer.h:5:
-   In file included from include/linux/list.h:11:
-   In file included from arch/x86/um/asm/barrier.h:6:
-   In file included from arch/x86/include/asm/alternative.h:7:
->> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-                          ^
-   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-            ^
-   13 warnings generated.
---
-   In file included from arch/um/drivers/port_kern.c:7:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from arch/um/drivers/port_kern.c:7:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from arch/um/drivers/port_kern.c:7:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> arch/um/drivers/port_kern.c:147:14: warning: no previous extern declaration for non-static variable 'port_work' [-Wmissing-variable-declarations]
-   DECLARE_WORK(port_work, port_work_proc);
-                ^
-   arch/um/drivers/port_kern.c:147:1: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-   DECLARE_WORK(port_work, port_work_proc);
-   ^
-   include/linux/workqueue.h:194:2: note: expanded from macro 'DECLARE_WORK'
-           struct work_struct n = __WORK_INITIALIZER(n, f)
-           ^
-   In file included from arch/um/drivers/port_kern.c:6:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:5:
-   In file included from include/linux/list.h:11:
-   In file included from arch/x86/um/asm/barrier.h:6:
-   In file included from arch/x86/include/asm/alternative.h:7:
->> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-                          ^
-   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-            ^
-   14 warnings generated.
---
-   In file included from arch/um/drivers/xterm_kern.c:10:
-   In file included from arch/um/include/shared/irq_kern.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from arch/um/drivers/xterm_kern.c:10:
-   In file included from arch/um/include/shared/irq_kern.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from arch/um/drivers/xterm_kern.c:10:
-   In file included from arch/um/include/shared/irq_kern.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   arch/um/drivers/xterm_kern.c:35:5: warning: no previous prototype for function 'xterm_fd' [-Wmissing-prototypes]
-   int xterm_fd(int socket, int *pid_out)
-       ^
-   arch/um/drivers/xterm_kern.c:35:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int xterm_fd(int socket, int *pid_out)
-   ^
-   static 
-   In file included from arch/um/drivers/xterm_kern.c:6:
-   In file included from include/linux/slab.h:16:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:8:
-   In file included from include/linux/spinlock.h:56:
-   In file included from include/linux/preempt.h:12:
-   In file included from include/linux/list.h:11:
-   In file included from arch/x86/um/asm/barrier.h:6:
-   In file included from arch/x86/include/asm/alternative.h:7:
->> arch/x86/include/asm/asm.h:208:24: warning: no previous extern declaration for non-static variable 'current_stack_pointer' [-Wmissing-variable-declarations]
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-                          ^
-   arch/x86/include/asm/asm.h:208:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-   register unsigned long current_stack_pointer asm(_ASM_SP);
-            ^
-   14 warnings generated.
-..
+>> kernel/crash_core.c:318:40: warning: 'struct crash_mem' declared inside parameter list will not be visible outside of this definition or declaration
+     318 | int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+         |                                        ^~~~~~~~~
+>> kernel/crash_core.c:318:5: warning: no previous prototype for 'crash_prepare_elf64_headers' [-Wmissing-prototypes]
+     318 | int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/crash_core.c: In function 'crash_prepare_elf64_headers':
+>> kernel/crash_core.c:331:23: error: invalid use of undefined type 'struct crash_mem'
+     331 |         nr_phdr += mem->nr_ranges;
+         |                       ^~
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/linux/align.h:5,
+                    from include/linux/kernel.h:15,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from kernel/crash_core.c:7:
+>> kernel/crash_core.c:343:32: error: 'ELF_CORE_HEADER_ALIGN' undeclared (first use in this function)
+     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+         |                                ^~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                  ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   kernel/crash_core.c:343:18: note: in expansion of macro 'ALIGN'
+     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+         |                  ^~~~~
+   kernel/crash_core.c:343:32: note: each undeclared identifier is reported only once for each function it appears in
+     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+         |                                ^~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                  ^~~~
+   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
+       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
+         |                                 ^~~~~~~~~~~~~~
+   kernel/crash_core.c:343:18: note: in expansion of macro 'ALIGN'
+     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+         |                  ^~~~~
+   kernel/crash_core.c:393:28: error: invalid use of undefined type 'struct crash_mem'
+     393 |         for (i = 0; i < mem->nr_ranges; i++) {
+         |                            ^~
+   kernel/crash_core.c:394:29: error: invalid use of undefined type 'struct crash_mem'
+     394 |                 mstart = mem->ranges[i].start;
+         |                             ^~
+   kernel/crash_core.c:395:27: error: invalid use of undefined type 'struct crash_mem'
+     395 |                 mend = mem->ranges[i].end;
+         |                           ^~
+   kernel/crash_core.c: At top level:
+   kernel/crash_core.c:417:36: warning: 'struct crash_mem' declared inside parameter list will not be visible outside of this definition or declaration
+     417 | int crash_exclude_mem_range(struct crash_mem *mem,
+         |                                    ^~~~~~~~~
+>> kernel/crash_core.c:417:5: warning: no previous prototype for 'crash_exclude_mem_range' [-Wmissing-prototypes]
+     417 | int crash_exclude_mem_range(struct crash_mem *mem,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/crash_core.c: In function 'crash_exclude_mem_range':
+   kernel/crash_core.c:424:28: error: invalid use of undefined type 'struct crash_mem'
+     424 |         for (i = 0; i < mem->nr_ranges; i++) {
+         |                            ^~
+   kernel/crash_core.c:425:28: error: invalid use of undefined type 'struct crash_mem'
+     425 |                 start = mem->ranges[i].start;
+         |                            ^~
+   kernel/crash_core.c:426:26: error: invalid use of undefined type 'struct crash_mem'
+     426 |                 end = mem->ranges[i].end;
+         |                          ^~
+   kernel/crash_core.c:441:28: error: invalid use of undefined type 'struct crash_mem'
+     441 |                         mem->ranges[i].start = 0;
+         |                            ^~
+   kernel/crash_core.c:442:28: error: invalid use of undefined type 'struct crash_mem'
+     442 |                         mem->ranges[i].end = 0;
+         |                            ^~
+   kernel/crash_core.c:443:36: error: invalid use of undefined type 'struct crash_mem'
+     443 |                         if (i < mem->nr_ranges - 1) {
+         |                                    ^~
+   kernel/crash_core.c:445:52: error: invalid use of undefined type 'struct crash_mem'
+     445 |                                 for (j = i; j < mem->nr_ranges - 1; j++) {
+         |                                                    ^~
+   kernel/crash_core.c:446:44: error: invalid use of undefined type 'struct crash_mem'
+     446 |                                         mem->ranges[j].start =
+         |                                            ^~
+   kernel/crash_core.c:447:52: error: invalid use of undefined type 'struct crash_mem'
+     447 |                                                 mem->ranges[j+1].start;
+         |                                                    ^~
+   kernel/crash_core.c:448:44: error: invalid use of undefined type 'struct crash_mem'
+     448 |                                         mem->ranges[j].end =
+         |                                            ^~
+   kernel/crash_core.c:449:60: error: invalid use of undefined type 'struct crash_mem'
+     449 |                                                         mem->ranges[j+1].end;
+         |                                                            ^~
+   kernel/crash_core.c:458:36: error: invalid use of undefined type 'struct crash_mem'
+     458 |                                 mem->nr_ranges--;
+         |                                    ^~
+   kernel/crash_core.c:461:28: error: invalid use of undefined type 'struct crash_mem'
+     461 |                         mem->nr_ranges--;
+         |                            ^~
+   kernel/crash_core.c:467:28: error: invalid use of undefined type 'struct crash_mem'
+     467 |                         mem->ranges[i].end = p_start - 1;
+         |                            ^~
+   kernel/crash_core.c:471:28: error: invalid use of undefined type 'struct crash_mem'
+     471 |                         mem->ranges[i].end = p_start - 1;
+         |                            ^~
+   kernel/crash_core.c:473:28: error: invalid use of undefined type 'struct crash_mem'
+     473 |                         mem->ranges[i].start = p_end + 1;
+         |                            ^~
+   kernel/crash_core.c:482:21: error: invalid use of undefined type 'struct crash_mem'
+     482 |         if (i == mem->max_nr_ranges - 1)
+         |                     ^~
+   kernel/crash_core.c:487:20: error: invalid use of undefined type 'struct crash_mem'
+     487 |         if (j < mem->nr_ranges) {
+         |                    ^~
+   kernel/crash_core.c:489:29: error: invalid use of undefined type 'struct crash_mem'
+     489 |                 for (i = mem->nr_ranges - 1; i >= j; i--)
+         |                             ^~
+   kernel/crash_core.c:490:28: error: invalid use of undefined type 'struct crash_mem'
+     490 |                         mem->ranges[i + 1] = mem->ranges[i];
+         |                            ^~
+   kernel/crash_core.c:490:49: error: invalid use of undefined type 'struct crash_mem'
+     490 |                         mem->ranges[i + 1] = mem->ranges[i];
+         |                                                 ^~
+   kernel/crash_core.c:493:12: error: invalid use of undefined type 'struct crash_mem'
+     493 |         mem->ranges[j].start = temp_range.start;
+         |            ^~
+   kernel/crash_core.c:494:12: error: invalid use of undefined type 'struct crash_mem'
+     494 |         mem->ranges[j].end = temp_range.end;
+         |            ^~
+   kernel/crash_core.c:495:12: error: invalid use of undefined type 'struct crash_mem'
+     495 |         mem->nr_ranges++;
+         |            ^~
 
 
-vim +/current_stack_pointer +208 arch/x86/include/asm/asm.h
+vim +331 kernel/crash_core.c
 
-a34746bc43eb63 include/asm-x86/asm.h      H. Peter Anvin  2008-02-04  201  
-f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  202  /*
-f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  203   * This output constraint should be used for any inline asm which has a "call"
-f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  204   * instruction.  Otherwise the asm may be inserted before the frame pointer
-f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  205   * gets set up by the containing function.  If you forget to do this, objtool
-f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  206   * may print a "call without frame pointer save/setup" warning.
-f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  207   */
-196bd485ee4f03 arch/x86/include/asm/asm.h Andrey Ryabinin 2017-09-29 @208  register unsigned long current_stack_pointer asm(_ASM_SP);
-196bd485ee4f03 arch/x86/include/asm/asm.h Andrey Ryabinin 2017-09-29  209  #define ASM_CALL_CONSTRAINT "+r" (current_stack_pointer)
-28b60197b573cd arch/x86/include/asm/asm.h Borislav Petkov 2020-06-04  210  #endif /* __ASSEMBLY__ */
-f5caf621ee3572 arch/x86/include/asm/asm.h Josh Poimboeuf  2017-09-20  211  
+   317	
+ > 318	int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+   319				  void **addr, unsigned long *sz)
+   320	{
+   321		Elf64_Ehdr *ehdr;
+   322		Elf64_Phdr *phdr;
+   323		unsigned long nr_cpus = num_possible_cpus(), nr_phdr, elf_sz;
+   324		unsigned char *buf;
+   325		unsigned int cpu, i;
+   326		unsigned long long notes_addr;
+   327		unsigned long mstart, mend;
+   328	
+   329		/* extra phdr for vmcoreinfo ELF note */
+   330		nr_phdr = nr_cpus + 1;
+ > 331		nr_phdr += mem->nr_ranges;
+   332	
+   333		/*
+   334		 * kexec-tools creates an extra PT_LOAD phdr for kernel text mapping
+   335		 * area (for example, ffffffff80000000 - ffffffffa0000000 on x86_64).
+   336		 * I think this is required by tools like gdb. So same physical
+   337		 * memory will be mapped in two ELF headers. One will contain kernel
+   338		 * text virtual addresses and other will have __va(physical) addresses.
+   339		 */
+   340	
+   341		nr_phdr++;
+   342		elf_sz = sizeof(Elf64_Ehdr) + nr_phdr * sizeof(Elf64_Phdr);
+ > 343		elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+   344	
+   345		buf = vzalloc(elf_sz);
+   346		if (!buf)
+   347			return -ENOMEM;
+   348	
+   349		ehdr = (Elf64_Ehdr *)buf;
+   350		phdr = (Elf64_Phdr *)(ehdr + 1);
+   351		memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
+   352		ehdr->e_ident[EI_CLASS] = ELFCLASS64;
+   353		ehdr->e_ident[EI_DATA] = ELFDATA2LSB;
+   354		ehdr->e_ident[EI_VERSION] = EV_CURRENT;
+   355		ehdr->e_ident[EI_OSABI] = ELF_OSABI;
+   356		memset(ehdr->e_ident + EI_PAD, 0, EI_NIDENT - EI_PAD);
+   357		ehdr->e_type = ET_CORE;
+   358		ehdr->e_machine = ELF_ARCH;
+   359		ehdr->e_version = EV_CURRENT;
+   360		ehdr->e_phoff = sizeof(Elf64_Ehdr);
+   361		ehdr->e_ehsize = sizeof(Elf64_Ehdr);
+   362		ehdr->e_phentsize = sizeof(Elf64_Phdr);
+   363	
+   364		/* Prepare one phdr of type PT_NOTE for each present CPU */
+   365		for_each_present_cpu(cpu) {
+   366			phdr->p_type = PT_NOTE;
+   367			notes_addr = per_cpu_ptr_to_phys(per_cpu_ptr(crash_notes, cpu));
+   368			phdr->p_offset = phdr->p_paddr = notes_addr;
+   369			phdr->p_filesz = phdr->p_memsz = sizeof(note_buf_t);
+   370			(ehdr->e_phnum)++;
+   371			phdr++;
+   372		}
+   373	
+   374		/* Prepare one PT_NOTE header for vmcoreinfo */
+   375		phdr->p_type = PT_NOTE;
+   376		phdr->p_offset = phdr->p_paddr = paddr_vmcoreinfo_note();
+   377		phdr->p_filesz = phdr->p_memsz = VMCOREINFO_NOTE_SIZE;
+   378		(ehdr->e_phnum)++;
+   379		phdr++;
+   380	
+   381		/* Prepare PT_LOAD type program header for kernel text region */
+   382		if (need_kernel_map) {
+   383			phdr->p_type = PT_LOAD;
+   384			phdr->p_flags = PF_R|PF_W|PF_X;
+   385			phdr->p_vaddr = (unsigned long) _text;
+   386			phdr->p_filesz = phdr->p_memsz = _end - _text;
+   387			phdr->p_offset = phdr->p_paddr = __pa_symbol(_text);
+   388			ehdr->e_phnum++;
+   389			phdr++;
+   390		}
+   391	
+   392		/* Go through all the ranges in mem->ranges[] and prepare phdr */
+   393		for (i = 0; i < mem->nr_ranges; i++) {
+   394			mstart = mem->ranges[i].start;
+ > 395			mend = mem->ranges[i].end;
+   396	
+   397			phdr->p_type = PT_LOAD;
+   398			phdr->p_flags = PF_R|PF_W|PF_X;
+   399			phdr->p_offset  = mstart;
+   400	
+   401			phdr->p_paddr = mstart;
+   402			phdr->p_vaddr = (unsigned long) __va(mstart);
+   403			phdr->p_filesz = phdr->p_memsz = mend - mstart + 1;
+   404			phdr->p_align = 0;
+   405			ehdr->e_phnum++;
+   406			pr_debug("Crash PT_LOAD ELF header. phdr=%p vaddr=0x%llx, paddr=0x%llx, sz=0x%llx e_phnum=%d p_offset=0x%llx\n",
+   407				phdr, phdr->p_vaddr, phdr->p_paddr, phdr->p_filesz,
+   408				ehdr->e_phnum, phdr->p_offset);
+   409			phdr++;
+   410		}
+   411	
+   412		*addr = buf;
+   413		*sz = elf_sz;
+   414		return 0;
+   415	}
+   416	
+ > 417	int crash_exclude_mem_range(struct crash_mem *mem,
+   418				    unsigned long long mstart, unsigned long long mend)
+   419	{
+   420		int i, j;
+   421		unsigned long long start, end, p_start, p_end;
+   422		struct range temp_range = {0, 0};
+   423	
+   424		for (i = 0; i < mem->nr_ranges; i++) {
+   425			start = mem->ranges[i].start;
+   426			end = mem->ranges[i].end;
+   427			p_start = mstart;
+   428			p_end = mend;
+   429	
+   430			if (mstart > end || mend < start)
+   431				continue;
+   432	
+   433			/* Truncate any area outside of range */
+   434			if (mstart < start)
+   435				p_start = start;
+   436			if (mend > end)
+   437				p_end = end;
+   438	
+   439			/* Found completely overlapping range */
+   440			if (p_start == start && p_end == end) {
+   441				mem->ranges[i].start = 0;
+   442				mem->ranges[i].end = 0;
+   443				if (i < mem->nr_ranges - 1) {
+   444					/* Shift rest of the ranges to left */
+   445					for (j = i; j < mem->nr_ranges - 1; j++) {
+   446						mem->ranges[j].start =
+   447							mem->ranges[j+1].start;
+   448						mem->ranges[j].end =
+   449								mem->ranges[j+1].end;
+   450					}
+   451	
+   452					/*
+   453					 * Continue to check if there are another overlapping ranges
+   454					 * from the current position because of shifting the above
+   455					 * mem ranges.
+   456					 */
+   457					i--;
+   458					mem->nr_ranges--;
+   459					continue;
+   460				}
+   461				mem->nr_ranges--;
+   462				return 0;
+   463			}
+   464	
+   465			if (p_start > start && p_end < end) {
+   466				/* Split original range */
+   467				mem->ranges[i].end = p_start - 1;
+   468				temp_range.start = p_end + 1;
+   469				temp_range.end = end;
+   470			} else if (p_start != start)
+   471				mem->ranges[i].end = p_start - 1;
+   472			else
+   473				mem->ranges[i].start = p_end + 1;
+   474			break;
+   475		}
+   476	
+   477		/* If a split happened, add the split to array */
+   478		if (!temp_range.end)
+   479			return 0;
+   480	
+   481		/* Split happened */
+   482		if (i == mem->max_nr_ranges - 1)
+   483			return -ENOMEM;
+   484	
+   485		/* Location where new range should go */
+   486		j = i + 1;
+   487		if (j < mem->nr_ranges) {
+   488			/* Move over all ranges one slot towards the end */
+   489			for (i = mem->nr_ranges - 1; i >= j; i--)
+   490				mem->ranges[i + 1] = mem->ranges[i];
+   491		}
+   492	
+   493		mem->ranges[j].start = temp_range.start;
+   494		mem->ranges[j].end = temp_range.end;
+   495		mem->nr_ranges++;
+   496		return 0;
+   497	}
+   498	
 
 -- 
 0-DAY CI Kernel Test Service
