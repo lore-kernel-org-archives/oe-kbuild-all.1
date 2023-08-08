@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B755100B2;
-	Tue,  8 Aug 2023 14:15:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CD237C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Aug 2023 14:46:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691504102; x=1723040102;
+  t=1691505983; x=1723041983;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=koJeytz2OrBgZwGQb7XyRybkdw5v4dIM48GGAu6UucI=;
-  b=kbQmKY1qOEAB6jz2PHG+KQEdMLtX+a/mNus+G4QrziEU2iUfDdp3uFNU
-   Mrbe637RpoKB74UAYoGtNEz3qDAINF0JSmevwuhOPB8svpvXGvW5sUK7J
-   3t4bjBJM6N44M1E7Sr1GNBtoo4NCUKwSwkHEpWYwRf6+z9T1b/T2tQnSK
-   +Z7CPi9LEtI5fUk0bCMxZRrdh+Th4xPM0mbfmLW8Rct98JgrXwS0NCaU9
-   viC6S0PjWaioZ2oBxfRaW6MeLGPCwc4XHrPDS1tkTvBC2QoMADRmLKujI
-   konHN7YKy7ixZ1pKxWqgcGCwt+RA/KriNiOl2jdjoTZpEo99ZD0OZLD7M
+  bh=QyCWV3QjNzfUnZv2+pg0lwlA/f/GlJHPMfP1AGZDu20=;
+  b=NAP/3ZpgiymDKurHMiF/WSXzMtsa9kO5mPe+e6s9n1hPYXfRg5+ZiX/U
+   Q6CKllPkUeQk07RawdP1CGQ7fFjpt6KI8FdRXgdU/VkuGtWNZQKnrCbIn
+   0P+u0GGssmacCCJqhKZCCynt8JrdxjB6xkbNWTWw7gbqIzJTF4YiCkN88
+   y+XaH5E5g+D1fmgjvmsjdlrijUecErSwgq93bgwsSJs/BH1LKPX6IjSIY
+   z8WfMsXruQ+6JlNErgTTJddkx1GgDkxD90rKlmNE3BoqGLTlIZlxHa7Zj
+   Qcv1kRDhinT56pWNL0WBPN4lcg/goVS160rl/BzVMIfZw20atQ5eBvEYj
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="350423698"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="457230503"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="350423698"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 07:15:00 -0700
+   d="scan'208";a="457230503"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 07:46:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="760901613"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="855118140"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="760901613"
+   d="scan'208";a="855118140"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 08 Aug 2023 07:14:59 -0700
+  by orsmga004.jf.intel.com with ESMTP; 08 Aug 2023 07:46:00 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTNUA-0005Nk-1m;
-	Tue, 08 Aug 2023 14:14:58 +0000
-Date: Tue, 8 Aug 2023 22:14:02 +0800
+	id 1qTNyB-0005P6-0p;
+	Tue, 08 Aug 2023 14:45:59 +0000
+Date: Tue, 8 Aug 2023 22:45:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/020-dart 13/13] drivers/iommu/apple-dart.c:779:16:
- warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka
- 'unsigned int') changes value from 18446744073709551615 to 4294967295
-Message-ID: <202308082218.yGjSIIUU-lkp@intel.com>
+To: Guo Ren <guoren@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>
+Subject: arch/riscv/include/asm/syscall.h:87 syscall_handler() warn:
+ inconsistent indenting
+Message-ID: <202308082206.4tGQS0Nb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,139 +48,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/020-dart
-head:   cb0b356d0c09b50ed669ae17f2b238289ff6c03d
-commit: cb0b356d0c09b50ed669ae17f2b238289ff6c03d [13/13] iommu: apple-dart: Support specifying the DMA aperture in the DT
-config: i386-buildonly-randconfig-r006-20230808 (https://download.01.org/0day-ci/archive/20230808/202308082218.yGjSIIUU-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230808/202308082218.yGjSIIUU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   14f9643dc90adea074a0ffb7a17d337eafc6a5cc
+commit: f0bddf50586da81360627a772be0e355b62f071e riscv: entry: Convert to generic entry
+date:   5 months ago
+config: riscv-randconfig-m031-20230808 (https://download.01.org/0day-ci/archive/20230808/202308082206.4tGQS0Nb-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230808/202308082206.4tGQS0Nb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308082218.yGjSIIUU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308082206.4tGQS0Nb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+arch/riscv/include/asm/syscall.h:87 syscall_handler() warn: inconsistent indenting
 
->> drivers/iommu/apple-dart.c:779:16: warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-                                           dma_max = DMA_BIT_MASK(pgtbl_cfg.ias);
-                                                   ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:76:40: note: expanded from macro 'DMA_BIT_MASK'
-   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                          ^~~~~
-   drivers/iommu/apple-dart.c:1347:18: warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-           dart->dma_max = DMA_BIT_MASK(dart->ias);
-                         ~ ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:76:40: note: expanded from macro 'DMA_BIT_MASK'
-   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                          ^~~~~
-   2 warnings generated.
+Old smatch warnings:
+arch/riscv/kernel/traps.c:327 is_valid_bugaddr() warn: unsigned 'pc' is never less than zero.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OF_IOMMU
-   Depends on [n]: IOMMU_SUPPORT [=y] && OF [=n] && IOMMU_API [=y]
-   Selected by [y]:
-   - APPLE_DART [=y] && IOMMU_SUPPORT [=y] && (ARCH_APPLE || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n]
+vim +87 arch/riscv/include/asm/syscall.h
 
-
-vim +779 drivers/iommu/apple-dart.c
-
-   721	
-   722	static int apple_dart_finalize_domain(struct iommu_domain *domain,
-   723					      struct device *dev,
-   724					      struct apple_dart_master_cfg *cfg)
-   725	{
-   726		struct apple_dart_domain *dart_domain = to_dart_domain(domain);
-   727		struct apple_dart *dart = cfg->stream_maps[0].dart;
-   728		struct io_pgtable_cfg pgtbl_cfg;
-   729		dma_addr_t dma_max = dart->dma_max;
-   730		u32 ias = min_t(u32, dart->ias, fls64(dma_max));
-   731		int ret = 0;
-   732		int i, j;
-   733	
-   734		mutex_lock(&dart_domain->init_lock);
-   735	
-   736		if (dart_domain->finalized)
-   737			goto done;
-   738	
-   739		for (i = 0; i < MAX_DARTS_PER_DEVICE; ++i) {
-   740			dart_domain->stream_maps[i].dart = cfg->stream_maps[i].dart;
-   741			for (j = 0; j < BITS_TO_LONGS(dart->num_streams); j++)
-   742				atomic_long_set(&dart_domain->stream_maps[i].sidmap[j],
-   743						cfg->stream_maps[i].sidmap[j]);
-   744		}
-   745	
-   746		pgtbl_cfg = (struct io_pgtable_cfg){
-   747			.pgsize_bitmap = dart->pgsize,
-   748			.ias = ias,
-   749			.oas = dart->oas,
-   750			.coherent_walk = 1,
-   751			.iommu_dev = dart->dev,
-   752		};
-   753	
-   754		if (dart->locked) {
-   755			unsigned long *sidmap;
-   756			int sid;
-   757			u32 ttbr;
-   758	
-   759			/* Locked DARTs can only have a single stream bound */
-   760			sidmap = cfg->stream_maps[0].sidmap;
-   761			sid = find_first_bit(sidmap, dart->num_streams);
-   762	
-   763			WARN_ON((sid < 0) || bitmap_weight(sidmap, dart->num_streams) > 1);
-   764			ttbr = readl(dart->regs + DART_TTBR(dart, sid, 0));
-   765	
-   766			WARN_ON(!(ttbr & dart->hw->ttbr_valid));
-   767	
-   768			/* If the DART is locked, we need to keep the translation level count. */
-   769			if (dart->hw->tcr_4level && dart->ias > 36) {
-   770				if (readl(dart->regs + DART_TCR(dart, sid)) & dart->hw->tcr_4level) {
-   771					if (ias < 37) {
-   772						dev_info(dart->dev, "Expanded to ias=37 due to lock\n");
-   773						pgtbl_cfg.ias = 37;
-   774					}
-   775				} else if (ias > 36) {
-   776					dev_info(dart->dev, "Limited to ias=36 due to lock\n");
-   777					pgtbl_cfg.ias = 36;
-   778					if (dart->dma_min == 0 && dma_max == DMA_BIT_MASK(dart->ias)) {
- > 779						dma_max = DMA_BIT_MASK(pgtbl_cfg.ias);
-   780					} else if ((dart->dma_min ^ dma_max) & ~DMA_BIT_MASK(36)) {
-   781						dev_err(dart->dev,
-   782							"Invalid DMA range for locked 3-level PT\n");
-   783						ret = -ENOMEM;
-   784						goto done;
-   785					}
-   786				}
-   787			}
-   788		}
-   789	
-   790		dart_domain->pgtbl_ops =
-   791			alloc_io_pgtable_ops(dart->hw->fmt, &pgtbl_cfg, domain);
-   792		if (!dart_domain->pgtbl_ops) {
-   793			ret = -ENOMEM;
-   794			goto done;
-   795		}
-   796	
-   797		if (pgtbl_cfg.pgsize_bitmap == SZ_4K)
-   798			dart_domain->mask = DMA_BIT_MASK(min_t(u32, dart->ias, 32));
-   799		else if (pgtbl_cfg.apple_dart_cfg.n_levels == 3)
-   800			dart_domain->mask = DMA_BIT_MASK(min_t(u32, dart->ias, 36));
-   801		else if (pgtbl_cfg.apple_dart_cfg.n_levels == 4)
-   802			dart_domain->mask = DMA_BIT_MASK(min_t(u32, dart->ias, 47));
-   803	
-   804		domain->pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
-   805		domain->geometry.aperture_start = dart->dma_min;
-   806		domain->geometry.aperture_end = dma_max;
-   807		domain->geometry.force_aperture = true;
-   808	
-   809		dart_domain->finalized = true;
-   810	
-   811		ret = apple_dart_setup_resv_locked(domain, dev, dart->pgsize);
-   812	done:
-   813		mutex_unlock(&dart_domain->init_lock);
-   814		return ret;
-   815	}
-   816	
+    76	
+    77	typedef long (*syscall_t)(ulong, ulong, ulong, ulong, ulong, ulong, ulong);
+    78	static inline void syscall_handler(struct pt_regs *regs, ulong syscall)
+    79	{
+    80		syscall_t fn;
+    81	
+    82	#ifdef CONFIG_COMPAT
+    83		if ((regs->status & SR_UXL) == SR_UXL_32)
+    84			fn = compat_sys_call_table[syscall];
+    85		else
+    86	#endif
+  > 87			fn = sys_call_table[syscall];
+    88	
+    89		regs->a0 = fn(regs->orig_a0, regs->a1, regs->a2,
+    90			      regs->a3, regs->a4, regs->a5, regs->a6);
+    91	}
+    92	
 
 -- 
 0-DAY CI Kernel Test Service
