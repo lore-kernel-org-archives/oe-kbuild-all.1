@@ -1,45 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D2F1384
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Aug 2023 03:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C711384
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Aug 2023 03:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691466342; x=1723002342;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Oh0/1MbOyZr5XYP6jDQCd6NwZmQ4wqIkRfFcJQiFawE=;
-  b=GKzf20qJclHtWq42gqS/wtNFC17erxCPhoqCqmJMagMLZ1jPKwAbEHkg
-   4PAEFCWpDOTdVPJEcuQUmh9ql7kERZmCucYTr4hpyecSyhTpkz2NEyClJ
-   AmiPfFBVSapGC9QJIn5jQhibVC8LjilUo6IHjQs5TBEndcTSUBptKHs3M
-   3Eo5E7Iyu07HQYWTDaqu8eWwQVt58wEev/iVggyBrPxzpzeyjALgzW706
-   pwn0EPNS/bL/ai6+Faezrq9miFapzDFLIooVy+jAn1o5fu0ILa27Js2CH
-   oG5607pzEYCC8KdRDngh3FvXUQ8LPswAXZiHgPNHuM+skxr/8mUR+/KDA
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="368163492"
+  t=1691466401; x=1723002401;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=xUg3B+RWPjrWronFZ/fXc/6cAVzvj11mVXl/ua3tLGE=;
+  b=mY2YIoubXYNfOvRaGQDehjMSiIw4E3oSTP9EOOUt3cictX/7sLTRuOnM
+   0kUPEdYLnZINZGhupTVykvJwI87djSckV5mHCuTygVfFEObAzRU7+TD5W
+   HarKq1dtTswi5As6der/RwSx0GCTzIKVLLtAlr+2jzA6q0m/P3HvJ/4K/
+   9gV+qsTp+vvcHiYZsmnR8jr5ihg0DyM99UUa1vYOScQm3C291F4VxUgKP
+   e6QOINhYLCi7Q1EX9dvlugMjma9TC5c24arjUW8lJt20ooAWI7ak3w0h1
+   lATAHAW+MZDcD7wI9tz5iFxqfJRQj14V3bdH1P9qt2/j3VAXMc6DKHrHU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="369606053"
 X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
-   d="scan'208";a="368163492"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 20:45:41 -0700
+   d="scan'208";a="369606053"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2023 20:46:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="821199170"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="977706604"
 X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
-   d="scan'208";a="821199170"
+   d="scan'208";a="977706604"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Aug 2023 20:45:39 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 07 Aug 2023 20:46:39 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTDf8-00054K-2U;
-	Tue, 08 Aug 2023 03:45:38 +0000
-Date: Tue, 8 Aug 2023 11:45:37 +0800
+	id 1qTDg7-00054O-0M;
+	Tue, 08 Aug 2023 03:46:39 +0000
+Date: Tue, 8 Aug 2023 11:45:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Sourabh Jain <sourabhjain@linux.ibm.com>
-Subject: [akpm-mm:mm-nonmm-unstable 56/63] kernel/crash_core.c:331:23: error:
- invalid use of undefined type 'struct crash_mem'
-Message-ID: <202308081133.DyoThWwi-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_s 3693/30000] security/security.c:455:5:
+ sparse: sparse: symbol 'lsm_key_alloc' was not declared. Should it be
+ static?
+Message-ID: <202308081134.GP0OPC6y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,338 +46,258 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   6a41fd4665e650c659412a54f90cf364c592039a
-commit: 626775922a575bc420a5f1b5caf30f9898fe9cf6 [56/63] crash: move a few code bits to setup support of crash hotplug
-config: arc-randconfig-r026-20230807 (https://download.01.org/0day-ci/archive/20230808/202308081133.DyoThWwi-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230808/202308081133.DyoThWwi-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   7f46da99d47faba52b98b09371755ba4821a116d
+commit: 1d4be734af45c0b49e13f8377be93c2f5cb01a6b [3693/30000] LSM: Infrastructure management of the key security blob
+config: sparc64-randconfig-r083-20230807 (https://download.01.org/0day-ci/archive/20230808/202308081134.GP0OPC6y-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230808/202308081134.GP0OPC6y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308081133.DyoThWwi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308081134.GP0OPC6y-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   security/security.c:332:5: sparse: sparse: symbol 'lsm_file_alloc' was not declared. Should it be static?
+   security/security.c:353:5: sparse: sparse: symbol 'lsm_task_alloc' was not declared. Should it be static?
+   security/security.c:433:5: sparse: sparse: symbol 'lsm_ipc_alloc' was not declared. Should it be static?
+>> security/security.c:455:5: sparse: sparse: symbol 'lsm_key_alloc' was not declared. Should it be static?
+   security/security.c:477:5: sparse: sparse: symbol 'lsm_msg_msg_alloc' was not declared. Should it be static?
+   security/security.c:499:5: sparse: sparse: symbol 'lsm_sock_alloc' was not declared. Should it be static?
+   security/security.c:520:5: sparse: sparse: symbol 'lsm_superblock_alloc' was not declared. Should it be static?
+   In file included from include/linux/kernel.h:10,
+                    from include/linux/list.h:9,
+                    from include/linux/timer.h:5,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:12,
+                    from security/security.c:15:
+   include/linux/atomic.h: In function 'atomic_fetch_add_unless':
+   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
+      25 |                         static struct ftrace_likely_data                17-      |                                       ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
+      69 |                 ______r = !!(cond);                                     20-      |                              ^~~~
+   include/linux/atomic.h:578:17: note: in expansion of macro 'if'
+     578 |                 if (unlikely(c == u))
+         |                 ^~
+   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
+      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/linux/atomic.h:578:21: note: in expansion of macro 'unlikely'
+     578 |                 if (unlikely(c == u))
+         |                     ^~~~~~~~
+   include/linux/compiler.h:64:25: note: previous declaration here
+      64 |                         ______f = {                                     32-      |                         ^~~~~~~
+   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
+      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
+         |                       ^~~~~~~~~~
+   include/linux/atomic.h:578:17: note: in expansion of macro 'if'
+     578 |                 if (unlikely(c == u))
+         |                 ^~
+   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
+      25 |                         static struct ftrace_likely_data                41-      |                                       ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
+      69 |                 ______r = !!(cond);                                     44-      |                              ^~~~
+   include/linux/atomic.h:478:9: note: in expansion of macro 'if'
+     478 |         if (unlikely(__r != __o))                                       47-      |         ^~
+   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
+      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/linux/atomic.h:478:13: note: in expansion of macro 'unlikely'
+     478 |         if (unlikely(__r != __o))                                       53-      |             ^~~~~~~~
+   include/linux/atomic.h:483:49: note: in expansion of macro '__atomic_try_cmpxchg'
+     483 | #define atomic_try_cmpxchg(_p, _po, _n)         __atomic_try_cmpxchg(, _p, _po, _n)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic.h:580:19: note: in expansion of macro 'atomic_try_cmpxchg'
+     580 |         } while (!atomic_try_cmpxchg(v, &c, c + a));
+         |                   ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:64:25: note: previous declaration here
+      64 |                         ______f = {                                     62-      |                         ^~~~~~~
+   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
+      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
+         |                       ^~~~~~~~~~
+   include/linux/atomic.h:478:9: note: in expansion of macro 'if'
+     478 |         if (unlikely(__r != __o))                                       68-      |         ^~
+   include/linux/atomic.h:483:49: note: in expansion of macro '__atomic_try_cmpxchg'
+     483 | #define atomic_try_cmpxchg(_p, _po, _n)         __atomic_try_cmpxchg(, _p, _po, _n)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic.h:580:19: note: in expansion of macro 'atomic_try_cmpxchg'
+     580 |         } while (!atomic_try_cmpxchg(v, &c, c + a));
+         |                   ^~~~~~~~~~~~~~~~~~
+   include/linux/atomic.h: In function 'atomic_inc_unless_negative':
+   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
+      25 |                         static struct ftrace_likely_data                78-      |                                       ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
+      69 |                 ______r = !!(cond);                                     81-      |                              ^~~~
+   include/linux/atomic.h:679:17: note: in expansion of macro 'if'
+     679 |                 if (unlikely(c < 0))
+         |                 ^~
+   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
+      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/linux/atomic.h:679:21: note: in expansion of macro 'unlikely'
+     679 |                 if (unlikely(c < 0))
+         |                     ^~~~~~~~
+   include/linux/compiler.h:64:25: note: previous declaration here
+      64 |                         ______f = {                                     93-      |                         ^~~~~~~
+   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
+      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
+         |                       ^~~~~~~~~~
+   include/linux/atomic.h:679:17: note: in expansion of macro 'if'
+     679 |                 if (unlikely(c < 0))
+         |                 ^~
+   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
+      25 |                         static struct ftrace_likely_data                102-      |                                       ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
 
->> kernel/crash_core.c:318:40: warning: 'struct crash_mem' declared inside parameter list will not be visible outside of this definition or declaration
-     318 | int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
-         |                                        ^~~~~~~~~
->> kernel/crash_core.c:318:5: warning: no previous prototype for 'crash_prepare_elf64_headers' [-Wmissing-prototypes]
-     318 | int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/crash_core.c: In function 'crash_prepare_elf64_headers':
->> kernel/crash_core.c:331:23: error: invalid use of undefined type 'struct crash_mem'
-     331 |         nr_phdr += mem->nr_ranges;
-         |                       ^~
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/align.h:5,
-                    from include/linux/kernel.h:15,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from kernel/crash_core.c:7:
->> kernel/crash_core.c:343:32: error: 'ELF_CORE_HEADER_ALIGN' undeclared (first use in this function)
-     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
-      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
-         |                                                  ^~~~
-   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
-       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
-         |                                 ^~~~~~~~~~~~~~
-   kernel/crash_core.c:343:18: note: in expansion of macro 'ALIGN'
-     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
-         |                  ^~~~~
-   kernel/crash_core.c:343:32: note: each undeclared identifier is reported only once for each function it appears in
-     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
-      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
-         |                                                  ^~~~
-   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
-       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
-         |                                 ^~~~~~~~~~~~~~
-   kernel/crash_core.c:343:18: note: in expansion of macro 'ALIGN'
-     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
-         |                  ^~~~~
-   kernel/crash_core.c:393:28: error: invalid use of undefined type 'struct crash_mem'
-     393 |         for (i = 0; i < mem->nr_ranges; i++) {
-         |                            ^~
-   kernel/crash_core.c:394:29: error: invalid use of undefined type 'struct crash_mem'
-     394 |                 mstart = mem->ranges[i].start;
-         |                             ^~
-   kernel/crash_core.c:395:27: error: invalid use of undefined type 'struct crash_mem'
-     395 |                 mend = mem->ranges[i].end;
-         |                           ^~
-   kernel/crash_core.c: At top level:
-   kernel/crash_core.c:417:36: warning: 'struct crash_mem' declared inside parameter list will not be visible outside of this definition or declaration
-     417 | int crash_exclude_mem_range(struct crash_mem *mem,
-         |                                    ^~~~~~~~~
->> kernel/crash_core.c:417:5: warning: no previous prototype for 'crash_exclude_mem_range' [-Wmissing-prototypes]
-     417 | int crash_exclude_mem_range(struct crash_mem *mem,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/crash_core.c: In function 'crash_exclude_mem_range':
-   kernel/crash_core.c:424:28: error: invalid use of undefined type 'struct crash_mem'
-     424 |         for (i = 0; i < mem->nr_ranges; i++) {
-         |                            ^~
-   kernel/crash_core.c:425:28: error: invalid use of undefined type 'struct crash_mem'
-     425 |                 start = mem->ranges[i].start;
-         |                            ^~
-   kernel/crash_core.c:426:26: error: invalid use of undefined type 'struct crash_mem'
-     426 |                 end = mem->ranges[i].end;
-         |                          ^~
-   kernel/crash_core.c:441:28: error: invalid use of undefined type 'struct crash_mem'
-     441 |                         mem->ranges[i].start = 0;
-         |                            ^~
-   kernel/crash_core.c:442:28: error: invalid use of undefined type 'struct crash_mem'
-     442 |                         mem->ranges[i].end = 0;
-         |                            ^~
-   kernel/crash_core.c:443:36: error: invalid use of undefined type 'struct crash_mem'
-     443 |                         if (i < mem->nr_ranges - 1) {
-         |                                    ^~
-   kernel/crash_core.c:445:52: error: invalid use of undefined type 'struct crash_mem'
-     445 |                                 for (j = i; j < mem->nr_ranges - 1; j++) {
-         |                                                    ^~
-   kernel/crash_core.c:446:44: error: invalid use of undefined type 'struct crash_mem'
-     446 |                                         mem->ranges[j].start =
-         |                                            ^~
-   kernel/crash_core.c:447:52: error: invalid use of undefined type 'struct crash_mem'
-     447 |                                                 mem->ranges[j+1].start;
-         |                                                    ^~
-   kernel/crash_core.c:448:44: error: invalid use of undefined type 'struct crash_mem'
-     448 |                                         mem->ranges[j].end =
-         |                                            ^~
-   kernel/crash_core.c:449:60: error: invalid use of undefined type 'struct crash_mem'
-     449 |                                                         mem->ranges[j+1].end;
-         |                                                            ^~
-   kernel/crash_core.c:458:36: error: invalid use of undefined type 'struct crash_mem'
-     458 |                                 mem->nr_ranges--;
-         |                                    ^~
-   kernel/crash_core.c:461:28: error: invalid use of undefined type 'struct crash_mem'
-     461 |                         mem->nr_ranges--;
-         |                            ^~
-   kernel/crash_core.c:467:28: error: invalid use of undefined type 'struct crash_mem'
-     467 |                         mem->ranges[i].end = p_start - 1;
-         |                            ^~
-   kernel/crash_core.c:471:28: error: invalid use of undefined type 'struct crash_mem'
-     471 |                         mem->ranges[i].end = p_start - 1;
-         |                            ^~
-   kernel/crash_core.c:473:28: error: invalid use of undefined type 'struct crash_mem'
-     473 |                         mem->ranges[i].start = p_end + 1;
-         |                            ^~
-   kernel/crash_core.c:482:21: error: invalid use of undefined type 'struct crash_mem'
-     482 |         if (i == mem->max_nr_ranges - 1)
-         |                     ^~
-   kernel/crash_core.c:487:20: error: invalid use of undefined type 'struct crash_mem'
-     487 |         if (j < mem->nr_ranges) {
-         |                    ^~
-   kernel/crash_core.c:489:29: error: invalid use of undefined type 'struct crash_mem'
-     489 |                 for (i = mem->nr_ranges - 1; i >= j; i--)
-         |                             ^~
-   kernel/crash_core.c:490:28: error: invalid use of undefined type 'struct crash_mem'
-     490 |                         mem->ranges[i + 1] = mem->ranges[i];
-         |                            ^~
-   kernel/crash_core.c:490:49: error: invalid use of undefined type 'struct crash_mem'
-     490 |                         mem->ranges[i + 1] = mem->ranges[i];
-         |                                                 ^~
-   kernel/crash_core.c:493:12: error: invalid use of undefined type 'struct crash_mem'
-     493 |         mem->ranges[j].start = temp_range.start;
-         |            ^~
-   kernel/crash_core.c:494:12: error: invalid use of undefined type 'struct crash_mem'
-     494 |         mem->ranges[j].end = temp_range.end;
-         |            ^~
-   kernel/crash_core.c:495:12: error: invalid use of undefined type 'struct crash_mem'
-     495 |         mem->nr_ranges++;
-         |            ^~
+vim +/lsm_key_alloc +455 security/security.c
 
-
-vim +331 kernel/crash_core.c
-
-   317	
- > 318	int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
-   319				  void **addr, unsigned long *sz)
-   320	{
-   321		Elf64_Ehdr *ehdr;
-   322		Elf64_Phdr *phdr;
-   323		unsigned long nr_cpus = num_possible_cpus(), nr_phdr, elf_sz;
-   324		unsigned char *buf;
-   325		unsigned int cpu, i;
-   326		unsigned long long notes_addr;
-   327		unsigned long mstart, mend;
-   328	
-   329		/* extra phdr for vmcoreinfo ELF note */
-   330		nr_phdr = nr_cpus + 1;
- > 331		nr_phdr += mem->nr_ranges;
-   332	
-   333		/*
-   334		 * kexec-tools creates an extra PT_LOAD phdr for kernel text mapping
-   335		 * area (for example, ffffffff80000000 - ffffffffa0000000 on x86_64).
-   336		 * I think this is required by tools like gdb. So same physical
-   337		 * memory will be mapped in two ELF headers. One will contain kernel
-   338		 * text virtual addresses and other will have __va(physical) addresses.
-   339		 */
-   340	
-   341		nr_phdr++;
-   342		elf_sz = sizeof(Elf64_Ehdr) + nr_phdr * sizeof(Elf64_Phdr);
- > 343		elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+   323	
+   324	/**
+   325	 * lsm_file_alloc - allocate a composite file blob
+   326	 * @file: the file that needs a blob
+   327	 *
+   328	 * Allocate the file blob for all the modules
+   329	 *
+   330	 * Returns 0, or -ENOMEM if memory can't be allocated.
+   331	 */
+ > 332	int lsm_file_alloc(struct file *file)
+   333	{
+   334		if (!lsm_file_cache) {
+   335			file->f_security = NULL;
+   336			return 0;
+   337		}
+   338	
+   339		file->f_security = kmem_cache_zalloc(lsm_file_cache, GFP_KERNEL);
+   340		if (file->f_security == NULL)
+   341			return -ENOMEM;
+   342		return 0;
+   343	}
    344	
-   345		buf = vzalloc(elf_sz);
-   346		if (!buf)
-   347			return -ENOMEM;
-   348	
-   349		ehdr = (Elf64_Ehdr *)buf;
-   350		phdr = (Elf64_Phdr *)(ehdr + 1);
-   351		memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
-   352		ehdr->e_ident[EI_CLASS] = ELFCLASS64;
-   353		ehdr->e_ident[EI_DATA] = ELFDATA2LSB;
-   354		ehdr->e_ident[EI_VERSION] = EV_CURRENT;
-   355		ehdr->e_ident[EI_OSABI] = ELF_OSABI;
-   356		memset(ehdr->e_ident + EI_PAD, 0, EI_NIDENT - EI_PAD);
-   357		ehdr->e_type = ET_CORE;
-   358		ehdr->e_machine = ELF_ARCH;
-   359		ehdr->e_version = EV_CURRENT;
-   360		ehdr->e_phoff = sizeof(Elf64_Ehdr);
-   361		ehdr->e_ehsize = sizeof(Elf64_Ehdr);
-   362		ehdr->e_phentsize = sizeof(Elf64_Phdr);
-   363	
-   364		/* Prepare one phdr of type PT_NOTE for each present CPU */
-   365		for_each_present_cpu(cpu) {
-   366			phdr->p_type = PT_NOTE;
-   367			notes_addr = per_cpu_ptr_to_phys(per_cpu_ptr(crash_notes, cpu));
-   368			phdr->p_offset = phdr->p_paddr = notes_addr;
-   369			phdr->p_filesz = phdr->p_memsz = sizeof(note_buf_t);
-   370			(ehdr->e_phnum)++;
-   371			phdr++;
-   372		}
-   373	
-   374		/* Prepare one PT_NOTE header for vmcoreinfo */
-   375		phdr->p_type = PT_NOTE;
-   376		phdr->p_offset = phdr->p_paddr = paddr_vmcoreinfo_note();
-   377		phdr->p_filesz = phdr->p_memsz = VMCOREINFO_NOTE_SIZE;
-   378		(ehdr->e_phnum)++;
-   379		phdr++;
-   380	
-   381		/* Prepare PT_LOAD type program header for kernel text region */
-   382		if (need_kernel_map) {
-   383			phdr->p_type = PT_LOAD;
-   384			phdr->p_flags = PF_R|PF_W|PF_X;
-   385			phdr->p_vaddr = (unsigned long) _text;
-   386			phdr->p_filesz = phdr->p_memsz = _end - _text;
-   387			phdr->p_offset = phdr->p_paddr = __pa_symbol(_text);
-   388			ehdr->e_phnum++;
-   389			phdr++;
-   390		}
-   391	
-   392		/* Go through all the ranges in mem->ranges[] and prepare phdr */
-   393		for (i = 0; i < mem->nr_ranges; i++) {
-   394			mstart = mem->ranges[i].start;
- > 395			mend = mem->ranges[i].end;
-   396	
-   397			phdr->p_type = PT_LOAD;
-   398			phdr->p_flags = PF_R|PF_W|PF_X;
-   399			phdr->p_offset  = mstart;
-   400	
-   401			phdr->p_paddr = mstart;
-   402			phdr->p_vaddr = (unsigned long) __va(mstart);
-   403			phdr->p_filesz = phdr->p_memsz = mend - mstart + 1;
-   404			phdr->p_align = 0;
-   405			ehdr->e_phnum++;
-   406			pr_debug("Crash PT_LOAD ELF header. phdr=%p vaddr=0x%llx, paddr=0x%llx, sz=0x%llx e_phnum=%d p_offset=0x%llx\n",
-   407				phdr, phdr->p_vaddr, phdr->p_paddr, phdr->p_filesz,
-   408				ehdr->e_phnum, phdr->p_offset);
-   409			phdr++;
-   410		}
-   411	
-   412		*addr = buf;
-   413		*sz = elf_sz;
-   414		return 0;
-   415	}
-   416	
- > 417	int crash_exclude_mem_range(struct crash_mem *mem,
-   418				    unsigned long long mstart, unsigned long long mend)
-   419	{
-   420		int i, j;
-   421		unsigned long long start, end, p_start, p_end;
-   422		struct range temp_range = {0, 0};
-   423	
-   424		for (i = 0; i < mem->nr_ranges; i++) {
-   425			start = mem->ranges[i].start;
-   426			end = mem->ranges[i].end;
-   427			p_start = mstart;
-   428			p_end = mend;
-   429	
-   430			if (mstart > end || mend < start)
-   431				continue;
-   432	
-   433			/* Truncate any area outside of range */
-   434			if (mstart < start)
-   435				p_start = start;
-   436			if (mend > end)
-   437				p_end = end;
-   438	
-   439			/* Found completely overlapping range */
-   440			if (p_start == start && p_end == end) {
-   441				mem->ranges[i].start = 0;
-   442				mem->ranges[i].end = 0;
-   443				if (i < mem->nr_ranges - 1) {
-   444					/* Shift rest of the ranges to left */
-   445					for (j = i; j < mem->nr_ranges - 1; j++) {
-   446						mem->ranges[j].start =
-   447							mem->ranges[j+1].start;
-   448						mem->ranges[j].end =
-   449								mem->ranges[j+1].end;
-   450					}
-   451	
-   452					/*
-   453					 * Continue to check if there are another overlapping ranges
-   454					 * from the current position because of shifting the above
-   455					 * mem ranges.
-   456					 */
-   457					i--;
-   458					mem->nr_ranges--;
-   459					continue;
-   460				}
-   461				mem->nr_ranges--;
-   462				return 0;
-   463			}
-   464	
-   465			if (p_start > start && p_end < end) {
-   466				/* Split original range */
-   467				mem->ranges[i].end = p_start - 1;
-   468				temp_range.start = p_end + 1;
-   469				temp_range.end = end;
-   470			} else if (p_start != start)
-   471				mem->ranges[i].end = p_start - 1;
-   472			else
-   473				mem->ranges[i].start = p_end + 1;
-   474			break;
-   475		}
-   476	
-   477		/* If a split happened, add the split to array */
-   478		if (!temp_range.end)
-   479			return 0;
-   480	
-   481		/* Split happened */
-   482		if (i == mem->max_nr_ranges - 1)
-   483			return -ENOMEM;
-   484	
-   485		/* Location where new range should go */
-   486		j = i + 1;
-   487		if (j < mem->nr_ranges) {
-   488			/* Move over all ranges one slot towards the end */
-   489			for (i = mem->nr_ranges - 1; i >= j; i--)
-   490				mem->ranges[i + 1] = mem->ranges[i];
-   491		}
-   492	
-   493		mem->ranges[j].start = temp_range.start;
-   494		mem->ranges[j].end = temp_range.end;
-   495		mem->nr_ranges++;
-   496		return 0;
-   497	}
-   498	
+   345	/**
+   346	 * lsm_task_alloc - allocate a composite task blob
+   347	 * @task: the task that needs a blob
+   348	 *
+   349	 * Allocate the task blob for all the modules
+   350	 *
+   351	 * Returns 0, or -ENOMEM if memory can't be allocated.
+   352	 */
+   353	int lsm_task_alloc(struct task_struct *task)
+   354	{
+   355		if (blob_sizes.lbs_task == 0) {
+   356			task->security = NULL;
+   357			return 0;
+   358		}
+   359	
+   360		task->security = kzalloc(blob_sizes.lbs_task, GFP_KERNEL);
+   361		if (task->security == NULL)
+   362			return -ENOMEM;
+   363		return 0;
+   364	}
+   365	
+   366	/**
+   367	 * lsm_early_task - during initialization allocate a composite task blob
+   368	 * @task: the task that needs a blob
+   369	 *
+   370	 * Allocate the task blob for all the modules if it's not already there
+   371	 */
+   372	void lsm_early_task(struct task_struct *task)
+   373	{
+   374		int rc;
+   375	
+   376		if (task == NULL)
+   377			panic("%s: task cred.\n", __func__);
+   378		if (task->security != NULL)
+   379			return;
+   380		rc = lsm_task_alloc(task);
+   381		if (rc)
+   382			panic("%s: Early task alloc failed.\n", __func__);
+   383	}
+   384	
+   385	/**
+   386	 * lsm_inode_alloc - allocate a composite inode blob
+   387	 * @inode: the inode that needs a blob
+   388	 *
+   389	 * Allocate the inode blob for all the modules
+   390	 *
+   391	 * Returns 0, or -ENOMEM if memory can't be allocated.
+   392	 */
+   393	int lsm_inode_alloc(struct inode *inode)
+   394	{
+   395		if (!lsm_inode_cache) {
+   396			inode->i_security = NULL;
+   397			return 0;
+   398		}
+   399	
+   400		inode->i_security = kmem_cache_zalloc(lsm_inode_cache, GFP_NOFS);
+   401		if (inode->i_security == NULL)
+   402			return -ENOMEM;
+   403		return 0;
+   404	}
+   405	
+   406	/**
+   407	 * lsm_early_inode - during initialization allocate a composite inode blob
+   408	 * @inode: the inode that needs a blob
+   409	 *
+   410	 * Allocate the inode blob for all the modules if it's not already there
+   411	 */
+   412	void lsm_early_inode(struct inode *inode)
+   413	{
+   414		int rc;
+   415	
+   416		if (inode == NULL)
+   417			panic("%s: NULL inode.\n", __func__);
+   418		if (inode->i_security != NULL)
+   419			return;
+   420		rc = lsm_inode_alloc(inode);
+   421		if (rc)
+   422			panic("%s: Early inode alloc failed.\n", __func__);
+   423	}
+   424	
+   425	/**
+   426	 * lsm_ipc_alloc - allocate a composite ipc blob
+   427	 * @kip: the ipc that needs a blob
+   428	 *
+   429	 * Allocate the ipc blob for all the modules
+   430	 *
+   431	 * Returns 0, or -ENOMEM if memory can't be allocated.
+   432	 */
+   433	int lsm_ipc_alloc(struct kern_ipc_perm *kip)
+   434	{
+   435		if (blob_sizes.lbs_ipc == 0) {
+   436			kip->security = NULL;
+   437			return 0;
+   438		}
+   439	
+   440		kip->security = kzalloc(blob_sizes.lbs_ipc, GFP_KERNEL);
+   441		if (kip->security == NULL)
+   442			return -ENOMEM;
+   443		return 0;
+   444	}
+   445	
+   446	#ifdef CONFIG_KEYS
+   447	/**
+   448	 * lsm_key_alloc - allocate a composite key blob
+   449	 * @key: the key that needs a blob
+   450	 *
+   451	 * Allocate the key blob for all the modules
+   452	 *
+   453	 * Returns 0, or -ENOMEM if memory can't be allocated.
+   454	 */
+ > 455	int lsm_key_alloc(struct key *key)
+   456	{
+   457		if (blob_sizes.lbs_key == 0) {
+   458			key->security = NULL;
+   459			return 0;
+   460		}
+   461	
+   462		key->security = kzalloc(blob_sizes.lbs_key, GFP_KERNEL);
+   463		if (key->security == NULL)
+   464			return -ENOMEM;
+   465		return 0;
+   466	}
+   467	#endif /* CONFIG_KEYS */
+   468	
 
 -- 
 0-DAY CI Kernel Test Service
