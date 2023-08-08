@@ -1,126 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B163C37;
-	Tue,  8 Aug 2023 16:17:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2EA0C433C8;
-	Tue,  8 Aug 2023 16:17:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691511429;
-	bh=LquyrdZz+GPUR7zZtISUW5zHU3sPwKSgexuwZUqAPOs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GDaJeCfdt4pDphXme6mXY5JL6DM9g3IabESbbEJFcH5sxoW0kMGICOcDHuI+cRmDw
-	 ZwhLgIFiGexSOJYpa71K9RHKTsXQsq9tA1kD4iS4j4Q9xm+CudmaSydeND0nIGuTU3
-	 Wb0XTdvskIQ4l3oJvQbneHrBQzu67nHImlrQ8RN/KLmVxTVaNC9gQ5DVBb+Q27iXuc
-	 66UaWgv11F/mGPolOPYXNCkj2gXMcXYWkH1KmjicCvY/qeLnx/s74gN4pQfpwhum8e
-	 Fr6Q4vnHKic/v8PVCpv6I/J+gpog/82LIUHD8Nj9ziYD+2Zn/39blRFYD+3ZvXsxIe
-	 9KBWgavEEESMg==
-Date: Tue, 8 Aug 2023 09:17:07 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	kernel test robot <lkp@intel.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH v2] Makefile.extrawarn: enable
- -Wmissing-variable-declarations for W=1
-Message-ID: <20230808161707.GA2171444@dev-arch.thelio-3990X>
-References: <20230807-missing_proto-v2-1-3ae2e188bb0c@google.com>
- <202308081508.EI3CRzQo-lkp@intel.com>
- <CAKwvOdnDEaZt-mD2PvMDmCY1WyaqtrH+oM3M5JgZaiOOWA_0YQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF4713AF9
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Aug 2023 16:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691511732; x=1723047732;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OsITRqgNwXCIK0KS2aTaIIStLnCUjAEdkNww0RNlY0s=;
+  b=QRGwkjwEC6f4sBjmO12JGX19jA2kbivICG21bp59qdaUuzIZUtwmFLHa
+   il3bm+/yrbfHT/LL68kJa59GpgW/A+A4oqxJsKDWTgVCkSEcVyoqJcdu4
+   zhSNOYRv0ov4ty2NkIfmpqsw8rOMsZ1eM2zKKpPY+/CU9B+hcAtkjwZpV
+   zf59eLu7oG/5gh3FKtBq+ytbwIOmd25lSVulmyqG4Vdv1Jx9SQYwF21dw
+   FJ6zRGWtkFgJGxOCJJWFb4gA1XsxQ4m1lrnDfPXduhS2MCGMN76sM5ZCK
+   v4nuivNVMLI/jeqEp0ghLZo9ZIaXQj2xHu5BGZNTGBpihGIfRMaRyTj1K
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="360965136"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="360965136"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 09:20:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="845524430"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="845524430"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2023 09:20:05 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qTPRE-0005Si-1V;
+	Tue, 08 Aug 2023 16:20:04 +0000
+Date: Wed, 9 Aug 2023 00:19:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+Cc: oe-kbuild-all@lists.linux.dev, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: [ammarfaizi2-block:testing/af/home 6/8]
+ fs/btrfs/async-thread.c:411:41: error: 'struct btrfs_fs_info' has no member
+ named 'hipri_workers'; did you mean 'fixup_workers'?
+Message-ID: <202308090043.lJ8zFk78-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKwvOdnDEaZt-mD2PvMDmCY1WyaqtrH+oM3M5JgZaiOOWA_0YQ@mail.gmail.com>
 
-On Tue, Aug 08, 2023 at 09:01:38AM -0700, Nick Desaulniers wrote:
-> On Tue, Aug 8, 2023 at 1:03 AM kernel test robot <lkp@intel.com> wrote:
-> >
-> > Hi Nick,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on 52a93d39b17dc7eb98b6aa3edb93943248e03b2f]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Desaulniers/Makefile-extrawarn-enable-Wmissing-variable-declarations-for-W-1/20230808-005859
-> > base:   52a93d39b17dc7eb98b6aa3edb93943248e03b2f
-> > patch link:    https://lore.kernel.org/r/20230807-missing_proto-v2-1-3ae2e188bb0c%40google.com
-> > patch subject: [PATCH v2] Makefile.extrawarn: enable -Wmissing-variable-declarations for W=1
-> > config: arm64-randconfig-r013-20230807 (https://download.01.org/0day-ci/archive/20230808/202308081508.EI3CRzQo-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > reproduce: (https://download.01.org/0day-ci/archive/20230808/202308081508.EI3CRzQo-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202308081508.EI3CRzQo-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    In file included from lib/test_bitops.c:9:
-> >    In file included from include/linux/module.h:13:
-> >    In file included from include/linux/stat.h:19:
-> >    In file included from include/linux/time.h:60:
-> >    In file included from include/linux/time32.h:13:
-> >    In file included from include/linux/timex.h:67:
-> >    In file included from arch/arm64/include/asm/timex.h:8:
-> >    In file included from arch/arm64/include/asm/arch_timer.h:18:
-> >    In file included from include/linux/smp.h:110:
-> >    In file included from include/linux/preempt.h:79:
-> >    In file included from arch/arm64/include/asm/preempt.h:6:
-> >    In file included from include/linux/thread_info.h:60:
-> >    In file included from arch/arm64/include/asm/thread_info.h:18:
-> > >> arch/arm64/include/asm/stack_pointer.h:8:24: error: no previous extern declaration for non-static variable 'current_stack_pointer' [-Werror,-Wmissing-variable-declarations]
-> >        8 | register unsigned long current_stack_pointer asm ("sp");
-> >          |                        ^
-> >    arch/arm64/include/asm/stack_pointer.h:8:10: note: declare 'static' if the variable is not intended to be used outside of this translation unit
-> >        8 | register unsigned long current_stack_pointer asm ("sp");
-> >          |          ^
-> 
-> I actually don't think that either compiler should warn for variables
-> with register storage.  I spoke briefly with some GCC folks on IRC and
-> the initial assesment was agreed.  I've filed
-> - https://github.com/llvm/llvm-project/issues/64509
-> - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110947
-> 
-> Also, I've received 3 emails from zero day; this is expected as the
-> tree is not W=1 clean (actually, I think Arnd has been a lot of
-> cleanup around these groups of warnings, so I take that back).  What's
-> more curious to me is that none are GCC builds. I wonder if 0day bot
-> team is only testing W=1 with clang and not GCC?  That would seem like
-> perhaps the bar is higher for LLVM?
+tree:   https://github.com/ammarfaizi2/linux-block testing/af/home
+head:   8b2a24828c670d20cda3d69f5741e11e89f575f7
+commit: 5f3624d1fef48864c37168c21cd1a1a1334649b8 [6/8] btrfs: Add wq_cpu_set=%s mount option
+config: microblaze-randconfig-r034-20230808 (https://download.01.org/0day-ci/archive/20230809/202308090043.lJ8zFk78-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308090043.lJ8zFk78-lkp@intel.com/reproduce)
 
-As far as I am aware, the 0day bot tests both compilers with W=1. I
-think the more likely explanation is that the robot is not testing with
-prerelease versions of GCC, which is currently 14.x, which is the only
-version of GCC that has this warning implemented.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308090043.lJ8zFk78-lkp@intel.com/
 
-> Masahiro, Nathan,
-> What are your thoughts on how to proceed here? Do we need the tree to
-> be free of warnings before it can be added to W=1? Hopefully not; I
+All errors (new ones prefixed by >>):
 
-No, otherwise we wouldn't be adding it to W=1 ;)
+   fs/btrfs/async-thread.c: In function 'btrfs_apply_workqueue_cpu_set':
+>> fs/btrfs/async-thread.c:411:41: error: 'struct btrfs_fs_info' has no member named 'hipri_workers'; did you mean 'fixup_workers'?
+     411 |         btrfs_apply_wq_cpu_set(fs_info, hipri_workers);
+         |                                         ^~~~~~~~~~~~~
+   fs/btrfs/async-thread.c:402:47: note: in definition of macro 'btrfs_apply_wq_cpu_set'
+     402 |         apply_wq_cpu_set_notice(INFO, (INFO)->WQ->normal_wq, # WQ)
+         |                                               ^~
 
-> would think that's the criteria for promoting a warning from being
-> hidden behind W=1 to being on by default in the top level Makefile.
-> What are your thoughts?
 
-I think the register storage issue should be resolved in at least clang
-before this patch is accepted, as that seems to be where the majority of
-warnings are coming from so far. Like we talked about, I'll take a shot
-at fixing that. Once that is fixed, I'll build mainline with
--Wmissing-variable-declarations to see how many instances there are and
-if there are any other interesting edge cases that should be fixed in
-the compiler. After that, I think this should be good to go in. Does
-that sound reasonable?
+vim +411 fs/btrfs/async-thread.c
 
-Cheers,
-Nathan
+   397	
+   398	#define apply_wq_cpu_set(INFO, WQ) \
+   399		apply_wq_cpu_set_notice(INFO, (INFO)->WQ, # WQ)
+   400	
+   401	#define btrfs_apply_wq_cpu_set(INFO, WQ) \
+   402		apply_wq_cpu_set_notice(INFO, (INFO)->WQ->normal_wq, # WQ)
+   403	
+   404	
+   405	void btrfs_apply_workqueue_cpu_set(struct btrfs_fs_info *fs_info)
+   406	{
+   407		if (!btrfs_test_opt(fs_info, WQ_CPU_SET))
+   408			return;
+   409	
+   410		btrfs_apply_wq_cpu_set(fs_info, workers);
+ > 411		btrfs_apply_wq_cpu_set(fs_info, hipri_workers);
+   412		btrfs_apply_wq_cpu_set(fs_info, delalloc_workers);
+   413		btrfs_apply_wq_cpu_set(fs_info, flush_workers);
+   414		btrfs_apply_wq_cpu_set(fs_info, caching_workers);
+   415		btrfs_apply_wq_cpu_set(fs_info, fixup_workers);
+   416		apply_wq_cpu_set(fs_info, endio_workers);
+   417		apply_wq_cpu_set(fs_info, endio_meta_workers);
+   418		apply_wq_cpu_set(fs_info, rmw_workers);
+   419		btrfs_apply_wq_cpu_set(fs_info, endio_write_workers);
+   420		apply_wq_cpu_set(fs_info, compressed_write_workers);
+   421		btrfs_apply_wq_cpu_set(fs_info, endio_freespace_worker);
+   422		btrfs_apply_wq_cpu_set(fs_info, delayed_workers);
+   423		btrfs_apply_wq_cpu_set(fs_info, qgroup_rescan_workers);
+   424		apply_wq_cpu_set(fs_info, discard_ctl.discard_workers);
+   425	}
+   426	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
