@@ -1,128 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3D81AA83;
-	Wed,  9 Aug 2023 17:48:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691603331; x=1723139331;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7FSDQVji1xABO9IEkRawkeJz7reVCHJK8vYRjGzlpN0=;
-  b=Yx+/uWn8OrOLu/nGSEr+k23MbrObxOAdoWspeJAjNDjAbollti6qEhT2
-   LHuEo6b80SEuCGleVZVpPD0xezuOdp83BYYpjiuIBO5LRY0fwucf8zemW
-   ByGVJGZcQ3prygsNLInrd+GqdC4lnQYGYk/tL+cmZwRzyZFk5ztdLjWfC
-   zYh5nkH2IrnVvI9knQnGcStrQ/qJp4fleJ0rXyTAtbEz9uKrEk8vl0k8n
-   MpS61QPCdQv7wHtjnNHgUbncF2+KEQPAajSS9Fr3WDM2AGkIgLBNzc935
-   alfUmUY98tByIuaahLspZ40uoYtKIycZx1GHnUj9+l1MiuD4yLwlwfYxy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="361321228"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="361321228"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 10:48:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="766923798"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="766923798"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 09 Aug 2023 10:48:41 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qTnIW-0006Ia-1H;
-	Wed, 09 Aug 2023 17:48:40 +0000
-Date: Thu, 10 Aug 2023 01:48:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hugh Dickins <hughd@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: [brauner-vfs:vfs.tmpfs 17/19] mm/shmem.c:1262:36: warning: variable
- 'freed' is used uninitialized whenever '?:' condition is false
-Message-ID: <202308100156.k9Am1eAy-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888391AA83
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 18:24:55 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 4C83A5C0069;
+	Wed,  9 Aug 2023 14:24:54 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Wed, 09 Aug 2023 14:24:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1691605494; x=1691691894; bh=hB
+	sRqPsdDyKhBWx869nPPrv7yqHSzjT8V/8SgiQ7D3k=; b=gdrzpKYpBd0IjkR7x4
+	FysFuHh2rJMWsseUxCHohxKjODlWUnUy+xSGCho/5LmbKi4n6yPrUuXk9TA/s4gQ
+	FVTXeyNIW2n3qTCFSgw4UkN8eH4syZwM+hR0Hyx+EVcNTz03EDzK/p5Fho4LEpr5
+	w4u1meLp47qXO8cxcVqcr6SKeEarteECB04il1mpjPznIeqbSuGkIgQ5S7/clObI
+	NMSur8HXCgfIWB/0Iw5dGh+xlELcIWJgDapqwbzmmB3R0Uum3ixBLkjY8CcsgOMe
+	xUBd8/4xc/3tlMPSvsSqMusOraUyqq/QeGW604fCmJNxGyB7KWe5NwNjsDOHv3bz
+	FwWw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1691605494; x=1691691894; bh=hBsRqPsdDyKhB
+	Wx869nPPrv7yqHSzjT8V/8SgiQ7D3k=; b=ZhdSS16o6u/8hEv8wV/Czd+XPRMkM
+	Y10HEEe//DcvI6L2A1DYxDMoC9ZiHd/Q2aOuKjRZSsJOtOE/e3FcJuhvGhOsYIMZ
+	SnGplUCMJUMJgAoonBfyx+GneCPJdvLRnKbftGJdhbvzldCFdWpJQLE3j2qaLKC+
+	09IIRynlbNeQVDzchyTg75hwfZL9QQX5Y5xBFqPDx8x62JCZKZhpQvFqJ/wWakml
+	OPlIuKg1zRpOWynMeQnrD0eNbQ2lGdxXRD6xoVCx/T6XSQawgpNpCooZjYoj4g0s
+	84lbCxQy28SVL8wM1ZLv65kvffLjNBKCWOGK+9pVfn/+X4ML6ceoZgOOA==
+X-ME-Sender: <xms:9dnTZB9VcLzE1qw3rBnBe4nWPHtlPmurmPE_j9KjzFS-wQpSSnwyXQ>
+    <xme:9dnTZFs02MrhEiQeG9f_2clS12zhYBPElcGJIWvriKT_AhJhw42KZUCjoa8OddTVL
+    To9-zNex9nixVuZe40>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrleeggdduvddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
+    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:9dnTZPBkXML9WVuCCAUu77SYKQ-xH4M1Ux20ZvIbKyGwEXYcLLM7JQ>
+    <xmx:9dnTZFcGKjbwZeO49TELBm2r3fJmunN3vQdamHaoFevvWindOLV5GQ>
+    <xmx:9dnTZGOhDlgao8OgGmtjkgHfl_ICZFRk-QhMC-9y7C4sVppYozHOCQ>
+    <xmx:9tnTZAu0xKXoOd6mU2anH1qjeSuQgUTaskkzHnsI34a_Jw2Kz0tLnQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A0CC3B6008D; Wed,  9 Aug 2023 14:24:53 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-624-g7714e4406d-fm-20230801.001-g7714e440
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Message-Id: <106a93ae-90f1-45fb-ae0a-034eb2d6faea@app.fastmail.com>
+In-Reply-To: <202308100045.WeVD1ttk-lkp@intel.com>
+References: <20230801105932.3738430-1-arnd@kernel.org>
+ <202308100045.WeVD1ttk-lkp@intel.com>
+Date: Wed, 09 Aug 2023 20:24:33 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>, "Arnd Bergmann" <arnd@kernel.org>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Alessandro Zummo" <a.zummo@towertech.it>,
+ "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
+ "Alexandre Torgue" <alexandre.torgue@foss.st.com>,
+ "Valentin Caron" <valentin.caron@foss.st.com>,
+ "Antonio Borneo" <antonio.borneo@foss.st.com>,
+ "Amelie DELAUNAY" <amelie.delaunay@foss.st.com>,
+ "Christophe Guibout" <christophe.guibout@foss.st.com>,
+ "Gabriel Fernandez" <gabriel.fernandez@foss.st.com>,
+ linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rtc: stm32: remove incorrect #ifdef check
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.tmpfs
-head:   0e83f68294d865ae63db70041879673aa3209cbb
-commit: 0d0fe11e86e1a005db49d5c59cf9d1c83777f857 [17/19] tmpfs,xattr: enable limited user extended attributes
-config: x86_64-randconfig-r015-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100156.k9Am1eAy-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100156.k9Am1eAy-lkp@intel.com/reproduce)
+On Wed, Aug 9, 2023, at 18:36, kernel test robot wrote:
+>
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/202308100045.WeVD1ttk-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>>> drivers/rtc/rtc-stm32.c:903:12: warning: 'stm32_rtc_resume' defined but not used [-Wunused-function]
+>      903 | static int stm32_rtc_resume(struct device *dev)
+>          |            ^~~~~~~~~~~~~~~~
+>>> drivers/rtc/rtc-stm32.c:893:12: warning: 'stm32_rtc_suspend' defined but not used [-Wunused-function]
+>      893 | static int stm32_rtc_suspend(struct device *dev)
+>          |            ^~~~~~~~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308100156.k9Am1eAy-lkp@intel.com/
+This is the warning you get if my patch is applied but the
+fb9a7e5360dc8 ("rtc: stm32: change PM callbacks to "_noirq()"")
+commit is not. If that patch is applied, mine is needed to address
+the other warning.
 
-All warnings (new ones prefixed by >>):
-
->> mm/shmem.c:1262:36: warning: variable 'freed' is used uninitialized whenever '?:' condition is false [-Wsometimes-uninitialized]
-           simple_xattrs_free(&info->xattrs, sbinfo->max_inodes ? &freed : NULL);
-                                             ^~~~~~~~~~~~~~~~~~
-   mm/shmem.c:1263:32: note: uninitialized use occurs here
-           shmem_free_inode(inode->i_sb, freed);
-                                         ^~~~~
-   mm/shmem.c:1262:36: note: remove the '?:' if its condition is always true
-           simple_xattrs_free(&info->xattrs, sbinfo->max_inodes ? &freed : NULL);
-                                             ^~~~~~~~~~~~~~~~~~~~~      ~~~~~~~
-   mm/shmem.c:1235:14: note: initialize the variable 'freed' to silence this warning
-           size_t freed;
-                       ^
-                        = 0
-   1 warning generated.
-
-
-vim +1262 mm/shmem.c
-
-  1230	
-  1231	static void shmem_evict_inode(struct inode *inode)
-  1232	{
-  1233		struct shmem_inode_info *info = SHMEM_I(inode);
-  1234		struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
-  1235		size_t freed;
-  1236	
-  1237		if (shmem_mapping(inode->i_mapping)) {
-  1238			shmem_unacct_size(info->flags, inode->i_size);
-  1239			inode->i_size = 0;
-  1240			mapping_set_exiting(inode->i_mapping);
-  1241			shmem_truncate_range(inode, 0, (loff_t)-1);
-  1242			if (!list_empty(&info->shrinklist)) {
-  1243				spin_lock(&sbinfo->shrinklist_lock);
-  1244				if (!list_empty(&info->shrinklist)) {
-  1245					list_del_init(&info->shrinklist);
-  1246					sbinfo->shrinklist_len--;
-  1247				}
-  1248				spin_unlock(&sbinfo->shrinklist_lock);
-  1249			}
-  1250			while (!list_empty(&info->swaplist)) {
-  1251				/* Wait while shmem_unuse() is scanning this inode... */
-  1252				wait_var_event(&info->stop_eviction,
-  1253					       !atomic_read(&info->stop_eviction));
-  1254				mutex_lock(&shmem_swaplist_mutex);
-  1255				/* ...but beware of the race if we peeked too early */
-  1256				if (!atomic_read(&info->stop_eviction))
-  1257					list_del_init(&info->swaplist);
-  1258				mutex_unlock(&shmem_swaplist_mutex);
-  1259			}
-  1260		}
-  1261	
-> 1262		simple_xattrs_free(&info->xattrs, sbinfo->max_inodes ? &freed : NULL);
-  1263		shmem_free_inode(inode->i_sb, freed);
-  1264		WARN_ON(inode->i_blocks);
-  1265		clear_inode(inode);
-  1266	#ifdef CONFIG_TMPFS_QUOTA
-  1267		dquot_free_inode(inode);
-  1268		dquot_drop(inode);
-  1269	#endif
-  1270	}
-  1271	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+      Arnd
