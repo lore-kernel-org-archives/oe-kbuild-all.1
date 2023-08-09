@@ -1,178 +1,122 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FA57613F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 09:28:26 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.201])
-	by gateway (Coremail) with SMTP id _____8Cx2eoxXNNkgbYTAA--.37898S3;
-	Wed, 09 Aug 2023 17:28:17 +0800 (CST)
-Received: from [10.20.42.201] (unknown [10.20.42.201])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxniMtXNNkhBJRAA--.31600S3;
-	Wed, 09 Aug 2023 17:28:14 +0800 (CST)
-Subject: Re: [PATCH] usb: xhci-plat: fix usb disconnect issue after s4
-To: kernel test robot <lkp@intel.com>, Mathias Nyman
- <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
- wanghongliang@loongson.cn, Liu Peibao <liupeibao@loongson.cn>,
- loongson-kernel@lists.loongnix.cn, zhuyinbo@loongson.cn
-References: <20230802090642.1642-1-zhuyinbo@loongson.cn>
- <202308090755.GOjEaQQg-lkp@intel.com>
-From: Yinbo Zhu <zhuyinbo@loongson.cn>
-Message-ID: <f43866bc-7a28-5c74-a5b8-8b64d97b25c2@loongson.cn>
-Date: Wed, 9 Aug 2023 17:28:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40BD53B7;
+	Wed,  9 Aug 2023 10:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691576911; x=1723112911;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yeOT0cS6QMPvAXxUJ9nK2LD91TvI/FtdDjHmYUtB1Zg=;
+  b=B/PuVx6sy7C1RuBb450x5WG7WiF2KG/JARixwXYjb//O4bOLj6CCy5vp
+   wi8KYYyCsxpnAgaAtP38qiBcOChRu/xdurzs+ZKzwgVrIHFT8xeR9bzN4
+   iwBTvgmquLFiaP7nyyoOxacO/FKUMADMC99Jb22Ou8mUqYH6o/5S8TcZA
+   YNkeaANZik4ClI9JVClebF6es1oaSVKHyXhPBSPO1IM5neMyeye0N+/ex
+   I+eT4e01EzWsUpe36suRoOWVTlv+S8JWTSW0zCZ7fnnmyUwvIxRt8XreX
+   1+GBOfGtOmufcvVev7GBBQ+b6ac4IRh1XrGxl+KH0QRKYOrO/vWnDqLkR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="373867950"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="373867950"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 03:28:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="875188410"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 09 Aug 2023 03:28:32 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qTgQW-00060Y-1K;
+	Wed, 09 Aug 2023 10:28:28 +0000
+Date: Wed, 9 Aug 2023 18:27:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Artur Weber <aweber.kernel@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Lee Jones <lee@kernel.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>
+Subject: [linux-next:master 4727/8441]
+ drivers/video/backlight/lp855x_bl.c:252:7: warning: variable 'ret' is used
+ uninitialized whenever 'if' condition is false
+Message-ID: <202308091728.NEJhgUPP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202308090755.GOjEaQQg-lkp@intel.com>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8BxniMtXNNkhBJRAA--.31600S3
-X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
-	ZEXasCq-sGcSsGvfJ3UbIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnUUvcSsGvfC2Kfnx
-	nUUI43ZEXa7xR_UUUUUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   21ef7b1e17d039053edaeaf41142423810572741
+commit: 5145531be5fbad0e914d1dc1cbd392d7b756abaa [4727/8441] backlight: lp855x: Catch errors when changing brightness
+config: x86_64-buildonly-randconfig-r002-20230808 (https://download.01.org/0day-ci/archive/20230809/202308091728.NEJhgUPP-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091728.NEJhgUPP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308091728.NEJhgUPP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/video/backlight/lp855x_bl.c:252:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           else if (lp->mode == REGISTER_BASED)
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:30: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/backlight/lp855x_bl.c:256:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   drivers/video/backlight/lp855x_bl.c:252:7: note: remove the 'if' if its condition is always true
+           else if (lp->mode == REGISTER_BASED)
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/video/backlight/lp855x_bl.c:244:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   1 warning generated.
 
 
+vim +252 drivers/video/backlight/lp855x_bl.c
 
-ÔÚ 2023/8/9 ÉÏÎç7:41, kernel test robot Ð´µÀ:
-> Hi Yinbo,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on usb/usb-testing]
-> [also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.5-rc5 next-20230808]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/usb-xhci-plat-fix-usb-disconnect-issue-after-s4/20230802-170845
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> patch link:    https://lore.kernel.org/r/20230802090642.1642-1-zhuyinbo%40loongson.cn
-> patch subject: [PATCH] usb: xhci-plat: fix usb disconnect issue after s4
-> config: xtensa-randconfig-r093-20230808 (https://download.01.org/0day-ci/archive/20230809/202308090755.GOjEaQQg-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230809/202308090755.GOjEaQQg-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308090755.GOjEaQQg-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-mediatek.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-samsung.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/imx/clk-imxrt1050.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mm.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-img.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-vdec.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-venc.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mfg.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-aud.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-apmixedsys.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-bdp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-img.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-vdec.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-venc.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-eth.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-hif.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-aud.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7986-apmixed.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7986-topckgen.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-audio.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-cam.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-vdec.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-img.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-ipe.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-mfg.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vdec.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-wpe.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-aud.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-cam.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-imp_iic_wrap.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-mdp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-mm.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-msdc.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-scp_adsp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-vdec.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apmixedsys.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apu.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-cam.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-vdec.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-venc.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/mediatek/mtk-cmdq-helper.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/amlogic/meson-clk-measure.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/owl-uart.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/goldfish.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ttyprintk.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/nomadik-rng.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/st-rng.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/brd.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-pxa.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/brcm_u-boot.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
->>> ERROR: modpost: "xhci_suspend" [drivers/usb/host/xhci-plat-hcd.ko] undefined!
->>> ERROR: modpost: "xhci_resume" [drivers/usb/host/xhci-plat-hcd.ko] undefined!
+8cc9764c9c7d01 Kim, Milo    2012-12-17  239  
+7be865ab8634d4 Kim, Milo    2012-03-23  240  static int lp855x_bl_update_status(struct backlight_device *bl)
+7be865ab8634d4 Kim, Milo    2012-03-23  241  {
+7be865ab8634d4 Kim, Milo    2012-03-23  242  	struct lp855x *lp = bl_get_data(bl);
+61c1c6147f69d8 Sean Paul    2015-05-11  243  	int brightness = bl->props.brightness;
+5145531be5fbad Artur Weber  2023-07-14  244  	int ret;
+7be865ab8634d4 Kim, Milo    2012-03-23  245  
+9f0a511f4a227c Shingo Nakao 2013-07-02  246  	if (bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
+61c1c6147f69d8 Sean Paul    2015-05-11  247  		brightness = 0;
+7be865ab8634d4 Kim, Milo    2012-03-23  248  
+61c1c6147f69d8 Sean Paul    2015-05-11  249  	if (lp->mode == PWM_BASED)
+5145531be5fbad Artur Weber  2023-07-14  250  		ret = lp855x_pwm_ctrl(lp, brightness,
+5145531be5fbad Artur Weber  2023-07-14  251  				      bl->props.max_brightness);
+61c1c6147f69d8 Sean Paul    2015-05-11 @252  	else if (lp->mode == REGISTER_BASED)
+5145531be5fbad Artur Weber  2023-07-14  253  		ret = lp855x_write_byte(lp, lp->cfg->reg_brightness,
+5145531be5fbad Artur Weber  2023-07-14  254  					(u8)brightness);
+7be865ab8634d4 Kim, Milo    2012-03-23  255  
+5145531be5fbad Artur Weber  2023-07-14  256  	return ret;
+7be865ab8634d4 Kim, Milo    2012-03-23  257  }
+7be865ab8634d4 Kim, Milo    2012-03-23  258  
 
+:::::: The code at line 252 was first introduced by commit
+:::::: 61c1c6147f69d8dea31fd133d2ec0b1594c9a3eb backlight: lp855x: Don't clear level on suspend/blank
 
-This compile error was due to that suspend callback initialization
-doesn't use CONFIG_PM_SLEEP in xhci_plat_pm_ops, and I will add it and
-fix this compile error.
+:::::: TO: Sean Paul <seanpaul@chromium.org>
+:::::: CC: Lee Jones <lee.jones@linaro.org>
 
-Thanks,
-Yinbo
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
