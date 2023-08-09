@@ -1,88 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3C9211C;
-	Wed,  9 Aug 2023 06:01:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691560914; x=1723096914;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=62vBEsNLqi1Mjl+DIxfpijOYd5i+/By8huTMmJzzxY0=;
-  b=Ph6UOq35BCYsL2ewY7GI/Q4vAav+q4tNckt1hYjUVmz8j7tWAR8COt2Y
-   zpCh+361MFxBX8CFAFiYCkw3mgY6h0TGBkjXQoH73sVwxONVADbHxXKDc
-   sDpzebIxz62XiyAROkjsAdObmCWeuS5BectLi9bLJDdvv0Hw0mO32IgAA
-   aNh9QcRIdDktvNKPL0rbZtPmBVmJ/v1VFw5nPb8s1oYTwvM7iWZp/D04T
-   czJPBznXnQLLB/rZNFb1PDb+y/MZseP7i8TEm2vQdNTv8rhQ+iKfS7x2j
-   DDS4dhoSyM1Mb3jja7NxXpAX3Bs2faY21Y9AZT3YQzeb4Czweq2g11ocs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="355996473"
-X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="355996473"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 23:01:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="761224544"
-X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="761224544"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 08 Aug 2023 23:01:23 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qTcG2-0005qi-2y;
-	Wed, 09 Aug 2023 06:01:22 +0000
-Date: Wed, 9 Aug 2023 14:01:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>, sdf@google.com, axboe@kernel.dk,
-	asml.silence@gmail.com, willemdebruijn.kernel@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, io-uring@vger.kernel.org, kuba@kernel.org,
-	pabeni@redhat.com
-Subject: Re: [PATCH v2 3/8] io_uring/cmd: Introduce SOCKET_URING_OP_SETSOCKOPT
-Message-ID: <202308091352.OnDIGFfN-lkp@intel.com>
-References: <20230808134049.1407498-4-leitao@debian.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58F03D7F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 06:11:29 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-40648d758f1so46660211cf.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 08 Aug 2023 23:11:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691561488; x=1692166288;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7Ms7iYNp80/BrQPVd1Wu0NtDMidguJs1Vm+Kts8MPK0=;
+        b=RN576sBAEe/LovR6mCDVhX2xoekgFTYj/fgTIaDKWa+LJB9YVfaWfR58VPB3BXSfdn
+         v/IasQm7bVjAStbpq0fvSbuMSimHH0Sh0+aJRO4WPMG2xbo74qaecU9vEghc1H8e7e/E
+         L7+FImW8W+0VI7PK6KDLQAXJFJ1PqBKHm627rByV8J+lXBQBNg3Ug276XTU1mRxv2hE0
+         tZzp3a03Nge8nevSnfrH1qIm4I9dT2enkPmsen70nPaZvtrF9Kq+Y5LLA7fPTIzqWzDI
+         ghDypxrPkJ6gW4zjyn86bKmWCuFeq6qw31tMwrfonZXKe0dgpPwGqrycTIng8mHtqEPr
+         /lfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691561488; x=1692166288;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Ms7iYNp80/BrQPVd1Wu0NtDMidguJs1Vm+Kts8MPK0=;
+        b=fGYQuhHEdG4AQ+JYuUeQIQ74cpoAx0r/RuzW8iCoXyB+4gxjxgecNPeDK8gAMjTzj0
+         Q+4DIkQPyIEsDhM2YGQSTjUgugh5vKfpT48pVVMF9TMk6dJ2SLm57R9nYv3trxYitG35
+         dVWuOeJ1vU6XAfx4uD85t+yiyGJfOJo7mwZgqteqryP6CHX24NogygrL+atjaBpZRTBz
+         MboTcAt42wEhI11Wd+hLv2C7QohZ/Bxs2LKgPFh0vHFJBNjduw+89dQ7jdOElnYdLV8m
+         CGyhK9u1UFG87Pz0OgGINcfEdW2iRe6dBYReXwzft/WgJgME9BbAbCSmiwxT9btGYVms
+         9bsw==
+X-Gm-Message-State: AOJu0YwsM7wgI7gKJAYRzUP8sFnp7vJ6Deaewi8c1bQ7DnlMt4faSDea
+	tn3gdxS/TwLczoCdWuWNxXUH
+X-Google-Smtp-Source: AGHT+IHf87EZm3LQgNx9Ep7FX3BJm1QmcuWANPNoYzfIPWVmf7wCxsLgxKWucwlxNZlNYTQFLSRGFg==
+X-Received: by 2002:a05:622a:170e:b0:403:9e72:5e93 with SMTP id h14-20020a05622a170e00b004039e725e93mr2579278qtk.9.1691561488321;
+        Tue, 08 Aug 2023 23:11:28 -0700 (PDT)
+Received: from thinkpad ([117.207.25.122])
+        by smtp.gmail.com with ESMTPSA id o16-20020a0cf4d0000000b0063d385c28edsm4259014qvm.41.2023.08.08.23.11.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Aug 2023 23:11:27 -0700 (PDT)
+Date: Wed, 9 Aug 2023 11:41:21 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: Re: [jejb-scsi:misc 36/37] drivers/ufs/host/ufs-qcom.c:64:3: sparse:
+ sparse: symbol 'ufs_qcom_bw_table' was not declared. Should it be static?
+Message-ID: <20230809061121.GB5348@thinkpad>
+References: <202308091030.L5JrOBJB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230808134049.1407498-4-leitao@debian.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202308091030.L5JrOBJB-lkp@intel.com>
 
-Hi Breno,
+On Wed, Aug 09, 2023 at 10:44:28AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git misc
+> head:   6cae9a3910ac1b5daf5ac3db9576b78cc4eff5aa
+> commit: 03ce80a1bb869f735de793f04c9c085b61884599 [36/37] scsi: ufs: qcom: Add support for scaling interconnects
+> config: arm64-randconfig-r071-20230808 (https://download.01.org/0day-ci/archive/20230809/202308091030.L5JrOBJB-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091030.L5JrOBJB-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308091030.L5JrOBJB-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/ufs/host/ufs-qcom.c:64:3: sparse: sparse: symbol 'ufs_qcom_bw_table' was not declared. Should it be static?
+> 
 
-kernel test robot noticed the following build errors:
+This is already taken care by https://lore.kernel.org/all/20230802040154.10652-1-manivannan.sadhasivam@linaro.org/
 
-[auto build test ERROR on next-20230808]
-[cannot apply to bpf-next/master bpf/master net/main net-next/main linus/master horms-ipvs/master v6.5-rc5 v6.5-rc4 v6.5-rc3 v6.5-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+- Mani
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/net-expose-sock_use_custom_sol_socket/20230809-011901
-base:   next-20230808
-patch link:    https://lore.kernel.org/r/20230808134049.1407498-4-leitao%40debian.org
-patch subject: [PATCH v2 3/8] io_uring/cmd: Introduce SOCKET_URING_OP_SETSOCKOPT
-config: hexagon-randconfig-r041-20230808 (https://download.01.org/0day-ci/archive/20230809/202308091352.OnDIGFfN-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091352.OnDIGFfN-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308091352.OnDIGFfN-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: sock_setsockopt
-   >>> referenced by uring_cmd.c
-   >>>               io_uring/uring_cmd.o:(io_uring_cmd_sock) in archive vmlinux.a
-   >>> referenced by uring_cmd.c
-   >>>               io_uring/uring_cmd.o:(io_uring_cmd_sock) in archive vmlinux.a
+> vim +/ufs_qcom_bw_table +64 drivers/ufs/host/ufs-qcom.c
+> 
+>     60	
+>     61	struct __ufs_qcom_bw_table {
+>     62		u32 mem_bw;
+>     63		u32 cfg_bw;
+>   > 64	} ufs_qcom_bw_table[MODE_MAX + 1][QCOM_UFS_MAX_GEAR + 1][QCOM_UFS_MAX_LANE + 1] = {
+>     65		[MODE_MIN][0][0]		   = { 0,		0 }, /* Bandwidth values in KB/s */
+>     66		[MODE_PWM][UFS_PWM_G1][UFS_LANE_1] = { 922,		1000 },
+>     67		[MODE_PWM][UFS_PWM_G2][UFS_LANE_1] = { 1844,		1000 },
+>     68		[MODE_PWM][UFS_PWM_G3][UFS_LANE_1] = { 3688,		1000 },
+>     69		[MODE_PWM][UFS_PWM_G4][UFS_LANE_1] = { 7376,		1000 },
+>     70		[MODE_PWM][UFS_PWM_G1][UFS_LANE_2] = { 1844,		1000 },
+>     71		[MODE_PWM][UFS_PWM_G2][UFS_LANE_2] = { 3688,		1000 },
+>     72		[MODE_PWM][UFS_PWM_G3][UFS_LANE_2] = { 7376,		1000 },
+>     73		[MODE_PWM][UFS_PWM_G4][UFS_LANE_2] = { 14752,		1000 },
+>     74		[MODE_HS_RA][UFS_HS_G1][UFS_LANE_1] = { 127796,		1000 },
+>     75		[MODE_HS_RA][UFS_HS_G2][UFS_LANE_1] = { 255591,		1000 },
+>     76		[MODE_HS_RA][UFS_HS_G3][UFS_LANE_1] = { 1492582,	102400 },
+>     77		[MODE_HS_RA][UFS_HS_G4][UFS_LANE_1] = { 2915200,	204800 },
+>     78		[MODE_HS_RA][UFS_HS_G1][UFS_LANE_2] = { 255591,		1000 },
+>     79		[MODE_HS_RA][UFS_HS_G2][UFS_LANE_2] = { 511181,		1000 },
+>     80		[MODE_HS_RA][UFS_HS_G3][UFS_LANE_2] = { 1492582,	204800 },
+>     81		[MODE_HS_RA][UFS_HS_G4][UFS_LANE_2] = { 2915200,	409600 },
+>     82		[MODE_HS_RB][UFS_HS_G1][UFS_LANE_1] = { 149422,		1000 },
+>     83		[MODE_HS_RB][UFS_HS_G2][UFS_LANE_1] = { 298189,		1000 },
+>     84		[MODE_HS_RB][UFS_HS_G3][UFS_LANE_1] = { 1492582,	102400 },
+>     85		[MODE_HS_RB][UFS_HS_G4][UFS_LANE_1] = { 2915200,	204800 },
+>     86		[MODE_HS_RB][UFS_HS_G1][UFS_LANE_2] = { 298189,		1000 },
+>     87		[MODE_HS_RB][UFS_HS_G2][UFS_LANE_2] = { 596378,		1000 },
+>     88		[MODE_HS_RB][UFS_HS_G3][UFS_LANE_2] = { 1492582,	204800 },
+>     89		[MODE_HS_RB][UFS_HS_G4][UFS_LANE_2] = { 2915200,	409600 },
+>     90		[MODE_MAX][0][0]		    = { 7643136,	307200 },
+>     91	};
+>     92	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
