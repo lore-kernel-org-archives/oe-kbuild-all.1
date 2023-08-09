@@ -1,50 +1,42 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EEA18AE6;
-	Wed,  9 Aug 2023 13:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E8E17754
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 13:59:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691587060; x=1723123060;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=COM8b++zFSJJGlRL6RPS1+zGQht6x8MaZDgSA0FjnJk=;
-  b=LhEZtqMzhIQPzEe3MHI+alsztIzGFfGIyr8oEsX7apSCq656SF8gqtVC
-   LpvdQRp4zQ0YyIh7x0u7gV547pkmgmWK2ihiL7lC9Gy9SkqI7BTpegiLM
-   7e8wk2GvHXbFxKw4dBhs49H/VO7il1B/KE0RgOdIzUkLNdm6MZPclZx42
-   LkAxZdPEnsayo8r5aOXPq5nZezdMzBY7uD7ZV9+dyxE98GJQeoY15/nmY
-   4OohGlq1HVThGVHG2uwkYSNZdZZbyGxrlzASeqQnofmmxkIh6Wj6TeVSJ
-   PMH7m4I1rLljby57Dv301c+0xCFPAMrD5TgvLotlG3/8FANOpvWbvi3CD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="373899904"
+  t=1691589576; x=1723125576;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=79m8yEB/HAtah43v8kM3VecrZH+Mnq+lR61ulOtgdZE=;
+  b=E3jAe5T/OwSiT3BUj7MKWrFOoL3etja+0J72egPSp1hY1nrgUWPIiok+
+   BhnRYR9y46Uk/zJe+4XT+zUHWqjhhc7/PpFleC0xAfqT/XEK6IbDaxzOr
+   Gc/TVwYOxvJMHqA5iDcjl4PFiXJxYZY8Zk/JKTpCtx66wTCv8Wr/5jxkJ
+   Lr3R9FAJ0Hj+mFaSPMyeHK5UZLzIl/r86QyOP68oqn4kN89vXGnFeHpED
+   P8byipjqhq1HUnULIwoLJEiwDrWjnSBsYMGw9RN+sw02qKiZ6b2oMepfR
+   obo/4OkriIL7lGw0uApECANnmwFFsxyfpPe73UDp8X++ioxTKPRlwJ/ZR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="373908653"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="373899904"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 06:17:37 -0700
+   d="scan'208";a="373908653"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 06:59:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="708712550"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="821864796"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="708712550"
+   d="scan'208";a="821864796"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 09 Aug 2023 06:17:33 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Aug 2023 06:59:34 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTj48-00067c-2b;
-	Wed, 09 Aug 2023 13:17:32 +0000
-Date: Wed, 9 Aug 2023 21:16:45 +0800
+	id 1qTjin-00068i-1x;
+	Wed, 09 Aug 2023 13:59:33 +0000
+Date: Wed, 9 Aug 2023 21:58:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	maarten.lankhorst@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH] drm: manager: Remove the unused variable prev
-Message-ID: <202308092135.95Kg6wDq-lkp@intel.com>
-References: <20230809065229.71300-1-jiapeng.chong@linux.alibaba.com>
+To: Tianyu Lan <tiala@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Michael Kelley <mikelley@microsoft.com>
+Subject: [lantianyu:test 18/29] arch/x86/kernel/cpu/mshyperv.c:543:17: error:
+ implicit declaration of function 'hv_sev_init_mem_and_cpu'
+Message-ID: <202308092100.Q7QllXq8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,186 +45,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230809065229.71300-1-jiapeng.chong@linux.alibaba.com>
 
-Hi Jiapeng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on next-20230809]
-[cannot apply to linus/master v6.5-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiapeng-Chong/drm-manager-Remove-the-unused-variable-prev/20230809-145348
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230809065229.71300-1-jiapeng.chong%40linux.alibaba.com
-patch subject: [PATCH] drm: manager: Remove the unused variable prev
-config: riscv-randconfig-r042-20230809 (https://download.01.org/0day-ci/archive/20230809/202308092135.95Kg6wDq-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308092135.95Kg6wDq-lkp@intel.com/reproduce)
+tree:   https://github.com/lantianyu/linux test
+head:   1f50b51d0f25cf6e93d994fbc0ec9e2f1cb3b911
+commit: b1fb0b5fda3b4d47523c15ad6817f5111e3ba898 [18/29] x86/hyperv: Initialize cpu and memory for SEV-SNP enlightened guest
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230809/202308092100.Q7QllXq8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308092100.Q7QllXq8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308092135.95Kg6wDq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308092100.Q7QllXq8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_gpuva_mgr.c:1209:2: warning: label at end of compound statement is a C2x extension [-Wc2x-extensions]
-           }
-           ^
-   1 warning generated.
+   arch/x86/kernel/cpu/mshyperv.c: In function 'ms_hyperv_init_platform':
+>> arch/x86/kernel/cpu/mshyperv.c:543:17: error: implicit declaration of function 'hv_sev_init_mem_and_cpu' [-Werror=implicit-function-declaration]
+     543 |                 hv_sev_init_mem_and_cpu();
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1209 drivers/gpu/drm/drm_gpuva_mgr.c
+vim +/hv_sev_init_mem_and_cpu +543 arch/x86/kernel/cpu/mshyperv.c
 
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1072  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1073  static int
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1074  __drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1075  		   const struct drm_gpuva_fn_ops *ops, void *priv,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1076  		   u64 req_addr, u64 req_range,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1077  		   struct drm_gem_object *req_obj, u64 req_offset)
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1078  {
-e927727c10be76 Jiapeng Chong    2023-08-09  1079  	struct drm_gpuva *va, *next = NULL;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1080  	u64 req_end = req_addr + req_range;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1081  	int ret;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1082  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1083  	if (unlikely(!drm_gpuva_range_valid(mgr, req_addr, req_range)))
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1084  		return -EINVAL;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1085  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1086  	drm_gpuva_for_each_va_range_safe(va, next, mgr, req_addr, req_end) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1087  		struct drm_gem_object *obj = va->gem.obj;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1088  		u64 offset = va->gem.offset;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1089  		u64 addr = va->va.addr;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1090  		u64 range = va->va.range;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1091  		u64 end = addr + range;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1092  		bool merge = !!va->gem.obj;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1093  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1094  		if (addr == req_addr) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1095  			merge &= obj == req_obj &&
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1096  				 offset == req_offset;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1097  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1098  			if (end == req_end) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1099  				ret = op_unmap_cb(ops, priv, va, merge);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1100  				if (ret)
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1101  					return ret;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1102  				break;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1103  			}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1104  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1105  			if (end < req_end) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1106  				ret = op_unmap_cb(ops, priv, va, merge);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1107  				if (ret)
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1108  					return ret;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1109  				goto next;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1110  			}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1111  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1112  			if (end > req_end) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1113  				struct drm_gpuva_op_map n = {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1114  					.va.addr = req_end,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1115  					.va.range = range - req_range,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1116  					.gem.obj = obj,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1117  					.gem.offset = offset + req_range,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1118  				};
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1119  				struct drm_gpuva_op_unmap u = {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1120  					.va = va,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1121  					.keep = merge,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1122  				};
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1123  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1124  				ret = op_remap_cb(ops, priv, NULL, &n, &u);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1125  				if (ret)
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1126  					return ret;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1127  				break;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1128  			}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1129  		} else if (addr < req_addr) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1130  			u64 ls_range = req_addr - addr;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1131  			struct drm_gpuva_op_map p = {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1132  				.va.addr = addr,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1133  				.va.range = ls_range,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1134  				.gem.obj = obj,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1135  				.gem.offset = offset,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1136  			};
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1137  			struct drm_gpuva_op_unmap u = { .va = va };
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1138  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1139  			merge &= obj == req_obj &&
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1140  				 offset + ls_range == req_offset;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1141  			u.keep = merge;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1142  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1143  			if (end == req_end) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1144  				ret = op_remap_cb(ops, priv, &p, NULL, &u);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1145  				if (ret)
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1146  					return ret;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1147  				break;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1148  			}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1149  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1150  			if (end < req_end) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1151  				ret = op_remap_cb(ops, priv, &p, NULL, &u);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1152  				if (ret)
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1153  					return ret;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1154  				goto next;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1155  			}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1156  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1157  			if (end > req_end) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1158  				struct drm_gpuva_op_map n = {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1159  					.va.addr = req_end,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1160  					.va.range = end - req_end,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1161  					.gem.obj = obj,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1162  					.gem.offset = offset + ls_range +
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1163  						      req_range,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1164  				};
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1165  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1166  				ret = op_remap_cb(ops, priv, &p, &n, &u);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1167  				if (ret)
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1168  					return ret;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1169  				break;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1170  			}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1171  		} else if (addr > req_addr) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1172  			merge &= obj == req_obj &&
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1173  				 offset == req_offset +
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1174  					   (addr - req_addr);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1175  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1176  			if (end == req_end) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1177  				ret = op_unmap_cb(ops, priv, va, merge);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1178  				if (ret)
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1179  					return ret;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1180  				break;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1181  			}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1182  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1183  			if (end < req_end) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1184  				ret = op_unmap_cb(ops, priv, va, merge);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1185  				if (ret)
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1186  					return ret;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1187  				goto next;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1188  			}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1189  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1190  			if (end > req_end) {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1191  				struct drm_gpuva_op_map n = {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1192  					.va.addr = req_end,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1193  					.va.range = end - req_end,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1194  					.gem.obj = obj,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1195  					.gem.offset = offset + req_end - addr,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1196  				};
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1197  				struct drm_gpuva_op_unmap u = {
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1198  					.va = va,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1199  					.keep = merge,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1200  				};
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1201  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1202  				ret = op_remap_cb(ops, priv, NULL, &n, &u);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1203  				if (ret)
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1204  					return ret;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1205  				break;
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1206  			}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1207  		}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1208  next:
-e6303f323b1ad9 Danilo Krummrich 2023-07-20 @1209  	}
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1210  
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1211  	return op_map_cb(ops, priv,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1212  			 req_addr, req_range,
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1213  			 req_obj, req_offset);
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1214  }
-e6303f323b1ad9 Danilo Krummrich 2023-07-20  1215  
+   529	
+   530		/* Register Hyper-V specific clocksource */
+   531		hv_init_clocksource();
+   532		hv_vtl_init_platform();
+   533	#endif
+   534		/*
+   535		 * TSC should be marked as unstable only after Hyper-V
+   536		 * clocksource has been initialized. This ensures that the
+   537		 * stability of the sched_clock is not altered.
+   538		 */
+   539		if (!(ms_hyperv.features & HV_ACCESS_TSC_INVARIANT))
+   540			mark_tsc_unstable("running on Hyper-V");
+   541	
+   542		if (hv_isolation_type_en_snp())
+ > 543			hv_sev_init_mem_and_cpu();
+   544	
+   545		hardlockup_detector_disable();
+   546	}
+   547	
 
 -- 
 0-DAY CI Kernel Test Service
