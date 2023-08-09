@@ -1,50 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DCA814;
-	Wed,  9 Aug 2023 05:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D88AECE
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 05:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691559026; x=1723095026;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cPWzYVofjOoJIzEOUur/17QFCj6qfWWt5CL6LmcTrsk=;
-  b=W89R4jvCe6R+Wuv5aEVhwqLHBbCdR5xqlLlaHfIkwo+rovX2NRefsOJ8
-   9QsadClwyG+R3JR1510fjy1jaMrQZ5rsdxRKRJNzWTeQPz4g0eqFuhAbx
-   Iz6B4PPunSt7sn1L/Zzs0W/x6yruXow4sQ0ls9E4G1sF39yq10NOf3PqD
-   dZM5Z50WwEQrvGnoR3IW7IaLiqUmxP+X/sNfiwL+ums2YJw389NVyey6t
-   M72ggToDmVhWpvVJ8tVblMtGW7oDMP8Hvz4oag7+EdZVkbKuWCw77CxTx
-   LZM9fqQwax0BmMB3NgL59pT91V/dyku1ZCgYMAPLOF28rQCyj2lRxZd3s
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="351333507"
+  t=1691560285; x=1723096285;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oaukonengmiq2+TC7pHwlweZ8rZMJqxQfsQePLuPfx8=;
+  b=M7Vi5WjGJpKwNGy8LsxENo7R/ZcOIx8MF6NkPSImTBkoRFsOxqeGH8VA
+   jusTLQe5i5HC5sqM5iEnsoNuoGX8HIaYhx4Y72bAMMeIYjBZJmd+zDoXF
+   PR+SA+5PL7J4gWLiTuBds3cXCmZaSMFI8MEPuULI1Gk1VGrhusdQe6gyI
+   EIgEBhM0HTQZ4SaedAVOr6Q8UT5dIAmzAn9iJk+krg18siE7icplDvuwJ
+   1ySuDeDqMnbZv88G+yZcDxPpHar0iwEcGPOZqs88B6GNSyyo+OHowYYTR
+   OKthOKvH5TZrNwJSA5MNTteiiarphOJGZab89QJsIcgYwEod8i4KXzAsh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="434914381"
 X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="351333507"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 22:30:26 -0700
+   d="scan'208";a="434914381"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 22:51:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="845793717"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="1062315268"
 X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="845793717"
+   d="scan'208";a="1062315268"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2023 22:30:23 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 08 Aug 2023 22:51:23 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTbm2-0005pY-0z;
-	Wed, 09 Aug 2023 05:30:22 +0000
-Date: Wed, 9 Aug 2023 13:30:21 +0800
+	id 1qTc6M-0005qG-2L;
+	Wed, 09 Aug 2023 05:51:22 +0000
+Date: Wed, 9 Aug 2023 13:50:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
-	Chris Mason <chris.mason@fusionio.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	"Theodore Y . Ts'o" <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, kernel-team@meta.com,
-	linux-btrfs@vger.kernel.org, linux-fscrypt@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-Subject: Re: [PATCH v6 5/8] fscrypt: reduce special-casing of IV_INO_LBLK_32
-Message-ID: <202308091311.R1mgw8Sk-lkp@intel.com>
-References: <542ea134771e2caa3043dfe48c2825d93495c626.1691505830.git.sweettea-kernel@dorminy.me>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-efi-runtime-cleanup 8/11]
+ drivers/firmware/efi/runtime-wrappers.c:293:40: error: expected identifier
+ before '&' token
+Message-ID: <202308091353.PmfftebF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,134 +46,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <542ea134771e2caa3043dfe48c2825d93495c626.1691505830.git.sweettea-kernel@dorminy.me>
 
-Hi Sweet,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 54d2161835d828a9663f548f61d1d9c3d3482122]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sweet-Tea-Dorminy/fscrypt-move-inline-crypt-decision-to-info-setup/20230809-030251
-base:   54d2161835d828a9663f548f61d1d9c3d3482122
-patch link:    https://lore.kernel.org/r/542ea134771e2caa3043dfe48c2825d93495c626.1691505830.git.sweettea-kernel%40dorminy.me
-patch subject: [PATCH v6 5/8] fscrypt: reduce special-casing of IV_INO_LBLK_32
-config: hexagon-randconfig-r041-20230808 (https://download.01.org/0day-ci/archive/20230809/202308091311.R1mgw8Sk-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091311.R1mgw8Sk-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efi-runtime-cleanup
+head:   c71456a199541783dbb943e07547fc0d0c929ea2
+commit: 74d615646e6a6ab2abe1d6b22d519d7b1b8981c1 [8/11] acpi/prmt: Use EFI runtime sandbox to invoke PRM handlers
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230809/202308091353.PmfftebF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091353.PmfftebF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308091311.R1mgw8Sk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308091353.PmfftebF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/crypto/keysetup.c:14:
-   In file included from fs/crypto/fscrypt_private.h:17:
-   In file included from include/linux/blk-crypto.h:72:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from fs/crypto/keysetup.c:14:
-   In file included from fs/crypto/fscrypt_private.h:17:
-   In file included from include/linux/blk-crypto.h:72:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from fs/crypto/keysetup.c:14:
-   In file included from fs/crypto/fscrypt_private.h:17:
-   In file included from include/linux/blk-crypto.h:72:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> fs/crypto/keysetup.c:315:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-           if (mk->mk_ino_hash_key_initialized)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/crypto/keysetup.c:328:9: note: uninitialized use occurs here
-           return err;
-                  ^~~
-   fs/crypto/keysetup.c:315:2: note: remove the 'if' if its condition is always false
-           if (mk->mk_ino_hash_key_initialized)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/crypto/keysetup.c:307:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
-                   = 0
-   7 warnings generated.
+   In file included from drivers/firmware/efi/runtime-wrappers.c:36:
+   drivers/firmware/efi/runtime-wrappers.c: In function 'efi_call_rts':
+>> drivers/firmware/efi/runtime-wrappers.c:293:40: error: expected identifier before '&' token
+     293 |                 status = efi_call_virt(&args->ACPI_PRM_HANDLER,
+         |                                        ^
+   arch/x86/include/asm/efi.h:103:20: note: in definition of macro 'efi_call'
+     103 |         __efi_call(__VA_ARGS__);                                        \
+         |                    ^~~~~~~~~~~
+   drivers/firmware/efi/runtime-wrappers.c:43:9: note: in expansion of macro 'arch_efi_call_virt'
+      43 |         arch_efi_call_virt(efi.runtime, f, args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/firmware/efi/runtime-wrappers.c:293:26: note: in expansion of macro 'efi_call_virt'
+     293 |                 status = efi_call_virt(&args->ACPI_PRM_HANDLER,
+         |                          ^~~~~~~~~~~~~
 
 
-vim +315 fs/crypto/keysetup.c
+vim +293 drivers/firmware/efi/runtime-wrappers.c
 
-a992b20cd4ee36 Eric Biggers      2020-09-16  304  
-3d3afe7cb13fb9 Sweet Tea Dorminy 2023-08-08  305  static int fscrypt_setup_ino_hash_key(struct fscrypt_master_key *mk)
-e3b1078bedd323 Eric Biggers      2020-05-15  306  {
-e3b1078bedd323 Eric Biggers      2020-05-15  307  	int err;
-e3b1078bedd323 Eric Biggers      2020-05-15  308  
-e3b1078bedd323 Eric Biggers      2020-05-15  309  	/* pairs with smp_store_release() below */
-3d3afe7cb13fb9 Sweet Tea Dorminy 2023-08-08  310  	if (smp_load_acquire(&mk->mk_ino_hash_key_initialized))
-3d3afe7cb13fb9 Sweet Tea Dorminy 2023-08-08  311  		return 0;
-e3b1078bedd323 Eric Biggers      2020-05-15  312  
-e3b1078bedd323 Eric Biggers      2020-05-15  313  	mutex_lock(&fscrypt_mode_key_setup_mutex);
-e3b1078bedd323 Eric Biggers      2020-05-15  314  
-e3b1078bedd323 Eric Biggers      2020-05-15 @315  	if (mk->mk_ino_hash_key_initialized)
-e3b1078bedd323 Eric Biggers      2020-05-15  316  		goto unlock;
-e3b1078bedd323 Eric Biggers      2020-05-15  317  
-2fc2b430f559fd Eric Biggers      2021-06-05  318  	err = fscrypt_derive_siphash_key(mk,
-2fc2b430f559fd Eric Biggers      2021-06-05  319  					 HKDF_CONTEXT_INODE_HASH_KEY,
-2fc2b430f559fd Eric Biggers      2021-06-05  320  					 NULL, 0, &mk->mk_ino_hash_key);
-e3b1078bedd323 Eric Biggers      2020-05-15  321  	if (err)
-e3b1078bedd323 Eric Biggers      2020-05-15  322  		goto unlock;
-e3b1078bedd323 Eric Biggers      2020-05-15  323  	/* pairs with smp_load_acquire() above */
-e3b1078bedd323 Eric Biggers      2020-05-15  324  	smp_store_release(&mk->mk_ino_hash_key_initialized, true);
-e3b1078bedd323 Eric Biggers      2020-05-15  325  unlock:
-e3b1078bedd323 Eric Biggers      2020-05-15  326  	mutex_unlock(&fscrypt_mode_key_setup_mutex);
-e3b1078bedd323 Eric Biggers      2020-05-15  327  
-3d3afe7cb13fb9 Sweet Tea Dorminy 2023-08-08  328  	return err;
-e3b1078bedd323 Eric Biggers      2020-05-15  329  }
-e3b1078bedd323 Eric Biggers      2020-05-15  330  
+   210	
+   211	/*
+   212	 * Calls the appropriate efi_runtime_service() with the appropriate
+   213	 * arguments.
+   214	 */
+   215	static void efi_call_rts(struct work_struct *work)
+   216	{
+   217		const union efi_rts_args *args = efi_rts_work.args;
+   218		efi_status_t status = EFI_NOT_FOUND;
+   219		unsigned long flags;
+   220	
+   221		arch_efi_call_virt_setup();
+   222		flags = efi_call_virt_save_flags();
+   223	
+   224		switch (efi_rts_work.efi_rts_id) {
+   225		case EFI_GET_TIME:
+   226			status = efi_call_virt(get_time,
+   227					       args->GET_TIME.time,
+   228					       args->GET_TIME.capabilities);
+   229			break;
+   230		case EFI_SET_TIME:
+   231			status = efi_call_virt(set_time,
+   232					       args->SET_TIME.time);
+   233			break;
+   234		case EFI_GET_WAKEUP_TIME:
+   235			status = efi_call_virt(get_wakeup_time,
+   236					       args->GET_WAKEUP_TIME.enabled,
+   237					       args->GET_WAKEUP_TIME.pending,
+   238					       args->GET_WAKEUP_TIME.time);
+   239			break;
+   240		case EFI_SET_WAKEUP_TIME:
+   241			status = efi_call_virt(set_wakeup_time,
+   242					       args->SET_WAKEUP_TIME.enable,
+   243					       args->SET_WAKEUP_TIME.time);
+   244			break;
+   245		case EFI_GET_VARIABLE:
+   246			status = efi_call_virt(get_variable,
+   247					       args->GET_VARIABLE.name,
+   248					       args->GET_VARIABLE.vendor,
+   249					       args->GET_VARIABLE.attr,
+   250					       args->GET_VARIABLE.data_size,
+   251					       args->GET_VARIABLE.data);
+   252			break;
+   253		case EFI_GET_NEXT_VARIABLE:
+   254			status = efi_call_virt(get_next_variable,
+   255					       args->GET_NEXT_VARIABLE.name_size,
+   256					       args->GET_NEXT_VARIABLE.name,
+   257					       args->GET_NEXT_VARIABLE.vendor);
+   258			break;
+   259		case EFI_SET_VARIABLE:
+   260			status = efi_call_virt(set_variable,
+   261					       args->SET_VARIABLE.name,
+   262					       args->SET_VARIABLE.vendor,
+   263					       args->SET_VARIABLE.attr,
+   264					       args->SET_VARIABLE.data_size,
+   265					       args->SET_VARIABLE.data);
+   266			break;
+   267		case EFI_QUERY_VARIABLE_INFO:
+   268			status = efi_call_virt(query_variable_info,
+   269					       args->QUERY_VARIABLE_INFO.attr,
+   270					       args->QUERY_VARIABLE_INFO.storage_space,
+   271					       args->QUERY_VARIABLE_INFO.remaining_space,
+   272					       args->QUERY_VARIABLE_INFO.max_variable_size);
+   273			break;
+   274		case EFI_GET_NEXT_HIGH_MONO_COUNT:
+   275			status = efi_call_virt(get_next_high_mono_count,
+   276					       args->GET_NEXT_HIGH_MONO_COUNT.high_count);
+   277			break;
+   278		case EFI_UPDATE_CAPSULE:
+   279			status = efi_call_virt(update_capsule,
+   280					       args->UPDATE_CAPSULE.capsules,
+   281					       args->UPDATE_CAPSULE.count,
+   282					       args->UPDATE_CAPSULE.sg_list);
+   283			break;
+   284		case EFI_QUERY_CAPSULE_CAPS:
+   285			status = efi_call_virt(query_capsule_caps,
+   286					       args->QUERY_CAPSULE_CAPS.capsules,
+   287					       args->QUERY_CAPSULE_CAPS.count,
+   288					       args->QUERY_CAPSULE_CAPS.max_size,
+   289					       args->QUERY_CAPSULE_CAPS.reset_type);
+   290			break;
+   291		case EFI_ACPI_PRM_HANDLER:
+   292	#ifdef CONFIG_ACPI_PRMT
+ > 293			status = efi_call_virt(&args->ACPI_PRM_HANDLER,
+   294					       acpi_prm_handler,
+   295					       args->ACPI_PRM_HANDLER.param_buffer_addr,
+   296					       args->ACPI_PRM_HANDLER.context);
+   297			break;
+   298	#endif
+   299		default:
+   300			/*
+   301			 * Ideally, we should never reach here because a caller of this
+   302			 * function should have put the right efi_runtime_service()
+   303			 * function identifier into efi_rts_work->efi_rts_id
+   304			 */
+   305			pr_err("Requested executing invalid EFI Runtime Service.\n");
+   306		}
+   307	
+   308		efi_call_virt_check_flags(flags, efi_rts_work.caller);
+   309		arch_efi_call_virt_teardown();
+   310	
+   311		efi_rts_work.status = status;
+   312		complete(&efi_rts_work.efi_rts_comp);
+   313	}
+   314	
 
 -- 
 0-DAY CI Kernel Test Service
