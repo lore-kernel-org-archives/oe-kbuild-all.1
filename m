@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F842451A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 21:23:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB611D2F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 21:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691616227; x=1723152227;
+  t=1691616888; x=1723152888;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WdmnaO8xyE/h3BNtZmi3U0nEluBf2QoOBfnOuWbbSIM=;
-  b=ebJFULZMkljHt5Mq7tLm6+aQtt56XzjymwupSX0uKlsLtE2g/L/XB/O2
-   Wg36/+smwU1w4xol++/Enc/GlwQpASnU/YAbFyW+kiiHIcMiXoafoCmkR
-   MDUNJHANPzbdMGT7Lco8s7fPRCle/jVgYifUkRL5d4++NIjp42/HqMJS8
-   dkkTHdGi6juufU6w+a66+axNRUwJO2YWAEnvrY2R9o5FPQUDvnPxXp90A
-   qjvYqMQ5ZXXNWug2OrxA6QBP9LRBFmYqDYchBZxmZuZQ9jbM7acQ5fFut
-   Ghp692J1sc3CS1ckIbB2Bn+YgIfPoy9Cq+jFbqzVt4Qwx1gELyh6qnOAq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="370135941"
+  bh=4bM0uwOiJclhEgKUht1xNJ59BEFuN3drCgUdCfp1144=;
+  b=BP+0bIbKtPbOYvgafWyb9r7qxpKDqi76xl22/IERS0vSoz/nQQuvc4Ew
+   uEGow7nFxgWaeAE/t2KHAx8FR4FAgOR54l2zm5GK4ynule868c+EFFcWw
+   KWSmutyRSRLT/iAzxAzmZzZX5bMgJza9fLucSH2o7Wyj/tABzH0ENPLtW
+   9/W4953refefAq7lvAaYAlL3w8qT3zVdZaWB1tfTS1d91rC+alJPqFwa4
+   Kim8YysJJvg1WIqALZ+ljVuTIXEBpqzPg/8oNC5gy0LCGpjxdJH+iOPVy
+   5QfyhrxPUhlgEi9SYEs6YFxYpkdgxcWdsDN2ziiSi4gL0c7C+eSmcDtdL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="374019095"
 X-IronPort-AV: E=Sophos;i="6.01,160,1684825200"; 
-   d="scan'208";a="370135941"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 14:23:46 -0700
+   d="scan'208";a="374019095"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 14:34:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="846134017"
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="761541816"
 X-IronPort-AV: E=Sophos;i="6.01,160,1684825200"; 
-   d="scan'208";a="846134017"
+   d="scan'208";a="761541816"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Aug 2023 14:23:45 -0700
+  by orsmga008.jf.intel.com with ESMTP; 09 Aug 2023 14:34:45 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTqee-0006Pq-2m;
-	Wed, 09 Aug 2023 21:23:44 +0000
-Date: Thu, 10 Aug 2023 05:23:35 +0800
+	id 1qTqpJ-0006QG-0F;
+	Wed, 09 Aug 2023 21:34:45 +0000
+Date: Thu, 10 Aug 2023 05:33:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:locking/core 5/7] include/asm-generic/current.h:7:23:
- error: 'typeof' applied to a bit-field
-Message-ID: <202308100554.MBGJbzAA-lkp@intel.com>
+Subject: [peterz-queue:x86/srso 1/17]
+ arch/x86/include/asm/text-patching.h:115: undefined reference to
+ `x86_return_thunk'
+Message-ID: <202308100546.HhHeGhuN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,84 +47,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/core
-head:   47a35f56e63994577fabd8fbc58b6551416f8250
-commit: 876dda04d9e0849c1d112180ec0e35cab6fbe494 [5/7] sched: Provide rt_mutex specific scheduler helpers
-config: openrisc-randconfig-r015-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100554.MBGJbzAA-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100554.MBGJbzAA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/srso
+head:   c11a8b2bc1bb3ad76d8d28b283552768d665208c
+commit: 89b2003054a4eb3c95af9791c5ef64e0ba02ee76 [1/17] x86/alternative: Unconditional custom return thunk
+config: i386-randconfig-i004-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100546.HhHeGhuN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100546.HhHeGhuN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308100554.MBGJbzAA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308100546.HhHeGhuN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from ./arch/openrisc/include/generated/asm/bug.h:1,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/openrisc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from kernel/sched/core.c:9:
-   kernel/sched/core.c: In function 'rt_mutex_pre_schedule':
->> include/asm-generic/current.h:7:23: error: 'typeof' applied to a bit-field
-       7 | #define get_current() (current_thread_info()->task)
-         |                       ^
-   include/asm-generic/bug.h:168:32: note: in definition of macro 'WARN_ON'
-     168 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   kernel/sched/core.c:7068:9: note: in expansion of macro 'lockdep_assert'
-    7068 |         lockdep_assert(!fetch_and_set(current->sched_rt_mutex, 1));
-         |         ^~~~~~~~~~~~~~
-   kernel/sched/core.c:7068:25: note: in expansion of macro 'fetch_and_set'
-    7068 |         lockdep_assert(!fetch_and_set(current->sched_rt_mutex, 1));
-         |                         ^~~~~~~~~~~~~
-   include/asm-generic/current.h:8:17: note: in expansion of macro 'get_current'
-       8 | #define current get_current()
-         |                 ^~~~~~~~~~~
-   kernel/sched/core.c:7068:39: note: in expansion of macro 'current'
-    7068 |         lockdep_assert(!fetch_and_set(current->sched_rt_mutex, 1));
-         |                                       ^~~~~~~
-   kernel/sched/core.c: In function 'rt_mutex_post_schedule':
->> include/asm-generic/current.h:7:23: error: 'typeof' applied to a bit-field
-       7 | #define get_current() (current_thread_info()->task)
-         |                       ^
-   include/asm-generic/bug.h:168:32: note: in definition of macro 'WARN_ON'
-     168 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   kernel/sched/core.c:7081:9: note: in expansion of macro 'lockdep_assert'
-    7081 |         lockdep_assert(fetch_and_set(current->sched_rt_mutex, 0));
-         |         ^~~~~~~~~~~~~~
-   kernel/sched/core.c:7081:24: note: in expansion of macro 'fetch_and_set'
-    7081 |         lockdep_assert(fetch_and_set(current->sched_rt_mutex, 0));
-         |                        ^~~~~~~~~~~~~
-   include/asm-generic/current.h:8:17: note: in expansion of macro 'get_current'
-       8 | #define current get_current()
-         |                 ^~~~~~~~~~~
-   kernel/sched/core.c:7081:38: note: in expansion of macro 'current'
-    7081 |         lockdep_assert(fetch_and_set(current->sched_rt_mutex, 0));
-         |                                      ^~~~~~~
+   ld: arch/x86/kernel/static_call.o: in function `__text_gen_insn':
+>> arch/x86/include/asm/text-patching.h:115: undefined reference to `x86_return_thunk'
+   ld: arch/x86/kernel/static_call.o: in function `__static_call_transform':
+>> arch/x86/kernel/static_call.c:94: undefined reference to `x86_return_thunk'
 
 
-vim +/typeof +7 include/asm-generic/current.h
+vim +115 arch/x86/include/asm/text-patching.h
 
-aafe4dbed0bf6c Arnd Bergmann 2009-05-13  6  
-aafe4dbed0bf6c Arnd Bergmann 2009-05-13 @7  #define get_current() (current_thread_info()->task)
-aafe4dbed0bf6c Arnd Bergmann 2009-05-13  8  #define current get_current()
-aafe4dbed0bf6c Arnd Bergmann 2009-05-13  9  
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  100  
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  101  static __always_inline
+ba27d1a80871eb Peter Zijlstra 2022-03-08  102  void __text_gen_insn(void *buf, u8 opcode, const void *addr, const void *dest, int size)
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  103  {
+ba27d1a80871eb Peter Zijlstra 2022-03-08  104  	union text_poke_insn *insn = buf;
+ba27d1a80871eb Peter Zijlstra 2022-03-08  105  
+ba27d1a80871eb Peter Zijlstra 2022-03-08  106  	BUG_ON(size < text_opcode_size(opcode));
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  107  
+bbf92368b0b1fe Peter Zijlstra 2022-03-08  108  	/*
+bbf92368b0b1fe Peter Zijlstra 2022-03-08  109  	 * Hide the addresses to avoid the compiler folding in constants when
+bbf92368b0b1fe Peter Zijlstra 2022-03-08  110  	 * referencing code, these can mess up annotations like
+bbf92368b0b1fe Peter Zijlstra 2022-03-08  111  	 * ANNOTATE_NOENDBR.
+bbf92368b0b1fe Peter Zijlstra 2022-03-08  112  	 */
+ba27d1a80871eb Peter Zijlstra 2022-03-08  113  	OPTIMIZER_HIDE_VAR(insn);
+bbf92368b0b1fe Peter Zijlstra 2022-03-08  114  	OPTIMIZER_HIDE_VAR(addr);
+bbf92368b0b1fe Peter Zijlstra 2022-03-08 @115  	OPTIMIZER_HIDE_VAR(dest);
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  116  
+ba27d1a80871eb Peter Zijlstra 2022-03-08  117  	insn->opcode = opcode;
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  118  
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  119  	if (size > 1) {
+ba27d1a80871eb Peter Zijlstra 2022-03-08  120  		insn->disp = (long)dest - (long)(addr + size);
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  121  		if (size == 2) {
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  122  			/*
+bbf92368b0b1fe Peter Zijlstra 2022-03-08  123  			 * Ensure that for JMP8 the displacement
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  124  			 * actually fits the signed byte.
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  125  			 */
+ba27d1a80871eb Peter Zijlstra 2022-03-08  126  			BUG_ON((insn->disp >> 31) != (insn->disp >> 7));
+ba27d1a80871eb Peter Zijlstra 2022-03-08  127  		}
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  128  	}
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  129  }
+67c1d4a28064f9 Peter Zijlstra 2019-10-09  130  
 
-:::::: The code at line 7 was first introduced by commit
-:::::: aafe4dbed0bf6cbdb2e9f03e1d42f8a540d8541d asm-generic: add generic versions of common headers
+:::::: The code at line 115 was first introduced by commit
+:::::: bbf92368b0b1fe472d489e62d3340d7897e9c697 x86/text-patching: Make text_gen_insn() play nice with ANNOTATE_NOENDBR
 
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Arnd Bergmann <arnd@klappe2.(none)>
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
