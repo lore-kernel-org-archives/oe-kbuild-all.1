@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AAA16426
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 12:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6308363DF;
+	Wed,  9 Aug 2023 13:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691584479; x=1723120479;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Z/Z+rg801KeZo4ngy7RBcyfELAObQ+yrPuQQEqWtiJY=;
-  b=b8qXBt6jYLF03JpFwyhPv0aaIs/BPqlXml9y5GZ4IBoL4dqHbo1N+1nx
-   EhYwIBF+yamNCVdwHLUtmiL5VJpYDBHi4OzmcflJ4lIXiuDKvXU4wpDa4
-   z6iVbnW/aQJ9wsFzmmW352GiJgczWXS/aKu+ykGFUYvnCnBhThS4pVjG0
-   +PQbXzRBOQiqzESjNZkc5kKGM32M7GYzoLa81bQlRl3MILe4kllb8gddM
-   C63+F2lBKbqwoo6LOF8I+sOlnL/w/lE31HEiDkyb7qiNptVrGySY6s6PR
-   P1LYvWa0q0NXxhU5zj801SeaiW9xM2XPoAr/z264b450RIMf2MVfkWevE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="361236420"
+  t=1691586415; x=1723122415;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FbYDNCYkMSpa9rrKwEV7u40XHpaYvLEw7RAiD2+K+F8=;
+  b=LQJEkRzZOY9OA7pkI8dMxPtL2++Ag0OwSoOUVdsy6w2zxlNrG/+gjlrf
+   1TAyBPF9Tx5k2alNB3d0L5uQaxJZyt6eAOU4cmFKj079AaNeOf4sBvkCA
+   oHWkB8nuEKMb38m7K8it2XqqpzupT0+kNE5NIZGplZ+2mwhVATCYygjIs
+   0UcGndQCDFQDKvnZ58LdnFimvL2QDakDNGlwhq7ZlhvPstrPy6PsbiArA
+   umDuCOJfZjnzZhXGCbP4y3RAoyLeChk9sD5eAv9Rx0QENrQrpbE0t1sXb
+   zpKyCpX8gmKz/7LkmEovc5Nx9jIgTqwzuQDZvUT1o6Sm1tdE62q7tR4TN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="457483554"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="361236420"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 05:34:34 -0700
+   d="scan'208";a="457483554"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 06:06:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="978371304"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="801751629"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="978371304"
+   d="scan'208";a="801751629"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Aug 2023 05:34:32 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 09 Aug 2023 06:06:33 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTiOW-00066a-0p;
-	Wed, 09 Aug 2023 12:34:32 +0000
-Date: Wed, 9 Aug 2023 20:34:02 +0800
+	id 1qTitU-00067Q-2E;
+	Wed, 09 Aug 2023 13:06:32 +0000
+Date: Wed, 9 Aug 2023 21:05:39 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Brandon Brnich <b-brnich@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y 79/107]
- drivers/media/platform/chips-media/wave5/wave5-vpu.c:339:34: warning: unused
- variable 'wave5_dt_ids'
-Message-ID: <202308092055.tyWnDITG-lkp@intel.com>
+To: Marco Elver <elver@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 8173/8441] include/linux/list.h:53:13: error:
+ '__preserve_most__' calling convention is not supported for this target
+Message-ID: <202308092009.dDIMqss4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,89 +48,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
-head:   b48e8af2b534491c63db33742d2758064b72eb9f
-commit: edd2c4feec914122a91c898836255213fa0acab7 [79/107] media: chips-media: wave5: Add the v4l2 layer
-config: hexagon-randconfig-r033-20230809 (https://download.01.org/0day-ci/archive/20230809/202308092055.tyWnDITG-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   21ef7b1e17d039053edaeaf41142423810572741
+commit: fee8feb67f0b2954eb7a2a259122e43a15cf3a52 [8173/8441] list_debug: introduce CONFIG_DEBUG_LIST_MINIMAL
+config: arm-randconfig-r005-20230809 (https://download.01.org/0day-ci/archive/20230809/202308092009.dDIMqss4-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308092055.tyWnDITG-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308092009.dDIMqss4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308092055.tyWnDITG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308092009.dDIMqss4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/media/platform/chips-media/wave5/wave5-vpu.c:11:
-   In file included from include/linux/of_address.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/media/platform/chips-media/wave5/wave5-vpu.c:11:
-   In file included from include/linux/of_address.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/media/platform/chips-media/wave5/wave5-vpu.c:11:
-   In file included from include/linux/of_address.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   drivers/media/platform/chips-media/wave5/wave5-vpu.c:228:36: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     228 |                 dev_dbg(&pdev->dev, "%s: sram daddr: %pad, size: 0x%lx\n",
-         |                                                                    ~~~
-         |                                                                    %zx
-     229 |                         __func__, &dev->sram_buf.daddr, dev->sram_buf.size);
-         |                                                         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:163:47: note: expanded from macro 'dev_dbg'
-     163 |                 dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
-         |                                                     ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
-     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-         |                                         ~~~    ^~~~~~~~~~~
->> drivers/media/platform/chips-media/wave5/wave5-vpu.c:339:34: warning: unused variable 'wave5_dt_ids' [-Wunused-const-variable]
-     339 | static const struct of_device_id wave5_dt_ids[] = {
-         |                                  ^
-   8 warnings generated.
+   In file included from drivers/gpu/drm/tilcdc/tilcdc_external.c:10:
+   In file included from include/drm/drm_atomic_helper.h:31:
+   In file included from include/drm/drm_crtc.h:28:
+   In file included from include/linux/spinlock.h:56:
+   In file included from include/linux/preempt.h:12:
+>> include/linux/list.h:53:13: error: '__preserve_most__' calling convention is not supported for this target [-Werror,-Wignored-attributes]
+      53 | extern bool __list_valid_slowpath __list_add_valid_or_report(struct list_head *new,
+         |             ^
+   include/linux/list.h:44:39: note: expanded from macro '__list_valid_slowpath'
+      44 | # define __list_valid_slowpath __cold __preserve_most
+         |                                       ^
+   include/linux/compiler_types.h:132:49: note: expanded from macro '__preserve_most'
+     132 | # define __preserve_most notrace __attribute__((__preserve_most__))
+         |                                                 ^
+   In file included from drivers/gpu/drm/tilcdc/tilcdc_external.c:10:
+   In file included from include/drm/drm_atomic_helper.h:31:
+   In file included from include/drm/drm_crtc.h:28:
+   In file included from include/linux/spinlock.h:56:
+   In file included from include/linux/preempt.h:12:
+   include/linux/list.h:96:13: error: '__preserve_most__' calling convention is not supported for this target [-Werror,-Wignored-attributes]
+      96 | extern bool __list_valid_slowpath __list_del_entry_valid_or_report(struct list_head *entry);
+         |             ^
+   include/linux/list.h:44:39: note: expanded from macro '__list_valid_slowpath'
+      44 | # define __list_valid_slowpath __cold __preserve_most
+         |                                       ^
+   include/linux/compiler_types.h:132:49: note: expanded from macro '__preserve_most'
+     132 | # define __preserve_most notrace __attribute__((__preserve_most__))
+         |                                                 ^
+   2 errors generated.
 
 
-vim +/wave5_dt_ids +339 drivers/media/platform/chips-media/wave5/wave5-vpu.c
+vim +/__preserve_most__ +53 include/linux/list.h
 
-   338	
- > 339	static const struct of_device_id wave5_dt_ids[] = {
-   340		{ .compatible = "cnm,cm511-vpu", .data = &wave511_data },
-   341		{ .compatible = "cnm,cm517-vpu", .data = &default_match_data },
-   342		{ .compatible = "cnm,cm521-vpu", .data = &wave521_data },
-   343		{ .compatible = "cnm,cm521c-vpu", .data = &wave521c_data },
-   344		{ .compatible = "cnm,cm521c-dual-vpu", .data = &wave521c_data },
-   345		{ .compatible = "cnm,cm521e1-vpu", .data = &default_match_data },
-   346		{ .compatible = "cnm,cm537-vpu", .data = &default_match_data },
-   347		{ /* sentinel */ }
-   348	};
-   349	MODULE_DEVICE_TABLE(of, wave5_dt_ids);
-   350	
+    48	
+    49	/*
+    50	 * Performs the full set of list corruption checks before __list_add().
+    51	 * On list corruption reports a warning, and returns false.
+    52	 */
+  > 53	extern bool __list_valid_slowpath __list_add_valid_or_report(struct list_head *new,
+    54								     struct list_head *prev,
+    55								     struct list_head *next);
+    56	
 
 -- 
 0-DAY CI Kernel Test Service
