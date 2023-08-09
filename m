@@ -1,123 +1,191 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58F03D7F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 06:11:29 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-40648d758f1so46660211cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 08 Aug 2023 23:11:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691561488; x=1692166288;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7Ms7iYNp80/BrQPVd1Wu0NtDMidguJs1Vm+Kts8MPK0=;
-        b=RN576sBAEe/LovR6mCDVhX2xoekgFTYj/fgTIaDKWa+LJB9YVfaWfR58VPB3BXSfdn
-         v/IasQm7bVjAStbpq0fvSbuMSimHH0Sh0+aJRO4WPMG2xbo74qaecU9vEghc1H8e7e/E
-         L7+FImW8W+0VI7PK6KDLQAXJFJ1PqBKHm627rByV8J+lXBQBNg3Ug276XTU1mRxv2hE0
-         tZzp3a03Nge8nevSnfrH1qIm4I9dT2enkPmsen70nPaZvtrF9Kq+Y5LLA7fPTIzqWzDI
-         ghDypxrPkJ6gW4zjyn86bKmWCuFeq6qw31tMwrfonZXKe0dgpPwGqrycTIng8mHtqEPr
-         /lfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691561488; x=1692166288;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Ms7iYNp80/BrQPVd1Wu0NtDMidguJs1Vm+Kts8MPK0=;
-        b=fGYQuhHEdG4AQ+JYuUeQIQ74cpoAx0r/RuzW8iCoXyB+4gxjxgecNPeDK8gAMjTzj0
-         Q+4DIkQPyIEsDhM2YGQSTjUgugh5vKfpT48pVVMF9TMk6dJ2SLm57R9nYv3trxYitG35
-         dVWuOeJ1vU6XAfx4uD85t+yiyGJfOJo7mwZgqteqryP6CHX24NogygrL+atjaBpZRTBz
-         MboTcAt42wEhI11Wd+hLv2C7QohZ/Bxs2LKgPFh0vHFJBNjduw+89dQ7jdOElnYdLV8m
-         CGyhK9u1UFG87Pz0OgGINcfEdW2iRe6dBYReXwzft/WgJgME9BbAbCSmiwxT9btGYVms
-         9bsw==
-X-Gm-Message-State: AOJu0YwsM7wgI7gKJAYRzUP8sFnp7vJ6Deaewi8c1bQ7DnlMt4faSDea
-	tn3gdxS/TwLczoCdWuWNxXUH
-X-Google-Smtp-Source: AGHT+IHf87EZm3LQgNx9Ep7FX3BJm1QmcuWANPNoYzfIPWVmf7wCxsLgxKWucwlxNZlNYTQFLSRGFg==
-X-Received: by 2002:a05:622a:170e:b0:403:9e72:5e93 with SMTP id h14-20020a05622a170e00b004039e725e93mr2579278qtk.9.1691561488321;
-        Tue, 08 Aug 2023 23:11:28 -0700 (PDT)
-Received: from thinkpad ([117.207.25.122])
-        by smtp.gmail.com with ESMTPSA id o16-20020a0cf4d0000000b0063d385c28edsm4259014qvm.41.2023.08.08.23.11.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 23:11:27 -0700 (PDT)
-Date: Wed, 9 Aug 2023 11:41:21 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [jejb-scsi:misc 36/37] drivers/ufs/host/ufs-qcom.c:64:3: sparse:
- sparse: symbol 'ufs_qcom_bw_table' was not declared. Should it be static?
-Message-ID: <20230809061121.GB5348@thinkpad>
-References: <202308091030.L5JrOBJB-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ABDA3C3F;
+	Wed,  9 Aug 2023 06:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691561545; x=1723097545;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vm5GKLTlVnJ4hPhgLqxQ4o/Pa3bwwcfP/tQbqOQrRz8=;
+  b=YvHRfAPUYXLnAP9TzZCQkd08nNlHPz4yqDkJMkZXWkDxzkqM7KQbkfN2
+   B3XDJ7JWJzFTsQPcr6mymg3qE5sxwQUsdPCWyHTd0aBWsOhuvyBIbrfD/
+   CFqVoh+TX8BfjMES0hz6RGrhyJFsRFThhUx5sT5Z9yAPEsxcDrOwI+YNs
+   PDs9wsx57bQKMgVOUj0aHet9fD/8ymAsGCp/f2qYCbGGpIcG9bWBo470E
+   HdMWohVkyc84fVGSBB0/n7EZyztqmpqzXQbe51bwJKy0jsbWz5nSw8nl7
+   mUbzlraGU/DAXKQXxv9oi6SxzU/B2OCUHv7R/v0nrA5sSJCqpk+c+g/li
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="361159611"
+X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
+   d="scan'208";a="361159611"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 23:12:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="681553168"
+X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
+   d="scan'208";a="681553168"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 08 Aug 2023 23:12:23 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qTcQh-0005r6-0I;
+	Wed, 09 Aug 2023 06:12:23 +0000
+Date: Wed, 9 Aug 2023 14:11:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-efi-runtime-cleanup 8/11]
+ drivers/firmware/efi/runtime-wrappers.c:293:26: error: expected identifier
+Message-ID: <202308091414.fPZ0j8Ex-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202308091030.L5JrOBJB-lkp@intel.com>
 
-On Wed, Aug 09, 2023 at 10:44:28AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git misc
-> head:   6cae9a3910ac1b5daf5ac3db9576b78cc4eff5aa
-> commit: 03ce80a1bb869f735de793f04c9c085b61884599 [36/37] scsi: ufs: qcom: Add support for scaling interconnects
-> config: arm64-randconfig-r071-20230808 (https://download.01.org/0day-ci/archive/20230809/202308091030.L5JrOBJB-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091030.L5JrOBJB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308091030.L5JrOBJB-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/ufs/host/ufs-qcom.c:64:3: sparse: sparse: symbol 'ufs_qcom_bw_table' was not declared. Should it be static?
-> 
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efi-runtime-cleanup
+head:   c71456a199541783dbb943e07547fc0d0c929ea2
+commit: 74d615646e6a6ab2abe1d6b22d519d7b1b8981c1 [8/11] acpi/prmt: Use EFI runtime sandbox to invoke PRM handlers
+config: x86_64-buildonly-randconfig-r003-20230808 (https://download.01.org/0day-ci/archive/20230809/202308091414.fPZ0j8Ex-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091414.fPZ0j8Ex-lkp@intel.com/reproduce)
 
-This is already taken care by https://lore.kernel.org/all/20230802040154.10652-1-manivannan.sadhasivam@linaro.org/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308091414.fPZ0j8Ex-lkp@intel.com/
 
-- Mani
+All errors (new ones prefixed by >>):
 
-> vim +/ufs_qcom_bw_table +64 drivers/ufs/host/ufs-qcom.c
-> 
->     60	
->     61	struct __ufs_qcom_bw_table {
->     62		u32 mem_bw;
->     63		u32 cfg_bw;
->   > 64	} ufs_qcom_bw_table[MODE_MAX + 1][QCOM_UFS_MAX_GEAR + 1][QCOM_UFS_MAX_LANE + 1] = {
->     65		[MODE_MIN][0][0]		   = { 0,		0 }, /* Bandwidth values in KB/s */
->     66		[MODE_PWM][UFS_PWM_G1][UFS_LANE_1] = { 922,		1000 },
->     67		[MODE_PWM][UFS_PWM_G2][UFS_LANE_1] = { 1844,		1000 },
->     68		[MODE_PWM][UFS_PWM_G3][UFS_LANE_1] = { 3688,		1000 },
->     69		[MODE_PWM][UFS_PWM_G4][UFS_LANE_1] = { 7376,		1000 },
->     70		[MODE_PWM][UFS_PWM_G1][UFS_LANE_2] = { 1844,		1000 },
->     71		[MODE_PWM][UFS_PWM_G2][UFS_LANE_2] = { 3688,		1000 },
->     72		[MODE_PWM][UFS_PWM_G3][UFS_LANE_2] = { 7376,		1000 },
->     73		[MODE_PWM][UFS_PWM_G4][UFS_LANE_2] = { 14752,		1000 },
->     74		[MODE_HS_RA][UFS_HS_G1][UFS_LANE_1] = { 127796,		1000 },
->     75		[MODE_HS_RA][UFS_HS_G2][UFS_LANE_1] = { 255591,		1000 },
->     76		[MODE_HS_RA][UFS_HS_G3][UFS_LANE_1] = { 1492582,	102400 },
->     77		[MODE_HS_RA][UFS_HS_G4][UFS_LANE_1] = { 2915200,	204800 },
->     78		[MODE_HS_RA][UFS_HS_G1][UFS_LANE_2] = { 255591,		1000 },
->     79		[MODE_HS_RA][UFS_HS_G2][UFS_LANE_2] = { 511181,		1000 },
->     80		[MODE_HS_RA][UFS_HS_G3][UFS_LANE_2] = { 1492582,	204800 },
->     81		[MODE_HS_RA][UFS_HS_G4][UFS_LANE_2] = { 2915200,	409600 },
->     82		[MODE_HS_RB][UFS_HS_G1][UFS_LANE_1] = { 149422,		1000 },
->     83		[MODE_HS_RB][UFS_HS_G2][UFS_LANE_1] = { 298189,		1000 },
->     84		[MODE_HS_RB][UFS_HS_G3][UFS_LANE_1] = { 1492582,	102400 },
->     85		[MODE_HS_RB][UFS_HS_G4][UFS_LANE_1] = { 2915200,	204800 },
->     86		[MODE_HS_RB][UFS_HS_G1][UFS_LANE_2] = { 298189,		1000 },
->     87		[MODE_HS_RB][UFS_HS_G2][UFS_LANE_2] = { 596378,		1000 },
->     88		[MODE_HS_RB][UFS_HS_G3][UFS_LANE_2] = { 1492582,	204800 },
->     89		[MODE_HS_RB][UFS_HS_G4][UFS_LANE_2] = { 2915200,	409600 },
->     90		[MODE_MAX][0][0]		    = { 7643136,	307200 },
->     91	};
->     92	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+>> drivers/firmware/efi/runtime-wrappers.c:293:26: error: expected identifier
+                   status = efi_call_virt(&args->ACPI_PRM_HANDLER,
+                                          ^
+>> drivers/firmware/efi/runtime-wrappers.c:294:12: error: use of undeclared identifier 'acpi_prm_handler'
+                                          acpi_prm_handler,
+                                          ^
+   drivers/firmware/efi/runtime-wrappers.c:293:12: error: assigning to 'u64' (aka 'unsigned long long') from incompatible type 'void'
+                   status = efi_call_virt(&args->ACPI_PRM_HANDLER,
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/firmware/efi/runtime-wrappers.c:43:2: note: expanded from macro 'efi_call_virt'
+           arch_efi_call_virt(efi.runtime, f, args)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/efi.h:109:6: note: expanded from macro 'arch_efi_call_virt'
+           ret = efi_call((void *)p->f, args);                             \
+               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
+
+
+vim +293 drivers/firmware/efi/runtime-wrappers.c
+
+   210	
+   211	/*
+   212	 * Calls the appropriate efi_runtime_service() with the appropriate
+   213	 * arguments.
+   214	 */
+   215	static void efi_call_rts(struct work_struct *work)
+   216	{
+   217		const union efi_rts_args *args = efi_rts_work.args;
+   218		efi_status_t status = EFI_NOT_FOUND;
+   219		unsigned long flags;
+   220	
+   221		arch_efi_call_virt_setup();
+   222		flags = efi_call_virt_save_flags();
+   223	
+   224		switch (efi_rts_work.efi_rts_id) {
+   225		case EFI_GET_TIME:
+   226			status = efi_call_virt(get_time,
+   227					       args->GET_TIME.time,
+   228					       args->GET_TIME.capabilities);
+   229			break;
+   230		case EFI_SET_TIME:
+   231			status = efi_call_virt(set_time,
+   232					       args->SET_TIME.time);
+   233			break;
+   234		case EFI_GET_WAKEUP_TIME:
+   235			status = efi_call_virt(get_wakeup_time,
+   236					       args->GET_WAKEUP_TIME.enabled,
+   237					       args->GET_WAKEUP_TIME.pending,
+   238					       args->GET_WAKEUP_TIME.time);
+   239			break;
+   240		case EFI_SET_WAKEUP_TIME:
+   241			status = efi_call_virt(set_wakeup_time,
+   242					       args->SET_WAKEUP_TIME.enable,
+   243					       args->SET_WAKEUP_TIME.time);
+   244			break;
+   245		case EFI_GET_VARIABLE:
+   246			status = efi_call_virt(get_variable,
+   247					       args->GET_VARIABLE.name,
+   248					       args->GET_VARIABLE.vendor,
+   249					       args->GET_VARIABLE.attr,
+   250					       args->GET_VARIABLE.data_size,
+   251					       args->GET_VARIABLE.data);
+   252			break;
+   253		case EFI_GET_NEXT_VARIABLE:
+   254			status = efi_call_virt(get_next_variable,
+   255					       args->GET_NEXT_VARIABLE.name_size,
+   256					       args->GET_NEXT_VARIABLE.name,
+   257					       args->GET_NEXT_VARIABLE.vendor);
+   258			break;
+   259		case EFI_SET_VARIABLE:
+   260			status = efi_call_virt(set_variable,
+   261					       args->SET_VARIABLE.name,
+   262					       args->SET_VARIABLE.vendor,
+   263					       args->SET_VARIABLE.attr,
+   264					       args->SET_VARIABLE.data_size,
+   265					       args->SET_VARIABLE.data);
+   266			break;
+   267		case EFI_QUERY_VARIABLE_INFO:
+   268			status = efi_call_virt(query_variable_info,
+   269					       args->QUERY_VARIABLE_INFO.attr,
+   270					       args->QUERY_VARIABLE_INFO.storage_space,
+   271					       args->QUERY_VARIABLE_INFO.remaining_space,
+   272					       args->QUERY_VARIABLE_INFO.max_variable_size);
+   273			break;
+   274		case EFI_GET_NEXT_HIGH_MONO_COUNT:
+   275			status = efi_call_virt(get_next_high_mono_count,
+   276					       args->GET_NEXT_HIGH_MONO_COUNT.high_count);
+   277			break;
+   278		case EFI_UPDATE_CAPSULE:
+   279			status = efi_call_virt(update_capsule,
+   280					       args->UPDATE_CAPSULE.capsules,
+   281					       args->UPDATE_CAPSULE.count,
+   282					       args->UPDATE_CAPSULE.sg_list);
+   283			break;
+   284		case EFI_QUERY_CAPSULE_CAPS:
+   285			status = efi_call_virt(query_capsule_caps,
+   286					       args->QUERY_CAPSULE_CAPS.capsules,
+   287					       args->QUERY_CAPSULE_CAPS.count,
+   288					       args->QUERY_CAPSULE_CAPS.max_size,
+   289					       args->QUERY_CAPSULE_CAPS.reset_type);
+   290			break;
+   291		case EFI_ACPI_PRM_HANDLER:
+   292	#ifdef CONFIG_ACPI_PRMT
+ > 293			status = efi_call_virt(&args->ACPI_PRM_HANDLER,
+ > 294					       acpi_prm_handler,
+   295					       args->ACPI_PRM_HANDLER.param_buffer_addr,
+   296					       args->ACPI_PRM_HANDLER.context);
+   297			break;
+   298	#endif
+   299		default:
+   300			/*
+   301			 * Ideally, we should never reach here because a caller of this
+   302			 * function should have put the right efi_runtime_service()
+   303			 * function identifier into efi_rts_work->efi_rts_id
+   304			 */
+   305			pr_err("Requested executing invalid EFI Runtime Service.\n");
+   306		}
+   307	
+   308		efi_call_virt_check_flags(flags, efi_rts_work.caller);
+   309		arch_efi_call_virt_teardown();
+   310	
+   311		efi_rts_work.status = status;
+   312		complete(&efi_rts_work.efi_rts_comp);
+   313	}
+   314	
 
 -- 
-மணிவண்ணன் சதாசிவம்
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
