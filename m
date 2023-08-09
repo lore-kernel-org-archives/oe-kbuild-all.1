@@ -1,32 +1,42 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BECCD1CC85;
-	Wed,  9 Aug 2023 18:33:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39E28C433C7;
-	Wed,  9 Aug 2023 18:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691605999;
-	bh=7i+9CZK9MTaE9M7KFWMrFjix2XVGqj+IDgNiugKyaT0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S1w2TlePhvk7HcDcIsb7svaPCa819NKHF12VKGYF+kbx591ztOJhOO9E3aZ75AiPX
-	 GVbd4rNdohVfZoiN5SuSo3K90Su1q0WWLw3VywIRAJMbcTfWRPpx4EqYGe2E2uFxpV
-	 DgFNn0aEK45zvRrAbqat2Qnun2Kei3vYCQc3Rn2FxrKDzXwnHcGuBs1+bh8Hkde+aq
-	 Krk9BzyQudSbXU8+rBDMKbJJDyKyya+1NnWzS/0JGxk0OJ8V7ya3brQUon0SoXqtQQ
-	 2X+GVs69kK7VOJNuTvAK39oOH0l+J7v3Cy8pKU+wDIOEdCZp7MDGL4c2Is2IMA3K4v
-	 UnmCayoG4kA6g==
-Date: Wed, 9 Aug 2023 11:33:17 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Marco Elver <elver@google.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 8173/8441] warning: unsafe strcpy() usage
- lacked '__write_overflow' warning in
- lib/test_fortify/write_overflow-strcpy.c
-Message-ID: <20230809183317.GA3355565@dev-arch.thelio-3990X>
-References: <202308100247.oHTlRKLx-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B68C24513
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 19:41:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691610104; x=1723146104;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i+csQsRU+UWiwA3wqKo97BA19L3OGHcRVoG2wzehYcs=;
+  b=Y8zKWOlgsevfO21MwBkrKRFs9XCSzeYBHlZ5ujjl2TQYFueTL8VIkCG5
+   oY1flkfN02ys2AWBHw9x8kx5woFOkiDOdAX6JWkfyn9cIeuPCdw3Pi9Xa
+   GP8jjM2xPNCb+/u4WweTpw8WwJAZJD4olmE3trFCiQFxcKDtE+7LPoGFz
+   n3TKFAvJCvJRfKe+wt0xBVktbmdxkUcPjKK8ROfwOlObh6d7maG/IyX5w
+   DRbEVl93CKDvODHiA+EZR1O2bJWJFM3XYM5/ZmPNOL3ft/KdnXw9XERPT
+   tCea0bCDZXqpXER5vednfcpp7ibA/ZbqyRU+rRjrmkehgbedcnMykPOpk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="361346430"
+X-IronPort-AV: E=Sophos;i="6.01,160,1684825200"; 
+   d="scan'208";a="361346430"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 12:41:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="766972927"
+X-IronPort-AV: E=Sophos;i="6.01,160,1684825200"; 
+   d="scan'208";a="766972927"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 09 Aug 2023 12:41:42 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qTp3t-0006LW-2X;
+	Wed, 09 Aug 2023 19:41:41 +0000
+Date: Thu, 10 Aug 2023 03:40:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:x86/srso 6/17] bugs.c:undefined reference to
+ `srso_return_thunk'
+Message-ID: <202308100352.FWbF5FoO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,49 +45,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202308100247.oHTlRKLx-lkp@intel.com>
 
-On Thu, Aug 10, 2023 at 02:29:07AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   21ef7b1e17d039053edaeaf41142423810572741
-> commit: fee8feb67f0b2954eb7a2a259122e43a15cf3a52 [8173/8441] list_debug: introduce CONFIG_DEBUG_LIST_MINIMAL
-> config: arm-randconfig-r005-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100247.oHTlRKLx-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100247.oHTlRKLx-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308100247.oHTlRKLx-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> warning: unsafe strcpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strcpy.c
-> --
-> >> warning: unsafe memcpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-memcpy.c
-> --
-> >> warning: unsafe memcmp() usage lacked '__read_overflow2' warning in lib/test_fortify/read_overflow2-memcmp.c
-> --
-> >> warning: unsafe strlcpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strlcpy-src.c
-> --
-> >> warning: unsafe memmove() usage lacked '__read_overflow2_field' warning in lib/test_fortify/read_overflow2_field-memmove.c
-> --
-> >> warning: unsafe strncpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strncpy-src.c
-> --
-> >> warning: unsafe memset() usage lacked '__write_overflow_field' warning in lib/test_fortify/write_overflow_field-memset.c
-> --
-> >> warning: unsafe memcmp() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memcmp.c
-> --
-> >> warning: unsafe memmove() usage lacked '__read_overflow2' warning in lib/test_fortify/read_overflow2-memmove.c
-> --
-> >> warning: unsafe strlcpy() usage lacked '__write_overflow' warning in lib/test_fortify/write_overflow-strlcpy.c
-> --
-> >> warning: unsafe memscan() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memscan.c
-> ..
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/srso
+head:   c11a8b2bc1bb3ad76d8d28b283552768d665208c
+commit: 953a4955188e0ec86ce13daf1e5d4fbbba2db8fc [6/17] x86/cpu: Add SRSO untrain to retbleed=
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230810/202308100352.FWbF5FoO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100352.FWbF5FoO-lkp@intel.com/reproduce)
 
-I suspect this is a symptom of
-https://lore.kernel.org/all/202308092009.dDIMqss4-lkp@intel.com/, as the
-fortify tests build with -Werror.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308100352.FWbF5FoO-lkp@intel.com/
 
-Cheers,
-Nathan
+All errors (new ones prefixed by >>):
+
+   ld: arch/x86/kernel/cpu/bugs.o: in function `retbleed_select_mitigation':
+>> bugs.c:(.init.text+0xf3): undefined reference to `srso_return_thunk'
+>> ld: bugs.c:(.init.text+0xf8): undefined reference to `x86_return_thunk'
+>> ld: bugs.c:(.init.text+0x2d1): undefined reference to `srso_alias_return_thunk'
+   ld: bugs.c:(.init.text+0x2d6): undefined reference to `x86_return_thunk'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
