@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540F01775C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 11:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D809F17AAB
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 11:31:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691580036; x=1723116036;
+  t=1691580693; x=1723116693;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d1lk1RwU666VUnAniJXK4fAYEvZLzdBNLE6kHH8jI0A=;
-  b=njPGy1SMboQyksIbQAKjavBKf4dLBtJkK+KJXZkSCvVSNCNaUMlTA8G+
-   5uSSEtsG6bCNyH/ANfsMQ6qxiUNE+s5AJ2enjTzCau9DfdjxPfderYWB2
-   D5iv33GCpt65BhytDLC8k7m+Hl2egKfTqd6YYr1YMLzFrtnEjPLkL+I0h
-   pCanengMhHpIWyxT45w4B68NkaKSKguFtbbA7ThjzU2YNIHWKNghaD7kc
-   fMscBfgmf+HGJrz8+GrdjV775bX9Oh2woHziPd9IT1lUiG1ReGvhGtRt+
-   4t33S36biLLSzlHvBW/7ErFOragHKXJuEa1h3c4HiaYwFuvPvQVQGYAcl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="437461208"
+  bh=ke/1QR70K6ULdVX8VgM7M8fLBi0QEnQG+JirT1W4bdw=;
+  b=LnmHs5fqmQXZi+0tgedKR5un6IDSpf82TxBYu1Okp3OzUeltJCQtsC9W
+   HL74YCiUIu3oiz8fW+8Xauw8S02rpGWTs0nZt4JmzfTgTEXG6BSVShrT+
+   MX15C1xNdLEvUUkDUgLHCEIiD560x0G/AUJQ0zEW47m3oMk6yaL+xZNuK
+   kZzw4cbLhyFuNO1Jv5s9expWQiP5jf92aBGoaj7leYfaGpD9oJcmMISMS
+   dYWKUsuqVzNyIblgxiS2/iFoQ/8UnpkGvzQ//xkN7SlT6qddRsNslAPCs
+   ox0A0rGGHX3CszHQHf1vp+bJ5IfYPGCzlap2oDcKaTF/BeEvgCgWbWqZZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="368554088"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="437461208"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 04:20:33 -0700
+   d="scan'208";a="368554088"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 04:31:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="725364073"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="731771501"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="725364073"
+   d="scan'208";a="731771501"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 09 Aug 2023 04:20:32 -0700
+  by orsmga002.jf.intel.com with ESMTP; 09 Aug 2023 04:31:32 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qThEt-00064K-0F;
-	Wed, 09 Aug 2023 11:20:31 +0000
-Date: Wed, 9 Aug 2023 19:19:39 +0800
+	id 1qThPX-00064g-1D;
+	Wed, 09 Aug 2023 11:31:31 +0000
+Date: Wed, 9 Aug 2023 19:31:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
+To: Tianyu Lan <tiala@microsoft.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:b4/virt-to-phys-s390 2/2]
- arch/s390/include/asm/page.h:207:33: error: return discards 'const'
- qualifier from pointer target type
-Message-ID: <202308091920.uWbQOI4e-lkp@intel.com>
+Subject: [lantianyu:test 7/29] arch/x86/kernel/sev.c:185:30: warning: no
+ previous prototype for 'sev_snp_current_doorbell_page'
+Message-ID: <202308091945.8YefRODI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,53 +46,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/virt-to-phys-s390
-head:   8ecc52ceb357c56a3841a03f5743120a217d08b0
-commit: 8ecc52ceb357c56a3841a03f5743120a217d08b0 [2/2] s390/mm: Make virt_to_pfn() a static inline
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230809/202308091920.uWbQOI4e-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091920.uWbQOI4e-lkp@intel.com/reproduce)
+tree:   https://github.com/lantianyu/linux test
+head:   1f50b51d0f25cf6e93d994fbc0ec9e2f1cb3b911
+commit: 2c408093ffb9d18de36d333c363d108d4794163d [7/29] x86/sev: Add AMD sev-snp enlightened guest support on hyperv
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230809/202308091945.8YefRODI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091945.8YefRODI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308091920.uWbQOI4e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308091945.8YefRODI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/s390/include/asm/thread_info.h:31,
-                    from include/linux/thread_info.h:60,
-                    from arch/s390/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from arch/s390/include/asm/timex.h:13,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from lib/test_bitops.c:9:
-   include/linux/mm.h: In function 'lowmem_page_address':
->> arch/s390/include/asm/page.h:207:33: error: return discards 'const' qualifier from pointer target type [-Werror=discarded-qualifiers]
-     207 | #define page_to_virt(page)      pfn_to_virt(page_to_pfn(page))
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mm.h:2120:16: note: in expansion of macro 'page_to_virt'
-    2120 |         return page_to_virt(page);
-         |                ^~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> arch/x86/kernel/sev.c:185:30: warning: no previous prototype for 'sev_snp_current_doorbell_page' [-Wmissing-prototypes]
+     185 | struct sev_hv_doorbell_page *sev_snp_current_doorbell_page(void)
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/sev.c: In function 'do_exc_hv':
+   arch/x86/kernel/sev.c:284:65: error: 'vector' undeclared (first use in this function); did you mean 'sector_t'?
+     284 |                                 panic("Unexpected vector %d\n", vector);
+         |                                                                 ^~~~~~
+         |                                                                 sector_t
+   arch/x86/kernel/sev.c:284:65: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/kernel/sev.c: In function 'sev_snp_init_hv_handling':
+>> arch/x86/kernel/sev.c:413:37: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+     413 |         struct sev_es_runtime_data *data;
+         |                                     ^~~~
 
 
-vim +/const +207 arch/s390/include/asm/page.h
+vim +/sev_snp_current_doorbell_page +185 arch/x86/kernel/sev.c
 
-16f48641716000 arch/s390/include/asm/page.h Heiko Carstens    2017-08-07  205  
-16f48641716000 arch/s390/include/asm/page.h Heiko Carstens    2017-08-07  206  #define virt_to_page(kaddr)	pfn_to_page(virt_to_pfn(kaddr))
-3d84683bd737e3 arch/s390/include/asm/page.h David Hildenbrand 2015-11-16 @207  #define page_to_virt(page)	pfn_to_virt(page_to_pfn(page))
-^1da177e4c3f41 include/asm-s390/page.h      Linus Torvalds    2005-04-16  208  
-
-:::::: The code at line 207 was first introduced by commit
-:::::: 3d84683bd737e397ae200e881a3230e469c59ad6 s390: introduce page_to_virt() and pfn_to_virt()
-
-:::::: TO: David Hildenbrand <dahi@linux.vnet.ibm.com>
-:::::: CC: Christian Borntraeger <borntraeger@de.ibm.com>
+   184	
+ > 185	struct sev_hv_doorbell_page *sev_snp_current_doorbell_page(void)
+   186	{
+   187		return &this_cpu_read(snp_runtime_data)->hv_doorbell_page;
+   188	}
+   189	
 
 -- 
 0-DAY CI Kernel Test Service
