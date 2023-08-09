@@ -1,54 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF6618C0B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 16:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068C01CA00
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 16:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691599005; x=1723135005;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ydBCJtj9u/y8x/TfM7kTDDFzhiR7ELo5gtwHLbTMVBw=;
-  b=Gq84e0QkX9CWz9V6tl4leGnwT3DOp9Df2xxt/sfJf+kjxccifgpWrrss
-   XPuGHAQ0IlI/lq1qBoDJhm/4ZcABEVPiJOASfZXL1il66bxfCaEUWczOM
-   nKjamZAxIfne8X0HRVUTiN5C8BW7HlC2SJAXUAGy2Oo46bTDtkuvjlap7
-   Lb12ZknsBCcud13BSLejlWKO+Nm2LY8yzTRTs9cZEu79UhDqVNalfBHCk
-   NTpELTdXn5AJb8as9MvvO8HU+Z4dgtX1MJvGbzmHzGEjsYDtr/698KEf2
-   /cw8OmSg7ne1/DRJKBjpnLhvW3L8biHbXyryEAg/e1X4tXoY41G1WLNxa
+  t=1691599602; x=1723135602;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oeU6nVX2g+5Un4f+tpAtaH3+dFZ+hDF0Y2SQlWnex5E=;
+  b=LuK/9PKkjJBlmDyfoKi5g84iR+8XvCJOUSYEOFcfwPRXh+/883YChMyX
+   I2XJePksDOdPzeQQhA1rhcp0iWjy09WEJVpxiBRpeGpBE6gysJSGBmo7F
+   e7QZ8T3nOekNkaYFMAay9hAaVaKxMk9RCLNRruNfnk4WTSCSDWVJ1LuHf
+   RdPLFig+C+tyy3hV3PoCdYEIdFLECd9AcRyA90lGhh2fNkQVaVhwwmKPA
+   kb7LPcRQFr4wi8KArziW+0hw6coeeU6DkXUxGOWgZ973s/KHBCrKEd/MF
+   G1THDd0bRwQhXSzadlkxPYS6o4sxtUhK7XzpUstKGzKH5+ThADuwWTV3W
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="371160777"
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="373957115"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="371160777"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 09:36:44 -0700
+   d="scan'208";a="373957115"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 09:46:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="1062540094"
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="821918360"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="1062540094"
+   d="scan'208";a="821918360"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 09 Aug 2023 09:36:39 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Aug 2023 09:46:40 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTmAp-0006GG-0Q;
-	Wed, 09 Aug 2023 16:36:39 +0000
-Date: Thu, 10 Aug 2023 00:36:14 +0800
+	id 1qTmKV-0006Ga-0w;
+	Wed, 09 Aug 2023 16:46:39 +0000
+Date: Thu, 10 Aug 2023 00:46:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Valentin Caron <valentin.caron@foss.st.com>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Amelie Delaunay <amelie.delaunay@foss.st.com>,
-	Christophe Guibout <christophe.guibout@foss.st.com>,
-	Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
-	linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rtc: stm32: remove incorrect #ifdef check
-Message-ID: <202308100045.WeVD1ttk-lkp@intel.com>
-References: <20230801105932.3738430-1-arnd@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 13076/28665]
+ fs/fuse/file.c:2777:19: warning: result of comparison of constant 4294967291
+ with expression of type '__u16' (aka 'unsigned short') is always false
+Message-ID: <202308100051.pXQCIBDx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,75 +46,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230801105932.3738430-1-arnd@kernel.org>
 
-Hi Arnd,
+Hi Chirantan,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on abelloni/rtc-next]
-[also build test WARNING on atorgue-stm32/stm32-next soc/for-next linus/master v6.5-rc5 next-20230809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/rtc-stm32-remove-incorrect-ifdef-check/20230801-190951
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20230801105932.3738430-1-arnd%40kernel.org
-patch subject: [PATCH] rtc: stm32: remove incorrect #ifdef check
-config: x86_64-buildonly-randconfig-r003-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100045.WeVD1ttk-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100045.WeVD1ttk-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   52b1b7373ed0d8d980b6582e0cda4f730c6778ee
+commit: 7f33c2b5012b1ada851aafcf8620e1723b8db574 [13076/28665] CHROMIUM: Support fsverity in fuse
+config: i386-randconfig-r014-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100051.pXQCIBDx-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100051.pXQCIBDx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308100045.WeVD1ttk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308100051.pXQCIBDx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/rtc/rtc-stm32.c:903:12: warning: 'stm32_rtc_resume' defined but not used [-Wunused-function]
-     903 | static int stm32_rtc_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~
->> drivers/rtc/rtc-stm32.c:893:12: warning: 'stm32_rtc_suspend' defined but not used [-Wunused-function]
-     893 | static int stm32_rtc_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~
+>> fs/fuse/file.c:2777:19: warning: result of comparison of constant 4294967291 with expression of type '__u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+                   if (digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
+                       ~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/stm32_rtc_resume +903 drivers/rtc/rtc-stm32.c
+vim +2777 fs/fuse/file.c
 
-4e64350f42e2ce Amelie Delaunay 2017-01-11  892  
-4e64350f42e2ce Amelie Delaunay 2017-01-11 @893  static int stm32_rtc_suspend(struct device *dev)
-4e64350f42e2ce Amelie Delaunay 2017-01-11  894  {
-4e64350f42e2ce Amelie Delaunay 2017-01-11  895  	struct stm32_rtc *rtc = dev_get_drvdata(dev);
-4e64350f42e2ce Amelie Delaunay 2017-01-11  896  
-9a6757eadc14f0 Amelie Delaunay 2017-07-06  897  	if (rtc->data->has_pclk)
-9a6757eadc14f0 Amelie Delaunay 2017-07-06  898  		clk_disable_unprepare(rtc->pclk);
-9a6757eadc14f0 Amelie Delaunay 2017-07-06  899  
-4e64350f42e2ce Amelie Delaunay 2017-01-11  900  	return 0;
-4e64350f42e2ce Amelie Delaunay 2017-01-11  901  }
-4e64350f42e2ce Amelie Delaunay 2017-01-11  902  
-4e64350f42e2ce Amelie Delaunay 2017-01-11 @903  static int stm32_rtc_resume(struct device *dev)
-4e64350f42e2ce Amelie Delaunay 2017-01-11  904  {
-4e64350f42e2ce Amelie Delaunay 2017-01-11  905  	struct stm32_rtc *rtc = dev_get_drvdata(dev);
-4e64350f42e2ce Amelie Delaunay 2017-01-11  906  	int ret = 0;
-4e64350f42e2ce Amelie Delaunay 2017-01-11  907  
-9a6757eadc14f0 Amelie Delaunay 2017-07-06  908  	if (rtc->data->has_pclk) {
-9a6757eadc14f0 Amelie Delaunay 2017-07-06  909  		ret = clk_prepare_enable(rtc->pclk);
-9a6757eadc14f0 Amelie Delaunay 2017-07-06  910  		if (ret)
-9a6757eadc14f0 Amelie Delaunay 2017-07-06  911  			return ret;
-9a6757eadc14f0 Amelie Delaunay 2017-07-06  912  	}
-9a6757eadc14f0 Amelie Delaunay 2017-07-06  913  
-4e64350f42e2ce Amelie Delaunay 2017-01-11  914  	ret = stm32_rtc_wait_sync(rtc);
-cf33e911f500f6 Chuhong Yuan    2019-12-06  915  	if (ret < 0) {
-cf33e911f500f6 Chuhong Yuan    2019-12-06  916  		if (rtc->data->has_pclk)
-cf33e911f500f6 Chuhong Yuan    2019-12-06  917  			clk_disable_unprepare(rtc->pclk);
-4e64350f42e2ce Amelie Delaunay 2017-01-11  918  		return ret;
-cf33e911f500f6 Chuhong Yuan    2019-12-06  919  	}
-4e64350f42e2ce Amelie Delaunay 2017-01-11  920  
-4e64350f42e2ce Amelie Delaunay 2017-01-11  921  	return ret;
-4e64350f42e2ce Amelie Delaunay 2017-01-11  922  }
-4e64350f42e2ce Amelie Delaunay 2017-01-11  923  
+  2745	
+  2746	static int fuse_get_ioctl_len(unsigned int cmd, unsigned long arg, size_t *len)
+  2747	{
+  2748		switch (cmd) {
+  2749		case FS_IOC_GETFLAGS:
+  2750		case FS_IOC_SETFLAGS:
+  2751			*len = sizeof(int);
+  2752			break;
+  2753		case FS_IOC_GET_ENCRYPTION_POLICY_EX: {
+  2754			__u64 policy_size;
+  2755			struct fscrypt_get_policy_ex_arg __user *uarg =
+  2756				(struct fscrypt_get_policy_ex_arg __user *)arg;
+  2757	
+  2758			if (copy_from_user(&policy_size, &uarg->policy_size,
+  2759					   sizeof(policy_size)))
+  2760				return -EFAULT;
+  2761	
+  2762			if (policy_size > SIZE_MAX - sizeof(policy_size))
+  2763				return -EINVAL;
+  2764	
+  2765			*len = sizeof(policy_size) + policy_size;
+  2766			break;
+  2767		}
+  2768		case FS_IOC_MEASURE_VERITY: {
+  2769			__u16 digest_size;
+  2770			struct fsverity_digest __user *uarg =
+  2771				(struct fsverity_digest __user *)arg;
+  2772	
+  2773			if (copy_from_user(&digest_size, &uarg->digest_size,
+  2774					   sizeof(digest_size)))
+  2775				return -EFAULT;
+  2776	
+> 2777			if (digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
+  2778				return -EINVAL;
+  2779	
+  2780			*len = sizeof(struct fsverity_digest) + digest_size;
+  2781			break;
+  2782		}
+  2783		default:
+  2784			*len = _IOC_SIZE(cmd);
+  2785			break;
+  2786		}
+  2787	
+  2788		return 0;
+  2789	}
+  2790	
 
 -- 
 0-DAY CI Kernel Test Service
