@@ -1,137 +1,223 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F421AA74
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 16:02:36 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-584034c706dso384137b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 09 Aug 2023 09:02:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1691596955; x=1692201755;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4tKqb+VoRgkyWgmeNFWtovmLOzkdpjBGuYz84vUiz14=;
-        b=cl7uddFcOnIu7w5QvmJMhCP2TPFmiphgljl8sVLW/3ITHXYcm/LktBT9ux/A//kZiu
-         un4f8rp9dwj3cuQtYLJIUHG1syEnmGSDYzfMPJCfF/OSy4fxtKDjL9GKdTfSXWmsEOvN
-         GTFgF0K5M1ohSMMb1wW4YwKbZiorHYgGeaDkZaaOvcz06Ac1VK1ybzJIr6y6Mt/IO/tR
-         bnSUSuVmI0ykkbKhIQ9T5j33CSb4aoNHCJhGP2tYn0BRjabqvsxkgbsyNh4nE6QUeoTA
-         Y9rddU2ramsLU6puvtuuxbYo7WPSeI2clkh7j591ikQCVFJEgiAbl4T3+V+eTNW3MIJo
-         MidQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691596955; x=1692201755;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4tKqb+VoRgkyWgmeNFWtovmLOzkdpjBGuYz84vUiz14=;
-        b=HjlT7rKCqqMURWvUV8r4dVvyA2B8SNuN7cuvv8BJUjQubkppYwpect2ZL6MIPD+2mI
-         6cie4QHL2bPILWiPBsMjmyBu9OGpU4fQYU2zscYBVAWo00i08zY2VQYecqPEjQQRBFK0
-         0JvxCBQDnMzHLG7MkThOBLDBufHictDfLgieYoClYlyCq9GH2PoKFE8obNTS8Y75+SGQ
-         2TJ5C0dgeK9/Ns99m6bghW9uuFMv9VIY4YfeUHBpcDV3nty4dirZWJgBedOUUCgiItsH
-         3SsGNikxWVMoj4K7OC4FxbJpV6NhppR1en9hu2B/huSyk+p3+bl40QKoPh5O135tRWI+
-         4bLA==
-X-Gm-Message-State: AOJu0YwfkDymunWitFJPF8fw6YDumDi/pvs4M6u+TxWVu4FMEfFWyGjt
-	mziRNjxJ+dkIDLPYpjPVRM3aFCPYCR2cXbp6HOO8HA==
-X-Google-Smtp-Source: AGHT+IEJHCBuYvPAfDXNsCccpldXJM7/ZZSeEoKWg7p0fPwNbnjMZI1B07adbpNP2nm2kJgA6JxwZjQDo9BOL/0iL1s=
-X-Received: by 2002:a0d:fc84:0:b0:579:f8f2:b5b5 with SMTP id
- m126-20020a0dfc84000000b00579f8f2b5b5mr3512624ywf.41.1691596955218; Wed, 09
- Aug 2023 09:02:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968371AA83
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 16:05:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691597111; x=1723133111;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=g/eO+MP+6x0vryMNGbbHV2zTpXRHiC80RiYyjlHcxGE=;
+  b=j3ZT+9bt0ugtm396axIfJg09OiITBqZKv/x2j565nE9okmCkYOopLhYP
+   vSFIvDhk/je4MWfsEnLc4wn0yGCCzVK4ZOl47tqebIyeyIxX1jAYqo4ZA
+   GaRpUf5I6rqYjRS7AZQc1kyS63EBM/yJeWYOpNVDy1Q88IGzKoMNNrLSh
+   X99Y8VmuO0f0Sn1WHS+jCD4BYgTcDbxqto6EEnvGYTgNzOTQjU37oblgo
+   +NHf1VGU8qWjpHDltT5sksH2DrnTR1sPwZW4GN9Y1DvQeuh3l0vQDR1cW
+   iMSFlcI7elVWudVlRF6aW2xQPWGIes25G5Ybm4ftJEx37XcxmjJLOliv2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="356128822"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="356128822"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 09:04:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="731872895"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="731872895"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 09 Aug 2023 09:04:37 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qTlfp-0006E6-0T;
+	Wed, 09 Aug 2023 16:04:37 +0000
+Date: Thu, 10 Aug 2023 00:03:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:virt-to-pfn-v6.5-rc1 11/12]
+ arch/s390/include/asm/kfence.h:38:41: warning: passing argument 1 of
+ 'virt_to_pfn' makes pointer from integer without a cast
+Message-ID: <202308100008.hyCH3AaH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202308091820.0dPY7D6f-lkp@intel.com> <ZNN1WdZ5J/e5OPAt@elver.google.com>
- <CAKwvOd=hgqas-kMxvOgviff43XBmwgERrfGi-ZO45DOcEuG_yw@mail.gmail.com> <CANpmjNNjzeKyB7V7r73qW9zzqYeMEEK27pfFV9aBm6yfLjJeng@mail.gmail.com>
-In-Reply-To: <CANpmjNNjzeKyB7V7r73qW9zzqYeMEEK27pfFV9aBm6yfLjJeng@mail.gmail.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Wed, 9 Aug 2023 09:02:24 -0700
-Message-ID: <CAKwvOd=0WV0aTMhLya3gxdm+i761iXyhUMgDRa96riEDh2NyFQ@mail.gmail.com>
-Subject: Re: [linux-next:master 8173/8441] include/linux/list.h:53:13:
- warning: '__preserve_most__' calling convention is not supported for this target
-To: Marco Elver <elver@google.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Miguel Ojeda <ojeda@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Aug 9, 2023 at 9:01=E2=80=AFAM Marco Elver <elver@google.com> wrote=
-:
->
-> On Wed, 9 Aug 2023 at 17:53, Nick Desaulniers <ndesaulniers@google.com> w=
-rote:
-> >
-> > On Wed, Aug 9, 2023 at 4:15=E2=80=AFAM Marco Elver <elver@google.com> w=
-rote:
-> > >
-> > > On Wed, Aug 09, 2023 at 06:27PM +0800, kernel test robot wrote:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-=
-next.git master
-> > > > head:   21ef7b1e17d039053edaeaf41142423810572741
-> > > > commit: fee8feb67f0b2954eb7a2a259122e43a15cf3a52 [8173/8441] list_d=
-ebug: introduce CONFIG_DEBUG_LIST_MINIMAL
-> > > > config: hexagon-randconfig-r041-20230808 (https://download.01.org/0=
-day-ci/archive/20230809/202308091820.0dPY7D6f-lkp@intel.com/config)
-> > > > compiler: clang version 15.0.7 (https://github.com/llvm/llvm-projec=
-t.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> > > > reproduce: (https://download.01.org/0day-ci/archive/20230809/202308=
-091820.0dPY7D6f-lkp@intel.com/reproduce)
-> > > >
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a ne=
-w version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202308091820.0dPY7D=
-6f-lkp@intel.com/
-> > > >
-> > > > All warnings (new ones prefixed by >>):
-> > > >
-> > > >    In file included from arch/hexagon/kernel/asm-offsets.c:12:
-> > > >    In file included from include/linux/compat.h:14:
-> > > >    In file included from include/linux/sem.h:5:
-> > > >    In file included from include/uapi/linux/sem.h:5:
-> > > >    In file included from include/linux/ipc.h:5:
-> > > >    In file included from include/linux/spinlock.h:56:
-> > > >    In file included from include/linux/preempt.h:12:
-> > > > >> include/linux/list.h:53:13: warning: '__preserve_most__' calling=
- convention is not supported for this target [-Wignored-attributes]
-> > > >    extern bool __list_valid_slowpath __list_add_valid_or_report(str=
-uct list_head *new,
-> > > >                ^
-> > > >    include/linux/list.h:44:39: note: expanded from macro '__list_va=
-lid_slowpath'
-> > > >    # define __list_valid_slowpath __cold __preserve_most
-> > > >                                          ^
-> > > >    include/linux/compiler_types.h:132:49: note: expanded from macro=
- '__preserve_most'
-> > > >    # define __preserve_most notrace __attribute__((__preserve_most_=
-_))
-> > >
-> > > To silence this warning, we can just guard it based on known-supporte=
-d architectures:
-> >
-> > As a band-aid, sure.
-> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > Long term, perhaps we can fix in clang what __has_attribute evaluates
-> > to for this attribute depending on the target.  Filed:
-> > https://github.com/ClangBuiltLinux/linux/issues/1908
-> > ^ Consider adding a comment linking to that in the sources.
->
-> I will fold it into patch 1/3 of the original series. May I apply your
-> Reviewed-by there?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git virt-to-pfn-v6.5-rc1
+head:   b6a25d37eca4850c246b94d73bd2e3c75860d265
+commit: b8edce3ddc7647f7d66a7d322afe9954fa707ee8 [11/12] s390/mm: Make virt_to_pfn() a static inline
+config: s390-randconfig-r004-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100008.hyCH3AaH-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100008.hyCH3AaH-lkp@intel.com/reproduce)
 
-Sure! Thanks for checking.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308100008.hyCH3AaH-lkp@intel.com/
 
-> I think there needs to be a v4, also because of some other change request=
-s, too.
->
-> Andrew, please shout if you'd rather have them as fix patches.
->
-> Thanks!
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/s390/include/asm/page.h:210,
+                    from arch/s390/include/asm/thread_info.h:31,
+                    from include/linux/thread_info.h:60,
+                    from arch/s390/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/hugetlb.h:5,
+                    from arch/s390/mm/pageattr.c:6:
+   arch/s390/include/asm/kfence.h: In function 'kfence_protect_page':
+>> arch/s390/include/asm/kfence.h:38:41: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+      38 |         __kernel_map_pages(virt_to_page(addr), 1, !protect);
+         |                                         ^~~~
+         |                                         |
+         |                                         long unsigned int
+   include/asm-generic/memory_model.h:37:45: note: in definition of macro '__pfn_to_page'
+      37 | #define __pfn_to_page(pfn)      (vmemmap + (pfn))
+         |                                             ^~~
+   arch/s390/include/asm/kfence.h:38:28: note: in expansion of macro 'virt_to_page'
+      38 |         __kernel_map_pages(virt_to_page(addr), 1, !protect);
+         |                            ^~~~~~~~~~~~
+   arch/s390/include/asm/page.h:195:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     195 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+--
+   arch/s390/mm/cmm.c: In function 'cmm_alloc_pages':
+>> arch/s390/mm/cmm.c:93:42: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+      93 |                 diag10_range(virt_to_pfn(addr), 1);
+         |                                          ^~~~
+         |                                          |
+         |                                          long unsigned int
+   In file included from arch/s390/include/asm/thread_info.h:31,
+                    from include/linux/thread_info.h:60,
+                    from arch/s390/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from arch/s390/mm/cmm.c:11:
+   arch/s390/include/asm/page.h:195:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     195 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+--
+   In file included from include/linux/export.h:5,
+                    from include/linux/linkage.h:7,
+                    from include/linux/preempt.h:10,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/memory_hotplug.h:5,
+                    from arch/s390/mm/vmem.c:6:
+   arch/s390/mm/vmem.c: In function 'vmem_free_pages':
+>> arch/s390/mm/vmem.c:39:52: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+      39 |             WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
+         |                                                    ^~~~
+         |                                                    |
+         |                                                    long unsigned int
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   arch/s390/mm/vmem.c:38:9: note: in expansion of macro 'if'
+      38 |         if (!slab_is_available() ||
+         |         ^~
+   include/asm-generic/bug.h:181:33: note: in expansion of macro 'WARN_ON'
+     181 | #define WARN_ON_ONCE(condition) WARN_ON(condition)
+         |                                 ^~~~~~~
+   arch/s390/mm/vmem.c:39:13: note: in expansion of macro 'WARN_ON_ONCE'
+      39 |             WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
+         |             ^~~~~~~~~~~~
+   include/asm-generic/memory_model.h:65:21: note: in expansion of macro '__pfn_to_page'
+      65 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/s390/mm/vmem.c:39:39: note: in expansion of macro 'virt_to_page'
+      39 |             WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
+         |                                       ^~~~~~~~~~~~
+   In file included from arch/s390/include/asm/thread_info.h:31,
+                    from include/linux/thread_info.h:60,
+                    from arch/s390/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:79:
+   arch/s390/include/asm/page.h:195:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     195 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+>> arch/s390/mm/vmem.c:39:52: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+      39 |             WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
+         |                                                    ^~~~
+         |                                                    |
+         |                                                    long unsigned int
+   include/linux/compiler.h:57:61: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+   arch/s390/mm/vmem.c:38:9: note: in expansion of macro 'if'
+      38 |         if (!slab_is_available() ||
+         |         ^~
+   include/asm-generic/bug.h:181:33: note: in expansion of macro 'WARN_ON'
+     181 | #define WARN_ON_ONCE(condition) WARN_ON(condition)
+         |                                 ^~~~~~~
+   arch/s390/mm/vmem.c:39:13: note: in expansion of macro 'WARN_ON_ONCE'
+      39 |             WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
+         |             ^~~~~~~~~~~~
+   include/asm-generic/memory_model.h:65:21: note: in expansion of macro '__pfn_to_page'
+      65 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/s390/mm/vmem.c:39:39: note: in expansion of macro 'virt_to_page'
+      39 |             WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
+         |                                       ^~~~~~~~~~~~
+   arch/s390/include/asm/page.h:195:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     195 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
+>> arch/s390/mm/vmem.c:39:52: warning: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]
+      39 |             WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
+         |                                                    ^~~~
+         |                                                    |
+         |                                                    long unsigned int
+   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   arch/s390/mm/vmem.c:38:9: note: in expansion of macro 'if'
+      38 |         if (!slab_is_available() ||
+         |         ^~
+   include/asm-generic/bug.h:181:33: note: in expansion of macro 'WARN_ON'
+     181 | #define WARN_ON_ONCE(condition) WARN_ON(condition)
+         |                                 ^~~~~~~
+   arch/s390/mm/vmem.c:39:13: note: in expansion of macro 'WARN_ON_ONCE'
+      39 |             WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
+         |             ^~~~~~~~~~~~
+   include/asm-generic/memory_model.h:65:21: note: in expansion of macro '__pfn_to_page'
+      65 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/s390/mm/vmem.c:39:39: note: in expansion of macro 'virt_to_page'
+      39 |             WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
+         |                                       ^~~~~~~~~~~~
+   arch/s390/include/asm/page.h:195:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+     195 | static inline unsigned long virt_to_pfn(const void *kaddr)
+         |                                         ~~~~~~~~~~~~^~~~~
 
 
+vim +/virt_to_pfn +38 arch/s390/include/asm/kfence.h
 
---=20
-Thanks,
-~Nick Desaulniers
+e41ba1115a351d Sven Schnelle 2021-07-28  35  
+e41ba1115a351d Sven Schnelle 2021-07-28  36  static inline bool kfence_protect_page(unsigned long addr, bool protect)
+e41ba1115a351d Sven Schnelle 2021-07-28  37  {
+e41ba1115a351d Sven Schnelle 2021-07-28 @38  	__kernel_map_pages(virt_to_page(addr), 1, !protect);
+e41ba1115a351d Sven Schnelle 2021-07-28  39  	return true;
+e41ba1115a351d Sven Schnelle 2021-07-28  40  }
+e41ba1115a351d Sven Schnelle 2021-07-28  41  
+
+:::::: The code at line 38 was first introduced by commit
+:::::: e41ba1115a351dd037c21ac75660638219d51485 s390: add support for KFENCE
+
+:::::: TO: Sven Schnelle <svens@linux.ibm.com>
+:::::: CC: Heiko Carstens <hca@linux.ibm.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
