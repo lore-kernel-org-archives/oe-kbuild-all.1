@@ -1,43 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CAB376
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 02:45:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371CF181
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Aug 2023 03:26:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691549150; x=1723085150;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dw7Z82mrna/pwAIi3OaabiM4HH9+hjghJwDMqGVaIzs=;
-  b=VFZiYAYgvMQ/d/o6I0nAkhdaJpTR/CPVHghOQ0uHrcgWw/rPVsUW97oR
-   HQLH4ll5shp1d9nqdOreSjDxkGqRLLiHly4ZclTBcV1SJvp1ZoCUguetC
-   OY4zCAjrlxqEKVAtvoihFkEFf+MXxda+CAYn/Qn0/EbWSmLuPLh3vDIZj
-   vuG8aILXfYHFCIDUZ0dpgdsDmr9ffgbTtDNr++cIUIV/rcGC+WCt8V2B8
-   h7vGrLGUCOFduW7RmCZNHgpz+sET2Um7ETktuEUKr2zHk0AgrZSpGFbOm
-   yuZZ/lV+rzNWCrhaUdNB77TOaWuHc+HgP4gxXplOXubFYpoPoqs6KmVwu
+  t=1691551594; x=1723087594;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xAd/kJ56EpFtJhQIEshMgdLpGVfeYcAheNB3lv9FRGs=;
+  b=GoVGJfjPrRBQR09KgzJhB6N8Qq71RRfstyOoA6aWQIXXcZBdyGBa2XGC
+   pLAUX/79NZnrrhaLGqNCWE+kiPgfzpb1s1hmgrByjo32HzSch5KUY4ero
+   czvScJaj62PMH42LuB/3KO5RlCeyQttpstqmWkt7X5LsUypum7391D3YM
+   NA/aoCuPuB3hiXmC58yMr6CPZgYirIzYkTtyAMKKS+hu9PGeOy5bNbHK6
+   chVEhJ8qh/EWkefhC9GcIm8dRw+f3+gIlf2tdOJtr6Jup5bGEomQuAQn1
+   Gh/dv+uMIifo42iWalL1ejNbQh37R6OmNdq/slq+wO2hKiwLm5/ITfVew
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="457385722"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="374720055"
 X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="457385722"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 19:45:21 -0700
+   d="scan'208";a="374720055"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 20:26:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="731633609"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="708537411"
 X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="731633609"
+   d="scan'208";a="708537411"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 08 Aug 2023 19:45:20 -0700
+  by orsmga006.jf.intel.com with ESMTP; 08 Aug 2023 20:26:21 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qTZCJ-0005ko-1u;
-	Wed, 09 Aug 2023 02:45:19 +0000
-Date: Wed, 9 Aug 2023 10:44:28 +0800
+	id 1qTZq0-0005m8-0u;
+	Wed, 09 Aug 2023 03:26:20 +0000
+Date: Wed, 9 Aug 2023 11:26:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: [jejb-scsi:misc 36/37] drivers/ufs/host/ufs-qcom.c:64:3: sparse:
- sparse: symbol 'ufs_qcom_bw_table' was not declared. Should it be static?
-Message-ID: <202308091030.L5JrOBJB-lkp@intel.com>
+To: Gustavo Luiz Duarte <gustavold@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	David Ahern <dsahern@kernel.org>, Breno Leitao <leitao@debian.org>,
+	Willem de Bruijn <willemb@google.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: ipmr: Call ipmr_ioctl() directly from
+ ipmr_sk_ioctl()
+Message-ID: <202308091122.z4eVvCI5-lkp@intel.com>
+References: <20230731145713.178509-1-gustavold@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,57 +50,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230731145713.178509-1-gustavold@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git misc
-head:   6cae9a3910ac1b5daf5ac3db9576b78cc4eff5aa
-commit: 03ce80a1bb869f735de793f04c9c085b61884599 [36/37] scsi: ufs: qcom: Add support for scaling interconnects
-config: arm64-randconfig-r071-20230808 (https://download.01.org/0day-ci/archive/20230809/202308091030.L5JrOBJB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091030.L5JrOBJB-lkp@intel.com/reproduce)
+Hi Gustavo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+[also build test ERROR on net-next/main linus/master v6.5-rc5 next-20230808]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gustavo-Luiz-Duarte/net-ipmr-Call-ipmr_ioctl-directly-from-ipmr_sk_ioctl/20230731-225918
+base:   net/main
+patch link:    https://lore.kernel.org/r/20230731145713.178509-1-gustavold%40gmail.com
+patch subject: [PATCH] net: ipmr: Call ipmr_ioctl() directly from ipmr_sk_ioctl()
+config: x86_64-randconfig-x054-20230808 (https://download.01.org/0day-ci/archive/20230809/202308091122.z4eVvCI5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308091122.z4eVvCI5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308091030.L5JrOBJB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308091122.z4eVvCI5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/ufs/host/ufs-qcom.c:64:3: sparse: sparse: symbol 'ufs_qcom_bw_table' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/ufs_qcom_bw_table +64 drivers/ufs/host/ufs-qcom.c
+   ld: net/core/sock.o: in function `ip6mr_sk_ioctl':
+>> include/linux/mroute6.h:115: undefined reference to `ip6mr_ioctl'
+>> ld: include/linux/mroute6.h:130: undefined reference to `ip6mr_ioctl'
 
-    60	
-    61	struct __ufs_qcom_bw_table {
-    62		u32 mem_bw;
-    63		u32 cfg_bw;
-  > 64	} ufs_qcom_bw_table[MODE_MAX + 1][QCOM_UFS_MAX_GEAR + 1][QCOM_UFS_MAX_LANE + 1] = {
-    65		[MODE_MIN][0][0]		   = { 0,		0 }, /* Bandwidth values in KB/s */
-    66		[MODE_PWM][UFS_PWM_G1][UFS_LANE_1] = { 922,		1000 },
-    67		[MODE_PWM][UFS_PWM_G2][UFS_LANE_1] = { 1844,		1000 },
-    68		[MODE_PWM][UFS_PWM_G3][UFS_LANE_1] = { 3688,		1000 },
-    69		[MODE_PWM][UFS_PWM_G4][UFS_LANE_1] = { 7376,		1000 },
-    70		[MODE_PWM][UFS_PWM_G1][UFS_LANE_2] = { 1844,		1000 },
-    71		[MODE_PWM][UFS_PWM_G2][UFS_LANE_2] = { 3688,		1000 },
-    72		[MODE_PWM][UFS_PWM_G3][UFS_LANE_2] = { 7376,		1000 },
-    73		[MODE_PWM][UFS_PWM_G4][UFS_LANE_2] = { 14752,		1000 },
-    74		[MODE_HS_RA][UFS_HS_G1][UFS_LANE_1] = { 127796,		1000 },
-    75		[MODE_HS_RA][UFS_HS_G2][UFS_LANE_1] = { 255591,		1000 },
-    76		[MODE_HS_RA][UFS_HS_G3][UFS_LANE_1] = { 1492582,	102400 },
-    77		[MODE_HS_RA][UFS_HS_G4][UFS_LANE_1] = { 2915200,	204800 },
-    78		[MODE_HS_RA][UFS_HS_G1][UFS_LANE_2] = { 255591,		1000 },
-    79		[MODE_HS_RA][UFS_HS_G2][UFS_LANE_2] = { 511181,		1000 },
-    80		[MODE_HS_RA][UFS_HS_G3][UFS_LANE_2] = { 1492582,	204800 },
-    81		[MODE_HS_RA][UFS_HS_G4][UFS_LANE_2] = { 2915200,	409600 },
-    82		[MODE_HS_RB][UFS_HS_G1][UFS_LANE_1] = { 149422,		1000 },
-    83		[MODE_HS_RB][UFS_HS_G2][UFS_LANE_1] = { 298189,		1000 },
-    84		[MODE_HS_RB][UFS_HS_G3][UFS_LANE_1] = { 1492582,	102400 },
-    85		[MODE_HS_RB][UFS_HS_G4][UFS_LANE_1] = { 2915200,	204800 },
-    86		[MODE_HS_RB][UFS_HS_G1][UFS_LANE_2] = { 298189,		1000 },
-    87		[MODE_HS_RB][UFS_HS_G2][UFS_LANE_2] = { 596378,		1000 },
-    88		[MODE_HS_RB][UFS_HS_G3][UFS_LANE_2] = { 1492582,	204800 },
-    89		[MODE_HS_RB][UFS_HS_G4][UFS_LANE_2] = { 2915200,	409600 },
-    90		[MODE_MAX][0][0]		    = { 7643136,	307200 },
-    91	};
-    92	
+
+vim +115 include/linux/mroute6.h
+
+    95	
+    96	struct rtmsg;
+    97	extern int ip6mr_get_route(struct net *net, struct sk_buff *skb,
+    98				   struct rtmsg *rtm, u32 portid);
+    99	
+   100	#ifdef CONFIG_IPV6_MROUTE
+   101	bool mroute6_is_socket(struct net *net, struct sk_buff *skb);
+   102	extern int ip6mr_sk_done(struct sock *sk);
+   103	static inline int ip6mr_sk_ioctl(struct sock *sk, unsigned int cmd,
+   104					 void __user *arg)
+   105	{
+   106		int ret;
+   107	
+   108		switch (cmd) {
+   109		case SIOCGETMIFCNT_IN6: {
+   110			struct sioc_mif_req6 karg;
+   111	
+   112			if (copy_from_user(&karg, arg, sizeof(karg)))
+   113				return -EFAULT;
+   114	
+ > 115			ret = ip6mr_ioctl(sk, cmd, &karg);
+   116			if (ret)
+   117				return ret;
+   118	
+   119			if (copy_to_user(arg, &karg, sizeof(karg)))
+   120				return -EFAULT;
+   121	
+   122			return 0;
+   123			}
+   124		case SIOCGETSGCNT_IN6: {
+   125			struct sioc_sg_req6 karg;
+   126	
+   127			if (copy_from_user(&karg, arg, sizeof(karg)))
+   128				return -EFAULT;
+   129	
+ > 130			ret = ip6mr_ioctl(sk, cmd, &karg);
+   131			if (ret)
+   132				return ret;
+   133	
+   134			if (copy_to_user(arg, &karg, sizeof(karg)))
+   135				return -EFAULT;
+   136	
+   137			return 0;
+   138			}
+   139		}
+   140	
+   141		return 1;
+   142	}
+   143	#else
+   144	static inline bool mroute6_is_socket(struct net *net, struct sk_buff *skb)
+   145	{
+   146		return false;
+   147	}
+   148	static inline int ip6mr_sk_done(struct sock *sk)
+   149	{
+   150		return 0;
+   151	}
+   152	
 
 -- 
 0-DAY CI Kernel Test Service
