@@ -1,47 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200031E1A2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 15:08:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6394320CA0;
+	Thu, 10 Aug 2023 15:20:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691680110; x=1723216110;
+  t=1691680831; x=1723216831;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=j1eJcU+Wp+UDTBxlpC5tXTYQ+z6Qross9BmF4GN/Zro=;
-  b=e+aVy54A2JvUZNRtkAcNHvOgVfT24I/cbpomIwVnlCdKnf5UyHAQzgKD
-   hjIvVHRj4TIiuN8R1wnc/GV6H8A0xX+802mbFfR/0PRPDGfNRqFrTah72
-   r2oik5zlYVM42AQRoTs4twSJZCab5/WhQXJEssCCe2Cr/9ycoRhk33V58
-   6qTOKO1QI7ZNEbtgb4G9QYQ9up8yqrdFBeTU3v2r7KxsZIXsw2v7acKIp
-   Pi64MdoaNQKuzebrwCZeSdHGv+rFnQSqeL1eJubrXrxntJz+IFwIssuzW
-   +9A3Vs6Ld9633NI/sML2PuXZNnKyx9ptVlqx86Ew9otChlhRWgf2PuWz9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="361564412"
+  bh=tzEuRhWA729lr0yZfUge3c1qE9pFYtSDbgpvbuhxtBI=;
+  b=Za9Cxgk+CJwyTFkp61HTzTRbH2AiIeHEZcv0OW3Rms3oQcMxTfZ1p20n
+   82PcVWNtben14sUNi19+Ppp04Szi17qgeOP++fVL1I/Vl305AEttIEejc
+   qkyFgEHAvEEA9HlUosP0ETLIVIzcWCrERzo4ef2YwW3M+8UnDk43oInpq
+   CYyuQBjtB+WyUJRR+hWbViq7cBD6CRdBbQ0pBSTKpqXNTqul/Hee11ugL
+   Di6b3MxuyhwAvHa9E6gqTK3mYY8bLm27QvPWrhne5AjZDsPnZz3fSNlLL
+   Orh4JFrur5bwDP64uIx4rxyEn69QNPmN/eIM6saKaq3WLLIfcGbPZ7yOr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="361568405"
 X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="361564412"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 08:08:14 -0700
+   d="scan'208";a="361568405"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 08:20:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="822275065"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="761813165"
 X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="822275065"
+   d="scan'208";a="761813165"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Aug 2023 08:08:12 -0700
+  by orsmga008.jf.intel.com with ESMTP; 10 Aug 2023 08:20:12 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qU7Gl-00074i-37;
-	Thu, 10 Aug 2023 15:08:11 +0000
-Date: Thu, 10 Aug 2023 23:08:01 +0800
+	id 1qU7SO-00074q-03;
+	Thu, 10 Aug 2023 15:20:12 +0000
+Date: Thu, 10 Aug 2023 23:19:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lokendra Singh <lokendra.singh@intel.com>,
-	linux-bluetooth@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ravishankar.srivatsa@intel.com,
-	chethan.tumkur.narayan@intel.com, luiz.von.dentz@intel.com,
-	kiran.k@intel.com, seema.sreemantha@intel.com,
-	Lokendra Singh <lokendra.singh@intel.com>
-Subject: Re: [PATCH v1] Bluetooth: btintel: Send new command for PPAG
-Message-ID: <202308102242.EKYkZi8t-lkp@intel.com>
-References: <20230810105502.27012-1-lokendra.singh@intel.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 5/5] KVM: Unmap pages only when it's indeed
+ protected for NUMA migration
+Message-ID: <202308102307.MQAoNjsq-lkp@intel.com>
+References: <20230810090218.26244-1-yan.y.zhao@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,111 +47,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230810105502.27012-1-lokendra.singh@intel.com>
+In-Reply-To: <20230810090218.26244-1-yan.y.zhao@intel.com>
 
-Hi Lokendra,
+Hi Yan,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on bluetooth/master linus/master v6.5-rc5 next-20230809]
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on mst-vhost/linux-next linus/master v6.5-rc5 next-20230809]
+[cannot apply to akpm-mm/mm-everything kvm/linux-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lokendra-Singh/Bluetooth-btintel-Send-new-command-for-PPAG/20230810-185334
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20230810105502.27012-1-lokendra.singh%40intel.com
-patch subject: [PATCH v1] Bluetooth: btintel: Send new command for PPAG
-config: x86_64-randconfig-x011-20230810 (https://download.01.org/0day-ci/archive/20230810/202308102242.EKYkZi8t-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308102242.EKYkZi8t-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhao/mm-mmu_notifier-introduce-a-new-mmu-notifier-flag-MMU_NOTIFIER_RANGE_NUMA/20230810-172955
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20230810090218.26244-1-yan.y.zhao%40intel.com
+patch subject: [RFC PATCH v2 5/5] KVM: Unmap pages only when it's indeed protected for NUMA migration
+config: riscv-randconfig-r023-20230810 (https://download.01.org/0day-ci/archive/20230810/202308102307.MQAoNjsq-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308102307.MQAoNjsq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308102242.EKYkZi8t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308102307.MQAoNjsq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/bluetooth/btintel.c: In function 'btintel_set_ppag':
-   drivers/bluetooth/btintel.c:2404:36: error: storage size of 'ppag_cmd' isn't known
-    2404 |         struct hci_ppag_enable_cmd ppag_cmd;
-         |                                    ^~~~~~~~
->> drivers/bluetooth/btintel.c:2404:36: warning: unused variable 'ppag_cmd' [-Wunused-variable]
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:767:23: warning: pointer type mismatch ('bool (*)(struct kvm *, struct kvm_gfn_range *)' (aka '_Bool (*)(struct kvm *, struct kvm_gfn_range *)') and 'void *') [-Wpointer-type-mismatch]
+     767 |                 .handler        = !is_numa ? kvm_unmap_gfn_range :
+         |                                            ^ ~~~~~~~~~~~~~~~~~~~
+     768 |                                   (void *)kvm_null_fn,
+         |                                   ~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/../../../virt/kvm/kvm_main.c:770:25: warning: pointer type mismatch ('void (*)(struct kvm *)' and 'void *') [-Wpointer-type-mismatch]
+     770 |                 .on_unlock      = !is_numa ? kvm_arch_guest_memory_reclaimed :
+         |                                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     771 |                                   (void *)kvm_null_fn,
+         |                                   ~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +/ppag_cmd +2404 drivers/bluetooth/btintel.c
+vim +767 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
 
-  2399	
-  2400	static void btintel_set_ppag(struct hci_dev *hdev, struct intel_version_tlv *ver)
-  2401	{
-  2402		struct btintel_ppag ppag;
-  2403		struct sk_buff *skb;
-> 2404		struct hci_ppag_enable_cmd ppag_cmd;
-  2405		acpi_handle handle;
-  2406	
-  2407		/* PPAG is not supported if CRF is HrP2, Jfp2, JfP1 */
-  2408		switch (ver->cnvr_top & 0xFFF) {
-  2409		case 0x504:     /* Hrp2 */
-  2410		case 0x202:     /* Jfp2 */
-  2411		case 0x201:     /* Jfp1 */
-  2412			bt_dev_warn(hdev, "PPAG not supported for Intel CNVr (0x%3x)",
-  2413				    ver->cnvr_top & 0xFFF);
-  2414			return;
-  2415		}
-  2416	
-  2417		handle = ACPI_HANDLE(GET_HCIDEV_DEV(hdev));
-  2418		if (!handle) {
-  2419			bt_dev_info(hdev, "No support for BT device in ACPI firmware");
-  2420			return;
-  2421		}
-  2422	
-  2423		memset(&ppag, 0, sizeof(ppag));
-  2424	
-  2425		ppag.hdev = hdev;
-  2426		ppag.status = AE_NOT_FOUND;
-  2427		acpi_walk_namespace(ACPI_TYPE_PACKAGE, handle, 1, NULL,
-  2428				    btintel_ppag_callback, &ppag, NULL);
-  2429	
-  2430		if (ACPI_FAILURE(ppag.status)) {
-  2431			if (ppag.status == AE_NOT_FOUND) {
-  2432				bt_dev_dbg(hdev, "PPAG-BT: ACPI entry not found");
-  2433				return;
-  2434			}
-  2435			return;
-  2436		}
-  2437	
-  2438		if (ppag.domain != 0x12) {
-  2439			bt_dev_warn(hdev, "PPAG-BT: Bluetooth domain is disabled in ACPI firmware");
-  2440			return;
-  2441		}
-  2442	
-  2443		/* PPAG mode
-  2444		 * BIT 0 : 0 Disabled in EU
-  2445		 *         1 Enabled in EU
-  2446		 * BIT 1 : 0 Disabled in China
-  2447		 *         1 Enabled in China
-  2448		 */
-  2449		if((ppag.mode & 0x01) != BIT(0) && (ppag.mode & 0x02) != BIT(1)) {
-  2450			bt_dev_warn(hdev, "PPAG-BT: EU, China mode are disabled in CB/BIOS");
-  2451			return;
-  2452		}
-  2453	
-  2454		/* HCI_Intel_PpagEnable_CMD - opcode: 0xFE0B
-  2455		 * ppag_enable_flags - ppag mode
-  2456		 */
-  2457		ppag_cmd.ppag_enable_flags = ppag.mode;
-  2458	
-  2459		skb = __hci_cmd_sync(hdev, 0xfe0b, sizeof(ppag_cmd), &ppag_cmd, HCI_CMD_TIMEOUT);
-  2460		if (IS_ERR(skb)) {
-  2461			bt_dev_warn(hdev, "Failed to send PPAG Enable (%ld)", PTR_ERR(skb));
-  2462			return;
-  2463		}
-  2464		bt_dev_info(hdev, "PPAG-BT: Enabled (Mode %d)", ppag.mode);
-  2465		kfree_skb(skb);
-  2466	}
-  2467	
+   756	
+   757	static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+   758						const struct mmu_notifier_range *range)
+   759	{
+   760		struct kvm *kvm = mmu_notifier_to_kvm(mn);
+   761		bool is_numa = (range->event == MMU_NOTIFY_PROTECTION_VMA) &&
+   762			       (range->flags & MMU_NOTIFIER_RANGE_NUMA);
+   763		const struct kvm_hva_range hva_range = {
+   764			.start		= range->start,
+   765			.end		= range->end,
+   766			.pte		= __pte(0),
+ > 767			.handler	= !is_numa ? kvm_unmap_gfn_range :
+   768					  (void *)kvm_null_fn,
+   769			.on_lock	= kvm_mmu_invalidate_begin,
+ > 770			.on_unlock	= !is_numa ? kvm_arch_guest_memory_reclaimed :
+   771					  (void *)kvm_null_fn,
+   772			.flush_on_ret	= !is_numa ? true : false,
+   773			.may_block	= mmu_notifier_range_blockable(range),
+   774		};
+   775	
+   776		trace_kvm_unmap_hva_range(range->start, range->end);
+   777	
+   778		/*
+   779		 * Prevent memslot modification between range_start() and range_end()
+   780		 * so that conditionally locking provides the same result in both
+   781		 * functions.  Without that guarantee, the mmu_invalidate_in_progress
+   782		 * adjustments will be imbalanced.
+   783		 *
+   784		 * Pairs with the decrement in range_end().
+   785		 */
+   786		spin_lock(&kvm->mn_invalidate_lock);
+   787		kvm->mn_active_invalidate_count++;
+   788		spin_unlock(&kvm->mn_invalidate_lock);
+   789	
+   790		/*
+   791		 * Invalidate pfn caches _before_ invalidating the secondary MMUs, i.e.
+   792		 * before acquiring mmu_lock, to avoid holding mmu_lock while acquiring
+   793		 * each cache's lock.  There are relatively few caches in existence at
+   794		 * any given time, and the caches themselves can check for hva overlap,
+   795		 * i.e. don't need to rely on memslot overlap checks for performance.
+   796		 * Because this runs without holding mmu_lock, the pfn caches must use
+   797		 * mn_active_invalidate_count (see above) instead of
+   798		 * mmu_invalidate_in_progress.
+   799		 */
+   800		gfn_to_pfn_cache_invalidate_start(kvm, range->start, range->end,
+   801						  hva_range.may_block);
+   802	
+   803		__kvm_handle_hva_range(kvm, &hva_range);
+   804	
+   805		return 0;
+   806	}
+   807	
 
 -- 
 0-DAY CI Kernel Test Service
