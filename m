@@ -1,66 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8819C22F08
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 19:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD85820CA8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 19:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691696246; x=1723232246;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xx83EKLu+vN9CXT+mV65pORzjTdIyb9PiTLDHfY8Y3Y=;
-  b=G0a5Bq7vQGenfVX3NUIKgdq9/JPDt6ZMcIfK9Q9hG6JOlubN7ncsKFfh
-   t4KA0XxbQ6+W3uMVB2QJlhtP6bba4KYnmcPJaiIxANNqykWJSJCZ/faCv
-   9YDeZYEVxKBDT5Yw5xgUHrzuW8sdvadw2YLkHt2Bg607twBY4vd5MtW9i
-   u8BvMEJkWPaqedZsK6rF1hFCYsZmBzBez6GL6YFsgTuYWtTPweipLpTZp
-   RBCB/vcODVVKSVEs5yADHW2oe/b8g50uzwjv4EUsZf/a8ZCO2zOSBn4xj
-   XtQhJWrn35Qu0+b8wBC306uiIa8GyEbWqcZd6K2J9EfouE0KFNVHZLQ5c
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="351825312"
+  t=1691696851; x=1723232851;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s3MY3s53UZKWpq2GKsgaQvwwSJQbcz1LyovPuyGXZ4w=;
+  b=fc07Ed3WPG3dq26fWeoOnpKchhJh/ENyFzWYOJYvXT9EjtLfYSMIPjeh
+   6pfyRTkrPSP5eIjcMl26gcXrNkyok6Y2DwKb+viTXbC71eTxDJDX1/sLw
+   wZhTXWFlExijfaDXV9G/scJ/tOZ/DziyVPikikUAdo/xXVhX8GYT4Nz7s
+   J20zRY3OIhSbwOlHECsDc3B894/dTi9gPm8zBcCfDTfUu9IZrlTzHsFZ7
+   yrx6EgTmA8jstDXSk/0zHXry+oktWo/tmT+RmJswd6SewPXuVVwT6F9Hd
+   1OfLhYsXje6Z9wTPk4TN4WfZNBkbE/xPltvLBWWJZQ68JSIWgo4yU6tvs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="371512694"
 X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="351825312"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 12:37:25 -0700
+   d="scan'208";a="371512694"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 12:47:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="906175689"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="856024227"
 X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="906175689"
+   d="scan'208";a="856024227"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 10 Aug 2023 12:37:18 -0700
+  by orsmga004.jf.intel.com with ESMTP; 10 Aug 2023 12:47:18 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUBTB-0007DA-2s;
-	Thu, 10 Aug 2023 19:37:17 +0000
-Date: Fri, 11 Aug 2023 03:36:21 +0800
+	id 1qUBcs-0007DU-02;
+	Thu, 10 Aug 2023 19:47:18 +0000
+Date: Fri, 11 Aug 2023 03:47:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dumitru Ceclan <mitrutzceclan@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Okan Sahin <okan.sahin@analog.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	Ramona Bolboaca <ramona.bolboaca@analog.com>,
-	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
-	ChiaEn Wu <chiaen_wu@richtek.com>,
-	William Breathitt Gray <william.gray@linaro.org>,
-	Lee Jones <lee@kernel.org>, Haibo Chen <haibo.chen@nxp.com>,
-	Mike Looijmans <mike.looijmans@topic.nl>,
-	Leonard =?iso-8859-1?Q?G=F6hrs?= <l.goehrs@pengutronix.de>,
-	Ceclan Dumitru <dumitru.ceclan@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] iio: adc: ad717x: add AD717X driver
-Message-ID: <202308110347.LseABMWN-lkp@intel.com>
-References: <20230810093322.593259-2-mitrutzceclan@gmail.com>
+To: Maximilian Luz <luzmaximilian@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [steev:lenovo-x13s-v6.5-rc5-clover 64/115] (.text+0x0): multiple
+ definition of `qcom_scm_qseecom_app_get_id';
+ drivers/firmware/qcom_scm.o:(.text+0x2a28): first defined here
+Message-ID: <202308110333.CRtNeGNO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,56 +47,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230810093322.593259-2-mitrutzceclan@gmail.com>
 
-Hi Dumitru,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v6.5-rc5 next-20230809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dumitru-Ceclan/iio-adc-ad717x-add-AD717X-driver/20230810-173526
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20230810093322.593259-2-mitrutzceclan%40gmail.com
-patch subject: [PATCH 2/2] iio: adc: ad717x: add AD717X driver
-config: xtensa-randconfig-m041-20230811 (https://download.01.org/0day-ci/archive/20230811/202308110347.LseABMWN-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308110347.LseABMWN-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux lenovo-x13s-v6.5-rc5-clover
+head:   5d47ba475cde92b762751035d1d4faa8f696eec7
+commit: 5edf9aaedeb63806137481219aa793fd06dd5afe [64/115] firmware: qcom_scm: Add support for Qualcomm Secure Execution Environment SCM interface
+config: microblaze-randconfig-r006-20230810 (https://download.01.org/0day-ci/archive/20230811/202308110333.CRtNeGNO-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308110333.CRtNeGNO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308110347.LseABMWN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308110333.CRtNeGNO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from drivers/iio/adc/ad717x.c:9:
->> include/linux/module.h:244:1: error: expected ',' or ';' before 'extern'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         | ^~~~~~
-   drivers/iio/adc/ad717x.c:974:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-     974 | MODULE_DEVICE_TABLE(of, ad717x_of_match);
-         | ^~~~~~~~~~~~~~~~~~~
-
-
-vim +244 include/linux/module.h
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  240  
-cff26a51da5d20 Rusty Russell     2014-02-03  241  #ifdef MODULE
-cff26a51da5d20 Rusty Russell     2014-02-03  242  /* Creates an alias so file2alias.c can find device table. */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  243  #define MODULE_DEVICE_TABLE(type, name)					\
-0bf8bf50eddc75 Matthias Kaehlcke 2017-07-24 @244  extern typeof(name) __mod_##type##__##name##_device_table		\
-cff26a51da5d20 Rusty Russell     2014-02-03  245    __attribute__ ((unused, alias(__stringify(name))))
-cff26a51da5d20 Rusty Russell     2014-02-03  246  #else  /* !MODULE */
-cff26a51da5d20 Rusty Russell     2014-02-03  247  #define MODULE_DEVICE_TABLE(type, name)
-cff26a51da5d20 Rusty Russell     2014-02-03  248  #endif
-^1da177e4c3f41 Linus Torvalds    2005-04-16  249  
+   microblaze-linux-ld: drivers/firmware/qcom_scm-smc.o: in function `qcom_scm_qseecom_app_get_id':
+>> (.text+0x0): multiple definition of `qcom_scm_qseecom_app_get_id'; drivers/firmware/qcom_scm.o:(.text+0x2a28): first defined here
+   microblaze-linux-ld: drivers/firmware/qcom_scm-smc.o: in function `qcom_scm_qseecom_app_send':
+>> (.text+0x8): multiple definition of `qcom_scm_qseecom_app_send'; drivers/firmware/qcom_scm.o:(.text+0x2a30): first defined here
+   microblaze-linux-ld: drivers/firmware/qcom_scm-legacy.o: in function `qcom_scm_qseecom_app_get_id':
+>> (.text+0x0): multiple definition of `qcom_scm_qseecom_app_get_id'; drivers/firmware/qcom_scm.o:(.text+0x2a28): first defined here
+   microblaze-linux-ld: drivers/firmware/qcom_scm-legacy.o: in function `qcom_scm_qseecom_app_send':
+>> (.text+0x8): multiple definition of `qcom_scm_qseecom_app_send'; drivers/firmware/qcom_scm.o:(.text+0x2a30): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
