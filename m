@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462B71E1C0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 17:03:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17CCB1E1C0;
+	Thu, 10 Aug 2023 17:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691686986; x=1723222986;
+  t=1691687546; x=1723223546;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yZUQC/i01eHrobuGyun5mknspu3akskzXyMpJwyD+NE=;
-  b=bMFdBKEQ7nTXm9JItryz28fsXUxFRn28HuGL2mW+PYlCCROuUIpw7qQv
-   GzcMQmTVKb7TMXTit89jzeac0gDI+EUjsDhSHy2hZ7P4Ya8L5N68o7LOi
-   oEKzWdd6qXSONkMk62JS4o1ZaWRJyrDWmQ6i1UcOSjae0FaHIkglhi+oc
-   OJOBSnniiZ7ANRsY0dLZkWaIyRD49rRziE4KFR12aWKk45KO+Sfas/e5u
-   22pwi10phB4WBfV6+Z4MHn7dfhukz8nv8HznLummPIsNCfkN71S4Z0NBI
-   NiUDOLE3mS7yvV03UxMCP2Li5p46yulR/a4byKQ/0lIbePKVStKufAYIT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="435358007"
+  bh=ztHccN4uK1QNpdAB8tzxeS2pHdz7ydchs5vr3hkbkLE=;
+  b=c/9MHjLI6NJVNfWd2pwOoxsPIBktEUpfudAOUH5oDNYVsREioF9PRhuV
+   hrUFnusVFj0OxWOlMkqZUsmesSl/n61Rl6YomfFeWAjmveO2VRzZaovJN
+   UftuBd5jfy2X5kaky7YU6THVbOIJD4WhzLZnep04qWs2EEHRTlKEdBh1F
+   rc7CkJJ6lXzkWpOiYHApe68i438j17cTltiNlo5t9M/WgrOOgRn2UKkwu
+   9y1B4+LPnlvVNDA2+OpN4vdhrKP36RBRS3RBaNLQB/djHHSLrwz0VZY3q
+   96Sp5dbVD8yk4gw4v2alJN8WfmG+SK/6eWPaNfTZwy5VhIVoflNcikKvL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="361605834"
 X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="435358007"
+   d="scan'208";a="361605834"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 10:02:44 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 10:12:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="1062988615"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="1062994071"
 X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="1062988615"
+   d="scan'208";a="1062994071"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Aug 2023 10:02:15 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 10 Aug 2023 10:12:15 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qU938-00077w-0K;
-	Thu, 10 Aug 2023 17:02:14 +0000
-Date: Fri, 11 Aug 2023 01:01:25 +0800
+	id 1qU9Co-00078C-1M;
+	Thu, 10 Aug 2023 17:12:14 +0000
+Date: Fri, 11 Aug 2023 01:11:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	WANG Xuerui <git@xen0n.name>, Jianmin Lv <lvjianmin@loongson.cn>
-Subject: drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:311:16: sparse: sparse:
- incorrect type in argument 1 (different base types)
-Message-ID: <202308110052.GRrF9sM5-lkp@intel.com>
+To: Karolina Stolarek <karolina.stolarek@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: [drm-misc:for-linux-next 1/3] ld.lld: error: undefined symbol:
+ vmf_insert_pfn_prot
+Message-ID: <202308110133.f0lhFwMV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,42 +48,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   374a7f47bf401441edff0a64465e61326bf70a82
-commit: 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb LoongArch: Add PCI controller support
-date:   12 months ago
-config: loongarch-randconfig-r091-20230810 (https://download.01.org/0day-ci/archive/20230811/202308110052.GRrF9sM5-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308110052.GRrF9sM5-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   2799804ac651da1375ecb9b9a644eba97218df07
+commit: e3912d09bf8ddd8e274118d4c9cc550d9665115d [1/3] drm/ttm: Introduce KUnit test
+config: riscv-randconfig-r022-20230810 (https://download.01.org/0day-ci/archive/20230811/202308110133.f0lhFwMV-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308110133.f0lhFwMV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308110052.GRrF9sM5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308110133.f0lhFwMV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma_cq.c: note: in included file:
->> drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:311:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:311:16: sparse:     expected unsigned int [usertype] value
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:311:16: sparse:     got restricted __le32 [usertype]
->> drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:311:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:311:16: sparse:     expected unsigned int [usertype] value
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:311:16: sparse:     got restricted __le32 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +311 drivers/infiniband/hw/vmw_pvrdma/pvrdma.h
+>> ld.lld: error: undefined symbol: vmf_insert_pfn_prot
+   >>> referenced by ttm_bo_vm.c
+   >>>               drivers/gpu/drm/ttm/ttm_bo_vm.o:(ttm_bo_vm_fault_reserved) in archive vmlinux.a
+   >>> referenced by ttm_bo_vm.c
+   >>>               drivers/gpu/drm/ttm/ttm_bo_vm.o:(ttm_bo_vm_dummy_page) in archive vmlinux.a
 
-29c8d9eba550c6 Adit Ranadive 2016-10-02  308  
-29c8d9eba550c6 Adit Ranadive 2016-10-02  309  static inline void pvrdma_write_uar_cq(struct pvrdma_dev *dev, u32 val)
-29c8d9eba550c6 Adit Ranadive 2016-10-02  310  {
-29c8d9eba550c6 Adit Ranadive 2016-10-02 @311  	writel(cpu_to_le32(val), dev->driver_uar.map + PVRDMA_UAR_CQ_OFFSET);
-29c8d9eba550c6 Adit Ranadive 2016-10-02  312  }
-29c8d9eba550c6 Adit Ranadive 2016-10-02  313  
-
-:::::: The code at line 311 was first introduced by commit
-:::::: 29c8d9eba550c6d73d17cc1618a9f5f2a7345aa1 IB: Add vmw_pvrdma driver
-
-:::::: TO: Adit Ranadive <aditr@vmware.com>
-:::::: CC: Doug Ledford <dledford@redhat.com>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_TTM
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+   Selected by [y]:
+   - DRM_TTM_KUNIT_TEST [=y] && HAS_IOMEM [=y] && DRM [=y] && KUNIT [=y]
 
 -- 
 0-DAY CI Kernel Test Service
