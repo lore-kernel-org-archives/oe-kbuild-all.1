@@ -1,50 +1,46 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DB5EBD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 05:07:32 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-317c3ac7339so499595f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 09 Aug 2023 22:07:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691644050; x=1692248850;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9zZSTt++qSivcx2W68Ryg2gpTfnYZRO2cI6Dv69Y8RY=;
-        b=QBncGCc6Iqrj5AJ2rBSBb/3UUOTYOwUA3c1KTruf5S5qHI/Zh4RZAgE+42RJzYo1XG
-         kVvzyPxxID28pBwW6bIh5F6uup2kNuTiwUgyWVQR7cuccIoJjLW5Nk50mUo/eHpfQYlS
-         K6URHuP7/Yoe3A0VzS06z3uakc8QzcCMWDg/zfk4bb4WnPuGIizb9CmlJkPfnDaQkQ+G
-         +aQq/Wt9JSlzxqpc6xgU26yPND1xPssubpr4cvf4YmZdMgGIAO3HoxpuZDrwd9+qmpux
-         9elzeBuIrJm0h4eryG7JhotwV7MPOSRFLlkz0ea8qpYYqx3J1FOjOntvMgsUazaC9JVF
-         TPjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691644050; x=1692248850;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9zZSTt++qSivcx2W68Ryg2gpTfnYZRO2cI6Dv69Y8RY=;
-        b=XWr8ARG6zo1VrQ4/WW6qT/JSjnzPlYXfVU2aBRBy1rK7us66GpMXZSaJpMnVjzCcyE
-         90tpfd+ZYglgHLS5AuhDL6UuKHHHVniLHSuXjpZ2Eu+FOr9RCF73fUBWY2GzDVhoFBts
-         IX4LFsMXv5kwI7l53srn7wjcUL+FQEPpEaryRHUhKxKRIl8+g2b5bGCC6g2KRyho9g5V
-         LSJ+KzeQ42FoNrRkn+b2+7NiowL3MEdTMA4OFnZ+TvVvVbsjK51lrWD8RyZhayhpa5U+
-         MQYOC690g2WKN7CJaIp0uKozq6ZgN76iyld53+S2T3wMxdcO8x47VwiPCGpiPHXyrxtg
-         0F+w==
-X-Gm-Message-State: AOJu0Yw3jbg4bl2OUUj7ugrgjj8DB18aYyg5V7l2WFjb9Gk7MDWDReyG
-	4oHTHO6iI8B/CXX1tUxGnMs8lNZ6w9+fywLjSmw=
-X-Google-Smtp-Source: AGHT+IH8ujwUirEkH1+JKpKZT76olHkm+iW5IL8ewnmszrlDKfrF9RTCCMx0hsa+xwzb889r2u/0iQ==
-X-Received: by 2002:a5d:60ce:0:b0:313:f399:6cea with SMTP id x14-20020a5d60ce000000b00313f3996ceamr1048069wrt.4.1691644050674;
-        Wed, 09 Aug 2023 22:07:30 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h1-20020adffd41000000b0030ae499da59sm781409wrs.111.2023.08.09.22.07.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 22:07:30 -0700 (PDT)
-Date: Thu, 10 Aug 2023 08:07:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Andreas Hindborg <a.hindborg@samsung.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>
-Subject: [linux-next:master 8194/8441] drivers/block/ublk_drv.c:445
- ublk_setup_iod_zoned() warn: signedness bug returning '(-95)'
-Message-ID: <ea982bd0-5375-4bcd-bb59-936070bf46be@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADC6ED3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 05:17:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691644631; x=1723180631;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EnSYzqifzvsagwFRy6FFx7PXyJJwVY1BT3a5fddqK50=;
+  b=GOkxQ7oWHtqGIcm+vHyqN2Tocl0pIfoelq24xzFJ1ylRXZBnbUkMx+28
+   6qG3M5S6xij7rtv7EcuFtkrlgET345q+VL4D9YMG1cZT1oIbis8CEzLNN
+   FKYnj3KPHYfMc5m6o8Akf16ZagDQt2hvhnln1u5FYvZ33bDy9EEUDxO90
+   BPi5wjOgWD8MkzHd9mrMFNWx6Ba7r/6tiZiQxbjK5UFZTa9wouySCU76c
+   +JVd5ITl4PHGD5bxJ0M7RdeQduJCUQG9FQ33BAb54Z5lFrcDyhT0tqLAV
+   OHplv/YkyAOwfOUAO9eDc2VOGmLxftm2VWBGW5qckYP91qPxQ7Uxm6lFr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="457657718"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
+   d="scan'208";a="457657718"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 22:17:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="978649917"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
+   d="scan'208";a="978649917"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 09 Aug 2023 22:17:00 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qTy2d-0006ji-1L;
+	Thu, 10 Aug 2023 05:16:59 +0000
+Date: Thu, 10 Aug 2023 13:16:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+	tzimmermann@suse.de, airlied@redhat.com,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net
+Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH 1/2] drm/panic: Add a drm panic handler
+Message-ID: <202308101307.hbEyAamN-lkp@intel.com>
+References: <20230809192514.158062-2-jfalempe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,40 +49,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230809192514.158062-2-jfalempe@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   21ef7b1e17d039053edaeaf41142423810572741
-commit: 29802d7ca33bc0a75c9da2a143eeed4f9e99fca4 [8194/8441] ublk: enable zoned storage support
-config: s390-randconfig-m041-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100201.TCRhgdvN-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100201.TCRhgdvN-lkp@intel.com/reproduce)
+Hi Jocelyn,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6995e2de6891c724bfeb2db33d7b87775f913ad1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Add-a-drm-panic-handler/20230810-032733
+base:   6995e2de6891c724bfeb2db33d7b87775f913ad1
+patch link:    https://lore.kernel.org/r/20230809192514.158062-2-jfalempe%40redhat.com
+patch subject: [PATCH 1/2] drm/panic: Add a drm panic handler
+config: nios2-randconfig-r011-20230809 (https://download.01.org/0day-ci/archive/20230810/202308101307.hbEyAamN-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308101307.hbEyAamN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308100201.TCRhgdvN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308101307.hbEyAamN-lkp@intel.com/
 
-New smatch warnings:
-drivers/block/ublk_drv.c:445 ublk_setup_iod_zoned() warn: signedness bug returning '(-95)'
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/block/ublk_drv.c:963 ublk_setup_iod() warn: signedness bug returning '(-5)'
-drivers/block/ublk_drv.c:1404 ublk_commit_completion() warn: variable dereferenced before check 'req' (see line 1401)
+>> drivers/gpu/drm/drm_panic.c:246:6: warning: no previous prototype for 'drm_panic_init_client' [-Wmissing-prototypes]
+     246 | void drm_panic_init_client(struct drm_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_panic.c:272:6: warning: no previous prototype for 'drm_panic_init' [-Wmissing-prototypes]
+     272 | void drm_panic_init(void)
+         |      ^~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_panic.c:282:6: warning: no previous prototype for 'drm_panic_exit' [-Wmissing-prototypes]
+     282 | void drm_panic_exit(void)
+         |      ^~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/drm_panic.c:28: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * This module displays a user friendly message on screen when a kernel panic
+   drivers/gpu/drm/drm_panic.c:36: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * List of drm clients
+>> drivers/gpu/drm/drm_panic.c:283: warning: expecting prototype for drm_log_exit(). Prototype was for drm_panic_exit() instead
 
-vim +445 drivers/block/ublk_drv.c
 
-29802d7ca33bc0 Andreas Hindborg 2023-08-04  442  static blk_status_t ublk_setup_iod_zoned(struct ublk_queue *ubq,
-29802d7ca33bc0 Andreas Hindborg 2023-08-04  443  					 struct request *req)
-29802d7ca33bc0 Andreas Hindborg 2023-08-04  444  {
-29802d7ca33bc0 Andreas Hindborg 2023-08-04 @445  	return -EOPNOTSUPP;
+vim +/drm_panic_init_client +246 drivers/gpu/drm/drm_panic.c
 
-blk_status_t can either be a u32 or a u8 but for this warning to trigger
-it must be a u8 in this case.
-
-29802d7ca33bc0 Andreas Hindborg 2023-08-04  446  }
+   245	
+ > 246	void drm_panic_init_client(struct drm_device *dev)
+   247	{
+   248		struct dpanic_drm_client *new;
+   249		int ret;
+   250	
+   251		new = kzalloc(sizeof(*new), GFP_KERNEL);
+   252		if (!new)
+   253			return;
+   254	
+   255		ret = drm_client_init(dev, &new->client, "drm_panic", NULL);
+   256		if (ret < 0) {
+   257			kfree(new);
+   258			return;
+   259		}
+   260		drm_client_register(&new->client);
+   261		list_add_tail(&new->head, &dpanic_clients);
+   262	
+   263		drm_info(dev, "Registered with drm panic\n");
+   264	}
+   265	EXPORT_SYMBOL(drm_panic_init_client);
+   266	
+   267	/**
+   268	 * drm_panic_init() - Initialize drm-panic subsystem
+   269	 *
+   270	 * register the panic notifier
+   271	 */
+ > 272	void drm_panic_init(void)
+   273	{
+   274		/* register panic handler */
+   275		atomic_notifier_chain_register(&panic_notifier_list,
+   276					       &drm_panic_notifier);
+   277	}
+   278	
+   279	/**
+   280	 * drm_log_exit() - Shutdown drm-panic subsystem
+   281	 */
+ > 282	void drm_panic_exit(void)
+ > 283	{
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
