@@ -1,56 +1,50 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56610EBD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 04:55:04 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3fe5eb84dceso4299275e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 09 Aug 2023 21:55:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DB5EBD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 05:07:32 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-317c3ac7339so499595f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 09 Aug 2023 22:07:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691643302; x=1692248102;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z/BqMxGg389X38v6j4a//mKYYTt3ExR7xQzbT0BeY8w=;
-        b=H6B6mgbHIKoTBYU0Eo0YA/j1DL0rpxjTSjeb93lYYOHrsLoNTEsgOFGNP79OX+2cbT
-         VhKh4IVDxmMMFGSs7t49Etyze/LJ+zY8Xg0Ar0IVwJo6Mih7A8Egs57eWRZEcHTgYUai
-         xSMZRLanE/cIR7sCOjYx0jMAAzXKpxFv6LTltf4ts8UhxaJAj2T0YUbRT/vZ/AIQYHev
-         vVZqVortNQl2ZUMTAZAnFm1lmIyaHYx0RwN/H+k8dlfjItuzhBtb7eMBh4jYf7a0Dejo
-         uKv9Cuu7u4Bg7WgbujMmca37xjRbuOVaU0AM8AG75W6FPDEsrRq7ns6GxDNzXvQxsyxS
-         3s4A==
+        d=linaro.org; s=google; t=1691644050; x=1692248850;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9zZSTt++qSivcx2W68Ryg2gpTfnYZRO2cI6Dv69Y8RY=;
+        b=QBncGCc6Iqrj5AJ2rBSBb/3UUOTYOwUA3c1KTruf5S5qHI/Zh4RZAgE+42RJzYo1XG
+         kVvzyPxxID28pBwW6bIh5F6uup2kNuTiwUgyWVQR7cuccIoJjLW5Nk50mUo/eHpfQYlS
+         K6URHuP7/Yoe3A0VzS06z3uakc8QzcCMWDg/zfk4bb4WnPuGIizb9CmlJkPfnDaQkQ+G
+         +aQq/Wt9JSlzxqpc6xgU26yPND1xPssubpr4cvf4YmZdMgGIAO3HoxpuZDrwd9+qmpux
+         9elzeBuIrJm0h4eryG7JhotwV7MPOSRFLlkz0ea8qpYYqx3J1FOjOntvMgsUazaC9JVF
+         TPjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691643302; x=1692248102;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z/BqMxGg389X38v6j4a//mKYYTt3ExR7xQzbT0BeY8w=;
-        b=WM3oD1ZpJ6sed+q1MIet3hXDwXxK3sAbJNUuyRExoBdf1uE3QwdtsO/yIjXajnT3px
-         TJEsLia7SPQAEk2k7UxeP9jh8KBe8IdLgnMoAyFhxxVeFOa1kooBrZsAaW1wUUzMPlHy
-         EFhL1cjLfTj377CMKFMVFiyl96HQeOd5gxqSHvRvy9/4x03pZhPSf55Sy8rmCAYmA/bE
-         lcads7Ez0N85OfMZwcTW4j+WuzNQ26Qi5NjRFj+E/on5hR1y2WLTlYeLyteaUy7RZH0Z
-         SKIdKzywY09kL8db1pTNLhStFm+nPPFUfqxE3uYoKInWiwjOQnPqq6kHKWbIAxV24h2G
-         TodA==
-X-Gm-Message-State: AOJu0YyedDS0wh+X5gTqBZkyqnwSdfzWx2s2XvUa1jV92qtvMyJrSe4L
-	p+bn9jojwzBfGGu3J0R2Fs1L1Q==
-X-Google-Smtp-Source: AGHT+IH87AIZ4KmUJm/7yiOqmq3LkAYPiScuuajvyaDb9s2Xp8WugLB0vKU1gyi4ht4RdN8VNipR0g==
-X-Received: by 2002:a1c:7314:0:b0:3f6:9634:c8d6 with SMTP id d20-20020a1c7314000000b003f69634c8d6mr975049wmb.18.1691643301721;
-        Wed, 09 Aug 2023 21:55:01 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691644050; x=1692248850;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9zZSTt++qSivcx2W68Ryg2gpTfnYZRO2cI6Dv69Y8RY=;
+        b=XWr8ARG6zo1VrQ4/WW6qT/JSjnzPlYXfVU2aBRBy1rK7us66GpMXZSaJpMnVjzCcyE
+         90tpfd+ZYglgHLS5AuhDL6UuKHHHVniLHSuXjpZ2Eu+FOr9RCF73fUBWY2GzDVhoFBts
+         IX4LFsMXv5kwI7l53srn7wjcUL+FQEPpEaryRHUhKxKRIl8+g2b5bGCC6g2KRyho9g5V
+         LSJ+KzeQ42FoNrRkn+b2+7NiowL3MEdTMA4OFnZ+TvVvVbsjK51lrWD8RyZhayhpa5U+
+         MQYOC690g2WKN7CJaIp0uKozq6ZgN76iyld53+S2T3wMxdcO8x47VwiPCGpiPHXyrxtg
+         0F+w==
+X-Gm-Message-State: AOJu0Yw3jbg4bl2OUUj7ugrgjj8DB18aYyg5V7l2WFjb9Gk7MDWDReyG
+	4oHTHO6iI8B/CXX1tUxGnMs8lNZ6w9+fywLjSmw=
+X-Google-Smtp-Source: AGHT+IH8ujwUirEkH1+JKpKZT76olHkm+iW5IL8ewnmszrlDKfrF9RTCCMx0hsa+xwzb889r2u/0iQ==
+X-Received: by 2002:a5d:60ce:0:b0:313:f399:6cea with SMTP id x14-20020a5d60ce000000b00313f3996ceamr1048069wrt.4.1691644050674;
+        Wed, 09 Aug 2023 22:07:30 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id 24-20020a05600c029800b003fe2397c17fsm3689328wmk.17.2023.08.09.21.55.00
+        by smtp.gmail.com with ESMTPSA id h1-20020adffd41000000b0030ae499da59sm781409wrs.111.2023.08.09.22.07.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 21:55:01 -0700 (PDT)
-Date: Thu, 10 Aug 2023 07:54:58 +0300
+        Wed, 09 Aug 2023 22:07:30 -0700 (PDT)
+Date: Thu, 10 Aug 2023 08:07:27 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
-	Chris Mason <chris.mason@fusionio.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	"Theodore Y . Ts'o" <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, kernel-team@meta.com,
-	linux-btrfs@vger.kernel.org, linux-fscrypt@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>
+To: oe-kbuild@lists.linux.dev, Andreas Hindborg <a.hindborg@samsung.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-Subject: Re: [PATCH v6 8/8] fscrypt: make prepared keys record their type
-Message-ID: <87315be8-16b4-4d83-874f-93be91df4790@kadam.mountain>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>
+Subject: [linux-next:master 8194/8441] drivers/block/ublk_drv.c:445
+ ublk_setup_iod_zoned() warn: signedness bug returning '(-95)'
+Message-ID: <ea982bd0-5375-4bcd-bb59-936070bf46be@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,99 +53,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <64c47243cea5a8eca15538b51f88c0a6d53799cf.1691505830.git.sweettea-kernel@dorminy.me>
 
-Hi Sweet,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sweet-Tea-Dorminy/fscrypt-move-inline-crypt-decision-to-info-setup/20230809-030251
-base:   54d2161835d828a9663f548f61d1d9c3d3482122
-patch link:    https://lore.kernel.org/r/64c47243cea5a8eca15538b51f88c0a6d53799cf.1691505830.git.sweettea-kernel%40dorminy.me
-patch subject: [PATCH v6 8/8] fscrypt: make prepared keys record their type
-config: x86_64-randconfig-m001-20230808 (https://download.01.org/0day-ci/archive/20230809/202308092324.d0OCNA1O-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308092324.d0OCNA1O-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   21ef7b1e17d039053edaeaf41142423810572741
+commit: 29802d7ca33bc0a75c9da2a143eeed4f9e99fca4 [8194/8441] ublk: enable zoned storage support
+config: s390-randconfig-m041-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100201.TCRhgdvN-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100201.TCRhgdvN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308092324.d0OCNA1O-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202308100201.TCRhgdvN-lkp@intel.com/
 
-smatch warnings:
-fs/crypto/keysetup.c:300 setup_new_mode_prepared_key() warn: inconsistent returns '&fscrypt_mode_key_setup_mutex'.
+New smatch warnings:
+drivers/block/ublk_drv.c:445 ublk_setup_iod_zoned() warn: signedness bug returning '(-95)'
 
-vim +300 fs/crypto/keysetup.c
+Old smatch warnings:
+drivers/block/ublk_drv.c:963 ublk_setup_iod() warn: signedness bug returning '(-5)'
+drivers/block/ublk_drv.c:1404 ublk_commit_completion() warn: variable dereferenced before check 'req' (see line 1401)
 
-a03cf25a20f748 Sweet Tea Dorminy 2023-08-08  238  static int setup_new_mode_prepared_key(struct fscrypt_master_key *mk,
-a03cf25a20f748 Sweet Tea Dorminy 2023-08-08  239  				       struct fscrypt_prepared_key *prep_key,
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  240  				       const struct fscrypt_info *ci)
-5dae460c2292db Eric Biggers      2019-08-04  241  {
-b103fb7653fff0 Eric Biggers      2019-10-24  242  	const struct inode *inode = ci->ci_inode;
-b103fb7653fff0 Eric Biggers      2019-10-24  243  	const struct super_block *sb = inode->i_sb;
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  244  	unsigned int policy_flags = fscrypt_policy_flags(&ci->ci_policy);
-5dae460c2292db Eric Biggers      2019-08-04  245  	struct fscrypt_mode *mode = ci->ci_mode;
-85af90e57ce969 Eric Biggers      2019-12-09  246  	const u8 mode_num = mode - fscrypt_modes;
-5dae460c2292db Eric Biggers      2019-08-04  247  	u8 mode_key[FSCRYPT_MAX_KEY_SIZE];
-b103fb7653fff0 Eric Biggers      2019-10-24  248  	u8 hkdf_info[sizeof(mode_num) + sizeof(sb->s_uuid)];
-b103fb7653fff0 Eric Biggers      2019-10-24  249  	unsigned int hkdf_infolen = 0;
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  250  	u8 hkdf_context = 0;
-a03cf25a20f748 Sweet Tea Dorminy 2023-08-08  251  	int err = 0;
-e3b1078bedd323 Eric Biggers      2020-05-15  252  
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  253  	switch (policy_flags & FSCRYPT_POLICY_FLAGS_KEY_MASK) {
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  254  	case FSCRYPT_POLICY_FLAG_DIRECT_KEY:
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  255  		hkdf_context = HKDF_CONTEXT_DIRECT_KEY;
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  256  		break;
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  257  	case FSCRYPT_POLICY_FLAG_IV_INO_LBLK_64:
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  258  		hkdf_context = HKDF_CONTEXT_IV_INO_LBLK_64_KEY;
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  259  		break;
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  260  	case FSCRYPT_POLICY_FLAG_IV_INO_LBLK_32:
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  261  		hkdf_context = HKDF_CONTEXT_IV_INO_LBLK_32_KEY;
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  262  		break;
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  263  	}
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  264  
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  265  	/*
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  266  	 * For DIRECT_KEY policies: instead of deriving per-file encryption
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  267  	 * keys, the per-file nonce will be included in all the IVs.  But
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  268  	 * unlike v1 policies, for v2 policies in this case we don't encrypt
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  269  	 * with the master key directly but rather derive a per-mode encryption
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  270  	 * key.  This ensures that the master key is consistently used only for
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  271  	 * HKDF, avoiding key reuse issues.
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  272  	 *
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  273  	 * For IV_INO_LBLK policies: encryption keys are derived from
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  274  	 * (master_key, mode_num, filesystem_uuid), and inode number is
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  275  	 * included in the IVs.  This format is optimized for use with inline
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  276  	 * encryption hardware compliant with the UFS standard.
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  277  	 */
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  278  
-e3b1078bedd323 Eric Biggers      2020-05-15  279  	mutex_lock(&fscrypt_mode_key_setup_mutex);
-e3b1078bedd323 Eric Biggers      2020-05-15  280  
-5fee36095cda45 Satya Tangirala   2020-07-02  281  	if (fscrypt_is_key_prepared(prep_key, ci))
-a03cf25a20f748 Sweet Tea Dorminy 2023-08-08  282  		goto out_unlock;
-5dae460c2292db Eric Biggers      2019-08-04  283  
-5dae460c2292db Eric Biggers      2019-08-04  284  	BUILD_BUG_ON(sizeof(mode_num) != 1);
-b103fb7653fff0 Eric Biggers      2019-10-24  285  	BUILD_BUG_ON(sizeof(sb->s_uuid) != 16);
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  286  	BUILD_BUG_ON(sizeof(hkdf_info) != MAX_MODE_KEY_HKDF_INFO_SIZE);
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  287  	hkdf_infolen = fill_hkdf_info_for_mode_key(ci, hkdf_info);
-78265b33a56a52 Sweet Tea Dorminy 2023-08-08  288  
-5dae460c2292db Eric Biggers      2019-08-04  289  	err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
-b103fb7653fff0 Eric Biggers      2019-10-24  290  				  hkdf_context, hkdf_info, hkdf_infolen,
-5dae460c2292db Eric Biggers      2019-08-04  291  				  mode_key, mode->keysize);
-5dae460c2292db Eric Biggers      2019-08-04  292  	if (err)
-3bd6d42474f3a9 Sweet Tea Dorminy 2023-08-08  293  		return err;
+vim +445 drivers/block/ublk_drv.c
 
-Originally this was goto out_unlock;  Not sure why it was changed to a
-direct return.
+29802d7ca33bc0 Andreas Hindborg 2023-08-04  442  static blk_status_t ublk_setup_iod_zoned(struct ublk_queue *ubq,
+29802d7ca33bc0 Andreas Hindborg 2023-08-04  443  					 struct request *req)
+29802d7ca33bc0 Andreas Hindborg 2023-08-04  444  {
+29802d7ca33bc0 Andreas Hindborg 2023-08-04 @445  	return -EOPNOTSUPP;
 
-3bd6d42474f3a9 Sweet Tea Dorminy 2023-08-08  294  	prep_key->type = FSCRYPT_KEY_MASTER_KEY;
-5fee36095cda45 Satya Tangirala   2020-07-02  295  	err = fscrypt_prepare_key(prep_key, mode_key, ci);
-5dae460c2292db Eric Biggers      2019-08-04  296  	memzero_explicit(mode_key, mode->keysize);
-a03cf25a20f748 Sweet Tea Dorminy 2023-08-08  297  
-e3b1078bedd323 Eric Biggers      2020-05-15  298  out_unlock:
-e3b1078bedd323 Eric Biggers      2020-05-15  299  	mutex_unlock(&fscrypt_mode_key_setup_mutex);
-e3b1078bedd323 Eric Biggers      2020-05-15 @300  	return err;
-5dae460c2292db Eric Biggers      2019-08-04  301  }
+blk_status_t can either be a u32 or a u8 but for this warning to trigger
+it must be a u8 in this case.
+
+29802d7ca33bc0 Andreas Hindborg 2023-08-04  446  }
 
 -- 
 0-DAY CI Kernel Test Service
