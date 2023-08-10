@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438EA1DDFE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 09:08:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2511E53C;
+	Thu, 10 Aug 2023 09:49:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691658487; x=1723194487;
+  t=1691660956; x=1723196956;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p3I4fF4+m8KNhvZPiICpol2xoJPapTFE0w6+CVV0Ap4=;
-  b=f9wkR/iuCw8EtaADPm89ayGMd4YR0CsoUI9CS1klhxPdGiBOR+KL92SS
-   ErYNYsvFFLi4/Jr3WbYZAZkB52cnl98e9J9CnoZGGZ2GISAeehXLU1WLA
-   /O52uJ3d3EAWF6Jxe+vsfc11MWZT4+q8LxGs2BnHAkOJtIiIU6LrEMNNv
-   3CRsNMzbtbUMNRq+kD/fgoaeHH22hYsLmhpg40CZdRYLJztd2vsStJhm+
-   4R6UY/FGZ8Q2D6ekaNRUbhRbA79IqbgiTOb91p8CMsIIzHeDanpPU6X30
-   yLnkQUGuUgg+dA+ThbSczFgTClWqlpn5AbyJgQnhmyKmpk1FxGo+Dp6PQ
+  bh=NpuVfNK2yhiqFV/s9kz/Q2ooeV2aUMfeboBqSY0+rBo=;
+  b=Z8d74rDTCUrys9UHdbd1uL/gz1KpLW3P+7LrV4UO9ejGD/0TgyPeYAEq
+   jod+SyZTrp29tP2j5kqlYv9LBMwz03N0D2O/3Uz2aGKt0HtUeOqQfYFXk
+   GxzVwvgnP+2/yUF62KqQ1qh0yTfexx4O8WIGjETU4m3H7FfMqdla5Hhr9
+   ydzIWe043MTxPxFSwW2HGR4IRluAbFtZYSHNoaI+QYRGb1Vh2N+zA7MlV
+   xV2HCXJNyWcDC7i8y84PGP7AbXRibXWyePJpso+24q41e3yU4T4Sr6dCX
+   BcmvcwnqlIRaoKvenxOGRG9dmhlslhVRD+Vx77ubcI0lF6+MBGyK3ipMO
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="375062528"
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="457714940"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="375062528"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 02:08:06 -0700
+   d="scan'208";a="457714940"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 02:49:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="905975131"
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="797545816"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="905975131"
+   d="scan'208";a="797545816"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 10 Aug 2023 02:08:05 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 10 Aug 2023 02:49:06 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qU1eG-0006sq-1H;
-	Thu, 10 Aug 2023 09:08:04 +0000
-Date: Thu, 10 Aug 2023 17:07:18 +0800
+	id 1qU2Hy-0006uO-06;
+	Thu, 10 Aug 2023 09:49:06 +0000
+Date: Thu, 10 Aug 2023 17:48:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [arm-integrator:b4/virt-to-phys-kfence 2/2]
- include/linux/kfence.h:58:54: error: invalid operands to binary - (have
- 'char *' and 'void *')
-Message-ID: <202308101738.P7GDtKOH-lkp@intel.com>
+ include/linux/kfence.h:58:47: error: 'char *' and 'void *' are not pointers
+ to compatible types
+Message-ID: <202308101758.4SiUa8Ee-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,128 +50,27 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/virt-to-phys-kfence
 head:   709c5a98b878015dc4f8838fca1c0194b42dee86
 commit: 709c5a98b878015dc4f8838fca1c0194b42dee86 [2/2] kfence: Use a void * for page pool
-config: arm-randconfig-r046-20230809 (https://download.01.org/0day-ci/archive/20230810/202308101738.P7GDtKOH-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308101738.P7GDtKOH-lkp@intel.com/reproduce)
+config: riscv-randconfig-r042-20230809 (https://download.01.org/0day-ci/archive/20230810/202308101758.4SiUa8Ee-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308101758.4SiUa8Ee-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308101738.P7GDtKOH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308101758.4SiUa8Ee-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from init/main.c:17:
-   include/linux/kfence.h: In function 'is_kfence_address':
->> include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                                         ~~~~~~~~~~~~ ^
-         |                                         |
-         |                                         char *
-   include/linux/compiler.h:32:55: note: in definition of macro '__branch_check__'
-      32 |                         ______r = __builtin_expect(!!(x), expect);      \
-         |                                                       ^
-   include/linux/kfence.h:58:16: note: in expansion of macro 'unlikely'
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                ^~~~~~~~
->> include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                                         ~~~~~~~~~~~~ ^
-         |                                         |
-         |                                         char *
-   include/linux/compiler.h:34:54: note: in definition of macro '__branch_check__'
-      34 |                                              expect, is_constant);      \
-         |                                                      ^~~~~~~~~~~
-   include/linux/kfence.h:58:16: note: in expansion of macro 'unlikely'
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                ^~~~~~~~
---
-   In file included from include/linux/err.h:5,
-                    from include/kunit/assert.h:12,
-                    from include/kunit/test.h:12,
-                    from mm/kfence/kfence_test.c:14:
-   include/linux/kfence.h: In function 'is_kfence_address':
->> include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                                         ~~~~~~~~~~~~ ^
-         |                                         |
-         |                                         char *
-   include/linux/compiler.h:32:55: note: in definition of macro '__branch_check__'
-      32 |                         ______r = __builtin_expect(!!(x), expect);      \
-         |                                                       ^
-   include/linux/kfence.h:58:16: note: in expansion of macro 'unlikely'
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                ^~~~~~~~
->> include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                                         ~~~~~~~~~~~~ ^
-         |                                         |
-         |                                         char *
-   include/linux/compiler.h:34:54: note: in definition of macro '__branch_check__'
-      34 |                                              expect, is_constant);      \
-         |                                                      ^~~~~~~~~~~
-   include/linux/kfence.h:58:16: note: in expansion of macro 'unlikely'
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                ^~~~~~~~
-   mm/kfence/kfence_test.c: In function 'test_invalid_access':
->> mm/kfence/kfence_test.c:644:39: warning: dereferencing 'void *' pointer
-     644 |                 .addr = &__kfence_pool[10],
-         |                                       ^
-   In file included from ./arch/arm/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:246:
-   mm/kfence/kfence_test.c:648:32: warning: dereferencing 'void *' pointer
-     648 |         READ_ONCE(__kfence_pool[10]);
-         |                                ^
-   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   mm/kfence/kfence_test.c:648:9: note: in expansion of macro 'READ_ONCE'
-     648 |         READ_ONCE(__kfence_pool[10]);
-         |         ^~~~~~~~~
->> include/asm-generic/rwonce.h:44:26: warning: dereferencing 'void *' pointer
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   mm/kfence/kfence_test.c:648:9: note: in expansion of macro 'READ_ONCE'
-     648 |         READ_ONCE(__kfence_pool[10]);
-         |         ^~~~~~~~~
---
-   In file included from arch/arm/include/asm/atomic.h:11,
-                    from include/linux/atomic.h:7,
-                    from mm/kfence/core.c:10:
-   include/linux/kfence.h: In function 'is_kfence_address':
->> include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                                         ~~~~~~~~~~~~ ^
-         |                                         |
-         |                                         char *
-   include/linux/compiler.h:32:55: note: in definition of macro '__branch_check__'
-      32 |                         ______r = __builtin_expect(!!(x), expect);      \
-         |                                                       ^
-   include/linux/kfence.h:58:16: note: in expansion of macro 'unlikely'
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                ^~~~~~~~
->> include/linux/kfence.h:58:54: error: invalid operands to binary - (have 'char *' and 'void *')
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                                         ~~~~~~~~~~~~ ^
-         |                                         |
-         |                                         char *
-   include/linux/compiler.h:34:54: note: in definition of macro '__branch_check__'
-      34 |                                              expect, is_constant);      \
-         |                                                      ^~~~~~~~~~~
-   include/linux/kfence.h:58:16: note: in expansion of macro 'unlikely'
-      58 |         return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
-         |                ^~~~~~~~
-   mm/kfence/core.c: In function 'metadata_to_pageaddr':
-   mm/kfence/core.c:245:63: warning: dereferencing 'void *' pointer
-     245 |         unsigned long pageaddr = (unsigned long)&__kfence_pool[offset];
-         |                                                               ^
+   In file included from mm/slub.c:21:
+   In file included from mm/slab.h:236:
+   In file included from include/linux/slub_def.h:10:
+>> include/linux/kfence.h:58:47: error: 'char *' and 'void *' are not pointers to compatible types
+           return unlikely((unsigned long)((char *)addr - __kfence_pool) < KFENCE_POOL_SIZE && __kfence_pool);
+                                           ~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   1 error generated.
 
 
 vim +58 include/linux/kfence.h
