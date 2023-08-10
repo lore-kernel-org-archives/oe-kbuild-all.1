@@ -1,46 +1,43 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB34366
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 00:12:28 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-63d0d38ff97so1763736d6.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 09 Aug 2023 17:12:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691626348; x=1692231148;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H5uOVqVWqPz+ojEEhEhryKkkf49SNrsxUtFxYnP4qxc=;
-        b=gonEncTWJ/PeSDPOxS1kXr8sebHJRFWOsmPPsFW1ADHeNyQ5oV8oX4BnF/G1DuXNjD
-         xAngFrdKO8PIjrZromMknyi9RqvQxFzsU2rHFc2pKeduTuJ0X4rsdIVshlmL8zJr/agj
-         57HLSuLYEGTGyuN3dG13rJQgZMVB+BujRrWNtt4q/CKoMqcai+fLxykJDNLV3USZ+/0N
-         of0onx0fJRMi7GVnPnQckN26Od9+XEK0qqVWrhbEuaOoi1gOTlA+edB/weC1rcgaX9qS
-         Qk3gOwALIQeuxa8LcgkVXEWpYbzXHaz+mY1nSTyEWx6Z1ydjcLZO+7ZmVZ3iievTUU5q
-         Jj9A==
-X-Gm-Message-State: AOJu0YyD2aGI8A5RLPRN+mTYQx8M5SmLwlJpRN3nLOyzVTf8qQvQVysH
-	p4i4e8jmli2HLwIGh6RiKTeeGvu6yw+l71BV
-X-Google-Smtp-Source: AGHT+IHe3nbetZPK9iWXTtqUu+9Lk/g0GoPger/cQi6c5kYym9FBp6r39B0FLwgMoydV/Elhiodm3Q==
-X-Received: by 2002:a0c:e445:0:b0:636:1275:8419 with SMTP id d5-20020a0ce445000000b0063612758419mr622014qvm.13.1691626347726;
-        Wed, 09 Aug 2023 17:12:27 -0700 (PDT)
-Received: from maniforge ([2620:10d:c091:400::5:ed08])
-        by smtp.gmail.com with ESMTPSA id u8-20020a0cdd08000000b006360778f314sm57180qvk.105.2023.08.09.17.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Aug 2023 17:12:27 -0700 (PDT)
-Date: Wed, 9 Aug 2023 19:12:24 -0500
-From: David Vernet <void@manifault.com>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-	bristot@redhat.com, vschneid@redhat.com, tj@kernel.org,
-	roman.gushchin@linux.dev, gautham.shenoy@amd.com,
-	kprateek.nayak@amd.com, aaron.lu@intel.com,
-	wuyun.abel@bytedance.com, kernel-team@meta.com
-Subject: Re: [PATCH v3 7/7] sched: Shard per-LLC shared runqueues
-Message-ID: <20230810001224.GA194574@maniforge>
-References: <20230809221218.163894-8-void@manifault.com>
- <202308100717.LGL1juJR-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B37366;
+	Thu, 10 Aug 2023 00:28:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691627332; x=1723163332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rLRcOcqCWyLjEKQz2QW5+eKPiNNEsUrHMNvrCV27L+I=;
+  b=M3BzJVAMNOo00kxLSqmo9F5aSpSpUNN9KUEVxleDs53mhK1cyvI5fNkv
+   hTnXxtzvmxGsWWlc22LwbzKEKk9JKE39cjNkO/ncJGOCtkBZql7UndhSp
+   bMYxF6iH1KcFE848i/+eOaFZnN0cYKuKqXH6b0jJoLrqfViMeRs1V3wfr
+   1v2fpj3c4/dqApHkPDhJZ4H9grAYac7tc3ItIGMjXxz5IYbRVFQa4doXd
+   alpztRXlKhI5DeBUdg9y6ChzPASeqyRfo3HeB7YGGgcBnKQVWfpzicpPM
+   gOwOoqQUO/T5JnD8CUEzyOXWexrc+DbdjW1xGt/LT6uWMjQGK5bVHAMVR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="437620208"
+X-IronPort-AV: E=Sophos;i="6.01,160,1684825200"; 
+   d="scan'208";a="437620208"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 17:28:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="767058882"
+X-IronPort-AV: E=Sophos;i="6.01,160,1684825200"; 
+   d="scan'208";a="767058882"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 09 Aug 2023 17:28:50 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qTtXm-0006XM-0I;
+	Thu, 10 Aug 2023 00:28:50 +0000
+Date: Thu, 10 Aug 2023 08:28:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC] Bluetooth: hci_sync: Add hci_cmd_sync_queue_once
+Message-ID: <202308100811.4dzOf3kV-lkp@intel.com>
+References: <20230809213916.1636311-1-luiz.dentz@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,35 +46,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202308100717.LGL1juJR-lkp@intel.com>
-User-Agent: Mutt/2.2.10 (2023-03-25)
+In-Reply-To: <20230809213916.1636311-1-luiz.dentz@gmail.com>
 
-On Thu, Aug 10, 2023 at 07:46:37AM +0800, kernel test robot wrote:
-> Hi David,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on tip/sched/core]
-> [cannot apply to linus/master v6.5-rc5 next-20230809]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Vernet/sched-Expose-move_queued_task-from-core-c/20230810-061611
-> base:   tip/sched/core
-> patch link:    https://lore.kernel.org/r/20230809221218.163894-8-void%40manifault.com
-> patch subject: [PATCH v3 7/7] sched: Shard per-LLC shared runqueues
-> config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230810/202308100717.LGL1juJR-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100717.LGL1juJR-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308100717.LGL1juJR-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> kernel/sched/fair.c:198: warning: expecting prototype for struct shared_runq. Prototype was for struct shared_runq_shard instead
+Hi Luiz,
 
-I'll split this comment up in v4.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on bluetooth/master linus/master v6.5-rc5 next-20230809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-hci_sync-Add-hci_cmd_sync_queue_once/20230810-054032
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20230809213916.1636311-1-luiz.dentz%40gmail.com
+patch subject: [RFC] Bluetooth: hci_sync: Add hci_cmd_sync_queue_once
+config: i386-randconfig-i012-20230809 (https://download.01.org/0day-ci/archive/20230810/202308100811.4dzOf3kV-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308100811.4dzOf3kV-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308100811.4dzOf3kV-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> net/bluetooth/hci_sync.c:770:15: error: use of undeclared identifier 'hci_cmd_sync_pending'; did you mean 'hci_cmd_sync_init'?
+   EXPORT_SYMBOL(hci_cmd_sync_pending);
+                 ^~~~~~~~~~~~~~~~~~~~
+                 hci_cmd_sync_init
+   include/linux/export.h:86:44: note: expanded from macro 'EXPORT_SYMBOL'
+   #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
+                                                          ^
+   include/linux/export.h:83:54: note: expanded from macro '_EXPORT_SYMBOL'
+   #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+                                                           ^
+   include/linux/export.h:74:16: note: expanded from macro '__EXPORT_SYMBOL'
+           extern typeof(sym) sym;                                 \
+                         ^
+   net/bluetooth/hci_sync.c:628:6: note: 'hci_cmd_sync_init' declared here
+   void hci_cmd_sync_init(struct hci_dev *hdev)
+        ^
+   1 error generated.
+
+
+vim +770 net/bluetooth/hci_sync.c
+
+   748	
+   749	bool hci_cmd_sync_lookup(struct hci_dev *hdev, hci_cmd_sync_work_func_t func,
+   750				 void *data, hci_cmd_sync_work_destroy_t destroy,
+   751				 bool cancel)
+   752	{
+   753		struct hci_cmd_sync_work_entry *entry, *tmp;
+   754	
+   755		mutex_lock(&hdev->cmd_sync_work_lock);
+   756		list_for_each_entry_safe(entry, tmp, &hdev->cmd_sync_work_list, list) {
+   757			if (entry->func == func && entry->data == data &&
+   758			    entry->destroy == destroy) {
+   759				if (cancel)
+   760					_hci_cmd_sync_cancel_entry(hdev, entry,
+   761								   -ECANCELED);
+   762				mutex_unlock(&hdev->cmd_sync_work_lock);
+   763				return true;
+   764			}
+   765		}
+   766		mutex_unlock(&hdev->cmd_sync_work_lock);
+   767	
+   768		return false;
+   769	}
+ > 770	EXPORT_SYMBOL(hci_cmd_sync_pending);
+   771	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
