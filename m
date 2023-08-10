@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60ED1E1A2;
-	Thu, 10 Aug 2023 14:58:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200031E1A2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 15:08:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691679511; x=1723215511;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J4L+XZ5vyS6b+zkA6MyEDrIq6Ora2t8EO//Tfz+qR3I=;
-  b=X7eD8VivEd+603UbEs/zUj8Unw60P1FKz6tR+UsaxyNkuYz5OJ5K39h0
-   ZYe5Fsa8vz6i8AS8QKqYOYuGZ1FfOkq4oXDcPhFtgY5Fl7mtBpj0cck1F
-   RuGRhp3C/GsQeMfFMZYbU+66MS+zcaO/9WgEeYcRRNVG/AM8wsyPk+Nk1
-   sh1g/pd3NMh22F9Q0wGa1974BJwhvCTYB6QbNOi6/P+c5MI0Km2aQwEL3
-   2O9c/i7nIbiCQ+eXIrrPrXwcskCOkHfaDJ765sI4EbWyvS3Xpj3BPJBhe
-   zUs21NXD+fNssKZib0L6A6jXrWYXy70QhTS1Bh8o5iQHOJhHFh671ECIM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="402400488"
+  t=1691680110; x=1723216110;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j1eJcU+Wp+UDTBxlpC5tXTYQ+z6Qross9BmF4GN/Zro=;
+  b=e+aVy54A2JvUZNRtkAcNHvOgVfT24I/cbpomIwVnlCdKnf5UyHAQzgKD
+   hjIvVHRj4TIiuN8R1wnc/GV6H8A0xX+802mbFfR/0PRPDGfNRqFrTah72
+   r2oik5zlYVM42AQRoTs4twSJZCab5/WhQXJEssCCe2Cr/9ycoRhk33V58
+   6qTOKO1QI7ZNEbtgb4G9QYQ9up8yqrdFBeTU3v2r7KxsZIXsw2v7acKIp
+   Pi64MdoaNQKuzebrwCZeSdHGv+rFnQSqeL1eJubrXrxntJz+IFwIssuzW
+   +9A3Vs6Ld9633NI/sML2PuXZNnKyx9ptVlqx86Ew9otChlhRWgf2PuWz9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="361564412"
 X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="402400488"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 07:58:14 -0700
+   d="scan'208";a="361564412"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 08:08:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="846427107"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="822275065"
 X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="846427107"
+   d="scan'208";a="822275065"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Aug 2023 07:58:12 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Aug 2023 08:08:12 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qU775-00074S-2f;
-	Thu, 10 Aug 2023 14:58:11 +0000
-Date: Thu, 10 Aug 2023 22:57:37 +0800
+	id 1qU7Gl-00074i-37;
+	Thu, 10 Aug 2023 15:08:11 +0000
+Date: Thu, 10 Aug 2023 23:08:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maximilian Luz <luzmaximilian@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Steev Klimaszewski <steev@kali.org>,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: [steev:lenovo-x13s-v6.5-rc5-clover 64/115] fastrpc.c:(.text+0x0):
- multiple definition of `qcom_scm_qseecom_app_get_id';
- drivers/iommu/arm/arm-smmu/qcom_iommu.o:qcom_iommu.c:(.text+0x0): first
- defined here
-Message-ID: <202308102228.DcMmeX4t-lkp@intel.com>
+To: Lokendra Singh <lokendra.singh@intel.com>,
+	linux-bluetooth@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ravishankar.srivatsa@intel.com,
+	chethan.tumkur.narayan@intel.com, luiz.von.dentz@intel.com,
+	kiran.k@intel.com, seema.sreemantha@intel.com,
+	Lokendra Singh <lokendra.singh@intel.com>
+Subject: Re: [PATCH v1] Bluetooth: btintel: Send new command for PPAG
+Message-ID: <202308102242.EKYkZi8t-lkp@intel.com>
+References: <20230810105502.27012-1-lokendra.singh@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,37 +50,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230810105502.27012-1-lokendra.singh@intel.com>
 
-tree:   https://github.com/steev/linux lenovo-x13s-v6.5-rc5-clover
-head:   5d47ba475cde92b762751035d1d4faa8f696eec7
-commit: 5edf9aaedeb63806137481219aa793fd06dd5afe [64/115] firmware: qcom_scm: Add support for Qualcomm Secure Execution Environment SCM interface
-config: s390-randconfig-r044-20230809 (https://download.01.org/0day-ci/archive/20230810/202308102228.DcMmeX4t-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308102228.DcMmeX4t-lkp@intel.com/reproduce)
+Hi Lokendra,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on bluetooth/master linus/master v6.5-rc5 next-20230809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lokendra-Singh/Bluetooth-btintel-Send-new-command-for-PPAG/20230810-185334
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20230810105502.27012-1-lokendra.singh%40intel.com
+patch subject: [PATCH v1] Bluetooth: btintel: Send new command for PPAG
+config: x86_64-randconfig-x011-20230810 (https://download.01.org/0day-ci/archive/20230810/202308102242.EKYkZi8t-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308102242.EKYkZi8t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308102228.DcMmeX4t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308102242.EKYkZi8t-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390x-linux-ld: drivers/misc/fastrpc.o: in function `qcom_scm_qseecom_app_get_id':
->> fastrpc.c:(.text+0x0): multiple definition of `qcom_scm_qseecom_app_get_id'; drivers/iommu/arm/arm-smmu/qcom_iommu.o:qcom_iommu.c:(.text+0x0): first defined here
-   s390x-linux-ld: drivers/misc/fastrpc.o: in function `qcom_scm_qseecom_app_send':
->> fastrpc.c:(.text+0x40): multiple definition of `qcom_scm_qseecom_app_send'; drivers/iommu/arm/arm-smmu/qcom_iommu.o:qcom_iommu.c:(.text+0x40): first defined here
-   s390x-linux-ld: drivers/firmware/qcom_scm.o: in function `qcom_scm_qseecom_app_get_id':
-   qcom_scm.c:(.text+0x0): multiple definition of `qcom_scm_qseecom_app_get_id'; drivers/iommu/arm/arm-smmu/qcom_iommu.o:qcom_iommu.c:(.text+0x0): first defined here
-   s390x-linux-ld: drivers/firmware/qcom_scm.o: in function `qcom_scm_qseecom_app_send':
-   qcom_scm.c:(.text+0x40): multiple definition of `qcom_scm_qseecom_app_send'; drivers/iommu/arm/arm-smmu/qcom_iommu.o:qcom_iommu.c:(.text+0x40): first defined here
-   s390x-linux-ld: drivers/firmware/qcom_scm-smc.o: in function `qcom_scm_qseecom_app_get_id':
-   qcom_scm-smc.c:(.text+0x0): multiple definition of `qcom_scm_qseecom_app_get_id'; drivers/iommu/arm/arm-smmu/qcom_iommu.o:qcom_iommu.c:(.text+0x0): first defined here
-   s390x-linux-ld: drivers/firmware/qcom_scm-smc.o: in function `qcom_scm_qseecom_app_send':
-   qcom_scm-smc.c:(.text+0x40): multiple definition of `qcom_scm_qseecom_app_send'; drivers/iommu/arm/arm-smmu/qcom_iommu.o:qcom_iommu.c:(.text+0x40): first defined here
-   s390x-linux-ld: drivers/firmware/qcom_scm-legacy.o: in function `qcom_scm_qseecom_app_get_id':
-   qcom_scm-legacy.c:(.text+0x0): multiple definition of `qcom_scm_qseecom_app_get_id'; drivers/iommu/arm/arm-smmu/qcom_iommu.o:qcom_iommu.c:(.text+0x0): first defined here
-   s390x-linux-ld: drivers/firmware/qcom_scm-legacy.o: in function `qcom_scm_qseecom_app_send':
-   qcom_scm-legacy.c:(.text+0x40): multiple definition of `qcom_scm_qseecom_app_send'; drivers/iommu/arm/arm-smmu/qcom_iommu.o:qcom_iommu.c:(.text+0x40): first defined here
+   drivers/bluetooth/btintel.c: In function 'btintel_set_ppag':
+   drivers/bluetooth/btintel.c:2404:36: error: storage size of 'ppag_cmd' isn't known
+    2404 |         struct hci_ppag_enable_cmd ppag_cmd;
+         |                                    ^~~~~~~~
+>> drivers/bluetooth/btintel.c:2404:36: warning: unused variable 'ppag_cmd' [-Wunused-variable]
+
+
+vim +/ppag_cmd +2404 drivers/bluetooth/btintel.c
+
+  2399	
+  2400	static void btintel_set_ppag(struct hci_dev *hdev, struct intel_version_tlv *ver)
+  2401	{
+  2402		struct btintel_ppag ppag;
+  2403		struct sk_buff *skb;
+> 2404		struct hci_ppag_enable_cmd ppag_cmd;
+  2405		acpi_handle handle;
+  2406	
+  2407		/* PPAG is not supported if CRF is HrP2, Jfp2, JfP1 */
+  2408		switch (ver->cnvr_top & 0xFFF) {
+  2409		case 0x504:     /* Hrp2 */
+  2410		case 0x202:     /* Jfp2 */
+  2411		case 0x201:     /* Jfp1 */
+  2412			bt_dev_warn(hdev, "PPAG not supported for Intel CNVr (0x%3x)",
+  2413				    ver->cnvr_top & 0xFFF);
+  2414			return;
+  2415		}
+  2416	
+  2417		handle = ACPI_HANDLE(GET_HCIDEV_DEV(hdev));
+  2418		if (!handle) {
+  2419			bt_dev_info(hdev, "No support for BT device in ACPI firmware");
+  2420			return;
+  2421		}
+  2422	
+  2423		memset(&ppag, 0, sizeof(ppag));
+  2424	
+  2425		ppag.hdev = hdev;
+  2426		ppag.status = AE_NOT_FOUND;
+  2427		acpi_walk_namespace(ACPI_TYPE_PACKAGE, handle, 1, NULL,
+  2428				    btintel_ppag_callback, &ppag, NULL);
+  2429	
+  2430		if (ACPI_FAILURE(ppag.status)) {
+  2431			if (ppag.status == AE_NOT_FOUND) {
+  2432				bt_dev_dbg(hdev, "PPAG-BT: ACPI entry not found");
+  2433				return;
+  2434			}
+  2435			return;
+  2436		}
+  2437	
+  2438		if (ppag.domain != 0x12) {
+  2439			bt_dev_warn(hdev, "PPAG-BT: Bluetooth domain is disabled in ACPI firmware");
+  2440			return;
+  2441		}
+  2442	
+  2443		/* PPAG mode
+  2444		 * BIT 0 : 0 Disabled in EU
+  2445		 *         1 Enabled in EU
+  2446		 * BIT 1 : 0 Disabled in China
+  2447		 *         1 Enabled in China
+  2448		 */
+  2449		if((ppag.mode & 0x01) != BIT(0) && (ppag.mode & 0x02) != BIT(1)) {
+  2450			bt_dev_warn(hdev, "PPAG-BT: EU, China mode are disabled in CB/BIOS");
+  2451			return;
+  2452		}
+  2453	
+  2454		/* HCI_Intel_PpagEnable_CMD - opcode: 0xFE0B
+  2455		 * ppag_enable_flags - ppag mode
+  2456		 */
+  2457		ppag_cmd.ppag_enable_flags = ppag.mode;
+  2458	
+  2459		skb = __hci_cmd_sync(hdev, 0xfe0b, sizeof(ppag_cmd), &ppag_cmd, HCI_CMD_TIMEOUT);
+  2460		if (IS_ERR(skb)) {
+  2461			bt_dev_warn(hdev, "Failed to send PPAG Enable (%ld)", PTR_ERR(skb));
+  2462			return;
+  2463		}
+  2464		bt_dev_info(hdev, "PPAG-BT: Enabled (Mode %d)", ppag.mode);
+  2465		kfree_skb(skb);
+  2466	}
+  2467	
 
 -- 
 0-DAY CI Kernel Test Service
