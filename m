@@ -1,42 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD074815
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 04:15:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691640911; x=1723176911;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KyXJAOwhgheKnmwCXCKfGzb7Fmjqml1SBxO/u0bgOaU=;
-  b=S9RuB+EZPO5APzu/jfQwvaEj/y5gy6I3b7FyZ3FFpd6mQrNSgTwvoa/5
-   FCa1BsfeR/D4e+DLU4ffOG+mV5qCtW1jvBoPm6Dma3knzzZ6C1ybRZZwQ
-   r6nq3MP6tYkTL9SCBTb0H2JjPTJvYfJyK3taUrscBiimxz8/VoEy9ioIs
-   5fqLc33XDHjTBQSJ9G6KYEo1pMvg2en/xthln6M+DuClH9yyqBrrkVCri
-   Ml16YqaIFZl2xC4TliR1RplguzWtLSCSbEQTERAOe7Jwv6tu6k3NO5ZK9
-   Ry0pjX623qKl+tkBhsAyNpJcMBWxIIyF+OYJyaa8iElVxHpj96A5FpOMa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="370194346"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="370194346"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2023 21:15:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="822079724"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="822079724"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 09 Aug 2023 21:14:59 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qTx4c-0006iV-1h;
-	Thu, 10 Aug 2023 04:14:58 +0000
-Date: Thu, 10 Aug 2023 12:14:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:bitmap-fixes 1/12] include/linux/numa.h:48:1: error: expected
- identifier or '(' before '{' token
-Message-ID: <202308101238.uZPuL7sc-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56610EBD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 04:55:04 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3fe5eb84dceso4299275e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 09 Aug 2023 21:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691643302; x=1692248102;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=z/BqMxGg389X38v6j4a//mKYYTt3ExR7xQzbT0BeY8w=;
+        b=H6B6mgbHIKoTBYU0Eo0YA/j1DL0rpxjTSjeb93lYYOHrsLoNTEsgOFGNP79OX+2cbT
+         VhKh4IVDxmMMFGSs7t49Etyze/LJ+zY8Xg0Ar0IVwJo6Mih7A8Egs57eWRZEcHTgYUai
+         xSMZRLanE/cIR7sCOjYx0jMAAzXKpxFv6LTltf4ts8UhxaJAj2T0YUbRT/vZ/AIQYHev
+         vVZqVortNQl2ZUMTAZAnFm1lmIyaHYx0RwN/H+k8dlfjItuzhBtb7eMBh4jYf7a0Dejo
+         uKv9Cuu7u4Bg7WgbujMmca37xjRbuOVaU0AM8AG75W6FPDEsrRq7ns6GxDNzXvQxsyxS
+         3s4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691643302; x=1692248102;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z/BqMxGg389X38v6j4a//mKYYTt3ExR7xQzbT0BeY8w=;
+        b=WM3oD1ZpJ6sed+q1MIet3hXDwXxK3sAbJNUuyRExoBdf1uE3QwdtsO/yIjXajnT3px
+         TJEsLia7SPQAEk2k7UxeP9jh8KBe8IdLgnMoAyFhxxVeFOa1kooBrZsAaW1wUUzMPlHy
+         EFhL1cjLfTj377CMKFMVFiyl96HQeOd5gxqSHvRvy9/4x03pZhPSf55Sy8rmCAYmA/bE
+         lcads7Ez0N85OfMZwcTW4j+WuzNQ26Qi5NjRFj+E/on5hR1y2WLTlYeLyteaUy7RZH0Z
+         SKIdKzywY09kL8db1pTNLhStFm+nPPFUfqxE3uYoKInWiwjOQnPqq6kHKWbIAxV24h2G
+         TodA==
+X-Gm-Message-State: AOJu0YyedDS0wh+X5gTqBZkyqnwSdfzWx2s2XvUa1jV92qtvMyJrSe4L
+	p+bn9jojwzBfGGu3J0R2Fs1L1Q==
+X-Google-Smtp-Source: AGHT+IH87AIZ4KmUJm/7yiOqmq3LkAYPiScuuajvyaDb9s2Xp8WugLB0vKU1gyi4ht4RdN8VNipR0g==
+X-Received: by 2002:a1c:7314:0:b0:3f6:9634:c8d6 with SMTP id d20-20020a1c7314000000b003f69634c8d6mr975049wmb.18.1691643301721;
+        Wed, 09 Aug 2023 21:55:01 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id 24-20020a05600c029800b003fe2397c17fsm3689328wmk.17.2023.08.09.21.55.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Aug 2023 21:55:01 -0700 (PDT)
+Date: Thu, 10 Aug 2023 07:54:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
+	Chris Mason <chris.mason@fusionio.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	"Theodore Y . Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, kernel-team@meta.com,
+	linux-btrfs@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+	Eric Biggers <ebiggers@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Subject: Re: [PATCH v6 8/8] fscrypt: make prepared keys record their type
+Message-ID: <87315be8-16b4-4d83-874f-93be91df4790@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,89 +59,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <64c47243cea5a8eca15538b51f88c0a6d53799cf.1691505830.git.sweettea-kernel@dorminy.me>
 
-tree:   https://github.com/norov/linux bitmap-fixes
-head:   9afb43a6a90b06db96053e97f26cfdddc08ca372
-commit: beec375f74a28a70cfc2160f22585432ee523d5a [1/12] numa_nearest_node
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230810/202308101238.uZPuL7sc-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308101238.uZPuL7sc-lkp@intel.com/reproduce)
+Hi Sweet,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sweet-Tea-Dorminy/fscrypt-move-inline-crypt-decision-to-info-setup/20230809-030251
+base:   54d2161835d828a9663f548f61d1d9c3d3482122
+patch link:    https://lore.kernel.org/r/64c47243cea5a8eca15538b51f88c0a6d53799cf.1691505830.git.sweettea-kernel%40dorminy.me
+patch subject: [PATCH v6 8/8] fscrypt: make prepared keys record their type
+config: x86_64-randconfig-m001-20230808 (https://download.01.org/0day-ci/archive/20230809/202308092324.d0OCNA1O-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230809/202308092324.d0OCNA1O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308101238.uZPuL7sc-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202308092324.d0OCNA1O-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+fs/crypto/keysetup.c:300 setup_new_mode_prepared_key() warn: inconsistent returns '&fscrypt_mode_key_setup_mutex'.
 
-   In file included from include/linux/cpumask.h:16,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/rcupdate.h:29,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from arch/alpha/kernel/asm-offsets.c:10:
->> include/linux/numa.h:48:1: error: expected identifier or '(' before '{' token
-      48 | {
-         | ^
-   arch/alpha/kernel/asm-offsets.c:15:6: warning: no previous prototype for 'foo' [-Wmissing-prototypes]
-      15 | void foo(void)
-         |      ^~~
->> include/linux/numa.h:47:19: warning: 'numa_nearest_node' declared 'static' but never defined [-Wunused-function]
-      47 | static inline int numa_nearest_node(int node, unsigned int state);
-         |                   ^~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/alpha/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1287: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +300 fs/crypto/keysetup.c
 
+a03cf25a20f748 Sweet Tea Dorminy 2023-08-08  238  static int setup_new_mode_prepared_key(struct fscrypt_master_key *mk,
+a03cf25a20f748 Sweet Tea Dorminy 2023-08-08  239  				       struct fscrypt_prepared_key *prep_key,
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  240  				       const struct fscrypt_info *ci)
+5dae460c2292db Eric Biggers      2019-08-04  241  {
+b103fb7653fff0 Eric Biggers      2019-10-24  242  	const struct inode *inode = ci->ci_inode;
+b103fb7653fff0 Eric Biggers      2019-10-24  243  	const struct super_block *sb = inode->i_sb;
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  244  	unsigned int policy_flags = fscrypt_policy_flags(&ci->ci_policy);
+5dae460c2292db Eric Biggers      2019-08-04  245  	struct fscrypt_mode *mode = ci->ci_mode;
+85af90e57ce969 Eric Biggers      2019-12-09  246  	const u8 mode_num = mode - fscrypt_modes;
+5dae460c2292db Eric Biggers      2019-08-04  247  	u8 mode_key[FSCRYPT_MAX_KEY_SIZE];
+b103fb7653fff0 Eric Biggers      2019-10-24  248  	u8 hkdf_info[sizeof(mode_num) + sizeof(sb->s_uuid)];
+b103fb7653fff0 Eric Biggers      2019-10-24  249  	unsigned int hkdf_infolen = 0;
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  250  	u8 hkdf_context = 0;
+a03cf25a20f748 Sweet Tea Dorminy 2023-08-08  251  	int err = 0;
+e3b1078bedd323 Eric Biggers      2020-05-15  252  
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  253  	switch (policy_flags & FSCRYPT_POLICY_FLAGS_KEY_MASK) {
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  254  	case FSCRYPT_POLICY_FLAG_DIRECT_KEY:
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  255  		hkdf_context = HKDF_CONTEXT_DIRECT_KEY;
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  256  		break;
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  257  	case FSCRYPT_POLICY_FLAG_IV_INO_LBLK_64:
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  258  		hkdf_context = HKDF_CONTEXT_IV_INO_LBLK_64_KEY;
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  259  		break;
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  260  	case FSCRYPT_POLICY_FLAG_IV_INO_LBLK_32:
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  261  		hkdf_context = HKDF_CONTEXT_IV_INO_LBLK_32_KEY;
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  262  		break;
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  263  	}
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  264  
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  265  	/*
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  266  	 * For DIRECT_KEY policies: instead of deriving per-file encryption
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  267  	 * keys, the per-file nonce will be included in all the IVs.  But
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  268  	 * unlike v1 policies, for v2 policies in this case we don't encrypt
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  269  	 * with the master key directly but rather derive a per-mode encryption
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  270  	 * key.  This ensures that the master key is consistently used only for
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  271  	 * HKDF, avoiding key reuse issues.
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  272  	 *
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  273  	 * For IV_INO_LBLK policies: encryption keys are derived from
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  274  	 * (master_key, mode_num, filesystem_uuid), and inode number is
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  275  	 * included in the IVs.  This format is optimized for use with inline
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  276  	 * encryption hardware compliant with the UFS standard.
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  277  	 */
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  278  
+e3b1078bedd323 Eric Biggers      2020-05-15  279  	mutex_lock(&fscrypt_mode_key_setup_mutex);
+e3b1078bedd323 Eric Biggers      2020-05-15  280  
+5fee36095cda45 Satya Tangirala   2020-07-02  281  	if (fscrypt_is_key_prepared(prep_key, ci))
+a03cf25a20f748 Sweet Tea Dorminy 2023-08-08  282  		goto out_unlock;
+5dae460c2292db Eric Biggers      2019-08-04  283  
+5dae460c2292db Eric Biggers      2019-08-04  284  	BUILD_BUG_ON(sizeof(mode_num) != 1);
+b103fb7653fff0 Eric Biggers      2019-10-24  285  	BUILD_BUG_ON(sizeof(sb->s_uuid) != 16);
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  286  	BUILD_BUG_ON(sizeof(hkdf_info) != MAX_MODE_KEY_HKDF_INFO_SIZE);
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  287  	hkdf_infolen = fill_hkdf_info_for_mode_key(ci, hkdf_info);
+78265b33a56a52 Sweet Tea Dorminy 2023-08-08  288  
+5dae460c2292db Eric Biggers      2019-08-04  289  	err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
+b103fb7653fff0 Eric Biggers      2019-10-24  290  				  hkdf_context, hkdf_info, hkdf_infolen,
+5dae460c2292db Eric Biggers      2019-08-04  291  				  mode_key, mode->keysize);
+5dae460c2292db Eric Biggers      2019-08-04  292  	if (err)
+3bd6d42474f3a9 Sweet Tea Dorminy 2023-08-08  293  		return err;
 
-vim +48 include/linux/numa.h
+Originally this was goto out_unlock;  Not sure why it was changed to a
+direct return.
 
-a927bd6ba952d1 Dan Williams 2020-11-21  29  
-a927bd6ba952d1 Dan Williams 2020-11-21  30  #ifndef memory_add_physaddr_to_nid
-a927bd6ba952d1 Dan Williams 2020-11-21  31  static inline int memory_add_physaddr_to_nid(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  32  {
-a927bd6ba952d1 Dan Williams 2020-11-21  33  	pr_info_once("Unknown online node for memory at 0x%llx, assuming node 0\n",
-a927bd6ba952d1 Dan Williams 2020-11-21  34  			start);
-a927bd6ba952d1 Dan Williams 2020-11-21  35  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  36  }
-a927bd6ba952d1 Dan Williams 2020-11-21  37  #endif
-a927bd6ba952d1 Dan Williams 2020-11-21  38  #ifndef phys_to_target_node
-a927bd6ba952d1 Dan Williams 2020-11-21  39  static inline int phys_to_target_node(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  40  {
-a927bd6ba952d1 Dan Williams 2020-11-21  41  	pr_info_once("Unknown target node for memory at 0x%llx, assuming node 0\n",
-a927bd6ba952d1 Dan Williams 2020-11-21  42  			start);
-a927bd6ba952d1 Dan Williams 2020-11-21  43  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  44  }
-a927bd6ba952d1 Dan Williams 2020-11-21  45  #endif
-a927bd6ba952d1 Dan Williams 2020-11-21  46  #else /* !CONFIG_NUMA */
-beec375f74a28a Yury Norov   2023-08-09 @47  static inline int numa_nearest_node(int node, unsigned int state);
-b2ca916ce392a9 Dan Williams 2020-02-16 @48  {
-b2ca916ce392a9 Dan Williams 2020-02-16  49  	return NUMA_NO_NODE;
-b2ca916ce392a9 Dan Williams 2020-02-16  50  }
-a927bd6ba952d1 Dan Williams 2020-11-21  51  static inline int memory_add_physaddr_to_nid(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  52  {
-a927bd6ba952d1 Dan Williams 2020-11-21  53  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  54  }
-a927bd6ba952d1 Dan Williams 2020-11-21  55  static inline int phys_to_target_node(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  56  {
-a927bd6ba952d1 Dan Williams 2020-11-21  57  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  58  }
-b2ca916ce392a9 Dan Williams 2020-02-16  59  #endif
-b2ca916ce392a9 Dan Williams 2020-02-16  60  
-
-:::::: The code at line 48 was first introduced by commit
-:::::: b2ca916ce392a9d4cea3489a3efb2b627b839eaf ACPI: NUMA: Up-level "map to online node" functionality
-
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+3bd6d42474f3a9 Sweet Tea Dorminy 2023-08-08  294  	prep_key->type = FSCRYPT_KEY_MASTER_KEY;
+5fee36095cda45 Satya Tangirala   2020-07-02  295  	err = fscrypt_prepare_key(prep_key, mode_key, ci);
+5dae460c2292db Eric Biggers      2019-08-04  296  	memzero_explicit(mode_key, mode->keysize);
+a03cf25a20f748 Sweet Tea Dorminy 2023-08-08  297  
+e3b1078bedd323 Eric Biggers      2020-05-15  298  out_unlock:
+e3b1078bedd323 Eric Biggers      2020-05-15  299  	mutex_unlock(&fscrypt_mode_key_setup_mutex);
+e3b1078bedd323 Eric Biggers      2020-05-15 @300  	return err;
+5dae460c2292db Eric Biggers      2019-08-04  301  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
