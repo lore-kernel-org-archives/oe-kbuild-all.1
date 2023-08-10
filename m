@@ -1,45 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0501F20CA8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 19:26:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8819C22F08
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 19:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691695581; x=1723231581;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2XEYaoaC5eXjFqyKagy63zT/O76KVtwKqhwYfirZvhk=;
-  b=CcNS9lOetjwekN4pHaE55CGYvt4LROnPWMfygGPmZtq4AAYI/IayMnyE
-   PzqEN79nhXhhKgtazblYdfnBfwFCQyjTV2bc41UunJWhvv9nBrRqBbdOq
-   jOIO4UCSHSrAt7aRW3jG/4b6Ux3ZInXqWKz6QYVCV+CVFnYY0Ups2XQ2W
-   0zVdDKDj5GPBH/PVk2GUEGj7z/YCWFW9KGpPuhpqD83crgJ2IyVci4Zmj
-   bfALTf7g3Oqysyd66Cx8riqXOfOfaQ+Yj+BBW4KRnq+kDUV9kx+WfOsXV
-   Yc2kGnITTP3JWrC64nkDjlqCRdHhAT+Biwog4ROcYyOb0IAiAmPxpbn6V
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="371507464"
+  t=1691696246; x=1723232246;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xx83EKLu+vN9CXT+mV65pORzjTdIyb9PiTLDHfY8Y3Y=;
+  b=G0a5Bq7vQGenfVX3NUIKgdq9/JPDt6ZMcIfK9Q9hG6JOlubN7ncsKFfh
+   t4KA0XxbQ6+W3uMVB2QJlhtP6bba4KYnmcPJaiIxANNqykWJSJCZ/faCv
+   9YDeZYEVxKBDT5Yw5xgUHrzuW8sdvadw2YLkHt2Bg607twBY4vd5MtW9i
+   u8BvMEJkWPaqedZsK6rF1hFCYsZmBzBez6GL6YFsgTuYWtTPweipLpTZp
+   RBCB/vcODVVKSVEs5yADHW2oe/b8g50uzwjv4EUsZf/a8ZCO2zOSBn4xj
+   XtQhJWrn35Qu0+b8wBC306uiIa8GyEbWqcZd6K2J9EfouE0KFNVHZLQ5c
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="351825312"
 X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="371507464"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 12:26:20 -0700
+   d="scan'208";a="351825312"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 12:37:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="856017829"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="906175689"
 X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="856017829"
+   d="scan'208";a="906175689"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 10 Aug 2023 12:26:18 -0700
+  by orsmga005.jf.intel.com with ESMTP; 10 Aug 2023 12:37:18 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUBIX-0007Ci-2I;
-	Thu, 10 Aug 2023 19:26:17 +0000
-Date: Fri, 11 Aug 2023 03:25:43 +0800
+	id 1qUBTB-0007DA-2s;
+	Thu, 10 Aug 2023 19:37:17 +0000
+Date: Fri, 11 Aug 2023 03:36:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Feiyang Chen <chenfeiyang@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: [linux-next:master 7427/8441]
- ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/config/loongarch/loongarch-opts.h:31:10:
- fatal error: loongarch-def.h: No such file or directory
-Message-ID: <202308110336.zupIfDGr-lkp@intel.com>
+To: Dumitru Ceclan <mitrutzceclan@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Okan Sahin <okan.sahin@analog.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	Ramona Bolboaca <ramona.bolboaca@analog.com>,
+	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
+	ChiaEn Wu <chiaen_wu@richtek.com>,
+	William Breathitt Gray <william.gray@linaro.org>,
+	Lee Jones <lee@kernel.org>, Haibo Chen <haibo.chen@nxp.com>,
+	Mike Looijmans <mike.looijmans@topic.nl>,
+	Leonard =?iso-8859-1?Q?G=F6hrs?= <l.goehrs@pengutronix.de>,
+	Ceclan Dumitru <dumitru.ceclan@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] iio: adc: ad717x: add AD717X driver
+Message-ID: <202308110347.LseABMWN-lkp@intel.com>
+References: <20230810093322.593259-2-mitrutzceclan@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,41 +69,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230810093322.593259-2-mitrutzceclan@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   21ef7b1e17d039053edaeaf41142423810572741
-commit: ac7f684f7e3a3cdc512cfd439b2207baeba1bf10 [7427/8441] LoongArch: Allow building with kcov coverage
-config: loongarch-randconfig-r015-20230811 (https://download.01.org/0day-ci/archive/20230811/202308110336.zupIfDGr-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308110336.zupIfDGr-lkp@intel.com/reproduce)
+Hi Dumitru,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v6.5-rc5 next-20230809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dumitru-Ceclan/iio-adc-ad717x-add-AD717X-driver/20230810-173526
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20230810093322.593259-2-mitrutzceclan%40gmail.com
+patch subject: [PATCH 2/2] iio: adc: ad717x: add AD717X driver
+config: xtensa-randconfig-m041-20230811 (https://download.01.org/0day-ci/archive/20230811/202308110347.LseABMWN-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308110347.LseABMWN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308110336.zupIfDGr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308110347.LseABMWN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/options.h:8,
-                    from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/tm.h:46,
-                    from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/backend.h:28,
-                    from ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/gcc-plugin.h:30,
-                    from scripts/gcc-plugins/gcc-common.h:7,
-                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
->> ../lib/gcc/loongarch64-linux/12.3.0/plugin/include/config/loongarch/loongarch-opts.h:31:10: fatal error: loongarch-def.h: No such file or directory
-      31 | #include "loongarch-def.h"
-         |          ^~~~~~~~~~~~~~~~~
-   compilation terminated.
-   make[4]: *** [scripts/gcc-plugins/Makefile:54: scripts/gcc-plugins/randomize_layout_plugin.so] Error 1 shuffle=2031025327
-   make[4]: Target 'scripts/gcc-plugins/' not remade because of errors.
-   make[3]: *** [scripts/Makefile.build:480: scripts/gcc-plugins] Error 2 shuffle=2031025327
-   make[3]: Target 'scripts/' not remade because of errors.
-   make[2]: *** [Makefile:1271: scripts] Error 2 shuffle=2031025327
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=2031025327
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=2031025327
-   make: Target 'prepare' not remade because of errors.
+   In file included from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from drivers/iio/adc/ad717x.c:9:
+>> include/linux/module.h:244:1: error: expected ',' or ';' before 'extern'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         | ^~~~~~
+   drivers/iio/adc/ad717x.c:974:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+     974 | MODULE_DEVICE_TABLE(of, ad717x_of_match);
+         | ^~~~~~~~~~~~~~~~~~~
+
+
+vim +244 include/linux/module.h
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  240  
+cff26a51da5d20 Rusty Russell     2014-02-03  241  #ifdef MODULE
+cff26a51da5d20 Rusty Russell     2014-02-03  242  /* Creates an alias so file2alias.c can find device table. */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  243  #define MODULE_DEVICE_TABLE(type, name)					\
+0bf8bf50eddc75 Matthias Kaehlcke 2017-07-24 @244  extern typeof(name) __mod_##type##__##name##_device_table		\
+cff26a51da5d20 Rusty Russell     2014-02-03  245    __attribute__ ((unused, alias(__stringify(name))))
+cff26a51da5d20 Rusty Russell     2014-02-03  246  #else  /* !MODULE */
+cff26a51da5d20 Rusty Russell     2014-02-03  247  #define MODULE_DEVICE_TABLE(type, name)
+cff26a51da5d20 Rusty Russell     2014-02-03  248  #endif
+^1da177e4c3f41 Linus Torvalds    2005-04-16  249  
 
 -- 
 0-DAY CI Kernel Test Service
