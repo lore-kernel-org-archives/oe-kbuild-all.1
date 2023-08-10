@@ -1,42 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E706C360DE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 10:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2F61F955;
+	Thu, 10 Aug 2023 10:31:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691663469; x=1723199469;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K3ZJaffQtrJcnWTIX3eBuv/w6RQwnVnMmbTKoINB7uc=;
-  b=jR8vKoZsZ4Z3Pynf2FM8BpQYirTr2iw+YwREswH5Hr9ddTof/mdeQxcu
-   Ah7IiQmkCrG9rBELNlNw2VvsiHUk1lv2rnswqZkqEJxmC/+s2+3oOJQni
-   5tHX0HR9PpWg5sPBb7j2cbjDWGcKcBurgZnj2S4sKETKLnzx+yNw8xx9X
-   XvJwN9jPLs+qJvqBNNXBuZFr95Z2JCP4QUzQz+yr2L+D+QGWCVOVU0eZe
-   V5nToK1fK56PGCdtmKinC7XqPkt8SADZdOaqN98KGRsuRC6xFOM3m34iu
-   3EeVG1Ac1jMNQtLv8WSPH3L5xjBk3g2iJvNYhXBW6bcNhhboRpktjSGQA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="375079296"
+  t=1691663473; x=1723199473;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PMrRyI3wHHwgDhdj9UI4XGzA7mO9eIIOADBUbe4YCiA=;
+  b=OvvaML0AAZ0bwkp9fE9eMgaSigT/261NuR4emaggcRXldiU1NStygEWt
+   ulW5J9JV823LEAivsfCcL3T1YEOSdgyI+pxsPJlw4QJVhs8wWFrGHj7tp
+   jz22t5cDhGWA+b5qbF5VosX677/mXhct6HOthtlVzX4Z7+0/ppdR1xARF
+   Eoyl9TTazUCq+D/NavCKc2G85Mwr4ZMemvDFlY+q/x6ivxa3udWX3XjC5
+   alJLO2Kq6SEAJREdCiPrdjhN7X4fIi+cE4Xos+TKAA61+lB9sQ7LXNbyF
+   BlnQ5tOOXtE69FE09Vw+eHd23kLtMU8jCn6fHYkxlxXZ05lGhThhi3zOT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="375079300"
 X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="375079296"
+   d="scan'208";a="375079300"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 03:31:09 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 03:31:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="732171551"
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="732171552"
 X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="732171551"
+   d="scan'208";a="732171552"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 10 Aug 2023 03:31:07 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qU2wd-0006vw-0l;
+	id 1qU2wd-0006vy-0t;
 	Thu, 10 Aug 2023 10:31:07 +0000
-Date: Thu, 10 Aug 2023 18:30:46 +0800
+Date: Thu, 10 Aug 2023 18:30:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hverkuil-media-tree:tmp 57/57] htmldocs: MAINTAINERS:4: WARNING:
- Title underline too short.
-Message-ID: <202308101846.Hd6UCcC8-lkp@intel.com>
+To: Huacai Chen <chenhuacai@loongson.cn>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>, John Stultz <jstultz@google.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang1211@gmail.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	chenhuacai@kernel.org, rcu@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>
+Subject: Re: [PATCH V2 1/2] tick: Rename tick_do_update_jiffies64() and allow
+ external usage
+Message-ID: <202308101853.wOMMd0Tf-lkp@intel.com>
+References: <20230810062527.3700080-1-chenhuacai@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,89 +63,170 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230810062527.3700080-1-chenhuacai@loongson.cn>
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git tmp
-head:   e5e1aa4f7c959667cbca59e5421a9519bd8f9e18
-commit: e5e1aa4f7c959667cbca59e5421a9519bd8f9e18 [57/57] MAINTAINERS: f
-reproduce: (https://download.01.org/0day-ci/archive/20230810/202308101846.Hd6UCcC8-lkp@intel.com/reproduce)
+Hi Huacai,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on paulmck-rcu/dev]
+[also build test ERROR on linus/master]
+[cannot apply to tip/timers/nohz]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huacai-Chen/rcu-Update-jiffies-in-rcu_cpu_stall_reset/20230810-142629
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
+patch link:    https://lore.kernel.org/r/20230810062527.3700080-1-chenhuacai%40loongson.cn
+patch subject: [PATCH V2 1/2] tick: Rename tick_do_update_jiffies64() and allow external usage
+config: powerpc-randconfig-r013-20230809 (https://download.01.org/0day-ci/archive/20230810/202308101853.wOMMd0Tf-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308101853.wOMMd0Tf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308101846.Hd6UCcC8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308101853.wOMMd0Tf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> MAINTAINERS:4: WARNING: Title underline too short.
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:45:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      45 | DEF_PCI_AC_NORET(insw, (unsigned long p, void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      46 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:49:1: note: expanded from here
+      49 | __do_insw
+         | ^
+   arch/powerpc/include/asm/io.h:615:56: note: expanded from macro '__do_insw'
+     615 | #define __do_insw(p, b, n)      readsw((PCI_IO_ADDR)_IO_BASE+(p), (b), (n))
+         |                                        ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from kernel/time/tick-sched.c:14:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:47:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      47 | DEF_PCI_AC_NORET(insl, (unsigned long p, void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      48 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:51:1: note: expanded from here
+      51 | __do_insl
+         | ^
+   arch/powerpc/include/asm/io.h:616:56: note: expanded from macro '__do_insl'
+     616 | #define __do_insl(p, b, n)      readsl((PCI_IO_ADDR)_IO_BASE+(p), (b), (n))
+         |                                        ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from kernel/time/tick-sched.c:14:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:49:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      49 | DEF_PCI_AC_NORET(outsb, (unsigned long p, const void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      50 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:53:1: note: expanded from here
+      53 | __do_outsb
+         | ^
+   arch/powerpc/include/asm/io.h:617:58: note: expanded from macro '__do_outsb'
+     617 | #define __do_outsb(p, b, n)     writesb((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+         |                                         ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from kernel/time/tick-sched.c:14:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:51:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      51 | DEF_PCI_AC_NORET(outsw, (unsigned long p, const void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      52 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:55:1: note: expanded from here
+      55 | __do_outsw
+         | ^
+   arch/powerpc/include/asm/io.h:618:58: note: expanded from macro '__do_outsw'
+     618 | #define __do_outsw(p, b, n)     writesw((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+         |                                         ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from kernel/time/tick-sched.c:14:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:53:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      53 | DEF_PCI_AC_NORET(outsl, (unsigned long p, const void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      54 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:57:1: note: expanded from here
+      57 | __do_outsl
+         | ^
+   arch/powerpc/include/asm/io.h:619:58: note: expanded from macro '__do_outsl'
+     619 | #define __do_outsl(p, b, n)     writesl((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+         |                                         ~~~~~~~~~~~~~~~~~~~~~^
+>> kernel/time/tick-sched.c:114:4: error: call to undeclared function 'tick_do_update_jiffies_64'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     114 |                         tick_do_update_jiffies_64(now);
+         |                         ^
+   kernel/time/tick-sched.c:114:4: note: did you mean 'do_update_jiffies_64'?
+   include/linux/jiffies.h:91:6: note: 'do_update_jiffies_64' declared here
+      91 | void do_update_jiffies_64(s64 now); /* typedef s64 ktime_t */
+         |      ^
+   6 warnings and 1 error generated.
 
-vim +4 MAINTAINERS
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16   3  
-6680125ea5a2a5 Joe Perches      2020-04-06  @4  Descriptions of section entries and preferred order
-6680125ea5a2a5 Joe Perches      2020-04-06   5  ---------------------------------------------------
-^1da177e4c3f41 Linus Torvalds   2005-04-16   6  
-aa204855281389 Kees Cook        2019-10-01   7  	M: *Mail* patches to: FullName <address@domain>
-aa204855281389 Kees Cook        2019-10-01   8  	R: Designated *Reviewer*: FullName <address@domain>
-eafbaac3093760 Paul E. McKenney 2014-06-02   9  	   These reviewers should be CCed on patches.
-aa204855281389 Kees Cook        2019-10-01  10  	L: *Mailing list* that is relevant to this area
-aa204855281389 Kees Cook        2019-10-01  11  	S: *Status*, one of the following:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  12  	   Supported:	Someone is actually paid to look after this.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  13  	   Maintained:	Someone actually looks after it.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  14  	   Odd Fixes:	It has a maintainer but they don't have time to do
-^1da177e4c3f41 Linus Torvalds   2005-04-16  15  			much other than throw the odd patch in. See below..
-^1da177e4c3f41 Linus Torvalds   2005-04-16  16  	   Orphan:	No current maintainer [but maybe you could take the
-^1da177e4c3f41 Linus Torvalds   2005-04-16  17  			role as you write your new code].
-^1da177e4c3f41 Linus Torvalds   2005-04-16  18  	   Obsolete:	Old code. Something tagged obsolete generally means
-^1da177e4c3f41 Linus Torvalds   2005-04-16  19  			it has been replaced by a better system and you
-^1da177e4c3f41 Linus Torvalds   2005-04-16  20  			should be using that.
-6680125ea5a2a5 Joe Perches      2020-04-06  21  	W: *Web-page* with status/info
-6680125ea5a2a5 Joe Perches      2020-04-06  22  	Q: *Patchwork* web based patch tracking system site
-6680125ea5a2a5 Joe Perches      2020-04-06  23  	B: URI for where to file *bugs*. A web-page with detailed bug
-6680125ea5a2a5 Joe Perches      2020-04-06  24  	   filing info, a direct bug tracker link, or a mailto: URI.
-6680125ea5a2a5 Joe Perches      2020-04-06  25  	C: URI for *chat* protocol, server and channel where developers
-6680125ea5a2a5 Joe Perches      2020-04-06  26  	   usually hang out, for example irc://server/channel.
-4699c504e603e2 Dan Williams     2019-11-24  27  	P: Subsystem Profile document for more details submitting
-4699c504e603e2 Dan Williams     2019-11-24  28  	   patches to the given subsystem. This is either an in-tree file,
-4699c504e603e2 Dan Williams     2019-11-24  29  	   or a URI. See Documentation/maintainer/maintainer-entry-profile.rst
-4699c504e603e2 Dan Williams     2019-11-24  30  	   for details.
-6680125ea5a2a5 Joe Perches      2020-04-06  31  	T: *SCM* tree type and location.
-6680125ea5a2a5 Joe Perches      2020-04-06  32  	   Type is one of: git, hg, quilt, stgit, topgit
-aa204855281389 Kees Cook        2019-10-01  33  	F: *Files* and directories wildcard patterns.
-679655daffdd27 Joe Perches      2009-04-07  34  	   A trailing slash includes all files and subdirectory files.
-679655daffdd27 Joe Perches      2009-04-07  35  	   F:	drivers/net/	all files in and below drivers/net
-679655daffdd27 Joe Perches      2009-04-07  36  	   F:	drivers/net/*	all files in drivers/net, but not below
-679655daffdd27 Joe Perches      2009-04-07  37  	   F:	*/net/*		all files in "any top level directory"/net
-679655daffdd27 Joe Perches      2009-04-07  38  	   One pattern per line.  Multiple F: lines acceptable.
-6680125ea5a2a5 Joe Perches      2020-04-06  39  	X: *Excluded* files and directories that are NOT maintained, same
-6680125ea5a2a5 Joe Perches      2020-04-06  40  	   rules as F:. Files exclusions are tested before file matches.
-6680125ea5a2a5 Joe Perches      2020-04-06  41  	   Can be useful for excluding a specific subdirectory, for instance:
-6680125ea5a2a5 Joe Perches      2020-04-06  42  	   F:	net/
-6680125ea5a2a5 Joe Perches      2020-04-06  43  	   X:	net/ipv6/
-6680125ea5a2a5 Joe Perches      2020-04-06  44  	   matches all files in and below net excluding net/ipv6/
-aa204855281389 Kees Cook        2019-10-01  45  	N: Files and directories *Regex* patterns.
-6680125ea5a2a5 Joe Perches      2020-04-06  46  	   N:	[^a-z]tegra	all files whose path contains tegra
-6680125ea5a2a5 Joe Perches      2020-04-06  47  	                        (not including files like integrator)
-bbbe96ed899e8e Stephen Warren   2013-04-29  48  	   One pattern per line.  Multiple N: lines acceptable.
-6ab88e00704bde Joe Perches      2014-01-23  49  	   scripts/get_maintainer.pl has different behavior for files that
-6ab88e00704bde Joe Perches      2014-01-23  50  	   match F: pattern and matches of N: patterns.  By default,
-6ab88e00704bde Joe Perches      2014-01-23  51  	   get_maintainer will not look at git log history when an F: pattern
-6ab88e00704bde Joe Perches      2014-01-23  52  	   match occurs.  When an N: match occurs, git log history is used
-6ab88e00704bde Joe Perches      2014-01-23  53  	   to also notify the people that have git commit signatures.
-aa204855281389 Kees Cook        2019-10-01  54  	K: *Content regex* (perl extended) pattern match in a patch or file.
-aa204855281389 Kees Cook        2019-10-01  55  	   For instance:
-c7c4fb18d0026b Joe Perches      2009-10-26  56  	   K: of_get_profile
-bbbe96ed899e8e Stephen Warren   2013-04-29  57  	      matches patches or files that contain "of_get_profile"
-c7c4fb18d0026b Joe Perches      2009-10-26  58  	   K: \b(printk|pr_(info|err))\b
-bbbe96ed899e8e Stephen Warren   2013-04-29  59  	      matches patches or files that contain one or more of the words
-bbbe96ed899e8e Stephen Warren   2013-04-29  60  	      printk, pr_info or pr_err
-c7c4fb18d0026b Joe Perches      2009-10-26  61  	   One regex pattern per line.  Multiple K: lines acceptable.
-c7c4fb18d0026b Joe Perches      2009-10-26  62  
+vim +/tick_do_update_jiffies_64 +114 kernel/time/tick-sched.c
 
-:::::: The code at line 4 was first introduced by commit
-:::::: 6680125ea5a2a5a69eeb8f7dcd89d0a1d23998ce MAINTAINERS: list the section entries in the preferred order
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   100	
+   101		/* Check, if the jiffies need an update */
+   102		if (tick_do_timer_cpu == cpu)
+   103			do_update_jiffies_64(now);
+   104	
+   105		/*
+   106		 * If jiffies update stalled for too long (timekeeper in stop_machine()
+   107		 * or VMEXIT'ed for several msecs), force an update.
+   108		 */
+   109		if (ts->last_tick_jiffies != jiffies) {
+   110			ts->stalled_jiffies = 0;
+   111			ts->last_tick_jiffies = READ_ONCE(jiffies);
+   112		} else {
+   113			if (++ts->stalled_jiffies == MAX_STALLED_JIFFIES) {
+ > 114				tick_do_update_jiffies_64(now);
+   115				ts->stalled_jiffies = 0;
+   116				ts->last_tick_jiffies = READ_ONCE(jiffies);
+   117			}
+   118		}
+   119	
+   120		if (ts->inidle)
+   121			ts->got_idle_tick = 1;
+   122	}
+   123	
 
 -- 
 0-DAY CI Kernel Test Service
