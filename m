@@ -1,81 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB661E1DA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 18:14:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691691259; x=1723227259;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l7ZbBc3aKAU2Zy51EfCFWQ20F+Yzt+yUF4EPXndk6K4=;
-  b=A+cD1EN8mxrmUu7pWVgTucjwe8EAi3/eU8+a5BOnqzGVbbJ5yZJvgcG9
-   fXCPXg4f35mQb3PbMbGF5ULKOR+36wvJCbSiSnMLmgeYxj1ngLmLCZper
-   0kUAA9WAUlnKJIxGYjw3PkB21Yx3QeMQFMkVLEhxZ6H4Y6JZJNI76T6np
-   aUg8ia+7lZQHasdHZ0NMndfSVPZskfpRpHdWqwV068O0vT5R4kDt5M7WK
-   jFfrD8ErOX2zdYD7Pw8zN1KfMe+MVFczvjr/sISwsxVJqBCqBVgrgOGsH
-   5bvBiqMegJ0Q+9Pyta1OIu4B703xBSsAh/JMl12ily9yBvPvKawRdtqHv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="351803019"
-X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="351803019"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 11:14:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="735514231"
-X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="735514231"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Aug 2023 11:14:16 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qUAAp-0007AG-23;
-	Thu, 10 Aug 2023 18:14:15 +0000
-Date: Fri, 11 Aug 2023 02:13:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Prasad Sodagudi <psodagud@codeaurora.org>
-Cc: oe-kbuild-all@lists.linux.dev, Yogesh Lal <quic_ylal@quicinc.com>,
-	Elliot Berman <eberman@codeaurora.org>
-Subject: [sudeep-holla:android13-5.15/ffa 1113/4062]
- drivers/android/android_debug_symbols.c:27:6: sparse: sparse: symbol
- 'ads_page_owner' was not declared. Should it be static?
-Message-ID: <202308110253.Ch4I4zJX-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2393F1FB4A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 18:43:01 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fe1d462762so11159545e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 11:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1691692980; x=1692297780;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SdKouwlT/oGIo6LiqvsGWbbls1AGv3uLOH1vnufr9x8=;
+        b=oV8U1Ycd24HVmZnohFnkQmWKmGg4biBV/LAKF4bVcDXwWYqS4zrvEU0OGthGm/sLjE
+         O/fZ/orxxveE9C9NE9YPPm05xd5QKpMfITBvjD4x6ESBe0xQCGFFaDufMQE/uf9qHOum
+         Vg2mRl/k5u3m6H51m+6gpjskKLwYVCunlorEIGCw9G58IQzmd5fkQB4qCoodR9FwxaRU
+         CKvSuUCbY0Iro+y286MZRFcSsgL8pOyP+SDt2Mxun3zYlvhOG4qCfzH4V75PVcFJL2Kv
+         TwddvMqBbLxVXiLcfx7urC+YUIn+jGBqIZZ3i1emMEgUyVNMFpf/vUTJ1TemLn8UNv+9
+         iCUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691692980; x=1692297780;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SdKouwlT/oGIo6LiqvsGWbbls1AGv3uLOH1vnufr9x8=;
+        b=YO0HzYi0XiB+uHfK8aGDQJbdGL2KjOS3sohCs+0SDDM6cvKL8Erhy0tYwS2/EETFNs
+         /gE/yX3iQohZh0VI7tHAOmBfCYqcUZa4nsf9f76QgJchILxS9niHv1CnXV5Q9m+bHoyK
+         4wldvBA1SXCvSD13L0rk0llgGC9ytI5cZBerk1NMfx2iGkZCaya350+pd1qjbeBUXGOm
+         r9r/dkV2uolZtcbox0IVrq5EzXkmuHjraawyLqzKs15sNDNfcZzUAqGO0Wf8OL7wnYXr
+         3DLN/J2uHrbmB6mBxN3vhtN1XUr+3afklgDucPzeshRJIvGy0jWO1RV6m2thpG4FiVqo
+         I9cg==
+X-Gm-Message-State: AOJu0YwN1QWTvfuPSUDpOMBEvwoSoUY8USy6DyVMhzAWLQlouiu/QjTv
+	qsuCUWFFgNrAI/HEY8J4aYVyoetvdr+IZl/XNw6zaQ==
+X-Google-Smtp-Source: AGHT+IED2Ly4+y2WT66WMkUIU7qKftUG+xMNqKoJ7MinlsMHH0j1IJVgE0xbZn7OOFcOR4mUH90tJAV6k1Y1fSGSX90=
+X-Received: by 2002:a05:600c:2181:b0:3fe:45e7:1d6f with SMTP id
+ e1-20020a05600c218100b003fe45e71d6fmr2676148wme.21.1691692980051; Thu, 10 Aug
+ 2023 11:43:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202308091820.0dPY7D6f-lkp@intel.com> <ZNN1WdZ5J/e5OPAt@elver.google.com>
+ <CAKwvOd=hgqas-kMxvOgviff43XBmwgERrfGi-ZO45DOcEuG_yw@mail.gmail.com>
+ <CANpmjNNjzeKyB7V7r73qW9zzqYeMEEK27pfFV9aBm6yfLjJeng@mail.gmail.com> <20230810100202.93059f4ba94e4400e9a63b39@linux-foundation.org>
+In-Reply-To: <20230810100202.93059f4ba94e4400e9a63b39@linux-foundation.org>
+From: Marco Elver <elver@google.com>
+Date: Thu, 10 Aug 2023 20:42:23 +0200
+Message-ID: <CANpmjNMDMmmbgvkHqDRurBmkdyMENDejfg+Vp+VHoO_Maaap0w@mail.gmail.com>
+Subject: Re: [linux-next:master 8173/8441] include/linux/list.h:53:13:
+ warning: '__preserve_most__' calling convention is not supported for this target
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Nick Desaulniers <ndesaulniers@google.com>, kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Miguel Ojeda <ojeda@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.15/ffa
-head:   c6013f50f1ae0e42d14d51a06118779ead3047ef
-commit: b2df67a932b5cbd6535de9f1a6e63004992ad014 [1113/4062] ANDROID: android: Create debug_symbols driver
-config: i386-randconfig-r083-20230810 (https://download.01.org/0day-ci/archive/20230811/202308110253.Ch4I4zJX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308110253.Ch4I4zJX-lkp@intel.com/reproduce)
+On Thu, 10 Aug 2023 at 19:02, Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Wed, 9 Aug 2023 18:00:32 +0200 Marco Elver <elver@google.com> wrote:
+>
+> > Andrew, please shout if you'd rather have them as fix patches.
+>
+> I grabbed it, thanks.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308110253.Ch4I4zJX-lkp@intel.com/
+Thanks! This should help with more -next testing. But as a heads up,
+there will be a v4, which includes this but also because of the
+Kconfig renaming that Kees asked for. I intend to send it by EOD
+tomorrow.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/android/android_debug_symbols.c:27:6: sparse: sparse: symbol 'ads_page_owner' was not declared. Should it be static?
->> drivers/android/android_debug_symbols.c:28:6: sparse: sparse: symbol 'ads_slub_debug' was not declared. Should it be static?
->> drivers/android/android_debug_symbols.c:29:15: sparse: sparse: symbol 'ads_vmalloc_nr_pages' was not declared. Should it be static?
->> drivers/android/android_debug_symbols.c:30:15: sparse: sparse: symbol 'ads_pcpu_nr_pages' was not declared. Should it be static?
-   drivers/android/android_debug_symbols.c:88:9: sparse: sparse: cast removes address space '__percpu' of expression
-
-vim +/ads_page_owner +27 drivers/android/android_debug_symbols.c
-
-    26	
-  > 27	bool ads_page_owner;
-  > 28	bool ads_slub_debug;
-  > 29	unsigned long ads_vmalloc_nr_pages;
-  > 30	unsigned long ads_pcpu_nr_pages;
-    31	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+-- Marco
