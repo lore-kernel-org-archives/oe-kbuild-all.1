@@ -1,45 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE21A5692
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 15:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC9163B6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 15:22:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691766108; x=1723302108;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sYeW5g9rA2gf1oAEAGqQsZBMGrUT6qtt6cdFQmcVTak=;
-  b=NA+e/hSa+4U3Sg/dh02eEBll/n+dE1FKMO3BmuMZ5w3i84Tp92v3CIXL
-   sOEnHQA3CR2V2lPLTcv4JCUQEQxhvqpFu6i4FYBCOa3u0tWDP/qvP8I+P
-   bkcRWqk0AXfH4bqPyjYVIozS0FYVoWmTgN1T+d+Ul4uA42tkA05mzQp7e
-   Qx2Yu2PBn1JhuqdWlJOCRHqqFZreSWTavE2Wmm+Bk8v3jB9CxC2qUJK+h
-   QMh5vXOElmZXCtMlvju0ZzTP0s2urPak1P93eaWrQ9Y8c6DpUIUBo36wH
-   ayldHzc9on6DUI3ILTmqSCkV0apNGJ94BQVe999edShfU2PYCK6JFKz79
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="361835323"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="361835323"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 08:01:46 -0700
+  t=1691767380; x=1723303380;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Fkyv3rSrsrjBL4e8GlcWm/2hC7gH0L18Y3DUqVG2jz0=;
+  b=HVXUHFPVsq3lMK7xYtA0gsjD/lGlnZ0ivCm5hqZiDZ2+0NHuKR5VfiXo
+   bfODsWilEZKMOmuL9QfCXdwuo+8uBKA8kJQn6clGnuzKc8yrpFHv9kNPX
+   rwDzKJGzfLbrwnkiaLrJ8VwQQKEa6Ky08t/+IFOSiqBitDjh5K+e+g82r
+   vZQ4PhQtBIrztJw9w6YgbRCQCmRcIQ/t4lSEiPGOxEDQMYNeQQ71LlojM
+   Ft7noQ0d8YUMpuvP+BIZ+4ok2AAaoUhL1ZaCt7T7FFQJ++UImrKtNCWxR
+   XKlXr3og8rZkJ2JT1Ito1i3vULA84L1Nzy5pybQRlMSaCFkcqqYt6rnSk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="352023638"
+X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
+   d="scan'208";a="352023638"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 08:22:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="856323816"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="856323816"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="732700643"
+X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
+   d="scan'208";a="732700643"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 11 Aug 2023 08:01:44 -0700
+  by orsmga002.jf.intel.com with ESMTP; 11 Aug 2023 08:22:44 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUTe3-0007ql-23;
-	Fri, 11 Aug 2023 15:01:43 +0000
-Date: Fri, 11 Aug 2023 23:01:30 +0800
+	id 1qUTyN-0007rC-2w;
+	Fri, 11 Aug 2023 15:22:43 +0000
+Date: Fri, 11 Aug 2023 23:21:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Takashi Iwai <tiwai@suse.de>, Peter Wu <peter@lekensteyn.nl>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-4.14.y 3992/9999] sound/pci/hda/hda_intel.c:1079:12:
- warning: 'azx_resume' defined but not used
-Message-ID: <202308112210.dfsp5lQg-lkp@intel.com>
+To: Heng Qi <hengqi@linux.alibaba.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, netdev@vger.kernel.org,
+	virtualization@lists.linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH net-next 7/8] virtio-net: support tx netdim
+Message-ID: <202308112350.gTAjKZog-lkp@intel.com>
+References: <20230811065512.22190-8-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,121 +56,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230811065512.22190-8-hengqi@linux.alibaba.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.14.y
-head:   4dbbc9b492fb6a28528de6a1958263780693e96c
-commit: 0b3377cf6e167e0d40de90e494f3d82f425f4468 [3992/9999] vga_switcheroo: Use device link for HDA controller
-config: x86_64-randconfig-x002-20230811 (https://download.01.org/0day-ci/archive/20230811/202308112210.dfsp5lQg-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308112210.dfsp5lQg-lkp@intel.com/reproduce)
+Hi Heng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-initially-change-the-value-of-tx-frames/20230811-150529
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230811065512.22190-8-hengqi%40linux.alibaba.com
+patch subject: [PATCH net-next 7/8] virtio-net: support tx netdim
+config: i386-randconfig-i011-20230811 (https://download.01.org/0day-ci/archive/20230811/202308112350.gTAjKZog-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308112350.gTAjKZog-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308112210.dfsp5lQg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308112350.gTAjKZog-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> sound/pci/hda/hda_intel.c:1079:12: warning: 'azx_resume' defined but not used [-Wunused-function]
-    static int azx_resume(struct device *dev)
-               ^~~~~~~~~~
->> sound/pci/hda/hda_intel.c:1044:12: warning: 'azx_suspend' defined but not used [-Wunused-function]
-    static int azx_suspend(struct device *dev)
-               ^~~~~~~~~~~
-
-
-vim +/azx_resume +1079 sound/pci/hda/hda_intel.c
-
-5c0b9bec460c34 Takashi Iwai   2008-12-11  1039  
-7ccbde57ce312f Takashi Iwai   2012-08-14  1040  #if defined(CONFIG_PM_SLEEP) || defined(SUPPORT_VGA_SWITCHEROO)
-5c0b9bec460c34 Takashi Iwai   2008-12-11  1041  /*
-5c0b9bec460c34 Takashi Iwai   2008-12-11  1042   * power management
-5c0b9bec460c34 Takashi Iwai   2008-12-11  1043   */
-68cb2b55927885 Takashi Iwai   2012-07-02 @1044  static int azx_suspend(struct device *dev)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1045  {
-68cb2b55927885 Takashi Iwai   2012-07-02  1046  	struct snd_card *card = dev_get_drvdata(dev);
-2d9772ef653ccf Takashi Iwai   2014-07-16  1047  	struct azx *chip;
-2d9772ef653ccf Takashi Iwai   2014-07-16  1048  	struct hda_intel *hda;
-a41d122449bea3 Takashi Iwai   2015-04-14  1049  	struct hdac_bus *bus;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1050  
-2d9772ef653ccf Takashi Iwai   2014-07-16  1051  	if (!card)
-2d9772ef653ccf Takashi Iwai   2014-07-16  1052  		return 0;
-2d9772ef653ccf Takashi Iwai   2014-07-16  1053  
-2d9772ef653ccf Takashi Iwai   2014-07-16  1054  	chip = card->private_data;
-2d9772ef653ccf Takashi Iwai   2014-07-16  1055  	hda = container_of(chip, struct hda_intel, chip);
-342e84490574cb U. Artie Eoff  2015-07-28  1056  	if (chip->disabled || hda->init_failed || !chip->running)
-c5c215232dfb71 Takashi Iwai   2012-12-04  1057  		return 0;
-c5c215232dfb71 Takashi Iwai   2012-12-04  1058  
-a41d122449bea3 Takashi Iwai   2015-04-14  1059  	bus = azx_bus(chip);
-421a12520d4ed4 Takashi Iwai   2005-11-17  1060  	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
-9ad593f6d326e7 Takashi Iwai   2008-05-16  1061  	azx_clear_irq_pending(chip);
-cb53c626e1145e Takashi Iwai   2007-08-10  1062  	azx_stop_chip(chip);
-7295b26438ec01 Mengdong Lin   2013-06-25  1063  	azx_enter_link_reset(chip);
-a41d122449bea3 Takashi Iwai   2015-04-14  1064  	if (bus->irq >= 0) {
-a41d122449bea3 Takashi Iwai   2015-04-14  1065  		free_irq(bus->irq, chip);
-a41d122449bea3 Takashi Iwai   2015-04-14  1066  		bus->irq = -1;
-30b35399ceb239 Takashi Iwai   2006-10-11  1067  	}
-a07187c992be94 Mengdong Lin   2014-06-26  1068  
-68e7fffc0f3e95 Takashi Iwai   2006-10-23  1069  	if (chip->msi)
-43001c9515cf87 Takashi Iwai   2006-09-08  1070  		pci_disable_msi(chip->pci);
-dba9b7b6ca1af6 Takashi Iwai   2017-06-29  1071  	if ((chip->driver_caps & AZX_DCAPS_I915_POWERWELL)
-795614dde4d355 Mengdong Lin   2015-04-29  1072  		&& hda->need_i915_power)
-98d8fc6c5d3652 Mengdong Lin   2015-05-19  1073  		snd_hdac_display_power(bus, false);
-785d8c4be82b45 Libin Yang     2015-05-12  1074  
-785d8c4be82b45 Libin Yang     2015-05-12  1075  	trace_azx_suspend(chip);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1076  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1077  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1078  
-68cb2b55927885 Takashi Iwai   2012-07-02 @1079  static int azx_resume(struct device *dev)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1080  {
-68cb2b55927885 Takashi Iwai   2012-07-02  1081  	struct pci_dev *pci = to_pci_dev(dev);
-68cb2b55927885 Takashi Iwai   2012-07-02  1082  	struct snd_card *card = dev_get_drvdata(dev);
-2d9772ef653ccf Takashi Iwai   2014-07-16  1083  	struct azx *chip;
-2d9772ef653ccf Takashi Iwai   2014-07-16  1084  	struct hda_intel *hda;
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1085  	struct hdac_bus *bus;
-2d9772ef653ccf Takashi Iwai   2014-07-16  1086  
-2d9772ef653ccf Takashi Iwai   2014-07-16  1087  	if (!card)
-2d9772ef653ccf Takashi Iwai   2014-07-16  1088  		return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1089  
-2d9772ef653ccf Takashi Iwai   2014-07-16  1090  	chip = card->private_data;
-2d9772ef653ccf Takashi Iwai   2014-07-16  1091  	hda = container_of(chip, struct hda_intel, chip);
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1092  	bus = azx_bus(chip);
-342e84490574cb U. Artie Eoff  2015-07-28  1093  	if (chip->disabled || hda->init_failed || !chip->running)
-c5c215232dfb71 Takashi Iwai   2012-12-04  1094  		return 0;
-c5c215232dfb71 Takashi Iwai   2012-12-04  1095  
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1096  	if (chip->driver_caps & AZX_DCAPS_I915_POWERWELL) {
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1097  		snd_hdac_display_power(bus, true);
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1098  		if (hda->need_i915_power)
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1099  			snd_hdac_i915_set_bclk(bus);
-a07187c992be94 Mengdong Lin   2014-06-26  1100  	}
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1101  
-68e7fffc0f3e95 Takashi Iwai   2006-10-23  1102  	if (chip->msi)
-68e7fffc0f3e95 Takashi Iwai   2006-10-23  1103  		if (pci_enable_msi(pci) < 0)
-68e7fffc0f3e95 Takashi Iwai   2006-10-23  1104  			chip->msi = 0;
-68e7fffc0f3e95 Takashi Iwai   2006-10-23  1105  	if (azx_acquire_irq(chip, 1) < 0)
-30b35399ceb239 Takashi Iwai   2006-10-11  1106  		return -EIO;
-cb53c626e1145e Takashi Iwai   2007-08-10  1107  	azx_init_pci(chip);
-d804ad9258c146 Maxim Levitsky 2007-09-03  1108  
-0a67352153505f Lu, Han        2015-05-05  1109  	hda_intel_init_chip(chip, true);
-d804ad9258c146 Maxim Levitsky 2007-09-03  1110  
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1111  	/* power down again for link-controlled chips */
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1112  	if ((chip->driver_caps & AZX_DCAPS_I915_POWERWELL) &&
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1113  	    !hda->need_i915_power)
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1114  		snd_hdac_display_power(bus, false);
-a52ff34e5ec617 Takashi Iwai   2016-08-04  1115  
-421a12520d4ed4 Takashi Iwai   2005-11-17  1116  	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
-785d8c4be82b45 Libin Yang     2015-05-12  1117  
-785d8c4be82b45 Libin Yang     2015-05-12  1118  	trace_azx_resume(chip);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1119  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1120  }
-b8dfc4624162c0 Mengdong Lin   2012-08-23  1121  #endif /* CONFIG_PM_SLEEP || SUPPORT_VGA_SWITCHEROO */
-b8dfc4624162c0 Mengdong Lin   2012-08-23  1122  
-
-:::::: The code at line 1079 was first introduced by commit
-:::::: 68cb2b559278858ef9f3a7722f95df88797c7840 ALSA: Convert to new pm_ops for PCI drivers
-
-:::::: TO: Takashi Iwai <tiwai@suse.de>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-kworld-315u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-kworld-pc150u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-kworld-plus-tv-analog.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-leadtek-y04g0051.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-lme2510.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-manli.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-mecool-kiii-pro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-mecool-kii-pro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-medion-x10.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-minix-neo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-msi-digivox-iii.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-msi-digivox-ii.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-msi-tvanywhere.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-msi-tvanywhere-plus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-nebula.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-nec-terratec-cinergy-xs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-norwood.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-npgtech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-odroid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pctv-sedna.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pine64.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-color.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-grey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-pctv-hd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-002t.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-mk12.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-new.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-powercolor-real-angel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-proteus-2309.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-purpletv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pv951.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-rc6-mce.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-real-audio-220-32-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-reddo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-snapstream-firefly.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-streamzap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-su3000.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx3mini.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx5max.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tbs-nec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-ts35.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-usb2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-c-pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-s2-hd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-xs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim-2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tevii-nec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand-02.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-trekstor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tt-1500.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan1027.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan-dtv-cab-ci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-vega-s9x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-m1f.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-s350.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-tv-pvr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videostrong-kii-pro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-play2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast-usbii-deluxe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-x96max.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-360.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-dvd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-zx-irdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/twl4030_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
+>> ERROR: modpost: "net_dim_get_tx_moderation" [drivers/net/virtio_net.ko] undefined!
+ERROR: modpost: "net_dim_get_rx_moderation" [drivers/net/virtio_net.ko] undefined!
+ERROR: modpost: "net_dim" [drivers/net/virtio_net.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
