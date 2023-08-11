@@ -1,41 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5E9A3D;
-	Fri, 11 Aug 2023 02:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D443FA40
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 02:49:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1691722169; x=1723258169;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=mA96RnWiA9lWdzCVf4t25wRAwAJI3pUocseMgd6EqiY=;
-  b=cwTwLy++C+0hV+UJsoeTMhwy7NxQWq9kHchHgoInl+5B8Yk00673tqrj
-   +hAQ98LeM2stpba6jPDoC5LUXvC5tr1JNHXpkPVAfmBajc5/VbqW4KiiY
-   idqRVEFdDDEQrcaJtH6B+//IE5pwggWj+43CKw88J+b4P5IcNDd8KMNdE
-   9QGDQWTMcZCgsYZPDtZUWBtHIIZ+01C+e1Fo/NshQ0qwgoEZjSTU24Za3
-   ioBxNFv5t9BqG4TGZ2p1XZ3cdnOychg+cl7Y+BRDEsU9cwV6oWn6JI8Bx
-   klODo6EjoLXeRx8YbgOOwlDDlaEBPrZK4W4PWHqxO9TMMxHWKSwrzGzsj
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="375290706"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ojlsu/J1ejgentHCcjzGC29TlZRaYN0+poe3VrpBmUY=;
+  b=UgFd95gm/rWFkGGBFQRPkANvWckXr3P46sE3vEwhEomZ8NJIp32UXBa7
+   2p6v6mynQ9miWgUUMpFYhgN89rgcBn5TrGjvMQCOCfpfME1JhqyW3uQIn
+   +LU1JfYLfh20omj1Uh+0g4JKyKRl9ifvH+yzJd0/2h2MFYv+GW0as5MhI
+   U0kFTmIPkluWGNO11YdH915fZFdGGzQHCggXb1wl0K2uV+gJ37V1L9l12
+   JjaBK2B3VkGvRk8c3LVIDG3ZvfVVWNyMrv0jBJfOKk3NzSrGwVuSRPqpD
+   x3q4A1OlIo7YCwFQ7WwFX7bDKsT2nQA3Zf/UgbrdnUZGssU6LNcBRyjPL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="369050264"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="375290706"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 19:49:28 -0700
+   d="scan'208";a="369050264"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 19:49:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="979076204"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="726086693"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="979076204"
+   d="scan'208";a="726086693"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 10 Aug 2023 19:49:27 -0700
+  by orsmga007.jf.intel.com with ESMTP; 10 Aug 2023 19:49:27 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUIDO-0007RK-2m;
+	id 1qUIDO-0007RM-30;
 	Fri, 11 Aug 2023 02:49:26 +0000
-Date: Fri, 11 Aug 2023 10:49:19 +0800
+Date: Fri, 11 Aug 2023 10:49:18 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [sudeep-holla:android13-5.10/ffa 9247/9999] fs/nfs/nfsv4.lto.o:
- warning: objtool: .text.__cfi_check_fail: unexpected end of section
-Message-ID: <202308111016.k7VjZblF-lkp@intel.com>
+To: "Borislav Petkov (AMD)" <bp@alien8.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: vmlinux.o: warning: objtool: .altinstr_replacement: unexpected end
+ of section
+Message-ID: <202308111023.TGLhfA02-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,45 +46,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-TO: Nick Desaulniers <ndesaulniers@google.com>
-
-Hi Nick,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
-head:   9e12ac4f9c69befe08119567c073adc938aafc4d
-commit: e48efff5cb5fd63a687465347bdbb52ef98dad44 [9247/9999] ANDROID: arch/Kconfig: fix up LTO LLVM_IAS depdency
-config: x86_64-randconfig-x011-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111016.k7VjZblF-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111016.k7VjZblF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   25aa0bebba72b318e71fe205bfd1236550cc9534
+commit: fb3bd914b3ec28f5fb697ac55c4846ac2d542855 x86/srso: Add a Speculative RAS Overflow mitigation
+date:   2 weeks ago
+config: x86_64-randconfig-x001-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111023.TGLhfA02-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111023.TGLhfA02-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308111016.k7VjZblF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308111023.TGLhfA02-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/nfs/nfsv4.lto.o: warning: objtool: .text.__cfi_check_fail: unexpected end of section
---
->> lib/crypto/libarc4.lto.o: warning: objtool: .text.__cfi_check_fail: unexpected end of section
---
->> net/dns_resolver/dns_resolver.lto.o: warning: objtool: .text.__cfi_check_fail: unexpected end of section
---
->> net/core/failover.lto.o: warning: objtool: .text.__cfi_check_fail: unexpected end of section
---
->> net/sunrpc/auth_gss/rpcsec_gss_krb5.lto.o: warning: objtool: .text.__cfi_check_fail: unexpected end of section
---
->> net/sunrpc/auth_gss/auth_rpcgss.lto.o: warning: objtool: .text.__cfi_check_fail: unexpected end of section
---
->> drivers/net/net_failover.lto.o: warning: objtool: .text.__cfi_check_fail: unexpected end of section
---
->> drivers/net/virtio_net.lto.o: warning: objtool: .text.__cfi_check_fail: unexpected end of section
---
->> fs/cifs/cifs.lto.o: warning: objtool: .text.__cfi_check_fail: unexpected end of section
---
->> drivers/media/dvb-frontends/sp8870.lto.o: warning: objtool: .text.__cfi_check_fail: unexpected end of section
+>> vmlinux.o: warning: objtool: .altinstr_replacement: unexpected end of section
 
 -- 
 0-DAY CI Kernel Test Service
