@@ -1,36 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48245692
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 14:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE21A5692
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 15:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691765506; x=1723301506;
+  t=1691766108; x=1723302108;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m7iJ9aPynDqFKzuzCzs/vJGlbcbSjQVmYuO5WuCRPGA=;
-  b=kJByKNy01C/AIJi9mVSiKnpqpVqxqrhTRWCjufFXbZugX6lDFSZcYrhE
-   dPO4WFqSGogD5RkLD26MBHoGDvyQ/vAI/GiJe1ROsQYlHNrq1/sAXEvln
-   HVe327a+5rNXpIO0QYAegkBNdIp2GgYoAgFiLTolQnj5in8oJLa2satQT
-   y7VDpRhf8VwKqMylLyEAK+yJpH+QlUnTgNEw/UUfR2kH1LUjt67CalglR
-   Dr5TdpSlNpQFMizh2jsi8z9Rn0/hqMS4L0tGlZgHMNDcn5W7oTsq0vwqY
-   GA3pYHoskkrgtgMUa6vRpWq8Hi4+7yEt41JXjcVrfO9q2PXbMptE1uzGs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="435584755"
+  bh=sYeW5g9rA2gf1oAEAGqQsZBMGrUT6qtt6cdFQmcVTak=;
+  b=NA+e/hSa+4U3Sg/dh02eEBll/n+dE1FKMO3BmuMZ5w3i84Tp92v3CIXL
+   sOEnHQA3CR2V2lPLTcv4JCUQEQxhvqpFu6i4FYBCOa3u0tWDP/qvP8I+P
+   bkcRWqk0AXfH4bqPyjYVIozS0FYVoWmTgN1T+d+Ul4uA42tkA05mzQp7e
+   Qx2Yu2PBn1JhuqdWlJOCRHqqFZreSWTavE2Wmm+Bk8v3jB9CxC2qUJK+h
+   QMh5vXOElmZXCtMlvju0ZzTP0s2urPak1P93eaWrQ9Y8c6DpUIUBo36wH
+   ayldHzc9on6DUI3ILTmqSCkV0apNGJ94BQVe999edShfU2PYCK6JFKz79
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="361835323"
 X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="435584755"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 07:51:46 -0700
+   d="scan'208";a="361835323"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 08:01:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="735814237"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="856323816"
 X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="735814237"
+   d="scan'208";a="856323816"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Aug 2023 07:51:44 -0700
+  by orsmga004.jf.intel.com with ESMTP; 11 Aug 2023 08:01:44 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUTUN-0007qa-1e;
-	Fri, 11 Aug 2023 14:51:43 +0000
-Date: Fri, 11 Aug 2023 22:51:16 +0800
+	id 1qUTe3-0007ql-23;
+	Fri, 11 Aug 2023 15:01:43 +0000
+Date: Fri, 11 Aug 2023 23:01:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev,
@@ -39,7 +39,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Sasha Levin <sashal@kernel.org>
 Subject: [stable:linux-4.14.y 3992/9999] sound/pci/hda/hda_intel.c:1079:12:
  warning: 'azx_resume' defined but not used
-Message-ID: <202308112225.dBBJSm8B-lkp@intel.com>
+Message-ID: <202308112210.dfsp5lQg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,14 +52,14 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.14.y
 head:   4dbbc9b492fb6a28528de6a1958263780693e96c
 commit: 0b3377cf6e167e0d40de90e494f3d82f425f4468 [3992/9999] vga_switcheroo: Use device link for HDA controller
-config: x86_64-randconfig-x002-20230811 (https://download.01.org/0day-ci/archive/20230811/202308112225.dBBJSm8B-lkp@intel.com/config)
+config: x86_64-randconfig-x002-20230811 (https://download.01.org/0day-ci/archive/20230811/202308112210.dfsp5lQg-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308112225.dBBJSm8B-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308112210.dfsp5lQg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308112225.dBBJSm8B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308112210.dfsp5lQg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
