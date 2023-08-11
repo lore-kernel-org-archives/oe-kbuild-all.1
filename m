@@ -1,49 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E48B7F1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 02:17:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6898CA2D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 02:29:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691720266; x=1723256266;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0THyFkSnK1p9RVFPp9ADMVWBCe9AiR93iSgzIjVkqpo=;
-  b=B3fD5TxD6Dry/5iTReQ7VGhrpZNfOoLMlvvjIJpEtFyva5kTlJ1IIEek
-   B6b92mUyP+YS079pqxwCWjUd2NIyydO9l0kGgN3GyvhRqHccfiIkGuvyE
-   eXgYGwT0xrGVsHN+fAgs+CuDsCFHDj+sFcHy38KYSiuTTTC6n85zZF7v+
-   3noRglpKJ4ov+Kr3s+PDa1pa1pJGwsIMQOo5FHgOWS3lmgCJUcRjvGBZ8
-   6KiVAl0Jchf4xiMhMqHUHSnnWylurFj2OyWKNloGGFea+wJtn9uxjfyYw
-   eI1A2YaS08RZLyxoA54/e0Mh3iWh/oE1kLr3AfgHiqIzabJD/Jb5lJ/82
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="369045308"
+  t=1691720978; x=1723256978;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=10OCXvODrWOKM23FmdroVFcSOi/dlB1jJupfTvF/uVM=;
+  b=aAbxvfQWKanWi+IxjYsphHsU+giBB4slZ0zodOUStw3dni0mFyXoeCRT
+   kUUJqU8qgAMnb7cE2x0GNcp4G7RWxDPjLXdDUjd9RbluDBhP7bd1pMCHj
+   Id+ly1T6HXWKKVsNnL+8tV0ZKcjZsSXj4p26bukCED+KbdTGNVdwE/u0+
+   T27Abwt7AhVwU5zuDfrrJvhnZUwiCTlXOdjwW4bUCR6NxSdp8IYEnQW3S
+   1+GCYUqdpdUjgDa93kCUxisROb/xT0O4s/eavTXevWmVLlUwjeh0B4Qjv
+   FJmYz8zG5a7uNLnRSo2H2ZgjTe3Uo+6mX0No0ENHk62+NWV6GO5gfoxII
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="361714429"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="369045308"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 19:17:29 -0700
+   d="scan'208";a="361714429"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 19:29:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="846625134"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="856126621"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="846625134"
+   d="scan'208";a="856126621"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Aug 2023 19:17:26 -0700
+  by orsmga004.jf.intel.com with ESMTP; 10 Aug 2023 19:29:26 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUHiQ-0007QS-0U;
-	Fri, 11 Aug 2023 02:17:26 +0000
-Date: Fri, 11 Aug 2023 10:17:22 +0800
+	id 1qUHu2-0007Qa-0o;
+	Fri, 11 Aug 2023 02:29:26 +0000
+Date: Fri, 11 Aug 2023 10:28:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Subject: Re: [PATCH 1/4] clk: mmp2: Move number of clocks into driver source
-Message-ID: <202308110800.KkX1CemC-lkp@intel.com>
-References: <20230809-mmp-nr-clks-v1-1-5f3cdbbb89b8@skole.hr>
+To: Qing Zhang <zhangqing@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>
+Subject: fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202308111025.QvCwtqk7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,129 +46,177 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230809-mmp-nr-clks-v1-1-5f3cdbbb89b8@skole.hr>
 
-Hi Duje,
+Hi Qing,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on 52a93d39b17dc7eb98b6aa3edb93943248e03b2f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi/clk-mmp2-Move-number-of-clocks-into-driver-source/20230809-202111
-base:   52a93d39b17dc7eb98b6aa3edb93943248e03b2f
-patch link:    https://lore.kernel.org/r/20230809-mmp-nr-clks-v1-1-5f3cdbbb89b8%40skole.hr
-patch subject: [PATCH 1/4] clk: mmp2: Move number of clocks into driver source
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230811/202308110800.KkX1CemC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308110800.KkX1CemC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   25aa0bebba72b318e71fe205bfd1236550cc9534
+commit: 93a4fa622eb061f75f87f0cf9609ab4e69c67d01 LoongArch: Add STACKTRACE support
+date:   12 months ago
+config: loongarch-randconfig-r072-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111025.QvCwtqk7-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111025.QvCwtqk7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308110800.KkX1CemC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308111025.QvCwtqk7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
 
-   In file included from include/linux/bits.h:5,
-                    from include/linux/bitops.h:6,
-                    from include/linux/of.h:15,
-                    from include/linux/clk-provider.h:9,
-                    from drivers/clk/mmp/clk-audio.c:8:
-   drivers/clk/mmp/clk-audio.c: In function 'mmp2_audio_clk_probe':
->> drivers/clk/mmp/clk-audio.c:354:41: error: 'MMP2_CLK_AUDIO_NR_CLKS' undeclared (first use in this function); did you mean 'MMP2_CLK_AUDIO_SYSCLK'?
-     354 |                                         MMP2_CLK_AUDIO_NR_CLKS),
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/const.h:12:55: note: in definition of macro '__is_constexpr'
-      12 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
-         |                                                       ^
-   drivers/clk/mmp/clk-audio.c:353:29: note: in expansion of macro 'struct_size'
-     353 |                             struct_size(priv, clk_data.hws,
-         |                             ^~~~~~~~~~~
-   drivers/clk/mmp/clk-audio.c:354:41: note: each undeclared identifier is reported only once for each function it appears in
-     354 |                                         MMP2_CLK_AUDIO_NR_CLKS),
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/const.h:12:55: note: in definition of macro '__is_constexpr'
-      12 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
-         |                                                       ^
-   drivers/clk/mmp/clk-audio.c:353:29: note: in expansion of macro 'struct_size'
-     353 |                             struct_size(priv, clk_data.hws,
-         |                             ^~~~~~~~~~~
-   In file included from include/linux/vmalloc.h:11,
-                    from include/asm-generic/io.h:994,
-                    from arch/arm/include/asm/io.h:416,
-                    from include/linux/io.h:13,
-                    from drivers/clk/mmp/clk-audio.c:9:
->> include/linux/overflow.h:276:9: error: first argument to '__builtin_choose_expr' not a constant
-     276 |         __builtin_choose_expr(__is_constexpr(count),                    \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:293:32: note: in expansion of macro 'flex_array_size'
-     293 |                 sizeof(*(p)) + flex_array_size(p, member, count),       \
-         |                                ^~~~~~~~~~~~~~~
-   drivers/clk/mmp/clk-audio.c:353:29: note: in expansion of macro 'struct_size'
-     353 |                             struct_size(priv, clk_data.hws,
-         |                             ^~~~~~~~~~~
->> include/linux/overflow.h:276:9: error: first argument to '__builtin_choose_expr' not a constant
-     276 |         __builtin_choose_expr(__is_constexpr(count),                    \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:294:40: note: in expansion of macro 'flex_array_size'
-     294 |                 size_add(sizeof(*(p)), flex_array_size(p, member, count)))
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/clk/mmp/clk-audio.c:353:29: note: in expansion of macro 'struct_size'
-     353 |                             struct_size(priv, clk_data.hws,
-         |                             ^~~~~~~~~~~
-   include/linux/overflow.h:292:9: error: first argument to '__builtin_choose_expr' not a constant
-     292 |         __builtin_choose_expr(__is_constexpr(count),                    \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/mmp/clk-audio.c:353:29: note: in expansion of macro 'struct_size'
-     353 |                             struct_size(priv, clk_data.hws,
-         |                             ^~~~~~~~~~~
+vim +620 fs/eventpoll.c
 
+eea1d585917c53 Eric Wong       2013-04-30  604  
+92e64178405599 Davidlohr Bueso 2018-08-21  605  
+5071f97ec6d74f Davide Libenzi  2009-03-31  606  /*
+57804b1cc46167 Al Viro         2020-08-31  607   * ep->mutex needs to be held because we could be hit by
+e057e15ff66a62 Tony Battersby  2009-03-31  608   * eventpoll_release_file() and epoll_ctl().
+5071f97ec6d74f Davide Libenzi  2009-03-31  609   */
+57804b1cc46167 Al Viro         2020-08-31  610  static void ep_start_scan(struct eventpoll *ep, struct list_head *txlist)
+57804b1cc46167 Al Viro         2020-08-31  611  {
+5071f97ec6d74f Davide Libenzi  2009-03-31  612  	/*
+5071f97ec6d74f Davide Libenzi  2009-03-31  613  	 * Steal the ready list, and re-init the original one to the
+5071f97ec6d74f Davide Libenzi  2009-03-31  614  	 * empty list. Also, set ep->ovflist to NULL so that events
+5071f97ec6d74f Davide Libenzi  2009-03-31  615  	 * happening while looping w/out locks, are not lost. We cannot
+5071f97ec6d74f Davide Libenzi  2009-03-31  616  	 * have the poll callback to queue directly on ep->rdllist,
+5071f97ec6d74f Davide Libenzi  2009-03-31  617  	 * because we want the "sproc" callback to be able to do it
+5071f97ec6d74f Davide Libenzi  2009-03-31  618  	 * in a lockless way.
+5071f97ec6d74f Davide Libenzi  2009-03-31  619  	 */
+57804b1cc46167 Al Viro         2020-08-31 @620  	lockdep_assert_irqs_enabled();
+a218cc4914209a Roman Penyaev   2019-03-07  621  	write_lock_irq(&ep->lock);
+db502f8a3b0bb5 Al Viro         2020-08-31  622  	list_splice_init(&ep->rdllist, txlist);
+c5a282e9635e9c Davidlohr Bueso 2019-01-03  623  	WRITE_ONCE(ep->ovflist, NULL);
+a218cc4914209a Roman Penyaev   2019-03-07  624  	write_unlock_irq(&ep->lock);
+db502f8a3b0bb5 Al Viro         2020-08-31  625  }
+5071f97ec6d74f Davide Libenzi  2009-03-31  626  
 
-vim +354 drivers/clk/mmp/clk-audio.c
+:::::: The code at line 620 was first introduced by commit
+:::::: 57804b1cc4616780c72a2d0930d1bd0d5bd3ed4c lift locking/unlocking ep->mtx out of ep_{start,done}_scan()
 
-725262d29139cc Lubomir Rintel 2020-05-20  346  
-725262d29139cc Lubomir Rintel 2020-05-20  347  static int mmp2_audio_clk_probe(struct platform_device *pdev)
-725262d29139cc Lubomir Rintel 2020-05-20  348  {
-725262d29139cc Lubomir Rintel 2020-05-20  349  	struct mmp2_audio_clk *priv;
-725262d29139cc Lubomir Rintel 2020-05-20  350  	int ret;
-725262d29139cc Lubomir Rintel 2020-05-20  351  
-725262d29139cc Lubomir Rintel 2020-05-20  352  	priv = devm_kzalloc(&pdev->dev,
-725262d29139cc Lubomir Rintel 2020-05-20  353  			    struct_size(priv, clk_data.hws,
-725262d29139cc Lubomir Rintel 2020-05-20 @354  					MMP2_CLK_AUDIO_NR_CLKS),
-725262d29139cc Lubomir Rintel 2020-05-20  355  			    GFP_KERNEL);
-725262d29139cc Lubomir Rintel 2020-05-20  356  	if (!priv)
-725262d29139cc Lubomir Rintel 2020-05-20  357  		return -ENOMEM;
-725262d29139cc Lubomir Rintel 2020-05-20  358  
-725262d29139cc Lubomir Rintel 2020-05-20  359  	spin_lock_init(&priv->lock);
-725262d29139cc Lubomir Rintel 2020-05-20  360  	platform_set_drvdata(pdev, priv);
-725262d29139cc Lubomir Rintel 2020-05-20  361  
-725262d29139cc Lubomir Rintel 2020-05-20  362  	priv->mmio_base = devm_platform_ioremap_resource(pdev, 0);
-725262d29139cc Lubomir Rintel 2020-05-20  363  	if (IS_ERR(priv->mmio_base))
-725262d29139cc Lubomir Rintel 2020-05-20  364  		return PTR_ERR(priv->mmio_base);
-725262d29139cc Lubomir Rintel 2020-05-20  365  
-725262d29139cc Lubomir Rintel 2020-05-20  366  	pm_runtime_enable(&pdev->dev);
-725262d29139cc Lubomir Rintel 2020-05-20  367  	ret = pm_clk_create(&pdev->dev);
-725262d29139cc Lubomir Rintel 2020-05-20  368  	if (ret)
-725262d29139cc Lubomir Rintel 2020-05-20  369  		goto disable_pm_runtime;
-725262d29139cc Lubomir Rintel 2020-05-20  370  
-725262d29139cc Lubomir Rintel 2020-05-20  371  	ret = pm_clk_add(&pdev->dev, "audio");
-725262d29139cc Lubomir Rintel 2020-05-20  372  	if (ret)
-725262d29139cc Lubomir Rintel 2020-05-20  373  		goto destroy_pm_clk;
-725262d29139cc Lubomir Rintel 2020-05-20  374  
-725262d29139cc Lubomir Rintel 2020-05-20  375  	ret = register_clocks(priv, &pdev->dev);
-725262d29139cc Lubomir Rintel 2020-05-20  376  	if (ret)
-725262d29139cc Lubomir Rintel 2020-05-20  377  		goto destroy_pm_clk;
-725262d29139cc Lubomir Rintel 2020-05-20  378  
-725262d29139cc Lubomir Rintel 2020-05-20  379  	return 0;
-725262d29139cc Lubomir Rintel 2020-05-20  380  
-725262d29139cc Lubomir Rintel 2020-05-20  381  destroy_pm_clk:
-725262d29139cc Lubomir Rintel 2020-05-20  382  	pm_clk_destroy(&pdev->dev);
-725262d29139cc Lubomir Rintel 2020-05-20  383  disable_pm_runtime:
-725262d29139cc Lubomir Rintel 2020-05-20  384  	pm_runtime_disable(&pdev->dev);
-725262d29139cc Lubomir Rintel 2020-05-20  385  
-725262d29139cc Lubomir Rintel 2020-05-20  386  	return ret;
-725262d29139cc Lubomir Rintel 2020-05-20  387  }
-725262d29139cc Lubomir Rintel 2020-05-20  388  
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
