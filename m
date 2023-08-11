@@ -1,50 +1,44 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E195D10F1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 05:26:31 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2b9db1de50cso24447461fa.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 22:26:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691731590; x=1692336390;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dMt0B07ZTzgDWLe0m642FavvJHHm3KnbXYWpIFP5EHs=;
-        b=CjJZjVGAX1vybZJOFtWgIeS1pgc/6LxnnSS7G6mOJ3r7t4hEIogO959vXaTcFDh28m
-         I6E0bJwn9hEFuIJeA4RHsvb631rzWFfpH8xbXpcEzFaXVcwms/Y0jC0nV6Lp2QzrsIZi
-         mNZ7Tj8c+W20c0fbloDHrtfj8BwjTmeoilpdNehMbs1RkYVIuRfzy+K7y9U6f0ssS+Er
-         eYgUQXRGWbYbayKAh8m7NiDCm7KhCD90v/tYe6bnQXviykhTIyb2AxDGIHAZ15cHit1d
-         j2bsC4EHQNhFikePPokl3o+K+ZXWG5cAsOVKhByDtDpgGEc6YawV+A5wlYZh0018AI1u
-         fS7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691731590; x=1692336390;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dMt0B07ZTzgDWLe0m642FavvJHHm3KnbXYWpIFP5EHs=;
-        b=I/sbNRvpOjKYfE3GIKFeAhHtmUceH9O7qfIKfLw0Qs9w/3+lcb9z8paZzHuWXfIPIb
-         8IrSq+zbIIob4I45QPjbWVbDA9fCyix9VXVVZgYeoKEQ/obE4A8GA8hAzd4ZLQ2vCrT+
-         ONjMr2ij8YE051g9hcP8jncTkgq/WJFlTGvOdO9aLn8m7hD/48soVkI60oRU9CRMe3R1
-         KH/WoQEXO0Pt1vwh4C7mgLm3QZaMqjdytnVBGoxA7ffFbWkzwFBuH7+3NQwed6lJQ2fh
-         cJnwT3AmMjrcXXdY26b4b4eYHoQ4SQT6EiGkaiZoUIaenc+bp2vkp5vLnIg8q/9yR++y
-         1c1Q==
-X-Gm-Message-State: AOJu0Ywnod3dTgG65ybLwUfPtOwCkglRtZ0zKxUthOWGVJQVNdNtAjXs
-	2vSfRzQQXbYPIEVFGrKVOF3/Vg==
-X-Google-Smtp-Source: AGHT+IHaUDkjytuhknW5H68CRK2+XJ73oiY4NgT2rRqWouTWR4TDIQuar8Pc15IziwSFhdvnzMicHQ==
-X-Received: by 2002:a2e:8791:0:b0:2b6:c081:6323 with SMTP id n17-20020a2e8791000000b002b6c0816323mr705607lji.50.1691731589498;
-        Thu, 10 Aug 2023 22:26:29 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v14-20020a1cf70e000000b003fe24441e23sm4014104wmh.24.2023.08.10.22.26.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 22:26:29 -0700 (PDT)
-Date: Fri, 11 Aug 2023 08:26:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Hugh Dickins <hughd@google.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: [brauner-vfs:vfs.tmpfs 15/19] mm/shmem.c:3611
- shmem_xattr_handler_set() warn: passing zero to 'PTR_ERR'
-Message-ID: <dd00b419-ca16-48fb-b493-890ab47cc930@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08413EC6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 05:54:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691733293; x=1723269293;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=C2wESa8iP1l0Z5FSHz6iDeJPNOxgVAMYKWfs3n6J2og=;
+  b=AjqUKtrMNJlzLzPVcJudkRqhQrZcK9jJYYA1MSa+kXHzSovglD4PXoNA
+   rlHGKsb8lzTsK0p+Gz9U3hi0Wkp5cYM/LKTCriXt07NWm1pjT0DJPTk+Y
+   oNjxr9IVYkOAc18Y93oEAYC4446VkzSUyKrw6kfFbV+5XtT7qVZ9VTUZo
+   pFcLxzIixtoRtfUw/2TZOBpmo2S8WaCKNOqf6NjTF6S7X/0iqB9zTfQZY
+   u8vExGgEZakicL7+rbqvl7d+ymwIhMi6teKHulupeo5hrELrfThnUgI4l
+   BGrB/hN+063Jk6d7FY/cB3jX6Vb5IXbM/pE4EWYN7f1Qi64+1PwrMCZ2O
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="369073119"
+X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
+   d="scan'208";a="369073119"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 22:54:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="979122493"
+X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
+   d="scan'208";a="979122493"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 10 Aug 2023 22:54:31 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qUL6V-0007Y0-0K;
+	Fri, 11 Aug 2023 05:54:31 +0000
+Date: Fri, 11 Aug 2023 13:54:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dexuan Cui <decui@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+	Michael Kelley <mikelley@microsoft.com>
+Subject: [dcui-tdx:decui/upstream-hyperv/hyperv-next/TDX/0810 18/25]
+ arch/x86/hyperv/ivm.c:545: undefined reference to `__tdx_hypercall_ret'
+Message-ID: <202308111355.07YiFt1Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,58 +48,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.tmpfs
-head:   3a3c2ca1fb82b27073db2ae1f3eb06820e8d6143
-commit: 46170cc50828c33897d192668884d570b2c4e79b [15/19] xattr: simple_xattr_set() return old_xattr to be freed
-config: mips-randconfig-m031-20230809 (https://download.01.org/0day-ci/archive/20230811/202308111016.rximb8Ah-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111016.rximb8Ah-lkp@intel.com/reproduce)
+tree:   https://github.com/dcui/tdx decui/upstream-hyperv/hyperv-next/TDX/0810
+head:   104f836a5da361eec57916007c24e43c4d247951
+commit: 9715fa50ed2bd66dcc8e7b6abc8f9bfae3b6adaf [18/25] x86/hyperv: Support hypercalls for fully enlightened TDX guests
+config: i386-randconfig-i013-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111355.07YiFt1Y-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111355.07YiFt1Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308111016.rximb8Ah-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308111355.07YiFt1Y-lkp@intel.com/
 
-smatch warnings:
-mm/shmem.c:3611 shmem_xattr_handler_set() warn: passing zero to 'PTR_ERR'
+All errors (new ones prefixed by >>):
 
-vim +/PTR_ERR +3611 mm/shmem.c
+   ld: arch/x86/hyperv/ivm.o: in function `hv_tdx_hypercall':
+>> arch/x86/hyperv/ivm.c:545: undefined reference to `__tdx_hypercall_ret'
 
-aa7c5241c380ad Andreas Gruenbacher 2015-12-02  3594  static int shmem_xattr_handler_set(const struct xattr_handler *handler,
-39f60c1ccee72c Christian Brauner   2023-01-13  3595  				   struct mnt_idmap *idmap,
-5930122683dff5 Al Viro             2016-05-27  3596  				   struct dentry *unused, struct inode *inode,
-5930122683dff5 Al Viro             2016-05-27  3597  				   const char *name, const void *value,
-5930122683dff5 Al Viro             2016-05-27  3598  				   size_t size, int flags)
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3599  {
-5930122683dff5 Al Viro             2016-05-27  3600  	struct shmem_inode_info *info = SHMEM_I(inode);
-46170cc50828c3 Hugh Dickins        2023-08-08  3601  	struct simple_xattr *old_xattr;
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3602  
-aa7c5241c380ad Andreas Gruenbacher 2015-12-02  3603  	name = xattr_full_name(handler, name);
-46170cc50828c3 Hugh Dickins        2023-08-08  3604  	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
-46170cc50828c3 Hugh Dickins        2023-08-08  3605  	if (!IS_ERR(old_xattr)) {
-46170cc50828c3 Hugh Dickins        2023-08-08  3606  		simple_xattr_free(old_xattr);
-46170cc50828c3 Hugh Dickins        2023-08-08  3607  		old_xattr = NULL;
-36f05cab0a2c97 Jeff Layton         2022-09-09  3608  		inode->i_ctime = current_time(inode);
-36f05cab0a2c97 Jeff Layton         2022-09-09  3609  		inode_inc_iversion(inode);
-36f05cab0a2c97 Jeff Layton         2022-09-09  3610  	}
-46170cc50828c3 Hugh Dickins        2023-08-08 @3611  	return PTR_ERR(old_xattr);
 
-This code is correct but it would be nicer to reverse the checking:
+vim +545 arch/x86/hyperv/ivm.c
 
-	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
-	if (IS_ERR(old_xattr))
-		return PTR_ERR(old_xattr);
-
-	simple_xattr_free(old_xattr);
-	inode->i_ctime = current_time(inode);
-	inode_inc_iversion(inode);
-
-	return 0;
-
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3612  }
+   536	
+   537	u64 hv_tdx_hypercall(u64 control, u64 param1, u64 param2)
+   538	{
+   539		struct tdx_hypercall_args args = { };
+   540	
+   541		args.r10 = control;
+   542		args.rdx = param1;
+   543		args.r8  = param2;
+   544	
+ > 545		(void)__tdx_hypercall_ret(&args);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
