@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054482AB25
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 14:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915876FDA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 14:41:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691764256; x=1723300256;
+  t=1691764907; x=1723300907;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y8HM4+QIL1Qz6aicWkSwlO6H08dkoJC8TGkzJ+8KK1o=;
-  b=ANreK2PVsrNU4cvyaBHZMNk5SkIzzwtO26HIGmSNcvSbiT0Z4Tr22cAL
-   BRarQW7p+rKclPT9XL6CoyctG9rGrJIqRiMgophDcMjbLBqTYE25lHzd/
-   iemj8FIl5JwIgmVQfIJ6yZMMv3gBroIPUkbaRDG1K7PCOKygnbJdylUgF
-   fwzxFe/ypN4bhW/ma3uSG3I25NjgyWUOP64UYrtnsyK1ZU1QCUyjGzJ9n
-   ijHL7E2omsU5NAVMnqcICKF9ebJYH1WMMWIlELT0B9a8Uz6SAqReHDjUV
-   0CXMMdppxLIXoVHpLcYm7IExzX4R85iiESDTh0atnmptnBQTtpl/9oihs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="435580367"
+  bh=OsbLLFxZfojS6EyDCQE346zJ8wYu88sPvT8/ZLKh/0s=;
+  b=UoMWdm6NydVD0tJn6V2PMfnPW7OSK3Uyl2XgjHiiejnFVv4hDAg9Eits
+   AK1g6jup86+2t5DvdppsZ43dKzfRKcZLtaYNvK9j28nHQjfo1Ht87PQ3d
+   4oR9TGo8msXfSHicrcHySIZWCVQ5uqS1odhU9igrY+bJ8AXpNKccunWRU
+   Vqdt75c3GytlY4JIvdH/v10cCNHnctaaqOROSMZu8Y1RrVpbCh2qDCIIj
+   jd1Bm5lpTH8xCwceMdsoTOpyA6v0wP6SL4ipPoWUnTqteulIUKCehMG9m
+   26hVm+RgM3rSCLiJaI841VOHP6vwtT4FKmY0IuAgJDqUE60VDdwc+VKGJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="371695934"
 X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="435580367"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 07:30:46 -0700
+   d="scan'208";a="371695934"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 07:41:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="979251331"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="762216912"
 X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="979251331"
+   d="scan'208";a="762216912"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 11 Aug 2023 07:30:44 -0700
+  by orsmga008.jf.intel.com with ESMTP; 11 Aug 2023 07:41:44 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUTA3-0007pw-0g;
-	Fri, 11 Aug 2023 14:30:43 +0000
-Date: Fri, 11 Aug 2023 22:30:33 +0800
+	id 1qUTKh-0007qS-1Q;
+	Fri, 11 Aug 2023 14:41:43 +0000
+Date: Fri, 11 Aug 2023 22:40:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
+To: Stafford Horne <shorne@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/arm/common/sa1111.c:802: warning: expecting prototype for
- sa1111_probe(). Prototype was for __sa1111_probe() instead
-Message-ID: <202308112255.SK1J0rze-lkp@intel.com>
+Subject: drivers/staging/rts5208/rtsx_scsi.c:526:17: warning: 'strncpy'
+ output truncated copying 28 bytes from a string of length 29
+Message-ID: <202308112224.qokvMMnD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,128 +46,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Stafford,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   25aa0bebba72b318e71fe205bfd1236550cc9534
-commit: 8faf91c48ca20c714e0dd8cc5f510e3819852912 ARM: sa1100: un-deprecate jornada720
-date:   7 months ago
-config: arm-jornada720_defconfig (https://download.01.org/0day-ci/archive/20230811/202308112255.SK1J0rze-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308112255.SK1J0rze-lkp@intel.com/reproduce)
+commit: ded2ee36313c941f1a12b6f85cde295b575264ae openrisc: Add pci bus support
+date:   1 year ago
+config: openrisc-randconfig-r023-20230811 (https://download.01.org/0day-ci/archive/20230811/202308112224.qokvMMnD-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308112224.qokvMMnD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308112255.SK1J0rze-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308112224.qokvMMnD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm/common/sa1111.c:802: warning: Function parameter or member 'me' not described in '__sa1111_probe'
-   arch/arm/common/sa1111.c:802: warning: Function parameter or member 'mem' not described in '__sa1111_probe'
-   arch/arm/common/sa1111.c:802: warning: Function parameter or member 'irq' not described in '__sa1111_probe'
->> arch/arm/common/sa1111.c:802: warning: expecting prototype for sa1111_probe(). Prototype was for __sa1111_probe() instead
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SA1100_SSP
-   Depends on [n]: ARCH_SA1100 [=y] && UNUSED_BOARD_FILES [=n]
-   Selected by [y]:
-   - SA1100_JORNADA720_SSP [=y] && ARCH_SA1100 [=y] && SA1100_JORNADA720 [=y]
+   drivers/staging/rts5208/rtsx_scsi.c: In function 'inquiry':
+>> drivers/staging/rts5208/rtsx_scsi.c:526:17: warning: 'strncpy' output truncated copying 28 bytes from a string of length 29 [-Wstringop-truncation]
+     526 |                 strncpy(buf + 8, inquiry_string, sendbytes - 8);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/rts5208/rtsx_scsi.c:526:17: warning: 'strncpy' output truncated copying between 1 and 27 bytes from a string of length 29 [-Wstringop-truncation]
 
 
-vim +802 arch/arm/common/sa1111.c
+vim +/strncpy +526 drivers/staging/rts5208/rtsx_scsi.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  787  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  788  /**
-^1da177e4c3f41 Linus Torvalds     2005-04-16  789   *	sa1111_probe - probe for a single SA1111 chip.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  790   *	@phys_addr: physical address of device.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  791   *
-^1da177e4c3f41 Linus Torvalds     2005-04-16  792   *	Probe for a SA1111 chip.  This must be called
-^1da177e4c3f41 Linus Torvalds     2005-04-16  793   *	before any other SA1111-specific code.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  794   *
-^1da177e4c3f41 Linus Torvalds     2005-04-16  795   *	Returns:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  796   *	%-ENODEV	device not found.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  797   *	%-EBUSY		physical address already marked in-use.
-f03ecaa0aa3a3b Russell King       2012-01-16  798   *	%-EINVAL	no platform data passed
-^1da177e4c3f41 Linus Torvalds     2005-04-16  799   *	%0		successful.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  800   */
-351a102dbf489d Greg Kroah-Hartman 2012-12-21  801  static int __sa1111_probe(struct device *me, struct resource *mem, int irq)
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @802  {
-f03ecaa0aa3a3b Russell King       2012-01-16  803  	struct sa1111_platform_data *pd = me->platform_data;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  804  	struct sa1111 *sachip;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  805  	unsigned long id;
-416112f818afcc David Brownell     2006-08-27  806  	unsigned int has_devs;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  807  	int i, ret = -ENODEV;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  808  
-f03ecaa0aa3a3b Russell King       2012-01-16  809  	if (!pd)
-f03ecaa0aa3a3b Russell King       2012-01-16  810  		return -EINVAL;
-f03ecaa0aa3a3b Russell King       2012-01-16  811  
-7d53c1f01210aa Russell King       2016-09-06  812  	sachip = devm_kzalloc(me, sizeof(struct sa1111), GFP_KERNEL);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  813  	if (!sachip)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  814  		return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  815  
-deee856a5c6293 Russell King       2016-08-30  816  	sachip->clk = devm_clk_get(me, "SA1111_CLK");
-deee856a5c6293 Russell King       2016-08-30  817  	if (IS_ERR(sachip->clk))
-deee856a5c6293 Russell King       2016-08-30  818  		return PTR_ERR(sachip->clk);
-97d654f8eb4b8f Russell King       2006-03-15  819  
-72ae00c970cf1e Russell King       2011-09-22  820  	ret = clk_prepare(sachip->clk);
-72ae00c970cf1e Russell King       2011-09-22  821  	if (ret)
-deee856a5c6293 Russell King       2016-08-30  822  		return ret;
-72ae00c970cf1e Russell King       2011-09-22  823  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  824  	spin_lock_init(&sachip->lock);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  825  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  826  	sachip->dev = me;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  827  	dev_set_drvdata(sachip->dev, sachip);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  828  
-ae99ddbc976572 Russell King       2012-01-26  829  	sachip->pdata = pd;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  830  	sachip->phys = mem->start;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  831  	sachip->irq = irq;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  832  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  833  	/*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  834  	 * Map the whole region.  This also maps the
-^1da177e4c3f41 Linus Torvalds     2005-04-16  835  	 * registers for our children.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  836  	 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  837  	sachip->base = ioremap(mem->start, PAGE_SIZE * 2);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  838  	if (!sachip->base) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  839  		ret = -ENOMEM;
-72ae00c970cf1e Russell King       2011-09-22  840  		goto err_clk_unprep;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  841  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  842  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  843  	/*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  844  	 * Probe for the chip.  Only touch the SBI registers.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  845  	 */
-a5b549eda2f1f2 Russell King       2016-09-07  846  	id = readl_relaxed(sachip->base + SA1111_SKID);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  847  	if ((id & SKID_ID_MASK) != SKID_SA1111_ID) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  848  		printk(KERN_DEBUG "SA1111 not detected: ID = %08lx\n", id);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  849  		ret = -ENODEV;
-97d654f8eb4b8f Russell King       2006-03-15  850  		goto err_unmap;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  851  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  852  
-4ed89f22280614 Russell King       2014-10-28  853  	pr_info("SA1111 Microprocessor Companion Chip: silicon revision %lx, metal revision %lx\n",
-4ed89f22280614 Russell King       2014-10-28  854  		(id & SKID_SIREV_MASK) >> 4, id & SKID_MTREV_MASK);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  855  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  856  	/*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  857  	 * We found it.  Wake the chip up, and initialise.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  858  	 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  859  	sa1111_wake(sachip);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  860  
-36d31213022850 Russell King       2012-01-24  861  	/*
-36d31213022850 Russell King       2012-01-24  862  	 * The interrupt controller must be initialised before any
-36d31213022850 Russell King       2012-01-24  863  	 * other device to ensure that the interrupts are available.
-36d31213022850 Russell King       2012-01-24  864  	 */
-36d31213022850 Russell King       2012-01-24  865  	ret = sa1111_setup_irq(sachip, pd->irq_base);
-36d31213022850 Russell King       2012-01-24  866  	if (ret)
-87d5dd62c07f90 Russell King       2016-09-06  867  		goto err_clk;
-36d31213022850 Russell King       2012-01-24  868  
-17cf50116e10af Russell King       2016-08-31  869  	/* Setup the GPIOs - should really be done after the IRQ setup */
-17cf50116e10af Russell King       2016-08-31  870  	ret = sa1111_setup_gpios(sachip);
-17cf50116e10af Russell King       2016-08-31  871  	if (ret)
-17cf50116e10af Russell King       2016-08-31  872  		goto err_irq;
-17cf50116e10af Russell King       2016-08-31  873  
+fa590c222fbaa4 Micky Ching     2013-11-12  462  
+fa590c222fbaa4 Micky Ching     2013-11-12  463  static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+fa590c222fbaa4 Micky Ching     2013-11-12  464  {
+fa590c222fbaa4 Micky Ching     2013-11-12  465  	unsigned int lun = SCSI_LUN(srb);
+fa590c222fbaa4 Micky Ching     2013-11-12  466  	char *inquiry_default = (char *)"Generic-xD/SD/M.S.      1.00 ";
+fa590c222fbaa4 Micky Ching     2013-11-12  467  	char *inquiry_sdms =    (char *)"Generic-SD/MemoryStick  1.00 ";
+fa590c222fbaa4 Micky Ching     2013-11-12  468  	char *inquiry_sd =      (char *)"Generic-SD/MMC          1.00 ";
+fa590c222fbaa4 Micky Ching     2013-11-12  469  	char *inquiry_ms =      (char *)"Generic-MemoryStick     1.00 ";
+fa590c222fbaa4 Micky Ching     2013-11-12  470  	char *inquiry_string;
+fa590c222fbaa4 Micky Ching     2013-11-12  471  	unsigned char sendbytes;
+fa590c222fbaa4 Micky Ching     2013-11-12  472  	unsigned char *buf;
+fa590c222fbaa4 Micky Ching     2013-11-12  473  	u8 card = get_lun_card(chip, lun);
+de904bf0e4610a Quentin Lambert 2015-03-04  474  	bool pro_formatter_flag = false;
+fa590c222fbaa4 Micky Ching     2013-11-12  475  	unsigned char inquiry_buf[] = {
+fa590c222fbaa4 Micky Ching     2013-11-12  476  		QULIFIRE | DRCT_ACCESS_DEV,
+fa590c222fbaa4 Micky Ching     2013-11-12  477  		RMB_DISC | 0x0D,
+fa590c222fbaa4 Micky Ching     2013-11-12  478  		0x00,
+fa590c222fbaa4 Micky Ching     2013-11-12  479  		0x01,
+fa590c222fbaa4 Micky Ching     2013-11-12  480  		0x1f,
+fa590c222fbaa4 Micky Ching     2013-11-12  481  		0x02,
+fa590c222fbaa4 Micky Ching     2013-11-12  482  		0,
+fa590c222fbaa4 Micky Ching     2013-11-12  483  		REL_ADR | WBUS_32 | WBUS_16 | SYNC | LINKED | CMD_QUE | SFT_RE,
+fa590c222fbaa4 Micky Ching     2013-11-12  484  	};
+fa590c222fbaa4 Micky Ching     2013-11-12  485  
+fa590c222fbaa4 Micky Ching     2013-11-12  486  	if (CHECK_LUN_MODE(chip, SD_MS_2LUN)) {
+fa590c222fbaa4 Micky Ching     2013-11-12  487  		if (chip->lun2card[lun] == SD_CARD)
+fa590c222fbaa4 Micky Ching     2013-11-12  488  			inquiry_string = inquiry_sd;
+fa590c222fbaa4 Micky Ching     2013-11-12  489  		else
+fa590c222fbaa4 Micky Ching     2013-11-12  490  			inquiry_string = inquiry_ms;
+fa590c222fbaa4 Micky Ching     2013-11-12  491  
+fa590c222fbaa4 Micky Ching     2013-11-12  492  	} else if (CHECK_LUN_MODE(chip, SD_MS_1LUN)) {
+fa590c222fbaa4 Micky Ching     2013-11-12  493  		inquiry_string = inquiry_sdms;
+fa590c222fbaa4 Micky Ching     2013-11-12  494  	} else {
+fa590c222fbaa4 Micky Ching     2013-11-12  495  		inquiry_string = inquiry_default;
+fa590c222fbaa4 Micky Ching     2013-11-12  496  	}
+fa590c222fbaa4 Micky Ching     2013-11-12  497  
+fa590c222fbaa4 Micky Ching     2013-11-12  498  	buf = vmalloc(scsi_bufflen(srb));
+9f902b495b537e Aymen Qader     2018-09-20  499  	if (!buf)
+031366ea65495f Joe Perches     2015-03-25  500  		return TRANSPORT_ERROR;
+fa590c222fbaa4 Micky Ching     2013-11-12  501  
+fa590c222fbaa4 Micky Ching     2013-11-12  502  #ifdef SUPPORT_MAGIC_GATE
+37c56de8fe9ddb Benjamin Philip 2021-09-21  503  	if (chip->mspro_formatter_enable &&
+fa590c222fbaa4 Micky Ching     2013-11-12  504  	    (chip->lun2card[lun] & MS_CARD))
+fa590c222fbaa4 Micky Ching     2013-11-12  505  #else
+fa590c222fbaa4 Micky Ching     2013-11-12  506  	if (chip->mspro_formatter_enable)
+fa590c222fbaa4 Micky Ching     2013-11-12  507  #endif
+37c56de8fe9ddb Benjamin Philip 2021-09-21  508  		if (!card || card == MS_CARD)
+de904bf0e4610a Quentin Lambert 2015-03-04  509  			pro_formatter_flag = true;
+fa590c222fbaa4 Micky Ching     2013-11-12  510  
+fa590c222fbaa4 Micky Ching     2013-11-12  511  	if (pro_formatter_flag) {
+fa590c222fbaa4 Micky Ching     2013-11-12  512  		if (scsi_bufflen(srb) < 56)
+fa590c222fbaa4 Micky Ching     2013-11-12  513  			sendbytes = (unsigned char)(scsi_bufflen(srb));
+fa590c222fbaa4 Micky Ching     2013-11-12  514  		else
+fa590c222fbaa4 Micky Ching     2013-11-12  515  			sendbytes = 56;
+fa590c222fbaa4 Micky Ching     2013-11-12  516  
+fa590c222fbaa4 Micky Ching     2013-11-12  517  	} else {
+fa590c222fbaa4 Micky Ching     2013-11-12  518  		if (scsi_bufflen(srb) < 36)
+fa590c222fbaa4 Micky Ching     2013-11-12  519  			sendbytes = (unsigned char)(scsi_bufflen(srb));
+fa590c222fbaa4 Micky Ching     2013-11-12  520  		else
+fa590c222fbaa4 Micky Ching     2013-11-12  521  			sendbytes = 36;
+fa590c222fbaa4 Micky Ching     2013-11-12  522  	}
+fa590c222fbaa4 Micky Ching     2013-11-12  523  
+fa590c222fbaa4 Micky Ching     2013-11-12  524  	if (sendbytes > 8) {
+fa590c222fbaa4 Micky Ching     2013-11-12  525  		memcpy(buf, inquiry_buf, 8);
+88a5b39b69ab18 Daniel Micay    2017-06-05 @526  		strncpy(buf + 8, inquiry_string, sendbytes - 8);
+fa590c222fbaa4 Micky Ching     2013-11-12  527  		if (pro_formatter_flag) {
+fa590c222fbaa4 Micky Ching     2013-11-12  528  			/* Additional Length */
+fa590c222fbaa4 Micky Ching     2013-11-12  529  			buf[4] = 0x33;
+fa590c222fbaa4 Micky Ching     2013-11-12  530  		}
+fa590c222fbaa4 Micky Ching     2013-11-12  531  	} else {
+fa590c222fbaa4 Micky Ching     2013-11-12  532  		memcpy(buf, inquiry_buf, sendbytes);
+fa590c222fbaa4 Micky Ching     2013-11-12  533  	}
+fa590c222fbaa4 Micky Ching     2013-11-12  534  
+fa590c222fbaa4 Micky Ching     2013-11-12  535  	if (pro_formatter_flag) {
+fa590c222fbaa4 Micky Ching     2013-11-12  536  		if (sendbytes > 36)
+fa590c222fbaa4 Micky Ching     2013-11-12  537  			memcpy(buf + 36, formatter_inquiry_str, sendbytes - 36);
+fa590c222fbaa4 Micky Ching     2013-11-12  538  	}
+fa590c222fbaa4 Micky Ching     2013-11-12  539  
+fa590c222fbaa4 Micky Ching     2013-11-12  540  	scsi_set_resid(srb, 0);
+fa590c222fbaa4 Micky Ching     2013-11-12  541  
+fa590c222fbaa4 Micky Ching     2013-11-12  542  	rtsx_stor_set_xfer_buf(buf, scsi_bufflen(srb), srb);
+fa590c222fbaa4 Micky Ching     2013-11-12  543  	vfree(buf);
+fa590c222fbaa4 Micky Ching     2013-11-12  544  
+fa590c222fbaa4 Micky Ching     2013-11-12  545  	return TRANSPORT_GOOD;
+fa590c222fbaa4 Micky Ching     2013-11-12  546  }
+fa590c222fbaa4 Micky Ching     2013-11-12  547  
 
-:::::: The code at line 802 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 526 was first introduced by commit
+:::::: 88a5b39b69ab1828fd4130e2baadd184109cea69 staging/rts5208: Fix read overflow in memcpy
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Daniel Micay <danielmicay@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
