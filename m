@@ -1,45 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEAF566C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 09:10:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D5C1869;
+	Fri, 11 Aug 2023 09:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691745051; x=1723281051;
+  t=1691745052; x=1723281052;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZGiDguSNfbLHITMLp6e4lDmAYxG62w1ZzKflh54MpNo=;
-  b=WIIMCZhRxktzSz7ugq9eWrvuPdwSE7C6Si1RNos1F31CJbr65rwlGMWv
-   k+48DjZ/B9j8gZqzs0lToP28fnhMty1XRR2Q/kNUBAeICf9zpdyGWJr1N
-   xBkqmbb8Daya9O0p0qwyAPAltXf7MYiEKOUfKy6ZJtrLpbQ0cptBvKBGA
-   CQJyKcVRLI2Z+giy/S4d2O320KUgzvzAa8Qiy9qxTUpJv4f5myFIKODtQ
-   2DhjF0QQJCDd818tnU+Kd7BmlJBOoSB6bGfhroxiJztPoamJ3VqniPBNg
-   bpXdLM/VZfAE7S3v8gnzg0kEeyLAnF6a3tt+O/SjsEGB7ozH+WLDayHJo
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="375349994"
+  bh=34A13lgBgtVodLG5J4KXeIyraaHm8BajR+D9zSX6nww=;
+  b=LrzuGMttJjYqq5S8UFhUpeZuYdXU544NH7eQfBQUscDWiZ+hLGcOYAOz
+   RTPqHiAeglbnMNPw9utI7aTF75zafkGpDliEoydHyMNv9Lqs7NePphSsM
+   xsE8xUZAUoBUWBnlJzXjNrJu2JyVQ0RrleTbuo0/qWWkPpRszdQM+k6+n
+   a0iHH1B4I4MzKLMAaMiAO1BEhEiEyIm45ayIYiLgx9yYSt2nhnjZDRY7e
+   6n86TpC4tahusHRqMCHneT46xxmwq4RCbtJKlHBs++SXixLEvsLckHX9U
+   gcxjv9QzFNuJq1RDGOojt8AcETQqMTuxTkZ6LeCrYQJo0A7ust4ZBaBHt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="375349995"
 X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="375349994"
+   d="scan'208";a="375349995"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 02:10:39 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 02:10:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="797958367"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="797958364"
 X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="797958367"
+   d="scan'208";a="797958364"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
   by fmsmga008.fm.intel.com with ESMTP; 11 Aug 2023 02:10:38 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUOAH-0007fQ-1X;
+	id 1qUOAH-0007fK-1O;
 	Fri, 11 Aug 2023 09:10:37 +0000
 Date: Fri, 11 Aug 2023 17:10:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: Eric DeVolder <eric.devolder@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Sourabh Jain <sourabhjain@linux.ibm.com>
-Subject: [akpm-mm:mm-nonmm-unstable 56/78] kernel/crash_core.c:331:23: error:
- invalid use of undefined type 'struct crash_mem'
-Message-ID: <202308111729.ApUbiGtj-lkp@intel.com>
+Subject: [akpm-mm:mm-nonmm-unstable 56/78] kernel/crash_core.c:331:16: error:
+ incomplete definition of type 'struct crash_mem'
+Message-ID: <202308111736.VWdS2xfs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,143 +52,136 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
 head:   0f6b2c125ce19074c1086a70119b02dd30b089a4
 commit: 3f1eba00ee9d93b66f1859d40537befe44ceb1cd [56/78] crash: move a few code bits to setup support of crash hotplug
-config: i386-randconfig-r015-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111729.ApUbiGtj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111729.ApUbiGtj-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-r003-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111736.VWdS2xfs-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111736.VWdS2xfs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308111729.ApUbiGtj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308111736.VWdS2xfs-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/crash_core.c:318:40: warning: 'struct crash_mem' declared inside parameter list will not be visible outside of this definition or declaration
-     318 | int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
-         |                                        ^~~~~~~~~
-   kernel/crash_core.c:318:5: warning: no previous prototype for 'crash_prepare_elf64_headers' [-Wmissing-prototypes]
-     318 | int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/crash_core.c: In function 'crash_prepare_elf64_headers':
->> kernel/crash_core.c:331:23: error: invalid use of undefined type 'struct crash_mem'
-     331 |         nr_phdr += mem->nr_ranges;
-         |                       ^~
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/linux/align.h:5,
-                    from include/linux/kernel.h:15,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from kernel/crash_core.c:7:
->> kernel/crash_core.c:343:32: error: 'ELF_CORE_HEADER_ALIGN' undeclared (first use in this function)
-     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
-      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
-         |                                                  ^~~~
-   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
-       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
-         |                                 ^~~~~~~~~~~~~~
-   kernel/crash_core.c:343:18: note: in expansion of macro 'ALIGN'
-     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
-         |                  ^~~~~
-   kernel/crash_core.c:343:32: note: each undeclared identifier is reported only once for each function it appears in
-     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
-         |                                ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:32:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
-      32 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
-         |                                                  ^~~~
-   include/linux/align.h:8:33: note: in expansion of macro '__ALIGN_KERNEL'
-       8 | #define ALIGN(x, a)             __ALIGN_KERNEL((x), (a))
-         |                                 ^~~~~~~~~~~~~~
-   kernel/crash_core.c:343:18: note: in expansion of macro 'ALIGN'
-     343 |         elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
-         |                  ^~~~~
-   kernel/crash_core.c:393:28: error: invalid use of undefined type 'struct crash_mem'
-     393 |         for (i = 0; i < mem->nr_ranges; i++) {
-         |                            ^~
-   kernel/crash_core.c:394:29: error: invalid use of undefined type 'struct crash_mem'
-     394 |                 mstart = mem->ranges[i].start;
-         |                             ^~
-   kernel/crash_core.c:395:27: error: invalid use of undefined type 'struct crash_mem'
-     395 |                 mend = mem->ranges[i].end;
-         |                           ^~
-   kernel/crash_core.c: At top level:
-   kernel/crash_core.c:417:36: warning: 'struct crash_mem' declared inside parameter list will not be visible outside of this definition or declaration
-     417 | int crash_exclude_mem_range(struct crash_mem *mem,
-         |                                    ^~~~~~~~~
-   kernel/crash_core.c:417:5: warning: no previous prototype for 'crash_exclude_mem_range' [-Wmissing-prototypes]
-     417 | int crash_exclude_mem_range(struct crash_mem *mem,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/crash_core.c: In function 'crash_exclude_mem_range':
-   kernel/crash_core.c:424:28: error: invalid use of undefined type 'struct crash_mem'
-     424 |         for (i = 0; i < mem->nr_ranges; i++) {
-         |                            ^~
-   kernel/crash_core.c:425:28: error: invalid use of undefined type 'struct crash_mem'
-     425 |                 start = mem->ranges[i].start;
-         |                            ^~
-   kernel/crash_core.c:426:26: error: invalid use of undefined type 'struct crash_mem'
-     426 |                 end = mem->ranges[i].end;
-         |                          ^~
-   kernel/crash_core.c:441:28: error: invalid use of undefined type 'struct crash_mem'
-     441 |                         mem->ranges[i].start = 0;
-         |                            ^~
-   kernel/crash_core.c:442:28: error: invalid use of undefined type 'struct crash_mem'
-     442 |                         mem->ranges[i].end = 0;
-         |                            ^~
-   kernel/crash_core.c:443:36: error: invalid use of undefined type 'struct crash_mem'
-     443 |                         if (i < mem->nr_ranges - 1) {
-         |                                    ^~
-   kernel/crash_core.c:445:52: error: invalid use of undefined type 'struct crash_mem'
-     445 |                                 for (j = i; j < mem->nr_ranges - 1; j++) {
-         |                                                    ^~
-   kernel/crash_core.c:446:44: error: invalid use of undefined type 'struct crash_mem'
-     446 |                                         mem->ranges[j].start =
-         |                                            ^~
-   kernel/crash_core.c:447:52: error: invalid use of undefined type 'struct crash_mem'
-     447 |                                                 mem->ranges[j+1].start;
-         |                                                    ^~
-   kernel/crash_core.c:448:44: error: invalid use of undefined type 'struct crash_mem'
-     448 |                                         mem->ranges[j].end =
-         |                                            ^~
-   kernel/crash_core.c:449:60: error: invalid use of undefined type 'struct crash_mem'
-     449 |                                                         mem->ranges[j+1].end;
-         |                                                            ^~
-   kernel/crash_core.c:458:36: error: invalid use of undefined type 'struct crash_mem'
-     458 |                                 mem->nr_ranges--;
-         |                                    ^~
-   kernel/crash_core.c:461:28: error: invalid use of undefined type 'struct crash_mem'
-     461 |                         mem->nr_ranges--;
-         |                            ^~
-   kernel/crash_core.c:467:28: error: invalid use of undefined type 'struct crash_mem'
-     467 |                         mem->ranges[i].end = p_start - 1;
-         |                            ^~
-   kernel/crash_core.c:471:28: error: invalid use of undefined type 'struct crash_mem'
-     471 |                         mem->ranges[i].end = p_start - 1;
-         |                            ^~
-   kernel/crash_core.c:473:28: error: invalid use of undefined type 'struct crash_mem'
-     473 |                         mem->ranges[i].start = p_end + 1;
-         |                            ^~
-   kernel/crash_core.c:482:21: error: invalid use of undefined type 'struct crash_mem'
-     482 |         if (i == mem->max_nr_ranges - 1)
-         |                     ^~
-   kernel/crash_core.c:487:20: error: invalid use of undefined type 'struct crash_mem'
-     487 |         if (j < mem->nr_ranges) {
-         |                    ^~
-   kernel/crash_core.c:489:29: error: invalid use of undefined type 'struct crash_mem'
-     489 |                 for (i = mem->nr_ranges - 1; i >= j; i--)
-         |                             ^~
-   kernel/crash_core.c:490:28: error: invalid use of undefined type 'struct crash_mem'
-     490 |                         mem->ranges[i + 1] = mem->ranges[i];
-         |                            ^~
+   kernel/crash_core.c:318:40: warning: declaration of 'struct crash_mem' will not be visible outside of this function [-Wvisibility]
+   int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+                                          ^
+>> kernel/crash_core.c:331:16: error: incomplete definition of type 'struct crash_mem'
+           nr_phdr += mem->nr_ranges;
+                      ~~~^
+   kernel/crash_core.c:318:40: note: forward declaration of 'struct crash_mem'
+   int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+                                          ^
+>> kernel/crash_core.c:343:25: error: use of undeclared identifier 'ELF_CORE_HEADER_ALIGN'
+           elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+                                  ^
+>> kernel/crash_core.c:343:25: error: use of undeclared identifier 'ELF_CORE_HEADER_ALIGN'
+   kernel/crash_core.c:393:21: error: incomplete definition of type 'struct crash_mem'
+           for (i = 0; i < mem->nr_ranges; i++) {
+                           ~~~^
+   kernel/crash_core.c:318:40: note: forward declaration of 'struct crash_mem'
+   int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+                                          ^
+   kernel/crash_core.c:394:15: error: incomplete definition of type 'struct crash_mem'
+                   mstart = mem->ranges[i].start;
+                            ~~~^
+   kernel/crash_core.c:318:40: note: forward declaration of 'struct crash_mem'
+   int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+                                          ^
+   kernel/crash_core.c:395:13: error: incomplete definition of type 'struct crash_mem'
+                   mend = mem->ranges[i].end;
+                          ~~~^
+   kernel/crash_core.c:318:40: note: forward declaration of 'struct crash_mem'
+   int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+                                          ^
+   kernel/crash_core.c:318:5: warning: no previous prototype for function 'crash_prepare_elf64_headers' [-Wmissing-prototypes]
+   int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+       ^
+   kernel/crash_core.c:318:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+   ^
+   static 
+   kernel/crash_core.c:417:36: warning: declaration of 'struct crash_mem' will not be visible outside of this function [-Wvisibility]
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:424:21: error: incomplete definition of type 'struct crash_mem'
+           for (i = 0; i < mem->nr_ranges; i++) {
+                           ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:425:14: error: incomplete definition of type 'struct crash_mem'
+                   start = mem->ranges[i].start;
+                           ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:426:12: error: incomplete definition of type 'struct crash_mem'
+                   end = mem->ranges[i].end;
+                         ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:441:7: error: incomplete definition of type 'struct crash_mem'
+                           mem->ranges[i].start = 0;
+                           ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:442:7: error: incomplete definition of type 'struct crash_mem'
+                           mem->ranges[i].end = 0;
+                           ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:443:15: error: incomplete definition of type 'struct crash_mem'
+                           if (i < mem->nr_ranges - 1) {
+                                   ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:445:24: error: incomplete definition of type 'struct crash_mem'
+                                   for (j = i; j < mem->nr_ranges - 1; j++) {
+                                                   ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:446:9: error: incomplete definition of type 'struct crash_mem'
+                                           mem->ranges[j].start =
+                                           ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:447:10: error: incomplete definition of type 'struct crash_mem'
+                                                   mem->ranges[j+1].start;
+                                                   ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:448:9: error: incomplete definition of type 'struct crash_mem'
+                                           mem->ranges[j].end =
+                                           ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:449:11: error: incomplete definition of type 'struct crash_mem'
+                                                           mem->ranges[j+1].end;
+                                                           ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
+   kernel/crash_core.c:458:8: error: incomplete definition of type 'struct crash_mem'
+                                   mem->nr_ranges--;
+                                   ~~~^
+   kernel/crash_core.c:417:36: note: forward declaration of 'struct crash_mem'
+   int crash_exclude_mem_range(struct crash_mem *mem,
+                                      ^
 
 
 vim +331 kernel/crash_core.c
 
    317	
-   318	int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+ > 318	int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
    319				  void **addr, unsigned long *sz)
    320	{
    321		Elf64_Ehdr *ehdr;
