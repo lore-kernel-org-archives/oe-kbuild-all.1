@@ -1,44 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E1C5693
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 11:04:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8EE65693;
+	Fri, 11 Aug 2023 11:04:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691751869; x=1723287869;
+  t=1691751870; x=1723287870;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5qOxSs4tKJgJghZwRR9vT/DRBXzaVROWVkVxCvcALBk=;
-  b=Jah+S0bl+mSnx426WmLpRExYXH/JZyOvCrNK+AbpekPnyxLOJJFLx45/
-   7ih8rknWt24mSI1hCyUX7+lE52/9EL5uhobRNCkQwbbc1XSCbRuywhYFd
-   nnNIkTmMCBcBoxw9jSooz5iw/cJbNZeAUyYWYMB0dwGeV147TzafYCw9k
-   XrfH7frzBoucrxfJOsc8senp6y2XuF4oVW1kIbIT0JYlGijZEZu9gLGKk
-   /GEYIfJ5C9Gl92PRhenEppgBy0BUYZIS9joHGS8EDu1v3wbUiV2Ob14lj
-   C5Ej0HPKGjAJqZ5xGGGR2Ur2NkRADcHblO4rqPimbmYbsuBUYAYB9sGig
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="374423378"
+  bh=qpmZPtW1ra+qIJSNTfp1DRqS4QGGB/tOBJ4zWYtsyOQ=;
+  b=HFGTYQVJNEvcXGs+sS9mCWlXqDsmOiViwxHBI7wtwLlVazhQHD3VhEeM
+   /2uPqKM5xzKDEQ38MAiEmtzzSxkaKYriXwd3/hmMSBGc2dfEtYHqxHL3L
+   /+dFUkDk4iEAlQsF6TMWW4A/LIBZWeKZN8Sw2fyuet1NJ/EaaXKaQ9fQm
+   BKcMsBQincbLLkshyjaQLsP+yK8SxmtcrTRIDPOXCcKTsakbu7BxuOlm3
+   5HqsymrJjPpikaa3mKnaUG9VKDmTob/RW09Gv6R+xrD/H+8THRKPUpo+j
+   rlwyuv+fYcMuqSU6dVUW+KFqzg+R5pBxN8tCjWFrWw8YlQ6iJKA3D1TYd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="374423381"
 X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="374423378"
+   d="scan'208";a="374423381"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 04:03:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="876123249"
+   d="scan'208";a="876123250"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
   by fmsmga001.fm.intel.com with ESMTP; 11 Aug 2023 04:03:43 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUPvf-0007jO-1c;
+	id 1qUPvf-0007jU-1q;
 	Fri, 11 Aug 2023 11:03:39 +0000
-Date: Fri, 11 Aug 2023 19:03:29 +0800
+Date: Fri, 11 Aug 2023 19:03:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qi Hu <huqi@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
+To: Christoph Hellwig <hch@lst.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: [linux-next:master 7425/8441]
- arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype
- for 'output_thread_lbt_defines'
-Message-ID: <202308111853.ISf5a6VC-lkp@intel.com>
+	David Sterba <dsterba@suse.com>, Josef Bacik <josef@toxicpanda.com>
+Subject: [linux-next:master 4824/8441] fs/btrfs/extent_io.c:230:16: warning:
+ variable 'pages_processed' set but not used
+Message-ID: <202308111822.ITiKYDqp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,94 +49,63 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   21ef7b1e17d039053edaeaf41142423810572741
-commit: 833b4e93b2f9a86522e7ae1f92ba05812cb3a382 [7425/8441] LoongArch: Add Loongson Binary Translation (LBT) extension support
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20230811/202308111853.ISf5a6VC-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111853.ISf5a6VC-lkp@intel.com/reproduce)
+commit: e74cd6ee58375cbdd85c01c93f75e34133ebea4d [4824/8441] btrfs: split page locking out of __process_pages_contig
+config: powerpc-randconfig-r031-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111822.ITiKYDqp-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111822.ITiKYDqp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308111853.ISf5a6VC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308111822.ITiKYDqp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      17 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      64 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      79 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      95 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:131:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     131 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     172 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:182:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     182 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:214:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     214 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:222:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     222 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:260:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     260 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
---
-   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      17 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      64 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      79 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      95 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:131:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     131 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     172 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:182:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     182 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:214:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     214 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:222:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     222 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:260:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     260 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> fs/btrfs/extent_io.c:230:16: warning: variable 'pages_processed' set but not used [-Wunused-but-set-variable]
+           unsigned long pages_processed = 0;
+                         ^
+   1 warning generated.
 
 
-vim +/output_thread_lbt_defines +172 arch/loongarch/kernel/asm-offsets.c
+vim +/pages_processed +230 fs/btrfs/extent_io.c
 
-   171	
- > 172	void output_thread_lbt_defines(void)
-   173	{
-   174		OFFSET(THREAD_SCR0,  loongarch_lbt, scr0);
-   175		OFFSET(THREAD_SCR1,  loongarch_lbt, scr1);
-   176		OFFSET(THREAD_SCR2,  loongarch_lbt, scr2);
-   177		OFFSET(THREAD_SCR3,  loongarch_lbt, scr3);
-   178		OFFSET(THREAD_EFLAGS, loongarch_lbt, eflags);
-   179		BLANK();
-   180	}
-   181	
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  221  
+e74cd6ee58375c Christoph Hellwig     2023-06-28  222  static void __process_pages_contig(struct address_space *mapping,
+e74cd6ee58375c Christoph Hellwig     2023-06-28  223  				   struct page *locked_page, u64 start, u64 end,
+e74cd6ee58375c Christoph Hellwig     2023-06-28  224  				   unsigned long page_ops)
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  225  {
+e38992be1f6cf3 Qu Wenruo             2021-05-31  226  	struct btrfs_fs_info *fs_info = btrfs_sb(mapping->host->i_sb);
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  227  	pgoff_t start_index = start >> PAGE_SHIFT;
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  228  	pgoff_t end_index = end >> PAGE_SHIFT;
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  229  	pgoff_t index = start_index;
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31 @230  	unsigned long pages_processed = 0;
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  231) 	struct folio_batch fbatch;
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  232  	int i;
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  233  
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  234) 	folio_batch_init(&fbatch);
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  235) 	while (index <= end_index) {
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  236) 		int found_folios;
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  237) 
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  238) 		found_folios = filemap_get_folios_contig(mapping, &index,
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  239) 				end_index, &fbatch);
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  240) 		for (i = 0; i < found_folios; i++) {
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  241) 			struct folio *folio = fbatch.folios[i];
+e74cd6ee58375c Christoph Hellwig     2023-06-28  242  
+e74cd6ee58375c Christoph Hellwig     2023-06-28  243  			process_one_page(fs_info, &folio->page, locked_page,
+e74cd6ee58375c Christoph Hellwig     2023-06-28  244  					 page_ops, start, end);
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  245) 			pages_processed += folio_nr_pages(folio);
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  246  		}
+04c6b79ae4f0bc Vishal Moola (Oracle  2022-08-23  247) 		folio_batch_release(&fbatch);
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  248  		cond_resched();
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  249  	}
+ed8f13bf4a2ccb Qu Wenruo             2021-05-31  250  }
+da2c7009f6cafe Liu Bo                2017-02-10  251  
+
+:::::: The code at line 230 was first introduced by commit
+:::::: ed8f13bf4a2ccb6c90d3210421455c2ceae678de btrfs: refactor page status update into process_one_page()
+
+:::::: TO: Qu Wenruo <wqu@suse.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 -- 
 0-DAY CI Kernel Test Service
