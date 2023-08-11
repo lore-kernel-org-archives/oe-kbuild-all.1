@@ -1,46 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC31D63B6;
-	Fri, 11 Aug 2023 18:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668E48468
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 19:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691778003; x=1723314003;
+  t=1691780550; x=1723316550;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YbJUnogFWxXN9+VN5f/mCqdNAvXerWe9rtA7lIUjEbA=;
-  b=D3hcKI6UmDIrBY028XVRSWhZeHA+c2N3G+RxhPJ+nmNZ/5AnVSDjeOYJ
-   qy4FyfZDm+J8tJ3QnNR4KyLbRlVK6kbHM6B6svDtML8JpinQcvVtYkwTW
-   gwcRh+gH4uGNXtk6RBrws4wOGurFN0OzHa68MvHiMFGGAUDS+unXQWW8W
-   JwTT9B/HDRoF/U7bUcxTGE+7HM2od3qYI9bs8L1hGK1turMxEUEYeSrLt
-   u7m89vAl97p438j3oVX8uW6D20gmxH6fqh/+kpMz1oVTbf0EkwHzwD6uG
-   ggW8WI4sbxVWUH0jfPuJTKteac4rbZQsGFaqvuFehT/xkYY4CzvDpLtu0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="361876123"
+  bh=GCTJDuNfQjRI0Mvfmc1myTRrBjeXtraJrL7wFDMzXho=;
+  b=VQ7wPNISAhBvbisbT3LlvyQHZvGOzPVCAbNTaaTqk6OHAMYXjexVK4KX
+   d0ZWeLbzBt7FXfMIJV878mxU6+Fg7U1D3lzjM2ercoJPNJxvq1b1o6ufC
+   OMNPSSGaJwJUVKpMKU8aVKLw2gqSF3NDcymcSPTKFLLhMR5dCxkuAiwh3
+   iMLDA9y4qA4z6cMe6S4jtGdnU0GoXJwsVbaHeu229TXfhLzNUUrSOQTOm
+   wUaxlv1fqM6nsefXKfl38Ra17CPgB3AxNtgMg5UHSTAyaqQW/wGZQtzoB
+   Jarjh7+NtUpaKoz/Cfg4KT4rXQaLkReE1Pc5LIm5fePNLPKnt2D43KJMV
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="402719673"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="361876123"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 11:19:51 -0700
+   d="scan'208";a="402719673"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 12:01:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="822768902"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="802768889"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="822768902"
+   d="scan'208";a="802768889"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2023 11:19:48 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 11 Aug 2023 12:01:50 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUWjj-0007wR-1T;
-	Fri, 11 Aug 2023 18:19:47 +0000
-Date: Sat, 12 Aug 2023 02:19:14 +0800
+	id 1qUXOP-0007xg-06;
+	Fri, 11 Aug 2023 19:01:49 +0000
+Date: Sat, 12 Aug 2023 03:01:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yimin Gu <ustcymgu@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	Jesse Taube <Mr.Bossman075@gmail.com>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: drivers/iio/adc/ad7606_par.c:24:2: warning: performing pointer
- arithmetic on a null pointer has undefined behavior
-Message-ID: <202308120214.IkzxpkG2-lkp@intel.com>
+To: Qing Zhang <zhangqing@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>
+Subject: fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202308120240.nHv97bTv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,397 +47,176 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yimin,
+Hi Qing,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   25aa0bebba72b318e71fe205bfd1236550cc9534
-commit: b5e2c507b06c9d36411845149162a804ae7b04a9 riscv: Kconfig: Allow RV32 to build with no MMU
-date:   5 months ago
-config: riscv-randconfig-r014-20230812 (https://download.01.org/0day-ci/archive/20230812/202308120214.IkzxpkG2-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120214.IkzxpkG2-lkp@intel.com/reproduce)
+head:   9106536c1aa37bcf60202ad93bb8b94bcd29f3f0
+commit: 93a4fa622eb061f75f87f0cf9609ab4e69c67d01 LoongArch: Add STACKTRACE support
+date:   1 year ago
+config: loongarch-randconfig-r072-20230811 (https://download.01.org/0day-ci/archive/20230812/202308120240.nHv97bTv-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120240.nHv97bTv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308120214.IkzxpkG2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308120240.nHv97bTv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
+>> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:620:9: sparse:     expected void *ptr
+   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:692:9: sparse:     expected void *ptr
+   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
+   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
+   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
 
-   In file included from drivers/iio/adc/ad7606_par.c:13:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/iio/adc/ad7606_par.c:13:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/iio/adc/ad7606_par.c:13:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/iio/adc/ad7606_par.c:13:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/iio/adc/ad7606_par.c:13:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/iio/adc/ad7606_par.c:13:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/iio/adc/ad7606_par.c:13:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/iio/adc/ad7606_par.c:13:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/iio/adc/ad7606_par.c:13:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-                                                     ~~~~~~~~~~ ^
->> drivers/iio/adc/ad7606_par.c:24:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insw((unsigned long)st->base_address, buf, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   drivers/iio/adc/ad7606_par.c:39:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insb((unsigned long)st->base_address, buf, count * 2);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   15 warnings generated.
---
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/comedi/drivers/das16m1.c:44:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/comedi/drivers/das16m1.c:44:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/comedi/drivers/das16m1.c:44:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/comedi/drivers/das16m1.c:44:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/comedi/drivers/das16m1.c:44:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/comedi/drivers/das16m1.c:44:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-                                                     ~~~~~~~~~~ ^
->> drivers/comedi/drivers/das16m1.c:412:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insw(dev->iobase, devpriv->ai_buffer, num_samples);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   14 warnings generated.
---
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/net/wireless/cisco/airo.c:34:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/net/wireless/cisco/airo.c:34:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/net/wireless/cisco/airo.c:34:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/net/wireless/cisco/airo.c:34:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/net/wireless/cisco/airo.c:34:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/net/wireless/cisco/airo.c:34:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-                                                     ~~~~~~~~~~ ^
->> drivers/net/wireless/cisco/airo.c:4100:4: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                           insw(ai->dev->base_addr+DATA0+whichbap,
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   drivers/net/wireless/cisco/airo.c:4103:4: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                           insb(ai->dev->base_addr+DATA0+whichbap,
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   drivers/net/wireless/cisco/airo.c:4121:3: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                   insw(ai->dev->base_addr+DATA0+whichbap, pu16Dst, bytelen>>1);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   drivers/net/wireless/cisco/airo.c:4123:3: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                   insb(ai->dev->base_addr+DATA0+whichbap, pu16Dst, bytelen);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   drivers/net/wireless/cisco/airo.c:4133:3: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                   outsw(ai->dev->base_addr+DATA0+whichbap,
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   drivers/net/wireless/cisco/airo.c:4136:3: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                   outsb(ai->dev->base_addr+DATA0+whichbap, pu16Src, bytelen);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   19 warnings generated.
-..
+vim +620 fs/eventpoll.c
 
+eea1d585917c53 Eric Wong       2013-04-30  604  
+92e64178405599 Davidlohr Bueso 2018-08-21  605  
+5071f97ec6d74f Davide Libenzi  2009-03-31  606  /*
+57804b1cc46167 Al Viro         2020-08-31  607   * ep->mutex needs to be held because we could be hit by
+e057e15ff66a62 Tony Battersby  2009-03-31  608   * eventpoll_release_file() and epoll_ctl().
+5071f97ec6d74f Davide Libenzi  2009-03-31  609   */
+57804b1cc46167 Al Viro         2020-08-31  610  static void ep_start_scan(struct eventpoll *ep, struct list_head *txlist)
+57804b1cc46167 Al Viro         2020-08-31  611  {
+5071f97ec6d74f Davide Libenzi  2009-03-31  612  	/*
+5071f97ec6d74f Davide Libenzi  2009-03-31  613  	 * Steal the ready list, and re-init the original one to the
+5071f97ec6d74f Davide Libenzi  2009-03-31  614  	 * empty list. Also, set ep->ovflist to NULL so that events
+5071f97ec6d74f Davide Libenzi  2009-03-31  615  	 * happening while looping w/out locks, are not lost. We cannot
+5071f97ec6d74f Davide Libenzi  2009-03-31  616  	 * have the poll callback to queue directly on ep->rdllist,
+5071f97ec6d74f Davide Libenzi  2009-03-31  617  	 * because we want the "sproc" callback to be able to do it
+5071f97ec6d74f Davide Libenzi  2009-03-31  618  	 * in a lockless way.
+5071f97ec6d74f Davide Libenzi  2009-03-31  619  	 */
+57804b1cc46167 Al Viro         2020-08-31 @620  	lockdep_assert_irqs_enabled();
+a218cc4914209a Roman Penyaev   2019-03-07  621  	write_lock_irq(&ep->lock);
+db502f8a3b0bb5 Al Viro         2020-08-31  622  	list_splice_init(&ep->rdllist, txlist);
+c5a282e9635e9c Davidlohr Bueso 2019-01-03  623  	WRITE_ONCE(ep->ovflist, NULL);
+a218cc4914209a Roman Penyaev   2019-03-07  624  	write_unlock_irq(&ep->lock);
+db502f8a3b0bb5 Al Viro         2020-08-31  625  }
+5071f97ec6d74f Davide Libenzi  2009-03-31  626  
 
-vim +24 drivers/iio/adc/ad7606_par.c
+:::::: The code at line 620 was first introduced by commit
+:::::: 57804b1cc4616780c72a2d0930d1bd0d5bd3ed4c lift locking/unlocking ep->mtx out of ep_{start,done}_scan()
 
-b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  17  
-b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  18  static int ad7606_par16_read_block(struct device *dev,
-b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  19  				   int count, void *buf)
-b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  20  {
-dae013afa72311 drivers/staging/iio/adc/ad7606_par.c Wolfram Sang      2018-04-19  21  	struct iio_dev *indio_dev = dev_get_drvdata(dev);
-e61181d0a3e678 drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-05-18  22  	struct ad7606_state *st = iio_priv(indio_dev);
-b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  23  
-b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22 @24  	insw((unsigned long)st->base_address, buf, count);
-b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  25  
-b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  26  	return 0;
-b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  27  }
-b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  28  
-
-:::::: The code at line 24 was first introduced by commit
-:::::: b9618c0cacd7cf56cc3d073c1e9e9a8a3a12864e staging: IIO: ADC: New driver for AD7606/AD7606-6/AD7606-4
-
-:::::: TO: Michael Hennerich <michael.hennerich@analog.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
