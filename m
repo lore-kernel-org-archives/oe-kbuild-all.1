@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD518833
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 22:28:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0AD2F4E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 22:38:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691792893; x=1723328893;
+  t=1691793496; x=1723329496;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8SLThFNkKLXn3Jh1bZIqPMmNPrt9lPT0qW5Fp1QOQe8=;
-  b=NhlCBdKUafFlmtwqIs31uZtVKJp2C5of53ycDjPJMhuB/XSYPP5/S3Fm
-   Yn0Kxo9chJyjFuCek5g/u9H0y85yYaHjseq+kdTjCZ/1MZHDQ4aPZQ9Xn
-   J6NLOVHGnvLBOfNucpeMr0AoxFAh6bJ7G32AOyYglpEKyOptE1pC1EPiS
-   WSpTQcSk4ViMrUrX+gZHqmjRYMz8nhiZZwG88PxGjQCPlGqgsO8yISYa5
-   6lIUb7g73UoaM1FjY0S+o56pc3JpDLA1CA8TAytUH+QPdAOJKlXGkq713
-   1b+DgRUcqIK6XA9Qiea1uX1nh6I30wgPTtXydtsVdwtZB4Jlgi8dt61AP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="374543385"
+  bh=keh0xLPcKJEPYjXBq0PVb4LJjIz0yP6YBJ9GOLi1vEE=;
+  b=f5cEwTik2ku51vfW1KRKw7JMeh5/6LFXovtAP/rmXVwt7yvbd8IUXToj
+   4hmfOgJs2BWI0qkdRVlQ2P7aZ4cs4iGm+n3aPbFXFzCsW2ZyNvZGWjHh1
+   dAmwwKn0C2l4ej5rxZINoB8eoaHIOLZFi4XwrDNDpU4VhmwSVp5o7mF3C
+   56kb9POKwVJF3k2JSc8gWVjQbbP4jHgjBk6oDn9aTRhgkWQA3j70hQdTu
+   PoHke4tijZScS2NJtBN9KMlb3SGjTF4hLUaGq5ZU+OsUaaCp8brtaLN0T
+   AsdHHF1A3TxypWjtQAw8rHqJ8axIaXTRpv7R6fjw3aBZDTgirH/txlzK6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="356739229"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="374543385"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 15:27:55 -0700
+   d="scan'208";a="356739229"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 15:37:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="876328021"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="735915267"
+X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
+   d="scan'208";a="735915267"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Aug 2023 15:27:57 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 11 Aug 2023 15:37:54 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUabp-000852-0Y;
-	Fri, 11 Aug 2023 22:27:53 +0000
-Date: Sat, 12 Aug 2023 06:27:25 +0800
+	id 1qUalV-00085M-0z;
+	Fri, 11 Aug 2023 22:37:53 +0000
+Date: Sat, 12 Aug 2023 06:37:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Frederic Weisbecker <frederic@kernel.org>
-Subject: [frederic-dynticks:timers/idle 4/10]
- arch/loongarch/kernel/genex.S:22: Error: no match insn: move
-	$r12,((0x1)<<2)
-Message-ID: <202308120658.qsODO7vv-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 24047/28677]
+ drivers/firmware/smccc/smccc.c:11:10: fatal error: asm/archrandom.h: No such
+ file or directory
+Message-ID: <202308120609.a9eigXxU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,46 +47,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/idle
-head:   b66dd12bb29cca558b9323f2b270a7dae8f56c48
-commit: 7baad59caefc0707cb1336d7df30b5879a1e6d38 [4/10] loongson: Fix idle VS timer enqueue
-config: loongarch-randconfig-r021-20230812 (https://download.01.org/0day-ci/archive/20230812/202308120658.qsODO7vv-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120658.qsODO7vv-lkp@intel.com/reproduce)
+Hi Will,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   020f099b296ebdd186f3ece99fd8da51fcc478cc
+commit: d9a579535cd0f4623e627c3375781fb29c78692b [24047/28677] BACKPORT: arm/arm64: Probe for the presence of KVM hypervisor
+config: arm-randconfig-r046-20230812 (https://download.01.org/0day-ci/archive/20230812/202308120609.a9eigXxU-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120609.a9eigXxU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308120658.qsODO7vv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308120609.a9eigXxU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/loongarch/kernel/genex.S: Assembler messages:
->> arch/loongarch/kernel/genex.S:22: Error: no match insn: move	$r12,((0x1)<<2)
+>> drivers/firmware/smccc/smccc.c:11:10: fatal error: asm/archrandom.h: No such file or directory
+      11 | #include <asm/archrandom.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +22 arch/loongarch/kernel/genex.S
+vim +11 drivers/firmware/smccc/smccc.c
 
-    18	
-    19		.align	5
-    20	SYM_FUNC_START(__arch_cpu_idle)
-    21		/* start of idle interrupt region */
-  > 22		move	t0, CSR_CRMD_IE
-    23		csrxchg	t0, t0, LOONGARCH_CSR_CRMD
-    24		/*
-    25		 * If an interrupt lands here; between enabling interrupts above and
-    26		 * going idle on the next instruction, we must *NOT* go idle since the
-    27		 * interrupt could have set TIF_NEED_RESCHED or caused an timer to need
-    28		 * reprogramming. Fall through -- see handle_vint() below -- and have
-    29		 * the idle loop take care of things.
-    30		 */
-    31		idle	0
-    32		nop
-    33		/* end of idle interrupt region */
-    34	SYM_INNER_LABEL(__arch_cpu_idle_exit, SYM_L_LOCAL)
-    35		jr	ra
-    36	SYM_FUNC_END(__arch_cpu_idle)
-    37	
+     7	
+     8	#include <linux/init.h>
+     9	#include <linux/arm-smccc.h>
+    10	#include <linux/kernel.h>
+  > 11	#include <asm/archrandom.h>
+    12	
 
 -- 
 0-DAY CI Kernel Test Service
