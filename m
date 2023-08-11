@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6898CA2D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 02:29:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A14D36F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 02:39:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691720978; x=1723256978;
+  t=1691721572; x=1723257572;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=10OCXvODrWOKM23FmdroVFcSOi/dlB1jJupfTvF/uVM=;
-  b=aAbxvfQWKanWi+IxjYsphHsU+giBB4slZ0zodOUStw3dni0mFyXoeCRT
-   kUUJqU8qgAMnb7cE2x0GNcp4G7RWxDPjLXdDUjd9RbluDBhP7bd1pMCHj
-   Id+ly1T6HXWKKVsNnL+8tV0ZKcjZsSXj4p26bukCED+KbdTGNVdwE/u0+
-   T27Abwt7AhVwU5zuDfrrJvhnZUwiCTlXOdjwW4bUCR6NxSdp8IYEnQW3S
-   1+GCYUqdpdUjgDa93kCUxisROb/xT0O4s/eavTXevWmVLlUwjeh0B4Qjv
-   FJmYz8zG5a7uNLnRSo2H2ZgjTe3Uo+6mX0No0ENHk62+NWV6GO5gfoxII
+  bh=3Pb97dw6MzvLirV2qeIbfop7PbyFbXWw2O3oIEQetGg=;
+  b=RAcK849Jv0aInWy4+i+/Bad8ri9cusFOyNtDlRjhXhWQHUkKihmN/LKQ
+   126/qa6jznT4icPPQmmOeE7SfQGCPhfSM6trM2OQUApNBuRw5f+YVnpvK
+   wsDodzV1dHz0gByujXwqAXD0vbX7HL2u1tvkaE1/38bwjkgi2m4spPshd
+   FS/0mgy6hv5XnPGnt4HMzfUgegS14UOAHeSiIhPV4h7OCZEHNKVu0AW/N
+   AvSHQBCdKFllLp+B+mqEREliitRBq45WD7hwDxbXUbD2pjCMFsC6v/8qG
+   YVDvLH2YhUcjjZRV3bHAxupO0gcW70xXPmBPTIr73UNLl0dJxu3HEZqdc
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="361714429"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="374342759"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="361714429"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 19:29:28 -0700
+   d="scan'208";a="374342759"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 19:39:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="856126621"
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="767495952"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="856126621"
+   d="scan'208";a="767495952"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 10 Aug 2023 19:29:26 -0700
+  by orsmga001.jf.intel.com with ESMTP; 10 Aug 2023 19:39:27 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUHu2-0007Qa-0o;
-	Fri, 11 Aug 2023 02:29:26 +0000
-Date: Fri, 11 Aug 2023 10:28:39 +0800
+	id 1qUI3i-0007R2-2C;
+	Fri, 11 Aug 2023 02:39:26 +0000
+Date: Fri, 11 Aug 2023 10:38:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qing Zhang <zhangqing@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202308111025.QvCwtqk7-lkp@intel.com>
+To: Karolina Stolarek <karolina.stolarek@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: [drm-misc:for-linux-next 1/3] ERROR: modpost: "vmf_insert_pfn_prot"
+ [drivers/gpu/drm/ttm/ttm.ko] undefined!
+Message-ID: <202308111032.enU8IisR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,176 +47,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Qing,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   25aa0bebba72b318e71fe205bfd1236550cc9534
-commit: 93a4fa622eb061f75f87f0cf9609ab4e69c67d01 LoongArch: Add STACKTRACE support
-date:   12 months ago
-config: loongarch-randconfig-r072-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111025.QvCwtqk7-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111025.QvCwtqk7-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   68132cc6d1bcbc78ade524c6c6c226de42139f0e
+commit: e3912d09bf8ddd8e274118d4c9cc550d9665115d [1/3] drm/ttm: Introduce KUnit test
+config: arm-randconfig-r006-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111032.enU8IisR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111032.enU8IisR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308111025.QvCwtqk7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308111032.enU8IisR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:620:9: sparse:     expected void *ptr
-   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
->> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:620:9: sparse:     expected void *ptr
-   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
->> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:620:9: sparse:     expected void *ptr
-   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
->> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:620:9: sparse:     expected void *ptr
-   fs/eventpoll.c:620:9: sparse:     got unsigned int [noderef] __percpu *
->> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:620:9: sparse:     expected void *ptr
-   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
->> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:620:9: sparse:     expected void *ptr
-   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
->> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:620:9: sparse:     expected void *ptr
-   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
->> fs/eventpoll.c:620:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:620:9: sparse:     expected void *ptr
-   fs/eventpoll.c:620:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:692:9: sparse:     expected void *ptr
-   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:692:9: sparse:     expected void *ptr
-   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:692:9: sparse:     expected void *ptr
-   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:692:9: sparse:     expected void *ptr
-   fs/eventpoll.c:692:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:692:9: sparse:     expected void *ptr
-   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:692:9: sparse:     expected void *ptr
-   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:692:9: sparse:     expected void *ptr
-   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:692:9: sparse:     expected void *ptr
-   fs/eventpoll.c:692:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1456:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1456:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1456:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1456:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1571:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1571:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1571:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1571:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1775:9: sparse:     got unsigned int [noderef] __percpu *
-   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
-   fs/eventpoll.c:1775:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   fs/eventpoll.c:1775:9: sparse:     expected void *ptr
-   fs/eventpoll.c:1775:9: sparse:     got int [noderef] __percpu *
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +620 fs/eventpoll.c
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-pcf857x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/imx/clk-imxrt1050.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6765-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6765-mipi0a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6765-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6765-vcodec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-ipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-aud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-eth.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-hif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-aud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-aud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-imp_iic_wrap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-ipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vpp0.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-vpp1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8188-wpe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sprd/clk-sprd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sunxi-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/suniv-f1c100s-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun4i-a10-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-a31-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a23-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a33-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-h3-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r40-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-v3s-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/clk-qcom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-abt-y030xx067a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-newvision-nv3052c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/ttm/tests/ttm_device_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ac97.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-altera-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap-uwire.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/spmi-pmic-arb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/ts4800_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/intel/keembay/keembay-ocs-hcu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mp-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
+>> ERROR: modpost: "vmf_insert_pfn_prot" [drivers/gpu/drm/ttm/ttm.ko] undefined!
 
-eea1d585917c53 Eric Wong       2013-04-30  604  
-92e64178405599 Davidlohr Bueso 2018-08-21  605  
-5071f97ec6d74f Davide Libenzi  2009-03-31  606  /*
-57804b1cc46167 Al Viro         2020-08-31  607   * ep->mutex needs to be held because we could be hit by
-e057e15ff66a62 Tony Battersby  2009-03-31  608   * eventpoll_release_file() and epoll_ctl().
-5071f97ec6d74f Davide Libenzi  2009-03-31  609   */
-57804b1cc46167 Al Viro         2020-08-31  610  static void ep_start_scan(struct eventpoll *ep, struct list_head *txlist)
-57804b1cc46167 Al Viro         2020-08-31  611  {
-5071f97ec6d74f Davide Libenzi  2009-03-31  612  	/*
-5071f97ec6d74f Davide Libenzi  2009-03-31  613  	 * Steal the ready list, and re-init the original one to the
-5071f97ec6d74f Davide Libenzi  2009-03-31  614  	 * empty list. Also, set ep->ovflist to NULL so that events
-5071f97ec6d74f Davide Libenzi  2009-03-31  615  	 * happening while looping w/out locks, are not lost. We cannot
-5071f97ec6d74f Davide Libenzi  2009-03-31  616  	 * have the poll callback to queue directly on ep->rdllist,
-5071f97ec6d74f Davide Libenzi  2009-03-31  617  	 * because we want the "sproc" callback to be able to do it
-5071f97ec6d74f Davide Libenzi  2009-03-31  618  	 * in a lockless way.
-5071f97ec6d74f Davide Libenzi  2009-03-31  619  	 */
-57804b1cc46167 Al Viro         2020-08-31 @620  	lockdep_assert_irqs_enabled();
-a218cc4914209a Roman Penyaev   2019-03-07  621  	write_lock_irq(&ep->lock);
-db502f8a3b0bb5 Al Viro         2020-08-31  622  	list_splice_init(&ep->rdllist, txlist);
-c5a282e9635e9c Davidlohr Bueso 2019-01-03  623  	WRITE_ONCE(ep->ovflist, NULL);
-a218cc4914209a Roman Penyaev   2019-03-07  624  	write_unlock_irq(&ep->lock);
-db502f8a3b0bb5 Al Viro         2020-08-31  625  }
-5071f97ec6d74f Davide Libenzi  2009-03-31  626  
-
-:::::: The code at line 620 was first introduced by commit
-:::::: 57804b1cc4616780c72a2d0930d1bd0d5bd3ed4c lift locking/unlocking ep->mtx out of ep_{start,done}_scan()
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_TTM
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+   Selected by [m]:
+   - DRM_TTM_KUNIT_TEST [=m] && HAS_IOMEM [=y] && DRM [=y] && KUNIT [=m]
 
 -- 
 0-DAY CI Kernel Test Service
