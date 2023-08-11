@@ -1,124 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D9D1102
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 06:05:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691733943; x=1723269943;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/9zootVvBy//KtZ1tAbkPpmERKwCt8GPpkF0daUkqSE=;
-  b=i1VPZpdi33luBcmXkWK1kVVrEIVFt0P3eiszZ5fMTtzHLNfKaVUI5yeH
-   j/a+gcIZQK6EPjfmknszuSoqMc+Xn0aFQzdvDmfnK8dKuoZqMJynJ/yK4
-   rlg66IsC3eucumy4gl1NqlQ3VvdvFeuco2uN+RRmpsgyAsqAmE+bdMq8R
-   x7kJBh09VVQQt9tssghlBdPnHGTtyrIx/BRtrvfgjq0fMf7V9a9YzrsrC
-   8mXlxDRtRB65r54d7v/7Ms4+wCtBSltekb2trVakQbAq8L4Jyv6/A+oQt
-   7wVwO5N34U6iM/L948xCfCoL6KeX5vAB76S651rsKuiqGaFVAGryBfyD0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="437942492"
-X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="437942492"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2023 23:05:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="906326738"
-X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="906326738"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 10 Aug 2023 23:05:32 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qULH9-0007YR-39;
-	Fri, 11 Aug 2023 06:05:31 +0000
-Date: Fri, 11 Aug 2023 14:04:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: WANG Xuerui <git@xen0n.name>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: [linux-next:master 7415/8441] include/linux/build_bug.h:16:51:
- error: bit-field '<anonymous>' width not an integer constant
-Message-ID: <202308111426.3KoBPpal-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CE01102
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 06:43:32 +0000 (UTC)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-583f036d50bso18769647b3.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Aug 2023 23:43:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1691736211; x=1692341011;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2dK3EUoqZAv7ENaLYy1IgVWN87Fn2SJNSzCc2nDnrO0=;
+        b=0nNFLV64eY93K3GbZY5ZC7+OZM6Hh6nQ+yPnGajBjRMSAJ+0aTt2Tfgc2Gu4PyCoAL
+         10SNPtE7edUOPOZICCLXF3MHABnNe8ja8Te5Qe2hWOq4umfrgzsvwae35nMLLB7h2E+J
+         gYr+9USIWZfpAfM8FrFzMvkNaPs5FZfJFGmwz5qqp05wiaA+Yk0KVm8rhv7mLlvYAF1p
+         VOdNBr+BIOcvfFQF9+Ko9qrzs9+4v2XeguhsoNXKB1HgHpleAUk6CezuNVt9B2LduDLs
+         n7Ao9U9Ntu9LwwjZm9X54tHhCVMmfd2YR47e0TAvYUCIsO95R8BLNma7Iv9bUGm+jkbY
+         nbig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691736211; x=1692341011;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2dK3EUoqZAv7ENaLYy1IgVWN87Fn2SJNSzCc2nDnrO0=;
+        b=a1AqV6zelquY6BzSQn21WcWl4IB22WJZkL/SLlBSefva+6GAGP8IreygmOREDvYC+S
+         Q4CtZd9hezkoylYOOrqcpFbwXPt9yrpzutyxpaPRMpQyTeQqi9K269VLbRSj565vLDEi
+         Ml4KKm+wMv4F8iQZ592BY8tT+9zd5PEIvu3qf4p/AD2CR+6vBce1yJF566BIrGYZoMnD
+         1qXoDJFhFBRNH/uMcMIr5WuplcrOKeJoAXFymvfSNBIyF9XlBkV6Dn8KI50T0pfFIvcB
+         Tm78ITq8Y5C7UPo27+q1yXQUFhp+Xt9Ea1tYCcByse8LbkYUrfzx4FrscXTYkA36OShT
+         t7og==
+X-Gm-Message-State: AOJu0YxTK3eVzbQpUWw2mPjeKtKIw8Z0aW7F/gRmEZyfTAsCG6cSSZBm
+	+VYGReIlR8E3ZHxR/TCY094dfA==
+X-Google-Smtp-Source: AGHT+IEAI1JXOrxuFnx7rotJkOQaZauKbrWuvV7z/71KhyN7P09Q/L2GJGAPYOOVpuoOMkR58H4evA==
+X-Received: by 2002:a81:6907:0:b0:583:af98:6fb3 with SMTP id e7-20020a816907000000b00583af986fb3mr1408578ywc.15.1691736211346;
+        Thu, 10 Aug 2023 23:43:31 -0700 (PDT)
+Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id w190-20020a0dd4c7000000b00583d67839fasm831585ywd.121.2023.08.10.23.43.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 23:43:30 -0700 (PDT)
+Date: Thu, 10 Aug 2023 23:43:29 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.attlocal.net
+To: Dan Carpenter <dan.carpenter@linaro.org>
+cc: oe-kbuild@lists.linux.dev, Hugh Dickins <hughd@google.com>, lkp@intel.com, 
+    oe-kbuild-all@lists.linux.dev, 
+    Christian Brauner <christianvanbrauner@gmail.com>, 
+    Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: Re: [brauner-vfs:vfs.tmpfs 15/19] mm/shmem.c:3611 shmem_xattr_handler_set()
+ warn: passing zero to 'PTR_ERR'
+In-Reply-To: <dd00b419-ca16-48fb-b493-890ab47cc930@kadam.mountain>
+Message-ID: <baf5ac73-23b4-e325-28e5-9547af7ec3a@google.com>
+References: <dd00b419-ca16-48fb-b493-890ab47cc930@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   21ef7b1e17d039053edaeaf41142423810572741
-commit: e2843c7596e77f4f9b006a1417546231395d0986 [7415/8441] LoongArch: Replace -ffreestanding with finer-grained -fno-builtin's
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20230811/202308111426.3KoBPpal-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111426.3KoBPpal-lkp@intel.com/reproduce)
+On Fri, 11 Aug 2023, Dan Carpenter wrote:
+...
+> smatch warnings:
+> mm/shmem.c:3611 shmem_xattr_handler_set() warn: passing zero to 'PTR_ERR'
+...
+> 46170cc50828c3 Hugh Dickins        2023-08-08  3604  	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
+> 46170cc50828c3 Hugh Dickins        2023-08-08  3605  	if (!IS_ERR(old_xattr)) {
+> 46170cc50828c3 Hugh Dickins        2023-08-08  3606  		simple_xattr_free(old_xattr);
+> 46170cc50828c3 Hugh Dickins        2023-08-08  3607  		old_xattr = NULL;
+> 36f05cab0a2c97 Jeff Layton         2022-09-09  3608  		inode->i_ctime = current_time(inode);
+> 36f05cab0a2c97 Jeff Layton         2022-09-09  3609  		inode_inc_iversion(inode);
+> 36f05cab0a2c97 Jeff Layton         2022-09-09  3610  	}
+> 46170cc50828c3 Hugh Dickins        2023-08-08 @3611  	return PTR_ERR(old_xattr);
+> 
+> This code is correct but it would be nicer to reverse the checking:
+> 
+> 	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
+> 	if (IS_ERR(old_xattr))
+> 		return PTR_ERR(old_xattr);
+> 
+> 	simple_xattr_free(old_xattr);
+> 	inode->i_ctime = current_time(inode);
+> 	inode_inc_iversion(inode);
+> 
+> 	return 0;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308111426.3KoBPpal-lkp@intel.com/
+Thanks, Dan, but I'm going to resist making any change here.
 
-All errors (new ones prefixed by >>):
+As you observe, the code is correct as is.  And I did have a version
+(unposted) which laid it out exactly as you have it there.  But the
+collisions between different branches of vfs.git (and subsequent mods
+here in vfs.tmpfs) was such that I aimed to minimize the interference.
 
-   In file included from include/linux/irqflags.h:18,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from sound/usb/card.c:26:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   In file included from include/linux/bits.h:21,
-                    from include/linux/bitops.h:6,
-                    from sound/usb/card.c:23:
->> include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:56:59: note: in expansion of macro '__must_be_array'
-      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:517:20: note: in expansion of macro 'ARRAY_SIZE'
-     517 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:501:9: note: in expansion of macro 'module_param_array_named'
-     501 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/usb/card.c:81:1: note: in expansion of macro 'module_param_array'
-      81 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   sound/usb/card.c:63:12: warning: 'index' defined but not used [-Wunused-variable]
-      63 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
-         |            ^~~~~
+Please let's leave it as is: there is nothing wrong with PTR_ERR(NULL).
 
-
-vim +16 include/linux/build_bug.h
-
-bc6245e5efd70c Ian Abbott       2017-07-10   6  
-bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
-bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
-bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
-bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
-bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
-8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
-bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
-bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
-bc6245e5efd70c Ian Abbott       2017-07-10  15   */
-8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
-527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
-
-:::::: The code at line 16 was first introduced by commit
-:::::: 8788994376d84d627450fd0d67deb6a66ddf07d7 linux/build_bug.h: change type to int
-
-:::::: TO: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hugh
