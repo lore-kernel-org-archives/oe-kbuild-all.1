@@ -1,42 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8B9219C7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 18:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC31D63B6;
+	Fri, 11 Aug 2023 18:20:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1691778003; x=1723314003;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PV76BwziDHyoKLnzRCftHGB0e/bfE4M1410t2hn/wpw=;
-  b=AD5FnLl8iv5rYG5iIMhDrXuQMwiV7kiCiQLvD3n+6qwDI+1rqiGdTiAD
-   8RVrZIR2DwXeNP8agmzzw7PwSm4KlJyZt8gaLQAz61s2jGuYBDgrnpVjs
-   dC5qxsSHAD6H6cEMF0miUzGrjX37RMCTQZRc6QwGKfDIaiUpT5rZJJn2Q
-   fmVxCujMK/UnV+BxMtG0syQ8btcxcNhrigJs/3cCBZHWJQtxwSU82D6Mm
-   +5Iiowz6mdUSIqCeEm9pmDm3PmR0FnyqGqcqNZr6Y8WjKhMMBEdH1hImP
-   djDH1pTnR9p72FutIs4RO+h9Osvbno2nO6kKHBYS7l/H6CTpDTwxHQ4PT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="361876114"
+  bh=YbJUnogFWxXN9+VN5f/mCqdNAvXerWe9rtA7lIUjEbA=;
+  b=D3hcKI6UmDIrBY028XVRSWhZeHA+c2N3G+RxhPJ+nmNZ/5AnVSDjeOYJ
+   qy4FyfZDm+J8tJ3QnNR4KyLbRlVK6kbHM6B6svDtML8JpinQcvVtYkwTW
+   gwcRh+gH4uGNXtk6RBrws4wOGurFN0OzHa68MvHiMFGGAUDS+unXQWW8W
+   JwTT9B/HDRoF/U7bUcxTGE+7HM2od3qYI9bs8L1hGK1turMxEUEYeSrLt
+   u7m89vAl97p438j3oVX8uW6D20gmxH6fqh/+kpMz1oVTbf0EkwHzwD6uG
+   ggW8WI4sbxVWUH0jfPuJTKteac4rbZQsGFaqvuFehT/xkYY4CzvDpLtu0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="361876123"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="361876114"
+   d="scan'208";a="361876123"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 11:19:49 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 11:19:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="822768905"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="822768902"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="822768905"
+   d="scan'208";a="822768902"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2023 11:19:48 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUWjj-0007wO-1J;
+	id 1qUWjj-0007wR-1T;
 	Fri, 11 Aug 2023 18:19:47 +0000
-Date: Sat, 12 Aug 2023 02:19:13 +0800
+Date: Sat, 12 Aug 2023 02:19:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davejiang:cxl-ide 17/24] drivers/acpi/numa/srat.c:535:31: warning:
- implicit conversion from 'enum acpi_cedt_type' to 'enum acpi_keyp_type'
-Message-ID: <202308120229.j9Q3DVIT-lkp@intel.com>
+To: Yimin Gu <ustcymgu@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	Jesse Taube <Mr.Bossman075@gmail.com>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: drivers/iio/adc/ad7606_par.c:24:2: warning: performing pointer
+ arithmetic on a null pointer has undefined behavior
+Message-ID: <202308120214.IkzxpkG2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,103 +50,397 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/davejiang/linux.git cxl-ide
-head:   ee3a63e65f46140bcb484e3d0052d641abceb9da
-commit: 7e72c9ad3fa55da9f48f56720b09f5e74e00dc92 [17/24] acpi: Add KEYP support to fw_table parsing
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20230812/202308120229.j9Q3DVIT-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120229.j9Q3DVIT-lkp@intel.com/reproduce)
+Hi Yimin,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   25aa0bebba72b318e71fe205bfd1236550cc9534
+commit: b5e2c507b06c9d36411845149162a804ae7b04a9 riscv: Kconfig: Allow RV32 to build with no MMU
+date:   5 months ago
+config: riscv-randconfig-r014-20230812 (https://download.01.org/0day-ci/archive/20230812/202308120214.IkzxpkG2-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120214.IkzxpkG2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308120229.j9Q3DVIT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308120214.IkzxpkG2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/acpi/numa/srat.c:15:
-   include/linux/acpi.h:241:19: error: conflicting types for 'acpi_table_parse_cedt'; have 'int(enum acpi_keyp_type,  int (*)(union acpi_subtable_headers *, void *, const long unsigned int), void *)'
-     241 | static inline int acpi_table_parse_cedt(enum acpi_keyp_type id,
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/acpi.h:233:1: note: previous declaration of 'acpi_table_parse_cedt' with type 'int(enum acpi_cedt_type,  int (*)(union acpi_subtable_headers *, void *, const long unsigned int), void *)'
-     233 | acpi_table_parse_cedt(enum acpi_cedt_type id,
-         | ^~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/numa/srat.c: In function 'acpi_numa_init':
->> drivers/acpi/numa/srat.c:535:31: warning: implicit conversion from 'enum acpi_cedt_type' to 'enum acpi_keyp_type' [-Wenum-conversion]
-     535 |         acpi_table_parse_cedt(ACPI_CEDT_TYPE_CFMWS, acpi_parse_cfmws,
-         |                               ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iio/adc/ad7606_par.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/iio/adc/ad7606_par.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/iio/adc/ad7606_par.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/iio/adc/ad7606_par.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/iio/adc/ad7606_par.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/iio/adc/ad7606_par.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/iio/adc/ad7606_par.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/iio/adc/ad7606_par.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/iio/adc/ad7606_par.c:13:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+                                                     ~~~~~~~~~~ ^
+>> drivers/iio/adc/ad7606_par.c:24:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw((unsigned long)st->base_address, buf, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/iio/adc/ad7606_par.c:39:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insb((unsigned long)st->base_address, buf, count * 2);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   15 warnings generated.
+--
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/comedi/drivers/das16m1.c:44:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/comedi/drivers/das16m1.c:44:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/comedi/drivers/das16m1.c:44:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/comedi/drivers/das16m1.c:44:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/comedi/drivers/das16m1.c:44:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/comedi/drivers/das16m1.c:44:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+                                                     ~~~~~~~~~~ ^
+>> drivers/comedi/drivers/das16m1.c:412:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw(dev->iobase, devpriv->ai_buffer, num_samples);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   14 warnings generated.
+--
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/cisco/airo.c:34:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/cisco/airo.c:34:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/cisco/airo.c:34:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/cisco/airo.c:34:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/cisco/airo.c:34:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/wireless/cisco/airo.c:34:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+                                                     ~~~~~~~~~~ ^
+>> drivers/net/wireless/cisco/airo.c:4100:4: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+                           insw(ai->dev->base_addr+DATA0+whichbap,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/net/wireless/cisco/airo.c:4103:4: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+                           insb(ai->dev->base_addr+DATA0+whichbap,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/net/wireless/cisco/airo.c:4121:3: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+                   insw(ai->dev->base_addr+DATA0+whichbap, pu16Dst, bytelen>>1);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/net/wireless/cisco/airo.c:4123:3: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+                   insb(ai->dev->base_addr+DATA0+whichbap, pu16Dst, bytelen);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/net/wireless/cisco/airo.c:4133:3: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+                   outsw(ai->dev->base_addr+DATA0+whichbap,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   drivers/net/wireless/cisco/airo.c:4136:3: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+                   outsb(ai->dev->base_addr+DATA0+whichbap, pu16Src, bytelen);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   19 warnings generated.
+..
 
 
-vim +535 drivers/acpi/numa/srat.c
+vim +24 drivers/iio/adc/ad7606_par.c
 
-^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  483  
-20e6926dcbafa1 drivers/acpi/numa.c      Yinghai Lu          2013-03-01  484  int __init acpi_numa_init(void)
-e8d1955258091e drivers/acpi/numa.c      Tang Chen           2013-02-22  485  {
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  486  	int i, fake_pxm, cnt = 0;
-20e6926dcbafa1 drivers/acpi/numa.c      Yinghai Lu          2013-03-01  487  
-4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  488  	if (acpi_disabled)
-4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  489  		return -EINVAL;
-4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  490  
-d3bd058826aa8b drivers/acpi/numa.c      Yinghai Lu          2010-12-16  491  	/*
-d3bd058826aa8b drivers/acpi/numa.c      Yinghai Lu          2010-12-16  492  	 * Should not limit number with cpu num that is from NR_CPUS or nr_cpus=
-d3bd058826aa8b drivers/acpi/numa.c      Yinghai Lu          2010-12-16  493  	 * SRAT cpu entries could have different order with that in MADT.
-d3bd058826aa8b drivers/acpi/numa.c      Yinghai Lu          2010-12-16  494  	 * So go over all cpu entries in SRAT to get apicid to node mapping.
-d3bd058826aa8b drivers/acpi/numa.c      Yinghai Lu          2010-12-16  495  	 */
-8716273caef7f5 drivers/acpi/numa.c      David Rientjes      2009-09-25  496  
-02cb489be7ad07 drivers/acpi/numa.c      Ross Zwisler        2017-07-21  497  	/* SRAT: System Resource Affinity Table */
-7f8f97c3cc75d5 drivers/acpi/numa.c      Len Brown           2007-02-10  498  	if (!acpi_table_parse(ACPI_SIG_SRAT, acpi_parse_srat)) {
-894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  499  		struct acpi_subtable_proc srat_proc[4];
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  500  
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  501  		memset(srat_proc, 0, sizeof(srat_proc));
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  502  		srat_proc[0].id = ACPI_SRAT_TYPE_CPU_AFFINITY;
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  503  		srat_proc[0].handler = acpi_parse_processor_affinity;
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  504  		srat_proc[1].id = ACPI_SRAT_TYPE_X2APIC_CPU_AFFINITY;
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  505  		srat_proc[1].handler = acpi_parse_x2apic_affinity;
-4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  506  		srat_proc[2].id = ACPI_SRAT_TYPE_GICC_AFFINITY;
-4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  507  		srat_proc[2].handler = acpi_parse_gicc_affinity;
-894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  508  		srat_proc[3].id = ACPI_SRAT_TYPE_GENERIC_AFFINITY;
-894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  509  		srat_proc[3].handler = acpi_parse_gi_affinity;
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  510  
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  511  		acpi_table_parse_entries_array(ACPI_SIG_SRAT,
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  512  					sizeof(struct acpi_table_srat),
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  513  					srat_proc, ARRAY_SIZE(srat_proc), 0);
-702b07fcc9b264 drivers/acpi/numa.c      Lukasz Anaczkowski  2016-04-21  514  
-20e6926dcbafa1 drivers/acpi/numa.c      Yinghai Lu          2013-03-01  515  		cnt = acpi_table_parse_srat(ACPI_SRAT_TYPE_MEMORY_AFFINITY,
-fd3e454366603c drivers/acpi/numa.c      Ganapatrao Kulkarni 2017-11-15  516  					    acpi_parse_memory_affinity, 0);
-^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  517  	}
-^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  518  
-^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  519  	/* SLIT: System Locality Information Table */
-7f8f97c3cc75d5 drivers/acpi/numa.c      Len Brown           2007-02-10  520  	acpi_table_parse(ACPI_SIG_SLIT, acpi_parse_slit);
-^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  521  
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  522  	/*
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  523  	 * CXL Fixed Memory Window Structures (CFMWS) must be parsed
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  524  	 * after the SRAT. Create NUMA Nodes for CXL memory ranges that
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  525  	 * are defined in the CFMWS and not already defined in the SRAT.
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  526  	 * Initialize a fake_pxm as the first available PXM to emulate.
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  527  	 */
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  528  
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  529  	/* fake_pxm is the next unused PXM value after SRAT parsing */
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  530  	for (i = 0, fake_pxm = -1; i < MAX_NUMNODES - 1; i++) {
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  531  		if (node_to_pxm_map[i] > fake_pxm)
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  532  			fake_pxm = node_to_pxm_map[i];
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  533  	}
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  534  	fake_pxm++;
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29 @535  	acpi_table_parse_cedt(ACPI_CEDT_TYPE_CFMWS, acpi_parse_cfmws,
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  536  			      &fake_pxm);
-fd49f99c180996 drivers/acpi/numa/srat.c Alison Schofield    2021-10-29  537  
-20e6926dcbafa1 drivers/acpi/numa.c      Yinghai Lu          2013-03-01  538  	if (cnt < 0)
-20e6926dcbafa1 drivers/acpi/numa.c      Yinghai Lu          2013-03-01  539  		return cnt;
-095adbb6441172 drivers/acpi/numa.c      Thomas Renninger    2012-07-31  540  	else if (!parsed_numa_memblks)
-f3946fb6e50b75 drivers/acpi/numa.c      Thomas Renninger    2012-07-31  541  		return -ENOENT;
-940fed2e79a15c drivers/acpi/numa.c      Tejun Heo           2011-02-16  542  	return 0;
-^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  543  }
-^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  544  
+b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  17  
+b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  18  static int ad7606_par16_read_block(struct device *dev,
+b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  19  				   int count, void *buf)
+b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  20  {
+dae013afa72311 drivers/staging/iio/adc/ad7606_par.c Wolfram Sang      2018-04-19  21  	struct iio_dev *indio_dev = dev_get_drvdata(dev);
+e61181d0a3e678 drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-05-18  22  	struct ad7606_state *st = iio_priv(indio_dev);
+b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  23  
+b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22 @24  	insw((unsigned long)st->base_address, buf, count);
+b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  25  
+b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  26  	return 0;
+b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  27  }
+b9618c0cacd7cf drivers/staging/iio/adc/ad7606_par.c Michael Hennerich 2011-02-22  28  
 
-:::::: The code at line 535 was first introduced by commit
-:::::: fd49f99c180996cef2d707ad71bee4f060dbe367 ACPI: NUMA: Add a node and memblk for each CFMWS not in SRAT
+:::::: The code at line 24 was first introduced by commit
+:::::: b9618c0cacd7cf56cc3d073c1e9e9a8a3a12864e staging: IIO: ADC: New driver for AD7606/AD7606-6/AD7606-4
 
-:::::: TO: Alison Schofield <alison.schofield@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+:::::: TO: Michael Hennerich <michael.hennerich@analog.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
