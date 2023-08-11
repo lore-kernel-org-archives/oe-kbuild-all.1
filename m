@@ -1,320 +1,133 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7B02112;
-	Fri, 11 Aug 2023 10:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.com;
- s=s31663417; t=1691750565; x=1692355365; i=quwenruo.btrfs@gmx.com;
- bh=l1IqNSlZIl/4upWInjgCaUyqj/unYJqKQGAcIjks2rU=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=hasSLfGtWowiKLdAOd0IIsz3U5ThfFpRzGTjZ1qfOx91eYq4LU9MHWU5PT9sZsmS7BNbtp6
- AHIL0nhYI8g1T4o5OrMZRLB2IGX32DOEynzasMeD7hVhixVqERT9oN7D7pclpRRJG5AI5gzPK
- n3Ku/BIRxandpYCprAPDD9fRKt4gol0yAQYzpwPmfASLAWZDA0p05Yxk4zSHNqnL9b9ZjOS/t
- z1PI8NqiFY8z/DPq5EBRUz92UD53AZ0ppXvvJaCttH4XC3pqmAnPWMLHTQVwVwZGYoInEcHZ1
- p/IMNpOgtQeeNibPi/zb1IxWTHA/Bv9o7TbY8YBJuWnEyMG6LJ9w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [0.0.0.0] ([149.28.201.231]) by mail.gmx.net (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MXp9Y-1qIPai2Hwy-00YAEX; Fri, 11
- Aug 2023 12:42:45 +0200
-Message-ID: <92674fc4-468d-4291-9aaa-6be62e9088c2@gmx.com>
-Date: Fri, 11 Aug 2023 18:42:48 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F975693
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Aug 2023 11:03:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691751822; x=1723287822;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/96RTtNZfmIif1OCBdZ6izCfnrU0lIJ29WRym15WpNk=;
+  b=lHF6SV+39G/6sHCQj3IltA1NoIPikBJqR+Dyc0cY+TOA58+yTBLlI67M
+   hvNuYt4xaYok4B6NeleyjXLGK9vYvGb2SQfWfiT8Bufy45Ohf8z/JJ8lF
+   qRGWDbT9VUJ7lCsH72VM0GM6SY3t7fU7v41cfPlKnShYGYtqI9Q3cgXIA
+   pIVcXWFWEFUyMs4TI80VpFqtmWP6uvPPTGHC+WNk3gqXVoV58fcM2qo9h
+   UBCOH6BkrgD07BWF0F/w+DwdZmno81vPcEfF9WMu7AVMJMK9YRCVeYQPS
+   S2GF+N7mvsgZrUaJ9y9hvllhzD9FXygoCHE3VrFG1opI5of+gXwG+oAeA
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="437989890"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="437989890"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP; 11 Aug 2023 04:03:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="979206136"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="979206136"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 11 Aug 2023 04:03:40 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qUPvf-0007jR-1j;
+	Fri, 11 Aug 2023 11:03:39 +0000
+Date: Fri, 11 Aug 2023 19:03:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Helge Deller <deller@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-4.14.y 4888/5126]
+ drivers/video/fbdev/imsttfb.c:1457:10: warning: 'return' with a value, in
+ function returning void
+Message-ID: <202308111903.QndKHO7x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] btrfs: remove v0 extent handling
-To: kernel test robot <lkp@intel.com>, Qu Wenruo <wqu@suse.com>,
- linux-btrfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-References: <6258b0bf5e41e52ca0e163e34650d186363628c6.1691740017.git.wqu@suse.com>
- <202308111815.mJwoiury-lkp@intel.com>
-Content-Language: en-US
-From: Qu Wenruo <quwenruo.btrfs@gmx.com>
-Autocrypt: addr=quwenruo.btrfs@gmx.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNIlF1IFdlbnJ1byA8cXV3ZW5ydW8uYnRyZnNAZ214LmNvbT7CwJQEEwEIAD4CGwMFCwkI
- BwIGFQgJCgsCBBYCAwECHgECF4AWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCY00iVQUJDToH
- pgAKCRDCPZHzoSX+qNKACACkjDLzCvcFuDlgqCiS4ajHAo6twGra3uGgY2klo3S4JespWifr
- BLPPak74oOShqNZ8yWzB1Bkz1u93Ifx3c3H0r2vLWrImoP5eQdymVqMWmDAq+sV1Koyt8gXQ
- XPD2jQCrfR9nUuV1F3Z4Lgo+6I5LjuXBVEayFdz/VYK63+YLEAlSowCF72Lkz06TmaI0XMyj
- jgRNGM2MRgfxbprCcsgUypaDfmhY2nrhIzPUICURfp9t/65+/PLlV4nYs+DtSwPyNjkPX72+
- LdyIdY+BqS8cZbPG5spCyJIlZonADojLDYQq4QnufARU51zyVjzTXMg5gAttDZwTH+8LbNI4
- mm2YzsBNBFnVga8BCACqU+th4Esy/c8BnvliFAjAfpzhI1wH76FD1MJPmAhA3DnX5JDORcga
- CbPEwhLj1xlwTgpeT+QfDmGJ5B5BlrrQFZVE1fChEjiJvyiSAO4yQPkrPVYTI7Xj34FnscPj
- /IrRUUka68MlHxPtFnAHr25VIuOS41lmYKYNwPNLRz9Ik6DmeTG3WJO2BQRNvXA0pXrJH1fN
- GSsRb+pKEKHKtL1803x71zQxCwLh+zLP1iXHVM5j8gX9zqupigQR/Cel2XPS44zWcDW8r7B0
- q1eW4Jrv0x19p4P923voqn+joIAostyNTUjCeSrUdKth9jcdlam9X2DziA/DHDFfS5eq4fEv
- ABEBAAHCwHwEGAEIACYCGwwWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCY00ibgUJDToHvwAK
- CRDCPZHzoSX+qK6vB/9yyZlsS+ijtsvwYDjGA2WhVhN07Xa5SBBvGCAycyGGzSMkOJcOtUUf
- tD+ADyrLbLuVSfRN1ke738UojphwkSFj4t9scG5A+U8GgOZtrlYOsY2+cG3R5vjoXUgXMP37
- INfWh0KbJodf0G48xouesn08cbfUdlphSMXujCA8y5TcNyRuNv2q5Nizl8sKhUZzh4BascoK
- DChBuznBsucCTAGrwPgG4/ul6HnWE8DipMKvkV9ob1xJS2W4WJRPp6QdVrBWJ9cCdtpR6GbL
- iQi22uZXoSPv/0oUrGU+U5X4IvdnvT+8viPzszL5wXswJZfqfy8tmHM85yjObVdIG6AlnrrD
-In-Reply-To: <202308111815.mJwoiury-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:hJ//i9is0PCBlka465h8cjxSmGIF55n91xUCXEXsPGud8y0hoI6
- AgMqhoSiZn7cLtu87UWpQNT61Rj7iT4NwG7jO7nrNvUJpZzRV5KA+9CZtu9zfffTCBU4z3S
- L3oBmIDImFX4ScXow/RwQCvLTsW3DW/cOnWuJjCBC6+mSa76hqTBSm/LNdiblQwJeICIDeO
- EZ/Xg74oN8+bPeWkxgOfw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:dYRvzB3fy8s=;4L/hqyP//xsQXgf9kPsWzkbThry
- k6dADl3yLM371ypb032xXiluUB2phshNURfswKRWv1cUxfILO5OAIGo5EyHJ+AAjphBdeae3H
- Av1oqU9VaGio1A45gjt+69dlcfNS3iAmJYiFx2uuWt8rLPcrlVQ7Mw9UZB04OeUKstSKNBKOk
- kcjh8EZ+ZoIPCgDmKtpna0Vc5dVvqkOGnxVDBGMy8mRFMlHUF6mmv8DJm562ZR6u1HdjdU1h4
- i5MkYX1i2kvYSjIozV6Z6r+Q76f5vXXpu75G5pvE7x0z4BoT159Iofg87qFVHhAwCQokRdJ5V
- 5NZBhq8WstIDE7Ag93WWeQLISaJONS0VqDhygzUMb/lxu1Ty2WLEATcKAUaZq1+CVmt8kX7lw
- soBnuy90ujpU1KINVd8ucGtwESYs6hhsHE+oxOipnWPhHOMdj21l8rprh2YeRr1l5HF43B+z4
- /MoUQm3vJXueIGIB45StYuR4c18otinB9c9rNUyCwZJI+2EuVk0tYufMzfXmycr2BJFt0vfoj
- CPLU5zkTVMeZBssKeseHDW9ZZRu//W/x3v6Zs53RszbTnyZeaa82zXgMg0rXLucP/KWG8bXMB
- z268/0+ON6EzgJN6+FhrqsvS9RQ0beeBiBiZNwdRAh5a4zvSu4loqmjvAoy4w/bOBGGJY8KwB
- wnEz5k01/9yrdpvVd7m1SiXkRW/K3pYJDPpoHYgJyIAqKYPVi14iJ4U0qgjGoOnC64VbOkIKb
- 9rcWfC8ltlB5oL00N0xnsVpMXuKJlHKiwhB/kCBkPzCya7lcKzXVWDwitSCuEcJxgnLBnVwEC
- mZY4ySV/HyN9hgNXjfe7QGnMqbv1B64NQzsZCPMV+K88EGAqr3dyx8xbAgoLuItmrDf1frqy8
- Hh07fE5TjJG9rIzk1kfqoTIvwubjmQeJtL0Wsj5zihWT5m3wxlJU1+gjvkMKKHDEFp1vZD1iE
- QhaMc8NrVRHh+fQZewmUrP29R/o=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.14.y
+head:   42c4d61793d56abc629911c78aaa9ed24293151a
+commit: 8f05ae0e3fdd533865dbd1b0b2632986c0706a50 [4888/5126] fbdev: imsttfb: Release framebuffer and dealloc cmap on error path
+config: x86_64-randconfig-r022-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111903.QndKHO7x-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111903.QndKHO7x-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308111903.QndKHO7x-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/video/fbdev/imsttfb.c: In function 'init_imstt':
+>> drivers/video/fbdev/imsttfb.c:1457:10: warning: 'return' with a value, in function returning void
+      return -ENODEV;
+             ^
+   drivers/video/fbdev/imsttfb.c:1351:13: note: declared here
+    static void init_imstt(struct fb_info *info)
+                ^~~~~~~~~~
 
 
+vim +/return +1457 drivers/video/fbdev/imsttfb.c
 
-On 2023/8/11 18:32, kernel test robot wrote:
-> Hi Qu,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on kdave/for-next]
-> [also build test WARNING on linus/master v6.5-rc5 next-20230809]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-r=
-emove-v0-extent-handling/20230811-154905
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git =
-for-next
-> patch link:    https://lore.kernel.org/r/6258b0bf5e41e52ca0e163e34650d18=
-6363628c6.1691740017.git.wqu%40suse.com
-> patch subject: [PATCH v2] btrfs: remove v0 extent handling
-> config: powerpc-randconfig-r034-20230811 (https://download.01.org/0day-c=
-i/archive/20230811/202308111815.mJwoiury-lkp@intel.com/config)
+  1418	
+  1419		if ((info->var.xres * info->var.yres) * (info->var.bits_per_pixel >> 3) > info->fix.smem_len
+  1420		    || !(compute_imstt_regvals(par, info->var.xres, info->var.yres))) {
+  1421			printk("imsttfb: %ux%ux%u not supported\n", info->var.xres, info->var.yres, info->var.bits_per_pixel);
+  1422			framebuffer_release(info);
+  1423			return;
+  1424		}
+  1425	
+  1426		sprintf(info->fix.id, "IMS TT (%s)", par->ramdac == IBM ? "IBM" : "TVP");
+  1427		info->fix.mmio_len = 0x1000;
+  1428		info->fix.accel = FB_ACCEL_IMS_TWINTURBO;
+  1429		info->fix.type = FB_TYPE_PACKED_PIXELS;
+  1430		info->fix.visual = info->var.bits_per_pixel == 8 ? FB_VISUAL_PSEUDOCOLOR
+  1431								: FB_VISUAL_DIRECTCOLOR;
+  1432		info->fix.line_length = info->var.xres * (info->var.bits_per_pixel >> 3);
+  1433		info->fix.xpanstep = 8;
+  1434		info->fix.ypanstep = 1;
+  1435		info->fix.ywrapstep = 0;
+  1436	
+  1437		info->var.accel_flags = FB_ACCELF_TEXT;
+  1438	
+  1439	//	if (par->ramdac == IBM)
+  1440	//		imstt_cursor_init(info);
+  1441		if (info->var.green.length == 6)
+  1442			set_565(par);
+  1443		else
+  1444			set_555(par);
+  1445		set_imstt_regvals(info, info->var.bits_per_pixel);
+  1446	
+  1447		info->var.pixclock = 1000000 / getclkMHz(par);
+  1448	
+  1449		info->fbops = &imsttfb_ops;
+  1450		info->flags = FBINFO_DEFAULT |
+  1451	                      FBINFO_HWACCEL_COPYAREA |
+  1452		              FBINFO_HWACCEL_FILLRECT |
+  1453		              FBINFO_HWACCEL_YPAN;
+  1454	
+  1455		if (fb_alloc_cmap(&info->cmap, 0, 0)) {
+  1456			framebuffer_release(info);
+> 1457			return -ENODEV;
+  1458		}
+  1459	
+  1460		if (register_framebuffer(info) < 0) {
+  1461			fb_dealloc_cmap(&info->cmap);
+  1462			framebuffer_release(info);
+  1463			return;
+  1464		}
+  1465	
+  1466		tmp = (read_reg_le32(par->dc_regs, SSTATUS) & 0x0f00) >> 8;
+  1467		fb_info(info, "%s frame buffer; %uMB vram; chip version %u\n",
+  1468			info->fix.id, info->fix.smem_len >> 20, tmp);
+  1469	}
+  1470	
 
-OK, ppc, that's why we need a different format for sizeof() return values.
-
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git=
- 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce: (https://download.01.org/0day-ci/archive/20230811/20230811181=
-5.mJwoiury-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
-sion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308111815.mJwoiury-lk=
-p@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> fs/btrfs/print-tree.c:100:17: warning: format specifies type 'unsigned=
- long' but the argument has type 'unsigned int' [-Wformat]
->       100 |                           "unexpected extent item size, has =
-%u expect >=3D %lu",
->           |                                                             =
-             ~~~
->           |                                                             =
-             %u
-
-The more proper format would be %zu.
-
-Would be updated soon.
-
-Thanks for the report as usual,
-Qu
-
->       101 |                           item_size, sizeof(*ei));
->           |                                      ^~~~~~~~~~~
->     fs/btrfs/messages.h:46:40: note: expanded from macro 'btrfs_err'
->        46 |         btrfs_printk(fs_info, KERN_ERR fmt, ##args)
->           |                                        ~~~    ^~~~
->     fs/btrfs/messages.h:27:32: note: expanded from macro 'btrfs_printk'
->        27 |         _btrfs_printk(fs_info, fmt, ##args)
->           |                                ~~~    ^~~~
->     1 warning generated.
-> --
->>> fs/btrfs/extent-tree.c:172:18: warning: format specifies type 'unsigne=
-d long' but the argument has type 'unsigned int' [-Wformat]
->       172 |                         "unexpected extent item size, has %u=
- expect >=3D %lu",
->           |                                                             =
-           ~~~
->           |                                                             =
-           %u
->       173 |                                   item_size, sizeof(*ei));
->           |                                              ^~~~~~~~~~~
->     fs/btrfs/messages.h:46:40: note: expanded from macro 'btrfs_err'
->        46 |         btrfs_printk(fs_info, KERN_ERR fmt, ##args)
->           |                                        ~~~    ^~~~
->     fs/btrfs/messages.h:27:32: note: expanded from macro 'btrfs_printk'
->        27 |         _btrfs_printk(fs_info, fmt, ##args)
->           |                                ~~~    ^~~~
->     fs/btrfs/extent-tree.c:867:17: warning: format specifies type 'unsig=
-ned long' but the argument has type 'unsigned int' [-Wformat]
->       867 |                           "unexpected extent item size, has =
-%llu expect >=3D %lu",
->           |                                                             =
-               ~~~
->           |                                                             =
-               %u
->       868 |                           item_size, sizeof(*ei));
->           |                                      ^~~~~~~~~~~
->     fs/btrfs/messages.h:46:40: note: expanded from macro 'btrfs_err'
->        46 |         btrfs_printk(fs_info, KERN_ERR fmt, ##args)
->           |                                        ~~~    ^~~~
->     fs/btrfs/messages.h:27:32: note: expanded from macro 'btrfs_printk'
->        27 |         _btrfs_printk(fs_info, fmt, ##args)
->           |                                ~~~    ^~~~
->     fs/btrfs/extent-tree.c:1671:17: warning: format specifies type 'unsi=
-gned long' but the argument has type 'unsigned int' [-Wformat]
->      1671 |                           "unexpected extent item size, has =
-%u expect >=3D %lu",
->           |                                                             =
-             ~~~
->           |                                                             =
-             %u
->      1672 |                           item_size, sizeof(*ei));
->           |                                      ^~~~~~~~~~~
->     fs/btrfs/messages.h:46:40: note: expanded from macro 'btrfs_err'
->        46 |         btrfs_printk(fs_info, KERN_ERR fmt, ##args)
->           |                                        ~~~    ^~~~
->     fs/btrfs/messages.h:27:32: note: expanded from macro 'btrfs_printk'
->        27 |         _btrfs_printk(fs_info, fmt, ##args)
->           |                                ~~~    ^~~~
->     fs/btrfs/extent-tree.c:3102:17: warning: format specifies type 'unsi=
-gned long' but the argument has type 'unsigned int' [-Wformat]
->      3102 |                           "unexpected extent item size, has =
-%u expect >=3D %lu",
->           |                                                             =
-             ~~~
->           |                                                             =
-             %u
->      3103 |                           item_size, sizeof(*ei));
->           |                                      ^~~~~~~~~~~
->     fs/btrfs/messages.h:46:40: note: expanded from macro 'btrfs_err'
->        46 |         btrfs_printk(fs_info, KERN_ERR fmt, ##args)
->           |                                        ~~~    ^~~~
->     fs/btrfs/messages.h:27:32: note: expanded from macro 'btrfs_printk'
->        27 |         _btrfs_printk(fs_info, fmt, ##args)
->           |                                ~~~    ^~~~
->     4 warnings generated.
->
-> Kconfig warnings: (for reference only)
->     WARNING: unmet direct dependencies detected for HOTPLUG_CPU
->     Depends on [n]: SMP [=3Dy] && (PPC_PSERIES [=3Dn] || PPC_PMAC [=3Dn]=
- || PPC_POWERNV [=3Dn] || FSL_SOC_BOOKE [=3Dn])
->     Selected by [y]:
->     - PM_SLEEP_SMP [=3Dy] && SMP [=3Dy] && (ARCH_SUSPEND_POSSIBLE [=3Dy]=
- || ARCH_HIBERNATION_POSSIBLE [=3Dy]) && PM_SLEEP [=3Dy]
->
->
-> vim +100 fs/btrfs/print-tree.c
->
->      82
->      83	static void print_extent_item(const struct extent_buffer *eb, in=
-t slot, int type)
->      84	{
->      85		struct btrfs_extent_item *ei;
->      86		struct btrfs_extent_inline_ref *iref;
->      87		struct btrfs_extent_data_ref *dref;
->      88		struct btrfs_shared_data_ref *sref;
->      89		struct btrfs_disk_key key;
->      90		unsigned long end;
->      91		unsigned long ptr;
->      92		u32 item_size =3D btrfs_item_size(eb, slot);
->      93		u64 flags;
->      94		u64 offset;
->      95		int ref_index =3D 0;
->      96
->      97		if (unlikely(item_size < sizeof(*ei))) {
->      98			btrfs_err(eb->fs_info,
->      99				  "unexpected extent item size, has %u expect >=3D %lu",
->   > 100				  item_size, sizeof(*ei));
->     101			btrfs_handle_fs_error(eb->fs_info, -EUCLEAN, NULL);
->     102		}
->     103
->     104		ei =3D btrfs_item_ptr(eb, slot, struct btrfs_extent_item);
->     105		flags =3D btrfs_extent_flags(eb, ei);
->     106
->     107		pr_info("\t\textent refs %llu gen %llu flags %llu\n",
->     108		       btrfs_extent_refs(eb, ei), btrfs_extent_generation(eb, e=
-i),
->     109		       flags);
->     110
->     111		if ((type =3D=3D BTRFS_EXTENT_ITEM_KEY) &&
->     112		    flags & BTRFS_EXTENT_FLAG_TREE_BLOCK) {
->     113			struct btrfs_tree_block_info *info;
->     114			info =3D (struct btrfs_tree_block_info *)(ei + 1);
->     115			btrfs_tree_block_key(eb, info, &key);
->     116			pr_info("\t\ttree block key (%llu %u %llu) level %d\n",
->     117			       btrfs_disk_key_objectid(&key), key.type,
->     118			       btrfs_disk_key_offset(&key),
->     119			       btrfs_tree_block_level(eb, info));
->     120			iref =3D (struct btrfs_extent_inline_ref *)(info + 1);
->     121		} else {
->     122			iref =3D (struct btrfs_extent_inline_ref *)(ei + 1);
->     123		}
->     124
->     125		ptr =3D (unsigned long)iref;
->     126		end =3D (unsigned long)ei + item_size;
->     127		while (ptr < end) {
->     128			iref =3D (struct btrfs_extent_inline_ref *)ptr;
->     129			type =3D btrfs_extent_inline_ref_type(eb, iref);
->     130			offset =3D btrfs_extent_inline_ref_offset(eb, iref);
->     131			pr_info("\t\tref#%d: ", ref_index++);
->     132			switch (type) {
->     133			case BTRFS_TREE_BLOCK_REF_KEY:
->     134				pr_cont("tree block backref root %llu\n", offset);
->     135				break;
->     136			case BTRFS_SHARED_BLOCK_REF_KEY:
->     137				pr_cont("shared block backref parent %llu\n", offset);
->     138				/*
->     139				 * offset is supposed to be a tree block which
->     140				 * must be aligned to nodesize.
->     141				 */
->     142				if (!IS_ALIGNED(offset, eb->fs_info->sectorsize))
->     143					pr_info(
->     144				"\t\t\t(parent %llu not aligned to sectorsize %u)\n",
->     145						offset, eb->fs_info->sectorsize);
->     146				break;
->     147			case BTRFS_EXTENT_DATA_REF_KEY:
->     148				dref =3D (struct btrfs_extent_data_ref *)(&iref->offset);
->     149				print_extent_data_ref(eb, dref);
->     150				break;
->     151			case BTRFS_SHARED_DATA_REF_KEY:
->     152				sref =3D (struct btrfs_shared_data_ref *)(iref + 1);
->     153				pr_cont("shared data backref parent %llu count %u\n",
->     154				       offset, btrfs_shared_data_ref_count(eb, sref));
->     155				/*
->     156				 * Offset is supposed to be a tree block which must be
->     157				 * aligned to sectorsize.
->     158				 */
->     159				if (!IS_ALIGNED(offset, eb->fs_info->sectorsize))
->     160					pr_info(
->     161				"\t\t\t(parent %llu not aligned to sectorsize %u)\n",
->     162					     offset, eb->fs_info->sectorsize);
->     163				break;
->     164			default:
->     165				pr_cont("(extent %llu has INVALID ref type %d)\n",
->     166					  eb->start, type);
->     167				return;
->     168			}
->     169			ptr +=3D btrfs_extent_inline_ref_size(type);
->     170		}
->     171		WARN_ON(ptr > end);
->     172	}
->     173
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
