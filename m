@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDAB7472
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 19:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B9A1CCCC;
+	Sat, 12 Aug 2023 21:30:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691870304; x=1723406304;
+  t=1691875826; x=1723411826;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pFYW0Iv/e/WXwvsZKXqXFOJ0Dpyj9XaAuhQ/AEdy4TY=;
-  b=HqhD/58t0lnY31wPw3n5KhvmEvFT0jJSq3vxOpbcxh+dGybLFYDWAsgx
-   uQu+Xv+unlMf34Z86m5qjR5HdT/Ci3v5q/2CQpFsgNvtt1FACHeB4btdJ
-   b0nw8GOjEVpgYLT12GJ7xpqFYnVbQfymYugO7jRtt4ubXV/5fTl+FKMhi
-   00Pff6t9SrNqW3O1/pZzjExkPJ2DmxQTX431PBF86llgC+5D4Jy5rGpFS
-   myQTPEIq51ujbmsmjE8LuqYcxNyHyD0L5xmeoDDn2Nzo4iIheXTlAN3N7
-   HtM95bNBzYaPkawnSEtnT1BLb5xbzfEhJBW2kbETKLConmQKuzGZPS8IW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="351453567"
+  bh=4Knkcmt8dTVrq8tl7N9v/v3k4Vq5sQ8tVkqMab9ylok=;
+  b=UP86eUyt1LMgJ5+A0PO0ojzbJu7sUNIXl95LBp1bgYka2m5ov8BY41Le
+   fDqAdYHGBpybO6XMPMTCYK4xVoEXgxMUAfTnJT+uoygBsYGtzCP7Zj7Jx
+   gTlXn6yDepY2ufx13pVznIMA7HCMh5fyoU7JqJD8Vg67VzxWVB94JowMv
+   R5WM1idnXO2eSjnoNz+w/0MX99FTDgj8vLhCZY5GI7J5ep9hwG2CQhQ/y
+   Wmxf9V+nWJGfV2yVIhu2l8oIQ4Sh2gcmYwVWCnVYpViYQBviLiZTK5HHT
+   iYQXEIMOysdFPvmrdITbqE9NPHcqeMCzw3A2nQ2EOnQGegw6SbJliysLx
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="370751182"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="351453567"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 12:58:23 -0700
+   d="scan'208";a="370751182"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 14:30:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="876510574"
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="768017118"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="768017118"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 12 Aug 2023 12:58:25 -0700
+  by orsmga001.jf.intel.com with ESMTP; 12 Aug 2023 14:30:23 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUukf-0008ky-1M;
-	Sat, 12 Aug 2023 19:58:21 +0000
-Date: Sun, 13 Aug 2023 03:58:09 +0800
+	id 1qUwBi-0008nE-35;
+	Sat, 12 Aug 2023 21:30:22 +0000
+Date: Sun, 13 Aug 2023 05:30:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 2196/23513]
- drivers/staging/android/debug_kinfo.c:164:34: warning:
- 'debug_kinfo_of_match' defined but not used
-Message-ID: <202308130350.YGDix5oX-lkp@intel.com>
+To: Tianyu Lan <tiala@microsoft.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [lantianyu:test 10/20] arch/x86/kernel/sev.c:185:30: warning: no
+ previous prototype for function 'sev_snp_current_doorbell_page'
+Message-ID: <202308130530.BrX4dW2r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,56 +46,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jone,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   ee1147625d28317061f5dd303de56f1fadf4eec0
-commit: 1a9c7b3e3bdd87a10205891806a0d880fe27230c [2196/23513] ANDROID: staging: add debug-kinfo driver
-config: x86_64-randconfig-x052-20230813 (https://download.01.org/0day-ci/archive/20230813/202308130350.YGDix5oX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230813/202308130350.YGDix5oX-lkp@intel.com/reproduce)
+tree:   https://github.com/lantianyu/linux test
+head:   a8a44aa58e6c9eac7cdbb142e11b3ac894404756
+commit: 65f17da72a5e7625d2cb608eabf084e53f9286dc [10/20] x86/sev: Add AMD sev-snp enlightened guest support on hyperv
+config: x86_64-randconfig-x002-20230812 (https://download.01.org/0day-ci/archive/20230813/202308130530.BrX4dW2r-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230813/202308130530.BrX4dW2r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308130350.YGDix5oX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308130530.BrX4dW2r-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/staging/android/debug_kinfo.c:164:34: warning: 'debug_kinfo_of_match' defined but not used [-Wunused-const-variable=]
-     164 | static const struct of_device_id debug_kinfo_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
+>> arch/x86/kernel/sev.c:185:30: warning: no previous prototype for function 'sev_snp_current_doorbell_page' [-Wmissing-prototypes]
+   struct sev_hv_doorbell_page *sev_snp_current_doorbell_page(void)
+                                ^
+   arch/x86/kernel/sev.c:185:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct sev_hv_doorbell_page *sev_snp_current_doorbell_page(void)
+   ^
+   static 
+   arch/x86/kernel/sev.c:237:4: error: call to undeclared function 'sysvec_irq_move_cleanup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                           sysvec_irq_move_cleanup(regs);
+                           ^
+   arch/x86/kernel/sev.c:284:37: error: use of undeclared identifier 'vector'
+                                   panic("Unexpected vector %d\n", vector);
+                                                                   ^
+   arch/x86/kernel/sev.c:413:30: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+           struct sev_es_runtime_data *data;
+                                       ^
+   2 warnings and 2 errors generated.
 
 
-vim +/debug_kinfo_of_match +164 drivers/staging/android/debug_kinfo.c
+vim +/sev_snp_current_doorbell_page +185 arch/x86/kernel/sev.c
 
-   163	
- > 164	static const struct of_device_id debug_kinfo_of_match[] = {
-   165		{ .compatible	= "google,debug-kinfo" },
-   166		{},
-   167	};
-   168	MODULE_DEVICE_TABLE(of, debug_kinfo_of_match);
-   169	
+   184	
+ > 185	struct sev_hv_doorbell_page *sev_snp_current_doorbell_page(void)
+   186	{
+   187		return &this_cpu_read(snp_runtime_data)->hv_doorbell_page;
+   188	}
+   189	
 
 -- 
 0-DAY CI Kernel Test Service
