@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFB87E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 00:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962857E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 00:20:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691798998; x=1723334998;
+  t=1691799658; x=1723335658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Krcl/LMo8g28e/jsX+4dkr5H04FoN5IYBkZp6T1ik2Y=;
-  b=dNfKYD+aNBwrXI7zvPSNOKKRFjHwqgj6m79y7jwE0TLyb6Mgw/v3kMeK
-   fvceXY2Kiipa6M4UdqBTHZYjmNXbsi3zxC7YWtP5dvLh2s9jOTJ8T6J3H
-   +zBTWsAAXxEuHxYueYQgApKpEaODZzflJW0OA2LtFGOECgIgmCxYKpdlz
-   WoyrAV5dnjONwggyFMllIxp/DoHofynMWvgKvBHEuerkywdoQxKRa7P2H
-   mXgnMjjLMVj47KE5ywITJl/mjwUMmQpQbkWfUtjHjvrRZK1iU1fHuUuZ2
-   eb73/zlgec+h3OonHt1V6iRa1nHdhVNoVW1ALcEsD2gyUoKiFm54uDeZ/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="351391844"
+  bh=KeY3hyBtmfcLPtC0n51/iywGCgbvLslZc7rmdMZaHiQ=;
+  b=ZGl3RRIzGglKqbF5ongM92Pqe/AmlgJKB9UfYO9WKyTG8utdiuXh2r0S
+   Fa+jOUpmXf+AwPZrzbh0ZF4nHnlNgjv0PUEuWgSANkST+rNXdFjbIYiBK
+   9WbD7tNA03UlvUMNr1I5ili+1+WGIxzx6kyhSC8dszp4sh2z9JcViaNHI
+   +GAcTlM9V6aYuc64sWEunFYVD8ee23etMjNTN/2Mv8PnkmTQUiESaK8d7
+   a6HFlMlsif+vZnOq5YTkUr/C2kApWIIkya39+3KsEG+h7PhijYlHdw/AR
+   mzHrroSg5ekTz7lqHkc5XUUwnm23KmVfaX6CO6umzdUt3ZcZqY16OYlV1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="371793008"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="351391844"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 17:09:57 -0700
+   d="scan'208";a="371793008"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 17:20:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="802853380"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="822850065"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="802853380"
+   d="scan'208";a="822850065"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Aug 2023 17:09:55 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2023 17:20:55 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUcCY-00087M-1Y;
-	Sat, 12 Aug 2023 00:09:54 +0000
-Date: Sat, 12 Aug 2023 08:09:47 +0800
+	id 1qUcND-00088C-02;
+	Sat, 12 Aug 2023 00:20:55 +0000
+Date: Sat, 12 Aug 2023 08:20:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Justin Ernst <justin.ernst@hpe.com>
+To: Thomas Gleixner <tglx@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Borislav Petkov <bp@suse.de>, Steve Wahl <steve.wahl@hpe.com>
-Subject: arch/x86/platform/uv/bios_uv.c:175:12: sparse: sparse: function
- 'uv_bios_get_master_nasid' with external linkage has definition
-Message-ID: <202308120843.j7FXmsnM-lkp@intel.com>
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Muchun Song <songmuchun@bytedance.com>
+Subject: mm/memcontrol.c:600:9: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202308120839.dVnfuv2t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,96 +50,156 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   190bf7b14b0cf3df19c059061be032bd8994a597
-commit: 9a3c425cfdfee169622f1cb1a974b2f287e5560c x86/platform/uv: Add and export uv_bios_* functions
-date:   2 years, 9 months ago
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230812/202308120843.j7FXmsnM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120843.j7FXmsnM-lkp@intel.com/reproduce)
+commit: e575d401583273a7ac5dfb27520e41c821e81816 mm/memcontrol: Replace the PREEMPT_RT conditionals
+date:   11 months ago
+config: loongarch-randconfig-r072-20230811 (https://download.01.org/0day-ci/archive/20230812/202308120839.dVnfuv2t-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120839.dVnfuv2t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308120843.j7FXmsnM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308120839.dVnfuv2t-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> arch/x86/platform/uv/bios_uv.c:175:12: sparse: sparse: function 'uv_bios_get_master_nasid' with external linkage has definition
->> arch/x86/platform/uv/bios_uv.c:182:12: sparse: sparse: function 'uv_bios_get_heapsize' with external linkage has definition
->> arch/x86/platform/uv/bios_uv.c:189:12: sparse: sparse: function 'uv_bios_install_heap' with external linkage has definition
->> arch/x86/platform/uv/bios_uv.c:196:12: sparse: sparse: function 'uv_bios_obj_count' with external linkage has definition
->> arch/x86/platform/uv/bios_uv.c:203:12: sparse: sparse: function 'uv_bios_enum_objs' with external linkage has definition
->> arch/x86/platform/uv/bios_uv.c:210:12: sparse: sparse: function 'uv_bios_enum_ports' with external linkage has definition
->> arch/x86/platform/uv/bios_uv.c:217:12: sparse: sparse: function 'uv_bios_get_geoinfo' with external linkage has definition
->> arch/x86/platform/uv/bios_uv.c:223:12: sparse: sparse: function 'uv_bios_get_pci_topology' with external linkage has definition
-   arch/x86/platform/uv/bios_uv.c:249:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct uv_systab *[addressable] [assigned] [toplevel] uv_systab @@     got void [noderef] __iomem * @@
-   arch/x86/platform/uv/bios_uv.c:249:19: sparse:     expected struct uv_systab *[addressable] [assigned] [toplevel] uv_systab
-   arch/x86/platform/uv/bios_uv.c:249:19: sparse:     got void [noderef] __iomem *
-   arch/x86/platform/uv/bios_uv.c:252:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct uv_systab *[addressable] [assigned] [toplevel] uv_systab @@
-   arch/x86/platform/uv/bios_uv.c:252:25: sparse:     expected void volatile [noderef] __iomem *addr
-   arch/x86/platform/uv/bios_uv.c:252:25: sparse:     got struct uv_systab *[addressable] [assigned] [toplevel] uv_systab
-   arch/x86/platform/uv/bios_uv.c:260:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct uv_systab *[addressable] [assigned] [toplevel] uv_systab @@
-   arch/x86/platform/uv/bios_uv.c:260:25: sparse:     expected void volatile [noderef] __iomem *addr
-   arch/x86/platform/uv/bios_uv.c:260:25: sparse:     got struct uv_systab *[addressable] [assigned] [toplevel] uv_systab
-   arch/x86/platform/uv/bios_uv.c:261:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct uv_systab *[addressable] [assigned] [toplevel] uv_systab @@     got void [noderef] __iomem * @@
-   arch/x86/platform/uv/bios_uv.c:261:27: sparse:     expected struct uv_systab *[addressable] [assigned] [toplevel] uv_systab
-   arch/x86/platform/uv/bios_uv.c:261:27: sparse:     got void [noderef] __iomem *
+>> mm/memcontrol.c:600:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   mm/memcontrol.c:600:9: sparse:     expected void *ptr
+   mm/memcontrol.c:600:9: sparse:     got unsigned int [noderef] __percpu *
+>> mm/memcontrol.c:600:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   mm/memcontrol.c:600:9: sparse:     expected void *ptr
+   mm/memcontrol.c:600:9: sparse:     got unsigned int [noderef] __percpu *
+>> mm/memcontrol.c:600:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   mm/memcontrol.c:600:9: sparse:     expected void *ptr
+   mm/memcontrol.c:600:9: sparse:     got unsigned int [noderef] __percpu *
+>> mm/memcontrol.c:600:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   mm/memcontrol.c:600:9: sparse:     expected void *ptr
+   mm/memcontrol.c:600:9: sparse:     got unsigned int [noderef] __percpu *
+>> mm/memcontrol.c:600:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   mm/memcontrol.c:600:9: sparse:     expected void *ptr
+   mm/memcontrol.c:600:9: sparse:     got int [noderef] __percpu *
+>> mm/memcontrol.c:600:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   mm/memcontrol.c:600:9: sparse:     expected void *ptr
+   mm/memcontrol.c:600:9: sparse:     got int [noderef] __percpu *
+>> mm/memcontrol.c:600:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   mm/memcontrol.c:600:9: sparse:     expected void *ptr
+   mm/memcontrol.c:600:9: sparse:     got int [noderef] __percpu *
+>> mm/memcontrol.c:600:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   mm/memcontrol.c:600:9: sparse:     expected void *ptr
+   mm/memcontrol.c:600:9: sparse:     got int [noderef] __percpu *
+   mm/memcontrol.c:606:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   mm/memcontrol.c:606:9: sparse:     expected void *ptr
+   mm/memcontrol.c:606:9: sparse:     got unsigned int [noderef] __percpu *
+   mm/memcontrol.c:606:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   mm/memcontrol.c:606:9: sparse:     expected void *ptr
+   mm/memcontrol.c:606:9: sparse:     got unsigned int [noderef] __percpu *
+   mm/memcontrol.c:606:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   mm/memcontrol.c:606:9: sparse:     expected void *ptr
+   mm/memcontrol.c:606:9: sparse:     got unsigned int [noderef] __percpu *
+   mm/memcontrol.c:606:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   mm/memcontrol.c:606:9: sparse:     expected void *ptr
+   mm/memcontrol.c:606:9: sparse:     got unsigned int [noderef] __percpu *
+   mm/memcontrol.c:606:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   mm/memcontrol.c:606:9: sparse:     expected void *ptr
+   mm/memcontrol.c:606:9: sparse:     got int [noderef] __percpu *
+   mm/memcontrol.c:606:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   mm/memcontrol.c:606:9: sparse:     expected void *ptr
+   mm/memcontrol.c:606:9: sparse:     got int [noderef] __percpu *
+   mm/memcontrol.c:606:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   mm/memcontrol.c:606:9: sparse:     expected void *ptr
+   mm/memcontrol.c:606:9: sparse:     got int [noderef] __percpu *
+   mm/memcontrol.c:606:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   mm/memcontrol.c:606:9: sparse:     expected void *ptr
+   mm/memcontrol.c:606:9: sparse:     got int [noderef] __percpu *
+   mm/memcontrol.c:4109:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4109:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4109:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4111:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4111:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4111:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4267:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4267:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4267:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4361:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4361:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4361:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:5991:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:5991:23: sparse:    struct task_struct [noderef] __rcu *
+   mm/memcontrol.c:5991:23: sparse:    struct task_struct *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c: note: in included file:
+   include/linux/memcontrol.h:754:9: sparse: sparse: context imbalance in 'folio_lruvec_lock' - wrong count at exit
+   include/linux/memcontrol.h:754:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irq' - wrong count at exit
+   include/linux/memcontrol.h:754:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irqsave' - wrong count at exit
+   mm/memcontrol.c:2027:6: sparse: sparse: context imbalance in 'folio_memcg_lock' - wrong count at exit
+   mm/memcontrol.c:2079:17: sparse: sparse: context imbalance in '__folio_memcg_unlock' - unexpected unlock
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
+   mm/memcontrol.c:914:24: sparse:     got struct mem_cgroup *[noderef] __percpu *
+   mm/memcontrol.c:914:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct mem_cgroup *[noderef] __percpu * @@
+   mm/memcontrol.c:914:24: sparse:     expected void *ptr
 
-vim +/uv_bios_get_master_nasid +175 arch/x86/platform/uv/bios_uv.c
+vim +600 mm/memcontrol.c
 
-   174	
- > 175	extern s64 uv_bios_get_master_nasid(u64 size, u64 *master_nasid)
-   176	{
-   177		return uv_bios_call(UV_BIOS_EXTRA, 0, UV_BIOS_EXTRA_MASTER_NASID, 0,
-   178					size, (u64)master_nasid);
-   179	}
-   180	EXPORT_SYMBOL_GPL(uv_bios_get_master_nasid);
-   181	
- > 182	extern s64 uv_bios_get_heapsize(u64 nasid, u64 size, u64 *heap_size)
-   183	{
-   184		return uv_bios_call(UV_BIOS_EXTRA, nasid, UV_BIOS_EXTRA_GET_HEAPSIZE,
-   185					0, size, (u64)heap_size);
-   186	}
-   187	EXPORT_SYMBOL_GPL(uv_bios_get_heapsize);
-   188	
- > 189	extern s64 uv_bios_install_heap(u64 nasid, u64 heap_size, u64 *bios_heap)
-   190	{
-   191		return uv_bios_call(UV_BIOS_EXTRA, nasid, UV_BIOS_EXTRA_INSTALL_HEAP,
-   192					0, heap_size, (u64)bios_heap);
-   193	}
-   194	EXPORT_SYMBOL_GPL(uv_bios_install_heap);
-   195	
- > 196	extern s64 uv_bios_obj_count(u64 nasid, u64 size, u64 *objcnt)
-   197	{
-   198		return uv_bios_call(UV_BIOS_EXTRA, nasid, UV_BIOS_EXTRA_OBJECT_COUNT,
-   199					0, size, (u64)objcnt);
-   200	}
-   201	EXPORT_SYMBOL_GPL(uv_bios_obj_count);
-   202	
- > 203	extern s64 uv_bios_enum_objs(u64 nasid, u64 size, u64 *objbuf)
-   204	{
-   205		return uv_bios_call(UV_BIOS_EXTRA, nasid, UV_BIOS_EXTRA_ENUM_OBJECTS,
-   206					0, size, (u64)objbuf);
-   207	}
-   208	EXPORT_SYMBOL_GPL(uv_bios_enum_objs);
-   209	
- > 210	extern s64 uv_bios_enum_ports(u64 nasid, u64 obj_id, u64 size, u64 *portbuf)
-   211	{
-   212		return uv_bios_call(UV_BIOS_EXTRA, nasid, UV_BIOS_EXTRA_ENUM_PORTS,
-   213					obj_id, size, (u64)portbuf);
-   214	}
-   215	EXPORT_SYMBOL_GPL(uv_bios_enum_ports);
-   216	
- > 217	extern s64 uv_bios_get_geoinfo(u64 nasid, u64 size, u64 *buf)
-   218	{
-   219		return uv_bios_call(UV_BIOS_GET_GEOINFO, nasid, (u64)buf, size, 0, 0);
-   220	}
-   221	EXPORT_SYMBOL_GPL(uv_bios_get_geoinfo);
-   222	
- > 223	extern s64 uv_bios_get_pci_topology(u64 size, u64 *buf)
-   224	{
-   225		return uv_bios_call(UV_BIOS_GET_PCI_TOPOLOGY, (u64)buf, size, 0, 0, 0);
-   226	}
-   227	EXPORT_SYMBOL_GPL(uv_bios_get_pci_topology);
-   228	
+   591	
+   592	/*
+   593	 * Accessors to ensure that preemption is disabled on PREEMPT_RT because it can
+   594	 * not rely on this as part of an acquired spinlock_t lock. These functions are
+   595	 * never used in hardirq context on PREEMPT_RT and therefore disabling preemtion
+   596	 * is sufficient.
+   597	 */
+   598	static void memcg_stats_lock(void)
+   599	{
+ > 600		preempt_disable_nested();
+   601		VM_WARN_ON_IRQS_ENABLED();
+   602	}
+   603	
 
 -- 
 0-DAY CI Kernel Test Service
