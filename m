@@ -1,43 +1,32 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1932585;
-	Sat, 12 Aug 2023 22:43:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691880207; x=1723416207;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GOYPsyLcl4z9mezQCMIjUvJe/N9q8blajBcDXBF19BE=;
-  b=JHz3o6prvEcxKZS/jkxswuob9yXttlrs1n7rWGfzTG0Z8MW202iQ6Eul
-   teXvexCFwqGNwWlf8FucxMTBXwngtAaoPcmN1H7lXpR1lY+p1ZFALSjI1
-   m8qRcVNTYGMfAq2QvPvpQTD0k3wKReH322sFCOW/M7BmHIiKkYuEe3EX0
-   o1JZTyYbbiPnYnCM/FcqovLHxoWK2ZIf3q99e48BXo/37GnifsVWufDQ7
-   MknOoSAuKnnZuugqT51k6ozQLRLP6c9omQEl6j6qhvwrAENng0i0HKwJN
-   LPLm27WjDP9lj2sqSqSAjD6ZRHL5ZXfoah/RAPj7rwkVgl+/e/qjF+dw5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="438187049"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="438187049"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 15:43:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="733006721"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="733006721"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 12 Aug 2023 15:43:25 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qUxKP-0008p6-0H;
-	Sat, 12 Aug 2023 22:43:25 +0000
-Date: Sun, 13 Aug 2023 06:42:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tianyu Lan <tiala@microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [lantianyu:test 10/20] arch/x86/kernel/sev.c:237:4: error: call to
- undeclared function 'sysvec_irq_move_cleanup'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202308130634.BE5Kl3I5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8A08C0A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 23:19:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09021C433C8;
+	Sat, 12 Aug 2023 23:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691882350;
+	bh=eTfVsvA7zVNMKkiEQGYwCFXdpsm1vK1qSCp7Q7TIP4c=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=HejShJ+dHsQ5vIv+oGpISBUPZoRlWoDK/JpDT6c3cWBM0PTkrErSEbIQDwJEfxzzg
+	 cAh4VhX8+ngE9ZnorsLd0UsSgpgJOQXZORhv9MZn5DD9nMtObDZPaWigD9WhHTs5My
+	 V8VIOxCIyRUYqPAmpJ02GhoepEKXTcuJVcPl4to2AOO+4h46ZRkSYWwI9BzhqBW/KP
+	 5/2OZ7oCVcdJFvBn3MqMvXDu3bHJRHZhbdVHkEkOjUS4kZprbhgn+32Ma9zr5NW2a8
+	 yiT24IPkwr5r6nE6Zt1NV6KTMQzqf18mvDznnGdfAX3zD2qa0pqygTkAihgmJhEbhq
+	 k3i2WyDyYyoAQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 5322DCE0AB1; Sat, 12 Aug 2023 16:19:09 -0700 (PDT)
+Date: Sat, 12 Aug 2023 16:19:09 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [linux-next:master 1926/8441] ERROR: modpost: vmlinux: local
+ symbol 'get_rcu_tasks_trace_gp_kthread' was exported
+Message-ID: <90ca450e-9f40-4852-a7f2-9ea9d750b7a0@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202308120923.gCBrnIht-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,110 +35,235 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202308120923.gCBrnIht-lkp@intel.com>
 
-tree:   https://github.com/lantianyu/linux test
-head:   a8a44aa58e6c9eac7cdbb142e11b3ac894404756
-commit: 65f17da72a5e7625d2cb608eabf084e53f9286dc [10/20] x86/sev: Add AMD sev-snp enlightened guest support on hyperv
-config: x86_64-randconfig-x002-20230812 (https://download.01.org/0day-ci/archive/20230813/202308130634.BE5Kl3I5-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230813/202308130634.BE5Kl3I5-lkp@intel.com/reproduce)
+On Sat, Aug 12, 2023 at 09:43:05AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   21ef7b1e17d039053edaeaf41142423810572741
+> commit: 5f8e3202696f5e94d3fc54cfed75d270ae843ee9 [1926/8441] rcuscale: Measure grace-period kthread CPU time
+> config: riscv-randconfig-r042-20230811 (https://download.01.org/0day-ci/archive/20230812/202308120923.gCBrnIht-lkp@intel.com/config)
+> compiler: riscv32-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120923.gCBrnIht-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308120923.gCBrnIht-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> ERROR: modpost: vmlinux: local symbol '__devm_irq_alloc_descs' was exported
+> ERROR: modpost: vmlinux: local symbol 'devm_irq_alloc_generic_chip' was exported
+> ERROR: modpost: vmlinux: local symbol 'devm_irq_setup_generic_chip' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_gc_noop' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_gc_mask_disable_reg' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_gc_mask_set_bit' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_gc_mask_clr_bit' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_gc_unmask_enable_reg' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_gc_ack_set_bit' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_gc_set_wake' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_alloc_generic_chip' was exported
+> ERROR: modpost: vmlinux: local symbol '__irq_alloc_domain_generic_chips' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_get_domain_generic_chip' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_generic_chip_ops' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_setup_generic_chip' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_setup_alt_chip' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_remove_generic_chip' was exported
+> ERROR: modpost: vmlinux: local symbol 'irqchip_fwnode_ops' was exported
+> ERROR: modpost: vmlinux: local symbol '__irq_domain_alloc_fwnode' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_free_fwnode' was exported
+> ERROR: modpost: vmlinux: local symbol '__irq_domain_add' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_remove' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_update_bus_token' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_create_simple' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_add_legacy' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_create_legacy' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_find_matching_fwspec' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_set_default_host' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_get_default_host' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_associate' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_associate_many' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_create_mapping_affinity' was exported
+> ERROR: modpost: vmlinux: local symbol 'of_phandle_args_to_fwspec' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_create_fwspec_mapping' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_create_of_mapping' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_dispose_mapping' was exported
+> ERROR: modpost: vmlinux: local symbol '__irq_resolve_mapping' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_xlate_onecell' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_xlate_twocell' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_xlate_onetwocell' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_simple_ops' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_translate_onecell' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_translate_twocell' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_reset_irq_data' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_create_hierarchy' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_disconnect_hierarchy' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_get_irq_data' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_set_hwirq_and_chip' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_set_info' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_free_irqs_common' was exported
+> ERROR: modpost: vmlinux: local symbol '__irq_domain_alloc_irqs' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_push_irq' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_pop_irq' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_alloc_irqs_parent' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_free_irqs_parent' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_create_sim' was exported
+> ERROR: modpost: vmlinux: local symbol 'irq_domain_remove_sim' was exported
+> ERROR: modpost: vmlinux: local symbol 'devm_irq_domain_create_sim' was exported
+> ERROR: modpost: vmlinux: local symbol 'get_cached_msi_msg' was exported
+> ERROR: modpost: vmlinux: local symbol 'msi_lock_descs' was exported
+> ERROR: modpost: vmlinux: local symbol 'msi_unlock_descs' was exported
+> ERROR: modpost: vmlinux: local symbol 'msi_domain_first_desc' was exported
+> ERROR: modpost: vmlinux: local symbol 'msi_next_desc' was exported
+> ERROR: modpost: vmlinux: local symbol 'msi_domain_get_virq' was exported
+> ERROR: modpost: vmlinux: local symbol 'msi_device_has_isolated_msi' was exported
+> ERROR: modpost: vmlinux: local symbol 'ipi_get_hwirq' was exported
+> ERROR: modpost: vmlinux: local symbol 'ipi_send_single' was exported
+> ERROR: modpost: vmlinux: local symbol 'ipi_send_mask' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_sched_held' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_gp_is_normal' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_async_should_hurry' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_async_hurry' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_async_relax' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_gp_is_expedited' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_expedite_gp' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_unexpedite_gp' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_inkernel_boot_has_ended' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_lock_map' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_bh_lock_map' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_sched_lock_map' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_callback_map' was exported
+> ERROR: modpost: vmlinux: local symbol 'debug_lockdep_rcu_enabled' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_held' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_bh_held' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_any_held' was exported
+> ERROR: modpost: vmlinux: local symbol 'wakeme_after_rcu' was exported
+> ERROR: modpost: vmlinux: local symbol '__wait_rcu_gp' was exported
+> ERROR: modpost: vmlinux: local symbol 'finish_rcuwait' was exported
+> ERROR: modpost: vmlinux: local symbol 'do_trace_rcu_torture_read' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_cpu_stall_suppress' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_cpu_stall_suppress_at_boot' was exported
+> ERROR: modpost: vmlinux: local symbol 'get_completed_synchronize_rcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_trace_lock_map' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_trc_cmpxchg_need_qs' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_read_unlock_trace_special' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_tasks_trace_qs_blkd' was exported
+> ERROR: modpost: vmlinux: local symbol 'call_rcu_tasks_trace' was exported
+> ERROR: modpost: vmlinux: local symbol 'synchronize_rcu_tasks_trace' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_barrier_tasks_trace' was exported
+> ERROR: modpost: vmlinux: local symbol 'show_rcu_tasks_trace_gp_kthread' was exported
+> >> ERROR: modpost: vmlinux: local symbol 'get_rcu_tasks_trace_gp_kthread' was exported
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308130634.BE5Kl3I5-lkp@intel.com/
+This really is used by the module kernel/rcu/rcuscale.c, which doesn't
+sound very local to me.  Unless get_rcu_tasks_trace_gp_kthread() is
+exported, builds with CONFIG_TASKS_TRACE_RCU=y and CONFIG_RCU_SCALE_TEST=m
+will fail.
 
-All errors (new ones prefixed by >>):
+So what am I missing here?
 
-   arch/x86/kernel/sev.c:185:30: warning: no previous prototype for function 'sev_snp_current_doorbell_page' [-Wmissing-prototypes]
-   struct sev_hv_doorbell_page *sev_snp_current_doorbell_page(void)
-                                ^
-   arch/x86/kernel/sev.c:185:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct sev_hv_doorbell_page *sev_snp_current_doorbell_page(void)
-   ^
-   static 
->> arch/x86/kernel/sev.c:237:4: error: call to undeclared function 'sysvec_irq_move_cleanup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           sysvec_irq_move_cleanup(regs);
-                           ^
-   arch/x86/kernel/sev.c:284:37: error: use of undeclared identifier 'vector'
-                                   panic("Unexpected vector %d\n", vector);
-                                                                   ^
-   arch/x86/kernel/sev.c:413:30: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-           struct sev_es_runtime_data *data;
-                                       ^
-   2 warnings and 2 errors generated.
+							Thanx, Paul
 
-
-vim +/sysvec_irq_move_cleanup +237 arch/x86/kernel/sev.c
-
-   229	
-   230			if (!pending_events.vector)
-   231				goto out;
-   232	
-   233			if (pending_events.vector < FIRST_EXTERNAL_VECTOR) {
-   234				/* Exception vectors */
-   235				WARN(1, "exception shouldn't happen\n");
-   236			} else if (pending_events.vector == FIRST_EXTERNAL_VECTOR) {
- > 237				sysvec_irq_move_cleanup(regs);
-   238			} else if (pending_events.vector == IA32_SYSCALL_VECTOR) {
-   239				WARN(1, "syscall shouldn't happen\n");
-   240			} else if (pending_events.vector >= FIRST_SYSTEM_VECTOR) {
-   241				switch (pending_events.vector) {
-   242	#if IS_ENABLED(CONFIG_HYPERV)
-   243				case HYPERV_STIMER0_VECTOR:
-   244					sysvec_hyperv_stimer0(regs);
-   245					break;
-   246				case HYPERVISOR_CALLBACK_VECTOR:
-   247					sysvec_hyperv_callback(regs);
-   248					break;
-   249	#endif
-   250	#ifdef CONFIG_SMP
-   251				case RESCHEDULE_VECTOR:
-   252					sysvec_reschedule_ipi(regs);
-   253					break;
-   254				case IRQ_MOVE_CLEANUP_VECTOR:
-   255					sysvec_irq_move_cleanup(regs);
-   256					break;
-   257				case REBOOT_VECTOR:
-   258					sysvec_reboot(regs);
-   259					break;
-   260				case CALL_FUNCTION_SINGLE_VECTOR:
-   261					sysvec_call_function_single(regs);
-   262					break;
-   263				case CALL_FUNCTION_VECTOR:
-   264					sysvec_call_function(regs);
-   265					break;
-   266	#endif
-   267	#ifdef CONFIG_X86_LOCAL_APIC
-   268				case ERROR_APIC_VECTOR:
-   269					sysvec_error_interrupt(regs);
-   270					break;
-   271				case SPURIOUS_APIC_VECTOR:
-   272					sysvec_spurious_apic_interrupt(regs);
-   273					break;
-   274				case LOCAL_TIMER_VECTOR:
-   275					sysvec_apic_timer_interrupt(regs);
-   276					break;
-   277				case X86_PLATFORM_IPI_VECTOR:
-   278					sysvec_x86_platform_ipi(regs);
-   279					break;
-   280	#endif
-   281				case 0x0:
-   282					break;
-   283				default:
-   284					panic("Unexpected vector %d\n", vector);
-   285					unreachable();
-   286				}
-   287			} else {
-   288				common_interrupt(regs, pending_events.vector);
-   289			}
-   290		}
-   291	
-   292	out:
-   293		this_cpu_read(snp_runtime_data)->hv_handling_events = false;
-   294	}
-   295	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ERROR: modpost: vmlinux: local symbol '__init_srcu_struct' was exported
+> ERROR: modpost: vmlinux: local symbol 'cleanup_srcu_struct' was exported
+> ERROR: modpost: vmlinux: local symbol 'srcu_check_nmi_safety' was exported
+> ERROR: modpost: vmlinux: local symbol '__srcu_read_lock' was exported
+> ERROR: modpost: vmlinux: local symbol '__srcu_read_unlock' was exported
+> ERROR: modpost: vmlinux: local symbol 'call_srcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'synchronize_srcu_expedited' was exported
+> ERROR: modpost: vmlinux: local symbol 'synchronize_srcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'get_state_synchronize_srcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_srcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'poll_state_synchronize_srcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'srcu_barrier' was exported
+> ERROR: modpost: vmlinux: local symbol 'srcu_batches_completed' was exported
+> ERROR: modpost: vmlinux: local symbol 'srcutorture_get_gp_data' was exported
+> ERROR: modpost: vmlinux: local symbol 'srcu_torture_stats_print' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_scheduler_active' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_get_gp_kthreads_prio' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_momentary_dyntick_idle' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_get_gp_seq' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_exp_batches_completed' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcutorture_get_gp_data' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_is_watching' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_gp_slow_register' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_gp_slow_unregister' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_gp_set_torture_wait' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_force_quiescent_state' was exported
+> ERROR: modpost: vmlinux: local symbol 'call_rcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'kvfree_call_rcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'synchronize_rcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'get_completed_synchronize_rcu_full' was exported
+> ERROR: modpost: vmlinux: local symbol 'get_state_synchronize_rcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'get_state_synchronize_rcu_full' was exported
+> ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu_full' was exported
+> ERROR: modpost: vmlinux: local symbol 'poll_state_synchronize_rcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'poll_state_synchronize_rcu_full' was exported
+> ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu' was exported
+> ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu_full' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_barrier' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_lockdep_current_cpu_online' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_exp_jiffies_till_stall_check' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_jiffies_till_stall_check' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_check_boost_fail' was exported
+> ERROR: modpost: vmlinux: local symbol 'show_rcu_gp_kthreads' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_fwd_progress_check' was exported
+> ERROR: modpost: vmlinux: local symbol 'synchronize_rcu_expedited' was exported
+> ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu_expedited' was exported
+> ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu_expedited_full' was exported
+> ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu_expedited' was exported
+> ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu_expedited_full' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_read_unlock_strict' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_all_qs' was exported
+> ERROR: modpost: vmlinux: local symbol 'rcu_note_context_switch' was exported
+> ERROR: modpost: vmlinux: local symbol 'dmam_free_coherent' was exported
+> ERROR: modpost: vmlinux: local symbol 'dmam_alloc_attrs' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_map_page_attrs' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_unmap_page_attrs' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_map_sg_attrs' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_map_sgtable' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_unmap_sg_attrs' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_map_resource' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_unmap_resource' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_sync_single_for_cpu' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_sync_single_for_device' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_sync_sg_for_cpu' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_sync_sg_for_device' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_get_sgtable_attrs' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_can_mmap' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_mmap_attrs' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_get_required_mask' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_alloc_attrs' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_free_attrs' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_alloc_pages' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_free_pages' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_mmap_pages' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_alloc_noncontiguous' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_free_noncontiguous' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_vmap_noncontiguous' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_vunmap_noncontiguous' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_mmap_noncontiguous' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_pci_p2pdma_supported' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_set_mask' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_set_coherent_mask' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_max_mapping_size' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_opt_mapping_size' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_need_sync' was exported
+> ERROR: modpost: vmlinux: local symbol 'dma_get_merge_boundary' was exported
+> ERROR: modpost: vmlinux: local symbol 'register_module_notifier' was exported
+> ERROR: modpost: vmlinux: local symbol 'unregister_module_notifier' was exported
+> ERROR: modpost: vmlinux: local symbol '__module_put_and_kthread_exit' was exported
+> ERROR: modpost: vmlinux: local symbol '__tracepoint_module_get' was exported
+> ERROR: modpost: vmlinux: local symbol '__traceiter_module_get' was exported
+> ERROR: modpost: vmlinux: local symbol '__SCK__tp_func_module_get' was exported
+> ERROR: modpost: vmlinux: local symbol 'module_refcount' was exported
+> ERROR: modpost: vmlinux: local symbol '__symbol_put' was exported
+> ERROR: modpost: vmlinux: local symbol 'symbol_put_addr' was exported
+> ERROR: modpost: vmlinux: local symbol '__module_get' was exported
+> ERROR: modpost: vmlinux: local symbol 'try_module_get' was exported
+> ERROR: modpost: vmlinux: local symbol 'module_put' was exported
+> ERROR: modpost: vmlinux: local symbol '__symbol_get' was exported
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
