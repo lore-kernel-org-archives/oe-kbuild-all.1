@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1334DEDD;
-	Sat, 12 Aug 2023 01:43:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C8210EE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 01:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691804640; x=1723340640;
+  t=1691804642; x=1723340642;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dszFT3kcYKxoCFqeBmPYQUnrqzL/NMdOb3HKjC/H10c=;
-  b=FuByuHaHr3adv/w/FkxXCJfDswkfvBtvvzIuCmFPi84z2yvWxcwPvjxA
-   fBWTaq+CgxOJy+527wSEMVA6jICgKvKdb+9ino8OPE0K9WZlaI78sZqnh
-   Cw5wQDGiomQDRVReq+uyENl2Fdoy7a5KNSiMsU6oqN6q42ELnx6+AnaUs
-   oP8MtILy+8psZ76FwHShS2U6S0Ce+o+D9Ie0v6RbxNnwBQm+C5phhpj8q
-   8VvSfNhxsu9ppT7HELv92mQPLZrf3xZxMidqlMTyiIic+EPXbhIUcYsIU
-   UxfL0Kb5haVmVlUkZR1fepbEN7AxRHwlx7i3IAt/G0eCqCkWSH87BtO79
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="370695355"
+  bh=NfxhoXaPnM2VYKUu/X759PaTw0Ut/fvH3cDhTXpGIyw=;
+  b=BCe2k90pibXRmy8git8Zxr48aSN7DY1sOfYfnuOVjm61/IPIg4vcbtfk
+   ohkU7U7mTJ1L/VEM7PIO8VU6abYH81UzFTyUqpZOtEXq9u+b7KD+bEfY6
+   wlc7xhsezQQcNiGfWKb++T/vpNWR2FenQ6sekhD+dSIiJMxhlJjuHclRR
+   sorAblqIjVVU5MUU30kgrsMsqs/Fr2vqnQYicYFJQjUPkN+D7D7MiI+Ha
+   B7RVrpx8Ik/1/KUM61zXUrqi5xD8rd8DIlcmGukJ0gbqlrRRaJ3xbw9gY
+   WOZ4hVbvROQWecySGWl0HvbENo9brSLlcnTTRmJLTkEyq6e+BdVfE2hF9
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="369264762"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="370695355"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 18:43:59 -0700
+   d="scan'208";a="369264762"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 18:43:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="846965485"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="767845467"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="846965485"
+   d="scan'208";a="767845467"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Aug 2023 18:43:57 -0700
+  by orsmga001.jf.intel.com with ESMTP; 11 Aug 2023 18:43:57 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUdfZ-0008BU-0S;
+	id 1qUdfZ-0008BS-0P;
 	Sat, 12 Aug 2023 01:43:57 +0000
-Date: Sat, 12 Aug 2023 09:43:04 +0800
+Date: Sat, 12 Aug 2023 09:43:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davejiang:cxl-ide 15/24]
- drivers/firmware/efi/libstub/x86-stub.c:865:47: warning: result of
- comparison of constant 70368744177664 with expression of type 'unsigned
- long' is always false
-Message-ID: <202308120958.MZkonPmw-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 1926/8441] ERROR: modpost: vmlinux: local symbol
+ 'get_rcu_tasks_trace_gp_kthread' was exported
+Message-ID: <202308120923.gCBrnIht-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,126 +47,221 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/davejiang/linux.git cxl-ide
-head:   5e3487a17fbf6e33d8ddd60444073ff0bc59b35e
-commit: cba36ee4e7f4d5d50334a59f5a5af09605bfdde6 [15/24] pci: Add basic support for discovery of IDE on PCIe device
-config: i386-randconfig-i016-20230812 (https://download.01.org/0day-ci/archive/20230812/202308120958.MZkonPmw-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120958.MZkonPmw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   21ef7b1e17d039053edaeaf41142423810572741
+commit: 5f8e3202696f5e94d3fc54cfed75d270ae843ee9 [1926/8441] rcuscale: Measure grace-period kthread CPU time
+config: riscv-randconfig-r042-20230811 (https://download.01.org/0day-ci/archive/20230812/202308120923.gCBrnIht-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120923.gCBrnIht-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308120958.MZkonPmw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308120923.gCBrnIht-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/firmware/efi/libstub/x86-stub.c:10:
-   include/linux/pci.h:352:12: warning: declaration of 'enum pci_ide_stream_type' will not be visible outside of this function [-Wvisibility]
-                                            enum pci_ide_stream_type type)
-                                                 ^
-   include/linux/pci.h:352:32: error: variable has incomplete type 'enum pci_ide_stream_type'
-                                            enum pci_ide_stream_type type)
-                                                                     ^
-   include/linux/pci.h:352:12: note: forward declaration of 'enum pci_ide_stream_type'
-                                            enum pci_ide_stream_type type)
-                                                 ^
->> drivers/firmware/efi/libstub/x86-stub.c:865:47: warning: result of comparison of constant 70368744177664 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
-               (IS_ENABLED(CONFIG_X86_64) && buffer_end > MAXMEM_X86_64_4LEVEL) ||
-                                             ~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~
-   2 warnings and 1 error generated.
-
-
-vim +865 drivers/firmware/efi/libstub/x86-stub.c
-
-291f36325f9f25 arch/x86/boot/compressed/eboot.c        Matt Fleming   2011-12-12  805  
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming   2012-07-19  806  /*
-8acf63efa1712f drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  807   * On success, we return the address of startup_32, which has potentially been
-8acf63efa1712f drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  808   * relocated by efi_relocate_kernel.
-8acf63efa1712f drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  809   * On failure, we exit to the firmware via efi_exit instead of returning.
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming   2012-07-19  810   */
-db14655ad7854b drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel 2022-10-14  811  asmlinkage unsigned long efi_main(efi_handle_t handle,
-c3710de5065d63 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2019-12-24  812  				  efi_system_table_t *sys_table_arg,
-796eb8d26a57f9 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-01-13  813  				  struct boot_params *boot_params)
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming   2012-07-19  814  {
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  815  	unsigned long bzimage_addr = (unsigned long)startup_32;
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  816  	unsigned long buffer_start, buffer_end;
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming   2012-07-19  817  	struct setup_header *hdr = &boot_params->hdr;
-f4dc7fffa9873d drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel 2022-09-16  818  	const struct linux_efi_initrd *initrd = NULL;
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming   2012-07-19  819  	efi_status_t status;
-54b52d87268034 arch/x86/boot/compressed/eboot.c        Matt Fleming   2014-01-10  820  
-ccc27ae7749425 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel 2020-04-16  821  	efi_system_table = sys_table_arg;
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming   2012-07-19  822  	/* Check if we were booted by the EFI firmware */
-ccc27ae7749425 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel 2020-04-16  823  	if (efi_system_table->hdr.signature != EFI_SYSTEM_TABLE_SIGNATURE)
-3b8f44fc0810d5 drivers/firmware/efi/libstub/x86-stub.c Ard Biesheuvel 2020-02-16  824  		efi_exit(handle, EFI_INVALID_PARAMETER);
-9ca8f72a9297f2 arch/x86/boot/compressed/eboot.c        Matt Fleming   2012-07-19  825  
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy 2022-03-03  826  	efi_dxe_table = get_efi_config_table(EFI_DXE_SERVICES_TABLE_GUID);
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy 2022-03-03  827  	if (efi_dxe_table &&
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy 2022-03-03  828  	    efi_dxe_table->hdr.signature != EFI_DXE_SERVICES_TABLE_SIGNATURE) {
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy 2022-03-03  829  		efi_warn("Ignoring DXE services table: invalid signature\n");
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy 2022-03-03  830  		efi_dxe_table = NULL;
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy 2022-03-03  831  	}
-3ba75c1316390b drivers/firmware/efi/libstub/x86-stub.c Baskov Evgeniy 2022-03-03  832  
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  833  	/*
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  834  	 * If the kernel isn't already loaded at a suitable address,
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  835  	 * relocate it.
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  836  	 *
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  837  	 * It must be loaded above LOAD_PHYSICAL_ADDR.
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  838  	 *
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  839  	 * The maximum address for 64-bit is 1 << 46 for 4-level paging. This
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  840  	 * is defined as the macro MAXMEM, but unfortunately that is not a
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  841  	 * compile-time constant if 5-level paging is configured, so we instead
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  842  	 * define our own macro for use here.
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  843  	 *
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  844  	 * For 32-bit, the maximum address is complicated to figure out, for
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  845  	 * now use KERNEL_IMAGE_SIZE, which will be 512MiB, the same as what
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  846  	 * KASLR uses.
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  847  	 *
-21cb9b414301c7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-09  848  	 * Also relocate it if image_offset is zero, i.e. the kernel wasn't
-21cb9b414301c7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-09  849  	 * loaded by LoadImage, but rather by a bootloader that called the
-21cb9b414301c7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-09  850  	 * handover entry. The reason we must always relocate in this case is
-21cb9b414301c7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-09  851  	 * to handle the case of systemd-boot booting a unified kernel image,
-21cb9b414301c7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-09  852  	 * which is a PE executable that contains the bzImage and an initrd as
-21cb9b414301c7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-09  853  	 * COFF sections. The initrd section is placed after the bzImage
-21cb9b414301c7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-09  854  	 * without ensuring that there are at least init_size bytes available
-21cb9b414301c7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-09  855  	 * for the bzImage, and thus the compressed kernel's startup code may
-21cb9b414301c7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-09  856  	 * overwrite the initrd unless it is moved out of the way.
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  857  	 */
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  858  
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  859  	buffer_start = ALIGN(bzimage_addr - image_offset,
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  860  			     hdr->kernel_alignment);
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  861  	buffer_end = buffer_start + hdr->init_size;
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  862  
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  863  	if ((buffer_start < LOAD_PHYSICAL_ADDR)				     ||
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  864  	    (IS_ENABLED(CONFIG_X86_32) && buffer_end > KERNEL_IMAGE_SIZE)    ||
-d5cdf4cfeac914 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08 @865  	    (IS_ENABLED(CONFIG_X86_64) && buffer_end > MAXMEM_X86_64_4LEVEL) ||
-21cb9b414301c7 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-09  866  	    (image_offset == 0)) {
-688eb28211abdf drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-10-11  867  		extern char _bss[];
-688eb28211abdf drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-10-11  868  
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  869  		status = efi_relocate_kernel(&bzimage_addr,
-688eb28211abdf drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-10-11  870  					     (unsigned long)_bss - bzimage_addr,
-688eb28211abdf drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-10-11  871  					     hdr->init_size,
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  872  					     hdr->pref_address,
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  873  					     hdr->kernel_alignment,
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  874  					     LOAD_PHYSICAL_ADDR);
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  875  		if (status != EFI_SUCCESS) {
-36bdd0a78d5683 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-04-30  876  			efi_err("efi_relocate_kernel() failed!\n");
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  877  			goto fail;
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  878  		}
-1887c9b653f995 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  879  		/*
-1887c9b653f995 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  880  		 * Now that we've copied the kernel elsewhere, we no longer
-1887c9b653f995 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  881  		 * have a set up block before startup_32(), so reset image_offset
-1887c9b653f995 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  882  		 * to zero in case it was set earlier.
-1887c9b653f995 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  883  		 */
-1887c9b653f995 drivers/firmware/efi/libstub/x86-stub.c Arvind Sankar  2020-03-08  884  		image_offset = 0;
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  885  	}
-04a7d0e1560676 arch/x86/boot/compressed/eboot.c        Ard Biesheuvel 2020-02-10  886  
-
-:::::: The code at line 865 was first introduced by commit
-:::::: d5cdf4cfeac914617ca22866bd4685fd7f876dec efi/x86: Don't relocate the kernel unless necessary
-
-:::::: TO: Arvind Sankar <nivedita@alum.mit.edu>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+ERROR: modpost: vmlinux: local symbol '__devm_irq_alloc_descs' was exported
+ERROR: modpost: vmlinux: local symbol 'devm_irq_alloc_generic_chip' was exported
+ERROR: modpost: vmlinux: local symbol 'devm_irq_setup_generic_chip' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_gc_noop' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_gc_mask_disable_reg' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_gc_mask_set_bit' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_gc_mask_clr_bit' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_gc_unmask_enable_reg' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_gc_ack_set_bit' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_gc_set_wake' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_alloc_generic_chip' was exported
+ERROR: modpost: vmlinux: local symbol '__irq_alloc_domain_generic_chips' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_get_domain_generic_chip' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_generic_chip_ops' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_setup_generic_chip' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_setup_alt_chip' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_remove_generic_chip' was exported
+ERROR: modpost: vmlinux: local symbol 'irqchip_fwnode_ops' was exported
+ERROR: modpost: vmlinux: local symbol '__irq_domain_alloc_fwnode' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_free_fwnode' was exported
+ERROR: modpost: vmlinux: local symbol '__irq_domain_add' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_remove' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_update_bus_token' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_create_simple' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_add_legacy' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_create_legacy' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_find_matching_fwspec' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_set_default_host' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_get_default_host' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_associate' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_associate_many' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_create_mapping_affinity' was exported
+ERROR: modpost: vmlinux: local symbol 'of_phandle_args_to_fwspec' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_create_fwspec_mapping' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_create_of_mapping' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_dispose_mapping' was exported
+ERROR: modpost: vmlinux: local symbol '__irq_resolve_mapping' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_xlate_onecell' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_xlate_twocell' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_xlate_onetwocell' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_simple_ops' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_translate_onecell' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_translate_twocell' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_reset_irq_data' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_create_hierarchy' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_disconnect_hierarchy' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_get_irq_data' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_set_hwirq_and_chip' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_set_info' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_free_irqs_common' was exported
+ERROR: modpost: vmlinux: local symbol '__irq_domain_alloc_irqs' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_push_irq' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_pop_irq' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_alloc_irqs_parent' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_free_irqs_parent' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_create_sim' was exported
+ERROR: modpost: vmlinux: local symbol 'irq_domain_remove_sim' was exported
+ERROR: modpost: vmlinux: local symbol 'devm_irq_domain_create_sim' was exported
+ERROR: modpost: vmlinux: local symbol 'get_cached_msi_msg' was exported
+ERROR: modpost: vmlinux: local symbol 'msi_lock_descs' was exported
+ERROR: modpost: vmlinux: local symbol 'msi_unlock_descs' was exported
+ERROR: modpost: vmlinux: local symbol 'msi_domain_first_desc' was exported
+ERROR: modpost: vmlinux: local symbol 'msi_next_desc' was exported
+ERROR: modpost: vmlinux: local symbol 'msi_domain_get_virq' was exported
+ERROR: modpost: vmlinux: local symbol 'msi_device_has_isolated_msi' was exported
+ERROR: modpost: vmlinux: local symbol 'ipi_get_hwirq' was exported
+ERROR: modpost: vmlinux: local symbol 'ipi_send_single' was exported
+ERROR: modpost: vmlinux: local symbol 'ipi_send_mask' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_sched_held' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_gp_is_normal' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_async_should_hurry' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_async_hurry' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_async_relax' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_gp_is_expedited' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_expedite_gp' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_unexpedite_gp' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_inkernel_boot_has_ended' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_lock_map' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_bh_lock_map' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_sched_lock_map' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_callback_map' was exported
+ERROR: modpost: vmlinux: local symbol 'debug_lockdep_rcu_enabled' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_held' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_bh_held' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_any_held' was exported
+ERROR: modpost: vmlinux: local symbol 'wakeme_after_rcu' was exported
+ERROR: modpost: vmlinux: local symbol '__wait_rcu_gp' was exported
+ERROR: modpost: vmlinux: local symbol 'finish_rcuwait' was exported
+ERROR: modpost: vmlinux: local symbol 'do_trace_rcu_torture_read' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_cpu_stall_suppress' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_cpu_stall_suppress_at_boot' was exported
+ERROR: modpost: vmlinux: local symbol 'get_completed_synchronize_rcu' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_trace_lock_map' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_trc_cmpxchg_need_qs' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_read_unlock_trace_special' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_tasks_trace_qs_blkd' was exported
+ERROR: modpost: vmlinux: local symbol 'call_rcu_tasks_trace' was exported
+ERROR: modpost: vmlinux: local symbol 'synchronize_rcu_tasks_trace' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_barrier_tasks_trace' was exported
+ERROR: modpost: vmlinux: local symbol 'show_rcu_tasks_trace_gp_kthread' was exported
+>> ERROR: modpost: vmlinux: local symbol 'get_rcu_tasks_trace_gp_kthread' was exported
+ERROR: modpost: vmlinux: local symbol '__init_srcu_struct' was exported
+ERROR: modpost: vmlinux: local symbol 'cleanup_srcu_struct' was exported
+ERROR: modpost: vmlinux: local symbol 'srcu_check_nmi_safety' was exported
+ERROR: modpost: vmlinux: local symbol '__srcu_read_lock' was exported
+ERROR: modpost: vmlinux: local symbol '__srcu_read_unlock' was exported
+ERROR: modpost: vmlinux: local symbol 'call_srcu' was exported
+ERROR: modpost: vmlinux: local symbol 'synchronize_srcu_expedited' was exported
+ERROR: modpost: vmlinux: local symbol 'synchronize_srcu' was exported
+ERROR: modpost: vmlinux: local symbol 'get_state_synchronize_srcu' was exported
+ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_srcu' was exported
+ERROR: modpost: vmlinux: local symbol 'poll_state_synchronize_srcu' was exported
+ERROR: modpost: vmlinux: local symbol 'srcu_barrier' was exported
+ERROR: modpost: vmlinux: local symbol 'srcu_batches_completed' was exported
+ERROR: modpost: vmlinux: local symbol 'srcutorture_get_gp_data' was exported
+ERROR: modpost: vmlinux: local symbol 'srcu_torture_stats_print' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_scheduler_active' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_get_gp_kthreads_prio' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_momentary_dyntick_idle' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_get_gp_seq' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_exp_batches_completed' was exported
+ERROR: modpost: vmlinux: local symbol 'rcutorture_get_gp_data' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_is_watching' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_gp_slow_register' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_gp_slow_unregister' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_gp_set_torture_wait' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_force_quiescent_state' was exported
+ERROR: modpost: vmlinux: local symbol 'call_rcu' was exported
+ERROR: modpost: vmlinux: local symbol 'kvfree_call_rcu' was exported
+ERROR: modpost: vmlinux: local symbol 'synchronize_rcu' was exported
+ERROR: modpost: vmlinux: local symbol 'get_completed_synchronize_rcu_full' was exported
+ERROR: modpost: vmlinux: local symbol 'get_state_synchronize_rcu' was exported
+ERROR: modpost: vmlinux: local symbol 'get_state_synchronize_rcu_full' was exported
+ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu' was exported
+ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu_full' was exported
+ERROR: modpost: vmlinux: local symbol 'poll_state_synchronize_rcu' was exported
+ERROR: modpost: vmlinux: local symbol 'poll_state_synchronize_rcu_full' was exported
+ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu' was exported
+ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu_full' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_barrier' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_lockdep_current_cpu_online' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_exp_jiffies_till_stall_check' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_jiffies_till_stall_check' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_check_boost_fail' was exported
+ERROR: modpost: vmlinux: local symbol 'show_rcu_gp_kthreads' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_fwd_progress_check' was exported
+ERROR: modpost: vmlinux: local symbol 'synchronize_rcu_expedited' was exported
+ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu_expedited' was exported
+ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu_expedited_full' was exported
+ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu_expedited' was exported
+ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu_expedited_full' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_read_unlock_strict' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_all_qs' was exported
+ERROR: modpost: vmlinux: local symbol 'rcu_note_context_switch' was exported
+ERROR: modpost: vmlinux: local symbol 'dmam_free_coherent' was exported
+ERROR: modpost: vmlinux: local symbol 'dmam_alloc_attrs' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_map_page_attrs' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_unmap_page_attrs' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_map_sg_attrs' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_map_sgtable' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_unmap_sg_attrs' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_map_resource' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_unmap_resource' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_sync_single_for_cpu' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_sync_single_for_device' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_sync_sg_for_cpu' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_sync_sg_for_device' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_get_sgtable_attrs' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_can_mmap' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_mmap_attrs' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_get_required_mask' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_alloc_attrs' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_free_attrs' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_alloc_pages' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_free_pages' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_mmap_pages' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_alloc_noncontiguous' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_free_noncontiguous' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_vmap_noncontiguous' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_vunmap_noncontiguous' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_mmap_noncontiguous' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_pci_p2pdma_supported' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_set_mask' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_set_coherent_mask' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_max_mapping_size' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_opt_mapping_size' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_need_sync' was exported
+ERROR: modpost: vmlinux: local symbol 'dma_get_merge_boundary' was exported
+ERROR: modpost: vmlinux: local symbol 'register_module_notifier' was exported
+ERROR: modpost: vmlinux: local symbol 'unregister_module_notifier' was exported
+ERROR: modpost: vmlinux: local symbol '__module_put_and_kthread_exit' was exported
+ERROR: modpost: vmlinux: local symbol '__tracepoint_module_get' was exported
+ERROR: modpost: vmlinux: local symbol '__traceiter_module_get' was exported
+ERROR: modpost: vmlinux: local symbol '__SCK__tp_func_module_get' was exported
+ERROR: modpost: vmlinux: local symbol 'module_refcount' was exported
+ERROR: modpost: vmlinux: local symbol '__symbol_put' was exported
+ERROR: modpost: vmlinux: local symbol 'symbol_put_addr' was exported
+ERROR: modpost: vmlinux: local symbol '__module_get' was exported
+ERROR: modpost: vmlinux: local symbol 'try_module_get' was exported
+ERROR: modpost: vmlinux: local symbol 'module_put' was exported
+ERROR: modpost: vmlinux: local symbol '__symbol_get' was exported
 
 -- 
 0-DAY CI Kernel Test Service
