@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9CF1867
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 08:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D3C628
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 08:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691829730; x=1723365730;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pQKF6xXJnW38bRdKHnATqtBgpYbclGlvHTbo9KWLmsk=;
-  b=QwuDEAlsimQqgbUmEdV6R2sNnFOr+yibJMFCDIiNVb+c8iOae6BrWreL
-   9GOX2pZDdKLc73F5YeuEuinS2dmM+mHp3H7arEOxDSadviUoe90D7KkR9
-   loB6yeAUIiQTbcVQSHbPGVB3VRRv0EAvf+hs3SEwstelGr6G0oXoGSnIs
-   Rm35LZia4jBTExrTc3NAx034VxbXk7Ff83i9yTgPocKFBWW3eVllofo2D
-   TkpqjLRXucp+HhlJELr2a4xUIGUQtrCH+1om7oV4ZDnSEbC1MKvikx8uN
-   dmbGNxWwPSC0n5GNlCriU1OyFpgqJPphqXIrJo6wtEy8tGk64yZwsg78b
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="351420886"
+  t=1691830331; x=1723366331;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6MsRystri9JlECPzjUSJq8nQKF7cR6i2se5FADohEdM=;
+  b=loglbaeoKPMHgafekWGT74326ZCUuYPynszvRRhxhjKCPbOQ8ZceNnOv
+   aQ4yNFhaegynHzz2cqFvSCIDT2fWyIH/MvvM2nVcvxsD+/TZ/+4td6kdm
+   kT4xQ7ltVn6TnvYPXPjg1PzJslAq9sgTasLefpHJ7398nxwi3yP7c92+F
+   vutj5/kGrqKJmhdYW+FInb4/E0nE/CPcr/KppGgqfbTU0XBVdBR0saYya
+   Bsv1F9DOsImlLvNcYI/tlCsSu3H6a7fJHL8VQroDD1yabPzvWgAJAS4HI
+   LaXpU6IWFqjGDxBR67g/XvFdsck6ULMZswGSEdNkXNpakypUrOjIbsAGb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="458185417"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="351420886"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 01:42:10 -0700
+   d="scan'208";a="458185417"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 01:52:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="979443397"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="735998919"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="979443397"
+   d="scan'208";a="735998919"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 12 Aug 2023 01:42:08 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 12 Aug 2023 01:52:08 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUkCF-0008QO-1g;
-	Sat, 12 Aug 2023 08:42:07 +0000
-Date: Sat, 12 Aug 2023 16:41:30 +0800
+	id 1qUkLv-0008Qe-2E;
+	Sat, 12 Aug 2023 08:52:07 +0000
+Date: Sat, 12 Aug 2023 16:51:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prasurjya.Rohansaikia@microchip.com, linux-wireless@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ajay.Kathat@microchip.com,
-	claudiu.beznea@microchip.com
-Subject: Re: [PATCH] wifi: wilc1000: Added back-off algorithm to balance tx
- queue packets.
-Message-ID: <202308121630.OJIJ2i9a-lkp@intel.com>
-References: <20230810184633.94338-1-prasurjya.rohansaikia@microchip.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4 7964/8003]
+ drivers/mtd/nand/spi/core.c:979:5: warning: no previous prototype for
+ function 'spinand_cal_read'
+Message-ID: <202308121657.WCEbQu3q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,91 +46,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230810184633.94338-1-prasurjya.rohansaikia@microchip.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.5-rc5 next-20230809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Prasurjya-Rohansaikia-microchip-com/wifi-wilc1000-Added-back-off-algorithm-to-balance-tx-queue-packets/20230811-024902
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20230810184633.94338-1-prasurjya.rohansaikia%40microchip.com
-patch subject: [PATCH] wifi: wilc1000: Added back-off algorithm to balance tx queue packets.
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230812/202308121630.OJIJ2i9a-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121630.OJIJ2i9a-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4
+head:   33ae06cdbe7cdded20d1ac549403343243272109
+commit: fae799ea02997ecb310c01fac5bf75ff56d09b1a [7964/8003] drivers: mtd: spinand: Add calibration support for spinand
+config: i386-randconfig-i014-20230812 (https://download.01.org/0day-ci/archive/20230812/202308121657.WCEbQu3q-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121657.WCEbQu3q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308121630.OJIJ2i9a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308121657.WCEbQu3q-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/wireless/microchip/wilc1000/netdev.c: In function 'wilc_txq_task':
->> drivers/net/wireless/microchip/wilc1000/netdev.c:147:21: warning: variable 'timeout' set but not used [-Wunused-but-set-variable]
-     147 |         signed long timeout;
-         |                     ^~~~~~~
+   drivers/mtd/nand/spi/core.c:1020:37: error: too few arguments to function call, expected 4, have 2
+           ret = spinand_wait(spinand, &status);
+                 ~~~~~~~~~~~~                 ^
+   drivers/mtd/nand/spi/core.c:499:12: note: 'spinand_wait' declared here
+   static int spinand_wait(struct spinand_device *spinand,
+              ^
+>> drivers/mtd/nand/spi/core.c:979:5: warning: no previous prototype for function 'spinand_cal_read' [-Wmissing-prototypes]
+   int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
+       ^
+   drivers/mtd/nand/spi/core.c:979:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
+   ^
+   static 
+   1 warning and 1 error generated.
 
 
-vim +/timeout +147 drivers/net/wireless/microchip/wilc1000/netdev.c
+vim +/spinand_cal_read +979 drivers/mtd/nand/spi/core.c
 
-   142	
-   143	static int wilc_txq_task(void *vp)
-   144	{
-   145		int ret;
-   146		u32 txq_count;
- > 147		signed long timeout;
-   148		struct wilc *wl = vp;
-   149	
-   150		complete(&wl->txq_thread_started);
-   151		while (1) {
-   152			if (wait_for_completion_interruptible(&wl->txq_event))
-   153				continue;
-   154			if (wl->close) {
-   155				complete(&wl->txq_thread_started);
-   156	
-   157				while (!kthread_should_stop())
-   158					schedule();
-   159				break;
-   160			}
-   161			do {
-   162				ret = wilc_wlan_handle_txq(wl, &txq_count);
-   163				if (txq_count < FLOW_CONTROL_LOWER_THRESHOLD) {
-   164					int srcu_idx;
-   165					struct wilc_vif *ifc;
-   166	
-   167					srcu_idx = srcu_read_lock(&wl->srcu);
-   168					list_for_each_entry_rcu(ifc, &wl->vif_list,
-   169								list) {
-   170						if (ifc->mac_opened &&
-   171						    netif_queue_stopped(ifc->ndev))
-   172							netif_wake_queue(ifc->ndev);
-   173					}
-   174					srcu_read_unlock(&wl->srcu, srcu_idx);
-   175				}
-   176				if (ret != WILC_VMM_ENTRY_FULL_RETRY)
-   177					break;
-   178				/* Back off from sending packets for some time.
-   179				 * schedule_timeout will allow RX task to run and free
-   180				 * buffers. Setting state to TASK_INTERRUPTIBLE will
-   181				 * put the thread back to CPU running queue when it's
-   182				 * signaled even if 'timeout' isn't elapsed. This gives
-   183				 * faster chance for reserved SK buffers to be freed
-   184				 */
-   185				set_current_state(TASK_INTERRUPTIBLE);
-   186				timeout = schedule_timeout(msecs_to_jiffies(TX_BACKOFF_WEIGHT_MS));
-   187			} while (ret == WILC_VMM_ENTRY_FULL_RETRY && !wl->close);
-   188		}
-   189		return 0;
-   190	}
-   191	
+   978	
+ > 979	int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
+   980		struct spinand_device *spinand = (struct spinand_device *)priv;
+   981		struct device *dev = &spinand->spimem->spi->dev;
+   982		struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
+   983		struct nand_pos pos;
+   984		struct nand_page_io_req req;
+   985		u8 status;
+   986		int ret;
+   987	
+   988		if(addrlen != sizeof(struct nand_addr)/sizeof(unsigned int)) {
+   989			dev_err(dev, "Must provide correct addr(length) for spinand calibration\n");
+   990			return -EINVAL;
+   991		}
+   992	
+   993		ret = spinand_reset_op(spinand);
+   994		if (ret)
+   995			return ret;
+   996	
+   997		/* We should store our golden data in first target because
+   998		 * we can't switch target at this moment.
+   999		 */
+  1000		pos = (struct nand_pos){
+  1001			.target = 0,
+  1002			.lun = *addr,
+  1003			.plane = *(addr+1),
+  1004			.eraseblock = *(addr+2),
+  1005			.page = *(addr+3),
+  1006		};
+  1007	
+  1008		req = (struct nand_page_io_req){
+  1009			.pos = pos,
+  1010			.dataoffs = *(addr+4),
+  1011			.datalen = readlen,
+  1012			.databuf.in = buf,
+  1013			.mode = MTD_OPS_AUTO_OOB,
+  1014		};
+  1015	
+  1016		ret = spinand_load_page_op(spinand, &req);
+  1017		if (ret)
+  1018			return ret;
+  1019	
+> 1020		ret = spinand_wait(spinand, &status);
+  1021		if (ret < 0)
+  1022			return ret;
+  1023	
+  1024		ret = spi_mem_exec_op(spinand->spimem, &op);
+  1025	
+  1026		return 0;
+  1027	}
+  1028	
 
 -- 
 0-DAY CI Kernel Test Service
