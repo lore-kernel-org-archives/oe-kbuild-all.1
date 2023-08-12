@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EC7EA1;
-	Sat, 12 Aug 2023 03:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9660DEA1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 03:40:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691810883; x=1723346883;
+  t=1691811620; x=1723347620;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/Iw+7cPS48OsAsAYSyfUfadF6H6W4Y5iQMbeSYSGwFw=;
-  b=TCN7KyEQnn0xzd/MrWL+ojPhkt8GBi3+VsCoZEEDd91VbkCvVpHQaQp8
-   j5dO1HOlYTW6YEwjiIiQwlPu6SoN2Rm22gx0BSNSeIKu379V7j048KOg7
-   aIHpDVyQQ5IUH9jeATN3Ondf6lgQtAGOFH9kiVVU+Gh8oqkJiCSIetbY6
-   qTHPyQk9/mMFoCuJcZGq+OViEMNnDC36mqZLwfFXaY1R2LjAIevBIElCm
-   4swIoarMx3YXi95X06eL1CFWUlCX+UX5+KkYVcS/mNzHrMogsbcowXd5O
-   b3PhjKw3igXIMq5aBCBVt048DFPEOx3FsvIdyJHAVmScZch97R8aemLt6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="370701153"
+  bh=V3e8UWjRyD7TMc8JN9BE3d5AMWcNiHqAGc5NZLfA/Pw=;
+  b=WD3qYDSsr0OtxT4PwxA/gazXBytUU0BCy7NXGsRsTYIKiIA2/IEMDTas
+   PqaoXyWleWOU539d9olI3r0GpMxKNQlJy7wwVxwwdkZuSCyDO2WZbYi7L
+   v2/UQiFYYHMURdlfAZ5rZhsGncrsg+6Qy0wmIRoSZ3xenUSFnfzLuV448
+   QFkiGbyfiiZlbGxzGlbmRSBVlCa2fQgvSbkbl3CHI1She7NWMRn9vJTEC
+   fkFCSG0ueHnWYIvs3fPE5EgrXWAPojElHoEwH/dM0H53J+O+8NWxfDF86
+   R2pgZsOsxcDEJ3pqpP+6pjPqmT3vCZqXGwTT/0oQauEEbw1emc8/iWdC0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="435694525"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="370701153"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 20:28:02 -0700
+   d="scan'208";a="435694525"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 20:39:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="732858418"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="767862578"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="732858418"
+   d="scan'208";a="767862578"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Aug 2023 20:28:01 -0700
+  by orsmga001.jf.intel.com with ESMTP; 11 Aug 2023 20:39:02 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUfIG-0008EK-2J;
-	Sat, 12 Aug 2023 03:28:00 +0000
-Date: Sat, 12 Aug 2023 11:27:12 +0800
+	id 1qUfSv-0008Ek-01;
+	Sat, 12 Aug 2023 03:39:01 +0000
+Date: Sat, 12 Aug 2023 11:38:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Borislav Petkov (AMD)" <bp@alien8.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: ld.lld: error: ./arch/x86/kernel/vmlinux.lds:193: at least one side
- of the expression must be absolute
-Message-ID: <202308121100.YW565NAg-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4 7928/8003]
+ drivers/net/phy/mediatek-ge-soc.c:1167:68: warning: ordered comparison of
+ pointer with integer zero
+Message-ID: <202308121113.j2xPfEUY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,33 +47,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   190bf7b14b0cf3df19c059061be032bd8994a597
-commit: fb3bd914b3ec28f5fb697ac55c4846ac2d542855 x86/srso: Add a Speculative RAS Overflow mitigation
-date:   2 weeks ago
-config: x86_64-randconfig-x011-20230811 (https://download.01.org/0day-ci/archive/20230812/202308121100.YW565NAg-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121100.YW565NAg-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4
+head:   33ae06cdbe7cdded20d1ac549403343243272109
+commit: 4925a0544e38db9487984608af613ce54c49ba3b [7928/8003] net: phy: mediatek-ge-soc: implement LED control API
+config: m68k-randconfig-r013-20230812 (https://download.01.org/0day-ci/archive/20230812/202308121113.j2xPfEUY-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121113.j2xPfEUY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308121100.YW565NAg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308121113.j2xPfEUY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld.lld: error: ./arch/x86/kernel/vmlinux.lds:34: unable to move location counter backward for: .text
->> ld.lld: error: ./arch/x86/kernel/vmlinux.lds:193: at least one side of the expression must be absolute
-   ld.lld: error: ./arch/x86/kernel/vmlinux.lds:192: at least one side of the expression must be absolute
-   ld.lld: error: SRSO function pair won't alias
-   ld.lld: error: ./arch/x86/kernel/vmlinux.lds:34: unable to move location counter backward for: .text
->> ld.lld: error: ./arch/x86/kernel/vmlinux.lds:193: at least one side of the expression must be absolute
-   ld.lld: error: ./arch/x86/kernel/vmlinux.lds:192: at least one side of the expression must be absolute
-   ld.lld: error: SRSO function pair won't alias
-   ld.lld: error: ./arch/x86/kernel/vmlinux.lds:34: unable to move location counter backward for: .text
->> ld.lld: error: ./arch/x86/kernel/vmlinux.lds:193: at least one side of the expression must be absolute
-   ld.lld: error: ./arch/x86/kernel/vmlinux.lds:192: at least one side of the expression must be absolute
-   ld.lld: error: SRSO function pair won't alias
+   drivers/net/phy/mediatek-ge-soc.c: In function 'mt798x_phy_led_blink_set':
+>> drivers/net/phy/mediatek-ge-soc.c:1167:68: warning: ordered comparison of pointer with integer zero [-Wextra]
+    1167 |         if (delay_on && delay_off && *delay_on > 0 && & *delay_off > 0) {
+         |                                                                    ^
+
+
+vim +1167 drivers/net/phy/mediatek-ge-soc.c
+
+  1156	
+  1157	static int mt798x_phy_led_blink_set(struct phy_device *phydev, u8 index,
+  1158					  unsigned long *delay_on,
+  1159					  unsigned long *delay_off)
+  1160	{
+  1161		bool blinking = false;
+  1162		int err = 0;
+  1163	
+  1164		if (index > 1)
+  1165			return -EINVAL;
+  1166	
+> 1167		if (delay_on && delay_off && *delay_on > 0 && & *delay_off > 0) {
+  1168			blinking = true;
+  1169			*delay_on = 50;
+  1170			*delay_off = 50;
+  1171		}
+  1172	
+  1173		err = mt798x_phy_hw_led_blink_set(phydev, index, blinking);
+  1174		if (err)
+  1175			return err;
+  1176	
+  1177		return mt798x_phy_hw_led_on_set(phydev, index, false);
+  1178	}
+  1179	
 
 -- 
 0-DAY CI Kernel Test Service
