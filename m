@@ -1,106 +1,173 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8541CCDE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 11:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yRalS9/mWMVw32Dip6cBfx36qM2ohydM8kAe0yexGNo=;
-  b=jf20jUQiE01r8GMdTfFZvXMBPSTC+lH2yoM2lhlZr9PLeCTeCuJUB2Mf
-   Zo9uevmc3bGfgkY5H1vHkJxtGSUTWKvV6DADMg9nRNvMH4v16aeShxJ9I
-   kWk1JVWQfZSGRrEfszDlw26Wy9bUFBXlutneKkq8DwPgEu0S8Q6wNJ1O/
-   E=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,168,1684792800"; 
-   d="scan'208";a="63399379"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 13:10:05 +0200
-Date: Sat, 12 Aug 2023 13:10:04 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Hugh Dickins <hughd@google.com>
-cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-    Carlos Maiolino <cmaiolino@redhat.com>, 
-    Christian Brauner <christianvanbrauner@gmail.com>, 
-    oe-kbuild-all@lists.linux.dev
-Subject: [brauner-vfs:vfs.tmpfs 15/19] mm/shmem.c:3611:8-15: ERROR: PTR_ERR
- applied after initialization to constant on line 3607 (fwd)
-Message-ID: <alpine.DEB.2.22.394.2308121307551.3315@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D9B20FB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 11:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691839817; x=1723375817;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zxepW2DRCXsv+ofUCbgAIQqCB+KiMC1oG6uJAVwXWmQ=;
+  b=UWiGINp2pWtMMJE0XQdhQQVwxLNq2f3/2PGHq6kIpzFxfsZDpcHeeJNt
+   ImDQUNq4I5n2HC05Ll86OV6FCBuqfT7R0GKYQz6hglsfOAHBmBY9T84oy
+   dH9B6MhuCf2DZrheuyZKsYEsq9rq8nL/eAQwRdJmb8cNaAnQTrUu6YedO
+   690iiiVbxiwb0Gk5vPG9LXIC1gRP3wop2ZIQFelHKfvbtywHXBWQQbKXv
+   i4AmL3gh5FR3OJ+enyt9LuKMj5h8lpCJt8qHvYEduwJfhVbcWrAh3IkD2
+   AzXClnfB5eYKeTU77n8jEKNw6IGrssu9UmP5FxsqtM5A93SjgZoEdVnys
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="374587862"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="374587862"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 04:30:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="798303316"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="798303316"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 12 Aug 2023 04:30:13 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qUmou-0008XY-0o;
+	Sat, 12 Aug 2023 11:30:12 +0000
+Date: Sat, 12 Aug 2023 19:29:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+	Gaurav Jain <gaurav.jain@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 22/36] crypto: sun8i-ce - Use new crypto_engine_op
+ interface
+Message-ID: <202308121917.EnLW5HaE-lkp@intel.com>
+References: <E1qUOTQ-0020gC-0Q@formenos.hmeau.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <E1qUOTQ-0020gC-0Q@formenos.hmeau.com>
 
-Maybe it would be nice to transform this to a more traditional
-if (IS_ERR(...)) return ...
-and then the branch code with a return 0 at the end rather than relying on
-the PTR_ERR of NULL to return 0.
+Hi Herbert,
 
-julia
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on next-20230809]
+[cannot apply to herbert-crypto-2.6/master sunxi/sunxi/for-next linus/master v6.5-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
----------- Forwarded message ----------
-Date: Sat, 12 Aug 2023 18:47:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [brauner-vfs:vfs.tmpfs 15/19] mm/shmem.c:3611:8-15: ERROR: PTR_ERR
-    applied after initialization to constant on line 3607
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Christian Brauner <christianvanbrauner@gmail.com>
-TO: Hugh Dickins <hughd@google.com>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Jan Kara <jack@suse.cz>
-CC: Carlos Maiolino <cmaiolino@redhat.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.tmpfs
-head:   aa5b9178c01905d7691512b366cf2886dfe2680c
-commit: 5de75970c9fd7220e394b76e6d20fbafa1369b5a [15/19] xattr: simple_xattr_set() return old_xattr to be freed
-:::::: branch date: 23 hours ago
-:::::: commit date: 3 days ago
-config: openrisc-randconfig-r052-20230812 (https://download.01.org/0day-ci/archive/20230812/202308121841.cgYdEdbt-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121841.cgYdEdbt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-sun8i-ce-Remove-prepare-unprepare-request/20230811-173253
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/E1qUOTQ-0020gC-0Q%40formenos.hmeau.com
+patch subject: [PATCH 22/36] crypto: sun8i-ce - Use new crypto_engine_op interface
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230812/202308121917.EnLW5HaE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121917.EnLW5HaE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202308121841.cgYdEdbt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308121917.EnLW5HaE-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> mm/shmem.c:3611:8-15: ERROR: PTR_ERR applied after initialization to constant on line 3607
+All errors (new ones prefixed by >>):
 
-vim +3611 mm/shmem.c
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/preempt.h:12,
+                    from include/linux/bottom_half.h:6,
+                    from drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:14:
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c: In function 'sun8i_ce_cipher_fallback':
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "pointer type mismatch in container_of()"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:99:16: note: in expansion of macro 'container_of'
+      99 |         algt = container_of(alg, struct sun8i_ce_alg_template, alg.skcipher);
+         |                ^~~~~~~~~~~~
+--
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/swait.h:5,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from include/crypto/algapi.h:13,
+                    from include/crypto/internal/hash.h:11,
+                    from drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c:13:
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c: In function 'sun8i_ce_hash_final':
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "pointer type mismatch in container_of()"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c:126:16: note: in expansion of macro 'container_of'
+     126 |         algt = container_of(alg, struct sun8i_ce_alg_template, alg.hash);
+         |                ^~~~~~~~~~~~
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c: In function 'sun8i_ce_hash_finup':
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "pointer type mismatch in container_of()"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c:166:16: note: in expansion of macro 'container_of'
+     166 |         algt = container_of(alg, struct sun8i_ce_alg_template, alg.hash);
+         |                ^~~~~~~~~~~~
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c: In function 'sun8i_ce_hash_digest_fb':
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "pointer type mismatch in container_of()"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c:191:16: note: in expansion of macro 'container_of'
+     191 |         algt = container_of(alg, struct sun8i_ce_alg_template, alg.hash);
+         |                ^~~~~~~~~~~~
 
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3593
-aa7c5241c380ad Andreas Gruenbacher 2015-12-02  3594  static int shmem_xattr_handler_set(const struct xattr_handler *handler,
-39f60c1ccee72c Christian Brauner   2023-01-13  3595  				   struct mnt_idmap *idmap,
-5930122683dff5 Al Viro             2016-05-27  3596  				   struct dentry *unused, struct inode *inode,
-5930122683dff5 Al Viro             2016-05-27  3597  				   const char *name, const void *value,
-5930122683dff5 Al Viro             2016-05-27  3598  				   size_t size, int flags)
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3599  {
-5930122683dff5 Al Viro             2016-05-27  3600  	struct shmem_inode_info *info = SHMEM_I(inode);
-5de75970c9fd72 Hugh Dickins        2023-08-08  3601  	struct simple_xattr *old_xattr;
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3602
-aa7c5241c380ad Andreas Gruenbacher 2015-12-02  3603  	name = xattr_full_name(handler, name);
-5de75970c9fd72 Hugh Dickins        2023-08-08  3604  	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
-5de75970c9fd72 Hugh Dickins        2023-08-08  3605  	if (!IS_ERR(old_xattr)) {
-5de75970c9fd72 Hugh Dickins        2023-08-08  3606  		simple_xattr_free(old_xattr);
-5de75970c9fd72 Hugh Dickins        2023-08-08 @3607  		old_xattr = NULL;
-36f05cab0a2c97 Jeff Layton         2022-09-09  3608  		inode->i_ctime = current_time(inode);
-36f05cab0a2c97 Jeff Layton         2022-09-09  3609  		inode_inc_iversion(inode);
-36f05cab0a2c97 Jeff Layton         2022-09-09  3610  	}
-5de75970c9fd72 Hugh Dickins        2023-08-08 @3611  	return PTR_ERR(old_xattr);
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3612  }
-b09e0fa4b4ea66 Eric Paris          2011-05-24  3613
+
+vim +78 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
 
 -- 
 0-DAY CI Kernel Test Service
