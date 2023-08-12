@@ -1,116 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6ECB370
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 10:58:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691837896; x=1723373896;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8541CCDE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 11:10:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e/8VYDfygzC/52VFy9+ytTHq9T5/W2xZbV+sXpEqpr8=;
-  b=DY4teSjpKvFEiRm/+P9L2xVjNSkLBVnYlmdY3xYFrvjDHddOKYj3eUaO
-   DOOD2CI8A/Ccb//wbrIiXqgu6QLu3rKUu54UnuAx+CO8GU4yoqVfkVQuu
-   fLSkV4Mc6b4wbSZLFz2tSkuP4UnKIwFL3iM4hk/vmOJdpx7ARN0GAQgXt
-   LsF07wCfMBZIShuEu7jwfLvQ/dPXqBqyXaGS9aW9DOhWiHWfuZYmx8EUD
-   VdrAFgX0Gqx2KRY/WWj0e+/LdUA5wR0fCXRpByWu1adD9tfWzvC3Mt+yE
-   yxLsYlZon0InqdwEaSAvLyH2bq6LCUqfY8hKW3bzc3m81UiZ7wDztVSh6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="370720432"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="370720432"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 03:58:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="709799179"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="709799179"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 12 Aug 2023 03:58:12 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qUmJv-0008Wa-2J;
-	Sat, 12 Aug 2023 10:58:11 +0000
-Date: Sat, 12 Aug 2023 18:57:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <sean.j.christopherson@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Borislav Petkov <bp@suse.de>, Kai Huang <kai.huang@intel.com>
-Subject: arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse: sparse: incorrect type
- in assignment (different base types)
-Message-ID: <202308121812.AERo19Sw-lkp@intel.com>
+  bh=yRalS9/mWMVw32Dip6cBfx36qM2ohydM8kAe0yexGNo=;
+  b=jf20jUQiE01r8GMdTfFZvXMBPSTC+lH2yoM2lhlZr9PLeCTeCuJUB2Mf
+   Zo9uevmc3bGfgkY5H1vHkJxtGSUTWKvV6DADMg9nRNvMH4v16aeShxJ9I
+   kWk1JVWQfZSGRrEfszDlw26Wy9bUFBXlutneKkq8DwPgEu0S8Q6wNJ1O/
+   E=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.01,168,1684792800"; 
+   d="scan'208";a="63399379"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 13:10:05 +0200
+Date: Sat, 12 Aug 2023 13:10:04 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Hugh Dickins <hughd@google.com>
+cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+    Carlos Maiolino <cmaiolino@redhat.com>, 
+    Christian Brauner <christianvanbrauner@gmail.com>, 
+    oe-kbuild-all@lists.linux.dev
+Subject: [brauner-vfs:vfs.tmpfs 15/19] mm/shmem.c:3611:8-15: ERROR: PTR_ERR
+ applied after initialization to constant on line 3607 (fwd)
+Message-ID: <alpine.DEB.2.22.394.2308121307551.3315@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f8de32cc060ba3f63171aaa0e8764d22d8c37978
-commit: 540745ddbc70eabdc7dbd3fcc00fe4fb17cd59ba x86/sgx: Introduce virtual EPC for use by KVM guests
-date:   2 years, 4 months ago
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230812/202308121812.AERo19Sw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121812.AERo19Sw-lkp@intel.com/reproduce)
+Maybe it would be nice to transform this to a more traditional
+if (IS_ERR(...)) return ...
+and then the branch code with a return 0 at the end rather than relying on
+the PTR_ERR of NULL to return 0.
+
+julia
+
+
+---------- Forwarded message ----------
+Date: Sat, 12 Aug 2023 18:47:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [brauner-vfs:vfs.tmpfs 15/19] mm/shmem.c:3611:8-15: ERROR: PTR_ERR
+    applied after initialization to constant on line 3607
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Christian Brauner <christianvanbrauner@gmail.com>
+TO: Hugh Dickins <hughd@google.com>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Jan Kara <jack@suse.cz>
+CC: Carlos Maiolino <cmaiolino@redhat.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.tmpfs
+head:   aa5b9178c01905d7691512b366cf2886dfe2680c
+commit: 5de75970c9fd7220e394b76e6d20fbafa1369b5a [15/19] xattr: simple_xattr_set() return old_xattr to be freed
+:::::: branch date: 23 hours ago
+:::::: commit date: 3 days ago
+config: openrisc-randconfig-r052-20230812 (https://download.01.org/0day-ci/archive/20230812/202308121841.cgYdEdbt-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121841.cgYdEdbt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308121812.AERo19Sw-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202308121841.cgYdEdbt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted vm_fault_t @@
-   arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse:     expected int [assigned] ret
-   arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse:     got restricted vm_fault_t
->> arch/x86/kernel/cpu/sgx/virt.c:60:20: sparse: sparse: restricted vm_fault_t degrades to integer
-   arch/x86/kernel/cpu/sgx/virt.c:95:35: sparse: sparse: symbol 'sgx_vepc_vm_ops' was not declared. Should it be static?
+cocci warnings: (new ones prefixed by >>)
+>> mm/shmem.c:3611:8-15: ERROR: PTR_ERR applied after initialization to constant on line 3607
 
-vim +59 arch/x86/kernel/cpu/sgx/virt.c
+vim +3611 mm/shmem.c
 
-    32	
-    33	static int __sgx_vepc_fault(struct sgx_vepc *vepc,
-    34				    struct vm_area_struct *vma, unsigned long addr)
-    35	{
-    36		struct sgx_epc_page *epc_page;
-    37		unsigned long index, pfn;
-    38		int ret;
-    39	
-    40		WARN_ON(!mutex_is_locked(&vepc->lock));
-    41	
-    42		/* Calculate index of EPC page in virtual EPC's page_array */
-    43		index = vma->vm_pgoff + PFN_DOWN(addr - vma->vm_start);
-    44	
-    45		epc_page = xa_load(&vepc->page_array, index);
-    46		if (epc_page)
-    47			return 0;
-    48	
-    49		epc_page = sgx_alloc_epc_page(vepc, false);
-    50		if (IS_ERR(epc_page))
-    51			return PTR_ERR(epc_page);
-    52	
-    53		ret = xa_err(xa_store(&vepc->page_array, index, epc_page, GFP_KERNEL));
-    54		if (ret)
-    55			goto err_free;
-    56	
-    57		pfn = PFN_DOWN(sgx_get_epc_phys_addr(epc_page));
-    58	
-  > 59		ret = vmf_insert_pfn(vma, addr, pfn);
-  > 60		if (ret != VM_FAULT_NOPAGE) {
-    61			ret = -EFAULT;
-    62			goto err_delete;
-    63		}
-    64	
-    65		return 0;
-    66	
-    67	err_delete:
-    68		xa_erase(&vepc->page_array, index);
-    69	err_free:
-    70		sgx_free_epc_page(epc_page);
-    71		return ret;
-    72	}
-    73	
+b09e0fa4b4ea66 Eric Paris          2011-05-24  3593
+aa7c5241c380ad Andreas Gruenbacher 2015-12-02  3594  static int shmem_xattr_handler_set(const struct xattr_handler *handler,
+39f60c1ccee72c Christian Brauner   2023-01-13  3595  				   struct mnt_idmap *idmap,
+5930122683dff5 Al Viro             2016-05-27  3596  				   struct dentry *unused, struct inode *inode,
+5930122683dff5 Al Viro             2016-05-27  3597  				   const char *name, const void *value,
+5930122683dff5 Al Viro             2016-05-27  3598  				   size_t size, int flags)
+b09e0fa4b4ea66 Eric Paris          2011-05-24  3599  {
+5930122683dff5 Al Viro             2016-05-27  3600  	struct shmem_inode_info *info = SHMEM_I(inode);
+5de75970c9fd72 Hugh Dickins        2023-08-08  3601  	struct simple_xattr *old_xattr;
+b09e0fa4b4ea66 Eric Paris          2011-05-24  3602
+aa7c5241c380ad Andreas Gruenbacher 2015-12-02  3603  	name = xattr_full_name(handler, name);
+5de75970c9fd72 Hugh Dickins        2023-08-08  3604  	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
+5de75970c9fd72 Hugh Dickins        2023-08-08  3605  	if (!IS_ERR(old_xattr)) {
+5de75970c9fd72 Hugh Dickins        2023-08-08  3606  		simple_xattr_free(old_xattr);
+5de75970c9fd72 Hugh Dickins        2023-08-08 @3607  		old_xattr = NULL;
+36f05cab0a2c97 Jeff Layton         2022-09-09  3608  		inode->i_ctime = current_time(inode);
+36f05cab0a2c97 Jeff Layton         2022-09-09  3609  		inode_inc_iversion(inode);
+36f05cab0a2c97 Jeff Layton         2022-09-09  3610  	}
+5de75970c9fd72 Hugh Dickins        2023-08-08 @3611  	return PTR_ERR(old_xattr);
+b09e0fa4b4ea66 Eric Paris          2011-05-24  3612  }
+b09e0fa4b4ea66 Eric Paris          2011-05-24  3613
 
 -- 
 0-DAY CI Kernel Test Service
