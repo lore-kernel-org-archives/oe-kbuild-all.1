@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F38F1CCBE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 08:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43ABC628
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 08:31:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691828469; x=1723364469;
+  t=1691829070; x=1723365070;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xMUC0isZjPIPSkDW5FwkHANxqd5OJrj9riUd0jqC2CY=;
-  b=H98PBLR8UySAd7yStB2sO0L3zIE809A5uVo7gnrGfmhWLGs3GBu0DKsG
-   C0nDCBhs9mcGHoZpDLFAQBQMM0qy+R74ViKnIy5BMvnv3FX7sfxi5qFTr
-   1DnnZWDmYrQt1r8wV5xOxtF67BuMhxKB4/8Qpt0/rcGYWjfx1uh8Jexql
-   b82QYI3SHzU6loaPQVu5sg7iqMAWsHsFU1h70EoIHy8kGoPbBK9ixH7gR
-   F3apQLfWk6xBE3gJhNGvhSo0b8oY8L5r49c3V8W6VjEjZY4n17Y62/WlZ
-   fC/f/WrhSMPonX8zYgkqrOGlwbHAUqurPpc4eTGETY0YR24EqSKfZ+kiH
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="351420021"
+  bh=F/HAgdM51RnDScoXkjddHHDhRSbN+L9IbYrA3fQ3aRo=;
+  b=Lfpx5+KfaWE/wsJUIVxhfkKR5ZI8o/RmzONyORp2brkweeGPLNc55I4l
+   +/igz0suP6lNuOR/vu9XPAE6iGScjBZIu/u0Pj0eLmij9GyEJmIDqu0Ws
+   nek0/Rh++Gcc/6yJTUo2elECaKRGWYqaLlF0Pc0uHeeDHR6WcYApyqb0F
+   ZaE+Hqaq40znaYXhRf+TcQZlhcjD/obK3EvD2nxZ1G4WdTUm/qQZxaRpI
+   72AivGRKhBWPZcbGKZwY7HsZ8jDAQRBPgrdYnWPGObHufgqTkDKtYE152
+   4oCvpIm8Xz9uGy6701/qiVyrEVqSxZogb8+sxPncUHZvjC0+wT6sC+W7h
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="356772351"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="351420021"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 01:21:08 -0700
+   d="scan'208";a="356772351"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 01:31:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="802913869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="847025081"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="802913869"
+   d="scan'208";a="847025081"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Aug 2023 01:21:07 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 12 Aug 2023 01:31:08 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUjrv-0008PU-08;
-	Sat, 12 Aug 2023 08:21:07 +0000
-Date: Sat, 12 Aug 2023 16:20:46 +0800
+	id 1qUk1b-0008QA-1G;
+	Sat, 12 Aug 2023 08:31:07 +0000
+Date: Sat, 12 Aug 2023 16:31:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 15032/28677]
- drivers/virtio/virtio_wl.c:938:41: error: implicit declaration of function
- 'sync_file_get_fence'; did you mean 'sync_file_range'?
-Message-ID: <202308121620.tvavMpDs-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4 7979/8003]
+ drivers/mtd/mtdsplit/mtdsplit_fit.c:82: warning: expecting prototype for Get
+ 'data(). Prototype was for fit_image_get_data_offset() instead
+Message-ID: <202308121648.ezcYGmN6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,124 +47,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi David,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   020f099b296ebdd186f3ece99fd8da51fcc478cc
-commit: 6686780d2960d81b608e66938266602d276ea4d1 [15032/28677] CHROMIUM: virtio-wl: add support for host fences
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230812/202308121620.tvavMpDs-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121620.tvavMpDs-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4
+head:   33ae06cdbe7cdded20d1ac549403343243272109
+commit: 1d762c3039f69d6949056a6da3a9817d37461036 [7979/8003] OWRT BUILD: mtd: mtdsplit support
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230812/202308121648.ezcYGmN6-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121648.ezcYGmN6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308121620.tvavMpDs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308121648.ezcYGmN6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/virtio/virtio_wl.c: In function 'virtwl_vfd_send':
->> drivers/virtio/virtio_wl.c:938:41: error: implicit declaration of function 'sync_file_get_fence'; did you mean 'sync_file_range'? [-Werror=implicit-function-declaration]
-     938 |                                 fence = sync_file_get_fence(vfd_fds[i]);
-         |                                         ^~~~~~~~~~~~~~~~~~~
-         |                                         sync_file_range
-   drivers/virtio/virtio_wl.c:938:39: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     938 |                                 fence = sync_file_get_fence(vfd_fds[i]);
-         |                                       ^
->> drivers/virtio/virtio_wl.c:939:46: error: implicit declaration of function 'is_local_fence' [-Werror=implicit-function-declaration]
-     939 |                                 if (fence && is_local_fence(fence)) {
-         |                                              ^~~~~~~~~~~~~~
-   drivers/virtio/virtio_wl.c: In function 'virtwl_ioctl_recv':
->> drivers/virtio/virtio_wl.c:1417:32: error: implicit declaration of function 'sync_file_create'; did you mean 'sync_file_range'? [-Werror=implicit-function-declaration]
-    1417 |                         sync = sync_file_create(&fence->base);
-         |                                ^~~~~~~~~~~~~~~~
-         |                                sync_file_range
-   drivers/virtio/virtio_wl.c:1417:30: warning: assignment to 'struct sync_file *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1417 |                         sync = sync_file_create(&fence->base);
-         |                              ^
->> drivers/virtio/virtio_wl.c:1435:42: error: invalid use of undefined type 'struct sync_file'
-    1435 |                                 fput(sync->file);
-         |                                          ^~
-   drivers/virtio/virtio_wl.c:1438:45: error: invalid use of undefined type 'struct sync_file'
-    1438 |                         fd_install(ret, sync->file);
-         |                                             ^~
-   cc1: some warnings being treated as errors
+>> drivers/mtd/mtdsplit/mtdsplit_fit.c:82: warning: expecting prototype for Get 'data(). Prototype was for fit_image_get_data_offset() instead
+>> drivers/mtd/mtdsplit/mtdsplit_fit.c:107: warning: expecting prototype for Get 'data(). Prototype was for fit_image_get_data_position() instead
+>> drivers/mtd/mtdsplit/mtdsplit_fit.c:131: warning: expecting prototype for Get 'data(). Prototype was for fit_image_get_data_size() instead
 
 
-vim +938 drivers/virtio/virtio_wl.c
+vim +82 drivers/mtd/mtdsplit/mtdsplit_fit.c
 
-   886	
-   887	static int virtwl_vfd_send(struct file *filp, const char __user *buffer,
-   888						       u32 len, int *vfd_fds)
-   889	{
-   890		struct virtwl_vfd *vfd = filp->private_data;
-   891		struct virtwl_info *vi = vfd->vi;
-   892		struct fd vfd_files[VIRTWL_SEND_MAX_ALLOCS] = { { 0 } };
-   893		struct virtwl_vfd *vfds[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
-   894	#ifdef SEND_VIRTGPU_RESOURCES
-   895		struct dma_buf *virtgpu_dma_bufs[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
-   896		struct dma_fence *virtgpu_dma_fence[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
-   897		bool foreign_id = false;
-   898	#endif
-   899		size_t vfd_count = 0;
-   900		size_t vfd_ids_size;
-   901		size_t ctrl_send_size;
-   902		struct virtio_wl_ctrl_vfd_send *ctrl_send;
-   903		u8 *vfd_ids;
-   904		u8 *out_buffer;
-   905		struct completion finish_completion;
-   906		struct scatterlist out_sg;
-   907		struct scatterlist in_sg;
-   908		struct sg_table sgt;
-   909		struct vm_struct *area;
-   910		bool vmalloced;
-   911		int ret;
-   912		int i;
-   913	
-   914		if (vfd_fds) {
-   915			for (i = 0; i < VIRTWL_SEND_MAX_ALLOCS; i++) {
-   916				struct fd vfd_file;
-   917				int fd = vfd_fds[i];
-   918				struct dma_fence *fence;
-   919				struct dma_buf *dma_buf = ERR_PTR(-EINVAL);
-   920				bool handled = false;
-   921	
-   922				if (fd < 0)
-   923					break;
-   924	
-   925				vfd_file = fdget(vfd_fds[i]);
-   926				if (!vfd_file.file) {
-   927					ret = -EBADFD;
-   928					goto put_files;
-   929				}
-   930	
-   931				if (vfd_file.file->f_op == &virtwl_vfd_fops) {
-   932					vfd_files[i] = vfd_file;
-   933					vfds[i] = vfd_file.file->private_data;
-   934					handled = true;
-   935				}
-   936	
-   937				if (!handled) {
- > 938					fence = sync_file_get_fence(vfd_fds[i]);
- > 939					if (fence && is_local_fence(fence)) {
-   940						vfd_files[i] = vfd_file;
-   941						vfds[i] = to_virtwl_fence(fence)->vfd;
-   942						handled = true;
-   943					}
-   944				}
-   945	
-   946				if (handled) {
-   947					if (vfds[i] && vfds[i]->id) {
-   948						vfd_count++;
-   949						continue;
-   950					}
-   951	
-   952					ret = -EINVAL;
-   953					goto put_files;
-   954				}
-   955	
+    68	
+    69	
+    70	/**
+    71	 * Get 'data-offset' property from a given image node.
+    72	 *
+    73	 * @fit: pointer to the FIT image header
+    74	 * @noffset: component image node offset
+    75	 * @data_offset: holds the data-offset property
+    76	 *
+    77	 * returns:
+    78	 *     0, on success
+    79	 *     -ENOENT if the property could not be found
+    80	 */
+    81	static int fit_image_get_data_offset(const void *fit, int noffset, int *data_offset)
+  > 82	{
+    83		const fdt32_t *val;
+    84	
+    85		val = fdt_getprop(fit, noffset, FIT_DATA_OFFSET_PROP, NULL);
+    86		if (!val)
+    87			return -ENOENT;
+    88	
+    89		*data_offset = fdt32_to_cpu(*val);
+    90	
+    91		return 0;
+    92	}
+    93	
+    94	/**
+    95	 * Get 'data-position' property from a given image node.
+    96	 *
+    97	 * @fit: pointer to the FIT image header
+    98	 * @noffset: component image node offset
+    99	 * @data_position: holds the data-position property
+   100	 *
+   101	 * returns:
+   102	 *     0, on success
+   103	 *     -ENOENT if the property could not be found
+   104	 */
+   105	static int fit_image_get_data_position(const void *fit, int noffset,
+   106					int *data_position)
+ > 107	{
+   108		const fdt32_t *val;
+   109	
+   110		val = fdt_getprop(fit, noffset, FIT_DATA_POSITION_PROP, NULL);
+   111		if (!val)
+   112			return -ENOENT;
+   113	
+   114		*data_position = fdt32_to_cpu(*val);
+   115	
+   116		return 0;
+   117	}
+   118	
+   119	/**
+   120	 * Get 'data-size' property from a given image node.
+   121	 *
+   122	 * @fit: pointer to the FIT image header
+   123	 * @noffset: component image node offset
+   124	 * @data_size: holds the data-size property
+   125	 *
+   126	 * returns:
+   127	 *     0, on success
+   128	 *     -ENOENT if the property could not be found
+   129	 */
+   130	static int fit_image_get_data_size(const void *fit, int noffset, int *data_size)
+ > 131	{
+   132		const fdt32_t *val;
+   133	
+   134		val = fdt_getprop(fit, noffset, FIT_DATA_SIZE_PROP, NULL);
+   135		if (!val)
+   136			return -ENOENT;
+   137	
+   138		*data_size = fdt32_to_cpu(*val);
+   139	
+   140		return 0;
+   141	}
+   142	
 
 -- 
 0-DAY CI Kernel Test Service
