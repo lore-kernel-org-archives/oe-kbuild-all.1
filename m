@@ -1,42 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131C71CCCC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 21:31:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6F18C1A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 21:31:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691875886; x=1723411886;
+  t=1691875890; x=1723411890;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bv1JOqRq4siHKh1SOGhMQLxRi8Jz6wXpRObvnJ56VTk=;
-  b=LpbQihV81R7+UwipUTRPqDctW7bQdgL522tvjK18P4wvYblEeIgLDFtz
-   T9s62MC9kZ6jdIyfBe6GPgYoPD09zPnjfMw3r78WH00FsvB2ptxj5Okhs
-   fGSai24aB8K8j7V/kVp538oYx8emBs6DjXJ08RelbP9ao8AIwfpL0yIX7
-   Zz9OAY93Mxbc7hFGx412nkDQMD7k3yVwlJS23VLSethayq0P+fVOxTiYd
-   zgFX0fX3l4ODxg5cdM/tCEQfUWVt99NB+vplbUr7hKilo+P4PTn3RRbjx
-   mnnYv2aGSKT/IizSt1sQN2QEGxEZ86ZAHooeO+CBbBxSVfirzxgY1ZDQu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="438184219"
+  bh=F6JZUg5X9L79Elm3+wzv129Fp0Ndw6XN+txcJt0mzO0=;
+  b=hr7XHbWUYBgGyoPYDYuIjGoYFR3EXLuoI6+0heMP/YKSCy8ERv4Ucmb5
+   GwMf66PTDFYsRixE0sZ3RTW56MAf0Ck7bWo8vh9ynliGTXIQJy0QhAG0Q
+   gY65d/2bn7ojtdKu/EZpwFxnj9AuCBzYxKUjdlamgtofLM26KVOpLxkaG
+   xLfQntwg8g6/SewAjSioFgQOpvgQp2AglTZZ+fk01AW+ZnPtJ06hUwJuF
+   jlYJmH9EiVJsr9K/aswPU2dWm36VK3M0wt9FgIL/y5iIltYN/APQEiO2u
+   yLtGlKPuz7RtfLGdXgJLbuMsYK5C9KHFO9RwulUN/uuJGT9rDPNzZqYuR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="438184220"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="438184219"
+   d="scan'208";a="438184220"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 14:31:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="726602174"
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="726602175"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="726602174"
+   d="scan'208";a="726602175"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 12 Aug 2023 14:31:23 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUwCh-0008nO-07;
+	id 1qUwCh-0008nM-02;
 	Sat, 12 Aug 2023 21:31:23 +0000
-Date: Sun, 13 Aug 2023 05:30:30 +0800
+Date: Sun, 13 Aug 2023 05:30:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <chuck.lever@oracle.com>
+To: Thomas Gleixner <tglx@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cel:topic-sunrpc-thread-scheduling 54/56] net/sunrpc/svc.c:1555:13:
- warning: variable 'error' set but not used
-Message-ID: <202308130519.2dFUYyN1-lkp@intel.com>
+Subject: [tglx-devel:x86/microcode 14/37]
+ arch/x86/kernel/cpu/microcode/intel.c:604:40: warning: variable
+ 'new_mc_size' set but not used
+Message-ID: <202308130519.xF4oWr2K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,114 +47,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-sunrpc-thread-scheduling
-head:   1b8bd0b7000850b2d968065283673b9ec6c17fec
-commit: 947c6a0641908514166e99da23682d4cc9c56330 [54/56] SUNRPC: Clean up bc_svc_process()
-config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20230813/202308130519.2dFUYyN1-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230813/202308130519.2dFUYyN1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/microcode
+head:   7ad0016c303b3f81f8e065d7ead77bb8a6b91b77
+commit: 025e3daab641aa838d5f77e718365b0dd37b543a [14/37] x86/microcode/intel: Simplify early loading
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230813/202308130519.xF4oWr2K-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230813/202308130519.xF4oWr2K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308130519.2dFUYyN1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308130519.xF4oWr2K-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/sunrpc/svc.c: In function 'svc_process_bc':
->> net/sunrpc/svc.c:1555:13: warning: variable 'error' set but not used [-Wunused-but-set-variable]
-    1555 |         int error;
-         |             ^~~~~
+   arch/x86/kernel/cpu/microcode/intel.c: In function 'read_ucode_intel':
+>> arch/x86/kernel/cpu/microcode/intel.c:604:40: warning: variable 'new_mc_size' set but not used [-Wunused-but-set-variable]
+     604 |         unsigned int curr_mc_size = 0, new_mc_size = 0;
+         |                                        ^~~~~~~~~~~
 
 
-vim +/error +1555 net/sunrpc/svc.c
+vim +/new_mc_size +604 arch/x86/kernel/cpu/microcode/intel.c
 
-1cad7ea6fe98dc Ricardo Labiaga     2009-04-01  1543  
-9e00abc3c20904 Trond Myklebust     2011-07-13  1544  #if defined(CONFIG_SUNRPC_BACKCHANNEL)
-947c6a06419085 Chuck Lever         2023-08-12  1545  /**
-947c6a06419085 Chuck Lever         2023-08-12  1546   * svc_process_bc - process a reverse-direction RPC request
-947c6a06419085 Chuck Lever         2023-08-12  1547   * @req: RPC request to be used for client-side processing
-947c6a06419085 Chuck Lever         2023-08-12  1548   * @rqstp: server-side execution context
-947c6a06419085 Chuck Lever         2023-08-12  1549   *
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1550   */
-947c6a06419085 Chuck Lever         2023-08-12  1551  void svc_process_bc(struct rpc_rqst *req, struct svc_rqst *rqstp)
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1552  {
-632dda833e28fe Chuck Lever         2015-05-11  1553  	struct rpc_task *task;
-0d2a970d0ae550 Trond Myklebust     2015-06-04  1554  	int proc_error;
-632dda833e28fe Chuck Lever         2015-05-11 @1555  	int error;
-632dda833e28fe Chuck Lever         2015-05-11  1556  
-632dda833e28fe Chuck Lever         2015-05-11  1557  	dprintk("svc: %s(%p)\n", __func__, req);
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1558  
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1559  	/* Build the svc_rqst used by the common processing routine */
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1560  	rqstp->rq_xid = req->rq_xid;
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1561  	rqstp->rq_prot = req->rq_xprt->prot;
-d4b09acf924b84 Vasily Averin       2018-12-24  1562  	rqstp->rq_bc_net = req->rq_xprt->xprt_net;
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1563  
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1564  	rqstp->rq_addrlen = sizeof(req->rq_xprt->addr);
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1565  	memcpy(&rqstp->rq_addr, &req->rq_xprt->addr, rqstp->rq_addrlen);
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1566  	memcpy(&rqstp->rq_arg, &req->rq_rcv_buf, sizeof(rqstp->rq_arg));
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1567  	memcpy(&rqstp->rq_res, &req->rq_snd_buf, sizeof(rqstp->rq_res));
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1568  
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1569  	/* Adjust the argument buffer length */
-38b7631fbe42e6 Benjamin Coddington 2015-11-20  1570  	rqstp->rq_arg.len = req->rq_private_buf.len;
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1571  	if (rqstp->rq_arg.len <= rqstp->rq_arg.head[0].iov_len) {
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1572  		rqstp->rq_arg.head[0].iov_len = rqstp->rq_arg.len;
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1573  		rqstp->rq_arg.page_len = 0;
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1574  	} else if (rqstp->rq_arg.len <= rqstp->rq_arg.head[0].iov_len +
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1575  			rqstp->rq_arg.page_len)
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1576  		rqstp->rq_arg.page_len = rqstp->rq_arg.len -
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1577  			rqstp->rq_arg.head[0].iov_len;
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1578  	else
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1579  		rqstp->rq_arg.len = rqstp->rq_arg.head[0].iov_len +
-756b9b37cfb2e3 Trond Myklebust     2015-12-07  1580  			rqstp->rq_arg.page_len;
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1581  
-5f69d5f65a5468 Chuck Lever         2023-01-08  1582  	/* Reset the response buffer */
-5f69d5f65a5468 Chuck Lever         2023-01-08  1583  	rqstp->rq_res.head[0].iov_len = 0;
-f4afc8fead386c Chuck Lever         2023-01-02  1584  
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1585  	/*
-f4afc8fead386c Chuck Lever         2023-01-02  1586  	 * Skip the XID and calldir fields because they've already
-f4afc8fead386c Chuck Lever         2023-01-02  1587  	 * been processed by the caller.
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1588  	 */
-5f69d5f65a5468 Chuck Lever         2023-01-08  1589  	svcxdr_init_decode(rqstp);
-f4afc8fead386c Chuck Lever         2023-01-02  1590  	if (!xdr_inline_decode(&rqstp->rq_arg_stream, XDR_UNIT * 2)) {
-f4afc8fead386c Chuck Lever         2023-01-02  1591  		error = -EINVAL;
-f4afc8fead386c Chuck Lever         2023-01-02  1592  		goto out;
-f4afc8fead386c Chuck Lever         2023-01-02  1593  	}
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1594  
-632dda833e28fe Chuck Lever         2015-05-11  1595  	/* Parse and execute the bc call */
-5f69d5f65a5468 Chuck Lever         2023-01-08  1596  	proc_error = svc_process_common(rqstp);
-0d2a970d0ae550 Trond Myklebust     2015-06-04  1597  
-7402a4fedc2bc4 Trond Myklebust     2019-07-16  1598  	atomic_dec(&req->rq_xprt->bc_slot_count);
-0d2a970d0ae550 Trond Myklebust     2015-06-04  1599  	if (!proc_error) {
-632dda833e28fe Chuck Lever         2015-05-11  1600  		/* Processing error: drop the request */
-b3b02ae5865c2d Trond Myklebust     2012-05-31  1601  		xprt_free_bc_request(req);
-8f7766c805d27a Vasily Averin       2018-12-24  1602  		error = -EINVAL;
-8f7766c805d27a Vasily Averin       2018-12-24  1603  		goto out;
-4b5b3ba16be1b1 Andy Adamson        2011-01-06  1604  	}
-632dda833e28fe Chuck Lever         2015-05-11  1605  	/* Finally, send the reply synchronously */
-632dda833e28fe Chuck Lever         2015-05-11  1606  	memcpy(&req->rq_snd_buf, &rqstp->rq_res, sizeof(req->rq_snd_buf));
-0f41979164a52a Trond Myklebust     2015-06-01  1607  	task = rpc_run_bc_task(req);
-632dda833e28fe Chuck Lever         2015-05-11  1608  	if (IS_ERR(task)) {
-632dda833e28fe Chuck Lever         2015-05-11  1609  		error = PTR_ERR(task);
-632dda833e28fe Chuck Lever         2015-05-11  1610  		goto out;
-632dda833e28fe Chuck Lever         2015-05-11  1611  	}
-632dda833e28fe Chuck Lever         2015-05-11  1612  
-632dda833e28fe Chuck Lever         2015-05-11  1613  	WARN_ON_ONCE(atomic_read(&task->tk_count) != 1);
-632dda833e28fe Chuck Lever         2015-05-11  1614  	error = task->tk_status;
-632dda833e28fe Chuck Lever         2015-05-11  1615  	rpc_put_task(task);
-632dda833e28fe Chuck Lever         2015-05-11  1616  
-632dda833e28fe Chuck Lever         2015-05-11  1617  out:
-632dda833e28fe Chuck Lever         2015-05-11  1618  	dprintk("svc: %s(), error=%d\n", __func__, error);
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1619  }
-947c6a06419085 Chuck Lever         2023-08-12  1620  EXPORT_SYMBOL_GPL(svc_process_bc);
-9e00abc3c20904 Trond Myklebust     2011-07-13  1621  #endif /* CONFIG_SUNRPC_BACKCHANNEL */
-4d6bbb6233c9cf Ricardo Labiaga     2009-04-01  1622  
+^1da177e4c3f41 arch/i386/kernel/microcode.c          Linus Torvalds     2005-04-16  600  
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  601  static enum ucode_state read_ucode_intel(int cpu, struct iov_iter *iter)
+^1da177e4c3f41 arch/i386/kernel/microcode.c          Linus Torvalds     2005-04-16  602  {
+a0a29b62a9cac6 arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2008-09-11  603  	struct ucode_cpu_info *uci = ucode_cpu_info + cpu;
+2e86222c67bb5d arch/x86/kernel/cpu/microcode/intel.c Junichi Nomura     2017-01-09 @604  	unsigned int curr_mc_size = 0, new_mc_size = 0;
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  605  	int cur_rev = uci->cpu_sig.rev;
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  606  	u8 *new_mc = NULL, *mc = NULL;
+a0a29b62a9cac6 arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2008-09-11  607  
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  608  	while (iov_iter_count(iter)) {
+d4ee36686853d5 arch/x86/kernel/microcode_intel.c     Peter Oruba        2008-07-28  609  		struct microcode_header_intel mc_header;
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  610  		unsigned int mc_size, data_size;
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  611  		u8 *data;
+^1da177e4c3f41 arch/i386/kernel/microcode.c          Linus Torvalds     2005-04-16  612  
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  613  		if (!copy_from_iter_full(&mc_header, sizeof(mc_header), iter)) {
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  614  			pr_err("error! Truncated or inaccessible header in microcode data file\n");
+35a9ff4eec7a17 arch/x86/kernel/cpu/microcode/intel.c Quentin Casasnovas 2015-02-03  615  			break;
+35a9ff4eec7a17 arch/x86/kernel/cpu/microcode/intel.c Quentin Casasnovas 2015-02-03  616  		}
+35a9ff4eec7a17 arch/x86/kernel/cpu/microcode/intel.c Quentin Casasnovas 2015-02-03  617  
+a0a29b62a9cac6 arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2008-09-11  618  		mc_size = get_totalsize(&mc_header);
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  619  		if (mc_size < sizeof(mc_header)) {
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  620  			pr_err("error! Bad data in microcode data file (totalsize too small)\n");
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  621  			break;
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  622  		}
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  623  
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  624  		data_size = mc_size - sizeof(mc_header);
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  625  		if (data_size > iov_iter_count(iter)) {
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  626  			pr_err("error! Bad data in microcode data file (truncated file?)\n");
+a0a29b62a9cac6 arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2008-09-11  627  			break;
+^1da177e4c3f41 arch/i386/kernel/microcode.c          Linus Torvalds     2005-04-16  628  		}
+9a3110bf4bb046 arch/i386/kernel/microcode.c          Shaohua Li         2006-09-27  629  
+938179b4f8cf8a arch/x86/kernel/microcode_intel.c     Dimitri Sivanich   2010-03-05  630  		/* For performance reasons, reuse mc area when possible */
+938179b4f8cf8a arch/x86/kernel/microcode_intel.c     Dimitri Sivanich   2010-03-05  631  		if (!mc || mc_size > curr_mc_size) {
+938179b4f8cf8a arch/x86/kernel/microcode_intel.c     Dimitri Sivanich   2010-03-05  632  			vfree(mc);
+a0a29b62a9cac6 arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2008-09-11  633  			mc = vmalloc(mc_size);
+a0a29b62a9cac6 arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2008-09-11  634  			if (!mc)
+a0a29b62a9cac6 arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2008-09-11  635  				break;
+938179b4f8cf8a arch/x86/kernel/microcode_intel.c     Dimitri Sivanich   2010-03-05  636  			curr_mc_size = mc_size;
+938179b4f8cf8a arch/x86/kernel/microcode_intel.c     Dimitri Sivanich   2010-03-05  637  		}
+a30a6a2cb0fdc2 arch/i386/kernel/microcode.c          Shaohua Li         2006-09-27  638  
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  639  		memcpy(mc, &mc_header, sizeof(mc_header));
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  640  		data = mc + sizeof(mc_header);
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  641  		if (!copy_from_iter_full(data, data_size, iter) ||
+e0788c3281a723 arch/x86/kernel/cpu/microcode/intel.c Jithu Joseph       2022-11-16  642  		    intel_microcode_sanity_check(mc, true, MC_HEADER_TYPE_MICROCODE) < 0) {
+a0a29b62a9cac6 arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2008-09-11  643  			break;
+a0a29b62a9cac6 arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2008-09-11  644  		}
+a30a6a2cb0fdc2 arch/i386/kernel/microcode.c          Shaohua Li         2006-09-27  645  
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  646  		if (cur_rev >= mc_header.rev)
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  647  			continue;
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  648  
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  649  		if (!intel_find_matching_signature(mc, uci->cpu_sig.sig, uci->cpu_sig.pf))
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  650  			continue;
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  651  
+a1c75cc5018f17 arch/x86/kernel/microcode_intel.c     Ingo Molnar        2008-09-14  652  		vfree(new_mc);
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  653  		cur_rev = mc_header.rev;
+a0a29b62a9cac6 arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2008-09-11  654  		new_mc  = mc;
+2e86222c67bb5d arch/x86/kernel/cpu/microcode/intel.c Junichi Nomura     2017-01-09  655  		new_mc_size = mc_size;
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  656  		mc = NULL;
+a30a6a2cb0fdc2 arch/i386/kernel/microcode.c          Shaohua Li         2006-09-27  657  	}
+a30a6a2cb0fdc2 arch/i386/kernel/microcode.c          Shaohua Li         2006-09-27  658  
+938179b4f8cf8a arch/x86/kernel/microcode_intel.c     Dimitri Sivanich   2010-03-05  659  	vfree(mc);
+938179b4f8cf8a arch/x86/kernel/microcode_intel.c     Dimitri Sivanich   2010-03-05  660  
+7e94a7b659eefe arch/x86/kernel/cpu/microcode/intel.c Jann Horn          2019-04-04  661  	if (iov_iter_count(iter)) {
+4bae1967357bfc arch/x86/kernel/microcode_intel.c     Ingo Molnar        2009-03-11  662  		vfree(new_mc);
+f61337d9841210 arch/x86/kernel/cpu/microcode/intel.c Borislav Petkov    2016-10-25  663  		return UCODE_ERROR;
+871b72dd1e12af arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2009-05-11  664  	}
+871b72dd1e12af arch/x86/kernel/microcode_intel.c     Dmitry Adamushko   2009-05-11  665  
+f61337d9841210 arch/x86/kernel/cpu/microcode/intel.c Borislav Petkov    2016-10-25  666  	if (!new_mc)
+f61337d9841210 arch/x86/kernel/cpu/microcode/intel.c Borislav Petkov    2016-10-25  667  		return UCODE_NFOUND;
+4bae1967357bfc arch/x86/kernel/microcode_intel.c     Ingo Molnar        2009-03-11  668  
+6a99f8daa3072b arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-08  669  	/* Save for CPU hotplug */
+025e3daab641aa arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-03  670  	save_microcode_patch((struct microcode_intel *)new_mc);
+025e3daab641aa arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-03  671  	uci->mc = ucode_patch_va;
+025e3daab641aa arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-03  672  
+025e3daab641aa arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-03  673  	vfree(new_mc);
+9cd4d78e21cfdc arch/x86/kernel/microcode_intel.c     Fenghua Yu         2012-12-20  674  
+f58e1f53de52a7 arch/x86/kernel/microcode_intel.c     Joe Perches        2009-12-08  675  	pr_debug("CPU%d found a matching microcode update with version 0x%x (current=0x%x)\n",
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  676  		 cpu, cur_rev, uci->cpu_sig.rev);
+f61337d9841210 arch/x86/kernel/cpu/microcode/intel.c Borislav Petkov    2016-10-25  677  
+26de84f12381f5 arch/x86/kernel/cpu/microcode/intel.c Thomas Gleixner    2023-08-10  678  	return UCODE_NEW;
+a30a6a2cb0fdc2 arch/i386/kernel/microcode.c          Shaohua Li         2006-09-27  679  }
+a30a6a2cb0fdc2 arch/i386/kernel/microcode.c          Shaohua Li         2006-09-27  680  
 
-:::::: The code at line 1555 was first introduced by commit
-:::::: 632dda833e28fe43049a01b4bc53e409176e7843 SUNRPC: Clean up bc_send()
+:::::: The code at line 604 was first introduced by commit
+:::::: 2e86222c67bb5d942da68e8415749b32db208534 x86/microcode/intel: Use correct buffer size for saving microcode data
 
-:::::: TO: Chuck Lever <chuck.lever@oracle.com>
-:::::: CC: Trond Myklebust <trond.myklebust@primarydata.com>
+:::::: TO: Junichi Nomura <j-nomura@ce.jp.nec.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
