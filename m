@@ -1,42 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B9A1CCCC;
-	Sat, 12 Aug 2023 21:30:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589491CCCC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 21:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691875826; x=1723411826;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4Knkcmt8dTVrq8tl7N9v/v3k4Vq5sQ8tVkqMab9ylok=;
-  b=UP86eUyt1LMgJ5+A0PO0ojzbJu7sUNIXl95LBp1bgYka2m5ov8BY41Le
-   fDqAdYHGBpybO6XMPMTCYK4xVoEXgxMUAfTnJT+uoygBsYGtzCP7Zj7Jx
-   gTlXn6yDepY2ufx13pVznIMA7HCMh5fyoU7JqJD8Vg67VzxWVB94JowMv
-   R5WM1idnXO2eSjnoNz+w/0MX99FTDgj8vLhCZY5GI7J5ep9hwG2CQhQ/y
-   Wmxf9V+nWJGfV2yVIhu2l8oIQ4Sh2gcmYwVWCnVYpViYQBviLiZTK5HHT
-   iYQXEIMOysdFPvmrdITbqE9NPHcqeMCzw3A2nQ2EOnQGegw6SbJliysLx
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="370751182"
+  t=1691875830; x=1723411830;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pRiq/xmjLemE5+eZt4bLhSjlC//rAZoKgUD4BEAjCho=;
+  b=QJ0RXufWklkBDrt/kuZs2fQXRfJzs1TupUhHAO1nokbkzVOH16kIOKT5
+   0IWKpfPodcTv1cYJ4PBOjxwakVqcxaMh2MPhrApjqvRXFtstjX8wnFrnR
+   JCYV3c1yUbMneQrWepQIODGD+5XWN9XMjDLxaM8Yb2i9PzyS8uGSrE8AR
+   2ee4VikoUuIXv0FWUAY+NXQqYPou2d2VM+Pvv/OerNEJwwKOCCeB+qmmI
+   gIBsEaR/MSrXF9aXoU8Z/orNfdFZUX15vsuQLrvbXrkSWdA7SZgc3IH3Y
+   S0RaGR5U4WirptmIU62I45wazKMrjGO/m93CPhhxF/dB7tpfmXbz3AEat
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="374615456"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="370751182"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 14:30:24 -0700
+   d="scan'208";a="374615456"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 14:30:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="768017118"
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="732996864"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="768017118"
+   d="scan'208";a="732996864"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 12 Aug 2023 14:30:23 -0700
+  by orsmga002.jf.intel.com with ESMTP; 12 Aug 2023 14:30:22 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUwBi-0008nE-35;
+	id 1qUwBi-0008nG-3C;
 	Sat, 12 Aug 2023 21:30:22 +0000
-Date: Sun, 13 Aug 2023 05:30:18 +0800
+Date: Sun, 13 Aug 2023 05:30:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tianyu Lan <tiala@microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [lantianyu:test 10/20] arch/x86/kernel/sev.c:185:30: warning: no
- previous prototype for function 'sev_snp_current_doorbell_page'
-Message-ID: <202308130530.BrX4dW2r-lkp@intel.com>
+To: Keguang Zhang <keguang.zhang@gmail.com>, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+	Keguang Zhang <keguang.zhang@gmail.com>
+Subject: Re: [PATCH 4/5] net: stmmac: Add glue layer for Loongson-1 SoC
+Message-ID: <202308130554.Rbxxtltt-lkp@intel.com>
+References: <20230812151135.1028780-5-keguang.zhang@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,48 +60,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230812151135.1028780-5-keguang.zhang@gmail.com>
 
-tree:   https://github.com/lantianyu/linux test
-head:   a8a44aa58e6c9eac7cdbb142e11b3ac894404756
-commit: 65f17da72a5e7625d2cb608eabf084e53f9286dc [10/20] x86/sev: Add AMD sev-snp enlightened guest support on hyperv
-config: x86_64-randconfig-x002-20230812 (https://download.01.org/0day-ci/archive/20230813/202308130530.BrX4dW2r-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230813/202308130530.BrX4dW2r-lkp@intel.com/reproduce)
+Hi Keguang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 21ef7b1e17d039053edaeaf41142423810572741]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keguang-Zhang/MIPS-loongson32-Remove-Loongson1-MAC-arch-code/20230812-231420
+base:   21ef7b1e17d039053edaeaf41142423810572741
+patch link:    https://lore.kernel.org/r/20230812151135.1028780-5-keguang.zhang%40gmail.com
+patch subject: [PATCH 4/5] net: stmmac: Add glue layer for Loongson-1 SoC
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230813/202308130554.Rbxxtltt-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230813/202308130554.Rbxxtltt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308130530.BrX4dW2r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308130554.Rbxxtltt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/sev.c:185:30: warning: no previous prototype for function 'sev_snp_current_doorbell_page' [-Wmissing-prototypes]
-   struct sev_hv_doorbell_page *sev_snp_current_doorbell_page(void)
-                                ^
-   arch/x86/kernel/sev.c:185:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct sev_hv_doorbell_page *sev_snp_current_doorbell_page(void)
-   ^
-   static 
-   arch/x86/kernel/sev.c:237:4: error: call to undeclared function 'sysvec_irq_move_cleanup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           sysvec_irq_move_cleanup(regs);
-                           ^
-   arch/x86/kernel/sev.c:284:37: error: use of undeclared identifier 'vector'
-                                   panic("Unexpected vector %d\n", vector);
-                                                                   ^
-   arch/x86/kernel/sev.c:413:30: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-           struct sev_es_runtime_data *data;
-                                       ^
-   2 warnings and 2 errors generated.
+   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson1.c: In function 'ls1x_dwmac_probe':
+   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson1.c:188:21: error: implicit declaration of function 'of_parse_phandle' [-Werror=implicit-function-declaration]
+     188 |         syscon_np = of_parse_phandle(pdev->dev.of_node, "syscon", 0);
+         |                     ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-loongson1.c:188:19: warning: assignment to 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     188 |         syscon_np = of_parse_phandle(pdev->dev.of_node, "syscon", 0);
+         |                   ^
+   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson1.c:192:17: error: implicit declaration of function 'of_match_node'; did you mean 'for_each_node'? [-Werror=implicit-function-declaration]
+     192 |         match = of_match_node(ls1x_dwmac_syscon_match, syscon_np);
+         |                 ^~~~~~~~~~~~~
+         |                 for_each_node
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-loongson1.c:192:15: warning: assignment to 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     192 |         match = of_match_node(ls1x_dwmac_syscon_match, syscon_np);
+         |               ^
+   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson1.c:194:17: error: implicit declaration of function 'of_node_put'; did you mean 'bpf_module_put'? [-Werror=implicit-function-declaration]
+     194 |                 of_node_put(syscon_np);
+         |                 ^~~~~~~~~~~
+         |                 bpf_module_put
+   cc1: some warnings being treated as errors
 
 
-vim +/sev_snp_current_doorbell_page +185 arch/x86/kernel/sev.c
+vim +188 drivers/net/ethernet/stmicro/stmmac/dwmac-loongson1.c
 
-   184	
- > 185	struct sev_hv_doorbell_page *sev_snp_current_doorbell_page(void)
-   186	{
-   187		return &this_cpu_read(snp_runtime_data)->hv_doorbell_page;
-   188	}
-   189	
+   170	
+   171	static int ls1x_dwmac_probe(struct platform_device *pdev)
+   172	{
+   173		struct plat_stmmacenet_data *plat_dat;
+   174		struct stmmac_resources stmmac_res;
+   175		struct device_node *syscon_np;
+   176		const struct of_device_id *match;
+   177		struct regmap *regmap;
+   178		struct ls1x_dwmac *dwmac;
+   179		const struct ls1x_dwmac_syscon *syscon;
+   180		size_t size;
+   181		int ret;
+   182	
+   183		ret = stmmac_get_platform_resources(pdev, &stmmac_res);
+   184		if (ret)
+   185			return ret;
+   186	
+   187		/* Probe syscon */
+ > 188		syscon_np = of_parse_phandle(pdev->dev.of_node, "syscon", 0);
+   189		if (!syscon_np)
+   190			return -ENODEV;
+   191	
+ > 192		match = of_match_node(ls1x_dwmac_syscon_match, syscon_np);
+   193		if (!match) {
+   194			of_node_put(syscon_np);
+   195			return -EINVAL;
+   196		}
+   197		syscon = (const struct ls1x_dwmac_syscon *)match->data;
+   198	
+   199		regmap = syscon_node_to_regmap(syscon_np);
+   200		of_node_put(syscon_np);
+   201		if (IS_ERR(regmap)) {
+   202			ret = PTR_ERR(regmap);
+   203			dev_err(&pdev->dev, "Unable to map syscon: %d\n", ret);
+   204			return ret;
+   205		}
+   206	
+   207		size = syscon->nr_reg_fields * sizeof(struct regmap_field *);
+   208		dwmac = devm_kzalloc(&pdev->dev, sizeof(*dwmac) + size, GFP_KERNEL);
+   209		if (!dwmac)
+   210			return -ENOMEM;
+   211	
+   212		plat_dat = stmmac_probe_config_dt(pdev, stmmac_res.mac);
+   213		if (IS_ERR(plat_dat)) {
+   214			dev_err(&pdev->dev, "dt configuration failed\n");
+   215			return PTR_ERR(plat_dat);
+   216		}
+   217	
+   218		plat_dat->bsp_priv = dwmac;
+   219		plat_dat->init = ls1x_dwmac_init;
+   220		dwmac->dev = &pdev->dev;
+   221		dwmac->plat_dat = plat_dat;
+   222		dwmac->syscon = syscon;
+   223		dwmac->regmap = regmap;
+   224	
+   225		ret = stmmac_pltfr_probe(pdev, plat_dat, &stmmac_res);
+   226		if (ret)
+   227			goto err_remove_config_dt;
+   228	
+   229		return 0;
+   230	
+   231	err_remove_config_dt:
+   232		if (pdev->dev.of_node)
+   233			stmmac_remove_config_dt(pdev, plat_dat);
+   234	
+   235		return ret;
+   236	}
+   237	
 
 -- 
 0-DAY CI Kernel Test Service
