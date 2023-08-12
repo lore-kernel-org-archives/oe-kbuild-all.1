@@ -1,42 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977EC79EC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 15:28:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685922F50;
+	Sat, 12 Aug 2023 15:38:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691854101; x=1723390101;
+  t=1691854699; x=1723390699;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bbfNGtVQl1/C0AChnlWCxxZkBJ1JAK67j4ZYRZ31wu8=;
-  b=lXoQMuVDi9PB+io0U0DP/AdvjHr4YCHuqGKSQpCdeICs3DvAgf16W+/x
-   QpuD74TQuCZf0/V5cCY5L3HdRVDcax6iyJiI1sFobJGLHUZiW2BWJkO5K
-   OZI5nTl93d4v7k6v9pookKnzJoo6mJFAjfWYPVku/h72Mn7J3eb8gcFKx
-   0jBF5QN57wFTU0J+xPXA0nStvGZQGNFG4xQEvaRQtvzulOFWcdVg3/Cel
-   flnk9c+eHVjfobvbQewy7dF39X6t2yFPhnTA30USTH4TnyXW6e09E/38t
-   4Ig1nnjz7ldnDnQV+iC57yTLkcT55z+vG7xk4jzuryx7b4Oyx9aKa4HcD
+  bh=r2yRmxFioGg3QiwPHrllH7x81St+Nc/q/hcXHwehjoU=;
+  b=CqCIkCtkLoEKynCZOrPWY3vzUUI2VSXsxP8d8wMAyWwzNqGudfna2lQ0
+   NlrHm9EVWr4T10XC/oFzUYhOyFjRyGEYfbwpNN8vfN9bB4AKv4bcSUH3n
+   U6Tqr4Q7/B8yojOeIbSbE8r2OMFdJaptU5X0/7uCUgakMZhscw+FgEPUB
+   jW6WHjUu6jUVzS5jG6JeXZ0SzDGm8AR5aKXcdnaT8Z1NNKtCnAwOhLK5V
+   TYhCBOXBxWqxo8sUCIWPCRiBMwNGckpbB8ptHKYeVkvZJRAENvaJ6AILJ
+   oqI6dxhAdyHWche1Sc+kd9x0GXlxh4tghEwGgazF5NJ/ucqH2NOFmc7Dc
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="369305301"
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="402817801"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="369305301"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 08:28:18 -0700
+   d="scan'208";a="402817801"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 08:38:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="876477831"
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="732956579"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="732956579"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 12 Aug 2023 08:28:20 -0700
+  by orsmga002.jf.intel.com with ESMTP; 12 Aug 2023 08:38:17 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUqXI-0008dk-07;
-	Sat, 12 Aug 2023 15:28:16 +0000
-Date: Sat, 12 Aug 2023 23:27:38 +0800
+	id 1qUqgy-0008e4-0i;
+	Sat, 12 Aug 2023 15:38:16 +0000
+Date: Sat, 12 Aug 2023 23:38:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <sean.j.christopherson@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Borislav Petkov <bp@suse.de>, Kai Huang <kai.huang@intel.com>
-Subject: arch/x86/kernel/cpu/sgx/virt.c:295:36: sparse: sparse: cast removes
- address space '__user' of expression
-Message-ID: <202308122341.T4Bg7lx0-lkp@intel.com>
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [linyunsheng:net-next-pp_frag_v6 1/6]
+ include/net/page_pool/helpers.h:85:21: error: call to undeclared function
+ 'dma_get_cache_alignment'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202308122300.6cd7Qwiz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,81 +48,150 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f8de32cc060ba3f63171aaa0e8764d22d8c37978
-commit: d155030b1e7c0e448aab22a803f7a71ea2e117d7 x86/sgx: Add helpers to expose ECREATE and EINIT to KVM
-date:   2 years, 4 months ago
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230812/202308122341.T4Bg7lx0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308122341.T4Bg7lx0-lkp@intel.com/reproduce)
+tree:   https://github.com/gestionlin/linux.git net-next-pp_frag_v6
+head:   1cd274e52745845b2178cd8f8b6c35266778ff1b
+commit: a687eb04bd354fbc130ad9a3170e59b425d496b6 [1/6] page_pool: frag API support for 32-bit arch with 64-bit DMA
+config: riscv-randconfig-r014-20230812 (https://download.01.org/0day-ci/archive/20230812/202308122300.6cd7Qwiz-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308122300.6cd7Qwiz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308122341.T4Bg7lx0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308122300.6cd7Qwiz-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted vm_fault_t @@
-   arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse:     expected int [assigned] ret
-   arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse:     got restricted vm_fault_t
-   arch/x86/kernel/cpu/sgx/virt.c:60:20: sparse: sparse: restricted vm_fault_t degrades to integer
-   arch/x86/kernel/cpu/sgx/virt.c:95:35: sparse: sparse: symbol 'sgx_vepc_vm_ops' was not declared. Should it be static?
->> arch/x86/kernel/cpu/sgx/virt.c:295:36: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/kernel/cpu/sgx/virt.c:326:24: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/kernel/cpu/sgx/virt.c:326:43: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/kernel/cpu/sgx/virt.c:326:58: sparse: sparse: cast removes address space '__user' of expression
+All errors (new ones prefixed by >>):
 
-vim +/__user +295 arch/x86/kernel/cpu/sgx/virt.c
+   In file included from net/core/page_pool.c:13:
+>> include/net/page_pool/helpers.h:85:21: error: call to undeclared function 'dma_get_cache_alignment'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           size = ALIGN(size, dma_get_cache_alignment());
+                              ^
+   In file included from net/core/page_pool.c:14:
+   In file included from include/net/xdp.h:10:
+   In file included from include/linux/filter.h:9:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from net/core/page_pool.c:14:
+   In file included from include/net/xdp.h:10:
+   In file included from include/linux/filter.h:9:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from net/core/page_pool.c:14:
+   In file included from include/net/xdp.h:10:
+   In file included from include/linux/filter.h:9:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from net/core/page_pool.c:14:
+   In file included from include/net/xdp.h:10:
+   In file included from include/linux/filter.h:9:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from net/core/page_pool.c:14:
+   In file included from include/net/xdp.h:10:
+   In file included from include/linux/filter.h:9:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
 
-   260	
-   261	/**
-   262	 * sgx_virt_ecreate() - Run ECREATE on behalf of guest
-   263	 * @pageinfo:	Pointer to PAGEINFO structure
-   264	 * @secs:	Userspace pointer to SECS page
-   265	 * @trapnr:	trap number injected to guest in case of ECREATE error
-   266	 *
-   267	 * Run ECREATE on behalf of guest after KVM traps ECREATE for the purpose
-   268	 * of enforcing policies of guest's enclaves, and return the trap number
-   269	 * which should be injected to guest in case of any ECREATE error.
-   270	 *
-   271	 * Return:
-   272	 * -  0:	ECREATE was successful.
-   273	 * - <0:	on error.
-   274	 */
-   275	int sgx_virt_ecreate(struct sgx_pageinfo *pageinfo, void __user *secs,
-   276			     int *trapnr)
-   277	{
-   278		int ret;
-   279	
-   280		/*
-   281		 * @secs is an untrusted, userspace-provided address.  It comes from
-   282		 * KVM and is assumed to be a valid pointer which points somewhere in
-   283		 * userspace.  This can fault and call SGX or other fault handlers when
-   284		 * userspace mapping @secs doesn't exist.
-   285		 *
-   286		 * Add a WARN() to make sure @secs is already valid userspace pointer
-   287		 * from caller (KVM), who should already have handled invalid pointer
-   288		 * case (for instance, made by malicious guest).  All other checks,
-   289		 * such as alignment of @secs, are deferred to ENCLS itself.
-   290		 */
-   291		if (WARN_ON_ONCE(!access_ok(secs, PAGE_SIZE)))
-   292			return -EINVAL;
-   293	
-   294		__uaccess_begin();
- > 295		ret = __ecreate(pageinfo, (void *)secs);
-   296		__uaccess_end();
-   297	
-   298		if (encls_faulted(ret)) {
-   299			*trapnr = ENCLS_TRAPNR(ret);
-   300			return -EFAULT;
-   301		}
-   302	
-   303		/* ECREATE doesn't return an error code, it faults or succeeds. */
-   304		WARN_ON_ONCE(ret);
-   305		return 0;
-   306	}
-   307	EXPORT_SYMBOL_GPL(sgx_virt_ecreate);
-   308	
+
+vim +/dma_get_cache_alignment +85 include/net/page_pool/helpers.h
+
+    78	
+    79	static inline struct page *page_pool_alloc_frag(struct page_pool *pool,
+    80							unsigned int *offset,
+    81							unsigned int size, gfp_t gfp)
+    82	{
+    83		unsigned int max_size = PAGE_SIZE << pool->p.order;
+    84	
+  > 85		size = ALIGN(size, dma_get_cache_alignment());
+    86	
+    87		if (WARN_ON(size > max_size))
+    88			return NULL;
+    89	
+    90		/* Don't allow page splitting and allocate one big frag
+    91		 * for 32-bit arch with 64-bit DMA, corresponding to
+    92		 * the checking in page_pool_is_last_frag().
+    93		 */
+    94		if (PAGE_POOL_DMA_USE_PP_FRAG_COUNT) {
+    95			*offset = 0;
+    96			return page_pool_alloc_pages(pool, gfp);
+    97		}
+    98	
+    99		return __page_pool_alloc_frag(pool, offset, size, gfp);
+   100	}
+   101	
 
 -- 
 0-DAY CI Kernel Test Service
