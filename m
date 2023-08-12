@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C8210EE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Aug 2023 01:44:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA77EA1;
+	Sat, 12 Aug 2023 02:45:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691804642; x=1723340642;
+  t=1691808303; x=1723344303;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NfxhoXaPnM2VYKUu/X759PaTw0Ut/fvH3cDhTXpGIyw=;
-  b=BCe2k90pibXRmy8git8Zxr48aSN7DY1sOfYfnuOVjm61/IPIg4vcbtfk
-   ohkU7U7mTJ1L/VEM7PIO8VU6abYH81UzFTyUqpZOtEXq9u+b7KD+bEfY6
-   wlc7xhsezQQcNiGfWKb++T/vpNWR2FenQ6sekhD+dSIiJMxhlJjuHclRR
-   sorAblqIjVVU5MUU30kgrsMsqs/Fr2vqnQYicYFJQjUPkN+D7D7MiI+Ha
-   B7RVrpx8Ik/1/KUM61zXUrqi5xD8rd8DIlcmGukJ0gbqlrRRaJ3xbw9gY
-   WOZ4hVbvROQWecySGWl0HvbENo9brSLlcnTTRmJLTkEyq6e+BdVfE2hF9
+  bh=19v3zaR/R42x9KUdyekK6wggLHlvloniLGaAy/6x6fM=;
+  b=TeUDE8guXcs52LoqQ4Vv9GburfKPL/bRRayL5UPwagz1xRiJmWzLumZr
+   Uobj7LyG2DvsU0GM5KbWEiK+RD7ub09ZjgUHdWUX2FY+EoBrx1bJAccrd
+   uiDZhRuwLcxmEYMtsMeNmzU0+eIyuQJ8nit26c+/hjRm2E4AQWwdWnEh/
+   rVtmcJniYGNB8Cl0Mtl3tGPGJIVKiRun1HLxpKW66/SzVk5D6Vhcrpjlm
+   pVv02Q7tAzDBY5IkojaGzSxdxc2YTtpn9FjctFwauKGgKm4cpFZzOz3uU
+   pN2dA8ApkRnQgPBzQWQuwuKovAhvjm/g5IAVrD7IZsdNNQGBE0zZXBuXB
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="369264762"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="458167831"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="369264762"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 18:43:59 -0700
+   d="scan'208";a="458167831"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 19:45:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="767845467"
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="762380106"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="767845467"
+   d="scan'208";a="762380106"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 Aug 2023 18:43:57 -0700
+  by orsmga008.jf.intel.com with ESMTP; 11 Aug 2023 19:45:00 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qUdfZ-0008BS-0P;
-	Sat, 12 Aug 2023 01:43:57 +0000
-Date: Sat, 12 Aug 2023 09:43:05 +0800
+	id 1qUecd-0008Cu-34;
+	Sat, 12 Aug 2023 02:44:59 +0000
+Date: Sat, 12 Aug 2023 10:44:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 1926/8441] ERROR: modpost: vmlinux: local symbol
- 'get_rcu_tasks_trace_gp_kthread' was exported
-Message-ID: <202308120923.gCBrnIht-lkp@intel.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [davejiang:cxl-ide 15/24]
+ drivers/staging/media/rkvdec/rkvdec.c:1035:46: warning: implicit conversion
+ from 'unsigned long long' to 'unsigned int' changes value from
+ 18446744073709551615 to 4294967295
+Message-ID: <202308121025.P9XAT2bj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,221 +48,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   21ef7b1e17d039053edaeaf41142423810572741
-commit: 5f8e3202696f5e94d3fc54cfed75d270ae843ee9 [1926/8441] rcuscale: Measure grace-period kthread CPU time
-config: riscv-randconfig-r042-20230811 (https://download.01.org/0day-ci/archive/20230812/202308120923.gCBrnIht-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120923.gCBrnIht-lkp@intel.com/reproduce)
+tree:   https://github.com/davejiang/linux.git cxl-ide
+head:   5e3487a17fbf6e33d8ddd60444073ff0bc59b35e
+commit: 6908950a8afc72c0e7e4131658994a3cd384c95c [15/24] pci: Add basic support for discovery of IDE on PCIe device
+config: mips-randconfig-r034-20230812 (https://download.01.org/0day-ci/archive/20230812/202308121025.P9XAT2bj-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308121025.P9XAT2bj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308120923.gCBrnIht-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308121025.P9XAT2bj-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-ERROR: modpost: vmlinux: local symbol '__devm_irq_alloc_descs' was exported
-ERROR: modpost: vmlinux: local symbol 'devm_irq_alloc_generic_chip' was exported
-ERROR: modpost: vmlinux: local symbol 'devm_irq_setup_generic_chip' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_gc_noop' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_gc_mask_disable_reg' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_gc_mask_set_bit' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_gc_mask_clr_bit' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_gc_unmask_enable_reg' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_gc_ack_set_bit' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_gc_set_wake' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_alloc_generic_chip' was exported
-ERROR: modpost: vmlinux: local symbol '__irq_alloc_domain_generic_chips' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_get_domain_generic_chip' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_generic_chip_ops' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_setup_generic_chip' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_setup_alt_chip' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_remove_generic_chip' was exported
-ERROR: modpost: vmlinux: local symbol 'irqchip_fwnode_ops' was exported
-ERROR: modpost: vmlinux: local symbol '__irq_domain_alloc_fwnode' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_free_fwnode' was exported
-ERROR: modpost: vmlinux: local symbol '__irq_domain_add' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_remove' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_update_bus_token' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_create_simple' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_add_legacy' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_create_legacy' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_find_matching_fwspec' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_set_default_host' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_get_default_host' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_associate' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_associate_many' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_create_mapping_affinity' was exported
-ERROR: modpost: vmlinux: local symbol 'of_phandle_args_to_fwspec' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_create_fwspec_mapping' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_create_of_mapping' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_dispose_mapping' was exported
-ERROR: modpost: vmlinux: local symbol '__irq_resolve_mapping' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_xlate_onecell' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_xlate_twocell' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_xlate_onetwocell' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_simple_ops' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_translate_onecell' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_translate_twocell' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_reset_irq_data' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_create_hierarchy' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_disconnect_hierarchy' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_get_irq_data' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_set_hwirq_and_chip' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_set_info' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_free_irqs_common' was exported
-ERROR: modpost: vmlinux: local symbol '__irq_domain_alloc_irqs' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_push_irq' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_pop_irq' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_alloc_irqs_parent' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_free_irqs_parent' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_create_sim' was exported
-ERROR: modpost: vmlinux: local symbol 'irq_domain_remove_sim' was exported
-ERROR: modpost: vmlinux: local symbol 'devm_irq_domain_create_sim' was exported
-ERROR: modpost: vmlinux: local symbol 'get_cached_msi_msg' was exported
-ERROR: modpost: vmlinux: local symbol 'msi_lock_descs' was exported
-ERROR: modpost: vmlinux: local symbol 'msi_unlock_descs' was exported
-ERROR: modpost: vmlinux: local symbol 'msi_domain_first_desc' was exported
-ERROR: modpost: vmlinux: local symbol 'msi_next_desc' was exported
-ERROR: modpost: vmlinux: local symbol 'msi_domain_get_virq' was exported
-ERROR: modpost: vmlinux: local symbol 'msi_device_has_isolated_msi' was exported
-ERROR: modpost: vmlinux: local symbol 'ipi_get_hwirq' was exported
-ERROR: modpost: vmlinux: local symbol 'ipi_send_single' was exported
-ERROR: modpost: vmlinux: local symbol 'ipi_send_mask' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_sched_held' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_gp_is_normal' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_async_should_hurry' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_async_hurry' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_async_relax' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_gp_is_expedited' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_expedite_gp' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_unexpedite_gp' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_inkernel_boot_has_ended' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_lock_map' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_bh_lock_map' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_sched_lock_map' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_callback_map' was exported
-ERROR: modpost: vmlinux: local symbol 'debug_lockdep_rcu_enabled' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_held' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_bh_held' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_read_lock_any_held' was exported
-ERROR: modpost: vmlinux: local symbol 'wakeme_after_rcu' was exported
-ERROR: modpost: vmlinux: local symbol '__wait_rcu_gp' was exported
-ERROR: modpost: vmlinux: local symbol 'finish_rcuwait' was exported
-ERROR: modpost: vmlinux: local symbol 'do_trace_rcu_torture_read' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_cpu_stall_suppress' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_cpu_stall_suppress_at_boot' was exported
-ERROR: modpost: vmlinux: local symbol 'get_completed_synchronize_rcu' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_trace_lock_map' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_trc_cmpxchg_need_qs' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_read_unlock_trace_special' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_tasks_trace_qs_blkd' was exported
-ERROR: modpost: vmlinux: local symbol 'call_rcu_tasks_trace' was exported
-ERROR: modpost: vmlinux: local symbol 'synchronize_rcu_tasks_trace' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_barrier_tasks_trace' was exported
-ERROR: modpost: vmlinux: local symbol 'show_rcu_tasks_trace_gp_kthread' was exported
->> ERROR: modpost: vmlinux: local symbol 'get_rcu_tasks_trace_gp_kthread' was exported
-ERROR: modpost: vmlinux: local symbol '__init_srcu_struct' was exported
-ERROR: modpost: vmlinux: local symbol 'cleanup_srcu_struct' was exported
-ERROR: modpost: vmlinux: local symbol 'srcu_check_nmi_safety' was exported
-ERROR: modpost: vmlinux: local symbol '__srcu_read_lock' was exported
-ERROR: modpost: vmlinux: local symbol '__srcu_read_unlock' was exported
-ERROR: modpost: vmlinux: local symbol 'call_srcu' was exported
-ERROR: modpost: vmlinux: local symbol 'synchronize_srcu_expedited' was exported
-ERROR: modpost: vmlinux: local symbol 'synchronize_srcu' was exported
-ERROR: modpost: vmlinux: local symbol 'get_state_synchronize_srcu' was exported
-ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_srcu' was exported
-ERROR: modpost: vmlinux: local symbol 'poll_state_synchronize_srcu' was exported
-ERROR: modpost: vmlinux: local symbol 'srcu_barrier' was exported
-ERROR: modpost: vmlinux: local symbol 'srcu_batches_completed' was exported
-ERROR: modpost: vmlinux: local symbol 'srcutorture_get_gp_data' was exported
-ERROR: modpost: vmlinux: local symbol 'srcu_torture_stats_print' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_scheduler_active' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_get_gp_kthreads_prio' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_momentary_dyntick_idle' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_get_gp_seq' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_exp_batches_completed' was exported
-ERROR: modpost: vmlinux: local symbol 'rcutorture_get_gp_data' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_is_watching' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_gp_slow_register' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_gp_slow_unregister' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_gp_set_torture_wait' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_force_quiescent_state' was exported
-ERROR: modpost: vmlinux: local symbol 'call_rcu' was exported
-ERROR: modpost: vmlinux: local symbol 'kvfree_call_rcu' was exported
-ERROR: modpost: vmlinux: local symbol 'synchronize_rcu' was exported
-ERROR: modpost: vmlinux: local symbol 'get_completed_synchronize_rcu_full' was exported
-ERROR: modpost: vmlinux: local symbol 'get_state_synchronize_rcu' was exported
-ERROR: modpost: vmlinux: local symbol 'get_state_synchronize_rcu_full' was exported
-ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu' was exported
-ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu_full' was exported
-ERROR: modpost: vmlinux: local symbol 'poll_state_synchronize_rcu' was exported
-ERROR: modpost: vmlinux: local symbol 'poll_state_synchronize_rcu_full' was exported
-ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu' was exported
-ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu_full' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_barrier' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_lockdep_current_cpu_online' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_exp_jiffies_till_stall_check' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_jiffies_till_stall_check' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_check_boost_fail' was exported
-ERROR: modpost: vmlinux: local symbol 'show_rcu_gp_kthreads' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_fwd_progress_check' was exported
-ERROR: modpost: vmlinux: local symbol 'synchronize_rcu_expedited' was exported
-ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu_expedited' was exported
-ERROR: modpost: vmlinux: local symbol 'start_poll_synchronize_rcu_expedited_full' was exported
-ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu_expedited' was exported
-ERROR: modpost: vmlinux: local symbol 'cond_synchronize_rcu_expedited_full' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_read_unlock_strict' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_all_qs' was exported
-ERROR: modpost: vmlinux: local symbol 'rcu_note_context_switch' was exported
-ERROR: modpost: vmlinux: local symbol 'dmam_free_coherent' was exported
-ERROR: modpost: vmlinux: local symbol 'dmam_alloc_attrs' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_map_page_attrs' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_unmap_page_attrs' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_map_sg_attrs' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_map_sgtable' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_unmap_sg_attrs' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_map_resource' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_unmap_resource' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_sync_single_for_cpu' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_sync_single_for_device' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_sync_sg_for_cpu' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_sync_sg_for_device' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_get_sgtable_attrs' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_can_mmap' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_mmap_attrs' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_get_required_mask' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_alloc_attrs' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_free_attrs' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_alloc_pages' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_free_pages' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_mmap_pages' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_alloc_noncontiguous' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_free_noncontiguous' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_vmap_noncontiguous' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_vunmap_noncontiguous' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_mmap_noncontiguous' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_pci_p2pdma_supported' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_set_mask' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_set_coherent_mask' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_max_mapping_size' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_opt_mapping_size' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_need_sync' was exported
-ERROR: modpost: vmlinux: local symbol 'dma_get_merge_boundary' was exported
-ERROR: modpost: vmlinux: local symbol 'register_module_notifier' was exported
-ERROR: modpost: vmlinux: local symbol 'unregister_module_notifier' was exported
-ERROR: modpost: vmlinux: local symbol '__module_put_and_kthread_exit' was exported
-ERROR: modpost: vmlinux: local symbol '__tracepoint_module_get' was exported
-ERROR: modpost: vmlinux: local symbol '__traceiter_module_get' was exported
-ERROR: modpost: vmlinux: local symbol '__SCK__tp_func_module_get' was exported
-ERROR: modpost: vmlinux: local symbol 'module_refcount' was exported
-ERROR: modpost: vmlinux: local symbol '__symbol_put' was exported
-ERROR: modpost: vmlinux: local symbol 'symbol_put_addr' was exported
-ERROR: modpost: vmlinux: local symbol '__module_get' was exported
-ERROR: modpost: vmlinux: local symbol 'try_module_get' was exported
-ERROR: modpost: vmlinux: local symbol 'module_put' was exported
-ERROR: modpost: vmlinux: local symbol '__symbol_get' was exported
+   In file included from drivers/staging/media/rkvdec/rkvdec.c:23:
+   In file included from include/media/v4l2-mem2mem.h:16:
+   In file included from include/media/videobuf2-v4l2.h:16:
+   In file included from include/media/videobuf2-core.h:20:
+   In file included from include/media/media-request.h:20:
+   In file included from include/media/media-device.h:16:
+   include/linux/pci.h:352:12: warning: declaration of 'enum pci_ide_stream_type' will not be visible outside of this function [-Wvisibility]
+     352 |                                          enum pci_ide_stream_type type)
+         |                                               ^
+   include/linux/pci.h:352:32: error: variable has incomplete type 'enum pci_ide_stream_type'
+     352 |                                          enum pci_ide_stream_type type)
+         |                                                                   ^
+   include/linux/pci.h:352:12: note: forward declaration of 'enum pci_ide_stream_type'
+     352 |                                          enum pci_ide_stream_type type)
+         |                                               ^
+>> drivers/staging/media/rkvdec/rkvdec.c:1035:46: warning: implicit conversion from 'unsigned long long' to 'unsigned int' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+    1035 |         vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~             ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:40: note: expanded from macro 'DMA_BIT_MASK'
+      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                        ^~~~~
+   2 warnings and 1 error generated.
+
+
+vim +1035 drivers/staging/media/rkvdec/rkvdec.c
+
+cd33c830448baf Boris Brezillon 2020-04-04   996  
+cd33c830448baf Boris Brezillon 2020-04-04   997  static int rkvdec_probe(struct platform_device *pdev)
+cd33c830448baf Boris Brezillon 2020-04-04   998  {
+cd33c830448baf Boris Brezillon 2020-04-04   999  	struct rkvdec_dev *rkvdec;
+cd33c830448baf Boris Brezillon 2020-04-04  1000  	unsigned int i;
+cd33c830448baf Boris Brezillon 2020-04-04  1001  	int ret, irq;
+cd33c830448baf Boris Brezillon 2020-04-04  1002  
+cd33c830448baf Boris Brezillon 2020-04-04  1003  	rkvdec = devm_kzalloc(&pdev->dev, sizeof(*rkvdec), GFP_KERNEL);
+cd33c830448baf Boris Brezillon 2020-04-04  1004  	if (!rkvdec)
+cd33c830448baf Boris Brezillon 2020-04-04  1005  		return -ENOMEM;
+cd33c830448baf Boris Brezillon 2020-04-04  1006  
+cd33c830448baf Boris Brezillon 2020-04-04  1007  	platform_set_drvdata(pdev, rkvdec);
+cd33c830448baf Boris Brezillon 2020-04-04  1008  	rkvdec->dev = &pdev->dev;
+cd33c830448baf Boris Brezillon 2020-04-04  1009  	mutex_init(&rkvdec->vdev_lock);
+cd33c830448baf Boris Brezillon 2020-04-04  1010  	INIT_DELAYED_WORK(&rkvdec->watchdog_work, rkvdec_watchdog_func);
+cd33c830448baf Boris Brezillon 2020-04-04  1011  
+cd33c830448baf Boris Brezillon 2020-04-04  1012  	rkvdec->clocks = devm_kcalloc(&pdev->dev, ARRAY_SIZE(rkvdec_clk_names),
+cd33c830448baf Boris Brezillon 2020-04-04  1013  				      sizeof(*rkvdec->clocks), GFP_KERNEL);
+cd33c830448baf Boris Brezillon 2020-04-04  1014  	if (!rkvdec->clocks)
+cd33c830448baf Boris Brezillon 2020-04-04  1015  		return -ENOMEM;
+cd33c830448baf Boris Brezillon 2020-04-04  1016  
+cd33c830448baf Boris Brezillon 2020-04-04  1017  	for (i = 0; i < ARRAY_SIZE(rkvdec_clk_names); i++)
+cd33c830448baf Boris Brezillon 2020-04-04  1018  		rkvdec->clocks[i].id = rkvdec_clk_names[i];
+cd33c830448baf Boris Brezillon 2020-04-04  1019  
+cd33c830448baf Boris Brezillon 2020-04-04  1020  	ret = devm_clk_bulk_get(&pdev->dev, ARRAY_SIZE(rkvdec_clk_names),
+cd33c830448baf Boris Brezillon 2020-04-04  1021  				rkvdec->clocks);
+cd33c830448baf Boris Brezillon 2020-04-04  1022  	if (ret)
+cd33c830448baf Boris Brezillon 2020-04-04  1023  		return ret;
+cd33c830448baf Boris Brezillon 2020-04-04  1024  
+5a3683d60e56f4 Cai Huoqing     2021-09-08  1025  	rkvdec->regs = devm_platform_ioremap_resource(pdev, 0);
+cd33c830448baf Boris Brezillon 2020-04-04  1026  	if (IS_ERR(rkvdec->regs))
+cd33c830448baf Boris Brezillon 2020-04-04  1027  		return PTR_ERR(rkvdec->regs);
+cd33c830448baf Boris Brezillon 2020-04-04  1028  
+cd33c830448baf Boris Brezillon 2020-04-04  1029  	ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
+cd33c830448baf Boris Brezillon 2020-04-04  1030  	if (ret) {
+cd33c830448baf Boris Brezillon 2020-04-04  1031  		dev_err(&pdev->dev, "Could not set DMA coherent mask.\n");
+cd33c830448baf Boris Brezillon 2020-04-04  1032  		return ret;
+cd33c830448baf Boris Brezillon 2020-04-04  1033  	}
+cd33c830448baf Boris Brezillon 2020-04-04  1034  
+cd33c830448baf Boris Brezillon 2020-04-04 @1035  	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+cd33c830448baf Boris Brezillon 2020-04-04  1036  
+cd33c830448baf Boris Brezillon 2020-04-04  1037  	irq = platform_get_irq(pdev, 0);
+121ca877c1e870 YueHaibing      2020-09-09  1038  	if (irq <= 0)
+cd33c830448baf Boris Brezillon 2020-04-04  1039  		return -ENXIO;
+cd33c830448baf Boris Brezillon 2020-04-04  1040  
+cd33c830448baf Boris Brezillon 2020-04-04  1041  	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+cd33c830448baf Boris Brezillon 2020-04-04  1042  					rkvdec_irq_handler, IRQF_ONESHOT,
+cd33c830448baf Boris Brezillon 2020-04-04  1043  					dev_name(&pdev->dev), rkvdec);
+cd33c830448baf Boris Brezillon 2020-04-04  1044  	if (ret) {
+cd33c830448baf Boris Brezillon 2020-04-04  1045  		dev_err(&pdev->dev, "Could not request vdec IRQ\n");
+cd33c830448baf Boris Brezillon 2020-04-04  1046  		return ret;
+cd33c830448baf Boris Brezillon 2020-04-04  1047  	}
+cd33c830448baf Boris Brezillon 2020-04-04  1048  
+cd33c830448baf Boris Brezillon 2020-04-04  1049  	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
+cd33c830448baf Boris Brezillon 2020-04-04  1050  	pm_runtime_use_autosuspend(&pdev->dev);
+cd33c830448baf Boris Brezillon 2020-04-04  1051  	pm_runtime_enable(&pdev->dev);
+cd33c830448baf Boris Brezillon 2020-04-04  1052  
+cd33c830448baf Boris Brezillon 2020-04-04  1053  	ret = rkvdec_v4l2_init(rkvdec);
+cd33c830448baf Boris Brezillon 2020-04-04  1054  	if (ret)
+cd33c830448baf Boris Brezillon 2020-04-04  1055  		goto err_disable_runtime_pm;
+cd33c830448baf Boris Brezillon 2020-04-04  1056  
+cd33c830448baf Boris Brezillon 2020-04-04  1057  	return 0;
+cd33c830448baf Boris Brezillon 2020-04-04  1058  
+cd33c830448baf Boris Brezillon 2020-04-04  1059  err_disable_runtime_pm:
+cd33c830448baf Boris Brezillon 2020-04-04  1060  	pm_runtime_dont_use_autosuspend(&pdev->dev);
+cd33c830448baf Boris Brezillon 2020-04-04  1061  	pm_runtime_disable(&pdev->dev);
+cd33c830448baf Boris Brezillon 2020-04-04  1062  	return ret;
+cd33c830448baf Boris Brezillon 2020-04-04  1063  }
+cd33c830448baf Boris Brezillon 2020-04-04  1064  
+
+:::::: The code at line 1035 was first introduced by commit
+:::::: cd33c830448baf7b1e94da72eca069e3e1d050c9 media: rkvdec: Add the rkvdec driver
+
+:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
