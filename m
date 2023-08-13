@@ -1,43 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5BA717C5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Aug 2023 07:36:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66FB17C5
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Aug 2023 07:46:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691912195; x=1723448195;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/uLP2E3Uyz/c8Zy7DexKHefzpYXN+H2/4AHI8S9sRb4=;
-  b=PVRvEJt9aCtYrhk8+8vMUp/qk1FQ8ISeqwJOMFxjR3cQ71GcdlZP6p7+
-   kAlAcoM68uaFwitWxljiEuqAs5GYQpftf7jI71AI1MytMJrihZKpA62EO
-   W66h4adE+ZILGGM0Rl6adNVzNePFjyD78JGDc4JyR18q2LWY8jh+rESTc
-   ubJsC6F1V1cWfGrvVbqNCpfbRjZm1xqwhEAOTMjxxAUEbxlmxSiIbgaeT
-   EJo2rXAgpAvaVKhpon25uBm14cAaT+s/kQwicOzsTpoDSSTA61wcvJGSL
-   3TzbXyeEesDEvWDqzNsZlI2BgzcLoow18nhpCql7sdi2fmzQ+b2mPmHlq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="369346220"
+  t=1691912798; x=1723448798;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JqUSAouNuTXGholsD7n1iikOYHXBNqoBCtLW8vOTh6w=;
+  b=hB8P2aN4SKi0mG413UyjVwtDS3R9VUcjv8JG1sYZ0gfCx1sWWiA25RA6
+   27Cq9bXpjPaMYdWEgxkT40ni8aEtY3ZKb4e7X+VXdYaigvw3iRbB51BpS
+   8ZzbrILmEHTcHN+JbGa10JZDkuBMnMxJBeILXRjWqG39+5hzxGplmX3rh
+   Zk7jhWDDe7TH016xaElJRE1VzswFRmqpfjvvrYHPz0IRIroAip9LuVEuL
+   iF21awSnicWrE0qh6I5HFJMpXtvnQlWmZ7EtATA330d9n4ro7jaxu9Jnp
+   z95uPOms6C/zuHqgcvcbSf8JxxoVJERwf1BxTlGDpxKAtQJqOxViVOsSv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="458242886"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="369346220"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2023 00:36:34 -0700
+   d="scan'208";a="458242886"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2023 00:46:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="876603763"
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="733102527"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="733102527"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 13 Aug 2023 00:36:37 -0700
+  by orsmga002.jf.intel.com with ESMTP; 13 Aug 2023 00:46:33 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qV5eK-00090K-2k;
-	Sun, 13 Aug 2023 07:36:32 +0000
-Date: Sun, 13 Aug 2023 15:35:45 +0800
+	id 1qV5o0-00090O-2q;
+	Sun, 13 Aug 2023 07:46:32 +0000
+Date: Sun, 13 Aug 2023 15:45:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4 7967/8003]
- drivers/clk/mediatek/clk-mt7988-eth.c:128:25: error:
- 'of_match_clk_mt7988_eth' undeclared here (not in a function); did you mean
- 'of_match_clk_mt7986_eth'?
-Message-ID: <202308131503.Ke0WGArO-lkp@intel.com>
+To: Roger Quadros <rogerq@kernel.org>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	vladimir.oltean@nxp.com
+Cc: oe-kbuild-all@lists.linux.dev, s-vadapalli@ti.com, srk@ti.com,
+	vigneshr@ti.com, p-varis@ti.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Roger Quadros <rogerq@kernel.org>
+Subject: Re: [PATCH v2] net: ethernet: ti: am65-cpsw-qos: Add Frame
+ Preemption MAC Merge support
+Message-ID: <202308131536.NSsIpOzG-lkp@intel.com>
+References: <20230810152538.138718-1-rogerq@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,52 +51,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230810152538.138718-1-rogerq@kernel.org>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4
-head:   33ae06cdbe7cdded20d1ac549403343243272109
-commit: 1e91394d28f99d3b7557a477cbded447e3279b83 [7967/8003] clk: mediatek: add drivers for MT7988 SoC
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230813/202308131503.Ke0WGArO-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230813/202308131503.Ke0WGArO-lkp@intel.com/reproduce)
+Hi Roger,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.5-rc5 next-20230809]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roger-Quadros/net-ethernet-ti-am65-cpsw-qos-Add-Frame-Preemption-MAC-Merge-support/20230810-232714
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230810152538.138718-1-rogerq%40kernel.org
+patch subject: [PATCH v2] net: ethernet: ti: am65-cpsw-qos: Add Frame Preemption MAC Merge support
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230813/202308131536.NSsIpOzG-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230813/202308131536.NSsIpOzG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308131503.Ke0WGArO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308131536.NSsIpOzG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/platform_device.h:13,
-                    from include/linux/of_device.h:5,
-                    from drivers/clk/mediatek/clk-mt7988-eth.c:11:
->> drivers/clk/mediatek/clk-mt7988-eth.c:128:25: error: 'of_match_clk_mt7988_eth' undeclared here (not in a function); did you mean 'of_match_clk_mt7986_eth'?
-     128 | MODULE_DEVICE_TABLE(of, of_match_clk_mt7988_eth);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/module.h:244:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |               ^~~~
->> include/linux/module.h:244:21: error: '__mod_of__of_match_clk_mt7988_eth_device_table' aliased to undefined symbol 'of_match_clk_mt7988_eth'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |                     ^~~~~~
-   drivers/clk/mediatek/clk-mt7988-eth.c:128:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-     128 | MODULE_DEVICE_TABLE(of, of_match_clk_mt7988_eth);
-         | ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/ti/am65-cpsw-ethtool.c: In function 'am65_cpsw_get_mm':
+>> drivers/net/ethernet/ti/am65-cpsw-ethtool.c:749:56: warning: variable 'verify_cnt' set but not used [-Wunused-but-set-variable]
+     749 |         u32 port_ctrl, cmn_ctrl, iet_ctrl, iet_status, verify_cnt;
+         |                                                        ^~~~~~~~~~
+>> drivers/net/ethernet/ti/am65-cpsw-ethtool.c:749:24: warning: variable 'cmn_ctrl' set but not used [-Wunused-but-set-variable]
+     749 |         u32 port_ctrl, cmn_ctrl, iet_ctrl, iet_status, verify_cnt;
+         |                        ^~~~~~~~
+--
+>> drivers/net/ethernet/ti/am65-cpsw-qos.c:196:6: warning: no previous prototype for 'am65_cpsw_iet_change_preemptible_tcs' [-Wmissing-prototypes]
+     196 | void am65_cpsw_iet_change_preemptible_tcs(struct am65_cpsw_port *port, u8 preemptible_tcs)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/ti/am65-cpsw-qos.c:202:6: warning: no previous prototype for 'am65_cpsw_iet_link_state_update' [-Wmissing-prototypes]
+     202 | void am65_cpsw_iet_link_state_update(struct net_device *ndev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +128 drivers/clk/mediatek/clk-mt7988-eth.c
+vim +/verify_cnt +749 drivers/net/ethernet/ti/am65-cpsw-ethtool.c
 
-   120	
-   121	static const struct of_device_id of_match_clk_mt7986_eth[] = {
-   122		{ .compatible = "mediatek,mt7988-ethsys", .data = &ethdma_desc },
-   123		{ .compatible = "mediatek,mt7988-sgmiisys_0", .data = &sgmii0_desc },
-   124		{ .compatible = "mediatek,mt7988-sgmiisys_1", .data = &sgmii1_desc },
-   125		{ .compatible = "mediatek,mt7988-ethwarp", .data = &ethwarp_desc },
-   126		{ /* sentinel */ }
-   127	};
- > 128	MODULE_DEVICE_TABLE(of, of_match_clk_mt7988_eth);
-   129	
+   745	
+   746	static int am65_cpsw_get_mm(struct net_device *ndev, struct ethtool_mm_state *state)
+   747	{
+   748		struct am65_cpsw_common *common = am65_ndev_to_common(ndev);
+ > 749		u32 port_ctrl, cmn_ctrl, iet_ctrl, iet_status, verify_cnt;
+   750		struct am65_cpsw_port *port = am65_ndev_to_port(ndev);
+   751		struct am65_cpsw_ndev_priv *priv = netdev_priv(ndev);
+   752		u32 add_frag_size;
+   753	
+   754		mutex_lock(&priv->mm_lock);
+   755	
+   756		iet_ctrl = readl(port->port_base + AM65_CPSW_PN_REG_IET_CTRL);
+   757		cmn_ctrl = readl(common->cpsw_base + AM65_CPSW_REG_CTL);
+   758		port_ctrl = readl(port->port_base + AM65_CPSW_PN_REG_CTL);
+   759	
+   760		state->tx_enabled = !!(iet_ctrl & AM65_CPSW_PN_IET_MAC_PENABLE);
+   761		state->pmac_enabled = !!(port_ctrl & AM65_CPSW_PN_CTL_IET_PORT_EN);
+   762	
+   763		iet_status = readl(port->port_base + AM65_CPSW_PN_REG_IET_STATUS);
+   764	
+   765		if (iet_ctrl & AM65_CPSW_PN_IET_MAC_DISABLEVERIFY)
+   766			state->verify_status = ETHTOOL_MM_VERIFY_STATUS_DISABLED;
+   767		else if (iet_status & AM65_CPSW_PN_MAC_VERIFIED)
+   768			state->verify_status = ETHTOOL_MM_VERIFY_STATUS_SUCCEEDED;
+   769		else if (iet_status & AM65_CPSW_PN_MAC_VERIFY_FAIL)
+   770			state->verify_status = ETHTOOL_MM_VERIFY_STATUS_FAILED;
+   771		else
+   772			state->verify_status = ETHTOOL_MM_VERIFY_STATUS_UNKNOWN;
+   773	
+   774		add_frag_size = AM65_CPSW_PN_IET_MAC_GET_ADDFRAGSIZE(iet_ctrl);
+   775		state->tx_min_frag_size = ethtool_mm_frag_size_add_to_min(add_frag_size);
+   776	
+   777		/* Errata i2208: RX min fragment size cannot be less than 124 */
+   778		state->rx_min_frag_size = 124;
+   779	
+   780		/* FPE active if common tx_enabled and verification success or disabled (forced) */
+   781		state->tx_active = state->tx_enabled &&
+   782				   (state->verify_status == ETHTOOL_MM_VERIFY_STATUS_SUCCEEDED ||
+   783				    state->verify_status == ETHTOOL_MM_VERIFY_STATUS_DISABLED);
+   784		state->verify_enabled = !(iet_ctrl & AM65_CPSW_PN_IET_MAC_DISABLEVERIFY);
+   785	
+   786		verify_cnt = AM65_CPSW_PN_MAC_GET_VERIFY_CNT(readl(port->port_base +
+   787								   AM65_CPSW_PN_REG_IET_VERIFY));
+   788		state->verify_time = port->qos.iet.verify_time_ms;
+   789		state->max_verify_time = am65_cpsw_iet_get_verify_timeout_ms(AM65_CPSW_PN_MAC_VERIFY_CNT_MASK,
+   790									     port);
+   791		mutex_unlock(&priv->mm_lock);
+   792	
+   793		return 0;
+   794	}
+   795	
 
 -- 
 0-DAY CI Kernel Test Service
