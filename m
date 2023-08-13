@@ -1,91 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614C78466
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Aug 2023 19:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF43B9446
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Aug 2023 21:43:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691953845; x=1723489845;
+  t=1691963026; x=1723499026;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=xg4mFYd0bSzUJ6T2rDTewtz03S+l8kY6TLXsMswBTio=;
-  b=iStDqsiF+rlOScZnyv2RgwtGpvHnrGhZZRYddK2eQm3coqrpFbCJXzz+
-   JbxOgQimkJgcrNe2hbFAglRmZhhaeyTORCiBqMMVp43I07SLqKu9z3kxz
-   9YoCUAnOjsd95BsE1m3teOb9xZ+v69gKPh+R7Sx+TC8pFJc5ZdLCipWTO
-   pvPE06gLK66kzMkU5mOb9dM73jGKMPjs/iXWIq0mEx9c/YGMmYEriJURn
-   498P91DrpnHSQYIrDNFqms7J/6x44eJ1F5IdLwZORJoLgOLfNzBFeu4x9
-   BRWuzkF+ToQZ9EexvjPDK1j79o2aSDDkhM25XOs/eJUcPJmL9zDUoDV1R
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="438249038"
-X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="438249038"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2023 12:10:44 -0700
+   mime-version:in-reply-to;
+  bh=wbyB6w7t1AuN0Ne0pXcqxpz+CXxmntH+/mWGwqqVoIE=;
+  b=lVEYf1akMdq4QNJOnD8ySAYktNuT/LM8vHJmj93B+WzW6UZhKoi13RMA
+   wGRY+2097zFwliUWL/fBK0DTdSBErP089aq5GLDZs2iXF4B1P4tJtBu5T
+   wgZvn728elVzwXrTvSf+Wtm6/vciMONvq94dDmNNwJcIlqdUirztGuIkN
+   aJYxU4bseZgGoyWRM/W4AHz00MdZMUxPzSCVrivU8QGO5TCxWSRf83kLS
+   mGddx9eA8y2hFyHDhN4ZeqKdeRr40mWkA25MYAdMfqL3D7kJECHcA1Oop
+   8eT+ImStD97/CWenlWS/VHPcUNpdY4SjE+9/FZqCmPAB417BC5vQTzNfy
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="375628146"
+X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
+   d="scan'208";a="375628146"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2023 14:43:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="733216691"
-X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="733216691"
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="803248753"
+X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
+   d="scan'208";a="803248753"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 13 Aug 2023 12:10:40 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 13 Aug 2023 14:43:42 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVGU4-0009C4-22;
-	Sun, 13 Aug 2023 19:10:40 +0000
-Date: Mon, 14 Aug 2023 03:10:33 +0800
+	id 1qVIsA-0009Du-0g;
+	Sun, 13 Aug 2023 21:43:42 +0000
+Date: Mon, 14 Aug 2023 05:43:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+To: Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org, suzuki.poulose@arm.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Sami Mujawar <sami.mujawar@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	James Clark <james.clark@arm.com>, coresight@lists.linaro.org,
 	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
-	alexander.deucher@amd.com, christian.koenig@amd.com,
-	pierre-eric.pelloux-prayer@amd.com,
-	'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
-	Samuel Pitoiset <samuel.pitoiset@gmail.com>,
-	Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-	Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [RESEND v3 4/5] drm/amdgpu: Move coredump code to amdgpu_reset
- file
-Message-ID: <202308140200.o4DoWaAQ-lkp@intel.com>
-References: <20230810192330.198326-5-andrealmeid@igalia.com>
+Subject: Re: [PATCH V3 4/4] coresight: trbe: Enable ACPI based TRBE devices
+Message-ID: <202308140529.wEpy3fPK-lkp@intel.com>
+References: <20230803055652.1322801-5-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230810192330.198326-5-andrealmeid@igalia.com>
+In-Reply-To: <20230803055652.1322801-5-anshuman.khandual@arm.com>
 
-Hi André,
+Hi Anshuman,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc5 next-20230809]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on arm/for-next soc/for-next linus/master arm/fixes v6.5-rc5 next-20230809]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/drm-amdgpu-Create-a-module-param-to-disable-soft-recovery/20230811-032440
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230810192330.198326-5-andrealmeid%40igalia.com
-patch subject: [RESEND v3 4/5] drm/amdgpu: Move coredump code to amdgpu_reset file
-config: alpha-randconfig-r062-20230814 (https://download.01.org/0day-ci/archive/20230814/202308140200.o4DoWaAQ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230814/202308140200.o4DoWaAQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/arm_pmu-acpi-Refactor-arm_spe_acpi_register_device/20230803-135907
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20230803055652.1322801-5-anshuman.khandual%40arm.com
+patch subject: [PATCH V3 4/4] coresight: trbe: Enable ACPI based TRBE devices
+config: arm64-randconfig-r071-20230813 (https://download.01.org/0day-ci/archive/20230814/202308140529.wEpy3fPK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230814/202308140529.wEpy3fPK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308140200.o4DoWaAQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308140529.wEpy3fPK-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c:228:12-19: WARNING: kzalloc should be used for 
-    
->> 	 coredump  , instead of kmalloc/memset
+All errors (new ones prefixed by >>):
+
+>> drivers/hwtracing/coresight/coresight-trbe.c:1549:21: error: 'arm_trbe_acpi_match' undeclared here (not in a function); did you mean 'arm_trbe_of_match'?
+    1549 |         .id_table = arm_trbe_acpi_match,
+         |                     ^~~~~~~~~~~~~~~~~~~
+         |                     arm_trbe_of_match
+
+
+vim +1549 drivers/hwtracing/coresight/coresight-trbe.c
+
+  1547	
+  1548	static struct platform_driver arm_trbe_driver = {
+> 1549		.id_table = arm_trbe_acpi_match,
+  1550		.driver	= {
+  1551			.name = DRVNAME,
+  1552			.of_match_table = of_match_ptr(arm_trbe_of_match),
+  1553			.suppress_bind_attrs = true,
+  1554		},
+  1555		.probe	= arm_trbe_device_probe,
+  1556		.remove	= arm_trbe_device_remove,
+  1557	};
+  1558	
 
 -- 
 0-DAY CI Kernel Test Service
