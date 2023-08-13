@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4088F68
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Aug 2023 22:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC49F8BF1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Aug 2023 23:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691965605; x=1723501605;
+  t=1691971191; x=1723507191;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gr7RMm0utRAzgLk6kVkEoFQcPrDk5K1tRjDAP43zkZE=;
-  b=JltxZbSkxkHtqV5udBMF/7v2ZN9OHZ9lDwRuazy3hptQm3MFS3NltnGD
-   3Rk0gVCWXW4O2j9uZpHaSouFFxSm3Hsn/+dYYS4pGFkw/wc9Yu/07zhPB
-   RwmcNM/UjH16KvqMj0S2SI2J3qWYXcUe9+qI1/xTtS2xzWIKxP8Rwt+SS
-   5AByYHyMWtA5wXsRxdvHlh36PxBHDO8XACuwqUU6GzMN3j9nxXHTLOPdK
-   v8l8Dr+JYTm2Fkt8YZtFfaUH2VQA4C26axpnidPnxQbSMfoQOoWQMP2db
-   CsTSHeQ/uyDtQRcGkHvjPfQk3vl3QQb8yOPD6AaosBfonu9eXrtNwglh5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="375630324"
+  bh=/yay8XV2WVZSBdmjbImoGXHRcvCsLGXFmpi1YVcnAyw=;
+  b=RXY4Rx3vrROpN+HJ7XvebkZhT8yDuyzRqddu21JPMUN3Y2lwcxvrc3RB
+   DcVAuzV7qToTx48fRLAsO3S+yT3CoB4zezsngwKvMcHB08++cu31AmtIj
+   jWM4lZSZm019qi5ud7jdPi3e1/2p8u+H68CvYkTWJkUsE7MUr/KEKkLXc
+   wgJ+Ynw/PkgO8Cbz6v371US2Q8HxT9R/8zaIr78McEboszpLgvRrjaEbp
+   0HAnIxH5wr7tFUzh1CrAU14e9DAi+H98D9Q8vqTgPLkpOuDsyzi25TZ2b
+   dRxOp76/O7cqWtOZ8fTGb7P4B+IP7LLiTHxmwtqh1BNWTlszFFFPvtDk5
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="351533149"
 X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="375630324"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2023 15:26:44 -0700
+   d="scan'208";a="351533149"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2023 16:59:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="683106970"
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="762768672"
 X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="683106970"
+   d="scan'208";a="762768672"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 13 Aug 2023 15:26:43 -0700
+  by orsmga008.jf.intel.com with ESMTP; 13 Aug 2023 16:59:48 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVJXm-0009EY-20;
-	Sun, 13 Aug 2023 22:26:42 +0000
-Date: Mon, 14 Aug 2023 06:26:20 +0800
+	id 1qVKzs-0009GS-0U;
+	Sun, 13 Aug 2023 23:59:48 +0000
+Date: Mon, 14 Aug 2023 07:58:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [deller-parisc:for-next 4/5] ERROR: modpost: "pm_power_off"
- [drivers/pinctrl/qcom/pinctrl-msm.ko] undefined!
-Message-ID: <202308140625.0Avp9Skm-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/spi/spi-mpc52xx-psc.c:195:5: warning: no previous prototype
+ for 'mpc52xx_psc_spi_transfer_one_message'
+Message-ID: <202308140725.VrL4g7bu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,124 +46,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git for-next
-head:   70cce04bc649b0839bb5f194f9e732adfd82f6e1
-commit: ca25508c4c12c2ba006cedc90178b29cf33fbef4 [4/5] parisc: process: Drop pm_power_off function pointer
-config: parisc-randconfig-r026-20230814 (https://download.01.org/0day-ci/archive/20230814/202308140625.0Avp9Skm-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230814/202308140625.0Avp9Skm-lkp@intel.com/reproduce)
+Hi Mark,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2ccdd1b13c591d306f0401d98dedc4bdcd02b421
+commit: 145cfc3840e5931a789a8e2e76af841ab4cad44b spi: mpc52xx-psc: Switch to using core message queue
+date:   1 year, 2 months ago
+config: powerpc-randconfig-r032-20230814 (https://download.01.org/0day-ci/archive/20230814/202308140725.VrL4g7bu-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230814/202308140725.VrL4g7bu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308140625.0Avp9Skm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308140725.VrL4g7bu-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/dwc/pci-exynos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mediatek-gen3.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-ipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-aud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6797-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7622-eth.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7986-apmixed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7986-topckgen.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-aud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-audio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu0.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-mfgcfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-ipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-mdp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-apusys_pll.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sunxi-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h616-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun4i-a10-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-rtc-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a23-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-h3-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-v3s-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/amlogic/meson-clk-measure.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_parisc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_pxa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/st-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/timberdale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvmet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvmet-fc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/vivaldi-fmap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ali1563.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/ts4800_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/sa2ul.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-spilib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/cxl_pmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
->> ERROR: modpost: "pm_power_off" [drivers/pinctrl/qcom/pinctrl-msm.ko] undefined!
->> ERROR: modpost: "pm_power_off" [drivers/mfd/ntxec.ko] undefined!
->> ERROR: modpost: "pm_power_off" [drivers/mfd/retu-mfd.ko] undefined!
->> ERROR: modpost: "pm_power_off" [drivers/watchdog/bcm2835_wdt.ko] undefined!
+>> drivers/spi/spi-mpc52xx-psc.c:195:5: warning: no previous prototype for 'mpc52xx_psc_spi_transfer_one_message' [-Wmissing-prototypes]
+     195 | int mpc52xx_psc_spi_transfer_one_message(struct spi_controller *ctlr,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/mpc52xx_psc_spi_transfer_one_message +195 drivers/spi/spi-mpc52xx-psc.c
+
+   194	
+ > 195	int mpc52xx_psc_spi_transfer_one_message(struct spi_controller *ctlr,
+   196						 struct spi_message *m)
+   197	{
+   198		struct spi_device *spi;
+   199		struct spi_transfer *t = NULL;
+   200		unsigned cs_change;
+   201		int status;
+   202	
+   203		spi = m->spi;
+   204		cs_change = 1;
+   205		status = 0;
+   206		list_for_each_entry (t, &m->transfers, transfer_list) {
+   207			if (t->bits_per_word || t->speed_hz) {
+   208				status = mpc52xx_psc_spi_transfer_setup(spi, t);
+   209				if (status < 0)
+   210					break;
+   211			}
+   212	
+   213			if (cs_change)
+   214				mpc52xx_psc_spi_activate_cs(spi);
+   215			cs_change = t->cs_change;
+   216	
+   217			status = mpc52xx_psc_spi_transfer_rxtx(spi, t);
+   218			if (status)
+   219				break;
+   220			m->actual_length += t->len;
+   221	
+   222			spi_transfer_delay_exec(t);
+   223	
+   224			if (cs_change)
+   225				mpc52xx_psc_spi_deactivate_cs(spi);
+   226		}
+   227	
+   228		m->status = status;
+   229		if (status || !cs_change)
+   230			mpc52xx_psc_spi_deactivate_cs(spi);
+   231	
+   232		mpc52xx_psc_spi_transfer_setup(spi, NULL);
+   233	
+   234		spi_finalize_current_message(ctlr);
+   235	
+   236		return 0;
+   237	}
+   238	
 
 -- 
 0-DAY CI Kernel Test Service
