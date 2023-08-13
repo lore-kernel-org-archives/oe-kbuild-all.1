@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E24015BF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Aug 2023 06:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A542C15D2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Aug 2023 06:03:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1691906614; x=1723442614;
+  t=1691906615; x=1723442615;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UZ7KqzSYEranv4/L/Bb3RpUnQT1Tfc8VRdCy/vrMAm0=;
-  b=ARRsuJY+LkJ3qDwhXqDfg32qaIGacf/LaZFJv8QSa5ZHOzpziTnkS0Gu
-   vMNNtKQENxG0ibO/iA9412YIVRVIIYYL6EdJykFxDBe5lBDLw2gwrGAXt
-   yKhxWi5Ju5+vSUlIB8O890z1Ein4cKWRlfSu+ZVO09KTMnSO+bCDFcNsV
-   3gH2dP6Z2mKfazjFkpaqHxcLZRHgytIpFvNMJG+AaiOFBjPPJLTCInm4i
-   EExIURycj0T8x92F+vQxyFesRFrU6/D+PIq0O5g7PmUCOLvcPnxDpogFk
-   WXjdL++DRaWe10XksKX/1SWETqsZKU/fM2pBYT+3/5TYNJuoo6RyK1eUR
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="375576104"
+  bh=pvKqSBXVcIi5rdCuEE9QV59yf+xrYBkFTXBgBff81jU=;
+  b=Cjr8a8RHXM9KKovla0mLJZsVTEmvOn7XexV2V5cYANEGDu3Zmbdn6Ia5
+   HErjaPewA2PMwmcFnXH4o/zXWA2hosbdtahhkuMeAQFXQDUO01g0z899j
+   3C+11BXeJFtjxBY/TzPHI74xxhdvqSev3Yr+IAPnoOzyG450NCCInPBlR
+   wMq2Uz/p4wBWPFOu4w68kJhsjhJJjk2pEOjm4ZdVNzp9BDbC5hN9+i9t4
+   TrQWuoaLJS70IHMvV8pHB4V4w5Y0L3BsWnrJETfU9TNTmrqjxEvhrBn9Z
+   hV58Zz3Tc+9QYkr31nNVfUB5uStA36vxCMzekT1KW5+0mNLkM8p2RrG26
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="352195969"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="375576104"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 23:03:33 -0700
+   d="scan'208";a="352195969"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2023 23:03:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="682947542"
+X-IronPort-AV: E=McAfee;i="6600,9927,10800"; a="906857115"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="682947542"
+   d="scan'208";a="906857115"
 Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 12 Aug 2023 23:03:31 -0700
+  by orsmga005.jf.intel.com with ESMTP; 12 Aug 2023 23:03:32 -0700
 Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qV4CJ-0008ye-2X;
+	id 1qV4CJ-0008yk-2q;
 	Sun, 13 Aug 2023 06:03:31 +0000
-Date: Sun, 13 Aug 2023 14:03:24 +0800
+Date: Sun, 13 Aug 2023 14:03:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 12286/28677]
- include/trace/hooks/v4l2mc.h:19:1: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202308131408.Ohq2qFtq-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: [herbert-cryptodev-2.6:master 83/96]
+ drivers/char/hw_random/xgene-rng.c:110:9: error: implicit declaration of
+ function 'writel'
+Message-ID: <202308131309.7UK6Fvhe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,49 +48,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   020f099b296ebdd186f3ece99fd8da51fcc478cc
-commit: e6a59da61ee8027a97faa3e93945e3f397570a1e [12286/28677] ANDROID: media: v4l2-core: Fix deadlock in vendor hook
-config: i386-randconfig-i063-20230813 (https://download.01.org/0day-ci/archive/20230813/202308131408.Ohq2qFtq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230813/202308131408.Ohq2qFtq-lkp@intel.com/reproduce)
+Hi Rob,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+head:   91cb1e1432b3d873a0c8831d0dd8022db98ac8b8
+commit: 1ce1cd8208ad6060e4fcf6e09068c8954687c127 [83/96] hwrng: Enable COMPILE_TEST for more drivers
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230813/202308131309.7UK6Fvhe-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230813/202308131309.7UK6Fvhe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308131408.Ohq2qFtq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308131309.7UK6Fvhe-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/media/mc/mc-device.c: note: in included file:
->> include/trace/hooks/v4l2mc.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/v4l2mc.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/v4l2mc.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
---
-   drivers/media/v4l2-core/v4l2-subdev.c: note: in included file:
->> include/trace/hooks/v4l2core.h:52:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/v4l2core.h:52:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/v4l2core.h:52:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/v4l2core.h:57:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/v4l2core.h:57:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/v4l2core.h:57:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/v4l2core.h:47:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/v4l2core.h:47:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/v4l2core.h:47:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+Note: the herbert-cryptodev-2.6/master HEAD 91cb1e1432b3d873a0c8831d0dd8022db98ac8b8 builds fine.
+      It only hurts bisectability.
 
-vim +19 include/trace/hooks/v4l2mc.h
+All errors (new ones prefixed by >>):
 
-    12	
-    13	struct media_link;
-    14	struct media_link_desc;
-    15	DECLARE_HOOK(android_vh_media_device_setup_link,
-    16		TP_PROTO(struct media_link *link, struct media_link_desc *linkd, int *ret),
-    17		TP_ARGS(link, linkd, ret));
-    18	
-  > 19	DECLARE_RESTRICTED_HOOK(android_rvh_media_device_setup_link,
-    20		TP_PROTO(struct media_link *link,
-    21		struct media_link_desc *linkd, int *ret),
-    22		TP_ARGS(link, linkd, ret), 1);
-    23	
+   drivers/char/hw_random/xgene-rng.c: In function 'xgene_rng_init_fro':
+>> drivers/char/hw_random/xgene-rng.c:110:9: error: implicit declaration of function 'writel' [-Werror=implicit-function-declaration]
+     110 |         writel(fro_val, ctx->csr_base + RNG_FRODETUNE);
+         |         ^~~~~~
+   drivers/char/hw_random/xgene-rng.c: In function 'xgene_rng_chk_overflow':
+>> drivers/char/hw_random/xgene-rng.c:120:15: error: implicit declaration of function 'readl' [-Werror=implicit-function-declaration]
+     120 |         val = readl(ctx->csr_base + RNG_INTR_STS_ACK);
+         |               ^~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/writel +110 drivers/char/hw_random/xgene-rng.c
+
+a91ae4eba9f997 Feng Kan 2014-08-22  104  
+a91ae4eba9f997 Feng Kan 2014-08-22  105  /*
+a91ae4eba9f997 Feng Kan 2014-08-22  106   * Initialize or reinit free running oscillators (FROs)
+a91ae4eba9f997 Feng Kan 2014-08-22  107   */
+a91ae4eba9f997 Feng Kan 2014-08-22  108  static void xgene_rng_init_fro(struct xgene_rng_dev *ctx, u32 fro_val)
+a91ae4eba9f997 Feng Kan 2014-08-22  109  {
+a91ae4eba9f997 Feng Kan 2014-08-22 @110  	writel(fro_val, ctx->csr_base + RNG_FRODETUNE);
+a91ae4eba9f997 Feng Kan 2014-08-22  111  	writel(0x00000000, ctx->csr_base + RNG_ALARMMASK);
+a91ae4eba9f997 Feng Kan 2014-08-22  112  	writel(0x00000000, ctx->csr_base + RNG_ALARMSTOP);
+a91ae4eba9f997 Feng Kan 2014-08-22  113  	writel(0xFFFFFFFF, ctx->csr_base + RNG_FROENABLE);
+a91ae4eba9f997 Feng Kan 2014-08-22  114  }
+a91ae4eba9f997 Feng Kan 2014-08-22  115  
+a91ae4eba9f997 Feng Kan 2014-08-22  116  static void xgene_rng_chk_overflow(struct xgene_rng_dev *ctx)
+a91ae4eba9f997 Feng Kan 2014-08-22  117  {
+a91ae4eba9f997 Feng Kan 2014-08-22  118  	u32 val;
+a91ae4eba9f997 Feng Kan 2014-08-22  119  
+a91ae4eba9f997 Feng Kan 2014-08-22 @120  	val = readl(ctx->csr_base + RNG_INTR_STS_ACK);
+a91ae4eba9f997 Feng Kan 2014-08-22  121  	if (val & MONOBIT_FAIL_MASK)
+a91ae4eba9f997 Feng Kan 2014-08-22  122  		/*
+a91ae4eba9f997 Feng Kan 2014-08-22  123  		 * LFSR detected an out-of-bounds number of 1s after
+a91ae4eba9f997 Feng Kan 2014-08-22  124  		 * checking 20,000 bits (test T1 as specified in the
+a91ae4eba9f997 Feng Kan 2014-08-22  125  		 * AIS-31 standard)
+a91ae4eba9f997 Feng Kan 2014-08-22  126  		 */
+a91ae4eba9f997 Feng Kan 2014-08-22  127  		dev_err(ctx->dev, "test monobit failure error 0x%08X\n", val);
+a91ae4eba9f997 Feng Kan 2014-08-22  128  	if (val & POKER_FAIL_MASK)
+a91ae4eba9f997 Feng Kan 2014-08-22  129  		/*
+a91ae4eba9f997 Feng Kan 2014-08-22  130  		 * LFSR detected an out-of-bounds value in at least one
+a91ae4eba9f997 Feng Kan 2014-08-22  131  		 * of the 16 poker_count_X counters or an out of bounds sum
+a91ae4eba9f997 Feng Kan 2014-08-22  132  		 * of squares value after checking 20,000 bits (test T2 as
+a91ae4eba9f997 Feng Kan 2014-08-22  133  		 * specified in the AIS-31 standard)
+a91ae4eba9f997 Feng Kan 2014-08-22  134  		 */
+a91ae4eba9f997 Feng Kan 2014-08-22  135  		dev_err(ctx->dev, "test poker failure error 0x%08X\n", val);
+a91ae4eba9f997 Feng Kan 2014-08-22  136  	if (val & LONG_RUN_FAIL_MASK)
+a91ae4eba9f997 Feng Kan 2014-08-22  137  		/*
+a91ae4eba9f997 Feng Kan 2014-08-22  138  		 * LFSR detected a sequence of 34 identical bits
+a91ae4eba9f997 Feng Kan 2014-08-22  139  		 * (test T4 as specified in the AIS-31 standard)
+a91ae4eba9f997 Feng Kan 2014-08-22  140  		 */
+a91ae4eba9f997 Feng Kan 2014-08-22  141  		dev_err(ctx->dev, "test long run failure error 0x%08X\n", val);
+a91ae4eba9f997 Feng Kan 2014-08-22  142  	if (val & RUN_FAIL_MASK)
+a91ae4eba9f997 Feng Kan 2014-08-22  143  		/*
+a91ae4eba9f997 Feng Kan 2014-08-22  144  		 * LFSR detected an outof-bounds value for at least one
+a91ae4eba9f997 Feng Kan 2014-08-22  145  		 * of the running counters after checking 20,000 bits
+a91ae4eba9f997 Feng Kan 2014-08-22  146  		 * (test T3 as specified in the AIS-31 standard)
+a91ae4eba9f997 Feng Kan 2014-08-22  147  		 */
+a91ae4eba9f997 Feng Kan 2014-08-22  148  		dev_err(ctx->dev, "test run failure error 0x%08X\n", val);
+a91ae4eba9f997 Feng Kan 2014-08-22  149  	if (val & NOISE_FAIL_MASK)
+a91ae4eba9f997 Feng Kan 2014-08-22  150  		/* LFSR detected a sequence of 48 identical bits */
+a91ae4eba9f997 Feng Kan 2014-08-22  151  		dev_err(ctx->dev, "noise failure error 0x%08X\n", val);
+a91ae4eba9f997 Feng Kan 2014-08-22  152  	if (val & STUCK_OUT_MASK)
+a91ae4eba9f997 Feng Kan 2014-08-22  153  		/*
+a91ae4eba9f997 Feng Kan 2014-08-22  154  		 * Detected output data registers generated same value twice
+a91ae4eba9f997 Feng Kan 2014-08-22  155  		 * in a row
+a91ae4eba9f997 Feng Kan 2014-08-22  156  		 */
+a91ae4eba9f997 Feng Kan 2014-08-22  157  		dev_err(ctx->dev, "stuck out failure error 0x%08X\n", val);
+a91ae4eba9f997 Feng Kan 2014-08-22  158  
+a91ae4eba9f997 Feng Kan 2014-08-22  159  	if (val & SHUTDOWN_OFLO_MASK) {
+a91ae4eba9f997 Feng Kan 2014-08-22  160  		u32 frostopped;
+a91ae4eba9f997 Feng Kan 2014-08-22  161  
+a91ae4eba9f997 Feng Kan 2014-08-22  162  		/* FROs shut down after a second error event. Try recover. */
+a91ae4eba9f997 Feng Kan 2014-08-22  163  		if (++ctx->failure_cnt == 1) {
+a91ae4eba9f997 Feng Kan 2014-08-22  164  			/* 1st time, just recover */
+a91ae4eba9f997 Feng Kan 2014-08-22  165  			ctx->failure_ts = jiffies;
+a91ae4eba9f997 Feng Kan 2014-08-22  166  			frostopped = readl(ctx->csr_base + RNG_ALARMSTOP);
+a91ae4eba9f997 Feng Kan 2014-08-22  167  			xgene_rng_init_fro(ctx, frostopped);
+a91ae4eba9f997 Feng Kan 2014-08-22  168  
+a91ae4eba9f997 Feng Kan 2014-08-22  169  			/*
+a91ae4eba9f997 Feng Kan 2014-08-22  170  			 * We must start a timer to clear out this error
+a91ae4eba9f997 Feng Kan 2014-08-22  171  			 * in case the system timer wrap around
+a91ae4eba9f997 Feng Kan 2014-08-22  172  			 */
+a91ae4eba9f997 Feng Kan 2014-08-22  173  			xgene_rng_start_timer(ctx);
+a91ae4eba9f997 Feng Kan 2014-08-22  174  		} else {
+a91ae4eba9f997 Feng Kan 2014-08-22  175  			/* 2nd time failure in lesser than 1 minute? */
+a91ae4eba9f997 Feng Kan 2014-08-22  176  			if (time_after(ctx->failure_ts + 60 * HZ, jiffies)) {
+a91ae4eba9f997 Feng Kan 2014-08-22  177  				dev_err(ctx->dev,
+a91ae4eba9f997 Feng Kan 2014-08-22  178  					"FRO shutdown failure error 0x%08X\n",
+a91ae4eba9f997 Feng Kan 2014-08-22  179  					val);
+a91ae4eba9f997 Feng Kan 2014-08-22  180  			} else {
+a91ae4eba9f997 Feng Kan 2014-08-22  181  				/* 2nd time failure after 1 minutes, recover */
+a91ae4eba9f997 Feng Kan 2014-08-22  182  				ctx->failure_ts = jiffies;
+a91ae4eba9f997 Feng Kan 2014-08-22  183  				ctx->failure_cnt = 1;
+a91ae4eba9f997 Feng Kan 2014-08-22  184  				/*
+a91ae4eba9f997 Feng Kan 2014-08-22  185  				 * We must start a timer to clear out this
+a91ae4eba9f997 Feng Kan 2014-08-22  186  				 * error in case the system timer wrap
+a91ae4eba9f997 Feng Kan 2014-08-22  187  				 * around
+a91ae4eba9f997 Feng Kan 2014-08-22  188  				 */
+a91ae4eba9f997 Feng Kan 2014-08-22  189  				xgene_rng_start_timer(ctx);
+a91ae4eba9f997 Feng Kan 2014-08-22  190  			}
+a91ae4eba9f997 Feng Kan 2014-08-22  191  			frostopped = readl(ctx->csr_base + RNG_ALARMSTOP);
+a91ae4eba9f997 Feng Kan 2014-08-22  192  			xgene_rng_init_fro(ctx, frostopped);
+a91ae4eba9f997 Feng Kan 2014-08-22  193  		}
+a91ae4eba9f997 Feng Kan 2014-08-22  194  	}
+a91ae4eba9f997 Feng Kan 2014-08-22  195  	/* Clear them all */
+a91ae4eba9f997 Feng Kan 2014-08-22  196  	writel(val, ctx->csr_base + RNG_INTR_STS_ACK);
+a91ae4eba9f997 Feng Kan 2014-08-22  197  }
+a91ae4eba9f997 Feng Kan 2014-08-22  198  
+
+:::::: The code at line 110 was first introduced by commit
+:::::: a91ae4eba9f9977863b57f2ac61e2e8e780375a8 hwrng: xgene - add support for APM X-Gene SoC RNG support
+
+:::::: TO: Feng Kan <fkan@apm.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
