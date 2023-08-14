@@ -1,43 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44DD5687
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 20:45:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EEA5687
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 20:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692045936; x=1723581936;
+  t=1692045938; x=1723581938;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NTdU++TPTJqazz45ulRG6JcbPtCTdOo6EUxfmPO0Qhc=;
-  b=Wzz3D4jeWfYvwILz04Hu1q15V/FqcSSX9KaAemu2xrwF+4kkiNC4AlDz
-   j7XingdHAdvxpkxZUHH6pz/ddUYmSpAeTHzbX6m8ZD5CP8Hi3WLp5+s2V
-   MGvjyNQ3zwPv3Oamcz19X2oAE9J2ewq/2MRhbgwsDRnkPjkOeaLi/fLxI
-   PvCFtYLMMKHXCrNAFtec4ZV1q4AS0jamYftGQer0AgK2eQ5DQq2YK52f0
-   Fp+UvnUye5MO4E0s7bAgdga7eM/kWWAZroEsc41JFp7PAk1C7OMvgcvai
-   6t9YuYJyo6IX6AICBLO7ZRBzSx2rxzhhEtpR3e/oYwsDNHb13Qy1xG8U8
+  bh=Jct/YR07vR0VDX6MSuR0tdOm/O3N+Ev7nBhJv3F3BQ8=;
+  b=aMuRiCqdZyW+adok5yo5s1MU2WoS0iAjBmi8RX2/+iKYGQA/O+TZRijS
+   m5EGNpN0fQOlVSTjOgJ7f1MdFYZ0Tz1Bb3ARcEHL5zceiSAX7wCFkYSAd
+   AmlxlBC5jxZxqUGFuIBGEDl/ZkAe8iRdUNZ+mdHBkoBC7D50RPqgKpKP0
+   4/ax4+LlenmbC7q4nllNgxMnQaHHd4uzjJsUCBiiEc3AdXiPTmtOw89kd
+   P1BNJDzkWfu1FjRlv8TymNuSRJPCSuMAVmXu5oR0clfztSKprUlI+6np2
+   pcFPJgZn9qO0fzu8R8/YXbLM8rnbD0RZ17Ol8dgcj5j5M2PgWXi3nbey+
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="372130628"
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="372130629"
 X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="372130628"
+   d="scan'208";a="372130629"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 13:45:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="803584015"
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="803584013"
 X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="803584015"
+   d="scan'208";a="803584013"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
   by fmsmga004.fm.intel.com with ESMTP; 14 Aug 2023 13:45:34 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVeRR-0000PR-2r;
+	id 1qVeRR-0000PT-2v;
 	Mon, 14 Aug 2023 20:45:33 +0000
 Date: Tue, 15 Aug 2023 04:45:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:b4/virt-to-phys-powerpc 2/2]
- arch/powerpc/include/asm/page.h:235:21: error: implicit declaration of
- function 'PFN_PHYS'
-Message-ID: <202308150458.RJEzCL1V-lkp@intel.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Sagi Grimberg <sagi@grimberg.me>
+Subject: [hare-nvme:tls.v13 10/19] drivers/nvme/common/keyring.c:117:3:
+ sparse: sparse: symbol 'nvme_tls_psk_prio' was not declared. Should it be
+ static?
+Message-ID: <202308150426.jZdYWMas-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,67 +47,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/virt-to-phys-powerpc
-head:   62390b7105ee9f1756a171c84d1b2e63fb63d582
-commit: 62390b7105ee9f1756a171c84d1b2e63fb63d582 [2/2] powerpc: Make virt_to_pfn() a static inline
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230815/202308150458.RJEzCL1V-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150458.RJEzCL1V-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git tls.v13
+head:   ce525e34ae9d3f5ed12f23caea57c0aa2e8359ee
+commit: 43e406eef32e5d5a740111f1e6ac18cacb63be4b [10/19] nvme-tcp: enable TLS handshake upcall
+config: x86_64-randconfig-x061-20230815 (https://download.01.org/0day-ci/archive/20230815/202308150426.jZdYWMas-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150426.jZdYWMas-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308150458.RJEzCL1V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308150426.jZdYWMas-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/common/keyring.c:117:3: sparse: sparse: symbol 'nvme_tls_psk_prio' was not declared. Should it be static?
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/powerpc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/ipc.h:5,
-                    from include/uapi/linux/sem.h:5,
-                    from include/linux/sem.h:5,
-                    from include/linux/compat.h:14,
-                    from arch/powerpc/kernel/asm-offsets.c:12:
-   arch/powerpc/include/asm/page.h: In function 'pfn_to_kaddr':
->> arch/powerpc/include/asm/page.h:235:21: error: implicit declaration of function 'PFN_PHYS' [-Werror=implicit-function-declaration]
-     235 |         return __va(PFN_PHYS(pfn));
-         |                     ^~~~~~~~
-   arch/powerpc/include/asm/bug.h:122:43: note: in definition of macro 'WARN_ON'
-     122 |                 if (__builtin_constant_p((x))) {                \
-         |                                           ^
-   arch/powerpc/include/asm/page.h:211:9: note: in expansion of macro 'VIRTUAL_WARN_ON'
-     211 |         VIRTUAL_WARN_ON((unsigned long)(x) >= PAGE_OFFSET);             \
-         |         ^~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/page.h:235:16: note: in expansion of macro '__va'
-     235 |         return __va(PFN_PHYS(pfn));
-         |                ^~~~
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:116: arch/powerpc/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +/nvme_tls_psk_prio +117 drivers/nvme/common/keyring.c
 
+4c0593cd06c15d Hannes Reinecke 2023-03-21  106  
+013c04a5d46a7b Hannes Reinecke 2023-03-29  107  /*
+013c04a5d46a7b Hannes Reinecke 2023-03-29  108   * NVMe PSK priority list
+013c04a5d46a7b Hannes Reinecke 2023-03-29  109   *
+013c04a5d46a7b Hannes Reinecke 2023-03-29  110   * 'Retained' PSKs (ie 'generated == false')
+013c04a5d46a7b Hannes Reinecke 2023-03-29  111   * should be preferred to 'generated' PSKs,
+013c04a5d46a7b Hannes Reinecke 2023-03-29  112   * and SHA-384 should be preferred to SHA-256.
+013c04a5d46a7b Hannes Reinecke 2023-03-29  113   */
+013c04a5d46a7b Hannes Reinecke 2023-03-29  114  struct nvme_tls_psk_priority_list {
+013c04a5d46a7b Hannes Reinecke 2023-03-29  115  	bool generated;
+013c04a5d46a7b Hannes Reinecke 2023-03-29  116  	enum nvme_tcp_tls_cipher cipher;
+013c04a5d46a7b Hannes Reinecke 2023-03-29 @117  } nvme_tls_psk_prio[] = {
+013c04a5d46a7b Hannes Reinecke 2023-03-29  118  	{ .generated = false,
+013c04a5d46a7b Hannes Reinecke 2023-03-29  119  	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+013c04a5d46a7b Hannes Reinecke 2023-03-29  120  	{ .generated = false,
+013c04a5d46a7b Hannes Reinecke 2023-03-29  121  	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+013c04a5d46a7b Hannes Reinecke 2023-03-29  122  	{ .generated = true,
+013c04a5d46a7b Hannes Reinecke 2023-03-29  123  	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+013c04a5d46a7b Hannes Reinecke 2023-03-29  124  	{ .generated = true,
+013c04a5d46a7b Hannes Reinecke 2023-03-29  125  	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+013c04a5d46a7b Hannes Reinecke 2023-03-29  126  };
+013c04a5d46a7b Hannes Reinecke 2023-03-29  127  
 
-vim +/PFN_PHYS +235 arch/powerpc/include/asm/page.h
+:::::: The code at line 117 was first introduced by commit
+:::::: 013c04a5d46a7b549c6fa9cb1b024240751e3cbe nvme-keyring: implement nvme_tls_psk_default()
 
-   232	
-   233	static inline const void *pfn_to_kaddr(unsigned long pfn)
-   234	{
- > 235		return __va(PFN_PHYS(pfn));
-   236	}
-   237	#endif
-   238	
+:::::: TO: Hannes Reinecke <hare@suse.de>
+:::::: CC: Hannes Reinecke <hare@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
