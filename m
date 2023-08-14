@@ -1,46 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7512AC154;
-	Mon, 14 Aug 2023 15:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63975C15A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 15:13:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692025414; x=1723561414;
+  t=1692025994; x=1723561994;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GOOwHi58Za3Qnx1mdynlL6d9Wq2lnOCiAh7PS8Adcn8=;
-  b=n1ZIO0gCwNbzfLjdg/Qcx7g4OkoXn2/tV4Wu0csBI/98Qqk9ZVQYQ4IH
-   Lmfoc+tJ+6bhgGheAyYE7h5/z6rmrzLlQrj8hC8b/TUIuUCid/tvtsyZs
-   HUGNU8qm+zR6nTpEB+R8uZctdhGUMETCEeDIZJpC+AVmS/ykzHEwxrAoF
-   7I3zYpPqvRVOYMPmVEKLZ1yfpN2Ksp/w04IbdGZcL91heHh+8a8XqgEGH
-   +WHSLfiT+6jCb1AOrdZ9QKaw1c93YyTdkXKxlH8s5bhZ+IGadyCySD0BA
-   Mtgn5dR6ZD/w9nVFoTZG4BZ7K6BjxctRPXhXrFQTuQwKULb6nkE+s2HEO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="362207538"
+  bh=3bJVnfqeICXbCwMGAmhAdLrPS/NXfGM0XMvWNgcIvTc=;
+  b=M6c5jittiKLD/1415NYDMkasdUlk20U8nzW+RX3HwE+ZEgOUc1MHn0dv
+   WUz+XbI5U4h3GsiRNoH0NZjtCDRS+vKJAx3ziRYzI/Uh87jcCO04zjVo0
+   nxUy8kqRbSS0xKxvkmecPDabxj2/cH2V/Z7eDvAhUg8dqVJojFbwhXae2
+   q2ktLHjOadzIj/i1A9MHJTX8d7uQD/G5Nxcm8dH+oeN/9llJuoBIrfIVf
+   hsdkuSoaH0xcQyu9NAAXD/FL7neT843QD/dYlt0yqA2+MeYVv9ekRxkOv
+   aMhloFXHnDC05UvpIO1tu/1do39ljSGfUpMq+ijy/jXB8t9qDaJCDtbOY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="351656964"
 X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="362207538"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 08:02:13 -0700
+   d="scan'208";a="351656964"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 08:13:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="733476993"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="733476993"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="876972509"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 14 Aug 2023 08:02:11 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 14 Aug 2023 08:13:15 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVZ58-0000Cq-38;
-	Mon, 14 Aug 2023 15:02:10 +0000
-Date: Mon, 14 Aug 2023 23:02:06 +0800
+	id 1qVZFn-0000DT-0v;
+	Mon, 14 Aug 2023 15:13:11 +0000
+Date: Mon, 14 Aug 2023 23:12:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jorge Lopez <jorge.lopez2@hp.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.15.y 8420/9999]
- drivers/platform/x86/hp/hp-wmi.c:342:24: warning: cast to smaller integer
- type 'enum hp_wmi_radio' from 'void *'
-Message-ID: <202308142203.dEXrEfaZ-lkp@intel.com>
+To: "Jason A. Donenfeld" <zx2c4@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: versioncheck: ./tools/testing/selftests/wireguard/qemu/init.c: 25
+ linux/version.h not needed.
+Message-ID: <202308142342.Qsu8Q8e7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,51 +45,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jorge,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
-head:   24c4de4069cbce796a1c71166240807d617cd652
-commit: a832a43fdd95bc689bc23862326a114579aa025b [8420/9999] platform/x86: Move existing HP drivers to a new hp subdir
-config: x86_64-randconfig-r011-20230814 (https://download.01.org/0day-ci/archive/20230814/202308142203.dEXrEfaZ-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230814/202308142203.dEXrEfaZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2ccdd1b13c591d306f0401d98dedc4bdcd02b421
+commit: 65d88d04114bca7d85faebd5fed61069cb2b632c wireguard: selftests: import harness makefile for test suite
+date:   3 years, 8 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20230814/202308142342.Qsu8Q8e7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308142203.dEXrEfaZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308142342.Qsu8Q8e7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/platform/x86/hp/hp-wmi.c:342:24: warning: cast to smaller integer type 'enum hp_wmi_radio' from 'void *' [-Wvoid-pointer-to-enum-cast]
-           enum hp_wmi_radio r = (enum hp_wmi_radio) data;
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +342 drivers/platform/x86/hp/hp-wmi.c
-
-f82bdd0d77b6bf drivers/platform/x86/hp-wmi.c Kyle Evans           2014-06-09  339  
-19d337dff95cbf drivers/platform/x86/hp-wmi.c Johannes Berg        2009-06-02  340  static int hp_wmi_set_block(void *data, bool blocked)
-62ec30d45ecbb8 drivers/misc/hp-wmi.c         Matthew Garrett      2008-07-25  341  {
-e5fbba85a7acc2 drivers/platform/x86/hp-wmi.c Alan Jenkins         2009-07-21 @342  	enum hp_wmi_radio r = (enum hp_wmi_radio) data;
-e5fbba85a7acc2 drivers/platform/x86/hp-wmi.c Alan Jenkins         2009-07-21  343  	int query = BIT(r + 8) | ((!blocked) << r);
-6d96e00cef3503 drivers/platform/x86/hp-wmi.c Thomas Renninger     2010-05-21  344  	int ret;
-62ec30d45ecbb8 drivers/misc/hp-wmi.c         Matthew Garrett      2008-07-25  345  
-d8193cff33906e drivers/platform/x86/hp-wmi.c Darren Hart (VMware  2017-04-19  346) 	ret = hp_wmi_perform_query(HPWMI_WIRELESS_QUERY, HPWMI_WRITE,
-c3021ea1beeeb1 drivers/platform/x86/hp-wmi.c Anssi Hannula        2011-02-20  347  				   &query, sizeof(query), 0);
-527376c89caf59 drivers/platform/x86/hp-wmi.c Darren Hart (VMware  2017-04-19  348) 
-527376c89caf59 drivers/platform/x86/hp-wmi.c Darren Hart (VMware  2017-04-19  349) 	return ret <= 0 ? ret : -EINVAL;
-62ec30d45ecbb8 drivers/misc/hp-wmi.c         Matthew Garrett      2008-07-25  350  }
-62ec30d45ecbb8 drivers/misc/hp-wmi.c         Matthew Garrett      2008-07-25  351  
-
-:::::: The code at line 342 was first introduced by commit
-:::::: e5fbba85a7acc2626d4fe14501816811d702f3e9 hp-wmi: improve rfkill support
-
-:::::: TO: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
-:::::: CC: Len Brown <len.brown@intel.com>
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
+   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
+   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
+   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
+   ./arch/s390/include/asm/setup.h: 170: need linux/version.h
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 57 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
+   ./drivers/hv/hv.c: 16 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
+   ./drivers/net/wireguard/main.c: 15 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+>> ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
