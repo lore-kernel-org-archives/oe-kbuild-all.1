@@ -1,81 +1,73 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D7CCA4B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 19:54:41 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1765040E0196;
-	Mon, 14 Aug 2023 19:54:34 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id K110PFzaRqoL; Mon, 14 Aug 2023 19:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1692042870; bh=8X5ow2G4Q+5+Ob4SO19VCRpYYOIz9IdhDHUPDB2ajLc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hJrYSYrbNxzELOqrt8a6mqhgkIJRbFusJSg9celVB40aYAvjNeJh80V38YowWSVIH
-	 DwMKrbDYmSebbaoGvsvAIVxJ8AbGLhNuX2xYCIjoRqaIo1zZ5lJ92FErSZVr+pztzN
-	 ZdW+2EloEYzW/WZyEKjqKEdJ9MuxxBfU/RXdmCkYxkcMcpxzEf6C7vMHGGJW6jRkj3
-	 TZ/0sejYeo4AuyCZlQZtDwN4tCKM00VN1eLzJ5sdQgZQo24j0Oqqno0FQqkceUcZoa
-	 j2oplJDqehv5X0UAguJNiMdVyZGLIi8cJ4E8wL02i6sA2vEk1dZMjoXg2oz1P7QK64
-	 Dv8WtfY9yTAhfl2DkwyYco/21fAvh4xkGm+eBkQ+Z8qgV1UjsoF1szyynKfz+oQf+/
-	 oIsIuJyq4s15KmDM65EgIoxVO/P+7S4s60sl7njvYl/0Z3qU65hqJUjefsEYhyMCw1
-	 5VcXReJGciM8vrwZBpKz7/v+rDb6Dl+T/kb0uMSa56nHROnzaPWwjSICKI0w8kAvhw
-	 s3JW58XhcmJDssojnSJI5aVSEyPnLNclzf4bAxcSTU97B7oFL3pHDdX2TkvEd0LVey
-	 ZU+TEeg/Brnr5mIqrwshWAWZa66/XLyHrGMijLNoevyPCm2llfRaKCbmxoicurcD7b
-	 FodQN8keLQMcEHOePrczT0bw=
-Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D3BB940E0185;
-	Mon, 14 Aug 2023 19:54:26 +0000 (UTC)
-Date: Mon, 14 Aug 2023 21:54:20 +0200
-From: Borislav Petkov <bp@alien8.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D715B5687
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 20:06:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C3FAC433C8;
+	Mon, 14 Aug 2023 20:06:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1692043584;
+	bh=SGd6rsU1ozwuRdeiHp4tDvQ9xMbGTRBmmJ8q/wVsdAo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mcMmqRa+RINtwzONmzFj0Dcx001xuW2Krgceu2DWWtjCh1LQQgM1tbAAbuc8N4i7y
+	 tuCI+F8VvLu7colFVBDalsjChlmtzYg1BIB5fvk6lo/LAe7mQoVbgbDgTaPeywIgzq
+	 etMOZZCRU+gDWXfT9QceAdE2G48USZ79lSIq8JCg=
+Date: Mon, 14 Aug 2023 13:06:23 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
 To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Subject: Re: [tip:master 20/20] arch/x86/include/asm/microcode.h:29:20:
- error: redefinition of 'amd_check_microcode'
-Message-ID: <20230814195420.GHZNqGbA54XsfLkvDG@fat_crate.local>
-References: <202308150231.ThoHOoid-lkp@intel.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Suren Baghdasaryan <surenb@google.com>
+Subject: Re: [akpm-mm:mm-stable 219/240] mm/memory.c:5410:41: error:
+ implicit declaration of function 'vma_is_tcp'; did you mean 'vma_is_dax'?
+Message-Id: <20230814130623.90cf2bc8c625087ea616dd3c@linux-foundation.org>
+In-Reply-To: <202308131610.jF4ncWp6-lkp@intel.com>
+References: <202308131610.jF4ncWp6-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202308150231.ThoHOoid-lkp@intel.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 15, 2023 at 02:51:42AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
-> head:   d2915b8e76b3a598febd7348799d745cb741a2f5
-> commit: d2915b8e76b3a598febd7348799d745cb741a2f5 [20/20] Merge x86/microcode into tip/master
-> config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230815/202308150231.ThoHOoid-lkp@intel.com/config)
+On Sun, 13 Aug 2023 16:17:21 +0800 kernel test robot <lkp@intel.com> wrote:
+
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-stable
+> head:   5fb2ea3111f4ecc6dc4891ce5b00f0217aae9a04
+> commit: 4aaa60dad4d1c96151dec51098aed866bb6e867d [219/240] mm: allow per-VMA locks on file-backed VMAs
+> config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230813/202308131610.jF4ncWp6-lkp@intel.com/config)
 > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150231.ThoHOoid-lkp@intel.com/reproduce)
+> reproduce: (https://download.01.org/0day-ci/archive/20230813/202308131610.jF4ncWp6-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308150231.ThoHOoid-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308131610.jF4ncWp6-lkp@intel.com/
 > 
 > All errors (new ones prefixed by >>):
 > 
->    In file included from arch/x86/kernel/smpboot.c:80:
-> >> arch/x86/include/asm/microcode.h:29:20: error: redefinition of 'amd_check_microcode'
->       29 | static inline void amd_check_microcode(void) {}
+>    In file included from include/linux/build_bug.h:5,
+>                     from include/linux/container_of.h:5,
+>                     from include/linux/list.h:5,
+>                     from include/linux/smp.h:12,
+>                     from include/linux/kernel_stat.h:5,
+>                     from mm/memory.c:42:
+>    mm/memory.c: In function 'lock_vma_under_rcu':
+> >> mm/memory.c:5410:41: error: implicit declaration of function 'vma_is_tcp'; did you mean 'vma_is_dax'? [-Werror=implicit-function-declaration]
+>     5410 |         if (unlikely(!vma->anon_vma && !vma_is_tcp(vma)))
+>          |                                         ^~~~~~~~~~
+>    include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+>       77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+>          |                                             ^
+>    cc1: some warnings being treated as errors
+> 
 
-Thanks for reporting. That was a mismerge on my part, sorry about that.
+This later gets accidentally fixed by Suren's "mm: handle userfaults
+under VMA lock".
 
-Fixed now.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+If Matthew can suggest a fix for this I can queue it close to "mm:
+allow per-VMA locks on file-backed VMAs" to minimize the size of the
+bisection hole?
