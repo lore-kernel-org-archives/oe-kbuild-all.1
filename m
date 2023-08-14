@@ -1,67 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2952CA6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 20:41:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E7BEC433C7;
-	Mon, 14 Aug 2023 20:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1692045700;
-	bh=O+BUwhd4tuHOozaUhAugYlfRFci1sm+tiT7rHq5lmWE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=o7amlwIichgASkz4ImiOJplEYbcMkDyJfP4eg1h2tJilDhsvE0UXSsEkyvSK4E7ZR
-	 HEMdxhk7LpbkO0X2C6dGorppRfYQwF5tGuMb/CsBcA4UthjsErtHFDE10AAey4XiJW
-	 6dvcbf2V7soBT5TsuFl/ZqklZCVlwg6W+S0GYejw=
-Date: Mon, 14 Aug 2023 13:41:39 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: kernel test robot <lkp@intel.com>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, oe-kbuild-all@lists.linux.dev, Linux Memory
- Management List <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-stable 219/240] mm/memory.c:5410:41: error:
- implicit declaration of function 'vma_is_tcp'; did you mean 'vma_is_dax'?
-Message-Id: <20230814134139.1a590870aa184f2ed34fd923@linux-foundation.org>
-In-Reply-To: <CAJuCfpHF_gJYT6A6PC5YpoVefdF2rSEKNaSc2mH3Vqp51r3hjQ@mail.gmail.com>
-References: <202308131610.jF4ncWp6-lkp@intel.com>
-	<20230814130623.90cf2bc8c625087ea616dd3c@linux-foundation.org>
-	<CAJuCfpGfsZtY5_Qi+Gew1z7Z0_Z_cAkrmxt+6cF6Sp-TR3A_kg@mail.gmail.com>
-	<CAJuCfpHF_gJYT6A6PC5YpoVefdF2rSEKNaSc2mH3Vqp51r3hjQ@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44DD5687
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 20:45:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692045936; x=1723581936;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NTdU++TPTJqazz45ulRG6JcbPtCTdOo6EUxfmPO0Qhc=;
+  b=Wzz3D4jeWfYvwILz04Hu1q15V/FqcSSX9KaAemu2xrwF+4kkiNC4AlDz
+   j7XingdHAdvxpkxZUHH6pz/ddUYmSpAeTHzbX6m8ZD5CP8Hi3WLp5+s2V
+   MGvjyNQ3zwPv3Oamcz19X2oAE9J2ewq/2MRhbgwsDRnkPjkOeaLi/fLxI
+   PvCFtYLMMKHXCrNAFtec4ZV1q4AS0jamYftGQer0AgK2eQ5DQq2YK52f0
+   Fp+UvnUye5MO4E0s7bAgdga7eM/kWWAZroEsc41JFp7PAk1C7OMvgcvai
+   6t9YuYJyo6IX6AICBLO7ZRBzSx2rxzhhEtpR3e/oYwsDNHb13Qy1xG8U8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="372130628"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="372130628"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 13:45:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="803584015"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="803584015"
+Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 14 Aug 2023 13:45:34 -0700
+Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qVeRR-0000PR-2r;
+	Mon, 14 Aug 2023 20:45:33 +0000
+Date: Tue, 15 Aug 2023 04:45:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/virt-to-phys-powerpc 2/2]
+ arch/powerpc/include/asm/page.h:235:21: error: implicit declaration of
+ function 'PFN_PHYS'
+Message-ID: <202308150458.RJEzCL1V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 14 Aug 2023 13:33:19 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/virt-to-phys-powerpc
+head:   62390b7105ee9f1756a171c84d1b2e63fb63d582
+commit: 62390b7105ee9f1756a171c84d1b2e63fb63d582 [2/2] powerpc: Make virt_to_pfn() a static inline
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230815/202308150458.RJEzCL1V-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150458.RJEzCL1V-lkp@intel.com/reproduce)
 
-> Andrew, is "mm: handle userfaults under VMA lock" merged into
-> mm-stable? I could not find it and in fact the whole "Per-VMA lock
-> support for swap and userfaults" patchset
-> (https://lore.kernel.org/all/CAJuCfpHSFikZ=h34yS980BmUP5M=+j6rB4_b-q7MCc10Xs24+w@mail.gmail.com/)
-> seems to be missing in mm-stable. That's problematic because Matthew's
-> "Handle most file-backed faults under the VMA lock" patchset
-> (https://lore.kernel.org/all/20230724185410.1124082-1-willy@infradead.org/)
-> requires at least one patch from my patchset to work correctly, this
-> one: https://lore.kernel.org/all/20230630211957.1341547-4-surenb@google.com/.
-> 
-> An additional note,
-> https://lore.kernel.org/all/20230812002033.1002367-1-willy@infradead.org/
-> is fixing a known issue in "Handle most file-backed faults under the
-> VMA lock" patchset and it's missing from mm-stable too. As Matthew
-> mentioned in that patch, ideally it should be placed before "mm:
-> handle faults that merely update the accessed bit under the VMA lock"
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308150458.RJEzCL1V-lkp@intel.com/
 
-I was unaware of these dependencies.
+All errors (new ones prefixed by >>):
 
-All the above-mentioned patches are in mm-unstable, so we have
-bisection holes.
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   In file included from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/powerpc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/ipc.h:5,
+                    from include/uapi/linux/sem.h:5,
+                    from include/linux/sem.h:5,
+                    from include/linux/compat.h:14,
+                    from arch/powerpc/kernel/asm-offsets.c:12:
+   arch/powerpc/include/asm/page.h: In function 'pfn_to_kaddr':
+>> arch/powerpc/include/asm/page.h:235:21: error: implicit declaration of function 'PFN_PHYS' [-Werror=implicit-function-declaration]
+     235 |         return __va(PFN_PHYS(pfn));
+         |                     ^~~~~~~~
+   arch/powerpc/include/asm/bug.h:122:43: note: in definition of macro 'WARN_ON'
+     122 |                 if (__builtin_constant_p((x))) {                \
+         |                                           ^
+   arch/powerpc/include/asm/page.h:211:9: note: in expansion of macro 'VIRTUAL_WARN_ON'
+     211 |         VIRTUAL_WARN_ON((unsigned long)(x) >= PAGE_OFFSET);             \
+         |         ^~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/page.h:235:16: note: in expansion of macro '__va'
+     235 |         return __va(PFN_PHYS(pfn));
+         |                ^~~~
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:116: arch/powerpc/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1275: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-If I get sent a replacement patch series, I'll move it to
-back-of-queue, because I'll assume all previous testing is invalidated.
-I assume this is how this misordering came about.  If I get sent
-little -fix patches, I don't do this reordering.
+
+vim +/PFN_PHYS +235 arch/powerpc/include/asm/page.h
+
+   232	
+   233	static inline const void *pfn_to_kaddr(unsigned long pfn)
+   234	{
+ > 235		return __va(PFN_PHYS(pfn));
+   236	}
+   237	#endif
+   238	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
