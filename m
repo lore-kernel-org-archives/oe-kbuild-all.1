@@ -1,129 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95FC100AA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 22:08:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692050918; x=1723586918;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J5BZGTZeel4YoawbOP6rqQ/YAxx0GP7ZSdtaygTIQs0=;
-  b=Lc+gHFmetXMJQ6DzugcYFnQi4zub5fKeLq9I4Q7kKng0fC/CzjIV8BN4
-   ud075dayTqukiOrFDhPz4Tyx1ayE7uxhh6IueKC8wiWAp75jkaL6TOYNN
-   zmOKi0pG22SSGdjr3nQ0jx0qEi8hmGXy8TTnh3jMkHDlEZtlLDmAAGHpA
-   8xpNtkWHrCG92SkEsFmbFb0qY0xomZvHiwJPBOwyQ0IaNfczoXCJNEVK3
-   k02vgWHJmH205oKTlyCQAx7Zl4+vzCaOtPyFX+know4FS7uw3TxiKj/gu
-   vZeqk37FFQRmiaN1LXzhkkqYzna910VcNCSsTox1j7IkFUoLn8euqylA/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="436041227"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="436041227"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 15:08:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="736668824"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="736668824"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Aug 2023 15:08:35 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qVfjn-0000Rf-0V;
-	Mon, 14 Aug 2023 22:08:35 +0000
-Date: Tue, 15 Aug 2023 06:07:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yimin Gu <ustcymgu@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Jesse Taube <Mr.Bossman075@gmail.com>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: arch/riscv/include/asm/timex.h:25:16: sparse: sparse: cast removes
- address space '__iomem' of expression
-Message-ID: <202308150611.CcCG8SBw-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA0C100BF
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 22:13:37 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6434cd84a96so13604006d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 15:13:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1692051216; x=1692656016;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BWR92NMLKFIonzwAykGWVN4HTMfWfyQosEFE/Od71EM=;
+        b=XZUYwHHDr86bXJT3oLOwvUmkwAoC7RcjQdvwJf3pcjwnVr+26pL0EjxTZHnGAaO2Qh
+         a5r0XLPQlrUr8sXlb3LQ7wJ2LMQqbd2kmmYB+UhmVEPlyrAi6c/L/cDhmIDMCPqcFiFn
+         +qslXJpCAuSnF18RNwfE1BwLJjbiivXqFI7TUjzI8wp5lehdrGvV5EcEnxYRcZWikZHh
+         nhPULTGgljV9+y4tA1Qw8E06GYDevX+7v1CroaLrU3Q22wZYEEVYUPH4FVe8NAMcZ6KI
+         enevvMjlVyd4Rr3eI8UvaVkyFE2/s418d2p7XZwbDj7Rc/t0iPYMudQQVbpoWKLLmkz3
+         6NbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692051216; x=1692656016;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BWR92NMLKFIonzwAykGWVN4HTMfWfyQosEFE/Od71EM=;
+        b=aYFiAct9LljqR9r6nqu/ynywtc74FlCJnlI5qHIrDBhMa1yzQ5p/vGHiB987BcQNVF
+         9V30orTOEYLny+E4J9kOQ7VRZeIBJgWrVT7oVdUWpilrb6dyhaC/JhpvSO1nb626jlig
+         UjMwR3UkzX+QS28kxqZz5GVW2aGHAysauX0zW134XFQ8jB6X2D0HNK+3zDskx0sNia7R
+         9WsKBwxgjwp8z4+x20VuOAV+COv8iIYfA4tl1YBhzibvI0GpiUTBkQduhnMjCp3yVial
+         rWlfzXrC2K7gOjf4Ch1z0rGDkYtTdLW7Re1lg/1FCviDy2HbzJHxXhPATh0V3rOFwkNQ
+         TT0A==
+X-Gm-Message-State: AOJu0Yy65geY7GSm4BFy1JkE8UqEVlKtZeoL/8XOyiRfytg7vcTrJWba
+	lWOZ0sJV7hp195faeh5Wm0aI44LuIW8F59kDGNpByg==
+X-Google-Smtp-Source: AGHT+IGVqigk1DqQrF/cP0IKDfGG1Y12PPhuKBWQwem6mCRw3c/TxJoXVvUwwHTIhchOutIX2ZCr1TkM5X73fQqFXDQ=
+X-Received: by 2002:a05:6214:494:b0:642:ee8b:88b1 with SMTP id
+ pt20-20020a056214049400b00642ee8b88b1mr488600qvb.13.1692051215946; Mon, 14
+ Aug 2023 15:13:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202308090204.9yZffBWo-lkp@intel.com> <CAKwvOd=c94gknBq7TUsQEyC095+1iRW540=xD3zRkf3+Q4vn5Q@mail.gmail.com>
+ <ZNSWMgFF529bGy14@yujie-X299>
+In-Reply-To: <ZNSWMgFF529bGy14@yujie-X299>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Mon, 14 Aug 2023 15:13:25 -0700
+Message-ID: <CAKwvOd=DC9Ws0+77=6d2M5TqnU=ygCV8HonHKMF7LzzL67z8VQ@mail.gmail.com>
+Subject: Re: error: A dwo section may not contain relocations
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: kernel test robot <lkp@intel.com>, Kees Cook <keescook@chromium.org>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Conor Dooley <conor@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Yimin,
+On Thu, Aug 10, 2023 at 1:04=E2=80=AFAM Yujie Liu <yujie.liu@intel.com> wro=
+te:
+>
+> Hi Nick,
+>
+> On Tue, Aug 08, 2023 at 12:46:00PM -0700, Nick Desaulniers wrote:
+> > On Tue, Aug 8, 2023 at 12:02=E2=80=AFPM kernel test robot <lkp@intel.co=
+m> wrote:
+> > >
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git master
+> > > head:   02aee814d37c563e24b73bcd0f9cb608fbd403d4
+> > > commit: f9b3cd24578401e7a392974b3353277286e49cee Kconfig.debug: make =
+DEBUG_INFO selectable from a choice
+> > > date:   1 year, 5 months ago
+> > > config: riscv-randconfig-r001-20230808 (https://download.01.org/0day-=
+ci/archive/20230809/202308090204.9yZffBWo-lkp@intel.com/config)
+> > > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.=
+git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> >
+> > FWIW, I wasn't able to reproduce with the provided config and
+> > clang-17.  Perhaps this is a bug for older clang releases (the bot
+> > tested with clang-14).
+>
+> Thanks for this info. We re-tested with various versions of clang.
+> clang-14 throws this error, while clang-15/16/17 have no problem in this
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+Oh, interesting data point.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2ccdd1b13c591d306f0401d98dedc4bdcd02b421
-commit: b5e2c507b06c9d36411845149162a804ae7b04a9 riscv: Kconfig: Allow RV32 to build with no MMU
-date:   5 months ago
-config: riscv-randconfig-r073-20230815 (https://download.01.org/0day-ci/archive/20230815/202308150611.CcCG8SBw-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150611.CcCG8SBw-lkp@intel.com/reproduce)
+Ok, I've filed https://github.com/ClangBuiltLinux/linux/issues/1914 to
+track this.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308150611.CcCG8SBw-lkp@intel.com/
+Will bisect llvm to find when this was fixed.
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zihintpause'
-   fs/ext4/mballoc.c: note: in included file (through include/linux/timex.h, include/linux/time32.h, include/linux/time.h, ...):
->> arch/riscv/include/asm/timex.h:25:16: sparse: sparse: cast removes address space '__iomem' of expression
->> arch/riscv/include/asm/timex.h:25:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/riscv/include/asm/timex.h:25:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/riscv/include/asm/timex.h:25:16: sparse:     got unsigned int [usertype] *
->> arch/riscv/include/asm/timex.h:25:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/riscv/include/asm/timex.h:25:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/riscv/include/asm/timex.h:25:16: sparse:     got unsigned int [usertype] *
-   fs/ext4/mballoc.c:1217:9: sparse: sparse: context imbalance in 'ext4_mb_init_cache' - different lock contexts for basic block
-   fs/ext4/mballoc.c:2127:5: sparse: sparse: context imbalance in 'ext4_mb_try_best_found' - different lock contexts for basic block
-   fs/ext4/mballoc.c:2155:5: sparse: sparse: context imbalance in 'ext4_mb_find_by_goal' - different lock contexts for basic block
-   fs/ext4/mballoc.c:2448:12: sparse: sparse: context imbalance in 'ext4_mb_good_group_nolock' - wrong count at exit
-   fs/ext4/mballoc.c:2670:58: sparse: sparse: context imbalance in 'ext4_mb_regular_allocator' - different lock contexts for basic block
-   fs/ext4/mballoc.c:2942:13: sparse: sparse: context imbalance in 'ext4_mb_seq_structs_summary_start' - wrong count at exit
-   fs/ext4/mballoc.c:3322:17: sparse: sparse: context imbalance in 'ext4_discard_work' - different lock contexts for basic block
-   fs/ext4/mballoc.c:3525:17: sparse: sparse: context imbalance in 'ext4_mb_release' - different lock contexts for basic block
-   fs/ext4/mballoc.c:3647:26: sparse: sparse: context imbalance in 'ext4_free_data_in_buddy' - wrong count at exit
-   fs/ext4/mballoc.c:3852:15: sparse: sparse: context imbalance in 'ext4_mb_mark_diskspace_used' - different lock contexts for basic block
-   fs/ext4/mballoc.c:3964:9: sparse: sparse: context imbalance in 'ext4_mb_mark_bb' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4240:13: sparse: sparse: context imbalance in 'ext4_discard_allocated_blocks' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4542:13: sparse: sparse: context imbalance in 'ext4_mb_put_pa' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4924:9: sparse: sparse: context imbalance in 'ext4_mb_discard_group_preallocations' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5017:9: sparse: sparse: context imbalance in 'ext4_discard_preallocations' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5084:9: sparse: sparse: context imbalance in 'ext4_mb_show_ac' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5313:9: sparse: sparse: context imbalance in 'ext4_mb_discard_lg_preallocations' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5084:9: sparse: sparse: context imbalance in 'ext4_mb_new_blocks' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5910:9: sparse: sparse: context imbalance in 'ext4_mb_clear_bb' - different lock contexts for basic block
-   fs/ext4/mballoc.c:6309:15: sparse: sparse: context imbalance in 'ext4_group_add_blocks' - different lock contexts for basic block
-   fs/ext4/mballoc.c:6325:12: sparse: sparse: context imbalance in 'ext4_trim_extent' - wrong count at exit
-   fs/ext4/mballoc.c:6400:9: sparse: sparse: context imbalance in 'ext4_try_to_trim_range' - different lock contexts for basic block
-   fs/ext4/mballoc.c:6418:1: sparse: sparse: context imbalance in 'ext4_trim_all_free' - different lock contexts for basic block
-   fs/ext4/mballoc.c:6560:1: sparse: sparse: context imbalance in 'ext4_mballoc_query_range' - different lock contexts for basic block
+Then we will fix kconfig for the split debug info.
 
-vim +/__iomem +25 arch/riscv/include/asm/timex.h
+> case. We will consider adjusting our compiler coverage and remove the old
+> clang-14.
 
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  16  
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  17  #ifdef CONFIG_64BIT
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  18  static inline cycles_t get_cycles(void)
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  19  {
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  20  	return readq_relaxed(clint_time_val);
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  21  }
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  22  #else /* !CONFIG_64BIT */
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  23  static inline u32 get_cycles(void)
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  24  {
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14 @25  	return readl_relaxed(((u32 *)clint_time_val));
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  26  }
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  27  #define get_cycles get_cycles
-d5be89a8d118a8 Palmer Dabbelt 2020-09-14  28  
+Documentation/process/changes.rst lists our minimal support for
+clang-11+.  It's still useful to have clang-14 builds.
 
-:::::: The code at line 25 was first introduced by commit
-:::::: d5be89a8d118a8e8d09cd74a921a808f17fbdd09 RISC-V: Resurrect the MMIO timer implementation for M-mode systems
+>
+> Best Regards,
+> Yujie
+>
+> > > reproduce: (https://download.01.org/0day-ci/archive/20230809/20230809=
+0204.9yZffBWo-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202308090204.9yZffBWo=
+-lkp@intel.com/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > > >> error: A dwo section may not contain relocations
+> > >    fatal error: too many errors emitted, stopping now [-ferror-limit=
+=3D]
+> > >    20 errors generated.
+> > >    make[2]: *** [scripts/Makefile.build:288: arch/riscv/kernel/vdso/v=
+gettimeofday.o] Error 1 shuffle=3D3686795728
+> > >    make[2]: Target 'include/generated/vdso-offsets.h' not remade beca=
+use of errors.
+> > >    make[1]: *** [arch/riscv/Makefile:120: vdso_prepare] Error 2 shuff=
+le=3D3686795728
+> > >    make[1]: Target 'prepare' not remade because of errors.
+> > >    make: *** [Makefile:219: __sub-make] Error 2 shuffle=3D3686795728
+> > >    make: Target 'prepare' not remade because of errors.
+> > >
+> > > --
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests/wiki
+> >
+> >
+> >
+> > --
+> > Thanks,
+> > ~Nick Desaulniers
+> >
 
-:::::: TO: Palmer Dabbelt <palmerdabbelt@google.com>
-:::::: CC: Palmer Dabbelt <palmerdabbelt@google.com>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+--=20
+Thanks,
+~Nick Desaulniers
