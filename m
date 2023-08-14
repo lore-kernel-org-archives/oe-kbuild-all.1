@@ -1,42 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57317C2F3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 16:57:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7ABC8D2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 17:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692032253; x=1723568253;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hL6SoRoriOXxueSPCRJgRN37dtYHH2QpDtoRpeWSRCI=;
-  b=Qq2T1uVXaixgv9Ug9gg/6BFIFkPvR0dLoDM3qN6P4daEaStd00lDome0
-   sEgm4mtdYukE73qTh70t498kp2GAmdqHsswQ5e0al0reuuSerVJLM41IJ
-   ncN2yfx0YrXmO8FxD6C1eZpA0afDgZLJpLgc81NCpD6Vns5tP2AZlvWF8
-   oXTmKp5u2onUgBa0mMEIcfiLeHUcM3rB8QJiq00dGirkb+6RVwL3wTV21
-   LySfgIMhJgPONb7EVdmATccRGmTIccsZE9pLdsJ5z6gYizPI/LyB9xZtC
-   8MKaNcYRmoZz/wE+ZN51K7LOGPsF1LC4tWhcMA+r/h+XHwHGnuRiUFiz+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="458448579"
+  t=1692033511; x=1723569511;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sO3WX8wlJahUoRZaVdcgsisUv68Chd4vwB0UvXsgsAI=;
+  b=WYohomme/xuY2c4rjnQTcMha5gcez9aen/zLqZOxR45zK2R6tDhzPHC2
+   3EqOp9WzFcmMaIn3cDrxIhqqUvPNOYWBY0yGOEYoy+rIJL5yswAUFJxq+
+   ShFl5DP6AqXO2jLGnBPs5HduaIKPpx3XriZcP364ARlHVqpHs4VZMuFro
+   Yw4n98GPPYgCvwh/jYI3/EJKCucan7UFQLNQkyH26sJ4PIjKrvx+jXrG1
+   gQwCqnjHnsKPDiI9BvRuatqfoZA5TwZmqadMObG0Z3sLZYqNYGYe4Nwe8
+   Sb0/OoB7QIrsbW+EtCVv0kYKCgjGBSRGk9ZURzg22h8I3kF4/tVz53Glk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="403077458"
 X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="458448579"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 09:57:29 -0700
+   d="scan'208";a="403077458"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 10:18:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="683372417"
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="857149750"
 X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="683372417"
+   d="scan'208";a="857149750"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 14 Aug 2023 09:57:27 -0700
+  by orsmga004.jf.intel.com with ESMTP; 14 Aug 2023 10:18:29 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVash-0000Ie-2C;
-	Mon, 14 Aug 2023 16:57:27 +0000
-Date: Tue, 15 Aug 2023 00:57:10 +0800
+	id 1qVbD2-0000JD-10;
+	Mon, 14 Aug 2023 17:18:28 +0000
+Date: Tue, 15 Aug 2023 01:17:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@suse.de>
+To: Maxime Ripard <mripard@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hare-nvme:tls.v13 12/19] drivers/nvme/host/fabrics.c:634:15: error:
- implicit declaration of function 'key_lookup'; did you mean 'vma_lookup'?
-Message-ID: <202308150022.a09VIyuH-lkp@intel.com>
+Subject: Re: [PATCH RFC 06/13] drm/connector: hdmi: Add support for output
+ format
+Message-ID: <202308150157.wnJQ3VHE-lkp@intel.com>
+References: <20230814-kms-hdmi-connector-state-v1-6-048054df3654@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,52 +47,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230814-kms-hdmi-connector-state-v1-6-048054df3654@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git tls.v13
-head:   ce525e34ae9d3f5ed12f23caea57c0aa2e8359ee
-commit: d523697c96a38b1358cefed16ded3d32dfe171d2 [12/19] nvme-fabrics: parse options 'keyring' and 'tls_key'
-config: i386-randconfig-r005-20230814 (https://download.01.org/0day-ci/archive/20230815/202308150022.a09VIyuH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150022.a09VIyuH-lkp@intel.com/reproduce)
+Hi Maxime,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 5d0c230f1de8c7515b6567d9afba1f196fb4e2f4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-connector-Introduce-an-HDMI-connector/20230814-215852
+base:   5d0c230f1de8c7515b6567d9afba1f196fb4e2f4
+patch link:    https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-6-048054df3654%40kernel.org
+patch subject: [PATCH RFC 06/13] drm/connector: hdmi: Add support for output format
+config: csky-randconfig-r002-20230814 (https://download.01.org/0day-ci/archive/20230815/202308150157.wnJQ3VHE-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150157.wnJQ3VHE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308150022.a09VIyuH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308150157.wnJQ3VHE-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/nvme/host/fabrics.c: In function 'nvmf_parse_key':
->> drivers/nvme/host/fabrics.c:634:15: error: implicit declaration of function 'key_lookup'; did you mean 'vma_lookup'? [-Werror=implicit-function-declaration]
-     634 |         key = key_lookup(key_id);
-         |               ^~~~~~~~~~
-         |               vma_lookup
->> drivers/nvme/host/fabrics.c:634:13: warning: assignment to 'struct key *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     634 |         key = key_lookup(key_id);
-         |             ^
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/drm_hdmi_connector.c:242:1: warning: no previous prototype for 'drm_hdmi_connector_get_output_format_name' [-Wmissing-prototypes]
+     242 | drm_hdmi_connector_get_output_format_name(enum hdmi_colorspace fmt)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +634 drivers/nvme/host/fabrics.c
+vim +/drm_hdmi_connector_get_output_format_name +242 drivers/gpu/drm/drm_hdmi_connector.c
 
-   624	
-   625	static struct key *nvmf_parse_key(int key_id, char *key_type)
-   626	{
-   627		struct key *key;
-   628	
-   629		if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-   630			pr_err("TLS is not supported\n");
-   631			return ERR_PTR(-EINVAL);
-   632		}
-   633	
- > 634		key = key_lookup(key_id);
-   635		if (IS_ERR(key))
-   636			pr_err("%s %08x not found\n", key_type, key_id);
-   637		else
-   638			pr_debug("Using %s %08x\n", key_type, key_id);
-   639		return key;
-   640	}
-   641	
+   233	
+   234	/*
+   235	 * drm_hdmi_connector_get_output_format_name() - Return a string for HDMI connector output format
+   236	 * @fmt: Output format to compute name of
+   237	 *
+   238	 * Returns: the name of the output format, or NULL if the type is not
+   239	 * valid.
+   240	 */
+   241	const char *
+ > 242	drm_hdmi_connector_get_output_format_name(enum hdmi_colorspace fmt)
+   243	{
+   244		if (fmt >= ARRAY_SIZE(output_format_str))
+   245			return NULL;
+   246	
+   247		return output_format_str[fmt];
+   248	}
+   249	EXPORT_SYMBOL(drm_hdmi_connector_get_output_format_name);
+   250	
 
 -- 
 0-DAY CI Kernel Test Service
