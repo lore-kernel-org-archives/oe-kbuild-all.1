@@ -1,89 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B59C2CE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Aug 2023 19:21:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 051CBC433C7;
-	Mon, 14 Aug 2023 19:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692040892;
-	bh=+jNaOqW1WvsHJtPWmed6N/GL/3OPvxMELeJSEAQ5RQQ=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=RXdP/ZyMkR03vWLg5bl6dSGha1Z9Bho10LT0Jvp2NUkA4M5iSIPyr9KIXoSw588Kz
-	 NwsCPQwTrHPQZaAzMfk7fqJKuo0LsGzktNdhbtWFyZg+JUPWhUcnciTwyGhi9+f8yV
-	 2ly1eoou8uwBTG67QOa5VlG9AVD1atRmo0y+CEczCvxpqNcp7jY4r48Qux9n+5cElg
-	 /SKxLvEi3cBnmHCAKx5jKDwWXv2MN+2e80zo5e+UBLib/wB1DqnXCB2tjmhi5q6mRq
-	 HyLySw5D/krJpoRhmKVASk+VGlXDpHvvtudSaZQ+ncqAoo8KJhE4SCCN+QQePzlR7m
-	 7digbgFI/QLlQ==
-Date: Mon, 14 Aug 2023 21:21:28 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: kernel test robot <lkp@intel.com>
-cc: Bastien Nocera <hadess@hadess.net>, oe-kbuild-all@lists.linux.dev, 
-    linux-input@vger.kernel.org
-Subject: Re: [hid:for-6.6/steelseries 1/1] drivers/hid/hid-steelseries.c:378:12:
- sparse: sparse: symbol 'arctis_1_battery_request' was not declared. Should
- it be static?
-In-Reply-To: <202308150123.SRaAiV75-lkp@intel.com>
-Message-ID: <nycvar.YFH.7.76.2308142121060.14207@cbobk.fhfr.pm>
-References: <202308150123.SRaAiV75-lkp@intel.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587D3C2CE;
+	Mon, 14 Aug 2023 19:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692040977; x=1723576977;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KpwpOIRxehht6Q5HjcHL8pin7vF2ossXjqiaYikcuUY=;
+  b=eVPLTOM52FfAHT06+CFDTduwwXemVkk8SMODSMKdPMwNmRmN92VQM1ll
+   nbfWukm8WrXS5hLIW43QLi4E+q5Xr53159W0iQ1/nj9FLKkn2L/onHw3B
+   ySThpdZOnMHDm65jVWh7QFpmzFQesm+pcU2xUoK310duBNoa5+/UxAsCv
+   cGOfmBvbSxNSwdyedzqmHpWw/2zAwh81NoOQ/V3hDdVCvBA1eop1tpdqJ
+   UW+gpl66V7HTeBXtOPBYzkWZ8PSpfjDta/f2TW9NusXhXIgqlaZke1R9v
+   wbrx+LEIixGACOqVTl6Wf7tkseX+Fube8cnb0S04+54TzsXsijVnzNOJd
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="438453787"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="438453787"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 12:22:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="980106219"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="980106219"
+Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 14 Aug 2023 12:22:52 -0700
+Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qVd9Q-0000Mx-0L;
+	Mon, 14 Aug 2023 19:22:52 +0000
+Date: Tue, 15 Aug 2023 03:22:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	brendan.higgins@linux.dev, davidgow@google.com, rmoar@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Subject: Re: [PATCH v4 07/10] kunit: string-stream: Decouple string_stream
+ from kunit
+Message-ID: <202308150347.LvFXkSdz-lkp@intel.com>
+References: <20230814132309.32641-8-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230814132309.32641-8-rf@opensource.cirrus.com>
 
-On Tue, 15 Aug 2023, kernel test robot wrote:
+Hi Richard,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-6.6/steelseries
-> head:   a0c76896c3fbdc2e7c70b980b3bb38a6ac445971
-> commit: a0c76896c3fbdc2e7c70b980b3bb38a6ac445971 [1/1] HID: steelseries: Add support for Arctis 1 XBox
-> config: i386-randconfig-i061-20230814 (https://download.01.org/0day-ci/archive/20230815/202308150123.SRaAiV75-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150123.SRaAiV75-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308150123.SRaAiV75-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/hid/hid-steelseries.c:378:12: sparse: sparse: symbol 'arctis_1_battery_request' was not declared. Should it be static?
+kernel test robot noticed the following build warnings:
 
-Just pushed the patch below to hid.git as a fixup.
+[auto build test WARNING on shuah-kselftest/kunit]
+[also build test WARNING on shuah-kselftest/kunit-fixes linus/master v6.5-rc6 next-20230809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks.
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/kunit-string-stream-Improve-testing-of-string_stream/20230814-212947
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
+patch link:    https://lore.kernel.org/r/20230814132309.32641-8-rf%40opensource.cirrus.com
+patch subject: [PATCH v4 07/10] kunit: string-stream: Decouple string_stream from kunit
+config: hexagon-randconfig-r014-20230815 (https://download.01.org/0day-ci/archive/20230815/202308150347.LvFXkSdz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150347.LvFXkSdz-lkp@intel.com/reproduce)
 
-From: Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH] HID: steelseries: arctis_1_battery_request[] should be static
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308150347.LvFXkSdz-lkp@intel.com/
 
-arctis_1_battery_request[] is not used outside of this module, and as such 
-should be static.
+All warnings (new ones prefixed by >>):
 
-Fixes: a0c76896c3fbdc2 ("HID: steelseries: Add support for Arctis 1 XBox")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
----
- drivers/hid/hid-steelseries.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>> lib/kunit/string-stream.c:199:38: warning: cast from 'void (*)(struct string_stream *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+     199 |         if (kunit_add_action_or_reset(test, (kunit_action_t *)raw_free_string_stream, stream) != 0)
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+>> lib/kunit/string-stream.c:199:38: warning: cast from 'void (*)(struct string_stream *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+     199 |         if (kunit_add_action_or_reset(test, (kunit_action_t *)raw_free_string_stream, stream) != 0)
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+>> lib/kunit/string-stream.c:199:38: warning: cast from 'void (*)(struct string_stream *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+     199 |         if (kunit_add_action_or_reset(test, (kunit_action_t *)raw_free_string_stream, stream) != 0)
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                                      ^~~~
+   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   lib/kunit/string-stream.c:210:29: warning: cast from 'void (*)(struct string_stream *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+     210 |         kunit_release_action(test, (kunit_action_t *)raw_free_string_stream, (void *)stream);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
 
-diff --git a/drivers/hid/hid-steelseries.c b/drivers/hid/hid-steelseries.c
-index 495377686123..43d2cf7153d7 100644
---- a/drivers/hid/hid-steelseries.c
-+++ b/drivers/hid/hid-steelseries.c
-@@ -375,7 +375,7 @@ static void steelseries_srws1_remove(struct hid_device *hdev)
- #define STEELSERIES_HEADSET_BATTERY_TIMEOUT_MS	3000
- 
- #define ARCTIS_1_BATTERY_RESPONSE_LEN		8
--const char arctis_1_battery_request[] = { 0x06, 0x12 };
-+static const char arctis_1_battery_request[] = { 0x06, 0x12 };
- 
- static int steelseries_headset_arctis_1_fetch_battery(struct hid_device *hdev)
- {
+
+vim +199 lib/kunit/string-stream.c
+
+   188	
+   189	struct string_stream *alloc_string_stream(struct kunit *test, gfp_t gfp)
+   190	{
+   191		struct string_stream *stream;
+   192	
+   193		stream = raw_alloc_string_stream(gfp);
+   194		if (IS_ERR(stream))
+   195			return stream;
+   196	
+   197		stream->test = test;
+   198	
+ > 199		if (kunit_add_action_or_reset(test, (kunit_action_t *)raw_free_string_stream, stream) != 0)
+   200			return ERR_PTR(-ENOMEM);
+   201	
+   202		return stream;
+   203	}
+   204	
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
