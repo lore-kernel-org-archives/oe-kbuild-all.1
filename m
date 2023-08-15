@@ -1,44 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6A0DDD1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 12:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D807CBA22;
+	Tue, 15 Aug 2023 12:30:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692102026; x=1723638026;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X0l1MhVnd08H0wekMKNmqy2nnMeeoomVRuytnQbngAk=;
-  b=V3uAMt/IxxCBReAUisLy6yNwac65spuOmwd9MWXolSdXih0uEPAu+FLJ
-   E0rjxUIvlZ+aGvAqV8w0Cn5REMXgySzfpgav62+tedrtFhlyuK6OOdSML
-   WnhwAa4BOYLX/QhQEiNgP0MpSXnQJk0D/ia2KqsW620gQeAPaRZmkjEes
-   f/e8rGGw/gaGUWE7Wt0nwDFvr6jLWfVLTx+PeCzeNBCIoGhAB4gBXenxL
-   xF8/OqK7rxbKunwcDMEbVeapViJ0eHsxFTktIc5Un8bPOvsSEA8TXS/0v
-   8dEqitQgmqn9yD8QFactII9LU/LY4QixFyc3Q+hWbakvtCvNLRzkPdfEM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="438602310"
+  t=1692102656; x=1723638656;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dkAwFDLCaiCqtDw24YGd2ktTM+uJiKX+nDBEWhIfqOY=;
+  b=fYIz7Lb1zU8jAwNO3veX1ZAG43eGShkam1FfKVBc7VKjsd8yulFWoEuQ
+   QCijJu+sIUcJARGQwTu2byrTnYhJeqN3lS7wEBXsGI5LyXjsPhoD+70FE
+   UfGtpJ76+yGPdf1UxNK0HSoYA4ObE0TI3mZ1EiPOYnNFz0/88//kHHX7i
+   bB821L99aKw0yR20J8I9hLrRkOYbKJSjkl4djd8mE/0lM0a3WaqFX9Yn6
+   ilfmP01q6Fbch8NG6UUVUffrxaSo22R8cBluItoZ4KtO1ImhbzNyrNbl0
+   +7S4aR+L+uPljnysewV4Wk3eraMwauB9lsqbt8nbBJoUuFQlSEQ9HGBrn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="362415615"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="438602310"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 05:20:24 -0700
+   d="scan'208";a="362415615"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 05:30:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="768801389"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="727372085"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="768801389"
+   d="scan'208";a="727372085"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 15 Aug 2023 05:20:22 -0700
+  by orsmga007.jf.intel.com with ESMTP; 15 Aug 2023 05:30:52 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVt26-0000wl-0O;
-	Tue, 15 Aug 2023 12:20:22 +0000
-Date: Tue, 15 Aug 2023 20:20:12 +0800
+	id 1qVtCF-0000xa-3C;
+	Tue, 15 Aug 2023 12:30:51 +0000
+Date: Tue, 15 Aug 2023 20:30:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Georg Ottinger <g.ottinger@gmx.at>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1] ext2: fix datatype of block number in
- ext2_xattr_set2()
-Message-ID: <202308152027.yHexU6xN-lkp@intel.com>
-References: <20230815100340.22121-1-g.ottinger@gmx.at>
+To: Edward Cree <ecree.xilinx@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+	Andy Moreton <andy.moreton@amd.com>,
+	Simon Horman <simon.horman@corigine.com>
+Subject: drivers/net/ethernet/sfc/falcon/selftest.c:45:16: warning: field ip
+ within 'struct ef4_loopback_payload::(anonymous at
+ drivers/net/ethernet/sfc/falcon/selftest.c:43:2)' is less aligned than
+ 'struct iphdr' and is usually due to 'struct ef4_loopback_payload...
+Message-ID: <202308152020.SxCOJiOI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,183 +50,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230815100340.22121-1-g.ottinger@gmx.at>
 
-Hi Georg,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.5-rc6 next-20230809]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Georg-Ottinger/ext2-fix-datatype-of-block-number-in-ext2_xattr_set2/20230815-180605
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230815100340.22121-1-g.ottinger%40gmx.at
-patch subject: [PATCH v1] ext2: fix datatype of block number in ext2_xattr_set2()
-config: arc-randconfig-r013-20230815 (https://download.01.org/0day-ci/archive/20230815/202308152027.yHexU6xN-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308152027.yHexU6xN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   91aa6c412d7f85e48aead7b00a7d9e91f5cf5863
+commit: 55c1528f9b97ff3b7efad73e8f79627fc2efb298 sfc: fix field-spanning memcpy in selftest
+date:   2 weeks ago
+config: arm-randconfig-r011-20230815 (https://download.01.org/0day-ci/archive/20230815/202308152020.SxCOJiOI-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308152020.SxCOJiOI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308152027.yHexU6xN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308152020.SxCOJiOI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/buffer_head.h:12,
-                    from fs/ext2/xattr.c:57:
-   fs/ext2/xattr.c: In function 'ext2_xattr_set2':
->> fs/ext2/xattr.c:748:42: warning: format '%d' expects argument of type 'int', but argument 2 has type 'ext2_fsblk_t' {aka 'long unsigned int'} [-Wformat=]
-     748 |                         ea_idebug(inode, "creating block %d", block);
-         |                                          ^~~~~~~~~~~~~~~~~~~  ~~~~~
-         |                                                               |
-         |                                                               ext2_fsblk_t {aka long unsigned int}
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   fs/ext2/xattr.c:88:33: note: in expansion of macro 'no_printk'
-      88 | # define ea_idebug(inode, f...) no_printk(f)
-         |                                 ^~~~~~~~~
-   fs/ext2/xattr.c:748:25: note: in expansion of macro 'ea_idebug'
-     748 |                         ea_idebug(inode, "creating block %d", block);
-         |                         ^~~~~~~~~
-   fs/ext2/xattr.c:748:59: note: format string is defined here
-     748 |                         ea_idebug(inode, "creating block %d", block);
-         |                                                          ~^
-         |                                                           |
-         |                                                           int
-         |                                                          %ld
+>> drivers/net/ethernet/sfc/falcon/selftest.c:45:16: warning: field ip within 'struct ef4_loopback_payload::(anonymous at drivers/net/ethernet/sfc/falcon/selftest.c:43:2)' is less aligned than 'struct iphdr' and is usually due to 'struct ef4_loopback_payload::(anonymous at drivers/net/ethernet/sfc/falcon/selftest.c:43:2)' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      45 |                 struct iphdr ip;
+         |                              ^
+>> drivers/net/ethernet/sfc/falcon/selftest.c:45:16: warning: field ip within 'struct ef4_loopback_payload::(unnamed at drivers/net/ethernet/sfc/falcon/selftest.c:43:2)' is less aligned than 'struct iphdr' and is usually due to 'struct ef4_loopback_payload::(unnamed at drivers/net/ethernet/sfc/falcon/selftest.c:43:2)' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+   2 warnings generated.
 
 
-vim +748 fs/ext2/xattr.c
+vim +45 drivers/net/ethernet/sfc/falcon/selftest.c
 
-90ae40d243d46f Jan Kara          2022-07-12  701  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  702  /*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  703   * Second half of ext2_xattr_set(): Update the file system.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  704   */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  705  static int
-^1da177e4c3f41 Linus Torvalds    2005-04-16  706  ext2_xattr_set2(struct inode *inode, struct buffer_head *old_bh,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  707  		struct ext2_xattr_header *header)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  708  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  709  	struct super_block *sb = inode->i_sb;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  710  	struct buffer_head *new_bh = NULL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  711  	int error;
-47387409ee2e09 Tahsin Erdogan    2017-06-22  712  	struct mb_cache *ea_block_cache = EA_BLOCK_CACHE(inode);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  713  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  714  	if (header) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  715  		new_bh = ext2_xattr_cache_find(inode, header);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  716  		if (new_bh) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  717  			/* We found an identical block in the cache. */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  718  			if (new_bh == old_bh) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  719  				ea_bdebug(new_bh, "keeping this block");
-^1da177e4c3f41 Linus Torvalds    2005-04-16  720  			} else {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  721  				/* The old block is released after updating
-^1da177e4c3f41 Linus Torvalds    2005-04-16  722  				   the inode.  */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  723  				ea_bdebug(new_bh, "reusing block");
-^1da177e4c3f41 Linus Torvalds    2005-04-16  724  
-5dd4056db84387 Christoph Hellwig 2010-03-03  725  				error = dquot_alloc_block(inode, 1);
-5dd4056db84387 Christoph Hellwig 2010-03-03  726  				if (error) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  727  					unlock_buffer(new_bh);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  728  					goto cleanup;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  729  				}
-fba4d3997f4c3d Marcin Slusarz    2008-04-28  730  				le32_add_cpu(&HDR(new_bh)->h_refcount, 1);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  731  				ea_bdebug(new_bh, "refcount now=%d",
-^1da177e4c3f41 Linus Torvalds    2005-04-16  732  					le32_to_cpu(HDR(new_bh)->h_refcount));
-^1da177e4c3f41 Linus Torvalds    2005-04-16  733  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  734  			unlock_buffer(new_bh);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  735  		} else if (old_bh && header == HDR(old_bh)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  736  			/* Keep this block. No need to lock the block as we
-^1da177e4c3f41 Linus Torvalds    2005-04-16  737  			   don't need to change the reference count. */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  738  			new_bh = old_bh;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  739  			get_bh(new_bh);
-47387409ee2e09 Tahsin Erdogan    2017-06-22  740  			ext2_xattr_cache_insert(ea_block_cache, new_bh);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  741  		} else {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  742  			/* We need to allocate a new block */
-24097d12efbb97 Akinobu Mita      2008-04-28  743  			ext2_fsblk_t goal = ext2_group_first_block_no(sb,
-24097d12efbb97 Akinobu Mita      2008-04-28  744  						EXT2_I(inode)->i_block_group);
-2a9807b4e5f804 Georg Ottinger    2023-08-15  745  			ext2_fsblk_t block = ext2_new_block(inode, goal, &error);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  746  			if (error)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  747  				goto cleanup;
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @748  			ea_idebug(inode, "creating block %d", block);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  749  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  750  			new_bh = sb_getblk(sb, block);
-2b0542a4a0d9b8 Wang Shilong      2013-01-12  751  			if (unlikely(!new_bh)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  752  				ext2_free_blocks(inode, block, 1);
-addacc7d6f0f0b Al Viro           2010-07-22  753  				mark_inode_dirty(inode);
-ab6a773dbcbd2b Wang Shilong      2013-01-15  754  				error = -ENOMEM;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  755  				goto cleanup;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  756  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  757  			lock_buffer(new_bh);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  758  			memcpy(new_bh->b_data, header, new_bh->b_size);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  759  			set_buffer_uptodate(new_bh);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  760  			unlock_buffer(new_bh);
-47387409ee2e09 Tahsin Erdogan    2017-06-22  761  			ext2_xattr_cache_insert(ea_block_cache, new_bh);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  762  			
-^1da177e4c3f41 Linus Torvalds    2005-04-16  763  			ext2_xattr_update_super_block(sb);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  764  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  765  		mark_buffer_dirty(new_bh);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  766  		if (IS_SYNC(inode)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  767  			sync_dirty_buffer(new_bh);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  768  			error = -EIO;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  769  			if (buffer_req(new_bh) && !buffer_uptodate(new_bh))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  770  				goto cleanup;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  771  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  772  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  773  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  774  	/* Update the inode. */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  775  	EXT2_I(inode)->i_file_acl = new_bh ? new_bh->b_blocknr : 0;
-02027d42c3f747 Deepa Dinamani    2016-09-14  776  	inode->i_ctime = current_time(inode);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  777  	if (IS_SYNC(inode)) {
-c37650161a53c0 Christoph Hellwig 2010-10-06  778  		error = sync_inode_metadata(inode, 1);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  779  		/* In case sync failed due to ENOSPC the inode was actually
-^1da177e4c3f41 Linus Torvalds    2005-04-16  780  		 * written (only some dirty data were not) so we just proceed
-^1da177e4c3f41 Linus Torvalds    2005-04-16  781  		 * as if nothing happened and cleanup the unused block */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  782  		if (error && error != -ENOSPC) {
-3889717d2851bf Al Viro           2010-07-22  783  			if (new_bh && new_bh != old_bh) {
-3889717d2851bf Al Viro           2010-07-22  784  				dquot_free_block_nodirty(inode, 1);
-3889717d2851bf Al Viro           2010-07-22  785  				mark_inode_dirty(inode);
-3889717d2851bf Al Viro           2010-07-22  786  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  787  			goto cleanup;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  788  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  789  	} else
-^1da177e4c3f41 Linus Torvalds    2005-04-16  790  		mark_inode_dirty(inode);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  791  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  792  	error = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  793  	if (old_bh && old_bh != new_bh) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  794  		/*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  795  		 * If there was an old block and we are no longer using it,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  796  		 * release the old block.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  797  		 */
-90ae40d243d46f Jan Kara          2022-07-12  798  		ext2_xattr_release_block(inode, old_bh);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  799  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  800  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  801  cleanup:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  802  	brelse(new_bh);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  803  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  804  	return error;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  805  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  806  
+5a6681e22c1409 Edward Cree 2016-11-28  34  
+5a6681e22c1409 Edward Cree 2016-11-28  35  /*
+5a6681e22c1409 Edward Cree 2016-11-28  36   * Loopback test packet structure
+5a6681e22c1409 Edward Cree 2016-11-28  37   *
+5a6681e22c1409 Edward Cree 2016-11-28  38   * The self-test should stress every RSS vector, and unfortunately
+5a6681e22c1409 Edward Cree 2016-11-28  39   * Falcon only performs RSS on TCP/UDP packets.
+5a6681e22c1409 Edward Cree 2016-11-28  40   */
+5a6681e22c1409 Edward Cree 2016-11-28  41  struct ef4_loopback_payload {
+1186c6b31ee14f Edward Cree 2023-06-23  42  	char pad[2]; /* Ensures ip is 4-byte aligned */
+55c1528f9b97ff Edward Cree 2023-07-28  43  	struct_group_attr(packet, __packed,
+5a6681e22c1409 Edward Cree 2016-11-28  44  		struct ethhdr header;
+5a6681e22c1409 Edward Cree 2016-11-28 @45  		struct iphdr ip;
+5a6681e22c1409 Edward Cree 2016-11-28  46  		struct udphdr udp;
+5a6681e22c1409 Edward Cree 2016-11-28  47  		__be16 iteration;
+5a6681e22c1409 Edward Cree 2016-11-28  48  		char msg[64];
+55c1528f9b97ff Edward Cree 2023-07-28  49  	);
+1186c6b31ee14f Edward Cree 2023-06-23  50  } __packed __aligned(4);
+55c1528f9b97ff Edward Cree 2023-07-28  51  #define EF4_LOOPBACK_PAYLOAD_LEN	\
+55c1528f9b97ff Edward Cree 2023-07-28  52  		sizeof_field(struct ef4_loopback_payload, packet)
+5a6681e22c1409 Edward Cree 2016-11-28  53  
+
+:::::: The code at line 45 was first introduced by commit
+:::::: 5a6681e22c1409089132085811857d6da828761b sfc: separate out SFC4000 ("Falcon") support into new sfc-falcon driver
+
+:::::: TO: Edward Cree <ecree@solarflare.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
