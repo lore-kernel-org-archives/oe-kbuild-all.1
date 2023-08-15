@@ -1,53 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3032815AD7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 21:47:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB0415AD7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 21:57:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692136041; x=1723672041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xz8NL6STmp0W6EsxVXVBPrOYiDE42Au7K2UZXa36gJQ=;
-  b=GZeGQScTo3bnNKbwUcULPHBOGSRR6giEmpJhX1hRcT4KmDCDBM8k9kR0
-   D6xywbgtnaLbQmtMFb9huugEK3V0lLm7bCszqt0HeYsRspP+DKb9QIifd
-   Cl12zZbmel1CfWJ/sDA3ondwBWENCNAnnSkc3ZstBuMgBmnCJYFa0rj6u
-   sJCahsO2iB9d59w/kFmw6wGEa/KUNI6iYtfGjxo0WX7q89BIV+zP7+gge
-   Fa9heNRlWm9VRiqNkqjHwhyJtnKuo+kLMu44upx0O+MnYvGSirLwDqs8O
-   terq8wjPtjwbW5fd/zlgeDaqt7WoT6c3k/zUNPc0+XlVqGXPa6m85H26V
+  t=1692136636; x=1723672636;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1ADvwf2HGuekaNoBBQq81m4JoPS9Dwg8yO0uDkBF2xI=;
+  b=SWbKGYTbHkKee2zTvsmHIGyyztrCl7CWUCVmbLJeH/VNdNYooRg0noik
+   7/X5SUAN9rCfYKMQ08nxwgslBY0ySCVrGgz6jL9NI/vZ7vOfLoredQJZb
+   fOFfBy/crGc+ZUtJ9SwJILJkaG6wjNsBRWIMsGSnAOLyaoFkRoZ03IDPB
+   hLHdV1X7rjntRorLo/Eo5RarPRuemQewv78bsuFblb3KdIMsFoJhlc7eU
+   /8QH20ET0eFo6z0d3snunM8Hoc0cToEn7nIXfU0NKvgNDWjZBEoSBknNr
+   Y47B7hFXbfEy16aj6I37izuRJKTNSEd8KRusfRIiVJD6jFYbx2JTf0+KK
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="403363681"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="403365267"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="403363681"
+   d="scan'208";a="403365267"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 14:47:19 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 14:57:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="768967416"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="768969299"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="768967416"
+   d="scan'208";a="768969299"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 15 Aug 2023 14:47:14 -0700
+  by orsmga001.jf.intel.com with ESMTP; 15 Aug 2023 14:57:14 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qW1se-0001Fs-2P;
-	Tue, 15 Aug 2023 21:47:13 +0000
-Date: Wed, 16 Aug 2023 05:46:49 +0800
+	id 1qW22L-0001GB-1z;
+	Tue, 15 Aug 2023 21:57:13 +0000
+Date: Wed, 16 Aug 2023 05:57:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	edumazet@google.com, pabeni@redhat.com, jiri@resnulli.us,
-	johannes@sipsolutions.net, Jakub Kicinski <kuba@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Jiri Pirko <jiri@nvidia.com>, Jason@zx2c4.com, alex.aring@gmail.com,
-	stefan@datenfreihafen.org, krzysztof.kozlowski@linaro.org,
-	jmaloy@redhat.com, ying.xue@windriver.com, floridsleeves@gmail.com,
-	leon@kernel.org, jacob.e.keller@intel.com,
-	wireguard@lists.zx2c4.com, linux-wpan@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH net-next v3 05/10] genetlink: use attrs from struct
- genl_info
-Message-ID: <202308160545.9cpmjvz9-lkp@intel.com>
-References: <20230814214723.2924989-6-kuba@kernel.org>
+To: Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [tiwai-sound:for-next 28/28]
+ sound/pci/hda/cs35l41_hda_property.c:64:59: warning: ordered comparison of
+ pointer with integer zero
+Message-ID: <202308160506.8lCEeFDG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,58 +47,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230814214723.2924989-6-kuba@kernel.org>
 
-Hi Jakub,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/genetlink-push-conditional-locking-into-dumpit-done/20230815-055212
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230814214723.2924989-6-kuba%40kernel.org
-patch subject: [PATCH net-next v3 05/10] genetlink: use attrs from struct genl_info
-config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230816/202308160545.9cpmjvz9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160545.9cpmjvz9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+head:   ef4ba63f12b03532378395a8611f2f6e22ece67b
+commit: ef4ba63f12b03532378395a8611f2f6e22ece67b [28/28] ALSA: hda: cs35l41: Support systems with missing _DSD properties
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230816/202308160506.8lCEeFDG-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160506.8lCEeFDG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308160545.9cpmjvz9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308160506.8lCEeFDG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/devlink/netlink.c: In function 'devlink_nl_dumpit':
->> net/devlink/netlink.c:232:37: error: 'const struct genl_dumpit_info' has no member named 'attrs'
-     232 |         struct nlattr **attrs = info->attrs;
-         |                                     ^~
---
-   net/devlink/health.c: In function 'devlink_nl_health_reporter_get_dump_one':
->> net/devlink/health.c:396:37: error: 'const struct genl_dumpit_info' has no member named 'attrs'
-     396 |         struct nlattr **attrs = info->attrs;
-         |                                     ^~
+   sound/pci/hda/cs35l41_hda_property.c: In function 'cs35l41_add_dsd_properties':
+>> sound/pci/hda/cs35l41_hda_property.c:64:59: warning: ordered comparison of pointer with integer zero [-Wextra]
+      64 |         for (model = cs35l41_prop_model_table; model->hid > 0; model++) {
+         |                                                           ^
 
 
-vim +232 net/devlink/netlink.c
+vim +64 sound/pci/hda/cs35l41_hda_property.c
 
-07f3af66089e20 Jakub Kicinski 2023-01-04  227  
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  228  int devlink_nl_dumpit(struct sk_buff *msg, struct netlink_callback *cb,
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  229  		      devlink_nl_dump_one_func_t *dump_one)
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  230  {
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  231  	const struct genl_dumpit_info *info = genl_dumpit_info(cb);
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11 @232  	struct nlattr **attrs = info->attrs;
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  233  	int flags = NLM_F_MULTI;
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  234  
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  235  	if (attrs &&
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  236  	    (attrs[DEVLINK_ATTR_BUS_NAME] || attrs[DEVLINK_ATTR_DEV_NAME]))
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  237  		return devlink_nl_inst_single_dumpit(msg, cb, flags, dump_one,
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  238  						     attrs);
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  239  	else
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  240  		return devlink_nl_inst_iter_dumpit(msg, cb, flags, dump_one);
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  241  }
-4a1b5aa8b5c743 Jiri Pirko     2023-08-11  242  
+    58	
+    59	int cs35l41_add_dsd_properties(struct cs35l41_hda *cs35l41, struct device *physdev, int id,
+    60				       const char *hid)
+    61	{
+    62		const struct cs35l41_prop_model *model;
+    63	
+  > 64		for (model = cs35l41_prop_model_table; model->hid > 0; model++) {
 
 -- 
 0-DAY CI Kernel Test Service
