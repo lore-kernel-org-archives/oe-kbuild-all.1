@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EF515AD7;
-	Tue, 15 Aug 2023 22:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3FB19885
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 22:18:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1692137896; x=1723673896;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N4vmi4W6zM1L9JVjv0dWGbmzpnKS4ljIAM+MtTFnAX0=;
-  b=SpgbZSfHaecEZy7O/rrvqLGNCACKcItxwO81Ro5XG9OuoTj7l4TxtHX0
-   deyQy7icT5slUU54XVMPB9WJpEQywLI8LVTXlqSUJwR0sbYyj37ZJGqQZ
-   ND0JU2GiwvgoN+lZeiLXHzlSxFr1ahEJbDrD+xCHJKFydaz13AfqRKVVt
-   nfGVXif7A4R/sCoZhSDoC6Mw54MCl6DC6y1mE4eFbJFJGdNTLt8JnM8jA
-   sFrHZVlYULfuIzOotITqwRzIfxCjTNMLIRmUkyAcUu1wbtCX1ssO0P33m
-   ch+yN/N40wP3NLAcjFTCXCHNNHmyzQ+Sp2jpC4pWLyzUXNJtd8ajQuJCd
+  bh=DRTAtvevC8cYTf0/cROmcCnl7PfMq46a3BIOnGr/NOc=;
+  b=TBvlRgqAzqxvKeHKgrlqlTczG35cb57vn1aEUmvd4TJsf/Si2RdtIHWQ
+   LTQUMiGqHqyjOv+eUCiAEXn/+eR7JC5uzMGD6kKTAHr51L6/WakwdsLdS
+   71o9IQLLdbnc+Idte1EXxZKgwXc6Yg2pmm3dwyCaxRIqsOr/C78IfRE7Z
+   XOG9ZvH/H1kP38bMkYbkNpj/pJKS+m257x3D5S0ZfIx9tbGLaWQIgwavV
+   nBFmfpPxbBs15QdiQUeYiuHMOMeBKXVtJ8BcS2vKjHBQwjkTXLTd3Veju
+   RrqOroNwdseNTKMDtNam5bhEsXgWiv1/tUIEEG5PDyOF3C06bpHsgyI7d
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="438735293"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="403368775"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="438735293"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 15:18:15 -0700
+   d="scan'208";a="403368775"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 15:18:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="857584201"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="857584201"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="877512431"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 15 Aug 2023 15:18:14 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 15 Aug 2023 15:18:18 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qW2Mf-0001GR-2X;
+	id 1qW2Mf-0001GT-2c;
 	Tue, 15 Aug 2023 22:18:13 +0000
-Date: Wed, 16 Aug 2023 06:17:43 +0800
+Date: Wed, 16 Aug 2023 06:17:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davejiang:cxl-ide 18/24] drivers/pci/ide.c:303:2: warning:
- unannotated fall-through between switch labels
-Message-ID: <202308160658.8ZwFBENH-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: vmlinux.o: warning: objtool: intel_idle_ibrs+0x11: call to
+ sched_smt_active() leaves .noinstr.text section
+Message-ID: <202308160613.xez9StTT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,156 +46,119 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/davejiang/linux.git cxl-ide
-head:   a43b30b80446a307847711c68ed284729a3e4cdb
-commit: 9ed7e5038134210887003c32f743b6e66186186f [18/24] pci: ide: Add IDE operations for endpoint device
-config: s390-randconfig-r015-20230816 (https://download.01.org/0day-ci/archive/20230816/202308160658.8ZwFBENH-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160658.8ZwFBENH-lkp@intel.com/reproduce)
+Hi Peter,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: 2b5a0e425e6e319b1978db1e9564f6af4228a567 objtool/idle: Validate __cpuidle code as noinstr
+date:   7 months ago
+config: x86_64-randconfig-r035-20230816 (https://download.01.org/0day-ci/archive/20230816/202308160613.xez9StTT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160613.xez9StTT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308160658.8ZwFBENH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308160613.xez9StTT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pci/ide.c:4:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/pci/ide.c:4:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/pci/ide.c:4:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/pci/ide.c:303:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     303 |         default:        /* Do nothing, RP should be already set */
-         |         ^
-   drivers/pci/ide.c:303:2: note: insert 'break;' to avoid fall-through
-     303 |         default:        /* Do nothing, RP should be already set */
-         |         ^
-         |         break; 
-   13 warnings generated.
+   vmlinux.o: warning: objtool: __halt+0x1d: call to hcall_func.constprop.0() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: default_idle+0x4: call to mds_idle_clear_cpu_buffers() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: mwait_idle+0x4: call to current_set_polling_and_test() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x69: call to current_set_polling_and_test() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: cpu_idle_poll.isra.0+0x5d: call to test_ti_thread_flag.constprop.0() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle+0x7a: call to current_set_polling_and_test() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_s2idle+0xa1: call to fpu_idle_fpregs() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_xstate+0x11: call to fpu_idle_fpregs() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_irq+0x87: call to current_set_polling_and_test() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: intel_idle_ibrs+0x11: call to sched_smt_active() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_safe_halt+0x8: call to test_ti_thread_flag.constprop.0() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: io_idle+0x3: call to __inb.isra.0() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x66: call to wbinvd() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter+0x64: call to wbinvd() leaves .noinstr.text section
 
 
-vim +303 drivers/pci/ide.c
-
-   256	
-   257	void pci_ide_init(struct pci_dev *pdev)
-   258	{
-   259		int link_num = 0, select_num = 0, pos;
-   260		u32 cap;
-   261		int rc;
-   262	
-   263		if (!pci_is_pcie(pdev))
-   264			return;
-   265	
-   266		pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_IDE);
-   267		if (!pos)
-   268			return;
-   269	
-   270		pci_read_config_dword(pdev, pos + PCI_IDE_CAP, &cap);
-   271		if (!(cap & (PCI_IDE_CAP_LNK | PCI_IDE_CAP_SEL)))
-   272			return;
-   273	
-   274		if (cap & PCI_IDE_CAP_LNK)
-   275			link_num = 1 + FIELD_GET(PCI_IDE_CAP_LNK_NUM, cap);
-   276	
-   277		if (cap & PCI_IDE_CAP_SEL)
-   278			select_num = 1 + FIELD_GET(PCI_IDE_CAP_SEL_NUM, cap);
-   279	
-   280		pdev->ide_support = true;
-   281		pdev->ide.link_num = link_num;
-   282		pdev->ide.select_num = select_num;
-   283		pdev->ide.stream_min = 0;
-   284		pdev->ide.stream_max = link_num + select_num;
-   285		ida_init(&pdev->ide.stream_pos_ids);
-   286		ida_init(&pdev->ide.stream_ids);
-   287	
-   288		/* No CMA established, just exit */
-   289		if (!test_bit(PCI_CMA_AUTHENTICATED, &pdev->priv_flags))
-   290			return;
-   291	
-   292	
-   293		switch (pci_pcie_type(pdev)) {
-   294		case PCI_EXP_TYPE_DOWNSTREAM:
-   295			pdev->ide.ops = &pcie_dsp_ide_ops;
-   296			break;
-   297		case PCI_EXP_TYPE_UPSTREAM:
-   298			pdev->ide.ops = &pcie_usp_ide_ops;
-   299			break;
-   300		case PCI_EXP_TYPE_ENDPOINT:
-   301		case PCI_EXP_TYPE_RC_END:
-   302			pdev->ide.ops = &pcie_ep_ide_ops;
- > 303		default:	/* Do nothing, RP should be already set */
-   304			break;
-   305		}
-   306	
-   307		if (is_pci_endpoint(pdev)) {
-   308			struct pci_dev *rp = pcie_find_root_port(pdev);
-   309	
-   310			rc = pcie_ide_stream_create(rp, pdev, pdev,
-   311						    PCI_IDE_STREAM_TYPE_SELECTIVE);
-   312			if (rc) {
-   313				dev_dbg(&pdev->dev,
-   314					"Failed to establish IDE stream.\n");
-   315				return;
-   316			}
-   317		}
-   318	}
-   319	
+objdump-func vmlinux.o intel_idle_ibrs:
+0000 00000000000005f0 <intel_idle_ibrs>:
+0000  5f0:	f3 0f 1e fa          	endbr64
+0004  5f4:	41 56                	push   %r14
+0006  5f6:	49 89 f6             	mov    %rsi,%r14
+0009  5f9:	41 55                	push   %r13
+000b  5fb:	41 54                	push   %r12
+000d  5fd:	55                   	push   %rbp
+000e  5fe:	89 d5                	mov    %edx,%ebp
+0010  600:	53                   	push   %rbx
+0011  601:	e8 00 00 00 00       	call   606 <intel_idle_ibrs+0x16>	602: R_X86_64_PC32	.text+0xd05b1c
+0016  606:	41 89 c4             	mov    %eax,%r12d
+0019  609:	e8 00 00 00 00       	call   60e <intel_idle_ibrs+0x1e>	60a: R_X86_64_PLT32	spec_ctrl_current-0x4
+001e  60e:	49 89 c5             	mov    %rax,%r13
+0021  611:	45 84 e4             	test   %r12b,%r12b
+0024  614:	0f 85 a6 00 00 00    	jne    6c0 <intel_idle_ibrs+0xd0>
+002a  61a:	48 63 dd             	movslq %ebp,%rbx
+002d  61d:	48 83 fb 0a          	cmp    $0xa,%rbx
+0031  621:	0f 87 a5 00 00 00    	ja     6cc <intel_idle_ibrs+0xdc>
+0037  627:	48 8d 04 5b          	lea    (%rbx,%rbx,2),%rax
+003b  62b:	48 8d 04 83          	lea    (%rbx,%rax,4),%rax
+003f  62f:	41 8b 5c c6 58       	mov    0x58(%r14,%rax,8),%ebx
+0044  634:	e9 00 00 00 00       	jmp    639 <intel_idle_ibrs+0x49>	635: R_X86_64_PC32	.altinstr_aux+0xdfa
+0049  639:	e9 00 00 00 00       	jmp    63e <intel_idle_ibrs+0x4e>	63a: R_X86_64_PC32	.altinstr_aux+0xe0c
+004e  63e:	0f ae f0             	mfence
+0051  641:	48 8b 3c 25 00 00 00 00 	mov    0x0,%rdi	645: R_X86_64_32S	pcpu_hot
+0059  649:	e8 00 00 00 00       	call   64e <intel_idle_ibrs+0x5e>	64a: R_X86_64_PC32	.text+0xd05b0c
+005e  64e:	0f ae f0             	mfence
+0061  651:	48 8b 34 25 00 00 00 00 	mov    0x0,%rsi	655: R_X86_64_32S	pcpu_hot
+0069  659:	48 89 f7             	mov    %rsi,%rdi
+006c  65c:	e8 00 00 00 00       	call   661 <intel_idle_ibrs+0x71>	65d: R_X86_64_PC32	.text+0xd05bbc
+0071  661:	48 89 f7             	mov    %rsi,%rdi
+0074  664:	e8 00 00 00 00       	call   669 <intel_idle_ibrs+0x79>	665: R_X86_64_PC32	.text+0xd05bdc
+0079  669:	85 c0                	test   %eax,%eax
+007b  66b:	75 0a                	jne    677 <intel_idle_ibrs+0x87>
+007d  66d:	c1 eb 18             	shr    $0x18,%ebx
+0080  670:	89 df                	mov    %ebx,%edi
+0082  672:	e8 00 00 00 00       	call   677 <intel_idle_ibrs+0x87>	673: R_X86_64_PC32	.text+0xd05b9c
+0087  677:	e8 00 00 00 00       	call   67c <intel_idle_ibrs+0x8c>	678: R_X86_64_PC32	.text+0xd05c8c
+008c  67c:	45 84 e4             	test   %r12b,%r12b
+008f  67f:	75 25                	jne    6a6 <intel_idle_ibrs+0xb6>
+0091  681:	5b                   	pop    %rbx
+0092  682:	89 e8                	mov    %ebp,%eax
+0094  684:	5d                   	pop    %rbp
+0095  685:	41 5c                	pop    %r12
+0097  687:	41 5d                	pop    %r13
+0099  689:	41 5e                	pop    %r14
+009b  68b:	31 d2                	xor    %edx,%edx
+009d  68d:	31 f6                	xor    %esi,%esi
+009f  68f:	31 ff                	xor    %edi,%edi
+00a1  691:	c3                   	ret
+00a2  692:	cc                   	int3
+00a3  693:	e8 00 00 00 00       	call   698 <intel_idle_ibrs+0xa8>	694: R_X86_64_PC32	.text+0xd05c2c
+00a8  698:	84 c0                	test   %al,%al
+00aa  69a:	74 9d                	je     639 <intel_idle_ibrs+0x49>
+00ac  69c:	e8 00 00 00 00       	call   6a1 <intel_idle_ibrs+0xb1>	69d: R_X86_64_PC32	.text+0xd05c8c
+00b1  6a1:	45 84 e4             	test   %r12b,%r12b
+00b4  6a4:	74 db                	je     681 <intel_idle_ibrs+0x91>
+00b6  6a6:	4c 89 ef             	mov    %r13,%rdi
+00b9  6a9:	e8 00 00 00 00       	call   6ae <intel_idle_ibrs+0xbe>	6aa: R_X86_64_PC32	.text+0xd05cfc
+00be  6ae:	89 e8                	mov    %ebp,%eax
+00c0  6b0:	5b                   	pop    %rbx
+00c1  6b1:	5d                   	pop    %rbp
+00c2  6b2:	41 5c                	pop    %r12
+00c4  6b4:	41 5d                	pop    %r13
+00c6  6b6:	41 5e                	pop    %r14
+00c8  6b8:	31 d2                	xor    %edx,%edx
+00ca  6ba:	31 f6                	xor    %esi,%esi
+00cc  6bc:	31 ff                	xor    %edi,%edi
+00ce  6be:	c3                   	ret
+00cf  6bf:	cc                   	int3
+00d0  6c0:	31 ff                	xor    %edi,%edi
+00d2  6c2:	e8 00 00 00 00       	call   6c7 <intel_idle_ibrs+0xd7>	6c3: R_X86_64_PC32	.text+0xd05cfc
+00d7  6c7:	e9 4e ff ff ff       	jmp    61a <intel_idle_ibrs+0x2a>
+00dc  6cc:	48 89 de             	mov    %rbx,%rsi
+00df  6cf:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	6d2: R_X86_64_32S	.data+0x80af00
+00e6  6d6:	e8 00 00 00 00       	call   6db <intel_idle_ibrs+0xeb>	6d7: R_X86_64_PLT32	__ubsan_handle_out_of_bounds-0x4
+00eb  6db:	e9 47 ff ff ff       	jmp    627 <intel_idle_ibrs+0x37>
 
 -- 
 0-DAY CI Kernel Test Service
