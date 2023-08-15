@@ -1,43 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE6C6FA9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 12:51:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373F3111B0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 14:04:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692103915; x=1723639915;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DF3c3FlBjN2B7MHlrb3MwttNJsj7DtYQu63RGdmXd04=;
-  b=iw1MIh7a4uAWjjUW5wnsMldH3nGHI4iucCspUgS76S79xZomhfzzVY6X
-   DQ6ahYjSbGRZgEI6BWIAHJ09PjWZ++OSGvefNurRBQG1BrZvGIX3byrPv
-   H/2XC7uhlVipfxZTI+822sDiE5LVuGAuy/YAfC/vmXB6Xv+QjGDJbJAbk
-   jOKfZqJPyIwG8R3mozFpjGPYSQSrxZRcl/UOK5T6DuDIw+QrWfxzK9akt
-   JqzotxXfSGb6UWdfyjk4Lp8ljCX4k98RNqvF8M/7jSw/AKm5VbgNjOGBh
-   EV6KnD9JEJv22tDcGMmfyfFE+MM/nkva84Yjr9PfecsqnXDxw7bBgdlkb
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371176289"
+  t=1692108241; x=1723644241;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=izWgYyGZvbclOsqOoh8da70BMbSJcA4xvR918o81ihw=;
+  b=VbkEZz9vpwVfpnT+L90UjIrItUcz4X54AJhAC1MOPk4w86B0P41cfpwB
+   5ngjIBvJK+rK8j5FU6hO6tskIE4FRx46hAOo/etvX/OEQj+PcuYeku4TG
+   HPNpV2EwPoCu1Sb1ZCsE5JcEGrCVYPeYuNm92JhwGwM1fJdRAAZZ4Gg+u
+   6FuRX6TNMLdSEzHXuVduotIpZ3Gp2iFRkg9oLIpeUHHAojEBFkZ7zdOry
+   pa5T46TU81R1WXXtQJBOMvJP0y8TY3lCXRgQVE8NIxjcI887KaAnmIAK4
+   XkR+3L5wAhoAaJPJx9J1lHpix0G4n602gxMgrDxvZj/M8O2sZjut9Ng4q
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371191782"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="371176289"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 05:51:54 -0700
+   d="scan'208";a="371191782"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 07:03:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="823840815"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="848076379"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="823840815"
+   d="scan'208";a="848076379"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Aug 2023 05:51:53 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2023 07:03:10 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVtWa-0000yd-1Y;
-	Tue, 15 Aug 2023 12:51:52 +0000
-Date: Tue, 15 Aug 2023 20:50:55 +0800
+	id 1qVuda-00010n-04;
+	Tue, 15 Aug 2023 14:03:10 +0000
+Date: Tue, 15 Aug 2023 22:03:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [broonie-sound:for-6.6 218/221]
- sound/soc/fsl/mpc5200_psc_ac97.c:236:10: error: 'struct snd_soc_dai_driver'
- has no member named 'probe'
-Message-ID: <202308152047.psX1QNDh-lkp@intel.com>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	manivannan.sadhasivam@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, helgaas@kernel.org,
+	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
+	quic_ramkri@quicinc.com, quic_parass@quicinc.com,
+	krzysztof.kozlowski@linaro.org,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v1 3/3] PCI: qcom: Add OPP suuport for speed based
+ performance state of RPMH
+Message-ID: <202308152125.sU1aQfAd-lkp@intel.com>
+References: <1692102408-7010-4-git-send-email-quic_krichai@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,82 +61,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1692102408-7010-4-git-send-email-quic_krichai@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-6.6
-head:   56f6ee6d5373406df9f60a870f470ab4b3e6d967
-commit: 446b31e894935ebbcf84302061a4e0e2efb2368f [218/221] ASoC: soc-dai.h: remove unused call back functions
-config: powerpc-randconfig-r092-20230815 (https://download.01.org/0day-ci/archive/20230815/202308152047.psX1QNDh-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308152047.psX1QNDh-lkp@intel.com/reproduce)
+Hi Krishna,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/for-linus]
+[also build test WARNING on robh/for-next linus/master v6.5-rc6 next-20230809]
+[cannot apply to pci/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/dt-bindings-pci-qcom-Add-binding-for-operating-points-v2/20230815-203103
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
+patch link:    https://lore.kernel.org/r/1692102408-7010-4-git-send-email-quic_krichai%40quicinc.com
+patch subject: [PATCH v1 3/3] PCI: qcom: Add OPP suuport for speed based performance state of RPMH
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230815/202308152125.sU1aQfAd-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308152125.sU1aQfAd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308152047.psX1QNDh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308152125.sU1aQfAd-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> sound/soc/fsl/mpc5200_psc_ac97.c:236:10: error: 'struct snd_soc_dai_driver' has no member named 'probe'
-     236 |         .probe  = psc_ac97_probe,
-         |          ^~~~~
->> sound/soc/fsl/mpc5200_psc_ac97.c:236:19: warning: initialization of 'unsigned int' from 'int (*)(struct snd_soc_dai *)' makes integer from pointer without a cast [-Wint-conversion]
-     236 |         .probe  = psc_ac97_probe,
-         |                   ^~~~~~~~~~~~~~
-   sound/soc/fsl/mpc5200_psc_ac97.c:236:19: note: (near initialization for 'psc_ac97_dai[0].id')
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_SOC_MPC5200_AC97
-   Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_MPC52xx [=y] && PPC_BESTCOMM [=n]
-   Selected by [y]:
-   - SND_MPC52xx_SOC_PCM030 [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_MPC5200_SIMPLE [=y]
-   WARNING: unmet direct dependencies detected for SND_SOC_WM9712
-   Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && (SND_SOC_AC97_BUS [=n] || AC97_BUS_NEW [=n])
-   Selected by [y]:
-   - SND_MPC52xx_SOC_PCM030 [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_MPC5200_SIMPLE [=y]
+   drivers/pci/controller/dwc/pcie-qcom.c: In function 'qcom_pcie_opp_update':
+>> drivers/pci/controller/dwc/pcie-qcom.c:1368:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    1368 |         int ret = 0;
+         |             ^~~
 
 
-vim +236 sound/soc/fsl/mpc5200_psc_ac97.c
+vim +/ret +1368 drivers/pci/controller/dwc/pcie-qcom.c
 
-20d0e1520ed1ba Jon Smirl       2009-05-26  232  
-f0fba2ad1b6b53 Liam Girdwood   2010-03-17  233  static struct snd_soc_dai_driver psc_ac97_dai[] = {
-20d0e1520ed1ba Jon Smirl       2009-05-26  234  {
-a4f7b70dc73d61 Eric Millbrandt 2012-09-13  235  	.name = "mpc5200-psc-ac97.0",
-20d0e1520ed1ba Jon Smirl       2009-05-26 @236  	.probe	= psc_ac97_probe,
-20d0e1520ed1ba Jon Smirl       2009-05-26  237  	.playback = {
-a4f7b70dc73d61 Eric Millbrandt 2012-09-13  238  		.stream_name	= "AC97 Playback",
-20d0e1520ed1ba Jon Smirl       2009-05-26  239  		.channels_min   = 1,
-20d0e1520ed1ba Jon Smirl       2009-05-26  240  		.channels_max   = 6,
-20d0e1520ed1ba Jon Smirl       2009-05-26  241  		.rates          = SNDRV_PCM_RATE_8000_48000,
-20d0e1520ed1ba Jon Smirl       2009-05-26  242  		.formats = SNDRV_PCM_FMTBIT_S32_BE,
-20d0e1520ed1ba Jon Smirl       2009-05-26  243  	},
-20d0e1520ed1ba Jon Smirl       2009-05-26  244  	.capture = {
-a4f7b70dc73d61 Eric Millbrandt 2012-09-13  245  		.stream_name	= "AC97 Capture",
-20d0e1520ed1ba Jon Smirl       2009-05-26  246  		.channels_min   = 1,
-20d0e1520ed1ba Jon Smirl       2009-05-26  247  		.channels_max   = 2,
-20d0e1520ed1ba Jon Smirl       2009-05-26  248  		.rates          = SNDRV_PCM_RATE_8000_48000,
-20d0e1520ed1ba Jon Smirl       2009-05-26  249  		.formats = SNDRV_PCM_FMTBIT_S32_BE,
-20d0e1520ed1ba Jon Smirl       2009-05-26  250  	},
-20d0e1520ed1ba Jon Smirl       2009-05-26  251  	.ops = &psc_ac97_analog_ops,
-20d0e1520ed1ba Jon Smirl       2009-05-26  252  },
-20d0e1520ed1ba Jon Smirl       2009-05-26  253  {
-a4f7b70dc73d61 Eric Millbrandt 2012-09-13  254  	.name = "mpc5200-psc-ac97.1",
-20d0e1520ed1ba Jon Smirl       2009-05-26  255  	.playback = {
-a4f7b70dc73d61 Eric Millbrandt 2012-09-13  256  		.stream_name	= "AC97 SPDIF",
-20d0e1520ed1ba Jon Smirl       2009-05-26  257  		.channels_min   = 1,
-20d0e1520ed1ba Jon Smirl       2009-05-26  258  		.channels_max   = 2,
-20d0e1520ed1ba Jon Smirl       2009-05-26  259  		.rates          = SNDRV_PCM_RATE_32000 | \
-20d0e1520ed1ba Jon Smirl       2009-05-26  260  			SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000,
-20d0e1520ed1ba Jon Smirl       2009-05-26  261  		.formats = SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_BE,
-20d0e1520ed1ba Jon Smirl       2009-05-26  262  	},
-20d0e1520ed1ba Jon Smirl       2009-05-26  263  	.ops = &psc_ac97_digital_ops,
-20d0e1520ed1ba Jon Smirl       2009-05-26  264  } };
-20d0e1520ed1ba Jon Smirl       2009-05-26  265  
-
-:::::: The code at line 236 was first introduced by commit
-:::::: 20d0e1520ed1ba8aad05f416245446de0f7ec4bb ASoC: AC97 driver for mpc5200
-
-:::::: TO: Jon Smirl <jonsmirl@gmail.com>
-:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
+  1360	
+  1361	static void qcom_pcie_opp_update(struct qcom_pcie *pcie)
+  1362	{
+  1363		struct dw_pcie *pci = pcie->pci;
+  1364		struct dev_pm_opp *opp;
+  1365		u32 offset, status;
+  1366		uint32_t freq;
+  1367		int speed;
+> 1368		int ret = 0;
+  1369	
+  1370		offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
+  1371		status = readw(pci->dbi_base + offset + PCI_EXP_LNKSTA);
+  1372	
+  1373		/* Only update constraints if link is up. */
+  1374		if (!(status & PCI_EXP_LNKSTA_DLLLA))
+  1375			return;
+  1376	
+  1377		speed = FIELD_GET(PCI_EXP_LNKSTA_CLS, status);
+  1378	
+  1379		switch (speed) {
+  1380		case 1:
+  1381			freq = 2500000;
+  1382			break;
+  1383		case 2:
+  1384			freq = 5000000;
+  1385			break;
+  1386		case 3:
+  1387			freq = 8000000;
+  1388			break;
+  1389		default:
+  1390			WARN_ON_ONCE(1);
+  1391			fallthrough;
+  1392		case 4:
+  1393			freq = 16000000;
+  1394			break;
+  1395		}
+  1396	
+  1397		opp = dev_pm_opp_find_freq_exact(pci->dev, freq, true);
+  1398	
+  1399		if (!IS_ERR(opp)) {
+  1400			ret = dev_pm_opp_get_voltage(opp);
+  1401			dev_pm_opp_put(opp);
+  1402		}
+  1403	
 
 -- 
 0-DAY CI Kernel Test Service
