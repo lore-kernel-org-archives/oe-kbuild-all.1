@@ -1,43 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA12317FF7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 19:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8511426C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 19:44:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692128039; x=1723664039;
+  t=1692128654; x=1723664654;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KM7ljrQf2Jq3/vq81Ba2jIEl8ILPYW3orI2lmV5qiIo=;
-  b=EX3GIUiFzuf9gcgq5dGPwdkmw6fmQsXF3VnIOu7kC9IXVUfv749UQvcC
-   iM+LWZSW5qGz7dee9kkW7pupse3gFzbOmDOK/58ELBmj+gabzAoXkeseS
-   /BlvgqpK5t5S2HBeTVEI9OOD7GKRl4jvNiDMmi2QGD7/vOJxJSI6yRheg
-   r6Mxp6bQwiEvVk7s2KATodn2FPtmzE1Mk8HVGqK25Hw+edGXjiTJjyTjq
-   MjASAwP0ahBetMWw/QyMdkWgRkbAYm3JAl4zt8nAFAwrXWkce0a8M5r8N
-   1NTzdfZkPPuLnb9EJzRWjjzemBquRZLeCCcKP103jWQfyFWWxk+hjZbmP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="376092030"
+  bh=Nwk8RvE7OdL2ornbGo4eZatDhCM3ddtdSb5cVESeEs0=;
+  b=gwArJbB9ruBVj99kF/dDO77QZYzRc/+dXoLNGZD0uIKLfgqfNLf3Vpul
+   o+G6XgF8xZpSzSrjzdEWWF/4sz0JvnWDcRNItoGjH1X6TnaE6dXJjvpbC
+   zFT2liwUnwYNSyzgPNkZKTpSvvk3pKXSS0Ln9l9Hi3/nX409M5ItVIHq7
+   t/Jzk1v5G4k87ZiniYJlXS8FZW3wXrJH9AR+G5HWFifbsp/IBa2JWfojq
+   trz2bda+E0z+h3vXMvpgUjLMEgOPE/l1/Ri0Y1BM9XeVqVkJC84cjp8iV
+   YoVTYuZl5w53Dk27JAXK89sqsCeghCkx/LkgYP6MjNKMpIb96v4+j0iw6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="376093751"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="376092030"
+   d="scan'208";a="376093751"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 12:33:59 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 12:44:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="737028678"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="737030071"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="737028678"
+   d="scan'208";a="737030071"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 15 Aug 2023 12:33:57 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 15 Aug 2023 12:44:11 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVznc-0001BX-31;
-	Tue, 15 Aug 2023 19:33:54 +0000
-Date: Wed, 16 Aug 2023 03:33:47 +0800
+	id 1qVzxb-0001CH-0D;
+	Tue, 15 Aug 2023 19:44:11 +0000
+Date: Wed, 16 Aug 2023 03:43:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [arm:zii 148/159]
- drivers/net/ethernet/freescale/fman/fman_memac.c:622:37: error: unknown type
- name 'phy_interface_mode_t'; did you mean 'phy_interface_t'?
-Message-ID: <202308160303.yUV7NXjd-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [linux-next:master 8956/10161] drivers/watchdog/xilinx_wwdt.c:74:
+ undefined reference to `__udivdi3'
+Message-ID: <202308160339.zgEoGVDN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,197 +49,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git zii
-head:   720a626609a91425edfe4838cc74f94ebb395418
-commit: fc14a2207a68c1d255f7d9358074dd5a504d86cf [148/159] net: fman: convert to .mac_get_caps()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230816/202308160303.yUV7NXjd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160303.yUV7NXjd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   98297fc6ecafc0c7eabc5d869279fb27609fcdc1
+commit: f1a43aadb5a690e141a3b6700e2a40c1d4dbe088 [8956/10161] watchdog: Enable COMPILE_TEST for more drivers
+config: microblaze-randconfig-r021-20230816 (https://download.01.org/0day-ci/archive/20230816/202308160339.zgEoGVDN-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160339.zgEoGVDN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308160303.yUV7NXjd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308160339.zgEoGVDN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/freescale/fman/fman_memac.c:622:37: error: unknown type name 'phy_interface_mode_t'; did you mean 'phy_interface_t'?
-     622 |                                     phy_interface_mode_t interface)
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-         |                                     phy_interface_t
->> drivers/net/ethernet/freescale/fman/fman_memac.c:778:25: error: 'memac_get_caps' undeclared here (not in a function)
-     778 |         .mac_get_caps = memac_get_caps,
-         |                         ^~~~~~~~~~~~~~
+   microblaze-linux-ld: drivers/watchdog/xilinx_wwdt.o: in function `xilinx_wwdt_start':
+>> drivers/watchdog/xilinx_wwdt.c:74: undefined reference to `__udivdi3'
 
 
-vim +622 drivers/net/ethernet/freescale/fman/fman_memac.c
+vim +74 drivers/watchdog/xilinx_wwdt.c
 
-   620	
-   621	static unsigned long memac_get_caps(struct phylink_config *config,
- > 622					    phy_interface_mode_t interface)
-   623	{
-   624		struct fman_mac *memac = fman_config_to_mac(config)->fman_mac;
-   625		unsigned long caps = config->mac_capabilities;
-   626	
-   627		if (phy_interface_mode_is_rgmii(interface) &&
-   628		    memac->rgmii_no_half_duplex)
-   629			caps &= ~(MAC_10HD | MAC_100HD);
-   630	
-   631		return caps;
-   632	}
-   633	
-   634	/**
-   635	 * memac_if_mode() - Convert an interface mode into an IF_MODE config
-   636	 * @interface: A phy interface mode
-   637	 *
-   638	 * Return: A configuration word, suitable for programming into the lower bits
-   639	 *         of %IF_MODE.
-   640	 */
-   641	static u32 memac_if_mode(phy_interface_t interface)
-   642	{
-   643		switch (interface) {
-   644		case PHY_INTERFACE_MODE_MII:
-   645			return IF_MODE_MII;
-   646		case PHY_INTERFACE_MODE_RGMII:
-   647		case PHY_INTERFACE_MODE_RGMII_ID:
-   648		case PHY_INTERFACE_MODE_RGMII_RXID:
-   649		case PHY_INTERFACE_MODE_RGMII_TXID:
-   650			return IF_MODE_GMII | IF_MODE_RGMII;
-   651		case PHY_INTERFACE_MODE_SGMII:
-   652		case PHY_INTERFACE_MODE_1000BASEX:
-   653		case PHY_INTERFACE_MODE_QSGMII:
-   654			return IF_MODE_GMII;
-   655		case PHY_INTERFACE_MODE_10GBASER:
-   656			return IF_MODE_10G;
-   657		default:
-   658			WARN_ON_ONCE(1);
-   659			return 0;
-   660		}
-   661	}
-   662	
-   663	static struct phylink_pcs *memac_select_pcs(struct phylink_config *config,
-   664						    phy_interface_t iface)
-   665	{
-   666		struct fman_mac *memac = fman_config_to_mac(config)->fman_mac;
-   667	
-   668		switch (iface) {
-   669		case PHY_INTERFACE_MODE_SGMII:
-   670		case PHY_INTERFACE_MODE_1000BASEX:
-   671			return memac->sgmii_pcs;
-   672		case PHY_INTERFACE_MODE_QSGMII:
-   673			return memac->qsgmii_pcs;
-   674		case PHY_INTERFACE_MODE_10GBASER:
-   675			return memac->xfi_pcs;
-   676		default:
-   677			return NULL;
-   678		}
-   679	}
-   680	
-   681	static int memac_prepare(struct phylink_config *config, unsigned int mode,
-   682				 phy_interface_t iface)
-   683	{
-   684		struct fman_mac *memac = fman_config_to_mac(config)->fman_mac;
-   685	
-   686		switch (iface) {
-   687		case PHY_INTERFACE_MODE_SGMII:
-   688		case PHY_INTERFACE_MODE_1000BASEX:
-   689		case PHY_INTERFACE_MODE_QSGMII:
-   690		case PHY_INTERFACE_MODE_10GBASER:
-   691			return phy_set_mode_ext(memac->serdes, PHY_MODE_ETHERNET,
-   692						iface);
-   693		default:
-   694			return 0;
-   695		}
-   696	}
-   697	
-   698	static void memac_mac_config(struct phylink_config *config, unsigned int mode,
-   699				     const struct phylink_link_state *state)
-   700	{
-   701		struct mac_device *mac_dev = fman_config_to_mac(config);
-   702		struct memac_regs __iomem *regs = mac_dev->fman_mac->regs;
-   703		u32 tmp = ioread32be(&regs->if_mode);
-   704	
-   705		tmp &= ~(IF_MODE_MASK | IF_MODE_RGMII);
-   706		tmp |= memac_if_mode(state->interface);
-   707		if (phylink_autoneg_inband(mode))
-   708			tmp |= IF_MODE_RGMII_AUTO;
-   709		iowrite32be(tmp, &regs->if_mode);
-   710	}
-   711	
-   712	static void memac_link_up(struct phylink_config *config, struct phy_device *phy,
-   713				  unsigned int mode, phy_interface_t interface,
-   714				  int speed, int duplex, bool tx_pause, bool rx_pause)
-   715	{
-   716		struct mac_device *mac_dev = fman_config_to_mac(config);
-   717		struct fman_mac *memac = mac_dev->fman_mac;
-   718		struct memac_regs __iomem *regs = memac->regs;
-   719		u32 tmp = memac_if_mode(interface);
-   720		u16 pause_time = tx_pause ? FSL_FM_PAUSE_TIME_ENABLE :
-   721				 FSL_FM_PAUSE_TIME_DISABLE;
-   722	
-   723		memac_set_tx_pause_frames(memac, 0, pause_time, 0);
-   724		memac_accept_rx_pause_frames(memac, rx_pause);
-   725	
-   726		if (duplex == DUPLEX_HALF)
-   727			tmp |= IF_MODE_HD;
-   728	
-   729		switch (speed) {
-   730		case SPEED_1000:
-   731			tmp |= IF_MODE_RGMII_1000;
-   732			break;
-   733		case SPEED_100:
-   734			tmp |= IF_MODE_RGMII_100;
-   735			break;
-   736		case SPEED_10:
-   737			tmp |= IF_MODE_RGMII_10;
-   738			break;
-   739		}
-   740		iowrite32be(tmp, &regs->if_mode);
-   741	
-   742		/* TODO: EEE? */
-   743	
-   744		if (speed == SPEED_10000) {
-   745			if (memac->fm_rev_info.major == 6 &&
-   746			    memac->fm_rev_info.minor == 4)
-   747				tmp = TX_FIFO_SECTIONS_TX_AVAIL_SLOW_10G;
-   748			else
-   749				tmp = TX_FIFO_SECTIONS_TX_AVAIL_10G;
-   750			tmp |= TX_FIFO_SECTIONS_TX_EMPTY_DEFAULT_10G;
-   751		} else {
-   752			tmp = TX_FIFO_SECTIONS_TX_AVAIL_1G |
-   753			      TX_FIFO_SECTIONS_TX_EMPTY_DEFAULT_1G;
-   754		}
-   755		iowrite32be(tmp, &regs->tx_fifo_sections);
-   756	
-   757		mac_dev->update_speed(mac_dev, speed);
-   758	
-   759		tmp = ioread32be(&regs->command_config);
-   760		tmp |= CMD_CFG_RX_EN | CMD_CFG_TX_EN;
-   761		iowrite32be(tmp, &regs->command_config);
-   762	}
-   763	
-   764	static void memac_link_down(struct phylink_config *config, unsigned int mode,
-   765				    phy_interface_t interface)
-   766	{
-   767		struct fman_mac *memac = fman_config_to_mac(config)->fman_mac;
-   768		struct memac_regs __iomem *regs = memac->regs;
-   769		u32 tmp;
-   770	
-   771		/* TODO: graceful */
-   772		tmp = ioread32be(&regs->command_config);
-   773		tmp &= ~(CMD_CFG_RX_EN | CMD_CFG_TX_EN);
-   774		iowrite32be(tmp, &regs->command_config);
-   775	}
-   776	
-   777	static const struct phylink_mac_ops memac_mac_ops = {
- > 778		.mac_get_caps = memac_get_caps,
-   779		.mac_select_pcs = memac_select_pcs,
-   780		.mac_prepare = memac_prepare,
-   781		.mac_config = memac_mac_config,
-   782		.mac_link_up = memac_link_up,
-   783		.mac_link_down = memac_link_down,
-   784	};
-   785	
+12984cea1b8c54 Srinivas Neeli 2023-04-20  64  
+12984cea1b8c54 Srinivas Neeli 2023-04-20  65  static int xilinx_wwdt_start(struct watchdog_device *wdd)
+12984cea1b8c54 Srinivas Neeli 2023-04-20  66  {
+12984cea1b8c54 Srinivas Neeli 2023-04-20  67  	struct xwwdt_device *xdev = watchdog_get_drvdata(wdd);
+12984cea1b8c54 Srinivas Neeli 2023-04-20  68  	struct watchdog_device *xilinx_wwdt_wdd = &xdev->xilinx_wwdt_wdd;
+12984cea1b8c54 Srinivas Neeli 2023-04-20  69  	u64 time_out, closed_timeout, open_timeout;
+12984cea1b8c54 Srinivas Neeli 2023-04-20  70  	u32 control_status_reg;
+12984cea1b8c54 Srinivas Neeli 2023-04-20  71  
+12984cea1b8c54 Srinivas Neeli 2023-04-20  72  	/* Calculate timeout count */
+12984cea1b8c54 Srinivas Neeli 2023-04-20  73  	time_out = xdev->freq * wdd->timeout;
+12984cea1b8c54 Srinivas Neeli 2023-04-20 @74  	closed_timeout = (time_out * xdev->close_percent) / 100;
+12984cea1b8c54 Srinivas Neeli 2023-04-20  75  	open_timeout = time_out - closed_timeout;
+12984cea1b8c54 Srinivas Neeli 2023-04-20  76  	wdd->min_hw_heartbeat_ms = xdev->close_percent * 10 * wdd->timeout;
+12984cea1b8c54 Srinivas Neeli 2023-04-20  77  
+12984cea1b8c54 Srinivas Neeli 2023-04-20  78  	spin_lock(&xdev->spinlock);
+12984cea1b8c54 Srinivas Neeli 2023-04-20  79  
+12984cea1b8c54 Srinivas Neeli 2023-04-20  80  	iowrite32(XWWDT_MWR_MASK, xdev->base + XWWDT_MWR_OFFSET);
+12984cea1b8c54 Srinivas Neeli 2023-04-20  81  	iowrite32(~(u32)XWWDT_ESR_WEN_MASK, xdev->base + XWWDT_ESR_OFFSET);
+12984cea1b8c54 Srinivas Neeli 2023-04-20  82  	iowrite32((u32)closed_timeout, xdev->base + XWWDT_FWR_OFFSET);
+12984cea1b8c54 Srinivas Neeli 2023-04-20  83  	iowrite32((u32)open_timeout, xdev->base + XWWDT_SWR_OFFSET);
+12984cea1b8c54 Srinivas Neeli 2023-04-20  84  
+12984cea1b8c54 Srinivas Neeli 2023-04-20  85  	/* Enable the window watchdog timer */
+12984cea1b8c54 Srinivas Neeli 2023-04-20  86  	control_status_reg = ioread32(xdev->base + XWWDT_ESR_OFFSET);
+12984cea1b8c54 Srinivas Neeli 2023-04-20  87  	control_status_reg |= XWWDT_ESR_WEN_MASK;
+12984cea1b8c54 Srinivas Neeli 2023-04-20  88  	iowrite32(control_status_reg, xdev->base + XWWDT_ESR_OFFSET);
+12984cea1b8c54 Srinivas Neeli 2023-04-20  89  
+12984cea1b8c54 Srinivas Neeli 2023-04-20  90  	spin_unlock(&xdev->spinlock);
+12984cea1b8c54 Srinivas Neeli 2023-04-20  91  
+12984cea1b8c54 Srinivas Neeli 2023-04-20  92  	dev_dbg(xilinx_wwdt_wdd->parent, "Watchdog Started!\n");
+12984cea1b8c54 Srinivas Neeli 2023-04-20  93  
+12984cea1b8c54 Srinivas Neeli 2023-04-20  94  	return 0;
+12984cea1b8c54 Srinivas Neeli 2023-04-20  95  }
+12984cea1b8c54 Srinivas Neeli 2023-04-20  96  
+
+:::::: The code at line 74 was first introduced by commit
+:::::: 12984cea1b8c54104f8ac7f5609dfcc0752ad741 watchdog: xilinx_wwdt: Add Versal window watchdog support
+
+:::::: TO: Srinivas Neeli <srinivas.neeli@amd.com>
+:::::: CC: Wim Van Sebroeck <wim@linux-watchdog.org>
 
 -- 
 0-DAY CI Kernel Test Service
