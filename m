@@ -1,45 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB3E101C1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 14:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8527E134B9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 14:36:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1692110174; x=1723646174;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nvjTsvZfZl/hLGRCUdeDEkIxrOWcJoH/50zE6shRsys=;
-  b=YJIFjWMmpAijErgU7a0Jr4W87/cx762vijKZhIFsk62ZpQ8ZZTULqVKt
-   mTnJukpDkm75xA11Sn8yY0LXXdZt+73IRP5ocqZOMsiy8ec0lAxv5zQfQ
-   SqZjyAfaFpWjo0IxEABBCLFjnp5dTevo7s3JYMO5kiSKUWsVCTVRULHOU
-   t/qs/06DiB+6ewCVRgDmxIsHfoGPdWYSDjZ6qJ0H1Q28M/7grF8G3NXUL
-   EKdNv+DtyCeXQX4rHJUDGOeqgKGi+R9/oVInQNT9esvNXTtv9PaPK9yje
-   8oxLl4G9437vq2HmZArA7cB5jvgQ8jdY1RU2bJ4Mmqf/kmvv3BCG6glaL
+  bh=uolZPzp2tuPUqrZ0q/yneHxITak3Z/XlPYPr1KhmZE4=;
+  b=ie11nmlV0iFAQ+KqOK0j/uSobtv8xCLWAOc9UzodrT4S/h8I65/J13JG
+   FVZBSH+s03/OVb20x6epRYlUYIDt1BpdkCSH1WFNpr+bY0wg4xkxe+34U
+   rXLOvFvPUYH75RBCcjoO/YvrWr15iboY1YVca6uzwxynrG9IWkQgh1n9v
+   AoIropbtS7bLMqU91Wxf1R2Zbd+YeVsbg2wGfRnmt3UwzuPblgQklQABU
+   vJg85KuV5VcaZd2NfqvKhzdZnZBUhiFqtRJQoWYdBTpuIcM7ec44JrFk9
+   FRyMRFMPLSaODUY4l6KcRBnTLmKkzePUHMz/lap9pLKuqK3CMLoy5sKRK
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="351878266"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352616826"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="351878266"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 07:36:12 -0700
+   d="scan'208";a="352616826"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 07:36:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1064483066"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="823861243"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="1064483066"
+   d="scan'208";a="823861243"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Aug 2023 07:36:11 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Aug 2023 07:36:11 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVv8N-00011X-1O;
-	Tue, 15 Aug 2023 14:35:23 +0000
-Date: Tue, 15 Aug 2023 22:34:44 +0800
+	id 1qVv9W-00011Z-2j;
+	Tue, 15 Aug 2023 14:36:10 +0000
+Date: Tue, 15 Aug 2023 22:34:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Sam Ravnborg <sam@ravnborg.org>
-Subject: [linux-next:master 6241/10161] drivers/video/fbdev/g364fb.c:115:9:
- error: 'FB_DEFAULT_IOMEM_HELPERS' undeclared here (not in a function); did
- you mean 'FB_DEFAULT_IOMEM_OPS'?
-Message-ID: <202308152224.138bLmbR-lkp@intel.com>
+To: Alexandre Courbot <acourbot@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+	linux-doc@vger.kernel.org
+Subject: [jsarha:topic/cros-sof-v4.19 1264/6555] spdxcheck:
+ Documentation/media/uapi/mediactl/media-ioc-request-alloc.rst: 1:39 Invalid
+ License ID: GFDL-1.1-or-later
+Message-ID: <202308152237.2qoXL6Yk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,41 +50,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Thomas,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   21ef7b1e17d039053edaeaf41142423810572741
-commit: 5011260838551cefbf23d60b48c3243b6d5530a2 [6241/10161] fbdev/g364fb: Use fbdev I/O helpers
-config: mips-jazz_defconfig (https://download.01.org/0day-ci/archive/20230815/202308152224.138bLmbR-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308152224.138bLmbR-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: fafd43c288ef4de7f385fde1dd59e45aec303d45 [1264/6555] UPSTREAM: media: Documentation: v4l: document request API
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308152237.2qoXL6Yk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308152224.138bLmbR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308152237.2qoXL6Yk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/video/fbdev/g364fb.c:115:9: error: 'FB_DEFAULT_IOMEM_HELPERS' undeclared here (not in a function); did you mean 'FB_DEFAULT_IOMEM_OPS'?
-     115 |         FB_DEFAULT_IOMEM_HELPERS,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         FB_DEFAULT_IOMEM_OPS
-
-
-vim +115 drivers/video/fbdev/g364fb.c
-
-   112	
-   113	static const struct fb_ops g364fb_ops = {
-   114		.owner		= THIS_MODULE,
- > 115		FB_DEFAULT_IOMEM_HELPERS,
-   116		.fb_setcolreg	= g364fb_setcolreg,
-   117		.fb_pan_display	= g364fb_pan_display,
-   118		.fb_blank	= g364fb_blank,
-   119	};
-   120	
+spdxcheck warnings: (new ones prefixed by >>)
+   include/dt-bindings/reset/amlogic,meson-axg-reset.h: 9:41 Invalid License ID: BSD
+>> Documentation/media/uapi/mediactl/media-ioc-request-alloc.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/media-request-ioc-queue.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/media-request-ioc-reinit.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/request-api.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/request-func-close.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/request-func-ioctl.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
+>> Documentation/media/uapi/mediactl/request-func-poll.rst: 1:39 Invalid License ID: GFDL-1.1-or-later
 
 -- 
 0-DAY CI Kernel Test Service
