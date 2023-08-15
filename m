@@ -1,44 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE60101F7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 10:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC3AC15C;
+	Tue, 15 Aug 2023 11:49:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692094674; x=1723630674;
+  t=1692100162; x=1723636162;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GkjSXbLAz7MgASspV18rD4pQ5lqkgFysqnVHBa5b+G4=;
-  b=g8aGBWxUkyj1INt/AKuGpdKGa7YJ+PgIb2bTOHTOh3nbppTOc2qeRCIa
-   80RyMmWV0oFPscFxq9YlmMkP5/JMvdJbqH0jXwhgNN0YBOx/2dm0viHyo
-   /phhkz9loBx19nU3F8HijdPFEReSlEhq1T/p73pYUTok4YU1GazZQoDla
-   lj/8HgtVBAAwOeq66dpbP6N+YTqb5D7r/wX6iZMvEas7OjXc159NFEg4E
-   iM01kDoxT6v5ni2XRfyQUoMt7PwayXp5MsW8GRRa37MDv2EYqiK3tdHE1
-   hB8sIV4LO32f9H2wf6lydYPJkDscE8zYfwvg2Cz5egYR9NICpusdq5Xzn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="352573614"
+  bh=zPtoka+vHk+g0c/C9uH5Pt/tuntLXJwjnPUH2OERbi0=;
+  b=bLTFtH8cfWwunC82ZmqiRfS7tvFRo0IXLxYS5HbubEXcvOnKQGC6eyBh
+   O9eVw+CH6b9py+meo9HgbSUXcTfpOMdlXa3+Fgw3dQD3Lc0SDtCOlQyWW
+   DYcbgjq6C+g61bjbT+71frl62cOqfFeX8BaS/zw1zlBbo0fFPz2Oku9S9
+   nbtgW0IT4Vq26CvM7aeWFmALX5sNuCguV2qYMF0HKwGwwdtVbb4cPw73j
+   CzHNhoGRuiDsRXrbMap7r413TG2WPAFiR+O6wCrOc1C9RekExBZbumETw
+   UK+223V3sjenmxOOri/PpRIZDeiO3ylPYlfr44H4DBPuugGhY2+HnNJwZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="403239472"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="352573614"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 03:17:52 -0700
+   d="scan'208";a="403239472"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 04:49:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="727351537"
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="683629594"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="727351537"
+   d="scan'208";a="683629594"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 15 Aug 2023 03:17:50 -0700
+  by orsmga003.jf.intel.com with ESMTP; 15 Aug 2023 04:49:18 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVr7V-0000rz-32;
-	Tue, 15 Aug 2023 10:17:49 +0000
-Date: Tue, 15 Aug 2023 18:17:04 +0800
+	id 1qVsY2-0000vX-20;
+	Tue, 15 Aug 2023 11:49:18 +0000
+Date: Tue, 15 Aug 2023 19:49:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] btrfs: scrub: avoid unnecessary extent tree search for
- striped profiles
-Message-ID: <202308151856.hgpwaE7D-lkp@intel.com>
-References: <88abe1beac119b714a62f5e622c673f418afede2.1692083778.git.wqu@suse.com>
+To: Georg Ottinger <g.ottinger@gmx.at>, jack@suse.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+	g.ottinger@gmx.at
+Subject: Re: [PATCH v1] ext2: fix datatype of block number in
+ ext2_xattr_set2()
+Message-ID: <202308151929.QmgakA1l-lkp@intel.com>
+References: <20230815100340.22121-1-g.ottinger@gmx.at>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,135 +49,217 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <88abe1beac119b714a62f5e622c673f418afede2.1692083778.git.wqu@suse.com>
+In-Reply-To: <20230815100340.22121-1-g.ottinger@gmx.at>
 
-Hi Qu,
+Hi Georg,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on kdave/for-next]
-[cannot apply to linus/master v6.5-rc6 next-20230809]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc6 next-20230809]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-scrub-avoid-unnecessary-extent-tree-search-for-striped-profiles/20230815-151842
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/88abe1beac119b714a62f5e622c673f418afede2.1692083778.git.wqu%40suse.com
-patch subject: [PATCH] btrfs: scrub: avoid unnecessary extent tree search for striped profiles
-config: microblaze-randconfig-r023-20230815 (https://download.01.org/0day-ci/archive/20230815/202308151856.hgpwaE7D-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151856.hgpwaE7D-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Georg-Ottinger/ext2-fix-datatype-of-block-number-in-ext2_xattr_set2/20230815-180605
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230815100340.22121-1-g.ottinger%40gmx.at
+patch subject: [PATCH v1] ext2: fix datatype of block number in ext2_xattr_set2()
+config: hexagon-randconfig-r005-20230815 (https://download.01.org/0day-ci/archive/20230815/202308151929.QmgakA1l-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151929.QmgakA1l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308151856.hgpwaE7D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308151929.QmgakA1l-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-purpletv.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pv951.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-rc6-mce.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-real-audio-220-32-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-reddo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-snapstream-firefly.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-streamzap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-su3000.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx3mini.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx5max.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tbs-nec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-ts35.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-usb2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-c-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-s2-hd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-xs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tevii-nec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand-02.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-trekstor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tt-1500.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan1027.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan-dtv-cab-ci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-vega-s9x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-m1f.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-s350.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-tv-pvr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videostrong-kii-pro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-play2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast-usbii-deluxe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-x96max.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-360.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-dvd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-zx-irdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/drivers/snd-pcmtest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/stp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/act_gate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_htb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_hfsc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_red.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_prio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_plug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ets.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_choke.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/cls_u32.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "__umoddi3" [fs/btrfs/btrfs.ko] undefined!
->> ERROR: modpost: "__udivdi3" [fs/btrfs/btrfs.ko] undefined!
+   In file included from fs/ext2/xattr.c:57:
+   In file included from include/linux/buffer_head.h:12:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from fs/ext2/xattr.c:57:
+   In file included from include/linux/buffer_head.h:12:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from fs/ext2/xattr.c:57:
+   In file included from include/linux/buffer_head.h:12:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> fs/ext2/xattr.c:748:42: warning: format specifies type 'int' but the argument has type 'ext2_fsblk_t' (aka 'unsigned long') [-Wformat]
+     748 |                         ea_idebug(inode, "creating block %d", block);
+         |                                                          ~~   ^~~~~
+         |                                                          %lu
+   fs/ext2/xattr.c:88:43: note: expanded from macro 'ea_idebug'
+      88 | # define ea_idebug(inode, f...) no_printk(f)
+         |                                           ^
+   include/linux/printk.h:129:17: note: expanded from macro 'no_printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                        ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   7 warnings generated.
+
+
+vim +748 fs/ext2/xattr.c
+
+90ae40d243d46f Jan Kara          2022-07-12  701  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  702  /*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  703   * Second half of ext2_xattr_set(): Update the file system.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  704   */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  705  static int
+^1da177e4c3f41 Linus Torvalds    2005-04-16  706  ext2_xattr_set2(struct inode *inode, struct buffer_head *old_bh,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  707  		struct ext2_xattr_header *header)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  708  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  709  	struct super_block *sb = inode->i_sb;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  710  	struct buffer_head *new_bh = NULL;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  711  	int error;
+47387409ee2e09 Tahsin Erdogan    2017-06-22  712  	struct mb_cache *ea_block_cache = EA_BLOCK_CACHE(inode);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  713  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  714  	if (header) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  715  		new_bh = ext2_xattr_cache_find(inode, header);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  716  		if (new_bh) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  717  			/* We found an identical block in the cache. */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  718  			if (new_bh == old_bh) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  719  				ea_bdebug(new_bh, "keeping this block");
+^1da177e4c3f41 Linus Torvalds    2005-04-16  720  			} else {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  721  				/* The old block is released after updating
+^1da177e4c3f41 Linus Torvalds    2005-04-16  722  				   the inode.  */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  723  				ea_bdebug(new_bh, "reusing block");
+^1da177e4c3f41 Linus Torvalds    2005-04-16  724  
+5dd4056db84387 Christoph Hellwig 2010-03-03  725  				error = dquot_alloc_block(inode, 1);
+5dd4056db84387 Christoph Hellwig 2010-03-03  726  				if (error) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  727  					unlock_buffer(new_bh);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  728  					goto cleanup;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  729  				}
+fba4d3997f4c3d Marcin Slusarz    2008-04-28  730  				le32_add_cpu(&HDR(new_bh)->h_refcount, 1);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  731  				ea_bdebug(new_bh, "refcount now=%d",
+^1da177e4c3f41 Linus Torvalds    2005-04-16  732  					le32_to_cpu(HDR(new_bh)->h_refcount));
+^1da177e4c3f41 Linus Torvalds    2005-04-16  733  			}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  734  			unlock_buffer(new_bh);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  735  		} else if (old_bh && header == HDR(old_bh)) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  736  			/* Keep this block. No need to lock the block as we
+^1da177e4c3f41 Linus Torvalds    2005-04-16  737  			   don't need to change the reference count. */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  738  			new_bh = old_bh;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  739  			get_bh(new_bh);
+47387409ee2e09 Tahsin Erdogan    2017-06-22  740  			ext2_xattr_cache_insert(ea_block_cache, new_bh);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  741  		} else {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  742  			/* We need to allocate a new block */
+24097d12efbb97 Akinobu Mita      2008-04-28  743  			ext2_fsblk_t goal = ext2_group_first_block_no(sb,
+24097d12efbb97 Akinobu Mita      2008-04-28  744  						EXT2_I(inode)->i_block_group);
+2a9807b4e5f804 Georg Ottinger    2023-08-15  745  			ext2_fsblk_t block = ext2_new_block(inode, goal, &error);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  746  			if (error)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  747  				goto cleanup;
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @748  			ea_idebug(inode, "creating block %d", block);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  749  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  750  			new_bh = sb_getblk(sb, block);
+2b0542a4a0d9b8 Wang Shilong      2013-01-12  751  			if (unlikely(!new_bh)) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  752  				ext2_free_blocks(inode, block, 1);
+addacc7d6f0f0b Al Viro           2010-07-22  753  				mark_inode_dirty(inode);
+ab6a773dbcbd2b Wang Shilong      2013-01-15  754  				error = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  755  				goto cleanup;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  756  			}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  757  			lock_buffer(new_bh);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  758  			memcpy(new_bh->b_data, header, new_bh->b_size);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  759  			set_buffer_uptodate(new_bh);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  760  			unlock_buffer(new_bh);
+47387409ee2e09 Tahsin Erdogan    2017-06-22  761  			ext2_xattr_cache_insert(ea_block_cache, new_bh);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  762  			
+^1da177e4c3f41 Linus Torvalds    2005-04-16  763  			ext2_xattr_update_super_block(sb);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  764  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  765  		mark_buffer_dirty(new_bh);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  766  		if (IS_SYNC(inode)) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  767  			sync_dirty_buffer(new_bh);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  768  			error = -EIO;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  769  			if (buffer_req(new_bh) && !buffer_uptodate(new_bh))
+^1da177e4c3f41 Linus Torvalds    2005-04-16  770  				goto cleanup;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  771  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  772  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  773  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  774  	/* Update the inode. */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  775  	EXT2_I(inode)->i_file_acl = new_bh ? new_bh->b_blocknr : 0;
+02027d42c3f747 Deepa Dinamani    2016-09-14  776  	inode->i_ctime = current_time(inode);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  777  	if (IS_SYNC(inode)) {
+c37650161a53c0 Christoph Hellwig 2010-10-06  778  		error = sync_inode_metadata(inode, 1);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  779  		/* In case sync failed due to ENOSPC the inode was actually
+^1da177e4c3f41 Linus Torvalds    2005-04-16  780  		 * written (only some dirty data were not) so we just proceed
+^1da177e4c3f41 Linus Torvalds    2005-04-16  781  		 * as if nothing happened and cleanup the unused block */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  782  		if (error && error != -ENOSPC) {
+3889717d2851bf Al Viro           2010-07-22  783  			if (new_bh && new_bh != old_bh) {
+3889717d2851bf Al Viro           2010-07-22  784  				dquot_free_block_nodirty(inode, 1);
+3889717d2851bf Al Viro           2010-07-22  785  				mark_inode_dirty(inode);
+3889717d2851bf Al Viro           2010-07-22  786  			}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  787  			goto cleanup;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  788  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  789  	} else
+^1da177e4c3f41 Linus Torvalds    2005-04-16  790  		mark_inode_dirty(inode);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  791  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  792  	error = 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  793  	if (old_bh && old_bh != new_bh) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  794  		/*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  795  		 * If there was an old block and we are no longer using it,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  796  		 * release the old block.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  797  		 */
+90ae40d243d46f Jan Kara          2022-07-12  798  		ext2_xattr_release_block(inode, old_bh);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  799  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  800  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  801  cleanup:
+^1da177e4c3f41 Linus Torvalds    2005-04-16  802  	brelse(new_bh);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  803  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  804  	return error;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  805  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  806  
 
 -- 
 0-DAY CI Kernel Test Service
