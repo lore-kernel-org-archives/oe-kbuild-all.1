@@ -1,44 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B8815CC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 01:23:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4649F17C4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 01:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692062581; x=1723598581;
+  t=1692063904; x=1723599904;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=REaBBHhkgXG/mtEL5hEC9exD3qT9WXKU6/2HfxMAcFM=;
-  b=UH+3FD5tMzNh3T3thxYRIUY5B/Vi/i5jj1yiHQFaq6SHcUqlEpxV7Uzw
-   YGikNvTfDSJW3dm8a3dWycwQaoDkxWQ4Vh3Cc7/QA3nXRgqUGmmHyTm+V
-   yA5pNLW88Lc4EKM7zjleJilrDNH8ujtQuZqivehUjgtrSYfp9g9e9Kduz
-   f4NxvhZzRcuCWj2QemAUf0T35iCgDIB8jMb1L3nKhk/gymzjgULMhPu5Y
-   UoxSidfwqAW0flv0pjgDgNuecfwhluW+a70txCs4tFHAfe+xPjZLlpuOV
-   vVqQAnpKCqzk1J1O0LUFLMvG9awG48A89NFVrvsI1i6LB3/0XwEAzabFv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="369648971"
+  bh=1b5J8Q/4QwpqpRlMWhes6eV9XuIPDdd6F++Ijha5o4E=;
+  b=FFVtTv0dqFAVVbwTkKYrO//TP9nDANnZo7TGGP7gjVl08NnmlHRmRzZc
+   AQvNkGB2HVsCsQwJFC3xgzGNvNQpZ/Hvh71D9QYkV7K0b4f5xxY+5pXtS
+   Q1eO+HmQi6tRlYUJ2ZQoVIDDX3vPub6DDLVGjEHg5gQXeBfndlNU5gaWv
+   tFD9USaGDpZxGQMJax8B1qikEceW0gpyXXi4vtYEbaUrm7jdxiS8EKn1N
+   rsog4DBeMpKCTsqBs+aAjjODM7EWvEMpIAbU16Jm2SAk2qA7ERrIiMEw+
+   8xYd+MbetY3s1z0ZgZrD6bhulZIcTxfjlzDsy9ImAGrXOtE3kWclMApo+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="403158951"
 X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="369648971"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 18:23:00 -0700
+   d="scan'208";a="403158951"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 18:45:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="710549074"
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="907414523"
 X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="710549074"
+   d="scan'208";a="907414523"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 14 Aug 2023 18:22:59 -0700
+  by orsmga005.jf.intel.com with ESMTP; 14 Aug 2023 18:45:01 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVilu-0000Yx-27;
-	Tue, 15 Aug 2023 01:22:58 +0000
-Date: Tue, 15 Aug 2023 09:22:41 +0800
+	id 1qVj7D-0000Zf-07;
+	Tue, 15 Aug 2023 01:44:59 +0000
+Date: Tue, 15 Aug 2023 09:44:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [linyunsheng:net-next-pp_frag_v6-0813 9/10] htmldocs:
- Documentation/networking/page_pool:59:
- ./include/net/page_pool/helpers.h:119: WARNING: Inline strong start-string
- without end-string.
-Message-ID: <202308150949.hadiQeCS-lkp@intel.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 8002/8441] include/linux/compiler_types.h:397:45:
+ error: call to '__compiletime_assert_324' declared with attribute error:
+ BUILD_BUG_ON failed: IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT >
+ PAGE_SHIFT)
+Message-ID: <202308150902.iqtQSoIb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,19 +50,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gestionlin/linux.git net-next-pp_frag_v6-0813
-head:   128629caa623079399595594b3034d162c68487d
-commit: 46a32d32ec6ffbe80f9c4d41ed9e4e0938eadeed [9/10] page_pool: update document about frag API
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150949.hadiQeCS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   21ef7b1e17d039053edaeaf41142423810572741
+commit: 8d670cfbf3be95bbf2cb7ecdd8f449aabde8c182 [8002/8441] mips: implement the new page table range API
+config: mips-randconfig-r002-20230815 (https://download.01.org/0day-ci/archive/20230815/202308150902.iqtQSoIb-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150902.iqtQSoIb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308150949.hadiQeCS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308150902.iqtQSoIb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Documentation/networking/page_pool:59: ./include/net/page_pool/helpers.h:119: WARNING: Inline strong start-string without end-string.
+   arch/mips/mm/init.c:60:6: warning: no previous prototype for 'setup_zero_pages' [-Wmissing-prototypes]
+      60 | void setup_zero_pages(void)
+         |      ^~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   arch/mips/mm/init.c: In function 'mem_init':
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_324' declared with attribute error: BUILD_BUG_ON failed: IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT)
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/mips/mm/init.c:459:9: note: in expansion of macro 'BUILD_BUG_ON'
+     459 |         BUILD_BUG_ON(IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT));
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_324 +397 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
+
+:::::: The code at line 397 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
