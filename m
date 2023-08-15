@@ -1,179 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB042156DF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 16:30:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692117016; x=1723653016;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kB0+uw89rlc/HY5J1IEM0QZjixKE2caKHcevwQ588Dk=;
-  b=WXNI4YljyOb5fuGvjt5IOG92UGYnZ1fHGZ0DpygnDPJim0NRiiZoJmzx
-   pj4SHuV+8NUBiisjhcu96NFsHzP18jER+OyHIYkK7LlQh6bKZlSQdxwo+
-   ueVYLekqWGkSfiaOj7u/lUP5feFkwZKhCWdMDbm/iOG3UvvkrsYWJ4QRa
-   7NCEfdCVUEQGbx1csTlSXyFrh8zILBdX62w0tzjiKTg3XHBk1ICpJEdBw
-   E+NrthTTuaOZ6helytK5B4NmmvzIAU5G1VXayDzuem1ipuzRmCCoCG+NP
-   wXRAkTMoINzWwVOI4LrZdO3JELUFsnjqfdeezqxrPandd0bymXjnwDTex
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="458671845"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="458671845"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 09:30:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="683716966"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="683716966"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 15 Aug 2023 09:30:12 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qVwvQ-00015h-07;
-	Tue, 15 Aug 2023 16:29:54 +0000
-Date: Wed, 16 Aug 2023 00:29:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Ober <dober6023@gmail.com>, linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jdelvare@suse.com, linux@roeck-us.net,
-	corbet@lwn.net, dober@lenovo.com, mpearson@lenovo.com,
-	David Ober <dober6023@gmail.com>
-Subject: Re: [PATCH] hwmon: add in watchdog for nct6686
-Message-ID: <202308160001.hx3WQNSU-lkp@intel.com>
-References: <20230815115515.286142-1-dober6023@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B0B12B98
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 16:35:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C819C433C7;
+	Tue, 15 Aug 2023 16:35:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692117323;
+	bh=WAfPmP4DH1mwde7Ao/JTrW1ILoChZSppc9ArGa2ECe8=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=TdJPB2wOSm09Oktdk0iQI4l1bd5K+tTwtmzKQWTVRl842KYqdNYAdeyC55zcdKE4/
+	 bYqbG9yhmMOYqgK434oVCXpSJUhijLOD/NzQ17r7rD9QHTApYOT9a+XaFt20W5sdls
+	 RlbQdK9bYWwPCbVenXWEZQv+eYTK9ewAnkklIyE2mBxuH+tNGbtZNMCqdllm/AdA8N
+	 JPk5BMGGx2GaWJISPg0wSUcv7ez0Jh8UEBAITj6CIG4Y02kKhdT8jzkfYI/tYyfxfU
+	 8DqLgXooKyjvUWFgeyC8mn+g/giaWM3ZFraeAcKZtSCwpJmOJsuUg2RNyjNBtJTU6f
+	 q6BJCz/BBOuxA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id CB0F9CE09C4; Tue, 15 Aug 2023 09:35:22 -0700 (PDT)
+Date: Tue, 15 Aug 2023 09:35:22 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: "Liu, Yujie" <yujie.liu@intel.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	lkp <lkp@intel.com>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	Vineet Gupta <vgupta@kernel.org>,
+	linux-snps-arc@lists.infradead.org
+Subject: Re: {standard input}:1727: Error: operand out of range (-132 is not
+ between -128 and 127)
+Message-ID: <574cfd03-c279-4cf7-872f-cbe0b8788a50@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202308111233.rbf5C0JD-lkp@intel.com>
+ <416679c9-96b3-4114-bba3-473e647c4c2d@paulmck-laptop>
+ <f90742a02398f03f715b2a9afef213f5dee8f2bf.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230815115515.286142-1-dober6023@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f90742a02398f03f715b2a9afef213f5dee8f2bf.camel@intel.com>
 
-Hi David,
+On Tue, Aug 15, 2023 at 07:34:04AM +0000, Liu, Yujie wrote:
+> Hi Paul,
+> 
+> On Fri, 2023-08-11 at 08:41 -0700, Paul E. McKenney wrote:
+> > On Fri, Aug 11, 2023 at 01:02:12PM +0800, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   25aa0bebba72b318e71fe205bfd1236550cc9534
+> > > commit: a6889becb05394255c80b62103677e3b095726a9 refscale: Add tests using SLAB_TYPESAFE_BY_RCU
+> > > date:   7 months ago
+> > > config: arc-randconfig-r006-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111233.rbf5C0JD-lkp@intel.com/config)
+> > > compiler: arceb-elf-gcc (GCC) 12.3.0
+> > > reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111233.rbf5C0JD-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > Closes: https://lore.kernel.org/oe-kbuild-all/202308111233.rbf5C0JD-lkp@intel.com/
+> > > 
+> > > All errors (new ones prefixed by >>):
+> > > 
+> > >    {standard input}: Assembler messages:
+> > > > > {standard input}:1727: Error: operand out of range (-132 is not between -128 and 127)
+> > 
+> > I am not seeing any inline assembly in that patch, so I have to suspect
+> > a bug in arch code or the compiler backend for arc.
+> > 
+> > Or is there something that I am missing here?
+> 
+> We looked into this case a little bit. The assembler error popped up
+> when building kernel/rcu/refscale.o
+> 
+> $make W=1 --keep-going CROSS_COMPILE=arceb-elf- ARCH=arc kernel/rcu/refscale.o
+> ...
+>   CC [M]  kernel/rcu/refscale.o
+> {standard input}: Assembler messages:
+> {standard input}:1727: Error: operand out of range (-132 is not between -128 and 127)
+> make[3]: *** [scripts/Makefile.build:252: kernel/rcu/refscale.o] Error 1
+> make[2]: *** [scripts/Makefile.build:504: kernel/rcu] Error 2
+> make[2]: Target 'kernel/rcu/refscale.o' not remade because of errors.
+> make[1]: *** [scripts/Makefile.build:504: kernel] Error 2
+> make[1]: Target 'kernel/rcu/refscale.o' not remade because of errors.
+> make: *** [Makefile:2008: .] Error 2
+> make: Target 'kernel/rcu/refscale.o' not remade because of errors.
+> 
+> We did some assembly and disassembly tricks:
+> 
+> 1721 .L334:
+> 1722         ld_s    r0,[r14,52]             ;15
+> 1723         brgt r0, r19, @.L335
+> 1724         ld_s    r0,[r13,120]            ;15
+> 1725         breq_s r0, 0, @.L337
+> 1726         jl [r17]
+> 1727         brne_s r0, 0, @.L337    <---
+> 1728         mov_s   r2,20   ;3
+> 1729         mov_s   r1,0    ;3
+> 1730         mov_s   r0,sp   ;4
+> 1731         jl [r20]
+> 1732         mov_s   r1,0    ;3
+> 1733         mov_s   r0,sp   ;4
+> 1734         jl @init_wait_entry
+> 1735         .align 2
+> 
+> This assembly instruction at line 1727 points to the code in main_func,
+> but main_func is not touched by commit a6889becb053.
+> 
+>  d6e:   860d                    ld_s    r0,[r14,0x34]
+>  d70:   0b59 a002               brlt.nt r19,r0,-168     ;cc8 <main_func+0x16c>
+>         return arch_atomic_read(v);
+>  d74:   851e                    ld_s    r0,[r13,0x78]
+>                 wait_event(main_wq,
+>  d76:   e842                    breq_s  r0,0,-124       ;cf8 <main_func+0x19c>
+>  d78:   2022 0440               jl      [r17]
+>  d7c:   e8be                    brne_s  r0,0,124        ;df8 <main_func+0x29c>   <--
+>  d7e:   da14                    mov_s   r2,0x14
+>  d80:   702c                    mov_s   r1,0
+>  d82:   4083                    mov_s   r0,sp
+>  d84:   2022 0500               jl      [r20]
+>  d88:   702c                    mov_s   r1,0
+>  d8a:   4083                    mov_s   r0,sp
+>  d8c:   2022 0f80 0000 0000     jl      0
+> 
+> We also tried on the parent commit 3c6496c86e48. It builds fine without
+> that assembler error, and corresponding disassembly is:
+> 
+>  afe:   860d                    ld_s    r0,[r14,0x34]
+>  b00:   0b5d a002               brlt.nt r19,r0,-164     ;a5c <main_func+0x16c>
+>         return arch_atomic_read(v);
+>  b04:   8518                    ld_s    r0,[r13,0x60]
+>                 wait_event(main_wq,
+>  b06:   e844                    breq_s  r0,0,-120       ;a8c <main_func+0x19c>
+>  b08:   2022 0440               jl      [r17]
+>  b0c:   e8c0                    brne_s  r0,0,-128       ;a8c <main_func+0x19c>   <--
+>  b0e:   da14                    mov_s   r2,0x14
+>  b10:   702c                    mov_s   r1,0
+>  b12:   4083                    mov_s   r0,sp
+>  b14:   2022 0500               jl      [r20]
+>  b18:   702c                    mov_s   r1,0
+>  b1a:   4083                    mov_s   r0,sp
+>  b1c:   2022 0f80 0000 0000     jl      0
+>  b24:   724c                    mov_s   r2,2
+>  b26:   4183                    mov_s   r1,sp
+>  b28:   40c3 0000 0000          mov_s   r0,0
+>  b2e:   2022 0f80 0000 0000     jl      0
+> 
+> 
+> We are also not sure if this is a bug in arch code or compiler side.
+> Here we provide above info for your reference.
 
-kernel test robot noticed the following build errors:
+Thank you for looking into this and getting back to me.
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.5-rc6 next-20230815]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I added the ARC maintainer and list on CC.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Ober/hwmon-add-in-watchdog-for-nct6686/20230815-195946
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20230815115515.286142-1-dober6023%40gmail.com
-patch subject: [PATCH] hwmon: add in watchdog for nct6686
-config: i386-randconfig-i013-20230815 (https://download.01.org/0day-ci/archive/20230816/202308160001.hx3WQNSU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160001.hx3WQNSU-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308160001.hx3WQNSU-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/locktorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/torture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nfs/nfsv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp932.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_euc-jp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-7.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in block/t10-pi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_encoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/synclink_gt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/intel-gtt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/cirrus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/loop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/timberdale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/scsi_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/aha1542.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/aha1740.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/isci/isci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/g_NCR5380.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/atp870u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvmet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cdrom/cdrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/libnvdimm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_pmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvdimm/nd_e820.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mtty.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mbochs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
->> ERROR: modpost: "watchdog_init_timeout" [drivers/hwmon/nct6683.ko] undefined!
->> ERROR: modpost: "devm_watchdog_register_device" [drivers/hwmon/nct6683.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+							Thanx, Paul
