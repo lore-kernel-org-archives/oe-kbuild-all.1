@@ -1,72 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D436D8827;
-	Tue, 15 Aug 2023 08:39:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C897C433CA;
-	Tue, 15 Aug 2023 08:39:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692088785;
-	bh=ULR/LJmJop8m9SzNUZY7aRaboUHSVPAyHXDpF/pVl0Q=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=svnY0lYbPAM6mWfDHz/Pp+3OJ1nufsCIPQue37P9gFR5g+vTU1PcruCTHtrpOnmwA
-	 DpzkTCUssHGGU1+ghH9rRXExtqMMlU4eDuBA1Lw1WYgd8hbT7YtKZUlX2PlUIFew99
-	 vhlExxIwp85b38O8EbzJQkNAMwe3TtLeUWnGeuskDGElLUaO5TdobzxNDLjNyoR/Lt
-	 /VPLw5PGvQ3U/Fm5itZgnFWiqrirZ/Gc+nfK/ChtvqEm+EDhlD2ffQVtUk9wU96uE7
-	 /xvu9fOas5grWN+jnR+Qsrwjui2KaOa85OLckdewNCeFwfJneyXwr45ySvLLfyt6ED
-	 XPnRa+S1L/nww==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2b9ab1725bbso77326841fa.0;
-        Tue, 15 Aug 2023 01:39:45 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yybq0eIE66/PBjmDlX1WN8tPPYWj7pwzq3H5JJORKBlH6Z/vWPH
-	0pW/wYlJC1ef09XNnWCKdIE2yRyVA4kAXIhhmO4=
-X-Google-Smtp-Source: AGHT+IEIT8MahIepibK4xdDLVQuazVm5rHzLyVif6FF7VNQF7xOx2D6IW9IXCJWv24q019GJA3LUl2SNC7Z5oXS40pU=
-X-Received: by 2002:a2e:9048:0:b0:2b9:4821:22b6 with SMTP id
- n8-20020a2e9048000000b002b9482122b6mr8399730ljg.10.1692088783340; Tue, 15 Aug
- 2023 01:39:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2242523CC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 08:43:05 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-d645b95c7b8so4439301276.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 01:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692088985; x=1692693785;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z5aWldiQNtzOYXetAG489NlnzNlvR9LuEybPAIpO1l4=;
+        b=kclgWZKFGR70PAS8bZ400T+cD0GFoAjb/IyKBKU3GL002j6pHPMIVos+W1OxLqgo9+
+         RntWnzt3ZGbsojF7mxBOjJ+wKoUB7lp7GQOjeXSdhSHvppN2eCCdXl5+YBLTZfd6MCd/
+         I84eUHeNRJfMtjC8mTbNlDKq8Txk8C7YE6TL/q8RbyOxpHYkl5KvgRUfI8c4wQMuhHPd
+         x9vl7tUAj6+oImAW6zahG8AIG1YfybYTlTMbEIAhxgrgu0zcmJa6I9w9i9HEb2sm9A8f
+         j+7vRbwqn79lmwAu4yCGyFY0qlu8VX3BpeVn8SrX4SVHCH0OX/T+sy2Gkg0wqk0byJFK
+         Hk6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692088985; x=1692693785;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z5aWldiQNtzOYXetAG489NlnzNlvR9LuEybPAIpO1l4=;
+        b=FZHnkYIG/ixDa9udOrrHVIfl3UsSyd4d0UHs56Al0gJnuIgeEsdJalwy6Unv3BdPPq
+         q4BH/A1NDRB4d3vk/l48Vv3f5H0NDNswKCu8XNEENfDGSSHbCwFt/2PjAh0lm/y46h7w
+         J9nPNufeKWnRuB9hWUPm14qMwQxa48xnK0w8QLoZOIk0JFfXmp3zt4BWp3SywTgkb2wK
+         fAHV1nIxJ8lgu6vCZRLLEfxc0WzKC4u9OYLn8k6rfISwVhguJmyE8rLqqypyDtAoL7To
+         Rw4pOcpUFeZ13a6M3+B6ulfl39ui3BYUODmyeMdVxWeizADRPxaM8rNXaNCc6x+CmueR
+         Yw3A==
+X-Gm-Message-State: AOJu0YyjjqeNpRFjyjAWG4HialX71LxN5gOAuUpPsai56RkfV6BLAg1q
+	4kzt5cAr5k+355iU0jGqIl4RxuW/Np0wN4DHt9o=
+X-Google-Smtp-Source: AGHT+IGK9nD3C+DMw9EmTmNAQ/h7XWp0b6HT/+rn2i1gXv6HVIV7M3Qzt4hbYaaCrRc8iD8HY0q35XNxZbskGd4zFvw=
+X-Received: by 2002:a05:6902:136d:b0:c39:50fe:79be with SMTP id
+ bt13-20020a056902136d00b00c3950fe79bemr11258259ybb.61.1692088984920; Tue, 15
+ Aug 2023 01:43:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202308150547.m54XHV12-lkp@intel.com> <ZNql2TqaVFnMKlzJ@shell.armlinux.org.uk>
- <7dfa4337-fc2f-4a02-a12e-f94feca7362b@app.fastmail.com>
-In-Reply-To: <7dfa4337-fc2f-4a02-a12e-f94feca7362b@app.fastmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 15 Aug 2023 10:39:31 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXE_Rehybm_ANRYcDqPT8q7SPJ_Yxw9HLNNg9SsmTk17zA@mail.gmail.com>
-Message-ID: <CAMj1kXE_Rehybm_ANRYcDqPT8q7SPJ_Yxw9HLNNg9SsmTk17zA@mail.gmail.com>
-Subject: Re: [arm:for-next 4/4] arch/arm/vfp/vfpmodule.c:324:13: error: static
- declaration of 'VFP_bounce' follows non-static declaration
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Russell King <linux@armlinux.org.uk>, kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <202308151409.tqK1jSIb-lkp@intel.com>
+In-Reply-To: <202308151409.tqK1jSIb-lkp@intel.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 15 Aug 2023 10:42:53 +0200
+Message-ID: <CANiq72kahMbFnJ+nX_P02hkhEAnHi7MnHonABm_Af6Bt+PbRQw@mail.gmail.com>
+Subject: Re: [rust:rust-next 23/25] make[3]: *** No rule to make target 'rustdoc'.
+To: kernel test robot <lkp@intel.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, oe-kbuild-all@lists.linux.dev, 
+	Martin Rodriguez Reboredo <yakoyoku@gmail.com>, Trevor Gross <tmgross@umich.edu>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 15 Aug 2023 at 00:16, Arnd Bergmann <arnd@arndb.de> wrote:
+On Tue, Aug 15, 2023 at 8:14=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
 >
-> On Tue, Aug 15, 2023, at 00:08, Russell King (Oracle) wrote:
-> > On Tue, Aug 15, 2023 at 05:06:03AM +0800, kernel test robot wrote:
-> >>    1 error generated.
-> >
-> > I'm guessing this is a conflict between Arnd's patch
-> >
-> > ae1f8d793a19 ("ARM: 9304/1: add prototype for function called only from asm")
-> >
-> > merged in v6.5-rc1 and Ard's patch, and that part of Arnd's patch
-> > needs to be reverted since VFP_bounce is now static. Agreed?
+> tree:   https://github.com/Rust-for-Linux/linux rust-next
+> head:   08ab786556ff177086ce93b26daf2a58edd10968
+> commit: 89eed1ab1161e7d60595917e3b982e03dfcc0f8d [23/25] rust: upgrade to=
+ Rust 1.71.1
+> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/202=
+30815/202308151409.tqK1jSIb-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git =
+ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151409=
+.tqK1jSIb-lkp@intel.com/reproduce)
 >
-> Yes, with Ard's change, the prototype I added is neither required nor correct.
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308151409.tqK1jSIb-lkp=
+@intel.com/
 >
-> My series contained another patch that added a prototype for
-> vfp_entry(), and this is also obsoleted by Ard's series, but you
-> did not merge it anyway, so it's all good on that one.
+> All errors (new ones prefixed by >>):
 >
+> >> make[3]: *** No rule to make target 'rustdoc'.
 
-When you sent out that series, I mentioned the conflict with
-vfp_entry() [13/16], but I failed to spot that the same series had
-another patch that added the VFP_bounce() declaration, which is the
-one that is now conflicting.
+This probably means the CI does not support the new version and thus
+Rust is not available in that case (i.e. in the `make rustavailable`
+sense).
 
-So we just need a patch that drops the VFP_bounce() declaration,
-right? Should I send that out and drop it into the patch system?
+Cheers,
+Miguel
