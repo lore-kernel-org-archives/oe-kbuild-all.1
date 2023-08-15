@@ -1,43 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9DB15AD7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 21:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3032815AD7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 21:47:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692136037; x=1723672037;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1s4RnkKZRmjxzcjBk3GgrgM4OPxoBuqBpZBQk6chlUY=;
-  b=hPRwrW6hjOIE/QM1QkBYBVm9hztq+ky7SBx2os4qbcg0TRqPOFiEphQE
-   mH916ljNiE9H3aNljncXHbZ6/ORl4CT/bMUAgD8b3nM+0Trszwb0PfciJ
-   FVMBt25p9Cdl3836rm+wOi0nAarxv9vCsPjK9KmNiv8APtVxx93sd+O5d
-   Z4JR550T91p2l63ZN5+z2JWtFf10xD4qHh/J8xIBXQSRsMt06v6yYIljj
-   4QV8sJO+YZWyKZosk4dHwvfsqkzKre/OAuJhCByB0H62IYhC6d1zaXcnu
-   Q//XvmXhJBn7NdjF19bf5yj0gdbntp9wnShG58yNETx9tznUaEv9iEhE9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="403363668"
+  t=1692136041; x=1723672041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xz8NL6STmp0W6EsxVXVBPrOYiDE42Au7K2UZXa36gJQ=;
+  b=GZeGQScTo3bnNKbwUcULPHBOGSRR6giEmpJhX1hRcT4KmDCDBM8k9kR0
+   D6xywbgtnaLbQmtMFb9huugEK3V0lLm7bCszqt0HeYsRspP+DKb9QIifd
+   Cl12zZbmel1CfWJ/sDA3ondwBWENCNAnnSkc3ZstBuMgBmnCJYFa0rj6u
+   sJCahsO2iB9d59w/kFmw6wGEa/KUNI6iYtfGjxo0WX7q89BIV+zP7+gge
+   Fa9heNRlWm9VRiqNkqjHwhyJtnKuo+kLMu44upx0O+MnYvGSirLwDqs8O
+   terq8wjPtjwbW5fd/zlgeDaqt7WoT6c3k/zUNPc0+XlVqGXPa6m85H26V
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="403363681"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="403363668"
+   d="scan'208";a="403363681"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 14:47:14 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 14:47:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="768967398"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="768967416"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="768967398"
+   d="scan'208";a="768967416"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 15 Aug 2023 14:47:13 -0700
+  by orsmga001.jf.intel.com with ESMTP; 15 Aug 2023 14:47:14 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qW1se-0001Fp-08;
-	Tue, 15 Aug 2023 21:47:12 +0000
-Date: Wed, 16 Aug 2023 05:46:50 +0800
+	id 1qW1se-0001Fs-2P;
+	Tue, 15 Aug 2023 21:47:13 +0000
+Date: Wed, 16 Aug 2023 05:46:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [davejiang:cxl-ide 20/24] htmldocs:
- Documentation/driver-api/acpi/keyp.rst: WARNING: document isn't included in
- any toctree
-Message-ID: <202308160511.yQu2B5co-lkp@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	edumazet@google.com, pabeni@redhat.com, jiri@resnulli.us,
+	johannes@sipsolutions.net, Jakub Kicinski <kuba@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Jiri Pirko <jiri@nvidia.com>, Jason@zx2c4.com, alex.aring@gmail.com,
+	stefan@datenfreihafen.org, krzysztof.kozlowski@linaro.org,
+	jmaloy@redhat.com, ying.xue@windriver.com, floridsleeves@gmail.com,
+	leon@kernel.org, jacob.e.keller@intel.com,
+	wireguard@lists.zx2c4.com, linux-wpan@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net
+Subject: Re: [PATCH net-next v3 05/10] genetlink: use attrs from struct
+ genl_info
+Message-ID: <202308160545.9cpmjvz9-lkp@intel.com>
+References: <20230814214723.2924989-6-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,20 +56,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230814214723.2924989-6-kuba@kernel.org>
 
-tree:   https://github.com/davejiang/linux.git cxl-ide
-head:   a43b30b80446a307847711c68ed284729a3e4cdb
-commit: 41909be2f957ba387c3b58c4dd2207758774cb63 [20/24] acpi: Add KEYP documentation
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160511.yQu2B5co-lkp@intel.com/reproduce)
+Hi Jakub,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/genetlink-push-conditional-locking-into-dumpit-done/20230815-055212
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230814214723.2924989-6-kuba%40kernel.org
+patch subject: [PATCH net-next v3 05/10] genetlink: use attrs from struct genl_info
+config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230816/202308160545.9cpmjvz9-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160545.9cpmjvz9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308160511.yQu2B5co-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308160545.9cpmjvz9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Documentation/driver-api/acpi/keyp.rst: WARNING: document isn't included in any toctree
+   net/devlink/netlink.c: In function 'devlink_nl_dumpit':
+>> net/devlink/netlink.c:232:37: error: 'const struct genl_dumpit_info' has no member named 'attrs'
+     232 |         struct nlattr **attrs = info->attrs;
+         |                                     ^~
+--
+   net/devlink/health.c: In function 'devlink_nl_health_reporter_get_dump_one':
+>> net/devlink/health.c:396:37: error: 'const struct genl_dumpit_info' has no member named 'attrs'
+     396 |         struct nlattr **attrs = info->attrs;
+         |                                     ^~
+
+
+vim +232 net/devlink/netlink.c
+
+07f3af66089e20 Jakub Kicinski 2023-01-04  227  
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  228  int devlink_nl_dumpit(struct sk_buff *msg, struct netlink_callback *cb,
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  229  		      devlink_nl_dump_one_func_t *dump_one)
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  230  {
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  231  	const struct genl_dumpit_info *info = genl_dumpit_info(cb);
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11 @232  	struct nlattr **attrs = info->attrs;
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  233  	int flags = NLM_F_MULTI;
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  234  
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  235  	if (attrs &&
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  236  	    (attrs[DEVLINK_ATTR_BUS_NAME] || attrs[DEVLINK_ATTR_DEV_NAME]))
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  237  		return devlink_nl_inst_single_dumpit(msg, cb, flags, dump_one,
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  238  						     attrs);
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  239  	else
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  240  		return devlink_nl_inst_iter_dumpit(msg, cb, flags, dump_one);
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  241  }
+4a1b5aa8b5c743 Jiri Pirko     2023-08-11  242  
 
 -- 
 0-DAY CI Kernel Test Service
