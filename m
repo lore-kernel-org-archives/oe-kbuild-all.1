@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D4B18045
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 18:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35BD156F7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 19:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692124347; x=1723660347;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IH1NYW9pKTro5O9Hi7es7Sz7DTw4OcNwI7KYPEXf+3g=;
-  b=cUjVSO6HAEso3iAtvG0XmJ6xeMBy618gzVWoeDEhd7mNYnIztJL8314e
-   gerW4rxAFn4z2DMklQQyBwqb5X51B6SEExjjKJ69U6J4aCtdlcsGozKJT
-   TgnuOZgWuYqWpGw/j259ecvzpBc/c91kmluTWTpNhdQ1xC2ynGyxeLHeW
-   8lmatLDTQcH/k+f36RhAZSY9Gq1xHj89fURMXcaRBnmP1hsU8BoJI4jVc
-   Z3E+o0J/PsV6qW4nzwA+vOpuRXrbPMYCngpbLngRIL3V8o03oQQa+yDmn
-   +aBwvcuQy3jPWUtHL7IwBeLjib3EeN4/escCw/DauVbJPVy6O/7aU6gwy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="357323261"
+  t=1692126223; x=1723662223;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mob6uV0NmwWtVx7SB1rV9SUiWIZR3c5CMcOV97Ubq/0=;
+  b=b64TQFGVd7f67nHgEy5nJ5xMGanrGt6b50uCOv1ssN6oWH+QfzRsse8F
+   +U1tg5A5OhqvW9nWfYlbFAE6QcCt9SoOKlxsXmCHclDWGvI9/YVzqEfFY
+   +xRxaaXBLHwgbkPepEXnPWZyJMDsGS1axoPvSU1fkhhtP8fvnFyaVbPnl
+   L+dujogTzAFhIWMhuXrGVPsUmIS9GfcGaYzXHC8YZKA71wOM/rJQYYCFB
+   9llAzyANwxFk5KJQUeaYVfTDGPgumHa6j+QJ5XuHDp2c6+jETvKFeyiA5
+   yfr6iGd1SXjKL9BR2VemgqSGEycM9cnqtN28fXQAGLpN0f+96n3JfX2q1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="369829508"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="357323261"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 11:32:18 -0700
+   d="scan'208";a="369829508"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 12:03:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="848171364"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="799288114"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="848171364"
+   d="scan'208";a="799288114"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2023 11:32:16 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 15 Aug 2023 12:03:40 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVypz-00018x-2s;
-	Tue, 15 Aug 2023 18:32:15 +0000
-Date: Wed, 16 Aug 2023 02:31:26 +0800
+	id 1qVzK0-0001Ad-2v;
+	Tue, 15 Aug 2023 19:03:21 +0000
+Date: Wed, 16 Aug 2023 03:03:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] btrfs: scrub: avoid unnecessary extent tree search
- for striped profiles
-Message-ID: <202308160235.tlWKcKbu-lkp@intel.com>
-References: <c21b78ee8bcf22f373beeefb8ee47ee92dfe8f03.1692097289.git.wqu@suse.com>
+Subject: [android-common:android11-5.4 5610/27202]
+ kernel/power/wakeup_reason.c:199:6: warning: no previous prototype for
+ '__log_abort_or_abnormal_wake'
+Message-ID: <202308160340.gPc2YbED-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,53 +46,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c21b78ee8bcf22f373beeefb8ee47ee92dfe8f03.1692097289.git.wqu@suse.com>
 
-Hi Qu,
+Hi Kelly,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on next-20230815]
-[cannot apply to linus/master v6.5-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-scrub-avoid-unnecessary-extent-tree-search-for-striped-profiles/20230815-191040
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/c21b78ee8bcf22f373beeefb8ee47ee92dfe8f03.1692097289.git.wqu%40suse.com
-patch subject: [PATCH v2] btrfs: scrub: avoid unnecessary extent tree search for striped profiles
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230816/202308160235.tlWKcKbu-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160235.tlWKcKbu-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   f38754f7336474b5be6745c90563e6c32b921793
+commit: 189ced91cd7b0e440b0be876406fd36313a11c3f [5610/27202] ANDROID: power: wakeup_reason: wake reason enhancements
+config: x86_64-buildonly-randconfig-r002-20230816 (https://download.01.org/0day-ci/archive/20230816/202308160340.gPc2YbED-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160340.gPc2YbED-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308160235.tlWKcKbu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308160340.gPc2YbED-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/mips/kernel/head.o: in function `kernel_entry':
-   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
-   init/main.o: in function `set_reset_devices':
-   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `debug_kernel':
-   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `quiet_kernel':
-   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `warn_bootconfig':
-   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `init_setup':
-   main.c:(.init.text+0x230): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
-   mips-linux-ld: fs/btrfs/scrub.o: in function `scrub_stripe':
->> scrub.c:(.text.scrub_stripe+0x7a0): undefined reference to `__umoddi3'
+>> kernel/power/wakeup_reason.c:199:6: warning: no previous prototype for '__log_abort_or_abnormal_wake' [-Wmissing-prototypes]
+     199 | void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/power/wakeup_reason.c: In function '__log_abort_or_abnormal_wake':
+   kernel/power/wakeup_reason.c:213:9: warning: function '__log_abort_or_abnormal_wake' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     213 |         vsnprintf(non_irq_wake_reason, MAX_SUSPEND_ABORT_LEN, fmt, args);
+         |         ^~~~~~~~~
+   kernel/power/wakeup_reason.c: At top level:
+   kernel/power/wakeup_reason.c:378:12: warning: no previous prototype for 'wakeup_reason_init' [-Wmissing-prototypes]
+     378 | int __init wakeup_reason_init(void)
+         |            ^~~~~~~~~~~~~~~~~~
+
+
+vim +/__log_abort_or_abnormal_wake +199 kernel/power/wakeup_reason.c
+
+   198	
+ > 199	void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
+   200	{
+   201		unsigned long flags;
+   202	
+   203		spin_lock_irqsave(&wakeup_reason_lock, flags);
+   204	
+   205		/* Suspend abort or abnormal wake reason has already been logged. */
+   206		if (suspend_abort || abnormal_wake) {
+   207			spin_unlock_irqrestore(&wakeup_reason_lock, flags);
+   208			return;
+   209		}
+   210	
+   211		suspend_abort = abort;
+   212		abnormal_wake = !abort;
+   213		vsnprintf(non_irq_wake_reason, MAX_SUSPEND_ABORT_LEN, fmt, args);
+   214	
+   215		spin_unlock_irqrestore(&wakeup_reason_lock, flags);
+   216	}
+   217	
 
 -- 
 0-DAY CI Kernel Test Service
