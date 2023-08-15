@@ -1,43 +1,42 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E21F1FA8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 03:48:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1909F1FA8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 03:48:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692071325; x=1723607325;
+  t=1692071327; x=1723607327;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kXXN30uR+cCHNxPjyF1LT52Knly4i39i453uuSma/XY=;
-  b=ETiR83vIZJroppPZkHn9SH++uRkbNkfre+zE1x3hnV7c4b9RZetSCQsJ
-   rZiqUBMl0YNY3nPVMQm14PwgxZHVeH4eb+3HelnYf3W/E5qHakHtXj/o9
-   R4rMHs7Y6dll57CRNw1ekAHnFQSypVjzJ9Y3njfXuu2EfvzvZq4lPS3OZ
-   wJqedK9JrZsqwQMwWWHJ5JJ70qOlBoypQuwh0bnY2Cn4X74q1cXvybsYZ
-   Q7DfTXHZcfsML3sydy2PVNO3/73CJb5T80Honlw1J1gmZ3NsFJ/+kz1Tj
-   qk/+bdzyOafK8Qej5IvMiv3gBQD2ILjiHtQf0byDykwBmMvKci1gzz7ww
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="372191428"
+  bh=7YJZSsJMqsCzmYSKYdYwJqKjYpYEto+3DDk7w4Eb65s=;
+  b=lZH8MTxx5EZT2up6Xlmxz4dcKpSsz41YFejnODlbexQGGn1F25g+3+8J
+   tjgzIEf+tfFME281Zdtp0BZ8qNsvyeRQexX7XNhCafD5Q/tuvSwzIHuTs
+   w8UzJZucluE4O89hNn1ilzuA3htPJE0qpjPdDdeG3kP/dxcdE4mQR+iE+
+   KD9OijgNC/jfEGpeqwcaETazcAb86HplyafnR38xVtvwlEwFMIStH/vI1
+   wM3ItMcobQfcwrg/iH4WTl5QgfSm3CbJjKrp9eCLTA7p4Ga7+nDEu0W/X
+   tViAa/KursWuDPQvmcuUWrg5GmuPLpLPXgxidcSr9qGije3EzUujoxCs3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="372191425"
 X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="372191428"
+   d="scan'208";a="372191425"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 20:48:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="980253316"
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="980253315"
 X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
-   d="scan'208";a="980253316"
+   d="scan'208";a="980253315"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
   by fmsmga006.fm.intel.com with ESMTP; 14 Aug 2023 20:48:42 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVl2w-0000dc-0Y;
+	id 1qVl2w-0000da-0R;
 	Tue, 15 Aug 2023 03:48:42 +0000
-Date: Tue, 15 Aug 2023 11:48:10 +0800
+Date: Tue, 15 Aug 2023 11:48:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [arm:net-queue 148/150]
- drivers/net/ethernet/freescale/fman/fman_memac.c:622:37: error: unknown type
- name 'phy_interface_mode_t'; did you mean 'phy_interface_t'?
-Message-ID: <202308151137.HZ3zaCBJ-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-sound:for-6.6 218/221] sound/soc/pxa/pxa2xx-i2s.c:341:10:
+ error: 'struct snd_soc_dai_driver' has no member named 'probe'
+Message-ID: <202308151142.hoM5o9LV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,197 +46,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git net-queue
-head:   03803420a3d37404e9c80180bc74ddd5dc8cc50d
-commit: 2ccb88b541e048b419f12867bceef538cb343538 [148/150] net: fman: convert to .mac_get_caps()
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230815/202308151137.HZ3zaCBJ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151137.HZ3zaCBJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-6.6
+head:   56f6ee6d5373406df9f60a870f470ab4b3e6d967
+commit: 446b31e894935ebbcf84302061a4e0e2efb2368f [218/221] ASoC: soc-dai.h: remove unused call back functions
+config: arm-pxa_defconfig (https://download.01.org/0day-ci/archive/20230815/202308151142.hoM5o9LV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151142.hoM5o9LV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308151137.HZ3zaCBJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308151142.hoM5o9LV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/freescale/fman/fman_memac.c:622:37: error: unknown type name 'phy_interface_mode_t'; did you mean 'phy_interface_t'?
-     622 |                                     phy_interface_mode_t interface)
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-         |                                     phy_interface_t
->> drivers/net/ethernet/freescale/fman/fman_memac.c:778:25: error: 'memac_get_caps' undeclared here (not in a function)
-     778 |         .mac_get_caps = memac_get_caps,
-         |                         ^~~~~~~~~~~~~~
+>> sound/soc/pxa/pxa2xx-i2s.c:341:10: error: 'struct snd_soc_dai_driver' has no member named 'probe'
+     341 |         .probe = pxa2xx_i2s_probe,
+         |          ^~~~~
+>> sound/soc/pxa/pxa2xx-i2s.c:341:18: error: initialization of 'const char *' from incompatible pointer type 'int (*)(struct snd_soc_dai *)' [-Werror=incompatible-pointer-types]
+     341 |         .probe = pxa2xx_i2s_probe,
+         |                  ^~~~~~~~~~~~~~~~
+   sound/soc/pxa/pxa2xx-i2s.c:341:18: note: (near initialization for 'pxa_i2s_dai.name')
+>> sound/soc/pxa/pxa2xx-i2s.c:342:10: error: 'struct snd_soc_dai_driver' has no member named 'remove'
+     342 |         .remove = pxa2xx_i2s_remove,
+         |          ^~~~~~
+>> sound/soc/pxa/pxa2xx-i2s.c:342:19: warning: initialization of 'unsigned int' from 'int (*)(struct snd_soc_dai *)' makes integer from pointer without a cast [-Wint-conversion]
+     342 |         .remove = pxa2xx_i2s_remove,
+         |                   ^~~~~~~~~~~~~~~~~
+   sound/soc/pxa/pxa2xx-i2s.c:342:19: note: (near initialization for 'pxa_i2s_dai.id')
+   cc1: some warnings being treated as errors
 
 
-vim +622 drivers/net/ethernet/freescale/fman/fman_memac.c
+vim +341 sound/soc/pxa/pxa2xx-i2s.c
 
-   620	
-   621	static unsigned long memac_get_caps(struct phylink_config *config,
- > 622					    phy_interface_mode_t interface)
-   623	{
-   624		struct fman_mac *memac = fman_config_to_mac(config)->fman_mac;
-   625		unsigned long caps = config->mac_capabilities;
-   626	
-   627		if (phy_interface_mode_is_rgmii(interface) &&
-   628		    memac->rgmii_no_half_duplex)
-   629			caps &= ~(MAC_10HD | MAC_100HD);
-   630	
-   631		return caps;
-   632	}
-   633	
-   634	/**
-   635	 * memac_if_mode() - Convert an interface mode into an IF_MODE config
-   636	 * @interface: A phy interface mode
-   637	 *
-   638	 * Return: A configuration word, suitable for programming into the lower bits
-   639	 *         of %IF_MODE.
-   640	 */
-   641	static u32 memac_if_mode(phy_interface_t interface)
-   642	{
-   643		switch (interface) {
-   644		case PHY_INTERFACE_MODE_MII:
-   645			return IF_MODE_MII;
-   646		case PHY_INTERFACE_MODE_RGMII:
-   647		case PHY_INTERFACE_MODE_RGMII_ID:
-   648		case PHY_INTERFACE_MODE_RGMII_RXID:
-   649		case PHY_INTERFACE_MODE_RGMII_TXID:
-   650			return IF_MODE_GMII | IF_MODE_RGMII;
-   651		case PHY_INTERFACE_MODE_SGMII:
-   652		case PHY_INTERFACE_MODE_1000BASEX:
-   653		case PHY_INTERFACE_MODE_QSGMII:
-   654			return IF_MODE_GMII;
-   655		case PHY_INTERFACE_MODE_10GBASER:
-   656			return IF_MODE_10G;
-   657		default:
-   658			WARN_ON_ONCE(1);
-   659			return 0;
-   660		}
-   661	}
-   662	
-   663	static struct phylink_pcs *memac_select_pcs(struct phylink_config *config,
-   664						    phy_interface_t iface)
-   665	{
-   666		struct fman_mac *memac = fman_config_to_mac(config)->fman_mac;
-   667	
-   668		switch (iface) {
-   669		case PHY_INTERFACE_MODE_SGMII:
-   670		case PHY_INTERFACE_MODE_1000BASEX:
-   671			return memac->sgmii_pcs;
-   672		case PHY_INTERFACE_MODE_QSGMII:
-   673			return memac->qsgmii_pcs;
-   674		case PHY_INTERFACE_MODE_10GBASER:
-   675			return memac->xfi_pcs;
-   676		default:
-   677			return NULL;
-   678		}
-   679	}
-   680	
-   681	static int memac_prepare(struct phylink_config *config, unsigned int mode,
-   682				 phy_interface_t iface)
-   683	{
-   684		struct fman_mac *memac = fman_config_to_mac(config)->fman_mac;
-   685	
-   686		switch (iface) {
-   687		case PHY_INTERFACE_MODE_SGMII:
-   688		case PHY_INTERFACE_MODE_1000BASEX:
-   689		case PHY_INTERFACE_MODE_QSGMII:
-   690		case PHY_INTERFACE_MODE_10GBASER:
-   691			return phy_set_mode_ext(memac->serdes, PHY_MODE_ETHERNET,
-   692						iface);
-   693		default:
-   694			return 0;
-   695		}
-   696	}
-   697	
-   698	static void memac_mac_config(struct phylink_config *config, unsigned int mode,
-   699				     const struct phylink_link_state *state)
-   700	{
-   701		struct mac_device *mac_dev = fman_config_to_mac(config);
-   702		struct memac_regs __iomem *regs = mac_dev->fman_mac->regs;
-   703		u32 tmp = ioread32be(&regs->if_mode);
-   704	
-   705		tmp &= ~(IF_MODE_MASK | IF_MODE_RGMII);
-   706		tmp |= memac_if_mode(state->interface);
-   707		if (phylink_autoneg_inband(mode))
-   708			tmp |= IF_MODE_RGMII_AUTO;
-   709		iowrite32be(tmp, &regs->if_mode);
-   710	}
-   711	
-   712	static void memac_link_up(struct phylink_config *config, struct phy_device *phy,
-   713				  unsigned int mode, phy_interface_t interface,
-   714				  int speed, int duplex, bool tx_pause, bool rx_pause)
-   715	{
-   716		struct mac_device *mac_dev = fman_config_to_mac(config);
-   717		struct fman_mac *memac = mac_dev->fman_mac;
-   718		struct memac_regs __iomem *regs = memac->regs;
-   719		u32 tmp = memac_if_mode(interface);
-   720		u16 pause_time = tx_pause ? FSL_FM_PAUSE_TIME_ENABLE :
-   721				 FSL_FM_PAUSE_TIME_DISABLE;
-   722	
-   723		memac_set_tx_pause_frames(memac, 0, pause_time, 0);
-   724		memac_accept_rx_pause_frames(memac, rx_pause);
-   725	
-   726		if (duplex == DUPLEX_HALF)
-   727			tmp |= IF_MODE_HD;
-   728	
-   729		switch (speed) {
-   730		case SPEED_1000:
-   731			tmp |= IF_MODE_RGMII_1000;
-   732			break;
-   733		case SPEED_100:
-   734			tmp |= IF_MODE_RGMII_100;
-   735			break;
-   736		case SPEED_10:
-   737			tmp |= IF_MODE_RGMII_10;
-   738			break;
-   739		}
-   740		iowrite32be(tmp, &regs->if_mode);
-   741	
-   742		/* TODO: EEE? */
-   743	
-   744		if (speed == SPEED_10000) {
-   745			if (memac->fm_rev_info.major == 6 &&
-   746			    memac->fm_rev_info.minor == 4)
-   747				tmp = TX_FIFO_SECTIONS_TX_AVAIL_SLOW_10G;
-   748			else
-   749				tmp = TX_FIFO_SECTIONS_TX_AVAIL_10G;
-   750			tmp |= TX_FIFO_SECTIONS_TX_EMPTY_DEFAULT_10G;
-   751		} else {
-   752			tmp = TX_FIFO_SECTIONS_TX_AVAIL_1G |
-   753			      TX_FIFO_SECTIONS_TX_EMPTY_DEFAULT_1G;
-   754		}
-   755		iowrite32be(tmp, &regs->tx_fifo_sections);
-   756	
-   757		mac_dev->update_speed(mac_dev, speed);
-   758	
-   759		tmp = ioread32be(&regs->command_config);
-   760		tmp |= CMD_CFG_RX_EN | CMD_CFG_TX_EN;
-   761		iowrite32be(tmp, &regs->command_config);
-   762	}
-   763	
-   764	static void memac_link_down(struct phylink_config *config, unsigned int mode,
-   765				    phy_interface_t interface)
-   766	{
-   767		struct fman_mac *memac = fman_config_to_mac(config)->fman_mac;
-   768		struct memac_regs __iomem *regs = memac->regs;
-   769		u32 tmp;
-   770	
-   771		/* TODO: graceful */
-   772		tmp = ioread32be(&regs->command_config);
-   773		tmp &= ~(CMD_CFG_RX_EN | CMD_CFG_TX_EN);
-   774		iowrite32be(tmp, &regs->command_config);
-   775	}
-   776	
-   777	static const struct phylink_mac_ops memac_mac_ops = {
- > 778		.mac_get_caps = memac_get_caps,
-   779		.mac_select_pcs = memac_select_pcs,
-   780		.mac_prepare = memac_prepare,
-   781		.mac_config = memac_mac_config,
-   782		.mac_link_up = memac_link_up,
-   783		.mac_link_down = memac_link_down,
-   784	};
-   785	
+6335d05548eece Eric Miao         2009-03-03  339  
+f0fba2ad1b6b53 Liam Girdwood     2010-03-17  340  static struct snd_soc_dai_driver pxa_i2s_dai = {
+f0fba2ad1b6b53 Liam Girdwood     2010-03-17 @341  	.probe = pxa2xx_i2s_probe,
+f0fba2ad1b6b53 Liam Girdwood     2010-03-17 @342  	.remove = pxa2xx_i2s_remove,
+3e7cc3d3d1c435 Liam Girdwood     2006-10-12  343  	.playback = {
+3e7cc3d3d1c435 Liam Girdwood     2006-10-12  344  		.channels_min = 2,
+eaff2ae702f937 Philipp Zabel     2007-02-02  345  		.channels_max = 2,
+eaff2ae702f937 Philipp Zabel     2007-02-02  346  		.rates = PXA2XX_I2S_RATES,
+eaff2ae702f937 Philipp Zabel     2007-02-02  347  		.formats = SNDRV_PCM_FMTBIT_S16_LE,},
+3e7cc3d3d1c435 Liam Girdwood     2006-10-12  348  	.capture = {
+3e7cc3d3d1c435 Liam Girdwood     2006-10-12  349  		.channels_min = 2,
+eaff2ae702f937 Philipp Zabel     2007-02-02  350  		.channels_max = 2,
+eaff2ae702f937 Philipp Zabel     2007-02-02  351  		.rates = PXA2XX_I2S_RATES,
+eaff2ae702f937 Philipp Zabel     2007-02-02  352  		.formats = SNDRV_PCM_FMTBIT_S16_LE,},
+6335d05548eece Eric Miao         2009-03-03  353  	.ops = &pxa_i2s_dai_ops,
+c658b2185818ac Kuninori Morimoto 2021-01-15  354  	.symmetric_rate = 1,
+3e7cc3d3d1c435 Liam Girdwood     2006-10-12  355  };
+3e7cc3d3d1c435 Liam Girdwood     2006-10-12  356  
+
+:::::: The code at line 341 was first introduced by commit
+:::::: f0fba2ad1b6b53d5360125c41953b7afcd6deff0 ASoC: multi-component - ASoC Multi-Component Support
+
+:::::: TO: Liam Girdwood <lrg@slimlogic.co.uk>
+:::::: CC: Liam Girdwood <lrg@slimlogic.co.uk>
 
 -- 
 0-DAY CI Kernel Test Service
