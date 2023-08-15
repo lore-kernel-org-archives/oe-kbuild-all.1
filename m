@@ -1,32 +1,52 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E2D1119D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 02:30:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=BQmMu+A3IxDtgrB+Y4vwFuWVTmZP3id2ostgZjBQe0Y=; b=q5NTur+pZdxkCeFE+uRy1sj2M1
-	1K5V4PLI3AmIYZ/kA+bl7sgYgF3DRnvDNUTggyetiZGyqa2HbTdkE0lhUxBvRZiGeZnXcobeAeRf1
-	FRpfLXO+Z08HJ+UttWCAZN75bt3+JVukNTAZxa6SMqA6/5O8nYqwI4NkurtvgmnDX9YUJykUwXLAJ
-	SoNghjAouiRDtr3rxQ39TbuQOLDQMZiMDn3pk3CW/fJRGDNCnUfdlSX8Rk0FVImVupQCgCeU08L8Z
-	RD3gHvhSXcorWb7tYOI1wmuK0lQ3sqYhJqF4qhaavzW3nfqdH1/HaBFlus/b8pfrasswwFcldiUWl
-	nNAa+m5g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qVjpG-005bFf-GC; Tue, 15 Aug 2023 02:30:30 +0000
-Date: Tue, 15 Aug 2023 03:30:30 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 8002/8441]
- include/linux/compiler_types.h:397:45: error: call to
- '__compiletime_assert_324' declared with attribute error: BUILD_BUG_ON
- failed: IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT)
-Message-ID: <ZNrjRmlEbseKFdIq@casper.infradead.org>
-References: <202308150902.iqtQSoIb-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B2C622
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 02:36:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692067005; x=1723603005;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=73BhJCPJjUvH9+B2+NitjAjububX5SyKFLlRA9EA+E8=;
+  b=XL7G4uVRk/OgqdSeLTzNdGgXrebfUUzC/Iy5cCrz9BXWOubjA007F8WR
+   SXzT+LBy11lNR4EJ3klZ/tODB01I7eTWAIFCGC8dLq9fiRxSkZilM6tau
+   wk3sPO1bOdO0lIJlB1lefduPSGzD2rbixY1wfpDxn7KRRVeEXMoDRkHbP
+   T07533NTQMSf8XFyFpwyl9utRVAQDSrCSHQpLNikvUEEvV4W615iZ2Amf
+   nExaWbAurMmTEUTJ44F2dNkQ8u1ppAYrN2Nmihuu87hcuLBvoBXvddqIH
+   zEyAtnPXYbTpHDW0+kg5+nc23LjNeJ1VLADvqgb/BbW6LMreeQ2LTft3t
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="352512835"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="352512835"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2023 19:36:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="980236994"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="980236994"
+Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 14 Aug 2023 19:36:41 -0700
+Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qVjvE-0000bJ-1P;
+	Tue, 15 Aug 2023 02:36:40 +0000
+Date: Tue, 15 Aug 2023 10:35:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Sunil V L <sunilvl@ventanamicro.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Atish Patra <atishp@rivosinc.com>,
+	Song Shuai <songshuaishuai@tinylab.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [lwn:docs-next 37/49] htmldocs: Warning:
+ Documentation/riscv/boot.rst references a file that doesn't exist:
+ Documentation/arm/uefi.rst
+Message-ID: <202308151010.JGqiPc9F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,21 +55,21 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202308150902.iqtQSoIb-lkp@intel.com>
 
-On Tue, Aug 15, 2023 at 09:44:02AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   21ef7b1e17d039053edaeaf41142423810572741
-> commit: 8d670cfbf3be95bbf2cb7ecdd8f449aabde8c182 [8002/8441] mips: implement the new page table range API
-> config: mips-randconfig-r002-20230815 (https://download.01.org/0day-ci/archive/20230815/202308150902.iqtQSoIb-lkp@intel.com/config)
-> compiler: mipsel-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230815/202308150902.iqtQSoIb-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308150902.iqtQSoIb-lkp@intel.com/
+tree:   git://git.lwn.net/linux.git docs-next
+head:   90cd0c18573ad0583dec098a586f86d281947eb9
+commit: e0bec22f06641e4a7ccd7fb1f8ed4588839b660b [37/49] Documentation: riscv: Add early boot document
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151010.JGqiPc9F-lkp@intel.com/reproduce)
 
-How do I get you to stop reporting this?  As I've said twice before now,
-I did not create this warning, I simply changed some things which caused
-the warning to change.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308151010.JGqiPc9F-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: Documentation/riscv/boot.rst references a file that doesn't exist: Documentation/arm/uefi.rst
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
