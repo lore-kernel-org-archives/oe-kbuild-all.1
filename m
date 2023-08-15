@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11349100DD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 12:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6A0DDD1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 12:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692100826; x=1723636826;
+  t=1692102026; x=1723638026;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xpTVoMjHZeeSkyjySelWDAu5QjxZL0yp6xRdHT2cG9M=;
-  b=GWng7CB1Z00m1zBytu4IOQUoOxRliIP4XVW97yIxlIooDiS73XnTq6kJ
-   2Kph71fIaEEne3rQNRNtDeeWoT4GeeteahZKo0N4vBn5qR68I8jRDNMAn
-   cudoY64Os/DEi/4Zl/vXGhX3kjnGlRqidIh0ziAN16Hzx2WIyHSk9a5oe
-   5Dm9oIDBICTohQSohKkXIxF0jL7H7Zn7Vt/3soo2A9uLaATKBHayg3QNp
-   UMEUkuVF7NJbWrVu3uoHcvFlogxXX+4bv+S+ucBCAiL/Kc+KO1uMRs2LV
-   82tzgUblgBoO3PlirlDLvSGQ/aM5dHJ9mkAIazs7IhVxHUMItSBR4PagQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="351848148"
+  bh=X0l1MhVnd08H0wekMKNmqy2nnMeeoomVRuytnQbngAk=;
+  b=V3uAMt/IxxCBReAUisLy6yNwac65spuOmwd9MWXolSdXih0uEPAu+FLJ
+   E0rjxUIvlZ+aGvAqV8w0Cn5REMXgySzfpgav62+tedrtFhlyuK6OOdSML
+   WnhwAa4BOYLX/QhQEiNgP0MpSXnQJk0D/ia2KqsW620gQeAPaRZmkjEes
+   f/e8rGGw/gaGUWE7Wt0nwDFvr6jLWfVLTx+PeCzeNBCIoGhAB4gBXenxL
+   xF8/OqK7rxbKunwcDMEbVeapViJ0eHsxFTktIc5Un8bPOvsSEA8TXS/0v
+   8dEqitQgmqn9yD8QFactII9LU/LY4QixFyc3Q+hWbakvtCvNLRzkPdfEM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="438602310"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="351848148"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 05:00:24 -0700
+   d="scan'208";a="438602310"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 05:20:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="877317223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="768801389"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
+   d="scan'208";a="768801389"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Aug 2023 05:00:26 -0700
+  by orsmga001.jf.intel.com with ESMTP; 15 Aug 2023 05:20:22 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qVsij-0000w9-2Y;
-	Tue, 15 Aug 2023 12:00:21 +0000
-Date: Tue, 15 Aug 2023 19:59:32 +0800
+	id 1qVt26-0000wl-0O;
+	Tue, 15 Aug 2023 12:20:22 +0000
+Date: Tue, 15 Aug 2023 20:20:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Georg Ottinger <g.ottinger@gmx.at>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v1] ext2: fix datatype of block number in
  ext2_xattr_set2()
-Message-ID: <202308151943.Axc7qVP1-lkp@intel.com>
+Message-ID: <202308152027.yHexU6xN-lkp@intel.com>
 References: <20230815100340.22121-1-g.ottinger@gmx.at>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,23 +63,23 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Georg-Ottinger/ext2-fix-d
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20230815100340.22121-1-g.ottinger%40gmx.at
 patch subject: [PATCH v1] ext2: fix datatype of block number in ext2_xattr_set2()
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20230815/202308151943.Axc7qVP1-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151943.Axc7qVP1-lkp@intel.com/reproduce)
+config: arc-randconfig-r013-20230815 (https://download.01.org/0day-ci/archive/20230815/202308152027.yHexU6xN-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308152027.yHexU6xN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308151943.Axc7qVP1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308152027.yHexU6xN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:30,
-                    from arch/parisc/include/asm/bug.h:5,
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arc/include/asm/bug.h:30,
                     from include/linux/bug.h:5,
                     from include/linux/thread_info.h:13,
                     from include/asm-generic/preempt.h:5,
-                    from ./arch/parisc/include/generated/asm/preempt.h:1,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
                     from include/linux/preempt.h:79,
                     from include/linux/spinlock.h:56,
                     from include/linux/wait.h:9,
