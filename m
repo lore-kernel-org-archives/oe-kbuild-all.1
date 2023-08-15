@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B0D17733
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 22:39:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9E217AD9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 22:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692139141; x=1723675141;
+  t=1692140317; x=1723676317;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6mjwtmEnJtAaYpPPCN0xWMT6+NlKSjDa7K+tWglhnLo=;
-  b=Wx7jPtW+6qlYPenaxgaXV4ZQO/FSTySBNeioPMP1VZ5sZtY353nu8G0A
-   kOyKwKgZIzKiqG4sRNCLsxKwFWwBBy/xezfrkryJWMrLWPH27K1V58AQA
-   ITobQRFplJAxYye6TLMjdA5T2/Bk1RMu6aSDa5xBNPp1z//S2krI3YHEj
-   QYkt+swXv0e4IMKjba1hSdaysiEAoq1vCyH0x6m6CqowQn6h6hAAgxWY0
-   dw0whq55cJHzrclu9J2gJrP1m0AvIG1PsXS5BjMC9+vIRyhqVvkWIb67h
-   dHhdeqeRhuiFqzoilnyTGuQuAThFhaUo8ScAwAh804F93fkkr9a7JYaqk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352719421"
+  bh=OQ6ax+iq5MhQljVQgGFC20rWlNXMigmv61ebGv8RDas=;
+  b=JToFUdDqj9VHeiAfM/cqrVhg7WiHSbPSO6CWdADyRUfXtLGqtk00bs4c
+   HnLsGTPspI98QnEzy8QZ1f1kNT4SZUY1N2ZR/ptWXqcoIcif+4IsQdh73
+   UFdrccgYMDxI3fusSzY64XpTG6u3zioBpd6G1wxndoZhxrEv0w4wM8dhU
+   wQfvavGQvaXwmv26xMUmazQA3EqRsON4vgxRDkIpen3M1H4KJ/HGIYFpH
+   B598oiFKLBe3EvH5H7KxWL/3/fbiyLUyQrOOXATfGWci8wav/s4IhSM2E
+   Jg8y2yMJRZYQW+pdInLRFoHlRb3PJh/6/vbqb5Q0V859vu/7dVh7QBT0N
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="376128149"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="352719421"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 15:38:35 -0700
+   d="scan'208";a="376128149"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 15:58:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="877517563"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="710909136"
+X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
+   d="scan'208";a="710909136"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Aug 2023 15:38:38 -0700
+  by orsmga006.jf.intel.com with ESMTP; 15 Aug 2023 15:58:34 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qW2gL-0001I7-2F;
-	Tue, 15 Aug 2023 22:38:33 +0000
-Date: Wed, 16 Aug 2023 06:38:01 +0800
+	id 1qW2zi-0001Il-0g;
+	Tue, 15 Aug 2023 22:58:34 +0000
+Date: Wed, 16 Aug 2023 06:58:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/fam01-next20230815 2/4]
- arch/sparc/mm/init_64.c:3088:31: error: array subscript -1 is outside array
- bounds of 'char[]'
-Message-ID: <202308160635.14367Mw4-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-5.4 6125/27202]
+ drivers/mmc/core/crypto.c:14:6: warning: no previous prototype for
+ 'mmc_crypto_setup_queue'
+Message-ID: <202308160626.yVo0e8HW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,83 +47,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/fam01-next20230815
-head:   7d3ebbc1f4bfba0fdd9ade111e93edf6be617187
-commit: 79dcfe2fd8c85fe5a9eeb8ed4026d50987d107b5 [2/4] Makefile: Enable -Warray-bounds
-config: sparc64-randconfig-r001-20230816 (https://download.01.org/0day-ci/archive/20230816/202308160635.14367Mw4-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160635.14367Mw4-lkp@intel.com/reproduce)
+Hi Satya,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   f38754f7336474b5be6745c90563e6c32b921793
+commit: 555cf12eb672727979bc7b7840c7503f3de27220 [6125/27202] ANDROID: mmc: MMC crypto API
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230816/202308160626.yVo0e8HW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160626.yVo0e8HW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308160635.14367Mw4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308160626.yVo0e8HW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/sparc/mm/init_64.c: In function 'sun4v_linear_pte_xor_finalize':
-   arch/sparc/mm/init_64.c:2220:23: error: variable 'pagecv_flag' set but not used [-Werror=unused-but-set-variable]
-    2220 |         unsigned long pagecv_flag;
-         |                       ^~~~~~~~~~~
-   arch/sparc/mm/init_64.c: At top level:
-   arch/sparc/mm/init_64.c:2644:6: error: no previous prototype for 'vmemmap_free' [-Werror=missing-prototypes]
-    2644 | void vmemmap_free(unsigned long start, unsigned long end,
-         |      ^~~~~~~~~~~~
-   In function 'kernel_lds_init',
-       inlined from 'report_memory' at arch/sparc/mm/init_64.c:3100:2:
->> arch/sparc/mm/init_64.c:3088:31: error: array subscript -1 is outside array bounds of 'char[]' [-Werror=array-bounds]
-    3088 |         code_resource.end   = compute_kern_paddr(_etext - 1);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/sparc/include/asm/sections.h:6,
-                    from include/linux/interrupt.h:21,
-                    from include/linux/kernel_stat.h:9,
-                    from include/linux/cgroup.h:26,
-                    from include/linux/hugetlb.h:10,
-                    from arch/sparc/mm/init_64.c:16:
-   include/asm-generic/sections.h: In function 'report_memory':
-   include/asm-generic/sections.h:35:32: note: at offset -1 into object '_etext' of size [0, 9223372036854775807]
-      35 | extern char _text[], _stext[], _etext[];
-         |                                ^~~~~~
-   In function 'kernel_lds_init',
-       inlined from 'report_memory' at arch/sparc/mm/init_64.c:3100:2:
-   arch/sparc/mm/init_64.c:3090:31: error: array subscript -1 is outside array bounds of 'char[]' [-Werror=array-bounds]
-    3090 |         data_resource.end   = compute_kern_paddr(_edata - 1);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/sections.h: In function 'report_memory':
-   include/asm-generic/sections.h:36:32: note: at offset -1 into object '_edata' of size [0, 9223372036854775807]
-      36 | extern char _data[], _sdata[], _edata[];
-         |                                ^~~~~~
-   In function 'kernel_lds_init',
-       inlined from 'report_memory' at arch/sparc/mm/init_64.c:3100:2:
-   arch/sparc/mm/init_64.c:3092:31: error: array subscript -1 is outside array bounds of 'char[]' [-Werror=array-bounds]
-    3092 |         bss_resource.end    = compute_kern_paddr(_end - 1);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/sections.h: In function 'report_memory':
-   include/asm-generic/sections.h:41:13: note: at offset -1 into object '_end' of size [0, 9223372036854775807]
-      41 | extern char _end[];
-         |             ^~~~
-   cc1: all warnings being treated as errors
+>> drivers/mmc/core/crypto.c:14:6: warning: no previous prototype for 'mmc_crypto_setup_queue' [-Wmissing-prototypes]
+      14 | void mmc_crypto_setup_queue(struct mmc_host *host, struct request_queue *q)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mmc/core/crypto.c:21:6: warning: no previous prototype for 'mmc_crypto_free_host' [-Wmissing-prototypes]
+      21 | void mmc_crypto_free_host(struct mmc_host *host)
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/mmc/core/crypto.c:26:6: warning: no previous prototype for 'mmc_crypto_prepare_req' [-Wmissing-prototypes]
+      26 | void mmc_crypto_prepare_req(struct mmc_queue_req *mqrq)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +3088 arch/sparc/mm/init_64.c
+vim +/mmc_crypto_setup_queue +14 drivers/mmc/core/crypto.c
 
-f6d4fb5cc0475c bob picco 2014-03-03  3084  
-f6d4fb5cc0475c bob picco 2014-03-03  3085  static void __init kernel_lds_init(void)
-f6d4fb5cc0475c bob picco 2014-03-03  3086  {
-f6d4fb5cc0475c bob picco 2014-03-03  3087  	code_resource.start = compute_kern_paddr(_text);
-f6d4fb5cc0475c bob picco 2014-03-03 @3088  	code_resource.end   = compute_kern_paddr(_etext - 1);
-f6d4fb5cc0475c bob picco 2014-03-03  3089  	data_resource.start = compute_kern_paddr(_etext);
-f6d4fb5cc0475c bob picco 2014-03-03  3090  	data_resource.end   = compute_kern_paddr(_edata - 1);
-f6d4fb5cc0475c bob picco 2014-03-03  3091  	bss_resource.start  = compute_kern_paddr(__bss_start);
-f6d4fb5cc0475c bob picco 2014-03-03  3092  	bss_resource.end    = compute_kern_paddr(_end - 1);
-f6d4fb5cc0475c bob picco 2014-03-03  3093  }
-f6d4fb5cc0475c bob picco 2014-03-03  3094  
-
-:::::: The code at line 3088 was first introduced by commit
-:::::: f6d4fb5cc0475c36437a618db31cbb7f2bf7c282 sparc64 - add mem to iomem resource
-
-:::::: TO: bob picco <bpicco@meloft.net>
-:::::: CC: David S. Miller <davem@davemloft.net>
+    13	
+  > 14	void mmc_crypto_setup_queue(struct mmc_host *host, struct request_queue *q)
+    15	{
+    16		if (host->caps2 & MMC_CAP2_CRYPTO)
+    17			q->ksm = host->ksm;
+    18	}
+    19	EXPORT_SYMBOL_GPL(mmc_crypto_setup_queue);
+    20	
+  > 21	void mmc_crypto_free_host(struct mmc_host *host)
+    22	{
+    23		keyslot_manager_destroy(host->ksm);
+    24	}
+    25	
+  > 26	void mmc_crypto_prepare_req(struct mmc_queue_req *mqrq)
 
 -- 
 0-DAY CI Kernel Test Service
