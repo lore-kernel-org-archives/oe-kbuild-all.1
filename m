@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01EC14A80
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 19:22:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC281773C;
+	Wed, 16 Aug 2023 19:42:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692213772; x=1723749772;
+  t=1692214972; x=1723750972;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Iv6QZBIbhxj44UQ62C/0AXoYZJkHk30v8xyUSzkx2uM=;
-  b=bvhWd74tu6X2ASBQQTTlEli2K8RE0lK9DW9T9lyd6gA87RPa+ehrh98K
-   CCkSMn5UuI3er3RS7uy9sqIJ86MBp2lXcoOMwCDCI6skDLpqzbljvjvPv
-   1EJts65gvSgwy7jcAR8vWxrRq7j9BLNF9Bvi/1BS7Cp4MN8WAbbilNf+J
-   j95aV351TB6s5UEoopTjTiSrWa+COXSy4GIfZoJormbRXcFQRy1fyB4wq
-   Ds5D8/YPtdGjOYK2/uwLTUIwxDfDdoTgxU70wFW7CT2W8AWlYBVyJo0UU
-   pK2krEdQhO5OuvHUQ0XpXB9ZSpYTM/c2MPt59HK4KzuoF0ABsWROVOc0/
+  bh=5z4P4U9+rxDnalp8TmUP8a/3YytDJ6FRRl+IufBJ8sw=;
+  b=f71Mn36HlUqXlgQE1kBNt6J9sdpi7SsTXrJVJ4Xx+4dwXBCd9zkBxK3a
+   mFfbEUWLnc/ZunA21+HfQXwrYWz6Kd3FVFvJu8samXnKYo12MBIYg0umz
+   jxhhmvc3OUwYYuWJJG4T6FqTEEvHtsa74FOjk7ogWkvqLVUtjKM5rxTKr
+   klcQ5jP266cjhyCsT03r9gzuZcLS8A7TLEM1h6Jichaj1sD3ip4BsPQmM
+   yo9wlSzaoHQuazU8rM0d5BE7aF6an4NVYe/wBSdz6wdQB3k6Q7HnzgXF5
+   8jSS5AXhFYSVKZkJ7+eVMud4Nq/6S6RS62HtLiqQQy/+7rPC8V9255fdG
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="372621205"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370092743"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="372621205"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 12:22:51 -0700
+   d="scan'208";a="370092743"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 12:42:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="980839667"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="857937448"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="980839667"
+   d="scan'208";a="857937448"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Aug 2023 12:22:50 -0700
+  by orsmga004.jf.intel.com with ESMTP; 16 Aug 2023 12:42:50 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWM6T-0000Vf-1b;
-	Wed, 16 Aug 2023 19:22:49 +0000
-Date: Thu, 17 Aug 2023 03:21:53 +0800
+	id 1qWMPp-0000Vv-2H;
+	Wed, 16 Aug 2023 19:42:49 +0000
+Date: Thu, 17 Aug 2023 03:42:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Vernet <void@manifault.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: kernel/bpf/cpumask.c:394:17: warning: no previous declaration for
- 'bpf_cpumask_any_distribute'
-Message-ID: <202308170344.p09ggdhY-lkp@intel.com>
+To: Tianyu Lan <tiala@microsoft.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [lantianyu:test 18/21] arch/x86/include/asm/mshyperv.h:62:6: error:
+ call to undeclared function 'hv_isolation_type_en_snp'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202308170331.IdBMI6ij-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,132 +47,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: f983be917332ea5e03f689e12c6668be48cb4cfe bpf: Replace bpf_cpumask_any* with bpf_cpumask_any_distribute*
-date:   9 weeks ago
-config: x86_64-randconfig-x076-20230816 (https://download.01.org/0day-ci/archive/20230817/202308170344.p09ggdhY-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308170344.p09ggdhY-lkp@intel.com/reproduce)
+tree:   https://github.com/lantianyu/linux test
+head:   f5c4c5f104612a69401a5343609c6f939716896a
+commit: 21ff4de070a797f04aafc8cf608d3b4dbc67aa81 [18/21] x86/hyperv: Use vmmcall to implement Hyper-V hypercall in sev-snp enlightened guest
+config: x86_64-buildonly-randconfig-r001-20230817 (https://download.01.org/0day-ci/archive/20230817/202308170331.IdBMI6ij-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308170331.IdBMI6ij-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308170344.p09ggdhY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308170331.IdBMI6ij-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/bpf/cpumask.c:53:33: warning: no previous declaration for 'bpf_cpumask_create' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_cpumask *bpf_cpumask_create(void)
-                                    ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:79:33: warning: no previous declaration for 'bpf_cpumask_acquire' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
-                                    ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:103:18: warning: no previous declaration for 'bpf_cpumask_release' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cpumask_release(struct bpf_cpumask *cpumask)
-                     ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:116:17: warning: no previous declaration for 'bpf_cpumask_first' [-Wmissing-declarations]
-    __bpf_kfunc u32 bpf_cpumask_first(const struct cpumask *cpumask)
-                    ^~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:129:17: warning: no previous declaration for 'bpf_cpumask_first_zero' [-Wmissing-declarations]
-    __bpf_kfunc u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
-                    ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:143:17: warning: no previous declaration for 'bpf_cpumask_first_and' [-Wmissing-declarations]
-    __bpf_kfunc u32 bpf_cpumask_first_and(const struct cpumask *src1,
-                    ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:154:18: warning: no previous declaration for 'bpf_cpumask_set_cpu' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-                     ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:167:18: warning: no previous declaration for 'bpf_cpumask_clear_cpu' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-                     ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:184:18: warning: no previous declaration for 'bpf_cpumask_test_cpu' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
-                     ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:201:18: warning: no previous declaration for 'bpf_cpumask_test_and_set_cpu' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:219:18: warning: no previous declaration for 'bpf_cpumask_test_and_clear_cpu' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:231:18: warning: no previous declaration for 'bpf_cpumask_setall' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
-                     ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:240:18: warning: no previous declaration for 'bpf_cpumask_clear' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
-                     ^~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:257:18: warning: no previous declaration for 'bpf_cpumask_and' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_cpumask_and(struct bpf_cpumask *dst,
-                     ^~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:272:18: warning: no previous declaration for 'bpf_cpumask_or' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cpumask_or(struct bpf_cpumask *dst,
-                     ^~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:287:18: warning: no previous declaration for 'bpf_cpumask_xor' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cpumask_xor(struct bpf_cpumask *dst,
-                     ^~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:305:18: warning: no previous declaration for 'bpf_cpumask_equal' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
-                     ^~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:321:18: warning: no previous declaration for 'bpf_cpumask_intersects' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
-                     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:337:18: warning: no previous declaration for 'bpf_cpumask_subset' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
-                     ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:352:18: warning: no previous declaration for 'bpf_cpumask_empty' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_cpumask_empty(const struct cpumask *cpumask)
-                     ^~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:367:18: warning: no previous declaration for 'bpf_cpumask_full' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_cpumask_full(const struct cpumask *cpumask)
-                     ^~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:379:18: warning: no previous declaration for 'bpf_cpumask_copy' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
-                     ^~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:394:17: warning: no previous declaration for 'bpf_cpumask_any_distribute' [-Wmissing-declarations]
-    __bpf_kfunc u32 bpf_cpumask_any_distribute(const struct cpumask *cpumask)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:412:17: warning: no previous declaration for 'bpf_cpumask_any_and_distribute' [-Wmissing-declarations]
-    __bpf_kfunc u32 bpf_cpumask_any_and_distribute(const struct cpumask *src1,
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/hv/channel_mgmt.c:23:
+>> arch/x86/include/asm/mshyperv.h:62:6: error: call to undeclared function 'hv_isolation_type_en_snp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (hv_isolation_type_en_snp()) {
+               ^
+   arch/x86/include/asm/mshyperv.h:114:6: error: call to undeclared function 'hv_isolation_type_en_snp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (hv_isolation_type_en_snp()) {
+               ^
+   arch/x86/include/asm/mshyperv.h:165:6: error: call to undeclared function 'hv_isolation_type_en_snp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (hv_isolation_type_en_snp()) {
+               ^
+>> arch/x86/include/asm/mshyperv.h:265:13: error: conflicting types for 'hv_isolation_type_en_snp'
+   extern bool hv_isolation_type_en_snp(void);
+               ^
+   arch/x86/include/asm/mshyperv.h:62:6: note: previous implicit declaration is here
+           if (hv_isolation_type_en_snp()) {
+               ^
+   4 errors generated.
+--
+   In file included from drivers/hv/vmbus_drv.c:40:
+>> arch/x86/include/asm/mshyperv.h:62:6: error: call to undeclared function 'hv_isolation_type_en_snp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (hv_isolation_type_en_snp()) {
+               ^
+   arch/x86/include/asm/mshyperv.h:114:6: error: call to undeclared function 'hv_isolation_type_en_snp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (hv_isolation_type_en_snp()) {
+               ^
+   arch/x86/include/asm/mshyperv.h:165:6: error: call to undeclared function 'hv_isolation_type_en_snp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (hv_isolation_type_en_snp()) {
+               ^
+>> arch/x86/include/asm/mshyperv.h:265:13: error: conflicting types for 'hv_isolation_type_en_snp'
+   extern bool hv_isolation_type_en_snp(void);
+               ^
+   arch/x86/include/asm/mshyperv.h:62:6: note: previous implicit declaration is here
+           if (hv_isolation_type_en_snp()) {
+               ^
+   drivers/hv/vmbus_drv.c:1910:42: warning: shift count >= width of type [-Wshift-count-overflow]
+           dma_set_mask(&child_device_obj->device, DMA_BIT_MASK(64));
+                                                   ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
+   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+                                                        ^ ~~~
+   1 warning and 4 errors generated.
 
 
-vim +/bpf_cpumask_any_distribute +394 kernel/bpf/cpumask.c
+vim +/hv_isolation_type_en_snp +62 arch/x86/include/asm/mshyperv.h
 
-   383	
-   384	/**
-   385	 * bpf_cpumask_any_distribute() - Return a random set CPU from a cpumask.
-   386	 * @cpumask: The cpumask being queried.
-   387	 *
-   388	 * Return:
-   389	 * * A random set bit within [0, num_cpus) if at least one bit is set.
-   390	 * * >= num_cpus if no bit is set.
-   391	 *
-   392	 * A struct bpf_cpumask pointer may be safely passed to @src.
-   393	 */
- > 394	__bpf_kfunc u32 bpf_cpumask_any_distribute(const struct cpumask *cpumask)
-   395	{
-   396		return cpumask_any_distribute(cpumask);
-   397	}
-   398	
-   399	/**
-   400	 * bpf_cpumask_any_and_distribute() - Return a random set CPU from the AND of
-   401	 *				      two cpumasks.
-   402	 * @src1: The first cpumask.
-   403	 * @src2: The second cpumask.
-   404	 *
-   405	 * Return:
-   406	 * * A random set bit within [0, num_cpus) from the AND of two cpumasks, if at
-   407	 *   least one bit is set.
-   408	 * * >= num_cpus if no bit is set.
-   409	 *
-   410	 * struct bpf_cpumask pointers may be safely passed to @src1 and @src2.
-   411	 */
- > 412	__bpf_kfunc u32 bpf_cpumask_any_and_distribute(const struct cpumask *src1,
-   413						       const struct cpumask *src2)
-   414	{
-   415		return cpumask_any_and_distribute(src1, src2);
-   416	}
-   417	
+    54	
+    55	static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
+    56	{
+    57		u64 input_address = input ? virt_to_phys(input) : 0;
+    58		u64 output_address = output ? virt_to_phys(output) : 0;
+    59		u64 hv_status;
+    60	
+    61	#ifdef CONFIG_X86_64
+  > 62		if (hv_isolation_type_en_snp()) {
+    63			__asm__ __volatile__("mov %4, %%r8\n"
+    64					     "vmmcall"
+    65					     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
+    66					       "+c" (control), "+d" (input_address)
+    67					     :  "r" (output_address)
+    68					     : "cc", "memory", "r8", "r9", "r10", "r11");
+    69		} else {
+    70			if (!hv_hypercall_pg)
+    71				return U64_MAX;
+    72	
+    73			__asm__ __volatile__("mov %4, %%r8\n"
+    74					     CALL_NOSPEC
+    75					     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
+    76					       "+c" (control), "+d" (input_address)
+    77					     :  "r" (output_address),
+    78						THUNK_TARGET(hv_hypercall_pg)
+    79					     : "cc", "memory", "r8", "r9", "r10", "r11");
+    80		}
+    81	#else
+    82		u32 input_address_hi = upper_32_bits(input_address);
+    83		u32 input_address_lo = lower_32_bits(input_address);
+    84		u32 output_address_hi = upper_32_bits(output_address);
+    85		u32 output_address_lo = lower_32_bits(output_address);
+    86	
+    87		if (!hv_hypercall_pg)
+    88			return U64_MAX;
+    89	
+    90		__asm__ __volatile__(CALL_NOSPEC
+    91				     : "=A" (hv_status),
+    92				       "+c" (input_address_lo), ASM_CALL_CONSTRAINT
+    93				     : "A" (control),
+    94				       "b" (input_address_hi),
+    95				       "D"(output_address_hi), "S"(output_address_lo),
+    96				       THUNK_TARGET(hv_hypercall_pg)
+    97				     : "cc", "memory");
+    98	#endif /* !x86_64 */
+    99		return hv_status;
+   100	}
+   101	
 
 -- 
 0-DAY CI Kernel Test Service
