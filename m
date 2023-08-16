@@ -1,43 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4864E361
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 02:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CF2361
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 02:48:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692153458; x=1723689458;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CD7HNP6ZGSw1euu5hH9/nKUsxbFrUr+lKf5rvAuJVn0=;
-  b=Ay4Ef2LtGDp5gTGZNybjUpe4TNc3p2nuuaxB2bfoWrkG6r1wild/6Jlu
-   WiaFKLH/yxCNAfJ0Uc8YHtQl+48ICAPUvARsIZGgH2E9d8igmHZZXtqnB
-   vffrU2C++JmvSs42HXJn2UAIPy4WfprdE5wgNWgpQ85WJ125Db93XwODk
-   AixTp53xVLJFsJM4IKqJsVDVGYzO9WGIPtLhuGQHshzRx9+FAp2+UXB1i
-   zU1XCN6r8tf+4E6e1DI2X08rsMAOneX87DDxryTav2EISrBwi5DrpnA1Y
-   +a0ie64wsNlHpM5wEQ0NDxEuF2uEcRnIVoIn0UEdc1A2hlkPbVF47yzB8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375194842"
+  t=1692154119; x=1723690119;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hzJRZO4bVkSrE594bBNIWG/Aywm8Qd8QrgKEgsA8qao=;
+  b=XLXykLkxoK762womQ0tGVVhMgtE+9w0Wn+GfvniZzj4o0vHSScU5Xx5t
+   bEPN6g0nzyzGUcAEL0fbuCir9skDByWArRBSZzxHAOBOYVAitBoBSCZku
+   36cAvaQ9qS1pL7yZ3gn8czVqOzkEUrAVbrfRo45wmkELXReIhBwWZssiB
+   4bhzHCnBYUeC04GPN/uWfjgiwUKbzCGyXPKmn1gDo5mOl+HAGvCgxw3/M
+   zmbPQS7ZjvAB01p/U4+N9e8u4eMSbTtM53DZQ7o//0ALhhn3jVRgdAy8f
+   b0OktIl1C3Rf9SXVZXYhn2yLkWDRNhbTbP5YA4RJWxpXZ1y3AZG1zU8nm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371334933"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="375194842"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 19:37:37 -0700
+   d="scan'208";a="371334933"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 19:48:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="710950715"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="710950715"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="877589750"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 15 Aug 2023 19:37:36 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 15 Aug 2023 19:48:40 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qW6Pf-0001QN-2X;
-	Wed, 16 Aug 2023 02:37:35 +0000
-Date: Wed, 16 Aug 2023 10:36:58 +0800
+	id 1qW6aK-0001Qd-0e;
+	Wed, 16 Aug 2023 02:48:36 +0000
+Date: Wed, 16 Aug 2023 10:47:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/hyperv_no_range_flush 15/15]
- include/linux/kvm_host.h:1483:19: error: redefinition of
- 'kvm_arch_flush_remote_tlbs'
-Message-ID: <202308161050.GWpDtsLf-lkp@intel.com>
+To: Jacob Keller <jacob.e.keller@intel.com>,
+	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Karol Kolacinski <karol.kolacinski@intel.com>,
+	Anthony Nguyen <anthony.l.nguyen@intel.com>
+Subject: Re: [Intel-wired-lan] [PATCH iwl-next 4/4] ice: check netlist before
+ enabling ICE_F_GNSS
+Message-ID: <202308161024.wzGJ6bHC-lkp@intel.com>
+References: <20230815223551.1238091-5-jacob.e.keller@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,49 +49,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230815223551.1238091-5-jacob.e.keller@intel.com>
 
-tree:   https://github.com/sean-jc/linux x86/hyperv_no_range_flush
-head:   f9d65d9f4720ff9339b177fcc9af5a5d9bd43551
-commit: f9d65d9f4720ff9339b177fcc9af5a5d9bd43551 [15/15] KVM: x86/mmu: Declare flush_remote_tlbs{_range}() hooks iff HYPERV!=n
-config: x86_64-randconfig-x013-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161050.GWpDtsLf-lkp@intel.com/config)
+Hi Jacob,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 361b86237e1afbf2c3be7cb604b6aac6f8b8c38c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacob-Keller/ice-remove-ICE_F_PTP_EXTTS-feature-flag/20230816-063804
+base:   361b86237e1afbf2c3be7cb604b6aac6f8b8c38c
+patch link:    https://lore.kernel.org/r/20230815223551.1238091-5-jacob.e.keller%40intel.com
+patch subject: [Intel-wired-lan] [PATCH iwl-next 4/4] ice: check netlist before enabling ICE_F_GNSS
+config: x86_64-buildonly-randconfig-r001-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161024.wzGJ6bHC-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161050.GWpDtsLf-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161024.wzGJ6bHC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308161050.GWpDtsLf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308161024.wzGJ6bHC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/vfio/vfio_main.c:20:
->> include/linux/kvm_host.h:1483:19: error: redefinition of 'kvm_arch_flush_remote_tlbs'
-    1483 | static inline int kvm_arch_flush_remote_tlbs(struct kvm *kvm)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kvm_host.h:45:
-   arch/x86/include/asm/kvm_host.h:1801:19: note: previous definition of 'kvm_arch_flush_remote_tlbs' with type 'int(struct kvm *)'
-    1801 | static inline int kvm_arch_flush_remote_tlbs(struct kvm *kvm)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/kvm_arch_flush_remote_tlbs +1483 include/linux/kvm_host.h
-
-d89f5eff70a312 Jan Kiszka             2010-11-09  1481  
-51787fd509e7a7 David Matlack          2023-08-11  1482  #ifndef __KVM_HAVE_ARCH_FLUSH_REMOTE_TLBS
-51787fd509e7a7 David Matlack          2023-08-11 @1483  static inline int kvm_arch_flush_remote_tlbs(struct kvm *kvm)
-b08660e59dbdb6 Tianyu Lan             2018-07-19  1484  {
-b08660e59dbdb6 Tianyu Lan             2018-07-19  1485  	return -ENOTSUPP;
-b08660e59dbdb6 Tianyu Lan             2018-07-19  1486  }
-ccf9fdedfffe97 Raghavendra Rao Ananta 2023-08-11  1487  #else
-ccf9fdedfffe97 Raghavendra Rao Ananta 2023-08-11  1488  int kvm_arch_flush_remote_tlbs(struct kvm *kvm);
-b08660e59dbdb6 Tianyu Lan             2018-07-19  1489  #endif
-b08660e59dbdb6 Tianyu Lan             2018-07-19  1490  
-
-:::::: The code at line 1483 was first introduced by commit
-:::::: 51787fd509e7a7cee6f0336c173ed757225dcd9f KVM: Rename kvm_arch_flush_remote_tlb() to kvm_arch_flush_remote_tlbs()
-
-:::::: TO: David Matlack <dmatlack@google.com>
-:::::: CC: Sean Christopherson <seanjc@google.com>
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/broadcom/bcm4908_enet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/freescale/enetc/fsl-enetc-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ethernet/litex/litex_liteeth.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/dummy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/eql.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/appletalk/ipddp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/plip/plip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/sungem_phy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ieee802154/fakelb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/yenta_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_midi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/legacy/g_zero.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/asus_atk0110.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/intel_soc_dts_iosf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_rapl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_rfim.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/thermal/intel/int340x_thermal/processor_thermal_mbox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cpuidle/cpuidle-haltpoll.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-ab8500-codec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-i2s.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-pdm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/acp/snd-acp-mach.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/vfio-mdev/mdpy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/bytestream-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/dma-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/inttype-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kfifo/record-example.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in samples/kmemleak/kmemleak-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/stp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/mrp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_hfsc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ingress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_teql.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_prio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_netem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_drr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_ets.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_choke.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_etf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sched/sch_taprio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
+ERROR: modpost: "ice_is_clock_mux_present_e810t" [drivers/net/ethernet/intel/ice/ice.ko] undefined!
+>> ERROR: modpost: "ice_is_gps_present_e810t" [drivers/net/ethernet/intel/ice/ice.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
