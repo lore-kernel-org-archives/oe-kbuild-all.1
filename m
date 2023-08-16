@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3485A210D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 05:35:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C7B210D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 05:36:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692164137; x=1723700137;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lQCxRH9XNJlrJrpHWpxz+d3yI5sbEQiydzC5p6HPFMA=;
-  b=QXnEtaTLoghpgmRhkJGA2PKm7/WlX1kXIZCUXRbMInbSjHNRgbHeg1iO
-   n2kMxFxxlNgZi1g3N3ag0hRFmPzXfGtC/fkrHlYFhv0uKIf2RJZH37R5/
-   Z3fPZNSxtiMr/6lZujpCzqmm6p8yGhC8AAyAB7CwU14gYr3gG3ZN+kzb6
-   jkGSqfr+Qa3GJ3paiBGUbGuQcO0wgZRbUyJWPCxFhAvnxlGPC5r1jG72f
-   mj2to28FK8T2snIoe+fO1t30gem5MKtqi00qHnmgUch9y1PlQxWe0e0eR
-   JOR9OGARZLizglScGzwYfdzkTa4YQ6qjVK6EzNXMlIANEo3VTqqVbmEM/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="438790535"
+  t=1692164197; x=1723700197;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+RIZJ6IaXKMp4GAl13lCJ+NM941Dha7c6dXVHO1IsTE=;
+  b=CgmRieWzdlegpR/blDvuMDgf7kyeqyZ8Tv8o3IHP6bI1Td1r98s0znry
+   4Mts9i89pnmVTUPyqRzlS668h0rAw+RVaJ8d7xIf+qfqQDNtsMZ+wzIut
+   TrCL6rDzz49r2meHJWrBh3F1cfXnJIB1cIwW9dq25kJ4YelC5Qs/nOXKa
+   Qfb3YYYA7PkaRkrmleqEF4Ez1YXgb6K7FKaxDe7mixqZBx8Ge/yP5mz+K
+   KQwR8I60PhaPke3QT4Mrp69ti3EA8jhdPnAi2+Lpujh17O2VnzezppJR4
+   NHxKwx8k8hQOfuO4qOBKnfk1bEi9jY+nWybo+EwNAfFDXFqz7O/x725RL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="458796863"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="438790535"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 22:35:36 -0700
+   d="scan'208";a="458796863"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 22:36:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="857684103"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="727634115"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="857684103"
+   d="scan'208";a="727634115"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 15 Aug 2023 22:35:34 -0700
+  by orsmga007.jf.intel.com with ESMTP; 15 Aug 2023 22:36:34 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qW9Bu-00000z-0A;
-	Wed, 16 Aug 2023 05:35:34 +0000
-Date: Wed, 16 Aug 2023 13:35:32 +0800
+	id 1qW9Cs-000013-0I;
+	Wed, 16 Aug 2023 05:36:34 +0000
+Date: Wed, 16 Aug 2023 13:35:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huisong Li <lihuisong@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] soc: kunpeng_hccs: fix some sparse warnings about
- incorrect type
-Message-ID: <202308161305.yhPT7ksM-lkp@intel.com>
-References: <20230815125233.65469-1-lihuisong@huawei.com>
+To: Jordan Niethe <jniethe5@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: [powerpc:topic/ppc-kvm 4/6] include/linux/kern_levels.h:5:25:
+ warning: format '%d' expects argument of type 'int', but argument 2 has type
+ 'long unsigned int'
+Message-ID: <202308161348.NnNxubXr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,93 +47,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230815125233.65469-1-lihuisong@huawei.com>
 
-Hi Huisong,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on next-20230815]
-[cannot apply to linus/master v6.5-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Huisong-Li/soc-kunpeng_hccs-fix-some-sparse-warnings-about-incorrect-type/20230815-205824
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20230815125233.65469-1-lihuisong%40huawei.com
-patch subject: [PATCH] soc: kunpeng_hccs: fix some sparse warnings about incorrect type
-config: arm64-randconfig-r092-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161305.yhPT7ksM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161305.yhPT7ksM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
+head:   c95bf4c16099f2ed29a7f6949559bc4187d30710
+commit: adf03dd2204acf7eab000a02bdfe50099f2fa089 [4/6] KVM: PPC: Book3s HV: Hold LPIDs in an unsigned long
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230816/202308161348.NnNxubXr-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161348.NnNxubXr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308161305.yhPT7ksM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308161348.NnNxubXr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/hisilicon/kunpeng_hccs.c:203:37: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/soc/hisilicon/kunpeng_hccs.c:203:65: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *comm_space @@     got unsigned char [usertype] * @@
-   drivers/soc/hisilicon/kunpeng_hccs.c:203:65: sparse:     expected void [noderef] __iomem *comm_space
-   drivers/soc/hisilicon/kunpeng_hccs.c:203:65: sparse:     got unsigned char [usertype] *
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +203 drivers/soc/hisilicon/kunpeng_hccs.c
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/powerpc/include/asm/bug.h:116,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from include/linux/pagemap.h:8,
+                    from arch/powerpc/kvm/book3s_hv_uvmem.c:89:
+   arch/powerpc/kvm/book3s_hv_uvmem.c: In function 'kvmppc_h_svm_init_done':
+>> include/linux/kern_levels.h:5:25: warning: format '%d' expects argument of type 'int', but argument 2 has type 'long unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   arch/powerpc/kvm/book3s_hv_uvmem.c:860:9: note: in expansion of macro 'pr_info'
+     860 |         pr_info("LPID %d went secure\n", kvm->arch.lpid);
+         |         ^~~~~~~
 
-   198	
-   199	static int hccs_pcc_cmd_send(struct hccs_dev *hdev, u8 cmd,
-   200				     struct hccs_desc *desc)
-   201	{
-   202		struct hccs_mbox_client_info *cl_info = &hdev->cl_info;
- > 203		void __iomem *comm_space = (u8 *)cl_info->pcc_comm_addr +
-   204						sizeof(struct acpi_pcct_shared_memory);
-   205		struct hccs_fw_inner_head *fw_inner_head;
-   206		struct acpi_pcct_shared_memory tmp = {0};
-   207		u16 comm_space_size;
-   208		int ret;
-   209	
-   210		/* Write signature for this subspace */
-   211		tmp.signature = HCCS_PCC_SIGNATURE_MASK | hdev->chan_id;
-   212		/* Write to the shared command region */
-   213		tmp.command = cmd;
-   214		/* Clear cmd complete bit */
-   215		tmp.status = 0;
-   216		memcpy_toio(cl_info->pcc_comm_addr, (void *)&tmp,
-   217				sizeof(struct acpi_pcct_shared_memory));
-   218	
-   219		/* Copy the message to the PCC comm space */
-   220		comm_space_size = HCCS_PCC_SHARE_MEM_BYTES -
-   221					sizeof(struct acpi_pcct_shared_memory);
-   222		memcpy_toio(comm_space, (void *)desc, comm_space_size);
-   223	
-   224		/* Ring doorbell */
-   225		ret = mbox_send_message(cl_info->mbox_chan, &cmd);
-   226		if (ret < 0) {
-   227			dev_err(hdev->dev, "Send PCC mbox message failed, ret = %d.\n",
-   228				ret);
-   229			goto end;
-   230		}
-   231	
-   232		/* Wait for completion */
-   233		ret = hccs_check_chan_cmd_complete(hdev);
-   234		if (ret)
-   235			goto end;
-   236	
-   237		/* Copy response data */
-   238		memcpy_fromio((void *)desc, comm_space, comm_space_size);
-   239		fw_inner_head = &desc->rsp.fw_inner_head;
-   240		if (fw_inner_head->retStatus) {
-   241			dev_err(hdev->dev, "Execute PCC command failed, error code = %u.\n",
-   242				fw_inner_head->retStatus);
-   243			ret = -EIO;
-   244		}
-   245	
-   246	end:
-   247		mbox_client_txdone(cl_info->mbox_chan, ret);
-   248		return ret;
-   249	}
-   250	
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
