@@ -1,203 +1,326 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FA2DF60
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 13:58:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692194282; x=1723730282;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=DUczewNPllC94OPCnns3pO2+rMVMgE13ohRtdkbEVoM=;
-  b=f5c1KXRV/yWTsMYGOuMs9ImkcM3FRaqrXe7ULB3kjG9qAolkrM5pTHjt
-   eylKZtPBYI/riARpXNPVzYQx5as968t7MDcxLgHgjbCnL5H/RLweYY3ch
-   9n+mtfEdyp0qTVzGoL15/aHwfGKAb00HeYltZUcIe53Z8JjqIlPhzb7+r
-   QXfc321xR7qBww/eNkvviX5Pn4IP3+A4/RyC560vOoyCiUBsrViM2wLuc
-   fT1BMEludjSgA70rdBF9kq5A98Ggz4yFTRKuJXPjrWwWW5+0n/LvTzVCL
-   Uz19cUZ9phHz0RsDyjGYiXOSmF9JjUrshdZ5F+FStkgNOvFSdPdCGKOVx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352863237"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="352863237"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 06:58:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="857828332"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="857828332"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 16 Aug 2023 06:57:56 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qWH23-0000M5-18;
-	Wed, 16 Aug 2023 13:57:55 +0000
-Date: Wed, 16 Aug 2023 21:57:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
-	david@fromorbit.com, tkhai@ya.ru, vbabka@suse.cz,
-	roman.gushchin@linux.dev, djwong@kernel.org, brauner@kernel.org,
-	paulmck@kernel.org, tytso@mit.edu, steven.price@arm.com,
-	cel@kernel.org, senozhatsky@chromium.org, yujie.liu@intel.com,
-	gregkh@linuxfoundation.org, muchun.song@linux.dev,
-	joel@joelfernandes.org, christian.koenig@amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315FCFC01
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 14:07:52 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-76d71798f9aso33781285a.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 07:07:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692194872; x=1692799672;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a6y1TC7cBo2QfNhr6teNP7YTGsh50NU2RBX8x/ID4jo=;
+        b=DllKilq32T9KJVa4ubauTezVyMl+Dbw249pU2D3tWVBKnIKp1eu82SsxunzfoL27un
+         OvpQKoXxvRKtHb+AFmA+Aw4h1Gv/mcWNOiaerDELbBc0HOTLym8Q6Sr0jaq+pSD0nYVG
+         0JGViNPqyRtQfGdWSmlYG1cs71Q9aypu328dImEnYmhdh+Nf1AxnuQURpUhp5o+USKFQ
+         Q8IHiENWW12uZU5FVjMj9DK6vrOsH809YidvLX7bWdamnSBkVGsEbs5XlylLBBxcx1WL
+         1C6wDBb8AXCtaYhrvgyy3r3AtFot5W+YXeioas8blBFF1rRlkFawxGK55lftcQ/Rb7Ev
+         mj6Q==
+X-Gm-Message-State: AOJu0YwfPFLxt4jBryGlHCfbayFLBzRCGjSKOS7fkqeqXVlyOpd3afOw
+	tFRMLFDgkLw2eh7aB4uQKeI=
+X-Google-Smtp-Source: AGHT+IE+NWFmX+qIyW0PC5n9y8nxfSsDzg/oazw5Ld8X12ERVYf0LYnO7mEwbKLJNdBTxrFnemOJLA==
+X-Received: by 2002:a05:620a:254c:b0:767:ad42:cc32 with SMTP id s12-20020a05620a254c00b00767ad42cc32mr1660477qko.2.1692194871761;
+        Wed, 16 Aug 2023 07:07:51 -0700 (PDT)
+Received: from maniforge ([2620:10d:c091:400::5:6eb])
+        by smtp.gmail.com with ESMTPSA id i15-20020a05620a074f00b0076c60b95b87sm4428533qki.96.2023.08.16.07.07.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Aug 2023 07:07:50 -0700 (PDT)
+Date: Wed, 16 Aug 2023 09:07:48 -0500
+From: David Vernet <void@manifault.com>
+To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
-	linux-fsdevel@vger.kernel.org,
-	Qi Zheng <zhengqi.arch@bytedance.com>,
-	Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH 1/5] mm: move some shrinker-related function declarations
- to mm/internal.h
-Message-ID: <202308162105.y9XrlTA7-lkp@intel.com>
-References: <20230816083419.41088-2-zhengqi.arch@bytedance.com>
+	Alexei Starovoitov <ast@kernel.org>
+Subject: Re: kernel/bpf/cpumask.c:41:21: warning: no previous declaration for
+ 'bpf_cpumask_create'
+Message-ID: <20230816140748.GA759901@maniforge>
+References: <202308162115.Hn23vv3n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230816083419.41088-2-zhengqi.arch@bytedance.com>
+In-Reply-To: <202308162115.Hn23vv3n-lkp@intel.com>
+User-Agent: Mutt/2.2.10 (2023-03-25)
 
-Hi Qi,
+On Wed, Aug 16, 2023 at 09:25:30PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+> commit: 516f4d3397c9e90f4da04f59986c856016269aa1 bpf: Enable cpumasks to be queried and used as kptrs
+> date:   7 months ago
+> config: x86_64-randconfig-x076-20230816 (https://download.01.org/0day-ci/archive/20230816/202308162115.Hn23vv3n-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162115.Hn23vv3n-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308162115.Hn23vv3n-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> kernel/bpf/cpumask.c:41:21: warning: no previous declaration for 'bpf_cpumask_create' [-Wmissing-declarations]
+>     struct bpf_cpumask *bpf_cpumask_create(void)
 
-kernel test robot noticed the following build warnings:
+Meh, more noise from lkp because of kfuncs. It would be nice if as a
+courtesy, these warnings were fixed before they got turned on and the
+email list got spammed 7 months after the commit landed; especially
+given that this is essentially redundant with -Wmissing-prototypes.
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.5-rc6 next-20230816]
-[cannot apply to akpm-mm/mm-everything drm-misc/drm-misc-next vfs-idmapping/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Anyways, the solution here is to just add the following around all
+kfuncs that already have -Wmissing-prototypes disabled:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-move-some-shrinker-related-function-declarations-to-mm-internal-h/20230816-163833
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20230816083419.41088-2-zhengqi.arch%40bytedance.com
-patch subject: [PATCH 1/5] mm: move some shrinker-related function declarations to mm/internal.h
-config: m68k-randconfig-r013-20230816 (https://download.01.org/0day-ci/archive/20230816/202308162105.y9XrlTA7-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162105.y9XrlTA7-lkp@intel.com/reproduce)
+__diag_push();
+__diag_ignore_all("-Wmissing-declarations",
+                  "Global kfuncs as their definitions will be in BTF");
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308162105.y9XrlTA7-lkp@intel.com/
+I'll send out a patch that adds this around all kfuncs so we can avoid
+all of these warnings in one go.
 
-All warnings (new ones prefixed by >>):
-
->> mm/shrinker_debug.c:174:5: warning: no previous prototype for 'shrinker_debugfs_add' [-Wmissing-prototypes]
-     174 | int shrinker_debugfs_add(struct shrinker *shrinker)
-         |     ^~~~~~~~~~~~~~~~~~~~
->> mm/shrinker_debug.c:249:16: warning: no previous prototype for 'shrinker_debugfs_detach' [-Wmissing-prototypes]
-     249 | struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
->> mm/shrinker_debug.c:265:6: warning: no previous prototype for 'shrinker_debugfs_remove' [-Wmissing-prototypes]
-     265 | void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/shrinker_debugfs_add +174 mm/shrinker_debug.c
-
-bbf535fd6f06b9 Roman Gushchin     2022-05-31  173  
-5035ebc644aec9 Roman Gushchin     2022-05-31 @174  int shrinker_debugfs_add(struct shrinker *shrinker)
-5035ebc644aec9 Roman Gushchin     2022-05-31  175  {
-5035ebc644aec9 Roman Gushchin     2022-05-31  176  	struct dentry *entry;
-e33c267ab70de4 Roman Gushchin     2022-05-31  177  	char buf[128];
-5035ebc644aec9 Roman Gushchin     2022-05-31  178  	int id;
-5035ebc644aec9 Roman Gushchin     2022-05-31  179  
-47a7c01c3efc65 Qi Zheng           2023-06-09  180  	lockdep_assert_held(&shrinker_rwsem);
-5035ebc644aec9 Roman Gushchin     2022-05-31  181  
-5035ebc644aec9 Roman Gushchin     2022-05-31  182  	/* debugfs isn't initialized yet, add debugfs entries later. */
-5035ebc644aec9 Roman Gushchin     2022-05-31  183  	if (!shrinker_debugfs_root)
-5035ebc644aec9 Roman Gushchin     2022-05-31  184  		return 0;
-5035ebc644aec9 Roman Gushchin     2022-05-31  185  
-5035ebc644aec9 Roman Gushchin     2022-05-31  186  	id = ida_alloc(&shrinker_debugfs_ida, GFP_KERNEL);
-5035ebc644aec9 Roman Gushchin     2022-05-31  187  	if (id < 0)
-5035ebc644aec9 Roman Gushchin     2022-05-31  188  		return id;
-5035ebc644aec9 Roman Gushchin     2022-05-31  189  	shrinker->debugfs_id = id;
-5035ebc644aec9 Roman Gushchin     2022-05-31  190  
-e33c267ab70de4 Roman Gushchin     2022-05-31  191  	snprintf(buf, sizeof(buf), "%s-%d", shrinker->name, id);
-5035ebc644aec9 Roman Gushchin     2022-05-31  192  
-5035ebc644aec9 Roman Gushchin     2022-05-31  193  	/* create debugfs entry */
-5035ebc644aec9 Roman Gushchin     2022-05-31  194  	entry = debugfs_create_dir(buf, shrinker_debugfs_root);
-5035ebc644aec9 Roman Gushchin     2022-05-31  195  	if (IS_ERR(entry)) {
-5035ebc644aec9 Roman Gushchin     2022-05-31  196  		ida_free(&shrinker_debugfs_ida, id);
-5035ebc644aec9 Roman Gushchin     2022-05-31  197  		return PTR_ERR(entry);
-5035ebc644aec9 Roman Gushchin     2022-05-31  198  	}
-5035ebc644aec9 Roman Gushchin     2022-05-31  199  	shrinker->debugfs_entry = entry;
-5035ebc644aec9 Roman Gushchin     2022-05-31  200  
-2124f79de6a909 John Keeping       2023-04-18  201  	debugfs_create_file("count", 0440, entry, shrinker,
-5035ebc644aec9 Roman Gushchin     2022-05-31  202  			    &shrinker_debugfs_count_fops);
-2124f79de6a909 John Keeping       2023-04-18  203  	debugfs_create_file("scan", 0220, entry, shrinker,
-bbf535fd6f06b9 Roman Gushchin     2022-05-31  204  			    &shrinker_debugfs_scan_fops);
-5035ebc644aec9 Roman Gushchin     2022-05-31  205  	return 0;
-5035ebc644aec9 Roman Gushchin     2022-05-31  206  }
-5035ebc644aec9 Roman Gushchin     2022-05-31  207  
-e33c267ab70de4 Roman Gushchin     2022-05-31  208  int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
-e33c267ab70de4 Roman Gushchin     2022-05-31  209  {
-e33c267ab70de4 Roman Gushchin     2022-05-31  210  	struct dentry *entry;
-e33c267ab70de4 Roman Gushchin     2022-05-31  211  	char buf[128];
-e33c267ab70de4 Roman Gushchin     2022-05-31  212  	const char *new, *old;
-e33c267ab70de4 Roman Gushchin     2022-05-31  213  	va_list ap;
-e33c267ab70de4 Roman Gushchin     2022-05-31  214  	int ret = 0;
-e33c267ab70de4 Roman Gushchin     2022-05-31  215  
-e33c267ab70de4 Roman Gushchin     2022-05-31  216  	va_start(ap, fmt);
-e33c267ab70de4 Roman Gushchin     2022-05-31  217  	new = kvasprintf_const(GFP_KERNEL, fmt, ap);
-e33c267ab70de4 Roman Gushchin     2022-05-31  218  	va_end(ap);
-e33c267ab70de4 Roman Gushchin     2022-05-31  219  
-e33c267ab70de4 Roman Gushchin     2022-05-31  220  	if (!new)
-e33c267ab70de4 Roman Gushchin     2022-05-31  221  		return -ENOMEM;
-e33c267ab70de4 Roman Gushchin     2022-05-31  222  
-47a7c01c3efc65 Qi Zheng           2023-06-09  223  	down_write(&shrinker_rwsem);
-e33c267ab70de4 Roman Gushchin     2022-05-31  224  
-e33c267ab70de4 Roman Gushchin     2022-05-31  225  	old = shrinker->name;
-e33c267ab70de4 Roman Gushchin     2022-05-31  226  	shrinker->name = new;
-e33c267ab70de4 Roman Gushchin     2022-05-31  227  
-e33c267ab70de4 Roman Gushchin     2022-05-31  228  	if (shrinker->debugfs_entry) {
-e33c267ab70de4 Roman Gushchin     2022-05-31  229  		snprintf(buf, sizeof(buf), "%s-%d", shrinker->name,
-e33c267ab70de4 Roman Gushchin     2022-05-31  230  			 shrinker->debugfs_id);
-e33c267ab70de4 Roman Gushchin     2022-05-31  231  
-e33c267ab70de4 Roman Gushchin     2022-05-31  232  		entry = debugfs_rename(shrinker_debugfs_root,
-e33c267ab70de4 Roman Gushchin     2022-05-31  233  				       shrinker->debugfs_entry,
-e33c267ab70de4 Roman Gushchin     2022-05-31  234  				       shrinker_debugfs_root, buf);
-e33c267ab70de4 Roman Gushchin     2022-05-31  235  		if (IS_ERR(entry))
-e33c267ab70de4 Roman Gushchin     2022-05-31  236  			ret = PTR_ERR(entry);
-e33c267ab70de4 Roman Gushchin     2022-05-31  237  		else
-e33c267ab70de4 Roman Gushchin     2022-05-31  238  			shrinker->debugfs_entry = entry;
-e33c267ab70de4 Roman Gushchin     2022-05-31  239  	}
-e33c267ab70de4 Roman Gushchin     2022-05-31  240  
-47a7c01c3efc65 Qi Zheng           2023-06-09  241  	up_write(&shrinker_rwsem);
-e33c267ab70de4 Roman Gushchin     2022-05-31  242  
-e33c267ab70de4 Roman Gushchin     2022-05-31  243  	kfree_const(old);
-e33c267ab70de4 Roman Gushchin     2022-05-31  244  
-e33c267ab70de4 Roman Gushchin     2022-05-31  245  	return ret;
-e33c267ab70de4 Roman Gushchin     2022-05-31  246  }
-e33c267ab70de4 Roman Gushchin     2022-05-31  247  EXPORT_SYMBOL(shrinker_debugfs_rename);
-e33c267ab70de4 Roman Gushchin     2022-05-31  248  
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03 @249  struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  250  				       int *debugfs_id)
-5035ebc644aec9 Roman Gushchin     2022-05-31  251  {
-badc28d4924bfe Qi Zheng           2023-02-02  252  	struct dentry *entry = shrinker->debugfs_entry;
-badc28d4924bfe Qi Zheng           2023-02-02  253  
-47a7c01c3efc65 Qi Zheng           2023-06-09  254  	lockdep_assert_held(&shrinker_rwsem);
-5035ebc644aec9 Roman Gushchin     2022-05-31  255  
-e33c267ab70de4 Roman Gushchin     2022-05-31  256  	kfree_const(shrinker->name);
-14773bfa70e67f Tetsuo Handa       2022-07-20  257  	shrinker->name = NULL;
-e33c267ab70de4 Roman Gushchin     2022-05-31  258  
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  259  	*debugfs_id = entry ? shrinker->debugfs_id : -1;
-badc28d4924bfe Qi Zheng           2023-02-02  260  	shrinker->debugfs_entry = NULL;
-badc28d4924bfe Qi Zheng           2023-02-02  261  
-badc28d4924bfe Qi Zheng           2023-02-02  262  	return entry;
-5035ebc644aec9 Roman Gushchin     2022-05-31  263  }
-5035ebc644aec9 Roman Gushchin     2022-05-31  264  
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03 @265  void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  266  {
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  267  	debugfs_remove_recursive(debugfs_entry);
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  268  	ida_free(&shrinker_debugfs_ida, debugfs_id);
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  269  }
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  270  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>                         ^~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:55:21: warning: no previous declaration for 'bpf_cpumask_acquire' [-Wmissing-declarations]
+>     struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
+>                         ^~~~~~~~~~~~~~~~~~~
+>    kernel/bpf/cpumask.c:61:21: warning: no previous declaration for 'bpf_cpumask_kptr_get' [-Wmissing-declarations]
+>     struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
+>                         ^~~~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:79:6: warning: no previous declaration for 'bpf_cpumask_release' [-Wmissing-declarations]
+>     void bpf_cpumask_release(struct bpf_cpumask *cpumask)
+>          ^~~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:91:5: warning: no previous declaration for 'bpf_cpumask_first' [-Wmissing-declarations]
+>     u32 bpf_cpumask_first(const struct cpumask *cpumask)
+>         ^~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:96:5: warning: no previous declaration for 'bpf_cpumask_first_zero' [-Wmissing-declarations]
+>     u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
+>         ^~~~~~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:101:6: warning: no previous declaration for 'bpf_cpumask_set_cpu' [-Wmissing-declarations]
+>     void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+>          ^~~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:109:6: warning: no previous declaration for 'bpf_cpumask_clear_cpu' [-Wmissing-declarations]
+>     void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+>          ^~~~~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:117:6: warning: no previous declaration for 'bpf_cpumask_test_cpu' [-Wmissing-declarations]
+>     bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
+>          ^~~~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:125:6: warning: no previous declaration for 'bpf_cpumask_test_and_set_cpu' [-Wmissing-declarations]
+>     bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+>          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:133:6: warning: no previous declaration for 'bpf_cpumask_test_and_clear_cpu' [-Wmissing-declarations]
+>     bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+>          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:141:6: warning: no previous declaration for 'bpf_cpumask_setall' [-Wmissing-declarations]
+>     void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
+>          ^~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:146:6: warning: no previous declaration for 'bpf_cpumask_clear' [-Wmissing-declarations]
+>     void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
+>          ^~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:151:6: warning: no previous declaration for 'bpf_cpumask_and' [-Wmissing-declarations]
+>     bool bpf_cpumask_and(struct bpf_cpumask *dst,
+>          ^~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:158:6: warning: no previous declaration for 'bpf_cpumask_or' [-Wmissing-declarations]
+>     void bpf_cpumask_or(struct bpf_cpumask *dst,
+>          ^~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:165:6: warning: no previous declaration for 'bpf_cpumask_xor' [-Wmissing-declarations]
+>     void bpf_cpumask_xor(struct bpf_cpumask *dst,
+>          ^~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:172:6: warning: no previous declaration for 'bpf_cpumask_equal' [-Wmissing-declarations]
+>     bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
+>          ^~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:177:6: warning: no previous declaration for 'bpf_cpumask_intersects' [-Wmissing-declarations]
+>     bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
+>          ^~~~~~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:182:6: warning: no previous declaration for 'bpf_cpumask_subset' [-Wmissing-declarations]
+>     bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
+>          ^~~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:187:6: warning: no previous declaration for 'bpf_cpumask_empty' [-Wmissing-declarations]
+>     bool bpf_cpumask_empty(const struct cpumask *cpumask)
+>          ^~~~~~~~~~~~~~~~~
+> >> kernel/bpf/cpumask.c:192:6: warning: no previous declaration for 'bpf_cpumask_full' [-Wmissing-declarations]
+>     bool bpf_cpumask_full(const struct cpumask *cpumask)
+>          ^~~~~~~~~~~~~~~~
+>    kernel/bpf/cpumask.c:197:6: warning: no previous declaration for 'bpf_cpumask_copy' [-Wmissing-declarations]
+>     void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
+>          ^~~~~~~~~~~~~~~~
+>    kernel/bpf/cpumask.c:202:5: warning: no previous declaration for 'bpf_cpumask_any' [-Wmissing-declarations]
+>     u32 bpf_cpumask_any(const struct cpumask *cpumask)
+>         ^~~~~~~~~~~~~~~
+>    kernel/bpf/cpumask.c:207:5: warning: no previous declaration for 'bpf_cpumask_any_and' [-Wmissing-declarations]
+>     u32 bpf_cpumask_any_and(const struct cpumask *src1, const struct cpumask *src2)
+>         ^~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +/bpf_cpumask_create +41 kernel/bpf/cpumask.c
+> 
+>     36	
+>     37	__diag_push();
+>     38	__diag_ignore_all("-Wmissing-prototypes",
+>     39			  "Global kfuncs as their definitions will be in BTF");
+>     40	
+>   > 41	struct bpf_cpumask *bpf_cpumask_create(void)
+>     42	{
+>     43		struct bpf_cpumask *cpumask;
+>     44	
+>     45		cpumask = bpf_mem_alloc(&bpf_cpumask_ma, sizeof(*cpumask));
+>     46		if (!cpumask)
+>     47			return NULL;
+>     48	
+>     49		memset(cpumask, 0, sizeof(*cpumask));
+>     50		refcount_set(&cpumask->usage, 1);
+>     51	
+>     52		return cpumask;
+>     53	}
+>     54	
+>   > 55	struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
+>     56	{
+>     57		refcount_inc(&cpumask->usage);
+>     58		return cpumask;
+>     59	}
+>     60	
+>   > 61	struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
+>     62	{
+>     63		struct bpf_cpumask *cpumask;
+>     64	
+>     65		/* The BPF memory allocator frees memory backing its caches in an RCU
+>     66		 * callback. Thus, we can safely use RCU to ensure that the cpumask is
+>     67		 * safe to read.
+>     68		 */
+>     69		rcu_read_lock();
+>     70	
+>     71		cpumask = READ_ONCE(*cpumaskp);
+>     72		if (cpumask && !refcount_inc_not_zero(&cpumask->usage))
+>     73			cpumask = NULL;
+>     74	
+>     75		rcu_read_unlock();
+>     76		return cpumask;
+>     77	}
+>     78	
+>   > 79	void bpf_cpumask_release(struct bpf_cpumask *cpumask)
+>     80	{
+>     81		if (!cpumask)
+>     82			return;
+>     83	
+>     84		if (refcount_dec_and_test(&cpumask->usage)) {
+>     85			migrate_disable();
+>     86			bpf_mem_free(&bpf_cpumask_ma, cpumask);
+>     87			migrate_enable();
+>     88		}
+>     89	}
+>     90	
+>   > 91	u32 bpf_cpumask_first(const struct cpumask *cpumask)
+>     92	{
+>     93		return cpumask_first(cpumask);
+>     94	}
+>     95	
+>   > 96	u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
+>     97	{
+>     98		return cpumask_first_zero(cpumask);
+>     99	}
+>    100	
+>  > 101	void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+>    102	{
+>    103		if (!cpu_valid(cpu))
+>    104			return;
+>    105	
+>    106		cpumask_set_cpu(cpu, (struct cpumask *)cpumask);
+>    107	}
+>    108	
+>  > 109	void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+>    110	{
+>    111		if (!cpu_valid(cpu))
+>    112			return;
+>    113	
+>    114		cpumask_clear_cpu(cpu, (struct cpumask *)cpumask);
+>    115	}
+>    116	
+>  > 117	bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
+>    118	{
+>    119		if (!cpu_valid(cpu))
+>    120			return false;
+>    121	
+>    122		return cpumask_test_cpu(cpu, (struct cpumask *)cpumask);
+>    123	}
+>    124	
+>  > 125	bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+>    126	{
+>    127		if (!cpu_valid(cpu))
+>    128			return false;
+>    129	
+>    130		return cpumask_test_and_set_cpu(cpu, (struct cpumask *)cpumask);
+>    131	}
+>    132	
+>  > 133	bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+>    134	{
+>    135		if (!cpu_valid(cpu))
+>    136			return false;
+>    137	
+>    138		return cpumask_test_and_clear_cpu(cpu, (struct cpumask *)cpumask);
+>    139	}
+>    140	
+>  > 141	void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
+>    142	{
+>    143		cpumask_setall((struct cpumask *)cpumask);
+>    144	}
+>    145	
+>  > 146	void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
+>    147	{
+>    148		cpumask_clear((struct cpumask *)cpumask);
+>    149	}
+>    150	
+>  > 151	bool bpf_cpumask_and(struct bpf_cpumask *dst,
+>    152			     const struct cpumask *src1,
+>    153			     const struct cpumask *src2)
+>    154	{
+>    155		return cpumask_and((struct cpumask *)dst, src1, src2);
+>    156	}
+>    157	
+>  > 158	void bpf_cpumask_or(struct bpf_cpumask *dst,
+>    159			    const struct cpumask *src1,
+>    160			    const struct cpumask *src2)
+>    161	{
+>    162		cpumask_or((struct cpumask *)dst, src1, src2);
+>    163	}
+>    164	
+>  > 165	void bpf_cpumask_xor(struct bpf_cpumask *dst,
+>    166			     const struct cpumask *src1,
+>    167			     const struct cpumask *src2)
+>    168	{
+>    169		cpumask_xor((struct cpumask *)dst, src1, src2);
+>    170	}
+>    171	
+>  > 172	bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
+>    173	{
+>    174		return cpumask_equal(src1, src2);
+>    175	}
+>    176	
+>  > 177	bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
+>    178	{
+>    179		return cpumask_intersects(src1, src2);
+>    180	}
+>    181	
+>  > 182	bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
+>    183	{
+>    184		return cpumask_subset(src1, src2);
+>    185	}
+>    186	
+>  > 187	bool bpf_cpumask_empty(const struct cpumask *cpumask)
+>    188	{
+>    189		return cpumask_empty(cpumask);
+>    190	}
+>    191	
+>  > 192	bool bpf_cpumask_full(const struct cpumask *cpumask)
+>    193	{
+>    194		return cpumask_full(cpumask);
+>    195	}
+>    196	
+>  > 197	void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
+>    198	{
+>    199		cpumask_copy((struct cpumask *)dst, src);
+>    200	}
+>    201	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
