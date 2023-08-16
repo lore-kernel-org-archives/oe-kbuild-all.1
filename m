@@ -1,197 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5217FC8D0;
-	Wed, 16 Aug 2023 10:41:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692182507; x=1723718507;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O9Mi3ukPZMXGw4qpDDWQ4PFtxGV6uTKsBrO6Nq3xvJk=;
-  b=IcDpw14zAbpViFm/AH/GjhLDOY9hoz1R1EM1hwx+ZnpBM5l3yk0goRvO
-   9NwZXP4EPQ+4AmuKslFnJ5dJE22Fgocv58NYsNj2iX9QoubRJa0uxl6e+
-   eCr6smVhrephmmdCBJ9pnLlpep6w75bNHCAzYtUOFsu5SBa3U2FMaoNFR
-   kkIv7AhXik4Ax9QMubefta3Jx8KYFTFNsxlJ/tOpGt0aeChahVcn1UU6o
-   ay9omP2B2G6cPAtj4aD6GxZOVergBU+oXZus0oHH0SrKYU5xxkAuTxzhW
-   uKONkGh+dhnY4w0951mQAAG6w8pjkp0Tu68gx9TL242w1RU4sZa6xWy/+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371405701"
-X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="371405701"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 03:41:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="804181910"
-X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="804181910"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Aug 2023 03:41:41 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qWDy8-0000En-32;
-	Wed, 16 Aug 2023 10:41:40 +0000
-Date: Wed, 16 Aug 2023 18:41:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Seven Lee <wtli@nuvoton.com>, broonie@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	lgirdwood@gmail.com, alsa-devel@alsa-project.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	robh+dt@kernel.org, conor+dt@kernel.org, YHCHuang@nuvoton.com,
-	KCHSU0@nuvoton.com, CTLIN0@nuvoton.com, WTLI@nuvoton.com,
-	SJLIN0@nuvoton.com, scott6986@gmail.com, supercraig0719@gmail.com,
-	dardar923@gmail.com
-Subject: Re: [PATCH 2/2] ASoC: nau8821: Improve AMIC recording performance.
-Message-ID: <202308161844.humS3QWm-lkp@intel.com>
-References: <20230816080006.1624342-2-wtli@nuvoton.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490E6FC17
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 11:35:17 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-58cd9d9dbf5so5769667b3.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 04:35:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692185716; x=1692790516;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W1TXDu+zgSSUXElwM6x2NcHaHgdAL86FtyCcicPVe4Q=;
+        b=bb3RsQi3f+tHEodoaDGOkVqKdxuoENBa4v9RI/78DgqyW8+TnvjdERIkfvQR8ApOBp
+         wPXvpHdnPdtxH0HMkjNsruaWaPQNrY1IMuH4jLAou27hEB7ZHwJLKUQ0V1Mcppgnt3Aa
+         IZCfKWOwC2mXsQ/GDAfZIkVN+GkaABpKpMTtMQsl3PVHLyxFPHNEpGc3gAP3u6hvl3h0
+         DyS6jOh09M0wDlmHljMFMLwjJmzM4+MemenGdLk2yyxqO2hz3GGPkAa32RUDfQd4nMwg
+         DCPxoVuUCIdMdk9A+McHVZPWS5ejxz0GS/vK2lc7eLirmHHxm1gJfy2OokAIdK31tmgR
+         0Zqw==
+X-Gm-Message-State: AOJu0YxDiJlVlRtiqp6zAZlRJPfMtO0RBlYZOIGosEps2q+jxlI4Y54I
+	VPdyCNsSGMVJdWVkB1NhPZD7+qqTVVU2zA==
+X-Google-Smtp-Source: AGHT+IHbc80WQqdi49pMTjUR9G6NpIc/refvuigeIxFwoT6iqc0GaWmqz156EE9rfmqcCIJG+QxPYg==
+X-Received: by 2002:a81:7757:0:b0:58c:fc64:c834 with SMTP id s84-20020a817757000000b0058cfc64c834mr1069281ywc.11.1692185715840;
+        Wed, 16 Aug 2023 04:35:15 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id x204-20020a817cd5000000b0056dfbc37d9fsm3984126ywc.50.2023.08.16.04.35.14
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Aug 2023 04:35:14 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d67305c80deso6801900276.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 04:35:14 -0700 (PDT)
+X-Received: by 2002:a25:abc7:0:b0:d71:99da:49b6 with SMTP id
+ v65-20020a25abc7000000b00d7199da49b6mr1971998ybi.29.1692185714245; Wed, 16
+ Aug 2023 04:35:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230816080006.1624342-2-wtli@nuvoton.com>
+References: <20230801105932.3738430-1-arnd@kernel.org> <202308100045.WeVD1ttk-lkp@intel.com>
+ <106a93ae-90f1-45fb-ae0a-034eb2d6faea@app.fastmail.com>
+In-Reply-To: <106a93ae-90f1-45fb-ae0a-034eb2d6faea@app.fastmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 16 Aug 2023 13:35:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWAO=-Qc71YWF2UFBVhbp55Fog-iUAuENNtiEP4xqx5ig@mail.gmail.com>
+Message-ID: <CAMuHMdWAO=-Qc71YWF2UFBVhbp55Fog-iUAuENNtiEP4xqx5ig@mail.gmail.com>
+Subject: Re: [PATCH] rtc: stm32: remove incorrect #ifdef check
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, oe-kbuild-all@lists.linux.dev, 
+	Alessandro Zummo <a.zummo@towertech.it>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Valentin Caron <valentin.caron@foss.st.com>, 
+	Antonio Borneo <antonio.borneo@foss.st.com>, Amelie DELAUNAY <amelie.delaunay@foss.st.com>, 
+	Christophe Guibout <christophe.guibout@foss.st.com>, 
+	Gabriel Fernandez <gabriel.fernandez@foss.st.com>, linux-rtc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Seven,
+Hi Arnd,
 
-kernel test robot noticed the following build warnings:
+On Wed, Aug 9, 2023 at 8:26=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote:
+> On Wed, Aug 9, 2023, at 18:36, kernel test robot wrote:
+> > If you fix the issue in a separate patch/commit (i.e. not just a new
+> > version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes:
+> > https://lore.kernel.org/oe-kbuild-all/202308100045.WeVD1ttk-lkp@intel.c=
+om/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >>> drivers/rtc/rtc-stm32.c:903:12: warning: 'stm32_rtc_resume' defined b=
+ut not used [-Wunused-function]
+> >      903 | static int stm32_rtc_resume(struct device *dev)
+> >          |            ^~~~~~~~~~~~~~~~
+> >>> drivers/rtc/rtc-stm32.c:893:12: warning: 'stm32_rtc_suspend' defined =
+but not used [-Wunused-function]
+> >      893 | static int stm32_rtc_suspend(struct device *dev)
+> >          |            ^~~~~~~~~~~~~~~~~
+>
+> This is the warning you get if my patch is applied but the
+> fb9a7e5360dc8 ("rtc: stm32: change PM callbacks to "_noirq()"")
+> commit is not. If that patch is applied, mine is needed to address
+> the other warning.
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on next-20230816]
-[cannot apply to linus/master v6.5-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Although both are now in linux-next, kisskb reported for m68k/allmodconfig:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Seven-Lee/ASoC-nau8821-Improve-AMIC-recording-performance/20230816-160236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230816080006.1624342-2-wtli%40nuvoton.com
-patch subject: [PATCH 2/2] ASoC: nau8821: Improve AMIC recording performance.
-config: hexagon-randconfig-r003-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161844.humS3QWm-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161844.humS3QWm-lkp@intel.com/reproduce)
+    drivers/rtc/rtc-stm32.c:904:12: error: =E2=80=98stm32_rtc_resume=E2=80=
+=99 defined
+but not used [-Werror=3Dunused-function]
+      904 | static int stm32_rtc_resume(struct device *dev)
+          |            ^~~~~~~~~~~~~~~~
+    drivers/rtc/rtc-stm32.c:894:12: error: =E2=80=98stm32_rtc_suspend=E2=80=
+=99 defined
+but not used [-Werror=3Dunused-function]
+      894 | static int stm32_rtc_suspend(struct device *dev)
+          |            ^~~~~~~~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308161844.humS3QWm-lkp@intel.com/
+Seems like you missed that the driver uses the old
+SET_NOIRQ_SYSTEM_SLEEP_PM_OPS() instead of the new
+NOIRQ_SYSTEM_SLEEP_PM_OPS().
 
-All warnings (new ones prefixed by >>):
+Patch sent.
+https://lore.kernel.org/r/20230816113326.1468435-1-geert@linux-m68k.org
 
-   In file included from sound/soc/codecs/nau8821.c:15:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from sound/soc/codecs/nau8821.c:15:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from sound/soc/codecs/nau8821.c:15:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> sound/soc/codecs/nau8821.c:649:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-           default:
-           ^
-   sound/soc/codecs/nau8821.c:649:2: note: insert 'break;' to avoid fall-through
-           default:
-           ^
-           break; 
-   7 warnings generated.
+Gr{oetje,eeting}s,
 
+                        Geert
 
-vim +649 sound/soc/codecs/nau8821.c
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-   626	
-   627	static int nau8821_left_fepga_event(struct snd_soc_dapm_widget *w,
-   628			struct snd_kcontrol *kcontrol, int event)
-   629	{
-   630		struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-   631		struct nau8821 *nau8821 = snd_soc_component_get_drvdata(component);
-   632	
-   633		if (!nau8821->left_input_single_end)
-   634			return 0;
-   635	
-   636		switch (event) {
-   637		case SND_SOC_DAPM_POST_PMU:
-   638			regmap_update_bits(nau8821->regmap, NAU8821_R77_FEPGA,
-   639				NAU8821_ACDC_CTRL_MASK | NAU8821_FEPGA_MODEL_MASK,
-   640				NAU8821_ACDC_VREF_MICN | NAU8821_FEPGA_MODEL_AAF);
-   641			regmap_update_bits(nau8821->regmap, NAU8821_R76_BOOST,
-   642				NAU8821_HP_BOOST_DISCHRG_EN, NAU8821_HP_BOOST_DISCHRG_EN);
-   643			break;
-   644		case SND_SOC_DAPM_POST_PMD:
-   645			regmap_update_bits(nau8821->regmap, NAU8821_R77_FEPGA,
-   646				NAU8821_ACDC_CTRL_MASK | NAU8821_FEPGA_MODEL_MASK, 0);
-   647			regmap_update_bits(nau8821->regmap, NAU8821_R76_BOOST,
-   648				NAU8821_HP_BOOST_DISCHRG_EN, 0);
- > 649		default:
-   650			break;
-   651		}
-   652	
-   653		return 0;
-   654	}
-   655	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
