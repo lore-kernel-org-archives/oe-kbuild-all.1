@@ -1,112 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987807F0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 01:56:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692150992; x=1723686992;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=My4sZKzzuuLuGeXNqIZ4eZ9PLtl2Zj9ZDH1a6mk6g/U=;
-  b=JUo5EexBFYoG4n50+Q7HT8UTpt5eZ/3T1jgE53VCKvARnflkZ421GUW3
-   j1Latn+O/xH8fyEBDo1Qtyka6w90nDINxV2gTRQR3DMVLw0hDlj1foK2r
-   FQOmxsp0iZ8IHMPh5q93hW3mMFQm24gwCb5+yhJkVSRDoqasizEavR47x
-   f4ueSNDcJrcNKMy7x5RDJ8WuNxd2p7JBWKAcZfRNHE0x9cxulTEt8qTPP
-   5ER3zrBbLXfQRZgoST/ezNq5+Eowk2kEPaKXYyVOD7O98N+rDxNMR90D2
-   uWnYrFsttelB9ire6c9B2NxwP8cxU3i0BG0wvgWXoXIY0zUGsLKOaYwny
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="458770998"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="458770998"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 18:56:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="734030201"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="734030201"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 15 Aug 2023 18:56:30 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qW5lt-0001Op-1T;
-	Wed, 16 Aug 2023 01:56:29 +0000
-Date: Wed, 16 Aug 2023 09:55:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:dev.2023.08.14a 49/51] kernel/rcu/rcutorture.c:24:10:
- fatal error: linux/rcu_notifier.h: No such file or directory
-Message-ID: <202308160930.YEekR3Wf-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA6380F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 02:15:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77DB6C433C7;
+	Wed, 16 Aug 2023 02:15:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692152134;
+	bh=g/lMKs7iiJxH3+1qd3l2lRBjL/GuWZ/t/VPJAo6sJ9g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cpx9A85uRq++Xtsjozlm3janb4fu04/7Oe0tPGAGtjXGfB6ig9hUzCOP/hTqt4G7v
+	 6QR3Re+px1qNrG/uRoloRGeRuT+XQjabqOkA/oHBfoxeNekBIPX2Ydk36Q4Ipqd5sq
+	 QCjIj0SkqEc0uQ9l/W3JT6PZq8zTqYiKqjoCB5bZ0UuRJeE+kzD6pbaq4ykeE/HImu
+	 huxMtDXZtcUs/ajGi9KGztrXVfZ/G1HePevbhoQQFGYaa6TTPCGyz8wb8vTBi/oouz
+	 ojXkcqcT85c++OSn/KkdVb7NSzFzI9tWiJQvysVKjlZN+AVUq0T/x7IK9hZXkO1jgo
+	 +R6fPm8cqO/Ww==
+Message-ID: <51c103d8-c404-806b-ea1f-f8c03e220961@kernel.org>
+Date: Tue, 15 Aug 2023 19:15:33 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: {standard input}:1727: Error: operand out of range (-132 is not
+ between -128 and 127)
+Content-Language: en-US
+To: paulmck@kernel.org, "Liu, Yujie" <yujie.liu@intel.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ lkp <lkp@intel.com>,
+ "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+ Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>
+References: <202308111233.rbf5C0JD-lkp@intel.com>
+ <416679c9-96b3-4114-bba3-473e647c4c2d@paulmck-laptop>
+ <f90742a02398f03f715b2a9afef213f5dee8f2bf.camel@intel.com>
+ <574cfd03-c279-4cf7-872f-cbe0b8788a50@paulmck-laptop>
+From: Vineet Gupta <vgupta@kernel.org>
+In-Reply-To: <574cfd03-c279-4cf7-872f-cbe0b8788a50@paulmck-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.08.14a
-head:   a90c4cbc91475bd5df35f712a954972fbfff40a1
-commit: 37730a9ba11627b63d8108dd8b3061ea2ee04df9 [49/51] rcutorture: Add test of RCU CPU stall notifiers
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230816/202308160930.YEekR3Wf-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160930.YEekR3Wf-lkp@intel.com/reproduce)
++CC Alexey and Claudiu
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308160930.YEekR3Wf-lkp@intel.com/
+On 8/15/23 09:35, Paul E. McKenney wrote:
+> On Tue, Aug 15, 2023 at 07:34:04AM +0000, Liu, Yujie wrote:
+>> Hi Paul,
+>>
+>> On Fri, 2023-08-11 at 08:41 -0700, Paul E. McKenney wrote:
+>>> On Fri, Aug 11, 2023 at 01:02:12PM +0800, kernel test robot wrote:
+>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>>>> head:   25aa0bebba72b318e71fe205bfd1236550cc9534
+>>>> commit: a6889becb05394255c80b62103677e3b095726a9 refscale: Add tests using SLAB_TYPESAFE_BY_RCU
+>>>> date:   7 months ago
+>>>> config: arc-randconfig-r006-20230811 (https://download.01.org/0day-ci/archive/20230811/202308111233.rbf5C0JD-lkp@intel.com/config)
+>>>> compiler: arceb-elf-gcc (GCC) 12.3.0
+>>>> reproduce: (https://download.01.org/0day-ci/archive/20230811/202308111233.rbf5C0JD-lkp@intel.com/reproduce)
+>>>>
+>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>>> the same patch/commit), kindly add following tags
+>>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>>> Closes: https://lore.kernel.org/oe-kbuild-all/202308111233.rbf5C0JD-lkp@intel.com/
+>>>> All errors (new ones prefixed by >>):
+>>>>
+>>>>     {standard input}: Assembler messages:
+>>>>>> {standard input}:1727: Error: operand out of range (-132 is not between -128 and 127)
+>>> I am not seeing any inline assembly in that patch, so I have to suspect
+>>> a bug in arch code or the compiler backend for arc.
+>>>
+>>> Or is there something that I am missing here?
+>> We looked into this case a little bit. The assembler error popped up
+>> when building kernel/rcu/refscale.o
+>>
+>> $make W=1 --keep-going CROSS_COMPILE=arceb-elf- ARCH=arc kernel/rcu/refscale.o
+>> ...
+>>    CC [M]  kernel/rcu/refscale.o
+>> {standard input}: Assembler messages:
+>> {standard input}:1727: Error: operand out of range (-132 is not between -128 and 127)
+>> make[3]: *** [scripts/Makefile.build:252: kernel/rcu/refscale.o] Error 1
+>> make[2]: *** [scripts/Makefile.build:504: kernel/rcu] Error 2
+>> make[2]: Target 'kernel/rcu/refscale.o' not remade because of errors.
+>> make[1]: *** [scripts/Makefile.build:504: kernel] Error 2
+>> make[1]: Target 'kernel/rcu/refscale.o' not remade because of errors.
+>> make: *** [Makefile:2008: .] Error 2
+>> make: Target 'kernel/rcu/refscale.o' not remade because of errors.
+>>
+>> We did some assembly and disassembly tricks:
+>>
+>> 1721 .L334:
+>> 1722         ld_s    r0,[r14,52]             ;15
+>> 1723         brgt r0, r19, @.L335
+>> 1724         ld_s    r0,[r13,120]            ;15
+>> 1725         breq_s r0, 0, @.L337
+>> 1726         jl [r17]
+>> 1727         brne_s r0, 0, @.L337    <---
+>> 1728         mov_s   r2,20   ;3
+>> 1729         mov_s   r1,0    ;3
+>> 1730         mov_s   r0,sp   ;4
+>> 1731         jl [r20]
+>> 1732         mov_s   r1,0    ;3
+>> 1733         mov_s   r0,sp   ;4
+>> 1734         jl @init_wait_entry
+>> 1735         .align 2
+>>
+>> This assembly instruction at line 1727 points to the code in main_func,
+>> but main_func is not touched by commit a6889becb053.
+>>
+>>   d6e:   860d                    ld_s    r0,[r14,0x34]
+>>   d70:   0b59 a002               brlt.nt r19,r0,-168     ;cc8 <main_func+0x16c>
+>>          return arch_atomic_read(v);
+>>   d74:   851e                    ld_s    r0,[r13,0x78]
+>>                  wait_event(main_wq,
+>>   d76:   e842                    breq_s  r0,0,-124       ;cf8 <main_func+0x19c>
+>>   d78:   2022 0440               jl      [r17]
+>>   d7c:   e8be                    brne_s  r0,0,124        ;df8 <main_func+0x29c>   <--
+>>   d7e:   da14                    mov_s   r2,0x14
+>>   d80:   702c                    mov_s   r1,0
+>>   d82:   4083                    mov_s   r0,sp
+>>   d84:   2022 0500               jl      [r20]
+>>   d88:   702c                    mov_s   r1,0
+>>   d8a:   4083                    mov_s   r0,sp
+>>   d8c:   2022 0f80 0000 0000     jl      0
+>>
+>> We also tried on the parent commit 3c6496c86e48. It builds fine without
+>> that assembler error, and corresponding disassembly is:
+>>
+>>   afe:   860d                    ld_s    r0,[r14,0x34]
+>>   b00:   0b5d a002               brlt.nt r19,r0,-164     ;a5c <main_func+0x16c>
+>>          return arch_atomic_read(v);
+>>   b04:   8518                    ld_s    r0,[r13,0x60]
+>>                  wait_event(main_wq,
+>>   b06:   e844                    breq_s  r0,0,-120       ;a8c <main_func+0x19c>
+>>   b08:   2022 0440               jl      [r17]
+>>   b0c:   e8c0                    brne_s  r0,0,-128       ;a8c <main_func+0x19c>   <--
+>>   b0e:   da14                    mov_s   r2,0x14
+>>   b10:   702c                    mov_s   r1,0
+>>   b12:   4083                    mov_s   r0,sp
+>>   b14:   2022 0500               jl      [r20]
+>>   b18:   702c                    mov_s   r1,0
+>>   b1a:   4083                    mov_s   r0,sp
+>>   b1c:   2022 0f80 0000 0000     jl      0
+>>   b24:   724c                    mov_s   r2,2
+>>   b26:   4183                    mov_s   r1,sp
+>>   b28:   40c3 0000 0000          mov_s   r0,0
+>>   b2e:   2022 0f80 0000 0000     jl      0
+>>
+>>
+>> We are also not sure if this is a bug in arch code or compiler side.
+>> Here we provide above info for your reference.
+> Thank you for looking into this and getting back to me.
+>
+> I added the ARC maintainer and list on CC.
+>
+> 							Thanx, Paul
 
-All errors (new ones prefixed by >>):
-
->> kernel/rcu/rcutorture.c:24:10: fatal error: linux/rcu_notifier.h: No such file or directory
-      24 | #include <linux/rcu_notifier.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +24 kernel/rcu/rcutorture.c
-
-    14	
-    15	#include <linux/types.h>
-    16	#include <linux/kernel.h>
-    17	#include <linux/init.h>
-    18	#include <linux/module.h>
-    19	#include <linux/kthread.h>
-    20	#include <linux/err.h>
-    21	#include <linux/spinlock.h>
-    22	#include <linux/smp.h>
-    23	#include <linux/rcupdate_wait.h>
-  > 24	#include <linux/rcu_notifier.h>
-    25	#include <linux/interrupt.h>
-    26	#include <linux/sched/signal.h>
-    27	#include <uapi/linux/sched/types.h>
-    28	#include <linux/atomic.h>
-    29	#include <linux/bitops.h>
-    30	#include <linux/completion.h>
-    31	#include <linux/moduleparam.h>
-    32	#include <linux/percpu.h>
-    33	#include <linux/notifier.h>
-    34	#include <linux/reboot.h>
-    35	#include <linux/freezer.h>
-    36	#include <linux/cpu.h>
-    37	#include <linux/delay.h>
-    38	#include <linux/stat.h>
-    39	#include <linux/srcu.h>
-    40	#include <linux/slab.h>
-    41	#include <linux/trace_clock.h>
-    42	#include <asm/byteorder.h>
-    43	#include <linux/torture.h>
-    44	#include <linux/vmalloc.h>
-    45	#include <linux/sched/debug.h>
-    46	#include <linux/sched/sysctl.h>
-    47	#include <linux/oom.h>
-    48	#include <linux/tick.h>
-    49	#include <linux/rcupdate_trace.h>
-    50	#include <linux/nmi.h>
-    51	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
