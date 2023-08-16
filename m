@@ -1,315 +1,309 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00FFD1078E;
-	Wed, 16 Aug 2023 13:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B57DF60
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 13:25:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692191736; x=1723727736;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=CLai+YNN3OujjOwMSs+ewWzyb1YQrY4aGWQEsGhHt0M=;
-  b=BUrTQHMVYLQlCicEhjkLNfstvf4jzDh4tjzC4uPfzUno9+K8/jFqm78e
-   PjJ2HY6JRkyOICu7sNd1jnzDEi/2Fl2XXbLjZkeOjqknfC3RsittZ9oGI
-   q2fV4CJtGoD0BE2POa7ETvLpIgJqUTSJvp0DztJ9JUYpkKTmd3mZ2FuvA
-   eb6EdonClveaoI10cFFgxSKGgH5VSYmtoD97UOXbEPktPeixX7VTUeDcd
-   exBo8aXrq4YZFObKUqMrCgKv2OuEQW94v1Jcl67v2MAhPlMNStOpekHMG
-   QEReJpZwQpPGMWFk2cDih89W4RPImmozypNaNVxhRwSpzvL7fuN19QlYm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352854186"
+  t=1692192357; x=1723728357;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u1cOjkRaoR80rd0ipOS6OWt9ojVGv9kNOBJlBw1Krj0=;
+  b=DUHgSi6L1CzqVFGA5IBykdlCBOv3G0mTNc2nCwI7kORhurka7iJOZn/j
+   FqL88zAa1YZwT5qRw7+vEmAZHETxB34b00lVkZ5+zliLZFzAU+u6GJ4NK
+   /Bavwg1E3+jIRC32F5nZFUYMUIl6sCenU4KqvUoXYIpGfBwEJDdMU+p8a
+   qGNMSwS47Cii0lcYDT9+lyjcb61wEREVgvv5QVyR+Lj9f6f3RgJfIQ6fF
+   OVyY1HrbeIyrFPjVOMd7TrncRzGwnAsPzOQE1wJn63pWnyQWgIFpPi2rM
+   VWMHbsAjxbI/pflNxCQ2v8x3aeRGft7EUxxb/KMQvYoPv+9zcvOhHJ2K8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370003585"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="352854186"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 06:15:35 -0700
+   d="scan'208";a="370003585"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 06:25:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="734204567"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="908013824"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="734204567"
+   d="scan'208";a="908013824"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 16 Aug 2023 06:15:26 -0700
+  by orsmga005.jf.intel.com with ESMTP; 16 Aug 2023 06:25:54 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWGMr-0000K0-29;
-	Wed, 16 Aug 2023 13:15:22 +0000
-Date: Wed, 16 Aug 2023 21:14:55 +0800
+	id 1qWGX3-0000KL-2r;
+	Wed, 16 Aug 2023 13:25:53 +0000
+Date: Wed, 16 Aug 2023 21:25:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
-	david@fromorbit.com, tkhai@ya.ru, vbabka@suse.cz,
-	roman.gushchin@linux.dev, djwong@kernel.org, brauner@kernel.org,
-	paulmck@kernel.org, tytso@mit.edu, steven.price@arm.com,
-	cel@kernel.org, senozhatsky@chromium.org, yujie.liu@intel.com,
-	gregkh@linuxfoundation.org, muchun.song@linux.dev,
-	joel@joelfernandes.org, christian.koenig@amd.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
-	Qi Zheng <zhengqi.arch@bytedance.com>,
-	Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH 1/5] mm: move some shrinker-related function declarations
- to mm/internal.h
-Message-ID: <202308162118.motJd6aG-lkp@intel.com>
-References: <20230816083419.41088-2-zhengqi.arch@bytedance.com>
+To: David Vernet <void@manifault.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: kernel/bpf/cpumask.c:41:21: warning: no previous declaration for
+ 'bpf_cpumask_create'
+Message-ID: <202308162115.Hn23vv3n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230816083419.41088-2-zhengqi.arch@bytedance.com>
 
-Hi Qi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.5-rc6 next-20230816]
-[cannot apply to akpm-mm/mm-everything drm-misc/drm-misc-next vfs-idmapping/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-move-some-shrinker-related-function-declarations-to-mm-internal-h/20230816-163833
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20230816083419.41088-2-zhengqi.arch%40bytedance.com
-patch subject: [PATCH 1/5] mm: move some shrinker-related function declarations to mm/internal.h
-config: riscv-randconfig-r015-20230816 (https://download.01.org/0day-ci/archive/20230816/202308162118.motJd6aG-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162118.motJd6aG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: 516f4d3397c9e90f4da04f59986c856016269aa1 bpf: Enable cpumasks to be queried and used as kptrs
+date:   7 months ago
+config: x86_64-randconfig-x076-20230816 (https://download.01.org/0day-ci/archive/20230816/202308162115.Hn23vv3n-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162115.Hn23vv3n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308162118.motJd6aG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308162115.Hn23vv3n-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-                                            ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-                                                     ~~~~~~~~~~ ^
->> mm/shrinker_debug.c:174:5: warning: no previous prototype for function 'shrinker_debugfs_add' [-Wmissing-prototypes]
-   int shrinker_debugfs_add(struct shrinker *shrinker)
-       ^
-   mm/shrinker_debug.c:174:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int shrinker_debugfs_add(struct shrinker *shrinker)
-   ^
-   static 
->> mm/shrinker_debug.c:249:16: warning: no previous prototype for function 'shrinker_debugfs_detach' [-Wmissing-prototypes]
-   struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-                  ^
-   mm/shrinker_debug.c:249:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-   ^
-   static 
->> mm/shrinker_debug.c:265:6: warning: no previous prototype for function 'shrinker_debugfs_remove' [-Wmissing-prototypes]
-   void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-        ^
-   mm/shrinker_debug.c:265:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-   ^
-   static 
-   16 warnings generated.
+>> kernel/bpf/cpumask.c:41:21: warning: no previous declaration for 'bpf_cpumask_create' [-Wmissing-declarations]
+    struct bpf_cpumask *bpf_cpumask_create(void)
+                        ^~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:55:21: warning: no previous declaration for 'bpf_cpumask_acquire' [-Wmissing-declarations]
+    struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
+                        ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/cpumask.c:61:21: warning: no previous declaration for 'bpf_cpumask_kptr_get' [-Wmissing-declarations]
+    struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
+                        ^~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:79:6: warning: no previous declaration for 'bpf_cpumask_release' [-Wmissing-declarations]
+    void bpf_cpumask_release(struct bpf_cpumask *cpumask)
+         ^~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:91:5: warning: no previous declaration for 'bpf_cpumask_first' [-Wmissing-declarations]
+    u32 bpf_cpumask_first(const struct cpumask *cpumask)
+        ^~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:96:5: warning: no previous declaration for 'bpf_cpumask_first_zero' [-Wmissing-declarations]
+    u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
+        ^~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:101:6: warning: no previous declaration for 'bpf_cpumask_set_cpu' [-Wmissing-declarations]
+    void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+         ^~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:109:6: warning: no previous declaration for 'bpf_cpumask_clear_cpu' [-Wmissing-declarations]
+    void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+         ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:117:6: warning: no previous declaration for 'bpf_cpumask_test_cpu' [-Wmissing-declarations]
+    bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
+         ^~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:125:6: warning: no previous declaration for 'bpf_cpumask_test_and_set_cpu' [-Wmissing-declarations]
+    bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:133:6: warning: no previous declaration for 'bpf_cpumask_test_and_clear_cpu' [-Wmissing-declarations]
+    bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:141:6: warning: no previous declaration for 'bpf_cpumask_setall' [-Wmissing-declarations]
+    void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
+         ^~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:146:6: warning: no previous declaration for 'bpf_cpumask_clear' [-Wmissing-declarations]
+    void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
+         ^~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:151:6: warning: no previous declaration for 'bpf_cpumask_and' [-Wmissing-declarations]
+    bool bpf_cpumask_and(struct bpf_cpumask *dst,
+         ^~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:158:6: warning: no previous declaration for 'bpf_cpumask_or' [-Wmissing-declarations]
+    void bpf_cpumask_or(struct bpf_cpumask *dst,
+         ^~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:165:6: warning: no previous declaration for 'bpf_cpumask_xor' [-Wmissing-declarations]
+    void bpf_cpumask_xor(struct bpf_cpumask *dst,
+         ^~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:172:6: warning: no previous declaration for 'bpf_cpumask_equal' [-Wmissing-declarations]
+    bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
+         ^~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:177:6: warning: no previous declaration for 'bpf_cpumask_intersects' [-Wmissing-declarations]
+    bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
+         ^~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:182:6: warning: no previous declaration for 'bpf_cpumask_subset' [-Wmissing-declarations]
+    bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
+         ^~~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:187:6: warning: no previous declaration for 'bpf_cpumask_empty' [-Wmissing-declarations]
+    bool bpf_cpumask_empty(const struct cpumask *cpumask)
+         ^~~~~~~~~~~~~~~~~
+>> kernel/bpf/cpumask.c:192:6: warning: no previous declaration for 'bpf_cpumask_full' [-Wmissing-declarations]
+    bool bpf_cpumask_full(const struct cpumask *cpumask)
+         ^~~~~~~~~~~~~~~~
+   kernel/bpf/cpumask.c:197:6: warning: no previous declaration for 'bpf_cpumask_copy' [-Wmissing-declarations]
+    void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
+         ^~~~~~~~~~~~~~~~
+   kernel/bpf/cpumask.c:202:5: warning: no previous declaration for 'bpf_cpumask_any' [-Wmissing-declarations]
+    u32 bpf_cpumask_any(const struct cpumask *cpumask)
+        ^~~~~~~~~~~~~~~
+   kernel/bpf/cpumask.c:207:5: warning: no previous declaration for 'bpf_cpumask_any_and' [-Wmissing-declarations]
+    u32 bpf_cpumask_any_and(const struct cpumask *src1, const struct cpumask *src2)
+        ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/shrinker_debugfs_add +174 mm/shrinker_debug.c
+vim +/bpf_cpumask_create +41 kernel/bpf/cpumask.c
 
-bbf535fd6f06b94 Roman Gushchin     2022-05-31  173  
-5035ebc644aec92 Roman Gushchin     2022-05-31 @174  int shrinker_debugfs_add(struct shrinker *shrinker)
-5035ebc644aec92 Roman Gushchin     2022-05-31  175  {
-5035ebc644aec92 Roman Gushchin     2022-05-31  176  	struct dentry *entry;
-e33c267ab70de42 Roman Gushchin     2022-05-31  177  	char buf[128];
-5035ebc644aec92 Roman Gushchin     2022-05-31  178  	int id;
-5035ebc644aec92 Roman Gushchin     2022-05-31  179  
-47a7c01c3efc658 Qi Zheng           2023-06-09  180  	lockdep_assert_held(&shrinker_rwsem);
-5035ebc644aec92 Roman Gushchin     2022-05-31  181  
-5035ebc644aec92 Roman Gushchin     2022-05-31  182  	/* debugfs isn't initialized yet, add debugfs entries later. */
-5035ebc644aec92 Roman Gushchin     2022-05-31  183  	if (!shrinker_debugfs_root)
-5035ebc644aec92 Roman Gushchin     2022-05-31  184  		return 0;
-5035ebc644aec92 Roman Gushchin     2022-05-31  185  
-5035ebc644aec92 Roman Gushchin     2022-05-31  186  	id = ida_alloc(&shrinker_debugfs_ida, GFP_KERNEL);
-5035ebc644aec92 Roman Gushchin     2022-05-31  187  	if (id < 0)
-5035ebc644aec92 Roman Gushchin     2022-05-31  188  		return id;
-5035ebc644aec92 Roman Gushchin     2022-05-31  189  	shrinker->debugfs_id = id;
-5035ebc644aec92 Roman Gushchin     2022-05-31  190  
-e33c267ab70de42 Roman Gushchin     2022-05-31  191  	snprintf(buf, sizeof(buf), "%s-%d", shrinker->name, id);
-5035ebc644aec92 Roman Gushchin     2022-05-31  192  
-5035ebc644aec92 Roman Gushchin     2022-05-31  193  	/* create debugfs entry */
-5035ebc644aec92 Roman Gushchin     2022-05-31  194  	entry = debugfs_create_dir(buf, shrinker_debugfs_root);
-5035ebc644aec92 Roman Gushchin     2022-05-31  195  	if (IS_ERR(entry)) {
-5035ebc644aec92 Roman Gushchin     2022-05-31  196  		ida_free(&shrinker_debugfs_ida, id);
-5035ebc644aec92 Roman Gushchin     2022-05-31  197  		return PTR_ERR(entry);
-5035ebc644aec92 Roman Gushchin     2022-05-31  198  	}
-5035ebc644aec92 Roman Gushchin     2022-05-31  199  	shrinker->debugfs_entry = entry;
-5035ebc644aec92 Roman Gushchin     2022-05-31  200  
-2124f79de6a9096 John Keeping       2023-04-18  201  	debugfs_create_file("count", 0440, entry, shrinker,
-5035ebc644aec92 Roman Gushchin     2022-05-31  202  			    &shrinker_debugfs_count_fops);
-2124f79de6a9096 John Keeping       2023-04-18  203  	debugfs_create_file("scan", 0220, entry, shrinker,
-bbf535fd6f06b94 Roman Gushchin     2022-05-31  204  			    &shrinker_debugfs_scan_fops);
-5035ebc644aec92 Roman Gushchin     2022-05-31  205  	return 0;
-5035ebc644aec92 Roman Gushchin     2022-05-31  206  }
-5035ebc644aec92 Roman Gushchin     2022-05-31  207  
-e33c267ab70de42 Roman Gushchin     2022-05-31  208  int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
-e33c267ab70de42 Roman Gushchin     2022-05-31  209  {
-e33c267ab70de42 Roman Gushchin     2022-05-31  210  	struct dentry *entry;
-e33c267ab70de42 Roman Gushchin     2022-05-31  211  	char buf[128];
-e33c267ab70de42 Roman Gushchin     2022-05-31  212  	const char *new, *old;
-e33c267ab70de42 Roman Gushchin     2022-05-31  213  	va_list ap;
-e33c267ab70de42 Roman Gushchin     2022-05-31  214  	int ret = 0;
-e33c267ab70de42 Roman Gushchin     2022-05-31  215  
-e33c267ab70de42 Roman Gushchin     2022-05-31  216  	va_start(ap, fmt);
-e33c267ab70de42 Roman Gushchin     2022-05-31  217  	new = kvasprintf_const(GFP_KERNEL, fmt, ap);
-e33c267ab70de42 Roman Gushchin     2022-05-31  218  	va_end(ap);
-e33c267ab70de42 Roman Gushchin     2022-05-31  219  
-e33c267ab70de42 Roman Gushchin     2022-05-31  220  	if (!new)
-e33c267ab70de42 Roman Gushchin     2022-05-31  221  		return -ENOMEM;
-e33c267ab70de42 Roman Gushchin     2022-05-31  222  
-47a7c01c3efc658 Qi Zheng           2023-06-09  223  	down_write(&shrinker_rwsem);
-e33c267ab70de42 Roman Gushchin     2022-05-31  224  
-e33c267ab70de42 Roman Gushchin     2022-05-31  225  	old = shrinker->name;
-e33c267ab70de42 Roman Gushchin     2022-05-31  226  	shrinker->name = new;
-e33c267ab70de42 Roman Gushchin     2022-05-31  227  
-e33c267ab70de42 Roman Gushchin     2022-05-31  228  	if (shrinker->debugfs_entry) {
-e33c267ab70de42 Roman Gushchin     2022-05-31  229  		snprintf(buf, sizeof(buf), "%s-%d", shrinker->name,
-e33c267ab70de42 Roman Gushchin     2022-05-31  230  			 shrinker->debugfs_id);
-e33c267ab70de42 Roman Gushchin     2022-05-31  231  
-e33c267ab70de42 Roman Gushchin     2022-05-31  232  		entry = debugfs_rename(shrinker_debugfs_root,
-e33c267ab70de42 Roman Gushchin     2022-05-31  233  				       shrinker->debugfs_entry,
-e33c267ab70de42 Roman Gushchin     2022-05-31  234  				       shrinker_debugfs_root, buf);
-e33c267ab70de42 Roman Gushchin     2022-05-31  235  		if (IS_ERR(entry))
-e33c267ab70de42 Roman Gushchin     2022-05-31  236  			ret = PTR_ERR(entry);
-e33c267ab70de42 Roman Gushchin     2022-05-31  237  		else
-e33c267ab70de42 Roman Gushchin     2022-05-31  238  			shrinker->debugfs_entry = entry;
-e33c267ab70de42 Roman Gushchin     2022-05-31  239  	}
-e33c267ab70de42 Roman Gushchin     2022-05-31  240  
-47a7c01c3efc658 Qi Zheng           2023-06-09  241  	up_write(&shrinker_rwsem);
-e33c267ab70de42 Roman Gushchin     2022-05-31  242  
-e33c267ab70de42 Roman Gushchin     2022-05-31  243  	kfree_const(old);
-e33c267ab70de42 Roman Gushchin     2022-05-31  244  
-e33c267ab70de42 Roman Gushchin     2022-05-31  245  	return ret;
-e33c267ab70de42 Roman Gushchin     2022-05-31  246  }
-e33c267ab70de42 Roman Gushchin     2022-05-31  247  EXPORT_SYMBOL(shrinker_debugfs_rename);
-e33c267ab70de42 Roman Gushchin     2022-05-31  248  
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03 @249  struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  250  				       int *debugfs_id)
-5035ebc644aec92 Roman Gushchin     2022-05-31  251  {
-badc28d4924bfed Qi Zheng           2023-02-02  252  	struct dentry *entry = shrinker->debugfs_entry;
-badc28d4924bfed Qi Zheng           2023-02-02  253  
-47a7c01c3efc658 Qi Zheng           2023-06-09  254  	lockdep_assert_held(&shrinker_rwsem);
-5035ebc644aec92 Roman Gushchin     2022-05-31  255  
-e33c267ab70de42 Roman Gushchin     2022-05-31  256  	kfree_const(shrinker->name);
-14773bfa70e67f4 Tetsuo Handa       2022-07-20  257  	shrinker->name = NULL;
-e33c267ab70de42 Roman Gushchin     2022-05-31  258  
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  259  	*debugfs_id = entry ? shrinker->debugfs_id : -1;
-badc28d4924bfed Qi Zheng           2023-02-02  260  	shrinker->debugfs_entry = NULL;
-badc28d4924bfed Qi Zheng           2023-02-02  261  
-badc28d4924bfed Qi Zheng           2023-02-02  262  	return entry;
-5035ebc644aec92 Roman Gushchin     2022-05-31  263  }
-5035ebc644aec92 Roman Gushchin     2022-05-31  264  
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03 @265  void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  266  {
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  267  	debugfs_remove_recursive(debugfs_entry);
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  268  	ida_free(&shrinker_debugfs_ida, debugfs_id);
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  269  }
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  270  
+    36	
+    37	__diag_push();
+    38	__diag_ignore_all("-Wmissing-prototypes",
+    39			  "Global kfuncs as their definitions will be in BTF");
+    40	
+  > 41	struct bpf_cpumask *bpf_cpumask_create(void)
+    42	{
+    43		struct bpf_cpumask *cpumask;
+    44	
+    45		cpumask = bpf_mem_alloc(&bpf_cpumask_ma, sizeof(*cpumask));
+    46		if (!cpumask)
+    47			return NULL;
+    48	
+    49		memset(cpumask, 0, sizeof(*cpumask));
+    50		refcount_set(&cpumask->usage, 1);
+    51	
+    52		return cpumask;
+    53	}
+    54	
+  > 55	struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
+    56	{
+    57		refcount_inc(&cpumask->usage);
+    58		return cpumask;
+    59	}
+    60	
+  > 61	struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
+    62	{
+    63		struct bpf_cpumask *cpumask;
+    64	
+    65		/* The BPF memory allocator frees memory backing its caches in an RCU
+    66		 * callback. Thus, we can safely use RCU to ensure that the cpumask is
+    67		 * safe to read.
+    68		 */
+    69		rcu_read_lock();
+    70	
+    71		cpumask = READ_ONCE(*cpumaskp);
+    72		if (cpumask && !refcount_inc_not_zero(&cpumask->usage))
+    73			cpumask = NULL;
+    74	
+    75		rcu_read_unlock();
+    76		return cpumask;
+    77	}
+    78	
+  > 79	void bpf_cpumask_release(struct bpf_cpumask *cpumask)
+    80	{
+    81		if (!cpumask)
+    82			return;
+    83	
+    84		if (refcount_dec_and_test(&cpumask->usage)) {
+    85			migrate_disable();
+    86			bpf_mem_free(&bpf_cpumask_ma, cpumask);
+    87			migrate_enable();
+    88		}
+    89	}
+    90	
+  > 91	u32 bpf_cpumask_first(const struct cpumask *cpumask)
+    92	{
+    93		return cpumask_first(cpumask);
+    94	}
+    95	
+  > 96	u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
+    97	{
+    98		return cpumask_first_zero(cpumask);
+    99	}
+   100	
+ > 101	void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+   102	{
+   103		if (!cpu_valid(cpu))
+   104			return;
+   105	
+   106		cpumask_set_cpu(cpu, (struct cpumask *)cpumask);
+   107	}
+   108	
+ > 109	void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+   110	{
+   111		if (!cpu_valid(cpu))
+   112			return;
+   113	
+   114		cpumask_clear_cpu(cpu, (struct cpumask *)cpumask);
+   115	}
+   116	
+ > 117	bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
+   118	{
+   119		if (!cpu_valid(cpu))
+   120			return false;
+   121	
+   122		return cpumask_test_cpu(cpu, (struct cpumask *)cpumask);
+   123	}
+   124	
+ > 125	bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+   126	{
+   127		if (!cpu_valid(cpu))
+   128			return false;
+   129	
+   130		return cpumask_test_and_set_cpu(cpu, (struct cpumask *)cpumask);
+   131	}
+   132	
+ > 133	bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
+   134	{
+   135		if (!cpu_valid(cpu))
+   136			return false;
+   137	
+   138		return cpumask_test_and_clear_cpu(cpu, (struct cpumask *)cpumask);
+   139	}
+   140	
+ > 141	void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
+   142	{
+   143		cpumask_setall((struct cpumask *)cpumask);
+   144	}
+   145	
+ > 146	void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
+   147	{
+   148		cpumask_clear((struct cpumask *)cpumask);
+   149	}
+   150	
+ > 151	bool bpf_cpumask_and(struct bpf_cpumask *dst,
+   152			     const struct cpumask *src1,
+   153			     const struct cpumask *src2)
+   154	{
+   155		return cpumask_and((struct cpumask *)dst, src1, src2);
+   156	}
+   157	
+ > 158	void bpf_cpumask_or(struct bpf_cpumask *dst,
+   159			    const struct cpumask *src1,
+   160			    const struct cpumask *src2)
+   161	{
+   162		cpumask_or((struct cpumask *)dst, src1, src2);
+   163	}
+   164	
+ > 165	void bpf_cpumask_xor(struct bpf_cpumask *dst,
+   166			     const struct cpumask *src1,
+   167			     const struct cpumask *src2)
+   168	{
+   169		cpumask_xor((struct cpumask *)dst, src1, src2);
+   170	}
+   171	
+ > 172	bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
+   173	{
+   174		return cpumask_equal(src1, src2);
+   175	}
+   176	
+ > 177	bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
+   178	{
+   179		return cpumask_intersects(src1, src2);
+   180	}
+   181	
+ > 182	bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
+   183	{
+   184		return cpumask_subset(src1, src2);
+   185	}
+   186	
+ > 187	bool bpf_cpumask_empty(const struct cpumask *cpumask)
+   188	{
+   189		return cpumask_empty(cpumask);
+   190	}
+   191	
+ > 192	bool bpf_cpumask_full(const struct cpumask *cpumask)
+   193	{
+   194		return cpumask_full(cpumask);
+   195	}
+   196	
+ > 197	void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
+   198	{
+   199		cpumask_copy((struct cpumask *)dst, src);
+   200	}
+   201	
 
 -- 
 0-DAY CI Kernel Test Service
