@@ -1,45 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD70DF71;
-	Wed, 16 Aug 2023 09:50:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DBDDF71
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 09:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692179418; x=1723715418;
+  t=1692179431; x=1723715431;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oWi75NojLSLKlx4YxL2ARuRq66wAnt6OUzej2OG3Tqo=;
-  b=kZWX+R1ta+j0jpZqsRuDMeEdVpEFIpe1H1uTEaqgstRb4etFKycL+8ek
-   0vVHEch3MeIBsBTwBYuuSEHPgfdbVgByGXoUL9Hd08ccZChWxz+rjOb2k
-   0YxSiSz5f1UAncrJ2zk72wgwGzTIFCtuWQGZdI0Upqk3GTCIx92uIg9wR
-   YF8NViLedRX1PuuOTvfBF5UhPoDgIZIC401qEWOMEGyXQktBrKeIKZyVQ
-   1rywkXAMu2uqGdQaEk+lEId4zGBFXHZ6gr88RapCX8MHOKMw08IlQ2+cc
-   OmJOIK35XJURf8P+BGo/AnJJVlq8jYhwb7i9i8SmXL/K6LrMGd8v1V/DI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="458842071"
+  bh=rf0/pTVAoaLULd5AVF5L2kQpqytC+cgzNCE0oPYfZg4=;
+  b=btu0mNn16y4D/Rb7PCkSJ2oSejhQJqf5cbblc2m9snRnb5ICn4GWgZuC
+   0z9hKMXucU/O7u4sjWP1egBDqtp/4jKsh13kn3RhRxOakBC5l7r1ZY47d
+   IwLaQkMtQTlh7Aoasb4t61/6vPfcRAtW0e752UyR+w31p1d5L0M/Jr9Kq
+   z5vcTT0v20Nn47+rU3E8+w+Macgu+Ypwh6YZqxAWY8sZW41xv0rfBescC
+   xMwJZf9T4LCUSlHs4HdTRHTMrJM23kR4b5rG/wExv5LFLMKkWh1qmoNL5
+   /6tJtIWwpLP2Zu9zxJwmb2pI2LxvnoOTYAKlZvWdH5TkFHBYpf5Vk1ys5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="458842109"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="458842071"
+   d="scan'208";a="458842109"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 02:50:17 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 02:50:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="769128511"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="769128561"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="769128511"
+   d="scan'208";a="769128561"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 16 Aug 2023 02:50:15 -0700
+  by orsmga001.jf.intel.com with ESMTP; 16 Aug 2023 02:50:28 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWDAD-0000Cf-0G;
-	Wed, 16 Aug 2023 09:50:07 +0000
+	id 1qWDAM-0000Ch-2p;
+	Wed, 16 Aug 2023 09:50:19 +0000
 Date: Wed, 16 Aug 2023 17:49:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: Johannes Berg <johannes@sipsolutions.net>,
 	linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Aloka Dixit <quic_alokad@quicinc.com>,
+Cc: oe-kbuild-all@lists.linux.dev, Aloka Dixit <quic_alokad@quicinc.com>,
 	Johannes Berg <johannes.berg@intel.com>
 Subject: Re: [PATCH v2] wifi: mac80211: fix puncturing bitmap handling in CSA
-Message-ID: <202308161727.hK0qYLAL-lkp@intel.com>
+Message-ID: <202308161717.SIA9osj9-lkp@intel.com>
 References: <20230816101108.9a2a011e3670.I062e026efafb59b026ab72fc7f7fce54f43dd29b@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -65,33 +64,26 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-mac802
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
 patch link:    https://lore.kernel.org/r/20230816101108.9a2a011e3670.I062e026efafb59b026ab72fc7f7fce54f43dd29b%40changeid
 patch subject: [PATCH v2] wifi: mac80211: fix puncturing bitmap handling in CSA
-config: riscv-randconfig-r012-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161727.hK0qYLAL-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161727.hK0qYLAL-lkp@intel.com/reproduce)
+config: nios2-randconfig-r016-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161717.SIA9osj9-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161717.SIA9osj9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308161727.hK0qYLAL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308161717.SIA9osj9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/mac80211/cfg.c:3680:6: error: use of undeclared identifier 'link_data'
+   net/mac80211/cfg.c: In function '__ieee80211_csa_finalize':
+>> net/mac80211/cfg.c:3680:13: error: 'link_data' undeclared (first use in this function); did you mean 'irq_data'?
     3680 |         if (link_data->conf->eht_puncturing != link_data->conf->csa_punct_bitmap) {
-         |             ^
-   net/mac80211/cfg.c:3680:41: error: use of undeclared identifier 'link_data'
-    3680 |         if (link_data->conf->eht_puncturing != link_data->conf->csa_punct_bitmap) {
-         |                                                ^
-   net/mac80211/cfg.c:3681:3: error: use of undeclared identifier 'link_data'
-    3681 |                 link_data->conf->eht_puncturing =
-         |                 ^
-   net/mac80211/cfg.c:3682:6: error: use of undeclared identifier 'link_data'
-    3682 |                                         link_data->conf->csa_punct_bitmap;
-         |                                         ^
-   4 errors generated.
+         |             ^~~~~~~~~
+         |             irq_data
+   net/mac80211/cfg.c:3680:13: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/link_data +3680 net/mac80211/cfg.c
+vim +3680 net/mac80211/cfg.c
 
   3640	
   3641	static int __ieee80211_csa_finalize(struct ieee80211_sub_if_data *sdata)
