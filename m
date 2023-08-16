@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D0E649
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 04:32:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13345A31;
+	Wed, 16 Aug 2023 04:53:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692160362; x=1723696362;
+  t=1692161631; x=1723697631;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RtM0byn395fW6cd2ur/l8WGYKVFyKvjsBTSKortY7Ak=;
-  b=hmNMDn5GZFVKmlAysvvxa1gAuY96qdCzUshj+SLJcDd9Eh/1XWDKannt
-   1PCbm8FxhiQek6zHtYrqYBdLX+tsrA3vhNbORLPsP3zneiZ6Rx+2VrG7N
-   6k808D5I5NaqGwFRAkIkWxO2V3rn6cwOY31JqRMLINBIUaxq11hc4PVZQ
-   8It50qIsPbQxkTnfnrWJdDvBn0R3CQSZ03w7axMvp5oWPPYveuGY/WMzA
-   xvslo5mZkuxSIKvUJedm5rmyS8BAdgVPPYtT5BMbWU+0wzmUWpKWW0tMk
-   WFt0yWx73xmtOx/+LXO8+pqWomyROjdq6myslDjRP/5TW0c4n0ZIBlbWX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="357414878"
+  bh=0fck4FpTAXmmjMfqECWo2DNzL/CycdLv2yke48G2VIY=;
+  b=XQ4p3WL28IWyth7Erl5LCNQ05oRjMGP4Mkll19qMLznsIjjeJs5FRH9K
+   0EyMGKxL6wyw/7CYeR5KWktcl7rlMkPOYmqdthGp1IwCdDeC+Ozc2Tfy7
+   VOK1JqS584734Hxhtu2A2p+OOatyLrdBDwk7wYujkWa2BwWbxBY2VhqgZ
+   8A3QT33fYczIEyKLFwews9Ao4Mq69DHWsdoVeueFkpIrPfLGCw+gahwcR
+   nxRnyaqjYUA0xeIHtzHn/Vw8XY0yNa73YY0cphatdNhejfiff4x0YRcQq
+   daO3CDMKh6omy3TX5DIGYaG3zjDY2rEhWBNOr6oe3oHXp8Htn1l/I8+Jf
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="372438742"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="357414878"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 21:32:42 -0700
+   d="scan'208";a="372438742"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 21:53:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="848329659"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="857676205"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="848329659"
+   d="scan'208";a="857676205"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2023 21:32:40 -0700
+  by orsmga004.jf.intel.com with ESMTP; 15 Aug 2023 21:53:49 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qW8D1-0001V1-20;
-	Wed, 16 Aug 2023 04:32:39 +0000
-Date: Wed, 16 Aug 2023 12:32:08 +0800
+	id 1qW8XU-0001WB-1C;
+	Wed, 16 Aug 2023 04:53:48 +0000
+Date: Wed, 16 Aug 2023 12:53:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Takashi Iwai <tiwai@suse.de>, Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.15.y 171/9999] drm_fb_helper.c:undefined reference
- to `fb_dealloc_cmap'
-Message-ID: <202308161253.JGLlDzxo-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/hyperv_no_range_flush 15/15]
+ include/linux/kvm_host.h:1483:19: error: redefinition of
+ 'kvm_arch_flush_remote_tlbs'
+Message-ID: <202308161241.Mi3s7LqF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,63 +47,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
-head:   24c4de4069cbce796a1c71166240807d617cd652
-commit: 0a2ddbfd65b3fefece66a49fc7d7498aaabf1d2d [171/9999] ALSA: ISA: not for M68K
-config: m68k-randconfig-r016-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161253.JGLlDzxo-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161253.JGLlDzxo-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/hyperv_no_range_flush
+head:   f9d65d9f4720ff9339b177fcc9af5a5d9bd43551
+commit: f9d65d9f4720ff9339b177fcc9af5a5d9bd43551 [15/15] KVM: x86/mmu: Declare flush_remote_tlbs{_range}() hooks iff HYPERV!=n
+config: i386-randconfig-i011-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161241.Mi3s7LqF-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161241.Mi3s7LqF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308161253.JGLlDzxo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308161241.Mi3s7LqF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   m68k-linux-ld: warning: arch/m68k/lib/umodsi3.o: missing .note.GNU-stack section implies executable stack
-   m68k-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   m68k-linux-ld: warning: arch/m68k/lib/umodsi3.o: missing .note.GNU-stack section implies executable stack
-   m68k-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   m68k-linux-ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend':
-   drm_fb_helper.c:(.text+0x3e2): undefined reference to `fb_set_suspend'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
-   drm_fb_helper.c:(.text+0x3fc): undefined reference to `fb_set_suspend'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_unregister_fbi':
-   drm_fb_helper.c:(.text+0x462): undefined reference to `unregister_framebuffer'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_fini':
->> drm_fb_helper.c:(.text+0x4b0): undefined reference to `fb_dealloc_cmap'
->> m68k-linux-ld: drm_fb_helper.c:(.text+0x4ba): undefined reference to `framebuffer_release'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_read':
-   drm_fb_helper.c:(.text+0x54a): undefined reference to `fb_sys_read'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `__drm_fb_helper_initial_config_and_unlock':
-   drm_fb_helper.c:(.text+0xec2): undefined reference to `register_framebuffer'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_cleanup':
-   drm_fb_helper.c:(.text+0x119a): undefined reference to `fb_deferred_io_cleanup'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
-   drm_fb_helper.c:(.text+0x17c8): undefined reference to `framebuffer_alloc'
->> m68k-linux-ld: drm_fb_helper.c:(.text+0x17e6): undefined reference to `fb_alloc_cmap'
->> m68k-linux-ld: drm_fb_helper.c:(.text+0x180c): undefined reference to `fb_dealloc_cmap'
-   m68k-linux-ld: drm_fb_helper.c:(.text+0x182a): undefined reference to `framebuffer_release'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_generic_probe':
-   drm_fb_helper.c:(.text+0x194a): undefined reference to `fb_deferred_io_init'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend_unlocked':
-   drm_fb_helper.c:(.text+0x1fc2): undefined reference to `fb_set_suspend'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_write':
-   drm_fb_helper.c:(.text+0x211e): undefined reference to `fb_sys_write'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_fillrect':
-   drm_fb_helper.c:(.text+0x215c): undefined reference to `sys_fillrect'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_copyarea':
-   drm_fb_helper.c:(.text+0x2190): undefined reference to `sys_copyarea'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_imageblit':
-   drm_fb_helper.c:(.text+0x21c4): undefined reference to `sys_imageblit'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_fillrect':
-   drm_fb_helper.c:(.text+0x21f8): undefined reference to `cfb_fillrect'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_copyarea':
-   drm_fb_helper.c:(.text+0x2246): undefined reference to `cfb_copyarea'
-   m68k-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_imageblit':
-   drm_fb_helper.c:(.text+0x2294): undefined reference to `cfb_imageblit'
+   In file included from arch/x86/events/intel/core.c:17:
+>> include/linux/kvm_host.h:1483:19: error: redefinition of 'kvm_arch_flush_remote_tlbs'
+   static inline int kvm_arch_flush_remote_tlbs(struct kvm *kvm)
+                     ^
+   arch/x86/include/asm/kvm_host.h:1801:19: note: previous definition is here
+   static inline int kvm_arch_flush_remote_tlbs(struct kvm *kvm)
+                     ^
+   1 error generated.
+
+
+vim +/kvm_arch_flush_remote_tlbs +1483 include/linux/kvm_host.h
+
+d89f5eff70a312 Jan Kiszka             2010-11-09  1481  
+51787fd509e7a7 David Matlack          2023-08-11  1482  #ifndef __KVM_HAVE_ARCH_FLUSH_REMOTE_TLBS
+51787fd509e7a7 David Matlack          2023-08-11 @1483  static inline int kvm_arch_flush_remote_tlbs(struct kvm *kvm)
+b08660e59dbdb6 Tianyu Lan             2018-07-19  1484  {
+b08660e59dbdb6 Tianyu Lan             2018-07-19  1485  	return -ENOTSUPP;
+b08660e59dbdb6 Tianyu Lan             2018-07-19  1486  }
+ccf9fdedfffe97 Raghavendra Rao Ananta 2023-08-11  1487  #else
+ccf9fdedfffe97 Raghavendra Rao Ananta 2023-08-11  1488  int kvm_arch_flush_remote_tlbs(struct kvm *kvm);
+b08660e59dbdb6 Tianyu Lan             2018-07-19  1489  #endif
+b08660e59dbdb6 Tianyu Lan             2018-07-19  1490  
+
+:::::: The code at line 1483 was first introduced by commit
+:::::: 51787fd509e7a7cee6f0336c173ed757225dcd9f KVM: Rename kvm_arch_flush_remote_tlb() to kvm_arch_flush_remote_tlbs()
+
+:::::: TO: David Matlack <dmatlack@google.com>
+:::::: CC: Sean Christopherson <seanjc@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
