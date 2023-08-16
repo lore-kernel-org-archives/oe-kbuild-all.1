@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DBDDF71
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 09:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E3FD2EE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 10:11:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692179431; x=1723715431;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rf0/pTVAoaLULd5AVF5L2kQpqytC+cgzNCE0oPYfZg4=;
-  b=btu0mNn16y4D/Rb7PCkSJ2oSejhQJqf5cbblc2m9snRnb5ICn4GWgZuC
-   0z9hKMXucU/O7u4sjWP1egBDqtp/4jKsh13kn3RhRxOakBC5l7r1ZY47d
-   IwLaQkMtQTlh7Aoasb4t61/6vPfcRAtW0e752UyR+w31p1d5L0M/Jr9Kq
-   z5vcTT0v20Nn47+rU3E8+w+Macgu+Ypwh6YZqxAWY8sZW41xv0rfBescC
-   xMwJZf9T4LCUSlHs4HdTRHTMrJM23kR4b5rG/wExv5LFLMKkWh1qmoNL5
-   /6tJtIWwpLP2Zu9zxJwmb2pI2LxvnoOTYAKlZvWdH5TkFHBYpf5Vk1ys5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="458842109"
+  t=1692180670; x=1723716670;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HBFGp3AJzTgd4yZbPOobIdUikY5EohDsS/jhOCJX87Q=;
+  b=CKV4PHXSWiRN69OrF8oXZFB39qYNvUnrt+QgT29fNYIXrK3x99ARBOe7
+   yAtJlgFJfh69LuCWYsJLs6yIqdfkcgEuubCrUPgN6w58uwXuuJL4cZCKj
+   doW+u2wn0JfXhQRdpcoEJOKfnxR7OxhMhyXwqw+HB+fkjFVESbXHVctch
+   oaeSvlafAmD6g+38Wukfzozx/o41JpiZWnsWnEZLUZxcDbUvKnaGfLiV9
+   iR5eNfAf2WcNg8xApm82FGGp2hSfnZucpV2MjQSaOM4zsbMWZ7YbX4lwi
+   LnXRYzBVB8dCdmnlbnCoihF33+OQPwvMgvXqC/JgYBhBwMkpGRr7GYKa6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375263468"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="458842109"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 02:50:30 -0700
+   d="scan'208";a="375263468"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 03:11:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="769128561"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="737244969"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="769128561"
+   d="scan'208";a="737244969"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 16 Aug 2023 02:50:28 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 16 Aug 2023 03:11:08 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWDAM-0000Ch-2p;
-	Wed, 16 Aug 2023 09:50:19 +0000
-Date: Wed, 16 Aug 2023 17:49:07 +0800
+	id 1qWDUZ-0000Dh-1C;
+	Wed, 16 Aug 2023 10:11:07 +0000
+Date: Wed, 16 Aug 2023 18:10:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>,
-	linux-wireless@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Aloka Dixit <quic_alokad@quicinc.com>,
-	Johannes Berg <johannes.berg@intel.com>
-Subject: Re: [PATCH v2] wifi: mac80211: fix puncturing bitmap handling in CSA
-Message-ID: <202308161717.SIA9osj9-lkp@intel.com>
-References: <20230816101108.9a2a011e3670.I062e026efafb59b026ab72fc7f7fce54f43dd29b@changeid>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-5.10 115/141]
+ drivers/gpu/drm/msm/msm_drv.c:442:17: error: label 'err_put_dev' used but
+ not defined
+Message-ID: <202308161817.Gi4FXOR5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,107 +46,179 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230816101108.9a2a011e3670.I062e026efafb59b026ab72fc7f7fce54f43dd29b@changeid>
 
-Hi Johannes,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v6.5-rc6 next-20230816]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-mac80211-fix-puncturing-bitmap-handling-in-CSA/20230816-161302
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20230816101108.9a2a011e3670.I062e026efafb59b026ab72fc7f7fce54f43dd29b%40changeid
-patch subject: [PATCH v2] wifi: mac80211: fix puncturing bitmap handling in CSA
-config: nios2-randconfig-r016-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161717.SIA9osj9-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161717.SIA9osj9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
+head:   82320ddb4a62efc1d70c8839bddb59ef879e4fb1
+commit: 7b131174452366a1ac873024eb84152cacc8a5e1 [115/141] drm/msm: fix missing wq allocation error handling
+config: arm-randconfig-r046-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161817.Gi4FXOR5-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161817.Gi4FXOR5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308161717.SIA9osj9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308161817.Gi4FXOR5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/mac80211/cfg.c: In function '__ieee80211_csa_finalize':
->> net/mac80211/cfg.c:3680:13: error: 'link_data' undeclared (first use in this function); did you mean 'irq_data'?
-    3680 |         if (link_data->conf->eht_puncturing != link_data->conf->csa_punct_bitmap) {
-         |             ^~~~~~~~~
-         |             irq_data
-   net/mac80211/cfg.c:3680:13: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/msm/msm_drv.c:124:15: warning: no previous prototype for '_msm_ioremap' [-Wmissing-prototypes]
+     124 | void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
+         |               ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/msm_drv.c: In function 'msm_drm_init':
+>> drivers/gpu/drm/msm/msm_drv.c:442:17: error: label 'err_put_dev' used but not defined
+     442 |                 goto err_put_dev;
+         |                 ^~~~
 
 
-vim +3680 net/mac80211/cfg.c
+vim +/err_put_dev +442 drivers/gpu/drm/msm/msm_drv.c
 
-  3640	
-  3641	static int __ieee80211_csa_finalize(struct ieee80211_sub_if_data *sdata)
-  3642	{
-  3643		struct ieee80211_local *local = sdata->local;
-  3644		u64 changed = 0;
-  3645		int err;
-  3646	
-  3647		sdata_assert_lock(sdata);
-  3648		lockdep_assert_held(&local->mtx);
-  3649		lockdep_assert_held(&local->chanctx_mtx);
-  3650	
-  3651		/*
-  3652		 * using reservation isn't immediate as it may be deferred until later
-  3653		 * with multi-vif. once reservation is complete it will re-schedule the
-  3654		 * work with no reserved_chanctx so verify chandef to check if it
-  3655		 * completed successfully
-  3656		 */
-  3657	
-  3658		if (sdata->deflink.reserved_chanctx) {
-  3659			/*
-  3660			 * with multi-vif csa driver may call ieee80211_csa_finish()
-  3661			 * many times while waiting for other interfaces to use their
-  3662			 * reservations
-  3663			 */
-  3664			if (sdata->deflink.reserved_ready)
-  3665				return 0;
-  3666	
-  3667			return ieee80211_link_use_reserved_context(&sdata->deflink);
-  3668		}
-  3669	
-  3670		if (!cfg80211_chandef_identical(&sdata->vif.bss_conf.chandef,
-  3671						&sdata->deflink.csa_chandef))
-  3672			return -EINVAL;
-  3673	
-  3674		sdata->vif.bss_conf.csa_active = false;
-  3675	
-  3676		err = ieee80211_set_after_csa_beacon(sdata, &changed);
-  3677		if (err)
-  3678			return err;
-  3679	
-> 3680		if (link_data->conf->eht_puncturing != link_data->conf->csa_punct_bitmap) {
-  3681			link_data->conf->eht_puncturing =
-  3682						link_data->conf->csa_punct_bitmap;
-  3683			changed |= BSS_CHANGED_EHT_PUNCTURING;
-  3684		}
-  3685	
-  3686		ieee80211_link_info_change_notify(sdata, &sdata->deflink, changed);
-  3687	
-  3688		if (sdata->deflink.csa_block_tx) {
-  3689			ieee80211_wake_vif_queues(local, sdata,
-  3690						  IEEE80211_QUEUE_STOP_REASON_CSA);
-  3691			sdata->deflink.csa_block_tx = false;
-  3692		}
-  3693	
-  3694		err = drv_post_channel_switch(sdata);
-  3695		if (err)
-  3696			return err;
-  3697	
-  3698		cfg80211_ch_switch_notify(sdata->dev, &sdata->deflink.csa_chandef, 0,
-  3699					  sdata->vif.bss_conf.eht_puncturing);
-  3700	
-  3701		return 0;
-  3702	}
-  3703	
+   396	
+   397	static int msm_drm_init(struct device *dev, struct drm_driver *drv)
+   398	{
+   399		struct platform_device *pdev = to_platform_device(dev);
+   400		struct drm_device *ddev;
+   401		struct msm_drm_private *priv;
+   402		struct msm_kms *kms;
+   403		struct msm_mdss *mdss;
+   404		int ret, i;
+   405	
+   406		ddev = drm_dev_alloc(drv, dev);
+   407		if (IS_ERR(ddev)) {
+   408			DRM_DEV_ERROR(dev, "failed to allocate drm_device\n");
+   409			return PTR_ERR(ddev);
+   410		}
+   411	
+   412		platform_set_drvdata(pdev, ddev);
+   413	
+   414		priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+   415		if (!priv) {
+   416			ret = -ENOMEM;
+   417			goto err_put_drm_dev;
+   418		}
+   419	
+   420		ddev->dev_private = priv;
+   421		priv->dev = ddev;
+   422	
+   423		switch (get_mdp_ver(pdev)) {
+   424		case KMS_MDP5:
+   425			ret = mdp5_mdss_init(ddev);
+   426			break;
+   427		case KMS_DPU:
+   428			ret = dpu_mdss_init(ddev);
+   429			break;
+   430		default:
+   431			ret = 0;
+   432			break;
+   433		}
+   434		if (ret)
+   435			goto err_free_priv;
+   436	
+   437		mdss = priv->mdss;
+   438	
+   439		priv->wq = alloc_ordered_workqueue("msm", 0);
+   440		if (!priv->wq) {
+   441			ret = -ENOMEM;
+ > 442			goto err_put_dev;
+   443		}
+   444	
+   445		INIT_WORK(&priv->free_work, msm_gem_free_work);
+   446		init_llist_head(&priv->free_list);
+   447	
+   448		INIT_LIST_HEAD(&priv->inactive_list);
+   449	
+   450		drm_mode_config_init(ddev);
+   451	
+   452		ret = msm_init_vram(ddev);
+   453		if (ret)
+   454			goto err_destroy_mdss;
+   455	
+   456		/* Bind all our sub-components: */
+   457		ret = component_bind_all(dev, ddev);
+   458		if (ret)
+   459			goto err_destroy_mdss;
+   460	
+   461		dma_set_max_seg_size(dev, UINT_MAX);
+   462	
+   463		msm_gem_shrinker_init(ddev);
+   464	
+   465		switch (get_mdp_ver(pdev)) {
+   466		case KMS_MDP4:
+   467			kms = mdp4_kms_init(ddev);
+   468			priv->kms = kms;
+   469			break;
+   470		case KMS_MDP5:
+   471			kms = mdp5_kms_init(ddev);
+   472			break;
+   473		case KMS_DPU:
+   474			kms = dpu_kms_init(ddev);
+   475			priv->kms = kms;
+   476			break;
+   477		default:
+   478			/* valid only for the dummy headless case, where of_node=NULL */
+   479			WARN_ON(dev->of_node);
+   480			kms = NULL;
+   481			break;
+   482		}
+   483	
+   484		if (IS_ERR(kms)) {
+   485			DRM_DEV_ERROR(dev, "failed to load kms\n");
+   486			ret = PTR_ERR(kms);
+   487			priv->kms = NULL;
+   488			goto err_msm_uninit;
+   489		}
+   490	
+   491		/* Enable normalization of plane zpos */
+   492		ddev->mode_config.normalize_zpos = true;
+   493	
+   494		if (kms) {
+   495			kms->dev = ddev;
+   496			ret = kms->funcs->hw_init(kms);
+   497			if (ret) {
+   498				DRM_DEV_ERROR(dev, "kms hw init failed: %d\n", ret);
+   499				goto err_msm_uninit;
+   500			}
+   501		}
+   502	
+   503		ddev->mode_config.funcs = &mode_config_funcs;
+   504		ddev->mode_config.helper_private = &mode_config_helper_funcs;
+   505	
+   506		for (i = 0; i < priv->num_crtcs; i++) {
+   507			/* initialize event thread */
+   508			priv->event_thread[i].crtc_id = priv->crtcs[i]->base.id;
+   509			priv->event_thread[i].dev = ddev;
+   510			priv->event_thread[i].worker = kthread_create_worker(0,
+   511				"crtc_event:%d", priv->event_thread[i].crtc_id);
+   512			if (IS_ERR(priv->event_thread[i].worker)) {
+   513				ret = PTR_ERR(priv->event_thread[i].worker);
+   514				DRM_DEV_ERROR(dev, "failed to create crtc_event kthread\n");
+   515				goto err_msm_uninit;
+   516			}
+   517	
+   518			sched_set_fifo(priv->event_thread[i].worker->task);
+   519		}
+   520	
+   521		ret = drm_vblank_init(ddev, priv->num_crtcs);
+   522		if (ret < 0) {
+   523			DRM_DEV_ERROR(dev, "failed to initialize vblank\n");
+   524			goto err_msm_uninit;
+   525		}
+   526	
+   527		if (kms) {
+   528			pm_runtime_get_sync(dev);
+   529			ret = drm_irq_install(ddev, kms->irq);
+   530			pm_runtime_put_sync(dev);
+   531			if (ret < 0) {
+   532				DRM_DEV_ERROR(dev, "failed to install IRQ handler\n");
+   533				goto err_msm_uninit;
+   534			}
+   535		}
+   536	
+   537		ret = drm_dev_register(ddev, 0);
+   538		if (ret)
+   539			goto err_msm_uninit;
+   540	
+   541		drm_mode_config_reset(ddev);
+   542	
 
 -- 
 0-DAY CI Kernel Test Service
