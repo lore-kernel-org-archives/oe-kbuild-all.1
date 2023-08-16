@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F69617C4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 05:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3485A210D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 05:35:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692162304; x=1723698304;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NAt/0Qk/D8dIgi2ijgp9hAnTPFOpIpFTEMLFKhs/g/E=;
-  b=IMR7lQxZtQqYFx47vxGj9F+mEtiecBeytuzXQe5dB6fTEeKIOxfoe6l3
-   7b34+HwE4RbfoOAxEma0+5idsFXdUFCnIPHBNB9xHuvwavcJShNyG+pwA
-   i0qbIxaDEEdouxtHvfLDdfjU43JEMeePKmVDwnkL75Y0i9GG+NJaRNPfN
-   fUwHX1ntDicg4toB1LHqpVh9JygtyC7pNxUiQXj4dxyo4QGfW6foy9M7e
-   1imLO8DmKWtZYMNOwnnaHh4UckNqvLMHsIWFIUeUDht86WFJ8lD5e9y2b
-   BVKSv90zFS0+beGy8useOfz6y7x5E3Am5c6H1TT+wP4mL1RspBfrrAH7b
+  t=1692164137; x=1723700137;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lQCxRH9XNJlrJrpHWpxz+d3yI5sbEQiydzC5p6HPFMA=;
+  b=QXnEtaTLoghpgmRhkJGA2PKm7/WlX1kXIZCUXRbMInbSjHNRgbHeg1iO
+   n2kMxFxxlNgZi1g3N3ag0hRFmPzXfGtC/fkrHlYFhv0uKIf2RJZH37R5/
+   Z3fPZNSxtiMr/6lZujpCzqmm6p8yGhC8AAyAB7CwU14gYr3gG3ZN+kzb6
+   jkGSqfr+Qa3GJ3paiBGUbGuQcO0wgZRbUyJWPCxFhAvnxlGPC5r1jG72f
+   mj2to28FK8T2snIoe+fO1t30gem5MKtqi00qHnmgUch9y1PlQxWe0e0eR
+   JOR9OGARZLizglScGzwYfdzkTa4YQ6qjVK6EzNXMlIANEo3VTqqVbmEM/
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371352493"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="371352493"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 22:04:51 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="438790535"
+X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
+   d="scan'208";a="438790535"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 22:35:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1064688371"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="1064688371"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Aug 2023 22:04:49 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="857684103"
+X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
+   d="scan'208";a="857684103"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 15 Aug 2023 22:35:34 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qW8i8-0001WN-1w;
-	Wed, 16 Aug 2023 05:04:48 +0000
-Date: Wed, 16 Aug 2023 13:04:03 +0800
+	id 1qW9Bu-00000z-0A;
+	Wed, 16 Aug 2023 05:35:34 +0000
+Date: Wed, 16 Aug 2023 13:35:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jordan Niethe <jniethe5@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: [powerpc:topic/ppc-kvm 3/6]
- arch/powerpc/kvm/guest-state-buffer.c:505: warning: expecting prototype for
- kvmppc_gsm_init(). Prototype was for kvmppc_gsm_new() instead
-Message-ID: <202308161359.9d2Z52f5-lkp@intel.com>
+To: Huisong Li <lihuisong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] soc: kunpeng_hccs: fix some sparse warnings about
+ incorrect type
+Message-ID: <202308161305.yhPT7ksM-lkp@intel.com>
+References: <20230815125233.65469-1-lihuisong@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,100 +47,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230815125233.65469-1-lihuisong@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
-head:   c95bf4c16099f2ed29a7f6949559bc4187d30710
-commit: 596bda338f11c9d2f860439733e5239100803d6c [3/6] KVM: PPC: Add helper library for Guest State Buffers
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230816/202308161359.9d2Z52f5-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161359.9d2Z52f5-lkp@intel.com/reproduce)
+Hi Huisong,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on next-20230815]
+[cannot apply to linus/master v6.5-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huisong-Li/soc-kunpeng_hccs-fix-some-sparse-warnings-about-incorrect-type/20230815-205824
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20230815125233.65469-1-lihuisong%40huawei.com
+patch subject: [PATCH] soc: kunpeng_hccs: fix some sparse warnings about incorrect type
+config: arm64-randconfig-r092-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161305.yhPT7ksM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161305.yhPT7ksM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308161359.9d2Z52f5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308161305.yhPT7ksM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/hisilicon/kunpeng_hccs.c:203:37: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/soc/hisilicon/kunpeng_hccs.c:203:65: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *comm_space @@     got unsigned char [usertype] * @@
+   drivers/soc/hisilicon/kunpeng_hccs.c:203:65: sparse:     expected void [noderef] __iomem *comm_space
+   drivers/soc/hisilicon/kunpeng_hccs.c:203:65: sparse:     got unsigned char [usertype] *
 
->> arch/powerpc/kvm/guest-state-buffer.c:505: warning: expecting prototype for kvmppc_gsm_init(). Prototype was for kvmppc_gsm_new() instead
->> arch/powerpc/kvm/guest-state-buffer.c:565: warning: expecting prototype for kvmppc_gsm_fill_info(). Prototype was for kvmppc_gsm_refresh_info() instead
+vim +/__iomem +203 drivers/soc/hisilicon/kunpeng_hccs.c
 
-
-vim +505 arch/powerpc/kvm/guest-state-buffer.c
-
-   493	
-   494	/**
-   495	 * kvmppc_gsm_init() - creates a new guest state message
-   496	 * @ops: callbacks
-   497	 * @data: private data
-   498	 * @flags: guest wide or thread wide
-   499	 * @gfp_flags: GFP allocation flags
-   500	 *
-   501	 * Returns an initialized guest state message.
-   502	 */
-   503	struct kvmppc_gs_msg *kvmppc_gsm_new(struct kvmppc_gs_msg_ops *ops, void *data,
-   504					     unsigned long flags, gfp_t gfp_flags)
- > 505	{
-   506		struct kvmppc_gs_msg *gsm;
-   507	
-   508		gsm = kzalloc(sizeof(*gsm), gfp_flags);
-   509		if (!gsm)
-   510			return NULL;
-   511	
-   512		kvmppc_gsm_init(gsm, ops, data, flags);
-   513	
-   514		return gsm;
-   515	}
-   516	EXPORT_SYMBOL_GPL(kvmppc_gsm_new);
-   517	
-   518	/**
-   519	 * kvmppc_gsm_size() - creates a new guest state message
-   520	 * @gsm: self
-   521	 *
-   522	 * Returns the size required for the message.
-   523	 */
-   524	size_t kvmppc_gsm_size(struct kvmppc_gs_msg *gsm)
-   525	{
-   526		if (gsm->ops->get_size)
-   527			return gsm->ops->get_size(gsm);
-   528		return 0;
-   529	}
-   530	EXPORT_SYMBOL_GPL(kvmppc_gsm_size);
-   531	
-   532	/**
-   533	 * kvmppc_gsm_free() - free guest state message
-   534	 * @gsm: guest state message
-   535	 *
-   536	 * Returns the size required for the message.
-   537	 */
-   538	void kvmppc_gsm_free(struct kvmppc_gs_msg *gsm)
-   539	{
-   540		kfree(gsm);
-   541	}
-   542	EXPORT_SYMBOL_GPL(kvmppc_gsm_free);
-   543	
-   544	/**
-   545	 * kvmppc_gsm_fill_info() - serialises message to guest state buffer format
-   546	 * @gsm: self
-   547	 * @gsb: buffer to serialise into
-   548	 */
-   549	int kvmppc_gsm_fill_info(struct kvmppc_gs_msg *gsm, struct kvmppc_gs_buff *gsb)
-   550	{
-   551		if (!gsm->ops->fill_info)
-   552			return -EINVAL;
-   553	
-   554		return gsm->ops->fill_info(gsb, gsm);
-   555	}
-   556	EXPORT_SYMBOL_GPL(kvmppc_gsm_fill_info);
-   557	
-   558	/**
-   559	 * kvmppc_gsm_fill_info() - deserialises from guest state buffer
-   560	 * @gsm: self
-   561	 * @gsb: buffer to serialise from
-   562	 */
-   563	int kvmppc_gsm_refresh_info(struct kvmppc_gs_msg *gsm,
-   564				    struct kvmppc_gs_buff *gsb)
- > 565	{
+   198	
+   199	static int hccs_pcc_cmd_send(struct hccs_dev *hdev, u8 cmd,
+   200				     struct hccs_desc *desc)
+   201	{
+   202		struct hccs_mbox_client_info *cl_info = &hdev->cl_info;
+ > 203		void __iomem *comm_space = (u8 *)cl_info->pcc_comm_addr +
+   204						sizeof(struct acpi_pcct_shared_memory);
+   205		struct hccs_fw_inner_head *fw_inner_head;
+   206		struct acpi_pcct_shared_memory tmp = {0};
+   207		u16 comm_space_size;
+   208		int ret;
+   209	
+   210		/* Write signature for this subspace */
+   211		tmp.signature = HCCS_PCC_SIGNATURE_MASK | hdev->chan_id;
+   212		/* Write to the shared command region */
+   213		tmp.command = cmd;
+   214		/* Clear cmd complete bit */
+   215		tmp.status = 0;
+   216		memcpy_toio(cl_info->pcc_comm_addr, (void *)&tmp,
+   217				sizeof(struct acpi_pcct_shared_memory));
+   218	
+   219		/* Copy the message to the PCC comm space */
+   220		comm_space_size = HCCS_PCC_SHARE_MEM_BYTES -
+   221					sizeof(struct acpi_pcct_shared_memory);
+   222		memcpy_toio(comm_space, (void *)desc, comm_space_size);
+   223	
+   224		/* Ring doorbell */
+   225		ret = mbox_send_message(cl_info->mbox_chan, &cmd);
+   226		if (ret < 0) {
+   227			dev_err(hdev->dev, "Send PCC mbox message failed, ret = %d.\n",
+   228				ret);
+   229			goto end;
+   230		}
+   231	
+   232		/* Wait for completion */
+   233		ret = hccs_check_chan_cmd_complete(hdev);
+   234		if (ret)
+   235			goto end;
+   236	
+   237		/* Copy response data */
+   238		memcpy_fromio((void *)desc, comm_space, comm_space_size);
+   239		fw_inner_head = &desc->rsp.fw_inner_head;
+   240		if (fw_inner_head->retStatus) {
+   241			dev_err(hdev->dev, "Execute PCC command failed, error code = %u.\n",
+   242				fw_inner_head->retStatus);
+   243			ret = -EIO;
+   244		}
+   245	
+   246	end:
+   247		mbox_client_txdone(cl_info->mbox_chan, ret);
+   248		return ret;
+   249	}
+   250	
 
 -- 
 0-DAY CI Kernel Test Service
