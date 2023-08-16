@@ -1,206 +1,189 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6720B17AD9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Aug 2023 23:56:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1692143782;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rMdFczi5hPu9kiJwFfBReCpil7cCsPlB4yZdjOEIHlE=;
-	b=RNleuKk6j7QdJVMA2sfHFIjUt6rx4mYA56lHjlahLWmzwxMniquqOGsT+dJtmAfZK21EcB
-	DKSNXV9MLE+uhYuxiL9lFBGjHq52vVgSwfRkxw+7y3L1Lxx+Yy9IQbOJqHL4i0fzRkl4VY
-	o9cAeAX6CBn8SanRQaxeIaUwvngvp/U=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-Tq8-rK21OfaxX9-rAQOXPQ-1; Tue, 15 Aug 2023 19:56:18 -0400
-X-MC-Unique: Tq8-rK21OfaxX9-rAQOXPQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C8AA3828896;
-	Tue, 15 Aug 2023 23:56:18 +0000 (UTC)
-Received: from [10.22.18.67] (unknown [10.22.18.67])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id CF69A40C207A;
-	Tue, 15 Aug 2023 23:56:16 +0000 (UTC)
-Message-ID: <a55f6ebe-645b-ba54-f07d-38fc4f9e499a@redhat.com>
-Date: Tue, 15 Aug 2023 19:56:16 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAD217C2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 00:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692144076; x=1723680076;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gEB0Kq814sEu6VmFwhUrtObvMF6Kf6L0Lz/KXBEeX3g=;
+  b=IDvWHcjpUlBE4HUEJih9mr71nAclZcTet4c1DrWnMyPIuTxM7SoUhCDV
+   LA4XlrfLO26S03gCne4iEK2sN79tydDAQwkOf7BvqHUNGjhg3AZaKKHrn
+   1sIz9L6Mws0wfd4aP3ntmYlgLwWjjd/VgNzwWun8tRXQxrUXuNWkoXe+G
+   vBOwBo8+eBvg5Jl0JXp+ZORi7BcUtzIQ9KllqAlnD2XIjmP7SPuZsQBF7
+   vXr898ekVpyyU5iLFdznBWCHCTx2ezH1YUJESHot6g8NiNPyFmtZQ90fd
+   CohpH33WtjNLHwTEdYbnXMbtKNR8amAu7FUjbmOnk/oWG1bBHq4BfsC9F
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375175268"
+X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
+   d="scan'208";a="375175268"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 17:01:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1064618795"
+X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
+   d="scan'208";a="1064618795"
+Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 15 Aug 2023 17:01:14 -0700
+Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qW3yL-0001Kl-1M;
+	Wed, 16 Aug 2023 00:01:13 +0000
+Date: Wed, 16 Aug 2023 08:00:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-5.4 10232/27202]
+ include/trace/trace_events.h:26:23: warning:
+ 'str__minidump__trace_system_name' defined but not used
+Message-ID: <202308160711.6sxd15Bp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH-cgroup v6 1/6] cgroup/cpuset: Add
- cpuset.cpus.exclusive.effective for v2
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Christian Brauner <brauner@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
- linux-kernel@vger.kernel.org, Juri Lelli <juri.lelli@redhat.com>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, =?UTF-8?Q?Michal_Koutn=c3=bd?=
- <mkoutny@suse.com>, Giuseppe Scrivano <gscrivan@redhat.com>
-References: <20230815153027.633355-2-longman@redhat.com>
- <202308160752.IWyhJoln-lkp@intel.com>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <202308160752.IWyhJoln-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 8/15/23 19:18, kernel test robot wrote:
-> Hi Waiman,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on next-20230815]
-> [cannot apply to tj-cgroup/for-next v6.5-rc6 v6.5-rc5 v6.5-rc4 linus/master v6.5-rc6]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Waiman-Long/cgroup-cpuset-Add-cpuset-cpus-exclusive-effective-for-v2/20230815-233522
-> base:   next-20230815
-> patch link:    https://lore.kernel.org/r/20230815153027.633355-2-longman%40redhat.com
-> patch subject: [PATCH-cgroup v6 1/6] cgroup/cpuset: Add cpuset.cpus.exclusive.effective for v2
-> config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20230816/202308160752.IWyhJoln-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160752.IWyhJoln-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308160752.IWyhJoln-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->     kernel/cgroup/cpuset.c: In function 'update_prstate':
->>> kernel/cgroup/cpuset.c:2468:30: warning: the comparison will always evaluate as 'true' for the address of 'effective_xcpus' will never be NULL [-Waddress]
->      2468 |         if ((new_prs > 0) && !cs->effective_xcpus) {
+Hi yong,
 
-Thanks for catching that. It is a careless mistake. Will send out a fix 
-version.
+FYI, the error/warning still remains.
 
-Cheers,
-Longman
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   f38754f7336474b5be6745c90563e6c32b921793
+commit: 802f3427132ac1d3ebbde92d6712f35960cc8354 [10232/27202] ANDROID: vendor_hooks: Add hooks for debugging exception context
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230816/202308160711.6sxd15Bp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160711.6sxd15Bp-lkp@intel.com/reproduce)
 
->           |                              ^
->     kernel/cgroup/cpuset.c:135:23: note: 'effective_xcpus' declared here
->       135 |         cpumask_var_t effective_xcpus;
->           |                       ^~~~~~~~~~~~~~~
->
->
-> vim +2468 kernel/cgroup/cpuset.c
->
->    2435	
->    2436	/**
->    2437	 * update_prstate - update partition_root_state
->    2438	 * @cs: the cpuset to update
->    2439	 * @new_prs: new partition root state
->    2440	 * Return: 0 if successful, != 0 if error
->    2441	 *
->    2442	 * Call with cpuset_mutex held.
->    2443	 */
->    2444	static int update_prstate(struct cpuset *cs, int new_prs)
->    2445	{
->    2446		int err = PERR_NONE, old_prs = cs->partition_root_state;
->    2447		struct tmpmasks tmpmask;
->    2448	
->    2449		if (old_prs == new_prs)
->    2450			return 0;
->    2451	
->    2452		/*
->    2453		 * For a previously invalid partition root, leave it at being
->    2454		 * invalid if new_prs is not "member".
->    2455		 */
->    2456		if (new_prs && is_prs_invalid(old_prs)) {
->    2457			cs->partition_root_state = -new_prs;
->    2458			return 0;
->    2459		}
->    2460	
->    2461		if (alloc_cpumasks(NULL, &tmpmask))
->    2462			return -ENOMEM;
->    2463	
->    2464		/*
->    2465		 * Setup effective_xcpus if not set yet, it will be cleared later
->    2466		 * if partition becomes invalid.
->    2467		 */
->> 2468		if ((new_prs > 0) && !cs->effective_xcpus) {
->    2469			struct cpuset *parent = parent_cs(cs);
->    2470	
->    2471			spin_lock_irq(&callback_lock);
->    2472			cpumask_and(cs->effective_xcpus,
->    2473				    cs->cpus_allowed, parent->effective_xcpus);
->    2474			spin_unlock_irq(&callback_lock);
->    2475		}
->    2476	
->    2477		err = update_partition_exclusive(cs, new_prs);
->    2478		if (err)
->    2479			goto out;
->    2480	
->    2481		if (!old_prs) {
->    2482			/*
->    2483			 * cpus_allowed cannot be empty.
->    2484			 */
->    2485			if (cpumask_empty(cs->cpus_allowed)) {
->    2486				err = PERR_CPUSEMPTY;
->    2487				goto out;
->    2488			}
->    2489	
->    2490			err = update_parent_effective_cpumask(cs, partcmd_enable,
->    2491							      NULL, &tmpmask);
->    2492		} else if (old_prs && new_prs) {
->    2493			/*
->    2494			 * A change in load balance state only, no change in cpumasks.
->    2495			 */
->    2496			;
->    2497		} else {
->    2498			/*
->    2499			 * Switching back to member is always allowed even if it
->    2500			 * disables child partitions.
->    2501			 */
->    2502			update_parent_effective_cpumask(cs, partcmd_disable, NULL,
->    2503							&tmpmask);
->    2504	
->    2505			/*
->    2506			 * Invalidation of child partitions will be done in
->    2507			 * update_cpumasks_hier().
->    2508			 */
->    2509		}
->    2510	out:
->    2511		/*
->    2512		 * Make partition invalid & disable CS_CPU_EXCLUSIVE if an error
->    2513		 * happens.
->    2514		 */
->    2515		if (err) {
->    2516			new_prs = -new_prs;
->    2517			update_partition_exclusive(cs, new_prs);
->    2518		}
->    2519	
->    2520		spin_lock_irq(&callback_lock);
->    2521		cs->partition_root_state = new_prs;
->    2522		WRITE_ONCE(cs->prs_err, err);
->    2523		if (!is_partition_valid(cs))
->    2524			cpumask_clear(cs->effective_xcpus);
->    2525		spin_unlock_irq(&callback_lock);
->    2526	
->    2527		/* Force update if switching back to member */
->    2528		update_cpumasks_hier(cs, &tmpmask, !new_prs ? HIER_CHECKALL : 0);
->    2529	
->    2530		/* Update sched domains and load balance flag */
->    2531		update_partition_sd_lb(cs, old_prs);
->    2532	
->    2533		notify_partition_change(cs, old_prs);
->    2534		free_cpumasks(NULL, &tmpmask);
->    2535		return 0;
->    2536	}
->    2537	
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308160711.6sxd15Bp-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/minidump.h:23,
+                    from drivers/android/vendor_hooks.c:20:
+>> include/trace/trace_events.h:26:23: warning: 'str__minidump__trace_system_name' defined but not used [-Wunused-const-variable=]
+      26 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:21: note: in expansion of macro '__app__'
+      27 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:29:29: note: in expansion of macro '__app'
+      29 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:32:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      32 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:35:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      35 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/debug.h:29,
+                    from drivers/android/vendor_hooks.c:19:
+   include/trace/trace_events.h:26:23: warning: 'str__debug__trace_system_name' defined but not used [-Wunused-const-variable=]
+      26 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:21: note: in expansion of macro '__app__'
+      27 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:29:29: note: in expansion of macro '__app'
+      29 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:32:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      32 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:35:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      35 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/topology.h:27,
+                    from drivers/android/vendor_hooks.c:18:
+   include/trace/trace_events.h:26:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
+      26 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:21: note: in expansion of macro '__app__'
+      27 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:29:29: note: in expansion of macro '__app'
+      29 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:32:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      32 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:35:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      35 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fpsimd.h:26,
+                    from drivers/android/vendor_hooks.c:17:
+   include/trace/trace_events.h:26:23: warning: 'str__fpsimd__trace_system_name' defined but not used [-Wunused-const-variable=]
+      26 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:21: note: in expansion of macro '__app__'
+      27 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:29:29: note: in expansion of macro '__app'
+      29 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:32:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      32 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:35:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      35 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/futex.h:26,
+                    from drivers/android/vendor_hooks.c:16:
+   include/trace/trace_events.h:26:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
+      26 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:21: note: in expansion of macro '__app__'
+      27 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:29:29: note: in expansion of macro '__app'
+      29 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:32:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      32 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:35:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      35 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/rwsem.h:38,
+                    from drivers/android/vendor_hooks.c:15:
+   include/trace/trace_events.h:26:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
+      26 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:21: note: in expansion of macro '__app__'
+      27 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:29:29: note: in expansion of macro '__app'
+      29 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:32:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      32 |         static const char TRACE_SYSTEM_STRING[] =       \
+
+
+vim +/str__minidump__trace_system_name +26 include/trace/trace_events.h
+
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  25) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @26) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  27) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) 
+
+:::::: The code at line 26 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
