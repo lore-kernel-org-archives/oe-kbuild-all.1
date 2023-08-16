@@ -1,40 +1,55 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315FCFC01
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 14:07:52 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-76d71798f9aso33781285a.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 07:07:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692194872; x=1692799672;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a6y1TC7cBo2QfNhr6teNP7YTGsh50NU2RBX8x/ID4jo=;
-        b=DllKilq32T9KJVa4ubauTezVyMl+Dbw249pU2D3tWVBKnIKp1eu82SsxunzfoL27un
-         OvpQKoXxvRKtHb+AFmA+Aw4h1Gv/mcWNOiaerDELbBc0HOTLym8Q6Sr0jaq+pSD0nYVG
-         0JGViNPqyRtQfGdWSmlYG1cs71Q9aypu328dImEnYmhdh+Nf1AxnuQURpUhp5o+USKFQ
-         Q8IHiENWW12uZU5FVjMj9DK6vrOsH809YidvLX7bWdamnSBkVGsEbs5XlylLBBxcx1WL
-         1C6wDBb8AXCtaYhrvgyy3r3AtFot5W+YXeioas8blBFF1rRlkFawxGK55lftcQ/Rb7Ev
-         mj6Q==
-X-Gm-Message-State: AOJu0YwfPFLxt4jBryGlHCfbayFLBzRCGjSKOS7fkqeqXVlyOpd3afOw
-	tFRMLFDgkLw2eh7aB4uQKeI=
-X-Google-Smtp-Source: AGHT+IE+NWFmX+qIyW0PC5n9y8nxfSsDzg/oazw5Ld8X12ERVYf0LYnO7mEwbKLJNdBTxrFnemOJLA==
-X-Received: by 2002:a05:620a:254c:b0:767:ad42:cc32 with SMTP id s12-20020a05620a254c00b00767ad42cc32mr1660477qko.2.1692194871761;
-        Wed, 16 Aug 2023 07:07:51 -0700 (PDT)
-Received: from maniforge ([2620:10d:c091:400::5:6eb])
-        by smtp.gmail.com with ESMTPSA id i15-20020a05620a074f00b0076c60b95b87sm4428533qki.96.2023.08.16.07.07.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 07:07:50 -0700 (PDT)
-Date: Wed, 16 Aug 2023 09:07:48 -0500
-From: David Vernet <void@manifault.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: Re: kernel/bpf/cpumask.c:41:21: warning: no previous declaration for
- 'bpf_cpumask_create'
-Message-ID: <20230816140748.GA759901@maniforge>
-References: <202308162115.Hn23vv3n-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EEAFC01
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 14:09:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692194949; x=1723730949;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rXIvn7ntMx76r7mOiVD3Xshd7gBZ900TQnREESXho9w=;
+  b=lCg7fsL+hTlG4AQZXfMH9/iAMcXea9bN8wl3C7sO/4Oo41Zy0dT7UINQ
+   gPyAeVNGQElY90aCmZLRA83xi/t9NtO1BRaQbQx2wGbvzo00XcqmSCNZG
+   IFgAfk4A1ZiNcOGwo+z8UkEVvziBH8wJH2N1IjYv8EELKkEieDL0Gatce
+   6cNMJhAn8Exx74xjEXnQ1mRyGFPOZe3G/wh0VILxZ6TMGtdRTSlsTGnLK
+   GuN9DtBhHAeQcDFlk8US38goF3f1FLHHiTHS8AzzTalFUYZuWPnRcz0dl
+   x2GMQN0YjPSzj3NP96dXvvfu6q1Y/NEgiJc2uXt9Ljc2QNkiX1LAeKAg5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375312519"
+X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
+   d="scan'208";a="375312519"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 07:08:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="980752908"
+X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
+   d="scan'208";a="980752908"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 16 Aug 2023 07:07:58 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qWHBm-0000MT-0F;
+	Wed, 16 Aug 2023 14:07:58 +0000
+Date: Wed, 16 Aug 2023 22:07:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mingjin Yang <mingjin.yang@unisoc.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, mingjin.yang@unisoc.com,
+	magicyangmingjin@gmail.com, Ling_Ling.Xu@unisoc.com,
+	Jinfeng.Lin1@unisoc.com, Yangbin.Li@unisoc.com,
+	Jiansheng.Wu@unisoc.com, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V0 2/2] iio: adc: sprd_pmic_adc: Add support for UMP
+ serise pmic adc
+Message-ID: <202308162143.UjXhwiRf-lkp@intel.com>
+References: <20230816080225.21482-3-mingjin.yang@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,284 +58,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202308162115.Hn23vv3n-lkp@intel.com>
-User-Agent: Mutt/2.2.10 (2023-03-25)
+In-Reply-To: <20230816080225.21482-3-mingjin.yang@unisoc.com>
 
-On Wed, Aug 16, 2023 at 09:25:30PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-> commit: 516f4d3397c9e90f4da04f59986c856016269aa1 bpf: Enable cpumasks to be queried and used as kptrs
-> date:   7 months ago
-> config: x86_64-randconfig-x076-20230816 (https://download.01.org/0day-ci/archive/20230816/202308162115.Hn23vv3n-lkp@intel.com/config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162115.Hn23vv3n-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308162115.Hn23vv3n-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> kernel/bpf/cpumask.c:41:21: warning: no previous declaration for 'bpf_cpumask_create' [-Wmissing-declarations]
->     struct bpf_cpumask *bpf_cpumask_create(void)
+Hi Mingjin,
 
-Meh, more noise from lkp because of kfuncs. It would be nice if as a
-courtesy, these warnings were fixed before they got turned on and the
-email list got spammed 7 months after the commit landed; especially
-given that this is essentially redundant with -Wmissing-prototypes.
+kernel test robot noticed the following build warnings:
 
-Anyways, the solution here is to just add the following around all
-kfuncs that already have -Wmissing-prototypes disabled:
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.5-rc6 next-20230816]
+[cannot apply to jic23-iio/togreg]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-__diag_push();
-__diag_ignore_all("-Wmissing-declarations",
-                  "Global kfuncs as their definitions will be in BTF");
+url:    https://github.com/intel-lab-lkp/linux/commits/Mingjin-Yang/dt-bindings-iio-adc-Add-support-for-ump518-pmic-adc/20230816-160754
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230816080225.21482-3-mingjin.yang%40unisoc.com
+patch subject: [PATCH V0 2/2] iio: adc: sprd_pmic_adc: Add support for UMP serise pmic adc
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230816/202308162143.UjXhwiRf-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162143.UjXhwiRf-lkp@intel.com/reproduce)
 
-I'll send out a patch that adds this around all kfuncs so we can avoid
-all of these warnings in one go.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308162143.UjXhwiRf-lkp@intel.com/
 
->                         ^~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:55:21: warning: no previous declaration for 'bpf_cpumask_acquire' [-Wmissing-declarations]
->     struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
->                         ^~~~~~~~~~~~~~~~~~~
->    kernel/bpf/cpumask.c:61:21: warning: no previous declaration for 'bpf_cpumask_kptr_get' [-Wmissing-declarations]
->     struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
->                         ^~~~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:79:6: warning: no previous declaration for 'bpf_cpumask_release' [-Wmissing-declarations]
->     void bpf_cpumask_release(struct bpf_cpumask *cpumask)
->          ^~~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:91:5: warning: no previous declaration for 'bpf_cpumask_first' [-Wmissing-declarations]
->     u32 bpf_cpumask_first(const struct cpumask *cpumask)
->         ^~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:96:5: warning: no previous declaration for 'bpf_cpumask_first_zero' [-Wmissing-declarations]
->     u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
->         ^~~~~~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:101:6: warning: no previous declaration for 'bpf_cpumask_set_cpu' [-Wmissing-declarations]
->     void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
->          ^~~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:109:6: warning: no previous declaration for 'bpf_cpumask_clear_cpu' [-Wmissing-declarations]
->     void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
->          ^~~~~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:117:6: warning: no previous declaration for 'bpf_cpumask_test_cpu' [-Wmissing-declarations]
->     bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
->          ^~~~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:125:6: warning: no previous declaration for 'bpf_cpumask_test_and_set_cpu' [-Wmissing-declarations]
->     bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
->          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:133:6: warning: no previous declaration for 'bpf_cpumask_test_and_clear_cpu' [-Wmissing-declarations]
->     bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
->          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:141:6: warning: no previous declaration for 'bpf_cpumask_setall' [-Wmissing-declarations]
->     void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
->          ^~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:146:6: warning: no previous declaration for 'bpf_cpumask_clear' [-Wmissing-declarations]
->     void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
->          ^~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:151:6: warning: no previous declaration for 'bpf_cpumask_and' [-Wmissing-declarations]
->     bool bpf_cpumask_and(struct bpf_cpumask *dst,
->          ^~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:158:6: warning: no previous declaration for 'bpf_cpumask_or' [-Wmissing-declarations]
->     void bpf_cpumask_or(struct bpf_cpumask *dst,
->          ^~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:165:6: warning: no previous declaration for 'bpf_cpumask_xor' [-Wmissing-declarations]
->     void bpf_cpumask_xor(struct bpf_cpumask *dst,
->          ^~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:172:6: warning: no previous declaration for 'bpf_cpumask_equal' [-Wmissing-declarations]
->     bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
->          ^~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:177:6: warning: no previous declaration for 'bpf_cpumask_intersects' [-Wmissing-declarations]
->     bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
->          ^~~~~~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:182:6: warning: no previous declaration for 'bpf_cpumask_subset' [-Wmissing-declarations]
->     bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
->          ^~~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:187:6: warning: no previous declaration for 'bpf_cpumask_empty' [-Wmissing-declarations]
->     bool bpf_cpumask_empty(const struct cpumask *cpumask)
->          ^~~~~~~~~~~~~~~~~
-> >> kernel/bpf/cpumask.c:192:6: warning: no previous declaration for 'bpf_cpumask_full' [-Wmissing-declarations]
->     bool bpf_cpumask_full(const struct cpumask *cpumask)
->          ^~~~~~~~~~~~~~~~
->    kernel/bpf/cpumask.c:197:6: warning: no previous declaration for 'bpf_cpumask_copy' [-Wmissing-declarations]
->     void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
->          ^~~~~~~~~~~~~~~~
->    kernel/bpf/cpumask.c:202:5: warning: no previous declaration for 'bpf_cpumask_any' [-Wmissing-declarations]
->     u32 bpf_cpumask_any(const struct cpumask *cpumask)
->         ^~~~~~~~~~~~~~~
->    kernel/bpf/cpumask.c:207:5: warning: no previous declaration for 'bpf_cpumask_any_and' [-Wmissing-declarations]
->     u32 bpf_cpumask_any_and(const struct cpumask *src1, const struct cpumask *src2)
->         ^~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +/bpf_cpumask_create +41 kernel/bpf/cpumask.c
-> 
->     36	
->     37	__diag_push();
->     38	__diag_ignore_all("-Wmissing-prototypes",
->     39			  "Global kfuncs as their definitions will be in BTF");
->     40	
->   > 41	struct bpf_cpumask *bpf_cpumask_create(void)
->     42	{
->     43		struct bpf_cpumask *cpumask;
->     44	
->     45		cpumask = bpf_mem_alloc(&bpf_cpumask_ma, sizeof(*cpumask));
->     46		if (!cpumask)
->     47			return NULL;
->     48	
->     49		memset(cpumask, 0, sizeof(*cpumask));
->     50		refcount_set(&cpumask->usage, 1);
->     51	
->     52		return cpumask;
->     53	}
->     54	
->   > 55	struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
->     56	{
->     57		refcount_inc(&cpumask->usage);
->     58		return cpumask;
->     59	}
->     60	
->   > 61	struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
->     62	{
->     63		struct bpf_cpumask *cpumask;
->     64	
->     65		/* The BPF memory allocator frees memory backing its caches in an RCU
->     66		 * callback. Thus, we can safely use RCU to ensure that the cpumask is
->     67		 * safe to read.
->     68		 */
->     69		rcu_read_lock();
->     70	
->     71		cpumask = READ_ONCE(*cpumaskp);
->     72		if (cpumask && !refcount_inc_not_zero(&cpumask->usage))
->     73			cpumask = NULL;
->     74	
->     75		rcu_read_unlock();
->     76		return cpumask;
->     77	}
->     78	
->   > 79	void bpf_cpumask_release(struct bpf_cpumask *cpumask)
->     80	{
->     81		if (!cpumask)
->     82			return;
->     83	
->     84		if (refcount_dec_and_test(&cpumask->usage)) {
->     85			migrate_disable();
->     86			bpf_mem_free(&bpf_cpumask_ma, cpumask);
->     87			migrate_enable();
->     88		}
->     89	}
->     90	
->   > 91	u32 bpf_cpumask_first(const struct cpumask *cpumask)
->     92	{
->     93		return cpumask_first(cpumask);
->     94	}
->     95	
->   > 96	u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
->     97	{
->     98		return cpumask_first_zero(cpumask);
->     99	}
->    100	
->  > 101	void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
->    102	{
->    103		if (!cpu_valid(cpu))
->    104			return;
->    105	
->    106		cpumask_set_cpu(cpu, (struct cpumask *)cpumask);
->    107	}
->    108	
->  > 109	void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
->    110	{
->    111		if (!cpu_valid(cpu))
->    112			return;
->    113	
->    114		cpumask_clear_cpu(cpu, (struct cpumask *)cpumask);
->    115	}
->    116	
->  > 117	bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
->    118	{
->    119		if (!cpu_valid(cpu))
->    120			return false;
->    121	
->    122		return cpumask_test_cpu(cpu, (struct cpumask *)cpumask);
->    123	}
->    124	
->  > 125	bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
->    126	{
->    127		if (!cpu_valid(cpu))
->    128			return false;
->    129	
->    130		return cpumask_test_and_set_cpu(cpu, (struct cpumask *)cpumask);
->    131	}
->    132	
->  > 133	bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
->    134	{
->    135		if (!cpu_valid(cpu))
->    136			return false;
->    137	
->    138		return cpumask_test_and_clear_cpu(cpu, (struct cpumask *)cpumask);
->    139	}
->    140	
->  > 141	void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
->    142	{
->    143		cpumask_setall((struct cpumask *)cpumask);
->    144	}
->    145	
->  > 146	void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
->    147	{
->    148		cpumask_clear((struct cpumask *)cpumask);
->    149	}
->    150	
->  > 151	bool bpf_cpumask_and(struct bpf_cpumask *dst,
->    152			     const struct cpumask *src1,
->    153			     const struct cpumask *src2)
->    154	{
->    155		return cpumask_and((struct cpumask *)dst, src1, src2);
->    156	}
->    157	
->  > 158	void bpf_cpumask_or(struct bpf_cpumask *dst,
->    159			    const struct cpumask *src1,
->    160			    const struct cpumask *src2)
->    161	{
->    162		cpumask_or((struct cpumask *)dst, src1, src2);
->    163	}
->    164	
->  > 165	void bpf_cpumask_xor(struct bpf_cpumask *dst,
->    166			     const struct cpumask *src1,
->    167			     const struct cpumask *src2)
->    168	{
->    169		cpumask_xor((struct cpumask *)dst, src1, src2);
->    170	}
->    171	
->  > 172	bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
->    173	{
->    174		return cpumask_equal(src1, src2);
->    175	}
->    176	
->  > 177	bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
->    178	{
->    179		return cpumask_intersects(src1, src2);
->    180	}
->    181	
->  > 182	bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
->    183	{
->    184		return cpumask_subset(src1, src2);
->    185	}
->    186	
->  > 187	bool bpf_cpumask_empty(const struct cpumask *cpumask)
->    188	{
->    189		return cpumask_empty(cpumask);
->    190	}
->    191	
->  > 192	bool bpf_cpumask_full(const struct cpumask *cpumask)
->    193	{
->    194		return cpumask_full(cpumask);
->    195	}
->    196	
->  > 197	void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
->    198	{
->    199		cpumask_copy((struct cpumask *)dst, src);
->    200	}
->    201	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All warnings (new ones prefixed by >>):
+
+   drivers/iio/adc/sprd_pmic_adc.c: In function 'ump9620_ch_data_init':
+>> drivers/iio/adc/sprd_pmic_adc.c:530:1: warning: the frame size of 1320 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     530 | }
+         | ^
+
+
+vim +530 drivers/iio/adc/sprd_pmic_adc.c
+
+   506	
+   507	static void ump9620_ch_data_init(struct sprd_adc_data *data)
+   508	{
+   509		struct sprd_adc_channel_data ch_data_def = CH_DATA_INIT(SCALE_00, 0, 0, RATIO_DEF);
+   510		struct sprd_adc_channel_data ch_data[SPRD_ADC_CHANNEL_MAX] = {
+   511			[0] = CH_DATA_INIT(SCALE_01, 0, 0, RATIO_DEF),
+   512			[5] = CH_DATA_INIT(SCALE_00, 0x1, 0x9, RATIO_DEF),
+   513			[6] = CH_DATA_INIT(SCALE_00, 0x1, 0x9, RATIO_DEF),
+   514			[7] = CH_DATA_INIT(SCALE_10, 0, 0, RATIO_DEF),
+   515			[9] = CH_DATA_INIT(SCALE_10, 0, 0, RATIO_DEF),
+   516			[10] = CH_DATA_INIT(SCALE_11, 0, 0, RATIO_DEF),
+   517			[11] = CH_DATA_INIT(SCALE_00, 0, 0, RATIO_DEF),
+   518			[13] = CH_DATA_INIT(SCALE_01, 0, 0, RATIO_DEF),
+   519			[14] = CH_DATA_INIT(SCALE_00, 0, 0, RATIO(68, 900)),
+   520			[15] = CH_DATA_INIT(SCALE_00, 0, 0, RATIO(1, 3)),
+   521			[19] = CH_DATA_INIT(SCALE_11, 0, 0, RATIO_DEF),
+   522			[21] = CH_DATA_INIT(SCALE_00, 0, 0, RATIO(3, 8)),
+   523			[22] = CH_DATA_INIT(SCALE_00, 0, 0, RATIO(3, 8)),
+   524			[23] = CH_DATA_INIT(SCALE_00, 0, 0, RATIO(3, 8)),
+   525			[30] = CH_DATA_INIT(SCALE_11, 0, 0, RATIO_DEF),
+   526			[31] = CH_DATA_INIT(SCALE_11, 0, 0, RATIO_DEF),
+   527		};
+   528	
+   529		sprd_adc_ch_data_merge(data, ch_data, &ch_data_def);
+ > 530	}
+   531	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
