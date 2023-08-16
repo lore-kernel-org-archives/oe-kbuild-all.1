@@ -1,44 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F67EC2C0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 06:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0523C1844
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 06:17:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1692166679; x=1723702679;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/5GuMBVmXprbDZ+JSIUTKh26NhYtWNL10Ogw+Ne2VwI=;
-  b=gszIfqUvcUpfH4SRRWctqRmAE88RAP1eyF6BBlG1QA+VfPye3siq9FHp
-   SwRe30gx+IhDa2G2OoSPEcwAS6JkrSEz8ULkPrOzrlFRWwgoEtg52sJqa
-   j1WR34RgqpabxnPGAeiHSL4TOqERsthU/IwietTZFgL7eTjjmjIJmP6h0
-   /kTy1+yuHFS9UHsQIvIfVXku2qYLIeN2oecg6CuQU0/OzoDyu6LQjBU9o
-   xM6Y9Ggk2X/BVtw6+8ioqAGUawdeQifDrcBjsQ5UN6chOndLJR/F60T81
-   2Mc+Q447BDg6w85hkE78V3L35IfpDGYR3RsGltpYw/5pSWcW5PqwEGBQk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352780035"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ftrEa3GQYaOls0qYA4JlEDnZEFBIWQlkKuDFwVR24MI=;
+  b=bMsnYIM2rvkTqhuws5TnJdG8D8iQYQWwAS7rum6j9uK530wF3s/2AeZv
+   LIoObcIlqjrq+Xx5CPsARXe1dKfdg6RffzoPQtRoaM5VU2SIO7W2K40oR
+   W6JqT+G/nUD0aUhHwQP5qlWBoqWVGPXd8Cr+/MHDQtIl/TzniqSDnTsEa
+   Ep1H/rDloYYx97uEy5c/+Iue+Oru0rA2JsVXWRdJfeWEbTbzz3Ontr8K6
+   EQ7c9NXxFTODHwjKjOFcJrBnt0v78+a+iMvfHSVOz14/BOWzqBi1gbjnU
+   16OEL2BojiV5ctAgSMq7LcdzoLQ96SRkzr4MsXpUZlsL3xDJi1bhgKwBl
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="369923965"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="352780035"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 23:17:58 -0700
+   d="scan'208";a="369923965"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 23:17:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="737173625"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="824121582"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="737173625"
+   d="scan'208";a="824121582"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 15 Aug 2023 23:17:57 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Aug 2023 23:17:55 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qW9qt-00003U-2K;
-	Wed, 16 Aug 2023 06:17:56 +0000
-Date: Wed, 16 Aug 2023 14:17:22 +0800
+	id 1qW9qr-00003R-2o;
+	Wed, 16 Aug 2023 06:17:54 +0000
+Date: Wed, 16 Aug 2023 14:17:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julian Anastasov <ja@ssi.bg>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC net-next 11/14] ipvs: no_cport and dropentry counters
- can be per-net
-Message-ID: <202308161453.aHLyfScN-lkp@intel.com>
-References: <20230815173031.168344-12-ja@ssi.bg>
+To: Jordan Niethe <jniethe5@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Vaibhav Jain <vaibhav@linux.ibm.com>,
+	Gautam Menghani <gautam@linux.ibm.com>,
+	Kautuk Consul <kconsul@linux.vnet.ibm.com>,
+	Amit Machhiwal <amachhiw@linux.vnet.ibm.com>
+Subject: [powerpc:topic/ppc-kvm 5/6]
+ arch/powerpc/kvm/book3s_hv_nestedv2.c:465:29: warning: variable 'amor' set
+ but not used
+Message-ID: <202308161433.p1L5wedY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,74 +51,258 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230815173031.168344-12-ja@ssi.bg>
 
-Hi Julian,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Anastasov/rculist_bl-add-hlist_bl_for_each_entry_continue_rcu/20230816-100047
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230815173031.168344-12-ja%40ssi.bg
-patch subject: [PATCH RFC net-next 11/14] ipvs: no_cport and dropentry counters can be per-net
-config: alpha-randconfig-r022-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161453.aHLyfScN-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161453.aHLyfScN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
+head:   c95bf4c16099f2ed29a7f6949559bc4187d30710
+commit: 6be7fd9b644945c2e4f9f071b9f8caa57f4e5590 [5/6] KVM: PPC: Add support for nestedv2 guests
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230816/202308161433.p1L5wedY-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161433.p1L5wedY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308161453.aHLyfScN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308161433.p1L5wedY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/netfilter/ipvs/ip_vs_conn.c: In function 'todrop_entry':
->> net/netfilter/ipvs/ip_vs_conn.c:1599:19: error: 'struct netns_ipvs' has no member named 'dropentry_counters'
-    1599 |         if (--ipvs->dropentry_counters[i] > 0)
-         |                   ^~
-   net/netfilter/ipvs/ip_vs_conn.c:1603:13: error: 'struct netns_ipvs' has no member named 'dropentry_counters'
-    1603 |         ipvs->dropentry_counters[i] = i + 1;
-         |             ^~
+   arch/powerpc/kvm/book3s_hv_nestedv2.c: In function 'gs_msg_ops_vcpu_refresh_info':
+>> arch/powerpc/kvm/book3s_hv_nestedv2.c:465:29: warning: variable 'amor' set but not used [-Wunused-but-set-variable]
+     465 |                         u64 amor;
+         |                             ^~~~
 
 
-vim +1599 net/netfilter/ipvs/ip_vs_conn.c
+vim +/amor +465 arch/powerpc/kvm/book3s_hv_nestedv2.c
 
-  1574	
-  1575	
-  1576	/* Randomly drop connection entries before running out of memory
-  1577	 * Can be used for DATA and CTL conns. For TPL conns there are exceptions:
-  1578	 * - traffic for services in OPS mode increases ct->in_pkts, so it is supported
-  1579	 * - traffic for services not in OPS mode does not increase ct->in_pkts in
-  1580	 * all cases, so it is not supported
-  1581	 */
-  1582	static inline int todrop_entry(struct ip_vs_conn *cp)
-  1583	{
-  1584		struct netns_ipvs *ipvs = cp->ipvs;
-  1585		int i;
-  1586	
-  1587		/* if the conn entry hasn't lasted for 60 seconds, don't drop it.
-  1588		   This will leave enough time for normal connection to get
-  1589		   through. */
-  1590		if (time_before(cp->timeout + jiffies, cp->timer.expires + 60*HZ))
-  1591			return 0;
-  1592	
-  1593		/* Drop only conns with number of incoming packets in [1..8] range */
-  1594		i = atomic_read(&cp->in_pkts);
-  1595		if (i > 8 || i < 1)
-  1596			return 0;
-  1597	
-  1598		i--;
-> 1599		if (--ipvs->dropentry_counters[i] > 0)
-  1600			return 0;
-  1601	
-  1602		/* Prefer to drop conns with less number of incoming packets */
-  1603		ipvs->dropentry_counters[i] = i + 1;
-  1604		return 1;
-  1605	}
-  1606	
+   361	
+   362	static int gs_msg_ops_vcpu_refresh_info(struct kvmppc_gs_msg *gsm,
+   363						struct kvmppc_gs_buff *gsb)
+   364	{
+   365		struct kvmppc_gs_parser gsp = { 0 };
+   366		struct kvmhv_nestedv2_io *io;
+   367		struct kvmppc_gs_bitmap *valids;
+   368		struct kvm_vcpu *vcpu;
+   369		struct kvmppc_gs_elem *gse;
+   370		vector128 v;
+   371		int rc, i;
+   372		u16 iden;
+   373	
+   374		vcpu = gsm->data;
+   375	
+   376		rc = kvmppc_gse_parse(&gsp, gsb);
+   377		if (rc < 0)
+   378			return rc;
+   379	
+   380		io = &vcpu->arch.nestedv2_io;
+   381		valids = &io->valids;
+   382	
+   383		kvmppc_gsp_for_each(&gsp, iden, gse)
+   384		{
+   385			switch (iden) {
+   386			case KVMPPC_GSID_DSCR:
+   387				vcpu->arch.dscr = kvmppc_gse_get_u64(gse);
+   388				break;
+   389			case KVMPPC_GSID_MMCRA:
+   390				vcpu->arch.mmcra = kvmppc_gse_get_u64(gse);
+   391				break;
+   392			case KVMPPC_GSID_HFSCR:
+   393				vcpu->arch.hfscr = kvmppc_gse_get_u64(gse);
+   394				break;
+   395			case KVMPPC_GSID_PURR:
+   396				vcpu->arch.purr = kvmppc_gse_get_u64(gse);
+   397				break;
+   398			case KVMPPC_GSID_SPURR:
+   399				vcpu->arch.spurr = kvmppc_gse_get_u64(gse);
+   400				break;
+   401			case KVMPPC_GSID_AMR:
+   402				vcpu->arch.amr = kvmppc_gse_get_u64(gse);
+   403				break;
+   404			case KVMPPC_GSID_UAMOR:
+   405				vcpu->arch.uamor = kvmppc_gse_get_u64(gse);
+   406				break;
+   407			case KVMPPC_GSID_SIAR:
+   408				vcpu->arch.siar = kvmppc_gse_get_u64(gse);
+   409				break;
+   410			case KVMPPC_GSID_SDAR:
+   411				vcpu->arch.sdar = kvmppc_gse_get_u64(gse);
+   412				break;
+   413			case KVMPPC_GSID_IAMR:
+   414				vcpu->arch.iamr = kvmppc_gse_get_u64(gse);
+   415				break;
+   416			case KVMPPC_GSID_DAWR0:
+   417				vcpu->arch.dawr0 = kvmppc_gse_get_u64(gse);
+   418				break;
+   419			case KVMPPC_GSID_DAWR1:
+   420				vcpu->arch.dawr1 = kvmppc_gse_get_u64(gse);
+   421				break;
+   422			case KVMPPC_GSID_DAWRX0:
+   423				vcpu->arch.dawrx0 = kvmppc_gse_get_u32(gse);
+   424				break;
+   425			case KVMPPC_GSID_DAWRX1:
+   426				vcpu->arch.dawrx1 = kvmppc_gse_get_u32(gse);
+   427				break;
+   428			case KVMPPC_GSID_CIABR:
+   429				vcpu->arch.ciabr = kvmppc_gse_get_u64(gse);
+   430				break;
+   431			case KVMPPC_GSID_WORT:
+   432				vcpu->arch.wort = kvmppc_gse_get_u32(gse);
+   433				break;
+   434			case KVMPPC_GSID_PPR:
+   435				vcpu->arch.ppr = kvmppc_gse_get_u64(gse);
+   436				break;
+   437			case KVMPPC_GSID_PSPB:
+   438				vcpu->arch.pspb = kvmppc_gse_get_u32(gse);
+   439				break;
+   440			case KVMPPC_GSID_TAR:
+   441				vcpu->arch.tar = kvmppc_gse_get_u64(gse);
+   442				break;
+   443			case KVMPPC_GSID_FSCR:
+   444				vcpu->arch.fscr = kvmppc_gse_get_u64(gse);
+   445				break;
+   446			case KVMPPC_GSID_EBBHR:
+   447				vcpu->arch.ebbhr = kvmppc_gse_get_u64(gse);
+   448				break;
+   449			case KVMPPC_GSID_EBBRR:
+   450				vcpu->arch.ebbrr = kvmppc_gse_get_u64(gse);
+   451				break;
+   452			case KVMPPC_GSID_BESCR:
+   453				vcpu->arch.bescr = kvmppc_gse_get_u64(gse);
+   454				break;
+   455			case KVMPPC_GSID_IC:
+   456				vcpu->arch.ic = kvmppc_gse_get_u64(gse);
+   457				break;
+   458			case KVMPPC_GSID_CTRL:
+   459				vcpu->arch.ctrl = kvmppc_gse_get_u64(gse);
+   460				break;
+   461			case KVMPPC_GSID_PIDR:
+   462				vcpu->arch.pid = kvmppc_gse_get_u32(gse);
+   463				break;
+   464			case KVMPPC_GSID_AMOR: {
+ > 465				u64 amor;
+   466	
+   467				amor = kvmppc_gse_get_u64(gse);
+   468				break;
+   469			}
+   470			case KVMPPC_GSID_VRSAVE:
+   471				vcpu->arch.vrsave = kvmppc_gse_get_u32(gse);
+   472				break;
+   473			case KVMPPC_GSID_MMCR(0)... KVMPPC_GSID_MMCR(3):
+   474				i = iden - KVMPPC_GSID_MMCR(0);
+   475				vcpu->arch.mmcr[i] = kvmppc_gse_get_u64(gse);
+   476				break;
+   477			case KVMPPC_GSID_SIER(0)... KVMPPC_GSID_SIER(2):
+   478				i = iden - KVMPPC_GSID_SIER(0);
+   479				vcpu->arch.sier[i] = kvmppc_gse_get_u64(gse);
+   480				break;
+   481			case KVMPPC_GSID_PMC(0)... KVMPPC_GSID_PMC(5):
+   482				i = iden - KVMPPC_GSID_PMC(0);
+   483				vcpu->arch.pmc[i] = kvmppc_gse_get_u32(gse);
+   484				break;
+   485			case KVMPPC_GSID_GPR(0)... KVMPPC_GSID_GPR(31):
+   486				i = iden - KVMPPC_GSID_GPR(0);
+   487				vcpu->arch.regs.gpr[i] = kvmppc_gse_get_u64(gse);
+   488				break;
+   489			case KVMPPC_GSID_CR:
+   490				vcpu->arch.regs.ccr = kvmppc_gse_get_u32(gse);
+   491				break;
+   492			case KVMPPC_GSID_XER:
+   493				vcpu->arch.regs.xer = kvmppc_gse_get_u64(gse);
+   494				break;
+   495			case KVMPPC_GSID_CTR:
+   496				vcpu->arch.regs.ctr = kvmppc_gse_get_u64(gse);
+   497				break;
+   498			case KVMPPC_GSID_LR:
+   499				vcpu->arch.regs.link = kvmppc_gse_get_u64(gse);
+   500				break;
+   501			case KVMPPC_GSID_NIA:
+   502				vcpu->arch.regs.nip = kvmppc_gse_get_u64(gse);
+   503				break;
+   504			case KVMPPC_GSID_SRR0:
+   505				vcpu->arch.shregs.srr0 = kvmppc_gse_get_u64(gse);
+   506				break;
+   507			case KVMPPC_GSID_SRR1:
+   508				vcpu->arch.shregs.srr1 = kvmppc_gse_get_u64(gse);
+   509				break;
+   510			case KVMPPC_GSID_SPRG0:
+   511				vcpu->arch.shregs.sprg0 = kvmppc_gse_get_u64(gse);
+   512				break;
+   513			case KVMPPC_GSID_SPRG1:
+   514				vcpu->arch.shregs.sprg1 = kvmppc_gse_get_u64(gse);
+   515				break;
+   516			case KVMPPC_GSID_SPRG2:
+   517				vcpu->arch.shregs.sprg2 = kvmppc_gse_get_u64(gse);
+   518				break;
+   519			case KVMPPC_GSID_SPRG3:
+   520				vcpu->arch.shregs.sprg3 = kvmppc_gse_get_u64(gse);
+   521				break;
+   522			case KVMPPC_GSID_DAR:
+   523				vcpu->arch.shregs.dar = kvmppc_gse_get_u64(gse);
+   524				break;
+   525			case KVMPPC_GSID_DSISR:
+   526				vcpu->arch.shregs.dsisr = kvmppc_gse_get_u32(gse);
+   527				break;
+   528			case KVMPPC_GSID_MSR:
+   529				vcpu->arch.shregs.msr = kvmppc_gse_get_u64(gse);
+   530				break;
+   531			case KVMPPC_GSID_VTB:
+   532				vcpu->arch.vcore->vtb = kvmppc_gse_get_u64(gse);
+   533				break;
+   534			case KVMPPC_GSID_LPCR:
+   535				vcpu->arch.vcore->lpcr = kvmppc_gse_get_u64(gse);
+   536				break;
+   537			case KVMPPC_GSID_TB_OFFSET:
+   538				vcpu->arch.vcore->tb_offset = kvmppc_gse_get_u64(gse);
+   539				break;
+   540			case KVMPPC_GSID_FPSCR:
+   541				vcpu->arch.fp.fpscr = kvmppc_gse_get_u64(gse);
+   542				break;
+   543			case KVMPPC_GSID_VSRS(0)... KVMPPC_GSID_VSRS(31):
+   544				kvmppc_gse_get_vector128(gse, &v);
+   545				i = iden - KVMPPC_GSID_VSRS(0);
+   546				memcpy(&vcpu->arch.fp.fpr[i], &v,
+   547				       sizeof(vcpu->arch.fp.fpr[i]));
+   548				break;
+   549	#ifdef CONFIG_VSX
+   550			case KVMPPC_GSID_VSCR:
+   551				vcpu->arch.vr.vscr.u[3] = kvmppc_gse_get_u32(gse);
+   552				break;
+   553			case KVMPPC_GSID_VSRS(32)... KVMPPC_GSID_VSRS(63):
+   554				i = iden - KVMPPC_GSID_VSRS(32);
+   555				kvmppc_gse_get_vector128(gse, &vcpu->arch.vr.vr[i]);
+   556				break;
+   557	#endif
+   558			case KVMPPC_GSID_HDAR:
+   559				vcpu->arch.fault_dar = kvmppc_gse_get_u64(gse);
+   560				break;
+   561			case KVMPPC_GSID_HDSISR:
+   562				vcpu->arch.fault_dsisr = kvmppc_gse_get_u32(gse);
+   563				break;
+   564			case KVMPPC_GSID_ASDR:
+   565				vcpu->arch.fault_gpa = kvmppc_gse_get_u64(gse);
+   566				break;
+   567			case KVMPPC_GSID_HEIR:
+   568				vcpu->arch.emul_inst = kvmppc_gse_get_u64(gse);
+   569				break;
+   570			case KVMPPC_GSID_DEC_EXPIRY_TB: {
+   571				u64 dw;
+   572	
+   573				dw = kvmppc_gse_get_u64(gse);
+   574				vcpu->arch.dec_expires =
+   575					dw + vcpu->arch.vcore->tb_offset;
+   576				break;
+   577			}
+   578			case KVMPPC_GSID_LOGICAL_PVR:
+   579				vcpu->arch.vcore->arch_compat = kvmppc_gse_get_u32(gse);
+   580				break;
+   581			default:
+   582				continue;
+   583			}
+   584			kvmppc_gsbm_set(valids, iden);
+   585		}
+   586	
+   587		return 0;
+   588	}
+   589	
 
 -- 
 0-DAY CI Kernel Test Service
