@@ -1,43 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E3FD2EE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 10:11:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5217FC8D0;
+	Wed, 16 Aug 2023 10:41:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692180670; x=1723716670;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HBFGp3AJzTgd4yZbPOobIdUikY5EohDsS/jhOCJX87Q=;
-  b=CKV4PHXSWiRN69OrF8oXZFB39qYNvUnrt+QgT29fNYIXrK3x99ARBOe7
-   yAtJlgFJfh69LuCWYsJLs6yIqdfkcgEuubCrUPgN6w58uwXuuJL4cZCKj
-   doW+u2wn0JfXhQRdpcoEJOKfnxR7OxhMhyXwqw+HB+fkjFVESbXHVctch
-   oaeSvlafAmD6g+38Wukfzozx/o41JpiZWnsWnEZLUZxcDbUvKnaGfLiV9
-   iR5eNfAf2WcNg8xApm82FGGp2hSfnZucpV2MjQSaOM4zsbMWZ7YbX4lwi
-   LnXRYzBVB8dCdmnlbnCoihF33+OQPwvMgvXqC/JgYBhBwMkpGRr7GYKa6
+  t=1692182507; x=1723718507;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O9Mi3ukPZMXGw4qpDDWQ4PFtxGV6uTKsBrO6Nq3xvJk=;
+  b=IcDpw14zAbpViFm/AH/GjhLDOY9hoz1R1EM1hwx+ZnpBM5l3yk0goRvO
+   9NwZXP4EPQ+4AmuKslFnJ5dJE22Fgocv58NYsNj2iX9QoubRJa0uxl6e+
+   eCr6smVhrephmmdCBJ9pnLlpep6w75bNHCAzYtUOFsu5SBa3U2FMaoNFR
+   kkIv7AhXik4Ax9QMubefta3Jx8KYFTFNsxlJ/tOpGt0aeChahVcn1UU6o
+   ay9omP2B2G6cPAtj4aD6GxZOVergBU+oXZus0oHH0SrKYU5xxkAuTxzhW
+   uKONkGh+dhnY4w0951mQAAG6w8pjkp0Tu68gx9TL242w1RU4sZa6xWy/+
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375263468"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371405701"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="375263468"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 03:11:09 -0700
+   d="scan'208";a="371405701"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 03:41:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="737244969"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="804181910"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="737244969"
+   d="scan'208";a="804181910"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 16 Aug 2023 03:11:08 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 16 Aug 2023 03:41:41 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWDUZ-0000Dh-1C;
-	Wed, 16 Aug 2023 10:11:07 +0000
-Date: Wed, 16 Aug 2023 18:10:46 +0800
+	id 1qWDy8-0000En-32;
+	Wed, 16 Aug 2023 10:41:40 +0000
+Date: Wed, 16 Aug 2023 18:41:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.10 115/141]
- drivers/gpu/drm/msm/msm_drv.c:442:17: error: label 'err_put_dev' used but
- not defined
-Message-ID: <202308161817.Gi4FXOR5-lkp@intel.com>
+To: Seven Lee <wtli@nuvoton.com>, broonie@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	lgirdwood@gmail.com, alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	robh+dt@kernel.org, conor+dt@kernel.org, YHCHuang@nuvoton.com,
+	KCHSU0@nuvoton.com, CTLIN0@nuvoton.com, WTLI@nuvoton.com,
+	SJLIN0@nuvoton.com, scott6986@gmail.com, supercraig0719@gmail.com,
+	dardar923@gmail.com
+Subject: Re: [PATCH 2/2] ASoC: nau8821: Improve AMIC recording performance.
+Message-ID: <202308161844.humS3QWm-lkp@intel.com>
+References: <20230816080006.1624342-2-wtli@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,179 +52,145 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230816080006.1624342-2-wtli@nuvoton.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
-head:   82320ddb4a62efc1d70c8839bddb59ef879e4fb1
-commit: 7b131174452366a1ac873024eb84152cacc8a5e1 [115/141] drm/msm: fix missing wq allocation error handling
-config: arm-randconfig-r046-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161817.Gi4FXOR5-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161817.Gi4FXOR5-lkp@intel.com/reproduce)
+Hi Seven,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on next-20230816]
+[cannot apply to linus/master v6.5-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Seven-Lee/ASoC-nau8821-Improve-AMIC-recording-performance/20230816-160236
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230816080006.1624342-2-wtli%40nuvoton.com
+patch subject: [PATCH 2/2] ASoC: nau8821: Improve AMIC recording performance.
+config: hexagon-randconfig-r003-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161844.humS3QWm-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161844.humS3QWm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308161817.Gi4FXOR5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308161844.humS3QWm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/msm/msm_drv.c:124:15: warning: no previous prototype for '_msm_ioremap' [-Wmissing-prototypes]
-     124 | void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
-         |               ^~~~~~~~~~~~
-   drivers/gpu/drm/msm/msm_drv.c: In function 'msm_drm_init':
->> drivers/gpu/drm/msm/msm_drv.c:442:17: error: label 'err_put_dev' used but not defined
-     442 |                 goto err_put_dev;
-         |                 ^~~~
+   In file included from sound/soc/codecs/nau8821.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from sound/soc/codecs/nau8821.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from sound/soc/codecs/nau8821.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> sound/soc/codecs/nau8821.c:649:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+           default:
+           ^
+   sound/soc/codecs/nau8821.c:649:2: note: insert 'break;' to avoid fall-through
+           default:
+           ^
+           break; 
+   7 warnings generated.
 
 
-vim +/err_put_dev +442 drivers/gpu/drm/msm/msm_drv.c
+vim +649 sound/soc/codecs/nau8821.c
 
-   396	
-   397	static int msm_drm_init(struct device *dev, struct drm_driver *drv)
-   398	{
-   399		struct platform_device *pdev = to_platform_device(dev);
-   400		struct drm_device *ddev;
-   401		struct msm_drm_private *priv;
-   402		struct msm_kms *kms;
-   403		struct msm_mdss *mdss;
-   404		int ret, i;
-   405	
-   406		ddev = drm_dev_alloc(drv, dev);
-   407		if (IS_ERR(ddev)) {
-   408			DRM_DEV_ERROR(dev, "failed to allocate drm_device\n");
-   409			return PTR_ERR(ddev);
-   410		}
-   411	
-   412		platform_set_drvdata(pdev, ddev);
-   413	
-   414		priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-   415		if (!priv) {
-   416			ret = -ENOMEM;
-   417			goto err_put_drm_dev;
-   418		}
-   419	
-   420		ddev->dev_private = priv;
-   421		priv->dev = ddev;
-   422	
-   423		switch (get_mdp_ver(pdev)) {
-   424		case KMS_MDP5:
-   425			ret = mdp5_mdss_init(ddev);
-   426			break;
-   427		case KMS_DPU:
-   428			ret = dpu_mdss_init(ddev);
-   429			break;
-   430		default:
-   431			ret = 0;
-   432			break;
-   433		}
-   434		if (ret)
-   435			goto err_free_priv;
-   436	
-   437		mdss = priv->mdss;
-   438	
-   439		priv->wq = alloc_ordered_workqueue("msm", 0);
-   440		if (!priv->wq) {
-   441			ret = -ENOMEM;
- > 442			goto err_put_dev;
-   443		}
-   444	
-   445		INIT_WORK(&priv->free_work, msm_gem_free_work);
-   446		init_llist_head(&priv->free_list);
-   447	
-   448		INIT_LIST_HEAD(&priv->inactive_list);
-   449	
-   450		drm_mode_config_init(ddev);
-   451	
-   452		ret = msm_init_vram(ddev);
-   453		if (ret)
-   454			goto err_destroy_mdss;
-   455	
-   456		/* Bind all our sub-components: */
-   457		ret = component_bind_all(dev, ddev);
-   458		if (ret)
-   459			goto err_destroy_mdss;
-   460	
-   461		dma_set_max_seg_size(dev, UINT_MAX);
-   462	
-   463		msm_gem_shrinker_init(ddev);
-   464	
-   465		switch (get_mdp_ver(pdev)) {
-   466		case KMS_MDP4:
-   467			kms = mdp4_kms_init(ddev);
-   468			priv->kms = kms;
-   469			break;
-   470		case KMS_MDP5:
-   471			kms = mdp5_kms_init(ddev);
-   472			break;
-   473		case KMS_DPU:
-   474			kms = dpu_kms_init(ddev);
-   475			priv->kms = kms;
-   476			break;
-   477		default:
-   478			/* valid only for the dummy headless case, where of_node=NULL */
-   479			WARN_ON(dev->of_node);
-   480			kms = NULL;
-   481			break;
-   482		}
-   483	
-   484		if (IS_ERR(kms)) {
-   485			DRM_DEV_ERROR(dev, "failed to load kms\n");
-   486			ret = PTR_ERR(kms);
-   487			priv->kms = NULL;
-   488			goto err_msm_uninit;
-   489		}
-   490	
-   491		/* Enable normalization of plane zpos */
-   492		ddev->mode_config.normalize_zpos = true;
-   493	
-   494		if (kms) {
-   495			kms->dev = ddev;
-   496			ret = kms->funcs->hw_init(kms);
-   497			if (ret) {
-   498				DRM_DEV_ERROR(dev, "kms hw init failed: %d\n", ret);
-   499				goto err_msm_uninit;
-   500			}
-   501		}
-   502	
-   503		ddev->mode_config.funcs = &mode_config_funcs;
-   504		ddev->mode_config.helper_private = &mode_config_helper_funcs;
-   505	
-   506		for (i = 0; i < priv->num_crtcs; i++) {
-   507			/* initialize event thread */
-   508			priv->event_thread[i].crtc_id = priv->crtcs[i]->base.id;
-   509			priv->event_thread[i].dev = ddev;
-   510			priv->event_thread[i].worker = kthread_create_worker(0,
-   511				"crtc_event:%d", priv->event_thread[i].crtc_id);
-   512			if (IS_ERR(priv->event_thread[i].worker)) {
-   513				ret = PTR_ERR(priv->event_thread[i].worker);
-   514				DRM_DEV_ERROR(dev, "failed to create crtc_event kthread\n");
-   515				goto err_msm_uninit;
-   516			}
-   517	
-   518			sched_set_fifo(priv->event_thread[i].worker->task);
-   519		}
-   520	
-   521		ret = drm_vblank_init(ddev, priv->num_crtcs);
-   522		if (ret < 0) {
-   523			DRM_DEV_ERROR(dev, "failed to initialize vblank\n");
-   524			goto err_msm_uninit;
-   525		}
-   526	
-   527		if (kms) {
-   528			pm_runtime_get_sync(dev);
-   529			ret = drm_irq_install(ddev, kms->irq);
-   530			pm_runtime_put_sync(dev);
-   531			if (ret < 0) {
-   532				DRM_DEV_ERROR(dev, "failed to install IRQ handler\n");
-   533				goto err_msm_uninit;
-   534			}
-   535		}
-   536	
-   537		ret = drm_dev_register(ddev, 0);
-   538		if (ret)
-   539			goto err_msm_uninit;
-   540	
-   541		drm_mode_config_reset(ddev);
-   542	
+   626	
+   627	static int nau8821_left_fepga_event(struct snd_soc_dapm_widget *w,
+   628			struct snd_kcontrol *kcontrol, int event)
+   629	{
+   630		struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+   631		struct nau8821 *nau8821 = snd_soc_component_get_drvdata(component);
+   632	
+   633		if (!nau8821->left_input_single_end)
+   634			return 0;
+   635	
+   636		switch (event) {
+   637		case SND_SOC_DAPM_POST_PMU:
+   638			regmap_update_bits(nau8821->regmap, NAU8821_R77_FEPGA,
+   639				NAU8821_ACDC_CTRL_MASK | NAU8821_FEPGA_MODEL_MASK,
+   640				NAU8821_ACDC_VREF_MICN | NAU8821_FEPGA_MODEL_AAF);
+   641			regmap_update_bits(nau8821->regmap, NAU8821_R76_BOOST,
+   642				NAU8821_HP_BOOST_DISCHRG_EN, NAU8821_HP_BOOST_DISCHRG_EN);
+   643			break;
+   644		case SND_SOC_DAPM_POST_PMD:
+   645			regmap_update_bits(nau8821->regmap, NAU8821_R77_FEPGA,
+   646				NAU8821_ACDC_CTRL_MASK | NAU8821_FEPGA_MODEL_MASK, 0);
+   647			regmap_update_bits(nau8821->regmap, NAU8821_R76_BOOST,
+   648				NAU8821_HP_BOOST_DISCHRG_EN, 0);
+ > 649		default:
+   650			break;
+   651		}
+   652	
+   653		return 0;
+   654	}
+   655	
 
 -- 
 0-DAY CI Kernel Test Service
