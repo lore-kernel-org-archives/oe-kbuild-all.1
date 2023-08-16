@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D3BD2F1;
-	Wed, 16 Aug 2023 22:38:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6570E17ADC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 23:10:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692225522; x=1723761522;
+  t=1692227411; x=1723763411;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CO5A5P2eUHmFyMZg3w6+rv/UdmA5bIeUSUXOuHm8Rgg=;
-  b=NihBFsz/zX606crMOKQlA1GXVLm+Dg62VE8trlg5TgWzdv5XKsKaVXFb
-   wZHnCXAU5Abzf9UdQ93CyTAxDskacwQstjvpxn6OUZH4143IjiOqrbCOE
-   bO/UtpjPVBMB7nJsJ/PoH5b5i6uuXXA9fKsChuQAenH6YOg/K1EcSjqG3
-   ankDdWUZJla248vRX4vXd1OMupbP+rV9SQaQ5oMVdSvsZ9o7CWZEry9Jf
-   80xiSSZ2+2LHcOUpBh3xzilYKdApuW5H8eEqwAQXhOP86b0qoNFhD/j0n
-   BjlABbyc35bE0KXZUebNGt9PXgrQBkDTF9uDpSnKgyn/b/0vVt48onYCQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352973421"
+  bh=5nMdgedN70vrbNDaJRWyo00SqwCYBCwzZSqbhpkVhS8=;
+  b=T/rdKZ1PtG5TOx4hhSt2YEOJA3JMbN9b8uXOm4w2EE2nWr6xCn1hNvdu
+   TZK8oyUJW9bgFbE2WMhHdaXD0XuqAdcrLYHmCxWVVPCFm9zJ34T4+E5s2
+   jlYxqxxbPUNr4CE1GGKqbUoohVhBIIUy1b8odQhBBD7THJ1qszJDMFQO5
+   /hrw+swu22AZX+ckmkRIfib2FBViTMPtS3tQLtAIO+DcVoKFux5Bynkrl
+   Bb6j1/xxy3WMGs4HwKJx8Dufjovt5H6HVwwrqeI9kuMsC2K2kKRzGLwnD
+   24d1XfEfnU7ddg4v8z2Sml1fZv0Z0mAeht9GulCe9q6q/uuzHXv30HKKt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="436562254"
 X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="352973421"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 15:38:42 -0700
+   d="scan'208";a="436562254"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 16:10:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="763795088"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="711286702"
 X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="763795088"
+   d="scan'208";a="711286702"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 16 Aug 2023 15:38:40 -0700
+  by orsmga006.jf.intel.com with ESMTP; 16 Aug 2023 16:10:08 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWP9t-0000ct-20;
-	Wed, 16 Aug 2023 22:38:35 +0000
-Date: Thu, 17 Aug 2023 06:38:03 +0800
+	id 1qWPeJ-0000db-2x;
+	Wed, 16 Aug 2023 23:10:01 +0000
+Date: Thu, 17 Aug 2023 07:08:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tianyu Lan <tiala@microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Michael Kelley <mikelley@microsoft.com>
-Subject: [lantianyu:test 14/21] ld.lld: error: undefined symbol:
- isolation_type_en_snp
-Message-ID: <202308170646.cOnDa07c-lkp@intel.com>
+To: David Riley <davidriley@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, Tomasz Figa <tfiga@chromium.org>,
+	Zach Reizner <zachr@chromium.org>,
+	Gurchetan Singh <gurchetansingh@chromium.org>
+Subject: [jsarha:topic/cros-sof-v4.19 4273/6555]
+ drivers/gpu/drm/virtio/virtgpu_object.c:176:5: warning: no previous
+ declaration for 'virtio_gpu_dma_buf_to_handle'
+Message-ID: <202308170756.lct0sTvU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,28 +49,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/lantianyu/linux test
-head:   f5c4c5f104612a69401a5343609c6f939716896a
-commit: 7a649840782fb85d5d719118dd4b404d535345e3 [14/21] x86/hyperv: Add sev-snp enlightened guest static key
-config: x86_64-randconfig-x013-20230817 (https://download.01.org/0day-ci/archive/20230817/202308170646.cOnDa07c-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308170646.cOnDa07c-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: cea7ac75b0485305ef7d58b47c67d4ab82e620a3 [4273/6555] CHROMIUM: drm/virtio: Add interfaces to share dma bufs via virtwl.
+config: i386-randconfig-r025-20230817 (https://download.01.org/0day-ci/archive/20230817/202308170756.lct0sTvU-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308170756.lct0sTvU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308170646.cOnDa07c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308170756.lct0sTvU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: isolation_type_en_snp
-   >>> referenced by instrumented.h:68 (include/linux/instrumented.h:68)
-   >>>               vmlinux.o:(ms_hyperv_init_platform)
-   >>> referenced by instrumented.h:68 (include/linux/instrumented.h:68)
-   >>>               vmlinux.o:(ms_hyperv_init_platform)
-   >>> referenced by atomic.h:23 (arch/x86/include/asm/atomic.h:23)
-   >>>               vmlinux.o:(ms_hyperv_init_platform)
-   >>> referenced 13 more times
+>> drivers/gpu/drm/virtio/virtgpu_object.c:176:5: warning: no previous declaration for 'virtio_gpu_dma_buf_to_handle' [-Wmissing-declarations]
+    int virtio_gpu_dma_buf_to_handle(struct dma_buf *dma_buf, bool no_wait,
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/virtio_gpu_dma_buf_to_handle +176 drivers/gpu/drm/virtio/virtgpu_object.c
+
+   175	
+ > 176	int virtio_gpu_dma_buf_to_handle(struct dma_buf *dma_buf, bool no_wait,
 
 -- 
 0-DAY CI Kernel Test Service
