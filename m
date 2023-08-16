@@ -1,42 +1,32 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42138440F;
-	Wed, 16 Aug 2023 02:16:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692152198; x=1723688198;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YOnjRkSImAk3sLb2sJP+ZgKltOBE8aehRMj+DCgzQDE=;
-  b=OOGFl90Ar1MjMW8bovJnp3OvaYMLib4xxcjxr+95RBCGbpxuY1LI+CNv
-   4fir32EXPBcYJYoswOytek2LgvcYr0S6TqDtT/0I41YZK3CKkPh8bfPU3
-   StXM/DI58Bk/AyxJtdM60Wbb7ekeDhSt0mK0/PmfFmtCBBw0aPTpJx04X
-   XV5z496EbQmhn7Yy/No5uu8yBwCV3+RnXzuQcFfPvMdq3pri0MVBqq7gy
-   ItVR05LK+NTaKOUmpWYZfDd2wmt0zY26mEnh6H8lGLdijZ53oDCeKvPDi
-   clzTak3Pzmrhl4YihIByiowE7dNKMn/vCccE3tao1iKFJMV0ilqRbXoIm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="458774371"
-X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="458774371"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 19:16:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="877584448"
-Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Aug 2023 19:16:39 -0700
-Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qW65L-0001Pb-0Y;
-	Wed, 16 Aug 2023 02:16:35 +0000
-Date: Wed, 16 Aug 2023 10:15:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:dev.2023.08.14a 48/51] kernel/rcu/tree_stall.h:11:10:
- fatal error: 'linux/rcu_notifier.h' file not found
-Message-ID: <202308161021.xxxuCjro-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9837BECC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 02:19:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0707FC433C7;
+	Wed, 16 Aug 2023 02:19:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692152379;
+	bh=shV+iYA7ut2oA2tvBRQwaaEfQePJeM63FpWOFvBMNzw=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=opILOkjnSzAtikHhouPRe/B1MGm/T8bpR5tBJ5LMf7oVz1E33jcjs979N0Q23wffY
+	 WQUyazv/GKGdaL/9WIyAWCMxibCNMJjBM2vXQ2Ho9DJB3dFtEMCFu27rswcxhU/Jpy
+	 XT554ZE57pZi8PnnVVk+l2TQhnKMlsEN/5/BiWOVokFOVMo6G8Q3FtFT371d+YnwT4
+	 ND2yQxEdQKpVGs30MPq9WrZ8K2nIkW/XjFj0WClhpXoRkb7T8595G40Po6wOHVA9fJ
+	 JNJe9hzeJe5tshfqzxwHiD1VqJyvUW4c4xtJj0WdnJ9YHdqZ62w2slFjgIRpF9uBM8
+	 RtkNIipr5YD2A==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 9AEFACE0592; Tue, 15 Aug 2023 19:19:38 -0700 (PDT)
+Date: Tue, 15 Aug 2023 19:19:38 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:dev.2023.08.14a 49/51]
+ kernel/rcu/rcutorture.c:24:10: fatal error: linux/rcu_notifier.h: No such
+ file or directory
+Message-ID: <a5fa35dc-6244-41ef-9f5b-08aa497d9a74@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202308160930.YEekR3Wf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,33 +35,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202308160930.YEekR3Wf-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.08.14a
-head:   a90c4cbc91475bd5df35f712a954972fbfff40a1
-commit: 815c9a53ab6b20e0dc90e733336151310a05cba2 [48/51] rcu: Add RCU CPU stall notifier
-config: x86_64-randconfig-x004-20230816 (https://download.01.org/0day-ci/archive/20230816/202308161021.xxxuCjro-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308161021.xxxuCjro-lkp@intel.com/reproduce)
+On Wed, Aug 16, 2023 at 09:55:30AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.08.14a
+> head:   a90c4cbc91475bd5df35f712a954972fbfff40a1
+> commit: 37730a9ba11627b63d8108dd8b3061ea2ee04df9 [49/51] rcutorture: Add test of RCU CPU stall notifiers
+> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230816/202308160930.YEekR3Wf-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230816/202308160930.YEekR3Wf-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308160930.YEekR3Wf-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> kernel/rcu/rcutorture.c:24:10: fatal error: linux/rcu_notifier.h: No such file or directory
+>       24 | #include <linux/rcu_notifier.h>
+>          |          ^~~~~~~~~~~~~~~~~~~~~~
+>    compilation terminated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308161021.xxxuCjro-lkp@intel.com/
+You would think that I would remember "git add".  ;-)
 
-All errors (new ones prefixed by >>):
+Does the patch below fix things up?
 
-   In file included from kernel/rcu/tree.c:5066:
->> kernel/rcu/tree_stall.h:11:10: fatal error: 'linux/rcu_notifier.h' file not found
-   #include <linux/rcu_notifier.h>
-            ^~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+							Thanx, Paul
 
+------------------------------------------------------------------------
 
-vim +11 kernel/rcu/tree_stall.h
+commit 2b7e462695eee212f81f7000af4f4af2523ece35
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Tue Aug 15 19:17:50 2023 -0700
 
-  > 11	#include <linux/rcu_notifier.h>
-    12	
+    fixup! rcu: Add RCU CPU stall notifier
+    
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/include/linux/rcu_notifier.h b/include/linux/rcu_notifier.h
+new file mode 100644
+index 000000000000..ebf371364581
+--- /dev/null
++++ b/include/linux/rcu_notifier.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * Read-Copy Update notifiers, initially RCU CPU stall notifier.
++ * Separate from rcupdate.h to avoid #include loops.
++ *
++ * Copyright (C) 2023 Paul E. McKenney.
++ */
++
++#ifndef __LINUX_RCU_NOTIFIER_H
++#define __LINUX_RCU_NOTIFIER_H
++
++// Actions for RCU CPU stall notifier calls.
++#define RCU_STALL_NOTIFY_NORM	1
++#define RCU_STALL_NOTIFY_EXP	2
++
++#ifdef CONFIG_RCU_STALL_COMMON
++
++#include <linux/notifier.h>
++#include <linux/types.h>
++
++int rcu_stall_chain_notifier_register(struct notifier_block *n);
++int rcu_stall_chain_notifier_unregister(struct notifier_block *n);
++
++#else // #ifdef CONFIG_RCU_STALL_COMMON
++
++// No RCU CPU stall warnings in Tiny RCU.
++static inline int rcu_stall_chain_notifier_register(struct notifier_block *n) { return -EEXIST; }
++static inline int rcu_stall_chain_notifier_unregister(struct notifier_block *n) { return -ENOENT; }
++
++#endif // #else // #ifdef CONFIG_RCU_STALL_COMMON
++
++#endif /* __LINUX_RCU_NOTIFIER_H */
