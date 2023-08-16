@@ -1,103 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCF0156E8;
-	Wed, 16 Aug 2023 16:16:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E32EC433C8;
-	Wed, 16 Aug 2023 16:16:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1692202611;
-	bh=aN94VJ2TnyBhH+ysXGAF3mbitNYwruQIsK8mlG/1syE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wa9Rd2K60Y5FnpTpi97M7bSEfVss+6boJwXkyTrwEx6fbjqQh2B71V1c23o7JutB3
-	 A1ewf5pQn19ikZTg9A6ru75sDiuuM2oT+OZlH5WgM27XYd0lqc5rlLWxBDKTG5Vq6p
-	 li+LKkGO+6dRXdlXMLGUQSgV/PARY3aVs/miLiII=
-Date: Wed, 16 Aug 2023 18:16:48 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>,
-	Sasha Levin <sashal@kernel.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Fangrui Song <maskray@google.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [stable:linux-4.19.y 2317/9999]
- lib/mpi/generic_mpih-mul2.c:49:24: error: invalid use of a cast in a inline
- asm context requiring an lvalue: remove the cast or build with
- -fheinous-gnu-extensions
-Message-ID: <2023081647-anatomist-unequal-71b0@gregkh>
-References: <202307311111.jPEdYIJR-lkp@intel.com>
- <CAKwvOdmgunghdn9fpfXcz8O0+tDuK7GgNrKCUF+-7=nTHOp2nQ@mail.gmail.com>
- <20230801202602.GA2589710@dev-arch.thelio-3990X>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBE420E7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 16:36:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692203766; x=1723739766;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/A6G/CFiI3d20jRlVjTUrj2/cF1dSIWa3OOC17yXBy4=;
+  b=bGp3Cud1CGeXUkxK1ilCIwE6iHK5C+aT2ReHgIZmFlen2lD3YRxOUfre
+   izfVvCKD2tzCSLb0FzKjKLQO8jHcL5C2Uu7FZsOnvi42pnmt/EFeISm2T
+   2g+4YLJle4Gxo21Jpskqz/XqCsFrex95kkhMfQbOGitFPeXYsPlei9I5A
+   rKAwBpQUi1+EyE+YnlNbj9rBEdOD4GerEcOlqJzZTBIdoRGNtusMwa0Wz
+   jfPuQr8HhsyrwwvQpu1v0UtLAniDNOvNilO5/imKhKKNoPrIn+IR/DZfA
+   vQycmVawX/gs4jUevFEKEFZ8mgMg63bATqF2MZTvP6uvFwPwvuA18Tu/a
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="436480199"
+X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
+   d="scan'208";a="436480199"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 09:36:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="799678271"
+X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
+   d="scan'208";a="799678271"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 16 Aug 2023 09:36:04 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qWJV5-0000RL-2b;
+	Wed, 16 Aug 2023 16:36:03 +0000
+Date: Thu, 17 Aug 2023 00:35:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anton Protopopov <aspsk@isovalent.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: [linux-next:master 530/10518] kernel/bpf/map_iter.c:201:17: warning:
+ no previous declaration for 'bpf_map_sum_elem_count'
+Message-ID: <202308170007.OzhdwITj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230801202602.GA2589710@dev-arch.thelio-3990X>
 
-On Tue, Aug 01, 2023 at 01:26:02PM -0700, Nathan Chancellor wrote:
-> On Tue, Aug 01, 2023 at 01:15:30PM -0700, Nick Desaulniers wrote:
-> > On Sun, Jul 30, 2023 at 8:57 PM kernel test robot <lkp@intel.com> wrote:
-> > >
-> > > Hi Fangrui,
-> > >
-> > > First bad commit (maybe != root cause):
-> > >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
-> > > head:   767049cead76cf699707290d5aeefb3e4d0d5b43
-> > > commit: 69c122751164c3c343eea205fd5c3e1d5132f967 [2317/9999] Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
-> > 
-> > These aren't a result of Fangrui's change.  Fangrui's change probably
-> > allows this config to mostly build, modulo the below error in
-> > lib/mpi/generic_mpih-mul2.c.
-> > 
-> > > config: mips-randconfig-r036-20230731 (https://download.01.org/0day-ci/archive/20230731/202307311111.jPEdYIJR-lkp@intel.com/config)
-> > > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > > reproduce: (https://download.01.org/0day-ci/archive/20230731/202307311111.jPEdYIJR-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202307311111.jPEdYIJR-lkp@intel.com/
-> > >
-> > > All error/warnings (new ones prefixed by >>):
-> > >
-> > > >> drivers/net/netdevsim/netdev.c:167:35: warning: unused variable 'nsim_switchdev_ops' [-Wunused-const-variable]
-> > >      167 | static const struct switchdev_ops nsim_switchdev_ops = {
-> > >          |                                   ^
-> > >    1 warning generated.
-> > 
-> > ^ fixed by
-> > commit e58df56c8564 ("netdevsim: Implement ndo_get_port_parent_id()")
-> > in v5.1-rc1 (this report is against 4.19.y)
-> > Florian, does it make sense for the stable maintainers to cherry-pick
-> > e58df56c8564 to 4.19.y in isolation?
-> > 
-> > > --
-> > > >> lib/mpi/generic_mpih-mul2.c:49:24: error: invalid use of a cast in a inline asm context requiring an lvalue: remove the cast or build with -fheinous-gnu-extensions
-> > >       49 |                 umul_ppmm(prod_high, prod_low, s1_ptr[j], s2_limb);
-> > >          |                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > 
-> > Looks like randconfig found and outstanding issue. Filed:
-> > https://github.com/ClangBuiltLinux/linux/issues/1898 to follow up+fix.
-> 
-> Actually, this is fixed with commit b0c091ae04f6 ("lib/mpi: Eliminate
-> unused umul_ppmm definitions for MIPS"), which applies cleanly to 4.19
-> and should be fine because 4.19 contains commit cafa0010cd51 ("Raise the
-> minimum required gcc version to 4.6").
-> 
-> Greg and Sasha, could b0c091ae04f6 be applied to 4.19 to resolve this
-> randconfig failure?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ef66bf8aeb91fd331cf8f5dca8f9d7bca9ab2849
+commit: 803370d3d37579e080e8c59f2360a072d0e45aff [530/10518] bpf: add a new kfunc to return current bpf_map elements count
+config: x86_64-randconfig-r032-20230816 (https://download.01.org/0day-ci/archive/20230817/202308170007.OzhdwITj-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308170007.OzhdwITj-lkp@intel.com/reproduce)
 
-Sure, I've applied this now to 4.19.y and 4.14.y for the next round of
-releases.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308170007.OzhdwITj-lkp@intel.com/
 
-thanks,
+All warnings (new ones prefixed by >>):
 
-greg k-h
+>> kernel/bpf/map_iter.c:201:17: warning: no previous declaration for 'bpf_map_sum_elem_count' [-Wmissing-declarations]
+    __bpf_kfunc s64 bpf_map_sum_elem_count(struct bpf_map *map)
+                    ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/bpf_map_sum_elem_count +201 kernel/bpf/map_iter.c
+
+   196	
+   197	__diag_push();
+   198	__diag_ignore_all("-Wmissing-prototypes",
+   199			  "Global functions as their definitions will be in vmlinux BTF");
+   200	
+ > 201	__bpf_kfunc s64 bpf_map_sum_elem_count(struct bpf_map *map)
+   202	{
+   203		s64 *pcount;
+   204		s64 ret = 0;
+   205		int cpu;
+   206	
+   207		if (!map || !map->elem_count)
+   208			return 0;
+   209	
+   210		for_each_possible_cpu(cpu) {
+   211			pcount = per_cpu_ptr(map->elem_count, cpu);
+   212			ret += READ_ONCE(*pcount);
+   213		}
+   214		return ret;
+   215	}
+   216	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
