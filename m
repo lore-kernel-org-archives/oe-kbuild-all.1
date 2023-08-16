@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA6415AE1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 22:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15108D2F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 22:38:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692224897; x=1723760897;
+  t=1692225517; x=1723761517;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kyFu1gHVA0K1mMAFKa5XAi319UUEFBC3qTEukoxXqO4=;
-  b=ePzaMkT/zISyXu3rdq0BXepicIvb9szddL1rvJsYI5Qdg2txPB564BZX
-   FokB/b7gWajrgtaCLIg4RSPG6GRDdGUh4uNa5NJZER5+OlUg1eUA+05sb
-   cOGJV2BsUHv9rbJHgdxeWn4nVx8CCoNM/dxDn9AW1K+T0H/7/aON0vJrR
-   gX77Ji+XP7SBWno4E2TNYZSC3G+lxTAB5H9ScgXJTriuEh81pr5NeqxdJ
-   wFow8fct4LXVqSUGiz6RWgnIaYlXGc3Crn5zIxaxoX2AmnFPew3tv4X2o
-   aMJAT4kDbbI5hf1M8hATIBNSCu8+yTsIgXdV52A7mZqhQib2TXviaB86d
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="372652531"
+  bh=CwmH146Zl/EtHcKmzJkS5MTRZiLXbt12cugSMdlcWls=;
+  b=GPrvyjs/S9fayad9x8OUTzXh+boslwMbF6mUKnXeiY6hmV5/CaGUQ8B5
+   29MquscgC4oI8HPlve6GcdWZyOvQOL5RG4rexyXoTWuig8Yl7MMt+I3zS
+   EUXw3TRbPXt0ZxKy/d5bFu8VKc2khx6RCZdLn5PXv2L8W87jVGWDwTF3p
+   FcoXnRB4y3iA7LH3qnOnwBTOA/p8dWERDX6Cd+bciFATpA7WeQJz4shgN
+   iFqvyvyuixAwla1ccUHiTGoZgc3bTsAPIasLZzeSr369/uoJapKbE8P4M
+   PpEI28uKuxnlUTOxS7XkW3XDKXXjuehDvum2EftyemFf91sud5hr0SDxn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352973397"
 X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="372652531"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 15:28:15 -0700
+   d="scan'208";a="352973397"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 15:38:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="727901751"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="763795057"
 X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="727901751"
+   d="scan'208";a="763795057"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 16 Aug 2023 15:28:13 -0700
+  by orsmga008.jf.intel.com with ESMTP; 16 Aug 2023 15:38:34 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWOzt-0000cP-01;
-	Wed, 16 Aug 2023 22:28:13 +0000
-Date: Thu, 17 Aug 2023 06:27:36 +0800
+	id 1qWP9h-0000cp-23;
+	Wed, 16 Aug 2023 22:38:22 +0000
+Date: Thu, 17 Aug 2023 06:38:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>, Hao Luo <haoluo@google.com>
-Subject: kernel/cgroup/rstat.c:166:22: warning: no previous declaration for
- 'bpf_rstat_flush'
-Message-ID: <202308170617.MHUk8MPr-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 12045/30000]
+ drivers/scsi/ufs/ufshcd-crypto.c:250:26: warning: no previous declaration
+ for 'ufshcd_blk_crypto_mode_num_for_alg_dusize'
+Message-ID: <202308170619.WBVecfFx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,52 +47,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: a319185be9f5ad13c2a296d448ac52ffe45d194c cgroup: bpf: enable bpf programs to integrate with rstat
-date:   12 months ago
-config: i386-randconfig-r025-20230817 (https://download.01.org/0day-ci/archive/20230817/202308170617.MHUk8MPr-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   a89c7b9715e2d482a08b58b698f0cf37da373070
+commit: b01c73ea7129745ce9d94b8d3b35663b716cd95b [12045/30000] BACKPORT: FROMLIST: Update Inline Encryption from v5 to v6 of patch series
+config: x86_64-randconfig-x076-20230816 (https://download.01.org/0day-ci/archive/20230817/202308170619.WBVecfFx-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308170617.MHUk8MPr-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308170619.WBVecfFx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308170617.MHUk8MPr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308170619.WBVecfFx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/cgroup/rstat.c:166:22: warning: no previous declaration for 'bpf_rstat_flush' [-Wmissing-declarations]
-    __weak noinline void bpf_rstat_flush(struct cgroup *cgrp,
-                         ^~~~~~~~~~~~~~~
+>> drivers/scsi/ufs/ufshcd-crypto.c:250:26: warning: no previous declaration for 'ufshcd_blk_crypto_mode_num_for_alg_dusize' [-Wmissing-declarations]
+    enum blk_crypto_mode_num ufshcd_blk_crypto_mode_num_for_alg_dusize(
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd-crypto.c:272: warning: Function parameter or member 'ksm_ops' not described in 'ufshcd_hba_init_crypto_spec'
 
 
-vim +/bpf_rstat_flush +166 kernel/cgroup/rstat.c
+vim +/ufshcd_blk_crypto_mode_num_for_alg_dusize +250 drivers/scsi/ufs/ufshcd-crypto.c
 
-   147	
-   148	/*
-   149	 * A hook for bpf stat collectors to attach to and flush their stats.
-   150	 * Together with providing bpf kfuncs for cgroup_rstat_updated() and
-   151	 * cgroup_rstat_flush(), this enables a complete workflow where bpf progs that
-   152	 * collect cgroup stats can integrate with rstat for efficient flushing.
-   153	 *
-   154	 * A static noinline declaration here could cause the compiler to optimize away
-   155	 * the function. A global noinline declaration will keep the definition, but may
-   156	 * optimize away the callsite. Therefore, __weak is needed to ensure that the
-   157	 * call is still emitted, by telling the compiler that we don't know what the
-   158	 * function might eventually be.
-   159	 *
-   160	 * __diag_* below are needed to dismiss the missing prototype warning.
-   161	 */
-   162	__diag_push();
-   163	__diag_ignore_all("-Wmissing-prototypes",
-   164			  "kfuncs which will be used in BPF programs");
-   165	
- > 166	__weak noinline void bpf_rstat_flush(struct cgroup *cgrp,
-   167					     struct cgroup *parent, int cpu)
-   168	{
-   169	}
-   170	
+   249	
+ > 250	enum blk_crypto_mode_num ufshcd_blk_crypto_mode_num_for_alg_dusize(
+   251						enum ufs_crypto_alg ufs_crypto_alg,
+   252						enum ufs_crypto_key_size key_size)
+   253	{
+   254		/*
+   255		 * This is currently the only mode that UFS and blk-crypto both support.
+   256		 */
+   257		if (ufs_crypto_alg == UFS_CRYPTO_ALG_AES_XTS &&
+   258			key_size == UFS_CRYPTO_KEY_SIZE_256)
+   259			return BLK_ENCRYPTION_MODE_AES_256_XTS;
+   260	
+   261		return BLK_ENCRYPTION_MODE_INVALID;
+   262	}
+   263	
 
 -- 
 0-DAY CI Kernel Test Service
