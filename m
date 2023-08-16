@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B57DF60
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 13:25:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A215DF60
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 13:57:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692192357; x=1723728357;
+  t=1692194278; x=1723730278;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u1cOjkRaoR80rd0ipOS6OWt9ojVGv9kNOBJlBw1Krj0=;
-  b=DUHgSi6L1CzqVFGA5IBykdlCBOv3G0mTNc2nCwI7kORhurka7iJOZn/j
-   FqL88zAa1YZwT5qRw7+vEmAZHETxB34b00lVkZ5+zliLZFzAU+u6GJ4NK
-   /Bavwg1E3+jIRC32F5nZFUYMUIl6sCenU4KqvUoXYIpGfBwEJDdMU+p8a
-   qGNMSwS47Cii0lcYDT9+lyjcb61wEREVgvv5QVyR+Lj9f6f3RgJfIQ6fF
-   OVyY1HrbeIyrFPjVOMd7TrncRzGwnAsPzOQE1wJn63pWnyQWgIFpPi2rM
-   VWMHbsAjxbI/pflNxCQ2v8x3aeRGft7EUxxb/KMQvYoPv+9zcvOhHJ2K8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370003585"
+  bh=kRCi8FQp4fHk+Roi0e89Lo6dwN9d2Nt4NhR0OB6Nr+w=;
+  b=DL2g/JuFD5jIqRryJNMP0riSyg+iM7DTnRI3KgvFtQYK9IkFCypK1yGG
+   pO3XuaUJYoUoFhr1y89Lml0I7UyD8iuCOy02NF6fPmATZWS9neojG/J0b
+   1iw9LUQzli2DvFtQ0i4eMAlEh5rVRHz4BGuY8REHNuyYRWPykvPke3X7q
+   eOmCTbbnCTO+5l/Y9SLYzmGkpaugGJSscR7CYShMa4QqdUqx62FyD6/G2
+   yy5qjaUw7SHaxsM37oIW0hyyJiNb821pcglCkLZwwWI93N7+9KwqpZBwB
+   jkyES1hrSOoLU4C29uEo26v5GqJJKlN5LxJaCY1eC6nNSJXALqNNS7QCh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352863209"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="370003585"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 06:25:56 -0700
+   d="scan'208";a="352863209"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 06:57:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="908013824"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="857828272"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="908013824"
+   d="scan'208";a="857828272"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 16 Aug 2023 06:25:54 -0700
+  by orsmga004.jf.intel.com with ESMTP; 16 Aug 2023 06:57:56 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWGX3-0000KL-2r;
-	Wed, 16 Aug 2023 13:25:53 +0000
-Date: Wed, 16 Aug 2023 21:25:30 +0800
+	id 1qWH23-0000M9-1G;
+	Wed, 16 Aug 2023 13:57:55 +0000
+Date: Wed, 16 Aug 2023 21:57:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Vernet <void@manifault.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: kernel/bpf/cpumask.c:41:21: warning: no previous declaration for
- 'bpf_cpumask_create'
-Message-ID: <202308162115.Hn23vv3n-lkp@intel.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [plbossart-sound:fix/lnl-alh-chain-dma 2/3]
+ sound/soc/sof/ipc4-topology.c:521:52: warning: overlapping comparisons
+ always evaluate to true
+Message-ID: <202308162138.gOCkU415-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,263 +47,171 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: 516f4d3397c9e90f4da04f59986c856016269aa1 bpf: Enable cpumasks to be queried and used as kptrs
-date:   7 months ago
-config: x86_64-randconfig-x076-20230816 (https://download.01.org/0day-ci/archive/20230816/202308162115.Hn23vv3n-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162115.Hn23vv3n-lkp@intel.com/reproduce)
+tree:   https://github.com/plbossart/sound fix/lnl-alh-chain-dma
+head:   8810cc35dcd82df1c3629059af43ed1be2bb7dd9
+commit: 2093851a730f1ced418a2ad0f135554c6ee7942e [2/3] [HACK] ASoC: SOF: ipc4-topology: allow chain_dma for ALH as well
+config: i386-randconfig-i012-20230816 (https://download.01.org/0day-ci/archive/20230816/202308162138.gOCkU415-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162138.gOCkU415-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308162115.Hn23vv3n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308162138.gOCkU415-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/cpumask.c:41:21: warning: no previous declaration for 'bpf_cpumask_create' [-Wmissing-declarations]
-    struct bpf_cpumask *bpf_cpumask_create(void)
-                        ^~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:55:21: warning: no previous declaration for 'bpf_cpumask_acquire' [-Wmissing-declarations]
-    struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
-                        ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:61:21: warning: no previous declaration for 'bpf_cpumask_kptr_get' [-Wmissing-declarations]
-    struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
-                        ^~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:79:6: warning: no previous declaration for 'bpf_cpumask_release' [-Wmissing-declarations]
-    void bpf_cpumask_release(struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:91:5: warning: no previous declaration for 'bpf_cpumask_first' [-Wmissing-declarations]
-    u32 bpf_cpumask_first(const struct cpumask *cpumask)
-        ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:96:5: warning: no previous declaration for 'bpf_cpumask_first_zero' [-Wmissing-declarations]
-    u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
-        ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:101:6: warning: no previous declaration for 'bpf_cpumask_set_cpu' [-Wmissing-declarations]
-    void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:109:6: warning: no previous declaration for 'bpf_cpumask_clear_cpu' [-Wmissing-declarations]
-    void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:117:6: warning: no previous declaration for 'bpf_cpumask_test_cpu' [-Wmissing-declarations]
-    bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:125:6: warning: no previous declaration for 'bpf_cpumask_test_and_set_cpu' [-Wmissing-declarations]
-    bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:133:6: warning: no previous declaration for 'bpf_cpumask_test_and_clear_cpu' [-Wmissing-declarations]
-    bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:141:6: warning: no previous declaration for 'bpf_cpumask_setall' [-Wmissing-declarations]
-    void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:146:6: warning: no previous declaration for 'bpf_cpumask_clear' [-Wmissing-declarations]
-    void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:151:6: warning: no previous declaration for 'bpf_cpumask_and' [-Wmissing-declarations]
-    bool bpf_cpumask_and(struct bpf_cpumask *dst,
-         ^~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:158:6: warning: no previous declaration for 'bpf_cpumask_or' [-Wmissing-declarations]
-    void bpf_cpumask_or(struct bpf_cpumask *dst,
-         ^~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:165:6: warning: no previous declaration for 'bpf_cpumask_xor' [-Wmissing-declarations]
-    void bpf_cpumask_xor(struct bpf_cpumask *dst,
-         ^~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:172:6: warning: no previous declaration for 'bpf_cpumask_equal' [-Wmissing-declarations]
-    bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
-         ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:177:6: warning: no previous declaration for 'bpf_cpumask_intersects' [-Wmissing-declarations]
-    bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
-         ^~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:182:6: warning: no previous declaration for 'bpf_cpumask_subset' [-Wmissing-declarations]
-    bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
-         ^~~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:187:6: warning: no previous declaration for 'bpf_cpumask_empty' [-Wmissing-declarations]
-    bool bpf_cpumask_empty(const struct cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~~
->> kernel/bpf/cpumask.c:192:6: warning: no previous declaration for 'bpf_cpumask_full' [-Wmissing-declarations]
-    bool bpf_cpumask_full(const struct cpumask *cpumask)
-         ^~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:197:6: warning: no previous declaration for 'bpf_cpumask_copy' [-Wmissing-declarations]
-    void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
-         ^~~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:202:5: warning: no previous declaration for 'bpf_cpumask_any' [-Wmissing-declarations]
-    u32 bpf_cpumask_any(const struct cpumask *cpumask)
-        ^~~~~~~~~~~~~~~
-   kernel/bpf/cpumask.c:207:5: warning: no previous declaration for 'bpf_cpumask_any_and' [-Wmissing-declarations]
-    u32 bpf_cpumask_any_and(const struct cpumask *src1, const struct cpumask *src2)
-        ^~~~~~~~~~~~~~~~~~~
+>> sound/soc/sof/ipc4-topology.c:521:52: warning: overlapping comparisons always evaluate to true [-Wtautological-overlap-compare]
+               ((ipc4_copier->dai_type != SOF_DAI_INTEL_HDA) ||
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   1 warning generated.
 
 
-vim +/bpf_cpumask_create +41 kernel/bpf/cpumask.c
+vim +521 sound/soc/sof/ipc4-topology.c
 
-    36	
-    37	__diag_push();
-    38	__diag_ignore_all("-Wmissing-prototypes",
-    39			  "Global kfuncs as their definitions will be in BTF");
-    40	
-  > 41	struct bpf_cpumask *bpf_cpumask_create(void)
-    42	{
-    43		struct bpf_cpumask *cpumask;
-    44	
-    45		cpumask = bpf_mem_alloc(&bpf_cpumask_ma, sizeof(*cpumask));
-    46		if (!cpumask)
-    47			return NULL;
-    48	
-    49		memset(cpumask, 0, sizeof(*cpumask));
-    50		refcount_set(&cpumask->usage, 1);
-    51	
-    52		return cpumask;
-    53	}
-    54	
-  > 55	struct bpf_cpumask *bpf_cpumask_acquire(struct bpf_cpumask *cpumask)
-    56	{
-    57		refcount_inc(&cpumask->usage);
-    58		return cpumask;
-    59	}
-    60	
-  > 61	struct bpf_cpumask *bpf_cpumask_kptr_get(struct bpf_cpumask **cpumaskp)
-    62	{
-    63		struct bpf_cpumask *cpumask;
-    64	
-    65		/* The BPF memory allocator frees memory backing its caches in an RCU
-    66		 * callback. Thus, we can safely use RCU to ensure that the cpumask is
-    67		 * safe to read.
-    68		 */
-    69		rcu_read_lock();
-    70	
-    71		cpumask = READ_ONCE(*cpumaskp);
-    72		if (cpumask && !refcount_inc_not_zero(&cpumask->usage))
-    73			cpumask = NULL;
-    74	
-    75		rcu_read_unlock();
-    76		return cpumask;
-    77	}
-    78	
-  > 79	void bpf_cpumask_release(struct bpf_cpumask *cpumask)
-    80	{
-    81		if (!cpumask)
-    82			return;
-    83	
-    84		if (refcount_dec_and_test(&cpumask->usage)) {
-    85			migrate_disable();
-    86			bpf_mem_free(&bpf_cpumask_ma, cpumask);
-    87			migrate_enable();
-    88		}
-    89	}
-    90	
-  > 91	u32 bpf_cpumask_first(const struct cpumask *cpumask)
-    92	{
-    93		return cpumask_first(cpumask);
-    94	}
-    95	
-  > 96	u32 bpf_cpumask_first_zero(const struct cpumask *cpumask)
-    97	{
-    98		return cpumask_first_zero(cpumask);
-    99	}
-   100	
- > 101	void bpf_cpumask_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   102	{
-   103		if (!cpu_valid(cpu))
-   104			return;
-   105	
-   106		cpumask_set_cpu(cpu, (struct cpumask *)cpumask);
-   107	}
-   108	
- > 109	void bpf_cpumask_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   110	{
-   111		if (!cpu_valid(cpu))
-   112			return;
-   113	
-   114		cpumask_clear_cpu(cpu, (struct cpumask *)cpumask);
-   115	}
-   116	
- > 117	bool bpf_cpumask_test_cpu(u32 cpu, const struct cpumask *cpumask)
-   118	{
-   119		if (!cpu_valid(cpu))
-   120			return false;
-   121	
-   122		return cpumask_test_cpu(cpu, (struct cpumask *)cpumask);
-   123	}
-   124	
- > 125	bool bpf_cpumask_test_and_set_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   126	{
-   127		if (!cpu_valid(cpu))
-   128			return false;
-   129	
-   130		return cpumask_test_and_set_cpu(cpu, (struct cpumask *)cpumask);
-   131	}
-   132	
- > 133	bool bpf_cpumask_test_and_clear_cpu(u32 cpu, struct bpf_cpumask *cpumask)
-   134	{
-   135		if (!cpu_valid(cpu))
-   136			return false;
-   137	
-   138		return cpumask_test_and_clear_cpu(cpu, (struct cpumask *)cpumask);
-   139	}
-   140	
- > 141	void bpf_cpumask_setall(struct bpf_cpumask *cpumask)
-   142	{
-   143		cpumask_setall((struct cpumask *)cpumask);
-   144	}
-   145	
- > 146	void bpf_cpumask_clear(struct bpf_cpumask *cpumask)
-   147	{
-   148		cpumask_clear((struct cpumask *)cpumask);
-   149	}
-   150	
- > 151	bool bpf_cpumask_and(struct bpf_cpumask *dst,
-   152			     const struct cpumask *src1,
-   153			     const struct cpumask *src2)
-   154	{
-   155		return cpumask_and((struct cpumask *)dst, src1, src2);
-   156	}
-   157	
- > 158	void bpf_cpumask_or(struct bpf_cpumask *dst,
-   159			    const struct cpumask *src1,
-   160			    const struct cpumask *src2)
-   161	{
-   162		cpumask_or((struct cpumask *)dst, src1, src2);
-   163	}
-   164	
- > 165	void bpf_cpumask_xor(struct bpf_cpumask *dst,
-   166			     const struct cpumask *src1,
-   167			     const struct cpumask *src2)
-   168	{
-   169		cpumask_xor((struct cpumask *)dst, src1, src2);
-   170	}
-   171	
- > 172	bool bpf_cpumask_equal(const struct cpumask *src1, const struct cpumask *src2)
-   173	{
-   174		return cpumask_equal(src1, src2);
-   175	}
-   176	
- > 177	bool bpf_cpumask_intersects(const struct cpumask *src1, const struct cpumask *src2)
-   178	{
-   179		return cpumask_intersects(src1, src2);
-   180	}
-   181	
- > 182	bool bpf_cpumask_subset(const struct cpumask *src1, const struct cpumask *src2)
-   183	{
-   184		return cpumask_subset(src1, src2);
-   185	}
-   186	
- > 187	bool bpf_cpumask_empty(const struct cpumask *cpumask)
-   188	{
-   189		return cpumask_empty(cpumask);
-   190	}
-   191	
- > 192	bool bpf_cpumask_full(const struct cpumask *cpumask)
-   193	{
-   194		return cpumask_full(cpumask);
-   195	}
-   196	
- > 197	void bpf_cpumask_copy(struct bpf_cpumask *dst, const struct cpumask *src)
-   198	{
-   199		cpumask_copy((struct cpumask *)dst, src);
-   200	}
-   201	
+   472	
+   473	static int sof_ipc4_widget_setup_comp_dai(struct snd_sof_widget *swidget)
+   474	{
+   475		struct sof_ipc4_available_audio_format *available_fmt;
+   476		struct snd_soc_component *scomp = swidget->scomp;
+   477		struct snd_sof_dai *dai = swidget->private;
+   478		struct sof_ipc4_copier *ipc4_copier;
+   479		struct snd_sof_widget *pipe_widget;
+   480		struct sof_ipc4_pipeline *pipeline;
+   481		int node_type = 0;
+   482		int ret;
+   483	
+   484		ipc4_copier = kzalloc(sizeof(*ipc4_copier), GFP_KERNEL);
+   485		if (!ipc4_copier)
+   486			return -ENOMEM;
+   487	
+   488		available_fmt = &ipc4_copier->available_fmt;
+   489	
+   490		dev_dbg(scomp->dev, "Updating IPC structure for %s\n", swidget->widget->name);
+   491	
+   492		ret = sof_ipc4_get_audio_fmt(scomp, swidget, available_fmt,
+   493					     &ipc4_copier->data.base_config);
+   494		if (ret)
+   495			goto free_copier;
+   496	
+   497		ret = sof_update_ipc_object(scomp, &node_type,
+   498					    SOF_COPIER_TOKENS, swidget->tuples,
+   499					    swidget->num_tuples, sizeof(node_type), 1);
+   500		if (ret) {
+   501			dev_err(scomp->dev, "parse dai node type failed %d\n", ret);
+   502			goto free_available_fmt;
+   503		}
+   504	
+   505		ret = sof_update_ipc_object(scomp, ipc4_copier,
+   506					    SOF_DAI_TOKENS, swidget->tuples,
+   507					    swidget->num_tuples, sizeof(u32), 1);
+   508		if (ret) {
+   509			dev_err(scomp->dev, "parse dai copier node token failed %d\n", ret);
+   510			goto free_available_fmt;
+   511		}
+   512	
+   513		dev_dbg(scomp->dev, "dai %s node_type %u dai_type %u dai_index %d\n", swidget->widget->name,
+   514			node_type, ipc4_copier->dai_type, ipc4_copier->dai_index);
+   515	
+   516		ipc4_copier->data.gtw_cfg.node_id = SOF_IPC4_NODE_TYPE(node_type);
+   517	
+   518		pipe_widget = swidget->spipe->pipe_widget;
+   519		pipeline = pipe_widget->private;
+   520		if (pipeline->use_chain_dma &&
+ > 521		    ((ipc4_copier->dai_type != SOF_DAI_INTEL_HDA) ||
+   522		     (ipc4_copier->dai_type != SOF_DAI_INTEL_ALH))) {
+   523			dev_err(scomp->dev,
+   524				"Bad DAI type '%d', Chained DMA is only supported by HDA/ALH DAIs (%d %d).\n",
+   525				ipc4_copier->dai_type, SOF_DAI_INTEL_HDA, SOF_DAI_INTEL_ALH);
+   526			ret = -ENODEV;
+   527			goto free_available_fmt;
+   528		}
+   529	
+   530		switch (ipc4_copier->dai_type) {
+   531		case SOF_DAI_INTEL_ALH:
+   532		{
+   533			struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
+   534			struct sof_ipc4_alh_configuration_blob *blob;
+   535			struct snd_soc_dapm_path *p;
+   536			struct snd_sof_widget *w;
+   537			int src_num = 0;
+   538	
+   539			snd_soc_dapm_widget_for_each_source_path(swidget->widget, p)
+   540				src_num++;
+   541	
+   542			if (swidget->id == snd_soc_dapm_dai_in && src_num == 0) {
+   543				/*
+   544				 * The blob will not be used if the ALH copier is playback direction
+   545				 * and doesn't connect to any source.
+   546				 * It is fine to call kfree(ipc4_copier->copier_config) since
+   547				 * ipc4_copier->copier_config is null.
+   548				 */
+   549				ret = 0;
+   550				break;
+   551			}
+   552	
+   553			blob = kzalloc(sizeof(*blob), GFP_KERNEL);
+   554			if (!blob) {
+   555				ret = -ENOMEM;
+   556				goto free_available_fmt;
+   557			}
+   558	
+   559			list_for_each_entry(w, &sdev->widget_list, list) {
+   560				if (w->widget->sname &&
+   561				    strcmp(w->widget->sname, swidget->widget->sname))
+   562					continue;
+   563	
+   564				blob->alh_cfg.device_count++;
+   565			}
+   566	
+   567			ipc4_copier->copier_config = (uint32_t *)blob;
+   568			ipc4_copier->data.gtw_cfg.config_length = sizeof(*blob) >> 2;
+   569			break;
+   570		}
+   571		case SOF_DAI_INTEL_SSP:
+   572			/* set SSP DAI index as the node_id */
+   573			ipc4_copier->data.gtw_cfg.node_id |=
+   574				SOF_IPC4_NODE_INDEX_INTEL_SSP(ipc4_copier->dai_index);
+   575			break;
+   576		case SOF_DAI_INTEL_DMIC:
+   577			/* set DMIC DAI index as the node_id */
+   578			ipc4_copier->data.gtw_cfg.node_id |=
+   579				SOF_IPC4_NODE_INDEX_INTEL_DMIC(ipc4_copier->dai_index);
+   580			break;
+   581		default:
+   582			ipc4_copier->gtw_attr = kzalloc(sizeof(*ipc4_copier->gtw_attr), GFP_KERNEL);
+   583			if (!ipc4_copier->gtw_attr) {
+   584				ret = -ENOMEM;
+   585				goto free_available_fmt;
+   586			}
+   587	
+   588			ipc4_copier->copier_config = (uint32_t *)ipc4_copier->gtw_attr;
+   589			ipc4_copier->data.gtw_cfg.config_length =
+   590				sizeof(struct sof_ipc4_gtw_attributes) >> 2;
+   591			break;
+   592		}
+   593	
+   594		dai->scomp = scomp;
+   595		dai->private = ipc4_copier;
+   596	
+   597		/* set up module info and message header */
+   598		ret = sof_ipc4_widget_setup_msg(swidget, &ipc4_copier->msg);
+   599		if (ret)
+   600			goto free_copier_config;
+   601	
+   602		return 0;
+   603	
+   604	free_copier_config:
+   605		kfree(ipc4_copier->copier_config);
+   606	free_available_fmt:
+   607		sof_ipc4_free_audio_fmt(available_fmt);
+   608	free_copier:
+   609		kfree(ipc4_copier);
+   610		dai->private = NULL;
+   611		dai->scomp = NULL;
+   612		return ret;
+   613	}
+   614	
 
 -- 
 0-DAY CI Kernel Test Service
