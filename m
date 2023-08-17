@@ -1,46 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E81DF9D5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 22:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D4E100B3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 22:49:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692312583; x=1723848583;
+  t=1692312584; x=1723848584;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MeBBR3pYl0TIW2lL+cPc+R4O9aDDqapxcZP3Xf9jfWw=;
-  b=MEFoSE9oPi3WjJW3Vqk9ndC9wJBv1CpEH+Lh4K9pA54EeBaqlx10zCyn
-   +pMjFRrgnPKFWMit7OGt3eU9p/u0UQIVAyXrGTd9I4Mfpi+Gv4/XpSaqU
-   VzasWxb1GJy67FnYqsTtgctP23uKdqnUah2XF5Vz2tXPguISyxkDOrg2E
-   dLrXQKr87k6PwTc2mLnlS6PPYfzy8mZ+WjeLX60qoPc34NJhXkEPy5GNc
-   qdWKFCpUAWD1gXcZjqIogt2ZSI/dMXmsi8FiBcS3swqXeMCBXa4Mjd+LU
-   Z37mEV4ZWtQgxAfNpCe/w+WHhD1ESrvOizixA2kkNmM0Oyb4NvUaMl00x
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="403931294"
+  bh=n//xZJgF+fdbBXtZJSi3l8HgglzPGjRalK3RG40kkdU=;
+  b=C67aW03bhBsWuww3Yuqiz1qGcu+9GXdLrKkyh8PBtURhXoyyfmgK7x+v
+   5maztBLucN+gxvGrN8pvjrz2l7fTBURE440HTHtyDZJghmQQRnZx6Phxg
+   l8jq3tqm+CHar/3l9ZFAV5p/fBvcXsyb+pO+7DNAT87M96zpQeom3d5Ws
+   Jlhoulrc6l72l3+wAYtqhzC0xmJBCJ75VzIpcdHU27tKiNFZ8VYwa9OM2
+   Rg69K7YY51Hlq11Xgz9+W/xfQGNbCbSgn/G6FXZM8gmH/kwOTeWUXw+te
+   tXYk0rCXwSfJ3yuzR3mUmCT0c3ipj+3P9K/Z7oMH6dgG45ywAmtXFNci8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="403931300"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="403931294"
+   d="scan'208";a="403931300"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 15:49:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="858411460"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="858411464"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="858411460"
+   d="scan'208";a="858411464"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
   by orsmga004.jf.intel.com with ESMTP; 17 Aug 2023 15:49:39 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWloB-0001XB-03;
+	id 1qWloB-0001XF-0A;
 	Thu, 17 Aug 2023 22:49:39 +0000
-Date: Fri, 18 Aug 2023 06:48:56 +0800
+Date: Fri, 18 Aug 2023 06:48:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.15.y 125/9999] drivers/iio/accel/mma8452.c:186:
- warning: Function parameter or member 'name' not described in
- 'mma_chip_info'
-Message-ID: <202308180615.V29RRzEO-lkp@intel.com>
+To: Kashyap Desai <kashyap.desai@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Leon Romanovsky <leon@kernel.org>,
+	Selvin Xavier <selvin.xavier@broadcom.com>
+Subject: drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108: warning: Function
+ parameter or member 'rcfw' not described in 'bnxt_re_is_fw_stalled'
+Message-ID: <202308180600.oOnkIAQV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,54 +48,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
-head:   f6f7927ac664ba23447f8dd3c3dfe2f4ee39272f
-commit: 011e841cd11b85d7f67997f3ed2f2abaad3b8bf7 [125/9999] iio: mma8452: Fix probe failing when an i2c_device_id is used
-config: h8300-randconfig-r004-20230818 (https://download.01.org/0day-ci/archive/20230818/202308180615.V29RRzEO-lkp@intel.com/config)
-compiler: h8300-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180615.V29RRzEO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   16931859a6500d360b90aeacab3b505a3560a3ed
+commit: f0c875ff6293965a30aaeb02a0d19b293e11bc2b RDMA/bnxt_re: use firmware provided max request timeout
+date:   10 weeks ago
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230818/202308180600.oOnkIAQV-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180600.oOnkIAQV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308180615.V29RRzEO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308180600.oOnkIAQV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/accel/mma8452.c:186: warning: Function parameter or member 'name' not described in 'mma_chip_info'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:73: warning: Function parameter or member 'opcode' not described in 'bnxt_qplib_map_rc'
+>> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108: warning: Function parameter or member 'rcfw' not described in 'bnxt_re_is_fw_stalled'
+>> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108: warning: Function parameter or member 'cookie' not described in 'bnxt_re_is_fw_stalled'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108: warning: Function parameter or member 'opcode' not described in 'bnxt_re_is_fw_stalled'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108: warning: Function parameter or member 'cbit' not described in 'bnxt_re_is_fw_stalled'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:140: warning: Function parameter or member 'rcfw' not described in '__wait_for_resp'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:140: warning: Function parameter or member 'cookie' not described in '__wait_for_resp'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:140: warning: Function parameter or member 'opcode' not described in '__wait_for_resp'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:188: warning: Function parameter or member 'rcfw' not described in '__block_for_resp'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:188: warning: Function parameter or member 'cookie' not described in '__block_for_resp'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:188: warning: Function parameter or member 'opcode' not described in '__block_for_resp'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:386: warning: Function parameter or member 'rcfw' not described in '__poll_for_resp'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:386: warning: Function parameter or member 'cookie' not described in '__poll_for_resp'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:386: warning: Function parameter or member 'opcode' not described in '__poll_for_resp'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:484: warning: Function parameter or member 'rcfw' not described in '__bnxt_qplib_rcfw_send_message'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:484: warning: Function parameter or member 'msg' not described in '__bnxt_qplib_rcfw_send_message'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:566: warning: Function parameter or member 'rcfw' not described in 'bnxt_qplib_rcfw_send_message'
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:566: warning: Function parameter or member 'msg' not described in 'bnxt_qplib_rcfw_send_message'
 
 
-vim +186 drivers/iio/accel/mma8452.c
+vim +108 drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
 
-605f72de137ad9 Harinath Nampally 2017-09-09  165  
-605f72de137ad9 Harinath Nampally 2017-09-09  166  /**
-605f72de137ad9 Harinath Nampally 2017-09-09  167   * struct mma_chip_info - chip specific data
-605f72de137ad9 Harinath Nampally 2017-09-09  168   * @chip_id:			WHO_AM_I register's value
-605f72de137ad9 Harinath Nampally 2017-09-09  169   * @channels:			struct iio_chan_spec matching the device's
-605f72de137ad9 Harinath Nampally 2017-09-09  170   *				capabilities
-605f72de137ad9 Harinath Nampally 2017-09-09  171   * @num_channels:		number of channels
-605f72de137ad9 Harinath Nampally 2017-09-09  172   * @mma_scales:			scale factors for converting register values
-605f72de137ad9 Harinath Nampally 2017-09-09  173   *				to m/s^2; 3 modes: 2g, 4g, 8g; 2 integers
-605f72de137ad9 Harinath Nampally 2017-09-09  174   *				per mode: m/s^2 and micro m/s^2
-605f72de137ad9 Harinath Nampally 2017-09-09  175   * @all_events:			all events supported by this chip
-605f72de137ad9 Harinath Nampally 2017-09-09  176   * @enabled_events:		event flags enabled and handled by this driver
-605f72de137ad9 Harinath Nampally 2017-09-09  177   */
-605f72de137ad9 Harinath Nampally 2017-09-09  178  struct mma_chip_info {
-011e841cd11b85 Hans de Goede     2022-02-08  179  	const char *name;
-605f72de137ad9 Harinath Nampally 2017-09-09  180  	u8 chip_id;
-605f72de137ad9 Harinath Nampally 2017-09-09  181  	const struct iio_chan_spec *channels;
-605f72de137ad9 Harinath Nampally 2017-09-09  182  	int num_channels;
-605f72de137ad9 Harinath Nampally 2017-09-09  183  	const int mma_scales[3][2];
-605f72de137ad9 Harinath Nampally 2017-09-09  184  	int all_events;
-605f72de137ad9 Harinath Nampally 2017-09-09  185  	int enabled_events;
-605f72de137ad9 Harinath Nampally 2017-09-09 @186  };
-605f72de137ad9 Harinath Nampally 2017-09-09  187  
-
-:::::: The code at line 186 was first introduced by commit
-:::::: 605f72de137ad92a9c29ca1d3d1fead34685b1af iio: accel: mma8452: improvements to handle multiple events
-
-:::::: TO: Harinath Nampally <harinath922@gmail.com>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+    55	
+    56	/**
+    57	 * bnxt_qplib_map_rc  -  map return type based on opcode
+    58	 * @opcode    -  roce slow path opcode
+    59	 *
+    60	 * In some cases like firmware halt is detected, the driver is supposed to
+    61	 * remap the error code of the timed out command.
+    62	 *
+    63	 * It is not safe to assume hardware is really inactive so certain opcodes
+    64	 * like destroy qp etc are not safe to be returned success, but this function
+    65	 * will be called when FW already reports a timeout. This would be possible
+    66	 * only when FW crashes and resets. This will clear all the HW resources.
+    67	 *
+    68	 * Returns:
+    69	 * 0 to communicate success to caller.
+    70	 * Non zero error code to communicate failure to caller.
+    71	 */
+    72	static int bnxt_qplib_map_rc(u8 opcode)
+  > 73	{
+    74		switch (opcode) {
+    75		case CMDQ_BASE_OPCODE_DESTROY_QP:
+    76		case CMDQ_BASE_OPCODE_DESTROY_SRQ:
+    77		case CMDQ_BASE_OPCODE_DESTROY_CQ:
+    78		case CMDQ_BASE_OPCODE_DEALLOCATE_KEY:
+    79		case CMDQ_BASE_OPCODE_DEREGISTER_MR:
+    80		case CMDQ_BASE_OPCODE_DELETE_GID:
+    81		case CMDQ_BASE_OPCODE_DESTROY_QP1:
+    82		case CMDQ_BASE_OPCODE_DESTROY_AH:
+    83		case CMDQ_BASE_OPCODE_DEINITIALIZE_FW:
+    84		case CMDQ_BASE_OPCODE_MODIFY_ROCE_CC:
+    85		case CMDQ_BASE_OPCODE_SET_LINK_AGGR_MODE:
+    86			return 0;
+    87		default:
+    88			return -ETIMEDOUT;
+    89		}
+    90	}
+    91	
+    92	/**
+    93	 * bnxt_re_is_fw_stalled   -	Check firmware health
+    94	 * @rcfw      -   rcfw channel instance of rdev
+    95	 * @cookie    -   cookie to track the command
+    96	 * @opcode    -   rcfw submitted for given opcode
+    97	 * @cbit      -   bitmap entry of cookie
+    98	 *
+    99	 * If firmware has not responded any rcfw command within
+   100	 * rcfw->max_timeout, consider firmware as stalled.
+   101	 *
+   102	 * Returns:
+   103	 * 0 if firmware is responding
+   104	 * -ENODEV if firmware is not responding
+   105	 */
+   106	static int bnxt_re_is_fw_stalled(struct bnxt_qplib_rcfw *rcfw,
+   107					 u16 cookie, u8 opcode, u16 cbit)
+ > 108	{
+   109		struct bnxt_qplib_cmdq_ctx *cmdq;
+   110	
+   111		cmdq = &rcfw->cmdq;
+   112	
+   113		if (time_after(jiffies, cmdq->last_seen +
+   114			      (rcfw->max_timeout * HZ))) {
+   115			dev_warn_ratelimited(&rcfw->pdev->dev,
+   116					     "%s: FW STALL Detected. cmdq[%#x]=%#x waited (%d > %d) msec active %d ",
+   117					     __func__, cookie, opcode,
+   118					     jiffies_to_msecs(jiffies - cmdq->last_seen),
+   119					     rcfw->max_timeout * 1000,
+   120					     test_bit(cbit, cmdq->cmdq_bitmap));
+   121			return -ENODEV;
+   122		}
+   123	
+   124		return 0;
+   125	}
+   126	
 
 -- 
 0-DAY CI Kernel Test Service
