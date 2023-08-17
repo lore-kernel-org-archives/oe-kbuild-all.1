@@ -1,129 +1,153 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421B980D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 08:41:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C5F80D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 08:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692261666; x=1723797666;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rOjfctoipjTWJOT7tBl+vaTK40MFGCKSgc9hIlTEVXo=;
-  b=IcPa1llq/41565rgvY2cAkVBQRGClkWMR4ClTHKaBPOnJI2G9TDBYy/S
-   +K/xOO+DF01Z91khzX/l2bEhsXhZMtxO/UoyqGPl2CAjZABGdsfdRpL9i
-   t19QNARr8VTPQCZiD3b2qpHpBlmQCfbkkhAE2pELiy7V0jML5VSDcmB59
-   b01ZSoFqdlyZIOCKU7KBCTOwqmGhoPlgwgLxuKHH9+s6F1meFhEPo7Ao5
-   yB2204ehAmjCngsowIuraQS9xEjJzD/KigXUo5SS2cGEeoWX8P+Zmf4Wh
-   4btL1+SwgSLGNsvrSwVv4YTmy4VQ0PC29tBc6/R4FnrMaOfq11dsFPodY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352341272"
+  t=1692261668; x=1723797668;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WEAYMUpMkTDp2ElNcNJnEZVIwXE0Z2bBR3UAi2cF17U=;
+  b=FFVDOJEM18Cgthz+UU+f0vAdytXJhNZK+L28B0gaCnnjr43ICPESntwO
+   FX2tmB8+zpMLZH36KaAP/OGbd+KrIqr4mD/ogbhIjvCBXV13WkY3An0cj
+   2OtIUuxvCRm+Z4w68cEdxZNG/NwWv8Zjk3OmjXETgVNRn4FGRNwJTaWKq
+   S+5CnCeJceCiqLqD4x1SZo04wtixRe0Sb9Tq/HgFEIHdpsAczYBT6ISKK
+   SH8MbxXyMcDGlxKh+r0c3RtxIDmtWYd8/k6xAWxlK/6kjIw/gDY7zq+Tb
+   zn9/7o+Lo0rQAUNYU42U5bz2HajVe3lsOWkrEWRN+mFQoqe5MKnMk4c3R
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352341266"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="352341272"
+   d="scan'208";a="352341266"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 01:41:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="824546427"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="824546424"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="824546427"
+   d="scan'208";a="824546424"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
   by FMSMGA003.fm.intel.com with ESMTP; 17 Aug 2023 01:41:02 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWYYv-0000xZ-2w;
+	id 1qWYYv-0000xb-31;
 	Thu, 17 Aug 2023 08:41:01 +0000
-Date: Thu, 17 Aug 2023 16:40:22 +0800
+Date: Thu, 17 Aug 2023 16:40:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roberto Sassu <roberto.sassu@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stefan Berger <stefanb@linux.ibm.com>,
-	Mimi Zohar <zohar@linux.ibm.com>, Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-6.1.y 7217/8698]
- security/integrity/evm/evm_main.c:788: warning: Excess function parameter
- 'idmap' description in 'evm_inode_setattr'
-Message-ID: <202308171609.UbzF2zEG-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: fs/hfsplus/wrapper.c:49: warning: Function parameter or member 'opf'
+ not described in 'hfsplus_submit_bio'
+Message-ID: <202308171653.oSQN42xP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-6.1.y
-head:   6c44e13dc284f7f4db17706ca48fd016d6b3d49a
-commit: b050ade6e05b5a54606230f8d5630774359d371f [7217/8698] evm: Complete description of evm_inode_setattr()
-config: i386-randconfig-i012-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171609.UbzF2zEG-lkp@intel.com/config)
+Hi Bart,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: c85f99929ea66c357199b6a3fe958745e1190f5a fs/hfsplus: Use the enum req_op and blk_opf_t types
+date:   1 year, 1 month ago
+config: i386-randconfig-i051-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171653.oSQN42xP-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171609.UbzF2zEG-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171653.oSQN42xP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171609.UbzF2zEG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171653.oSQN42xP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   security/integrity/evm/evm_main.c:335: warning: Excess function parameter 'inode' description in 'evm_read_protected_xattrs'
-   security/integrity/evm/evm_main.c:407: warning: Function parameter or member 'iint' not described in 'evm_verifyxattr'
-   security/integrity/evm/evm_main.c:788: warning: Function parameter or member 'mnt_userns' not described in 'evm_inode_setattr'
->> security/integrity/evm/evm_main.c:788: warning: Excess function parameter 'idmap' description in 'evm_inode_setattr'
+>> fs/hfsplus/wrapper.c:49: warning: Function parameter or member 'opf' not described in 'hfsplus_submit_bio'
+>> fs/hfsplus/wrapper.c:49: warning: Excess function parameter 'op' description in 'hfsplus_submit_bio'
+>> fs/hfsplus/wrapper.c:49: warning: Excess function parameter 'op_flags' description in 'hfsplus_submit_bio'
 
 
-vim +788 security/integrity/evm/evm_main.c
+vim +49 fs/hfsplus/wrapper.c
 
-1886ab01a3fb98 Roberto Sassu     2021-05-14  776  
-817b54aa45db03 Mimi Zohar        2011-05-13  777  /**
-817b54aa45db03 Mimi Zohar        2011-05-13  778   * evm_inode_setattr - prevent updating an invalid EVM extended attribute
-b050ade6e05b5a Roberto Sassu     2023-03-06  779   * @idmap: idmap of the mount
-817b54aa45db03 Mimi Zohar        2011-05-13  780   * @dentry: pointer to the affected dentry
-b050ade6e05b5a Roberto Sassu     2023-03-06  781   * @attr: iattr structure containing the new file attributes
-50b977481fce90 Matthew Garrett   2017-11-07  782   *
-50b977481fce90 Matthew Garrett   2017-11-07  783   * Permit update of file attributes when files have a valid EVM signature,
-50b977481fce90 Matthew Garrett   2017-11-07  784   * except in the case of them having an immutable portable signature.
-817b54aa45db03 Mimi Zohar        2011-05-13  785   */
-0e363cf3fa598c Christian Brauner 2022-06-21  786  int evm_inode_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
-0e363cf3fa598c Christian Brauner 2022-06-21  787  		      struct iattr *attr)
-817b54aa45db03 Mimi Zohar        2011-05-13 @788  {
-817b54aa45db03 Mimi Zohar        2011-05-13  789  	unsigned int ia_valid = attr->ia_valid;
-817b54aa45db03 Mimi Zohar        2011-05-13  790  	enum integrity_status evm_status;
-817b54aa45db03 Mimi Zohar        2011-05-13  791  
-ae1ba1676b88e6 Matthew Garrett   2017-11-07  792  	/* Policy permits modification of the protected attrs even though
-ae1ba1676b88e6 Matthew Garrett   2017-11-07  793  	 * there's no HMAC key loaded
-ae1ba1676b88e6 Matthew Garrett   2017-11-07  794  	 */
-ae1ba1676b88e6 Matthew Garrett   2017-11-07  795  	if (evm_initialized & EVM_ALLOW_METADATA_WRITES)
-ae1ba1676b88e6 Matthew Garrett   2017-11-07  796  		return 0;
-ae1ba1676b88e6 Matthew Garrett   2017-11-07  797  
-a924ce0b35875e Mimi Zohar        2011-08-11  798  	if (!(ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID)))
-817b54aa45db03 Mimi Zohar        2011-05-13  799  		return 0;
-817b54aa45db03 Mimi Zohar        2011-05-13  800  	evm_status = evm_verify_current_integrity(dentry);
-cdef685be5b4ae Roberto Sassu     2021-05-14  801  	/*
-cdef685be5b4ae Roberto Sassu     2021-05-14  802  	 * Writing attrs is safe for portable signatures, as portable signatures
-cdef685be5b4ae Roberto Sassu     2021-05-14  803  	 * are immutable and can never be updated.
-cdef685be5b4ae Roberto Sassu     2021-05-14  804  	 */
-566be59ab86c0e Mimi Zohar        2011-08-22  805  	if ((evm_status == INTEGRITY_PASS) ||
-4a804b8a4572df Roberto Sassu     2021-05-20  806  	    (evm_status == INTEGRITY_NOXATTRS) ||
-cdef685be5b4ae Roberto Sassu     2021-05-14  807  	    (evm_status == INTEGRITY_FAIL_IMMUTABLE) ||
-4a804b8a4572df Roberto Sassu     2021-05-20  808  	    (evm_hmac_disabled() && (evm_status == INTEGRITY_NOLABEL ||
-4a804b8a4572df Roberto Sassu     2021-05-20  809  	     evm_status == INTEGRITY_UNKNOWN)))
-566be59ab86c0e Mimi Zohar        2011-08-22  810  		return 0;
-1886ab01a3fb98 Roberto Sassu     2021-05-14  811  
-1886ab01a3fb98 Roberto Sassu     2021-05-14  812  	if (evm_status == INTEGRITY_PASS_IMMUTABLE &&
-0e363cf3fa598c Christian Brauner 2022-06-21  813  	    !evm_attr_change(mnt_userns, dentry, attr))
-1886ab01a3fb98 Roberto Sassu     2021-05-14  814  		return 0;
-1886ab01a3fb98 Roberto Sassu     2021-05-14  815  
-c6f493d631c4d4 David Howells     2015-03-17  816  	integrity_audit_msg(AUDIT_INTEGRITY_METADATA, d_backing_inode(dentry),
-9b97b6cdd420cd Mimi Zohar        2013-02-21  817  			    dentry->d_name.name, "appraise_metadata",
-9b97b6cdd420cd Mimi Zohar        2013-02-21  818  			    integrity_status_msg[evm_status], -EPERM, 0);
-566be59ab86c0e Mimi Zohar        2011-08-22  819  	return -EPERM;
-817b54aa45db03 Mimi Zohar        2011-05-13  820  }
-817b54aa45db03 Mimi Zohar        2011-05-13  821  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  26  
+915ab236d3c491 Fabian Frederick  2014-06-06  27  /**
+915ab236d3c491 Fabian Frederick  2014-06-06  28   * hfsplus_submit_bio - Perform block I/O
+6596528e391ad9 Seth Forshee      2011-07-18  29   * @sb: super block of volume for I/O
+6596528e391ad9 Seth Forshee      2011-07-18  30   * @sector: block to read or write, for blocks of HFSPLUS_SECTOR_SIZE bytes
+6596528e391ad9 Seth Forshee      2011-07-18  31   * @buf: buffer for I/O
+6596528e391ad9 Seth Forshee      2011-07-18  32   * @data: output pointer for location of requested data
+67ed25961c428a Mike Christie     2016-06-05  33   * @op: direction of I/O
+67ed25961c428a Mike Christie     2016-06-05  34   * @op_flags: request op flags
+6596528e391ad9 Seth Forshee      2011-07-18  35   *
+6596528e391ad9 Seth Forshee      2011-07-18  36   * The unit of I/O is hfsplus_min_io_size(sb), which may be bigger than
+6596528e391ad9 Seth Forshee      2011-07-18  37   * HFSPLUS_SECTOR_SIZE, and @buf must be sized accordingly. On reads
+6596528e391ad9 Seth Forshee      2011-07-18  38   * @data will return a pointer to the start of the requested sector,
+6596528e391ad9 Seth Forshee      2011-07-18  39   * which may not be the same location as @buf.
+6596528e391ad9 Seth Forshee      2011-07-18  40   *
+6596528e391ad9 Seth Forshee      2011-07-18  41   * If @sector is not aligned to the bdev logical block size it will
+6596528e391ad9 Seth Forshee      2011-07-18  42   * be rounded down. For writes this means that @buf should contain data
+6596528e391ad9 Seth Forshee      2011-07-18  43   * that starts at the rounded-down address. As long as the data was
+6596528e391ad9 Seth Forshee      2011-07-18  44   * read using hfsplus_submit_bio() and the same buffer is used things
+6596528e391ad9 Seth Forshee      2011-07-18  45   * will work correctly.
+6596528e391ad9 Seth Forshee      2011-07-18  46   */
+6596528e391ad9 Seth Forshee      2011-07-18  47  int hfsplus_submit_bio(struct super_block *sb, sector_t sector,
+c85f99929ea66c Bart Van Assche   2022-07-14  48  		       void *buf, void **data, blk_opf_t opf)
+52399b171dfaea Christoph Hellwig 2010-11-23 @49  {
+c85f99929ea66c Bart Van Assche   2022-07-14  50  	const enum req_op op = opf & REQ_OP_MASK;
+52399b171dfaea Christoph Hellwig 2010-11-23  51  	struct bio *bio;
+50176ddefa4a94 Seth Forshee      2011-05-31  52  	int ret = 0;
+a6dc8c04218eb7 Janne Kalliomäki  2012-06-17  53  	u64 io_size;
+6596528e391ad9 Seth Forshee      2011-07-18  54  	loff_t start;
+6596528e391ad9 Seth Forshee      2011-07-18  55  	int offset;
+6596528e391ad9 Seth Forshee      2011-07-18  56  
+6596528e391ad9 Seth Forshee      2011-07-18  57  	/*
+6596528e391ad9 Seth Forshee      2011-07-18  58  	 * Align sector to hardware sector size and find offset. We
+6596528e391ad9 Seth Forshee      2011-07-18  59  	 * assume that io_size is a power of two, which _should_
+6596528e391ad9 Seth Forshee      2011-07-18  60  	 * be true.
+6596528e391ad9 Seth Forshee      2011-07-18  61  	 */
+6596528e391ad9 Seth Forshee      2011-07-18  62  	io_size = hfsplus_min_io_size(sb);
+6596528e391ad9 Seth Forshee      2011-07-18  63  	start = (loff_t)sector << HFSPLUS_SECTOR_SHIFT;
+6596528e391ad9 Seth Forshee      2011-07-18  64  	offset = start & (io_size - 1);
+6596528e391ad9 Seth Forshee      2011-07-18  65  	sector &= ~((io_size >> HFSPLUS_SECTOR_SHIFT) - 1);
+52399b171dfaea Christoph Hellwig 2010-11-23  66  
+c85f99929ea66c Bart Van Assche   2022-07-14  67  	bio = bio_alloc(sb->s_bdev, 1, opf, GFP_NOIO);
+4f024f3797c43c Kent Overstreet   2013-10-11  68  	bio->bi_iter.bi_sector = sector;
+52399b171dfaea Christoph Hellwig 2010-11-23  69  
+c85f99929ea66c Bart Van Assche   2022-07-14  70  	if (op != REQ_OP_WRITE && data)
+6596528e391ad9 Seth Forshee      2011-07-18  71  		*data = (u8 *)buf + offset;
+6596528e391ad9 Seth Forshee      2011-07-18  72  
+6596528e391ad9 Seth Forshee      2011-07-18  73  	while (io_size > 0) {
+6596528e391ad9 Seth Forshee      2011-07-18  74  		unsigned int page_offset = offset_in_page(buf);
+6596528e391ad9 Seth Forshee      2011-07-18  75  		unsigned int len = min_t(unsigned int, PAGE_SIZE - page_offset,
+6596528e391ad9 Seth Forshee      2011-07-18  76  					 io_size);
+6596528e391ad9 Seth Forshee      2011-07-18  77  
+6596528e391ad9 Seth Forshee      2011-07-18  78  		ret = bio_add_page(bio, virt_to_page(buf), len, page_offset);
+6596528e391ad9 Seth Forshee      2011-07-18  79  		if (ret != len) {
+6596528e391ad9 Seth Forshee      2011-07-18  80  			ret = -EIO;
+6596528e391ad9 Seth Forshee      2011-07-18  81  			goto out;
+6596528e391ad9 Seth Forshee      2011-07-18  82  		}
+6596528e391ad9 Seth Forshee      2011-07-18  83  		io_size -= len;
+6596528e391ad9 Seth Forshee      2011-07-18  84  		buf = (u8 *)buf + len;
+6596528e391ad9 Seth Forshee      2011-07-18  85  	}
+52399b171dfaea Christoph Hellwig 2010-11-23  86  
+4e49ea4a3d2763 Mike Christie     2016-06-05  87  	ret = submit_bio_wait(bio);
+6596528e391ad9 Seth Forshee      2011-07-18  88  out:
+50176ddefa4a94 Seth Forshee      2011-05-31  89  	bio_put(bio);
+6596528e391ad9 Seth Forshee      2011-07-18  90  	return ret < 0 ? ret : 0;
+52399b171dfaea Christoph Hellwig 2010-11-23  91  }
+52399b171dfaea Christoph Hellwig 2010-11-23  92  
 
-:::::: The code at line 788 was first introduced by commit
-:::::: 817b54aa45db03437c6d09a7693fc6926eb8e822 evm: add evm_inode_setattr to prevent updating an invalid security.evm
+:::::: The code at line 49 was first introduced by commit
+:::::: 52399b171dfaea02b6944cd6feba49b624147126 hfsplus: use raw bio access for the volume headers
 
-:::::: TO: Mimi Zohar <zohar@linux.vnet.ibm.com>
-:::::: CC: Mimi Zohar <zohar@linux.vnet.ibm.com>
+:::::: TO: Christoph Hellwig <hch@tuxera.com>
+:::::: CC: Christoph Hellwig <hch@lst.de>
 
 -- 
 0-DAY CI Kernel Test Service
