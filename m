@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E9836A;
-	Thu, 17 Aug 2023 02:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFA936A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 02:49:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692239892; x=1723775892;
+  t=1692240552; x=1723776552;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hE+H3wI3CvbxDR/L3xbOorBY+7gADHSnAXr980hWcpo=;
-  b=G75mZ9gqPwwpbLzIeY50guW9NfAmA4dQg07jagBKo2HMS1xBFmOANqfT
-   NRmzc7pHmVrpEUrd3YfhFgEImadpXYr2J+FWgG1244SYS/3IFUz23xu1g
-   T+zpxc53+MkEv4JODdFbR74ssHBtRYaeFPf0dauoqKYUsoztZmxC0zdKQ
-   ogi+7Mz5Xj5iJCyY8/zqBc8z1+eNogeSGfPSptP51XLNEqTjv4nKIR5qa
-   ZxjX6LS/hi9gKKonRLFW4XRZGyqmX7qswAgFKPuSsQGWOERJ9ij3OyEp/
-   TlOcLiMFqovsH3O7LmRBjVC3rjySPfWOrNSjhiR9Xsz1zUCoofBMJhc4K
+  bh=wTX+p+umyHhi1qed7dXceQx9nKp3lKNrLWrY5JrYcwQ=;
+  b=Q5/64RTzC+BVRh/MSmi6ikq/CKuoIAbIalVIq0YhQE0Y1s4FMq1pfAaA
+   1qYnWhRO/7xeL8sLNEAJbmWSn7NfESziItamwVo9KQ0zW/YJgnne7xc9Z
+   B3d7+WBn6I25vpvri5R22f1P6cjBOQbUEcZDxvuDSgOgDatodOxRqevik
+   UTTVO2i9mLN1WrR1/PjinPRZGiCzPFrRtPRISMz8qkKN/0XXxtVMy8TsY
+   8qy422KJ6Xr9tHfuR4vCSU60QvU7Ds30K/XfoG+BzLhSumbOy4BE7qku2
+   GNMwXcHKwoM22keP2yTrUz7nDwWrIzQS6D1bRTt2+AQfUIdtFyS6Xq65x
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="439048189"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375461679"
 X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="439048189"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 19:38:11 -0700
+   d="scan'208";a="375461679"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 19:49:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="799852828"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="980966946"
 X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="799852828"
+   d="scan'208";a="980966946"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 16 Aug 2023 19:38:10 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 16 Aug 2023 19:49:10 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWStl-0000kB-37;
-	Thu, 17 Aug 2023 02:38:09 +0000
-Date: Thu, 17 Aug 2023 10:38:09 +0800
+	id 1qWT4Q-0000kZ-0o;
+	Thu, 17 Aug 2023 02:49:10 +0000
+Date: Thu, 17 Aug 2023 10:48:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morse:mpam/snapshot/v6.5-rc1 147/148]
- arch/x86/include/asm/resctrl.h:149:9: error: incompatible pointer to integer
- conversion returning 'unsigned long long (void)' from a function with result
- type 'u64' (aka 'unsigned long long')
-Message-ID: <202308171014.V9egIIfl-lkp@intel.com>
+To: Yonghong Song <yhs@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: kernel/bpf/helpers.c:1882:7: warning: no previous declaration for
+ 'bpf_cast_to_kern_ctx'
+Message-ID: <202308171055.NJBXQriP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,83 +47,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.5-rc1
-head:   3feae02a8f8cf9aca5d7d1915ea1e026c9d3d8ec
-commit: d2210e80c29bdd622cb88af630aa4de57a01181c [147/148] fs/resctrl: Add cranky debug for reading CPU msr values
-config: x86_64-randconfig-x072-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171014.V9egIIfl-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171014.V9egIIfl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: fd264ca020948a743e4c36731dfdecc4a812153c bpf: Add a kfunc to type cast from bpf uapi ctx to kernel ctx
+date:   9 months ago
+config: x86_64-randconfig-x012-20230816 (https://download.01.org/0day-ci/archive/20230817/202308171055.NJBXQriP-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171055.NJBXQriP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171014.V9egIIfl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171055.NJBXQriP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/proc/base.c:97:
-   In file included from include/linux/resctrl.h:12:
-   arch/x86/include/asm/resctrl.h:149:33: error: too few arguments provided to function-like macro invocation
-           return rdmsr(MSR_IA32_PQR_ASSOC);
-                                          ^
-   arch/x86/include/asm/paravirt.h:210:9: note: macro 'rdmsr' defined here
-   #define rdmsr(msr, val1, val2)                  \
-           ^
-   In file included from fs/proc/base.c:97:
-   In file included from include/linux/resctrl.h:12:
-   arch/x86/include/asm/resctrl.h:149:9: error: use of undeclared identifier 'rdmsr'; did you mean 'rdtsc'?
-           return rdmsr(MSR_IA32_PQR_ASSOC);
-                  ^~~~~
-                  rdtsc
-   arch/x86/include/asm/msr.h:180:43: note: 'rdtsc' declared here
-   static __always_inline unsigned long long rdtsc(void)
-                                             ^
-   In file included from fs/proc/base.c:97:
-   In file included from include/linux/resctrl.h:12:
->> arch/x86/include/asm/resctrl.h:149:9: error: incompatible pointer to integer conversion returning 'unsigned long long (void)' from a function with result type 'u64' (aka 'unsigned long long') [-Wint-conversion]
-           return rdmsr(MSR_IA32_PQR_ASSOC);
-                  ^~~~~
-   3 errors generated.
---
-   In file included from fs/resctrl/monitor.c:22:
-   In file included from fs/resctrl/internal.h:5:
-   In file included from include/linux/resctrl.h:12:
-   arch/x86/include/asm/resctrl.h:149:33: error: too few arguments provided to function-like macro invocation
-           return rdmsr(MSR_IA32_PQR_ASSOC);
-                                          ^
-   arch/x86/include/asm/paravirt.h:210:9: note: macro 'rdmsr' defined here
-   #define rdmsr(msr, val1, val2)                  \
-           ^
-   In file included from fs/resctrl/monitor.c:22:
-   In file included from fs/resctrl/internal.h:5:
-   In file included from include/linux/resctrl.h:12:
-   arch/x86/include/asm/resctrl.h:149:9: error: use of undeclared identifier 'rdmsr'; did you mean 'rdtsc'?
-           return rdmsr(MSR_IA32_PQR_ASSOC);
-                  ^~~~~
-                  rdtsc
-   arch/x86/include/asm/msr.h:180:43: note: 'rdtsc' declared here
-   static __always_inline unsigned long long rdtsc(void)
-                                             ^
-   In file included from fs/resctrl/monitor.c:22:
-   In file included from fs/resctrl/internal.h:5:
-   In file included from include/linux/resctrl.h:12:
->> arch/x86/include/asm/resctrl.h:149:9: error: incompatible pointer to integer conversion returning 'unsigned long long (void)' from a function with result type 'u64' (aka 'unsigned long long') [-Wint-conversion]
-           return rdmsr(MSR_IA32_PQR_ASSOC);
-                  ^~~~~
-   fs/resctrl/monitor.c:590:23: warning: variable 'r' set but not used [-Wunused-but-set-variable]
-           struct rdt_resource *r;
-                                ^
-   1 warning and 3 errors generated.
+   kernel/bpf/helpers.c:1757:7: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
+    void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+          ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1771:6: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
+    void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+         ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1792:6: warning: no previous declaration for 'bpf_list_push_front' [-Wmissing-declarations]
+    void bpf_list_push_front(struct bpf_list_head *head, struct bpf_list_node *node)
+         ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1797:6: warning: no previous declaration for 'bpf_list_push_back' [-Wmissing-declarations]
+    void bpf_list_push_back(struct bpf_list_head *head, struct bpf_list_node *node)
+         ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1815:23: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
+    struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
+                          ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1820:23: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
+    struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
+                          ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1831:21: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
+    struct task_struct *bpf_task_acquire(struct task_struct *p)
+                        ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1843:21: warning: no previous declaration for 'bpf_task_kptr_get' [-Wmissing-declarations]
+    struct task_struct *bpf_task_kptr_get(struct task_struct **pp)
+                        ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1874:6: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
+    void bpf_task_release(struct task_struct *p)
+         ^~~~~~~~~~~~~~~~
+>> kernel/bpf/helpers.c:1882:7: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
+    void *bpf_cast_to_kern_ctx(void *obj)
+          ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +149 arch/x86/include/asm/resctrl.h
+vim +/bpf_cast_to_kern_ctx +1882 kernel/bpf/helpers.c
 
-   146	
-   147	static inline u64 resctrl_arch_get_cpu_msr(void)
-   148	{
- > 149		return rdmsr(MSR_IA32_PQR_ASSOC);
-   150	}
-   151	
+  1881	
+> 1882	void *bpf_cast_to_kern_ctx(void *obj)
+  1883	{
+  1884		return obj;
+  1885	}
+  1886	
 
 -- 
 0-DAY CI Kernel Test Service
