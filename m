@@ -1,54 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A350814F9F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 15:14:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E844814A84;
+	Thu, 17 Aug 2023 15:25:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692285275; x=1723821275;
+  t=1692285943; x=1723821943;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1hndQl9W6c/sH31dXMVTwUkTb63Rp/C/PF9sphtZ5VU=;
-  b=X1YsIoTlfR2Qf3MGDnH2bfFu8QdrRnkerg2tkAThbKuG/c8CMbkjj5nT
-   UWpaQVe+FipLsFRY65aYinaL2/0HkvLZ86qQkhHYzOHu6oTdBvnfQjh9t
-   vlqh5Lbqtf+sTuW11bjcMfKuTrsLqpBatYh1l+5waWfXEJ54WLw6D2pQ5
-   r8V6lW6e+7D3q+zMBVVWQkWPsdwr29G2HsOgTvCF4rxWZ1oXuGMUQlEKY
-   wY4S6XAQbSqb4o98mUzXBfBl18wkmyBCIq+hH+CGjUT5POMLFzlq5RACH
-   MkwTQk+646YZWK7t+TLU0KGp7bpHN7Jux2gYsqQJLvxmbDuAgU/nojCWv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="439215581"
+  bh=bWfsPyFfKqEssNtf28fn3Z9KsAMTbdk29rYzhPaSm2A=;
+  b=X9K73uU90GBUQujYoDcrLZazdEewu6AEn/VOcAVebpHUcr2Ak3u4nenS
+   ydReOpXJJs9rcXfCcbPqHcl4C06eIK0QaKUHuLJmLnvJjDaT5kywTxgEx
+   cbt41jFHecMkCBZtbd1OI+5NuYqPICIjFLuQQR9YbRS5lC7a1TlAA1isw
+   ACkSiGUBQs/HpSF5GK+JCTd5N7pTnccz0LjuqWbv0inOvRntHBN5zYaTk
+   +nXljnKLlhADjeDcbfBw3wpgTlnsMmp2QK71g4RJu3xdfiAljBAYxmG/P
+   EjnIFyrZ69RdqDA/P10VrQwKqI4m5wLekO7ML+Yz1Cb5qqFUTi10uQkxl
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="372832643"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="439215581"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 08:14:29 -0700
+   d="scan'208";a="372832643"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 08:25:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="908426946"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="728175534"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="908426946"
+   d="scan'208";a="728175534"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 17 Aug 2023 08:14:21 -0700
+  by orsmga007.jf.intel.com with ESMTP; 17 Aug 2023 08:25:21 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWehY-0001Fx-0h;
-	Thu, 17 Aug 2023 15:14:20 +0000
-Date: Thu, 17 Aug 2023 23:13:51 +0800
+	id 1qWesD-0001Gn-0m;
+	Thu, 17 Aug 2023 15:25:21 +0000
+Date: Thu, 17 Aug 2023 23:24:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>, sam@ravnborg.org,
-	bbrezillon@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	lee@kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Balakrishnan.S@microchip.com,
-	Nayabbasha.Sayed@microchip.com,
-	Balamanikandan.Gunasundar@microchip.com,
-	Manikandan Muralidharan <manikandan.m@microchip.com>,
-	Varshini.Rajendran@microchip.com, Dharma.B@microchip.com,
-	Durai Manickam KR <durai.manickamkr@microchip.com>,
-	Hari.PrasathGE@microchip.com
-Subject: Re: [PATCH v3 5/8] drm: atmel_hlcdc: Add support for XLCDC in atmel
- LCD driver
-Message-ID: <202308172209.DZ2HgtVa-lkp@intel.com>
-References: <20230817091250.225512-6-manikandan.m@microchip.com>
+To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jyri.sarha@linux.intel.com
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/display: Add wrapper to Compute
+ SAD
+Message-ID: <202308172319.rTgU3hnc-lkp@intel.com>
+References: <20230817125007.2681331-4-mitulkumar.ajitkumar.golani@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,76 +49,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230817091250.225512-6-manikandan.m@microchip.com>
+In-Reply-To: <20230817125007.2681331-4-mitulkumar.ajitkumar.golani@intel.com>
 
-Hi Manikandan,
+Hi Mitul,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on lee-mfd/for-mfd-next lee-leds/for-leds-next lee-mfd/for-mfd-fixes linus/master v6.5-rc6 next-20230817]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on drm-tip/drm-tip]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manikandan-Muralidharan/mfd-atmel-hlcdc-Add-compatible-for-sam9x75-XLCD-controller/20230817-172003
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230817091250.225512-6-manikandan.m%40microchip.com
-patch subject: [PATCH v3 5/8] drm: atmel_hlcdc: Add support for XLCDC in atmel LCD driver
-config: arm-randconfig-r033-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172209.DZ2HgtVa-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172209.DZ2HgtVa-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mitul-Golani/drm-i915-Add-has_audio-to-separate-audio-parameter-in-crtc_state/20230817-205556
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230817125007.2681331-4-mitulkumar.ajitkumar.golani%40intel.com
+patch subject: [Intel-gfx] [PATCH 3/3] drm/i915/display: Add wrapper to Compute SAD
+config: x86_64-buildonly-randconfig-r001-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172319.rTgU3hnc-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172319.rTgU3hnc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172209.DZ2HgtVa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172319.rTgU3hnc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c:1013:6: warning: no previous prototype for 'hlcdc_irq_dbg' [-Wmissing-prototypes]
-    1013 | void hlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
-         |      ^~~~~~~~~~~~~
->> drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c:1029:6: warning: no previous prototype for 'xlcdc_irq_dbg' [-Wmissing-prototypes]
-    1029 | void xlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
-         |      ^~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_audio.c:822:39: warning: variable 'channel_count' is uninitialized when used here [-Wuninitialized]
+                   audio_req_bandwidth = calc_audio_bw(channel_count,
+                                                       ^~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_audio.c:812:19: note: initialize the variable 'channel_count' to silence this warning
+           int channel_count;
+                            ^
+                             = 0
+   1 warning generated.
 
 
-vim +/hlcdc_irq_dbg +1013 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+vim +/channel_count +822 drivers/gpu/drm/i915/display/intel_audio.c
 
-  1012	
-> 1013	void hlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
-  1014			   const struct atmel_hlcdc_layer_desc *desc)
-  1015	{
-  1016		u32 isr = atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_HLCDC_LAYER_ISR);
-  1017	
-  1018		/*
-  1019		 * There's not much we can do in case of overrun except informing
-  1020		 * the user. However, we are in interrupt context here, hence the
-  1021		 * use of dev_dbg().
-  1022		 */
-  1023		if (isr &
-  1024		    (ATMEL_HLCDC_LAYER_OVR_IRQ(0) | ATMEL_HLCDC_LAYER_OVR_IRQ(1) |
-  1025		     ATMEL_HLCDC_LAYER_OVR_IRQ(2)))
-  1026			pr_warn("%s: overrun on plane %s\n", __func__, desc->name);
-  1027	}
-  1028	
-> 1029	void xlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
-  1030			   const struct atmel_hlcdc_layer_desc *desc)
-  1031	{
-  1032		u32 isr = atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_XLCDC_LAYER_ISR);
-  1033	
-  1034		/*
-  1035		 * There's not much we can do in case of overrun except informing
-  1036		 * the user. However, we are in interrupt context here, hence the
-  1037		 * use of dev_dbg().
-  1038		 */
-  1039		if (isr &
-  1040		    (ATMEL_XLCDC_LAYER_OVR_IRQ(0) | ATMEL_XLCDC_LAYER_OVR_IRQ(1) |
-  1041		     ATMEL_XLCDC_LAYER_OVR_IRQ(2)))
-  1042			pr_warn("%s: overrun on plane %s\n", __func__, desc->name);
-  1043	}
-  1044	
+   808	
+   809	static void calibrate_audio_config_params(struct intel_crtc_state *pipe_config, int channel)
+   810	{
+   811		struct drm_display_mode *adjusted_mode = &pipe_config->hw.adjusted_mode;
+   812		int channel_count;
+   813		int index, rate[] = { 192000, 176000, 96000, 88000, 48000, 44100, 32000 };
+   814		int audio_req_bandwidth, available_blank_bandwidth, vblank, hblank;
+   815	
+   816		hblank = adjusted_mode->htotal - adjusted_mode->hdisplay;
+   817		vblank = adjusted_mode->vtotal - adjusted_mode->vdisplay;
+   818		available_blank_bandwidth = hblank * vblank *
+   819					    drm_mode_vrefresh(adjusted_mode) * pipe_config->pipe_bpp;
+   820	
+   821		for (index = 0; index < ARRAY_SIZE(rate); index++) {
+ > 822			audio_req_bandwidth = calc_audio_bw(channel_count,
+   823							    rate[index]);
+   824			if (audio_req_bandwidth < available_blank_bandwidth) {
+   825				pipe_config->audio.max_rate = rate[index];
+   826				pipe_config->audio.max_channel_count = channel_count;
+   827				return;
+   828			}
+   829		}
+   830	
+   831		pipe_config->audio.max_rate = 0;
+   832		pipe_config->audio.max_channel_count = 0;
+   833	}
+   834	
 
 -- 
 0-DAY CI Kernel Test Service
