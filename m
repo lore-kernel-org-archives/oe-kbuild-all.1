@@ -1,54 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8B0818
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 05:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79977395
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 05:36:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692248666; x=1723784666;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UTyYGw616Ly+01F1y0uYgaWLYZdfcDwkVsZCg+gqhM8=;
-  b=nUnvaLMoeXzDSq2hmSzpJIEeiUAS7nVfZ9QtFkAQ6/VoRKRbRT6YeJF3
-   2LbAdyedz4xQkYg8AlNn24Rcwzbt39ESWvTSGUJhrhGfnqyMuAcBhrL3A
-   wIkoNcHB/tPP5U5nUz4nN83kPvTEC+D2IM3KXTZk8wLmwWMgdG/Ngprw8
-   IlP3tgjQviwJbl5YmWGfvV+8ZXKaoR0KfElaGVCxeDvKd/Hdkk7ytClFb
-   cgDLg41FIvh+97kwcIw2D2BBM2/rqsrgPWnzXqNC0dF2bVLNlieVAdFKf
-   OYSlWKzrMv8XznWRHNzGe77zXp50g3T9TTX1W5gUTN+fYSxR6kse/NG5o
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375478318"
+  t=1692250565; x=1723786565;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xyDvXu50Nwflcy6OBgzU9fv/e5QmHeAJoWXPBRuKuqE=;
+  b=QkUFl+1lOuMLZtOb+I+3Bwk6w72v6T6xa3ltdPn6qkJqsLqzEJRlXyS7
+   RuCTBueytw4DKUgEdYj/3K2CDJg/5/15KLOPK+JMHKqeyMKoWB6asqE7f
+   mZW+DEojv6K0EErAEi8QRaTx8lpsdxhNMIJmX3S3BlIShGcx/jOp2FYe3
+   thgBf+Y9gPDJ3zp10/7Z3vE5EuRuNJj7ngKodisGuigDUdgAM6KbAqi7V
+   eenms+br4hX61qX271U7QecD80LzVz8Qb2cNsrV43opRSJf4ERE+kxb7J
+   +SBu71VRvUVq+6of42GGHazUkxxUHNhyVFFQo6mz68ATozpF0agPg/T1s
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="376453561"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="375478318"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 22:04:20 -0700
+   d="scan'208";a="376453561"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 22:36:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="848747890"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="848747890"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="878076802"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 16 Aug 2023 22:04:17 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 16 Aug 2023 22:36:06 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWVBB-0000o1-02;
-	Thu, 17 Aug 2023 05:04:17 +0000
-Date: Thu, 17 Aug 2023 13:03:21 +0800
+	id 1qWVft-0000pF-2v;
+	Thu, 17 Aug 2023 05:36:01 +0000
+Date: Thu, 17 Aug 2023 13:35:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-acpi@vger.kernel.org,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	Iain Lane <iain@orangesquash.org.uk>,
-	Shyam-sundar S-k <Shyam-sundar.S-k@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v12 9/9] ACPI: x86: s2idle: Enforce LPS0 constraints for
- PCI devices
-Message-ID: <202308171239.xQFwhccA-lkp@intel.com>
-References: <20230816204143.66281-10-mario.limonciello@amd.com>
+To: Yonghong Song <yhs@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: kernel/bpf/helpers.c:1887:7: warning: no previous declaration for
+ 'bpf_rdonly_cast'
+Message-ID: <202308171347.v9awguFg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,73 +45,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230816204143.66281-10-mario.limonciello@amd.com>
 
-Hi Mario,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2ccdd1b13c591d306f0401d98dedc4bdcd02b421]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-Add-comments-to-clarify-some-ifdef-statements/20230817-061259
-base:   2ccdd1b13c591d306f0401d98dedc4bdcd02b421
-patch link:    https://lore.kernel.org/r/20230816204143.66281-10-mario.limonciello%40amd.com
-patch subject: [PATCH v12 9/9] ACPI: x86: s2idle: Enforce LPS0 constraints for PCI devices
-config: i386-randconfig-i063-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171239.xQFwhccA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171239.xQFwhccA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: a35b9af4ec2c7f69286ef861fd2074a577e354cb bpf: Add a kfunc for generic type cast
+date:   9 months ago
+config: x86_64-randconfig-x012-20230816 (https://download.01.org/0day-ci/archive/20230817/202308171347.v9awguFg-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171347.v9awguFg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171239.xQFwhccA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171347.v9awguFg-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/acpi/x86/s2idle.c:306:67: sparse: sparse: restricted pci_power_t degrades to integer
->> drivers/acpi/x86/s2idle.c:306:45: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted pci_power_t [usertype] target @@     got int @@
-   drivers/acpi/x86/s2idle.c:306:45: sparse:     expected restricted pci_power_t [usertype] target
-   drivers/acpi/x86/s2idle.c:306:45: sparse:     got int
-   drivers/acpi/x86/s2idle.c:312:13: sparse: sparse: restricted pci_power_t degrades to integer
->> drivers/acpi/x86/s2idle.c:318:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected int state @@     got restricted pci_power_t [usertype] current_state @@
-   drivers/acpi/x86/s2idle.c:318:17: sparse:     expected int state
-   drivers/acpi/x86/s2idle.c:318:17: sparse:     got restricted pci_power_t [usertype] current_state
->> drivers/acpi/x86/s2idle.c:318:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected int state @@     got restricted pci_power_t [usertype] target @@
-   drivers/acpi/x86/s2idle.c:318:17: sparse:     expected int state
-   drivers/acpi/x86/s2idle.c:318:17: sparse:     got restricted pci_power_t [usertype] target
-   drivers/acpi/x86/s2idle.c:522:13: sparse: sparse: restricted suspend_state_t degrades to integer
-   drivers/acpi/x86/s2idle.c:522:33: sparse: sparse: restricted suspend_state_t degrades to integer
+All warnings (new ones prefixed by >>):
 
-vim +306 drivers/acpi/x86/s2idle.c
+   kernel/bpf/helpers.c:1757:7: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
+    void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+          ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1771:6: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
+    void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+         ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1792:6: warning: no previous declaration for 'bpf_list_push_front' [-Wmissing-declarations]
+    void bpf_list_push_front(struct bpf_list_head *head, struct bpf_list_node *node)
+         ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1797:6: warning: no previous declaration for 'bpf_list_push_back' [-Wmissing-declarations]
+    void bpf_list_push_back(struct bpf_list_head *head, struct bpf_list_node *node)
+         ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1815:23: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
+    struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
+                          ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1820:23: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
+    struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
+                          ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1831:21: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
+    struct task_struct *bpf_task_acquire(struct task_struct *p)
+                        ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1843:21: warning: no previous declaration for 'bpf_task_kptr_get' [-Wmissing-declarations]
+    struct task_struct *bpf_task_kptr_get(struct task_struct **pp)
+                        ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1874:6: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
+    void bpf_task_release(struct task_struct *p)
+         ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1882:7: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
+    void *bpf_cast_to_kern_ctx(void *obj)
+          ^~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/helpers.c:1887:7: warning: no previous declaration for 'bpf_rdonly_cast' [-Wmissing-declarations]
+    void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
+          ^~~~~~~~~~~~~~~
 
-   303	
-   304	static void lpi_check_pci_dev(struct lpi_constraints *entry, struct pci_dev *pdev)
-   305	{
- > 306		pci_power_t target = entry->enabled ? entry->min_dstate : PCI_D0;
-   307	
-   308		if (pdev->current_state == target)
-   309			return;
-   310	
-   311		/* constraint of ACPI D3hot means PCI D3hot _or_ D3cold */
-   312		if (target == ACPI_STATE_D3_HOT &&
-   313		    (pdev->current_state == PCI_D3hot ||
-   314		     pdev->current_state == PCI_D3cold))
-   315			return;
-   316	
-   317		if (pm_debug_messages_on)
- > 318			acpi_handle_info(entry->handle,
-   319					 "LPI: PCI device in %s, not in %s\n",
-   320					 acpi_power_state_string(pdev->current_state),
-   321					 acpi_power_state_string(target));
-   322	
-   323		/* don't try with things that PCI core hasn't touched */
-   324		if (pdev->current_state == PCI_UNKNOWN) {
-   325			entry->handle = NULL;
-   326			return;
-   327		}
-   328	
-   329		pci_set_power_state(pdev, target);
-   330	}
-   331	
+
+vim +/bpf_rdonly_cast +1887 kernel/bpf/helpers.c
+
+  1886	
+> 1887	void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
+  1888	{
+  1889		return obj__ign;
+  1890	}
+  1891	
 
 -- 
 0-DAY CI Kernel Test Service
