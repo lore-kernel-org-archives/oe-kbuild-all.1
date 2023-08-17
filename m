@@ -1,46 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D7610F5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 06:18:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744717F9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 06:39:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692253093; x=1723789093;
+  t=1692254354; x=1723790354;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lOtrg2qfwtp34iHpVyfe1gJbR0ImfXCPDFKMLh8th/0=;
-  b=cB6yFhWZLCesKXfh04qPNmYa5uEAx45jx1zYrQgcZ6q57aJ/zSL7jZRw
-   owU3NAaL5dJMDYZtoNvkpkEXCQ5eZPOx8sYP65Dwb6+QIWrDbxhOcZCXN
-   2MIFmA5HtaMsMa44wgO/uEH+F5HnKXrz7gBqiXET953O6m5cu5zDvKVOz
-   HroxuXAhDyDmzT/owPUX5v5e1Vyvos4j3mXSzr6/tWaTizEaFQGRY7amg
-   doF6uGFU3O1DjcPWnoYLbYRqwHUqxSvJ+8t5L793ZB/3xsuiFDMApVBVJ
-   qBD/Ykn7VL8Z7TqxhxMydW/3TtzrLT+fi+QQ9L2t1TtqFmH0L0Shcq4N/
+  bh=gB5KMoof55X+0asjNIfV2F8znju0t4PbHxg2RW6F1DI=;
+  b=CLkUk2GAriCQ9kbTuMDo1Sja34tWBnGuheBEgtIkJcwOCcR3NDqpJzzk
+   +P5aP5sdAEsiyqztpKLrx5zblAv7G6ath+8Jwdb+cvYyhuBF7VotjNhrW
+   zhfo4wrBySLyyOb892MX6BinegZUwxBP52xgeR5/mGPeUC3kKOhBDNc6k
+   d6ynCQnkd32C1yOLvG4LkaNstX+wGT5IP6y+in/uNh5oLI3mcWaf/vhaC
+   doj+6+DEpno373KbKchtBNQMGFA6k9n28jnpBeZWIXwDIRKvmIG4aW0cm
+   GRShkUyKxCMcfGx7pZQN1X3kU2fydRpop8/R8cHCzZX44konqtWEOhieW
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="376460097"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="372727105"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="376460097"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 23:18:11 -0700
+   d="scan'208";a="372727105"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 23:39:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="684318377"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1065135115"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="684318377"
+   d="scan'208";a="1065135115"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 16 Aug 2023 23:18:09 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 16 Aug 2023 23:39:10 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWWKe-0000qf-1y;
-	Thu, 17 Aug 2023 06:18:08 +0000
-Date: Thu, 17 Aug 2023 14:17:40 +0800
+	id 1qWWez-0000rV-0e;
+	Thu, 17 Aug 2023 06:39:09 +0000
+Date: Thu, 17 Aug 2023 14:38:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Patrick Rudolph <patrick.rudolph@9elements.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Naresh Solanki <Naresh.Solanki@9elements.com>
-Subject: [linux-next:master 2839/10848]
- drivers/pinctrl/pinctrl-cy8c95x0.c:168: warning: Function parameter or
- member 'gpio_reset' not described in 'cy8c95x0_pinctrl'
-Message-ID: <202308171406.uWe0yyv9-lkp@intel.com>
+To: Juergen Gross <jgross@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter
+ or member 'var' not described in 'mtrr_overwrite_state'
+Message-ID: <202308171419.RgHfW1sc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,77 +47,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   47762f08697484cf0c2f2904b8c52375ed26c8cb
-commit: 99084881de88ffcd156b03aaeb7d4eb740005e3e [2839/10848] pinctrl: cy8c95x0: Add reset support
-config: csky-randconfig-r034-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171406.uWe0yyv9-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171406.uWe0yyv9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: 29055dc74287467bd7a053d60b4afe753832960d x86/mtrr: Support setting MTRR state for software defined MTRRs
+date:   3 months ago
+config: i386-randconfig-i011-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171419.RgHfW1sc-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171419.RgHfW1sc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171406.uWe0yyv9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171419.RgHfW1sc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pinctrl/pinctrl-cy8c95x0.c:168: warning: Function parameter or member 'gpio_reset' not described in 'cy8c95x0_pinctrl'
+   arch/x86/kernel/cpu/mtrr/generic.c:125: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup_fixed'
+   arch/x86/kernel/cpu/mtrr/generic.c:125: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup_fixed'
+   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup_variable'
+   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup_variable'
+   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'partial_end' not described in 'mtrr_type_lookup_variable'
+   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'repeat' not described in 'mtrr_type_lookup_variable'
+   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'uniform' not described in 'mtrr_type_lookup_variable'
+>> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'var' not described in 'mtrr_overwrite_state'
+>> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'num_var' not described in 'mtrr_overwrite_state'
+>> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'def_type' not described in 'mtrr_overwrite_state'
+   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup'
+   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup'
+   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'uniform' not described in 'mtrr_type_lookup'
 
 
-vim +168 drivers/pinctrl/pinctrl-cy8c95x0.c
+vim +259 arch/x86/kernel/cpu/mtrr/generic.c
 
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  124  
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  125  /**
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  126   * struct cy8c95x0_pinctrl - driver data
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  127   * @regmap:         Device's regmap
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  128   * @irq_lock:       IRQ bus lock
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  129   * @i2c_lock:       Mutex for the device internal mux register
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  130   * @irq_mask:       I/O bits affected by interrupts
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  131   * @irq_trig_raise: I/O bits affected by raising voltage level
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  132   * @irq_trig_fall:  I/O bits affected by falling voltage level
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  133   * @irq_trig_low:   I/O bits affected by a low voltage level
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  134   * @irq_trig_high:  I/O bits affected by a high voltage level
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  135   * @push_pull:      I/O bits configured as push pull driver
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  136   * @shiftmask:      Mask used to compensate for Gport2 width
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  137   * @nport:          Number of Gports in this chip
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  138   * @gpio_chip:      gpiolib chip
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  139   * @driver_data:    private driver data
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  140   * @regulator:      Pointer to the regulator for the IC
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  141   * @dev:            struct device
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  142   * @pctldev:        pin controller device
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  143   * @pinctrl_desc:   pin controller description
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  144   * @name:           Chip controller name
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  145   * @tpin:           Total number of pins
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  146   */
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  147  struct cy8c95x0_pinctrl {
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  148  	struct regmap *regmap;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  149  	struct mutex irq_lock;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  150  	struct mutex i2c_lock;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  151  	DECLARE_BITMAP(irq_mask, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  152  	DECLARE_BITMAP(irq_trig_raise, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  153  	DECLARE_BITMAP(irq_trig_fall, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  154  	DECLARE_BITMAP(irq_trig_low, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  155  	DECLARE_BITMAP(irq_trig_high, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  156  	DECLARE_BITMAP(push_pull, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  157  	DECLARE_BITMAP(shiftmask, MAX_LINE);
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  158  	int nport;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  159  	struct gpio_chip gpio_chip;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  160  	unsigned long driver_data;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  161  	struct regulator *regulator;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  162  	struct device *dev;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  163  	struct pinctrl_dev *pctldev;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  164  	struct pinctrl_desc pinctrl_desc;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  165  	char name[32];
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  166  	unsigned int tpin;
-99084881de88ff Patrick Rudolph 2023-07-14  167  	struct gpio_desc *gpio_reset;
-e6cbbe42944de9 Patrick Rudolph 2022-08-16 @168  };
-e6cbbe42944de9 Patrick Rudolph 2022-08-16  169  
-
-:::::: The code at line 168 was first introduced by commit
-:::::: e6cbbe42944de93ba4e0785b4f90d284b1d7cdf6 pinctrl: Add Cypress cy8c95x0 support
-
-:::::: TO: Patrick Rudolph <patrick.rudolph@9elements.com>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+   246	
+   247	/**
+   248	 * mtrr_overwrite_state - set static MTRR state
+   249	 *
+   250	 * Used to set MTRR state via different means (e.g. with data obtained from
+   251	 * a hypervisor).
+   252	 * Is allowed only for special cases when running virtualized. Must be called
+   253	 * from the x86_init.hyper.init_platform() hook.  It can be called only once.
+   254	 * The MTRR state can't be changed afterwards.  To ensure that, X86_FEATURE_MTRR
+   255	 * is cleared.
+   256	 */
+   257	void mtrr_overwrite_state(struct mtrr_var_range *var, unsigned int num_var,
+   258				  mtrr_type def_type)
+ > 259	{
+   260		unsigned int i;
+   261	
+   262		/* Only allowed to be called once before mtrr_bp_init(). */
+   263		if (WARN_ON_ONCE(mtrr_state_set))
+   264			return;
+   265	
+   266		/* Only allowed when running virtualized. */
+   267		if (!cpu_feature_enabled(X86_FEATURE_HYPERVISOR))
+   268			return;
+   269	
+   270		/*
+   271		 * Only allowed for special virtualization cases:
+   272		 * - when running as Hyper-V, SEV-SNP guest using vTOM
+   273		 * - when running as Xen PV guest
+   274		 * - when running as SEV-SNP or TDX guest to avoid unnecessary
+   275		 *   VMM communication/Virtualization exceptions (#VC, #VE)
+   276		 */
+   277		if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP) &&
+   278		    !hv_is_isolation_supported() &&
+   279		    !cpu_feature_enabled(X86_FEATURE_XENPV) &&
+   280		    !cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
+   281			return;
+   282	
+   283		/* Disable MTRR in order to disable MTRR modifications. */
+   284		setup_clear_cpu_cap(X86_FEATURE_MTRR);
+   285	
+   286		if (var) {
+   287			if (num_var > MTRR_MAX_VAR_RANGES) {
+   288				pr_warn("Trying to overwrite MTRR state with %u variable entries\n",
+   289					num_var);
+   290				num_var = MTRR_MAX_VAR_RANGES;
+   291			}
+   292			for (i = 0; i < num_var; i++)
+   293				mtrr_state.var_ranges[i] = var[i];
+   294			num_var_ranges = num_var;
+   295		}
+   296	
+   297		mtrr_state.def_type = def_type;
+   298		mtrr_state.enabled |= MTRR_STATE_MTRR_ENABLED;
+   299	
+   300		mtrr_state_set = 1;
+   301	}
+   302	
 
 -- 
 0-DAY CI Kernel Test Service
