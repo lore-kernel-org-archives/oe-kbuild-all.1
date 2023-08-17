@@ -1,149 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC4313FE4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 12:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D95613AD4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 12:24:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692273909; x=1723809909;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=1L6JKFLj3xv1dBImxV/1xS2P9RhOnFLpQLl1W6kMyCA=;
-  b=BAutg9/isDjtuaZ1F15L5nWtwltwslK7OsCLFVY8qbK86PFRaUI2BcTj
-   tV9QzHO+22nNa2euB/xSCLYEfZAekmPlEH38CfS2fEfe+FMm94MC7KqOJ
-   fu2nPor/U4N7e4SUO9ige+S1+yGRwmB69M3Zm9IHyP3uTzW8DlgdDS+CC
-   j5W8hAKkNz33Vc+DDr6EX5+KoUMHm57pvYXd+9Xf8mGDtdSA8DMq3B/Zb
-   aeUK+YW6Zz48gsrIKeUtX6xC9sRiOPNxP59BZJnsyGQJHMTUtUfbz4PHo
-   CF2B8EVaOvsRUelybobP5UkCcpXA1pDi3PAOhpxb2s6BZYep49k4ecDSG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371694125"
+  t=1692275092; x=1723811092;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iKBCqatyz5OFlVMcI6EVQkDabdGLK7b87dQ9GHwXC7A=;
+  b=fkDS55Pua/erZAci9rrUQALw/6GwSQFe54hYzluekvdnl3+xsmmBNB7O
+   tcqY+d/xV+7CSzSHZodXd8VSlicYQAEYCfwPRpZ223WV8szvbus6B1KKn
+   G7eiiD8nv4V4DNiHza3M+X3lRv3OwPzc/HflMRmqOq3HCHegFXdS+1DDY
+   IeT24+Xs8Xs/aaC/R9eUqdEJg9fIpxRegnIPwPzw23qIBXNDn7Uruq+w0
+   Fv+EtBcBtkYiQq2i+sCi4qjSmBXwH/YqsS9OeTpHk25mm/kGq3M1BUVK1
+   A7NGtxsuVBnx3qkaZnbtNttbE9nYCFHLhBrhbr0lldviafJDZwsdJkLaA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="436699152"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="371694125"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 05:03:11 -0700
+   d="scan'208";a="436699152"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 05:24:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="684400526"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="728109193"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="684400526"
+   d="scan'208";a="728109193"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 17 Aug 2023 05:03:10 -0700
+  by orsmga007.jf.intel.com with ESMTP; 17 Aug 2023 05:24:50 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWbiY-00016n-00;
-	Thu, 17 Aug 2023 12:03:10 +0000
-Date: Thu, 17 Aug 2023 20:02:20 +0800
+	id 1qWc31-00017p-08;
+	Thu, 17 Aug 2023 12:24:29 +0000
+Date: Thu, 17 Aug 2023 20:24:15 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
-Subject: [intel-lts:6.1/linux 907/2351]
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:758: warning: Excess function
- parameter 'pcie_index' description in 'amdgpu_device_indirect_wreg'
-Message-ID: <202308172018.hJT8s8FR-lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-5.4 68/89] drivers/base/power/runtime.c:1152:
+ warning: Function parameter or member 'ign_usage_count' not described in
+ 'pm_runtime_get_if_active'
+Message-ID: <202308172029.mesaR827-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.1/linux
-head:   1250fc0938619046c0d5513aae318293a0563282
-commit: c0af7a876be298ceb17ab83c5fbb3c0ab0251beb [907/2351] drm/amdgpu: Move to common indirect reg access helper
-config: x86_64-randconfig-x004-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172018.hJT8s8FR-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172018.hJT8s8FR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.4
+head:   526800c1cc4597346abc427d878f6e15bd0a4429
+commit: b32fc94a27815cdd8b1a637880d6bb398288ddff [68/89] PM: runtime: Add pm_runtime_get_if_active()
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230817/202308172029.mesaR827-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172029.mesaR827-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172018.hJT8s8FR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172029.mesaR827-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:758: warning: Excess function parameter 'pcie_index' description in 'amdgpu_device_indirect_wreg'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:758: warning: Excess function parameter 'pcie_data' description in 'amdgpu_device_indirect_wreg'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:789: warning: Excess function parameter 'pcie_index' description in 'amdgpu_device_indirect_wreg64'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:789: warning: Excess function parameter 'pcie_data' description in 'amdgpu_device_indirect_wreg64'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5195: warning: Function parameter or member 'reset_context' not described in 'amdgpu_device_gpu_recover'
+   drivers/base/power/runtime.c:347: warning: Excess function parameter 'dev' description in '__rpm_callback'
+   drivers/base/power/runtime.c:973: warning: Function parameter or member 'timer' not described in 'pm_suspend_timer_fn'
+   drivers/base/power/runtime.c:973: warning: Excess function parameter 'data' description in 'pm_suspend_timer_fn'
+>> drivers/base/power/runtime.c:1152: warning: Function parameter or member 'ign_usage_count' not described in 'pm_runtime_get_if_active'
 
 
-vim +758 drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+vim +1152 drivers/base/power/runtime.c
 
-1bba36834c3bc3 Hawking Zhang 2020-09-17  745  
-1bba36834c3bc3 Hawking Zhang 2020-09-17  746  /**
-1bba36834c3bc3 Hawking Zhang 2020-09-17  747   * amdgpu_device_indirect_wreg - write an indirect register address
-1bba36834c3bc3 Hawking Zhang 2020-09-17  748   *
-1bba36834c3bc3 Hawking Zhang 2020-09-17  749   * @adev: amdgpu_device pointer
-1bba36834c3bc3 Hawking Zhang 2020-09-17  750   * @pcie_index: mmio register offset
-1bba36834c3bc3 Hawking Zhang 2020-09-17  751   * @pcie_data: mmio register offset
-1bba36834c3bc3 Hawking Zhang 2020-09-17  752   * @reg_addr: indirect register offset
-1bba36834c3bc3 Hawking Zhang 2020-09-17  753   * @reg_data: indirect register data
-1bba36834c3bc3 Hawking Zhang 2020-09-17  754   *
-1bba36834c3bc3 Hawking Zhang 2020-09-17  755   */
-1bba36834c3bc3 Hawking Zhang 2020-09-17  756  void amdgpu_device_indirect_wreg(struct amdgpu_device *adev,
-1bba36834c3bc3 Hawking Zhang 2020-09-17  757  				 u32 reg_addr, u32 reg_data)
-1bba36834c3bc3 Hawking Zhang 2020-09-17 @758  {
-c0af7a876be298 Hawking Zhang 2023-03-06  759  	unsigned long flags, pcie_index, pcie_data;
-1bba36834c3bc3 Hawking Zhang 2020-09-17  760  	void __iomem *pcie_index_offset;
-1bba36834c3bc3 Hawking Zhang 2020-09-17  761  	void __iomem *pcie_data_offset;
-1bba36834c3bc3 Hawking Zhang 2020-09-17  762  
-c0af7a876be298 Hawking Zhang 2023-03-06  763  	pcie_index = adev->nbio.funcs->get_pcie_index_offset(adev);
-c0af7a876be298 Hawking Zhang 2023-03-06  764  	pcie_data = adev->nbio.funcs->get_pcie_data_offset(adev);
-c0af7a876be298 Hawking Zhang 2023-03-06  765  
-1bba36834c3bc3 Hawking Zhang 2020-09-17  766  	spin_lock_irqsave(&adev->pcie_idx_lock, flags);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  767  	pcie_index_offset = (void __iomem *)adev->rmmio + pcie_index * 4;
-1bba36834c3bc3 Hawking Zhang 2020-09-17  768  	pcie_data_offset = (void __iomem *)adev->rmmio + pcie_data * 4;
-1bba36834c3bc3 Hawking Zhang 2020-09-17  769  
-1bba36834c3bc3 Hawking Zhang 2020-09-17  770  	writel(reg_addr, pcie_index_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  771  	readl(pcie_index_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  772  	writel(reg_data, pcie_data_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  773  	readl(pcie_data_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  774  	spin_unlock_irqrestore(&adev->pcie_idx_lock, flags);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  775  }
-1bba36834c3bc3 Hawking Zhang 2020-09-17  776  
-1bba36834c3bc3 Hawking Zhang 2020-09-17  777  /**
-1bba36834c3bc3 Hawking Zhang 2020-09-17  778   * amdgpu_device_indirect_wreg64 - write a 64bits indirect register address
-1bba36834c3bc3 Hawking Zhang 2020-09-17  779   *
-1bba36834c3bc3 Hawking Zhang 2020-09-17  780   * @adev: amdgpu_device pointer
-1bba36834c3bc3 Hawking Zhang 2020-09-17  781   * @pcie_index: mmio register offset
-1bba36834c3bc3 Hawking Zhang 2020-09-17  782   * @pcie_data: mmio register offset
-1bba36834c3bc3 Hawking Zhang 2020-09-17  783   * @reg_addr: indirect register offset
-1bba36834c3bc3 Hawking Zhang 2020-09-17  784   * @reg_data: indirect register data
-1bba36834c3bc3 Hawking Zhang 2020-09-17  785   *
-1bba36834c3bc3 Hawking Zhang 2020-09-17  786   */
-1bba36834c3bc3 Hawking Zhang 2020-09-17  787  void amdgpu_device_indirect_wreg64(struct amdgpu_device *adev,
-1bba36834c3bc3 Hawking Zhang 2020-09-17  788  				   u32 reg_addr, u64 reg_data)
-1bba36834c3bc3 Hawking Zhang 2020-09-17 @789  {
-c0af7a876be298 Hawking Zhang 2023-03-06  790  	unsigned long flags, pcie_index, pcie_data;
-1bba36834c3bc3 Hawking Zhang 2020-09-17  791  	void __iomem *pcie_index_offset;
-1bba36834c3bc3 Hawking Zhang 2020-09-17  792  	void __iomem *pcie_data_offset;
-1bba36834c3bc3 Hawking Zhang 2020-09-17  793  
-c0af7a876be298 Hawking Zhang 2023-03-06  794  	pcie_index = adev->nbio.funcs->get_pcie_index_offset(adev);
-c0af7a876be298 Hawking Zhang 2023-03-06  795  	pcie_data = adev->nbio.funcs->get_pcie_data_offset(adev);
-c0af7a876be298 Hawking Zhang 2023-03-06  796  
-1bba36834c3bc3 Hawking Zhang 2020-09-17  797  	spin_lock_irqsave(&adev->pcie_idx_lock, flags);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  798  	pcie_index_offset = (void __iomem *)adev->rmmio + pcie_index * 4;
-1bba36834c3bc3 Hawking Zhang 2020-09-17  799  	pcie_data_offset = (void __iomem *)adev->rmmio + pcie_data * 4;
-1bba36834c3bc3 Hawking Zhang 2020-09-17  800  
-1bba36834c3bc3 Hawking Zhang 2020-09-17  801  	/* write low 32 bits */
-1bba36834c3bc3 Hawking Zhang 2020-09-17  802  	writel(reg_addr, pcie_index_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  803  	readl(pcie_index_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  804  	writel((u32)(reg_data & 0xffffffffULL), pcie_data_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  805  	readl(pcie_data_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  806  	/* write high 32 bits */
-1bba36834c3bc3 Hawking Zhang 2020-09-17  807  	writel(reg_addr + 4, pcie_index_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  808  	readl(pcie_index_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  809  	writel((u32)(reg_data >> 32), pcie_data_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  810  	readl(pcie_data_offset);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  811  	spin_unlock_irqrestore(&adev->pcie_idx_lock, flags);
-1bba36834c3bc3 Hawking Zhang 2020-09-17  812  }
-1bba36834c3bc3 Hawking Zhang 2020-09-17  813  
+5e928f77a09a07 Rafael J. Wysocki 2009-08-18  1130  
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1131  /**
+b32fc94a27815c Sakari Ailus      2020-02-25  1132   * pm_runtime_get_if_active - Conditionally bump up the device's usage counter.
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1133   * @dev: Device to handle.
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1134   *
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1135   * Return -EINVAL if runtime PM is disabled for the device.
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1136   *
+b32fc94a27815c Sakari Ailus      2020-02-25  1137   * Otherwise, if the device's runtime PM status is RPM_ACTIVE and either
+b32fc94a27815c Sakari Ailus      2020-02-25  1138   * ign_usage_count is true or the device's usage_count is non-zero, increment
+b32fc94a27815c Sakari Ailus      2020-02-25  1139   * the counter and return 1. Otherwise return 0 without changing the counter.
+b32fc94a27815c Sakari Ailus      2020-02-25  1140   *
+b32fc94a27815c Sakari Ailus      2020-02-25  1141   * If ign_usage_count is true, the function can be used to prevent suspending
+b32fc94a27815c Sakari Ailus      2020-02-25  1142   * the device when its runtime PM status is RPM_ACTIVE.
+b32fc94a27815c Sakari Ailus      2020-02-25  1143   *
+b32fc94a27815c Sakari Ailus      2020-02-25  1144   * If ign_usage_count is false, the function can be used to prevent suspending
+b32fc94a27815c Sakari Ailus      2020-02-25  1145   * the device when both its runtime PM status is RPM_ACTIVE and its usage_count
+b32fc94a27815c Sakari Ailus      2020-02-25  1146   * is non-zero.
+b32fc94a27815c Sakari Ailus      2020-02-25  1147   *
+b32fc94a27815c Sakari Ailus      2020-02-25  1148   * The caller is resposible for putting the device's usage count when ther
+b32fc94a27815c Sakari Ailus      2020-02-25  1149   * return value is greater than zero.
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1150   */
+b32fc94a27815c Sakari Ailus      2020-02-25  1151  int pm_runtime_get_if_active(struct device *dev, bool ign_usage_count)
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17 @1152  {
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1153  	unsigned long flags;
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1154  	int retval;
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1155  
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1156  	spin_lock_irqsave(&dev->power.lock, flags);
+b32fc94a27815c Sakari Ailus      2020-02-25  1157  	if (dev->power.disable_depth > 0) {
+b32fc94a27815c Sakari Ailus      2020-02-25  1158  		retval = -EINVAL;
+b32fc94a27815c Sakari Ailus      2020-02-25  1159  	} else if (dev->power.runtime_status != RPM_ACTIVE) {
+b32fc94a27815c Sakari Ailus      2020-02-25  1160  		retval = 0;
+b32fc94a27815c Sakari Ailus      2020-02-25  1161  	} else if (ign_usage_count) {
+b32fc94a27815c Sakari Ailus      2020-02-25  1162  		retval = 1;
+b32fc94a27815c Sakari Ailus      2020-02-25  1163  		atomic_inc(&dev->power.usage_count);
+b32fc94a27815c Sakari Ailus      2020-02-25  1164  	} else {
+b32fc94a27815c Sakari Ailus      2020-02-25  1165  		retval = atomic_inc_not_zero(&dev->power.usage_count);
+b32fc94a27815c Sakari Ailus      2020-02-25  1166  	}
+ec16798e9085aa Michał Mirosław   2020-01-04  1167  	trace_rpm_usage_rcuidle(dev, 0);
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1168  	spin_unlock_irqrestore(&dev->power.lock, flags);
+b32fc94a27815c Sakari Ailus      2020-02-25  1169  
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1170  	return retval;
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1171  }
+b32fc94a27815c Sakari Ailus      2020-02-25  1172  EXPORT_SYMBOL_GPL(pm_runtime_get_if_active);
+a436b6a19f5765 Rafael J. Wysocki 2015-12-17  1173  
 
-:::::: The code at line 758 was first introduced by commit
-:::::: 1bba36834c3bc317d8a30dd5d0cc3e59d64dbfb3 drm/amdgpu: add helper function for indirect reg access (v3)
+:::::: The code at line 1152 was first introduced by commit
+:::::: a436b6a19f57656a6557439523923d89eb4a880d PM / runtime: Add new helper for conditional usage count incrementation
 
-:::::: TO: Hawking Zhang <Hawking.Zhang@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
