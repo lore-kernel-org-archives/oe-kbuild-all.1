@@ -1,47 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472561427B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 13:52:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5451E3C13
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 14:02:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692280321; x=1723816321;
+  t=1692280929; x=1723816929;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ybU6e8geY1eeXxF+XaiJNfdMRf/IoL/rR9gqf/SzgWw=;
-  b=S7zvUP7BCjsbaI1MwVAW6gBJI1oNqnLMJ5/egur7Nhu4dMK6gzcbh15o
-   d+kHIMSFTK08+dJOl76CHcoV9uUU+MH4YUwQdhQ2G4CQYm0yNL8DDNKo/
-   H79stMGcEQx55LvWz8tYtv4QMJRdTv90sn6XpLlC9Dl7soGlvf0fa9y11
-   cc2nDyDoGyPwv/mbIIOtABWZpm9pL73eVXUb7/LhR+mKMKXXZA10sgIv3
-   FMV5Fw2Bo3LdCm9dZVv+hkLpyaqvkkHD/qCmwnC59/LladlpzB6IlIbFL
-   e5PYbspZPW6ZUyWYjTcbKPTgEi9gEYsnsCDx9gx9vgSN7o8ethW3e9FGj
+  bh=JuPa8OVLOG69vezId3TNDdzM98GUMGynxIy+MWC7MRk=;
+  b=LPUF7SkkgZHM9bNe96PCl0+nRRAVS4n58eemOtLbmrR6Vv5viym/c06Y
+   AaGmGjy0qThxy0NWlmudvPwlUINDUaP41t8y01Ww2bGI6kfVaMszjIho4
+   c4oUGdlNGqKye79x2Q3Vi+jaYEwy4rbRhJ0ROuQzTAIvux4ipfdiBkR7r
+   5b40lBv+Om/Y5tTBfk2/1F8GQNyqZgFy+BaDyI2ILzxBhIe0sxBGDeuxx
+   UbsDro9h3Oc8vy9yuHEI8Vkc4pTwlIbCV8vPkCYfhgaxE1+PLHkKqnRq4
+   DsE6NQKd/jDwIN5WYj9uu8FAWeI97g2VfPPvQxws8nDR6Ph+xVaF5YqeP
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="362976000"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="376566210"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="362976000"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:40:48 -0700
+   d="scan'208";a="376566210"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:29:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="737716593"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="734659761"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="737716593"
+   d="scan'208";a="734659761"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 17 Aug 2023 06:40:43 -0700
+  by orsmga002.jf.intel.com with ESMTP; 17 Aug 2023 06:29:18 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWdEw-0001Ar-1S;
-	Thu, 17 Aug 2023 13:40:42 +0000
-Date: Thu, 17 Aug 2023 21:39:49 +0800
+	id 1qWd3p-0001AN-2I;
+	Thu, 17 Aug 2023 13:29:14 +0000
+Date: Thu, 17 Aug 2023 21:28:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Lew <quic_clew@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Deepak Kumar Singh <quic_deesin@quicinc.com>,
-	Sarannya S <quic_sarannya@quicinc.com>
-Subject: [linux-next:master 1976/10848] drivers/rpmsg/rpmsg_char.c:75:
- warning: Function parameter or member 'remote_flow_restricted' not described
- in 'rpmsg_eptdev'
-Message-ID: <202308172148.PPKMOAI8-lkp@intel.com>
+To: Kashyap Desai <kashyap.desai@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Leon Romanovsky <leon@kernel.org>,
+	Selvin Xavier <selvin.xavier@broadcom.com>
+Subject: drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:68: warning: Function
+ parameter or member 'rcfw' not described in '__wait_for_resp'
+Message-ID: <202308172136.ipx1wvs6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,68 +48,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   47762f08697484cf0c2f2904b8c52375ed26c8cb
-commit: 5550201c0fe26a76c53983bd36a58d4c4395ec22 [1976/10848] rpmsg: char: Add RPMSG GET/SET FLOWCONTROL IOCTL support
-config: m68k-randconfig-r031-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172148.PPKMOAI8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172148.PPKMOAI8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: 8cf1d12ad56beb73d2439ccf334b7148e71de58e RDMA/bnxt_re: Enhance the existing functions that wait for FW responses
+date:   9 weeks ago
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230817/202308172136.ipx1wvs6-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172136.ipx1wvs6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172148.PPKMOAI8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172136.ipx1wvs6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/rpmsg/rpmsg_char.c:75: warning: Function parameter or member 'remote_flow_restricted' not described in 'rpmsg_eptdev'
->> drivers/rpmsg/rpmsg_char.c:75: warning: Function parameter or member 'remote_flow_updated' not described in 'rpmsg_eptdev'
+>> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:68: warning: Function parameter or member 'rcfw' not described in '__wait_for_resp'
+>> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:68: warning: Function parameter or member 'cookie' not described in '__wait_for_resp'
+>> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:106: warning: Function parameter or member 'rcfw' not described in '__block_for_resp'
+>> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:106: warning: Function parameter or member 'cookie' not described in '__block_for_resp'
 
 
-vim +75 drivers/rpmsg/rpmsg_char.c
+vim +68 drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
 
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  41  
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  42  /**
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  43   * struct rpmsg_eptdev - endpoint device context
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  44   * @dev:	endpoint device
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  45   * @cdev:	cdev for the endpoint device
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  46   * @rpdev:	underlaying rpmsg device
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  47   * @chinfo:	info used to open the endpoint
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  48   * @ept_lock:	synchronization of @ept modifications
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  49   * @ept:	rpmsg endpoint reference, when open
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  50   * @queue_lock:	synchronization of @queue operations
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  51   * @queue:	incoming message queue
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  52   * @readq:	wait object for incoming queue
-bea9b79c2d10fe Arnaud Pouliquen 2022-01-24  53   * @default_ept: set to channel default endpoint if the default endpoint should be re-used
-bea9b79c2d10fe Arnaud Pouliquen 2022-01-24  54   *              on device open to prevent endpoint address update.
-5550201c0fe26a Chris Lew        2023-07-07  55   * remote_flow_restricted: to indicate if the remote has requested for flow to be limited
-5550201c0fe26a Chris Lew        2023-07-07  56   * remote_flow_updated: to indicate if the flow control has been requested
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  57   */
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  58  struct rpmsg_eptdev {
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  59  	struct device dev;
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  60  	struct cdev cdev;
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  61  
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  62  	struct rpmsg_device *rpdev;
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  63  	struct rpmsg_channel_info chinfo;
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  64  
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  65  	struct mutex ept_lock;
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  66  	struct rpmsg_endpoint *ept;
-bea9b79c2d10fe Arnaud Pouliquen 2022-01-24  67  	struct rpmsg_endpoint *default_ept;
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  68  
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  69  	spinlock_t queue_lock;
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  70  	struct sk_buff_head queue;
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  71  	wait_queue_head_t readq;
-bea9b79c2d10fe Arnaud Pouliquen 2022-01-24  72  
-5550201c0fe26a Chris Lew        2023-07-07  73  	bool remote_flow_restricted;
-5550201c0fe26a Chris Lew        2023-07-07  74  	bool remote_flow_updated;
-c0cdc19f84a471 Bjorn Andersson  2017-01-11 @75  };
-c0cdc19f84a471 Bjorn Andersson  2017-01-11  76  
+1ac5a404797523 Selvin Xavier 2017-02-10   55  
+8cf1d12ad56beb Kashyap Desai 2023-06-09   56  /**
+8cf1d12ad56beb Kashyap Desai 2023-06-09   57   * __wait_for_resp   -	Don't hold the cpu context and wait for response
+8cf1d12ad56beb Kashyap Desai 2023-06-09   58   * @rcfw      -   rcfw channel instance of rdev
+8cf1d12ad56beb Kashyap Desai 2023-06-09   59   * @cookie    -   cookie to track the command
+8cf1d12ad56beb Kashyap Desai 2023-06-09   60   *
+8cf1d12ad56beb Kashyap Desai 2023-06-09   61   * Wait for command completion in sleepable context.
+8cf1d12ad56beb Kashyap Desai 2023-06-09   62   *
+8cf1d12ad56beb Kashyap Desai 2023-06-09   63   * Returns:
+8cf1d12ad56beb Kashyap Desai 2023-06-09   64   * 0 if command is completed by firmware.
+8cf1d12ad56beb Kashyap Desai 2023-06-09   65   * Non zero error code for rest of the case.
+8cf1d12ad56beb Kashyap Desai 2023-06-09   66   */
+cc1ec769b87c7d Devesh Sharma 2017-05-22   67  static int __wait_for_resp(struct bnxt_qplib_rcfw *rcfw, u16 cookie)
+1ac5a404797523 Selvin Xavier 2017-02-10  @68  {
+cee0c7bba48691 Devesh Sharma 2020-02-15   69  	struct bnxt_qplib_cmdq_ctx *cmdq;
+1ac5a404797523 Selvin Xavier 2017-02-10   70  	u16 cbit;
+8cf1d12ad56beb Kashyap Desai 2023-06-09   71  	int ret;
+1ac5a404797523 Selvin Xavier 2017-02-10   72  
+cee0c7bba48691 Devesh Sharma 2020-02-15   73  	cmdq = &rcfw->cmdq;
+bd1c24ccf9eb07 Devesh Sharma 2018-12-12   74  	cbit = cookie % rcfw->cmdq_depth;
+8cf1d12ad56beb Kashyap Desai 2023-06-09   75  
+8cf1d12ad56beb Kashyap Desai 2023-06-09   76  	do {
+8cf1d12ad56beb Kashyap Desai 2023-06-09   77  		/* Non zero means command completed */
+8cf1d12ad56beb Kashyap Desai 2023-06-09   78  		ret = wait_event_timeout(cmdq->waitq,
+cee0c7bba48691 Devesh Sharma 2020-02-15   79  					 !test_bit(cbit, cmdq->cmdq_bitmap),
+8cf1d12ad56beb Kashyap Desai 2023-06-09   80  					 msecs_to_jiffies(10000));
+8cf1d12ad56beb Kashyap Desai 2023-06-09   81  
+8cf1d12ad56beb Kashyap Desai 2023-06-09   82  		if (!test_bit(cbit, cmdq->cmdq_bitmap))
+8cf1d12ad56beb Kashyap Desai 2023-06-09   83  			return 0;
+8cf1d12ad56beb Kashyap Desai 2023-06-09   84  
+8cf1d12ad56beb Kashyap Desai 2023-06-09   85  		bnxt_qplib_service_creq(&rcfw->creq.creq_tasklet);
+8cf1d12ad56beb Kashyap Desai 2023-06-09   86  
+8cf1d12ad56beb Kashyap Desai 2023-06-09   87  		if (!test_bit(cbit, cmdq->cmdq_bitmap))
+8cf1d12ad56beb Kashyap Desai 2023-06-09   88  			return 0;
+8cf1d12ad56beb Kashyap Desai 2023-06-09   89  
+8cf1d12ad56beb Kashyap Desai 2023-06-09   90  	} while (true);
+1ac5a404797523 Selvin Xavier 2017-02-10   91  };
+1ac5a404797523 Selvin Xavier 2017-02-10   92  
+8cf1d12ad56beb Kashyap Desai 2023-06-09   93  /**
+8cf1d12ad56beb Kashyap Desai 2023-06-09   94   * __block_for_resp   -	hold the cpu context and wait for response
+8cf1d12ad56beb Kashyap Desai 2023-06-09   95   * @rcfw      -   rcfw channel instance of rdev
+8cf1d12ad56beb Kashyap Desai 2023-06-09   96   * @cookie    -   cookie to track the command
+8cf1d12ad56beb Kashyap Desai 2023-06-09   97   *
+8cf1d12ad56beb Kashyap Desai 2023-06-09   98   * This function will hold the cpu (non-sleepable context) and
+8cf1d12ad56beb Kashyap Desai 2023-06-09   99   * wait for command completion. Maximum holding interval is 8 second.
+8cf1d12ad56beb Kashyap Desai 2023-06-09  100   *
+8cf1d12ad56beb Kashyap Desai 2023-06-09  101   * Returns:
+8cf1d12ad56beb Kashyap Desai 2023-06-09  102   * -ETIMEOUT if command is not completed in specific time interval.
+8cf1d12ad56beb Kashyap Desai 2023-06-09  103   * 0 if command is completed by firmware.
+8cf1d12ad56beb Kashyap Desai 2023-06-09  104   */
+cc1ec769b87c7d Devesh Sharma 2017-05-22  105  static int __block_for_resp(struct bnxt_qplib_rcfw *rcfw, u16 cookie)
+1ac5a404797523 Selvin Xavier 2017-02-10 @106  {
+8cf1d12ad56beb Kashyap Desai 2023-06-09  107  	struct bnxt_qplib_cmdq_ctx *cmdq = &rcfw->cmdq;
+8cf1d12ad56beb Kashyap Desai 2023-06-09  108  	unsigned long issue_time = 0;
+1ac5a404797523 Selvin Xavier 2017-02-10  109  	u16 cbit;
+1ac5a404797523 Selvin Xavier 2017-02-10  110  
+bd1c24ccf9eb07 Devesh Sharma 2018-12-12  111  	cbit = cookie % rcfw->cmdq_depth;
+8cf1d12ad56beb Kashyap Desai 2023-06-09  112  	issue_time = jiffies;
+8cf1d12ad56beb Kashyap Desai 2023-06-09  113  
+1ac5a404797523 Selvin Xavier 2017-02-10  114  	do {
+b9b43ad3ce883f Selvin Xavier 2021-09-15  115  		udelay(1);
+8cf1d12ad56beb Kashyap Desai 2023-06-09  116  
+53c2a706ae7858 Allen Pais    2020-09-03  117  		bnxt_qplib_service_creq(&rcfw->creq.creq_tasklet);
+8cf1d12ad56beb Kashyap Desai 2023-06-09  118  		if (!test_bit(cbit, cmdq->cmdq_bitmap))
+8cf1d12ad56beb Kashyap Desai 2023-06-09  119  			return 0;
+8cf1d12ad56beb Kashyap Desai 2023-06-09  120  
+8cf1d12ad56beb Kashyap Desai 2023-06-09  121  	} while (time_before(jiffies, issue_time + (8 * HZ)));
+8cf1d12ad56beb Kashyap Desai 2023-06-09  122  
+8cf1d12ad56beb Kashyap Desai 2023-06-09  123  	return -ETIMEDOUT;
+1ac5a404797523 Selvin Xavier 2017-02-10  124  };
+1ac5a404797523 Selvin Xavier 2017-02-10  125  
 
-:::::: The code at line 75 was first introduced by commit
-:::::: c0cdc19f84a4712cf74888f83af286e3c2e14efd rpmsg: Driver for user space endpoint interface
+:::::: The code at line 68 was first introduced by commit
+:::::: 1ac5a404797523cedaf424a3aaa3cf8f9548dff8 RDMA/bnxt_re: Add bnxt_re RoCE driver
 
-:::::: TO: Bjorn Andersson <bjorn.andersson@linaro.org>
-:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+:::::: TO: Selvin Xavier <selvin.xavier@broadcom.com>
+:::::: CC: Doug Ledford <dledford@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
