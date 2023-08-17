@@ -1,51 +1,46 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48708395
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 06:09:03 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1bc73a2b0easo49750245ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 23:09:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692252542; x=1692857342;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dMupaGt3lT1C6kccf/TFi4L2Zf/EmehC3TxUCzjtixY=;
-        b=FFPr75vKB+KpdBAwp2C3sgFtlfEVnChZG2+NKIhPJx2xbiWQe0rm+3eqQSt1ZYcesi
-         YDMGMDtYR0328TGSOOy9F6RBFp4sQTgKJ0o+zGtaB+LO1awcFO7S/v/xpuKr4YSTwbz4
-         VmOhac0ElSZ3hkkkPRHVATGDKuXniBOBMc39U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692252542; x=1692857342;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dMupaGt3lT1C6kccf/TFi4L2Zf/EmehC3TxUCzjtixY=;
-        b=KT7TLqzuMApIx+99EuSV3iGSOFELLFUZU6aQDGlBPy8CqIu31AGdRiQ/QvzplPoC1+
-         XJaKtmnFMmEO31Np68wTG9ULpVlI2DzZnqb8dyNuazRFciUUjPbyHWwL9/mAyA+/BjE/
-         a9qzA4NewQ5BkzH885+b9K82m/RuA81GktxLXSGSP4SWipZDvwaZzznQ3iqx+gFBaJOR
-         hXo/i1iWyE/IpFWji1SwfAH0PFI8ZorMuCJslNiuqr5P27tqTOgoH1ZYUmrralIyqe+e
-         rA+N/iNUCqpBugViHnlrj2/ppKYphuOk7nZQ5YxYBktN1bALL33+tCV6wUbPpDWqaTiZ
-         Ge/w==
-X-Gm-Message-State: AOJu0YxnmqJlnWhECdsmDB8fyA9Ge1cvc3oVwv+G9ili+kTqs6Tf1SNM
-	tIpaBSilwQVdqLy7uwJfTLUGPg==
-X-Google-Smtp-Source: AGHT+IG3QbcrpDrZ9Ru2n1cwj5LDSCPZgsOvfI1WKSbQd51Qm63XNFI7JaPbVv68FFkX9s/qIOWYLA==
-X-Received: by 2002:a17:90a:990e:b0:268:6670:46df with SMTP id b14-20020a17090a990e00b00268667046dfmr2987411pjp.27.1692252542365;
-        Wed, 16 Aug 2023 23:09:02 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id 27-20020a17090a031b00b0026d034f6badsm815035pje.38.2023.08.16.23.09.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 23:09:01 -0700 (PDT)
-Date: Wed, 16 Aug 2023 23:09:00 -0700
-From: Kees Cook <keescook@chromium.org>
-To: "GONG, Ruiqi" <gongruiqi1@huawei.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, Florian Westphal <fw@strlen.de>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [netfilter-nf-next:testing 2/9]
- ./usr/include/linux/netfilter_bridge/ebtables.h:163:26: warning: field
- 'target' with variable sized type 'struct ebt_entry_target' not at the end
- of a struct or class is a GNU extension
-Message-ID: <202308162257.F7876776C9@keescook>
-References: <202308171249.g1ywxhII-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D7610F5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 06:18:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692253093; x=1723789093;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lOtrg2qfwtp34iHpVyfe1gJbR0ImfXCPDFKMLh8th/0=;
+  b=cB6yFhWZLCesKXfh04qPNmYa5uEAx45jx1zYrQgcZ6q57aJ/zSL7jZRw
+   owU3NAaL5dJMDYZtoNvkpkEXCQ5eZPOx8sYP65Dwb6+QIWrDbxhOcZCXN
+   2MIFmA5HtaMsMa44wgO/uEH+F5HnKXrz7gBqiXET953O6m5cu5zDvKVOz
+   HroxuXAhDyDmzT/owPUX5v5e1Vyvos4j3mXSzr6/tWaTizEaFQGRY7amg
+   doF6uGFU3O1DjcPWnoYLbYRqwHUqxSvJ+8t5L793ZB/3xsuiFDMApVBVJ
+   qBD/Ykn7VL8Z7TqxhxMydW/3TtzrLT+fi+QQ9L2t1TtqFmH0L0Shcq4N/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="376460097"
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
+   d="scan'208";a="376460097"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 23:18:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="684318377"
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
+   d="scan'208";a="684318377"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 16 Aug 2023 23:18:09 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qWWKe-0000qf-1y;
+	Thu, 17 Aug 2023 06:18:08 +0000
+Date: Thu, 17 Aug 2023 14:17:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Patrick Rudolph <patrick.rudolph@9elements.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Naresh Solanki <Naresh.Solanki@9elements.com>
+Subject: [linux-next:master 2839/10848]
+ drivers/pinctrl/pinctrl-cy8c95x0.c:168: warning: Function parameter or
+ member 'gpio_reset' not described in 'cy8c95x0_pinctrl'
+Message-ID: <202308171406.uWe0yyv9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,109 +49,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202308171249.g1ywxhII-lkp@intel.com>
 
-On Thu, Aug 17, 2023 at 01:03:20PM +0800, kernel test robot wrote:
-> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git testing
-> head:   015e2d9101d3713c7bee16dccad171df04a3bbd5
-> commit: 61b9e6bd48a6317c0a44ee4f3fecdec9de5baa9e [2/9] netfilter: ebtables: replace zero-length array members
-> config: i386-buildonly-randconfig-r004-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171249.g1ywxhII-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171249.g1ywxhII-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308171249.g1ywxhII-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from <built-in>:1:
-> >> ./usr/include/linux/netfilter_bridge/ebtables.h:163:26: warning: field 'target' with variable sized type 'struct ebt_entry_target' not at the end of a struct or class is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
->            struct ebt_entry_target target;
->                                    ^
->    1 warning generated.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47762f08697484cf0c2f2904b8c52375ed26c8cb
+commit: 99084881de88ffcd156b03aaeb7d4eb740005e3e [2839/10848] pinctrl: cy8c95x0: Add reset support
+config: csky-randconfig-r034-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171406.uWe0yyv9-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171406.uWe0yyv9-lkp@intel.com/reproduce)
 
-Eww, it looks like "struct ebt_entry_target" is used _within_ another
-struct:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171406.uWe0yyv9-lkp@intel.com/
 
-struct ebt_standard_target {
-        struct ebt_entry_target target;
-        int verdict;
-};
+All warnings (new ones prefixed by >>):
 
-So "verdict" overlaps with the "data" FAM:
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:168: warning: Function parameter or member 'gpio_reset' not described in 'cy8c95x0_pinctrl'
 
-struct ebt_entry_target {
-        union { 
-                struct {
-                        char name[EBT_EXTENSION_MAXNAMELEN];
-                        __u8 revision;
-                };
-                struct xt_target *target;
-        } u;
-        /* size of data */
-        unsigned int target_size;
-        unsigned char data[0] __attribute__ ((aligned (__alignof__(struct ebt_replace))));
-};  
 
-These have been fixed in the past in a variety of ways -- it all depends
-on how userspace is using them. In looking at Debian Code Search:
-https://codesearch.debian.net/search?q=struct+ebt_standard_target&literal=1
+vim +168 drivers/pinctrl/pinctrl-cy8c95x0.c
 
-It is exclusively doing casts and looking at the "verdict" member. So
-the easiest conversion might be this:
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  124  
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  125  /**
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  126   * struct cy8c95x0_pinctrl - driver data
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  127   * @regmap:         Device's regmap
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  128   * @irq_lock:       IRQ bus lock
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  129   * @i2c_lock:       Mutex for the device internal mux register
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  130   * @irq_mask:       I/O bits affected by interrupts
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  131   * @irq_trig_raise: I/O bits affected by raising voltage level
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  132   * @irq_trig_fall:  I/O bits affected by falling voltage level
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  133   * @irq_trig_low:   I/O bits affected by a low voltage level
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  134   * @irq_trig_high:  I/O bits affected by a high voltage level
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  135   * @push_pull:      I/O bits configured as push pull driver
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  136   * @shiftmask:      Mask used to compensate for Gport2 width
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  137   * @nport:          Number of Gports in this chip
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  138   * @gpio_chip:      gpiolib chip
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  139   * @driver_data:    private driver data
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  140   * @regulator:      Pointer to the regulator for the IC
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  141   * @dev:            struct device
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  142   * @pctldev:        pin controller device
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  143   * @pinctrl_desc:   pin controller description
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  144   * @name:           Chip controller name
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  145   * @tpin:           Total number of pins
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  146   */
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  147  struct cy8c95x0_pinctrl {
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  148  	struct regmap *regmap;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  149  	struct mutex irq_lock;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  150  	struct mutex i2c_lock;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  151  	DECLARE_BITMAP(irq_mask, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  152  	DECLARE_BITMAP(irq_trig_raise, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  153  	DECLARE_BITMAP(irq_trig_fall, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  154  	DECLARE_BITMAP(irq_trig_low, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  155  	DECLARE_BITMAP(irq_trig_high, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  156  	DECLARE_BITMAP(push_pull, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  157  	DECLARE_BITMAP(shiftmask, MAX_LINE);
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  158  	int nport;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  159  	struct gpio_chip gpio_chip;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  160  	unsigned long driver_data;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  161  	struct regulator *regulator;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  162  	struct device *dev;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  163  	struct pinctrl_dev *pctldev;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  164  	struct pinctrl_desc pinctrl_desc;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  165  	char name[32];
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  166  	unsigned int tpin;
+99084881de88ff Patrick Rudolph 2023-07-14  167  	struct gpio_desc *gpio_reset;
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @168  };
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  169  
 
- struct ebt_standard_target {
--       struct ebt_entry_target target;
-+       unsigned char hdr[sizeof(struct ebt_entry_target)];
-        int verdict;
- };
+:::::: The code at line 168 was first introduced by commit
+:::::: e6cbbe42944de93ba4e0785b4f90d284b1d7cdf6 pinctrl: Add Cypress cy8c95x0 support
 
-Or this might work (not tested):
-
-diff --git a/include/uapi/linux/netfilter_bridge/ebtables.h b/include/uapi/linux/netfilter_bridge/ebtables.h
-index a494cf43a755..d6f10163b14a 100644
---- a/include/uapi/linux/netfilter_bridge/ebtables.h
-+++ b/include/uapi/linux/netfilter_bridge/ebtables.h
-@@ -146,23 +146,25 @@ struct ebt_entry_watcher {
- };
- 
- struct ebt_entry_target {
--	union {
--		struct {
--			char name[EBT_EXTENSION_MAXNAMELEN];
--			__u8 revision;
--		};
--		struct xt_target *target;
--	} u;
--	/* size of data */
--	unsigned int target_size;
--	unsigned char data[0] __attribute__ ((aligned (__alignof__(struct ebt_replace))));
-+	struct ebt_entry_target_hdr {
-+		union {
-+			struct {
-+				char name[EBT_EXTENSION_MAXNAMELEN];
-+				__u8 revision;
-+			};
-+			struct xt_target *target;
-+		} u;
-+		/* size of data */
-+		unsigned int target_size;
-+	};
-+	unsigned char data[] __attribute__ ((aligned (__alignof__(struct ebt_replace))));
- };
- 
- #define EBT_STANDARD_TARGET "standard"
- struct ebt_standard_target {
--	struct ebt_entry_target target;
--	int verdict;
-+	struct ebt_entry_target_hdr target;
-+	int verdict __attribute__ ((aligned (__alignof__(struct ebt_replace))));
- };
- 
- /* one entry */
-
+:::::: TO: Patrick Rudolph <patrick.rudolph@9elements.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
