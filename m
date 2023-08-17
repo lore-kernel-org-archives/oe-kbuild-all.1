@@ -1,214 +1,155 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEF612B8E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 11:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EB112B8E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 11:32:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692271922; x=1723807922;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iDi416exc+zRn2LxZA9/Yqx76xEWKY7ALPHcrARbaRM=;
-  b=JUOcPPwSFeHP/BxeYtGIt6gJOw5Lj80fIx9IYrLi24yorX0MSD+GG3b0
-   O4aMvTmdNv0d9XAC3gCNfQEIe0mbUSxi8zcEvFvBNHMWAp6F49NXd554P
-   TKlUXT57hPulVVcEW6sGfDRzfNbXWD116UxJPRUV0NWnkNcH9S+8ixAlF
-   4VriVO33oIa7VTi+If5eZTiqwLLyaQXrPLusNzaNGJ7B/MrQVPraDly7r
-   jZQXenE7NAvnJoX0U0T4DEtXagaWde3DDSs/Pn/6OGGUPP+gxP19T5glo
-   zHC+WO2Rt60JTbmCz+Gm/UkNwm73atoscYbZCuQfzvDfEd7lFUWujZGN8
+  t=1692271927; x=1723807927;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8ldCf/GhcC35kMUaDggHwmhy8XZAlBqMEKna+HAfhRs=;
+  b=GL+4Cdor+1A3w9dKeVbkeVcj8GXC46LR9P9aPupfk/yAjsluU1BP64ZE
+   49z9Iw0r2cgo9W7Sr7CVAK0oGD0x2rxyUppg0nTlScZhQuQmey6Mq4D+l
+   al9MI5B1LyPn9Wd7VqTbZ52oZYvOo8ZLCz++fWjXGrNJDZ0TnYE0VLYJN
+   D2oiN/d1eoPtqfZDYZY+u+TZotYCQJhn9J2zjGv/t0aLmr3SSeSkN7QKw
+   YOEu1agoETRON/V7cXyZ5B2iY4EKJtsYcmLYucllrXiX+vJ6yPNIyzUF9
+   goeS7B17PLzOw/TcoxMFnbkPMBx6MZzDnPqFdXbsdDE34k1M9GO/k3fJd
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="459140011"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="459140009"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="459140011"
+   d="scan'208";a="459140009"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 04:31:48 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 04:31:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="908374592"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="908374590"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="908374592"
+   d="scan'208";a="908374590"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
   by orsmga005.jf.intel.com with ESMTP; 17 Aug 2023 04:31:46 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWbE9-00015a-1x;
+	id 1qWbE9-00015X-1q;
 	Thu, 17 Aug 2023 11:31:45 +0000
-Date: Thu, 17 Aug 2023 19:30:53 +0800
+Date: Thu, 17 Aug 2023 19:30:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: drivers/block/drbd/drbd_actlog.c:1015: warning: Function parameter
- or member 'peer_device' not described in 'drbd_try_rs_begin_io'
-Message-ID: <202308171900.BavnPGx1-lkp@intel.com>
+To: Luo bin <luobin9@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [stable:linux-4.19.y 1121/9999]
+ drivers/net/ethernet/huawei/hinic/hinic_hw_mgmt.c:253: warning: Function
+ parameter or member 'timeout' not described in 'msg_to_mgmt_sync'
+Message-ID: <202308171909.1n7ER8lr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: 0d11f3cf279c5ad20a41f29242f170ba3c02f2da drbd: Pass a peer device to the resync and online verify functions
-date:   5 months ago
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230817/202308171900.BavnPGx1-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171900.BavnPGx1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   4e5e7fa94ee0ff378b268679d51feb1fd2a04756
+commit: 2afbedce318458d6eed6f0cf6cf0857215f3c3af [1121/9999] hinic: fix a bug of ndo_stop
+config: x86_64-randconfig-x002-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171909.1n7ER8lr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171909.1n7ER8lr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171900.BavnPGx1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171909.1n7ER8lr-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/block/drbd/drbd_actlog.c:1015: warning: Function parameter or member 'peer_device' not described in 'drbd_try_rs_begin_io'
->> drivers/block/drbd/drbd_actlog.c:1015: warning: Excess function parameter 'device' description in 'drbd_try_rs_begin_io'
+>> drivers/net/ethernet/huawei/hinic/hinic_hw_mgmt.c:253: warning: Function parameter or member 'timeout' not described in 'msg_to_mgmt_sync'
 
 
-vim +1015 drivers/block/drbd/drbd_actlog.c
+vim +253 drivers/net/ethernet/huawei/hinic/hinic_hw_mgmt.c
 
-b411b3637fa71f Philipp Reisner      2009-09-25  1004  
-b411b3637fa71f Philipp Reisner      2009-09-25  1005  /**
-b411b3637fa71f Philipp Reisner      2009-09-25  1006   * drbd_try_rs_begin_io() - Gets an extent in the resync LRU cache, does not sleep
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1007   * @device:	DRBD device.
-b411b3637fa71f Philipp Reisner      2009-09-25  1008   * @sector:	The sector number.
-b411b3637fa71f Philipp Reisner      2009-09-25  1009   *
-b411b3637fa71f Philipp Reisner      2009-09-25  1010   * Gets an extent in the resync LRU cache, sets it to BME_NO_WRITES, then
-b411b3637fa71f Philipp Reisner      2009-09-25  1011   * tries to set it to BME_LOCKED. Returns 0 upon success, and -EAGAIN
-b411b3637fa71f Philipp Reisner      2009-09-25  1012   * if there is still application IO going on in this area.
-b411b3637fa71f Philipp Reisner      2009-09-25  1013   */
-0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  1014  int drbd_try_rs_begin_io(struct drbd_peer_device *peer_device, sector_t sector)
-b411b3637fa71f Philipp Reisner      2009-09-25 @1015  {
-0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  1016  	struct drbd_device *device = peer_device->device;
-b411b3637fa71f Philipp Reisner      2009-09-25  1017  	unsigned int enr = BM_SECT_TO_EXT(sector);
-b411b3637fa71f Philipp Reisner      2009-09-25  1018  	const unsigned int al_enr = enr*AL_EXT_PER_BM_SECT;
-b411b3637fa71f Philipp Reisner      2009-09-25  1019  	struct lc_element *e;
-b411b3637fa71f Philipp Reisner      2009-09-25  1020  	struct bm_extent *bm_ext;
-b411b3637fa71f Philipp Reisner      2009-09-25  1021  	int i;
-0d11f3cf279c5a Christoph Böhmwalder 2023-03-30  1022  	bool throttle = drbd_rs_should_slow_down(peer_device, sector, true);
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1023  
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1024  	/* If we need to throttle, a half-locked (only marked BME_NO_WRITES,
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1025  	 * not yet BME_LOCKED) extent needs to be kicked out explicitly if we
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1026  	 * need to throttle. There is at most one such half-locked extent,
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1027  	 * which is remembered in resync_wenr. */
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1028  
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1029  	if (throttle && device->resync_wenr != enr)
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1030  		return -EAGAIN;
-b411b3637fa71f Philipp Reisner      2009-09-25  1031  
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1032  	spin_lock_irq(&device->al_lock);
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1033  	if (device->resync_wenr != LC_FREE && device->resync_wenr != enr) {
-b411b3637fa71f Philipp Reisner      2009-09-25  1034  		/* in case you have very heavy scattered io, it may
-b411b3637fa71f Philipp Reisner      2009-09-25  1035  		 * stall the syncer undefined if we give up the ref count
-b411b3637fa71f Philipp Reisner      2009-09-25  1036  		 * when we try again and requeue.
-b411b3637fa71f Philipp Reisner      2009-09-25  1037  		 *
-b411b3637fa71f Philipp Reisner      2009-09-25  1038  		 * if we don't give up the refcount, but the next time
-b411b3637fa71f Philipp Reisner      2009-09-25  1039  		 * we are scheduled this extent has been "synced" by new
-b411b3637fa71f Philipp Reisner      2009-09-25  1040  		 * application writes, we'd miss the lc_put on the
-b411b3637fa71f Philipp Reisner      2009-09-25  1041  		 * extent we keep the refcount on.
-b411b3637fa71f Philipp Reisner      2009-09-25  1042  		 * so we remembered which extent we had to try again, and
-b411b3637fa71f Philipp Reisner      2009-09-25  1043  		 * if the next requested one is something else, we do
-b411b3637fa71f Philipp Reisner      2009-09-25  1044  		 * the lc_put here...
-b411b3637fa71f Philipp Reisner      2009-09-25  1045  		 * we also have to wake_up
-b411b3637fa71f Philipp Reisner      2009-09-25  1046  		 */
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1047  		e = lc_find(device->resync, device->resync_wenr);
-b411b3637fa71f Philipp Reisner      2009-09-25  1048  		bm_ext = e ? lc_entry(e, struct bm_extent, lce) : NULL;
-b411b3637fa71f Philipp Reisner      2009-09-25  1049  		if (bm_ext) {
-0b0ba1efc7b887 Andreas Gruenbacher  2011-06-27  1050  			D_ASSERT(device, !test_bit(BME_LOCKED, &bm_ext->flags));
-0b0ba1efc7b887 Andreas Gruenbacher  2011-06-27  1051  			D_ASSERT(device, test_bit(BME_NO_WRITES, &bm_ext->flags));
-b411b3637fa71f Philipp Reisner      2009-09-25  1052  			clear_bit(BME_NO_WRITES, &bm_ext->flags);
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1053  			device->resync_wenr = LC_FREE;
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1054  			if (lc_put(device->resync, &bm_ext->lce) == 0) {
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1055  				bm_ext->flags = 0;
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1056  				device->resync_locked--;
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1057  			}
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1058  			wake_up(&device->al_wait);
-b411b3637fa71f Philipp Reisner      2009-09-25  1059  		} else {
-d01801710265cf Andreas Gruenbacher  2011-07-03  1060  			drbd_alert(device, "LOGIC BUG\n");
-b411b3637fa71f Philipp Reisner      2009-09-25  1061  		}
-b411b3637fa71f Philipp Reisner      2009-09-25  1062  	}
-b411b3637fa71f Philipp Reisner      2009-09-25  1063  	/* TRY. */
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1064  	e = lc_try_get(device->resync, enr);
-b411b3637fa71f Philipp Reisner      2009-09-25  1065  	bm_ext = e ? lc_entry(e, struct bm_extent, lce) : NULL;
-b411b3637fa71f Philipp Reisner      2009-09-25  1066  	if (bm_ext) {
-b411b3637fa71f Philipp Reisner      2009-09-25  1067  		if (test_bit(BME_LOCKED, &bm_ext->flags))
-b411b3637fa71f Philipp Reisner      2009-09-25  1068  			goto proceed;
-b411b3637fa71f Philipp Reisner      2009-09-25  1069  		if (!test_and_set_bit(BME_NO_WRITES, &bm_ext->flags)) {
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1070  			device->resync_locked++;
-b411b3637fa71f Philipp Reisner      2009-09-25  1071  		} else {
-b411b3637fa71f Philipp Reisner      2009-09-25  1072  			/* we did set the BME_NO_WRITES,
-b411b3637fa71f Philipp Reisner      2009-09-25  1073  			 * but then could not set BME_LOCKED,
-b411b3637fa71f Philipp Reisner      2009-09-25  1074  			 * so we tried again.
-b411b3637fa71f Philipp Reisner      2009-09-25  1075  			 * drop the extra reference. */
-b411b3637fa71f Philipp Reisner      2009-09-25  1076  			bm_ext->lce.refcnt--;
-0b0ba1efc7b887 Andreas Gruenbacher  2011-06-27  1077  			D_ASSERT(device, bm_ext->lce.refcnt > 0);
-b411b3637fa71f Philipp Reisner      2009-09-25  1078  		}
-b411b3637fa71f Philipp Reisner      2009-09-25  1079  		goto check_al;
-b411b3637fa71f Philipp Reisner      2009-09-25  1080  	} else {
-b411b3637fa71f Philipp Reisner      2009-09-25  1081  		/* do we rather want to try later? */
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1082  		if (device->resync_locked > device->resync->nr_elements-3)
-b411b3637fa71f Philipp Reisner      2009-09-25  1083  			goto try_again;
-b411b3637fa71f Philipp Reisner      2009-09-25  1084  		/* Do or do not. There is no try. -- Yoda */
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1085  		e = lc_get(device->resync, enr);
-b411b3637fa71f Philipp Reisner      2009-09-25  1086  		bm_ext = e ? lc_entry(e, struct bm_extent, lce) : NULL;
-b411b3637fa71f Philipp Reisner      2009-09-25  1087  		if (!bm_ext) {
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1088  			const unsigned long rs_flags = device->resync->flags;
-b411b3637fa71f Philipp Reisner      2009-09-25  1089  			if (rs_flags & LC_STARVING)
-d01801710265cf Andreas Gruenbacher  2011-07-03  1090  				drbd_warn(device, "Have to wait for element"
-b411b3637fa71f Philipp Reisner      2009-09-25  1091  				     " (resync LRU too small?)\n");
-46a15bc3ec425b Lars Ellenberg       2011-02-21  1092  			BUG_ON(rs_flags & LC_LOCKED);
-b411b3637fa71f Philipp Reisner      2009-09-25  1093  			goto try_again;
-b411b3637fa71f Philipp Reisner      2009-09-25  1094  		}
-b411b3637fa71f Philipp Reisner      2009-09-25  1095  		if (bm_ext->lce.lc_number != enr) {
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1096  			bm_ext->rs_left = drbd_bm_e_weight(device, enr);
-b411b3637fa71f Philipp Reisner      2009-09-25  1097  			bm_ext->rs_failed = 0;
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1098  			lc_committed(device->resync);
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1099  			wake_up(&device->al_wait);
-0b0ba1efc7b887 Andreas Gruenbacher  2011-06-27  1100  			D_ASSERT(device, test_bit(BME_LOCKED, &bm_ext->flags) == 0);
-b411b3637fa71f Philipp Reisner      2009-09-25  1101  		}
-b411b3637fa71f Philipp Reisner      2009-09-25  1102  		set_bit(BME_NO_WRITES, &bm_ext->flags);
-0b0ba1efc7b887 Andreas Gruenbacher  2011-06-27  1103  		D_ASSERT(device, bm_ext->lce.refcnt == 1);
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1104  		device->resync_locked++;
-b411b3637fa71f Philipp Reisner      2009-09-25  1105  		goto check_al;
-b411b3637fa71f Philipp Reisner      2009-09-25  1106  	}
-b411b3637fa71f Philipp Reisner      2009-09-25  1107  check_al:
-b411b3637fa71f Philipp Reisner      2009-09-25  1108  	for (i = 0; i < AL_EXT_PER_BM_SECT; i++) {
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1109  		if (lc_is_used(device->act_log, al_enr+i))
-b411b3637fa71f Philipp Reisner      2009-09-25  1110  			goto try_again;
-b411b3637fa71f Philipp Reisner      2009-09-25  1111  	}
-b411b3637fa71f Philipp Reisner      2009-09-25  1112  	set_bit(BME_LOCKED, &bm_ext->flags);
-b411b3637fa71f Philipp Reisner      2009-09-25  1113  proceed:
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1114  	device->resync_wenr = LC_FREE;
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1115  	spin_unlock_irq(&device->al_lock);
-b411b3637fa71f Philipp Reisner      2009-09-25  1116  	return 0;
-b411b3637fa71f Philipp Reisner      2009-09-25  1117  
-b411b3637fa71f Philipp Reisner      2009-09-25  1118  try_again:
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1119  	if (bm_ext) {
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1120  		if (throttle) {
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1121  			D_ASSERT(device, !test_bit(BME_LOCKED, &bm_ext->flags));
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1122  			D_ASSERT(device, test_bit(BME_NO_WRITES, &bm_ext->flags));
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1123  			clear_bit(BME_NO_WRITES, &bm_ext->flags);
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1124  			device->resync_wenr = LC_FREE;
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1125  			if (lc_put(device->resync, &bm_ext->lce) == 0) {
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1126  				bm_ext->flags = 0;
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1127  				device->resync_locked--;
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1128  			}
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1129  			wake_up(&device->al_wait);
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1130  		} else
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1131  			device->resync_wenr = enr;
-ad3fee790088d3 Lars Ellenberg       2013-12-20  1132  	}
-b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  1133  	spin_unlock_irq(&device->al_lock);
-b411b3637fa71f Philipp Reisner      2009-09-25  1134  	return -EAGAIN;
-b411b3637fa71f Philipp Reisner      2009-09-25  1135  }
-b411b3637fa71f Philipp Reisner      2009-09-25  1136  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  232  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  233  /**
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  234   * msg_to_mgmt_sync - send sync message to mgmt
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  235   * @pf_to_mgmt: PF to MGMT channel
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  236   * @mod: module in the chip that will get the message
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  237   * @cmd: command of the message
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  238   * @buf_in: the msg data
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  239   * @in_size: the msg data length
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  240   * @buf_out: response
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  241   * @out_size: response length
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  242   * @direction: the direction of the original message
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  243   * @resp_msg_id: msg id to response for
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  244   *
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  245   * Return 0 - Success, negative - Failure
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  246   **/
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  247  static int msg_to_mgmt_sync(struct hinic_pf_to_mgmt *pf_to_mgmt,
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  248  			    enum hinic_mod_type mod, u8 cmd,
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  249  			    u8 *buf_in, u16 in_size,
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  250  			    u8 *buf_out, u16 *out_size,
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  251  			    enum mgmt_direction_type direction,
+2afbedce318458 Luo bin        2020-05-10  252  			    u16 resp_msg_id, u32 timeout)
+6dd8b68214f4af Aviad Krawczyk 2017-08-21 @253  {
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  254  	struct hinic_hwif *hwif = pf_to_mgmt->hwif;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  255  	struct pci_dev *pdev = hwif->pdev;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  256  	struct hinic_recv_msg *recv_msg;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  257  	struct completion *recv_done;
+2afbedce318458 Luo bin        2020-05-10  258  	unsigned long timeo;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  259  	u16 msg_id;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  260  	int err;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  261  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  262  	/* Lock the sync_msg_buf */
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  263  	down(&pf_to_mgmt->sync_msg_lock);
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  264  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  265  	recv_msg = &pf_to_mgmt->recv_resp_msg_from_mgmt;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  266  	recv_done = &recv_msg->recv_done;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  267  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  268  	if (resp_msg_id == MSG_NOT_RESP)
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  269  		msg_id = SYNC_MSG_ID(pf_to_mgmt);
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  270  	else
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  271  		msg_id = resp_msg_id;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  272  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  273  	init_completion(recv_done);
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  274  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  275  	err = send_msg_to_mgmt(pf_to_mgmt, mod, cmd, buf_in, in_size,
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  276  			       MSG_ACK, direction, resp_msg_id);
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  277  	if (err) {
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  278  		dev_err(&pdev->dev, "Failed to send sync msg to mgmt\n");
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  279  		goto unlock_sync_msg;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  280  	}
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  281  
+2afbedce318458 Luo bin        2020-05-10  282  	timeo = msecs_to_jiffies(timeout ? timeout : MGMT_MSG_TIMEOUT);
+2afbedce318458 Luo bin        2020-05-10  283  
+2afbedce318458 Luo bin        2020-05-10  284  	if (!wait_for_completion_timeout(recv_done, timeo)) {
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  285  		dev_err(&pdev->dev, "MGMT timeout, MSG id = %d\n", msg_id);
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  286  		err = -ETIMEDOUT;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  287  		goto unlock_sync_msg;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  288  	}
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  289  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  290  	smp_rmb();      /* verify reading after completion */
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  291  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  292  	if (recv_msg->msg_id != msg_id) {
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  293  		dev_err(&pdev->dev, "incorrect MSG for id = %d\n", msg_id);
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  294  		err = -EFAULT;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  295  		goto unlock_sync_msg;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  296  	}
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  297  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  298  	if ((buf_out) && (recv_msg->msg_len <= MAX_PF_MGMT_BUF_SIZE)) {
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  299  		memcpy(buf_out, recv_msg->msg, recv_msg->msg_len);
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  300  		*out_size = recv_msg->msg_len;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  301  	}
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  302  
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  303  unlock_sync_msg:
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  304  	up(&pf_to_mgmt->sync_msg_lock);
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  305  	return err;
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  306  }
+6dd8b68214f4af Aviad Krawczyk 2017-08-21  307  
 
-:::::: The code at line 1015 was first introduced by commit
-:::::: b411b3637fa71fce9cf2acf0639009500f5892fe The DRBD driver
+:::::: The code at line 253 was first introduced by commit
+:::::: 6dd8b68214f4af663faec507169a123222dfa7e7 net-next/hinic: Add management messages
 
-:::::: TO: Philipp Reisner <philipp.reisner@linbit.com>
-:::::: CC: Jens Axboe <jens.axboe@oracle.com>
+:::::: TO: Aviad Krawczyk <aviad.krawczyk@huawei.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
