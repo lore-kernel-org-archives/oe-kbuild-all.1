@@ -1,45 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E705FA20
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 06:07:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692252433; x=1723788433;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f2TK/ydusAw5FqhuivmBBFDVDDRo67z3doaZUynMBbE=;
-  b=cD881mHjNvJZjbppxzS7XKR28hTGhXH84XfLET4UDkHJz2D7ks9lUhdh
-   WaEHJ1GwbUNmBHol7xNhr2/oJHIQ38Kf0TFdFKc2kMsiQrjPLh7RgbO2Q
-   a5UxbAx6SkF3CrlizjTgxqCe5/u7h5vl5twhnoHcIDXpMkoKAqFjdMiCf
-   UAWF5XUtpZ6BFooFoqvssuMqE8jdHX9JXH3HtdfO+9eBB4R5u/8ksL+4w
-   n7LcF9sxlOyJLMgQHnD5TEwbcDvJjXwVwwja+4x7i/HWT+aGy6FkG+c66
-   vulv5o8EFQxJvOsmBmUzSYj/zaxMkyBMF3OYdOOs5C3vpiodXhupFqBpx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="459078447"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="459078447"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 23:07:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="858097048"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="858097048"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 16 Aug 2023 23:07:09 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qWWA0-0000px-0d;
-	Thu, 17 Aug 2023 06:07:08 +0000
-Date: Thu, 17 Aug 2023 14:07:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: [rt-devel:linux-6.5.y-rt 31/87] kernel/printk/printk_nobkl.c:1029:
- warning: Function parameter or member 'unsafe' not described in
- '__console_update_unsafe'
-Message-ID: <202308171313.el16bGIc-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48708395
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 06:09:03 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1bc73a2b0easo49750245ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Aug 2023 23:09:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692252542; x=1692857342;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dMupaGt3lT1C6kccf/TFi4L2Zf/EmehC3TxUCzjtixY=;
+        b=FFPr75vKB+KpdBAwp2C3sgFtlfEVnChZG2+NKIhPJx2xbiWQe0rm+3eqQSt1ZYcesi
+         YDMGMDtYR0328TGSOOy9F6RBFp4sQTgKJ0o+zGtaB+LO1awcFO7S/v/xpuKr4YSTwbz4
+         VmOhac0ElSZ3hkkkPRHVATGDKuXniBOBMc39U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692252542; x=1692857342;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dMupaGt3lT1C6kccf/TFi4L2Zf/EmehC3TxUCzjtixY=;
+        b=KT7TLqzuMApIx+99EuSV3iGSOFELLFUZU6aQDGlBPy8CqIu31AGdRiQ/QvzplPoC1+
+         XJaKtmnFMmEO31Np68wTG9ULpVlI2DzZnqb8dyNuazRFciUUjPbyHWwL9/mAyA+/BjE/
+         a9qzA4NewQ5BkzH885+b9K82m/RuA81GktxLXSGSP4SWipZDvwaZzznQ3iqx+gFBaJOR
+         hXo/i1iWyE/IpFWji1SwfAH0PFI8ZorMuCJslNiuqr5P27tqTOgoH1ZYUmrralIyqe+e
+         rA+N/iNUCqpBugViHnlrj2/ppKYphuOk7nZQ5YxYBktN1bALL33+tCV6wUbPpDWqaTiZ
+         Ge/w==
+X-Gm-Message-State: AOJu0YxnmqJlnWhECdsmDB8fyA9Ge1cvc3oVwv+G9ili+kTqs6Tf1SNM
+	tIpaBSilwQVdqLy7uwJfTLUGPg==
+X-Google-Smtp-Source: AGHT+IG3QbcrpDrZ9Ru2n1cwj5LDSCPZgsOvfI1WKSbQd51Qm63XNFI7JaPbVv68FFkX9s/qIOWYLA==
+X-Received: by 2002:a17:90a:990e:b0:268:6670:46df with SMTP id b14-20020a17090a990e00b00268667046dfmr2987411pjp.27.1692252542365;
+        Wed, 16 Aug 2023 23:09:02 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id 27-20020a17090a031b00b0026d034f6badsm815035pje.38.2023.08.16.23.09.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Aug 2023 23:09:01 -0700 (PDT)
+Date: Wed, 16 Aug 2023 23:09:00 -0700
+From: Kees Cook <keescook@chromium.org>
+To: "GONG, Ruiqi" <gongruiqi1@huawei.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Florian Westphal <fw@strlen.de>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [netfilter-nf-next:testing 2/9]
+ ./usr/include/linux/netfilter_bridge/ebtables.h:163:26: warning: field
+ 'target' with variable sized type 'struct ebt_entry_target' not at the end
+ of a struct or class is a GNU extension
+Message-ID: <202308162257.F7876776C9@keescook>
+References: <202308171249.g1ywxhII-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,67 +54,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202308171249.g1ywxhII-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.5.y-rt
-head:   16ae0de52ef9f7e5c2cd7e8443f5195c176353ea
-commit: aa998c7010a5fb980abe598fc1e34ad69da6dd44 [31/87] printk: nobkl: Add print state functions
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20230817/202308171313.el16bGIc-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171313.el16bGIc-lkp@intel.com/reproduce)
+On Thu, Aug 17, 2023 at 01:03:20PM +0800, kernel test robot wrote:
+> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git testing
+> head:   015e2d9101d3713c7bee16dccad171df04a3bbd5
+> commit: 61b9e6bd48a6317c0a44ee4f3fecdec9de5baa9e [2/9] netfilter: ebtables: replace zero-length array members
+> config: i386-buildonly-randconfig-r004-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171249.g1ywxhII-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171249.g1ywxhII-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308171249.g1ywxhII-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from <built-in>:1:
+> >> ./usr/include/linux/netfilter_bridge/ebtables.h:163:26: warning: field 'target' with variable sized type 'struct ebt_entry_target' not at the end of a struct or class is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
+>            struct ebt_entry_target target;
+>                                    ^
+>    1 warning generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171313.el16bGIc-lkp@intel.com/
+Eww, it looks like "struct ebt_entry_target" is used _within_ another
+struct:
 
-All warnings (new ones prefixed by >>):
+struct ebt_standard_target {
+        struct ebt_entry_target target;
+        int verdict;
+};
 
->> kernel/printk/printk_nobkl.c:1029: warning: Function parameter or member 'unsafe' not described in '__console_update_unsafe'
+So "verdict" overlaps with the "data" FAM:
 
+struct ebt_entry_target {
+        union { 
+                struct {
+                        char name[EBT_EXTENSION_MAXNAMELEN];
+                        __u8 revision;
+                };
+                struct xt_target *target;
+        } u;
+        /* size of data */
+        unsigned int target_size;
+        unsigned char data[0] __attribute__ ((aligned (__alignof__(struct ebt_replace))));
+};  
 
-vim +1029 kernel/printk/printk_nobkl.c
+These have been fixed in the past in a variety of ways -- it all depends
+on how userspace is using them. In looking at Debian Code Search:
+https://codesearch.debian.net/search?q=struct+ebt_standard_target&literal=1
 
-  1010	
-  1011	/**
-  1012	 * __console_update_unsafe - Update the unsafe bit in @con->atomic_state
-  1013	 * @wctxt:	The write context that was handed to the write function
-  1014	 *
-  1015	 * Returns:	True if the state is correct. False if a handover
-  1016	 *		has been requested or if the console was taken
-  1017	 *		over.
-  1018	 *
-  1019	 * Must be invoked before an unsafe driver section is entered.
-  1020	 *
-  1021	 * When this function returns false then the calling context is not allowed
-  1022	 * to go forward and has to back out immediately and carefully. The buffer
-  1023	 * content is no longer trusted either and the console lock is no longer
-  1024	 * held.
-  1025	 *
-  1026	 * Internal helper to avoid duplicated code
-  1027	 */
-  1028	static bool __console_update_unsafe(struct cons_write_context *wctxt, bool unsafe)
-> 1029	{
-  1030		struct cons_context *ctxt = &ACCESS_PRIVATE(wctxt, ctxt);
-  1031		struct console *con = ctxt->console;
-  1032		struct cons_state new;
-  1033	
-  1034		do  {
-  1035			if (!console_can_proceed(wctxt))
-  1036				return false;
-  1037			/*
-  1038			 * console_can_proceed() saved the real state in
-  1039			 * ctxt->old_state
-  1040			 */
-  1041			copy_full_state(new, ctxt->old_state);
-  1042			new.unsafe = unsafe;
-  1043	
-  1044		} while (!cons_state_try_cmpxchg(con, CON_STATE_CUR, &ctxt->old_state, &new));
-  1045	
-  1046		copy_full_state(ctxt->state, new);
-  1047		return true;
-  1048	}
-  1049	
+It is exclusively doing casts and looking at the "verdict" member. So
+the easiest conversion might be this:
+
+ struct ebt_standard_target {
+-       struct ebt_entry_target target;
++       unsigned char hdr[sizeof(struct ebt_entry_target)];
+        int verdict;
+ };
+
+Or this might work (not tested):
+
+diff --git a/include/uapi/linux/netfilter_bridge/ebtables.h b/include/uapi/linux/netfilter_bridge/ebtables.h
+index a494cf43a755..d6f10163b14a 100644
+--- a/include/uapi/linux/netfilter_bridge/ebtables.h
++++ b/include/uapi/linux/netfilter_bridge/ebtables.h
+@@ -146,23 +146,25 @@ struct ebt_entry_watcher {
+ };
+ 
+ struct ebt_entry_target {
+-	union {
+-		struct {
+-			char name[EBT_EXTENSION_MAXNAMELEN];
+-			__u8 revision;
+-		};
+-		struct xt_target *target;
+-	} u;
+-	/* size of data */
+-	unsigned int target_size;
+-	unsigned char data[0] __attribute__ ((aligned (__alignof__(struct ebt_replace))));
++	struct ebt_entry_target_hdr {
++		union {
++			struct {
++				char name[EBT_EXTENSION_MAXNAMELEN];
++				__u8 revision;
++			};
++			struct xt_target *target;
++		} u;
++		/* size of data */
++		unsigned int target_size;
++	};
++	unsigned char data[] __attribute__ ((aligned (__alignof__(struct ebt_replace))));
+ };
+ 
+ #define EBT_STANDARD_TARGET "standard"
+ struct ebt_standard_target {
+-	struct ebt_entry_target target;
+-	int verdict;
++	struct ebt_entry_target_hdr target;
++	int verdict __attribute__ ((aligned (__alignof__(struct ebt_replace))));
+ };
+ 
+ /* one entry */
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
