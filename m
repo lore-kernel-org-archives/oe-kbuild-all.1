@@ -1,46 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D93514AA2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 14:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D0D14A9D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 14:06:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692281108; x=1723817108;
+  t=1692281166; x=1723817166;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OxXBRHNoc6Kqu2MfUYo9xE62KhkEIJWBO7DpV1W5erI=;
-  b=PS/TahX2XVw2kphsMiV/yNWZ4Rrmxy7Ei8pdQvkSGR8KZXjVmz6jtBoX
-   AzD8QjR52tzeumVARcNTHNcK6YAoEtBLP2fruhLiS61wL3lP3tWUpwyxE
-   pVo/ikuGuwer3BldlwJMQxruweGQalsIh5Cn5RDLGwjENm5GTwmDxK0bo
-   p/tNhEqnWjwm3vahGtoplP8F1A/647K8d0m7f7yevsoDMynvZYeE1hNR0
-   xBbezsJfQRmiqYmsJajCBGx73N9pmpREkXlndjnmcTgza0PvNw/i5nAmq
-   OzbAF6tgWVE5VTNpd2ubW0ODrnGdAlchwH/vwnXEMG2ZOP1MDzUMUplpU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="439186147"
+  bh=QmxbfmZHEaiWO0885bLhzh6FB1Dfm3q5zX9G9kyCjC4=;
+  b=mfOLXroNL8JLgR40rAqomJCfe/8qvxz6JC37sN9cfytEUopTxN8e9VUQ
+   WpZKZjPdZrEPiIovRqk1paB4prgxGCFdYzbLN9IoMRwQeDQ/Mjm6XrCKh
+   fhS6IzFm+eTHfbt6Es0lIe74KYZJ5XLQvPyKKryDjSWEoXIJr/rRTK3Ce
+   4SHh0GWL8apPPIwQCY+birzKYOSsFJg4mQJiT6dzIOPiEZJzLhfve2xu7
+   KpDVMcHe1AQv8pvgvDCTDrZ5dd0kofKhYcQP1rJvox+GSemvyC3x97z4H
+   ZCY596lzHURCWvyx3bf4FREBpQRXHqIwesKGwiXFQ/opXtLAiu6fUiXpP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="403799822"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="439186147"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:29:16 -0700
+   d="scan'208";a="403799822"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 07:05:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="824633316"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="824633316"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="878243817"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Aug 2023 06:29:14 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Aug 2023 07:05:14 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWd3Z-0001AJ-1b;
-	Thu, 17 Aug 2023 13:29:05 +0000
-Date: Thu, 17 Aug 2023 21:28:18 +0800
+	id 1qWdbl-0001CB-0C;
+	Thu, 17 Aug 2023 14:04:30 +0000
+Date: Thu, 17 Aug 2023 22:00:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Greenman <gregory.greenman@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:141:
- warning: Function parameter or member 'optc' not described in
- 'optc1_set_vupdate_keepout'
-Message-ID: <202308172126.tZNGcj8o-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jan Kara <jack@suse.cz>
+Subject: kernel/fork.c:1962: warning: bad line:
+Message-ID: <202308172133.Hs40Ti6o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,64 +45,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Leo,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core62-50-1
-head:   aa035fb1ea0a81817398b02a7ca3914558fe23a5
-commit: 0620b515699d639dad2634479251bd6203080bea UPSTREAM: drm/amd/display: Move vupdate keepout programming from DCN20 to DCN10
-date:   2 years, 3 months ago
-config: x86_64-randconfig-x015-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172126.tZNGcj8o-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172126.tZNGcj8o-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: 6ae930d9dbf2d093157be33428538c91966d8a9f pid: add pidfd_prepare()
+date:   5 months ago
+config: nios2-defconfig (https://download.01.org/0day-ci/archive/20230817/202308172133.Hs40Ti6o-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172133.Hs40Ti6o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172126.tZNGcj8o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172133.Hs40Ti6o-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:50: warning: Function parameter or member 'timing' not described in 'apply_front_porch_workaround'
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:141: warning: Function parameter or member 'optc' not described in 'optc1_set_vupdate_keepout'
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:141: warning: Function parameter or member 'params' not described in 'optc1_set_vupdate_keepout'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:164: warning: Function parameter or member 'optc' not described in 'optc1_program_timing'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:164: warning: Function parameter or member 'dc_crtc_timing' not described in 'optc1_program_timing'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:164: warning: Function parameter or member 'vready_offset' not described in 'optc1_program_timing'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:164: warning: Function parameter or member 'vstartup_start' not described in 'optc1_program_timing'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:164: warning: Function parameter or member 'vupdate_offset' not described in 'optc1_program_timing'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:164: warning: Function parameter or member 'vupdate_width' not described in 'optc1_program_timing'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:164: warning: Function parameter or member 'signal' not described in 'optc1_program_timing'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:164: warning: Function parameter or member 'use_vbios' not described in 'optc1_program_timing'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:394: warning: Function parameter or member 'optc' not described in 'optc1_set_timing_double_buffer'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:394: warning: Function parameter or member 'enable' not described in 'optc1_set_timing_double_buffer'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:407: warning: Function parameter or member 'optc' not described in 'optc1_unblank_crtc'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:430: warning: Function parameter or member 'optc' not described in 'optc1_blank_crtc'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:498: warning: Function parameter or member 'optc' not described in 'optc1_enable_crtc'
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c:910: warning: Cannot understand  *****************************************************************************
-    on line 910 - I thought it was a doc line
+   kernel/fork.c:1261: warning: Function parameter or member 'mm' not described in 'set_mm_exe_file'
+   kernel/fork.c:1261: warning: Function parameter or member 'new_exe_file' not described in 'set_mm_exe_file'
+   kernel/fork.c:1298: warning: Function parameter or member 'mm' not described in 'replace_mm_exe_file'
+   kernel/fork.c:1298: warning: Function parameter or member 'new_exe_file' not described in 'replace_mm_exe_file'
+   kernel/fork.c:1350: warning: Function parameter or member 'mm' not described in 'get_mm_exe_file'
+   kernel/fork.c:1369: warning: Function parameter or member 'task' not described in 'get_task_exe_file'
+   kernel/fork.c:1393: warning: Function parameter or member 'task' not described in 'get_task_mm'
+>> kernel/fork.c:1962: warning: bad line: 
+>> kernel/fork.c:1983: warning: Function parameter or member 'ret' not described in '__pidfd_prepare'
+>> kernel/fork.c:1983: warning: Excess function parameter 'pidfd' description in '__pidfd_prepare'
+>> kernel/fork.c:2032: warning: Function parameter or member 'ret' not described in 'pidfd_prepare'
+>> kernel/fork.c:2032: warning: Excess function parameter 'pidfd' description in 'pidfd_prepare'
+   kernel/fork.c:3048: warning: expecting prototype for clone3(). Prototype was for sys_clone3() instead
 
 
-vim +141 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_optc.c
+vim +1962 kernel/fork.c
 
-   133	
-   134	/**
-   135	 * Vupdate keepout can be set to a window to block the update lock for that pipe from changing.
-   136	 * Start offset begins with vstartup and goes for x number of clocks,
-   137	 * end offset starts from end of vupdate to x number of clocks.
-   138	 */
-   139	void optc1_set_vupdate_keepout(struct timing_generator *optc,
-   140				       struct vupdate_keepout_params *params)
- > 141	{
-   142		struct optc *optc1 = DCN10TG_FROM_TG(optc);
-   143	
-   144		REG_SET_3(OTG_VUPDATE_KEEPOUT, 0,
-   145			  MASTER_UPDATE_LOCK_VUPDATE_KEEPOUT_START_OFFSET, params->start_offset,
-   146			  MASTER_UPDATE_LOCK_VUPDATE_KEEPOUT_END_OFFSET, params->end_offset,
-   147			  OTG_MASTER_UPDATE_LOCK_VUPDATE_KEEPOUT_EN, params->enable);
-   148	}
-   149	
+  1953	
+  1954	/**
+  1955	 * __pidfd_prepare - allocate a new pidfd_file and reserve a pidfd
+  1956	 * @pid:   the struct pid for which to create a pidfd
+  1957	 * @flags: flags of the new @pidfd
+  1958	 * @pidfd: the pidfd to return
+  1959	 *
+  1960	 * Allocate a new file that stashes @pid and reserve a new pidfd number in the
+  1961	 * caller's file descriptor table. The pidfd is reserved but not installed yet.
+> 1962	
+  1963	 * The helper doesn't perform checks on @pid which makes it useful for pidfds
+  1964	 * created via CLONE_PIDFD where @pid has no task attached when the pidfd and
+  1965	 * pidfd file are prepared.
+  1966	 *
+  1967	 * If this function returns successfully the caller is responsible to either
+  1968	 * call fd_install() passing the returned pidfd and pidfd file as arguments in
+  1969	 * order to install the pidfd into its file descriptor table or they must use
+  1970	 * put_unused_fd() and fput() on the returned pidfd and pidfd file
+  1971	 * respectively.
+  1972	 *
+  1973	 * This function is useful when a pidfd must already be reserved but there
+  1974	 * might still be points of failure afterwards and the caller wants to ensure
+  1975	 * that no pidfd is leaked into its file descriptor table.
+  1976	 *
+  1977	 * Return: On success, a reserved pidfd is returned from the function and a new
+  1978	 *         pidfd file is returned in the last argument to the function. On
+  1979	 *         error, a negative error code is returned from the function and the
+  1980	 *         last argument remains unchanged.
+  1981	 */
+  1982	static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret)
+> 1983	{
+  1984		int pidfd;
+  1985		struct file *pidfd_file;
+  1986	
+  1987		if (flags & ~(O_NONBLOCK | O_RDWR | O_CLOEXEC))
+  1988			return -EINVAL;
+  1989	
+  1990		pidfd = get_unused_fd_flags(O_RDWR | O_CLOEXEC);
+  1991		if (pidfd < 0)
+  1992			return pidfd;
+  1993	
+  1994		pidfd_file = anon_inode_getfile("[pidfd]", &pidfd_fops, pid,
+  1995						flags | O_RDWR | O_CLOEXEC);
+  1996		if (IS_ERR(pidfd_file)) {
+  1997			put_unused_fd(pidfd);
+  1998			return PTR_ERR(pidfd_file);
+  1999		}
+  2000		get_pid(pid); /* held by pidfd_file now */
+  2001		*ret = pidfd_file;
+  2002		return pidfd;
+  2003	}
+  2004	
+  2005	/**
+  2006	 * pidfd_prepare - allocate a new pidfd_file and reserve a pidfd
+  2007	 * @pid:   the struct pid for which to create a pidfd
+  2008	 * @flags: flags of the new @pidfd
+  2009	 * @pidfd: the pidfd to return
+  2010	 *
+  2011	 * Allocate a new file that stashes @pid and reserve a new pidfd number in the
+  2012	 * caller's file descriptor table. The pidfd is reserved but not installed yet.
+  2013	 *
+  2014	 * The helper verifies that @pid is used as a thread group leader.
+  2015	 *
+  2016	 * If this function returns successfully the caller is responsible to either
+  2017	 * call fd_install() passing the returned pidfd and pidfd file as arguments in
+  2018	 * order to install the pidfd into its file descriptor table or they must use
+  2019	 * put_unused_fd() and fput() on the returned pidfd and pidfd file
+  2020	 * respectively.
+  2021	 *
+  2022	 * This function is useful when a pidfd must already be reserved but there
+  2023	 * might still be points of failure afterwards and the caller wants to ensure
+  2024	 * that no pidfd is leaked into its file descriptor table.
+  2025	 *
+  2026	 * Return: On success, a reserved pidfd is returned from the function and a new
+  2027	 *         pidfd file is returned in the last argument to the function. On
+  2028	 *         error, a negative error code is returned from the function and the
+  2029	 *         last argument remains unchanged.
+  2030	 */
+  2031	int pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret)
+> 2032	{
+  2033		if (!pid || !pid_has_task(pid, PIDTYPE_TGID))
+  2034			return -EINVAL;
+  2035	
+  2036		return __pidfd_prepare(pid, flags, ret);
+  2037	}
+  2038	
 
 -- 
 0-DAY CI Kernel Test Service
