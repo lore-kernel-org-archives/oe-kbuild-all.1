@@ -1,41 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D0D14A9D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 14:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A7B14A9D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 14:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692281166; x=1723817166;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QmxbfmZHEaiWO0885bLhzh6FB1Dfm3q5zX9G9kyCjC4=;
-  b=mfOLXroNL8JLgR40rAqomJCfe/8qvxz6JC37sN9cfytEUopTxN8e9VUQ
-   WpZKZjPdZrEPiIovRqk1paB4prgxGCFdYzbLN9IoMRwQeDQ/Mjm6XrCKh
-   fhS6IzFm+eTHfbt6Es0lIe74KYZJ5XLQvPyKKryDjSWEoXIJr/rRTK3Ce
-   4SHh0GWL8apPPIwQCY+birzKYOSsFJg4mQJiT6dzIOPiEZJzLhfve2xu7
-   KpDVMcHe1AQv8pvgvDCTDrZ5dd0kofKhYcQP1rJvox+GSemvyC3x97z4H
-   ZCY596lzHURCWvyx3bf4FREBpQRXHqIwesKGwiXFQ/opXtLAiu6fUiXpP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="403799822"
+  t=1692281228; x=1723817228;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=VTd7gdLwXsaWLmv1ZnaaBMBzLXZonGqE6wkQWQHOIYI=;
+  b=eWrM7JCpYXvs11v5HV/tWF5rEiBpRUs7uAErjTXEkspRsrsvuEtqbx+A
+   +m3sKaMursXzNLmjAFfVY0ZVz2267DtvgFMzdFuw0sQRQ+LrY6+uK0YRK
+   rt2ZdVzlLSSlu5t/s3KteTvFRbWmEzS2v6Ccq1HYM7Ca4Ji7d7BOsP4QG
+   HSlHi6nOVhCWL2A9oU96DqcwngZ3qRlHkAno31IuY+PVVcWPhw20m1/5E
+   NeNkOk1MtMpgETErudgQ+cVl6c9Mp4GhMAR+SaIEvdSI3QaowDOyGBJf4
+   MeV2tv7hqLoAwVHnwXi+uaut3sorlfivnchu5aSSDsKtnCnrK+TIxR+5j
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="353132363"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="403799822"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 07:05:12 -0700
+   d="scan'208";a="353132363"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 07:07:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="878243817"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="848893628"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="848893628"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Aug 2023 07:05:14 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2023 07:07:06 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWdbl-0001CB-0C;
-	Thu, 17 Aug 2023 14:04:30 +0000
-Date: Thu, 17 Aug 2023 22:00:42 +0800
+	id 1qWddT-0001CJ-0j;
+	Thu, 17 Aug 2023 14:06:12 +0000
+Date: Thu, 17 Aug 2023 22:00:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>
-Subject: kernel/fork.c:1962: warning: bad line:
-Message-ID: <202308172133.Hs40Ti6o-lkp@intel.com>
+To: Dirk Lehmann <develop@dj-l.de>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] drm/edid: Fix "Analog composite sync!" for
+ current eDP display panels
+Message-ID: <ZN4n7pVUNbPUM/U4@78f66d62e261>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,126 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <E1qWbpR-0007ey-0B@djlnb.local>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: 6ae930d9dbf2d093157be33428538c91966d8a9f pid: add pidfd_prepare()
-date:   5 months ago
-config: nios2-defconfig (https://download.01.org/0day-ci/archive/20230817/202308172133.Hs40Ti6o-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172133.Hs40Ti6o-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172133.Hs40Ti6o-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   kernel/fork.c:1261: warning: Function parameter or member 'mm' not described in 'set_mm_exe_file'
-   kernel/fork.c:1261: warning: Function parameter or member 'new_exe_file' not described in 'set_mm_exe_file'
-   kernel/fork.c:1298: warning: Function parameter or member 'mm' not described in 'replace_mm_exe_file'
-   kernel/fork.c:1298: warning: Function parameter or member 'new_exe_file' not described in 'replace_mm_exe_file'
-   kernel/fork.c:1350: warning: Function parameter or member 'mm' not described in 'get_mm_exe_file'
-   kernel/fork.c:1369: warning: Function parameter or member 'task' not described in 'get_task_exe_file'
-   kernel/fork.c:1393: warning: Function parameter or member 'task' not described in 'get_task_mm'
->> kernel/fork.c:1962: warning: bad line: 
->> kernel/fork.c:1983: warning: Function parameter or member 'ret' not described in '__pidfd_prepare'
->> kernel/fork.c:1983: warning: Excess function parameter 'pidfd' description in '__pidfd_prepare'
->> kernel/fork.c:2032: warning: Function parameter or member 'ret' not described in 'pidfd_prepare'
->> kernel/fork.c:2032: warning: Excess function parameter 'pidfd' description in 'pidfd_prepare'
-   kernel/fork.c:3048: warning: expecting prototype for clone3(). Prototype was for sys_clone3() instead
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH v2 2/2] drm/edid: Fix "Analog composite sync!" for current eDP display panels
+Link: https://lore.kernel.org/stable/E1qWbpR-0007ey-0B%40djlnb.local
 
-
-vim +1962 kernel/fork.c
-
-  1953	
-  1954	/**
-  1955	 * __pidfd_prepare - allocate a new pidfd_file and reserve a pidfd
-  1956	 * @pid:   the struct pid for which to create a pidfd
-  1957	 * @flags: flags of the new @pidfd
-  1958	 * @pidfd: the pidfd to return
-  1959	 *
-  1960	 * Allocate a new file that stashes @pid and reserve a new pidfd number in the
-  1961	 * caller's file descriptor table. The pidfd is reserved but not installed yet.
-> 1962	
-  1963	 * The helper doesn't perform checks on @pid which makes it useful for pidfds
-  1964	 * created via CLONE_PIDFD where @pid has no task attached when the pidfd and
-  1965	 * pidfd file are prepared.
-  1966	 *
-  1967	 * If this function returns successfully the caller is responsible to either
-  1968	 * call fd_install() passing the returned pidfd and pidfd file as arguments in
-  1969	 * order to install the pidfd into its file descriptor table or they must use
-  1970	 * put_unused_fd() and fput() on the returned pidfd and pidfd file
-  1971	 * respectively.
-  1972	 *
-  1973	 * This function is useful when a pidfd must already be reserved but there
-  1974	 * might still be points of failure afterwards and the caller wants to ensure
-  1975	 * that no pidfd is leaked into its file descriptor table.
-  1976	 *
-  1977	 * Return: On success, a reserved pidfd is returned from the function and a new
-  1978	 *         pidfd file is returned in the last argument to the function. On
-  1979	 *         error, a negative error code is returned from the function and the
-  1980	 *         last argument remains unchanged.
-  1981	 */
-  1982	static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret)
-> 1983	{
-  1984		int pidfd;
-  1985		struct file *pidfd_file;
-  1986	
-  1987		if (flags & ~(O_NONBLOCK | O_RDWR | O_CLOEXEC))
-  1988			return -EINVAL;
-  1989	
-  1990		pidfd = get_unused_fd_flags(O_RDWR | O_CLOEXEC);
-  1991		if (pidfd < 0)
-  1992			return pidfd;
-  1993	
-  1994		pidfd_file = anon_inode_getfile("[pidfd]", &pidfd_fops, pid,
-  1995						flags | O_RDWR | O_CLOEXEC);
-  1996		if (IS_ERR(pidfd_file)) {
-  1997			put_unused_fd(pidfd);
-  1998			return PTR_ERR(pidfd_file);
-  1999		}
-  2000		get_pid(pid); /* held by pidfd_file now */
-  2001		*ret = pidfd_file;
-  2002		return pidfd;
-  2003	}
-  2004	
-  2005	/**
-  2006	 * pidfd_prepare - allocate a new pidfd_file and reserve a pidfd
-  2007	 * @pid:   the struct pid for which to create a pidfd
-  2008	 * @flags: flags of the new @pidfd
-  2009	 * @pidfd: the pidfd to return
-  2010	 *
-  2011	 * Allocate a new file that stashes @pid and reserve a new pidfd number in the
-  2012	 * caller's file descriptor table. The pidfd is reserved but not installed yet.
-  2013	 *
-  2014	 * The helper verifies that @pid is used as a thread group leader.
-  2015	 *
-  2016	 * If this function returns successfully the caller is responsible to either
-  2017	 * call fd_install() passing the returned pidfd and pidfd file as arguments in
-  2018	 * order to install the pidfd into its file descriptor table or they must use
-  2019	 * put_unused_fd() and fput() on the returned pidfd and pidfd file
-  2020	 * respectively.
-  2021	 *
-  2022	 * This function is useful when a pidfd must already be reserved but there
-  2023	 * might still be points of failure afterwards and the caller wants to ensure
-  2024	 * that no pidfd is leaked into its file descriptor table.
-  2025	 *
-  2026	 * Return: On success, a reserved pidfd is returned from the function and a new
-  2027	 *         pidfd file is returned in the last argument to the function. On
-  2028	 *         error, a negative error code is returned from the function and the
-  2029	 *         last argument remains unchanged.
-  2030	 */
-  2031	int pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret)
-> 2032	{
-  2033		if (!pid || !pid_has_task(pid, PIDTYPE_TGID))
-  2034			return -EINVAL;
-  2035	
-  2036		return __pidfd_prepare(pid, flags, ret);
-  2037	}
-  2038	
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
