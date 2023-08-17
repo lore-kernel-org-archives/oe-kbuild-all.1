@@ -1,44 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2BB1549E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 16:21:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA2E168AE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 16:30:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692289276; x=1723825276;
+  t=1692289833; x=1723825833;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RWfndbU1oNEDCpHHdZg1mo+Zof4XQ0auEf8gPgbCGn8=;
-  b=Y8jPBZoZ+x0+4Kikdh1eAdrMJReJsZpe92xUcU0MRpliG4CXXO+alAt9
-   PleRbpSmkiGt74cY4TmMko8fzh53RTuVr+wT1FnYKNiM5lqEoIpOCFMeX
-   DCPhzs+Q97cut/DX569XJ90dH3h/eRWkwZY2anuJCTyKOslMhEn1Sl5lt
-   u9YXrTtbQ5qBl+AAWcAj3Qoc+OT+Ncw/WsmIPsxg46c87Co3L94z6r/pU
-   moP4dHp/B7uJsA1seIdjn4PwV7MI03M2fsOLD31vZ2/rgeX0q58Kzh66n
-   2ZjvRqZH3t4bmQb3cxGsW+XecBxTo8gxoCmvEX06kCq0SBxQxjGQ4FTu5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="403841244"
+  bh=aGavS9oNH+2YgYCxG93cP7kSZLWDqJmKGQLMezrDRus=;
+  b=SI0HqEynpc1W4s0VtiRrfPA3zlyNxu28duJfUWTA3HjNXjGlgKpVYTgG
+   +7cIARavmyEfkTeHMNcrz91reyxYCwFcMjrhT/T8OelaN1uKRvIwhYDSS
+   cbs0bv10k2AIbGpJ816n6xTlrX7LGEpfJYvb7L6eSAvF7h8NpjFm2Lbod
+   BV9m1qw3I0yn5zJ6d4lDSY1eoxAymfHWzzxpNK+CJL3rjcoHNMh1s+MZC
+   RMCiFOXygZPI/dUWZnheJj6X5KEJOmjXvohOybasC9RdzKdsuCJX6MBgn
+   DDXd26eDhaFOrdbDBNUsd+sEsqE8xJqfGMX156yc0fQW62Y7+XSAjWi0e
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="352450281"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="403841244"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 09:19:32 -0700
+   d="scan'208";a="352450281"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 09:30:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="734713801"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="824682434"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="734713801"
+   d="scan'208";a="824682434"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 17 Aug 2023 09:19:29 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Aug 2023 09:30:29 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWfia-0001Jf-2w;
-	Thu, 17 Aug 2023 16:19:28 +0000
-Date: Fri, 18 Aug 2023 00:18:45 +0800
+	id 1qWftF-0001K1-0X;
+	Thu, 17 Aug 2023 16:30:29 +0000
+Date: Fri, 18 Aug 2023 00:29:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kashyap Desai <kashyap.desai@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Leon Romanovsky <leon@kernel.org>,
-	Selvin Xavier <selvin.xavier@broadcom.com>
-Subject: drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:73: warning: Function
- parameter or member 'opcode' not described in 'bnxt_qplib_map_rc'
-Message-ID: <202308180055.6zM4AK6V-lkp@intel.com>
+To: Kyle Huey <me@kylehuey.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>
+Subject: [stable:linux-5.15.y 5472/9999] arch/x86/kernel/fpu/xstate.c:1119:
+ warning: Function parameter or member 'xsave' not described in
+ 'copy_uabi_to_xstate'
+Message-ID: <202308180040.H2AYyymG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,69 +49,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: 3022cc15119733cebaef05feddb5d87b9e401c0e RDMA/bnxt_re: Avoid the command wait if firmware is inactive
-date:   9 weeks ago
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230818/202308180055.6zM4AK6V-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180055.6zM4AK6V-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   f6f7927ac664ba23447f8dd3c3dfe2f4ee39272f
+commit: 3f1c81426a9f1cf038b00994dab1ececa72de56b [5472/9999] x86/fpu: Allow PKRU to be (once again) written by ptrace.
+config: x86_64-randconfig-x062-20230817 (https://download.01.org/0day-ci/archive/20230818/202308180040.H2AYyymG-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180040.H2AYyymG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308180055.6zM4AK6V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308180040.H2AYyymG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:73: warning: Function parameter or member 'opcode' not described in 'bnxt_qplib_map_rc'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:105: warning: Function parameter or member 'rcfw' not described in '__wait_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:105: warning: Function parameter or member 'cookie' not described in '__wait_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:105: warning: Function parameter or member 'opcode' not described in '__wait_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:147: warning: Function parameter or member 'rcfw' not described in '__block_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:147: warning: Function parameter or member 'cookie' not described in '__block_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:147: warning: Function parameter or member 'opcode' not described in '__block_for_resp'
+>> arch/x86/kernel/fpu/xstate.c:1119: warning: Function parameter or member 'xsave' not described in 'copy_uabi_to_xstate'
+>> arch/x86/kernel/fpu/xstate.c:1119: warning: Excess function parameter 'fpstate' description in 'copy_uabi_to_xstate'
 
 
-vim +73 drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
+vim +1119 arch/x86/kernel/fpu/xstate.c
 
-    55	
-    56	/**
-    57	 * bnxt_qplib_map_rc  -  map return type based on opcode
-    58	 * @opcode    -  roce slow path opcode
-    59	 *
-    60	 * In some cases like firmware halt is detected, the driver is supposed to
-    61	 * remap the error code of the timed out command.
-    62	 *
-    63	 * It is not safe to assume hardware is really inactive so certain opcodes
-    64	 * like destroy qp etc are not safe to be returned success, but this function
-    65	 * will be called when FW already reports a timeout. This would be possible
-    66	 * only when FW crashes and resets. This will clear all the HW resources.
-    67	 *
-    68	 * Returns:
-    69	 * 0 to communicate success to caller.
-    70	 * Non zero error code to communicate failure to caller.
-    71	 */
-    72	static int bnxt_qplib_map_rc(u8 opcode)
-  > 73	{
-    74		switch (opcode) {
-    75		case CMDQ_BASE_OPCODE_DESTROY_QP:
-    76		case CMDQ_BASE_OPCODE_DESTROY_SRQ:
-    77		case CMDQ_BASE_OPCODE_DESTROY_CQ:
-    78		case CMDQ_BASE_OPCODE_DEALLOCATE_KEY:
-    79		case CMDQ_BASE_OPCODE_DEREGISTER_MR:
-    80		case CMDQ_BASE_OPCODE_DELETE_GID:
-    81		case CMDQ_BASE_OPCODE_DESTROY_QP1:
-    82		case CMDQ_BASE_OPCODE_DESTROY_AH:
-    83		case CMDQ_BASE_OPCODE_DEINITIALIZE_FW:
-    84		case CMDQ_BASE_OPCODE_MODIFY_ROCE_CC:
-    85		case CMDQ_BASE_OPCODE_SET_LINK_AGGR_MODE:
-    86			return 0;
-    87		default:
-    88			return -ETIMEDOUT;
-    89		}
-    90	}
-    91	
+947f4947cf00ea Thomas Gleixner           2021-06-23  1092  
+522e92743b3535 Thomas Gleixner           2021-06-23  1093  
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1094  /**
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1095   * copy_uabi_to_xstate - Copy a UABI format buffer to the kernel xstate
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1096   * @fpstate:	The fpstate buffer to copy to
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1097   * @kbuf:	The UABI format buffer, if it comes from the kernel
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1098   * @ubuf:	The UABI format buffer, if it comes from userspace
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1099   * @pkru:	The location to write the PKRU value to
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1100   *
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1101   * Converts from the UABI format into the kernel internal hardware
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1102   * dependent format.
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1103   *
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1104   * This function ultimately has two different callers with distinct PKRU
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1105   * behavior.
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1106   * 1.	When called from sigreturn the PKRU register will be restored from
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1107   *	@fpstate via an XRSTOR. Correctly copying the UABI format buffer to
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1108   *	@fpstate is sufficient to cover this case, but the caller will also
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1109   *	pass a pointer to the thread_struct's pkru field in @pkru and updating
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1110   *	it is harmless.
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1111   * 2.	When called from ptrace the PKRU register will be restored from the
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1112   *	thread_struct's pkru field. A pointer to that is passed in @pkru.
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1113   *	The kernel will restore it manually, so the XRSTOR behavior that resets
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1114   *	the PKRU register to the hardware init value (0) if the corresponding
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1115   *	xfeatures bit is not set is emulated here.
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1116   */
+522e92743b3535 Thomas Gleixner           2021-06-23  1117  static int copy_uabi_to_xstate(struct xregs_state *xsave, const void *kbuf,
+b29773d6b0bb8e Kyle Huey                 2023-01-09  1118  			       const void __user *ubuf, u32 *pkru)
+79fecc2b7506f2 Ingo Molnar               2017-09-23 @1119  {
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1120  	unsigned int offset, size;
+80d8ae86b36791 Eric Biggers              2017-09-24  1121  	struct xstate_header hdr;
+522e92743b3535 Thomas Gleixner           2021-06-23  1122  	u64 mask;
+522e92743b3535 Thomas Gleixner           2021-06-23  1123  	int i;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1124  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1125  	offset = offsetof(struct xregs_state, header);
+522e92743b3535 Thomas Gleixner           2021-06-23  1126  	if (copy_from_buffer(&hdr, offset, sizeof(hdr), kbuf, ubuf))
+522e92743b3535 Thomas Gleixner           2021-06-23  1127  		return -EFAULT;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1128  
+5274e6c172c472 Fenghua Yu                2020-05-12  1129  	if (validate_user_xstate_header(&hdr))
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1130  		return -EINVAL;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1131  
+522e92743b3535 Thomas Gleixner           2021-06-23  1132  	/* Validate MXCSR when any of the related features is in use */
+522e92743b3535 Thomas Gleixner           2021-06-23  1133  	mask = XFEATURE_MASK_FP | XFEATURE_MASK_SSE | XFEATURE_MASK_YMM;
+522e92743b3535 Thomas Gleixner           2021-06-23  1134  	if (hdr.xfeatures & mask) {
+522e92743b3535 Thomas Gleixner           2021-06-23  1135  		u32 mxcsr[2];
+522e92743b3535 Thomas Gleixner           2021-06-23  1136  
+522e92743b3535 Thomas Gleixner           2021-06-23  1137  		offset = offsetof(struct fxregs_state, mxcsr);
+522e92743b3535 Thomas Gleixner           2021-06-23  1138  		if (copy_from_buffer(mxcsr, offset, sizeof(mxcsr), kbuf, ubuf))
+522e92743b3535 Thomas Gleixner           2021-06-23  1139  			return -EFAULT;
+522e92743b3535 Thomas Gleixner           2021-06-23  1140  
+522e92743b3535 Thomas Gleixner           2021-06-23  1141  		/* Reserved bits in MXCSR must be zero. */
+522e92743b3535 Thomas Gleixner           2021-06-23  1142  		if (mxcsr[0] & ~mxcsr_feature_mask)
+947f4947cf00ea Thomas Gleixner           2021-06-23  1143  			return -EINVAL;
+947f4947cf00ea Thomas Gleixner           2021-06-23  1144  
+522e92743b3535 Thomas Gleixner           2021-06-23  1145  		/* SSE and YMM require MXCSR even when FP is not in use. */
+522e92743b3535 Thomas Gleixner           2021-06-23  1146  		if (!(hdr.xfeatures & XFEATURE_MASK_FP)) {
+522e92743b3535 Thomas Gleixner           2021-06-23  1147  			xsave->i387.mxcsr = mxcsr[0];
+522e92743b3535 Thomas Gleixner           2021-06-23  1148  			xsave->i387.mxcsr_mask = mxcsr[1];
+522e92743b3535 Thomas Gleixner           2021-06-23  1149  		}
+522e92743b3535 Thomas Gleixner           2021-06-23  1150  	}
+522e92743b3535 Thomas Gleixner           2021-06-23  1151  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1152  	for (i = 0; i < XFEATURE_MAX; i++) {
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1153  		u64 mask = ((u64)1 << i);
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1154  
+b89eda482d7849 Eric Biggers              2017-09-24  1155  		if (hdr.xfeatures & mask) {
+07baeb04f37c95 Sebastian Andrzej Siewior 2019-04-03  1156  			void *dst = __raw_xsave_addr(xsave, i);
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1157  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1158  			offset = xstate_offsets[i];
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1159  			size = xstate_sizes[i];
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1160  
+522e92743b3535 Thomas Gleixner           2021-06-23  1161  			if (copy_from_buffer(dst, offset, size, kbuf, ubuf))
+522e92743b3535 Thomas Gleixner           2021-06-23  1162  				return -EFAULT;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1163  		}
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1164  	}
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1165  
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1166  	if (hdr.xfeatures & XFEATURE_MASK_PKRU) {
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1167  		struct pkru_state *xpkru;
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1168  
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1169  		xpkru = __raw_xsave_addr(xsave, XFEATURE_PKRU);
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1170  		*pkru = xpkru->pkru;
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1171  	}
+3f1c81426a9f1c Kyle Huey                 2023-01-09  1172  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1173  	/*
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1174  	 * The state that came in from userspace was user-state only.
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1175  	 * Mask all the user states out of 'xfeatures':
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1176  	 */
+8ab22804efefea Fenghua Yu                2020-05-12  1177  	xsave->header.xfeatures &= XFEATURE_MASK_SUPERVISOR_ALL;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1178  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1179  	/*
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1180  	 * Add back in the features that came in from userspace:
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1181  	 */
+b89eda482d7849 Eric Biggers              2017-09-24  1182  	xsave->header.xfeatures |= hdr.xfeatures;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1183  
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1184  	return 0;
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1185  }
+79fecc2b7506f2 Ingo Molnar               2017-09-23  1186  
+
+:::::: The code at line 1119 was first introduced by commit
+:::::: 79fecc2b7506f29fb91becc65e8788e5ae7eba9f x86/fpu: Split copy_user_to_xstate() into copy_kernel_to_xstate() & copy_user_to_xstate()
+
+:::::: TO: Ingo Molnar <mingo@kernel.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
