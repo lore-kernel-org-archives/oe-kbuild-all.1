@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB6F14294
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 13:40:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472561427B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 13:52:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692279651; x=1723815651;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M17NeQawyKXZRQ2/7UMBxxYUf89dEiKQfdMTFMzD1nc=;
-  b=VC4orm6UuVZc7wAofftwFFNhrAdFl3z7+fMhzGs5VykbmdQJbNsG8/2P
-   d45T8XxQei3llRAhBzwvNVf+RJ8WgdzpL0oqMWGgWxFF6M+ff9ufv9Hjg
-   qbTGpycXEoJYRLvuc6N9lZ7sVzfGhsj5V4g+ykAPzlbxyRccQ5BeeY12s
-   ekBzyPbxavASP/WlB81DhMn4zi9JyATgIDAd5fvTI+qzwG8LwYNTNHLmd
-   ZrsHa+0hK6mBhUrxvyk20FsP9Z5e+YYDxzBz6OpELy75ERRlOuacmV6v+
-   8SBDf6LuVtT7FJPPPg4iwHOtdR/ybCh09CG2W2vmCyQTdgIvkQJUKoy+X
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371717263"
+  t=1692280321; x=1723816321;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ybU6e8geY1eeXxF+XaiJNfdMRf/IoL/rR9gqf/SzgWw=;
+  b=S7zvUP7BCjsbaI1MwVAW6gBJI1oNqnLMJ5/egur7Nhu4dMK6gzcbh15o
+   d+kHIMSFTK08+dJOl76CHcoV9uUU+MH4YUwQdhQ2G4CQYm0yNL8DDNKo/
+   H79stMGcEQx55LvWz8tYtv4QMJRdTv90sn6XpLlC9Dl7soGlvf0fa9y11
+   cc2nDyDoGyPwv/mbIIOtABWZpm9pL73eVXUb7/LhR+mKMKXXZA10sgIv3
+   FMV5Fw2Bo3LdCm9dZVv+hkLpyaqvkkHD/qCmwnC59/LladlpzB6IlIbFL
+   e5PYbspZPW6ZUyWYjTcbKPTgEi9gEYsnsCDx9gx9vgSN7o8ethW3e9FGj
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="362976000"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="371717263"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:40:47 -0700
+   d="scan'208";a="362976000"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:40:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="908411157"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="737716593"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="908411157"
+   d="scan'208";a="737716593"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 17 Aug 2023 06:40:43 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 17 Aug 2023 06:40:43 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWdEw-0001Ap-1O;
+	id 1qWdEw-0001Ar-1S;
 	Thu, 17 Aug 2023 13:40:42 +0000
-Date: Thu, 17 Aug 2023 21:39:51 +0800
+Date: Thu, 17 Aug 2023 21:39:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shenghao Ding <shenghao-ding@ti.com>, tiwai@suse.de
-Cc: oe-kbuild-all@lists.linux.dev, robh+dt@kernel.org, lgirdwood@gmail.com,
-	perex@perex.cz, pierre-louis.bossart@linux.intel.com,
-	kevin-lu@ti.com, 13916275206@139.com, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org, liam.r.girdwood@intel.com,
-	mengdong.lin@intel.com, baojun.xu@ti.com, thomas.gfeller@q-drop.com,
-	peeyush@ti.com, navada@ti.com, broonie@kernel.org,
-	gentuser@gmail.com, Shenghao Ding <shenghao-ding@ti.com>
-Subject: Re: [PATCH v3 1/2] ALSA: hda/tas2781: Add tas2781 HDA driver
-Message-ID: <202308172137.SthCPFbA-lkp@intel.com>
-References: <20230817082606.940-1-shenghao-ding@ti.com>
+To: Chris Lew <quic_clew@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Deepak Kumar Singh <quic_deesin@quicinc.com>,
+	Sarannya S <quic_sarannya@quicinc.com>
+Subject: [linux-next:master 1976/10848] drivers/rpmsg/rpmsg_char.c:75:
+ warning: Function parameter or member 'remote_flow_restricted' not described
+ in 'rpmsg_eptdev'
+Message-ID: <202308172148.PPKMOAI8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,257 +50,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230817082606.940-1-shenghao-ding@ti.com>
 
-Hi Shenghao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tiwai-sound/for-linus]
-[also build test WARNING on linus/master v6.5-rc6]
-[cannot apply to tiwai-sound/for-next next-20230817]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shenghao-Ding/ALSA-hda-tas2781-Add-tas2781-HDA-driver/20230817-162901
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-linus
-patch link:    https://lore.kernel.org/r/20230817082606.940-1-shenghao-ding%40ti.com
-patch subject: [PATCH v3 1/2] ALSA: hda/tas2781: Add tas2781 HDA driver
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230817/202308172137.SthCPFbA-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172137.SthCPFbA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47762f08697484cf0c2f2904b8c52375ed26c8cb
+commit: 5550201c0fe26a76c53983bd36a58d4c4395ec22 [1976/10848] rpmsg: char: Add RPMSG GET/SET FLOWCONTROL IOCTL support
+config: m68k-randconfig-r031-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172148.PPKMOAI8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172148.PPKMOAI8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172137.SthCPFbA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172148.PPKMOAI8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/irqflags.h:18,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from sound/pci/hda/tas2781_hda_i2c.c:9:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   sound/pci/hda/tas2781_hda_i2c.c: In function 'tasdevice_set_profile_id':
->> sound/pci/hda/tas2781_hda_i2c.c:192:13: warning: variable 'val' set but not used [-Wunused-but-set-variable]
-     192 |         int val, ret = 0;
-         |             ^~~
-   sound/pci/hda/tas2781_hda_i2c.c: In function 'tasdevice_program_put':
-   sound/pci/hda/tas2781_hda_i2c.c:249:13: warning: variable 'val' set but not used [-Wunused-but-set-variable]
-     249 |         int val, ret = 0;
-         |             ^~~
-   sound/pci/hda/tas2781_hda_i2c.c: In function 'tasdevice_config_put':
-   sound/pci/hda/tas2781_hda_i2c.c:278:13: warning: variable 'val' set but not used [-Wunused-but-set-variable]
-     278 |         int val, ret = 0;
-         |             ^~~
+>> drivers/rpmsg/rpmsg_char.c:75: warning: Function parameter or member 'remote_flow_restricted' not described in 'rpmsg_eptdev'
+>> drivers/rpmsg/rpmsg_char.c:75: warning: Function parameter or member 'remote_flow_updated' not described in 'rpmsg_eptdev'
 
 
-vim +/val +192 sound/pci/hda/tas2781_hda_i2c.c
+vim +75 drivers/rpmsg/rpmsg_char.c
 
-     8	
-   > 9	#include <linux/acpi.h>
-    10	#include <linux/crc8.h>
-    11	#include <linux/crc32.h>
-    12	#include <linux/efi.h>
-    13	#include <linux/firmware.h>
-    14	#include <linux/i2c.h>
-    15	#include <linux/mod_devicetable.h>
-    16	#include <linux/module.h>
-    17	#include <linux/pm_runtime.h>
-    18	#include <linux/regmap.h>
-    19	#include <sound/hda_codec.h>
-    20	#include <sound/soc.h>
-    21	#include <sound/tas2781.h>
-    22	#include <sound/tlv.h>
-    23	#include <sound/tas2781-tlv.h>
-    24	
-    25	#include "hda_local.h"
-    26	#include "hda_auto_parser.h"
-    27	#include "hda_component.h"
-    28	#include "hda_jack.h"
-    29	#include "hda_generic.h"
-    30	
-    31	#define TASDEVICE_SPEAKER_CALIBRATION_SIZE	20
-    32	
-    33	/* No standard control callbacks for SNDRV_CTL_ELEM_IFACE_CARD
-    34	 * Define two controls, one is Volume control callbacks, the other is
-    35	 * flag setting control callbacks.
-    36	 */
-    37	
-    38	/* Volume control callbacks for tas2781 */
-    39	#define ACARD_SINGLE_RANGE_EXT_TLV(xname, xreg, xshift, xmin, xmax, xinvert, \
-    40		xhandler_get, xhandler_put, tlv_array) \
-    41	{	.iface = SNDRV_CTL_ELEM_IFACE_CARD, .name = (xname),\
-    42		.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |\
-    43			 SNDRV_CTL_ELEM_ACCESS_READWRITE,\
-    44		.tlv.p = (tlv_array), \
-    45		.info = snd_soc_info_volsw_range, \
-    46		.get = xhandler_get, .put = xhandler_put, \
-    47		.private_value = (unsigned long)&(struct soc_mixer_control) \
-    48			{.reg = xreg, .rreg = xreg, .shift = xshift, \
-    49			 .rshift = xshift, .min = xmin, .max = xmax, \
-    50			 .invert = xinvert} }
-    51	
-    52	/* Flag control callbacks for tas2781 */
-    53	#define ACARD_SINGLE_BOOL_EXT(xname, xdata, xhandler_get, xhandler_put) \
-    54	{	.iface = SNDRV_CTL_ELEM_IFACE_CARD, .name = xname, \
-    55		.info = snd_ctl_boolean_mono_info, \
-    56		.get = xhandler_get, .put = xhandler_put, \
-    57		.private_value = xdata }
-    58	
-    59	enum calib_data {
-    60		R0_VAL = 0,
-    61		INV_R0,
-    62		R0LOW,
-    63		POWER,
-    64		TLIM,
-    65		CALIB_MAX
-    66	};
-    67	
-    68	static int tas2781_get_i2c_res(struct acpi_resource *ares, void *data)
-    69	{
-    70		struct tasdevice_priv *tas_priv = data;
-    71		struct acpi_resource_i2c_serialbus *sb;
-    72	
-    73		if (i2c_acpi_get_i2c_resource(ares, &sb)) {
-    74			if (tas_priv->ndev < TASDEVICE_MAX_CHANNELS &&
-    75				sb->slave_address != TAS2781_GLOBAL_ADDR) {
-    76				tas_priv->tasdevice[tas_priv->ndev].dev_addr =
-    77					(unsigned int)sb->slave_address;
-    78				tas_priv->ndev++;
-    79			}
-    80		}
-    81		return 1;
-    82	}
-    83	
-    84	static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
-    85	{
-    86		struct acpi_device *adev;
-    87		struct device *physdev;
-    88		LIST_HEAD(resources);
-    89		const char *sub;
-    90		int ret;
-    91	
-    92		adev = acpi_dev_get_first_match_dev(hid, NULL, -1);
-    93		if (!adev) {
-    94			dev_err(p->dev,
-    95				"Failed to find an ACPI device for %s\n", hid);
-    96			return -ENODEV;
-    97		}
-    98	
-    99		ret = acpi_dev_get_resources(adev, &resources, tas2781_get_i2c_res, p);
-   100		if (ret < 0)
-   101			goto err;
-   102	
-   103		acpi_dev_free_resource_list(&resources);
-   104		strscpy(p->dev_name, hid, sizeof(p->dev_name));
-   105		physdev = get_device(acpi_get_first_physical_node(adev));
-   106		acpi_dev_put(adev);
-   107	
-   108		/* No side-effect to the playback even if subsystem_id is NULL*/
-   109		sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
-   110		if (IS_ERR(sub))
-   111			sub = NULL;
-   112	
-   113		p->acpi_subsystem_id = sub;
-   114	
-   115		put_device(physdev);
-   116	
-   117		return 0;
-   118	
-   119	err:
-   120		dev_err(p->dev, "read acpi error, ret: %d\n", ret);
-   121		put_device(physdev);
-   122	
-   123		return ret;
-   124	}
-   125	
-   126	static void tas2781_hda_playback_hook(struct device *dev, int action)
-   127	{
-   128		struct tasdevice_priv *tas_priv = dev_get_drvdata(dev);
-   129	
-   130		dev_dbg(tas_priv->dev, "%s: action = %d\n", __func__, action);
-   131		switch (action) {
-   132		case HDA_GEN_PCM_ACT_OPEN:
-   133			pm_runtime_get_sync(dev);
-   134			mutex_lock(&tas_priv->codec_lock);
-   135			tasdevice_tuning_switch(tas_priv, 0);
-   136			mutex_unlock(&tas_priv->codec_lock);
-   137			break;
-   138		case HDA_GEN_PCM_ACT_CLOSE:
-   139			mutex_lock(&tas_priv->codec_lock);
-   140			tasdevice_tuning_switch(tas_priv, 1);
-   141			mutex_unlock(&tas_priv->codec_lock);
-   142	
-   143			pm_runtime_mark_last_busy(dev);
-   144			pm_runtime_put_autosuspend(dev);
-   145			break;
-   146		default:
-   147			dev_dbg(tas_priv->dev, "Playback action not supported: %d\n",
-   148				action);
-   149			break;
-   150		}
-   151	}
-   152	
-   153	static int tasdevice_info_profile(struct snd_kcontrol *kcontrol,
-   154				struct snd_ctl_elem_info *uinfo)
-   155	{
-   156		struct tasdevice_priv *tas_priv = snd_kcontrol_chip(kcontrol);
-   157	
-   158		uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-   159		uinfo->count = 1;
-   160		uinfo->value.integer.min = 0;
-   161		uinfo->value.integer.max = tas_priv->rcabin.ncfgs - 1;
-   162	
-   163		return 0;
-   164	}
-   165	
-   166	static int tasdevice_get_profile_id(struct snd_kcontrol *kcontrol,
-   167				struct snd_ctl_elem_value *ucontrol)
-   168	{
-   169		struct tasdevice_priv *tas_priv = snd_kcontrol_chip(kcontrol);
-   170	
-   171		ucontrol->value.integer.value[0] = tas_priv->rcabin.profile_cfg_id;
-   172	
-   173		return 0;
-   174	}
-   175	
-   176	static int tasdevice_hda_clamp(int val, int max)
-   177	{
-   178		if (val > max)
-   179			val = max;
-   180	
-   181		if (val < 0)
-   182			val = 0;
-   183		return val;
-   184	}
-   185	
-   186	static int tasdevice_set_profile_id(struct snd_kcontrol *kcontrol,
-   187			struct snd_ctl_elem_value *ucontrol)
-   188	{
-   189		struct tasdevice_priv *tas_priv = snd_kcontrol_chip(kcontrol);
-   190		int nr_profile = ucontrol->value.integer.value[0];
-   191		int max = tas_priv->rcabin.ncfgs - 1;
- > 192		int val, ret = 0;
-   193	
-   194		val = tasdevice_hda_clamp(nr_profile, max);
-   195	
-   196		if (tas_priv->rcabin.profile_cfg_id != nr_profile) {
-   197			tas_priv->rcabin.profile_cfg_id = nr_profile;
-   198			ret = 1;
-   199		}
-   200	
-   201		return ret;
-   202	}
-   203	
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  41  
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  42  /**
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  43   * struct rpmsg_eptdev - endpoint device context
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  44   * @dev:	endpoint device
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  45   * @cdev:	cdev for the endpoint device
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  46   * @rpdev:	underlaying rpmsg device
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  47   * @chinfo:	info used to open the endpoint
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  48   * @ept_lock:	synchronization of @ept modifications
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  49   * @ept:	rpmsg endpoint reference, when open
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  50   * @queue_lock:	synchronization of @queue operations
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  51   * @queue:	incoming message queue
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  52   * @readq:	wait object for incoming queue
+bea9b79c2d10fe Arnaud Pouliquen 2022-01-24  53   * @default_ept: set to channel default endpoint if the default endpoint should be re-used
+bea9b79c2d10fe Arnaud Pouliquen 2022-01-24  54   *              on device open to prevent endpoint address update.
+5550201c0fe26a Chris Lew        2023-07-07  55   * remote_flow_restricted: to indicate if the remote has requested for flow to be limited
+5550201c0fe26a Chris Lew        2023-07-07  56   * remote_flow_updated: to indicate if the flow control has been requested
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  57   */
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  58  struct rpmsg_eptdev {
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  59  	struct device dev;
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  60  	struct cdev cdev;
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  61  
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  62  	struct rpmsg_device *rpdev;
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  63  	struct rpmsg_channel_info chinfo;
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  64  
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  65  	struct mutex ept_lock;
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  66  	struct rpmsg_endpoint *ept;
+bea9b79c2d10fe Arnaud Pouliquen 2022-01-24  67  	struct rpmsg_endpoint *default_ept;
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  68  
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  69  	spinlock_t queue_lock;
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  70  	struct sk_buff_head queue;
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  71  	wait_queue_head_t readq;
+bea9b79c2d10fe Arnaud Pouliquen 2022-01-24  72  
+5550201c0fe26a Chris Lew        2023-07-07  73  	bool remote_flow_restricted;
+5550201c0fe26a Chris Lew        2023-07-07  74  	bool remote_flow_updated;
+c0cdc19f84a471 Bjorn Andersson  2017-01-11 @75  };
+c0cdc19f84a471 Bjorn Andersson  2017-01-11  76  
+
+:::::: The code at line 75 was first introduced by commit
+:::::: c0cdc19f84a4712cf74888f83af286e3c2e14efd rpmsg: Driver for user space endpoint interface
+
+:::::: TO: Bjorn Andersson <bjorn.andersson@linaro.org>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
