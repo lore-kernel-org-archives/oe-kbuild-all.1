@@ -1,44 +1,25 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A818AD2F1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 08:17:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692260276; x=1723796276;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ER+vPI4lDQFaR/UT3asH0oLGVkhxE58YGH7Um+/Pxaw=;
-  b=nEtm37dUeXCLaPzhDebi18t41OlCePvrceWNovRZKlyayk0pKqDCVFPv
-   rj4VAVLn1BdyJOw3qJ0nsh2u1MK8SXYlxQjELJXyAlI3efwVaMjUzVDG8
-   NK5URDyxNxVOLy79u9eFCIV+Wdqxw5VceqEwBHxIDO3QVkSvpHZa+XvW9
-   HtZuI5GQbG47Vh1drYqKx0YHPIff9HlS1aCjRYogrRb/PzB5S//h1ft95
-   L137Lg95o4RSWV7o6iMbh69rmaELpxwN1YGjVesjPxl2kbWo9ERub06j1
-   GN1vGdVD5FsR3Vcf0TV8QsRoWysSsE/tO0+90EvyrlEgs2m0Grb2+q6jA
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="353063408"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="353063408"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 01:17:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="769524778"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="769524778"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 17 Aug 2023 01:17:51 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qWYCU-0000wT-1L;
-	Thu, 17 Aug 2023 08:17:50 +0000
-Date: Thu, 17 Aug 2023 16:17:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: drivers/scsi/mpi3mr/mpi3mr_transport.c:695: warning: Function
- parameter or member 'port_id' not described in 'mpi3mr_get_hba_port_by_id'
-Message-ID: <202308171606.rcBEycYE-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16608DF56;
+	Thu, 17 Aug 2023 08:26:32 +0000 (UTC)
+Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
+	(envelope-from <fw@strlen.de>)
+	id 1qWYKg-00083x-D1; Thu, 17 Aug 2023 10:26:18 +0200
+Date: Thu, 17 Aug 2023 10:26:18 +0200
+From: Florian Westphal <fw@strlen.de>
+To: Kees Cook <keescook@chromium.org>
+Cc: "GONG, Ruiqi" <gongruiqi1@huawei.com>,
+	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Florian Westphal <fw@strlen.de>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [netfilter-nf-next:testing 2/9]
+ ./usr/include/linux/netfilter_bridge/ebtables.h:163:26: warning: field
+ 'target' with variable sized type 'struct ebt_entry_target' not at the end
+ of a struct or class is a GNU extension
+Message-ID: <20230817082618.GE4312@breakpoint.cc>
+References: <202308171249.g1ywxhII-lkp@intel.com>
+ <202308162257.F7876776C9@keescook>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,40 +28,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202308162257.F7876776C9@keescook>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: 125ad1e6b445e8538e50d77d9c82ec811e98895e scsi: mpi3mr: Add helper functions to retrieve device objects
-date:   12 months ago
-config: microblaze-randconfig-r032-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171606.rcBEycYE-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171606.rcBEycYE-lkp@intel.com/reproduce)
+Kees Cook <keescook@chromium.org> wrote:
+> On Thu, Aug 17, 2023 at 01:03:20PM +0800, kernel test robot wrote:
+> > tree:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git testing
+> > head:   015e2d9101d3713c7bee16dccad171df04a3bbd5
+> > commit: 61b9e6bd48a6317c0a44ee4f3fecdec9de5baa9e [2/9] netfilter: ebtables: replace zero-length array members
+> > config: i386-buildonly-randconfig-r004-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171249.g1ywxhII-lkp@intel.com/config)
+> > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> > reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171249.g1ywxhII-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202308171249.g1ywxhII-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    In file included from <built-in>:1:
+> > >> ./usr/include/linux/netfilter_bridge/ebtables.h:163:26: warning: field 'target' with variable sized type 'struct ebt_entry_target' not at the end of a struct or class is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
+> >            struct ebt_entry_target target;
+> >                                    ^
+> >    1 warning generated.
+> 
+> Eww, it looks like "struct ebt_entry_target" is used _within_ another
+> struct:
+> 
+> struct ebt_standard_target {
+>         struct ebt_entry_target target;
+>         int verdict;
+> };
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171606.rcBEycYE-lkp@intel.com/
+Yes, same as xt_standard_target.
 
-All warnings (new ones prefixed by >>):
+> These have been fixed in the past in a variety of ways -- it all depends
+> on how userspace is using them. In looking at Debian Code Search:
+> https://codesearch.debian.net/search?q=struct+ebt_standard_target&literal=1
+> 
+> It is exclusively doing casts and looking at the "verdict" member. So
+> the easiest conversion might be this:
+> 
+>  struct ebt_standard_target {
+> -       struct ebt_entry_target target;
+> +       unsigned char hdr[sizeof(struct ebt_entry_target)];
+>         int verdict;
 
->> drivers/scsi/mpi3mr/mpi3mr_transport.c:695: warning: Function parameter or member 'port_id' not described in 'mpi3mr_get_hba_port_by_id'
+I don't think its worth doing all of this.
 
-
-vim +695 drivers/scsi/mpi3mr/mpi3mr_transport.c
-
-   684	
-   685	/**
-   686	 * mpi3mr_get_hba_port_by_id - find hba port by id
-   687	 * @mrioc: Adapter instance reference
-   688	 * @port_id - Port ID to search
-   689	 *
-   690	 * Return: mpi3mr_hba_port reference for the matched port
-   691	 */
-   692	
-   693	struct mpi3mr_hba_port *mpi3mr_get_hba_port_by_id(struct mpi3mr_ioc *mrioc,
-   694		u8 port_id)
- > 695	{
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Can't we just keep it as-is and drop the relevant hunk from the patch?
