@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762F18F73;
-	Thu, 17 Aug 2023 08:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035C81095A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 09:13:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692262286; x=1723798286;
+  t=1692263606; x=1723799606;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G+sD21mSO4RQ/MWPZoiuurSIscQTO0adfME4a4DPXt0=;
-  b=SX0KocneYwK9Rs+kKtJ5FbW7s/XwTn77YmjNZAMcLdW9HKurEUuVJLfj
-   qxXwDFMYgqfF5neDOaG48/2lCBNeJGJ/BbYvkXkuOT78954GyrqttNvx5
-   /5QwY93dhQdEwnxekY6eHbWpaoHCIlmOuRDgk6jWNkosHOkBYR0Kvjbxf
-   jnI2M8bJ5U/DVyRVnVWqpnvZX1SCrpVXdfGZOrMiBMei1i1av7lhOSxeR
-   TNIvYK8dVtwA8rgrMzYULQB6/2CARZT2jXPSXWid9G/OU82wryk5c7DV8
-   ESt4XDQ5f9CzVE/il5EoJWYY/ZIn0z6HtvApH/d5DkIfJIKuu1tDCW63/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="357718458"
+  bh=hb2I16/PcBXDU/MC/rPsad+K7woUW/aRaHMiIrqhuPA=;
+  b=dxSQP71k3FEEaWoypesun5jcE2uhzghNQtm+1STvuB3at1Feb/6+opfV
+   GDultLND2SRIiEFAs0gbjmFCNhYcWiRtX3HRpD3tvn4AHtsA/36xdxk2G
+   nFxgHodCedSxI4jfgsHt4Le1nUOkvC65fK4csQcl055hPYUpmdUaWHlbR
+   913k0wHnv+HS7CTXgV5B5NCFEQu4GVFPTXQkjIhr5zxudWVYU5ZXty3Gv
+   KNsaLamfFfGofgtLpIJwtkwJmLEC+z68dueiSAcsmiGpVuSW3KVFXQwLT
+   pmoPQ4c7t6eljrnrwyUfM9cqlNUXXQ/opOwUxM8ej+TjzoZqwZlJRgDNM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375522888"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="357718458"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 01:51:23 -0700
+   d="scan'208";a="375522888"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 02:13:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="804552162"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="763983671"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="804552162"
+   d="scan'208";a="763983671"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Aug 2023 01:51:21 -0700
+  by orsmga008.jf.intel.com with ESMTP; 17 Aug 2023 02:13:22 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWYiu-0000y9-2K;
-	Thu, 17 Aug 2023 08:51:20 +0000
-Date: Thu, 17 Aug 2023 16:50:59 +0800
+	id 1qWZ4D-0000zZ-2J;
+	Thu, 17 Aug 2023 09:13:21 +0000
+Date: Thu, 17 Aug 2023 17:12:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: sound/ac97/bus.c:192: warning: Function parameter or member 'drv'
- not described in 'snd_ac97_codec_driver_register'
-Message-ID: <202308171657.J7S4SHI3-lkp@intel.com>
+To: Dean Luick <dean.luick@cornelisnetworks.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+Subject: [cornelisnetworks:for-upstream_20230815-1 8/26]
+ drivers/infiniband/hw/hfi1/init.c:1213: warning: Function parameter or
+ member 'params' not described in 'hfi1_alloc_devdata'
+Message-ID: <202308171720.XYG9JyX1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,238 +48,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: 5eab9265759e2fb042aa452931c3d06ab7ab8dae ASoC: PXA: make SND_PXA2XX_SOC_AC97 user-selectable
-date:   7 months ago
-config: arm-randconfig-r012-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171657.J7S4SHI3-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171657.J7S4SHI3-lkp@intel.com/reproduce)
+tree:   https://github.com/cornelisnetworks/linux.git for-upstream_20230815-1
+head:   0abd733228fcd2852956680f4afba278548db977
+commit: 3b7ed883d98076202b7be0801cca71f5829decd3 [8/26] RDMA/hfi1: Add per-ASIC parameter structure
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230817/202308171720.XYG9JyX1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171720.XYG9JyX1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171657.J7S4SHI3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171720.XYG9JyX1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/ac97/bus.c:192: warning: Function parameter or member 'drv' not described in 'snd_ac97_codec_driver_register'
->> sound/ac97/bus.c:192: warning: Excess function parameter 'dev' description in 'snd_ac97_codec_driver_register'
->> sound/ac97/bus.c:205: warning: Function parameter or member 'drv' not described in 'snd_ac97_codec_driver_unregister'
->> sound/ac97/bus.c:205: warning: Excess function parameter 'dev' description in 'snd_ac97_codec_driver_unregister'
->> sound/ac97/bus.c:351: warning: Function parameter or member 'codecs_pdata' not described in 'snd_ac97_controller_register'
+>> drivers/infiniband/hw/hfi1/init.c:1213: warning: Function parameter or member 'params' not described in 'hfi1_alloc_devdata'
+>> drivers/infiniband/hw/hfi1/init.c:1213: warning: Excess function parameter 'extra' description in 'hfi1_alloc_devdata'
 
 
-vim +192 sound/ac97/bus.c
+vim +1213 drivers/infiniband/hw/hfi1/init.c
 
-74426fbff66eea Robert Jarzmik   2017-09-02  181  
-74426fbff66eea Robert Jarzmik   2017-09-02  182  /**
-74426fbff66eea Robert Jarzmik   2017-09-02  183   * snd_ac97_codec_driver_register - register an AC97 codec driver
-74426fbff66eea Robert Jarzmik   2017-09-02  184   * @dev: AC97 driver codec to register
-74426fbff66eea Robert Jarzmik   2017-09-02  185   *
-74426fbff66eea Robert Jarzmik   2017-09-02  186   * Register an AC97 codec driver to the ac97 bus driver, aka. the AC97 digital
-74426fbff66eea Robert Jarzmik   2017-09-02  187   * controller.
-74426fbff66eea Robert Jarzmik   2017-09-02  188   *
-74426fbff66eea Robert Jarzmik   2017-09-02  189   * Returns 0 on success or error code
-74426fbff66eea Robert Jarzmik   2017-09-02  190   */
-74426fbff66eea Robert Jarzmik   2017-09-02  191  int snd_ac97_codec_driver_register(struct ac97_codec_driver *drv)
-74426fbff66eea Robert Jarzmik   2017-09-02 @192  {
-74426fbff66eea Robert Jarzmik   2017-09-02  193  	drv->driver.bus = &ac97_bus_type;
-74426fbff66eea Robert Jarzmik   2017-09-02  194  	return driver_register(&drv->driver);
-74426fbff66eea Robert Jarzmik   2017-09-02  195  }
-74426fbff66eea Robert Jarzmik   2017-09-02  196  EXPORT_SYMBOL_GPL(snd_ac97_codec_driver_register);
-74426fbff66eea Robert Jarzmik   2017-09-02  197  
-74426fbff66eea Robert Jarzmik   2017-09-02  198  /**
-74426fbff66eea Robert Jarzmik   2017-09-02  199   * snd_ac97_codec_driver_unregister - unregister an AC97 codec driver
-74426fbff66eea Robert Jarzmik   2017-09-02  200   * @dev: AC97 codec driver to unregister
-74426fbff66eea Robert Jarzmik   2017-09-02  201   *
-74426fbff66eea Robert Jarzmik   2017-09-02  202   * Unregister a previously registered ac97 codec driver.
-74426fbff66eea Robert Jarzmik   2017-09-02  203   */
-74426fbff66eea Robert Jarzmik   2017-09-02  204  void snd_ac97_codec_driver_unregister(struct ac97_codec_driver *drv)
-74426fbff66eea Robert Jarzmik   2017-09-02 @205  {
-74426fbff66eea Robert Jarzmik   2017-09-02  206  	driver_unregister(&drv->driver);
-74426fbff66eea Robert Jarzmik   2017-09-02  207  }
-74426fbff66eea Robert Jarzmik   2017-09-02  208  EXPORT_SYMBOL_GPL(snd_ac97_codec_driver_unregister);
-74426fbff66eea Robert Jarzmik   2017-09-02  209  
-74426fbff66eea Robert Jarzmik   2017-09-02  210  /**
-74426fbff66eea Robert Jarzmik   2017-09-02  211   * snd_ac97_codec_get_platdata - get platform_data
-74426fbff66eea Robert Jarzmik   2017-09-02  212   * @adev: the ac97 codec device
-74426fbff66eea Robert Jarzmik   2017-09-02  213   *
-74426fbff66eea Robert Jarzmik   2017-09-02  214   * For legacy platforms, in order to have platform_data in codec drivers
-74426fbff66eea Robert Jarzmik   2017-09-02  215   * available, while ac97 device are auto-created upon probe, this retrieves the
-74426fbff66eea Robert Jarzmik   2017-09-02  216   * platdata which was setup on ac97 controller registration.
-74426fbff66eea Robert Jarzmik   2017-09-02  217   *
-74426fbff66eea Robert Jarzmik   2017-09-02  218   * Returns the platform data pointer
-74426fbff66eea Robert Jarzmik   2017-09-02  219   */
-74426fbff66eea Robert Jarzmik   2017-09-02  220  void *snd_ac97_codec_get_platdata(const struct ac97_codec_device *adev)
-74426fbff66eea Robert Jarzmik   2017-09-02  221  {
-74426fbff66eea Robert Jarzmik   2017-09-02  222  	struct ac97_controller *ac97_ctrl = adev->ac97_ctrl;
-74426fbff66eea Robert Jarzmik   2017-09-02  223  
-74426fbff66eea Robert Jarzmik   2017-09-02  224  	return ac97_ctrl->codecs_pdata[adev->num];
-74426fbff66eea Robert Jarzmik   2017-09-02  225  }
-74426fbff66eea Robert Jarzmik   2017-09-02  226  EXPORT_SYMBOL_GPL(snd_ac97_codec_get_platdata);
-74426fbff66eea Robert Jarzmik   2017-09-02  227  
-74426fbff66eea Robert Jarzmik   2017-09-02  228  static void ac97_ctrl_codecs_unregister(struct ac97_controller *ac97_ctrl)
-74426fbff66eea Robert Jarzmik   2017-09-02  229  {
-74426fbff66eea Robert Jarzmik   2017-09-02  230  	int i;
-74426fbff66eea Robert Jarzmik   2017-09-02  231  
-74426fbff66eea Robert Jarzmik   2017-09-02  232  	for (i = 0; i < AC97_BUS_MAX_CODECS; i++)
-74426fbff66eea Robert Jarzmik   2017-09-02  233  		if (ac97_ctrl->codecs[i]) {
-74426fbff66eea Robert Jarzmik   2017-09-02  234  			ac97_ctrl->codecs[i]->ac97_ctrl = &ac97_unbound_ctrl;
-74426fbff66eea Robert Jarzmik   2017-09-02  235  			device_unregister(&ac97_ctrl->codecs[i]->dev);
-74426fbff66eea Robert Jarzmik   2017-09-02  236  		}
-74426fbff66eea Robert Jarzmik   2017-09-02  237  }
-74426fbff66eea Robert Jarzmik   2017-09-02  238  
-74426fbff66eea Robert Jarzmik   2017-09-02  239  static ssize_t cold_reset_store(struct device *dev,
-74426fbff66eea Robert Jarzmik   2017-09-02  240  				struct device_attribute *attr, const char *buf,
-74426fbff66eea Robert Jarzmik   2017-09-02  241  				size_t len)
-74426fbff66eea Robert Jarzmik   2017-09-02  242  {
-74426fbff66eea Robert Jarzmik   2017-09-02  243  	struct ac97_controller *ac97_ctrl;
-74426fbff66eea Robert Jarzmik   2017-09-02  244  
-74426fbff66eea Robert Jarzmik   2017-09-02  245  	mutex_lock(&ac97_controllers_mutex);
-74426fbff66eea Robert Jarzmik   2017-09-02  246  	ac97_ctrl = to_ac97_controller(dev);
-74426fbff66eea Robert Jarzmik   2017-09-02  247  	ac97_ctrl->ops->reset(ac97_ctrl);
-74426fbff66eea Robert Jarzmik   2017-09-02  248  	mutex_unlock(&ac97_controllers_mutex);
-74426fbff66eea Robert Jarzmik   2017-09-02  249  	return len;
-74426fbff66eea Robert Jarzmik   2017-09-02  250  }
-74426fbff66eea Robert Jarzmik   2017-09-02  251  static DEVICE_ATTR_WO(cold_reset);
-74426fbff66eea Robert Jarzmik   2017-09-02  252  
-74426fbff66eea Robert Jarzmik   2017-09-02  253  static ssize_t warm_reset_store(struct device *dev,
-74426fbff66eea Robert Jarzmik   2017-09-02  254  				struct device_attribute *attr, const char *buf,
-74426fbff66eea Robert Jarzmik   2017-09-02  255  				size_t len)
-74426fbff66eea Robert Jarzmik   2017-09-02  256  {
-74426fbff66eea Robert Jarzmik   2017-09-02  257  	struct ac97_controller *ac97_ctrl;
-74426fbff66eea Robert Jarzmik   2017-09-02  258  
-74426fbff66eea Robert Jarzmik   2017-09-02  259  	if (!dev)
-74426fbff66eea Robert Jarzmik   2017-09-02  260  		return -ENODEV;
-74426fbff66eea Robert Jarzmik   2017-09-02  261  
-74426fbff66eea Robert Jarzmik   2017-09-02  262  	mutex_lock(&ac97_controllers_mutex);
-74426fbff66eea Robert Jarzmik   2017-09-02  263  	ac97_ctrl = to_ac97_controller(dev);
-74426fbff66eea Robert Jarzmik   2017-09-02  264  	ac97_ctrl->ops->warm_reset(ac97_ctrl);
-74426fbff66eea Robert Jarzmik   2017-09-02  265  	mutex_unlock(&ac97_controllers_mutex);
-74426fbff66eea Robert Jarzmik   2017-09-02  266  	return len;
-74426fbff66eea Robert Jarzmik   2017-09-02  267  }
-74426fbff66eea Robert Jarzmik   2017-09-02  268  static DEVICE_ATTR_WO(warm_reset);
-74426fbff66eea Robert Jarzmik   2017-09-02  269  
-74426fbff66eea Robert Jarzmik   2017-09-02  270  static struct attribute *ac97_controller_device_attrs[] = {
-74426fbff66eea Robert Jarzmik   2017-09-02  271  	&dev_attr_cold_reset.attr,
-74426fbff66eea Robert Jarzmik   2017-09-02  272  	&dev_attr_warm_reset.attr,
-74426fbff66eea Robert Jarzmik   2017-09-02  273  	NULL
-74426fbff66eea Robert Jarzmik   2017-09-02  274  };
-74426fbff66eea Robert Jarzmik   2017-09-02  275  
-fa2e5a647ed2ed Rikard Falkeborn 2021-01-31  276  static const struct attribute_group ac97_adapter_attr_group = {
-74426fbff66eea Robert Jarzmik   2017-09-02  277  	.name	= "ac97_operations",
-74426fbff66eea Robert Jarzmik   2017-09-02  278  	.attrs	= ac97_controller_device_attrs,
-74426fbff66eea Robert Jarzmik   2017-09-02  279  };
-74426fbff66eea Robert Jarzmik   2017-09-02  280  
-74426fbff66eea Robert Jarzmik   2017-09-02  281  static const struct attribute_group *ac97_adapter_groups[] = {
-74426fbff66eea Robert Jarzmik   2017-09-02  282  	&ac97_adapter_attr_group,
-74426fbff66eea Robert Jarzmik   2017-09-02  283  	NULL,
-74426fbff66eea Robert Jarzmik   2017-09-02  284  };
-74426fbff66eea Robert Jarzmik   2017-09-02  285  
-74426fbff66eea Robert Jarzmik   2017-09-02  286  static void ac97_del_adapter(struct ac97_controller *ac97_ctrl)
-74426fbff66eea Robert Jarzmik   2017-09-02  287  {
-74426fbff66eea Robert Jarzmik   2017-09-02  288  	mutex_lock(&ac97_controllers_mutex);
-74426fbff66eea Robert Jarzmik   2017-09-02  289  	ac97_ctrl_codecs_unregister(ac97_ctrl);
-74426fbff66eea Robert Jarzmik   2017-09-02  290  	list_del(&ac97_ctrl->controllers);
-74426fbff66eea Robert Jarzmik   2017-09-02  291  	mutex_unlock(&ac97_controllers_mutex);
-74426fbff66eea Robert Jarzmik   2017-09-02  292  
-74426fbff66eea Robert Jarzmik   2017-09-02  293  	device_unregister(&ac97_ctrl->adap);
-74426fbff66eea Robert Jarzmik   2017-09-02  294  }
-74426fbff66eea Robert Jarzmik   2017-09-02  295  
-74426fbff66eea Robert Jarzmik   2017-09-02  296  static void ac97_adapter_release(struct device *dev)
-74426fbff66eea Robert Jarzmik   2017-09-02  297  {
-74426fbff66eea Robert Jarzmik   2017-09-02  298  	struct ac97_controller *ac97_ctrl;
-74426fbff66eea Robert Jarzmik   2017-09-02  299  
-74426fbff66eea Robert Jarzmik   2017-09-02  300  	ac97_ctrl = to_ac97_controller(dev);
-74426fbff66eea Robert Jarzmik   2017-09-02  301  	idr_remove(&ac97_adapter_idr, ac97_ctrl->nr);
-74426fbff66eea Robert Jarzmik   2017-09-02  302  	dev_dbg(&ac97_ctrl->adap, "adapter unregistered by %s\n",
-74426fbff66eea Robert Jarzmik   2017-09-02  303  		dev_name(ac97_ctrl->parent));
-74426fbff66eea Robert Jarzmik   2017-09-02  304  }
-74426fbff66eea Robert Jarzmik   2017-09-02  305  
-74426fbff66eea Robert Jarzmik   2017-09-02  306  static const struct device_type ac97_adapter_type = {
-74426fbff66eea Robert Jarzmik   2017-09-02  307  	.groups		= ac97_adapter_groups,
-74426fbff66eea Robert Jarzmik   2017-09-02  308  	.release	= ac97_adapter_release,
-74426fbff66eea Robert Jarzmik   2017-09-02  309  };
-74426fbff66eea Robert Jarzmik   2017-09-02  310  
-74426fbff66eea Robert Jarzmik   2017-09-02  311  static int ac97_add_adapter(struct ac97_controller *ac97_ctrl)
-74426fbff66eea Robert Jarzmik   2017-09-02  312  {
-74426fbff66eea Robert Jarzmik   2017-09-02  313  	int ret;
-74426fbff66eea Robert Jarzmik   2017-09-02  314  
-74426fbff66eea Robert Jarzmik   2017-09-02  315  	mutex_lock(&ac97_controllers_mutex);
-74426fbff66eea Robert Jarzmik   2017-09-02  316  	ret = idr_alloc(&ac97_adapter_idr, ac97_ctrl, 0, 0, GFP_KERNEL);
-74426fbff66eea Robert Jarzmik   2017-09-02  317  	ac97_ctrl->nr = ret;
-74426fbff66eea Robert Jarzmik   2017-09-02  318  	if (ret >= 0) {
-74426fbff66eea Robert Jarzmik   2017-09-02  319  		dev_set_name(&ac97_ctrl->adap, "ac97-%d", ret);
-74426fbff66eea Robert Jarzmik   2017-09-02  320  		ac97_ctrl->adap.type = &ac97_adapter_type;
-74426fbff66eea Robert Jarzmik   2017-09-02  321  		ac97_ctrl->adap.parent = ac97_ctrl->parent;
-74426fbff66eea Robert Jarzmik   2017-09-02  322  		ret = device_register(&ac97_ctrl->adap);
-74426fbff66eea Robert Jarzmik   2017-09-02  323  		if (ret)
-74426fbff66eea Robert Jarzmik   2017-09-02  324  			put_device(&ac97_ctrl->adap);
-74426fbff66eea Robert Jarzmik   2017-09-02  325  	}
-74426fbff66eea Robert Jarzmik   2017-09-02  326  	if (!ret)
-74426fbff66eea Robert Jarzmik   2017-09-02  327  		list_add(&ac97_ctrl->controllers, &ac97_controllers);
-74426fbff66eea Robert Jarzmik   2017-09-02  328  	mutex_unlock(&ac97_controllers_mutex);
-74426fbff66eea Robert Jarzmik   2017-09-02  329  
-74426fbff66eea Robert Jarzmik   2017-09-02  330  	if (!ret)
-74426fbff66eea Robert Jarzmik   2017-09-02  331  		dev_dbg(&ac97_ctrl->adap, "adapter registered by %s\n",
-74426fbff66eea Robert Jarzmik   2017-09-02  332  			dev_name(ac97_ctrl->parent));
-74426fbff66eea Robert Jarzmik   2017-09-02  333  	return ret;
-74426fbff66eea Robert Jarzmik   2017-09-02  334  }
-74426fbff66eea Robert Jarzmik   2017-09-02  335  
-74426fbff66eea Robert Jarzmik   2017-09-02  336  /**
-74426fbff66eea Robert Jarzmik   2017-09-02  337   * snd_ac97_controller_register - register an ac97 controller
-74426fbff66eea Robert Jarzmik   2017-09-02  338   * @ops: the ac97 bus operations
-74426fbff66eea Robert Jarzmik   2017-09-02  339   * @dev: the device providing the ac97 DC function
-74426fbff66eea Robert Jarzmik   2017-09-02  340   * @slots_available: mask of the ac97 codecs that can be scanned and probed
-74426fbff66eea Robert Jarzmik   2017-09-02  341   *                   bit0 => codec 0, bit1 => codec 1 ... bit 3 => codec 3
-74426fbff66eea Robert Jarzmik   2017-09-02  342   *
-74426fbff66eea Robert Jarzmik   2017-09-02  343   * Register a digital controller which can control up to 4 ac97 codecs. This is
-74426fbff66eea Robert Jarzmik   2017-09-02  344   * the controller side of the AC97 AC-link, while the slave side are the codecs.
-74426fbff66eea Robert Jarzmik   2017-09-02  345   *
-74426fbff66eea Robert Jarzmik   2017-09-02  346   * Returns a valid controller upon success, negative pointer value upon error
-74426fbff66eea Robert Jarzmik   2017-09-02  347   */
-74426fbff66eea Robert Jarzmik   2017-09-02  348  struct ac97_controller *snd_ac97_controller_register(
-74426fbff66eea Robert Jarzmik   2017-09-02  349  	const struct ac97_controller_ops *ops, struct device *dev,
-74426fbff66eea Robert Jarzmik   2017-09-02  350  	unsigned short slots_available, void **codecs_pdata)
-74426fbff66eea Robert Jarzmik   2017-09-02 @351  {
-74426fbff66eea Robert Jarzmik   2017-09-02  352  	struct ac97_controller *ac97_ctrl;
-74426fbff66eea Robert Jarzmik   2017-09-02  353  	int ret, i;
-74426fbff66eea Robert Jarzmik   2017-09-02  354  
-74426fbff66eea Robert Jarzmik   2017-09-02  355  	ac97_ctrl = kzalloc(sizeof(*ac97_ctrl), GFP_KERNEL);
-74426fbff66eea Robert Jarzmik   2017-09-02  356  	if (!ac97_ctrl)
-74426fbff66eea Robert Jarzmik   2017-09-02  357  		return ERR_PTR(-ENOMEM);
-74426fbff66eea Robert Jarzmik   2017-09-02  358  
-74426fbff66eea Robert Jarzmik   2017-09-02  359  	for (i = 0; i < AC97_BUS_MAX_CODECS && codecs_pdata; i++)
-74426fbff66eea Robert Jarzmik   2017-09-02  360  		ac97_ctrl->codecs_pdata[i] = codecs_pdata[i];
-74426fbff66eea Robert Jarzmik   2017-09-02  361  
-74426fbff66eea Robert Jarzmik   2017-09-02  362  	ac97_ctrl->ops = ops;
-74426fbff66eea Robert Jarzmik   2017-09-02  363  	ac97_ctrl->slots_available = slots_available;
-74426fbff66eea Robert Jarzmik   2017-09-02  364  	ac97_ctrl->parent = dev;
-74426fbff66eea Robert Jarzmik   2017-09-02  365  	ret = ac97_add_adapter(ac97_ctrl);
-74426fbff66eea Robert Jarzmik   2017-09-02  366  
-74426fbff66eea Robert Jarzmik   2017-09-02  367  	if (ret)
-74426fbff66eea Robert Jarzmik   2017-09-02  368  		goto err;
-74426fbff66eea Robert Jarzmik   2017-09-02  369  	ac97_bus_reset(ac97_ctrl);
-74426fbff66eea Robert Jarzmik   2017-09-02  370  	ac97_bus_scan(ac97_ctrl);
-74426fbff66eea Robert Jarzmik   2017-09-02  371  
-74426fbff66eea Robert Jarzmik   2017-09-02  372  	return ac97_ctrl;
-74426fbff66eea Robert Jarzmik   2017-09-02  373  err:
-74426fbff66eea Robert Jarzmik   2017-09-02  374  	kfree(ac97_ctrl);
-74426fbff66eea Robert Jarzmik   2017-09-02  375  	return ERR_PTR(ret);
-74426fbff66eea Robert Jarzmik   2017-09-02  376  }
-74426fbff66eea Robert Jarzmik   2017-09-02  377  EXPORT_SYMBOL_GPL(snd_ac97_controller_register);
-74426fbff66eea Robert Jarzmik   2017-09-02  378  
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1201  
+57f97e96625fe8 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2018-08-15  1202  /**
+57f97e96625fe8 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2018-08-15  1203   * hfi1_alloc_devdata - Allocate our primary per-unit data structure.
+57f97e96625fe8 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2018-08-15  1204   * @pdev: Valid PCI device
+57f97e96625fe8 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2018-08-15  1205   * @extra: How many bytes to alloc past the default
+57f97e96625fe8 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2018-08-15  1206   *
+57f97e96625fe8 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2018-08-15  1207   * Must be done via verbs allocator, because the verbs cleanup process
+57f97e96625fe8 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2018-08-15  1208   * both does cleanup and free of the data structure.
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1209   * "extra" is for chip-specific data.
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1210   */
+57f97e96625fe8 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2018-08-15  1211  static struct hfi1_devdata *hfi1_alloc_devdata(struct pci_dev *pdev,
+3b7ed883d98076 drivers/infiniband/hw/hfi1/init.c Dean Luick          2023-05-25  1212  					       const struct chip_params *params)
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30 @1213  {
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1214  	struct hfi1_devdata *dd;
+3b7ed883d98076 drivers/infiniband/hw/hfi1/init.c Dean Luick          2023-05-25  1215  	size_t extra;
+7af6d00654a16c drivers/staging/rdma/hfi1/init.c  Dennis Dalessandro  2016-01-19  1216  	int ret, nports;
+7af6d00654a16c drivers/staging/rdma/hfi1/init.c  Dennis Dalessandro  2016-01-19  1217  
+3b7ed883d98076 drivers/infiniband/hw/hfi1/init.c Dean Luick          2023-05-25  1218  	nports = params->num_ports;
+3b7ed883d98076 drivers/infiniband/hw/hfi1/init.c Dean Luick          2023-05-25  1219  	extra = nports * sizeof(struct hfi1_pportdata);
+7af6d00654a16c drivers/staging/rdma/hfi1/init.c  Dennis Dalessandro  2016-01-19  1220  	dd = (struct hfi1_devdata *)rvt_alloc_device(sizeof(*dd) + extra,
+7af6d00654a16c drivers/staging/rdma/hfi1/init.c  Dennis Dalessandro  2016-01-19  1221  						     nports);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1222  	if (!dd)
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1223  		return ERR_PTR(-ENOMEM);
+3b7ed883d98076 drivers/infiniband/hw/hfi1/init.c Dean Luick          2023-05-25  1224  	dd->params = params;
+7af6d00654a16c drivers/staging/rdma/hfi1/init.c  Dennis Dalessandro  2016-01-19  1225  	dd->num_pports = nports;
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1226  	dd->pport = (struct hfi1_pportdata *)(dd + 1);
+45d924571a5e13 drivers/infiniband/hw/hfi1/init.c Sebastian Sanchez   2018-05-01  1227  	dd->pcidev = pdev;
+45d924571a5e13 drivers/infiniband/hw/hfi1/init.c Sebastian Sanchez   2018-05-01  1228  	pci_set_drvdata(pdev, dd);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1229  
+03b92789e5cfda drivers/infiniband/hw/hfi1/init.c Matthew Wilcox      2019-02-08  1230  	ret = xa_alloc_irq(&hfi1_dev_table, &dd->unit, dd, xa_limit_32b,
+03b92789e5cfda drivers/infiniband/hw/hfi1/init.c Matthew Wilcox      2019-02-08  1231  			GFP_KERNEL);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1232  	if (ret < 0) {
+57f97e96625fe8 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2018-08-15  1233  		dev_err(&pdev->dev,
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1234  			"Could not allocate unit ID: error %d\n", -ret);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1235  		goto bail;
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1236  	}
+5084c8ff21f202 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2017-12-18  1237  	rvt_set_ibdev_name(&dd->verbs_dev.rdi, "%s_%d", class_name(), dd->unit);
+5de61a47eb9064 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-03-29  1238  	/*
+5de61a47eb9064 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-03-29  1239  	 * If the BIOS does not have the NUMA node information set, select
+5de61a47eb9064 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-03-29  1240  	 * NUMA 0 so we get consistent performance.
+5de61a47eb9064 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-03-29  1241  	 */
+5de61a47eb9064 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-03-29  1242  	dd->node = pcibus_to_node(pdev->bus);
+5de61a47eb9064 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-03-29  1243  	if (dd->node == NUMA_NO_NODE) {
+5de61a47eb9064 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-03-29  1244  		dd_dev_err(dd, "Invalid PCI NUMA node. Performance may be affected\n");
+5de61a47eb9064 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-03-29  1245  		dd->node = 0;
+5de61a47eb9064 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-03-29  1246  	}
+5084c8ff21f202 drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2017-12-18  1247  
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1248  	/*
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1249  	 * Initialize all locks for the device. This needs to be as early as
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1250  	 * possible so locks are usable.
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1251  	 */
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1252  	spin_lock_init(&dd->sc_lock);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1253  	spin_lock_init(&dd->sendctrl_lock);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1254  	spin_lock_init(&dd->rcvctrl_lock);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1255  	spin_lock_init(&dd->uctxt_lock);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1256  	spin_lock_init(&dd->hfi1_diag_trans_lock);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1257  	spin_lock_init(&dd->sc_init_lock);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1258  	spin_lock_init(&dd->dc8051_memlock);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1259  	seqlock_init(&dd->sc2vl_lock);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1260  	spin_lock_init(&dd->sde_map_lock);
+35f6befc8441d2 drivers/staging/rdma/hfi1/init.c  Jubin John          2016-02-14  1261  	spin_lock_init(&dd->pio_map_lock);
+22546b741af835 drivers/infiniband/hw/hfi1/init.c Tadeusz Struk       2017-04-28  1262  	mutex_init(&dd->dc8051_lock);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1263  	init_waitqueue_head(&dd->event_queue);
+a2f7bbdc2dba0e drivers/infiniband/hw/hfi1/init.c Michael J. Ruhl     2018-08-15  1264  	spin_lock_init(&dd->irq_src_lock);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1265  
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1266  	dd->int_counter = alloc_percpu(u64);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1267  	if (!dd->int_counter) {
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1268  		ret = -ENOMEM;
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1269  		goto bail;
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1270  	}
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1271  
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1272  	dd->rcv_limit = alloc_percpu(u64);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1273  	if (!dd->rcv_limit) {
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1274  		ret = -ENOMEM;
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1275  		goto bail;
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1276  	}
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1277  
+89abfc8d64dd1a drivers/staging/rdma/hfi1/init.c  Vennila Megavannan  2016-02-03  1278  	dd->send_schedule = alloc_percpu(u64);
+89abfc8d64dd1a drivers/staging/rdma/hfi1/init.c  Vennila Megavannan  2016-02-03  1279  	if (!dd->send_schedule) {
+89abfc8d64dd1a drivers/staging/rdma/hfi1/init.c  Vennila Megavannan  2016-02-03  1280  		ret = -ENOMEM;
+89abfc8d64dd1a drivers/staging/rdma/hfi1/init.c  Vennila Megavannan  2016-02-03  1281  		goto bail;
+89abfc8d64dd1a drivers/staging/rdma/hfi1/init.c  Vennila Megavannan  2016-02-03  1282  	}
+89abfc8d64dd1a drivers/staging/rdma/hfi1/init.c  Vennila Megavannan  2016-02-03  1283  
+1b311f8931cfe5 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2017-10-23  1284  	dd->tx_opstats = alloc_percpu(struct hfi1_opcode_stats_perctx);
+1b311f8931cfe5 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2017-10-23  1285  	if (!dd->tx_opstats) {
+1b311f8931cfe5 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2017-10-23  1286  		ret = -ENOMEM;
+1b311f8931cfe5 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2017-10-23  1287  		goto bail;
+1b311f8931cfe5 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2017-10-23  1288  	}
+1b311f8931cfe5 drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2017-10-23  1289  
+5d18ee67d4c173 drivers/infiniband/hw/hfi1/init.c Sebastian Sanchez   2018-05-02  1290  	dd->comp_vect = kzalloc(sizeof(*dd->comp_vect), GFP_KERNEL);
+5d18ee67d4c173 drivers/infiniband/hw/hfi1/init.c Sebastian Sanchez   2018-05-02  1291  	if (!dd->comp_vect) {
+5d18ee67d4c173 drivers/infiniband/hw/hfi1/init.c Sebastian Sanchez   2018-05-02  1292  		ret = -ENOMEM;
+5d18ee67d4c173 drivers/infiniband/hw/hfi1/init.c Sebastian Sanchez   2018-05-02  1293  		goto bail;
+5d18ee67d4c173 drivers/infiniband/hw/hfi1/init.c Sebastian Sanchez   2018-05-02  1294  	}
+5d18ee67d4c173 drivers/infiniband/hw/hfi1/init.c Sebastian Sanchez   2018-05-02  1295  
+60a8b5a1611b4a drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-11-29  1296  	/* allocate dummy tail memory for all receive contexts */
+60a8b5a1611b4a drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-11-29  1297  	dd->rcvhdrtail_dummy_kvaddr =
+60a8b5a1611b4a drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-11-29  1298  		dma_alloc_coherent(&dd->pcidev->dev, sizeof(u64),
+60a8b5a1611b4a drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-11-29  1299  				   &dd->rcvhdrtail_dummy_dma, GFP_KERNEL);
+60a8b5a1611b4a drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-11-29  1300  	if (!dd->rcvhdrtail_dummy_kvaddr) {
+60a8b5a1611b4a drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-11-29  1301  		ret = -ENOMEM;
+60a8b5a1611b4a drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-11-29  1302  		goto bail;
+60a8b5a1611b4a drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-11-29  1303  	}
+60a8b5a1611b4a drivers/infiniband/hw/hfi1/init.c Mike Marciniszyn    2021-11-29  1304  
+19d8b90a509f7f drivers/infiniband/hw/hfi1/init.c Grzegorz Andrejczuk 2020-05-11  1305  	atomic_set(&dd->ipoib_rsm_usr_num, 0);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1306  	return dd;
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1307  
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1308  bail:
+5ab17a24cb82a6 drivers/infiniband/hw/hfi1/init.c Kaike Wan           2020-03-16  1309  	hfi1_free_devdata(dd);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1310  	return ERR_PTR(ret);
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1311  }
+7724105686e718 drivers/staging/rdma/hfi1/init.c  Mike Marciniszyn    2015-07-30  1312  
 
-:::::: The code at line 192 was first introduced by commit
-:::::: 74426fbff66eea8e8d1f42c8238c268d1e63a832 ALSA: ac97: add an ac97 bus
+:::::: The code at line 1213 was first introduced by commit
+:::::: 7724105686e718ac476a6ad3304fea2fbcfcffde IB/hfi1: add driver files
 
-:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Mike Marciniszyn <mike.marciniszyn@intel.com>
+:::::: CC: Doug Ledford <dledford@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
