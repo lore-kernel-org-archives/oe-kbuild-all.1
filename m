@@ -1,127 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB092100
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 07:23:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84162100
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 07:34:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692257002; x=1723793002;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DBKsg7ezZZY+YB9Kes2VfMo61CaZT77x1l8bqCBAdj8=;
-  b=A7+vp4/+2vCtY4nNxng9Hacp4JLRtmgae5oorE2K9ESI0T4ZaZn2VEjx
-   hm17Jhqw9ihgG4zDePfYC8CAFcyd+PHUqyrE9YsoDfjmmJzbbeF0eDFgt
-   6pSmdFzppEZEqmljjJFielo5npQRYaT+pDhdhrv64CN/OyiC7GA6oFdDU
-   Ns6n2AyW40WqiO6wj80Y0olNn8xmW7lzrtuGHmma2tvWOzELMo5lFNKPS
-   r5dOngsGs+bfUKMqro0+ubbhupRKqlT7B88XI40D1KrXzgUsm0viCmydK
-   ecdM+JwMNbOJlVPHZKLjLTjlUGLEBhCZ5qxjCYR/rjP54KXHZsE6kHikO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="357701584"
+  t=1692257678; x=1723793678;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=744qiTivAoAvtBvN7Yj4Ez7V6B10VGoNK+Nv7xkRTMU=;
+  b=ScZcMB1N0pbdO8dAq9lThULjUYOF97cVRf2tWFKYnSPMtTmNW/tT4ALc
+   qA1EflrMxpJzxuPULRQdp0y10BA0usd6KpqT4Jg7NmJ2mSXl5I7EkidAA
+   mevNbq5t7KX7TsW4V4YxwACnptKxkD7zsNSPOgTfA4vvtNayHkb9viVw3
+   GM6KM8KnCBft6VHVkT6UZhnelj7rYdWwS+E5Iz7oyPzMzWP0D7NTbl7nE
+   FZACis7jN7eA3qxsfg/951HFSW7JSB7nEhy5UfrvHTD1HDxxiy3PRSxqB
+   tpjxD2e7/KT5h+2anChlWdQZPTP/1CtYOzzz8AcQ7VjrqROhV0m6vVVmw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370206381"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="357701584"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 00:23:21 -0700
+   d="scan'208";a="370206381"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 00:34:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="799915926"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1065147790"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="799915926"
+   d="scan'208";a="1065147790"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Aug 2023 00:23:20 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 17 Aug 2023 00:34:29 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWXLj-0000tx-1w;
-	Thu, 17 Aug 2023 07:23:19 +0000
-Date: Thu, 17 Aug 2023 15:23:09 +0800
+	id 1qWXWV-0000uX-0S;
+	Thu, 17 Aug 2023 07:34:27 +0000
+Date: Thu, 17 Aug 2023 15:33:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 22926/28679]
- include/trace/../../drivers/media/virtio//trace.h:74:1: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202308171500.oERnEk0S-lkp@intel.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Steve French <stfrench@microsoft.com>
+Subject: fs/smb/server/vfs.c:1207: warning: Function parameter or member
+ 'parent_path' not described in 'ksmbd_vfs_kern_path_locked'
+Message-ID: <202308171526.0mTJ7zrg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   2893dad7a2890e9678e5141cb18abbfde37facf5
-commit: 60e037a422d44856f57117330ecb0e5ab613a043 [22926/28679] CHROMIUM: media: virtio: add virtio_video tracepoints
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230817/202308171500.oERnEk0S-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171500.oERnEk0S-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: 2b57a4322b1b14348940744fdc02f9a86cbbdbeb ksmbd: check if a mount point is crossed during path lookup
+date:   4 weeks ago
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230817/202308171526.0mTJ7zrg-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171526.0mTJ7zrg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171500.oERnEk0S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171526.0mTJ7zrg-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/media/virtio/virtio_video_driver.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, drivers/media/virtio/trace.h):
->> include/trace/../../drivers/media/virtio//trace.h:74:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] type @@     got restricted __le32 [usertype] type @@
-   include/trace/../../drivers/media/virtio//trace.h:74:1: sparse:     expected unsigned int [usertype] type
-   include/trace/../../drivers/media/virtio//trace.h:74:1: sparse:     got restricted __le32 [usertype] type
->> include/trace/../../drivers/media/virtio//trace.h:74:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] stream_id @@     got restricted __le32 [usertype] stream_id @@
-   include/trace/../../drivers/media/virtio//trace.h:74:1: sparse:     expected unsigned int [usertype] stream_id
-   include/trace/../../drivers/media/virtio//trace.h:74:1: sparse:     got restricted __le32 [usertype] stream_id
-   drivers/media/virtio/virtio_video_driver.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, drivers/media/virtio/trace.h):
->> include/trace/../../drivers/media/virtio//trace.h:74:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] type @@     got restricted __le32 [usertype] type @@
-   include/trace/../../drivers/media/virtio//trace.h:74:1: sparse:     expected unsigned int [usertype] type
-   include/trace/../../drivers/media/virtio//trace.h:74:1: sparse:     got restricted __le32 [usertype] type
->> include/trace/../../drivers/media/virtio//trace.h:74:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] stream_id @@     got restricted __le32 [usertype] stream_id @@
-   include/trace/../../drivers/media/virtio//trace.h:74:1: sparse:     expected unsigned int [usertype] stream_id
-   include/trace/../../drivers/media/virtio//trace.h:74:1: sparse:     got restricted __le32 [usertype] stream_id
-   drivers/media/virtio/virtio_video_driver.c:169:9: sparse: sparse: no generic selection for 'restricted __le32 virtio_cread_v'
-   drivers/media/virtio/virtio_video_driver.c:169:9: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_driver.c:169:9: sparse:    bad type *
-   drivers/media/virtio/virtio_video_driver.c:169:9: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_driver.c:169:9: sparse: sparse: no generic selection for 'restricted __le32 [addressable] virtio_cread_v'
-   drivers/media/virtio/virtio_video_driver.c:177:9: sparse: sparse: no generic selection for 'restricted __le32 virtio_cread_v'
-   drivers/media/virtio/virtio_video_driver.c:177:9: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/media/virtio/virtio_video_driver.c:177:9: sparse:    bad type *
-   drivers/media/virtio/virtio_video_driver.c:177:9: sparse:    unsigned int *
-   drivers/media/virtio/virtio_video_driver.c:177:9: sparse: sparse: no generic selection for 'restricted __le32 [addressable] virtio_cread_v'
+All warnings (new ones prefixed by >>):
 
-vim +74 include/trace/../../drivers/media/virtio//trace.h
+   fs/smb/server/vfs.c:54: warning: Function parameter or member 'parent' not described in 'ksmbd_vfs_lock_parent'
+   fs/smb/server/vfs.c:54: warning: Function parameter or member 'child' not described in 'ksmbd_vfs_lock_parent'
+   fs/smb/server/vfs.c:375: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_read'
+   fs/smb/server/vfs.c:375: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_read'
+   fs/smb/server/vfs.c:492: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_write'
+   fs/smb/server/vfs.c:492: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_write'
+   fs/smb/server/vfs.c:555: warning: Function parameter or member 'path' not described in 'ksmbd_vfs_getattr'
+   fs/smb/server/vfs.c:555: warning: Function parameter or member 'stat' not described in 'ksmbd_vfs_getattr'
+   fs/smb/server/vfs.c:555: warning: Excess function parameter 'work' description in 'ksmbd_vfs_getattr'
+   fs/smb/server/vfs.c:555: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_getattr'
+   fs/smb/server/vfs.c:555: warning: Excess function parameter 'attrs' description in 'ksmbd_vfs_getattr'
+   fs/smb/server/vfs.c:572: warning: Function parameter or member 'p_id' not described in 'ksmbd_vfs_fsync'
+   fs/smb/server/vfs.c:595: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_remove_file'
+   fs/smb/server/vfs.c:595: warning: Function parameter or member 'path' not described in 'ksmbd_vfs_remove_file'
+   fs/smb/server/vfs.c:595: warning: Excess function parameter 'name' description in 'ksmbd_vfs_remove_file'
+   fs/smb/server/vfs.c:638: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_link'
+   fs/smb/server/vfs.c:815: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_truncate'
+   fs/smb/server/vfs.c:815: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_truncate'
+   fs/smb/server/vfs.c:856: warning: Excess function parameter 'size' description in 'ksmbd_vfs_listxattr'
+   fs/smb/server/vfs.c:933: warning: Function parameter or member 'path' not described in 'ksmbd_vfs_setxattr'
+   fs/smb/server/vfs.c:933: warning: Excess function parameter 'dentry' description in 'ksmbd_vfs_setxattr'
+   fs/smb/server/vfs.c:958: warning: Function parameter or member 'option' not described in 'ksmbd_vfs_set_fadvise'
+   fs/smb/server/vfs.c:958: warning: Excess function parameter 'options' description in 'ksmbd_vfs_set_fadvise'
+   fs/smb/server/vfs.c:1172: warning: Function parameter or member 'um' not described in 'ksmbd_vfs_lookup_in_dir'
+   fs/smb/server/vfs.c:1207: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_kern_path_locked'
+>> fs/smb/server/vfs.c:1207: warning: Function parameter or member 'parent_path' not described in 'ksmbd_vfs_kern_path_locked'
 
-    73	
-  > 74	DECLARE_EVENT_CLASS(virtio_video_cmd_class,
-    75		TP_PROTO(struct virtio_video_cmd_hdr *hdr),
-    76	
-    77		TP_ARGS(hdr),
-    78	
-    79		TP_STRUCT__entry(
-    80			__field(uint32_t, type)
-    81			__field(uint32_t, stream_id)
-    82		),
-    83	
-    84	
-    85		TP_fast_assign(
-    86			__entry->type = hdr->type;
-    87			__entry->stream_id = hdr->stream_id;
-    88		),
-    89	
-    90		TP_printk("type=%s stream_id=%u",
-    91			__print_symbolic(__entry->type,
-    92				{ VIRTIO_VIDEO_CMD_QUERY_CAPABILITY, "QUERY_CAPABILITY" },
-    93				{ VIRTIO_VIDEO_CMD_STREAM_CREATE, "STREAM_CREATE" },
-    94				{ VIRTIO_VIDEO_CMD_STREAM_DESTROY, "STREAM_DESTROY" },
-    95				{ VIRTIO_VIDEO_CMD_STREAM_DRAIN, "STREAM_DRAIN" },
-    96				{ VIRTIO_VIDEO_CMD_RESOURCE_CREATE, "RESOURCE_CREATE" },
-    97				{ VIRTIO_VIDEO_CMD_RESOURCE_QUEUE, "RESOURCE_QUEUE" },
-    98				{ VIRTIO_VIDEO_CMD_RESOURCE_DESTROY_ALL, "RESOURCE_DESTROY_ALL" },
-    99				{ VIRTIO_VIDEO_CMD_QUEUE_CLEAR, "QUEUE_CLEAR" },
-   100				{ VIRTIO_VIDEO_CMD_QUERY_CONTROL, "QUERY_CONTROL" },
-   101				{ VIRTIO_VIDEO_CMD_GET_CONTROL, "GET_CONTROL" },
-   102				{ VIRTIO_VIDEO_CMD_SET_CONTROL, "SET_CONTROL" },
-   103				{ VIRTIO_VIDEO_CMD_GET_PARAMS_EXT, "GET_PARAMS_EXT" },
-   104				{ VIRTIO_VIDEO_CMD_SET_PARAMS_EXT, "SET_PARAMS_EXT" }
-   105			),
-   106			__entry->stream_id)
-   107	
+
+vim +1207 fs/smb/server/vfs.c
+
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1194  
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1195  /**
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1196   * ksmbd_vfs_kern_path_locked() - lookup a file and get path info
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1197   * @name:	file path that is relative to share
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1198   * @flags:	lookup flags
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1199   * @path:	if lookup succeed, return path info
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1200   * @caseless:	caseless filename lookup
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1201   *
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1202   * Return:	0 on success, otherwise error
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1203   */
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1204  int ksmbd_vfs_kern_path_locked(struct ksmbd_work *work, char *name,
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1205  			       unsigned int flags, struct path *parent_path,
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1206  			       struct path *path, bool caseless)
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16 @1207  {
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1208  	struct ksmbd_share_config *share_conf = work->tcon->share_conf;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1209  	int err;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1210  
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1211  	err = ksmbd_vfs_path_lookup_locked(share_conf, name, flags, parent_path,
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1212  					   path);
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1213  	if (!err)
+cf5e7f734f4455 fs/smb/server/vfs.c Namjae Jeon   2023-05-30  1214  		return 0;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1215  
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1216  	if (caseless) {
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1217  		char *filepath;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1218  		size_t path_len, remain_len;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1219  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1220  		filepath = kstrdup(name, GFP_KERNEL);
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1221  		if (!filepath)
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1222  			return -ENOMEM;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1223  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1224  		path_len = strlen(filepath);
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1225  		remain_len = path_len;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1226  
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1227  		*parent_path = share_conf->vfs_path;
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1228  		path_get(parent_path);
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1229  
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1230  		while (d_can_lookup(parent_path->dentry)) {
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1231  			char *filename = filepath + path_len - remain_len;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1232  			char *next = strchrnul(filename, '/');
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1233  			size_t filename_len = next - filename;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1234  			bool is_last = !next[0];
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1235  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1236  			if (filename_len == 0)
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1237  				break;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1238  
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1239  			err = ksmbd_vfs_lookup_in_dir(parent_path, filename,
+dbab80e2071ad8 fs/ksmbd/vfs.c      Atte Heikkilä 2022-09-28  1240  						      filename_len,
+dbab80e2071ad8 fs/ksmbd/vfs.c      Atte Heikkilä 2022-09-28  1241  						      work->conn->um);
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1242  			if (err)
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1243  				goto out2;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1244  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1245  			next[0] = '\0';
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1246  
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1247  			err = vfs_path_lookup(share_conf->vfs_path.dentry,
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1248  					      share_conf->vfs_path.mnt,
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1249  					      filepath,
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1250  					      flags,
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1251  					      path);
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1252  			if (err)
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1253  				goto out2;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1254  			else if (is_last)
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1255  				goto out1;
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1256  			path_put(parent_path);
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1257  			*parent_path = *path;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1258  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1259  			next[0] = '/';
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1260  			remain_len -= filename_len + 1;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1261  		}
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1262  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1263  		err = -EINVAL;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1264  out2:
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1265  		path_put(parent_path);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1266  out1:
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1267  		kfree(filepath);
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1268  	}
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1269  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1270  	if (!err) {
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1271  		err = ksmbd_vfs_lock_parent(parent_path->dentry, path->dentry);
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1272  		if (err) {
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1273  			path_put(path);
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1274  			path_put(parent_path);
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1275  		}
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1276  	}
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1277  	return err;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1278  }
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1279  
+
+:::::: The code at line 1207 was first introduced by commit
+:::::: f44158485826c076335d6860d35872271a83791d cifsd: add file operations
+
+:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
