@@ -1,42 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7478E638;
-	Thu, 17 Aug 2023 03:51:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC057FD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 03:51:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692244274; x=1723780274;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yZfgjuR8TyRHxDKxLFVns2Sc+NHfA9nImCmP5vX4I30=;
-  b=ShBmuuj/k/8L8xXJDdaNhY+fqmmKuh5u3kgJMNgkSZLgB1ivcY4HElMF
-   N+kBli1ihozkzYfwe31pJBGkN7mTx3OMp97xs08tGRfidrUaDmzBaB0j3
-   MOIckPm1H9krJc37y8zCDqMtep6JXLWuEF9OluW/J3UdVXyMo6jo/Pi9X
-   rQ75XaRlDRuMsLRudHf5gShGWTGqaX/KshPrwvlwy1ivv2gUfJXi0ajVM
-   LJL3Kp/I8hXCz4jsnqAw9hqmGV6T+/mih0zAZcHQ1xGAEa2p6otypKDS4
-   wVdQ8GYaReLecYsoUoZHe9ptbQLLF6RITYZyYnZQj7d8F+Vxr/RH3bjs4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="353020848"
+  t=1692244276; x=1723780276;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xwI3wmGXcs0Evg0bbeV61o6vXuck4y6AiG6Pb05I7Qw=;
+  b=R+aqwDL3I7WVp2gFIFijYWh3RnDkRw33xVBsCD/JVEkAdNftMqnonZ52
+   6W/+ZaijgawHtNBXNUDMm2EPJip4AV5gzfUD2GFZ7X5YalhFjc7lDyrx5
+   2r7iRka/CvgO6wrHzmqFxQED1Nds/yNqkXir6SpfzgtUWZ2RdvgxcL1o5
+   YOv/Bu+AJwSh5C0oJk0dTCbmHsML2Q0duNoRXMROxhReal+RP+/ytFNz2
+   yNj4q4GfJ5OBlqUrCELSWL58Jg81mHXLqV3uP0go1h9LDGzq3NPGgfEcz
+   ImdAoIQjqZz7ZNCdgpouPrf/xgVnebcjnZIguy9Zde0puDldch0LtflnS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="353020860"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="353020848"
+   d="scan'208";a="353020860"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 20:51:13 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 20:51:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="763875569"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="763875568"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="763875569"
+   d="scan'208";a="763875568"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
   by orsmga008.jf.intel.com with ESMTP; 16 Aug 2023 20:51:11 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWU2R-0000lz-0t;
+	id 1qWU2R-0000lx-0m;
 	Thu, 17 Aug 2023 03:51:11 +0000
-Date: Thu, 17 Aug 2023 11:50:52 +0800
+Date: Thu, 17 Aug 2023 11:50:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Pirko <jiri@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpirko-mlxsw:wip_dl_files 14/19] ld.lld: error: duplicate symbol:
- __tracepoint_devlink_hwmsg
-Message-ID: <202308171135.7MOBGv6h-lkp@intel.com>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	manivannan.sadhasivam@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, helgaas@kernel.org,
+	linux-pci@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
+	quic_ramkri@quicinc.com, quic_parass@quicinc.com,
+	krzysztof.kozlowski@linaro.org,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v1] PCI: qcom: Add sysfs entry to change link speed
+ dynamically
+Message-ID: <202308171155.o5viLJ3O-lkp@intel.com>
+References: <1692239684-12697-1-git-send-email-quic_krichai@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,87 +61,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1692239684-12697-1-git-send-email-quic_krichai@quicinc.com>
 
-tree:   https://github.com/jpirko/linux_mlxsw wip_dl_files
-head:   00a5b9621f0bc27e4f004dc027f187a5ef824a53
-commit: 0ff7fc74219efe0060acfa60c1e2d9029b8efbd9 [14/19] devlink: push trap related code into separate file
-config: i386-buildonly-randconfig-r006-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171135.7MOBGv6h-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171135.7MOBGv6h-lkp@intel.com/reproduce)
+Hi Krishna,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.5-rc6 next-20230816]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/PCI-qcom-Add-sysfs-entry-to-change-link-speed-dynamically/20230817-103734
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/1692239684-12697-1-git-send-email-quic_krichai%40quicinc.com
+patch subject: [PATCH v1] PCI: qcom: Add sysfs entry to change link speed dynamically
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230817/202308171155.o5viLJ3O-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171155.o5viLJ3O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171135.7MOBGv6h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171155.o5viLJ3O-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: duplicate symbol: __tracepoint_devlink_hwmsg
-   >>> defined at leftover.c
-   >>>            net/devlink/leftover.o:(__tracepoint_devlink_hwmsg) in archive vmlinux.a
-   >>> defined at trap.c
-   >>>            net/devlink/trap.o:(__tracepoints+0x0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __SCT__tp_func_devlink_hwmsg
-   >>> defined at leftover.c
-   >>>            net/devlink/leftover.o:(__SCT__tp_func_devlink_hwmsg) in archive vmlinux.a
-   >>> defined at trap.c
-   >>>            net/devlink/trap.o:(.static_call.text+0x0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __SCT__tp_func_devlink_health_recover_aborted
-   >>> defined at leftover.c
-   >>>            net/devlink/leftover.o:(__SCT__tp_func_devlink_health_recover_aborted) in archive vmlinux.a
-   >>> defined at trap.c
-   >>>            net/devlink/trap.o:(.static_call.text+0x18) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __traceiter_devlink_health_recover_aborted
-   >>> defined at devlink.h:112 (include/trace/events/devlink.h:112)
-   >>>            net/devlink/leftover.o:(__traceiter_devlink_health_recover_aborted) in archive vmlinux.a
-   >>> defined at devlink.h:112 (include/trace/events/devlink.h:112)
-   >>>            net/devlink/trap.o:(.text+0x100) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __tracepoint_devlink_health_reporter_state_update
-   >>> defined at leftover.c
-   >>>            net/devlink/leftover.o:(__tracepoint_devlink_health_reporter_state_update) in archive vmlinux.a
-   >>> defined at trap.c
-   >>>            net/devlink/trap.o:(__tracepoints+0xA0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __SCT__tp_func_devlink_health_reporter_state_update
-   >>> defined at leftover.c
-   >>>            net/devlink/leftover.o:(__SCT__tp_func_devlink_health_reporter_state_update) in archive vmlinux.a
-   >>> defined at trap.c
-   >>>            net/devlink/trap.o:(.static_call.text+0x20) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __traceiter_devlink_health_reporter_state_update
-   >>> defined at devlink.h:146 (include/trace/events/devlink.h:146)
-   >>>            net/devlink/leftover.o:(__traceiter_devlink_health_reporter_state_update) in archive vmlinux.a
-   >>> defined at devlink.h:146 (include/trace/events/devlink.h:146)
-   >>>            net/devlink/trap.o:(.text+0x160) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __tracepoint_devlink_trap_report
-   >>> defined at leftover.c
-   >>>            net/devlink/leftover.o:(__tracepoint_devlink_trap_report) in archive vmlinux.a
-   >>> defined at trap.c
-   >>>            net/devlink/trap.o:(__tracepoints+0xC8) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __SCT__tp_func_devlink_trap_report
-   >>> defined at leftover.c
-   >>>            net/devlink/leftover.o:(__SCT__tp_func_devlink_trap_report) in archive vmlinux.a
-   >>> defined at trap.c
-   >>>            net/devlink/trap.o:(.static_call.text+0x28) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __traceiter_devlink_trap_report
-   >>> defined at devlink.h:177 (include/trace/events/devlink.h:177)
-   >>>            net/devlink/leftover.o:(__traceiter_devlink_trap_report) in archive vmlinux.a
-   >>> defined at devlink.h:177 (include/trace/events/devlink.h:177)
-   >>>            net/devlink/trap.o:(.text+0x1C0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: __SCK__tp_func_devlink_trap_report
-   >>> defined at leftover.c
-   >>>            net/devlink/leftover.o:(__SCK__tp_func_devlink_trap_report) in archive vmlinux.a
-   >>> defined at trap.c
-   >>>            net/devlink/trap.o:(.data+0x14) in archive vmlinux.a
-..
+>> drivers/pci/controller/dwc/pcie-qcom.c:249:13: warning: 'qcom_pcie_opp_update' used but never defined
+     249 | static void qcom_pcie_opp_update(struct qcom_pcie *pcie);
+         |             ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/qcom_pcie_opp_update +249 drivers/pci/controller/dwc/pcie-qcom.c
+
+   247	
+   248	static void qcom_pcie_icc_update(struct qcom_pcie *pcie);
+ > 249	static void qcom_pcie_opp_update(struct qcom_pcie *pcie);
+   250	
 
 -- 
 0-DAY CI Kernel Test Service
