@@ -1,44 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D4E100B3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 22:49:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD75F9D5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 22:49:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692312584; x=1723848584;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n//xZJgF+fdbBXtZJSi3l8HgglzPGjRalK3RG40kkdU=;
-  b=C67aW03bhBsWuww3Yuqiz1qGcu+9GXdLrKkyh8PBtURhXoyyfmgK7x+v
-   5maztBLucN+gxvGrN8pvjrz2l7fTBURE440HTHtyDZJghmQQRnZx6Phxg
-   l8jq3tqm+CHar/3l9ZFAV5p/fBvcXsyb+pO+7DNAT87M96zpQeom3d5Ws
-   Jlhoulrc6l72l3+wAYtqhzC0xmJBCJ75VzIpcdHU27tKiNFZ8VYwa9OM2
-   Rg69K7YY51Hlq11Xgz9+W/xfQGNbCbSgn/G6FXZM8gmH/kwOTeWUXw+te
-   tXYk0rCXwSfJ3yuzR3mUmCT0c3ipj+3P9K/Z7oMH6dgG45ywAmtXFNci8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="403931300"
+  t=1692312585; x=1723848585;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+fjmUkPDQDasNTVGAELP5F3mePImJMGZ5X3pJTt8eV4=;
+  b=Xb6F9HF6pFSvkVV5JnFG66JdzXvmemQ9rsy6e4N8Q0/HCXqCHihGkZT8
+   ROwLLJ8IJos1FH+Xjka9TNgUkdDqmL73PGKutiaACPeOUik9D0SxBuXwZ
+   gKfPTuiyYoLD8YrVJDjzpn4S7apn63bqrYV+lu/+MFAhn7szwrypiiLfF
+   4SxFC+zYQAr3IuQ+WhM2PHaowKaI+es677atuLiZwimUB/ufs09oYnWUo
+   zTNyT27tlV+inxvQES7k8r+54YuMVuEq+OhK2r3ow2SjqMjGN9cqZj/tv
+   XCkrvR7Rp4V78YBjVntRKt1RWBzqqWzXGktNUi87z0BOEWTpq4gWxHDnh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="403931308"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="403931300"
+   d="scan'208";a="403931308"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 15:49:42 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 15:49:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="858411464"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="858411483"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="858411464"
+   d="scan'208";a="858411483"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
   by orsmga004.jf.intel.com with ESMTP; 17 Aug 2023 15:49:39 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWloB-0001XF-0A;
-	Thu, 17 Aug 2023 22:49:39 +0000
-Date: Fri, 18 Aug 2023 06:48:55 +0800
+	id 1qWloA-0001X9-3D;
+	Thu, 17 Aug 2023 22:49:38 +0000
+Date: Fri, 18 Aug 2023 06:48:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kashyap Desai <kashyap.desai@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Leon Romanovsky <leon@kernel.org>,
-	Selvin Xavier <selvin.xavier@broadcom.com>
-Subject: drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108: warning: Function
- parameter or member 'rcfw' not described in 'bnxt_re_is_fw_stalled'
-Message-ID: <202308180600.oOnkIAQV-lkp@intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Mike Kravetz <mike.kravetz@oracle.com>,
+	Hugh Dickins <hughd@google.com>, Peter Xu <peterx@redhat.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+	Dongwon Kim <dongwon.kim@intel.com>,
+	Junxiao Chang <junxiao.chang@intel.com>
+Subject: Re: [PATCH v3 1/2] udmabuf: Use vmf_insert_pfn and VM_PFNMAP for
+ handling mmap
+Message-ID: <202308180617.Rl3Qsrnt-lkp@intel.com>
+References: <20230817064623.3424348-2-vivek.kasireddy@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,116 +56,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230817064623.3424348-2-vivek.kasireddy@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   16931859a6500d360b90aeacab3b505a3560a3ed
-commit: f0c875ff6293965a30aaeb02a0d19b293e11bc2b RDMA/bnxt_re: use firmware provided max request timeout
-date:   10 weeks ago
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230818/202308180600.oOnkIAQV-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180600.oOnkIAQV-lkp@intel.com/reproduce)
+Hi Vivek,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-tip/drm-tip linus/master v6.5-rc6 next-20230817]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vivek-Kasireddy/udmabuf-Use-vmf_insert_pfn-and-VM_PFNMAP-for-handling-mmap/20230817-150922
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230817064623.3424348-2-vivek.kasireddy%40intel.com
+patch subject: [PATCH v3 1/2] udmabuf: Use vmf_insert_pfn and VM_PFNMAP for handling mmap
+config: sh-randconfig-r004-20230818 (https://download.01.org/0day-ci/archive/20230818/202308180617.Rl3Qsrnt-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180617.Rl3Qsrnt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308180600.oOnkIAQV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308180617.Rl3Qsrnt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:73: warning: Function parameter or member 'opcode' not described in 'bnxt_qplib_map_rc'
->> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108: warning: Function parameter or member 'rcfw' not described in 'bnxt_re_is_fw_stalled'
->> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108: warning: Function parameter or member 'cookie' not described in 'bnxt_re_is_fw_stalled'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108: warning: Function parameter or member 'opcode' not described in 'bnxt_re_is_fw_stalled'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:108: warning: Function parameter or member 'cbit' not described in 'bnxt_re_is_fw_stalled'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:140: warning: Function parameter or member 'rcfw' not described in '__wait_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:140: warning: Function parameter or member 'cookie' not described in '__wait_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:140: warning: Function parameter or member 'opcode' not described in '__wait_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:188: warning: Function parameter or member 'rcfw' not described in '__block_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:188: warning: Function parameter or member 'cookie' not described in '__block_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:188: warning: Function parameter or member 'opcode' not described in '__block_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:386: warning: Function parameter or member 'rcfw' not described in '__poll_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:386: warning: Function parameter or member 'cookie' not described in '__poll_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:386: warning: Function parameter or member 'opcode' not described in '__poll_for_resp'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:484: warning: Function parameter or member 'rcfw' not described in '__bnxt_qplib_rcfw_send_message'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:484: warning: Function parameter or member 'msg' not described in '__bnxt_qplib_rcfw_send_message'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:566: warning: Function parameter or member 'rcfw' not described in 'bnxt_qplib_rcfw_send_message'
-   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:566: warning: Function parameter or member 'msg' not described in 'bnxt_qplib_rcfw_send_message'
-
-
-vim +108 drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
-
-    55	
-    56	/**
-    57	 * bnxt_qplib_map_rc  -  map return type based on opcode
-    58	 * @opcode    -  roce slow path opcode
-    59	 *
-    60	 * In some cases like firmware halt is detected, the driver is supposed to
-    61	 * remap the error code of the timed out command.
-    62	 *
-    63	 * It is not safe to assume hardware is really inactive so certain opcodes
-    64	 * like destroy qp etc are not safe to be returned success, but this function
-    65	 * will be called when FW already reports a timeout. This would be possible
-    66	 * only when FW crashes and resets. This will clear all the HW resources.
-    67	 *
-    68	 * Returns:
-    69	 * 0 to communicate success to caller.
-    70	 * Non zero error code to communicate failure to caller.
-    71	 */
-    72	static int bnxt_qplib_map_rc(u8 opcode)
-  > 73	{
-    74		switch (opcode) {
-    75		case CMDQ_BASE_OPCODE_DESTROY_QP:
-    76		case CMDQ_BASE_OPCODE_DESTROY_SRQ:
-    77		case CMDQ_BASE_OPCODE_DESTROY_CQ:
-    78		case CMDQ_BASE_OPCODE_DEALLOCATE_KEY:
-    79		case CMDQ_BASE_OPCODE_DEREGISTER_MR:
-    80		case CMDQ_BASE_OPCODE_DELETE_GID:
-    81		case CMDQ_BASE_OPCODE_DESTROY_QP1:
-    82		case CMDQ_BASE_OPCODE_DESTROY_AH:
-    83		case CMDQ_BASE_OPCODE_DEINITIALIZE_FW:
-    84		case CMDQ_BASE_OPCODE_MODIFY_ROCE_CC:
-    85		case CMDQ_BASE_OPCODE_SET_LINK_AGGR_MODE:
-    86			return 0;
-    87		default:
-    88			return -ETIMEDOUT;
-    89		}
-    90	}
-    91	
-    92	/**
-    93	 * bnxt_re_is_fw_stalled   -	Check firmware health
-    94	 * @rcfw      -   rcfw channel instance of rdev
-    95	 * @cookie    -   cookie to track the command
-    96	 * @opcode    -   rcfw submitted for given opcode
-    97	 * @cbit      -   bitmap entry of cookie
-    98	 *
-    99	 * If firmware has not responded any rcfw command within
-   100	 * rcfw->max_timeout, consider firmware as stalled.
-   101	 *
-   102	 * Returns:
-   103	 * 0 if firmware is responding
-   104	 * -ENODEV if firmware is not responding
-   105	 */
-   106	static int bnxt_re_is_fw_stalled(struct bnxt_qplib_rcfw *rcfw,
-   107					 u16 cookie, u8 opcode, u16 cbit)
- > 108	{
-   109		struct bnxt_qplib_cmdq_ctx *cmdq;
-   110	
-   111		cmdq = &rcfw->cmdq;
-   112	
-   113		if (time_after(jiffies, cmdq->last_seen +
-   114			      (rcfw->max_timeout * HZ))) {
-   115			dev_warn_ratelimited(&rcfw->pdev->dev,
-   116					     "%s: FW STALL Detected. cmdq[%#x]=%#x waited (%d > %d) msec active %d ",
-   117					     __func__, cookie, opcode,
-   118					     jiffies_to_msecs(jiffies - cmdq->last_seen),
-   119					     rcfw->max_timeout * 1000,
-   120					     test_bit(cbit, cmdq->cmdq_bitmap));
-   121			return -ENODEV;
-   122		}
-   123	
-   124		return 0;
-   125	}
-   126	
+   sh4-linux-ld: drivers/dma-buf/udmabuf.o: in function `udmabuf_vm_fault':
+>> udmabuf.c:(.text+0xd8): undefined reference to `vmf_insert_pfn'
 
 -- 
 0-DAY CI Kernel Test Service
