@@ -1,43 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6046414AA8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 15:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7614914AA8;
+	Thu, 17 Aug 2023 15:38:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692286697; x=1723822697;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=8RSighRheJrw15ri6u198SVs0AtkNdF2ZRjpHxN5F+Y=;
-  b=F0CZjqbnpo6wQrfxHLiRDX/dVEP8ZqTCROIBWxD+eai15FrFXdMvW3Q9
-   H5K8JQFp7q/rnUWkWEf0rFjUgZD89UkI70Ze60/8QYFZt+xeyuoSRO+JW
-   ZEqtnaSW/ZtyhOEmu856GqReKsy6lMeKm5wBTvSpjqiVeKbb/0cU/K7+X
-   eHnkKCmkqQKm9+zswalizjoXjZ+I6rDCsS63PRUCiZfz7VjacB0DZvWYh
-   O5h34pf2iENhN3mfvN2FdzZrR3Pa0G5dnkeRfVbhuIPOnL9T3TEhtSG1l
-   y4I7GZaYYuJ+mIFsuDqMVRqclIjnSK1cpABzK5RQ47nim1kes+YF/Bqhp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="459204633"
+  t=1692286701; x=1723822701;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AF6Jp9zpxQK52mVav7l7mei07u6LPV0nf5nfuhvoi3E=;
+  b=O3lXDw/aV4QaSpyg7fau7XjWOBUeHZllHnSU+I2Z2ImTa3Kah+m8iDSB
+   gsQ1PgnxeNOxRyM/i5YLCvXO9juuiSl9bvEL/T9FoJAUsUdggXzg9xXOM
+   gnVYutsiShkDwS0K7zaC4R84SKqUaJSQVky3Vw67xF0BR4ECFkJDNBn4i
+   UNZ4WrgsTv5wO8SmNBh4cOmNTh0ciym/Xxp/asCL2MvdPdRfA4yVNcCO2
+   VD2SfzEN0DSoEetB9bQbQCcnmmLIFzTTKjvCnKG4BX5Pagon8Is/hspfY
+   w5XQMFDGEUJHZpNKtCbgDK9mfMqHTnC2RAlRnwP3khrF7ijskbNv6liw9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="459204644"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="459204633"
+   d="scan'208";a="459204644"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 08:36:24 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 08:36:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="764139359"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="764139341"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="764139359"
+   d="scan'208";a="764139341"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
   by orsmga008.jf.intel.com with ESMTP; 17 Aug 2023 08:36:23 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWf2r-0001HT-2y;
+	id 1qWf2r-0001HW-33;
 	Thu, 17 Aug 2023 15:36:21 +0000
-Date: Thu, 17 Aug 2023 23:36:01 +0800
+Date: Thu, 17 Aug 2023 23:35:54 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
-Subject: [intel-lts:6.1/linux 1496/2351]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:599:
- warning: Function parameter or member 'dc' not described in
- 'dcn32_can_support_mclk_switch_using_fw_based_vblank_stretch'
-Message-ID: <202308172344.6ApYf6lT-lkp@intel.com>
+To: Quinn Tran <qutran@marvell.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>,
+	Nilesh Javali <njavali@marvell.com>
+Subject: drivers/scsi/qla2xxx/qla_isr.c:3724: warning: Function parameter or
+ member 'rsp_q_in' not described in 'qla_chk_cont_iocb_avail'
+Message-ID: <202308172330.ram2SwC7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,60 +50,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.1/linux
-head:   1250fc0938619046c0d5513aae318293a0563282
-commit: d0fb274b016c0fd4a63ea671e426fcd6f4d29ef7 [1496/2351] drm/amd/display: Add FPO + VActive support
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230817/202308172344.6ApYf6lT-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172344.6ApYf6lT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: c019cd656e717349ff22d0c41d6fbfc773f48c52 scsi: qla2xxx: edif: Fix dropped IKE message
+date:   1 year, 1 month ago
+config: i386-randconfig-i002-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172330.ram2SwC7-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172330.ram2SwC7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172344.6ApYf6lT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172330.ram2SwC7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:97: warning: Cannot understand  * ********************************************************************************************
-    on line 97 - I thought it was a doc line
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:264: warning: Cannot understand  * *******************************************************************************************
-    on line 264 - I thought it was a doc line
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:435: warning: Cannot understand  * *******************************************************************************************
-    on line 435 - I thought it was a doc line
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:475: warning: Cannot understand  * *******************************************************************************************
-    on line 475 - I thought it was a doc line
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:599: warning: Function parameter or member 'dc' not described in 'dcn32_can_support_mclk_switch_using_fw_based_vblank_stretch'
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:599: warning: Function parameter or member 'context' not described in 'dcn32_can_support_mclk_switch_using_fw_based_vblank_stretch'
---
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:2787: warning: Cannot understand  * *******************************************************************************************
-    on line 2787 - I thought it was a doc line
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:2832: warning: Function parameter or member 'dc' not described in 'dcn32_assign_fpo_vactive_candidate'
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:2832: warning: Function parameter or member 'context' not described in 'dcn32_assign_fpo_vactive_candidate'
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:2832: warning: Function parameter or member 'fpo_candidate_stream' not described in 'dcn32_assign_fpo_vactive_candidate'
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:2861: warning: Function parameter or member 'dc' not described in 'dcn32_find_vactive_pipe'
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:2861: warning: Function parameter or member 'context' not described in 'dcn32_find_vactive_pipe'
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/dcn32_fpu.c:2861: warning: Function parameter or member 'vactive_margin_req_us' not described in 'dcn32_find_vactive_pipe'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_PMC_CORE
-   Depends on [n]: X86_PLATFORM_DEVICES [=n] && PCI [=y] && ACPI
-   Selected by [m]:
-   - DWMAC_INTEL_PLAT [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_STMICRO [=y] && STMMAC_PLATFORM [=m] && OF [=y] && COMMON_CLK [=y] && STMMAC_ETH [=m]
+>> drivers/scsi/qla2xxx/qla_isr.c:3724: warning: Function parameter or member 'rsp_q_in' not described in 'qla_chk_cont_iocb_avail'
 
 
-vim +599 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c
+vim +3724 drivers/scsi/qla2xxx/qla_isr.c
 
-   589	
-   590	/**
-   591	 * dcn32_can_support_mclk_switch_using_fw_based_vblank_stretch - Determines if config can support FPO
-   592	 *
-   593	 * @param [in]: dc - current dc state
-   594	 * @param [in]: context - new dc state
-   595	 *
-   596	 * Return: Pointer to FPO stream candidate if config can support FPO, otherwise NULL
-   597	 */
-   598	struct dc_stream_state *dcn32_can_support_mclk_switch_using_fw_based_vblank_stretch(struct dc *dc, const struct dc_state *context)
- > 599	{
+e84067d7430107 Duane Grigsby 2017-06-21  3713  
+fac2807946c10b Quinn Tran    2021-06-23  3714  /**
+fac2807946c10b Quinn Tran    2021-06-23  3715   * qla_chk_cont_iocb_avail - check for all continuation iocbs are available
+fac2807946c10b Quinn Tran    2021-06-23  3716   *   before iocb processing can start.
+fac2807946c10b Quinn Tran    2021-06-23  3717   * @vha: host adapter pointer
+fac2807946c10b Quinn Tran    2021-06-23  3718   * @rsp: respond queue
+fac2807946c10b Quinn Tran    2021-06-23  3719   * @pkt: head iocb describing how many continuation iocb
+fac2807946c10b Quinn Tran    2021-06-23  3720   * Return: 0 all iocbs has arrived, xx- all iocbs have not arrived.
+fac2807946c10b Quinn Tran    2021-06-23  3721   */
+fac2807946c10b Quinn Tran    2021-06-23  3722  static int qla_chk_cont_iocb_avail(struct scsi_qla_host *vha,
+c019cd656e7173 Quinn Tran    2022-07-12  3723  	struct rsp_que *rsp, response_t *pkt, u32 rsp_q_in)
+fac2807946c10b Quinn Tran    2021-06-23 @3724  {
+c019cd656e7173 Quinn Tran    2022-07-12  3725  	int start_pkt_ring_index;
+c019cd656e7173 Quinn Tran    2022-07-12  3726  	u32 iocb_cnt = 0;
+fac2807946c10b Quinn Tran    2021-06-23  3727  	int rc = 0;
+fac2807946c10b Quinn Tran    2021-06-23  3728  
+fac2807946c10b Quinn Tran    2021-06-23  3729  	if (pkt->entry_count == 1)
+fac2807946c10b Quinn Tran    2021-06-23  3730  		return rc;
+fac2807946c10b Quinn Tran    2021-06-23  3731  
+fac2807946c10b Quinn Tran    2021-06-23  3732  	/* ring_index was pre-increment. set it back to current pkt */
+fac2807946c10b Quinn Tran    2021-06-23  3733  	if (rsp->ring_index == 0)
+fac2807946c10b Quinn Tran    2021-06-23  3734  		start_pkt_ring_index = rsp->length - 1;
+fac2807946c10b Quinn Tran    2021-06-23  3735  	else
+fac2807946c10b Quinn Tran    2021-06-23  3736  		start_pkt_ring_index = rsp->ring_index - 1;
+fac2807946c10b Quinn Tran    2021-06-23  3737  
+c019cd656e7173 Quinn Tran    2022-07-12  3738  	if (rsp_q_in < start_pkt_ring_index)
+c019cd656e7173 Quinn Tran    2022-07-12  3739  		/* q in ptr is wrapped */
+c019cd656e7173 Quinn Tran    2022-07-12  3740  		iocb_cnt = rsp->length - start_pkt_ring_index + rsp_q_in;
+fac2807946c10b Quinn Tran    2021-06-23  3741  	else
+c019cd656e7173 Quinn Tran    2022-07-12  3742  		iocb_cnt = rsp_q_in - start_pkt_ring_index;
+fac2807946c10b Quinn Tran    2021-06-23  3743  
+c019cd656e7173 Quinn Tran    2022-07-12  3744  	if (iocb_cnt < pkt->entry_count)
+fac2807946c10b Quinn Tran    2021-06-23  3745  		rc = -EIO;
+fac2807946c10b Quinn Tran    2021-06-23  3746  
+c019cd656e7173 Quinn Tran    2022-07-12  3747  	ql_dbg(ql_dbg_init, vha, 0x5091,
+c019cd656e7173 Quinn Tran    2022-07-12  3748  	       "%s - ring %p pkt %p entry count %d iocb_cnt %d rsp_q_in %d rc %d\n",
+c019cd656e7173 Quinn Tran    2022-07-12  3749  	       __func__, rsp->ring, pkt, pkt->entry_count, iocb_cnt, rsp_q_in, rc);
+fac2807946c10b Quinn Tran    2021-06-23  3750  
+fac2807946c10b Quinn Tran    2021-06-23  3751  	return rc;
+fac2807946c10b Quinn Tran    2021-06-23  3752  }
+fac2807946c10b Quinn Tran    2021-06-23  3753  
+
+:::::: The code at line 3724 was first introduced by commit
+:::::: fac2807946c10b9a509b9c348afd442fa823c5f7 scsi: qla2xxx: edif: Add extraction of auth_els from the wire
+
+:::::: TO: Quinn Tran <qutran@marvell.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
