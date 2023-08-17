@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC5FDF56
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 08:29:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE20F9C4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 08:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692260958; x=1723796958;
+  t=1692260961; x=1723796961;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AVoxAPrPGXPAYHR5pzQIokSDae3tHBNnewTLx/I2BYI=;
-  b=f5PZq8Ijo2iGc5j5OCF02tXUfPmfo5ti9uj8fSINNaRCMfteqfCjMqEo
-   wkLF6Xv56+qeFb+wzxvQbuXZYZjiJOBv77YP4gH5C+QCVUC3y7/J+FEOC
-   XYAOJ1Nc5e03jTjxQ89vci93RgY0w8AoKCUYzGtCvmIH1ZCfab1G9mqVr
-   TKWUkqg5HTS6ckS+wRUtviFnsslpCiT05h7c+c9UK+8W+Xkm1206zN5dc
-   nwCIYLBakhMR3oJsl0hZ4LRonHdFDPky4WfngR8tHEZa06NOD2trTyvj4
-   dRUCOlZVMmjL8T35NyF4YjDWpIpBrrGsPsiGo820Yzu7oM454CSN0WonL
+  bh=yAbWiGucmYklOKIGXS+a6bV00K8wKjzgVf3yRvVY8c4=;
+  b=XL1xCBr1FpajW6vFYaugkmNLJHljA1TNkIVnBye9cRKJENucdw7rSDM0
+   y57VVR/ffGNaycgdbJDPBvmykReec1UZV2xPfxHtUkt9hNsiKzdBt28k2
+   +PI4O939KQr5vXeAC3m8NV0m1HbuhwkK474vu1f5YkGObt2hhVVqY8jmq
+   wShSsbk5gf6wFJDw6nFMAP7qpCyTYBLxDgEgxAhdQ2lLFuaCpbmj5eIiQ
+   a00banuE3+z1qKcg7u7KhnwleRHQpCC1CfI3+ZKH/3NuWYIych2baROBu
+   pVcXOY3S1PbLOYlbS55ngoWHbYi45TKrxccbuHTLOBrBQkdffgLPuOJJx
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="436653431"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371647763"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="436653431"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 01:29:17 -0700
+   d="scan'208";a="371647763"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 01:29:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="858150609"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="848804621"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="858150609"
+   d="scan'208";a="848804621"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 17 Aug 2023 01:29:15 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2023 01:29:18 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWYNR-0000wz-20;
-	Thu, 17 Aug 2023 08:29:10 +0000
-Date: Thu, 17 Aug 2023 16:28:56 +0800
+	id 1qWYNV-0000x1-1i;
+	Thu, 17 Aug 2023 08:29:14 +0000
+Date: Thu, 17 Aug 2023 16:28:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>
-Subject: kernel/time/tick-broadcast.c:1026: warning: Function parameter or
- member 'from_periodic' not described in 'tick_broadcast_setup_oneshot'
-Message-ID: <202308171624.uh1qEoWo-lkp@intel.com>
+To: Zhihao Cheng <chengzhihao1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Richard Weinberger <richard@nod.at>
+Subject: [stable:linux-4.19.y 2224/6743] fs/ubifs/ioctl.c:175: Error:
+ unrecognized opcode `csrs sstatus,a2', extension `zicsr' required
+Message-ID: <202308171635.bpsDF2lk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,134 +48,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: f9d36cf445ffff0b913ba187a3eff78028f9b1fb tick/broadcast: Make broadcast device replacement work correctly
-date:   3 months ago
-config: i386-randconfig-i013-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171624.uh1qEoWo-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171624.uh1qEoWo-lkp@intel.com/reproduce)
+Hi Zhihao,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   4e5e7fa94ee0ff378b268679d51feb1fd2a04756
+commit: b98a46d053339fa482c7cf9a71b18fbbe8091489 [2224/6743] ubifs: setflags: Make dirtied_ino_d 8 bytes aligned
+config: riscv-randconfig-r093-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171635.bpsDF2lk-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171635.bpsDF2lk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171624.uh1qEoWo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171635.bpsDF2lk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/time/tick-broadcast.c:1026: warning: Function parameter or member 'bc' not described in 'tick_broadcast_setup_oneshot'
->> kernel/time/tick-broadcast.c:1026: warning: Function parameter or member 'from_periodic' not described in 'tick_broadcast_setup_oneshot'
+   fs/ubifs/ioctl.c: Assembler messages:
+   fs/ubifs/ioctl.c:166: Error: unrecognized opcode `csrs sstatus,a5', extension `zicsr' required
+   fs/ubifs/ioctl.c:166: Error: unrecognized opcode `csrc sstatus,a5', extension `zicsr' required
+>> fs/ubifs/ioctl.c:175: Error: unrecognized opcode `csrs sstatus,a2', extension `zicsr' required
+>> fs/ubifs/ioctl.c:175: Error: unrecognized opcode `csrc sstatus,a2', extension `zicsr' required
 
 
-vim +1026 kernel/time/tick-broadcast.c
+vim +175 fs/ubifs/ioctl.c
 
-f73f64d5687192 Thomas Gleixner 2020-11-17  1020  
-79bf2bb335b85d Thomas Gleixner 2007-02-16  1021  /**
-8dce39c231af55 Li Zefan        2007-11-05  1022   * tick_broadcast_setup_oneshot - setup the broadcast device
-79bf2bb335b85d Thomas Gleixner 2007-02-16  1023   */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1024  static void tick_broadcast_setup_oneshot(struct clock_event_device *bc,
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1025  					 bool from_periodic)
-79bf2bb335b85d Thomas Gleixner 2007-02-16 @1026  {
-07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1027  	int cpu = smp_processor_id();
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1028  	ktime_t nexttick = 0;
-07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1029  
-c1a9eeb938b543 Thomas Gleixner 2016-12-15  1030  	if (!bc)
-c1a9eeb938b543 Thomas Gleixner 2016-12-15  1031  		return;
-c1a9eeb938b543 Thomas Gleixner 2016-12-15  1032  
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1033  	/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1034  	 * When the broadcast device was switched to oneshot by the first
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1035  	 * CPU handling the NOHZ change, the other CPUs will reach this
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1036  	 * code via hrtimer_run_queues() -> tick_check_oneshot_change()
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1037  	 * too. Set up the broadcast device only once!
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1038  	 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1039  	if (bc->event_handler == tick_handle_oneshot_broadcast) {
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1040  		/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1041  		 * The CPU which switched from periodic to oneshot mode
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1042  		 * set the broadcast oneshot bit for all other CPUs which
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1043  		 * are in the general (periodic) broadcast mask to ensure
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1044  		 * that CPUs which wait for the periodic broadcast are
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1045  		 * woken up.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1046  		 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1047  		 * Clear the bit for the local CPU as the set bit would
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1048  		 * prevent the first tick_broadcast_enter() after this CPU
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1049  		 * switched to oneshot state to program the broadcast
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1050  		 * device.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1051  		 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1052  		 * This code can also be reached via tick_broadcast_control(),
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1053  		 * but this cannot avoid the tick_broadcast_clear_oneshot()
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1054  		 * as that would break the periodic to oneshot transition of
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1055  		 * secondary CPUs. But that's harmless as the below only
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1056  		 * clears already cleared bits.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1057  		 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1058  		tick_broadcast_clear_oneshot(cpu);
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1059  		return;
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1060  	}
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1061  
-7300711e8c6824 Thomas Gleixner 2008-09-06  1062  
-79bf2bb335b85d Thomas Gleixner 2007-02-16  1063  	bc->event_handler = tick_handle_oneshot_broadcast;
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1064  	bc->next_event = KTIME_MAX;
-7300711e8c6824 Thomas Gleixner 2008-09-06  1065  
-7300711e8c6824 Thomas Gleixner 2008-09-06  1066  	/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1067  	 * When the tick mode is switched from periodic to oneshot it must
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1068  	 * be ensured that CPUs which are waiting for periodic broadcast
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1069  	 * get their wake-up at the next tick.  This is achieved by ORing
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1070  	 * tick_broadcast_mask into tick_broadcast_oneshot_mask.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1071  	 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1072  	 * For other callers, e.g. broadcast device replacement,
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1073  	 * tick_broadcast_oneshot_mask must not be touched as this would
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1074  	 * set bits for CPUs which are already NOHZ, but not idle. Their
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1075  	 * next tick_broadcast_enter() would observe the bit set and fail
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1076  	 * to update the expiry time and the broadcast event device.
-7300711e8c6824 Thomas Gleixner 2008-09-06  1077  	 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1078  	if (from_periodic) {
-b352bc1cbc2913 Thomas Gleixner 2013-03-05  1079  		cpumask_copy(tmpmask, tick_broadcast_mask);
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1080  		/* Remove the local CPU as it is obviously not idle */
-b352bc1cbc2913 Thomas Gleixner 2013-03-05  1081  		cpumask_clear_cpu(cpu, tmpmask);
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1082  		cpumask_or(tick_broadcast_oneshot_mask, tick_broadcast_oneshot_mask, tmpmask);
-7300711e8c6824 Thomas Gleixner 2008-09-06  1083  
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1084  		/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1085  		 * Ensure that the oneshot broadcast handler will wake the
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1086  		 * CPUs which are still waiting for periodic broadcast.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1087  		 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1088  		nexttick = tick_get_next_period();
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1089  		tick_broadcast_init_next_event(tmpmask, nexttick);
-f73f64d5687192 Thomas Gleixner 2020-11-17  1090  
-07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1091  		/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1092  		 * If the underlying broadcast clock event device is
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1093  		 * already in oneshot state, then there is nothing to do.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1094  		 * The device was already armed for the next tick
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1095  		 * in tick_handle_broadcast_periodic()
-07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1096  		 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1097  		if (clockevent_state_oneshot(bc))
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1098  			return;
-79bf2bb335b85d Thomas Gleixner 2007-02-16  1099  	}
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1100  
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1101  	/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1102  	 * When switching from periodic to oneshot mode arm the broadcast
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1103  	 * device for the next tick.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1104  	 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1105  	 * If the broadcast device has been replaced in oneshot mode and
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1106  	 * the oneshot broadcast mask is not empty, then arm it to expire
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1107  	 * immediately in order to reevaluate the next expiring timer.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1108  	 * @nexttick is 0 and therefore in the past which will cause the
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1109  	 * clockevent code to force an event.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1110  	 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1111  	 * For both cases the programming can be avoided when the oneshot
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1112  	 * broadcast mask is empty.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1113  	 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1114  	 * tick_broadcast_set_event() implicitly switches the broadcast
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1115  	 * device to oneshot state.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1116  	 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1117  	if (!cpumask_empty(tick_broadcast_oneshot_mask))
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1118  		tick_broadcast_set_event(bc, cpu, nexttick);
-9c17bcda991000 Thomas Gleixner 2008-09-03  1119  }
-79bf2bb335b85d Thomas Gleixner 2007-02-16  1120  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  155  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  156  long ubifs_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  157  {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  158  	int flags, err;
+496ad9aa8ef448 Al Viro            2013-01-23  159  	struct inode *inode = file_inode(file);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  160  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  161  	switch (cmd) {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  162  	case FS_IOC_GETFLAGS:
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  163  		flags = ubifs2ioctl(ubifs_inode(inode)->flags);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  164  
+a9f2fc0e251e71 Artem Bityutskiy   2008-12-23  165  		dbg_gen("get flags: %#x, i_flags %#x", flags, inode->i_flags);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  166  		return put_user(flags, (int __user *) arg);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  167  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  168  	case FS_IOC_SETFLAGS: {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  169  		if (IS_RDONLY(inode))
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  170  			return -EROFS;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  171  
+2e1496707560ec Serge E. Hallyn    2011-03-23  172  		if (!inode_owner_or_capable(inode))
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  173  			return -EACCES;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  174  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14 @175  		if (get_user(flags, (int __user *) arg))
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  176  			return -EFAULT;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  177  
+08ae5ec4be5a6d Hou Tao            2019-02-09  178  		if (flags & ~UBIFS_SUPPORTED_IOCTL_FLAGS)
+08ae5ec4be5a6d Hou Tao            2019-02-09  179  			return -EOPNOTSUPP;
+08ae5ec4be5a6d Hou Tao            2019-02-09  180  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  181  		if (!S_ISDIR(inode->i_mode))
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  182  			flags &= ~FS_DIRSYNC_FL;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  183  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  184  		/*
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  185  		 * Make sure the file-system is read-write and make sure it
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  186  		 * will not become read-only while we are changing the flags.
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  187  		 */
+a561be7100cd61 Al Viro            2011-11-23  188  		err = mnt_want_write_file(file);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  189  		if (err)
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  190  			return err;
+a9f2fc0e251e71 Artem Bityutskiy   2008-12-23  191  		dbg_gen("set flags: %#x, i_flags %#x", flags, inode->i_flags);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  192  		err = setflags(inode, flags);
+2a79f17e4a641a Al Viro            2011-12-09  193  		mnt_drop_write_file(file);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  194  		return err;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  195  	}
+d475a507457b5c Richard Weinberger 2016-10-20  196  	case FS_IOC_SET_ENCRYPTION_POLICY: {
+d475a507457b5c Richard Weinberger 2016-10-20  197  #ifdef CONFIG_UBIFS_FS_ENCRYPTION
+e021986ee4119e Richard Weinberger 2016-10-19  198  		struct ubifs_info *c = inode->i_sb->s_fs_info;
+d475a507457b5c Richard Weinberger 2016-10-20  199  
+e021986ee4119e Richard Weinberger 2016-10-19  200  		err = ubifs_enable_encryption(c);
+e021986ee4119e Richard Weinberger 2016-10-19  201  		if (err)
+e021986ee4119e Richard Weinberger 2016-10-19  202  			return err;
+e021986ee4119e Richard Weinberger 2016-10-19  203  
+ec9160dacdb08e Richard Weinberger 2016-12-13  204  		return fscrypt_ioctl_set_policy(file, (const void __user *)arg);
+d475a507457b5c Richard Weinberger 2016-10-20  205  #else
+d475a507457b5c Richard Weinberger 2016-10-20  206  		return -EOPNOTSUPP;
+d475a507457b5c Richard Weinberger 2016-10-20  207  #endif
+d475a507457b5c Richard Weinberger 2016-10-20  208  	}
+d475a507457b5c Richard Weinberger 2016-10-20  209  	case FS_IOC_GET_ENCRYPTION_POLICY: {
+d475a507457b5c Richard Weinberger 2016-10-20  210  #ifdef CONFIG_UBIFS_FS_ENCRYPTION
+ec9160dacdb08e Richard Weinberger 2016-12-13  211  		return fscrypt_ioctl_get_policy(file, (void __user *)arg);
+d475a507457b5c Richard Weinberger 2016-10-20  212  #else
+d475a507457b5c Richard Weinberger 2016-10-20  213  		return -EOPNOTSUPP;
+d475a507457b5c Richard Weinberger 2016-10-20  214  #endif
+d475a507457b5c Richard Weinberger 2016-10-20  215  	}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  216  
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  217  	default:
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  218  		return -ENOTTY;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  219  	}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  220  }
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  221  
 
-:::::: The code at line 1026 was first introduced by commit
-:::::: 79bf2bb335b85db25d27421c798595a2fa2a0e82 [PATCH] tick-management: dyntick / highres functionality
+:::::: The code at line 175 was first introduced by commit
+:::::: 1e51764a3c2ac05a23a22b2a95ddee4d9bffb16d UBIFS: add new flash file system
 
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+:::::: TO: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
+:::::: CC: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
 
 -- 
 0-DAY CI Kernel Test Service
