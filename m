@@ -1,44 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C264E2907
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 12:56:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5372907
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 12:56:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692277008; x=1723813008;
+  t=1692277012; x=1723813012;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=un1/FGje3nkweq9S6E3sAc/wBe4HMtaj6LBemeqLbpk=;
-  b=jsw5UZz5oafVi/+N9hWT5o8CaoJGNfbNWtknS29tZZF07V8Ibw1IDy4y
-   ffTXlaWRo+cnYh0HxKmQAiB48oQlGHlhrHsoCht6gWhmNIdGwRJSR6C2C
-   CLkQNKp8m8a/T48yIcmErdTSk1Din7gwC6QqZ8YtWyL0n3Ki44OMBx2en
-   gSVWfy2cWKODiMaAFIstRDxpWYXgQt6T6GlAk3TOqs1MfJY5VYd/QF/S6
-   HoOg4vn06UbR91lYOD1XzDosTgK9dH60zGJaw7OX4qYdKpDLSc0nwa/VK
-   ZjrcOHj3k9YtAQCstRc5xSV+pP92pOraALuMeIk88YG7e6PE3HDgYqKzw
+  bh=T+4QV5apohsYGybwggq4arjrA8KPRXKg4qUHp1H8pHE=;
+  b=JScpJ1yfBf7G+K2hfVvsRjnmvZriADQ+7C0ZifMEnsmk/59gxhQVoico
+   xUQrZVsrELS3VFCrMp3OqgNbe8L5w+O82qY8uQ2y5SWmfmVenoWtSDo4X
+   wOa4JyLre0OzLR87i5AmrrEiJwg+CKFj91NgEInMYc6m91wAWFOhS+5PN
+   7KCNJFG7of/fpQGAtI5Id23evDP0QlwB2g+ez7yePnfS8bILM8hZH/Wb1
+   S+uQyR023fCTsnwql7NTOllRxVprN8FqwF5G21SDjDCzeTz+aNunNAdR/
+   266s4pXqhy8zr13IU3/vm89tTugaiy2yMGkEs0qYQ/kZ0X+5T5w61n8Hf
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370269219"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370269257"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="370269219"
+   d="scan'208";a="370269257"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 05:56:45 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 05:56:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="764069137"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="764069198"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="764069137"
+   d="scan'208";a="764069198"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 17 Aug 2023 05:56:39 -0700
+  by orsmga008.jf.intel.com with ESMTP; 17 Aug 2023 05:56:50 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWcYH-000195-0u;
-	Thu, 17 Aug 2023 12:56:37 +0000
-Date: Thu, 17 Aug 2023 20:56:21 +0800
+	id 1qWcYK-000199-21;
+	Thu, 17 Aug 2023 12:56:45 +0000
+Date: Thu, 17 Aug 2023 20:56:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: kernel/user_namespace.c:239: warning: Function parameter or member
- 'map_up' not described in 'idmap_key'
-Message-ID: <202308172003.O1QB7TgB-lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
+	Kishon <kishon@ti.com>
+Subject: [phy:next 67/74] drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2378:38:
+ error: redefinition of 'qmp_pcie_offsets_v5_20'
+Message-ID: <202308172039.Ua2Ef3B8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,64 +47,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: e227db4d4f125efb1cae2f1337da85bc10b3185e userns: fix a struct's kernel-doc notation
-date:   7 months ago
-config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20230817/202308172003.O1QB7TgB-lkp@intel.com/config)
-compiler: hppa64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172003.O1QB7TgB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git next
+head:   a11ecceaf41d2dd542228007940652fea7532276
+commit: 64adc0bf06ad5855da5a02b9653fb7cfda289c50 [67/74] phy: qcom-qmp-pcie: populate offsets configuration
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230817/202308172039.Ua2Ef3B8-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172039.Ua2Ef3B8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172003.O1QB7TgB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172039.Ua2Ef3B8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/user_namespace.c:239: warning: Function parameter or member 'map_up' not described in 'idmap_key'
->> kernel/user_namespace.c:239: warning: Function parameter or member 'id' not described in 'idmap_key'
->> kernel/user_namespace.c:239: warning: Function parameter or member 'count' not described in 'idmap_key'
-   kernel/user_namespace.c:246: warning: Function parameter or member 'k' not described in 'cmp_map_id'
-   kernel/user_namespace.c:246: warning: Function parameter or member 'e' not described in 'cmp_map_id'
-   kernel/user_namespace.c:277: warning: Function parameter or member 'extents' not described in 'map_id_range_down_max'
-   kernel/user_namespace.c:277: warning: Function parameter or member 'map' not described in 'map_id_range_down_max'
-   kernel/user_namespace.c:277: warning: Function parameter or member 'id' not described in 'map_id_range_down_max'
-   kernel/user_namespace.c:277: warning: Function parameter or member 'count' not described in 'map_id_range_down_max'
-   kernel/user_namespace.c:295: warning: Function parameter or member 'extents' not described in 'map_id_range_down_base'
-   kernel/user_namespace.c:295: warning: Function parameter or member 'map' not described in 'map_id_range_down_base'
-   kernel/user_namespace.c:295: warning: Function parameter or member 'id' not described in 'map_id_range_down_base'
-   kernel/user_namespace.c:295: warning: Function parameter or member 'count' not described in 'map_id_range_down_base'
-   kernel/user_namespace.c:344: warning: Function parameter or member 'extents' not described in 'map_id_up_base'
-   kernel/user_namespace.c:344: warning: Function parameter or member 'map' not described in 'map_id_up_base'
-   kernel/user_namespace.c:344: warning: Function parameter or member 'id' not described in 'map_id_up_base'
-   kernel/user_namespace.c:364: warning: Function parameter or member 'extents' not described in 'map_id_up_max'
-   kernel/user_namespace.c:364: warning: Function parameter or member 'map' not described in 'map_id_up_max'
-   kernel/user_namespace.c:364: warning: Function parameter or member 'id' not described in 'map_id_up_max'
-   kernel/user_namespace.c:776: warning: Function parameter or member 'map' not described in 'insert_extent'
-   kernel/user_namespace.c:776: warning: Function parameter or member 'extent' not described in 'insert_extent'
-   kernel/user_namespace.c:844: warning: Function parameter or member 'map' not described in 'sort_idmaps'
+>> drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2378:38: error: redefinition of 'qmp_pcie_offsets_v5_20'
+    2378 | static const struct qmp_pcie_offsets qmp_pcie_offsets_v5_20 = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2357:38: note: previous definition of 'qmp_pcie_offsets_v5_20' with type 'const struct qmp_pcie_offsets'
+    2357 | static const struct qmp_pcie_offsets qmp_pcie_offsets_v5_20 = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +239 kernel/user_namespace.c
+vim +/qmp_pcie_offsets_v5_20 +2378 drivers/phy/qualcomm/phy-qcom-qmp-pcie.c
 
-5c1469de7545a3 Eric W. Biederman 2010-06-13  230  
-6397fac4915ab3 Christian Brauner 2017-10-25  231  /**
-e227db4d4f125e Randy Dunlap      2023-01-07  232   * struct idmap_key - holds the information necessary to find an idmapping in a
-6397fac4915ab3 Christian Brauner 2017-10-25  233   * sorted idmap array. It is passed to cmp_map_id() as first argument.
-6397fac4915ab3 Christian Brauner 2017-10-25  234   */
-6397fac4915ab3 Christian Brauner 2017-10-25  235  struct idmap_key {
-6397fac4915ab3 Christian Brauner 2017-10-25  236  	bool map_up; /* true  -> id from kid; false -> kid from id */
-6397fac4915ab3 Christian Brauner 2017-10-25  237  	u32 id; /* id to find */
-6397fac4915ab3 Christian Brauner 2017-10-25  238  	u32 count; /* == 0 unless used with map_id_range_down() */
-6397fac4915ab3 Christian Brauner 2017-10-25 @239  };
-6397fac4915ab3 Christian Brauner 2017-10-25  240  
+269b70e85282e7 Abel Vesa      2023-02-08  2377  
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14 @2378  static const struct qmp_pcie_offsets qmp_pcie_offsets_v5_20 = {
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2379  	.serdes		= 0x1000,
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2380  	.pcs		= 0x1200,
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2381  	.pcs_misc	= 0x1400,
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2382  	.tx		= 0x0000,
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2383  	.rx		= 0x0200,
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2384  	.tx2		= 0x0800,
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2385  	.rx2		= 0x0a00,
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2386  	.ln_shrd	= 0x0e00,
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2387  };
+a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2388  
 
-:::::: The code at line 239 was first introduced by commit
-:::::: 6397fac4915ab3002dc15aae751455da1a852f25 userns: bump idmap limits to 340
+:::::: The code at line 2378 was first introduced by commit
+:::::: a05b6d5135ec3e65520ae0eaa1b24d4c6549424e phy: qcom-qmp-pcie: add support for sa8775p
 
-:::::: TO: Christian Brauner <christian.brauner@ubuntu.com>
-:::::: CC: Eric W. Biederman <ebiederm@xmission.com>
+:::::: TO: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+:::::: CC: Vinod Koul <vkoul@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
