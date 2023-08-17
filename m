@@ -1,44 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66778CA58;
-	Thu, 17 Aug 2023 07:54:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D226BDDBB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 07:54:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692258882; x=1723794882;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JjqfJzbjuYdRYPECagrfG7wvT+iC8uA0V847U6jle+w=;
-  b=YwoTdHTjwDTZjt5ntl8v3mA2rOqbgft5PvfANdllL/lfQKMMOGatIvFt
-   kud75XUBJQeco0SUDtFjGQEZNIvI0FWxFFMLnNh8lTJ0XawpfaDGqTyOI
-   XC7LCwaQBen7qjd0P5ocIyMM0mU6ambjpvSxjO4TDxhBu5sQyPcoide+K
-   0v/G8mvTgg+kKcrOeBzWHyAuGL7KmsepIk4SuUnCwaUc0RU7Y06EwiMJ2
-   tXs+Kq0ofIvxLvSyS2MTUNq5wxp9u2U/M8bEEOiZdTL5nXhm5BEBzgqnj
-   8efQM9ECzRN3gESPJEz4VSeTjho5370Y0DW4lM6dTzcDHiojPKDb8zskb
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="357707712"
+  t=1692258885; x=1723794885;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UQmKIwqh/wtgUoyvc5dCNgfPVrdlQTGSAmf4kU2t33M=;
+  b=j1z/8Dfkrp6VmHR+6BdXM97bXgZXPaUKgBpQLAreVRSvHia9cpgXdbPt
+   DWHlcIWQIwYBKuxIbJXb/wCS3nTE7tU1r6qg0OlWgZ5RQidKCW3C5HsGw
+   WpTkloTJOseeBtiUnoit6bF33lfd5Xd3fXAXkIGml2v7uYiR5cTl18tw7
+   lp0+Vweq9m+WJTTtIxCGNwW/1BW0GC0cyeJpUdDjZ6T2xJny4wPrNzpQ4
+   j2MV9K5TLndccfWdDTjuEnpeznnXq/osrdQQd2hcQLimrY1eNvudGMkH3
+   e7EwaBUeWOfOAaZaiIZ2JnwxsyUxWHKcy8wquiIAwlBSHV112wZcKKsAM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="353058266"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="357707712"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 00:54:41 -0700
+   d="scan'208";a="353058266"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 00:54:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="711435491"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="848796713"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="711435491"
+   d="scan'208";a="848796713"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 17 Aug 2023 00:54:39 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2023 00:54:39 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWXq3-0000v7-08;
+	id 1qWXq3-0000vB-0H;
 	Thu, 17 Aug 2023 07:54:39 +0000
-Date: Thu, 17 Aug 2023 15:54:37 +0800
+Date: Thu, 17 Aug 2023 15:54:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa-dev@sang-engineering.com>
-Subject: drivers/i2c/busses/i2c-cadence.c:218: warning: Function parameter or
- member 'rinfo' not described in 'cdns_i2c'
-Message-ID: <202308171510.bKHBcZQW-lkp@intel.com>
+To: Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	intel-wired-lan@lists.osuosl.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>
+Subject: Re: [PATCH iwl-next] ice: store VF's pci_dev ptr in ice_vf
+Message-ID: <202308171518.cvGLIHQ3-lkp@intel.com>
+References: <20230816085454.235440-1-przemyslaw.kitszel@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,90 +52,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230816085454.235440-1-przemyslaw.kitszel@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: 58b924241d0a23eee8e86dd9e6f5dacd01c82e62 i2c: cadence: Add standard bus recovery support
-date:   11 months ago
-config: riscv-randconfig-r002-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171510.bKHBcZQW-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171510.bKHBcZQW-lkp@intel.com/reproduce)
+Hi Przemek,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0ad204c4acb8ba1ed99564b001609e62547bc79d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Przemek-Kitszel/ice-store-VF-s-pci_dev-ptr-in-ice_vf/20230816-165953
+base:   0ad204c4acb8ba1ed99564b001609e62547bc79d
+patch link:    https://lore.kernel.org/r/20230816085454.235440-1-przemyslaw.kitszel%40intel.com
+patch subject: [PATCH iwl-next] ice: store VF's pci_dev ptr in ice_vf
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230817/202308171518.cvGLIHQ3-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171518.cvGLIHQ3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171510.bKHBcZQW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171518.cvGLIHQ3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-cadence.c:218: warning: Function parameter or member 'rinfo' not described in 'cdns_i2c'
+>> drivers/net/ethernet/intel/ice/ice_sriov.c:1727: warning: Function parameter or member 'pf' not described in 'ice_restore_all_vfs_msi_state'
+>> drivers/net/ethernet/intel/ice/ice_sriov.c:1727: warning: Excess function parameter 'pdev' description in 'ice_restore_all_vfs_msi_state'
 
 
-vim +218 drivers/i2c/busses/i2c-cadence.c
+vim +1727 drivers/net/ethernet/intel/ice/ice_sriov.c
 
-1a351b10b9671f Radu Pirea           2020-01-06  163  
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  164  /**
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  165   * struct cdns_i2c - I2C device private data structure
-30e31a1fbc1fc0 Shubhrajyoti Datta   2016-03-07  166   *
-30e31a1fbc1fc0 Shubhrajyoti Datta   2016-03-07  167   * @dev:		Pointer to device structure
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  168   * @membase:		Base address of the I2C device
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  169   * @adap:		I2C adapter instance
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  170   * @p_msg:		Message pointer
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  171   * @err_status:		Error status in Interrupt Status Register
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  172   * @xfer_done:		Transfer complete status
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  173   * @p_send_buf:		Pointer to transmit buffer
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  174   * @p_recv_buf:		Pointer to receive buffer
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  175   * @send_count:		Number of bytes still expected to send
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  176   * @recv_count:		Number of bytes still expected to receive
-9fae82e1acda8d Harini Katakam       2014-12-12  177   * @curr_recv_count:	Number of bytes to be received in current transfer
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  178   * @irq:		IRQ number
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  179   * @input_clk:		Input clock to I2C controller
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  180   * @i2c_clk:		Maximum I2C clock speed
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  181   * @bus_hold_flag:	Flag used in repeated start for clearing HOLD bit
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  182   * @clk:		Pointer to struct clk
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  183   * @clk_rate_change_nb:	Notifier block for clock rate changes
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  184   * @quirks:		flag for broken hold bit usage in r1p10
-8b51a8e64443b9 Shubhrajyoti Datta   2021-07-13  185   * @ctrl_reg:		Cached value of the control register.
-1a351b10b9671f Radu Pirea           2020-01-06  186   * @ctrl_reg_diva_divb: value of fields DIV_A and DIV_B from CR register
-1a351b10b9671f Radu Pirea           2020-01-06  187   * @slave:		Registered slave instance.
-1a351b10b9671f Radu Pirea           2020-01-06  188   * @dev_mode:		I2C operating role(master/slave).
-1a351b10b9671f Radu Pirea           2020-01-06  189   * @slave_state:	I2C Slave state(idle/read/write).
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  190   */
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  191  struct cdns_i2c {
-7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  192  	struct device		*dev;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  193  	void __iomem *membase;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  194  	struct i2c_adapter adap;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  195  	struct i2c_msg *p_msg;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  196  	int err_status;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  197  	struct completion xfer_done;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  198  	unsigned char *p_send_buf;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  199  	unsigned char *p_recv_buf;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  200  	unsigned int send_count;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  201  	unsigned int recv_count;
-9fae82e1acda8d Harini Katakam       2014-12-12  202  	unsigned int curr_recv_count;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  203  	int irq;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  204  	unsigned long input_clk;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  205  	unsigned int i2c_clk;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  206  	unsigned int bus_hold_flag;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  207  	struct clk *clk;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  208  	struct notifier_block clk_rate_change_nb;
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  209  	u32 quirks;
-8b51a8e64443b9 Shubhrajyoti Datta   2021-07-13  210  	u32 ctrl_reg;
-58b924241d0a23 Shubhrajyoti Datta   2022-07-28  211  	struct i2c_bus_recovery_info rinfo;
-1a351b10b9671f Radu Pirea           2020-01-06  212  #if IS_ENABLED(CONFIG_I2C_SLAVE)
-1a351b10b9671f Radu Pirea           2020-01-06  213  	u16 ctrl_reg_diva_divb;
-1a351b10b9671f Radu Pirea           2020-01-06  214  	struct i2c_client *slave;
-1a351b10b9671f Radu Pirea           2020-01-06  215  	enum cdns_i2c_mode dev_mode;
-1a351b10b9671f Radu Pirea           2020-01-06  216  	enum cdns_i2c_slave_state slave_state;
-1a351b10b9671f Radu Pirea           2020-01-06  217  #endif
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10 @218  };
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  219  
-
-:::::: The code at line 218 was first introduced by commit
-:::::: 63cab195bf498676619951e81ad5791e9d47c420 i2c: removed work arounds in i2c driver for Zynq Ultrascale+ MPSoC
-
-:::::: TO: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-:::::: CC: Wolfram Sang <wsa@the-dreams.de>
+a54a0b24f4f5a3 drivers/net/ethernet/intel/ice/ice_virtchnl_pf.c Nick Nunley     2020-07-13  1718  
+a54a0b24f4f5a3 drivers/net/ethernet/intel/ice/ice_virtchnl_pf.c Nick Nunley     2020-07-13  1719  /**
+a54a0b24f4f5a3 drivers/net/ethernet/intel/ice/ice_virtchnl_pf.c Nick Nunley     2020-07-13  1720   * ice_restore_all_vfs_msi_state - restore VF MSI state after PF FLR
+a54a0b24f4f5a3 drivers/net/ethernet/intel/ice/ice_virtchnl_pf.c Nick Nunley     2020-07-13  1721   * @pdev: pointer to a pci_dev structure
+a54a0b24f4f5a3 drivers/net/ethernet/intel/ice/ice_virtchnl_pf.c Nick Nunley     2020-07-13  1722   *
+a54a0b24f4f5a3 drivers/net/ethernet/intel/ice/ice_virtchnl_pf.c Nick Nunley     2020-07-13  1723   * Called when recovering from a PF FLR to restore interrupt capability to
+a54a0b24f4f5a3 drivers/net/ethernet/intel/ice/ice_virtchnl_pf.c Nick Nunley     2020-07-13  1724   * the VFs.
+a54a0b24f4f5a3 drivers/net/ethernet/intel/ice/ice_virtchnl_pf.c Nick Nunley     2020-07-13  1725   */
+ab8f0331b8a892 drivers/net/ethernet/intel/ice/ice_sriov.c       Przemek Kitszel 2023-08-16  1726  void ice_restore_all_vfs_msi_state(struct ice_pf *pf)
+a54a0b24f4f5a3 drivers/net/ethernet/intel/ice/ice_virtchnl_pf.c Nick Nunley     2020-07-13 @1727  {
 
 -- 
 0-DAY CI Kernel Test Service
