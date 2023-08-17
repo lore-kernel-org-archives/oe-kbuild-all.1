@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDE7138D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 07:44:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A809D305
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 07:44:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692258283; x=1723794283;
+  t=1692258285; x=1723794285;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ekkzRZa/q8tTUp9IbynWhS81KKUJdGr5XhehBreEqyE=;
-  b=IoV9ZyWr3VpZzhC+4TQDA704xgPDbPyFRhSXcQQNrAJpQk4V5du74nBM
-   cPZ9uLTlXeJ0CAsnb3v/9Q2sRbKPk/z+DZ550xldx6NM8tfUl9WivceuA
-   eJ+8N6KdxKuRD/Vk4BsWJRZKjX0vukqQuLxPid+qfu+cSOCVaj8GVTyxh
-   Eiw8I94/V5JiLWbHn6SgfxnQCER0TgyT/8+XxhJWKWUYY6YApHxCaqJwo
-   VPHy3X7IdY4UZVDaIQL//3/2RYMgIE+FCApwPmOa69MHfqjrofDGaqsv/
-   vzCr3udo18OkHRmldNDHi5UQtcLTYz/Yzwz7YDRLiTqEP0QTsGM/VbZBR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="403720780"
+  bh=eZRNGcl/S6vO0JOxwMIBLxe49aSmUcB0L18OPr7lpIA=;
+  b=Pm5ObNEzj+aDXJcQz7anwJtaG9gfUyAc/asxiw74Wu3qrU7vCT1W0ORy
+   rMJw2v7Fii4k3IH7mgAc2gZ48zhncPeWCk0ur8mRZ0zv/86zWySP75u5l
+   Po4GWNlbm79zMTPp5MqOHkGBfHGUppR9kjcdUwNPjzQUIDLgRal6euVqX
+   EDMfAuiSeh7x9t1M9fMboTmSJ2amJcBdwKKQMz7UpEpBljGWA/6dvDWKo
+   qvesYApT76vVUNo1/IXVsjJLT48f4NOz3kv3xLi6qyL/n7ZKV3+4cTtMm
+   lf0LypMFYS0KWIHvuqN25tvP+SlOeMTO42pnljJjb9TtceSgFQTbXBAw2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="376476993"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="403720780"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 00:44:40 -0700
+   d="scan'208";a="376476993"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 00:44:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1065149556"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="737601629"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="1065149556"
+   d="scan'208";a="737601629"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Aug 2023 00:44:39 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 17 Aug 2023 00:44:39 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWXgM-0000ur-2s;
+	id 1qWXgM-0000uu-30;
 	Thu, 17 Aug 2023 07:44:38 +0000
-Date: Thu, 17 Aug 2023 15:44:04 +0800
+Date: Thu, 17 Aug 2023 15:44:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: [rt-devel:linux-6.5.y-rt 36/87] kernel/printk/printk_nobkl.c:1457:
- warning: Function parameter or member 'skip_unsafe' not described in
- 'cons_atomic_try_acquire'
-Message-ID: <202308171516.J0xzKEbc-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: fs/nilfs2/ioctl.c:133: warning: Function parameter or member 'idmap'
+ not described in 'nilfs_fileattr_set'
+Message-ID: <202308171521.rNg7eaw1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,55 +47,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.5.y-rt
-head:   16ae0de52ef9f7e5c2cd7e8443f5195c176353ea
-commit: 659bbd8c02d7c75f1feb0da389c3da6d63b196ca [36/87] printk: nobkl: Provide functions for atomic write enforcement
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20230817/202308171516.J0xzKEbc-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171516.J0xzKEbc-lkp@intel.com/reproduce)
+Hi Christian,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: 8782a9aea3ab4d697ad67d1f8ebca38a4e1c24ab fs: port ->fileattr_set() to pass mnt_idmap
+date:   7 months ago
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230817/202308171521.rNg7eaw1-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171521.rNg7eaw1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171516.J0xzKEbc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171521.rNg7eaw1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/printk/printk_nobkl.c:1043: warning: Function parameter or member 'unsafe' not described in '__console_update_unsafe'
->> kernel/printk/printk_nobkl.c:1457: warning: Function parameter or member 'skip_unsafe' not described in 'cons_atomic_try_acquire'
+   fs/nilfs2/ioctl.c:120: warning: Function parameter or member 'dentry' not described in 'nilfs_fileattr_get'
+   fs/nilfs2/ioctl.c:120: warning: Function parameter or member 'fa' not described in 'nilfs_fileattr_get'
+>> fs/nilfs2/ioctl.c:133: warning: Function parameter or member 'idmap' not described in 'nilfs_fileattr_set'
+   fs/nilfs2/ioctl.c:133: warning: Function parameter or member 'dentry' not described in 'nilfs_fileattr_set'
+   fs/nilfs2/ioctl.c:133: warning: Function parameter or member 'fa' not described in 'nilfs_fileattr_set'
+   fs/nilfs2/ioctl.c:164: warning: Function parameter or member 'inode' not described in 'nilfs_ioctl_getversion'
+   fs/nilfs2/ioctl.c:164: warning: Function parameter or member 'argp' not described in 'nilfs_ioctl_getversion'
 
 
-vim +1457 kernel/printk/printk_nobkl.c
+vim +133 fs/nilfs2/ioctl.c
 
-  1448	
-  1449	/**
-  1450	 * cons_atomic_try_acquire - Try to acquire the console for atomic printing
-  1451	 * @con:	The console to acquire
-  1452	 * @ctxt:	The console context instance to work on
-  1453	 * @prio:	The priority of the current context
-  1454	 */
-  1455	static bool cons_atomic_try_acquire(struct console *con, struct cons_context *ctxt,
-  1456					    enum cons_prio prio, bool skip_unsafe)
-> 1457	{
-  1458		memset(ctxt, 0, sizeof(*ctxt));
-  1459		ctxt->console		= con;
-  1460		ctxt->spinwait_max_us	= 2000;
-  1461		ctxt->prio		= prio;
-  1462		ctxt->spinwait		= 1;
-  1463	
-  1464		/* Try to acquire it directly or via a friendly handover */
-  1465		if (cons_try_acquire(ctxt))
-  1466			return true;
-  1467	
-  1468		/* Investigate whether a hostile takeover is due */
-  1469		if (ctxt->old_state.cur_prio >= prio)
-  1470			return false;
-  1471	
-  1472		if (!ctxt->old_state.unsafe || !skip_unsafe)
-  1473			ctxt->hostile = 1;
-  1474		return cons_try_acquire(ctxt);
-  1475	}
-  1476	
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  127  
+d623a9420c9ae2 Vyacheslav Dubeyko 2014-01-23  128  /**
+7c7c436e14b863 Miklos Szeredi     2021-04-07  129   * nilfs_fileattr_set - ioctl to support chattr
+d623a9420c9ae2 Vyacheslav Dubeyko 2014-01-23  130   */
+8782a9aea3ab4d Christian Brauner  2023-01-13  131  int nilfs_fileattr_set(struct mnt_idmap *idmap,
+7c7c436e14b863 Miklos Szeredi     2021-04-07  132  		       struct dentry *dentry, struct fileattr *fa)
+cde98f0f84ccff Ryusuke Konishi    2011-01-20 @133  {
+7c7c436e14b863 Miklos Szeredi     2021-04-07  134  	struct inode *inode = d_inode(dentry);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  135  	struct nilfs_transaction_info ti;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  136  	unsigned int flags, oldflags;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  137  	int ret;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  138  
+7c7c436e14b863 Miklos Szeredi     2021-04-07  139  	if (fileattr_has_fsx(fa))
+7c7c436e14b863 Miklos Szeredi     2021-04-07  140  		return -EOPNOTSUPP;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  141  
+7c7c436e14b863 Miklos Szeredi     2021-04-07  142  	flags = nilfs_mask_flags(inode->i_mode, fa->flags);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  143  
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  144  	ret = nilfs_transaction_begin(inode->i_sb, &ti, 0);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  145  	if (ret)
+7c7c436e14b863 Miklos Szeredi     2021-04-07  146  		return ret;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  147  
+7c7c436e14b863 Miklos Szeredi     2021-04-07  148  	oldflags = NILFS_I(inode)->i_flags & ~FS_FL_USER_MODIFIABLE;
+7c7c436e14b863 Miklos Szeredi     2021-04-07  149  	NILFS_I(inode)->i_flags = oldflags | (flags & FS_FL_USER_MODIFIABLE);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  150  
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  151  	nilfs_set_inode_flags(inode);
+078cd8279e6599 Deepa Dinamani     2016-09-14  152  	inode->i_ctime = current_time(inode);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  153  	if (IS_SYNC(inode))
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  154  		nilfs_set_transaction_flag(NILFS_TI_SYNC);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  155  
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  156  	nilfs_mark_inode_dirty(inode);
+7c7c436e14b863 Miklos Szeredi     2021-04-07  157  	return nilfs_transaction_commit(inode->i_sb);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  158  }
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  159  
+
+:::::: The code at line 133 was first introduced by commit
+:::::: cde98f0f84ccff78e87235cb7b551747d6ad00de nilfs2: implement FS_IOC_GETFLAGS/SETFLAGS/GETVERSION
+
+:::::: TO: Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
+:::::: CC: Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
 
 -- 
 0-DAY CI Kernel Test Service
