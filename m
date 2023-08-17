@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A431384
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF60310E8
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 07:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1692255672; x=1723791672;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7wTwt3y0WZOZEJFllL/V49QsYi0+tfVAFEDIYB7LPg4=;
-  b=RfC05H5GeyE8dVS0yqeMiS18uZYebx3scHXwTH6b5zPk6faYb/feOuns
-   tLjHDBovF2o/ANLtVYz3YbBLy7Vx9tIkptlpg26wpnHRt3Fh4e6F98HkC
-   MbMmSTgNjvKFYKauewjKDNieX/OoP3zWDTz+V+jDlIXWNF1Yu2e63qOFx
-   FLq0rmmTQ5GCCc78S6Y/tlaHG2LNMXdb1Rd8zB01k+5t48m/rRHDhqLjO
-   +hDKlSZr8IG77s2qOYBiTuHud4ykrFQvQljqOdO/OZzwDSn15493obrKL
-   8vgMsaUJnJGHRLWdyGCtpipA81RXP5V+MC1nUvzgQCMolETq8fguVqzAg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="403711257"
+  bh=wxyrEdrHfrN8lc8CS5wtkv70u/g5yf0QAn9cbl/kTgQ=;
+  b=Pf5yicY6M9CmVB1TyA872jkvzCqSV/5Amfif7LsrO1I970KCTJ7r1gfn
+   xyH94sI2BdQ7DjVCyRCO2fzSL+fcsUhxE1N16O0Vl8d87gesRzxA9+4fz
+   Y/0RT99KFQLR+twrkr44bX0UAq7MJD/SGRameakXs3bSjvXzMjn/vbx2n
+   qOs2YgSK5MwRaB5Kz5dmXOKfcYZo85wmWgsKIPqbK8/3/Fue05Ti0jkx8
+   mNdOkRsse/JsfUYLn6VWUFnJkt7NbkFfyA8RQ953/pgUJw2I9MLEkUxv7
+   GZiiyAshqMYN5U447aF46QxPtirqA8tBd9RzeIOvXZPWFtQEIEfrcjpNx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="436634206"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="403711257"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 00:01:11 -0700
+   d="scan'208";a="436634206"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 00:01:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="711421260"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="848781589"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="711421260"
+   d="scan'208";a="848781589"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 17 Aug 2023 00:01:10 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2023 00:01:10 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWX0H-0000sD-1u;
+	id 1qWX0H-0000sL-2E;
 	Thu, 17 Aug 2023 07:01:09 +0000
-Date: Thu, 17 Aug 2023 15:00:40 +0800
+Date: Thu, 17 Aug 2023 15:00:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thierry Reding <treding@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa-dev@sang-engineering.com>
-Subject: drivers/i2c/busses/i2c-tegra.c:297: warning: Function parameter or
- member 'dma_dev' not described in 'tegra_i2c_dev'
-Message-ID: <202308171405.qdGAJxjf-lkp@intel.com>
+To: Jiri Pirko <jiri@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpirko-mlxsw:wip_dl_files 17/19] include/trace/events/devlink.h:17:
+ multiple definition of `__traceiter_devlink_hwmsg';
+ net/devlink/core.o:net/devlink/core.c:17: first defined here
+Message-ID: <202308171400.r9OMXWXI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,107 +47,263 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Thierry,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: cdbf26251d3b35c4ccaea0c3a6de4318f727d3d2 i2c: tegra: Allocate DMA memory for DMA engine
-date:   10 months ago
-config: sparc-randconfig-r014-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171405.qdGAJxjf-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171405.qdGAJxjf-lkp@intel.com/reproduce)
+tree:   https://github.com/jpirko/linux_mlxsw wip_dl_files
+head:   00a5b9621f0bc27e4f004dc027f187a5ef824a53
+commit: 7d5b9c0f23e2895699cddab7f4e29c9025d61ba7 [17/19] devlink: move devlink_hw*() tracepoint definitions into core.c
+config: loongarch-randconfig-r021-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171400.r9OMXWXI-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171400.r9OMXWXI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171405.qdGAJxjf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171400.r9OMXWXI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-tegra.c:297: warning: Function parameter or member 'dma_dev' not described in 'tegra_i2c_dev'
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__traceiter_devlink_hwmsg':
+>> include/trace/events/devlink.h:17: multiple definition of `__traceiter_devlink_hwmsg'; net/devlink/core.o:net/devlink/core.c:17: first defined here
+>> loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:17: multiple definition of `__tracepoint_devlink_hwmsg'; net/devlink/core.o:include/trace/events/devlink.h:17: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__probestub_devlink_hwmsg':
+>> include/trace/events/devlink.h:17: multiple definition of `__probestub_devlink_hwmsg'; net/devlink/core.o:net/devlink/core.c:17: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__traceiter_devlink_hwerr':
+>> include/trace/events/devlink.h:52: multiple definition of `__traceiter_devlink_hwerr'; net/devlink/core.o:net/devlink/core.c:52: first defined here
+>> loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:52: multiple definition of `__tracepoint_devlink_hwerr'; net/devlink/core.o:include/trace/events/devlink.h:52: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__probestub_devlink_hwerr':
+>> include/trace/events/devlink.h:52: multiple definition of `__probestub_devlink_hwerr'; net/devlink/core.o:net/devlink/core.c:52: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__traceiter_devlink_health_report':
+>> include/trace/events/devlink.h:81: multiple definition of `__traceiter_devlink_health_report'; net/devlink/core.o:net/devlink/core.c:81: first defined here
+>> loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:81: multiple definition of `__tracepoint_devlink_health_report'; net/devlink/core.o:include/trace/events/devlink.h:81: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__probestub_devlink_health_report':
+>> include/trace/events/devlink.h:81: multiple definition of `__probestub_devlink_health_report'; net/devlink/core.o:net/devlink/core.c:81: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__traceiter_devlink_health_recover_aborted':
+>> include/trace/events/devlink.h:112: multiple definition of `__traceiter_devlink_health_recover_aborted'; net/devlink/core.o:net/devlink/core.c:112: first defined here
+>> loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:112: multiple definition of `__tracepoint_devlink_health_recover_aborted'; net/devlink/core.o:include/trace/events/devlink.h:112: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__probestub_devlink_health_recover_aborted':
+>> include/trace/events/devlink.h:112: multiple definition of `__probestub_devlink_health_recover_aborted'; net/devlink/core.o:net/devlink/core.c:112: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__traceiter_devlink_health_reporter_state_update':
+>> include/trace/events/devlink.h:146: multiple definition of `__traceiter_devlink_health_reporter_state_update'; net/devlink/core.o:net/devlink/core.c:146: first defined here
+>> loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:146: multiple definition of `__tracepoint_devlink_health_reporter_state_update'; net/devlink/core.o:include/trace/events/devlink.h:146: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__probestub_devlink_health_reporter_state_update':
+>> include/trace/events/devlink.h:146: multiple definition of `__probestub_devlink_health_reporter_state_update'; net/devlink/core.o:net/devlink/core.c:146: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__traceiter_devlink_trap_report':
+>> include/trace/events/devlink.h:177: multiple definition of `__traceiter_devlink_trap_report'; net/devlink/core.o:net/devlink/core.c:177: first defined here
+>> loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:177: multiple definition of `__tracepoint_devlink_trap_report'; net/devlink/core.o:include/trace/events/devlink.h:177: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o: in function `__probestub_devlink_trap_report':
+>> include/trace/events/devlink.h:177: multiple definition of `__probestub_devlink_trap_report'; net/devlink/core.o:include/trace/events/devlink.h:177: first defined here
+>> loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:177: multiple definition of `__SCK__tp_func_devlink_trap_report'; net/devlink/core.o:include/trace/events/devlink.h:177: first defined here
+>> loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:146: multiple definition of `__SCK__tp_func_devlink_health_reporter_state_update'; net/devlink/core.o:include/trace/events/devlink.h:146: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:112: multiple definition of `__SCK__tp_func_devlink_health_recover_aborted'; net/devlink/core.o:include/trace/events/devlink.h:112: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:81: multiple definition of `__SCK__tp_func_devlink_health_report'; net/devlink/core.o:include/trace/events/devlink.h:81: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:52: multiple definition of `__SCK__tp_func_devlink_hwerr'; net/devlink/core.o:include/trace/events/devlink.h:52: first defined here
+   loongarch64-linux-ld: net/devlink/trap.o:include/trace/events/devlink.h:17: multiple definition of `__SCK__tp_func_devlink_hwmsg'; net/devlink/core.o:include/trace/events/devlink.h:17: first defined here
 
 
-vim +297 drivers/i2c/busses/i2c-tegra.c
+vim +17 include/trace/events/devlink.h
 
-6ad068ed63100f Laxman Dewangan     2012-08-19  228  
-db811ca0f48578 Colin Cross         2011-02-20  229  /**
-c990bbafdb11c6 Thierry Reding      2018-12-17  230   * struct tegra_i2c_dev - per device I2C context
-db811ca0f48578 Colin Cross         2011-02-20  231   * @dev: device reference for power management
-c990bbafdb11c6 Thierry Reding      2018-12-17  232   * @hw: Tegra I2C HW feature
-c990bbafdb11c6 Thierry Reding      2018-12-17  233   * @adapter: core I2C layer adapter information
-c990bbafdb11c6 Thierry Reding      2018-12-17  234   * @div_clk: clock reference for div clock of I2C controller
-586a97d907ac34 Dmitry Osipenko     2020-09-30  235   * @clocks: array of I2C controller clocks
-586a97d907ac34 Dmitry Osipenko     2020-09-30  236   * @nclocks: number of clocks in the array
-0604ee4aefa20f Thierry Reding      2018-12-17  237   * @rst: reset control for the I2C controller
-db811ca0f48578 Colin Cross         2011-02-20  238   * @base: ioremapped registers cookie
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  239   * @base_phys: physical base address of the I2C controller
-c990bbafdb11c6 Thierry Reding      2018-12-17  240   * @cont_id: I2C controller ID, used for packet header
-c990bbafdb11c6 Thierry Reding      2018-12-17  241   * @irq: IRQ number of transfer complete interrupt
-c990bbafdb11c6 Thierry Reding      2018-12-17  242   * @is_dvc: identifies the DVC I2C controller, has a different register layout
-c73178b93754ed Thierry Reding      2019-06-07  243   * @is_vi: identifies the VI I2C controller, has a different register layout
-db811ca0f48578 Colin Cross         2011-02-20  244   * @msg_complete: transfer completion notifier
-db811ca0f48578 Colin Cross         2011-02-20  245   * @msg_err: error code for completed message
-db811ca0f48578 Colin Cross         2011-02-20  246   * @msg_buf: pointer to current message data
-db811ca0f48578 Colin Cross         2011-02-20  247   * @msg_buf_remaining: size of unsent data in the message buffer
-94a5573f0719cf Dmitry Osipenko     2020-09-30  248   * @msg_read: indicates that the transfer is a read access
-50665d58db052b Akhil R             2021-12-10  249   * @timings: i2c timings information like bus frequency
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  250   * @multimaster_mode: indicates that I2C controller is in multi-master mode
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  251   * @tx_dma_chan: DMA transmit channel
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  252   * @rx_dma_chan: DMA receive channel
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  253   * @dma_phys: handle to DMA resources
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  254   * @dma_buf: pointer to allocated DMA buffer
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  255   * @dma_buf_size: DMA buffer size
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  256   * @dma_mode: indicates active DMA transfer
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  257   * @dma_complete: DMA completion notifier
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  258   * @atomic_mode: indicates active atomic transfer
-db811ca0f48578 Colin Cross         2011-02-20  259   */
-db811ca0f48578 Colin Cross         2011-02-20  260  struct tegra_i2c_dev {
-db811ca0f48578 Colin Cross         2011-02-20  261  	struct device *dev;
-db811ca0f48578 Colin Cross         2011-02-20  262  	struct i2c_adapter adapter;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  263  
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  264  	const struct tegra_i2c_hw_feature *hw;
-dda9d6a8262cb1 Stephen Warren      2013-11-06  265  	struct reset_control *rst;
-f1c2ff98065dce Dmitry Osipenko     2020-09-30  266  	unsigned int cont_id;
-f1c2ff98065dce Dmitry Osipenko     2020-09-30  267  	unsigned int irq;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  268  
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  269  	phys_addr_t base_phys;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  270  	void __iomem *base;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  271  
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  272  	struct clk_bulk_data clocks[2];
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  273  	unsigned int nclocks;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  274  
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  275  	struct clk *div_clk;
-50665d58db052b Akhil R             2021-12-10  276  	struct i2c_timings timings;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  277  
-db811ca0f48578 Colin Cross         2011-02-20  278  	struct completion msg_complete;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  279  	size_t msg_buf_remaining;
-db811ca0f48578 Colin Cross         2011-02-20  280  	int msg_err;
-db811ca0f48578 Colin Cross         2011-02-20  281  	u8 *msg_buf;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  282  
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  283  	struct completion dma_complete;
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  284  	struct dma_chan *tx_dma_chan;
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  285  	struct dma_chan *rx_dma_chan;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  286  	unsigned int dma_buf_size;
-cdbf26251d3b35 Thierry Reding      2022-10-20  287  	struct device *dma_dev;
-86c92b9965ff17 Sowjanya Komatineni 2019-02-12  288  	dma_addr_t dma_phys;
-4be62340f3ce62 Dmitry Osipenko     2020-09-30  289  	void *dma_buf;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  290  
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  291  	bool multimaster_mode;
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  292  	bool atomic_mode;
-a99042e7d9fb5c Dmitry Osipenko     2020-09-30  293  	bool dma_mode;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  294  	bool msg_read;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  295  	bool is_dvc;
-89e3748acd0bf6 Dmitry Osipenko     2020-09-30  296  	bool is_vi;
-db811ca0f48578 Colin Cross         2011-02-20 @297  };
-db811ca0f48578 Colin Cross         2011-02-20  298  
+e5224f0fe2acddb Jiri Pirko              2016-07-12   13  
+e5224f0fe2acddb Jiri Pirko              2016-07-12   14  /*
+e5224f0fe2acddb Jiri Pirko              2016-07-12   15   * Tracepoint for devlink hardware message:
+e5224f0fe2acddb Jiri Pirko              2016-07-12   16   */
+e5224f0fe2acddb Jiri Pirko              2016-07-12  @17  TRACE_EVENT(devlink_hwmsg,
+e5224f0fe2acddb Jiri Pirko              2016-07-12   18  	TP_PROTO(const struct devlink *devlink, bool incoming,
+e5224f0fe2acddb Jiri Pirko              2016-07-12   19  		 unsigned long type, const u8 *buf, size_t len),
+e5224f0fe2acddb Jiri Pirko              2016-07-12   20  
+e5224f0fe2acddb Jiri Pirko              2016-07-12   21  	TP_ARGS(devlink, incoming, type, buf, len),
+e5224f0fe2acddb Jiri Pirko              2016-07-12   22  
+e5224f0fe2acddb Jiri Pirko              2016-07-12   23  	TP_STRUCT__entry(
+21314638c9f251b Leon Romanovsky         2021-10-12   24  		__string(bus_name, devlink_to_dev(devlink)->bus->name)
+21314638c9f251b Leon Romanovsky         2021-10-12   25  		__string(dev_name, dev_name(devlink_to_dev(devlink)))
+21314638c9f251b Leon Romanovsky         2021-10-12   26  		__string(driver_name, devlink_to_dev(devlink)->driver->name)
+e5224f0fe2acddb Jiri Pirko              2016-07-12   27  		__field(bool, incoming)
+e5224f0fe2acddb Jiri Pirko              2016-07-12   28  		__field(unsigned long, type)
+e5224f0fe2acddb Jiri Pirko              2016-07-12   29  		__dynamic_array(u8, buf, len)
+e5224f0fe2acddb Jiri Pirko              2016-07-12   30  		__field(size_t, len)
+e5224f0fe2acddb Jiri Pirko              2016-07-12   31  	),
+e5224f0fe2acddb Jiri Pirko              2016-07-12   32  
+e5224f0fe2acddb Jiri Pirko              2016-07-12   33  	TP_fast_assign(
+21314638c9f251b Leon Romanovsky         2021-10-12   34  		__assign_str(bus_name, devlink_to_dev(devlink)->bus->name);
+21314638c9f251b Leon Romanovsky         2021-10-12   35  		__assign_str(dev_name, dev_name(devlink_to_dev(devlink)));
+21314638c9f251b Leon Romanovsky         2021-10-12   36  		__assign_str(driver_name, devlink_to_dev(devlink)->driver->name);
+e5224f0fe2acddb Jiri Pirko              2016-07-12   37  		__entry->incoming = incoming;
+e5224f0fe2acddb Jiri Pirko              2016-07-12   38  		__entry->type = type;
+e5224f0fe2acddb Jiri Pirko              2016-07-12   39  		memcpy(__get_dynamic_array(buf), buf, len);
+e5224f0fe2acddb Jiri Pirko              2016-07-12   40  		__entry->len = len;
+e5224f0fe2acddb Jiri Pirko              2016-07-12   41  	),
+e5224f0fe2acddb Jiri Pirko              2016-07-12   42  
+caeccd5180930eb Arnd Bergmann           2016-07-14   43  	TP_printk("bus_name=%s dev_name=%s driver_name=%s incoming=%d type=%lu buf=0x[%*phD] len=%zu",
+e5224f0fe2acddb Jiri Pirko              2016-07-12   44  		  __get_str(bus_name), __get_str(dev_name),
+0e1824c98a0ffd7 Jiri Pirko              2016-07-14   45  		  __get_str(driver_name), __entry->incoming, __entry->type,
+e5224f0fe2acddb Jiri Pirko              2016-07-12   46  		  (int) __entry->len, __get_dynamic_array(buf), __entry->len)
+e5224f0fe2acddb Jiri Pirko              2016-07-12   47  );
+e5224f0fe2acddb Jiri Pirko              2016-07-12   48  
+57186a5f43d093e Nir Dotan               2019-02-04   49  /*
+57186a5f43d093e Nir Dotan               2019-02-04   50   * Tracepoint for devlink hardware error:
+57186a5f43d093e Nir Dotan               2019-02-04   51   */
+57186a5f43d093e Nir Dotan               2019-02-04  @52  TRACE_EVENT(devlink_hwerr,
+57186a5f43d093e Nir Dotan               2019-02-04   53  	TP_PROTO(const struct devlink *devlink, int err, const char *msg),
+57186a5f43d093e Nir Dotan               2019-02-04   54  
+57186a5f43d093e Nir Dotan               2019-02-04   55  	TP_ARGS(devlink, err, msg),
+57186a5f43d093e Nir Dotan               2019-02-04   56  
+57186a5f43d093e Nir Dotan               2019-02-04   57  	TP_STRUCT__entry(
+21314638c9f251b Leon Romanovsky         2021-10-12   58  		__string(bus_name, devlink_to_dev(devlink)->bus->name)
+21314638c9f251b Leon Romanovsky         2021-10-12   59  		__string(dev_name, dev_name(devlink_to_dev(devlink)))
+21314638c9f251b Leon Romanovsky         2021-10-12   60  		__string(driver_name, devlink_to_dev(devlink)->driver->name)
+57186a5f43d093e Nir Dotan               2019-02-04   61  		__field(int, err)
+57186a5f43d093e Nir Dotan               2019-02-04   62  		__string(msg, msg)
+57186a5f43d093e Nir Dotan               2019-02-04   63  		),
+57186a5f43d093e Nir Dotan               2019-02-04   64  
+57186a5f43d093e Nir Dotan               2019-02-04   65  	TP_fast_assign(
+21314638c9f251b Leon Romanovsky         2021-10-12   66  		__assign_str(bus_name, devlink_to_dev(devlink)->bus->name);
+21314638c9f251b Leon Romanovsky         2021-10-12   67  		__assign_str(dev_name, dev_name(devlink_to_dev(devlink)));
+21314638c9f251b Leon Romanovsky         2021-10-12   68  		__assign_str(driver_name, devlink_to_dev(devlink)->driver->name);
+57186a5f43d093e Nir Dotan               2019-02-04   69  		__entry->err = err;
+57186a5f43d093e Nir Dotan               2019-02-04   70  		__assign_str(msg, msg);
+57186a5f43d093e Nir Dotan               2019-02-04   71  		),
+57186a5f43d093e Nir Dotan               2019-02-04   72  
+57186a5f43d093e Nir Dotan               2019-02-04   73  	TP_printk("bus_name=%s dev_name=%s driver_name=%s err=%d %s",
+57186a5f43d093e Nir Dotan               2019-02-04   74  			__get_str(bus_name), __get_str(dev_name),
+57186a5f43d093e Nir Dotan               2019-02-04   75  			__get_str(driver_name), __entry->err, __get_str(msg))
+57186a5f43d093e Nir Dotan               2019-02-04   76  );
+57186a5f43d093e Nir Dotan               2019-02-04   77  
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   78  /*
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   79   * Tracepoint for devlink health message:
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   80   */
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  @81  TRACE_EVENT(devlink_health_report,
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   82  	TP_PROTO(const struct devlink *devlink, const char *reporter_name,
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   83  		 const char *msg),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   84  
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   85  	TP_ARGS(devlink, reporter_name, msg),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   86  
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   87  	TP_STRUCT__entry(
+21314638c9f251b Leon Romanovsky         2021-10-12   88  		__string(bus_name, devlink_to_dev(devlink)->bus->name)
+21314638c9f251b Leon Romanovsky         2021-10-12   89  		__string(dev_name, dev_name(devlink_to_dev(devlink)))
+21314638c9f251b Leon Romanovsky         2021-10-12   90  		__string(driver_name, devlink_to_dev(devlink)->driver->name)
+d0ab772c1f1558a Moshe Shemesh           2023-02-14   91  		__string(reporter_name, reporter_name)
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   92  		__string(msg, msg)
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   93  	),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   94  
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   95  	TP_fast_assign(
+21314638c9f251b Leon Romanovsky         2021-10-12   96  		__assign_str(bus_name, devlink_to_dev(devlink)->bus->name);
+21314638c9f251b Leon Romanovsky         2021-10-12   97  		__assign_str(dev_name, dev_name(devlink_to_dev(devlink)));
+21314638c9f251b Leon Romanovsky         2021-10-12   98  		__assign_str(driver_name, devlink_to_dev(devlink)->driver->name);
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07   99  		__assign_str(reporter_name, reporter_name);
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  100  		__assign_str(msg, msg);
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  101  	),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  102  
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  103  	TP_printk("bus_name=%s dev_name=%s driver_name=%s reporter_name=%s: %s",
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  104  		  __get_str(bus_name), __get_str(dev_name),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  105  		  __get_str(driver_name), __get_str(reporter_name),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  106  		  __get_str(msg))
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  107  );
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  108  
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  109  /*
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  110   * Tracepoint for devlink health recover aborted message:
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  111   */
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07 @112  TRACE_EVENT(devlink_health_recover_aborted,
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  113  	TP_PROTO(const struct devlink *devlink, const char *reporter_name,
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  114  		 bool health_state, u64 time_since_last_recover),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  115  
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  116  	TP_ARGS(devlink, reporter_name, health_state, time_since_last_recover),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  117  
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  118  	TP_STRUCT__entry(
+21314638c9f251b Leon Romanovsky         2021-10-12  119  		__string(bus_name, devlink_to_dev(devlink)->bus->name)
+21314638c9f251b Leon Romanovsky         2021-10-12  120  		__string(dev_name, dev_name(devlink_to_dev(devlink)))
+21314638c9f251b Leon Romanovsky         2021-10-12  121  		__string(driver_name, devlink_to_dev(devlink)->driver->name)
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  122  		__string(reporter_name, reporter_name)
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  123  		__field(bool, health_state)
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  124  		__field(u64, time_since_last_recover)
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  125  	),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  126  
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  127  	TP_fast_assign(
+21314638c9f251b Leon Romanovsky         2021-10-12  128  		__assign_str(bus_name, devlink_to_dev(devlink)->bus->name);
+21314638c9f251b Leon Romanovsky         2021-10-12  129  		__assign_str(dev_name, dev_name(devlink_to_dev(devlink)));
+21314638c9f251b Leon Romanovsky         2021-10-12  130  		__assign_str(driver_name, devlink_to_dev(devlink)->driver->name);
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  131  		__assign_str(reporter_name, reporter_name);
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  132  		__entry->health_state = health_state;
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  133  		__entry->time_since_last_recover = time_since_last_recover;
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  134  	),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  135  
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  136  	TP_printk("bus_name=%s dev_name=%s driver_name=%s reporter_name=%s: health_state=%d time_since_last_recover=%llu recover aborted",
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  137  		  __get_str(bus_name), __get_str(dev_name),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  138  		  __get_str(driver_name), __get_str(reporter_name),
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  139  		  __entry->health_state,
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  140  		  __entry->time_since_last_recover)
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  141  );
+c8e1da0bf9238e4 Eran Ben Elisha         2019-02-07  142  
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  143  /*
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  144   * Tracepoint for devlink health reporter state update:
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  145   */
+3167b27a7ded846 Eran Ben Elisha         2019-03-03 @146  TRACE_EVENT(devlink_health_reporter_state_update,
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  147  	TP_PROTO(const struct devlink *devlink, const char *reporter_name,
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  148  		 bool new_state),
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  149  
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  150  	TP_ARGS(devlink, reporter_name, new_state),
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  151  
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  152  	TP_STRUCT__entry(
+21314638c9f251b Leon Romanovsky         2021-10-12  153  		__string(bus_name, devlink_to_dev(devlink)->bus->name)
+21314638c9f251b Leon Romanovsky         2021-10-12  154  		__string(dev_name, dev_name(devlink_to_dev(devlink)))
+21314638c9f251b Leon Romanovsky         2021-10-12  155  		__string(driver_name, devlink_to_dev(devlink)->driver->name)
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  156  		__string(reporter_name, reporter_name)
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  157  		__field(u8, new_state)
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  158  	),
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  159  
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  160  	TP_fast_assign(
+21314638c9f251b Leon Romanovsky         2021-10-12  161  		__assign_str(bus_name, devlink_to_dev(devlink)->bus->name);
+21314638c9f251b Leon Romanovsky         2021-10-12  162  		__assign_str(dev_name, dev_name(devlink_to_dev(devlink)));
+21314638c9f251b Leon Romanovsky         2021-10-12  163  		__assign_str(driver_name, devlink_to_dev(devlink)->driver->name);
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  164  		__assign_str(reporter_name, reporter_name);
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  165  		__entry->new_state = new_state;
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  166  	),
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  167  
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  168  	TP_printk("bus_name=%s dev_name=%s driver_name=%s reporter_name=%s: new_state=%d",
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  169  		  __get_str(bus_name), __get_str(dev_name),
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  170  		  __get_str(driver_name), __get_str(reporter_name),
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  171  		  __entry->new_state)
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  172  );
+3167b27a7ded846 Eran Ben Elisha         2019-03-03  173  
+5b88823bfe0875b Ido Schimmel            2020-09-29  174  /*
+5b88823bfe0875b Ido Schimmel            2020-09-29  175   * Tracepoint for devlink packet trap:
+5b88823bfe0875b Ido Schimmel            2020-09-29  176   */
+5b88823bfe0875b Ido Schimmel            2020-09-29 @177  TRACE_EVENT(devlink_trap_report,
+5b88823bfe0875b Ido Schimmel            2020-09-29  178  	TP_PROTO(const struct devlink *devlink, struct sk_buff *skb,
+5b88823bfe0875b Ido Schimmel            2020-09-29  179  		 const struct devlink_trap_metadata *metadata),
+5b88823bfe0875b Ido Schimmel            2020-09-29  180  
+5b88823bfe0875b Ido Schimmel            2020-09-29  181  	TP_ARGS(devlink, skb, metadata),
+5b88823bfe0875b Ido Schimmel            2020-09-29  182  
+5b88823bfe0875b Ido Schimmel            2020-09-29  183  	TP_STRUCT__entry(
+21314638c9f251b Leon Romanovsky         2021-10-12  184  		__string(bus_name, devlink_to_dev(devlink)->bus->name)
+21314638c9f251b Leon Romanovsky         2021-10-12  185  		__string(dev_name, dev_name(devlink_to_dev(devlink)))
+21314638c9f251b Leon Romanovsky         2021-10-12  186  		__string(driver_name, devlink_to_dev(devlink)->driver->name)
+5b88823bfe0875b Ido Schimmel            2020-09-29  187  		__string(trap_name, metadata->trap_name)
+5b88823bfe0875b Ido Schimmel            2020-09-29  188  		__string(trap_group_name, metadata->trap_group_name)
+2a04b8d846dca19 Steven Rostedt (Google  2022-07-12  189) 		__array(char, input_dev_name, IFNAMSIZ)
+5b88823bfe0875b Ido Schimmel            2020-09-29  190  	),
+5b88823bfe0875b Ido Schimmel            2020-09-29  191  
+5b88823bfe0875b Ido Schimmel            2020-09-29  192  	TP_fast_assign(
+5b88823bfe0875b Ido Schimmel            2020-09-29  193  		struct net_device *input_dev = metadata->input_dev;
+5b88823bfe0875b Ido Schimmel            2020-09-29  194  
+21314638c9f251b Leon Romanovsky         2021-10-12  195  		__assign_str(bus_name, devlink_to_dev(devlink)->bus->name);
+21314638c9f251b Leon Romanovsky         2021-10-12  196  		__assign_str(dev_name, dev_name(devlink_to_dev(devlink)));
+21314638c9f251b Leon Romanovsky         2021-10-12  197  		__assign_str(driver_name, devlink_to_dev(devlink)->driver->name);
+5b88823bfe0875b Ido Schimmel            2020-09-29  198  		__assign_str(trap_name, metadata->trap_name);
+5b88823bfe0875b Ido Schimmel            2020-09-29  199  		__assign_str(trap_group_name, metadata->trap_group_name);
+2a04b8d846dca19 Steven Rostedt (Google  2022-07-12  200) 		strscpy(__entry->input_dev_name, input_dev ? input_dev->name : "NULL", IFNAMSIZ);
+5b88823bfe0875b Ido Schimmel            2020-09-29  201  	),
+5b88823bfe0875b Ido Schimmel            2020-09-29  202  
+5b88823bfe0875b Ido Schimmel            2020-09-29  203  	TP_printk("bus_name=%s dev_name=%s driver_name=%s trap_name=%s "
+5b88823bfe0875b Ido Schimmel            2020-09-29  204  		  "trap_group_name=%s input_dev_name=%s", __get_str(bus_name),
+5b88823bfe0875b Ido Schimmel            2020-09-29  205  		  __get_str(dev_name), __get_str(driver_name),
+5b88823bfe0875b Ido Schimmel            2020-09-29  206  		  __get_str(trap_name), __get_str(trap_group_name),
+2a04b8d846dca19 Steven Rostedt (Google  2022-07-12  207) 		  __entry->input_dev_name)
+5b88823bfe0875b Ido Schimmel            2020-09-29  208  );
+5b88823bfe0875b Ido Schimmel            2020-09-29  209  
 
-:::::: The code at line 297 was first introduced by commit
-:::::: db811ca0f48578f9940f49f284ac81e336b264ad i2c: tegra: Add i2c support
+:::::: The code at line 17 was first introduced by commit
+:::::: e5224f0fe2acddbc2fa9b419d8867ced7f5381fc devlink: add hardware messages tracing facility
 
-:::::: TO: Colin Cross <ccross@android.com>
-:::::: CC: Ben Dooks <ben-linux@fluff.org>
+:::::: TO: Jiri Pirko <jiri@mellanox.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
