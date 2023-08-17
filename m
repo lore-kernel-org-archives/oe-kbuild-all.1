@@ -1,43 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246B514005
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 13:20:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FA613FF2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 13:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692278414; x=1723814414;
+  t=1692279647; x=1723815647;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oCTVmNYrLlpnyZdSlsj8M2QXwVyMDIZGZUYhsRuF2BM=;
-  b=QU/8tmqJLjH2XlXkwU8fZws39if52t160bEHqe3nmwrp8kR2kAQ0TF4U
-   MdggIBigLQhBu682N3pMzE481iibuVslJalvMcHIFIJDtJ33z+PVPIoUp
-   0ZLwKbe9hzoqTPGNdxaoelCb4mB/n22KMFvEhl+hLVZ2CoEcVZ6Ulps9e
-   /EYeY1MP+qzZnNeHeaq9FZF8yVGIRjMaHeCxYcYUcHBI/VLBC/5AV885x
-   e/YBJqrxt5gHKMSDhYc6lLh5MddnnrkFLEGVsooqUapmC7M7uNv7Yqwwx
-   8OcqTZdvHYidLEAzIrxYwFiaP1jB32LF/WFTS/H5+mtGR7jkgOc2o5HM6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="362961458"
+  bh=S6WjJAFIQQXZ1MvcjmZ9qTN8X1kEZvOWYowA/UCDE1w=;
+  b=lrtxWYMFUm+hxF/3OqNzk5IYdk3lGJyh/CvVCokfwnf8zcIP407t9g9q
+   1FiRsmjAW8/Vk6U+Y0/RHQ8JpKl4ehelTV8H1ipHvNMBtBY4bgy+9+fE/
+   VSuLRHimSHy8zbiMZKzQ+MUccHHka/ZAdrah/hSFdSUzCkE/0QAivlLPZ
+   8HQC/9qSYc1QCkZVsz/jCFFZikG8eQI7PA4HzIuN4iTnAdB+vxZFr+/WA
+   Bf9NpslCSomZVVYSvvlgSisNivclKU/6M/jAMiEG9lo4JnGoTiM48CXId
+   x1h+Tw9+d5BXjwgR3imu1it19qpvnM8kERdPYUDWJpK232SZwfhaZt6FC
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371717244"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="362961458"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:17:44 -0700
+   d="scan'208";a="371717244"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:40:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1065233569"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="908411149"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="1065233569"
+   d="scan'208";a="908411149"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Aug 2023 06:17:42 -0700
+  by orsmga005.jf.intel.com with ESMTP; 17 Aug 2023 06:40:43 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWcsb-00019o-02;
-	Thu, 17 Aug 2023 13:17:37 +0000
-Date: Thu, 17 Aug 2023 21:17:15 +0800
+	id 1qWdEw-0001An-1K;
+	Thu, 17 Aug 2023 13:40:42 +0000
+Date: Thu, 17 Aug 2023 21:39:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jing Zhang <jingzhangos@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Oliver Upton <oliver.upton@linux.dev>
-Subject: arch/arm64/kvm/sys_regs.c:1239: warning: Function parameter or
- member 'vcpu' not described in 'arm64_check_features'
-Message-ID: <202308172123.fPQkVpYE-lkp@intel.com>
+To: Olga Kornievskaia <kolga@netapp.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Anna Schumaker <Anna.Schumaker@netapp.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-5.15.y 9/9999] fs/nfs/nfs4proc.c:8063: warning:
+ Function parameter or member 'server' not described in
+ 'nfs4_proc_get_locations'
+Message-ID: <202308172114.wJLyKDlY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,101 +50,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: 2e8bf0cbd0589bae3a0466a3ed45f9cf9f3164eb KVM: arm64: Use arm64_ftr_bits to sanitise ID register writes
-date:   9 weeks ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230817/202308172123.fPQkVpYE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172123.fPQkVpYE-lkp@intel.com/reproduce)
+Hi Olga,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   f6f7927ac664ba23447f8dd3c3dfe2f4ee39272f
+commit: 6f2836341d8a39e1e000572b10959347d7e61fd9 [9/9999] NFSv4.1 query for fs_location attr on a new file system
+config: x86_64-randconfig-x062-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172114.wJLyKDlY-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172114.wJLyKDlY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172123.fPQkVpYE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172114.wJLyKDlY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/kvm/sys_regs.c:1239: warning: Function parameter or member 'vcpu' not described in 'arm64_check_features'
->> arch/arm64/kvm/sys_regs.c:1239: warning: Function parameter or member 'rd' not described in 'arm64_check_features'
->> arch/arm64/kvm/sys_regs.c:1239: warning: Function parameter or member 'val' not described in 'arm64_check_features'
-   arch/arm64/kvm/sys_regs.c:2868: warning: Function parameter or member 'global' not described in 'kvm_handle_cp_64'
-   arch/arm64/kvm/sys_regs.c:2868: warning: Function parameter or member 'nr_global' not described in 'kvm_handle_cp_64'
-   arch/arm64/kvm/sys_regs.c:2868: warning: Excess function parameter 'run' description in 'kvm_handle_cp_64'
-   arch/arm64/kvm/sys_regs.c:3036: warning: Function parameter or member 'params' not described in 'kvm_handle_cp_32'
-   arch/arm64/kvm/sys_regs.c:3036: warning: Function parameter or member 'global' not described in 'kvm_handle_cp_32'
-   arch/arm64/kvm/sys_regs.c:3036: warning: Function parameter or member 'nr_global' not described in 'kvm_handle_cp_32'
-   arch/arm64/kvm/sys_regs.c:3036: warning: Excess function parameter 'run' description in 'kvm_handle_cp_32'
+>> fs/nfs/nfs4proc.c:8063: warning: Function parameter or member 'server' not described in 'nfs4_proc_get_locations'
+>> fs/nfs/nfs4proc.c:8063: warning: Function parameter or member 'fhandle' not described in 'nfs4_proc_get_locations'
+>> fs/nfs/nfs4proc.c:8063: warning: Excess function parameter 'inode' description in 'nfs4_proc_get_locations'
 
 
-vim +1239 arch/arm64/kvm/sys_regs.c
+vim +8063 fs/nfs/nfs4proc.c
 
-  1223	
-  1224	/**
-  1225	 * arm64_check_features() - Check if a feature register value constitutes
-  1226	 * a subset of features indicated by the idreg's KVM sanitised limit.
-  1227	 *
-  1228	 * This function will check if each feature field of @val is the "safe" value
-  1229	 * against idreg's KVM sanitised limit return from reset() callback.
-  1230	 * If a field value in @val is the same as the one in limit, it is always
-  1231	 * considered the safe value regardless For register fields that are not in
-  1232	 * writable, only the value in limit is considered the safe value.
-  1233	 *
-  1234	 * Return: 0 if all the fields are safe. Otherwise, return negative errno.
-  1235	 */
-  1236	static int arm64_check_features(struct kvm_vcpu *vcpu,
-  1237					const struct sys_reg_desc *rd,
-  1238					u64 val)
-> 1239	{
-  1240		const struct arm64_ftr_reg *ftr_reg;
-  1241		const struct arm64_ftr_bits *ftrp = NULL;
-  1242		u32 id = reg_to_encoding(rd);
-  1243		u64 writable_mask = rd->val;
-  1244		u64 limit = rd->reset(vcpu, rd);
-  1245		u64 mask = 0;
-  1246	
-  1247		/*
-  1248		 * Hidden and unallocated ID registers may not have a corresponding
-  1249		 * struct arm64_ftr_reg. Of course, if the register is RAZ we know the
-  1250		 * only safe value is 0.
-  1251		 */
-  1252		if (sysreg_visible_as_raz(vcpu, rd))
-  1253			return val ? -E2BIG : 0;
-  1254	
-  1255		ftr_reg = get_arm64_ftr_reg(id);
-  1256		if (!ftr_reg)
-  1257			return -EINVAL;
-  1258	
-  1259		ftrp = ftr_reg->ftr_bits;
-  1260	
-  1261		for (; ftrp && ftrp->width; ftrp++) {
-  1262			s64 f_val, f_lim, safe_val;
-  1263			u64 ftr_mask;
-  1264	
-  1265			ftr_mask = arm64_ftr_mask(ftrp);
-  1266			if ((ftr_mask & writable_mask) != ftr_mask)
-  1267				continue;
-  1268	
-  1269			f_val = arm64_ftr_value(ftrp, val);
-  1270			f_lim = arm64_ftr_value(ftrp, limit);
-  1271			mask |= ftr_mask;
-  1272	
-  1273			if (f_val == f_lim)
-  1274				safe_val = f_val;
-  1275			else
-  1276				safe_val = kvm_arm64_ftr_safe_value(id, ftrp, f_val, f_lim);
-  1277	
-  1278			if (safe_val != f_val)
-  1279				return -E2BIG;
-  1280		}
-  1281	
-  1282		/* For fields that are not writable, values in limit are the safe values. */
-  1283		if ((val & ~mask) != (limit & ~mask))
-  1284			return -E2BIG;
-  1285	
-  1286		return 0;
-  1287	}
-  1288	
+b03d735b4ca237 Chuck Lever       2013-10-17  8041  
+b03d735b4ca237 Chuck Lever       2013-10-17  8042  /**
+b03d735b4ca237 Chuck Lever       2013-10-17  8043   * nfs4_proc_get_locations - discover locations for a migrated FSID
+b03d735b4ca237 Chuck Lever       2013-10-17  8044   * @inode: inode on FSID that is migrating
+b03d735b4ca237 Chuck Lever       2013-10-17  8045   * @locations: result of query
+b03d735b4ca237 Chuck Lever       2013-10-17  8046   * @page: buffer
+b03d735b4ca237 Chuck Lever       2013-10-17  8047   * @cred: credential to use for this operation
+b03d735b4ca237 Chuck Lever       2013-10-17  8048   *
+b03d735b4ca237 Chuck Lever       2013-10-17  8049   * Returns NFS4_OK on success, a negative NFS4ERR status code if the
+b03d735b4ca237 Chuck Lever       2013-10-17  8050   * operation failed, or a negative errno if a local error occurred.
+b03d735b4ca237 Chuck Lever       2013-10-17  8051   *
+b03d735b4ca237 Chuck Lever       2013-10-17  8052   * On success, "locations" is filled in, but if the server has
+b03d735b4ca237 Chuck Lever       2013-10-17  8053   * no locations information, NFS_ATTR_FATTR_V4_LOCATIONS is not
+b03d735b4ca237 Chuck Lever       2013-10-17  8054   * asserted.
+b03d735b4ca237 Chuck Lever       2013-10-17  8055   *
+b03d735b4ca237 Chuck Lever       2013-10-17  8056   * -NFS4ERR_LEASE_MOVED is returned if the server still has leases
+b03d735b4ca237 Chuck Lever       2013-10-17  8057   * from this client that require migration recovery.
+b03d735b4ca237 Chuck Lever       2013-10-17  8058   */
+6f2836341d8a39 Olga Kornievskaia 2022-01-12  8059  int nfs4_proc_get_locations(struct nfs_server *server,
+6f2836341d8a39 Olga Kornievskaia 2022-01-12  8060  			    struct nfs_fh *fhandle,
+b03d735b4ca237 Chuck Lever       2013-10-17  8061  			    struct nfs4_fs_locations *locations,
+a52458b48af142 NeilBrown         2018-12-03  8062  			    struct page *page, const struct cred *cred)
+b03d735b4ca237 Chuck Lever       2013-10-17 @8063  {
+b03d735b4ca237 Chuck Lever       2013-10-17  8064  	struct nfs_client *clp = server->nfs_client;
+b03d735b4ca237 Chuck Lever       2013-10-17  8065  	const struct nfs4_mig_recovery_ops *ops =
+b03d735b4ca237 Chuck Lever       2013-10-17  8066  					clp->cl_mvops->mig_recovery_ops;
+0688e64bc60038 Trond Myklebust   2019-04-07  8067  	struct nfs4_exception exception = {
+0688e64bc60038 Trond Myklebust   2019-04-07  8068  		.interruptible = true,
+0688e64bc60038 Trond Myklebust   2019-04-07  8069  	};
+b03d735b4ca237 Chuck Lever       2013-10-17  8070  	int status;
+b03d735b4ca237 Chuck Lever       2013-10-17  8071  
+b03d735b4ca237 Chuck Lever       2013-10-17  8072  	dprintk("%s: FSID %llx:%llx on \"%s\"\n", __func__,
+b03d735b4ca237 Chuck Lever       2013-10-17  8073  		(unsigned long long)server->fsid.major,
+b03d735b4ca237 Chuck Lever       2013-10-17  8074  		(unsigned long long)server->fsid.minor,
+b03d735b4ca237 Chuck Lever       2013-10-17  8075  		clp->cl_hostname);
+6f2836341d8a39 Olga Kornievskaia 2022-01-12  8076  	nfs_display_fhandle(fhandle, __func__);
+b03d735b4ca237 Chuck Lever       2013-10-17  8077  
+b03d735b4ca237 Chuck Lever       2013-10-17  8078  	do {
+6f2836341d8a39 Olga Kornievskaia 2022-01-12  8079  		status = ops->get_locations(server, fhandle, locations, page,
+6f2836341d8a39 Olga Kornievskaia 2022-01-12  8080  					    cred);
+b03d735b4ca237 Chuck Lever       2013-10-17  8081  		if (status != -NFS4ERR_DELAY)
+b03d735b4ca237 Chuck Lever       2013-10-17  8082  			break;
+b03d735b4ca237 Chuck Lever       2013-10-17  8083  		nfs4_handle_exception(server, status, &exception);
+b03d735b4ca237 Chuck Lever       2013-10-17  8084  	} while (exception.retry);
+b03d735b4ca237 Chuck Lever       2013-10-17  8085  	return status;
+b03d735b4ca237 Chuck Lever       2013-10-17  8086  }
+b03d735b4ca237 Chuck Lever       2013-10-17  8087  
+
+:::::: The code at line 8063 was first introduced by commit
+:::::: b03d735b4ca2375d2251195cd848713bc55e7d79 NFS: Add method to retrieve fs_locations during migration recovery
+
+:::::: TO: Chuck Lever <chuck.lever@oracle.com>
+:::::: CC: Trond Myklebust <Trond.Myklebust@netapp.com>
 
 -- 
 0-DAY CI Kernel Test Service
