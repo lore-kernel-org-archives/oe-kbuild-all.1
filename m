@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5451E3C13
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 14:02:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB30914AA0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 14:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692280929; x=1723816929;
+  t=1692281076; x=1723817076;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JuPa8OVLOG69vezId3TNDdzM98GUMGynxIy+MWC7MRk=;
-  b=LPUF7SkkgZHM9bNe96PCl0+nRRAVS4n58eemOtLbmrR6Vv5viym/c06Y
-   AaGmGjy0qThxy0NWlmudvPwlUINDUaP41t8y01Ww2bGI6kfVaMszjIho4
-   c4oUGdlNGqKye79x2Q3Vi+jaYEwy4rbRhJ0ROuQzTAIvux4ipfdiBkR7r
-   5b40lBv+Om/Y5tTBfk2/1F8GQNyqZgFy+BaDyI2ILzxBhIe0sxBGDeuxx
-   UbsDro9h3Oc8vy9yuHEI8Vkc4pTwlIbCV8vPkCYfhgaxE1+PLHkKqnRq4
-   DsE6NQKd/jDwIN5WYj9uu8FAWeI97g2VfPPvQxws8nDR6Ph+xVaF5YqeP
+  bh=Ma98MVyuCEn0Io8yv8dbnqSts7YQDwgn+0HTtpQ4j40=;
+  b=je85YuLCfr6oESqFBqDiXP3szQu2rHC0sfN32LPkCyC38+l4If3AYTT3
+   rIKCq+1rDlKZg3TsjNooJCbvdsuQAYOkdverui4Aop8jrI6astHfvUH+V
+   h5q7j58CF1bUv4Tq6WzUmEulmycqT7A4g5hfNFB45H2/lot8g0uFdnZG+
+   QgDRGkNyXxHnXEEa9X0t3geno4PyBiSq9Np2AeLFR4fmBPMSSE/TNxEvk
+   jtNka/fp0CURQ8Uu2fFveW+yLeBks9up9ttBUllTLbXehBdE19Ya/h+Pt
+   74PdNFkZHwIQfG+mQlftKU+mL250Ys7wr2FlszetL8ZVdHw5/+aU2qx4F
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="376566210"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="352402887"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="376566210"
+   d="scan'208";a="352402887"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:29:19 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 07:04:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="734659761"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="734670769"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="734659761"
+   d="scan'208";a="734670769"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 17 Aug 2023 06:29:18 -0700
+  by orsmga002.jf.intel.com with ESMTP; 17 Aug 2023 07:04:17 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWd3p-0001AN-2I;
-	Thu, 17 Aug 2023 13:29:14 +0000
-Date: Thu, 17 Aug 2023 21:28:18 +0800
+	id 1qWdb7-0001C7-1E;
+	Thu, 17 Aug 2023 14:03:46 +0000
+Date: Thu, 17 Aug 2023 22:00:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kashyap Desai <kashyap.desai@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Leon Romanovsky <leon@kernel.org>,
-	Selvin Xavier <selvin.xavier@broadcom.com>
-Subject: drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:68: warning: Function
- parameter or member 'rcfw' not described in '__wait_for_resp'
-Message-ID: <202308172136.ipx1wvs6-lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
+	Kishon <kishon@ti.com>
+Subject: [phy:next 67/74] drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2357:38:
+ warning: 'qmp_pcie_offsets_v5_20' defined but not used
+Message-ID: <202308172102.2PXA2WFl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,106 +47,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-commit: 8cf1d12ad56beb73d2439ccf334b7148e71de58e RDMA/bnxt_re: Enhance the existing functions that wait for FW responses
-date:   9 weeks ago
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230817/202308172136.ipx1wvs6-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172136.ipx1wvs6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git next
+head:   a11ecceaf41d2dd542228007940652fea7532276
+commit: 64adc0bf06ad5855da5a02b9653fb7cfda289c50 [67/74] phy: qcom-qmp-pcie: populate offsets configuration
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230817/202308172102.2PXA2WFl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172102.2PXA2WFl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172136.ipx1wvs6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172102.2PXA2WFl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:68: warning: Function parameter or member 'rcfw' not described in '__wait_for_resp'
->> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:68: warning: Function parameter or member 'cookie' not described in '__wait_for_resp'
->> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:106: warning: Function parameter or member 'rcfw' not described in '__block_for_resp'
->> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:106: warning: Function parameter or member 'cookie' not described in '__block_for_resp'
+   drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2378:38: error: redefinition of 'qmp_pcie_offsets_v5_20'
+    2378 | static const struct qmp_pcie_offsets qmp_pcie_offsets_v5_20 = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2357:38: note: previous definition of 'qmp_pcie_offsets_v5_20' with type 'const struct qmp_pcie_offsets'
+    2357 | static const struct qmp_pcie_offsets qmp_pcie_offsets_v5_20 = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2357:38: warning: 'qmp_pcie_offsets_v5_20' defined but not used [-Wunused-const-variable=]
 
 
-vim +68 drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
+vim +/qmp_pcie_offsets_v5_20 +2357 drivers/phy/qualcomm/phy-qcom-qmp-pcie.c
 
-1ac5a404797523 Selvin Xavier 2017-02-10   55  
-8cf1d12ad56beb Kashyap Desai 2023-06-09   56  /**
-8cf1d12ad56beb Kashyap Desai 2023-06-09   57   * __wait_for_resp   -	Don't hold the cpu context and wait for response
-8cf1d12ad56beb Kashyap Desai 2023-06-09   58   * @rcfw      -   rcfw channel instance of rdev
-8cf1d12ad56beb Kashyap Desai 2023-06-09   59   * @cookie    -   cookie to track the command
-8cf1d12ad56beb Kashyap Desai 2023-06-09   60   *
-8cf1d12ad56beb Kashyap Desai 2023-06-09   61   * Wait for command completion in sleepable context.
-8cf1d12ad56beb Kashyap Desai 2023-06-09   62   *
-8cf1d12ad56beb Kashyap Desai 2023-06-09   63   * Returns:
-8cf1d12ad56beb Kashyap Desai 2023-06-09   64   * 0 if command is completed by firmware.
-8cf1d12ad56beb Kashyap Desai 2023-06-09   65   * Non zero error code for rest of the case.
-8cf1d12ad56beb Kashyap Desai 2023-06-09   66   */
-cc1ec769b87c7d Devesh Sharma 2017-05-22   67  static int __wait_for_resp(struct bnxt_qplib_rcfw *rcfw, u16 cookie)
-1ac5a404797523 Selvin Xavier 2017-02-10  @68  {
-cee0c7bba48691 Devesh Sharma 2020-02-15   69  	struct bnxt_qplib_cmdq_ctx *cmdq;
-1ac5a404797523 Selvin Xavier 2017-02-10   70  	u16 cbit;
-8cf1d12ad56beb Kashyap Desai 2023-06-09   71  	int ret;
-1ac5a404797523 Selvin Xavier 2017-02-10   72  
-cee0c7bba48691 Devesh Sharma 2020-02-15   73  	cmdq = &rcfw->cmdq;
-bd1c24ccf9eb07 Devesh Sharma 2018-12-12   74  	cbit = cookie % rcfw->cmdq_depth;
-8cf1d12ad56beb Kashyap Desai 2023-06-09   75  
-8cf1d12ad56beb Kashyap Desai 2023-06-09   76  	do {
-8cf1d12ad56beb Kashyap Desai 2023-06-09   77  		/* Non zero means command completed */
-8cf1d12ad56beb Kashyap Desai 2023-06-09   78  		ret = wait_event_timeout(cmdq->waitq,
-cee0c7bba48691 Devesh Sharma 2020-02-15   79  					 !test_bit(cbit, cmdq->cmdq_bitmap),
-8cf1d12ad56beb Kashyap Desai 2023-06-09   80  					 msecs_to_jiffies(10000));
-8cf1d12ad56beb Kashyap Desai 2023-06-09   81  
-8cf1d12ad56beb Kashyap Desai 2023-06-09   82  		if (!test_bit(cbit, cmdq->cmdq_bitmap))
-8cf1d12ad56beb Kashyap Desai 2023-06-09   83  			return 0;
-8cf1d12ad56beb Kashyap Desai 2023-06-09   84  
-8cf1d12ad56beb Kashyap Desai 2023-06-09   85  		bnxt_qplib_service_creq(&rcfw->creq.creq_tasklet);
-8cf1d12ad56beb Kashyap Desai 2023-06-09   86  
-8cf1d12ad56beb Kashyap Desai 2023-06-09   87  		if (!test_bit(cbit, cmdq->cmdq_bitmap))
-8cf1d12ad56beb Kashyap Desai 2023-06-09   88  			return 0;
-8cf1d12ad56beb Kashyap Desai 2023-06-09   89  
-8cf1d12ad56beb Kashyap Desai 2023-06-09   90  	} while (true);
-1ac5a404797523 Selvin Xavier 2017-02-10   91  };
-1ac5a404797523 Selvin Xavier 2017-02-10   92  
-8cf1d12ad56beb Kashyap Desai 2023-06-09   93  /**
-8cf1d12ad56beb Kashyap Desai 2023-06-09   94   * __block_for_resp   -	hold the cpu context and wait for response
-8cf1d12ad56beb Kashyap Desai 2023-06-09   95   * @rcfw      -   rcfw channel instance of rdev
-8cf1d12ad56beb Kashyap Desai 2023-06-09   96   * @cookie    -   cookie to track the command
-8cf1d12ad56beb Kashyap Desai 2023-06-09   97   *
-8cf1d12ad56beb Kashyap Desai 2023-06-09   98   * This function will hold the cpu (non-sleepable context) and
-8cf1d12ad56beb Kashyap Desai 2023-06-09   99   * wait for command completion. Maximum holding interval is 8 second.
-8cf1d12ad56beb Kashyap Desai 2023-06-09  100   *
-8cf1d12ad56beb Kashyap Desai 2023-06-09  101   * Returns:
-8cf1d12ad56beb Kashyap Desai 2023-06-09  102   * -ETIMEOUT if command is not completed in specific time interval.
-8cf1d12ad56beb Kashyap Desai 2023-06-09  103   * 0 if command is completed by firmware.
-8cf1d12ad56beb Kashyap Desai 2023-06-09  104   */
-cc1ec769b87c7d Devesh Sharma 2017-05-22  105  static int __block_for_resp(struct bnxt_qplib_rcfw *rcfw, u16 cookie)
-1ac5a404797523 Selvin Xavier 2017-02-10 @106  {
-8cf1d12ad56beb Kashyap Desai 2023-06-09  107  	struct bnxt_qplib_cmdq_ctx *cmdq = &rcfw->cmdq;
-8cf1d12ad56beb Kashyap Desai 2023-06-09  108  	unsigned long issue_time = 0;
-1ac5a404797523 Selvin Xavier 2017-02-10  109  	u16 cbit;
-1ac5a404797523 Selvin Xavier 2017-02-10  110  
-bd1c24ccf9eb07 Devesh Sharma 2018-12-12  111  	cbit = cookie % rcfw->cmdq_depth;
-8cf1d12ad56beb Kashyap Desai 2023-06-09  112  	issue_time = jiffies;
-8cf1d12ad56beb Kashyap Desai 2023-06-09  113  
-1ac5a404797523 Selvin Xavier 2017-02-10  114  	do {
-b9b43ad3ce883f Selvin Xavier 2021-09-15  115  		udelay(1);
-8cf1d12ad56beb Kashyap Desai 2023-06-09  116  
-53c2a706ae7858 Allen Pais    2020-09-03  117  		bnxt_qplib_service_creq(&rcfw->creq.creq_tasklet);
-8cf1d12ad56beb Kashyap Desai 2023-06-09  118  		if (!test_bit(cbit, cmdq->cmdq_bitmap))
-8cf1d12ad56beb Kashyap Desai 2023-06-09  119  			return 0;
-8cf1d12ad56beb Kashyap Desai 2023-06-09  120  
-8cf1d12ad56beb Kashyap Desai 2023-06-09  121  	} while (time_before(jiffies, issue_time + (8 * HZ)));
-8cf1d12ad56beb Kashyap Desai 2023-06-09  122  
-8cf1d12ad56beb Kashyap Desai 2023-06-09  123  	return -ETIMEDOUT;
-1ac5a404797523 Selvin Xavier 2017-02-10  124  };
-1ac5a404797523 Selvin Xavier 2017-02-10  125  
-
-:::::: The code at line 68 was first introduced by commit
-:::::: 1ac5a404797523cedaf424a3aaa3cf8f9548dff8 RDMA/bnxt_re: Add bnxt_re RoCE driver
-
-:::::: TO: Selvin Xavier <selvin.xavier@broadcom.com>
-:::::: CC: Doug Ledford <dledford@redhat.com>
+  2356	
+> 2357	static const struct qmp_pcie_offsets qmp_pcie_offsets_v5_20 = {
+  2358		.serdes		= 0x1000,
+  2359		.pcs		= 0x1200,
+  2360		.pcs_misc	= 0x1400,
+  2361		.tx		= 0x0000,
+  2362		.rx		= 0x0200,
+  2363		.tx2		= 0x0800,
+  2364		.rx2		= 0x0a00,
+  2365	};
+  2366	
+  2367	static const struct qmp_pcie_offsets qmp_pcie_offsets_v6_20 = {
+  2368		.serdes		= 0x1000,
+  2369		.pcs		= 0x1200,
+  2370		.pcs_misc	= 0x1400,
+  2371		.tx		= 0x0000,
+  2372		.rx		= 0x0200,
+  2373		.tx2		= 0x0800,
+  2374		.rx2		= 0x0a00,
+  2375		.ln_shrd	= 0x0e00,
+  2376	};
+  2377	
+> 2378	static const struct qmp_pcie_offsets qmp_pcie_offsets_v5_20 = {
+  2379		.serdes		= 0x1000,
+  2380		.pcs		= 0x1200,
+  2381		.pcs_misc	= 0x1400,
+  2382		.tx		= 0x0000,
+  2383		.rx		= 0x0200,
+  2384		.tx2		= 0x0800,
+  2385		.rx2		= 0x0a00,
+  2386		.ln_shrd	= 0x0e00,
+  2387	};
+  2388	
 
 -- 
 0-DAY CI Kernel Test Service
