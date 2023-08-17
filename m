@@ -1,41 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094AC1FB0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 07:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD1B1C2F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 07:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692256425; x=1723792425;
+  t=1692256455; x=1723792455;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2LAVKkL7QSrJpjbk1BMVPm8Ba2HPS6UZlrQh0eUJ6Bc=;
-  b=NJxXmui3GvWJlz8uBSrhRj4v0+lYAbpxOtxzfBaMJWVe9s8DBgsyRL8R
-   9QCdYD9kGmTjWftBnPGvXrKPJYTLasnR0N5UnCT3GKLcOaAB40B7hSVIz
-   +RicgwcP7oZBEMFUTJ0oSC0GTDT3iN2UPa4daMJEGN3ReJNOtnrt47EzC
-   /WG3j+ZTfjNlRA2ahkZWPCMva8dcyKgrqr8Tx4sfvqE6iUKgcbdlVOV3J
-   jqCxTQzoFb1YWNA1AaBC2+3w6UCL6MoOzwoNz3B3Ee8/x5DII1NZIUP67
-   w5kPr49oP02hc3kr697J8v7AaMUQwxSOmBnRW/X83xxd3vKu2UcU6zH0C
+  bh=qzj47tgLoHuNMV18sy0M2D1+IBGU2vtgvBfe9bx6DLg=;
+  b=bCD2T1hhwVJ4kWxXp2CTCmWEJ/Obb4TzR6YQxg5T2WbpRj2/ZIRNQNwX
+   ypiRfl3czD1lF8ELSiZ4095fyzPtV/XgpPArQwREW7CJIx9RdOQovgs4x
+   cx2yyntNQIASkE4BH6hV8zf2J7h0/C31a+DQJUZYbbB9zrcsiSr+hiblM
+   ebVhIe70sXm3B8eKW8V0V2TelgJeUoIjr6wmRxCgc4vZYfgQkAORrpAO8
+   Q6GOD88C90qKLA4h3HsUT0WGQNS0YGHc7lV1asK3qmWfxAT8wpzD9Mjln
+   jYztARVGWVeuZJJbiUYumjInO4SivC3prdSxRBLiCWoauOPn88BxP5U1n
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="353049081"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="357699449"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="353049081"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 00:13:44 -0700
+   d="scan'208";a="357699449"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 00:14:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="878104996"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="799914638"
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
+   d="scan'208";a="799914638"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Aug 2023 00:13:46 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 17 Aug 2023 00:14:10 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWXCC-0000sy-0U;
-	Thu, 17 Aug 2023 07:13:32 +0000
-Date: Thu, 17 Aug 2023 15:11:12 +0800
+	id 1qWXCc-0000t5-2A;
+	Thu, 17 Aug 2023 07:13:58 +0000
+Date: Thu, 17 Aug 2023 15:11:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guo Ren <guoren@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [palmer:fixes 20/22] arch/riscv/kernel/irq.c:94:1: error: s0 cannot
- be used in 'asm' here
-Message-ID: <202308171548.dvWDsXu9-lkp@intel.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Sebastian Wick <sebastian.wick@redhat.com>,
+	Joshua Ashton <joshua@froggi.es>, Simon Ser <contact@emersion.fr>
+Subject: drivers/gpu/drm/drm_connector.c:2215: warning: Function parameter or
+ member 'supported_colorspaces' not described in
+ 'drm_mode_create_hdmi_colorspace_property'
+Message-ID: <202308171526.DciyDwCK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,70 +50,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git fixes
-head:   ca09f772cccaeec4cd05a21528c37a260aa2dd2c
-commit: ebc9cb03b21e263db607a7604134a195aa314ebb [20/22] riscv: stack: Fixup independent softirq stack for CONFIG_FRAME_POINTER=n
-config: riscv-randconfig-r072-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171548.dvWDsXu9-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171548.dvWDsXu9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: c265f340eaa87aa5f979adfb23d7463af67b7f27 drm/connector: Allow drivers to pass list of supported colorspaces
+date:   10 weeks ago
+config: sh-randconfig-r001-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171526.DciyDwCK-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171526.DciyDwCK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171548.dvWDsXu9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171526.DciyDwCK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/riscv/kernel/irq.c: In function 'do_softirq_own_stack':
->> arch/riscv/kernel/irq.c:94:1: error: s0 cannot be used in 'asm' here
-      94 | }
-         | ^
->> arch/riscv/kernel/irq.c:94:1: error: s0 cannot be used in 'asm' here
+>> drivers/gpu/drm/drm_connector.c:2215: warning: Function parameter or member 'supported_colorspaces' not described in 'drm_mode_create_hdmi_colorspace_property'
+>> drivers/gpu/drm/drm_connector.c:2239: warning: Function parameter or member 'supported_colorspaces' not described in 'drm_mode_create_dp_colorspace_property'
 
 
-vim +/asm +94 arch/riscv/kernel/irq.c
+vim +2215 drivers/gpu/drm/drm_connector.c
 
-dd69d07a5a6c5a Guo Ren 2023-06-13  62  
-dd69d07a5a6c5a Guo Ren 2023-06-13  63  #ifdef CONFIG_HAVE_SOFTIRQ_ON_OWN_STACK
-dd69d07a5a6c5a Guo Ren 2023-06-13  64  void do_softirq_own_stack(void)
-dd69d07a5a6c5a Guo Ren 2023-06-13  65  {
-dd69d07a5a6c5a Guo Ren 2023-06-13  66  #ifdef CONFIG_IRQ_STACKS
-dd69d07a5a6c5a Guo Ren 2023-06-13  67  	if (on_thread_stack()) {
-dd69d07a5a6c5a Guo Ren 2023-06-13  68  		ulong *sp = per_cpu(irq_stack_ptr, smp_processor_id())
-dd69d07a5a6c5a Guo Ren 2023-06-13  69  					+ IRQ_STACK_SIZE/sizeof(ulong);
-dd69d07a5a6c5a Guo Ren 2023-06-13  70  		__asm__ __volatile(
-dd69d07a5a6c5a Guo Ren 2023-06-13  71  		"addi	sp, sp, -"RISCV_SZPTR  "\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  72  		REG_S"  ra, (sp)		\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  73  		"addi	sp, sp, -"RISCV_SZPTR  "\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  74  		REG_S"  s0, (sp)		\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  75  		"addi	s0, sp, 2*"RISCV_SZPTR "\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  76  		"move	sp, %[sp]		\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  77  		"call	__do_softirq		\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  78  		"addi	sp, s0, -2*"RISCV_SZPTR"\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  79  		REG_L"  s0, (sp)		\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  80  		"addi	sp, sp, "RISCV_SZPTR   "\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  81  		REG_L"  ra, (sp)		\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  82  		"addi	sp, sp, "RISCV_SZPTR   "\n"
-dd69d07a5a6c5a Guo Ren 2023-06-13  83  		:
-dd69d07a5a6c5a Guo Ren 2023-06-13  84  		: [sp] "r" (sp)
-dd69d07a5a6c5a Guo Ren 2023-06-13  85  		: "a0", "a1", "a2", "a3", "a4", "a5", "a6", "a7",
-dd69d07a5a6c5a Guo Ren 2023-06-13  86  		  "t0", "t1", "t2", "t3", "t4", "t5", "t6",
-ebc9cb03b21e26 Guo Ren 2023-07-15  87  #ifndef CONFIG_FRAME_POINTER
-ebc9cb03b21e26 Guo Ren 2023-07-15  88  		  "s0",
-ebc9cb03b21e26 Guo Ren 2023-07-15  89  #endif
-dd69d07a5a6c5a Guo Ren 2023-06-13  90  		  "memory");
-dd69d07a5a6c5a Guo Ren 2023-06-13  91  	} else
-dd69d07a5a6c5a Guo Ren 2023-06-13  92  #endif
-dd69d07a5a6c5a Guo Ren 2023-06-13  93  		__do_softirq();
-dd69d07a5a6c5a Guo Ren 2023-06-13 @94  }
-dd69d07a5a6c5a Guo Ren 2023-06-13  95  #endif /* CONFIG_HAVE_SOFTIRQ_ON_OWN_STACK */
-dd69d07a5a6c5a Guo Ren 2023-06-13  96  
+c627087cb164d1 Harry Wentland  2022-11-29  2202  
+8806cd3aa025ad Gwan-gyeong Mun 2019-09-19  2203  /**
+8806cd3aa025ad Gwan-gyeong Mun 2019-09-19  2204   * drm_mode_create_hdmi_colorspace_property - create hdmi colorspace property
+8806cd3aa025ad Gwan-gyeong Mun 2019-09-19  2205   * @connector: connector to create the Colorspace property on.
+8806cd3aa025ad Gwan-gyeong Mun 2019-09-19  2206   *
+d2c6a405846c24 Uma Shankar     2019-02-19  2207   * Called by a driver the first time it's needed, must be attached to desired
+8806cd3aa025ad Gwan-gyeong Mun 2019-09-19  2208   * HDMI connectors.
+8806cd3aa025ad Gwan-gyeong Mun 2019-09-19  2209   *
+8806cd3aa025ad Gwan-gyeong Mun 2019-09-19  2210   * Returns:
+84e543bc9d1dc5 Antonio Borneo  2020-06-26  2211   * Zero on success, negative errno on failure.
+d2c6a405846c24 Uma Shankar     2019-02-19  2212   */
+c265f340eaa87a Harry Wentland  2022-11-29  2213  int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector,
+c265f340eaa87a Harry Wentland  2022-11-29  2214  					     u32 supported_colorspaces)
+d2c6a405846c24 Uma Shankar     2019-02-19 @2215  {
+c265f340eaa87a Harry Wentland  2022-11-29  2216  	u32 colorspaces;
+c265f340eaa87a Harry Wentland  2022-11-29  2217  
+c265f340eaa87a Harry Wentland  2022-11-29  2218  	if (supported_colorspaces)
+c265f340eaa87a Harry Wentland  2022-11-29  2219  		colorspaces = supported_colorspaces & hdmi_colorspaces;
+c265f340eaa87a Harry Wentland  2022-11-29  2220  	else
+c265f340eaa87a Harry Wentland  2022-11-29  2221  		colorspaces = hdmi_colorspaces;
+c265f340eaa87a Harry Wentland  2022-11-29  2222  
+c265f340eaa87a Harry Wentland  2022-11-29  2223  	return drm_mode_create_colorspace_property(connector, colorspaces);
+d2c6a405846c24 Uma Shankar     2019-02-19  2224  }
+8806cd3aa025ad Gwan-gyeong Mun 2019-09-19  2225  EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_property);
+d2c6a405846c24 Uma Shankar     2019-02-19  2226  
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19  2227  /**
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19  2228   * drm_mode_create_dp_colorspace_property - create dp colorspace property
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19  2229   * @connector: connector to create the Colorspace property on.
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19  2230   *
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19  2231   * Called by a driver the first time it's needed, must be attached to desired
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19  2232   * DP connectors.
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19  2233   *
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19  2234   * Returns:
+84e543bc9d1dc5 Antonio Borneo  2020-06-26  2235   * Zero on success, negative errno on failure.
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19  2236   */
+c265f340eaa87a Harry Wentland  2022-11-29  2237  int drm_mode_create_dp_colorspace_property(struct drm_connector *connector,
+c265f340eaa87a Harry Wentland  2022-11-29  2238  					   u32 supported_colorspaces)
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19 @2239  {
+c265f340eaa87a Harry Wentland  2022-11-29  2240  	u32 colorspaces;
+c265f340eaa87a Harry Wentland  2022-11-29  2241  
+c265f340eaa87a Harry Wentland  2022-11-29  2242  	if (supported_colorspaces)
+c265f340eaa87a Harry Wentland  2022-11-29  2243  		colorspaces = supported_colorspaces & dp_colorspaces;
+c265f340eaa87a Harry Wentland  2022-11-29  2244  	else
+c265f340eaa87a Harry Wentland  2022-11-29  2245  		colorspaces = dp_colorspaces;
+c265f340eaa87a Harry Wentland  2022-11-29  2246  
+c265f340eaa87a Harry Wentland  2022-11-29  2247  	return drm_mode_create_colorspace_property(connector, colorspaces);
+d2c6a405846c24 Uma Shankar     2019-02-19  2248  }
+45cf0e91df8c75 Gwan-gyeong Mun 2019-09-19  2249  EXPORT_SYMBOL(drm_mode_create_dp_colorspace_property);
+d2c6a405846c24 Uma Shankar     2019-02-19  2250  
 
-:::::: The code at line 94 was first introduced by commit
-:::::: dd69d07a5a6c5a9ada85321ab0695e7978fc6f3e riscv: stack: Support HAVE_SOFTIRQ_ON_OWN_STACK
+:::::: The code at line 2215 was first introduced by commit
+:::::: d2c6a405846c24439f85c7a8da21545f12874638 drm: Add HDMI colorspace property
 
-:::::: TO: Guo Ren <guoren@linux.alibaba.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+:::::: TO: Uma Shankar <uma.shankar@intel.com>
+:::::: CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
