@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5372907
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 12:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246B514005
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 13:20:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692277012; x=1723813012;
+  t=1692278414; x=1723814414;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T+4QV5apohsYGybwggq4arjrA8KPRXKg4qUHp1H8pHE=;
-  b=JScpJ1yfBf7G+K2hfVvsRjnmvZriADQ+7C0ZifMEnsmk/59gxhQVoico
-   xUQrZVsrELS3VFCrMp3OqgNbe8L5w+O82qY8uQ2y5SWmfmVenoWtSDo4X
-   wOa4JyLre0OzLR87i5AmrrEiJwg+CKFj91NgEInMYc6m91wAWFOhS+5PN
-   7KCNJFG7of/fpQGAtI5Id23evDP0QlwB2g+ez7yePnfS8bILM8hZH/Wb1
-   S+uQyR023fCTsnwql7NTOllRxVprN8FqwF5G21SDjDCzeTz+aNunNAdR/
-   266s4pXqhy8zr13IU3/vm89tTugaiy2yMGkEs0qYQ/kZ0X+5T5w61n8Hf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370269257"
+  bh=oCTVmNYrLlpnyZdSlsj8M2QXwVyMDIZGZUYhsRuF2BM=;
+  b=QU/8tmqJLjH2XlXkwU8fZws39if52t160bEHqe3nmwrp8kR2kAQ0TF4U
+   MdggIBigLQhBu682N3pMzE481iibuVslJalvMcHIFIJDtJ33z+PVPIoUp
+   0ZLwKbe9hzoqTPGNdxaoelCb4mB/n22KMFvEhl+hLVZ2CoEcVZ6Ulps9e
+   /EYeY1MP+qzZnNeHeaq9FZF8yVGIRjMaHeCxYcYUcHBI/VLBC/5AV885x
+   e/YBJqrxt5gHKMSDhYc6lLh5MddnnrkFLEGVsooqUapmC7M7uNv7Yqwwx
+   8OcqTZdvHYidLEAzIrxYwFiaP1jB32LF/WFTS/H5+mtGR7jkgOc2o5HM6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="362961458"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="370269257"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 05:56:51 -0700
+   d="scan'208";a="362961458"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 06:17:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="764069198"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1065233569"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="764069198"
+   d="scan'208";a="1065233569"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 17 Aug 2023 05:56:50 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 17 Aug 2023 06:17:42 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWcYK-000199-21;
-	Thu, 17 Aug 2023 12:56:45 +0000
-Date: Thu, 17 Aug 2023 20:56:20 +0800
+	id 1qWcsb-00019o-02;
+	Thu, 17 Aug 2023 13:17:37 +0000
+Date: Thu, 17 Aug 2023 21:17:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
-	Kishon <kishon@ti.com>
-Subject: [phy:next 67/74] drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2378:38:
- error: redefinition of 'qmp_pcie_offsets_v5_20'
-Message-ID: <202308172039.Ua2Ef3B8-lkp@intel.com>
+To: Jing Zhang <jingzhangos@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Oliver Upton <oliver.upton@linux.dev>
+Subject: arch/arm64/kvm/sys_regs.c:1239: warning: Function parameter or
+ member 'vcpu' not described in 'arm64_check_features'
+Message-ID: <202308172123.fPQkVpYE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,48 +47,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git next
-head:   a11ecceaf41d2dd542228007940652fea7532276
-commit: 64adc0bf06ad5855da5a02b9653fb7cfda289c50 [67/74] phy: qcom-qmp-pcie: populate offsets configuration
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230817/202308172039.Ua2Ef3B8-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172039.Ua2Ef3B8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: 2e8bf0cbd0589bae3a0466a3ed45f9cf9f3164eb KVM: arm64: Use arm64_ftr_bits to sanitise ID register writes
+date:   9 weeks ago
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230817/202308172123.fPQkVpYE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172123.fPQkVpYE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172039.Ua2Ef3B8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172123.fPQkVpYE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2378:38: error: redefinition of 'qmp_pcie_offsets_v5_20'
-    2378 | static const struct qmp_pcie_offsets qmp_pcie_offsets_v5_20 = {
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/phy/qualcomm/phy-qcom-qmp-pcie.c:2357:38: note: previous definition of 'qmp_pcie_offsets_v5_20' with type 'const struct qmp_pcie_offsets'
-    2357 | static const struct qmp_pcie_offsets qmp_pcie_offsets_v5_20 = {
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/sys_regs.c:1239: warning: Function parameter or member 'vcpu' not described in 'arm64_check_features'
+>> arch/arm64/kvm/sys_regs.c:1239: warning: Function parameter or member 'rd' not described in 'arm64_check_features'
+>> arch/arm64/kvm/sys_regs.c:1239: warning: Function parameter or member 'val' not described in 'arm64_check_features'
+   arch/arm64/kvm/sys_regs.c:2868: warning: Function parameter or member 'global' not described in 'kvm_handle_cp_64'
+   arch/arm64/kvm/sys_regs.c:2868: warning: Function parameter or member 'nr_global' not described in 'kvm_handle_cp_64'
+   arch/arm64/kvm/sys_regs.c:2868: warning: Excess function parameter 'run' description in 'kvm_handle_cp_64'
+   arch/arm64/kvm/sys_regs.c:3036: warning: Function parameter or member 'params' not described in 'kvm_handle_cp_32'
+   arch/arm64/kvm/sys_regs.c:3036: warning: Function parameter or member 'global' not described in 'kvm_handle_cp_32'
+   arch/arm64/kvm/sys_regs.c:3036: warning: Function parameter or member 'nr_global' not described in 'kvm_handle_cp_32'
+   arch/arm64/kvm/sys_regs.c:3036: warning: Excess function parameter 'run' description in 'kvm_handle_cp_32'
 
 
-vim +/qmp_pcie_offsets_v5_20 +2378 drivers/phy/qualcomm/phy-qcom-qmp-pcie.c
+vim +1239 arch/arm64/kvm/sys_regs.c
 
-269b70e85282e7 Abel Vesa      2023-02-08  2377  
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14 @2378  static const struct qmp_pcie_offsets qmp_pcie_offsets_v5_20 = {
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2379  	.serdes		= 0x1000,
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2380  	.pcs		= 0x1200,
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2381  	.pcs_misc	= 0x1400,
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2382  	.tx		= 0x0000,
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2383  	.rx		= 0x0200,
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2384  	.tx2		= 0x0800,
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2385  	.rx2		= 0x0a00,
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2386  	.ln_shrd	= 0x0e00,
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2387  };
-a05b6d5135ec3e Mrinmay Sarkar 2023-07-14  2388  
-
-:::::: The code at line 2378 was first introduced by commit
-:::::: a05b6d5135ec3e65520ae0eaa1b24d4c6549424e phy: qcom-qmp-pcie: add support for sa8775p
-
-:::::: TO: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-:::::: CC: Vinod Koul <vkoul@kernel.org>
+  1223	
+  1224	/**
+  1225	 * arm64_check_features() - Check if a feature register value constitutes
+  1226	 * a subset of features indicated by the idreg's KVM sanitised limit.
+  1227	 *
+  1228	 * This function will check if each feature field of @val is the "safe" value
+  1229	 * against idreg's KVM sanitised limit return from reset() callback.
+  1230	 * If a field value in @val is the same as the one in limit, it is always
+  1231	 * considered the safe value regardless For register fields that are not in
+  1232	 * writable, only the value in limit is considered the safe value.
+  1233	 *
+  1234	 * Return: 0 if all the fields are safe. Otherwise, return negative errno.
+  1235	 */
+  1236	static int arm64_check_features(struct kvm_vcpu *vcpu,
+  1237					const struct sys_reg_desc *rd,
+  1238					u64 val)
+> 1239	{
+  1240		const struct arm64_ftr_reg *ftr_reg;
+  1241		const struct arm64_ftr_bits *ftrp = NULL;
+  1242		u32 id = reg_to_encoding(rd);
+  1243		u64 writable_mask = rd->val;
+  1244		u64 limit = rd->reset(vcpu, rd);
+  1245		u64 mask = 0;
+  1246	
+  1247		/*
+  1248		 * Hidden and unallocated ID registers may not have a corresponding
+  1249		 * struct arm64_ftr_reg. Of course, if the register is RAZ we know the
+  1250		 * only safe value is 0.
+  1251		 */
+  1252		if (sysreg_visible_as_raz(vcpu, rd))
+  1253			return val ? -E2BIG : 0;
+  1254	
+  1255		ftr_reg = get_arm64_ftr_reg(id);
+  1256		if (!ftr_reg)
+  1257			return -EINVAL;
+  1258	
+  1259		ftrp = ftr_reg->ftr_bits;
+  1260	
+  1261		for (; ftrp && ftrp->width; ftrp++) {
+  1262			s64 f_val, f_lim, safe_val;
+  1263			u64 ftr_mask;
+  1264	
+  1265			ftr_mask = arm64_ftr_mask(ftrp);
+  1266			if ((ftr_mask & writable_mask) != ftr_mask)
+  1267				continue;
+  1268	
+  1269			f_val = arm64_ftr_value(ftrp, val);
+  1270			f_lim = arm64_ftr_value(ftrp, limit);
+  1271			mask |= ftr_mask;
+  1272	
+  1273			if (f_val == f_lim)
+  1274				safe_val = f_val;
+  1275			else
+  1276				safe_val = kvm_arm64_ftr_safe_value(id, ftrp, f_val, f_lim);
+  1277	
+  1278			if (safe_val != f_val)
+  1279				return -E2BIG;
+  1280		}
+  1281	
+  1282		/* For fields that are not writable, values in limit are the safe values. */
+  1283		if ((val & ~mask) != (limit & ~mask))
+  1284			return -E2BIG;
+  1285	
+  1286		return 0;
+  1287	}
+  1288	
 
 -- 
 0-DAY CI Kernel Test Service
