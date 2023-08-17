@@ -1,127 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E084510974;
-	Thu, 17 Aug 2023 09:13:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692263609; x=1723799609;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4z/FYGQdd8TUJLtwj7tIzG3gTwFirQUpcAAlf+5kjMw=;
-  b=YYJsXtapJ6UXMGRf/p6jszIV6TN2B3HQ/Pw+7yvBD6RHgpV6yfzmmAjk
-   UoqsqjClGSfv0nZLlLWbnwB9rJWnPVqoLkl++dWhtrbvtpm3Al+8N5CO4
-   L/8uQuz8LTUdOyfxxUA+DdZtRb309JVPJSQvpu09fVvsaqD/qcybaff/z
-   mvOFa81G4vPz4hbdCZaFAoshgisDJ+4YdSbrZfpSQVGlDWsrencskvqKq
-   Xg+j73s6xwVOmzYdDMvptC/+sJ+xr+sTrJhXCYw15J9Rk8a4jGlivcJLs
-   yB4G7j+mdLhejylkcsDMXMypfYTwqDqVCKkOuLbO9ULD1XkShhwfftpdK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370225029"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="370225029"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 02:13:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="737630385"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="737630385"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 17 Aug 2023 02:13:22 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qWZ4D-0000zb-2N;
-	Thu, 17 Aug 2023 09:13:21 +0000
-Date: Thu, 17 Aug 2023 17:12:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gabriel Krisman Bertazi <krisman@suse.de>, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, tytso@mit.edu, ebiggers@kernel.org,
-	jaegeuk@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Gabriel Krisman Bertazi <krisman@suse.de>
-Subject: Re: [PATCH v5 04/10] fs: Expose name under lookup to d_revalidate
- hooks
-Message-ID: <202308171740.0u9DuWtr-lkp@intel.com>
-References: <20230812004146.30980-5-krisman@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90AE10974
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 09:16:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BCB1C433C7;
+	Thu, 17 Aug 2023 09:16:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692263796;
+	bh=E1xYM3eicIY2J4yt1dfa9Zc0USpwfRjN/j9GTHStkK0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J4LpdgarkYOJtZ15VDnKThnh9eMePVRKBPf1FdgsJzZ/bItnsb+40z+OWdFqfr82o
+	 F15NkfthCAQ95a55659cBYBloXtT3atkdPxAT8N1bxSZxi1qWmFnkphBTRgI5WIZE2
+	 CwuJYMev/D9t8y4oAXAL8COZCes/9K61dmRKvmKuAHmDT1r4Plo0uiKet2mV3jVggI
+	 fBJ4XGFGksBTQ7NZGXM+lhFzg7ayfYdKLNllHVg3A9JHe3DYWlwIBSRIAfmzw0eHeS
+	 KTdHwgQx1b39K4pZvVqmDDZn/W7EEGCMgeGgjX5KGxVthtBV0rCajaAFSBUukxmgCV
+	 IQKqSCxnRa/yA==
+Date: Thu, 17 Aug 2023 10:16:31 +0100
+From: Lee Jones <lee@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Daniel Golle <daniel@makrotopia.org>, Pavel Machek <pavel@ucw.cz>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Richard Purdie <rpurdie@linux.intel.com>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH] led: trig: timer: stop offloading on deactivation
+Message-ID: <20230817091631.GH648357@google.com>
+References: <728da6e11d34a39f717be07e246dcc4964b0fd51.1690542871.git.daniel@makrotopia.org>
+ <202307290641.SUCRTRMI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230812004146.30980-5-krisman@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202307290641.SUCRTRMI-lkp@intel.com>
 
-Hi Gabriel,
+On Sat, 29 Jul 2023, kernel test robot wrote:
 
-kernel test robot noticed the following build warnings:
+> Hi Daniel,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on lee-leds/for-leds-next]
+> [also build test WARNING on wireless-next/main wireless/main linus/master pavel-leds/for-next v6.5-rc3 next-20230728]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/led-trig-timer-stop-offloading-on-deactivation/20230728-203243
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+> patch link:    https://lore.kernel.org/r/728da6e11d34a39f717be07e246dcc4964b0fd51.1690542871.git.daniel%40makrotopia.org
+> patch subject: [PATCH] led: trig: timer: stop offloading on deactivation
+> config: mips-randconfig-r093-20230728 (https://download.01.org/0day-ci/archive/20230729/202307290641.SUCRTRMI-lkp@intel.com/config)
+> compiler: mips-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230729/202307290641.SUCRTRMI-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307290641.SUCRTRMI-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/leds/trigger/ledtrig-timer.c:129:47: sparse: sparse: Using plain integer as NULL pointer
+>    drivers/leds/trigger/ledtrig-timer.c:129:50: sparse: sparse: Using plain integer as NULL pointer
 
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on linus/master]
-[cannot apply to tyhicks-ecryptfs/next ericvh-v9fs/for-next viro-vfs/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Are you planning on fixing this?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gabriel-Krisman-Bertazi/fs-Expose-helper-to-check-if-a-directory-needs-casefolding/20230812-084506
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20230812004146.30980-5-krisman%40suse.de
-patch subject: [PATCH v5 04/10] fs: Expose name under lookup to d_revalidate hooks
-config: x86_64-randconfig-x012-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171740.0u9DuWtr-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171740.0u9DuWtr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171740.0u9DuWtr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/ecryptfs/dentry.c:33: warning: Function parameter or member 'name' not described in 'ecryptfs_d_revalidate'
-
-
-vim +33 fs/ecryptfs/dentry.c
-
-237fead619984c Michael Halcrow         2006-10-04  17  
-237fead619984c Michael Halcrow         2006-10-04  18  /**
-237fead619984c Michael Halcrow         2006-10-04  19   * ecryptfs_d_revalidate - revalidate an ecryptfs dentry
-237fead619984c Michael Halcrow         2006-10-04  20   * @dentry: The ecryptfs dentry
-0b728e1911cbe6 Al Viro                 2012-06-10  21   * @flags: lookup flags
-237fead619984c Michael Halcrow         2006-10-04  22   *
-237fead619984c Michael Halcrow         2006-10-04  23   * Called when the VFS needs to revalidate a dentry. This
-237fead619984c Michael Halcrow         2006-10-04  24   * is called whenever a name lookup finds a dentry in the
-237fead619984c Michael Halcrow         2006-10-04  25   * dcache. Most filesystems leave this as NULL, because all their
-237fead619984c Michael Halcrow         2006-10-04  26   * dentries in the dcache are valid.
-237fead619984c Michael Halcrow         2006-10-04  27   *
-237fead619984c Michael Halcrow         2006-10-04  28   * Returns 1 if valid, 0 otherwise.
-237fead619984c Michael Halcrow         2006-10-04  29   *
-237fead619984c Michael Halcrow         2006-10-04  30   */
-0838ae103beaf6 Gabriel Krisman Bertazi 2023-08-11  31  static int ecryptfs_d_revalidate(struct dentry *dentry,
-0838ae103beaf6 Gabriel Krisman Bertazi 2023-08-11  32  				 const struct qstr *name, unsigned int flags)
-237fead619984c Michael Halcrow         2006-10-04 @33  {
-2edbfbf1c1ab0a Al Viro                 2013-09-15  34  	struct dentry *lower_dentry = ecryptfs_dentry_to_lower(dentry);
-5556e7e6d30e8e Tyler Hicks             2015-08-05  35  	int rc = 1;
-237fead619984c Michael Halcrow         2006-10-04  36  
-0b728e1911cbe6 Al Viro                 2012-06-10  37  	if (flags & LOOKUP_RCU)
-34286d6662308d Nicholas Piggin         2011-01-07  38  		return -ECHILD;
-34286d6662308d Nicholas Piggin         2011-01-07  39  
-5556e7e6d30e8e Tyler Hicks             2015-08-05  40  	if (lower_dentry->d_flags & DCACHE_OP_REVALIDATE)
-0838ae103beaf6 Gabriel Krisman Bertazi 2023-08-11  41  		rc = lower_dentry->d_op->d_revalidate(lower_dentry, name, flags);
-5556e7e6d30e8e Tyler Hicks             2015-08-05  42  
-2b0143b5c986be David Howells           2015-03-17  43  	if (d_really_is_positive(dentry)) {
-5556e7e6d30e8e Tyler Hicks             2015-08-05  44  		struct inode *inode = d_inode(dentry);
-ae56fb16337c88 Michael Halcrow         2006-11-16  45  
-5556e7e6d30e8e Tyler Hicks             2015-08-05  46  		fsstack_copy_attr_all(inode, ecryptfs_inode_to_lower(inode));
-5556e7e6d30e8e Tyler Hicks             2015-08-05  47  		if (!inode->i_nlink)
-5556e7e6d30e8e Tyler Hicks             2015-08-05  48  			return 0;
-ae56fb16337c88 Michael Halcrow         2006-11-16  49  	}
-237fead619984c Michael Halcrow         2006-10-04  50  	return rc;
-237fead619984c Michael Halcrow         2006-10-04  51  }
-237fead619984c Michael Halcrow         2006-10-04  52  
+> vim +129 drivers/leds/trigger/ledtrig-timer.c
+> 
+>    123	
+>    124	static void timer_trig_deactivate(struct led_classdev *led_cdev)
+>    125	{
+>    126		/* Stop blinking */
+>    127		led_set_brightness(led_cdev, LED_OFF);
+>    128		if (led_cdev->blink_set)
+>  > 129			led_cdev->blink_set(led_cdev, 0, 0);
+>    130	}
+>    131	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Lee Jones [李琼斯]
