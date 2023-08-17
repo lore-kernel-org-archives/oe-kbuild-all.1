@@ -1,57 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0DA80C;
-	Thu, 17 Aug 2023 06:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3DCA5B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 06:49:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692254357; x=1723790357;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rFRRVEEucSSTXNeQi/3oBg68H2cCmE1GCVvNVuJOHew=;
-  b=aYDD5Ig9ScCFI5N3jpYRj7GBvttckgJ4rcBC5parqI8yZZVkhGbO6kNB
-   L8z2TWYB23/pI2dtCQWl0ifKwuRqoD7JKvjuBeaVUh3JzxI7D12/t+NGb
-   URMIAjjZswjHt2S3Tz7DfnW1eYkx3Qvjg5Z4S0N9KjH1q0Xgc36ZoHnsC
-   4AjSt5lM5zY2cBRpoRgnxGosKYilvvc+ws5NRDdnY9vdEu0a6xzofXL4J
-   zfkC3kDbW45jXe1Oc6FVe5podI1BVMMhJ+INbds4fI6Td5uKbGD2hRrnY
-   +T8cld3ApB0npD78HcLg2H5kJ9b1tGR1zLrVTxiVv4YiOGKgAMMSNmizE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="372727112"
+  t=1692254954; x=1723790954;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pccFl1BewzWUrx+3IbCAJJ0Ktr4Amor3WOXX7UhPCog=;
+  b=VvaXzPxdRzFRL7W6yJ8ZIiUzHlte+Os0rCI9fRGaF1Fehyrz6m6pHpqD
+   aan/5HmytAQEDj9TwbcvxVdmemxBpDLoarzeYM2th3YMPdqgfkuwouJ87
+   FlB4J4MFIWRRolTgYmyrxyXVjn379uocpid1kg3tXSsKNOgUyZc+Cd35v
+   anMW5hnqa/KceZwdX94lKqonZQZQM34f5XyROUTRV9xedFX1r1ig9gkX1
+   zf9ob5ppiSbHc67dxLxAlKRDM+njljgvFQjo1MqPflXIjVMNDNXCfAkq/
+   bE4fPExfpBcj0B4LiuD7xysbaDVyCysVXDqEZxWsrhSqCjS8pt12Mjw6Q
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375495451"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="372727112"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 23:39:15 -0700
+   d="scan'208";a="375495451"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2023 23:49:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1065135113"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="734548645"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="1065135113"
+   d="scan'208";a="734548645"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 16 Aug 2023 23:39:10 -0700
+  by orsmga002.jf.intel.com with ESMTP; 16 Aug 2023 23:49:10 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWWez-0000rX-0i;
-	Thu, 17 Aug 2023 06:39:09 +0000
-Date: Thu, 17 Aug 2023 14:38:23 +0800
+	id 1qWWof-0000s5-1f;
+	Thu, 17 Aug 2023 06:49:09 +0000
+Date: Thu, 17 Aug 2023 14:48:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raghavendra Rao Ananta <rananta@google.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Marc Zyngier <maz@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Shaoqin Huang <shahuang@redhat.com>,
-	Jing Zhang <jingzhangos@google.com>,
-	Reiji Watanabe <reijiw@google.com>,
-	Colton Lewis <coltonlewis@google.com>,
-	Raghavendra Rao Anata <rananta@google.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org
-Subject: Re: [PATCH v5 05/12] KVM: arm64: PMU: Simplify extracting PMCR_EL0.N
-Message-ID: <202308171444.Q5rfJubF-lkp@intel.com>
-References: <20230817003029.3073210-6-rananta@google.com>
+To: Thierry Reding <treding@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Subject: drivers/i2c/busses/i2c-tegra.c:297: warning: Function parameter or
+ member 'dma_dev' not described in 'tegra_i2c_dev'
+Message-ID: <202308171413.orPN3iw6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,178 +46,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230817003029.3073210-6-rananta@google.com>
 
-Hi Raghavendra,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 2ccdd1b13c591d306f0401d98dedc4bdcd02b421]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raghavendra-Rao-Ananta/KVM-arm64-PMU-Introduce-a-helper-to-set-the-guest-s-PMU/20230817-083353
-base:   2ccdd1b13c591d306f0401d98dedc4bdcd02b421
-patch link:    https://lore.kernel.org/r/20230817003029.3073210-6-rananta%40google.com
-patch subject: [PATCH v5 05/12] KVM: arm64: PMU: Simplify extracting PMCR_EL0.N
-config: arm-randconfig-r046-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171444.Q5rfJubF-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171444.Q5rfJubF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+commit: cdbf26251d3b35c4ccaea0c3a6de4318f727d3d2 i2c: tegra: Allocate DMA memory for DMA engine
+date:   10 months ago
+config: riscv-randconfig-r022-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171413.orPN3iw6-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171413.orPN3iw6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171444.Q5rfJubF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308171413.orPN3iw6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:141:2: note: previous initialization is here
-     141 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:148:44: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     148 |         [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:133:44: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
-     133 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD                         0x004E
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:141:2: note: previous initialization is here
-     141 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:149:45: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     149 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:134:44: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
-     134 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR                         0x004F
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:141:2: note: previous initialization is here
-     141 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:150:42: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     150 |         [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:131:50: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
-     131 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD                  0x004C
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:141:2: note: previous initialization is here
-     141 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:151:43: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     151 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:132:50: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
-     132 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR                  0x004D
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:141:2: note: previous initialization is here
-     141 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:153:44: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     153 |         [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:148:46: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
-     148 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD                      0x0060
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:141:2: note: previous initialization is here
-     141 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/arm_pmuv3.c:154:45: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     154 |         [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:149:46: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
-     149 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR                      0x0061
-         |                                                                 ^~~~~~
-   drivers/perf/arm_pmuv3.c:141:2: note: previous initialization is here
-     141 |         PERF_CACHE_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:45:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-      45 |                 [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:37:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-      37 | #define CACHE_OP_UNSUPPORTED            0xFFFF
-         |                                         ^~~~~~
->> drivers/perf/arm_pmuv3.c:1131:24: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1131 |         cpu_pmu->num_events = FIELD_GET(ARMV8_PMU_PMCR_N, armv8pmu_pmcr_read());
-         |                               ^
-   55 warnings and 1 error generated.
+>> drivers/i2c/busses/i2c-tegra.c:297: warning: Function parameter or member 'dma_dev' not described in 'tegra_i2c_dev'
 
 
-vim +/FIELD_GET +1131 drivers/perf/arm_pmuv3.c
+vim +297 drivers/i2c/busses/i2c-tegra.c
 
-  1114	
-  1115	static void __armv8pmu_probe_pmu(void *info)
-  1116	{
-  1117		struct armv8pmu_probe_info *probe = info;
-  1118		struct arm_pmu *cpu_pmu = probe->pmu;
-  1119		u64 pmceid_raw[2];
-  1120		u32 pmceid[2];
-  1121		int pmuver;
-  1122	
-  1123		pmuver = read_pmuver();
-  1124		if (!pmuv3_implemented(pmuver))
-  1125			return;
-  1126	
-  1127		cpu_pmu->pmuver = pmuver;
-  1128		probe->present = true;
-  1129	
-  1130		/* Read the nb of CNTx counters supported from PMNC */
-> 1131		cpu_pmu->num_events = FIELD_GET(ARMV8_PMU_PMCR_N, armv8pmu_pmcr_read());
-  1132	
-  1133		/* Add the CPU cycles counter */
-  1134		cpu_pmu->num_events += 1;
-  1135	
-  1136		pmceid[0] = pmceid_raw[0] = read_pmceid0();
-  1137		pmceid[1] = pmceid_raw[1] = read_pmceid1();
-  1138	
-  1139		bitmap_from_arr32(cpu_pmu->pmceid_bitmap,
-  1140				     pmceid, ARMV8_PMUV3_MAX_COMMON_EVENTS);
-  1141	
-  1142		pmceid[0] = pmceid_raw[0] >> 32;
-  1143		pmceid[1] = pmceid_raw[1] >> 32;
-  1144	
-  1145		bitmap_from_arr32(cpu_pmu->pmceid_ext_bitmap,
-  1146				     pmceid, ARMV8_PMUV3_MAX_COMMON_EVENTS);
-  1147	
-  1148		/* store PMMIR register for sysfs */
-  1149		if (is_pmuv3p4(pmuver) && (pmceid_raw[1] & BIT(31)))
-  1150			cpu_pmu->reg_pmmir = read_pmmir();
-  1151		else
-  1152			cpu_pmu->reg_pmmir = 0;
-  1153	}
-  1154	
+6ad068ed63100f Laxman Dewangan     2012-08-19  228  
+db811ca0f48578 Colin Cross         2011-02-20  229  /**
+c990bbafdb11c6 Thierry Reding      2018-12-17  230   * struct tegra_i2c_dev - per device I2C context
+db811ca0f48578 Colin Cross         2011-02-20  231   * @dev: device reference for power management
+c990bbafdb11c6 Thierry Reding      2018-12-17  232   * @hw: Tegra I2C HW feature
+c990bbafdb11c6 Thierry Reding      2018-12-17  233   * @adapter: core I2C layer adapter information
+c990bbafdb11c6 Thierry Reding      2018-12-17  234   * @div_clk: clock reference for div clock of I2C controller
+586a97d907ac34 Dmitry Osipenko     2020-09-30  235   * @clocks: array of I2C controller clocks
+586a97d907ac34 Dmitry Osipenko     2020-09-30  236   * @nclocks: number of clocks in the array
+0604ee4aefa20f Thierry Reding      2018-12-17  237   * @rst: reset control for the I2C controller
+db811ca0f48578 Colin Cross         2011-02-20  238   * @base: ioremapped registers cookie
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  239   * @base_phys: physical base address of the I2C controller
+c990bbafdb11c6 Thierry Reding      2018-12-17  240   * @cont_id: I2C controller ID, used for packet header
+c990bbafdb11c6 Thierry Reding      2018-12-17  241   * @irq: IRQ number of transfer complete interrupt
+c990bbafdb11c6 Thierry Reding      2018-12-17  242   * @is_dvc: identifies the DVC I2C controller, has a different register layout
+c73178b93754ed Thierry Reding      2019-06-07  243   * @is_vi: identifies the VI I2C controller, has a different register layout
+db811ca0f48578 Colin Cross         2011-02-20  244   * @msg_complete: transfer completion notifier
+db811ca0f48578 Colin Cross         2011-02-20  245   * @msg_err: error code for completed message
+db811ca0f48578 Colin Cross         2011-02-20  246   * @msg_buf: pointer to current message data
+db811ca0f48578 Colin Cross         2011-02-20  247   * @msg_buf_remaining: size of unsent data in the message buffer
+94a5573f0719cf Dmitry Osipenko     2020-09-30  248   * @msg_read: indicates that the transfer is a read access
+50665d58db052b Akhil R             2021-12-10  249   * @timings: i2c timings information like bus frequency
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  250   * @multimaster_mode: indicates that I2C controller is in multi-master mode
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  251   * @tx_dma_chan: DMA transmit channel
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  252   * @rx_dma_chan: DMA receive channel
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  253   * @dma_phys: handle to DMA resources
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  254   * @dma_buf: pointer to allocated DMA buffer
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  255   * @dma_buf_size: DMA buffer size
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  256   * @dma_mode: indicates active DMA transfer
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  257   * @dma_complete: DMA completion notifier
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  258   * @atomic_mode: indicates active atomic transfer
+db811ca0f48578 Colin Cross         2011-02-20  259   */
+db811ca0f48578 Colin Cross         2011-02-20  260  struct tegra_i2c_dev {
+db811ca0f48578 Colin Cross         2011-02-20  261  	struct device *dev;
+db811ca0f48578 Colin Cross         2011-02-20  262  	struct i2c_adapter adapter;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  263  
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  264  	const struct tegra_i2c_hw_feature *hw;
+dda9d6a8262cb1 Stephen Warren      2013-11-06  265  	struct reset_control *rst;
+f1c2ff98065dce Dmitry Osipenko     2020-09-30  266  	unsigned int cont_id;
+f1c2ff98065dce Dmitry Osipenko     2020-09-30  267  	unsigned int irq;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  268  
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  269  	phys_addr_t base_phys;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  270  	void __iomem *base;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  271  
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  272  	struct clk_bulk_data clocks[2];
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  273  	unsigned int nclocks;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  274  
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  275  	struct clk *div_clk;
+50665d58db052b Akhil R             2021-12-10  276  	struct i2c_timings timings;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  277  
+db811ca0f48578 Colin Cross         2011-02-20  278  	struct completion msg_complete;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  279  	size_t msg_buf_remaining;
+db811ca0f48578 Colin Cross         2011-02-20  280  	int msg_err;
+db811ca0f48578 Colin Cross         2011-02-20  281  	u8 *msg_buf;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  282  
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  283  	struct completion dma_complete;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  284  	struct dma_chan *tx_dma_chan;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  285  	struct dma_chan *rx_dma_chan;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  286  	unsigned int dma_buf_size;
+cdbf26251d3b35 Thierry Reding      2022-10-20  287  	struct device *dma_dev;
+86c92b9965ff17 Sowjanya Komatineni 2019-02-12  288  	dma_addr_t dma_phys;
+4be62340f3ce62 Dmitry Osipenko     2020-09-30  289  	void *dma_buf;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  290  
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  291  	bool multimaster_mode;
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  292  	bool atomic_mode;
+a99042e7d9fb5c Dmitry Osipenko     2020-09-30  293  	bool dma_mode;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  294  	bool msg_read;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  295  	bool is_dvc;
+89e3748acd0bf6 Dmitry Osipenko     2020-09-30  296  	bool is_vi;
+db811ca0f48578 Colin Cross         2011-02-20 @297  };
+db811ca0f48578 Colin Cross         2011-02-20  298  
+
+:::::: The code at line 297 was first introduced by commit
+:::::: db811ca0f48578f9940f49f284ac81e336b264ad i2c: tegra: Add i2c support
+
+:::::: TO: Colin Cross <ccross@android.com>
+:::::: CC: Ben Dooks <ben-linux@fluff.org>
 
 -- 
 0-DAY CI Kernel Test Service
