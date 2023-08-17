@@ -1,42 +1,42 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0117612B8E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 11:52:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC4313FE4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Aug 2023 12:05:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692273132; x=1723809132;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j+GWN3mKhBySeeySzunhwWZDv1uD5lqQCv8O4GuVqeg=;
-  b=I/VRle714Ea74ghM8upkGJS8MCz8zPow4970MfFUgjNFwyUxMr9ePKeO
-   b0Dpog8hJcjKsXrxdyKa98fxhvLxCEcrYDZvxwE2fveFJxVDez3fZAuo/
-   WYtfxq+2OUpJreKy3HPQ9v2rvz6msYFGic4DVNYO+Rg4+dAyO/ZEtWRa7
-   /53XTnOz5T2EczRle7BAKBpsz1e4NucdkhF77hq8XBl/L7r3j9Sd0BG+3
-   JG+nDkdXRvKPYhOfO/IJWHgg1TmW7yuJTo5RvJ8vnZbWyZO3bk2Z2jJUj
-   25nVPp1GthuBFih3emqsfa4OLgFP26t1t8lJzIARgDEdZ358zphFiykCt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371691370"
+  t=1692273909; x=1723809909;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=1L6JKFLj3xv1dBImxV/1xS2P9RhOnFLpQLl1W6kMyCA=;
+  b=BAutg9/isDjtuaZ1F15L5nWtwltwslK7OsCLFVY8qbK86PFRaUI2BcTj
+   tV9QzHO+22nNa2euB/xSCLYEfZAekmPlEH38CfS2fEfe+FMm94MC7KqOJ
+   fu2nPor/U4N7e4SUO9ige+S1+yGRwmB69M3Zm9IHyP3uTzW8DlgdDS+CC
+   j5W8hAKkNz33Vc+DDr6EX5+KoUMHm57pvYXd+9Xf8mGDtdSA8DMq3B/Zb
+   aeUK+YW6Zz48gsrIKeUtX6xC9sRiOPNxP59BZJnsyGQJHMTUtUfbz4PHo
+   CF2B8EVaOvsRUelybobP5UkCcpXA1pDi3PAOhpxb2s6BZYep49k4ecDSG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="371694125"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="371691370"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 04:52:11 -0700
+   d="scan'208";a="371694125"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 05:03:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="800026916"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="684400526"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="800026916"
+   d="scan'208";a="684400526"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Aug 2023 04:52:10 -0700
+  by orsmga003.jf.intel.com with ESMTP; 17 Aug 2023 05:03:10 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWbXt-00016P-2D;
-	Thu, 17 Aug 2023 11:52:09 +0000
-Date: Thu, 17 Aug 2023 19:52:07 +0800
+	id 1qWbiY-00016n-00;
+	Thu, 17 Aug 2023 12:03:10 +0000
+Date: Thu, 17 Aug 2023 20:02:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 1/1] drivers/mmc/core/mmc.c:978:6:
- warning: no previous declaration for 'mmc_set_bus_speed'
-Message-ID: <202308171901.0T8z89Fw-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
+Subject: [intel-lts:6.1/linux 907/2351]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:758: warning: Excess function
+ parameter 'pcie_index' description in 'amdgpu_device_indirect_wreg'
+Message-ID: <202308172018.hJT8s8FR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,46 +46,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   b9b42d6732eadcfa713c54e0c6e3d98741a08432
-commit: 5bcf8db7706a21860890cfe88688e002ccd76352 [1/1] ANDROID: mmc: core: Export core functions required for clk scaling
-config: x86_64-buildonly-randconfig-r003-20230816 (https://download.01.org/0day-ci/archive/20230817/202308171901.0T8z89Fw-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171901.0T8z89Fw-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.1/linux
+head:   1250fc0938619046c0d5513aae318293a0563282
+commit: c0af7a876be298ceb17ab83c5fbb3c0ab0251beb [907/2351] drm/amdgpu: Move to common indirect reg access helper
+config: x86_64-randconfig-x004-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172018.hJT8s8FR-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172018.hJT8s8FR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308171901.0T8z89Fw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172018.hJT8s8FR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mmc/core/mmc.c:978:6: warning: no previous declaration for 'mmc_set_bus_speed' [-Wmissing-declarations]
-    void mmc_set_bus_speed(struct mmc_card *card)
-         ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:758: warning: Excess function parameter 'pcie_index' description in 'amdgpu_device_indirect_wreg'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:758: warning: Excess function parameter 'pcie_data' description in 'amdgpu_device_indirect_wreg'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:789: warning: Excess function parameter 'pcie_index' description in 'amdgpu_device_indirect_wreg64'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:789: warning: Excess function parameter 'pcie_data' description in 'amdgpu_device_indirect_wreg64'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5195: warning: Function parameter or member 'reset_context' not described in 'amdgpu_device_gpu_recover'
 
 
-vim +/mmc_set_bus_speed +978 drivers/mmc/core/mmc.c
+vim +758 drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 
-   974	
-   975	/*
-   976	 * Set the bus speed for the selected speed mode.
-   977	 */
- > 978	void mmc_set_bus_speed(struct mmc_card *card)
-   979	{
-   980		unsigned int max_dtr = (unsigned int)-1;
-   981	
-   982		if ((mmc_card_hs200(card) || mmc_card_hs400(card)) &&
-   983		     max_dtr > card->ext_csd.hs200_max_dtr)
-   984			max_dtr = card->ext_csd.hs200_max_dtr;
-   985		else if (mmc_card_hs(card) && max_dtr > card->ext_csd.hs_max_dtr)
-   986			max_dtr = card->ext_csd.hs_max_dtr;
-   987		else if (max_dtr > card->csd.max_dtr)
-   988			max_dtr = card->csd.max_dtr;
-   989	
-   990		mmc_set_clock(card->host, max_dtr);
-   991	}
-   992	
+1bba36834c3bc3 Hawking Zhang 2020-09-17  745  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  746  /**
+1bba36834c3bc3 Hawking Zhang 2020-09-17  747   * amdgpu_device_indirect_wreg - write an indirect register address
+1bba36834c3bc3 Hawking Zhang 2020-09-17  748   *
+1bba36834c3bc3 Hawking Zhang 2020-09-17  749   * @adev: amdgpu_device pointer
+1bba36834c3bc3 Hawking Zhang 2020-09-17  750   * @pcie_index: mmio register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  751   * @pcie_data: mmio register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  752   * @reg_addr: indirect register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  753   * @reg_data: indirect register data
+1bba36834c3bc3 Hawking Zhang 2020-09-17  754   *
+1bba36834c3bc3 Hawking Zhang 2020-09-17  755   */
+1bba36834c3bc3 Hawking Zhang 2020-09-17  756  void amdgpu_device_indirect_wreg(struct amdgpu_device *adev,
+1bba36834c3bc3 Hawking Zhang 2020-09-17  757  				 u32 reg_addr, u32 reg_data)
+1bba36834c3bc3 Hawking Zhang 2020-09-17 @758  {
+c0af7a876be298 Hawking Zhang 2023-03-06  759  	unsigned long flags, pcie_index, pcie_data;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  760  	void __iomem *pcie_index_offset;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  761  	void __iomem *pcie_data_offset;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  762  
+c0af7a876be298 Hawking Zhang 2023-03-06  763  	pcie_index = adev->nbio.funcs->get_pcie_index_offset(adev);
+c0af7a876be298 Hawking Zhang 2023-03-06  764  	pcie_data = adev->nbio.funcs->get_pcie_data_offset(adev);
+c0af7a876be298 Hawking Zhang 2023-03-06  765  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  766  	spin_lock_irqsave(&adev->pcie_idx_lock, flags);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  767  	pcie_index_offset = (void __iomem *)adev->rmmio + pcie_index * 4;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  768  	pcie_data_offset = (void __iomem *)adev->rmmio + pcie_data * 4;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  769  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  770  	writel(reg_addr, pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  771  	readl(pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  772  	writel(reg_data, pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  773  	readl(pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  774  	spin_unlock_irqrestore(&adev->pcie_idx_lock, flags);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  775  }
+1bba36834c3bc3 Hawking Zhang 2020-09-17  776  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  777  /**
+1bba36834c3bc3 Hawking Zhang 2020-09-17  778   * amdgpu_device_indirect_wreg64 - write a 64bits indirect register address
+1bba36834c3bc3 Hawking Zhang 2020-09-17  779   *
+1bba36834c3bc3 Hawking Zhang 2020-09-17  780   * @adev: amdgpu_device pointer
+1bba36834c3bc3 Hawking Zhang 2020-09-17  781   * @pcie_index: mmio register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  782   * @pcie_data: mmio register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  783   * @reg_addr: indirect register offset
+1bba36834c3bc3 Hawking Zhang 2020-09-17  784   * @reg_data: indirect register data
+1bba36834c3bc3 Hawking Zhang 2020-09-17  785   *
+1bba36834c3bc3 Hawking Zhang 2020-09-17  786   */
+1bba36834c3bc3 Hawking Zhang 2020-09-17  787  void amdgpu_device_indirect_wreg64(struct amdgpu_device *adev,
+1bba36834c3bc3 Hawking Zhang 2020-09-17  788  				   u32 reg_addr, u64 reg_data)
+1bba36834c3bc3 Hawking Zhang 2020-09-17 @789  {
+c0af7a876be298 Hawking Zhang 2023-03-06  790  	unsigned long flags, pcie_index, pcie_data;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  791  	void __iomem *pcie_index_offset;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  792  	void __iomem *pcie_data_offset;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  793  
+c0af7a876be298 Hawking Zhang 2023-03-06  794  	pcie_index = adev->nbio.funcs->get_pcie_index_offset(adev);
+c0af7a876be298 Hawking Zhang 2023-03-06  795  	pcie_data = adev->nbio.funcs->get_pcie_data_offset(adev);
+c0af7a876be298 Hawking Zhang 2023-03-06  796  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  797  	spin_lock_irqsave(&adev->pcie_idx_lock, flags);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  798  	pcie_index_offset = (void __iomem *)adev->rmmio + pcie_index * 4;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  799  	pcie_data_offset = (void __iomem *)adev->rmmio + pcie_data * 4;
+1bba36834c3bc3 Hawking Zhang 2020-09-17  800  
+1bba36834c3bc3 Hawking Zhang 2020-09-17  801  	/* write low 32 bits */
+1bba36834c3bc3 Hawking Zhang 2020-09-17  802  	writel(reg_addr, pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  803  	readl(pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  804  	writel((u32)(reg_data & 0xffffffffULL), pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  805  	readl(pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  806  	/* write high 32 bits */
+1bba36834c3bc3 Hawking Zhang 2020-09-17  807  	writel(reg_addr + 4, pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  808  	readl(pcie_index_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  809  	writel((u32)(reg_data >> 32), pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  810  	readl(pcie_data_offset);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  811  	spin_unlock_irqrestore(&adev->pcie_idx_lock, flags);
+1bba36834c3bc3 Hawking Zhang 2020-09-17  812  }
+1bba36834c3bc3 Hawking Zhang 2020-09-17  813  
+
+:::::: The code at line 758 was first introduced by commit
+:::::: 1bba36834c3bc317d8a30dd5d0cc3e59d64dbfb3 drm/amdgpu: add helper function for indirect reg access (v3)
+
+:::::: TO: Hawking Zhang <Hawking.Zhang@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
