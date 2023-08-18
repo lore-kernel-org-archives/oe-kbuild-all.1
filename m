@@ -1,44 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB84D65E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 04:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543E8613E;
+	Fri, 18 Aug 2023 04:42:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692333722; x=1723869722;
+  t=1692333724; x=1723869724;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0vWuCTjKpwRk3y36MuovfGuZdRusiQLiEHu0CMweIGg=;
-  b=MUM/eRMDXENEIXo+kz+cTZagRD+jW8ddyToywHjy/8uPLpG02nuUddcJ
-   y0qeQaCVHmWiMVqTKAHAvJCq45M9DyI9xx22tiy0aYUr0PLqbwTRiyXE1
-   S4X6xEWlNhoQcfokw3Hq6vSr471LOv6IohJYpyYfFL0+y9Gl8BIXX38AQ
-   0jwvlNTIcM5Je2Mw3yYn1kwMVikdleplGVtlJZnk2tktvXBsqDo2u3t5K
-   YxTBCGvjoKiVjgOly4bslSG8H6ajMn4N4TfhcsW41CNuIoX4lX7JjSX9Q
-   9XnXfoSd5bDUFPeah7sZrKO709mbYse84nwTBo26YHhxjZQZj26Gy8Xc+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="363171550"
+  bh=G36Qd9hgbHcwJG9GZKW0oip/LIbLVmolK1qUKZmVkQw=;
+  b=hqb5puhuxPDI8SIz0rX4vFjSpgvNutXhBysIqqZpZlJBi3AC6nKgNsqO
+   7Knedv5oM418sMtJ5oYQVqDOjMD88/neshvrHz8SsOVnqxtUcyHOr9tXj
+   YLc4jmyi0niNtQ4N0/fMq1MFNcXxlW83o61qtDEaTXBW3GTHvULHj2mDJ
+   l0A2352eEskiLbbNADDHnK992hnwrzb34X3VKNmwVeKBWNgQynCVPOdtD
+   4USc9/VbRRaBiFI5iycNNabkl+r80PTcM0aaRcq/QGoocrcqKtfVo0Dyz
+   PbBRbJgR8Usowf48Kkolb+2uFJGwxp/VI+0L+8kBo8fB/u/GBEJs846K3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="363171556"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="363171550"
+   d="scan'208";a="363171556"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 21:42:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="800324892"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="800324893"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="800324892"
+   d="scan'208";a="800324893"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
   by fmsmga008.fm.intel.com with ESMTP; 17 Aug 2023 21:42:00 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWrJ9-00026Y-2D;
+	id 1qWrJ9-00026c-2M;
 	Fri, 18 Aug 2023 04:41:59 +0000
-Date: Fri, 18 Aug 2023 12:41:41 +0800
+Date: Fri, 18 Aug 2023 12:41:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [stable:linux-6.1.y 7106/8698] fs/smb/server/vfs.c:74: warning:
- Function parameter or member 'user_ns' not described in
- 'ksmbd_vfs_lock_parent'
-Message-ID: <202308181248.FHuQqGoM-lkp@intel.com>
+To: Badhri Jagan Sridharan <badhri@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: [stable:linux-6.1.y 6854/8698] drivers/usb/gadget/udc/core.c:56:
+ warning: Function parameter or member 'vbus_work' not described in 'usb_udc'
+Message-ID: <202308181228.oUyNPyxW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,99 +48,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Steve,
-
-First bad commit (maybe != root cause):
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-6.1.y
 head:   6c44e13dc284f7f4db17706ca48fd016d6b3d49a
-commit: 29429a1f5871dbe54ee0da81bb12db8567f15379 [7106/8698] smb: move client and server files to common directory fs/smb
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230818/202308181248.FHuQqGoM-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181248.FHuQqGoM-lkp@intel.com/reproduce)
+commit: 3c048d42c305cba61c2040702778023a7b973b22 [6854/8698] usb: gadget: udc: core: Offload usb_udc_vbus_handler processing
+config: i386-randconfig-i001-20230817 (https://download.01.org/0day-ci/archive/20230818/202308181228.oUyNPyxW-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181228.oUyNPyxW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308181248.FHuQqGoM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308181228.oUyNPyxW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/smb/server/vfs.c:74: warning: Function parameter or member 'user_ns' not described in 'ksmbd_vfs_lock_parent'
-   fs/smb/server/vfs.c:74: warning: Function parameter or member 'parent' not described in 'ksmbd_vfs_lock_parent'
-   fs/smb/server/vfs.c:74: warning: Function parameter or member 'child' not described in 'ksmbd_vfs_lock_parent'
-   fs/smb/server/vfs.c:366: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_read'
-   fs/smb/server/vfs.c:366: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_read'
-   fs/smb/server/vfs.c:482: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_write'
-   fs/smb/server/vfs.c:482: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_write'
-   fs/smb/server/vfs.c:545: warning: Function parameter or member 'path' not described in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Function parameter or member 'stat' not described in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Excess function parameter 'work' description in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Excess function parameter 'attrs' description in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:562: warning: Function parameter or member 'p_id' not described in 'ksmbd_vfs_fsync'
-   fs/smb/server/vfs.c:585: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_remove_file'
-   fs/smb/server/vfs.c:645: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_link'
-   fs/smb/server/vfs.c:846: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_truncate'
-   fs/smb/server/vfs.c:846: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_truncate'
-   fs/smb/server/vfs.c:887: warning: Excess function parameter 'size' description in 'ksmbd_vfs_listxattr'
->> fs/smb/server/vfs.c:964: warning: Function parameter or member 'attr_name' not described in 'ksmbd_vfs_setxattr'
->> fs/smb/server/vfs.c:964: warning: Function parameter or member 'attr_value' not described in 'ksmbd_vfs_setxattr'
->> fs/smb/server/vfs.c:964: warning: Function parameter or member 'attr_size' not described in 'ksmbd_vfs_setxattr'
->> fs/smb/server/vfs.c:964: warning: Excess function parameter 'name' description in 'ksmbd_vfs_setxattr'
->> fs/smb/server/vfs.c:964: warning: Excess function parameter 'value' description in 'ksmbd_vfs_setxattr'
->> fs/smb/server/vfs.c:964: warning: Excess function parameter 'size' description in 'ksmbd_vfs_setxattr'
-   fs/smb/server/vfs.c:984: warning: Function parameter or member 'option' not described in 'ksmbd_vfs_set_fadvise'
-   fs/smb/server/vfs.c:984: warning: Excess function parameter 'options' description in 'ksmbd_vfs_set_fadvise'
-   fs/smb/server/vfs.c:1180: warning: Function parameter or member 'um' not described in 'ksmbd_vfs_lookup_in_dir'
->> fs/smb/server/vfs.c:1214: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_kern_path'
+>> drivers/usb/gadget/udc/core.c:56: warning: Function parameter or member 'vbus_work' not described in 'usb_udc'
 
 
-vim +74 fs/smb/server/vfs.c
+vim +56 drivers/usb/gadget/udc/core.c
 
-f44158485826c0 fs/cifsd/vfs.c Namjae Jeon       2021-03-16  62  
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  63  /**
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  64   * ksmbd_vfs_lock_parent() - lock parent dentry if it is stable
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  65   *
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  66   * the parent dentry got by dget_parent or @parent could be
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  67   * unstable, we try to lock a parent inode and lookup the
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  68   * child dentry again.
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  69   *
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  70   * the reference count of @parent isn't incremented.
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  71   */
-da1e7ada5b6285 fs/ksmbd/vfs.c Christian Brauner 2021-08-23  72  int ksmbd_vfs_lock_parent(struct user_namespace *user_ns, struct dentry *parent,
-da1e7ada5b6285 fs/ksmbd/vfs.c Christian Brauner 2021-08-23  73  			  struct dentry *child)
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23 @74  {
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  75  	struct dentry *dentry;
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  76  	int ret = 0;
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  77  
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  78  	inode_lock_nested(d_inode(parent), I_MUTEX_PARENT);
-da1e7ada5b6285 fs/ksmbd/vfs.c Christian Brauner 2021-08-23  79  	dentry = lookup_one(user_ns, child->d_name.name, parent,
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  80  			    child->d_name.len);
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  81  	if (IS_ERR(dentry)) {
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  82  		ret = PTR_ERR(dentry);
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  83  		goto out_err;
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  84  	}
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  85  
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  86  	if (dentry != child) {
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  87  		ret = -ESTALE;
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  88  		dput(dentry);
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  89  		goto out_err;
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  90  	}
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  91  
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  92  	dput(dentry);
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  93  	return 0;
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  94  out_err:
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  95  	inode_unlock(d_inode(parent));
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  96  	return ret;
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  97  }
-333111a6dc32a2 fs/ksmbd/vfs.c Hyunchul Lee      2021-06-23  98  
+fc274c1e997314 drivers/usb/gadget/udc/core.c     Alan Stern             2022-04-23  30  
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  31  /**
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  32   * struct usb_udc - describes one usb device controller
+e21cd08f965766 drivers/usb/gadget/udc/core.c     Lee Jones              2020-07-03  33   * @driver: the gadget driver pointer. For use by the class code
+e21cd08f965766 drivers/usb/gadget/udc/core.c     Lee Jones              2020-07-03  34   * @dev: the child device to the actual controller
+e21cd08f965766 drivers/usb/gadget/udc/core.c     Lee Jones              2020-07-03  35   * @gadget: the gadget. For use by the class code
+e21cd08f965766 drivers/usb/gadget/udc/core.c     Lee Jones              2020-07-03  36   * @list: for use by the udc class driver
+e21cd08f965766 drivers/usb/gadget/udc/core.c     Lee Jones              2020-07-03  37   * @vbus: for udcs who care about vbus status, this value is real vbus status;
+628ef0d273a69d drivers/usb/gadget/udc/udc-core.c Peter Chen             2015-03-06  38   * for udcs who do not care about vbus status, this value is always true
+49d08cfc783044 drivers/usb/gadget/udc/core.c     Thinh Nguyen           2021-01-11  39   * @started: the UDC's started state. True if the UDC had started.
+3c048d42c305cb drivers/usb/gadget/udc/core.c     Badhri Jagan Sridharan 2023-06-09  40   * @allow_connect: Indicates whether UDC is allowed to be pulled up.
+3c048d42c305cb drivers/usb/gadget/udc/core.c     Badhri Jagan Sridharan 2023-06-09  41   * Set/cleared by gadget_(un)bind_driver() after gadget driver is bound or
+3c048d42c305cb drivers/usb/gadget/udc/core.c     Badhri Jagan Sridharan 2023-06-09  42   * unbound.
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  43   *
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  44   * This represents the internal data structure which is used by the UDC-class
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  45   * to hold information about udc driver and gadget together.
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  46   */
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  47  struct usb_udc {
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  48  	struct usb_gadget_driver	*driver;
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  49  	struct usb_gadget		*gadget;
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  50  	struct device			dev;
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  51  	struct list_head		list;
+628ef0d273a69d drivers/usb/gadget/udc/udc-core.c Peter Chen             2015-03-06  52  	bool				vbus;
+49d08cfc783044 drivers/usb/gadget/udc/core.c     Thinh Nguyen           2021-01-11  53  	bool				started;
+3c048d42c305cb drivers/usb/gadget/udc/core.c     Badhri Jagan Sridharan 2023-06-09  54  	bool				allow_connect;
+3c048d42c305cb drivers/usb/gadget/udc/core.c     Badhri Jagan Sridharan 2023-06-09  55  	struct work_struct		vbus_work;
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28 @56  };
+2ccea03a8f7ec9 drivers/usb/gadget/udc-core.c     Felipe Balbi           2011-06-28  57  
 
-:::::: The code at line 74 was first introduced by commit
-:::::: 333111a6dc32a2768f581876bdb5ef4231f5084e ksmbd: factor out a ksmbd_vfs_lock_parent helper
+:::::: The code at line 56 was first introduced by commit
+:::::: 2ccea03a8f7ec93641791f2760d7cdc6cab6205f usb: gadget: introduce UDC Class
 
-:::::: TO: Hyunchul Lee <hyc.lee@gmail.com>
-:::::: CC: Namjae Jeon <namjae.jeon@samsung.com>
+:::::: TO: Felipe Balbi <balbi@ti.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
