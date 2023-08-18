@@ -1,43 +1,32 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E910B647
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 03:04:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692327865; x=1723863865;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MjorVg8rSANvat4BSuU1+/woeT5w6q14nAgdLhgL8xk=;
-  b=P4eB07NW+/j81tq+K4B/OkrxnEzYvZNbWumpDaRZfxC6QscgY03ajh7Q
-   SguNeCZm+PLqg2iekO/DuI2EjLsTe5e++4COJcm4Fv8MsJ1dZ652o0y+k
-   vGjeNNEaZv2CzTF9PrIux00jMp50TZSKc/PdONoqdNANqiqTrqdZZZpKK
-   18NTDhg0jz/GI/UEuLbB+GSdn6XZQ1VegdJ25hbzh63JLd6+X1o8faZta
-   QvzxuiAi29c9bp6KgpKifT4Y5gWMKBY0u7IgVSr3GRUeg5DbDN9+irPGH
-   iqLm+BMbZ4rYHaUymCXI9MGmTfSAWH1jObTx7sG0NypCavJAaa703RPXP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="370464192"
-X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="370464192"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 20:04:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="804974473"
-X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="804974473"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Aug 2023 20:04:23 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qWpme-00022E-1n;
-	Fri, 18 Aug 2023 03:04:20 +0000
-Date: Fri, 18 Aug 2023 11:04:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, Nicolas Boichat <drinkcat@chromium.org>
-Subject: [jsarha:topic/chromeos-4.19-s0ix 7737/9999]
- drivers/gpu/drm/bridge/parade-ps8640.c:399:5: warning: no previous
- declaration for 'ps8640_bridge_attach'
-Message-ID: <202308181049.AlbqqCrG-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E651E380
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 03:24:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FBCAC433C8;
+	Fri, 18 Aug 2023 03:24:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692329073;
+	bh=qNRr6+x24LcKBk4geTb/46pv1/HC9zZu1tLc1Ev6D8A=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=lJnVrMc3HXLhbt4Zwbivk/SZ3v5+EEAEk+oW58m3KeR9HHEdfOLTSXyiC8WbTTGWR
+	 agCaua/Eg2lz7AlUdCorxNlsT6gPdEWVdBlnc+oSq0JhWY92x8hdl/y1vCAWx1vc9N
+	 IjWj0mPxSFEF3hEx41a5GSeRubQ56S+gSVwrgbBn5zQRlKimH0HHTNLAeJGCJjLys+
+	 juwzfZntU1k2VATVYGorghHGXg+rmQI1B7d6nijkd6VPju3O6e8HRKjYvPUjEK3dO5
+	 lzgbFOpjsLFc30rr27wxGxVC+bqqJGA7CNfXDcEZvKYIil+1D0NEul1QW+s6f9fug2
+	 v1qgw6RVuW6PQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id E12C6CE03F0; Thu, 17 Aug 2023 20:24:32 -0700 (PDT)
+Date: Thu, 17 Aug 2023 20:24:32 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:locktorture.2023.08.17a 14/20]
+ kernel/rcu/tree.c:4100:6: warning: no previous declaration for
+ 'rcu_barrier_throttled'
+Message-ID: <3f3ebf13-2899-4246-af73-4c0c1b7c9f3a@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202308180853.brWVZKoo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,118 +35,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202308180853.brWVZKoo-lkp@intel.com>
 
-Hi Hsin-Yi,
+On Fri, Aug 18, 2023 at 09:02:35AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git locktorture.2023.08.17a
+> head:   ccd7c62460a1ca6a8fb800de0d50d973ba62dcb8
+> commit: 365332de5f7bd1ab448ad4a6bd73a4fc8f1cc8ec [14/20] rcu: Add sysfs to provide throttled access to rcu_barrier()
+> config: x86_64-randconfig-x071-20230818 (https://download.01.org/0day-ci/archive/20230818/202308180853.brWVZKoo-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180853.brWVZKoo-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308180853.brWVZKoo-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> kernel/rcu/tree.c:4100:6: warning: no previous declaration for 'rcu_barrier_throttled' [-Wmissing-declarations]
+>     void rcu_barrier_throttled(void)
+>          ^~~~~~~~~~~~~~~~~~~~~
 
-First bad commit (maybe != root cause):
+This has since been declared static in a later version of this commit at:
 
-tree:   https://github.com/jsarha/linux topic/chromeos-4.19-s0ix
-head:   430bdaa0a8c38697780f45a148964d71951df11f
-commit: e09a9439c5a794b24f73e6909d8eba778e3e3041 [7737/9999] FIXUP: FROMLIST: drm/bridge: Add I2C based driver for ps8640 bridge
-config: i386-randconfig-i061-20230818 (https://download.01.org/0day-ci/archive/20230818/202308181049.AlbqqCrG-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181049.AlbqqCrG-lkp@intel.com/reproduce)
+f9d771b016ca ("rcu: Add sysfs to provide throttled access to rcu_barrier()")
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308181049.AlbqqCrG-lkp@intel.com/
+Thank you for your testing efforts!
 
-All warnings (new ones prefixed by >>):
+							Thanx, Paul
 
-   drivers/gpu/drm/bridge/parade-ps8640.c:399:5: sparse: sparse: symbol 'ps8640_bridge_attach' was not declared. Should it be static?
->> drivers/gpu/drm/bridge/parade-ps8640.c:399:5: warning: no previous declaration for 'ps8640_bridge_attach' [-Wmissing-declarations]
-    int ps8640_bridge_attach(struct drm_bridge *bridge)
-        ^~~~~~~~~~~~~~~~~~~~
-
-
-vim +/ps8640_bridge_attach +399 drivers/gpu/drm/bridge/parade-ps8640.c
-
-71e4156c5ec43f Jitao Shi    2016-11-14  398  
-71e4156c5ec43f Jitao Shi    2016-11-14 @399  int ps8640_bridge_attach(struct drm_bridge *bridge)
-71e4156c5ec43f Jitao Shi    2016-11-14  400  {
-71e4156c5ec43f Jitao Shi    2016-11-14  401  	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
-71e4156c5ec43f Jitao Shi    2016-11-14  402  	struct device *dev = &ps_bridge->page[0]->dev;
-71e4156c5ec43f Jitao Shi    2016-11-14  403  	struct device_node *in_ep, *dsi_node = NULL;
-71e4156c5ec43f Jitao Shi    2016-11-14  404  	struct mipi_dsi_device *dsi;
-71e4156c5ec43f Jitao Shi    2016-11-14  405  	struct mipi_dsi_host *host = NULL;
-71e4156c5ec43f Jitao Shi    2016-11-14  406  	int ret;
-71e4156c5ec43f Jitao Shi    2016-11-14  407  	const struct mipi_dsi_device_info info = { .type = "ps8640",
-71e4156c5ec43f Jitao Shi    2016-11-14  408  						   .channel = 0,
-71e4156c5ec43f Jitao Shi    2016-11-14  409  						   .node = NULL,
-71e4156c5ec43f Jitao Shi    2016-11-14  410  						 };
-71e4156c5ec43f Jitao Shi    2016-11-14  411  
-71e4156c5ec43f Jitao Shi    2016-11-14  412  	ret = drm_connector_init(bridge->dev, &ps_bridge->connector,
-71e4156c5ec43f Jitao Shi    2016-11-14  413  				 &ps8640_connector_funcs,
-71e4156c5ec43f Jitao Shi    2016-11-14  414  				 DRM_MODE_CONNECTOR_eDP);
-71e4156c5ec43f Jitao Shi    2016-11-14  415  
-71e4156c5ec43f Jitao Shi    2016-11-14  416  	if (ret) {
-71e4156c5ec43f Jitao Shi    2016-11-14  417  		DRM_ERROR("Failed to initialize connector with drm: %d\n", ret);
-71e4156c5ec43f Jitao Shi    2016-11-14  418  		return ret;
-71e4156c5ec43f Jitao Shi    2016-11-14  419  	}
-71e4156c5ec43f Jitao Shi    2016-11-14  420  
-71e4156c5ec43f Jitao Shi    2016-11-14  421  	drm_connector_helper_add(&ps_bridge->connector,
-71e4156c5ec43f Jitao Shi    2016-11-14  422  				 &ps8640_connector_helper_funcs);
-71e4156c5ec43f Jitao Shi    2016-11-14  423  
-71e4156c5ec43f Jitao Shi    2016-11-14  424  	ps_bridge->connector.dpms = DRM_MODE_DPMS_ON;
-e09a9439c5a794 Hsin-Yi Wang 2019-07-18  425  	drm_connector_attach_encoder(&ps_bridge->connector,
-71e4156c5ec43f Jitao Shi    2016-11-14  426  					  bridge->encoder);
-71e4156c5ec43f Jitao Shi    2016-11-14  427  
-71e4156c5ec43f Jitao Shi    2016-11-14  428  	if (ps_bridge->panel)
-71e4156c5ec43f Jitao Shi    2016-11-14  429  		drm_panel_attach(ps_bridge->panel, &ps_bridge->connector);
-71e4156c5ec43f Jitao Shi    2016-11-14  430  
-71e4156c5ec43f Jitao Shi    2016-11-14  431  	/* port@0 is ps8640 dsi input port */
-71e4156c5ec43f Jitao Shi    2016-11-14  432  	in_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-71e4156c5ec43f Jitao Shi    2016-11-14  433  	if (in_ep) {
-71e4156c5ec43f Jitao Shi    2016-11-14  434  		dsi_node = of_graph_get_remote_port_parent(in_ep);
-71e4156c5ec43f Jitao Shi    2016-11-14  435  		of_node_put(in_ep);
-71e4156c5ec43f Jitao Shi    2016-11-14  436  	}
-71e4156c5ec43f Jitao Shi    2016-11-14  437  
-71e4156c5ec43f Jitao Shi    2016-11-14  438  	if (dsi_node) {
-71e4156c5ec43f Jitao Shi    2016-11-14  439  		host = of_find_mipi_dsi_host_by_node(dsi_node);
-71e4156c5ec43f Jitao Shi    2016-11-14  440  		of_node_put(dsi_node);
-71e4156c5ec43f Jitao Shi    2016-11-14  441  		if (!host) {
-71e4156c5ec43f Jitao Shi    2016-11-14  442  			ret = -ENODEV;
-71e4156c5ec43f Jitao Shi    2016-11-14  443  			goto err;
-71e4156c5ec43f Jitao Shi    2016-11-14  444  		}
-71e4156c5ec43f Jitao Shi    2016-11-14  445  	}
-71e4156c5ec43f Jitao Shi    2016-11-14  446  
-71e4156c5ec43f Jitao Shi    2016-11-14  447  	dsi = mipi_dsi_device_register_full(host, &info);
-71e4156c5ec43f Jitao Shi    2016-11-14  448  	if (IS_ERR(dsi)) {
-71e4156c5ec43f Jitao Shi    2016-11-14  449  		dev_err(dev, "failed to create dsi device\n");
-71e4156c5ec43f Jitao Shi    2016-11-14  450  		ret = PTR_ERR(dsi);
-71e4156c5ec43f Jitao Shi    2016-11-14  451  		goto err;
-71e4156c5ec43f Jitao Shi    2016-11-14  452  	}
-71e4156c5ec43f Jitao Shi    2016-11-14  453  
-71e4156c5ec43f Jitao Shi    2016-11-14  454  	ps_bridge->dsi = dsi;
-71e4156c5ec43f Jitao Shi    2016-11-14  455  
-71e4156c5ec43f Jitao Shi    2016-11-14  456  	dsi->host = host;
-71e4156c5ec43f Jitao Shi    2016-11-14  457  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
-71e4156c5ec43f Jitao Shi    2016-11-14  458  				     MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
-71e4156c5ec43f Jitao Shi    2016-11-14  459  	dsi->format = MIPI_DSI_FMT_RGB888;
-71e4156c5ec43f Jitao Shi    2016-11-14  460  	dsi->lanes = 4;
-71e4156c5ec43f Jitao Shi    2016-11-14  461  	ret = mipi_dsi_attach(dsi);
-71e4156c5ec43f Jitao Shi    2016-11-14  462  	if (ret)
-71e4156c5ec43f Jitao Shi    2016-11-14  463  		goto err_dsi_attach;
-71e4156c5ec43f Jitao Shi    2016-11-14  464  
-71e4156c5ec43f Jitao Shi    2016-11-14  465  	return 0;
-71e4156c5ec43f Jitao Shi    2016-11-14  466  
-71e4156c5ec43f Jitao Shi    2016-11-14  467  err_dsi_attach:
-71e4156c5ec43f Jitao Shi    2016-11-14  468  	mipi_dsi_device_unregister(dsi);
-71e4156c5ec43f Jitao Shi    2016-11-14  469  err:
-71e4156c5ec43f Jitao Shi    2016-11-14  470  	if (ps_bridge->panel)
-71e4156c5ec43f Jitao Shi    2016-11-14  471  		drm_panel_detach(ps_bridge->panel);
-71e4156c5ec43f Jitao Shi    2016-11-14  472  	drm_connector_cleanup(&ps_bridge->connector);
-71e4156c5ec43f Jitao Shi    2016-11-14  473  	return ret;
-71e4156c5ec43f Jitao Shi    2016-11-14  474  }
-71e4156c5ec43f Jitao Shi    2016-11-14  475  
-
-:::::: The code at line 399 was first introduced by commit
-:::::: 71e4156c5ec43f72077bb1f50882f588cfd71d71 FROMLIST: drm/bridge: Add I2C based driver for ps8640 bridge
-
-:::::: TO: Jitao Shi <jitao.shi@mediatek.com>
-:::::: CC: Commit Bot <commit-bot@chromium.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> vim +/rcu_barrier_throttled +4100 kernel/rcu/tree.c
+> 
+>   4083	
+>   4084	/**
+>   4085	 * rcu_barrier_throttled - Do rcu_barrier(), but limit to one per second
+>   4086	 *
+>   4087	 * This can be thought of as guard rails around rcu_barrier() that
+>   4088	 * permits unrestricted userspace use, at least assuming the hardware's
+>   4089	 * try_cmpxchg() is robust.  There will be at most one call per second to
+>   4090	 * rcu_barrier() system-wide from use of this function, which means that
+>   4091	 * callers might needlessly wait a second or three.
+>   4092	 *
+>   4093	 * This is intended for use by test suites to avoid OOM by flushing RCU
+>   4094	 * callbacks from the previous test before starting the next.  See the
+>   4095	 * rcutree.do_rcu_barrier module parameter for more information.
+>   4096	 *
+>   4097	 * Why not simply make rcu_barrier() more scalable?  That might be the
+>   4098	 * eventual endpoint, but let's keep it simple for the time being.
+>   4099	 */
+> > 4100	void rcu_barrier_throttled(void)
+>   4101	{
+>   4102		unsigned long j = jiffies;
+>   4103		unsigned long old = READ_ONCE(rcu_barrier_last_throttle);
+>   4104		unsigned long s = rcu_seq_snap(&rcu_state.barrier_sequence);
+>   4105	
+>   4106		while (time_after(old + HZ, j) || !try_cmpxchg(&rcu_barrier_last_throttle, &old, j + HZ)) {
+>   4107			schedule_timeout_idle(HZ);
+>   4108			if (rcu_seq_done(&rcu_state.barrier_sequence, s))
+>   4109				return;
+>   4110			old = READ_ONCE(rcu_barrier_last_throttle);
+>   4111		}
+>   4112		rcu_barrier();
+>   4113	}
+>   4114	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
