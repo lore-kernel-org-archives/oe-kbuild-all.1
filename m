@@ -1,146 +1,108 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2961B14F9D;
-	Fri, 18 Aug 2023 07:58:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E040414AA7;
+	Fri, 18 Aug 2023 08:00:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692345530; x=1723881530;
-  h=from:to:cc:subject:sender:date:message-id:
-   content-transfer-encoding:mime-version;
-  bh=UnK0YL4eshwYSyCjK3HJ0gIbD0Qcbn8v9Fva0/0hvWs=;
-  b=ZG9iGqI+1WHk5tSZsmpqF16YgGdMw0+CGfd9owh6A6fbsz+kLnnZxn4E
-   1p4l6gpscTqGAbwKSNOhKb5a93jDjgVGHKZG4HVPdP6qNs9S6RrBfJaSQ
-   mEyMmbkLRBfaLxw69/DG9SzDVOoufQjeQzHEOD9N8eLOp6A4UIWRieCqk
-   2DosvFtuJM2dD1uiCvpsTLTXgZXNSkxKsbuEzw+jBHYeSml2nqW57XL/c
-   XFog8i5Ivp2Hzxs7ick0zXphPGu8A+F0qIp71nngJeaddKVnQNx4Qrz+h
-   faIWHrhNUa5pxl/kjblNbjJt68KVRVrkmSk6KZmaNS0nOAJL5njonsYBe
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="376801398"
+  t=1692345636; x=1723881636;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UrMwbZh7etk/SoX6ujozcIHwKlca0dDPqmB5AACzLVw=;
+  b=N2DJKvdroLn7TJNiHCZGwhgaEnjvf/tP+gJj7l0SZ6NmscQNgg1M6XF2
+   YOKL6DNWaz6fZtyxEfIEW+72apwJu9biTeVoX5KDDdN8Y1725ABjAub47
+   ZRE+eKhVM8/ad9sPKY8/1xMRtTTkqZ3W1XvFYTgQxm2VXJzEO9hEHMmx1
+   dw7k/sPGUvQhSlBCrOn9SfOp0vmW4RKQN2SHZc/M6cbgcs72cfwB1uzQr
+   4ecuCSH3fAJWvQR3Ygfv/FXVulNKXfZBKgKvM1cBbJ7fK7sOXahtx2I3o
+   LctTksyif2wGgvJovkJjLXJr781Ee9uYc6dAjWlAPOgnqtZAlaHvJlpOX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="376801919"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="376801398"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 00:58:49 -0700
+   d="scan'208";a="376801919"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 01:00:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="684793544"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="849189503"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="684793544"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga003.jf.intel.com with ESMTP; 18 Aug 2023 00:58:49 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 18 Aug 2023 00:58:49 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Fri, 18 Aug 2023 00:58:49 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Fri, 18 Aug 2023 00:58:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=flQ2KZ+3gYM9+Oaw8LuEtPz6CBPanh5umQzC+4G99mHXawZNR9ZbOKAssVQJ79kDd6Cjj8h1MM24zO+/rSYxBO9NuhckEEoKZ9gkx21a+NxPH9EI/vteM4IvyKZ8YUERXvez1/lZOOe+JMJ2H6/JQjPgPFWVGsJ3Je00ql5r5a/kwGRWH0BL4mYz+GcB96zjzTLFyonKDNf2gb2J0Tv+hkrrdOuFmwqjogmJFqlhmcSy+6UgOvW7W2Hy2ZCJV2gtex2kaxks/+P/nt34CuvakSQHwI+tqKKJFTREJrVKlo55otimMD9Xi5nKfZAvtWsAjEeSfbcGHMZol2dEEc1t9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UnK0YL4eshwYSyCjK3HJ0gIbD0Qcbn8v9Fva0/0hvWs=;
- b=iSgXuo7QiElOAvwNwVdIXqjnsNi1eaY6A9ax7cxC1N+GvDrGRbL0mouuph6MVEVHNDfXPEIBwtglUkWfbFPy8diirUpcVFh+KxUb1dd4tU9jwF9ZCYB+vjmc0BG019StV/Nsuy8fi6J/rKslYKf0KvYt950uka5wnS5Yeg4GH2ZHGnLV/iBimG3jCwElFoyfXOa7WcFCqEeoovc4d+fCk9pF+5iinVcrx0+mWI8lz6wkvhWze65j/entynRniH9AT6iaMGgQtzrkHG2QglIkmc6YKWGyGQuHOWR5XSkrd3tQOZ31OV4LOnFl+nCVEzZkry3HGfnEDq+cJ+Nbm3Ae0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ0PR11MB6792.namprd11.prod.outlook.com (2603:10b6:a03:485::22)
- by SN7PR11MB7539.namprd11.prod.outlook.com (2603:10b6:806:343::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Fri, 18 Aug
- 2023 07:58:47 +0000
-Received: from SJ0PR11MB6792.namprd11.prod.outlook.com
- ([fe80::55ae:a9d8:12e6:d0c7]) by SJ0PR11MB6792.namprd11.prod.outlook.com
- ([fe80::55ae:a9d8:12e6:d0c7%7]) with mapi id 15.20.6678.031; Fri, 18 Aug 2023
- 07:58:47 +0000
-From: lkp <lkp@intel.com>
-To: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"oe-lkp@lists.linux.dev" <oe-lkp@lists.linux.dev>
-CC: LKML <linux-kernel@vger.kernel.org>
-Subject: [0-Day CI notification] the service will be paused from Friday Aug
- 18, 5 PM CST to Monday Aug 21, 3 PM CST (GMT+8)
-Thread-Topic: [0-Day CI notification] the service will be paused from Friday
- Aug 18, 5 PM CST to Monday Aug 21, 3 PM CST (GMT+8)
-Thread-Index: AdnRqceHdEhLnziXSEy2TuQjp1jT/g==
-Sender: "Sang, Oliver" <oliver.sang@intel.com>
-Date: Fri, 18 Aug 2023 07:58:47 +0000
-Message-ID: <SJ0PR11MB6792576A4E0EA2D3A61F26CBF11BA@SJ0PR11MB6792.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-exchange-messagesentrepresentingtype: 2
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR11MB6792:EE_|SN7PR11MB7539:EE_
-x-ms-office365-filtering-correlation-id: ae352a9d-188d-4426-dc83-08db9fc0f3be
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hWd5PDZTuydXvQy0LjsFme/ErrAcazlr89wX7I35fRK/SSWJnLaSzfFzpKewGkzSPrjFBW+Kv3LZuZ4eV6qiORlgrNaF57ewv7D5AQjjFk5H5tQ6M1DAYgCuwbc7cpL4dTsrRp5OXef3iQ4j2bh9a7Ns/SWajCLHOlMao4WY2wcD14ykFq3SdEtymtbFn/tsqC5XvtToEHLo9PaWaCmbYA6RFvvZvKg0TbZ54g4rlsq9nUDwqJVxXb9ryIFomOLyMdIYf+0IMiVaN/80/ZYQ3blNkDnQpXWCIHOh5MxTiA9yEV7fqi9LzHKZtsykMhze2Z362151O/WmL1Npg/gjDc3NtkiORijaMYUZHOOykCKJLvNjAJ9oJs4XKJvV/lGoV16m4rxsQn3j8UwUStPGLMvZFAyWRvmCVQM0BEgbHcM3IvMKS1o9ORC30J/A95+kJrE39Fm9GLUmVI34NqdHRs5Qty1NPM7TtsdTeHY3H8p7ciO65hsRkYCpiMqCgcgnV/ciChBrX7+fshPBGUUGveVhVyjCitQTfIpEY8Q4i9dHnaJynF0EQwsR9CpXu5QRoqVMMcE9hWlxrxU0cw0+Zd8ejpRLVsHfFO0jWeHwLmFnnIHjMQMOve9pnlc3LIzE
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB6792.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(376002)(346002)(39860400002)(396003)(186009)(451199024)(1800799009)(2906002)(4744005)(83380400001)(26005)(478600001)(6506007)(7696005)(7846003)(71200400001)(33656002)(9686003)(55016003)(5660300002)(52536014)(41300700001)(66446008)(122000001)(66476007)(64756008)(76116006)(66946007)(66556008)(316002)(110136005)(4326008)(8936002)(8676002)(82960400001)(38070700005)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?nXXzEFFXEan3UwEaCWqmljy2t+OLr+GBKIr2e9uHuJGDcbefIIZp+m0+akzV?=
- =?us-ascii?Q?kVe6FLgJYt0RhRlivTTANDCE8Bm/8RTQJBIUQyd/A77UlY26xpBGAwxMCxfN?=
- =?us-ascii?Q?1jRGEXqB5HQz+55CGlCSjOO5cVtuVh4sPWivKKtp/DpOOnnuLYa0aWGfsoP9?=
- =?us-ascii?Q?8VMGPztF50M6Aufz9FjGuyYINh5ObtpvyyYiaO8/1FkjvRD4KSV+jqjIZCK0?=
- =?us-ascii?Q?t8ky//fNrH2j5cJiDinIKrGu/bMJQFAZgWd+hwyIVwl7osh3JUURlsAKmcX4?=
- =?us-ascii?Q?oKVIRHed75lRqr9vsr705GOJrh0K909BCAC98tsLJuOtMt6D/IFliZS+BKU1?=
- =?us-ascii?Q?KkDi+OSafphgdIQ4DrYieKZynYpGVPeA7EoK10oTRx8ovWXWGls37cUkx6AI?=
- =?us-ascii?Q?bwnOhQv+Mn4sHycN6vYLSRdqq/algx/Sz3Gh39/m3FQpZ36/28zyP36PtSZj?=
- =?us-ascii?Q?AQdj9hzFxdxN+XFTgRWoVt6VZJuGGyFmaA1tteuNCXxug+u6cuBFj4lJ5gnQ?=
- =?us-ascii?Q?pFAwEo6jWRBe/cOocCIdRJtjHc1ZviVrjlkUn7vtsctZBPTW2lPEhb+V2fC+?=
- =?us-ascii?Q?1dVwv1niAr3dUjL23+FoTpz+t92hTzSIR2WzNL1MRj7ZsxVbol4ky48e+GP8?=
- =?us-ascii?Q?TBt2ashg+aXtQr45lYxtv2qigY6vd7UOAUj4/qPqNauy0mv/kufrSSwXeGbY?=
- =?us-ascii?Q?M2M8Qb6vuqA16jso7XWU8c0+pZKXIwKNOTkA7b5B11Z2gUitV465QMsem32Z?=
- =?us-ascii?Q?vEdmVgLcYTkpKUexBB0EYzUn1Gv3hYN+RuZuTL7Kn6VDveH1gVrdKXh76DiW?=
- =?us-ascii?Q?79clvZpdf+VxUtduVqA++Og3wZIooqQtG4gf/beRk0K8pOIuw3f7vUPLT2PW?=
- =?us-ascii?Q?QEpbP8koM/EDTVC3IW3Q/mWopsiPpEHNtyssrMXzru2829zTL/oK4z1g15Hs?=
- =?us-ascii?Q?J6Y1nyDDgs4OnvXZXZ+He+7/Ud76CDnqCOoptB885uGTM6G9eE89jWYpDhHK?=
- =?us-ascii?Q?V+HpX04+u/BzSrMc8JF93yg9V6UwMbm2Y6K5HdKg9LrFC13HU7/WzsiDMgCw?=
- =?us-ascii?Q?Z4Hf9nxfrKDsGWdZbPQK3NMClBA2d7JPUfrP8J4YOLvZlLGUzSwx49eIB21M?=
- =?us-ascii?Q?7803RvwR6QkLGu1F14+SN8AvfZIzqO3emn0QNqojq+8eSSWH/ieqLAkVob2e?=
- =?us-ascii?Q?kU2TMmDyyNSgIJniL5aa6EK2F23xB0VSIr+HVfB+tvMrv++DC4tpIgbME/By?=
- =?us-ascii?Q?T3KhOD3bXDvkLMvl9FoN/LdIrwozGM6wGYQzZIX3I1Vugs7GRMB4uPykUrt1?=
- =?us-ascii?Q?nfWNbJojQAER8mpJ5nYN5W80lyPx433GlP93gQnMh+CnhELYbKESvYq3BG5S?=
- =?us-ascii?Q?8drI7RpgAuecse4HFTjp9nj59TjHmBRnFvGVWuOgtjv1+/y354hpso6d7ZjS?=
- =?us-ascii?Q?3NJMqeTGuG7EviDxb1LNsoN+d3hMr83aEYMR7q/y6yuKzKalJ3oR7daNtsya?=
- =?us-ascii?Q?PdY5F05CXWdbSREKxh5JlcbAt7dBLVQEI3++xiNFz8Ghiurn0BQelTHT0Vex?=
- =?us-ascii?Q?t0paiXdxvaX+p6TWF9YR9l/JcZYB1ILdcZTMFIuS?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="849189503"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 18 Aug 2023 01:00:32 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qWuPE-0002FW-2d;
+	Fri, 18 Aug 2023 08:00:29 +0000
+Date: Fri, 18 Aug 2023 15:59:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: [powerpc:next-test 21/79]
+ arch/powerpc/platforms/powermac/feature.c:137:19: error: unused function
+ 'simple_feature_tweak'
+Message-ID: <202308181501.AR5HMDWC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB6792.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae352a9d-188d-4426-dc83-08db9fc0f3be
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2023 07:58:47.4792
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CeNXFRguBpHFX74S+P1DNP5qeTXOWsZr7gVb4hJT29PkR/OgLBn2gfKy+7XocD5ljMrM2RrPhov5L7l06t7b5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7539
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi all,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next-test
+head:   c56963d48343b50998bacc6df949217c950163e3
+commit: 54f30b83fe627453082f15d83d7820b28b2d24bb [21/79] powerpc: address missing-prototypes warnings
+config: powerpc-g5_defconfig (https://download.01.org/0day-ci/archive/20230818/202308181501.AR5HMDWC-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181501.AR5HMDWC-lkp@intel.com/reproduce)
 
-this is Kernel Test Robot from the 0-Day CI test service. Thanks for
-anyone who subscribes to the service. We will have a lab power shutdown
-this weekend, thus need to pause the service for about 3 days, from
-Friday Aug 18, 5 PM CST to Monday Aug 21, 3 PM CST (GMT+8).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308181501.AR5HMDWC-lkp@intel.com/
 
-Sorry for any inconvenience caused by this, we will recover the
-service to be online as early as possible.
+All errors (new ones prefixed by >>):
 
-Thanks
+>> arch/powerpc/platforms/powermac/feature.c:137:19: error: unused function 'simple_feature_tweak' [-Werror,-Wunused-function]
+   static inline int simple_feature_tweak(struct device_node *node, int type,
+                     ^
+   1 error generated.
+
+
+vim +/simple_feature_tweak +137 arch/powerpc/platforms/powermac/feature.c
+
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  132  
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  133  /*
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  134   * Here are the chip specific feature functions
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  135   */
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  136  
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26 @137  static inline int simple_feature_tweak(struct device_node *node, int type,
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  138  				       int reg, u32 mask, int value)
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  139  {
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  140  	struct macio_chip*	macio;
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  141  	unsigned long		flags;
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  142  
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  143  	macio = macio_find(node, type);
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  144  	if (!macio)
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  145  		return -ENODEV;
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  146  	LOCK(flags);
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  147  	if (value)
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  148  		MACIO_BIS(reg, mask);
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  149  	else
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  150  		MACIO_BIC(reg, mask);
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  151  	(void)MACIO_IN32(reg);
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  152  	UNLOCK(flags);
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  153  
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  154  	return 0;
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  155  }
+14cf11af6cf608 arch/powerpc/platforms/powermac/pmac_feature.c Paul Mackerras 2005-09-26  156  
+
+:::::: The code at line 137 was first introduced by commit
+:::::: 14cf11af6cf608eb8c23e989ddb17a715ddce109 powerpc: Merge enough to start building in arch/powerpc.
+
+:::::: TO: Paul Mackerras <paulus@samba.org>
+:::::: CC: Paul Mackerras <paulus@samba.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
