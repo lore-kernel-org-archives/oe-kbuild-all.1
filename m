@@ -1,125 +1,118 @@
-Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B169311CA7;
-	Fri, 18 Aug 2023 05:23:43 +0000 (UTC)
-Received: from mail02.huawei.com (unknown [172.30.67.169])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4RRqzC3zyrz4f3mVX;
-	Fri, 18 Aug 2023 13:23:35 +0800 (CST)
-Received: from [10.67.110.48] (unknown [10.67.110.48])
-	by APP3 (Coremail) with SMTP id _Ch0CgBXe8NSAN9kaCyzAw--.3431S2;
-	Fri, 18 Aug 2023 13:23:32 +0800 (CST)
-Message-ID: <d3af78d4-9b15-347e-f3e8-5ce83f44faf6@huaweicloud.com>
-Date: Fri, 18 Aug 2023 13:23:30 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087D5812
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 05:51:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692337881; x=1723873881;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UEcu83cy8Od5Jkea6QF5T9Zq+9si5UHFbRMs9/J/T5U=;
+  b=PR42pRNSABMv9ftiYuCnc9CUcYytvcUBhLp9K2ZIC2UznoKGzemdsyGs
+   vTwgwL5hMCtJ8tHrn0VEn+nbuLTfrg5zsln2w7UV8aepLDgFlMBzAplhX
+   XMg224W1tVkKYCt2J+jxYysMkl4GsHvVf4EzBK3nfDGFoLOgiYFyFEmGr
+   vftj8LqSveZGXLRYem7dPtx/kKNlz7pxS3+waF03N70+W3SYBYxfgbAaP
+   Ry+8+gZQW6OcIFl7U7Thvsq0D4NNOfSWprl2lgeRscPpI6aK18VipMp/m
+   L5fb6+MZci5kiB8hB8o4PEa1BxXXUgdduDSF9tUuPVJeS4WHVbLn4CIqq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="436935374"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="436935374"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 22:51:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="1065613717"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="1065613717"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 17 Aug 2023 22:51:16 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qWsNs-00029M-0q;
+	Fri, 18 Aug 2023 05:51:01 +0000
+Date: Fri, 18 Aug 2023 13:48:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alistair Francis <alistair23@gmail.com>, bhelgaas@google.com,
+	linux-pci@vger.kernel.org, Jonathan.Cameron@huawei.com,
+	lukas@wunner.de
+Cc: oe-kbuild-all@lists.linux.dev, alex.williamson@redhat.com,
+	christian.koenig@amd.com, kch@nvidia.com,
+	gregkh@linuxfoundation.org, logang@deltatee.com,
+	linux-kernel@vger.kernel.org, alistair23@gmail.com,
+	chaitanyak@nvidia.com, rdunlap@infradead.org,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH v6 1/3] PCI/DOE: Expose the DOE features via sysfs
+Message-ID: <202308181341.DWHmL2Au-lkp@intel.com>
+References: <20230817235810.596458-1-alistair.francis@wdc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [netfilter-nf-next:testing 2/9]
- ./usr/include/linux/netfilter_bridge/ebtables.h:163:26: warning: field
- 'target' with variable sized type 'struct ebt_entry_target' not at the end of
- a struct or class is a GNU extension
-Content-Language: en-US
-From: "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
-To: Kees Cook <keescook@chromium.org>, Florian Westphal <fw@strlen.de>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, linux-hardening@vger.kernel.org
-References: <202308171249.g1ywxhII-lkp@intel.com>
- <202308162257.F7876776C9@keescook> <20230817082618.GE4312@breakpoint.cc>
- <202308171000.C97EEC7@keescook>
- <247c158b-f1d3-1bba-b2fa-1d741a566837@huaweicloud.com>
-In-Reply-To: <247c158b-f1d3-1bba-b2fa-1d741a566837@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_Ch0CgBXe8NSAN9kaCyzAw--.3431S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw47GFWDKw1fKr1xKrWUXFb_yoW5Zw17pF
-	y8Aa1jkr48JrZ7Gw4IqF47uF1Yvw47Jry3ur13G348Z3Z0vry2kF4Ikr4a9F90yrsrGr1a
-	yF4jqrWxZrsFqaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-	c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UE-erUUUUU=
-X-CM-SenderInfo: pjrqw2pxltxq5kxd4v5lfo033gof0z/
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230817235810.596458-1-alistair.francis@wdc.com>
+
+Hi Alistair,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.5-rc6 next-20230817]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Francis/sysfs-Add-a-attr_is_visible-function-to-attribute_group/20230818-080110
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20230817235810.596458-1-alistair.francis%40wdc.com
+patch subject: [PATCH v6 1/3] PCI/DOE: Expose the DOE features via sysfs
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230818/202308181341.DWHmL2Au-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181341.DWHmL2Au-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308181341.DWHmL2Au-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/pci/doe.c:61: warning: Function parameter or member 'sysfs_attrs' not described in 'pci_doe_mb'
 
 
+vim +61 drivers/pci/doe.c
 
-On 2023/08/18 11:24, GONG, Ruiqi wrote:
-> 
-> 
-> On 2023/08/18 1:02, Kees Cook wrote:
->> On Thu, Aug 17, 2023 at 10:26:18AM +0200, Florian Westphal wrote:
->>> Kees Cook <keescook@chromium.org> wrote:
->>>> On Thu, Aug 17, 2023 at 01:03:20PM +0800, kernel test robot wrote:
->>>>> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git testing
->>>>> head:   015e2d9101d3713c7bee16dccad171df04a3bbd5
->>>>> commit: 61b9e6bd48a6317c0a44ee4f3fecdec9de5baa9e [2/9] netfilter: ebtables: replace zero-length array members
->>>>> config: i386-buildonly-randconfig-r004-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171249.g1ywxhII-lkp@intel.com/config)
->>>>> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
->>>>> reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171249.g1ywxhII-lkp@intel.com/reproduce)
->>>>>
->>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>>> the same patch/commit), kindly add following tags
->>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202308171249.g1ywxhII-lkp@intel.com/
->>>>>
->>>>> All warnings (new ones prefixed by >>):
->>>>>
->>>>>    In file included from <built-in>:1:
->>>>>>> ./usr/include/linux/netfilter_bridge/ebtables.h:163:26: warning: field 'target' with variable sized type 'struct ebt_entry_target' not at the end of a struct or class is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
->>>>>            struct ebt_entry_target target;
->>>>>                                    ^
->>>>>    1 warning generated.
->>>>
->>>> Eww, it looks like "struct ebt_entry_target" is used _within_ another
->>>> struct:
->>>>
->>>> struct ebt_standard_target {
->>>>         struct ebt_entry_target target;
->>>>         int verdict;
->>>> };
->>>
->>> Yes, same as xt_standard_target.
->>>
->>>> These have been fixed in the past in a variety of ways -- it all depends
->>>> on how userspace is using them. In looking at Debian Code Search:
->>>> https://codesearch.debian.net/search?q=struct+ebt_standard_target&literal=1
->>>>
->>>> It is exclusively doing casts and looking at the "verdict" member. So
->>>> the easiest conversion might be this:
->>>>
->>>>  struct ebt_standard_target {
->>>> -       struct ebt_entry_target target;
->>>> +       unsigned char hdr[sizeof(struct ebt_entry_target)];
->>>>         int verdict;
->>>
->>> I don't think its worth doing all of this.
->>>
->>> Can't we just keep it as-is and drop the relevant hunk from the patch?
->>
->> For now, yeah. But we'll need to find a solution as flex-array
->> structures overlapping variables is considered deprecated (it can lead
->> to ambiguous sizing results). But as long as the kernel itself doesn't
->> use struct ebt_standard_target, we can kick the can down the road a bit
->> more. :)
->>
-> 
-> I agree that we can complete the whole transformation step-by-step. I
-> will make another patch without the problematic replacement.
+a4ff8e7a716013 Li Ming          2022-11-16  36  
+9d24322e887b6a Jonathan Cameron 2022-07-19  37  /**
+9d24322e887b6a Jonathan Cameron 2022-07-19  38   * struct pci_doe_mb - State for a single DOE mailbox
+9d24322e887b6a Jonathan Cameron 2022-07-19  39   *
+9d24322e887b6a Jonathan Cameron 2022-07-19  40   * This state is used to manage a single DOE mailbox capability.  All fields
+9d24322e887b6a Jonathan Cameron 2022-07-19  41   * should be considered opaque to the consumers and the structure passed into
+022b66f38195f6 Lukas Wunner     2023-03-11  42   * the helpers below after being created by pci_doe_create_mb().
+9d24322e887b6a Jonathan Cameron 2022-07-19  43   *
+9d24322e887b6a Jonathan Cameron 2022-07-19  44   * @pdev: PCI device this mailbox belongs to
+9d24322e887b6a Jonathan Cameron 2022-07-19  45   * @cap_offset: Capability offset
+9d24322e887b6a Jonathan Cameron 2022-07-19  46   * @prots: Array of protocols supported (encoded as long values)
+9d24322e887b6a Jonathan Cameron 2022-07-19  47   * @wq: Wait queue for work item
+9d24322e887b6a Jonathan Cameron 2022-07-19  48   * @work_queue: Queue of pci_doe_work items
+9d24322e887b6a Jonathan Cameron 2022-07-19  49   * @flags: Bit array of PCI_DOE_FLAG_* flags
+9d24322e887b6a Jonathan Cameron 2022-07-19  50   */
+9d24322e887b6a Jonathan Cameron 2022-07-19  51  struct pci_doe_mb {
+9d24322e887b6a Jonathan Cameron 2022-07-19  52  	struct pci_dev *pdev;
+9d24322e887b6a Jonathan Cameron 2022-07-19  53  	u16 cap_offset;
+9d24322e887b6a Jonathan Cameron 2022-07-19  54  	struct xarray prots;
+9d24322e887b6a Jonathan Cameron 2022-07-19  55  
+9d24322e887b6a Jonathan Cameron 2022-07-19  56  	wait_queue_head_t wq;
+9d24322e887b6a Jonathan Cameron 2022-07-19  57  	struct workqueue_struct *work_queue;
+9d24322e887b6a Jonathan Cameron 2022-07-19  58  	unsigned long flags;
+2a8556606e90c6 Alistair Francis 2023-08-17  59  
+2a8556606e90c6 Alistair Francis 2023-08-17  60  	struct device_attribute *sysfs_attrs;
+9d24322e887b6a Jonathan Cameron 2022-07-19 @61  };
+9d24322e887b6a Jonathan Cameron 2022-07-19  62  
 
-I didn't notice that the patch had been modified and merged into
-nf-next's testing branch. Let's use that and I won't send another one.
-Thanks Florian! XD
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
