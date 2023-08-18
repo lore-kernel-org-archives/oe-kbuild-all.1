@@ -1,68 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3945E56C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 07:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692344369; x=1723880369;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EwKstDjFWfbFD2tpoMnA0t7cc5qZ4H00h9EEaWlOMTM=;
-  b=IRQPEns4eX4XEhk66Euervtjwvm0M9dhjS1ByQ+FGGfE9KleTJPP9bOF
-   WfEv3T4AvPC2HrNNTTu+I2m64fwgNwzgBG7OmxQ/PQzKQEU/zpUBBsVgr
-   M9GYA+Fwg0R6hT3pT6HaSzDSF/V294Ij6jBnjfPhkXKa0nwtDCJIdckEm
-   7gBQVQX7ArgcbpsGNv6vff/H5Lq1Y+3sDRcqj/ZO2g7UNgUyFPpQH0tCs
-   BHavhtq/aK3ZuTpzhK2IkhYmGYU/ZApMziMZ8dwplaDSlra6GKB6qIepK
-   ih39H9scd/A3pk9KboJS7x4gkEJGQa3RcIW47UxFC8zGnckmz6j/B7vxR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="352627634"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="352627634"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2023 00:39:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="728511800"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="728511800"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 18 Aug 2023 00:39:05 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qWu4W-0002EB-1N;
-	Fri, 18 Aug 2023 07:39:04 +0000
-Date: Fri, 18 Aug 2023 15:37:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Evan Green <evan@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [palmer:for-next 37/39] cpufeature.c:undefined reference to
- `__udivdi3'
-Message-ID: <202308181507.l5bsbcjU-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C2CE56C;
+	Fri, 18 Aug 2023 07:42:25 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-d71f1bc5735so652137276.1;
+        Fri, 18 Aug 2023 00:42:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692344544; x=1692949344;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=umfRL0MpWoTpYd4eriIsZ7c3FD2yks3ZslXFGgBsLn4=;
+        b=XdgKOepCjrtZhzCYElxYbGmZkvnFAhOOVKJ7XajE1CqtbKlSyuYPfD9wnkHFWKsAZK
+         /qgFHNi/Am3zXi0FIRM7RO8HKvsPjEtzoOhggLD9sdFtcl8gPuiVqCzou5qGOJ2iTm+r
+         0cmuqhf0FNw6HG0FmGOLJ/1nSAwqSoVRkBgqVoc6oTAgSw6Cr0h3wI3thw8TIHd70mng
+         k4NwDQb8/8zYd4EBRD5qvJ8nuN09j65EkLhxX8+5Ggo0Ae7gjMMaCniSMBzM/F4hR1uQ
+         1M0a8beVX4f3vYIxZ/jhOS5pCna6zWoLkNUmpMS7H2vRB93RZC7hzHSH9Hqe/ozOMEEW
+         ZZBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692344544; x=1692949344;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=umfRL0MpWoTpYd4eriIsZ7c3FD2yks3ZslXFGgBsLn4=;
+        b=ccHzndqn7xAF3RPaEZgHG+PHOud8hoiQV0cYRfWKQ3Gl42ah923c/cB2E1WCcTMHPK
+         TwohRkGbC8del4MgHayksGDAkgtT51fB7l0q6TXlUb8dTdLvemS2OE09In6692gYEdEp
+         cldGnBwyrN2s+JeIhsAQCIAr6ZFG62bYrG9aJx8olagDQetfWTjCeVhV6lWnmHVCXTsd
+         5CrNf7aarScGnxXYrq8k/jYZBVmPN5aBVhh1lU/htEfsiHMSpmhvnAm1RGrnjHpDFpnB
+         g1tiDZbZI6BTtB2Xg9REcoy1vE1igr5wjkvtH5/Bz+Wua0d1t7WGd/fUVRVt+wMYYLkb
+         opgg==
+X-Gm-Message-State: AOJu0YyZfWSoHCSVgrLcHupoC2RXwpzVmncmKIDMWnuItYYQJrqHkocZ
+	3/MetZGuNonns+UuW9XRpwltM/piEYXPHxEcE6k=
+X-Google-Smtp-Source: AGHT+IGIawVbtin0TkRKDL3gBQm9Sj3hVasR4SGaVCXvIfZaCQ+HJ7dbDEcvhTnWuR57N7WHEpL46n7V55UiG4915Ao=
+X-Received: by 2002:a05:6902:1890:b0:d4b:6a0:fe2b with SMTP id
+ cj16-20020a056902189000b00d4b06a0fe2bmr2607567ybb.36.1692344544234; Fri, 18
+ Aug 2023 00:42:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202308171545.aknH9sjQ-lkp@intel.com> <CANpmjNMFjm0QZqaTwAKdQrBi7qnLv2wAPOXz7frYch-9dUkArA@mail.gmail.com>
+In-Reply-To: <CANpmjNMFjm0QZqaTwAKdQrBi7qnLv2wAPOXz7frYch-9dUkArA@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 18 Aug 2023 09:42:13 +0200
+Message-ID: <CANiq72=-VSH6HF47GdmF7+12+vdb2Lw1_b-_jPA6gQ2QTmQdjw@mail.gmail.com>
+Subject: Re: [linux-next:master 9940/10848] thread 'main' panicked at
+ '"ftrace_branch_data_union_(anonymous_at_include/linux/compiler_types_h_174_2)"
+ is not a valid Ident', /opt/cross/rustc-1.68.2-bindgen-0.56.0/cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro2-1.0.24/src/fallback.rs:693:9
+To: Marco Elver <elver@google.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Kees Cook <keescook@chromium.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git for-next
-head:   1948317e04f46e278acf875aa1e8042eb0b165c4
-commit: 37e0c16254d5ca54484341b4cebc24fd9b0d5b15 [37/39] RISC-V: Probe for unaligned access speed
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20230818/202308181507.l5bsbcjU-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181507.l5bsbcjU-lkp@intel.com/reproduce)
+On Fri, Aug 18, 2023 at 12:21=E2=80=AFAM Marco Elver <elver@google.com> wro=
+te:
+>
+> Looks like the commit added some lines before this union, and so the
+> line numbers have changed. AFAIK this is not a new issue:
+> https://github.com/Rust-for-Linux/linux/issues/1013
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308181507.l5bsbcjU-lkp@intel.com/
+Indeed, this was fixed by the upgrade to a newer bindgen in
+`rust-next`, see commit 08ab786556ff ("rust: bindgen: upgrade to
+0.65.1").
 
-All errors (new ones prefixed by >>):
-
-   riscv32-linux-ld: arch/riscv/kernel/cpufeature.o: in function `.L180':
->> cpufeature.c:(.text+0x286): undefined reference to `__udivdi3'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Miguel
