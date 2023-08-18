@@ -1,42 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6C6375
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 01:14:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B07395
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 01:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692321265; x=1723857265;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FTQL5xLgCMj82U+VOmBOb2eZDhjJZmJlGUHntC1AZME=;
-  b=Om3BtWJy2XAuWKSn9I0oTCojFSq2wiVtiCEGnlqfQtFJ4upseutr7lFq
-   Ap86W6D7JnU58nJg8yEMqo/II6kr+FSuyO5SaLrJaK50NaED4eMrYLikz
-   sCVSju3/VN2utcH0/aozVRxkVAH5gL7fNruAp3uGrxj+x8WV2EgZq9Ixz
-   ZLgETRfI8BZleicMOiMoNVGN3ObwCN7KrTxZ0F9IdgY5flg/2zCVSOM/E
-   DWfIC6Fc9kM5x5z1WweSifq0XL6awlmsPYjK4VDUg+zti+Hgydds2LQT2
-   g+PrBN+Una4MbjJmCuzCoYCyfbBB9DLbmFw6KG9INlIyfCHT8I4CxASwN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="403957822"
+  t=1692321908; x=1723857908;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+8E+SlOMdmHXrq7jkOnhzVbu0oqWUbim62T8xG6hOzs=;
+  b=XFbhzHqg3qB/8aN13E9a4ES1QTiu6o8MFQoWhRy4akX1HSN3kgnHDSPR
+   dMys76Qevz25LRg9/4A/+Is8j/DFAqWeuiefMjo62vTU4xjCdcvH88j3d
+   WEsB/+p49JJc2RUTNXtLEPBixfCBPie0gVmGHHiqCMB/vsC3P0ekmoczH
+   hwOsMwB6QYkRUGprVVSfaDWlwIFDwuEavfD4/PKuxYfrjrn6wHNO/A50F
+   ucxuyxguVzAWrvnTi7rFK3Z3hRbODusny7Cndr1NMUtY7C+/ETaEIZ2vt
+   ksEGClcT7r41ypn2Q36JGM+9xEgadVPz0zsrEUl+vAIyRMDQMA/fFTaXl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="459337060"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="403957822"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 18:13:03 -0700
+   d="scan'208";a="459337060"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 18:25:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="981432364"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="769918940"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="981432364"
+   d="scan'208";a="769918940"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 17 Aug 2023 18:13:02 -0700
+  by orsmga001.jf.intel.com with ESMTP; 17 Aug 2023 18:25:03 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWo2w-0001ad-0N;
-	Fri, 18 Aug 2023 01:13:02 +0000
-Date: Fri, 18 Aug 2023 09:12:47 +0800
+	id 1qWoEY-0001ah-0S;
+	Fri, 18 Aug 2023 01:25:02 +0000
+Date: Fri, 18 Aug 2023 09:24:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
+	linux@roeck-us.net, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au,
+	corbet@lwn.net, thierry.reding@gmail.com,
+	u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-pwm@vger.kernel.org, BMC-SW@aspeedtech.com, patrick@stwcx.xyz
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 16/22] mm/swapfile.c:102:26: warning:
- no previous declaration for 'swap_type_to_swap_info'
-Message-ID: <202308180930.hnkotMPZ-lkp@intel.com>
+Subject: Re: [PATCH v7 2/2] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED
+ g6 PWM/Fan tach
+Message-ID: <202308180900.0ecFnDBI-lkp@intel.com>
+References: <20230817120029.221484-3-billy_tsai@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,39 +55,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230817120029.221484-3-billy_tsai@aspeedtech.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   28b82089b299db6fa9efaeac2cee2c5b4fa7d5f0
-commit: 4506bcbba5ec78d8d694fbb43e964cfefe900887 [16/22] ANDROID: mm: export swap_type_to_swap_info
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230818/202308180930.hnkotMPZ-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180930.hnkotMPZ-lkp@intel.com/reproduce)
+Hi Billy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.5-rc6 next-20230817]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-hwmon-Support-Aspeed-g6-PWM-TACH-Control/20230817-200427
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230817120029.221484-3-billy_tsai%40aspeedtech.com
+patch subject: [PATCH v7 2/2] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230818/202308180900.0ecFnDBI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180900.0ecFnDBI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308180930.hnkotMPZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308180900.0ecFnDBI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/swapfile.c:102:26: warning: no previous declaration for 'swap_type_to_swap_info' [-Wmissing-declarations]
-    struct swap_info_struct *swap_type_to_swap_info(int type)
-                             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/aspeed-g6-pwm-tach.c: In function 'aspeed_tach_create_fan':
+>> drivers/hwmon/aspeed-g6-pwm-tach.c:431:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     431 |         int ret, count;
+         |             ^~~
 
 
-vim +/swap_type_to_swap_info +102 mm/swapfile.c
+vim +/ret +431 drivers/hwmon/aspeed-g6-pwm-tach.c
 
-   101	
- > 102	struct swap_info_struct *swap_type_to_swap_info(int type)
-   103	{
-   104		if (type >= READ_ONCE(nr_swapfiles))
-   105			return NULL;
-   106	
-   107		smp_rmb();	/* Pairs with smp_wmb in alloc_swap_info. */
-   108		return READ_ONCE(swap_info[type]);
-   109	}
-   110	EXPORT_SYMBOL_GPL(swap_type_to_swap_info);
-   111	
+   426	
+   427	static int aspeed_tach_create_fan(struct device *dev,
+   428					  struct aspeed_pwm_tach_data *priv)
+   429	{
+   430		u8 *tach_ch;
+ > 431		int ret, count;
+   432	
+   433		count = of_property_count_u8_elems(dev->of_node, "aspeed,fan-tach-ch");
+   434		if (count < 1)
+   435			return -EINVAL;
+   436		tach_ch = devm_kcalloc(dev, count, sizeof(*tach_ch), GFP_KERNEL);
+   437		if (!tach_ch)
+   438			return -ENOMEM;
+   439		ret = of_property_read_u8_array(dev->of_node, "aspeed,fan-tach-ch",
+   440						tach_ch, count);
+   441	
+   442		aspeed_present_fan_tach(priv, tach_ch, count);
+   443	
+   444		return 0;
+   445	}
+   446	
 
 -- 
 0-DAY CI Kernel Test Service
