@@ -1,117 +1,168 @@
-Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6915B8478;
-	Fri, 18 Aug 2023 03:44:01 +0000 (UTC)
-Received: from mail02.huawei.com (unknown [172.30.67.169])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4RRnLM6Cwvz4f3lVj;
-	Fri, 18 Aug 2023 11:24:59 +0800 (CST)
-Received: from [10.67.110.48] (unknown [10.67.110.48])
-	by APP4 (Coremail) with SMTP id gCh0CgCHZKeH5N5kGNnnAw--.49051S2;
-	Fri, 18 Aug 2023 11:24:57 +0800 (CST)
-Message-ID: <247c158b-f1d3-1bba-b2fa-1d741a566837@huaweicloud.com>
-Date: Fri, 18 Aug 2023 11:24:55 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7D78478
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 04:10:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692331847; x=1723867847;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y2djJBYqGtFodSH9SQOROqUVVnPYUs6bFkWU16CvT7w=;
+  b=Q/RsIkP80wRTaVc+3LNxd+OGTdqoOLrzsa4ER62mAoMRBbti0dL53caE
+   r+q8ES+RKPMQagy+zoIHR8pt8kzFfRXATDje5WNVmQY/EF/URoU1PXdwK
+   w5haT5qiYqQn+RYgGMmv7OaHroY9PUOAnAV1nagM9M7u5osJU1BNvjXdc
+   ZTu1bJpowxnGCDIp9kMJLKv5d0ESBWOEjKhigtvqSSK1+wUzr+Tcz2RTK
+   8MSd3qvmHPkCAKyuo/wywGHhTj/HQ9qNCtciEywYhAcnmnUrx0yaAW9jz
+   pqXnsWej+klOX3inQITcOBV4DBXFeJfnNntnm1bz5jcQPB7O5dEKK6KKd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="363167366"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="363167366"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 21:10:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="684717365"
+X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
+   d="scan'208";a="684717365"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 17 Aug 2023 21:10:44 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qWqot-00025G-1l;
+	Fri, 18 Aug 2023 04:10:43 +0000
+Date: Fri, 18 Aug 2023 12:09:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Brett Creeley <brett.creeley@amd.com>, kvm@vger.kernel.org,
+	netdev@vger.kernel.org, alex.williamson@redhat.com, jgg@nvidia.com,
+	shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, shannon.nelson@amd.com,
+	brett.creeley@amd.com
+Subject: Re: [PATCH vfio] pds_core: Fix function header descriptions
+Message-ID: <202308181138.U4cZ1nIO-lkp@intel.com>
+References: <20230817224212.14266-1-brett.creeley@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [netfilter-nf-next:testing 2/9]
- ./usr/include/linux/netfilter_bridge/ebtables.h:163:26: warning: field
- 'target' with variable sized type 'struct ebt_entry_target' not at the end of
- a struct or class is a GNU extension
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>, Florian Westphal <fw@strlen.de>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, linux-hardening@vger.kernel.org
-References: <202308171249.g1ywxhII-lkp@intel.com>
- <202308162257.F7876776C9@keescook> <20230817082618.GE4312@breakpoint.cc>
- <202308171000.C97EEC7@keescook>
-From: "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
-In-Reply-To: <202308171000.C97EEC7@keescook>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgCHZKeH5N5kGNnnAw--.49051S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZw4rWr1kGFWrtw1kAFW5Jrb_yoW5AFy8pF
-	yUAayjkr48JrZ7Gw4IqF47uF4Yvw43Gry3ur13G34rZ3Z0vry7Ka1Ikr42kasIyr4DCr1a
-	yF4qqrW8ZrsFqaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
-	6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUzsqWUUUUU
-X-CM-SenderInfo: pjrqw2pxltxq5kxd4v5lfo033gof0z/
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230817224212.14266-1-brett.creeley@amd.com>
+
+Hi Brett,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc6 next-20230817]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Brett-Creeley/pds_core-Fix-function-header-descriptions/20230818-064424
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230817224212.14266-1-brett.creeley%40amd.com
+patch subject: [PATCH vfio] pds_core: Fix function header descriptions
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230818/202308181138.U4cZ1nIO-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181138.U4cZ1nIO-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308181138.U4cZ1nIO-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/amd/pds_core/auxbus.c:18: warning: Function parameter or member 'pf_pdev' not described in 'pds_client_register'
+>> drivers/net/ethernet/amd/pds_core/auxbus.c:18: warning: Excess function parameter 'pf' description in 'pds_client_register'
+>> drivers/net/ethernet/amd/pds_core/auxbus.c:63: warning: Function parameter or member 'pf_pdev' not described in 'pds_client_unregister'
+>> drivers/net/ethernet/amd/pds_core/auxbus.c:63: warning: Excess function parameter 'pf' description in 'pds_client_unregister'
 
 
+vim +18 drivers/net/ethernet/amd/pds_core/auxbus.c
 
-On 2023/08/18 1:02, Kees Cook wrote:
-> On Thu, Aug 17, 2023 at 10:26:18AM +0200, Florian Westphal wrote:
->> Kees Cook <keescook@chromium.org> wrote:
->>> On Thu, Aug 17, 2023 at 01:03:20PM +0800, kernel test robot wrote:
->>>> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git testing
->>>> head:   015e2d9101d3713c7bee16dccad171df04a3bbd5
->>>> commit: 61b9e6bd48a6317c0a44ee4f3fecdec9de5baa9e [2/9] netfilter: ebtables: replace zero-length array members
->>>> config: i386-buildonly-randconfig-r004-20230817 (https://download.01.org/0day-ci/archive/20230817/202308171249.g1ywxhII-lkp@intel.com/config)
->>>> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
->>>> reproduce: (https://download.01.org/0day-ci/archive/20230817/202308171249.g1ywxhII-lkp@intel.com/reproduce)
->>>>
->>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>> the same patch/commit), kindly add following tags
->>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202308171249.g1ywxhII-lkp@intel.com/
->>>>
->>>> All warnings (new ones prefixed by >>):
->>>>
->>>>    In file included from <built-in>:1:
->>>>>> ./usr/include/linux/netfilter_bridge/ebtables.h:163:26: warning: field 'target' with variable sized type 'struct ebt_entry_target' not at the end of a struct or class is a GNU extension [-Wgnu-variable-sized-type-not-at-end]
->>>>            struct ebt_entry_target target;
->>>>                                    ^
->>>>    1 warning generated.
->>>
->>> Eww, it looks like "struct ebt_entry_target" is used _within_ another
->>> struct:
->>>
->>> struct ebt_standard_target {
->>>         struct ebt_entry_target target;
->>>         int verdict;
->>> };
->>
->> Yes, same as xt_standard_target.
->>
->>> These have been fixed in the past in a variety of ways -- it all depends
->>> on how userspace is using them. In looking at Debian Code Search:
->>> https://codesearch.debian.net/search?q=struct+ebt_standard_target&literal=1
->>>
->>> It is exclusively doing casts and looking at the "verdict" member. So
->>> the easiest conversion might be this:
->>>
->>>  struct ebt_standard_target {
->>> -       struct ebt_entry_target target;
->>> +       unsigned char hdr[sizeof(struct ebt_entry_target)];
->>>         int verdict;
->>
->> I don't think its worth doing all of this.
->>
->> Can't we just keep it as-is and drop the relevant hunk from the patch?
-> 
-> For now, yeah. But we'll need to find a solution as flex-array
-> structures overlapping variables is considered deprecated (it can lead
-> to ambiguous sizing results). But as long as the kernel itself doesn't
-> use struct ebt_standard_target, we can kick the can down the road a bit
-> more. :)
-> 
+4569cce43bc61e Shannon Nelson 2023-04-19   8  
+10659034c62273 Shannon Nelson 2023-04-19   9  /**
+10659034c62273 Shannon Nelson 2023-04-19  10   * pds_client_register - Link the client to the firmware
+5808b1c50a443e Brett Creeley  2023-08-17  11   * @pf:		ptr to the PF driver's private data struct
+10659034c62273 Shannon Nelson 2023-04-19  12   * @devname:	name that includes service into, e.g. pds_core.vDPA
+10659034c62273 Shannon Nelson 2023-04-19  13   *
+10659034c62273 Shannon Nelson 2023-04-19  14   * Return: 0 on success, or
+10659034c62273 Shannon Nelson 2023-04-19  15   *         negative for error
+10659034c62273 Shannon Nelson 2023-04-19  16   */
+10659034c62273 Shannon Nelson 2023-04-19  17  int pds_client_register(struct pci_dev *pf_pdev, char *devname)
+10659034c62273 Shannon Nelson 2023-04-19 @18  {
+10659034c62273 Shannon Nelson 2023-04-19  19  	union pds_core_adminq_comp comp = {};
+10659034c62273 Shannon Nelson 2023-04-19  20  	union pds_core_adminq_cmd cmd = {};
+10659034c62273 Shannon Nelson 2023-04-19  21  	struct pdsc *pf;
+10659034c62273 Shannon Nelson 2023-04-19  22  	int err;
+10659034c62273 Shannon Nelson 2023-04-19  23  	u16 ci;
+10659034c62273 Shannon Nelson 2023-04-19  24  
+10659034c62273 Shannon Nelson 2023-04-19  25  	pf = pci_get_drvdata(pf_pdev);
+10659034c62273 Shannon Nelson 2023-04-19  26  	if (pf->state)
+10659034c62273 Shannon Nelson 2023-04-19  27  		return -ENXIO;
+10659034c62273 Shannon Nelson 2023-04-19  28  
+10659034c62273 Shannon Nelson 2023-04-19  29  	cmd.client_reg.opcode = PDS_AQ_CMD_CLIENT_REG;
+10659034c62273 Shannon Nelson 2023-04-19  30  	strscpy(cmd.client_reg.devname, devname,
+10659034c62273 Shannon Nelson 2023-04-19  31  		sizeof(cmd.client_reg.devname));
+10659034c62273 Shannon Nelson 2023-04-19  32  
+10659034c62273 Shannon Nelson 2023-04-19  33  	err = pdsc_adminq_post(pf, &cmd, &comp, false);
+10659034c62273 Shannon Nelson 2023-04-19  34  	if (err) {
+10659034c62273 Shannon Nelson 2023-04-19  35  		dev_info(pf->dev, "register dev_name %s with DSC failed, status %d: %pe\n",
+10659034c62273 Shannon Nelson 2023-04-19  36  			 devname, comp.status, ERR_PTR(err));
+10659034c62273 Shannon Nelson 2023-04-19  37  		return err;
+10659034c62273 Shannon Nelson 2023-04-19  38  	}
+10659034c62273 Shannon Nelson 2023-04-19  39  
+10659034c62273 Shannon Nelson 2023-04-19  40  	ci = le16_to_cpu(comp.client_reg.client_id);
+10659034c62273 Shannon Nelson 2023-04-19  41  	if (!ci) {
+10659034c62273 Shannon Nelson 2023-04-19  42  		dev_err(pf->dev, "%s: device returned null client_id\n",
+10659034c62273 Shannon Nelson 2023-04-19  43  			__func__);
+10659034c62273 Shannon Nelson 2023-04-19  44  		return -EIO;
+10659034c62273 Shannon Nelson 2023-04-19  45  	}
+10659034c62273 Shannon Nelson 2023-04-19  46  
+10659034c62273 Shannon Nelson 2023-04-19  47  	dev_dbg(pf->dev, "%s: device returned client_id %d for %s\n",
+10659034c62273 Shannon Nelson 2023-04-19  48  		__func__, ci, devname);
+10659034c62273 Shannon Nelson 2023-04-19  49  
+10659034c62273 Shannon Nelson 2023-04-19  50  	return ci;
+10659034c62273 Shannon Nelson 2023-04-19  51  }
+10659034c62273 Shannon Nelson 2023-04-19  52  EXPORT_SYMBOL_GPL(pds_client_register);
+10659034c62273 Shannon Nelson 2023-04-19  53  
+10659034c62273 Shannon Nelson 2023-04-19  54  /**
+10659034c62273 Shannon Nelson 2023-04-19  55   * pds_client_unregister - Unlink the client from the firmware
+5808b1c50a443e Brett Creeley  2023-08-17  56   * @pf:		ptr to the PF driver's private data struct
+10659034c62273 Shannon Nelson 2023-04-19  57   * @client_id:	id returned from pds_client_register()
+10659034c62273 Shannon Nelson 2023-04-19  58   *
+10659034c62273 Shannon Nelson 2023-04-19  59   * Return: 0 on success, or
+10659034c62273 Shannon Nelson 2023-04-19  60   *         negative for error
+10659034c62273 Shannon Nelson 2023-04-19  61   */
+10659034c62273 Shannon Nelson 2023-04-19  62  int pds_client_unregister(struct pci_dev *pf_pdev, u16 client_id)
+10659034c62273 Shannon Nelson 2023-04-19 @63  {
+10659034c62273 Shannon Nelson 2023-04-19  64  	union pds_core_adminq_comp comp = {};
+10659034c62273 Shannon Nelson 2023-04-19  65  	union pds_core_adminq_cmd cmd = {};
+10659034c62273 Shannon Nelson 2023-04-19  66  	struct pdsc *pf;
+10659034c62273 Shannon Nelson 2023-04-19  67  	int err;
+10659034c62273 Shannon Nelson 2023-04-19  68  
+10659034c62273 Shannon Nelson 2023-04-19  69  	pf = pci_get_drvdata(pf_pdev);
+10659034c62273 Shannon Nelson 2023-04-19  70  	if (pf->state)
+10659034c62273 Shannon Nelson 2023-04-19  71  		return -ENXIO;
+10659034c62273 Shannon Nelson 2023-04-19  72  
+10659034c62273 Shannon Nelson 2023-04-19  73  	cmd.client_unreg.opcode = PDS_AQ_CMD_CLIENT_UNREG;
+10659034c62273 Shannon Nelson 2023-04-19  74  	cmd.client_unreg.client_id = cpu_to_le16(client_id);
+10659034c62273 Shannon Nelson 2023-04-19  75  
+10659034c62273 Shannon Nelson 2023-04-19  76  	err = pdsc_adminq_post(pf, &cmd, &comp, false);
+10659034c62273 Shannon Nelson 2023-04-19  77  	if (err)
+10659034c62273 Shannon Nelson 2023-04-19  78  		dev_info(pf->dev, "unregister client_id %d failed, status %d: %pe\n",
+10659034c62273 Shannon Nelson 2023-04-19  79  			 client_id, comp.status, ERR_PTR(err));
+10659034c62273 Shannon Nelson 2023-04-19  80  
+10659034c62273 Shannon Nelson 2023-04-19  81  	return err;
+10659034c62273 Shannon Nelson 2023-04-19  82  }
+10659034c62273 Shannon Nelson 2023-04-19  83  EXPORT_SYMBOL_GPL(pds_client_unregister);
+10659034c62273 Shannon Nelson 2023-04-19  84  
 
-I agree that we can complete the whole transformation step-by-step. I
-will make another patch without the problematic replacement.
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
