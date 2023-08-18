@@ -1,44 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68B38485
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 03:26:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0A5380
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 03:26:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692329207; x=1723865207;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e4EXaoilKiWGij0usjsJtZX1BZfA2FowQxWPfg1ge10=;
-  b=ZVvWr7LdR7ekNrlsW6WS9w95JBm7VB3I6+3MBN0MQFsiujd1uyvLNmSY
-   A1hfEgLwElDiSdf1fzsmi8evQ3Zq2VT75C+klHJXLJ+Duul3FvFoEOXYO
-   ggOXr4hBZpH2vup/i1eeVhSirRau4KOZNEZ0K6cqWWGoiklLj5KJ/n8cP
-   Mstcm2T262I6otGeLSabrHrx7YJC0Sg5nDOQabwT4XlAu8HTvn65g70TJ
-   g/z5vAtOQurElUKwT1B9CbWZURoAAoMy78AVvkPQ6mOfHqSlEmpUD4ai7
-   55/gjr+EyVDkJf/gqkLVCrBjPVOjCOJg6BLAJCdKDacijrqHxNF1LrHpa
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="459354582"
+  t=1692329209; x=1723865209;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GSvyYHyBsQjQjFEAokdXGLM2cr2C11Os/mSxxP1ozWY=;
+  b=CgKmAKllotp0y963c1FBqI7+1fYm/eYtRzD7UCrUOM2OvvmToi8ZzIQr
+   IPZRMkSG/BR415Jjrjnx49mDcN8tcmnsSTJDS/ZnGkJCKgm61DbubquTz
+   DJMwemmWcj+yHT54yBQEKJRCTMIte7yF6TYXRBKmY85mnyLaougyyrDSa
+   3EvoNlG58/hqY5mXE7NN7MS9P79yJNDVMhE+02Tv0uaCeJOKv6HXem46j
+   PrF9XnPC4o1mwxEBjejzHzKb97/8BKmfESVucZFbbEtkGiTm1pgJ9G9lf
+   uv0lkPnk1PSHG287g5mdc92DPhoaXhpDs8kG3OFcOn/FhPH3AyN7UCxAK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="459354588"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="459354582"
+   d="scan'208";a="459354588"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 20:26:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="804979506"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="804979507"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="804979506"
+   d="scan'208";a="804979507"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
   by fmsmga004.fm.intel.com with ESMTP; 17 Aug 2023 20:26:44 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWq8J-00023q-2v;
+	id 1qWq8J-00023s-30;
 	Fri, 18 Aug 2023 03:26:43 +0000
-Date: Fri, 18 Aug 2023 11:26:04 +0800
+Date: Fri, 18 Aug 2023 11:26:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ajay Kaher <akaher@vmware.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: [linux-next:master 4907/10848] fs/tracefs/event_inode.c:58: warning:
- Function parameter or member 'del_list' not described in 'eventfs_file'
-Message-ID: <202308181108.C2BQ6D3n-lkp@intel.com>
+To: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org, kernel-team@meta.com,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, yosryahmed@google.com
+Subject: Re: [PATCH v2] workingset: ensure memcg is valid for recency check
+Message-ID: <202308181116.FsJVPmJZ-lkp@intel.com>
+References: <20230817190126.3155299-1-nphamcs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,65 +48,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230817190126.3155299-1-nphamcs@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   47762f08697484cf0c2f2904b8c52375ed26c8cb
-commit: 63940449555e799d387f316993ad824476c16953 [4907/10848] eventfs: Implement eventfs lookup, read, open functions
-config: microblaze-randconfig-r032-20230817 (https://download.01.org/0day-ci/archive/20230818/202308181108.C2BQ6D3n-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181108.C2BQ6D3n-lkp@intel.com/reproduce)
+Hi Nhat,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.5-rc6 next-20230817]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-ensure-memcg-is-valid-for-recency-check/20230818-030311
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230817190126.3155299-1-nphamcs%40gmail.com
+patch subject: [PATCH v2] workingset: ensure memcg is valid for recency check
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20230818/202308181116.FsJVPmJZ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181116.FsJVPmJZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308181108.C2BQ6D3n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308181116.FsJVPmJZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/tracefs/event_inode.c:58: warning: Function parameter or member 'del_list' not described in 'eventfs_file'
->> fs/tracefs/event_inode.c:58: warning: Function parameter or member 'rcu' not described in 'eventfs_file'
->> fs/tracefs/event_inode.c:58: warning: Function parameter or member 'is_freed' not described in 'eventfs_file'
+   mm/workingset.c: In function 'unpack_shadow':
+>> mm/workingset.c:245:22: error: implicit declaration of function 'css_tryget'; did you mean 'wb_tryget'? [-Werror=implicit-function-declaration]
+     245 |         if (memcg && css_tryget(&memcg->css))
+         |                      ^~~~~~~~~~
+         |                      wb_tryget
+   mm/workingset.c:245:39: error: invalid use of undefined type 'struct mem_cgroup'
+     245 |         if (memcg && css_tryget(&memcg->css))
+         |                                       ^~
+   cc1: some warnings being treated as errors
 
 
-vim +58 fs/tracefs/event_inode.c
+vim +245 mm/workingset.c
 
-c1504e51023847 Ajay Kaher 2023-07-28  29  
-c1504e51023847 Ajay Kaher 2023-07-28  30  /**
-c1504e51023847 Ajay Kaher 2023-07-28  31   * struct eventfs_file - hold the properties of the eventfs files and
-c1504e51023847 Ajay Kaher 2023-07-28  32   *                       directories.
-c1504e51023847 Ajay Kaher 2023-07-28  33   * @name:	the name of the file or directory to create
-63940449555e79 Ajay Kaher 2023-07-28  34   * @d_parent:   holds parent's dentry
-63940449555e79 Ajay Kaher 2023-07-28  35   * @dentry:     once accessed holds dentry
-c1504e51023847 Ajay Kaher 2023-07-28  36   * @list:	file or directory to be added to parent directory
-c1504e51023847 Ajay Kaher 2023-07-28  37   * @ei:		list of files and directories within directory
-c1504e51023847 Ajay Kaher 2023-07-28  38   * @fop:	file_operations for file or directory
-c1504e51023847 Ajay Kaher 2023-07-28  39   * @iop:	inode_operations for file or directory
-c1504e51023847 Ajay Kaher 2023-07-28  40   * @data:	something that the caller will want to get to later on
-c1504e51023847 Ajay Kaher 2023-07-28  41   * @mode:	the permission that the file or directory should have
-c1504e51023847 Ajay Kaher 2023-07-28  42   */
-c1504e51023847 Ajay Kaher 2023-07-28  43  struct eventfs_file {
-c1504e51023847 Ajay Kaher 2023-07-28  44  	const char			*name;
-63940449555e79 Ajay Kaher 2023-07-28  45  	struct dentry			*d_parent;
-63940449555e79 Ajay Kaher 2023-07-28  46  	struct dentry			*dentry;
-c1504e51023847 Ajay Kaher 2023-07-28  47  	struct list_head		list;
-c1504e51023847 Ajay Kaher 2023-07-28  48  	struct eventfs_inode		*ei;
-c1504e51023847 Ajay Kaher 2023-07-28  49  	const struct file_operations	*fop;
-c1504e51023847 Ajay Kaher 2023-07-28  50  	const struct inode_operations	*iop;
-63940449555e79 Ajay Kaher 2023-07-28  51  	union {
-63940449555e79 Ajay Kaher 2023-07-28  52  		struct list_head	del_list; /* list of eventfs_file to delete */
-63940449555e79 Ajay Kaher 2023-07-28  53  		struct rcu_head		rcu; /* eventfs_file to delete */
-63940449555e79 Ajay Kaher 2023-07-28  54  		unsigned long		is_freed; /* Freed if one of the above is set */
-63940449555e79 Ajay Kaher 2023-07-28  55  	};
-c1504e51023847 Ajay Kaher 2023-07-28  56  	void				*data;
-c1504e51023847 Ajay Kaher 2023-07-28  57  	umode_t				mode;
-c1504e51023847 Ajay Kaher 2023-07-28 @58  };
-c1504e51023847 Ajay Kaher 2023-07-28  59  
-
-:::::: The code at line 58 was first introduced by commit
-:::::: c1504e5102384762bd06b068e9928b624a8a88c6 eventfs: Implement eventfs dir creation functions
-
-:::::: TO: Ajay Kaher <akaher@vmware.com>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+   208	
+   209	/*
+   210	 * Unpacks the stored fields of a shadow entry into the given pointers.
+   211	 *
+   212	 * The memcg pointer is only populated if the memcg recorded in the shadow
+   213	 * entry is valid. In this case, a reference to the memcg will be acquired,
+   214	 * and a corresponding mem_cgroup_put() will be needed when we no longer
+   215	 * need the memcg.
+   216	 */
+   217	static void unpack_shadow(void *shadow, struct mem_cgroup **memcgp,
+   218				pg_data_t **pgdat, unsigned long *evictionp, bool *workingsetp)
+   219	{
+   220		unsigned long entry = xa_to_value(shadow);
+   221		struct mem_cgroup *memcg;
+   222		int memcgid, nid;
+   223		bool workingset;
+   224	
+   225		workingset = entry & ((1UL << WORKINGSET_SHIFT) - 1);
+   226		entry >>= WORKINGSET_SHIFT;
+   227		nid = entry & ((1UL << NODES_SHIFT) - 1);
+   228		entry >>= NODES_SHIFT;
+   229		memcgid = entry & ((1UL << MEM_CGROUP_ID_SHIFT) - 1);
+   230		entry >>= MEM_CGROUP_ID_SHIFT;
+   231	
+   232		/*
+   233		 * Look up the memcg associated with the stored ID. It might
+   234		 * have been deleted since the folio's eviction.
+   235		 *
+   236		 * Note that in rare events the ID could have been recycled
+   237		 * for a new cgroup that refaults a shared folio. This is
+   238		 * impossible to tell from the available data. However, this
+   239		 * should be a rare and limited disturbance, and activations
+   240		 * are always speculative anyway. Ultimately, it's the aging
+   241		 * algorithm's job to shake out the minimum access frequency
+   242		 * for the active cache.
+   243		 */
+   244		memcg = mem_cgroup_from_id(memcgid);
+ > 245		if (memcg && css_tryget(&memcg->css))
+   246			*memcgp = memcg;
+   247		else
+   248			*memcgp = NULL;
+   249	
+   250		*pgdat = NODE_DATA(nid);
+   251		*evictionp = entry;
+   252		*workingsetp = workingset;
+   253	}
+   254	
 
 -- 
 0-DAY CI Kernel Test Service
