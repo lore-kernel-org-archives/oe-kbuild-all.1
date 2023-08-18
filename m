@@ -1,147 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618D0360
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 00:14:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 370FBC433C8;
-	Fri, 18 Aug 2023 00:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692317683;
-	bh=xQZeNLubnblVJt+8p5dRVcAKIMGTMir+chTN0oqb6Bg=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=FBHWVlBRIWnj2iPVIIW2BKUiFSupKC6OnL4qqNKlTop6vU41IeoLO6LuN/YVy1xud
-	 UQdayxu6IaxqO1WLJ/tg8UVF0O/xsK/eQGDEiyAlJnjeh/MNmEhWLdPRlqxaev9tXg
-	 b27i1/7japIztAkcGpiDherpbIFUW1oJ/2gASe5dMVduYDadKdFXoLmwSofwCDEqkn
-	 I+uw2V3FcpCNETCMRV8yssbJFy7oNa9tAcUeZ/MT/5CdhxO23GTrBBsJgSmsqY+adW
-	 ujoGNxSyFRcHYhdVaBAuRL+YFfX9/anPl/vW12RTYWbzCYfR9kFs5SDp/zIzjRqQmo
-	 19EKRRx/BroAQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id B7264CE0EFD; Thu, 17 Aug 2023 17:14:42 -0700 (PDT)
-Date: Thu, 17 Aug 2023 17:14:42 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: "Liu, Yujie" <yujie.liu@intel.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	lkp <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [paulmck-rcu:dev.2023.08.14a 49/51]
- kernel/rcu/rcutorture.c:24:10: fatal error: linux/rcu_notifier.h: No such
- file or directory
-Message-ID: <2b23fc83-339a-44f6-850d-f90436beb92c@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202308160930.YEekR3Wf-lkp@intel.com>
- <a5fa35dc-6244-41ef-9f5b-08aa497d9a74@paulmck-laptop>
- <63593d36f4bfb665fb7e62733114d2c5e3d3f873.camel@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27634191
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 00:42:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692319325; x=1723855325;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=b00AF8wncw5hmRSIEfWdL9qxZxQfAxmAv+k1mhiZAzM=;
+  b=R8aDnvPruESQMAxC8WAbCnDLzr5bMzBC1vLt5baHMPgacLGCpl5O0vny
+   Ov5V5NEAkWECmCtoW7TiDTS5NC8gwL4FRIrjYVhhTI0sd00APbla+k/mJ
+   SFP4ntkJtLUSFUyLxGz8oO+tSNG4uE04NzcjyOF5j1RucQhkow84PEL+l
+   yk8QUza77x10nTxwXdybHY9MmkN5hF5TwenZPl/XVTloIOaQtG3Cs0Be5
+   uQQcdyIu6wCnxOhoF3MnE2DWYrqGqD49worGYjG/L8eiOvVyc9LfH/p3O
+   ecKK9z81M7QTjg5cGWRk5xF7dN9ZJVRG03fTs1Gu/04a/5hR0uak3JZZ6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="375754305"
+X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
+   d="scan'208";a="375754305"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 17:42:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="684658458"
+X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
+   d="scan'208";a="684658458"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 17 Aug 2023 17:42:02 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qWnYv-0001ZT-0y;
+	Fri, 18 Aug 2023 00:42:01 +0000
+Date: Fri, 18 Aug 2023 08:41:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Melissa Wen <mwen@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Tales Aparecida <tales.aparecida@gmail.com>,
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: htmldocs: ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109:
+ warning: Function parameter or member 'overlap_only' not described in
+ 'mpcc_blnd_cfg'
+Message-ID: <202308180803.QE0R3OlP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <63593d36f4bfb665fb7e62733114d2c5e3d3f873.camel@intel.com>
 
-On Thu, Aug 17, 2023 at 08:05:10AM +0000, Liu, Yujie wrote:
-> On Tue, 2023-08-15 at 19:19 -0700, Paul E. McKenney wrote:
-> > On Wed, Aug 16, 2023 at 09:55:30AM +0800, kernel test robot wrote:
-> > > tree:  
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
-> > >  dev.2023.08.14a
-> > > head:   a90c4cbc91475bd5df35f712a954972fbfff40a1
-> > > commit: 37730a9ba11627b63d8108dd8b3061ea2ee04df9 [49/51]
-> > > rcutorture: Add test of RCU CPU stall notifiers
-> > > config: sh-allmodconfig
-> > > (https://download.01.org/0day-ci/archive/20230816/202308160930.YEek
-> > > R3Wf-lkp@intel.com/config)
-> > > compiler: sh4-linux-gcc (GCC) 12.3.0
-> > > reproduce:
-> > > (https://download.01.org/0day-ci/archive/20230816/202308160930.YEek
-> > > R3Wf-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a
-> > > new version of
-> > > the same patch/commit), kindly add following tags
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > Closes:
-> > > > https://lore.kernel.org/oe-kbuild-all/202308160930.YEekR3Wf-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > > > > kernel/rcu/rcutorture.c:24:10: fatal error:
-> > > > > linux/rcu_notifier.h: No such file or directory
-> > >       24 | #include <linux/rcu_notifier.h>
-> > >          |          ^~~~~~~~~~~~~~~~~~~~~~
-> > >    compilation terminated.
-> > 
-> > You would think that I would remember "git add".  ;-)
-> > 
-> > Does the patch below fix things up?
-> 
-> Yes, the build error is gone after adding the new header file. Seems
-> this fixup patch is already included in dev.2023.08.15a branch :)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   16931859a6500d360b90aeacab3b505a3560a3ed
+commit: 33fa4f1df53076d0078be091d5a88d457de54936 Documentation/gpu/amdgpu/amdgpu_dm: add DM docs for pixel blend mode
+date:   1 year ago
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180803.QE0R3OlP-lkp@intel.com/reproduce)
 
-Something about my having hit it when pulling the commits onto the
-test systems.  ;-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308180803.QE0R3OlP-lkp@intel.com/
 
-							Thanx, Paul
+All warnings (new ones prefixed by >>):
 
-> Thanks,
-> Yujie
-> 
-> >                                                         Thanx, Paul
-> > 
-> > ---------------------------------------------------------------------
-> > ---
-> > 
-> > commit 2b7e462695eee212f81f7000af4f4af2523ece35
-> > Author: Paul E. McKenney <paulmck@kernel.org>
-> > Date:   Tue Aug 15 19:17:50 2023 -0700
-> > 
-> >     fixup! rcu: Add RCU CPU stall notifier
-> >     
-> >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > 
-> > diff --git a/include/linux/rcu_notifier.h
-> > b/include/linux/rcu_notifier.h
-> > new file mode 100644
-> > index 000000000000..ebf371364581
-> > --- /dev/null
-> > +++ b/include/linux/rcu_notifier.h
-> > @@ -0,0 +1,32 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/*
-> > + * Read-Copy Update notifiers, initially RCU CPU stall notifier.
-> > + * Separate from rcupdate.h to avoid #include loops.
-> > + *
-> > + * Copyright (C) 2023 Paul E. McKenney.
-> > + */
-> > +
-> > +#ifndef __LINUX_RCU_NOTIFIER_H
-> > +#define __LINUX_RCU_NOTIFIER_H
-> > +
-> > +// Actions for RCU CPU stall notifier calls.
-> > +#define RCU_STALL_NOTIFY_NORM  1
-> > +#define RCU_STALL_NOTIFY_EXP   2
-> > +
-> > +#ifdef CONFIG_RCU_STALL_COMMON
-> > +
-> > +#include <linux/notifier.h>
-> > +#include <linux/types.h>
-> > +
-> > +int rcu_stall_chain_notifier_register(struct notifier_block *n);
-> > +int rcu_stall_chain_notifier_unregister(struct notifier_block *n);
-> > +
-> > +#else // #ifdef CONFIG_RCU_STALL_COMMON
-> > +
-> > +// No RCU CPU stall warnings in Tiny RCU.
-> > +static inline int rcu_stall_chain_notifier_register(struct
-> > notifier_block *n) { return -EEXIST; }
-> > +static inline int rcu_stall_chain_notifier_unregister(struct
-> > notifier_block *n) { return -ENOENT; }
-> > +
-> > +#endif // #else // #ifdef CONFIG_RCU_STALL_COMMON
-> > +
-> > +#endif /* __LINUX_RCU_NOTIFIER_H */
-> > 
-> 
+>> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function parameter or member 'overlap_only' not described in 'mpcc_blnd_cfg'
+>> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function parameter or member 'bottom_gain_mode' not described in 'mpcc_blnd_cfg'
+>> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function parameter or member 'background_color_bpc' not described in 'mpcc_blnd_cfg'
+>> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function parameter or member 'top_gain' not described in 'mpcc_blnd_cfg'
+>> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function parameter or member 'bottom_inside_gain' not described in 'mpcc_blnd_cfg'
+>> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function parameter or member 'bottom_outside_gain' not described in 'mpcc_blnd_cfg'
+
+vim +109 ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+
+feb4a3cd8eb007f Eric Bernstein 2017-11-06   83  
+43d61f6d8f4d2da Melissa Wen    2022-08-04   84  /**
+43d61f6d8f4d2da Melissa Wen    2022-08-04   85   * struct mpcc_blnd_cfg - MPCC blending configuration
+43d61f6d8f4d2da Melissa Wen    2022-08-04   86   *
+43d61f6d8f4d2da Melissa Wen    2022-08-04   87   * @black_color: background color
+43d61f6d8f4d2da Melissa Wen    2022-08-04   88   * @alpha_mode: alpha blend mode (MPCC_ALPHA_BLND_MODE)
+43d61f6d8f4d2da Melissa Wen    2022-08-04   89   * @pre_multiplied_alpha: whether pixel color values were pre-multiplied by the
+43d61f6d8f4d2da Melissa Wen    2022-08-04   90   * alpha channel (MPCC_ALPHA_MULTIPLIED_MODE)
+43d61f6d8f4d2da Melissa Wen    2022-08-04   91   * @global_gain: used when blend mode considers both pixel alpha and plane
+43d61f6d8f4d2da Melissa Wen    2022-08-04   92   * alpha value and assumes the global alpha value.
+43d61f6d8f4d2da Melissa Wen    2022-08-04   93   * @global_alpha: plane alpha value
+feb4a3cd8eb007f Eric Bernstein 2017-11-06   94   */
+feb4a3cd8eb007f Eric Bernstein 2017-11-06   95  struct mpcc_blnd_cfg {
+feb4a3cd8eb007f Eric Bernstein 2017-11-06   96  	struct tg_color black_color;	/* background color */
+feb4a3cd8eb007f Eric Bernstein 2017-11-06   97  	enum mpcc_alpha_blend_mode alpha_mode;	/* alpha blend mode */
+feb4a3cd8eb007f Eric Bernstein 2017-11-06   98  	bool pre_multiplied_alpha;	/* alpha pre-multiplied mode flag */
+feb4a3cd8eb007f Eric Bernstein 2017-11-06   99  	int global_gain;
+feb4a3cd8eb007f Eric Bernstein 2017-11-06  100  	int global_alpha;
+feb4a3cd8eb007f Eric Bernstein 2017-11-06  101  	bool overlap_only;
+feb4a3cd8eb007f Eric Bernstein 2017-11-06  102  
+f789b0b82bf0aee Harry Wentland 2019-02-22  103  	/* MPCC top/bottom gain settings */
+f789b0b82bf0aee Harry Wentland 2019-02-22  104  	int bottom_gain_mode;
+f789b0b82bf0aee Harry Wentland 2019-02-22  105  	int background_color_bpc;
+f789b0b82bf0aee Harry Wentland 2019-02-22  106  	int top_gain;
+f789b0b82bf0aee Harry Wentland 2019-02-22  107  	int bottom_inside_gain;
+f789b0b82bf0aee Harry Wentland 2019-02-22  108  	int bottom_outside_gain;
+feb4a3cd8eb007f Eric Bernstein 2017-11-06 @109  };
+feb4a3cd8eb007f Eric Bernstein 2017-11-06  110  
+
+:::::: The code at line 109 was first introduced by commit
+:::::: feb4a3cd8eb007f4749dc8323110f42fb4682ae0 drm/amd/display: Integrating MPC pseudocode
+
+:::::: TO: Eric Bernstein <eric.bernstein@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
