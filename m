@@ -1,46 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7D78478
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 04:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A056E8BE2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 04:21:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692331847; x=1723867847;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Y2djJBYqGtFodSH9SQOROqUVVnPYUs6bFkWU16CvT7w=;
-  b=Q/RsIkP80wRTaVc+3LNxd+OGTdqoOLrzsa4ER62mAoMRBbti0dL53caE
-   r+q8ES+RKPMQagy+zoIHR8pt8kzFfRXATDje5WNVmQY/EF/URoU1PXdwK
-   w5haT5qiYqQn+RYgGMmv7OaHroY9PUOAnAV1nagM9M7u5osJU1BNvjXdc
-   ZTu1bJpowxnGCDIp9kMJLKv5d0ESBWOEjKhigtvqSSK1+wUzr+Tcz2RTK
-   8MSd3qvmHPkCAKyuo/wywGHhTj/HQ9qNCtciEywYhAcnmnUrx0yaAW9jz
-   pqXnsWej+klOX3inQITcOBV4DBXFeJfnNntnm1bz5jcQPB7O5dEKK6KKd
+  t=1692332488; x=1723868488;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7pVW8hKhCZo5eeUMdVHlYHKgHN06z8I9C+H4+zark0Q=;
+  b=dyHsk84s3Mo7iJ6VNIAVJH52ewNrAHBV/Hd+N/KUoUmDoHJ0UuBRh6Yb
+   q0IBe5s/AX0QVa1+N7qxg6bsd+DYzDl3dyx237OM2At4YHg4pVXfHbclb
+   ODmwGHi/5xY9bEWlfOS/0p+fcuS5+jmpTEyDLl5EVLXFA+i+KqmZg9ydR
+   GnvzQpvEp+nh0ClY9H3P54xAn2D4rDwtykGD5e9L/zaaFpV2TKS6Ad4Q3
+   2j/GA192fzK44HsjXhIRNC9LgRlo/FRWqZF/O4+KCQ+srTtBECX4YCxny
+   2mGbiDlSmYwHY3F13MnFmUTnvw6ag9SKeLav+CjHVMekyCStqPIy4eE35
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="363167366"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="436920889"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="363167366"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 21:10:46 -0700
+   d="scan'208";a="436920889"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 21:21:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="684717365"
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="849128187"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="684717365"
+   d="scan'208";a="849128187"
 Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 17 Aug 2023 21:10:44 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2023 21:21:26 -0700
 Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qWqot-00025G-1l;
-	Fri, 18 Aug 2023 04:10:43 +0000
-Date: Fri, 18 Aug 2023 12:09:43 +0800
+	id 1qWqz3-00025S-11;
+	Fri, 18 Aug 2023 04:21:22 +0000
+Date: Fri, 18 Aug 2023 12:20:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brett Creeley <brett.creeley@amd.com>, kvm@vger.kernel.org,
-	netdev@vger.kernel.org, alex.williamson@redhat.com, jgg@nvidia.com,
-	shameerali.kolothum.thodi@huawei.com, kevin.tian@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, shannon.nelson@amd.com,
-	brett.creeley@amd.com
-Subject: Re: [PATCH vfio] pds_core: Fix function header descriptions
-Message-ID: <202308181138.U4cZ1nIO-lkp@intel.com>
-References: <20230817224212.14266-1-brett.creeley@amd.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 18/22] mm/swapfile.c:775:5: warning:
+ no previous declaration for 'scan_swap_map_slots'
+Message-ID: <202308181214.Ephb0O4B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,119 +45,257 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230817224212.14266-1-brett.creeley@amd.com>
 
-Hi Brett,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.5-rc6 next-20230817]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Brett-Creeley/pds_core-Fix-function-header-descriptions/20230818-064424
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230817224212.14266-1-brett.creeley%40amd.com
-patch subject: [PATCH vfio] pds_core: Fix function header descriptions
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230818/202308181138.U4cZ1nIO-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181138.U4cZ1nIO-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   28b82089b299db6fa9efaeac2cee2c5b4fa7d5f0
+commit: 06c2766cbc9923d67d45fc191c467b5e2685175d [18/22] ANDROID: mm: export symbols used in vendor hook android_vh_get_swap_page()
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230818/202308181214.Ephb0O4B-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181214.Ephb0O4B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308181138.U4cZ1nIO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308181214.Ephb0O4B-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/amd/pds_core/auxbus.c:18: warning: Function parameter or member 'pf_pdev' not described in 'pds_client_register'
->> drivers/net/ethernet/amd/pds_core/auxbus.c:18: warning: Excess function parameter 'pf' description in 'pds_client_register'
->> drivers/net/ethernet/amd/pds_core/auxbus.c:63: warning: Function parameter or member 'pf_pdev' not described in 'pds_client_unregister'
->> drivers/net/ethernet/amd/pds_core/auxbus.c:63: warning: Excess function parameter 'pf' description in 'pds_client_unregister'
+   mm/swapfile.c:102:26: warning: no previous declaration for 'swap_type_to_swap_info' [-Wmissing-declarations]
+    struct swap_info_struct *swap_type_to_swap_info(int type)
+                             ^~~~~~~~~~~~~~~~~~~~~~
+>> mm/swapfile.c:775:5: warning: no previous declaration for 'scan_swap_map_slots' [-Wmissing-declarations]
+    int scan_swap_map_slots(struct swap_info_struct *si,
+        ^~~~~~~~~~~~~~~~~~~
+>> mm/swapfile.c:993:5: warning: no previous declaration for 'swap_alloc_cluster' [-Wmissing-declarations]
+    int swap_alloc_cluster(struct swap_info_struct *si, swp_entry_t *slot)
+        ^~~~~~~~~~~~~~~~~~
+--
+>> mm/swap_slots.c:93:6: warning: no previous declaration for 'check_cache_active' [-Wmissing-declarations]
+    bool check_cache_active(void)
+         ^~~~~~~~~~~~~~~~~~
 
 
-vim +18 drivers/net/ethernet/amd/pds_core/auxbus.c
+vim +/scan_swap_map_slots +775 mm/swapfile.c
 
-4569cce43bc61e Shannon Nelson 2023-04-19   8  
-10659034c62273 Shannon Nelson 2023-04-19   9  /**
-10659034c62273 Shannon Nelson 2023-04-19  10   * pds_client_register - Link the client to the firmware
-5808b1c50a443e Brett Creeley  2023-08-17  11   * @pf:		ptr to the PF driver's private data struct
-10659034c62273 Shannon Nelson 2023-04-19  12   * @devname:	name that includes service into, e.g. pds_core.vDPA
-10659034c62273 Shannon Nelson 2023-04-19  13   *
-10659034c62273 Shannon Nelson 2023-04-19  14   * Return: 0 on success, or
-10659034c62273 Shannon Nelson 2023-04-19  15   *         negative for error
-10659034c62273 Shannon Nelson 2023-04-19  16   */
-10659034c62273 Shannon Nelson 2023-04-19  17  int pds_client_register(struct pci_dev *pf_pdev, char *devname)
-10659034c62273 Shannon Nelson 2023-04-19 @18  {
-10659034c62273 Shannon Nelson 2023-04-19  19  	union pds_core_adminq_comp comp = {};
-10659034c62273 Shannon Nelson 2023-04-19  20  	union pds_core_adminq_cmd cmd = {};
-10659034c62273 Shannon Nelson 2023-04-19  21  	struct pdsc *pf;
-10659034c62273 Shannon Nelson 2023-04-19  22  	int err;
-10659034c62273 Shannon Nelson 2023-04-19  23  	u16 ci;
-10659034c62273 Shannon Nelson 2023-04-19  24  
-10659034c62273 Shannon Nelson 2023-04-19  25  	pf = pci_get_drvdata(pf_pdev);
-10659034c62273 Shannon Nelson 2023-04-19  26  	if (pf->state)
-10659034c62273 Shannon Nelson 2023-04-19  27  		return -ENXIO;
-10659034c62273 Shannon Nelson 2023-04-19  28  
-10659034c62273 Shannon Nelson 2023-04-19  29  	cmd.client_reg.opcode = PDS_AQ_CMD_CLIENT_REG;
-10659034c62273 Shannon Nelson 2023-04-19  30  	strscpy(cmd.client_reg.devname, devname,
-10659034c62273 Shannon Nelson 2023-04-19  31  		sizeof(cmd.client_reg.devname));
-10659034c62273 Shannon Nelson 2023-04-19  32  
-10659034c62273 Shannon Nelson 2023-04-19  33  	err = pdsc_adminq_post(pf, &cmd, &comp, false);
-10659034c62273 Shannon Nelson 2023-04-19  34  	if (err) {
-10659034c62273 Shannon Nelson 2023-04-19  35  		dev_info(pf->dev, "register dev_name %s with DSC failed, status %d: %pe\n",
-10659034c62273 Shannon Nelson 2023-04-19  36  			 devname, comp.status, ERR_PTR(err));
-10659034c62273 Shannon Nelson 2023-04-19  37  		return err;
-10659034c62273 Shannon Nelson 2023-04-19  38  	}
-10659034c62273 Shannon Nelson 2023-04-19  39  
-10659034c62273 Shannon Nelson 2023-04-19  40  	ci = le16_to_cpu(comp.client_reg.client_id);
-10659034c62273 Shannon Nelson 2023-04-19  41  	if (!ci) {
-10659034c62273 Shannon Nelson 2023-04-19  42  		dev_err(pf->dev, "%s: device returned null client_id\n",
-10659034c62273 Shannon Nelson 2023-04-19  43  			__func__);
-10659034c62273 Shannon Nelson 2023-04-19  44  		return -EIO;
-10659034c62273 Shannon Nelson 2023-04-19  45  	}
-10659034c62273 Shannon Nelson 2023-04-19  46  
-10659034c62273 Shannon Nelson 2023-04-19  47  	dev_dbg(pf->dev, "%s: device returned client_id %d for %s\n",
-10659034c62273 Shannon Nelson 2023-04-19  48  		__func__, ci, devname);
-10659034c62273 Shannon Nelson 2023-04-19  49  
-10659034c62273 Shannon Nelson 2023-04-19  50  	return ci;
-10659034c62273 Shannon Nelson 2023-04-19  51  }
-10659034c62273 Shannon Nelson 2023-04-19  52  EXPORT_SYMBOL_GPL(pds_client_register);
-10659034c62273 Shannon Nelson 2023-04-19  53  
-10659034c62273 Shannon Nelson 2023-04-19  54  /**
-10659034c62273 Shannon Nelson 2023-04-19  55   * pds_client_unregister - Unlink the client from the firmware
-5808b1c50a443e Brett Creeley  2023-08-17  56   * @pf:		ptr to the PF driver's private data struct
-10659034c62273 Shannon Nelson 2023-04-19  57   * @client_id:	id returned from pds_client_register()
-10659034c62273 Shannon Nelson 2023-04-19  58   *
-10659034c62273 Shannon Nelson 2023-04-19  59   * Return: 0 on success, or
-10659034c62273 Shannon Nelson 2023-04-19  60   *         negative for error
-10659034c62273 Shannon Nelson 2023-04-19  61   */
-10659034c62273 Shannon Nelson 2023-04-19  62  int pds_client_unregister(struct pci_dev *pf_pdev, u16 client_id)
-10659034c62273 Shannon Nelson 2023-04-19 @63  {
-10659034c62273 Shannon Nelson 2023-04-19  64  	union pds_core_adminq_comp comp = {};
-10659034c62273 Shannon Nelson 2023-04-19  65  	union pds_core_adminq_cmd cmd = {};
-10659034c62273 Shannon Nelson 2023-04-19  66  	struct pdsc *pf;
-10659034c62273 Shannon Nelson 2023-04-19  67  	int err;
-10659034c62273 Shannon Nelson 2023-04-19  68  
-10659034c62273 Shannon Nelson 2023-04-19  69  	pf = pci_get_drvdata(pf_pdev);
-10659034c62273 Shannon Nelson 2023-04-19  70  	if (pf->state)
-10659034c62273 Shannon Nelson 2023-04-19  71  		return -ENXIO;
-10659034c62273 Shannon Nelson 2023-04-19  72  
-10659034c62273 Shannon Nelson 2023-04-19  73  	cmd.client_unreg.opcode = PDS_AQ_CMD_CLIENT_UNREG;
-10659034c62273 Shannon Nelson 2023-04-19  74  	cmd.client_unreg.client_id = cpu_to_le16(client_id);
-10659034c62273 Shannon Nelson 2023-04-19  75  
-10659034c62273 Shannon Nelson 2023-04-19  76  	err = pdsc_adminq_post(pf, &cmd, &comp, false);
-10659034c62273 Shannon Nelson 2023-04-19  77  	if (err)
-10659034c62273 Shannon Nelson 2023-04-19  78  		dev_info(pf->dev, "unregister client_id %d failed, status %d: %pe\n",
-10659034c62273 Shannon Nelson 2023-04-19  79  			 client_id, comp.status, ERR_PTR(err));
-10659034c62273 Shannon Nelson 2023-04-19  80  
-10659034c62273 Shannon Nelson 2023-04-19  81  	return err;
-10659034c62273 Shannon Nelson 2023-04-19  82  }
-10659034c62273 Shannon Nelson 2023-04-19  83  EXPORT_SYMBOL_GPL(pds_client_unregister);
-10659034c62273 Shannon Nelson 2023-04-19  84  
+   774	
+ > 775	int scan_swap_map_slots(struct swap_info_struct *si,
+   776				       unsigned char usage, int nr,
+   777				       swp_entry_t slots[])
+   778	{
+   779		struct swap_cluster_info *ci;
+   780		unsigned long offset;
+   781		unsigned long scan_base;
+   782		unsigned long last_in_cluster = 0;
+   783		int latency_ration = LATENCY_LIMIT;
+   784		int n_ret = 0;
+   785		bool scanned_many = false;
+   786	
+   787		/*
+   788		 * We try to cluster swap pages by allocating them sequentially
+   789		 * in swap.  Once we've allocated SWAPFILE_CLUSTER pages this
+   790		 * way, however, we resort to first-free allocation, starting
+   791		 * a new cluster.  This prevents us from scattering swap pages
+   792		 * all over the entire swap partition, so that we reduce
+   793		 * overall disk seek times between swap pages.  -- sct
+   794		 * But we do now try to find an empty cluster.  -Andrea
+   795		 * And we let swap pages go all over an SSD partition.  Hugh
+   796		 */
+   797	
+   798		si->flags += SWP_SCANNING;
+   799		/*
+   800		 * Use percpu scan base for SSD to reduce lock contention on
+   801		 * cluster and swap cache.  For HDD, sequential access is more
+   802		 * important.
+   803		 */
+   804		if (si->flags & SWP_SOLIDSTATE)
+   805			scan_base = this_cpu_read(*si->cluster_next_cpu);
+   806		else
+   807			scan_base = si->cluster_next;
+   808		offset = scan_base;
+   809	
+   810		/* SSD algorithm */
+   811		if (si->cluster_info) {
+   812			if (!scan_swap_map_try_ssd_cluster(si, &offset, &scan_base))
+   813				goto scan;
+   814		} else if (unlikely(!si->cluster_nr--)) {
+   815			if (si->pages - si->inuse_pages < SWAPFILE_CLUSTER) {
+   816				si->cluster_nr = SWAPFILE_CLUSTER - 1;
+   817				goto checks;
+   818			}
+   819	
+   820			spin_unlock(&si->lock);
+   821	
+   822			/*
+   823			 * If seek is expensive, start searching for new cluster from
+   824			 * start of partition, to minimize the span of allocated swap.
+   825			 * If seek is cheap, that is the SWP_SOLIDSTATE si->cluster_info
+   826			 * case, just handled by scan_swap_map_try_ssd_cluster() above.
+   827			 */
+   828			scan_base = offset = si->lowest_bit;
+   829			last_in_cluster = offset + SWAPFILE_CLUSTER - 1;
+   830	
+   831			/* Locate the first empty (unaligned) cluster */
+   832			for (; last_in_cluster <= si->highest_bit; offset++) {
+   833				if (si->swap_map[offset])
+   834					last_in_cluster = offset + SWAPFILE_CLUSTER;
+   835				else if (offset == last_in_cluster) {
+   836					spin_lock(&si->lock);
+   837					offset -= SWAPFILE_CLUSTER - 1;
+   838					si->cluster_next = offset;
+   839					si->cluster_nr = SWAPFILE_CLUSTER - 1;
+   840					goto checks;
+   841				}
+   842				if (unlikely(--latency_ration < 0)) {
+   843					cond_resched();
+   844					latency_ration = LATENCY_LIMIT;
+   845				}
+   846			}
+   847	
+   848			offset = scan_base;
+   849			spin_lock(&si->lock);
+   850			si->cluster_nr = SWAPFILE_CLUSTER - 1;
+   851		}
+   852	
+   853	checks:
+   854		if (si->cluster_info) {
+   855			while (scan_swap_map_ssd_cluster_conflict(si, offset)) {
+   856			/* take a break if we already got some slots */
+   857				if (n_ret)
+   858					goto done;
+   859				if (!scan_swap_map_try_ssd_cluster(si, &offset,
+   860								&scan_base))
+   861					goto scan;
+   862			}
+   863		}
+   864		if (!(si->flags & SWP_WRITEOK))
+   865			goto no_page;
+   866		if (!si->highest_bit)
+   867			goto no_page;
+   868		if (offset > si->highest_bit)
+   869			scan_base = offset = si->lowest_bit;
+   870	
+   871		ci = lock_cluster(si, offset);
+   872		/* reuse swap entry of cache-only swap if not busy. */
+   873		if (vm_swap_full() && si->swap_map[offset] == SWAP_HAS_CACHE) {
+   874			int swap_was_freed;
+   875			unlock_cluster(ci);
+   876			spin_unlock(&si->lock);
+   877			swap_was_freed = __try_to_reclaim_swap(si, offset, TTRS_ANYWAY);
+   878			spin_lock(&si->lock);
+   879			/* entry was freed successfully, try to use this again */
+   880			if (swap_was_freed)
+   881				goto checks;
+   882			goto scan; /* check next one */
+   883		}
+   884	
+   885		if (si->swap_map[offset]) {
+   886			unlock_cluster(ci);
+   887			if (!n_ret)
+   888				goto scan;
+   889			else
+   890				goto done;
+   891		}
+   892		WRITE_ONCE(si->swap_map[offset], usage);
+   893		inc_cluster_info_page(si, si->cluster_info, offset);
+   894		unlock_cluster(ci);
+   895	
+   896		swap_range_alloc(si, offset, 1);
+   897		slots[n_ret++] = swp_entry(si->type, offset);
+   898	
+   899		/* got enough slots or reach max slots? */
+   900		if ((n_ret == nr) || (offset >= si->highest_bit))
+   901			goto done;
+   902	
+   903		/* search for next available slot */
+   904	
+   905		/* time to take a break? */
+   906		if (unlikely(--latency_ration < 0)) {
+   907			if (n_ret)
+   908				goto done;
+   909			spin_unlock(&si->lock);
+   910			cond_resched();
+   911			spin_lock(&si->lock);
+   912			latency_ration = LATENCY_LIMIT;
+   913		}
+   914	
+   915		/* try to get more slots in cluster */
+   916		if (si->cluster_info) {
+   917			if (scan_swap_map_try_ssd_cluster(si, &offset, &scan_base))
+   918				goto checks;
+   919		} else if (si->cluster_nr && !si->swap_map[++offset]) {
+   920			/* non-ssd case, still more slots in cluster? */
+   921			--si->cluster_nr;
+   922			goto checks;
+   923		}
+   924	
+   925		/*
+   926		 * Even if there's no free clusters available (fragmented),
+   927		 * try to scan a little more quickly with lock held unless we
+   928		 * have scanned too many slots already.
+   929		 */
+   930		if (!scanned_many) {
+   931			unsigned long scan_limit;
+   932	
+   933			if (offset < scan_base)
+   934				scan_limit = scan_base;
+   935			else
+   936				scan_limit = si->highest_bit;
+   937			for (; offset <= scan_limit && --latency_ration > 0;
+   938			     offset++) {
+   939				if (!si->swap_map[offset])
+   940					goto checks;
+   941			}
+   942		}
+   943	
+   944	done:
+   945		set_cluster_next(si, offset + 1);
+   946		si->flags -= SWP_SCANNING;
+   947		return n_ret;
+   948	
+   949	scan:
+   950		spin_unlock(&si->lock);
+   951		while (++offset <= READ_ONCE(si->highest_bit)) {
+   952			if (data_race(!si->swap_map[offset])) {
+   953				spin_lock(&si->lock);
+   954				goto checks;
+   955			}
+   956			if (vm_swap_full() &&
+   957			    READ_ONCE(si->swap_map[offset]) == SWAP_HAS_CACHE) {
+   958				spin_lock(&si->lock);
+   959				goto checks;
+   960			}
+   961			if (unlikely(--latency_ration < 0)) {
+   962				cond_resched();
+   963				latency_ration = LATENCY_LIMIT;
+   964				scanned_many = true;
+   965			}
+   966		}
+   967		offset = si->lowest_bit;
+   968		while (offset < scan_base) {
+   969			if (data_race(!si->swap_map[offset])) {
+   970				spin_lock(&si->lock);
+   971				goto checks;
+   972			}
+   973			if (vm_swap_full() &&
+   974			    READ_ONCE(si->swap_map[offset]) == SWAP_HAS_CACHE) {
+   975				spin_lock(&si->lock);
+   976				goto checks;
+   977			}
+   978			if (unlikely(--latency_ration < 0)) {
+   979				cond_resched();
+   980				latency_ration = LATENCY_LIMIT;
+   981				scanned_many = true;
+   982			}
+   983			offset++;
+   984		}
+   985		spin_lock(&si->lock);
+   986	
+   987	no_page:
+   988		si->flags -= SWP_SCANNING;
+   989		return n_ret;
+   990	}
+   991	EXPORT_SYMBOL_GPL(scan_swap_map_slots);
+   992	
 
 -- 
 0-DAY CI Kernel Test Service
