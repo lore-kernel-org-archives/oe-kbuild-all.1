@@ -1,101 +1,46 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BE87ED;
-	Fri, 18 Aug 2023 12:37:02 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.west.internal (Postfix) with ESMTP id 5BAC22B00191;
-	Fri, 18 Aug 2023 08:37:01 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 18 Aug 2023 08:37:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1692362220; x=1692369420; bh=SQ
-	lAgMLU3HRev+9d1VH4auJeedGv3m900FTY4V8KdiA=; b=C5e9rXhJtnNi2TCu7l
-	8CCMb2Ohju/uda/ovu0B779p56tmqTdZJwmdZSRTzSlLiAluVrCX00jjepJOWOtq
-	nc6Nfrz5GAEuqfx2nHVe1+1LxMQ8Ff9bPSH4coUTygXiy/GEpljsZOSJieZDBX2H
-	MR/5CwY5tst2SGTcCOGgtsscMCUB7fJGWfuFdoRmtaZ8hwUrrBjw+hBq4OXgc3JJ
-	t63hN93j/ZO9GzWTLnuFjL6wp1kevlnmtjV4RoNULTL1ktJxhRyVrIHYspZ+KC7d
-	CndBxbjKo2B/y8JKAf7JNOoyhlSmcgWZ8GE0f4CJIsxD0Vw1NRUuN0I+CFYN8HdL
-	BSNw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1692362220; x=1692369420; bh=SQlAgMLU3HRev
-	+9d1VH4auJeedGv3m900FTY4V8KdiA=; b=WvErnSocl35e2ZAgGXaYZxdlUOhel
-	didA48DngANn67Y80fNR7gIHLTM/hmDRikHFS+SOLFVhEz7QbJgutwEx0nOwYyAB
-	IBqYC8+zsl6vSaPyJ2nq8UfzfiGZnQ+Chzzp4LT/V6Yg3ld6uFuYKum6rIVv3LwT
-	3reQ09/6CEgIbLcKfVl15G6tUEc9tXbWAutJgRk59IuVv0HR0bHZ/41wbaur1qKx
-	4MwLYzh6wGMOOV1/l5Qe51l31aqU4p8QztXQ+8KAXWrhcXRljDr/QQ2wM+fSbk63
-	6sxQcDDX6I01WGw26r/+va5RIc1pj31c3jGNeSNeXJe0wNYoONNZcVRlg==
-X-ME-Sender: <xms:62XfZLuNPPlnBU9-wMKjSVV05BSyeD7j_oTBNp2vVWlUSgz6Wvp62w>
-    <xme:62XfZMd2eKCF3oI9OC-fobB6jU1XP1_Tuop21eLFFatnrXP7euNsvxRSlBWtlkHo_
-    ak4NY8gC6O5Dc_wMCo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedruddufedgheehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvvefutgesth
-    dtredtreertdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnuges
-    rghrnhgusgdruggvqeenucggtffrrghtthgvrhhnpeevhfffledtgeehfeffhfdtgedvhe
-    ejtdfgkeeuvefgudffteettdekkeeufeehudenucffohhmrghinhepkhgvrhhnvghlrdho
-    rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:7GXfZOy01ZaCBBVLKc-kqw_muk8j3uSg3CC_cWJEkOKv3FtHC2N26g>
-    <xmx:7GXfZKN8_e_dRw3GisVLk0WnUjC1IsJMxUQso0UcslY7FxvFRp9V5Q>
-    <xmx:7GXfZL9HcGmJR3P0-FEwiuR0boDwGPjvqjwKOAW5VbM1LP6Awmq8DA>
-    <xmx:7GXfZNLtbhDzc6MLwtZgmu-NXVNH9ymB5SqsVBjkbgMnkEl1d1S6Rcxnlto>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id D8428B6008F; Fri, 18 Aug 2023 08:36:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-624-g7714e4406d-fm-20230801.001-g7714e440
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92715182B7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 13:08:11 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL Global TLS RSA4096 SHA256 2022 CA1" (verified OK))
+	by bmailout2.hostsharing.net (Postfix) with ESMTPS id 333B02800C997;
+	Fri, 18 Aug 2023 15:00:19 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 251AC2ED3E8; Fri, 18 Aug 2023 15:00:19 +0200 (CEST)
+Date: Fri, 18 Aug 2023 15:00:19 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [davejiang:cxl-ide 5/24] lib/spdm_requester.c:501: warning:
+ Function parameter or member 'leaf_key' not described in 'spdm_state'
+Message-ID: <20230818130019.GA28158@wunner.de>
+References: <202308181526.l7us0AP7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <6173828b-183c-490d-abca-bdc72221bafc@app.fastmail.com>
-In-Reply-To: <202308181501.AR5HMDWC-lkp@intel.com>
-References: <202308181501.AR5HMDWC-lkp@intel.com>
-Date: Fri, 18 Aug 2023 14:36:37 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, "Michael Ellerman" <mpe@ellerman.id.au>
-Subject: Re: [powerpc:next-test 21/79]
- arch/powerpc/platforms/powermac/feature.c:137:19: error: unused function
- 'simple_feature_tweak'
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202308181526.l7us0AP7-lkp@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Fri, Aug 18, 2023, at 09:59, kernel test robot wrote:
-> tree:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git 
-> next-test
-> head:   c56963d48343b50998bacc6df949217c950163e3
-> commit: 54f30b83fe627453082f15d83d7820b28b2d24bb [21/79] powerpc: 
-> address missing-prototypes warnings
+On Fri, Aug 18, 2023 at 03:16:05PM +0800, kernel test robot wrote:
+> >> lib/spdm_requester.c:501: warning: Function parameter or member 'leaf_key' not described in 'spdm_state'
 
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202308181501.AR5HMDWC-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> arch/powerpc/platforms/powermac/feature.c:137:19: error: unused function 'simple_feature_tweak' [-Werror,-Wunused-function]
->    static inline int simple_feature_tweak(struct device_node *node, int type,
->                      ^
+Dave's branch is based on an older version my doe branch which
+didn't contain proper kernel-doc for the leaf_key member yet.
 
-This looks unrelated to my patch, but is easily addressed by marking
-the function __maybe_unused. The warning is triggered by clang specific
-behavior that treats inline functions in .c files differently, see
-6863f5643dd7 ("kbuild: allow Clang to find unused static inline functions
-for W=1 build")
+I've since added the kernel-doc, so after a rebase this warning
+should go away.
 
-     Arnd
+Thanks,
+
+Lukas
