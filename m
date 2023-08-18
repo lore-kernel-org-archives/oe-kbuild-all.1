@@ -1,104 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E651E380
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Aug 2023 03:24:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FBCAC433C8;
-	Fri, 18 Aug 2023 03:24:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692329073;
-	bh=qNRr6+x24LcKBk4geTb/46pv1/HC9zZu1tLc1Ev6D8A=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=lJnVrMc3HXLhbt4Zwbivk/SZ3v5+EEAEk+oW58m3KeR9HHEdfOLTSXyiC8WbTTGWR
-	 agCaua/Eg2lz7AlUdCorxNlsT6gPdEWVdBlnc+oSq0JhWY92x8hdl/y1vCAWx1vc9N
-	 IjWj0mPxSFEF3hEx41a5GSeRubQ56S+gSVwrgbBn5zQRlKimH0HHTNLAeJGCJjLys+
-	 juwzfZntU1k2VATVYGorghHGXg+rmQI1B7d6nijkd6VPju3O6e8HRKjYvPUjEK3dO5
-	 lzgbFOpjsLFc30rr27wxGxVC+bqqJGA7CNfXDcEZvKYIil+1D0NEul1QW+s6f9fug2
-	 v1qgw6RVuW6PQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id E12C6CE03F0; Thu, 17 Aug 2023 20:24:32 -0700 (PDT)
-Date: Thu, 17 Aug 2023 20:24:32 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [paulmck-rcu:locktorture.2023.08.17a 14/20]
- kernel/rcu/tree.c:4100:6: warning: no previous declaration for
- 'rcu_barrier_throttled'
-Message-ID: <3f3ebf13-2899-4246-af73-4c0c1b7c9f3a@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202308180853.brWVZKoo-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1020380;
+	Fri, 18 Aug 2023 03:26:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692329206; x=1723865206;
+  h=date:from:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Cu/D8T16n9qA/Mgk+zdIomIh4E03DEyhcRi8XmFKUDA=;
+  b=L0Ylo+ndFEbReuF6h6lK1igKn6AAhwsE0r+fPP8eTVyHm4OCBBQZOJjy
+   9cj1MERGY3+ZZS18Yw4HwuX75pVEqOxgQ0BUMwBiidnABNbOtt2i/Nhr3
+   jloM/vd7yeGi9gd3PRaoZdtkCOA22Nj1nftSTPwalwyNB6dPBUXLdbvm8
+   N1F0MONkX3/8Cu2CrN6ySeZPjS9c2uCcPbnJzLfXGHTVFs1VFhJqSGfB3
+   ehR5p5IhHsjZVzjTKeZKQR45L8nhQsJorRfvyQrwVJynL+joxsneL+jcV
+   PwRTXM35PyU4r7WrV7K91Eo/AxnUaf7vhZtbzplIBSUoaJ+cWhnsFRV76
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="459354581"
+X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
+   d="scan'208";a="459354581"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 20:26:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="804979505"
+X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
+   d="scan'208";a="804979505"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Aug 2023 20:26:44 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qWq8J-00023u-34;
+	Fri, 18 Aug 2023 03:26:43 +0000
+Date: Fri, 18 Aug 2023 11:26:05 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: Re: [PATCH-cgroup v7 1/6] cgroup/cpuset: Add
+ cpuset.cpus.exclusive.effective for v2
+Message-ID: <202308181153.3ZTvFaar-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <202308180853.brWVZKoo-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 18, 2023 at 09:02:35AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git locktorture.2023.08.17a
-> head:   ccd7c62460a1ca6a8fb800de0d50d973ba62dcb8
-> commit: 365332de5f7bd1ab448ad4a6bd73a4fc8f1cc8ec [14/20] rcu: Add sysfs to provide throttled access to rcu_barrier()
-> config: x86_64-randconfig-x071-20230818 (https://download.01.org/0day-ci/archive/20230818/202308180853.brWVZKoo-lkp@intel.com/config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180853.brWVZKoo-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308180853.brWVZKoo-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> kernel/rcu/tree.c:4100:6: warning: no previous declaration for 'rcu_barrier_throttled' [-Wmissing-declarations]
->     void rcu_barrier_throttled(void)
->          ^~~~~~~~~~~~~~~~~~~~~
+In-Reply-To: <20230817132454.755459-2-longman@redhat.com>
+References: <20230817132454.755459-2-longman@redhat.com>
+TO: Waiman Long <longman@redhat.com>
+TO: Tejun Heo <tj@kernel.org>
+TO: Zefan Li <lizefan.x@bytedance.com>
+TO: Johannes Weiner <hannes@cmpxchg.org>
+TO: Christian Brauner <brauner@kernel.org>
+TO: Jonathan Corbet <corbet@lwn.net>
+TO: Shuah Khan <skhan@linuxfoundation.org>
+CC: cgroups@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Juri Lelli <juri.lelli@redhat.com>
+CC: Dietmar Eggemann <dietmar.eggemann@arm.com>
+CC: "Michal Koutný" <mkoutny@suse.com>
+CC: Giuseppe Scrivano <gscrivan@redhat.com>
+CC: Waiman Long <longman@redhat.com>
 
-This has since been declared static in a later version of this commit at:
+Hi Waiman,
 
-f9d771b016ca ("rcu: Add sysfs to provide throttled access to rcu_barrier()")
+kernel test robot noticed the following build errors:
 
-Thank you for your testing efforts!
+[auto build test ERROR on next-20230817]
+[cannot apply to tj-cgroup/for-next v6.5-rc6 v6.5-rc5 v6.5-rc4 linus/master v6.5-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-							Thanx, Paul
+url:    https://github.com/intel-lab-lkp/linux/commits/Waiman-Long/cgroup-cpuset-Add-cpuset-cpus-exclusive-effective-for-v2/20230817-214025
+base:   next-20230817
+patch link:    https://lore.kernel.org/r/20230817132454.755459-2-longman%40redhat.com
+patch subject: [PATCH-cgroup v7 1/6] cgroup/cpuset: Add cpuset.cpus.exclusive.effective for v2
+config: riscv-randconfig-r042-20230818 (https://download.01.org/0day-ci/archive/20230818/202308181153.3ZTvFaar-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308181153.3ZTvFaar-lkp@intel.com/reproduce)
 
-> vim +/rcu_barrier_throttled +4100 kernel/rcu/tree.c
-> 
->   4083	
->   4084	/**
->   4085	 * rcu_barrier_throttled - Do rcu_barrier(), but limit to one per second
->   4086	 *
->   4087	 * This can be thought of as guard rails around rcu_barrier() that
->   4088	 * permits unrestricted userspace use, at least assuming the hardware's
->   4089	 * try_cmpxchg() is robust.  There will be at most one call per second to
->   4090	 * rcu_barrier() system-wide from use of this function, which means that
->   4091	 * callers might needlessly wait a second or three.
->   4092	 *
->   4093	 * This is intended for use by test suites to avoid OOM by flushing RCU
->   4094	 * callbacks from the previous test before starting the next.  See the
->   4095	 * rcutree.do_rcu_barrier module parameter for more information.
->   4096	 *
->   4097	 * Why not simply make rcu_barrier() more scalable?  That might be the
->   4098	 * eventual endpoint, but let's keep it simple for the time being.
->   4099	 */
-> > 4100	void rcu_barrier_throttled(void)
->   4101	{
->   4102		unsigned long j = jiffies;
->   4103		unsigned long old = READ_ONCE(rcu_barrier_last_throttle);
->   4104		unsigned long s = rcu_seq_snap(&rcu_state.barrier_sequence);
->   4105	
->   4106		while (time_after(old + HZ, j) || !try_cmpxchg(&rcu_barrier_last_throttle, &old, j + HZ)) {
->   4107			schedule_timeout_idle(HZ);
->   4108			if (rcu_seq_done(&rcu_state.barrier_sequence, s))
->   4109				return;
->   4110			old = READ_ONCE(rcu_barrier_last_throttle);
->   4111		}
->   4112		rcu_barrier();
->   4113	}
->   4114	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308181153.3ZTvFaar-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: vmlinux.a(fs/xfs/xfs_rmap_item.o):(function xfs_rmap_update_get_group: .text+0x56): relocation R_RISCV_HI20 out of range: 529929 is not in [-524288, 524287]; references .L__unnamed_1
+   >>> referenced by xfs_rmap_item.c:401 (fs/xfs/xfs_rmap_item.c:401)
+   >>> defined in vmlinux.a(fs/xfs/xfs_rmap_item.o)
+--
+>> ld.lld: error: vmlinux.a(fs/xfs/xfs_rmap_item.o):(function xfs_rmap_update_create_intent: .text+0xae): relocation R_RISCV_HI20 out of range: 525314 is not in [-524288, 524287]; references xfs_rmap_update_diff_items
+   >>> referenced by xfs_rmap_item.c:402 (fs/xfs/xfs_rmap_item.c:402)
+   >>> defined in vmlinux.a(fs/xfs/xfs_rmap_item.o)
+--
+>> ld.lld: error: vmlinux.a(fs/xfs/xfs_rmap_item.o):(function xfs_rmap_update_finish_item: .text+0x194): relocation R_RISCV_HI20 out of range: 530839 is not in [-524288, 524287]; references xfs_rmap_intent_cache
+   >>> referenced by xfs_rmap_item.c:401 (fs/xfs/xfs_rmap_item.c:401)
+   >>> defined in vmlinux.a(fs/xfs/libxfs/xfs_rmap.o)
+--
+>> ld.lld: error: vmlinux.a(fs/xfs/xfs_rmap_item.o):(function xfs_rmap_update_cancel_item: .text+0x1cc): relocation R_RISCV_HI20 out of range: 530839 is not in [-524288, 524287]; references xfs_rmap_intent_cache
+   >>> referenced by xfs_rmap_item.c:401 (fs/xfs/xfs_rmap_item.c:401)
+   >>> defined in vmlinux.a(fs/xfs/libxfs/xfs_rmap.o)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
