@@ -1,216 +1,381 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FBA6FAA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 13:04:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4C76ABA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 13:04:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692623077; x=1724159077;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9+jeni15yFVJo+yYmKNq7jEt3xhp7Y9ojBWKnFOKBUM=;
-  b=mjHTuBgU6bLA7xgm3PiK8eNoxv/KcjTsjjls8NpkhGDGHX8ZvrWl3etf
-   Ad8hhBr3sQ4FnokXdGfFd2JuGuvRQxUcmEExbphfmmcPHOfrkFLpfa48V
-   lM++GbpbuJtyXoUaAyg4MzEax2CI3VEoV3dnFDVd5xXPLddOljy7bgKpU
-   ZbzJqWmvJo1Wwsvarl92ufB1IvPatKpZnP4XnchW6A9qBNDnk7LMHW1qC
-   NRXsFd/gdHKiJs7O1en/E2uIIscTJ7sbhASPYIWotmNgSVjy80Riz9E0n
-   HzPKe6JtqFFiP0z0nq0KpLECuZJu4+19Rh0JN7jBxmDUn6hSYiT8ADpLl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="373554350"
+  t=1692623079; x=1724159079;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WT1mX6rZ3L49id0vZmYLCrufKE+Qm4pO3vdTIW7M3S4=;
+  b=U34jNw1RZORV2H3i7qolbM5Ho8WBCZbTRRxkBh2Tn0oTnG2FTRtonUdk
+   Du+s7+kU688eKMZuhaVvsvP0AQahLmnygqv47QEfA+lafznVkHzOYNVjm
+   TakZIV3RwIVjzoY9Eo9dQJ582YtgyhaY41/rW6UFcxCBmRhwHxG5WZ2yc
+   IpZSWUnIg2FQt+hRvdoO8jhHkBYDnMJZXCRR0RlrRjWS5ebtXjPNw7igx
+   GSlC+4Osz9ACK1raQ9rX+r0IEwoZUQIoCKX1fUgb4gI4upsnJReyZfWhW
+   kfO9FJA4eKAGW8FhLDUrd7j6B7xCXoXxWgMPDuIDs35P9OHWohxx+3QzR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="373554348"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="373554350"
+   d="scan'208";a="373554348"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 06:04:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="729425281"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="729425282"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="729425281"
+   d="scan'208";a="729425282"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
   by orsmga007.jf.intel.com with ESMTP; 21 Aug 2023 06:04:18 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qY4Zt-0000VC-2n;
+	id 1qY4Zt-0000VH-2u;
 	Mon, 21 Aug 2023 13:04:17 +0000
-Date: Mon, 21 Aug 2023 21:03:49 +0800
+Date: Mon, 21 Aug 2023 21:03:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiubo Li <xiubli@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
-	Patrick Donnelly <pdonnell@redhat.com>
-Subject: [ceph-client:testing 78/96] fs/ceph/mds_client.c:2639: warning:
- Function parameter or member 'mdsc' not described in 'ceph_mdsc_build_path'
-Message-ID: <202308212002.IYVp010T-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:ceph-iter 7/30] fs/smb/client/cifs_debug.h:15:21:
+ warning: format '%lu' expects argument of type 'long unsigned int', but
+ argument 7 has type 'unsigned int'
+Message-ID: <202308212051.TKT4uSNR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/ceph/ceph-client.git testing
-head:   a7fb1265323db972dd333f71b9a53e9479f62e37
-commit: 7072b2e8839b81f9781603bd2c5e40c9ccd13f6a [78/96] ceph: pass the mdsc to several helpers
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230821/202308212002.IYVp010T-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212002.IYVp010T-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
+head:   d98064c4bf02eba42e22917aecccfb339c094d26
+commit: 9278a88ed9fd5de83c156b392c103954d197661d [7/30] iov: Add a 2-level bvec iterator
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230821/202308212051.TKT4uSNR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212051.TKT4uSNR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308212002.IYVp010T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308212051.TKT4uSNR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/ceph/mds_client.c:2639: warning: Function parameter or member 'mdsc' not described in 'ceph_mdsc_build_path'
+                    from arch/alpha/include/asm/bug.h:23,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/alpha/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/smb/client/file.c:11:
+   fs/smb/client/file.c: In function 'cifs_write_from_iter':
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/linux/printk.h:634:9: note: in expansion of macro 'no_printk'
+     634 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/linux/printk.h:634:19: note: in expansion of macro 'KERN_DEBUG'
+     634 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |                   ^~~~~~~~~~
+   fs/smb/client/cifs_debug.h:65:17: note: in expansion of macro 'pr_debug_once'
+      65 |                 pr_debug_ ## ratefunc("%s: " fmt,                       \
+         |                 ^~~~~~~~~
+   fs/smb/client/cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
+      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3426:17: note: in expansion of macro 'cifs_dbg'
+    3426 |                 cifs_dbg(FYI, "write_from_iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/once_lite.h:31:25: note: in expansion of macro 'printk'
+      31 |                         func(__VA_ARGS__);                              \
+         |                         ^~~~
+   include/linux/once_lite.h:11:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+      11 |         DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/printk.h:594:9: note: in expansion of macro 'DO_ONCE_LITE'
+     594 |         DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   include/linux/printk.h:611:9: note: in expansion of macro 'printk_once'
+     611 |         printk_once(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:611:21: note: in expansion of macro 'KERN_ERR'
+     611 |         printk_once(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                     ^~~~~~~~
+   fs/smb/client/cifs_debug.h:68:17: note: in expansion of macro 'pr_err_once'
+      68 |                 pr_err_ ## ratefunc("VFS: " fmt, ##__VA_ARGS__);        \
+         |                 ^~~~~~~
+   fs/smb/client/cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
+      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3426:17: note: in expansion of macro 'cifs_dbg'
+    3426 |                 cifs_dbg(FYI, "write_from_iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/linux/printk.h:634:9: note: in expansion of macro 'no_printk'
+     634 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/linux/printk.h:634:19: note: in expansion of macro 'KERN_DEBUG'
+     634 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |                   ^~~~~~~~~~
+   fs/smb/client/cifs_debug.h:70:17: note: in expansion of macro 'pr_debug_once'
+      70 |                 pr_debug_ ## ratefunc(fmt, ##__VA_ARGS__);              \
+         |                 ^~~~~~~~~
+   fs/smb/client/cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
+      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3426:17: note: in expansion of macro 'cifs_dbg'
+    3426 |                 cifs_dbg(FYI, "write_from_iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+   In file included from fs/smb/client/file.c:32:
+>> fs/smb/client/cifs_debug.h:15:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'unsigned int' [-Wformat=]
+      15 | #define pr_fmt(fmt) "CIFS: " fmt
+         |                     ^~~~~~~~
+   include/linux/printk.h:692:49: note: in expansion of macro 'pr_fmt'
+     692 |                 __dynamic_pr_debug(&descriptor, pr_fmt(fmt), ##__VA_ARGS__);    \
+         |                                                 ^~~~~~
+   fs/smb/client/cifs_debug.h:65:17: note: in expansion of macro 'pr_debug_ratelimited'
+      65 |                 pr_debug_ ## ratefunc("%s: " fmt,                       \
+         |                 ^~~~~~~~~
+   fs/smb/client/cifs_debug.h:79:17: note: in expansion of macro 'cifs_dbg_func'
+      79 |                 cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3426:17: note: in expansion of macro 'cifs_dbg'
+    3426 |                 cifs_dbg(FYI, "write_from_iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:649:17: note: in expansion of macro 'printk'
+     649 |                 printk(fmt, ##__VA_ARGS__);                             \
+         |                 ^~~~~~
+   include/linux/printk.h:663:9: note: in expansion of macro 'printk_ratelimited'
+     663 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:663:28: note: in expansion of macro 'KERN_ERR'
+     663 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                            ^~~~~~~~
+   fs/smb/client/cifs_debug.h:68:17: note: in expansion of macro 'pr_err_ratelimited'
+      68 |                 pr_err_ ## ratefunc("VFS: " fmt, ##__VA_ARGS__);        \
+         |                 ^~~~~~~
+   fs/smb/client/cifs_debug.h:79:17: note: in expansion of macro 'cifs_dbg_func'
+      79 |                 cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3426:17: note: in expansion of macro 'cifs_dbg'
+    3426 |                 cifs_dbg(FYI, "write_from_iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+   fs/smb/client/cifs_debug.h:15:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'unsigned int' [-Wformat=]
+      15 | #define pr_fmt(fmt) "CIFS: " fmt
+         |                     ^~~~~~~~
+   include/linux/printk.h:692:49: note: in expansion of macro 'pr_fmt'
+     692 |                 __dynamic_pr_debug(&descriptor, pr_fmt(fmt), ##__VA_ARGS__);    \
+         |                                                 ^~~~~~
+   fs/smb/client/cifs_debug.h:70:17: note: in expansion of macro 'pr_debug_ratelimited'
+      70 |                 pr_debug_ ## ratefunc(fmt, ##__VA_ARGS__);              \
+         |                 ^~~~~~~~~
+   fs/smb/client/cifs_debug.h:79:17: note: in expansion of macro 'cifs_dbg_func'
+      79 |                 cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3426:17: note: in expansion of macro 'cifs_dbg'
+    3426 |                 cifs_dbg(FYI, "write_from_iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+   fs/smb/client/file.c: In function 'cifs_send_async_read':
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/linux/printk.h:634:9: note: in expansion of macro 'no_printk'
+     634 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/linux/printk.h:634:19: note: in expansion of macro 'KERN_DEBUG'
+     634 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |                   ^~~~~~~~~~
+   fs/smb/client/cifs_debug.h:65:17: note: in expansion of macro 'pr_debug_once'
+      65 |                 pr_debug_ ## ratefunc("%s: " fmt,                       \
+         |                 ^~~~~~~~~
+   fs/smb/client/cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
+      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3957:17: note: in expansion of macro 'cifs_dbg'
+    3957 |                 cifs_dbg(FYI, "read-to-iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/once_lite.h:31:25: note: in expansion of macro 'printk'
+      31 |                         func(__VA_ARGS__);                              \
+         |                         ^~~~
+   include/linux/once_lite.h:11:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+      11 |         DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/printk.h:594:9: note: in expansion of macro 'DO_ONCE_LITE'
+     594 |         DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   include/linux/printk.h:611:9: note: in expansion of macro 'printk_once'
+     611 |         printk_once(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:611:21: note: in expansion of macro 'KERN_ERR'
+     611 |         printk_once(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                     ^~~~~~~~
+   fs/smb/client/cifs_debug.h:68:17: note: in expansion of macro 'pr_err_once'
+      68 |                 pr_err_ ## ratefunc("VFS: " fmt, ##__VA_ARGS__);        \
+         |                 ^~~~~~~
+   fs/smb/client/cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
+      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3957:17: note: in expansion of macro 'cifs_dbg'
+    3957 |                 cifs_dbg(FYI, "read-to-iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/linux/printk.h:634:9: note: in expansion of macro 'no_printk'
+     634 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/linux/printk.h:634:19: note: in expansion of macro 'KERN_DEBUG'
+     634 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |                   ^~~~~~~~~~
+   fs/smb/client/cifs_debug.h:70:17: note: in expansion of macro 'pr_debug_once'
+      70 |                 pr_debug_ ## ratefunc(fmt, ##__VA_ARGS__);              \
+         |                 ^~~~~~~~~
+   fs/smb/client/cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
+      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3957:17: note: in expansion of macro 'cifs_dbg'
+    3957 |                 cifs_dbg(FYI, "read-to-iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+>> fs/smb/client/cifs_debug.h:15:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'unsigned int' [-Wformat=]
+      15 | #define pr_fmt(fmt) "CIFS: " fmt
+         |                     ^~~~~~~~
+   include/linux/printk.h:692:49: note: in expansion of macro 'pr_fmt'
+     692 |                 __dynamic_pr_debug(&descriptor, pr_fmt(fmt), ##__VA_ARGS__);    \
+         |                                                 ^~~~~~
+   fs/smb/client/cifs_debug.h:65:17: note: in expansion of macro 'pr_debug_ratelimited'
+      65 |                 pr_debug_ ## ratefunc("%s: " fmt,                       \
+         |                 ^~~~~~~~~
+   fs/smb/client/cifs_debug.h:79:17: note: in expansion of macro 'cifs_dbg_func'
+      79 |                 cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3957:17: note: in expansion of macro 'cifs_dbg'
+    3957 |                 cifs_dbg(FYI, "read-to-iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:649:17: note: in expansion of macro 'printk'
+     649 |                 printk(fmt, ##__VA_ARGS__);                             \
+         |                 ^~~~~~
+   include/linux/printk.h:663:9: note: in expansion of macro 'printk_ratelimited'
+     663 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:663:28: note: in expansion of macro 'KERN_ERR'
+     663 |         printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                            ^~~~~~~~
+   fs/smb/client/cifs_debug.h:68:17: note: in expansion of macro 'pr_err_ratelimited'
+      68 |                 pr_err_ ## ratefunc("VFS: " fmt, ##__VA_ARGS__);        \
+         |                 ^~~~~~~
+   fs/smb/client/cifs_debug.h:79:17: note: in expansion of macro 'cifs_dbg_func'
+      79 |                 cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3957:17: note: in expansion of macro 'cifs_dbg'
+    3957 |                 cifs_dbg(FYI, "read-to-iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
+   fs/smb/client/cifs_debug.h:15:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'unsigned int' [-Wformat=]
+      15 | #define pr_fmt(fmt) "CIFS: " fmt
+         |                     ^~~~~~~~
+   include/linux/printk.h:692:49: note: in expansion of macro 'pr_fmt'
+     692 |                 __dynamic_pr_debug(&descriptor, pr_fmt(fmt), ##__VA_ARGS__);    \
+         |                                                 ^~~~~~
+   fs/smb/client/cifs_debug.h:70:17: note: in expansion of macro 'pr_debug_ratelimited'
+      70 |                 pr_debug_ ## ratefunc(fmt, ##__VA_ARGS__);              \
+         |                 ^~~~~~~~~
+   fs/smb/client/cifs_debug.h:79:17: note: in expansion of macro 'cifs_dbg_func'
+      79 |                 cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
+         |                 ^~~~~~~~~~~~~
+   fs/smb/client/file.c:3957:17: note: in expansion of macro 'cifs_dbg'
+    3957 |                 cifs_dbg(FYI, "read-to-iter len=%zx/%zx nsegs=%u/%lu/%u\n",
+         |                 ^~~~~~~~
 
 
-vim +2639 fs/ceph/mds_client.c
+vim +15 fs/smb/client/cifs_debug.h
 
-5d7efc49126a6d Jeff Layton    2021-01-14  2616  
-0874db5f86bc5b Jeff Layton    2020-08-07  2617  /**
-0874db5f86bc5b Jeff Layton    2020-08-07  2618   * ceph_mdsc_build_path - build a path string to a given dentry
-0874db5f86bc5b Jeff Layton    2020-08-07  2619   * @dentry: dentry to which path should be built
-0874db5f86bc5b Jeff Layton    2020-08-07  2620   * @plen: returned length of string
-0874db5f86bc5b Jeff Layton    2020-08-07  2621   * @pbase: returned base inode number
-0874db5f86bc5b Jeff Layton    2020-08-07  2622   * @for_wire: is this path going to be sent to the MDS?
-0874db5f86bc5b Jeff Layton    2020-08-07  2623   *
-0874db5f86bc5b Jeff Layton    2020-08-07  2624   * Build a string that represents the path to the dentry. This is mostly called
-0874db5f86bc5b Jeff Layton    2020-08-07  2625   * for two different purposes:
-0874db5f86bc5b Jeff Layton    2020-08-07  2626   *
-0874db5f86bc5b Jeff Layton    2020-08-07  2627   * 1) we need to build a path string to send to the MDS (for_wire == true)
-0874db5f86bc5b Jeff Layton    2020-08-07  2628   * 2) we need a path string for local presentation (e.g. debugfs) (for_wire == false)
-2f2dc053404feb Sage Weil      2009-10-06  2629   *
-0874db5f86bc5b Jeff Layton    2020-08-07  2630   * The path is built in reverse, starting with the dentry. Walk back up toward
-0874db5f86bc5b Jeff Layton    2020-08-07  2631   * the root, building the path until the first non-snapped inode is reached (for_wire)
-0874db5f86bc5b Jeff Layton    2020-08-07  2632   * or the root inode is reached (!for_wire).
-2f2dc053404feb Sage Weil      2009-10-06  2633   *
-2f2dc053404feb Sage Weil      2009-10-06  2634   * Encode hidden .snap dirs as a double /, i.e.
-2f2dc053404feb Sage Weil      2009-10-06  2635   *   foo/.snap/bar -> foo//bar
-2f2dc053404feb Sage Weil      2009-10-06  2636   */
-7072b2e8839b81 Xiubo Li       2023-06-09  2637  char *ceph_mdsc_build_path(struct ceph_mds_client *mdsc, struct dentry *dentry,
-7072b2e8839b81 Xiubo Li       2023-06-09  2638  			   int *plen, u64 *pbase, int for_wire)
-2f2dc053404feb Sage Weil      2009-10-06 @2639  {
-1b82f60fdbf92e Jeff Layton    2020-08-05  2640  	struct dentry *cur;
-1b82f60fdbf92e Jeff Layton    2020-08-05  2641  	struct inode *inode;
-2f2dc053404feb Sage Weil      2009-10-06  2642  	char *path;
-f77f21bb28367d Jeff Layton    2019-04-29  2643  	int pos;
-1b71fe2efa31cd Al Viro        2011-07-16  2644  	unsigned seq;
-69a10fb3f4b876 Jeff Layton    2019-04-26  2645  	u64 base;
-2f2dc053404feb Sage Weil      2009-10-06  2646  
-d37b1d9943d513 Markus Elfring 2017-08-20  2647  	if (!dentry)
-2f2dc053404feb Sage Weil      2009-10-06  2648  		return ERR_PTR(-EINVAL);
-2f2dc053404feb Sage Weil      2009-10-06  2649  
-f77f21bb28367d Jeff Layton    2019-04-29  2650  	path = __getname();
-d37b1d9943d513 Markus Elfring 2017-08-20  2651  	if (!path)
-2f2dc053404feb Sage Weil      2009-10-06  2652  		return ERR_PTR(-ENOMEM);
-f77f21bb28367d Jeff Layton    2019-04-29  2653  retry:
-f77f21bb28367d Jeff Layton    2019-04-29  2654  	pos = PATH_MAX - 1;
-f77f21bb28367d Jeff Layton    2019-04-29  2655  	path[pos] = '\0';
-f77f21bb28367d Jeff Layton    2019-04-29  2656  
-f77f21bb28367d Jeff Layton    2019-04-29  2657  	seq = read_seqbegin(&rename_lock);
-1b82f60fdbf92e Jeff Layton    2020-08-05  2658  	cur = dget(dentry);
-f77f21bb28367d Jeff Layton    2019-04-29  2659  	for (;;) {
-0874db5f86bc5b Jeff Layton    2020-08-07  2660  		struct dentry *parent;
-2f2dc053404feb Sage Weil      2009-10-06  2661  
-1b82f60fdbf92e Jeff Layton    2020-08-05  2662  		spin_lock(&cur->d_lock);
-1b82f60fdbf92e Jeff Layton    2020-08-05  2663  		inode = d_inode(cur);
-2f2dc053404feb Sage Weil      2009-10-06  2664  		if (inode && ceph_snap(inode) == CEPH_SNAPDIR) {
-104648ad3f2ebe Sage Weil      2010-03-18  2665  			dout("build_path path+%d: %p SNAPDIR\n",
-1b82f60fdbf92e Jeff Layton    2020-08-05  2666  			     pos, cur);
-0874db5f86bc5b Jeff Layton    2020-08-07  2667  			spin_unlock(&cur->d_lock);
-0874db5f86bc5b Jeff Layton    2020-08-07  2668  			parent = dget_parent(cur);
-0874db5f86bc5b Jeff Layton    2020-08-07  2669  		} else if (for_wire && inode && dentry != cur && ceph_snap(inode) == CEPH_NOSNAP) {
-1b82f60fdbf92e Jeff Layton    2020-08-05  2670  			spin_unlock(&cur->d_lock);
-d6b8bd679c9c88 Jeff Layton    2019-05-09  2671  			pos++; /* get rid of any prepended '/' */
-2f2dc053404feb Sage Weil      2009-10-06  2672  			break;
-0874db5f86bc5b Jeff Layton    2020-08-07  2673  		} else if (!for_wire || !IS_ENCRYPTED(d_inode(cur->d_parent))) {
-1b82f60fdbf92e Jeff Layton    2020-08-05  2674  			pos -= cur->d_name.len;
-1b71fe2efa31cd Al Viro        2011-07-16  2675  			if (pos < 0) {
-1b82f60fdbf92e Jeff Layton    2020-08-05  2676  				spin_unlock(&cur->d_lock);
-2f2dc053404feb Sage Weil      2009-10-06  2677  				break;
-1b71fe2efa31cd Al Viro        2011-07-16  2678  			}
-1b82f60fdbf92e Jeff Layton    2020-08-05  2679  			memcpy(path + pos, cur->d_name.name, cur->d_name.len);
-0874db5f86bc5b Jeff Layton    2020-08-07  2680  			spin_unlock(&cur->d_lock);
-0874db5f86bc5b Jeff Layton    2020-08-07  2681  			parent = dget_parent(cur);
-0874db5f86bc5b Jeff Layton    2020-08-07  2682  		} else {
-0874db5f86bc5b Jeff Layton    2020-08-07  2683  			int len, ret;
-0874db5f86bc5b Jeff Layton    2020-08-07  2684  			char buf[NAME_MAX];
-0874db5f86bc5b Jeff Layton    2020-08-07  2685  
-0874db5f86bc5b Jeff Layton    2020-08-07  2686  			/*
-0874db5f86bc5b Jeff Layton    2020-08-07  2687  			 * Proactively copy name into buf, in case we need to present
-0874db5f86bc5b Jeff Layton    2020-08-07  2688  			 * it as-is.
-0874db5f86bc5b Jeff Layton    2020-08-07  2689  			 */
-0874db5f86bc5b Jeff Layton    2020-08-07  2690  			memcpy(buf, cur->d_name.name, cur->d_name.len);
-0874db5f86bc5b Jeff Layton    2020-08-07  2691  			len = cur->d_name.len;
-0874db5f86bc5b Jeff Layton    2020-08-07  2692  			spin_unlock(&cur->d_lock);
-0874db5f86bc5b Jeff Layton    2020-08-07  2693  			parent = dget_parent(cur);
-0874db5f86bc5b Jeff Layton    2020-08-07  2694  
-97142624013d56 Luís Henriques 2022-11-29  2695  			ret = ceph_fscrypt_prepare_readdir(d_inode(parent));
-0874db5f86bc5b Jeff Layton    2020-08-07  2696  			if (ret < 0) {
-0874db5f86bc5b Jeff Layton    2020-08-07  2697  				dput(parent);
-0874db5f86bc5b Jeff Layton    2020-08-07  2698  				dput(cur);
-0874db5f86bc5b Jeff Layton    2020-08-07  2699  				return ERR_PTR(ret);
-0874db5f86bc5b Jeff Layton    2020-08-07  2700  			}
-0874db5f86bc5b Jeff Layton    2020-08-07  2701  
-0874db5f86bc5b Jeff Layton    2020-08-07  2702  			if (fscrypt_has_encryption_key(d_inode(parent))) {
-0874db5f86bc5b Jeff Layton    2020-08-07  2703  				len = ceph_encode_encrypted_fname(d_inode(parent), cur, buf);
-0874db5f86bc5b Jeff Layton    2020-08-07  2704  				if (len < 0) {
-0874db5f86bc5b Jeff Layton    2020-08-07  2705  					dput(parent);
-0874db5f86bc5b Jeff Layton    2020-08-07  2706  					dput(cur);
-0874db5f86bc5b Jeff Layton    2020-08-07  2707  					return ERR_PTR(len);
-2f2dc053404feb Sage Weil      2009-10-06  2708  				}
-0874db5f86bc5b Jeff Layton    2020-08-07  2709  			}
-0874db5f86bc5b Jeff Layton    2020-08-07  2710  			pos -= len;
-0874db5f86bc5b Jeff Layton    2020-08-07  2711  			if (pos < 0) {
-0874db5f86bc5b Jeff Layton    2020-08-07  2712  				dput(parent);
-0874db5f86bc5b Jeff Layton    2020-08-07  2713  				break;
-0874db5f86bc5b Jeff Layton    2020-08-07  2714  			}
-0874db5f86bc5b Jeff Layton    2020-08-07  2715  			memcpy(path + pos, buf, len);
-0874db5f86bc5b Jeff Layton    2020-08-07  2716  		}
-0874db5f86bc5b Jeff Layton    2020-08-07  2717  		dput(cur);
-0874db5f86bc5b Jeff Layton    2020-08-07  2718  		cur = parent;
-f77f21bb28367d Jeff Layton    2019-04-29  2719  
-f77f21bb28367d Jeff Layton    2019-04-29  2720  		/* Are we at the root? */
-1b82f60fdbf92e Jeff Layton    2020-08-05  2721  		if (IS_ROOT(cur))
-f77f21bb28367d Jeff Layton    2019-04-29  2722  			break;
-f77f21bb28367d Jeff Layton    2019-04-29  2723  
-f77f21bb28367d Jeff Layton    2019-04-29  2724  		/* Are we out of buffer? */
-f77f21bb28367d Jeff Layton    2019-04-29  2725  		if (--pos < 0)
-f77f21bb28367d Jeff Layton    2019-04-29  2726  			break;
-f77f21bb28367d Jeff Layton    2019-04-29  2727  
-f77f21bb28367d Jeff Layton    2019-04-29  2728  		path[pos] = '/';
-2f2dc053404feb Sage Weil      2009-10-06  2729  	}
-1b82f60fdbf92e Jeff Layton    2020-08-05  2730  	inode = d_inode(cur);
-1b82f60fdbf92e Jeff Layton    2020-08-05  2731  	base = inode ? ceph_ino(inode) : 0;
-1b82f60fdbf92e Jeff Layton    2020-08-05  2732  	dput(cur);
-f5946bcc5e7903 Jeff Layton    2019-10-16  2733  
-f5946bcc5e7903 Jeff Layton    2019-10-16  2734  	if (read_seqretry(&rename_lock, seq))
-f5946bcc5e7903 Jeff Layton    2019-10-16  2735  		goto retry;
-f5946bcc5e7903 Jeff Layton    2019-10-16  2736  
-f5946bcc5e7903 Jeff Layton    2019-10-16  2737  	if (pos < 0) {
-f5946bcc5e7903 Jeff Layton    2019-10-16  2738  		/*
-f5946bcc5e7903 Jeff Layton    2019-10-16  2739  		 * A rename didn't occur, but somehow we didn't end up where
-f5946bcc5e7903 Jeff Layton    2019-10-16  2740  		 * we thought we would. Throw a warning and try again.
-f5946bcc5e7903 Jeff Layton    2019-10-16  2741  		 */
-0874db5f86bc5b Jeff Layton    2020-08-07  2742  		pr_warn("build_path did not end path lookup where expected (pos = %d)\n", pos);
-2f2dc053404feb Sage Weil      2009-10-06  2743  		goto retry;
-2f2dc053404feb Sage Weil      2009-10-06  2744  	}
-2f2dc053404feb Sage Weil      2009-10-06  2745  
-69a10fb3f4b876 Jeff Layton    2019-04-26  2746  	*pbase = base;
-f77f21bb28367d Jeff Layton    2019-04-29  2747  	*plen = PATH_MAX - 1 - pos;
-104648ad3f2ebe Sage Weil      2010-03-18  2748  	dout("build_path on %p %d built %llx '%.*s'\n",
-f77f21bb28367d Jeff Layton    2019-04-29  2749  	     dentry, d_count(dentry), base, *plen, path + pos);
-f77f21bb28367d Jeff Layton    2019-04-29  2750  	return path + pos;
-2f2dc053404feb Sage Weil      2009-10-06  2751  }
-2f2dc053404feb Sage Weil      2009-10-06  2752  
+a0a3036b81f1f6 fs/cifs/cifs_debug.h Joe Perches 2020-04-14  14  
+a0a3036b81f1f6 fs/cifs/cifs_debug.h Joe Perches 2020-04-14 @15  #define pr_fmt(fmt) "CIFS: " fmt
+a0a3036b81f1f6 fs/cifs/cifs_debug.h Joe Perches 2020-04-14  16  
 
-:::::: The code at line 2639 was first introduced by commit
-:::::: 2f2dc053404febedc9c273452d9d518fb31fde72 ceph: MDS client
+:::::: The code at line 15 was first introduced by commit
+:::::: a0a3036b81f1f66fa3333559ecfe18f5bbfa5076 cifs: Standardize logging output
 
-:::::: TO: Sage Weil <sage@newdream.net>
-:::::: CC: Sage Weil <sage@newdream.net>
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
