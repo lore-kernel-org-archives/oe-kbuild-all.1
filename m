@@ -1,43 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2521ADE9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A8D1ADF7
 	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 23:29:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692660582; x=1724196582;
+  t=1692660583; x=1724196583;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YU++LfG6VHIWrZnWM3CUqnMmf/AA0O9MDtpmj7X5D3Y=;
-  b=F8zv18T7i7EOkbDpDetsWVXGZpBH+WFdfsugtj7N2mXCw/UpzVNPN5ue
-   xMz9fZT3oIUn7kLDKzaGuGr19qKrYEf9DqT6xVwwDfxKqIJ2RhjEvH+P1
-   CW//A/PODpv9zvOkl1fOizvQrqHQ1UGE/DYyvjuqRzq26oqr/lCCd+p+4
-   mXqnLNd/U5TtloiNrW0WoZpoTYjH9Vb3IXZptVy2Z/T/siU7v1Kr3MQos
-   7mZGq0llbVBeXmAv65+yf4WJsDp4M6t38wPVSq1QgdhjI3v3F6JgGXNEK
-   9ZZvdlv/2RcyljtBks8aR43Hg506H7mcHBR+qgYieefxcFrJJv4K3YcjD
+  bh=U2iIqr0YL6L2uPTkQS2SW+/1NPESJCje4MuYIhOORRw=;
+  b=F9paFKmE+pi9h/zydjbW7wkZ+w8Uw7GQy8cRKitcELXWYqmCuWAOAjog
+   0KM6tIncjMtuuDOR3spGD/oIDoUP1vB8ssdXSZApf7ZMiDkpYSOvBcp1x
+   QodsW6Wr6EevCbFyT/jARi7FfCXAQWBcvvpMxj0jP7Yx7Bq0w6OMEQuN2
+   kk8xT/w/dO4Zq/Y6rO+/fh/AR6Sm2raE08+ft1TPvuwxLXl4V6P2EmqIJ
+   ksPJr++1S1mATO0EoVMkaQ9PZqasTOhLKrvMqS2OE9C4X2VoBVt/RAUIh
+   38wVUv23eNFvPjotXvsGpUfMueD6qytbfTZs1AkNgmppZmdUFO4MMq/Ak
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="404727903"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="404727908"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="404727903"
+   d="scan'208";a="404727908"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 16:29:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="765547690"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="765547691"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="765547690"
+   d="scan'208";a="765547691"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
   by orsmga008.jf.intel.com with ESMTP; 21 Aug 2023 16:29:36 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYEL1-00013Y-2j;
+	id 1qYEL1-00013W-2e;
 	Mon, 21 Aug 2023 23:29:35 +0000
 Date: Tue, 22 Aug 2023 07:28:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Sumit Garg <sumit.garg@linaro.org>
-Subject: drivers/tee/optee/smc_abi.c:764: warning: Function parameter or
- member 'rpc_arg' not described in 'optee_handle_rpc'
-Message-ID: <202308220738.sgTYArkx-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: [powerpc:next-test 9/109] arch/powerpc/include/asm/paca.h:155:30:
+ error: field 'tcd' has incomplete type
+Message-ID: <202308220708.nRf5AUAe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,103 +47,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f7757129e3dea336c407551c98f50057c22bb266
-commit: ed8faf6c8f8c1f7e9ee88342a915ce5f09ca9736 optee: add OPTEE_SMC_CALL_WITH_RPC_ARG and OPTEE_SMC_CALL_WITH_REGD_ARG
-date:   1 year, 4 months ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230822/202308220738.sgTYArkx-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220738.sgTYArkx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next-test
+head:   0f71dcfb4aef6043da6cc509e7a7f6a3ae87c12d
+commit: 3a24ea0df83e32355d897a18bbd82e05986dcdc3 [9/109] powerpc/kuap: Use ASM feature fixups instead of static branches
+config: powerpc64-randconfig-r036-20230822 (https://download.01.org/0day-ci/archive/20230822/202308220708.nRf5AUAe-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220708.nRf5AUAe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308220738.sgTYArkx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308220708.nRf5AUAe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/tee/optee/smc_abi.c:764: warning: Function parameter or member 'rpc_arg' not described in 'optee_handle_rpc'
+   In file included from arch/powerpc/include/asm/percpu.h:20,
+                    from arch/powerpc/include/asm/mmu.h:148,
+                    from arch/powerpc/include/asm/nohash/kup-booke.h:6,
+                    from arch/powerpc/include/asm/kup.h:24,
+                    from arch/powerpc/mm/nohash/kup.c:11:
+>> arch/powerpc/include/asm/paca.h:155:30: error: field 'tcd' has incomplete type
+     155 |         struct tlb_core_data tcd;
+         |                              ^~~
+   arch/powerpc/include/asm/paca.h:291:36: error: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+     291 | extern void copy_mm_to_paca(struct mm_struct *mm);
+         |                                    ^~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +764 drivers/tee/optee/smc_abi.c
+vim +/tcd +155 arch/powerpc/include/asm/paca.h
 
-c51a564a5b4835 Jens Wiklander 2021-07-21  751  
-c51a564a5b4835 Jens Wiklander 2021-07-21  752  /**
-c51a564a5b4835 Jens Wiklander 2021-07-21  753   * optee_handle_rpc() - handle RPC from secure world
-c51a564a5b4835 Jens Wiklander 2021-07-21  754   * @ctx:	context doing the RPC
-c51a564a5b4835 Jens Wiklander 2021-07-21  755   * @param:	value of registers for the RPC
-c51a564a5b4835 Jens Wiklander 2021-07-21  756   * @call_ctx:	call context. Preserved during one OP-TEE invocation
-c51a564a5b4835 Jens Wiklander 2021-07-21  757   *
-c51a564a5b4835 Jens Wiklander 2021-07-21  758   * Result of RPC is written back into @param.
-c51a564a5b4835 Jens Wiklander 2021-07-21  759   */
-c51a564a5b4835 Jens Wiklander 2021-07-21  760  static void optee_handle_rpc(struct tee_context *ctx,
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  761  			     struct optee_msg_arg *rpc_arg,
-c51a564a5b4835 Jens Wiklander 2021-07-21  762  			     struct optee_rpc_param *param,
-c51a564a5b4835 Jens Wiklander 2021-07-21  763  			     struct optee_call_ctx *call_ctx)
-c51a564a5b4835 Jens Wiklander 2021-07-21 @764  {
-c51a564a5b4835 Jens Wiklander 2021-07-21  765  	struct tee_device *teedev = ctx->teedev;
-c51a564a5b4835 Jens Wiklander 2021-07-21  766  	struct optee *optee = tee_get_drvdata(teedev);
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  767  	struct optee_msg_arg *arg;
-c51a564a5b4835 Jens Wiklander 2021-07-21  768  	struct tee_shm *shm;
-c51a564a5b4835 Jens Wiklander 2021-07-21  769  	phys_addr_t pa;
-c51a564a5b4835 Jens Wiklander 2021-07-21  770  
-c51a564a5b4835 Jens Wiklander 2021-07-21  771  	switch (OPTEE_SMC_RETURN_GET_RPC_FUNC(param->a0)) {
-c51a564a5b4835 Jens Wiklander 2021-07-21  772  	case OPTEE_SMC_RPC_FUNC_ALLOC:
-5d41f1b3e32829 Jens Wiklander 2022-02-04  773  		shm = tee_shm_alloc_priv_buf(optee->ctx, param->a1);
-c51a564a5b4835 Jens Wiklander 2021-07-21  774  		if (!IS_ERR(shm) && !tee_shm_get_pa(shm, 0, &pa)) {
-c51a564a5b4835 Jens Wiklander 2021-07-21  775  			reg_pair_from_64(&param->a1, &param->a2, pa);
-c51a564a5b4835 Jens Wiklander 2021-07-21  776  			reg_pair_from_64(&param->a4, &param->a5,
-c51a564a5b4835 Jens Wiklander 2021-07-21  777  					 (unsigned long)shm);
-c51a564a5b4835 Jens Wiklander 2021-07-21  778  		} else {
-c51a564a5b4835 Jens Wiklander 2021-07-21  779  			param->a1 = 0;
-c51a564a5b4835 Jens Wiklander 2021-07-21  780  			param->a2 = 0;
-c51a564a5b4835 Jens Wiklander 2021-07-21  781  			param->a4 = 0;
-c51a564a5b4835 Jens Wiklander 2021-07-21  782  			param->a5 = 0;
-c51a564a5b4835 Jens Wiklander 2021-07-21  783  		}
-6add87fdae9bcb Xiaolei Wang   2021-12-06  784  		kmemleak_not_leak(shm);
-c51a564a5b4835 Jens Wiklander 2021-07-21  785  		break;
-c51a564a5b4835 Jens Wiklander 2021-07-21  786  	case OPTEE_SMC_RPC_FUNC_FREE:
-c51a564a5b4835 Jens Wiklander 2021-07-21  787  		shm = reg_pair_to_ptr(param->a1, param->a2);
-c51a564a5b4835 Jens Wiklander 2021-07-21  788  		tee_shm_free(shm);
-c51a564a5b4835 Jens Wiklander 2021-07-21  789  		break;
-c51a564a5b4835 Jens Wiklander 2021-07-21  790  	case OPTEE_SMC_RPC_FUNC_FOREIGN_INTR:
-c51a564a5b4835 Jens Wiklander 2021-07-21  791  		/*
-c51a564a5b4835 Jens Wiklander 2021-07-21  792  		 * A foreign interrupt was raised while secure world was
-c51a564a5b4835 Jens Wiklander 2021-07-21  793  		 * executing, since they are handled in Linux a dummy RPC is
-c51a564a5b4835 Jens Wiklander 2021-07-21  794  		 * performed to let Linux take the interrupt through the normal
-c51a564a5b4835 Jens Wiklander 2021-07-21  795  		 * vector.
-c51a564a5b4835 Jens Wiklander 2021-07-21  796  		 */
-c51a564a5b4835 Jens Wiklander 2021-07-21  797  		break;
-c51a564a5b4835 Jens Wiklander 2021-07-21  798  	case OPTEE_SMC_RPC_FUNC_CMD:
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  799  		if (rpc_arg) {
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  800  			arg = rpc_arg;
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  801  		} else {
-c51a564a5b4835 Jens Wiklander 2021-07-21  802  			shm = reg_pair_to_ptr(param->a1, param->a2);
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  803  			arg = tee_shm_get_va(shm, 0);
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  804  			if (IS_ERR(arg)) {
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  805  				pr_err("%s: tee_shm_get_va %p failed\n",
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  806  				       __func__, shm);
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  807  				break;
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  808  			}
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  809  		}
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  810  
-ed8faf6c8f8c1f Jens Wiklander 2021-11-03  811  		handle_rpc_func_cmd(ctx, optee, arg, call_ctx);
-c51a564a5b4835 Jens Wiklander 2021-07-21  812  		break;
-c51a564a5b4835 Jens Wiklander 2021-07-21  813  	default:
-c51a564a5b4835 Jens Wiklander 2021-07-21  814  		pr_warn("Unknown RPC func 0x%x\n",
-c51a564a5b4835 Jens Wiklander 2021-07-21  815  			(u32)OPTEE_SMC_RETURN_GET_RPC_FUNC(param->a0));
-c51a564a5b4835 Jens Wiklander 2021-07-21  816  		break;
-c51a564a5b4835 Jens Wiklander 2021-07-21  817  	}
-c51a564a5b4835 Jens Wiklander 2021-07-21  818  
-c51a564a5b4835 Jens Wiklander 2021-07-21  819  	param->a0 = OPTEE_SMC_CALL_RETURN_FROM_RPC;
-c51a564a5b4835 Jens Wiklander 2021-07-21  820  }
-c51a564a5b4835 Jens Wiklander 2021-07-21  821  
+91c60b5b820962 Benjamin Herrenschmidt 2009-06-02  131  
+e0d68273d70695 Christophe Leroy       2022-09-19  132  #ifdef CONFIG_PPC_BOOK3E_64
+016f8cf0d87bb2 Kevin Hao              2015-03-10  133  	u64 exgen[8] __aligned(0x40);
+f67f4ef5fcdfde Scott Wood             2011-06-22  134  	/* Keep pgd in the same cacheline as the start of extlb */
+016f8cf0d87bb2 Kevin Hao              2015-03-10  135  	pgd_t *pgd __aligned(0x40); /* Current PGD */
+f67f4ef5fcdfde Scott Wood             2011-06-22  136  	pgd_t *kernel_pgd;		/* Kernel PGD */
+28efc35fe68dac Scott Wood             2013-10-11  137  
+28efc35fe68dac Scott Wood             2013-10-11  138  	/* Shared by all threads of a core -- points to tcd of first thread */
+28efc35fe68dac Scott Wood             2013-10-11  139  	struct tlb_core_data *tcd_ptr;
+28efc35fe68dac Scott Wood             2013-10-11  140  
+609af38f8fc0f1 Scott Wood             2014-03-10  141  	/*
+609af38f8fc0f1 Scott Wood             2014-03-10  142  	 * We can have up to 3 levels of reentrancy in the TLB miss handler,
+609af38f8fc0f1 Scott Wood             2014-03-10  143  	 * in each of four exception levels (normal, crit, mcheck, debug).
+609af38f8fc0f1 Scott Wood             2014-03-10  144  	 */
+609af38f8fc0f1 Scott Wood             2014-03-10  145  	u64 extlb[12][EX_TLB_SIZE / sizeof(u64)];
+dce6670aaa7efe Benjamin Herrenschmidt 2009-07-23  146  	u64 exmc[8];		/* used for machine checks */
+dce6670aaa7efe Benjamin Herrenschmidt 2009-07-23  147  	u64 excrit[8];		/* used for crit interrupts */
+dce6670aaa7efe Benjamin Herrenschmidt 2009-07-23  148  	u64 exdbg[8];		/* used for debug interrupts */
+dce6670aaa7efe Benjamin Herrenschmidt 2009-07-23  149  
+dce6670aaa7efe Benjamin Herrenschmidt 2009-07-23  150  	/* Kernel stack pointers for use by special exceptions */
+dce6670aaa7efe Benjamin Herrenschmidt 2009-07-23  151  	void *mc_kstack;
+dce6670aaa7efe Benjamin Herrenschmidt 2009-07-23  152  	void *crit_kstack;
+dce6670aaa7efe Benjamin Herrenschmidt 2009-07-23  153  	void *dbg_kstack;
+28efc35fe68dac Scott Wood             2013-10-11  154  
+28efc35fe68dac Scott Wood             2013-10-11 @155  	struct tlb_core_data tcd;
+e0d68273d70695 Christophe Leroy       2022-09-19  156  #endif /* CONFIG_PPC_BOOK3E_64 */
+dce6670aaa7efe Benjamin Herrenschmidt 2009-07-23  157  
 
-:::::: The code at line 764 was first introduced by commit
-:::::: c51a564a5b48355f30309b84cdffe3f96d1ae0d3 optee: isolate smc abi
+:::::: The code at line 155 was first introduced by commit
+:::::: 28efc35fe68dacbddc4b12c2fa8f2df1593a4ad3 powerpc/e6500: TLB miss handler with hardware tablewalk support
 
-:::::: TO: Jens Wiklander <jens.wiklander@linaro.org>
-:::::: CC: Jens Wiklander <jens.wiklander@linaro.org>
+:::::: TO: Scott Wood <scottwood@freescale.com>
+:::::: CC: Scott Wood <scottwood@freescale.com>
 
 -- 
 0-DAY CI Kernel Test Service
