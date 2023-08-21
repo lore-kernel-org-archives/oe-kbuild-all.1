@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF626FBE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 13:51:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB147482
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 14:04:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692625881; x=1724161881;
+  t=1692626673; x=1724162673;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9KoGnOLgZl/iJZQITUE5VAqncVp7CwuZwAv1+YOAsYs=;
-  b=ZlG1wAnX35zo7WxAoU1BUMrZWxeLpuRXof+cBglUtWhTi9st9Ggc7J6N
-   mffpoaRIGb3nktkaDNlJ+t8eyXuONuqd62px/T7vE9YZHx8sZypbkoIDL
-   L/z7/6TWjNI1P1ORPuN6gTKW4F8FClX+c1Y2M9Daikp2q6vlpaV3NbOMx
-   de8RjuK2Cs2e3mny/JTBqQcEswpvn955zN65NiWkruo3P/qXZTDo9o7e+
-   qFLPBFi0tjk/db0jFBTMlP2DvoVxg/VBKOya4NDNrcWp9xFmmRahpFy2x
-   hjTQN484Qm+obg+EisesYSoR7EF7L2PNxoTeCLUMW8V1VGg311bPDdySo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="377331205"
+  bh=03VAkv/6KdjAP1aO+wIAIWIWb63mNOGcMfrv8s494rM=;
+  b=DNZ6Fi592E7NPvuVmXZFy3w4ovwgxZs+yXa93CL0diXEHQiHA4Vqftks
+   ChJEJhPSwPIiCWj2U3ParDx2o79wlqYQx8yUNXkji06PbXf4xT2OvH1QE
+   r4Qojd05JISchc/fbGcM/MDmSNB8g8EJrg4vhhmeLeMEu5qPpi0V8T8EG
+   VsE6UA4PYDZw3B8wyLLwmUxVPvn09eGGe5GocAw7K4MD+0TiEHEAPJb6C
+   SNeyJvFQYMuhw0PW9QX2Uuzj/MFU+GAYP17JX0fR05ym/j9A/CJy915f3
+   txAMB/fReaHSfsUcwMCRUPCLdQNzpwHSWl4LC3KPEbW4u4hSo/7Z1Axcq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="459966224"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="377331205"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 06:51:20 -0700
+   d="scan'208";a="459966224"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 07:03:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="712795942"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="735840777"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="712795942"
+   d="scan'208";a="735840777"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 21 Aug 2023 06:51:19 -0700
+  by orsmga002.jf.intel.com with ESMTP; 21 Aug 2023 07:03:12 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qY5JD-0000XA-0j;
-	Mon, 21 Aug 2023 13:51:11 +0000
-Date: Mon, 21 Aug 2023 21:49:46 +0800
+	id 1qY5Ut-0000XI-3C;
+	Mon, 21 Aug 2023 14:03:11 +0000
+Date: Mon, 21 Aug 2023 22:00:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 3294/11453] {standard input}:15: Error: symbol
- `__export_symbol_alpha_mv' is already defined
-Message-ID: <202308212159.b9oCNgpw-lkp@intel.com>
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [pinchartl:rpi/v6.5/isp/v2 9/23]
+ drivers/staging/vc04_services/vc-sm-cma/vc_sm.c:416:1: warning: no previous
+ prototype for 'vc_sm_cma_import_dmabuf_internal'
+Message-ID: <202308212145.2WuOh3uc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,25 +49,173 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   47d9bb711707d15b19fad18c8e2b4b027a264a3a
-commit: 481461f5109919babbb393d6f68002936b8e2493 [3294/11453] linux/export.h: make <linux/export.h> independent of CONFIG_MODULES
-config: alpha-randconfig-r011-20230821 (https://download.01.org/0day-ci/archive/20230821/202308212159.b9oCNgpw-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212159.b9oCNgpw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git rpi/v6.5/isp/v2
+head:   c345a7fd3b29e110d1318249989abb34f0f8c45b
+commit: 5af800ae4a56d31f283cba90aefa072538604a24 [9/23] staging: vc04_services: Add new vc-sm-cma driver
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230821/202308212145.2WuOh3uc-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212145.2WuOh3uc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308212159.b9oCNgpw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308212145.2WuOh3uc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/alpha/kernel/sys_sio.c:312:1: warning: no previous prototype for 'sio_kill_arch' [-Wmissing-prototypes]
-     312 | sio_kill_arch(int mode)
-         | ^~~~~~~~~~~~~
-   {standard input}: Assembler messages:
->> {standard input}:15: Error: symbol `__export_symbol_alpha_mv' is already defined
+>> drivers/staging/vc04_services/vc-sm-cma/vc_sm.c:416:1: warning: no previous prototype for 'vc_sm_cma_import_dmabuf_internal' [-Wmissing-prototypes]
+     416 | vc_sm_cma_import_dmabuf_internal(struct sm_state_t *state,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/vc_sm_cma_import_dmabuf_internal +416 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
+
+   413	
+   414	/* Import a dma_buf to be shared with VC. */
+   415	int
+ > 416	vc_sm_cma_import_dmabuf_internal(struct sm_state_t *state,
+   417					 struct dma_buf *dma_buf,
+   418					 int fd,
+   419					 struct dma_buf **imported_buf)
+   420	{
+   421		DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+   422		struct vc_sm_buffer *buffer = NULL;
+   423		struct vc_sm_import import = { };
+   424		struct vc_sm_import_result result = { };
+   425		struct dma_buf_attachment *attach = NULL;
+   426		struct sg_table *sgt = NULL;
+   427		dma_addr_t dma_addr;
+   428		int ret = 0;
+   429		int status;
+   430	
+   431		/* Setup our allocation parameters */
+   432		pr_debug("%s: importing dma_buf %p/fd %d\n", __func__, dma_buf, fd);
+   433	
+   434		if (fd < 0)
+   435			get_dma_buf(dma_buf);
+   436		else
+   437			dma_buf = dma_buf_get(fd);
+   438	
+   439		if (!dma_buf)
+   440			return -EINVAL;
+   441	
+   442		attach = dma_buf_attach(dma_buf, &sm_state->pdev->dev);
+   443		if (IS_ERR(attach)) {
+   444			ret = PTR_ERR(attach);
+   445			goto error;
+   446		}
+   447	
+   448		sgt = dma_buf_map_attachment_unlocked(attach, DMA_BIDIRECTIONAL);
+   449		if (IS_ERR(sgt)) {
+   450			ret = PTR_ERR(sgt);
+   451			goto error;
+   452		}
+   453	
+   454		/* Verify that the address block is contiguous */
+   455		if (sgt->nents != 1) {
+   456			ret = -ENOMEM;
+   457			goto error;
+   458		}
+   459	
+   460		/* Allocate local buffer to track this allocation. */
+   461		buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+   462		if (!buffer) {
+   463			ret = -ENOMEM;
+   464			goto error;
+   465		}
+   466	
+   467		import.type = VC_SM_ALLOC_NON_CACHED;
+   468		dma_addr = sg_dma_address(sgt->sgl);
+   469		import.addr = (u32)dma_addr;
+   470		if ((import.addr & 0xC0000000) != 0xC0000000) {
+   471			pr_err("%s: Expecting an uncached alias for dma_addr %pad\n",
+   472			       __func__, &dma_addr);
+   473			import.addr |= 0xC0000000;
+   474		}
+   475		import.size = sg_dma_len(sgt->sgl);
+   476		import.allocator = current->tgid;
+   477		import.kernel_id = get_kernel_id(buffer);
+   478	
+   479		memcpy(import.name, VC_SM_RESOURCE_NAME_DEFAULT,
+   480		       sizeof(VC_SM_RESOURCE_NAME_DEFAULT));
+   481	
+   482		pr_debug("[%s]: attempt to import \"%s\" data - type %u, addr %pad, size %u.\n",
+   483			 __func__, import.name, import.type, &dma_addr, import.size);
+   484	
+   485		/* Allocate the videocore buffer. */
+   486		status = vc_sm_cma_vchi_import(sm_state->sm_handle, &import, &result,
+   487					       &sm_state->int_trans_id);
+   488		if (status == -EINTR) {
+   489			pr_debug("[%s]: requesting import memory action restart (trans_id: %u)\n",
+   490				 __func__, sm_state->int_trans_id);
+   491			ret = -ERESTARTSYS;
+   492			sm_state->restart_sys = -EINTR;
+   493			sm_state->int_action = VC_SM_MSG_TYPE_IMPORT;
+   494			goto error;
+   495		} else if (status || !result.res_handle) {
+   496			pr_debug("[%s]: failed to import memory on videocore (status: %u, trans_id: %u)\n",
+   497				 __func__, status, sm_state->int_trans_id);
+   498			ret = -ENOMEM;
+   499			goto error;
+   500		}
+   501	
+   502		mutex_init(&buffer->lock);
+   503		INIT_LIST_HEAD(&buffer->attachments);
+   504		memcpy(buffer->name, import.name,
+   505		       min(sizeof(buffer->name), sizeof(import.name) - 1));
+   506	
+   507		/* Keep track of the buffer we created. */
+   508		buffer->vc_handle = result.res_handle;
+   509		buffer->size = import.size;
+   510		buffer->vpu_state = VPU_MAPPED;
+   511	
+   512		buffer->imported_dma_buf = dma_buf;
+   513	
+   514		buffer->attach = attach;
+   515		buffer->sgt = sgt;
+   516		buffer->dma_addr = dma_addr;
+   517		buffer->in_use = 1;
+   518		buffer->kernel_id = import.kernel_id;
+   519	
+   520		/*
+   521		 * We're done - we need to export a new dmabuf chaining through most
+   522		 * functions, but enabling us to release our own internal references
+   523		 * here.
+   524		 */
+   525		exp_info.ops = &dma_buf_import_ops;
+   526		exp_info.size = import.size;
+   527		exp_info.flags = O_RDWR;
+   528		exp_info.priv = buffer;
+   529	
+   530		buffer->dma_buf = dma_buf_export(&exp_info);
+   531		if (IS_ERR(buffer->dma_buf)) {
+   532			ret = PTR_ERR(buffer->dma_buf);
+   533			goto error;
+   534		}
+   535	
+   536		vc_sm_add_resource(buffer);
+   537	
+   538		*imported_buf = buffer->dma_buf;
+   539	
+   540		return 0;
+   541	
+   542	error:
+   543		if (result.res_handle) {
+   544			struct vc_sm_free_t free = { result.res_handle, 0 };
+   545	
+   546			vc_sm_cma_vchi_free(sm_state->sm_handle, &free,
+   547					    &sm_state->int_trans_id);
+   548		}
+   549		free_kernel_id(import.kernel_id);
+   550		kfree(buffer);
+   551		if (sgt)
+   552			dma_buf_unmap_attachment_unlocked(attach, sgt, DMA_BIDIRECTIONAL);
+   553		if (attach)
+   554			dma_buf_detach(dma_buf, attach);
+   555		dma_buf_put(dma_buf);
+   556		return ret;
+   557	}
+   558	
 
 -- 
 0-DAY CI Kernel Test Service
