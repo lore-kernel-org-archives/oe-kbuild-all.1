@@ -1,45 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15B8748E;
-	Mon, 21 Aug 2023 23:57:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38194748E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 23:57:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692662261; x=1724198261;
+  t=1692662264; x=1724198264;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x77maobvxv0716Z79bZDjjOJtOUA6+M6SN0qi1SRP9Y=;
-  b=EotC3lcxMRL6xhESrJLDh/TFypimAzLXhQmTwwI5HC9eAjdzXFBJuF5V
-   tah92asPYNUsNV8GrAbMkUxVIbxw1sMUiGHD0NutRvX8PqkT9c5a2nhGd
-   Ua+TSpwjyJ3j+eByA7HNUwYWK2CpoCU8PrL+WMOMADA+chXUqx6I/0QU1
-   MHiM/z1UnG5N2P/q/Q09imqdpvF/ORxq9QxlAKKhCeXs9dFL1o1krKriL
-   /mySMXjDwpY9QkEIyqKZrDeHTtCqg99axNNmkipr4KV8ck1YX2lPVUbh0
-   AdMlIXgAgs33BuObYTmWohpL7RQ8Ke2MSEB0bmWGWJLlPW47uCfXNYG9K
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="437653897"
+  bh=EcrJm55tgIuih90gi6MvgIDfPgsc623DGONFP8w2nSM=;
+  b=bgWSfU2WudO2wTU5H68P+rPsi+jJyN/0WayAM0PHcEDJpb4SoOlBo9mW
+   ZkkBGZ7Sy1I4Szl/s3ILXepmRpeiaue5qIKhBIjLOsBfTTHqLOQuYQ3js
+   kT76B9azXzKVoR57MIw6Pe3K77MRgEcP3v+fFiDrhOM9yewYbMVjdOB8r
+   aycxA7f4w3CuDO0rTk+xrutkYSIGV5P7J3Boox3CGyMqTXh5Oo4Wju0oe
+   Mf1aamzy9TQ+bVKPhDDbIJD9Ce9ctQ8JpG8lREa/v3NB88/rZBh6gDbZn
+   LVmn7cn0Aqov25GP7CXPUQXzamRYzlRJ/h9Wpn/ah00rkMv94q2K6trAU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="437653905"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="437653897"
+   d="scan'208";a="437653905"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 16:57:41 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 16:57:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="806092429"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="806092430"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="806092429"
+   d="scan'208";a="806092430"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Aug 2023 16:57:39 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 21 Aug 2023 16:57:42 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYEm7-000155-22;
-	Mon, 21 Aug 2023 23:57:37 +0000
-Date: Tue, 22 Aug 2023 07:56:36 +0800
+	id 1qYEmB-000159-0g;
+	Mon, 21 Aug 2023 23:57:40 +0000
+Date: Tue, 22 Aug 2023 07:56:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: /bin/bash: line 1: 36578 Segmentation fault
-      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j
- --lang_exclude=rust --skip_encoding_btf_inconsistent_proto
- --btf_gen_optimized --btf_base vmlinux drivers/rpmsg/virtio_rpmsg_bus.ko
-Message-ID: <202308220712.sxPVZGmi-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [linux-stable-rc:linux-5.15.y 9987/9999] arch/x86/lib/retpoline.o:
+ warning: objtool: .text.__x86.return_thunk+0xe0: unreachable instruction
+Message-ID: <202308220722.fuZpZZmH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,23 +49,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f7757129e3dea336c407551c98f50057c22bb266
-commit: a0e35a648faf9170e0c32c98b22e66f0a2d964d3 Merge tag 'for-netdev' of https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next
-date:   3 months ago
-config: hexagon-randconfig-r001-20230821 (https://download.01.org/0day-ci/archive/20230822/202308220712.sxPVZGmi-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220712.sxPVZGmi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.15.y
+head:   83a2789925e622472f36cd887a4dac590487e6ab
+commit: 6ff8e597c2aa143efa3e362d9b62e8f30a894c9c [9987/9999] x86/cpu: Fix up srso_safe_ret() and __x86_return_thunk()
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230822/202308220722.fuZpZZmH-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220722.fuZpZZmH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308220712.sxPVZGmi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308220722.fuZpZZmH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
->> /bin/bash: line 1: 36578 Segmentation fault      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j --lang_exclude=rust --skip_encoding_btf_inconsistent_proto --btf_gen_optimized --btf_base vmlinux drivers/rpmsg/virtio_rpmsg_bus.ko
+>> arch/x86/lib/retpoline.o: warning: objtool: .text.__x86.return_thunk+0xe0: unreachable instruction
+
+
+objdump-func vmlinux.o .text.__x86.return_thunk:
 
 -- 
 0-DAY CI Kernel Test Service
