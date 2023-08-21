@@ -1,45 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A457D6FC0;
-	Mon, 21 Aug 2023 16:51:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B3C2F2B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 17:02:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692636663; x=1724172663;
+  t=1692637341; x=1724173341;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4PBJffWpzwg35B5A1PLMPnKYjSv1HUzvwSCHDGqqxaQ=;
-  b=kceJnYpdOQ4Uq62w101uNUdktbOmAtt/Ymxh+zRyMC8Ojrl5tMelQC02
-   fWo1AAftsfrdDJl8DgtDNTMA2mCSe+vPorbdmQ5SBx1oL6nyvA47O0bfW
-   yUDdNOErOt9ztpDCsC6bODE0Njxc3Ba4tPrIf5XYoyZcpyJ1c0SqWLe7w
-   iNy8H6SJjcudiWnkeu0cHpamMphDanlA/n7LlC7w+98iXRn9rPisFNrTk
-   qtXHGIwX3b66Xvmj7NU9pTT2qalurIVHOGt3SvvuqCwoty1/I0UEcZZUv
-   VpXVvhaR+VZOQKzQmxo++0OaSARlixrafBmRaGZfX0AS6m+F7sd48ji6J
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="353219255"
+  bh=3fEEKgpKo0AUdYUVK81c2aqK47RfRy2nKiyolEZ+7O0=;
+  b=dh+MrGE5DQUdTzcJ3CMY6mXvwG9izonsJGVK+r+dWTA0KXNAKoAyLbaU
+   1NWDxl/+ku3vCho4SRQ3mr1OK8SmX5DcjZzIwJUaDJ5x52ez21aN0FwBJ
+   y9viAPCzAjcwPxTmWfxYmWEDvk8NHKe228q3fSuZCO9rH10r7S0+UWR40
+   GGn4K7lEWjQtdqkbbeZqCzI36QqISYpSmOBJQlC+FSpyzIcpJbj0vHON+
+   7cg5ed+zvMN9Yj0VVK71zSSrso8/d2ENygxcPDcdeW022pE0Kqd8wVLSq
+   fC7j4sA5QPG7eMYgNaanFwJ+fUEOy5o9bzlqvOg/N6WhwiNMffWcqyXeQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="404653715"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="353219255"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 09:50:59 -0700
+   d="scan'208";a="404653715"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 10:01:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="850247052"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="771038474"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="850247052"
+   d="scan'208";a="771038474"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Aug 2023 09:50:55 -0700
+  by orsmga001.jf.intel.com with ESMTP; 21 Aug 2023 10:01:31 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qY87C-0000ho-2X;
-	Mon, 21 Aug 2023 16:50:54 +0000
-Date: Tue, 22 Aug 2023 00:50:24 +0800
+	id 1qY8HR-0000iG-1E;
+	Mon, 21 Aug 2023 17:01:29 +0000
+Date: Tue, 22 Aug 2023 01:01:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Robin Murphy <robin.murphy@arm.com>, Hannes Reinecke <hare@suse.de>
-Subject: drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (2672)
- exceeds limit (2048) in 'FlashPoint_HandleInterrupt'
-Message-ID: <202308220007.nW9DjlBp-lkp@intel.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sourabh Jain <sourabhjain@linux.ibm.com>
+Subject: [linux-next:master 10295/10848] arch/x86/kernel/crash.c:232:12:
+ warning: 'prepare_elf_headers' defined but not used
+Message-ID: <202308220012.gipltORx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,109 +49,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f7757129e3dea336c407551c98f50057c22bb266
-commit: 9f7c2232e131b1de2ee4abadfce5d8f010e223c6 scsi: BusLogic: Remove bus_to_virt()
-date:   1 year, 2 months ago
-config: powerpc64-randconfig-r032-20230821 (https://download.01.org/0day-ci/archive/20230822/202308220007.nW9DjlBp-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220007.nW9DjlBp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47d9bb711707d15b19fad18c8e2b4b027a264a3a
+commit: f59d77dc3eea31329e70dbc9ba6fea9faa24829f [10295/10848] x86/crash: add x86 crash hotplug support
+config: x86_64-randconfig-r024-20230821 (https://download.01.org/0day-ci/archive/20230822/202308220012.gipltORx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220012.gipltORx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308220007.nW9DjlBp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308220012.gipltORx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/scsi/BusLogic.c:51:
->> drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (2672) exceeds limit (2048) in 'FlashPoint_HandleInterrupt' [-Wframe-larger-than]
-   static int FlashPoint_HandleInterrupt(void *pcard)
-              ^
-   1 warning generated.
+>> arch/x86/kernel/crash.c:232:12: warning: 'prepare_elf_headers' defined but not used [-Wunused-function]
+     232 | static int prepare_elf_headers(struct kimage *image, void **addr,
+         |            ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/FlashPoint_HandleInterrupt +1712 drivers/scsi/FlashPoint.c
+vim +/prepare_elf_headers +232 arch/x86/kernel/crash.c
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1702  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1703  /*---------------------------------------------------------------------
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1704   *
-d8b6b8bd8a99ee Alexey Dobriyan 2006-03-08  1705   * Function: FlashPoint_HandleInterrupt
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1706   *
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1707   * Description: This is our entry point when an interrupt is generated
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1708   *              by the card and the upper level driver passes it on to
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1709   *              us.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1710   *
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1711   *---------------------------------------------------------------------*/
-391e2f25601e34 Khalid Aziz     2013-05-16 @1712  static int FlashPoint_HandleInterrupt(void *pcard)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1713  {
-69eb2ea4779336 Alexey Dobriyan 2006-03-08  1714  	struct sccb *currSCCB;
-db038cf86fc63d Alexey Dobriyan 2006-03-08  1715  	unsigned char thisCard, result, bm_status, bm_int_st;
-c823feeb33161c Alexey Dobriyan 2006-03-08  1716  	unsigned short hp_int;
-db038cf86fc63d Alexey Dobriyan 2006-03-08  1717  	unsigned char i, target;
-391e2f25601e34 Khalid Aziz     2013-05-16  1718  	struct sccb_card *pCurrCard = pcard;
-391e2f25601e34 Khalid Aziz     2013-05-16  1719  	u32 ioport;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1720  
-391e2f25601e34 Khalid Aziz     2013-05-16  1721  	thisCard = pCurrCard->cardIndex;
-391e2f25601e34 Khalid Aziz     2013-05-16  1722  	ioport = pCurrCard->ioPort;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1723  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1724  	MDISABLE_INT(ioport);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1725  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1726  	if ((bm_int_st = RD_HARPOON(ioport + hp_int_status)) & EXT_STATUS_ON)
-391e2f25601e34 Khalid Aziz     2013-05-16  1727  		bm_status = RD_HARPOON(ioport + hp_ext_status) &
-391e2f25601e34 Khalid Aziz     2013-05-16  1728  					(unsigned char)BAD_EXT_STATUS;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1729  	else
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1730  		bm_status = 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1731  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1732  	WR_HARPOON(ioport + hp_int_mask, (INT_CMD_COMPL | SCSI_INTERRUPT));
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1733  
-391e2f25601e34 Khalid Aziz     2013-05-16  1734  	while ((hp_int = RDW_HARPOON((ioport + hp_intstat)) &
-391e2f25601e34 Khalid Aziz     2013-05-16  1735  				FPT_default_intena) | bm_status) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1736  
-391e2f25601e34 Khalid Aziz     2013-05-16  1737  		currSCCB = pCurrCard->currentSCCB;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1738  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1739  		if (hp_int & (FIFO | TIMEOUT | RESET | SCAM_SEL) || bm_status) {
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1740  			result =
-391e2f25601e34 Khalid Aziz     2013-05-16  1741  			    FPT_SccbMgr_bad_isr(ioport, thisCard, pCurrCard,
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1742  						hp_int);
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1743  			WRW_HARPOON((ioport + hp_intstat),
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1744  				    (FIFO | TIMEOUT | RESET | SCAM_SEL));
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1745  			bm_status = 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1746  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1747  			if (result) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1748  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1749  				MENABLE_INT(ioport);
-5c1b85e209af41 Alexey Dobriyan 2006-03-08  1750  				return result;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1751  			}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1752  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1753  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1754  		else if (hp_int & ICMD_COMP) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1755  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1756  			if (!(hp_int & BUS_FREE)) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1757  				/* Wait for the BusFree before starting a new command.  We
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1758  				   must also check for being reselected since the BusFree
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1759  				   may not show up if another device reselects us in 1.5us or
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1760  				   less.  SRR Wednesday, 3/8/1995.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1761  				 */
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1762  				while (!
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1763  				       (RDW_HARPOON((ioport + hp_intstat)) &
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1764  					(BUS_FREE | RSEL))) ;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1765  			}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1766  
-391e2f25601e34 Khalid Aziz     2013-05-16  1767  			if (pCurrCard->globalFlags & F_HOST_XFER_ACT)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1768  
-47b5d69c4aa753 James Bottomley 2005-04-24  1769  				FPT_phaseChkFifo(ioport, thisCard);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1770  
+dd5f726076cc763 Vivek Goyal     2014-08-08  230  
+dd5f726076cc763 Vivek Goyal     2014-08-08  231  /* Prepare elf headers. Return addr and size */
+dd5f726076cc763 Vivek Goyal     2014-08-08 @232  static int prepare_elf_headers(struct kimage *image, void **addr,
+f59d77dc3eea313 Eric DeVolder   2023-08-14  233  					unsigned long *sz, unsigned long *nr_mem_ranges)
+dd5f726076cc763 Vivek Goyal     2014-08-08  234  {
+8d5f894a3108ac7 AKASHI Takahiro 2018-04-13  235  	struct crash_mem *cmem;
+7c321eb2b843bf2 Lianbo Jiang    2019-11-08  236  	int ret;
+dd5f726076cc763 Vivek Goyal     2014-08-08  237  
+8d5f894a3108ac7 AKASHI Takahiro 2018-04-13  238  	cmem = fill_up_crash_elf_data();
+8d5f894a3108ac7 AKASHI Takahiro 2018-04-13  239  	if (!cmem)
+dd5f726076cc763 Vivek Goyal     2014-08-08  240  		return -ENOMEM;
+dd5f726076cc763 Vivek Goyal     2014-08-08  241  
+9eff303725da653 Borislav Petkov 2019-11-14  242  	ret = walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_headers_callback);
+cbe6601617302b0 AKASHI Takahiro 2018-04-13  243  	if (ret)
+cbe6601617302b0 AKASHI Takahiro 2018-04-13  244  		goto out;
+cbe6601617302b0 AKASHI Takahiro 2018-04-13  245  
+cbe6601617302b0 AKASHI Takahiro 2018-04-13  246  	/* Exclude unwanted mem ranges */
+8d5f894a3108ac7 AKASHI Takahiro 2018-04-13  247  	ret = elf_header_exclude_ranges(cmem);
+cbe6601617302b0 AKASHI Takahiro 2018-04-13  248  	if (ret)
+cbe6601617302b0 AKASHI Takahiro 2018-04-13  249  		goto out;
+cbe6601617302b0 AKASHI Takahiro 2018-04-13  250  
+f59d77dc3eea313 Eric DeVolder   2023-08-14  251  	/* Return the computed number of memory ranges, for hotplug usage */
+f59d77dc3eea313 Eric DeVolder   2023-08-14  252  	*nr_mem_ranges = cmem->nr_ranges;
+f59d77dc3eea313 Eric DeVolder   2023-08-14  253  
+dd5f726076cc763 Vivek Goyal     2014-08-08  254  	/* By default prepare 64bit headers */
+9eff303725da653 Borislav Petkov 2019-11-14  255  	ret =  crash_prepare_elf64_headers(cmem, IS_ENABLED(CONFIG_X86_64), addr, sz);
+cbe6601617302b0 AKASHI Takahiro 2018-04-13  256  
+cbe6601617302b0 AKASHI Takahiro 2018-04-13  257  out:
+8d5f894a3108ac7 AKASHI Takahiro 2018-04-13  258  	vfree(cmem);
+dd5f726076cc763 Vivek Goyal     2014-08-08  259  	return ret;
+dd5f726076cc763 Vivek Goyal     2014-08-08  260  }
+f59d77dc3eea313 Eric DeVolder   2023-08-14  261  #endif
+dd5f726076cc763 Vivek Goyal     2014-08-08  262  
 
-:::::: The code at line 1712 was first introduced by commit
-:::::: 391e2f25601e34a7d7e5dc155e487bc58dffd8c6 [SCSI] BusLogic: Port driver to 64-bit.
+:::::: The code at line 232 was first introduced by commit
+:::::: dd5f726076cc7639d9713b334c8c133f77c6757a kexec: support for kexec on panic using new system call
 
-:::::: TO: Khalid Aziz <khalid.aziz@oracle.com>
-:::::: CC: James Bottomley <JBottomley@Parallels.com>
+:::::: TO: Vivek Goyal <vgoyal@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
