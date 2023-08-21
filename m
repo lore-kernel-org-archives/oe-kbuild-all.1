@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43EA23C5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 14:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC8323C5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 14:59:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692629397; x=1724165397;
+  t=1692629963; x=1724165963;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=he5WUNWAvMFbvRrPl4G2I8Ht7mtcPWrO6DjK29CeuAk=;
-  b=DN7lR5P5oln3w7hkYvDlrG4TanNWbmeogOudTOb/UnWazyGHvLpi5nYV
-   eUnGglCOeBH1JkdB7I8VpVXbq75C4/6WN187W8XA4G5unF4zMDxwdDhfA
-   cvvkVnpUVz97BkF9NbH4MI4ltP2fKVPvsjTqEFLBYD+HsVM+iPIHqlYwj
-   BeLw18+3AX/IfBepx/W4gcLnNzE8mx4aOMz7lgmjQosAtwtakLjzFlEj3
-   xSEAHXigs9r5iA6obKxXJ5J/5uuKhyb4kn0g7rbI/m/3zGounwZeIpd3c
-   mLajQyBWJM7Ba+EMxKFhWMFhb3NCp5fX31K48Xf52vBcMJ7AfAee9DAU3
+  bh=KKawEwck+d/iIl0wgoGfXbsS/tQ4RU+7U3GHo4VuW6k=;
+  b=dFc9IdHvdCc4rZ3n9nUlkG+9R8lLwgjM86jazMQyqOyljJ1PZlwjWQK8
+   6L34s4EQ6jqdTsi5EpyKb1UAye79iHnv2LqQ4iFwbFhzsv/jUQk8Bh+7o
+   tnfz84Qw4txo9Z+Y/GDgx2U6PzfHWZkgZ5UoqOahRVXb7ZaJxRUjCZJ36
+   Iht9y64zP7fSJqvZ5x/Cc6KlRYjBocCe8p0QgYFoiX8eKqDeMmQ8eTXBt
+   l3Ym+Xh+/11szgGL1hKkDws1LDhtTfazj5PP3NX6G5es3v349K0xrBWbS
+   EAby04D2WtW22HUePjBkp30gwGOx3DuqISLtkOPtYd2PsvpTQGLuU3ZgT
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="439984806"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="376359234"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="439984806"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 07:49:57 -0700
+   d="scan'208";a="376359234"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 07:59:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="879530122"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="712821532"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
+   d="scan'208";a="712821532"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Aug 2023 07:50:00 -0700
+  by orsmga006.jf.intel.com with ESMTP; 21 Aug 2023 07:59:21 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qY6DR-0000bK-2j;
-	Mon, 21 Aug 2023 14:49:28 +0000
-Date: Mon, 21 Aug 2023 22:48:04 +0800
+	id 1qY6NF-0000bm-0q;
+	Mon, 21 Aug 2023 14:59:21 +0000
+Date: Mon, 21 Aug 2023 22:59:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 11244/11453]
- drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c:718:46: warning:
- '%s' directive output may be truncated writing up to 255 bytes into a region
- of size between 220 and 230
-Message-ID: <202308212225.rDBrZgwf-lkp@intel.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [l1k:doe 2/14] crypto/asymmetric_keys/pkcs7_parser.c:526:10: error:
+ call to undeclared function 'x509_decode_time'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202308212259.u23eaMjs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,95 +47,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   47d9bb711707d15b19fad18c8e2b4b027a264a3a
-commit: 99b9bb7b36a7293603d8410d9228a38c32178d53 [11244/11453] Merge branch 'loongarch-next' of git://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.git
-config: loongarch-randconfig-r032-20230821 (https://download.01.org/0day-ci/archive/20230821/202308212225.rDBrZgwf-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212225.rDBrZgwf-lkp@intel.com/reproduce)
+Hi Lukas,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/l1k/linux doe
+head:   458668ded748cd2c1cab9fe959e99d8853df6f37
+commit: 0cb668f620f0cee4a12651f0438e582e09030247 [2/14] X.509: Make certificate parser public
+config: i386-buildonly-randconfig-006-20230821 (https://download.01.org/0day-ci/archive/20230821/202308212259.u23eaMjs-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212259.u23eaMjs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308212225.rDBrZgwf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308212259.u23eaMjs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c: In function 'mlx5e_reporter_rx_timeout':
->> drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c:718:46: warning: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 220 and 230 [-Wformat-truncation=]
-     718 |                  "RX timeout on channel: %d, %sRQ: 0x%x, CQ: 0x%x",
-         |                                              ^~
-     719 |                  rq->ix, icosq_str, rq->rqn, rq->cq.mcq.cqn);
-         |                          ~~~~~~~~~            
-   drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c:717:9: note: 'snprintf' output between 43 and 322 bytes into a destination of size 256
-     717 |         snprintf(err_str, sizeof(err_str),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     718 |                  "RX timeout on channel: %d, %sRQ: 0x%x, CQ: 0x%x",
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     719 |                  rq->ix, icosq_str, rq->rqn, rq->cq.mcq.cqn);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/net/ethernet/mellanox/mlxsw/core_thermal.c: In function 'mlxsw_thermal_gearboxes_init.constprop':
->> drivers/net/ethernet/mellanox/mlxsw/core_thermal.c:542:73: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
-     542 |                 snprintf(tz_name, sizeof(tz_name), "mlxsw-lc%d-gearbox%d",
-         |                                                                         ^
-   In function 'mlxsw_thermal_gearbox_tz_init',
-       inlined from 'mlxsw_thermal_gearboxes_init.constprop' at drivers/net/ethernet/mellanox/mlxsw/core_thermal.c:610:9:
-   drivers/net/ethernet/mellanox/mlxsw/core_thermal.c:542:17: note: 'snprintf' output between 19 and 31 bytes into a destination of size 20
-     542 |                 snprintf(tz_name, sizeof(tz_name), "mlxsw-lc%d-gearbox%d",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     543 |                          gearbox_tz->slot_index, gearbox_tz->module + 1);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c: In function 'mlxsw_linecard_types_init.constprop':
->> drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:1421:9: warning: '.bin' directive output may be truncated writing 4 bytes into a region of size between 3 and 11 [-Wformat-truncation=]
-    1421 |         "mellanox/lc_ini_bundle_%u_%u.bin"
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:1421:9: note: in definition of macro 'MLXSW_LINECARDS_INI_BUNDLE_FILENAME_FMT'
-    1421 |         "mellanox/lc_ini_bundle_%u_%u.bin"
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:1421:38: note: format string is defined here
-    1421 |         "mellanox/lc_ini_bundle_%u_%u.bin"
-         |                                      ^~~~
-   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:1434:15: note: 'snprintf' output between 31 and 39 bytes into a destination of size 37
-    1434 |         err = snprintf(filename, sizeof(filename),
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1435 |                        MLXSW_LINECARDS_INI_BUNDLE_FILENAME_FMT,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1436 |                        rev->minor, rev->subminor);
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> crypto/asymmetric_keys/pkcs7_parser.c:526:10: error: call to undeclared function 'x509_decode_time'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   return x509_decode_time(&sinfo->signing_time,
+                          ^
+   1 error generated.
 
 
-vim +718 drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c
+vim +/x509_decode_time +526 crypto/asymmetric_keys/pkcs7_parser.c
 
-0f56d3c5d8ea7a Aya Levin   2020-02-11  702  
-0a56be3c8805b5 Aya Levin   2020-02-11  703  void mlx5e_reporter_rx_timeout(struct mlx5e_rq *rq)
-0a56be3c8805b5 Aya Levin   2020-02-11  704  {
-521f31af004ade Aya Levin   2020-12-01  705  	char icosq_str[MLX5E_REPORTER_PER_Q_MAX_LEN] = {};
-0a56be3c8805b5 Aya Levin   2020-02-11  706  	char err_str[MLX5E_REPORTER_PER_Q_MAX_LEN];
-521f31af004ade Aya Levin   2020-12-01  707  	struct mlx5e_icosq *icosq = rq->icosq;
-521f31af004ade Aya Levin   2020-12-01  708  	struct mlx5e_priv *priv = rq->priv;
-0a56be3c8805b5 Aya Levin   2020-02-11  709  	struct mlx5e_err_ctx err_ctx = {};
-0a56be3c8805b5 Aya Levin   2020-02-11  710  
-0a56be3c8805b5 Aya Levin   2020-02-11  711  	err_ctx.ctx = rq;
-0a56be3c8805b5 Aya Levin   2020-02-11  712  	err_ctx.recover = mlx5e_rx_reporter_timeout_recover;
-0f56d3c5d8ea7a Aya Levin   2020-02-11  713  	err_ctx.dump = mlx5e_rx_reporter_dump_rq;
-521f31af004ade Aya Levin   2020-12-01  714  
-521f31af004ade Aya Levin   2020-12-01  715  	if (icosq)
-521f31af004ade Aya Levin   2020-12-01  716  		snprintf(icosq_str, sizeof(icosq_str), "ICOSQ: 0x%x, ", icosq->sqn);
-b21aef7e71de8f Joe Perches 2020-02-11  717  	snprintf(err_str, sizeof(err_str),
-521f31af004ade Aya Levin   2020-12-01 @718  		 "RX timeout on channel: %d, %sRQ: 0x%x, CQ: 0x%x",
-521f31af004ade Aya Levin   2020-12-01  719  		 rq->ix, icosq_str, rq->rqn, rq->cq.mcq.cqn);
-0a56be3c8805b5 Aya Levin   2020-02-11  720  
-0a56be3c8805b5 Aya Levin   2020-02-11  721  	mlx5e_health_report(priv, priv->rx_reporter, err_str, &err_ctx);
-0a56be3c8805b5 Aya Levin   2020-02-11  722  }
-0a56be3c8805b5 Aya Levin   2020-02-11  723  
+2e3fadbf730fd0 David Howells 2014-07-01  493  
+2e3fadbf730fd0 David Howells 2014-07-01  494  /*
+99db44350672c8 David Howells 2015-08-05  495   * Parse authenticated attributes.
+2e3fadbf730fd0 David Howells 2014-07-01  496   */
+2e3fadbf730fd0 David Howells 2014-07-01  497  int pkcs7_sig_note_authenticated_attr(void *context, size_t hdrlen,
+2e3fadbf730fd0 David Howells 2014-07-01  498  				      unsigned char tag,
+2e3fadbf730fd0 David Howells 2014-07-01  499  				      const void *value, size_t vlen)
+2e3fadbf730fd0 David Howells 2014-07-01  500  {
+2e3fadbf730fd0 David Howells 2014-07-01  501  	struct pkcs7_parse_context *ctx = context;
+99db44350672c8 David Howells 2015-08-05  502  	struct pkcs7_signed_info *sinfo = ctx->sinfo;
+99db44350672c8 David Howells 2015-08-05  503  	enum OID content_type;
+2e3fadbf730fd0 David Howells 2014-07-01  504  
+2e3fadbf730fd0 David Howells 2014-07-01  505  	pr_devel("AuthAttr: %02x %zu [%*ph]\n", tag, vlen, (unsigned)vlen, value);
+2e3fadbf730fd0 David Howells 2014-07-01  506  
+2e3fadbf730fd0 David Howells 2014-07-01  507  	switch (ctx->last_oid) {
+99db44350672c8 David Howells 2015-08-05  508  	case OID_contentType:
+99db44350672c8 David Howells 2015-08-05  509  		if (__test_and_set_bit(sinfo_has_content_type, &sinfo->aa_set))
+99db44350672c8 David Howells 2015-08-05  510  			goto repeated;
+99db44350672c8 David Howells 2015-08-05  511  		content_type = look_up_OID(value, vlen);
+99db44350672c8 David Howells 2015-08-05  512  		if (content_type != ctx->msg->data_type) {
+99db44350672c8 David Howells 2015-08-05  513  			pr_warn("Mismatch between global data type (%d) and sinfo %u (%d)\n",
+99db44350672c8 David Howells 2015-08-05  514  				ctx->msg->data_type, sinfo->index,
+99db44350672c8 David Howells 2015-08-05  515  				content_type);
+99db44350672c8 David Howells 2015-08-05  516  			return -EBADMSG;
+99db44350672c8 David Howells 2015-08-05  517  		}
+99db44350672c8 David Howells 2015-08-05  518  		return 0;
+99db44350672c8 David Howells 2015-08-05  519  
+99db44350672c8 David Howells 2015-08-05  520  	case OID_signingTime:
+99db44350672c8 David Howells 2015-08-05  521  		if (__test_and_set_bit(sinfo_has_signing_time, &sinfo->aa_set))
+99db44350672c8 David Howells 2015-08-05  522  			goto repeated;
+99db44350672c8 David Howells 2015-08-05  523  		/* Should we check that the signing time is consistent
+99db44350672c8 David Howells 2015-08-05  524  		 * with the signer's X.509 cert?
+99db44350672c8 David Howells 2015-08-05  525  		 */
+99db44350672c8 David Howells 2015-08-05 @526  		return x509_decode_time(&sinfo->signing_time,
+99db44350672c8 David Howells 2015-08-05  527  					hdrlen, tag, value, vlen);
+99db44350672c8 David Howells 2015-08-05  528  
+2e3fadbf730fd0 David Howells 2014-07-01  529  	case OID_messageDigest:
+99db44350672c8 David Howells 2015-08-05  530  		if (__test_and_set_bit(sinfo_has_message_digest, &sinfo->aa_set))
+99db44350672c8 David Howells 2015-08-05  531  			goto repeated;
+2e3fadbf730fd0 David Howells 2014-07-01  532  		if (tag != ASN1_OTS)
+2e3fadbf730fd0 David Howells 2014-07-01  533  			return -EBADMSG;
+99db44350672c8 David Howells 2015-08-05  534  		sinfo->msgdigest = value;
+99db44350672c8 David Howells 2015-08-05  535  		sinfo->msgdigest_len = vlen;
+99db44350672c8 David Howells 2015-08-05  536  		return 0;
+99db44350672c8 David Howells 2015-08-05  537  
+99db44350672c8 David Howells 2015-08-05  538  	case OID_smimeCapabilites:
+99db44350672c8 David Howells 2015-08-05  539  		if (__test_and_set_bit(sinfo_has_smime_caps, &sinfo->aa_set))
+99db44350672c8 David Howells 2015-08-05  540  			goto repeated;
+99db44350672c8 David Howells 2015-08-05  541  		if (ctx->msg->data_type != OID_msIndirectData) {
+99db44350672c8 David Howells 2015-08-05  542  			pr_warn("S/MIME Caps only allowed with Authenticode\n");
+99db44350672c8 David Howells 2015-08-05  543  			return -EKEYREJECTED;
+99db44350672c8 David Howells 2015-08-05  544  		}
+99db44350672c8 David Howells 2015-08-05  545  		return 0;
+99db44350672c8 David Howells 2015-08-05  546  
+99db44350672c8 David Howells 2015-08-05  547  		/* Microsoft SpOpusInfo seems to be contain cont[0] 16-bit BE
+99db44350672c8 David Howells 2015-08-05  548  		 * char URLs and cont[1] 8-bit char URLs.
+99db44350672c8 David Howells 2015-08-05  549  		 *
+99db44350672c8 David Howells 2015-08-05  550  		 * Microsoft StatementType seems to contain a list of OIDs that
+99db44350672c8 David Howells 2015-08-05  551  		 * are also used as extendedKeyUsage types in X.509 certs.
+99db44350672c8 David Howells 2015-08-05  552  		 */
+99db44350672c8 David Howells 2015-08-05  553  	case OID_msSpOpusInfo:
+99db44350672c8 David Howells 2015-08-05  554  		if (__test_and_set_bit(sinfo_has_ms_opus_info, &sinfo->aa_set))
+99db44350672c8 David Howells 2015-08-05  555  			goto repeated;
+99db44350672c8 David Howells 2015-08-05  556  		goto authenticode_check;
+99db44350672c8 David Howells 2015-08-05  557  	case OID_msStatementType:
+99db44350672c8 David Howells 2015-08-05  558  		if (__test_and_set_bit(sinfo_has_ms_statement_type, &sinfo->aa_set))
+99db44350672c8 David Howells 2015-08-05  559  			goto repeated;
+99db44350672c8 David Howells 2015-08-05  560  	authenticode_check:
+99db44350672c8 David Howells 2015-08-05  561  		if (ctx->msg->data_type != OID_msIndirectData) {
+99db44350672c8 David Howells 2015-08-05  562  			pr_warn("Authenticode AuthAttrs only allowed with Authenticode\n");
+99db44350672c8 David Howells 2015-08-05  563  			return -EKEYREJECTED;
+99db44350672c8 David Howells 2015-08-05  564  		}
+99db44350672c8 David Howells 2015-08-05  565  		/* I'm not sure how to validate these */
+2e3fadbf730fd0 David Howells 2014-07-01  566  		return 0;
+2e3fadbf730fd0 David Howells 2014-07-01  567  	default:
+2e3fadbf730fd0 David Howells 2014-07-01  568  		return 0;
+2e3fadbf730fd0 David Howells 2014-07-01  569  	}
+99db44350672c8 David Howells 2015-08-05  570  
+99db44350672c8 David Howells 2015-08-05  571  repeated:
+99db44350672c8 David Howells 2015-08-05  572  	/* We permit max one item per AuthenticatedAttribute and no repeats */
+99db44350672c8 David Howells 2015-08-05  573  	pr_warn("Repeated/multivalue AuthAttrs not permitted\n");
+99db44350672c8 David Howells 2015-08-05  574  	return -EKEYREJECTED;
+2e3fadbf730fd0 David Howells 2014-07-01  575  }
+2e3fadbf730fd0 David Howells 2014-07-01  576  
 
-:::::: The code at line 718 was first introduced by commit
-:::::: 521f31af004ade74963d551a719a36ca7df0ba70 net/mlx5e: Allow RQ outside of channel context
+:::::: The code at line 526 was first introduced by commit
+:::::: 99db44350672c8a5ee9a7b0a6f4cd6ff10136065 PKCS#7: Appropriately restrict authenticated attributes and content type
 
-:::::: TO: Aya Levin <ayal@nvidia.com>
-:::::: CC: Saeed Mahameed <saeedm@nvidia.com>
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
