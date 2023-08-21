@@ -1,48 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED2C1ADF9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 23:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41356748E;
+	Mon, 21 Aug 2023 23:56:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692661456; x=1724197456;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=STFTRhm3lru3nDEhHPEOCOUbJYOYoNTJoOH2Kvs0Kok=;
-  b=YJVjG5Tf7oQc43ot25lEhxDzZry7ZdLSHsBcilLZr4vorl3B0CGGHiKM
-   DnRvm1o3NSavlyf/z0sverVyOxZP8wki0VW5VgIY3cuCDCXsXfbdwTn7u
-   gECe/xcd2q0n29s4sF0fh9AoNw0fhxI+dK3J2utbc2cjWd+1nLelKHXaL
-   KSQ3fObTA2YOmWU4OuWdTSwQWLz8lR5go1jwtPj3APuUxIeTAb4qT+6Gf
-   ElxPDaHzQcdkoFobDMgYvLv6jYMg21whLjn23KQ4ARyZSZfbvTYQVo1yG
-   kMQxyZwwve4e7fZ3I/Fgfc/vfR+oK8u9NIrOBzxQpHsdKAkqT0sJfatHA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="437651986"
+  t=1692662189; x=1724198189;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u04jyXkmuGXu5YF2ziLU3+PkXmbptgCxiwLItCi0SX8=;
+  b=RqolW9nvsrMn2g5J03hWwkCY13HysFEocFKazeYR7pbLDixbc6tjytlj
+   Rajl2t331vbvTq1GFcJvRlxOT17B6kJopzV3HTTb4BkKu4wBrFqOlgsES
+   0w3lE6eruEgdHYY8cCuFEdrWy9zna0KRhiaRh8oZNBPIfu4JCw14QqW6i
+   VecaSoxA1/VAOsRWRW7oFaZ3e8TQO/ZiUq5RTymfj8+dJ8az9F6cnkfXg
+   bFlmFdWylm99HO1fZ40mgp5mIJaTVr3Pm9eeHrhQ0OdoSA3tlK6m7HGwS
+   A9q8P8I61iUFl8x8ohL1wqZIVGwbQ1FxQXC8+/3L7oCitxRQfH7IpN2Vs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="440100600"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="437651986"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 16:44:14 -0700
+   d="scan'208";a="440100600"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 16:56:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="859673727"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="685838329"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="859673727"
+   d="scan'208";a="685838329"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 21 Aug 2023 16:44:11 -0700
+  by orsmga003.jf.intel.com with ESMTP; 21 Aug 2023 16:56:27 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYEZ8-00014S-2K;
-	Mon, 21 Aug 2023 23:44:10 +0000
-Date: Tue, 22 Aug 2023 07:43:31 +0800
+	id 1qYEks-00014u-32;
+	Mon, 21 Aug 2023 23:56:21 +0000
+Date: Tue, 22 Aug 2023 07:56:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Helge Deller <deller@gmx.de>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Andrei Vagin <avagin@openvz.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-parisc@vger.kernel.org
-Subject: Re: [PATCH] procfs: Fix /proc/self/maps output for 32-bit kernel and
- compat tasks
-Message-ID: <202308220747.XMKc32Kz-lkp@intel.com>
-References: <ZOCJltW/eufPUc+T@p100>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:tpm_buf 19/22] drivers/char/tpm/tpm-interface.c:362:
+ warning: Function parameter or member 'length' not described in 'tpm_send'
+Message-ID: <202308220753.4SmhBjcU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,94 +45,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZOCJltW/eufPUc+T@p100>
 
-Hi Helge,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.5-rc7 next-20230821]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Helge-Deller/procfs-Fix-proc-self-maps-output-for-32-bit-kernel-and-compat-tasks/20230821-100823
-base:   linus/master
-patch link:    https://lore.kernel.org/r/ZOCJltW%2FeufPUc%2BT%40p100
-patch subject: [PATCH] procfs: Fix /proc/self/maps output for 32-bit kernel and compat tasks
-config: x86_64-buildonly-randconfig-006-20230822 (https://download.01.org/0day-ci/archive/20230822/202308220747.XMKc32Kz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220747.XMKc32Kz-lkp@intel.com/reproduce)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm_buf
+head:   0cc7499219745d3654fee78abcfb1ccf0051738b
+commit: 96ca71c8cb2d9fff4f7a64135ff7380a770a6e49 [19/22] tpm: Store TPM buffer length
+config: arm-randconfig-001-20230821 (https://download.01.org/0day-ci/archive/20230822/202308220753.4SmhBjcU-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220753.4SmhBjcU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308220747.XMKc32Kz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308220753.4SmhBjcU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/seq_file.c: In function 'seq_put_hex_ll':
->> fs/seq_file.c:765:23: error: implicit declaration of function 'is_compat_task' [-Werror=implicit-function-declaration]
-     765 |         if (v == 0 || is_compat_task())
-         |                       ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/char/tpm/tpm-interface.c:362: warning: Function parameter or member 'length' not described in 'tpm_send'
+>> drivers/char/tpm/tpm-interface.c:362: warning: Excess function parameter 'cmdlen' description in 'tpm_send'
+--
+>> drivers/char/tpm/tpm-buf.c:51: warning: Function parameter or member 'buf' not described in 'tpm_buf_length'
 
 
-vim +/is_compat_task +765 fs/seq_file.c
+vim +362 drivers/char/tpm/tpm-interface.c
 
-   737	
-   738	/**
-   739	 * seq_put_hex_ll - put a number in hexadecimal notation
-   740	 * @m: seq_file identifying the buffer to which data should be written
-   741	 * @delimiter: a string which is printed before the number
-   742	 * @v: the number
-   743	 * @width: a minimum field width
-   744	 *
-   745	 * seq_put_hex_ll(m, "", v, 8) is equal to seq_printf(m, "%08llx", v)
-   746	 *
-   747	 * This routine is very quick when you show lots of numbers.
-   748	 * In usual cases, it will be better to use seq_printf(). It's easier to read.
-   749	 */
-   750	void seq_put_hex_ll(struct seq_file *m, const char *delimiter,
-   751					unsigned long long v, unsigned int width)
-   752	{
-   753		unsigned int len;
-   754		int i;
-   755	
-   756		if (delimiter && delimiter[0]) {
-   757			if (delimiter[1] == 0)
-   758				seq_putc(m, delimiter[0]);
-   759			else
-   760				seq_puts(m, delimiter);
-   761		}
-   762	
-   763	#ifdef CONFIG_64BIT
-   764		/* If x is 0, the result of __builtin_clzll is undefined */
- > 765		if (v == 0 || is_compat_task())
-   766			len = 1;
-   767		else
-   768			len = (sizeof(v) * 8 - __builtin_clzll(v) + 3) / 4;
-   769	#else
-   770		/* On 32-bit kernel always use provided width */
-   771		len = 1;
-   772	#endif
-   773	
-   774		if (len < width)
-   775			len = width;
-   776	
-   777		if (m->count + len > m->size) {
-   778			seq_set_overflow(m);
-   779			return;
-   780		}
-   781	
-   782		for (i = len - 1; i >= 0; i--) {
-   783			m->buf[m->count + i] = hex_asc[0xf & v];
-   784			v = v >> 4;
-   785		}
-   786		m->count += len;
-   787	}
-   788	
+659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-02  352  
+aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  353  /**
+aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  354   * tpm_send - send a TPM command
+aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  355   * @chip:	a &struct tpm_chip instance, %NULL for the default chip
+96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  356   * @data:	command blob
+96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  357   * @cmdlen:	length of the command
+aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  358   *
+aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  359   * Return: same as with tpm_transmit_cmd()
+aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  360   */
+96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  361  int tpm_send(struct tpm_chip *chip, void *data, size_t length)
+c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23 @362  {
+412eb585587a1d drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2018-10-26  363  	struct tpm_buf buf;
+c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  364  	int rc;
+c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  365  
+fc1d52b745bae6 drivers/char/tpm/tpm-interface.c Stefan Berger   2018-06-26  366  	chip = tpm_find_get_ops(chip);
+aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  367  	if (!chip)
+c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  368  		return -ENODEV;
+c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  369  
+96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  370  	buf.flags = 0;
+96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  371  	buf.length = length;
+96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  372  	buf.data = data;
+47a6c28b6861b1 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2018-11-05  373  	rc = tpm_transmit_cmd(chip, &buf, 0, "attempting to a send a command");
+e13cd21ffd50a0 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2019-09-16  374  
+4e26195f240d73 drivers/char/tpm/tpm-interface.c Jason Gunthorpe 2016-02-12  375  	tpm_put_ops(chip);
+c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  376  	return rc;
+c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  377  }
+c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  378  EXPORT_SYMBOL_GPL(tpm_send);
+c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  379  
+
+:::::: The code at line 362 was first introduced by commit
+:::::: c749ba912e87ccebd674ae24b97462176c63732e key: add tpm_send command
+
+:::::: TO: Mimi Zohar <zohar@linux.vnet.ibm.com>
+:::::: CC: James Morris <jmorris@namei.org>
 
 -- 
 0-DAY CI Kernel Test Service
