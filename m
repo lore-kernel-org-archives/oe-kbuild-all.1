@@ -1,263 +1,216 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EBD441D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 13:04:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FBA6FAA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 13:04:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692623063; x=1724159063;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Owv1ANrpuvOaA6Tr8TM4kOysFxfycb+EDrnRaLZQHaw=;
-  b=QP+y47Oa+8o74qauWA1/c8fyvP126Ia+h5SEd+Be+Hg9Fj1DrqyN5PHr
-   jfKjRjDa72N/xMajX8up00ubGugTAhT4slzSiHpbP+d3ctB0DPAeWsxqL
-   nrfKSvyCMJzPdskbsCMqcWorj5BcvPn2OdZcI3FBTaIYkpR7K1GmBcy54
-   gJEuolCfzSd/U1+A+BwBDry+Nxu+Dx8tyn8dM7A1ip5GgpOs8eaMrsFPz
-   b4pfNq3uxjGag1LlKTmPqzirac1yA1QMiOY3jxpHuTRrGTh/48na25iGQ
-   D7rH4c0ahTD2G6qCTdy1rSByr/9Nz+ZhXozh5yrkA6vgNtkEBZeo+iwO/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="353898835"
+  t=1692623077; x=1724159077;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9+jeni15yFVJo+yYmKNq7jEt3xhp7Y9ojBWKnFOKBUM=;
+  b=mjHTuBgU6bLA7xgm3PiK8eNoxv/KcjTsjjls8NpkhGDGHX8ZvrWl3etf
+   Ad8hhBr3sQ4FnokXdGfFd2JuGuvRQxUcmEExbphfmmcPHOfrkFLpfa48V
+   lM++GbpbuJtyXoUaAyg4MzEax2CI3VEoV3dnFDVd5xXPLddOljy7bgKpU
+   ZbzJqWmvJo1Wwsvarl92ufB1IvPatKpZnP4XnchW6A9qBNDnk7LMHW1qC
+   NRXsFd/gdHKiJs7O1en/E2uIIscTJ7sbhASPYIWotmNgSVjy80Riz9E0n
+   HzPKe6JtqFFiP0z0nq0KpLECuZJu4+19Rh0JN7jBxmDUn6hSYiT8ADpLl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="373554350"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="353898835"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 06:04:21 -0700
+   d="scan'208";a="373554350"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 06:04:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="765361641"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="729425281"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="765361641"
+   d="scan'208";a="729425281"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 21 Aug 2023 06:04:18 -0700
+  by orsmga007.jf.intel.com with ESMTP; 21 Aug 2023 06:04:18 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qY4Zt-0000VE-2q;
+	id 1qY4Zt-0000VC-2n;
 	Mon, 21 Aug 2023 13:04:17 +0000
-Date: Mon, 21 Aug 2023 21:03:50 +0800
+Date: Mon, 21 Aug 2023 21:03:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Greenwalt <paul.greenwalt@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, andrew@lunn.ch, aelior@marvell.com,
-	manishc@marvell.com, netdev@vger.kernel.org
-Subject: Re: [Intel-wired-lan] [PATCH iwl-next v2 3/9] ethtool: Add missing
- ETHTOOL_LINK_MODE_ to forced speed map
-Message-ID: <202308212014.a1qQx4Wp-lkp@intel.com>
-References: <20230819094025.15196-1-paul.greenwalt@intel.com>
+To: Xiubo Li <xiubli@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
+	Patrick Donnelly <pdonnell@redhat.com>
+Subject: [ceph-client:testing 78/96] fs/ceph/mds_client.c:2639: warning:
+ Function parameter or member 'mdsc' not described in 'ceph_mdsc_build_path'
+Message-ID: <202308212002.IYVp010T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230819094025.15196-1-paul.greenwalt@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Paul,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-[also build test WARNING on next-20230821]
-[cannot apply to tnguy-next-queue/dev-queue tnguy-net-queue/dev-queue net/main linus/master horms-ipvs/master v6.5-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Greenwalt/ice-Add-E830-device-IDs-MAC-type-and-registers/20230821-095200
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230819094025.15196-1-paul.greenwalt%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-next v2 3/9] ethtool: Add missing ETHTOOL_LINK_MODE_ to forced speed map
-config: sparc64-randconfig-r015-20230821 (https://download.01.org/0day-ci/archive/20230821/202308212014.a1qQx4Wp-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212014.a1qQx4Wp-lkp@intel.com/reproduce)
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   a7fb1265323db972dd333f71b9a53e9479f62e37
+commit: 7072b2e8839b81f9781603bd2c5e40c9ccd13f6a [78/96] ceph: pass the mdsc to several helpers
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230821/202308212002.IYVp010T-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212002.IYVp010T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308212014.a1qQx4Wp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308212002.IYVp010T-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/linkmode.h:5,
-                    from include/linux/mii.h:13,
-                    from include/uapi/linux/mdio.h:15,
-                    from drivers/vfio/platform/reset/vfio_platform_amdxgbe.c:14:
->> include/linux/ethtool.h:1190:18: warning: 'ethtool_forced_speed_800000' defined but not used [-Wunused-const-variable=]
-    1190 | static const u32 ethtool_forced_speed_800000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/ethtool.h:1177:18: warning: 'ethtool_forced_speed_400000' defined but not used [-Wunused-const-variable=]
-    1177 | static const u32 ethtool_forced_speed_400000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/ethtool.h:1164:18: warning: 'ethtool_forced_speed_200000' defined but not used [-Wunused-const-variable=]
-    1164 | static const u32 ethtool_forced_speed_200000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ethtool.h:1147:18: warning: 'ethtool_forced_speed_100000' defined but not used [-Wunused-const-variable=]
-    1147 | static const u32 ethtool_forced_speed_100000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/ethtool.h:1140:18: warning: 'ethtool_forced_speed_56000' defined but not used [-Wunused-const-variable=]
-    1140 | static const u32 ethtool_forced_speed_56000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ethtool.h:1129:18: warning: 'ethtool_forced_speed_50000' defined but not used [-Wunused-const-variable=]
-    1129 | static const u32 ethtool_forced_speed_50000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ethtool.h:1122:18: warning: 'ethtool_forced_speed_40000' defined but not used [-Wunused-const-variable=]
-    1122 | static const u32 ethtool_forced_speed_40000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ethtool.h:1116:18: warning: 'ethtool_forced_speed_25000' defined but not used [-Wunused-const-variable=]
-    1116 | static const u32 ethtool_forced_speed_25000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ethtool.h:1111:18: warning: 'ethtool_forced_speed_20000' defined but not used [-Wunused-const-variable=]
-    1111 | static const u32 ethtool_forced_speed_20000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ethtool.h:1099:18: warning: 'ethtool_forced_speed_10000' defined but not used [-Wunused-const-variable=]
-    1099 | static const u32 ethtool_forced_speed_10000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/ethtool.h:1095:18: warning: 'ethtool_forced_speed_5000' defined but not used [-Wunused-const-variable=]
-    1095 | static const u32 ethtool_forced_speed_5000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/ethtool.h:1090:18: warning: 'ethtool_forced_speed_2500' defined but not used [-Wunused-const-variable=]
-    1090 | static const u32 ethtool_forced_speed_2500[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ethtool.h:1084:18: warning: 'ethtool_forced_speed_1000' defined but not used [-Wunused-const-variable=]
-    1084 | static const u32 ethtool_forced_speed_1000[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/ethtool.h:1078:18: warning: 'ethtool_forced_speed_100' defined but not used [-Wunused-const-variable=]
-    1078 | static const u32 ethtool_forced_speed_100[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/ethtool.h:1072:18: warning: 'ethtool_forced_speed_10' defined but not used [-Wunused-const-variable=]
-    1072 | static const u32 ethtool_forced_speed_10[] __initconst = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~
+>> fs/ceph/mds_client.c:2639: warning: Function parameter or member 'mdsc' not described in 'ceph_mdsc_build_path'
 
 
-vim +/ethtool_forced_speed_800000 +1190 include/linux/ethtool.h
+vim +2639 fs/ceph/mds_client.c
 
-  1071	
-> 1072	static const u32 ethtool_forced_speed_10[] __initconst = {
-  1073		ETHTOOL_LINK_MODE_10baseT_Full_BIT,
-  1074		ETHTOOL_LINK_MODE_10baseT1L_Full_BIT,
-  1075		ETHTOOL_LINK_MODE_10baseT1S_Full_BIT,
-  1076	};
-  1077	
-> 1078	static const u32 ethtool_forced_speed_100[] __initconst = {
-  1079		ETHTOOL_LINK_MODE_100baseT_Full_BIT,
-  1080		ETHTOOL_LINK_MODE_100baseFX_Half_BIT,
-  1081		ETHTOOL_LINK_MODE_100baseFX_Full_BIT,
-  1082	};
-  1083	
-  1084	static const u32 ethtool_forced_speed_1000[] __initconst = {
-  1085		ETHTOOL_LINK_MODE_1000baseT_Full_BIT,
-  1086		ETHTOOL_LINK_MODE_1000baseKX_Full_BIT,
-  1087		ETHTOOL_LINK_MODE_1000baseX_Full_BIT,
-  1088	};
-  1089	
-> 1090	static const u32 ethtool_forced_speed_2500[] __initconst = {
-  1091		ETHTOOL_LINK_MODE_2500baseT_Full_BIT,
-  1092		ETHTOOL_LINK_MODE_2500baseX_Full_BIT,
-  1093	};
-  1094	
-> 1095	static const u32 ethtool_forced_speed_5000[] __initconst = {
-  1096		ETHTOOL_LINK_MODE_5000baseT_Full_BIT,
-  1097	};
-  1098	
-  1099	static const u32 ethtool_forced_speed_10000[] __initconst = {
-  1100		ETHTOOL_LINK_MODE_10000baseT_Full_BIT,
-  1101		ETHTOOL_LINK_MODE_10000baseKR_Full_BIT,
-  1102		ETHTOOL_LINK_MODE_10000baseKX4_Full_BIT,
-  1103		ETHTOOL_LINK_MODE_10000baseR_FEC_BIT,
-  1104		ETHTOOL_LINK_MODE_10000baseCR_Full_BIT,
-  1105		ETHTOOL_LINK_MODE_10000baseSR_Full_BIT,
-  1106		ETHTOOL_LINK_MODE_10000baseLR_Full_BIT,
-  1107		ETHTOOL_LINK_MODE_10000baseLRM_Full_BIT,
-  1108		ETHTOOL_LINK_MODE_10000baseER_Full_BIT,
-  1109	};
-  1110	
-  1111	static const u32 ethtool_forced_speed_20000[] __initconst = {
-  1112		ETHTOOL_LINK_MODE_20000baseKR2_Full_BIT,
-  1113		ETHTOOL_LINK_MODE_20000baseMLD2_Full_BIT,
-  1114	};
-  1115	
-  1116	static const u32 ethtool_forced_speed_25000[] __initconst = {
-  1117		ETHTOOL_LINK_MODE_25000baseKR_Full_BIT,
-  1118		ETHTOOL_LINK_MODE_25000baseCR_Full_BIT,
-  1119		ETHTOOL_LINK_MODE_25000baseSR_Full_BIT,
-  1120	};
-  1121	
-  1122	static const u32 ethtool_forced_speed_40000[] __initconst = {
-  1123		ETHTOOL_LINK_MODE_40000baseLR4_Full_BIT,
-  1124		ETHTOOL_LINK_MODE_40000baseKR4_Full_BIT,
-  1125		ETHTOOL_LINK_MODE_40000baseCR4_Full_BIT,
-  1126		ETHTOOL_LINK_MODE_40000baseSR4_Full_BIT,
-  1127	};
-  1128	
-  1129	static const u32 ethtool_forced_speed_50000[] __initconst = {
-  1130		ETHTOOL_LINK_MODE_50000baseKR2_Full_BIT,
-  1131		ETHTOOL_LINK_MODE_50000baseCR2_Full_BIT,
-  1132		ETHTOOL_LINK_MODE_50000baseSR2_Full_BIT,
-  1133		ETHTOOL_LINK_MODE_50000baseKR_Full_BIT,
-  1134		ETHTOOL_LINK_MODE_50000baseKR_Full_BIT,
-  1135		ETHTOOL_LINK_MODE_50000baseCR_Full_BIT,
-  1136		ETHTOOL_LINK_MODE_50000baseLR_ER_FR_Full_BIT,
-  1137		ETHTOOL_LINK_MODE_50000baseDR_Full_BIT,
-  1138	};
-  1139	
-> 1140	static const u32 ethtool_forced_speed_56000[] __initconst = {
-  1141		ETHTOOL_LINK_MODE_56000baseKR4_Full_BIT,
-  1142		ETHTOOL_LINK_MODE_56000baseCR4_Full_BIT,
-  1143		ETHTOOL_LINK_MODE_56000baseSR4_Full_BIT,
-  1144		ETHTOOL_LINK_MODE_56000baseLR4_Full_BIT,
-  1145	};
-  1146	
-  1147	static const u32 ethtool_forced_speed_100000[] __initconst = {
-  1148		ETHTOOL_LINK_MODE_100000baseKR4_Full_BIT,
-  1149		ETHTOOL_LINK_MODE_100000baseSR4_Full_BIT,
-  1150		ETHTOOL_LINK_MODE_100000baseCR4_Full_BIT,
-  1151		ETHTOOL_LINK_MODE_100000baseLR4_ER4_Full_BIT,
-  1152		ETHTOOL_LINK_MODE_100000baseCR2_Full_BIT,
-  1153		ETHTOOL_LINK_MODE_100000baseSR2_Full_BIT,
-  1154		ETHTOOL_LINK_MODE_100000baseKR2_Full_BIT,
-  1155		ETHTOOL_LINK_MODE_100000baseLR2_ER2_FR2_Full_BIT,
-  1156		ETHTOOL_LINK_MODE_100000baseDR2_Full_BIT,
-  1157		ETHTOOL_LINK_MODE_100000baseKR_Full_BIT,
-  1158		ETHTOOL_LINK_MODE_100000baseSR_Full_BIT,
-  1159		ETHTOOL_LINK_MODE_100000baseLR_ER_FR_Full_BIT,
-  1160		ETHTOOL_LINK_MODE_100000baseCR_Full_BIT,
-  1161		ETHTOOL_LINK_MODE_100000baseDR_Full_BIT,
-  1162	};
-  1163	
-> 1164	static const u32 ethtool_forced_speed_200000[] __initconst = {
-  1165		ETHTOOL_LINK_MODE_200000baseKR4_Full_BIT,
-  1166		ETHTOOL_LINK_MODE_200000baseSR4_Full_BIT,
-  1167		ETHTOOL_LINK_MODE_200000baseLR4_ER4_FR4_Full_BIT,
-  1168		ETHTOOL_LINK_MODE_200000baseDR4_Full_BIT,
-  1169		ETHTOOL_LINK_MODE_200000baseCR4_Full_BIT,
-  1170		ETHTOOL_LINK_MODE_200000baseKR2_Full_BIT,
-  1171		ETHTOOL_LINK_MODE_200000baseSR2_Full_BIT,
-  1172		ETHTOOL_LINK_MODE_200000baseLR2_ER2_FR2_Full_BIT,
-  1173		ETHTOOL_LINK_MODE_200000baseDR2_Full_BIT,
-  1174		ETHTOOL_LINK_MODE_200000baseCR2_Full_BIT,
-  1175	};
-  1176	
-> 1177	static const u32 ethtool_forced_speed_400000[] __initconst = {
-  1178		ETHTOOL_LINK_MODE_400000baseKR8_Full_BIT,
-  1179		ETHTOOL_LINK_MODE_400000baseSR8_Full_BIT,
-  1180		ETHTOOL_LINK_MODE_400000baseLR8_ER8_FR8_Full_BIT,
-  1181		ETHTOOL_LINK_MODE_400000baseDR8_Full_BIT,
-  1182		ETHTOOL_LINK_MODE_400000baseCR8_Full_BIT,
-  1183		ETHTOOL_LINK_MODE_400000baseKR4_Full_BIT,
-  1184		ETHTOOL_LINK_MODE_400000baseSR4_Full_BIT,
-  1185		ETHTOOL_LINK_MODE_400000baseLR4_ER4_FR4_Full_BIT,
-  1186		ETHTOOL_LINK_MODE_400000baseDR4_Full_BIT,
-  1187		ETHTOOL_LINK_MODE_400000baseCR4_Full_BIT,
-  1188	};
-  1189	
-> 1190	static const u32 ethtool_forced_speed_800000[] __initconst = {
-  1191		ETHTOOL_LINK_MODE_800000baseCR8_Full_BIT,
-  1192		ETHTOOL_LINK_MODE_800000baseKR8_Full_BIT,
-  1193		ETHTOOL_LINK_MODE_800000baseDR8_Full_BIT,
-  1194		ETHTOOL_LINK_MODE_800000baseDR8_2_Full_BIT,
-  1195		ETHTOOL_LINK_MODE_800000baseSR8_Full_BIT,
-  1196		ETHTOOL_LINK_MODE_800000baseVR8_Full_BIT,
-  1197	};
-  1198	
+5d7efc49126a6d Jeff Layton    2021-01-14  2616  
+0874db5f86bc5b Jeff Layton    2020-08-07  2617  /**
+0874db5f86bc5b Jeff Layton    2020-08-07  2618   * ceph_mdsc_build_path - build a path string to a given dentry
+0874db5f86bc5b Jeff Layton    2020-08-07  2619   * @dentry: dentry to which path should be built
+0874db5f86bc5b Jeff Layton    2020-08-07  2620   * @plen: returned length of string
+0874db5f86bc5b Jeff Layton    2020-08-07  2621   * @pbase: returned base inode number
+0874db5f86bc5b Jeff Layton    2020-08-07  2622   * @for_wire: is this path going to be sent to the MDS?
+0874db5f86bc5b Jeff Layton    2020-08-07  2623   *
+0874db5f86bc5b Jeff Layton    2020-08-07  2624   * Build a string that represents the path to the dentry. This is mostly called
+0874db5f86bc5b Jeff Layton    2020-08-07  2625   * for two different purposes:
+0874db5f86bc5b Jeff Layton    2020-08-07  2626   *
+0874db5f86bc5b Jeff Layton    2020-08-07  2627   * 1) we need to build a path string to send to the MDS (for_wire == true)
+0874db5f86bc5b Jeff Layton    2020-08-07  2628   * 2) we need a path string for local presentation (e.g. debugfs) (for_wire == false)
+2f2dc053404feb Sage Weil      2009-10-06  2629   *
+0874db5f86bc5b Jeff Layton    2020-08-07  2630   * The path is built in reverse, starting with the dentry. Walk back up toward
+0874db5f86bc5b Jeff Layton    2020-08-07  2631   * the root, building the path until the first non-snapped inode is reached (for_wire)
+0874db5f86bc5b Jeff Layton    2020-08-07  2632   * or the root inode is reached (!for_wire).
+2f2dc053404feb Sage Weil      2009-10-06  2633   *
+2f2dc053404feb Sage Weil      2009-10-06  2634   * Encode hidden .snap dirs as a double /, i.e.
+2f2dc053404feb Sage Weil      2009-10-06  2635   *   foo/.snap/bar -> foo//bar
+2f2dc053404feb Sage Weil      2009-10-06  2636   */
+7072b2e8839b81 Xiubo Li       2023-06-09  2637  char *ceph_mdsc_build_path(struct ceph_mds_client *mdsc, struct dentry *dentry,
+7072b2e8839b81 Xiubo Li       2023-06-09  2638  			   int *plen, u64 *pbase, int for_wire)
+2f2dc053404feb Sage Weil      2009-10-06 @2639  {
+1b82f60fdbf92e Jeff Layton    2020-08-05  2640  	struct dentry *cur;
+1b82f60fdbf92e Jeff Layton    2020-08-05  2641  	struct inode *inode;
+2f2dc053404feb Sage Weil      2009-10-06  2642  	char *path;
+f77f21bb28367d Jeff Layton    2019-04-29  2643  	int pos;
+1b71fe2efa31cd Al Viro        2011-07-16  2644  	unsigned seq;
+69a10fb3f4b876 Jeff Layton    2019-04-26  2645  	u64 base;
+2f2dc053404feb Sage Weil      2009-10-06  2646  
+d37b1d9943d513 Markus Elfring 2017-08-20  2647  	if (!dentry)
+2f2dc053404feb Sage Weil      2009-10-06  2648  		return ERR_PTR(-EINVAL);
+2f2dc053404feb Sage Weil      2009-10-06  2649  
+f77f21bb28367d Jeff Layton    2019-04-29  2650  	path = __getname();
+d37b1d9943d513 Markus Elfring 2017-08-20  2651  	if (!path)
+2f2dc053404feb Sage Weil      2009-10-06  2652  		return ERR_PTR(-ENOMEM);
+f77f21bb28367d Jeff Layton    2019-04-29  2653  retry:
+f77f21bb28367d Jeff Layton    2019-04-29  2654  	pos = PATH_MAX - 1;
+f77f21bb28367d Jeff Layton    2019-04-29  2655  	path[pos] = '\0';
+f77f21bb28367d Jeff Layton    2019-04-29  2656  
+f77f21bb28367d Jeff Layton    2019-04-29  2657  	seq = read_seqbegin(&rename_lock);
+1b82f60fdbf92e Jeff Layton    2020-08-05  2658  	cur = dget(dentry);
+f77f21bb28367d Jeff Layton    2019-04-29  2659  	for (;;) {
+0874db5f86bc5b Jeff Layton    2020-08-07  2660  		struct dentry *parent;
+2f2dc053404feb Sage Weil      2009-10-06  2661  
+1b82f60fdbf92e Jeff Layton    2020-08-05  2662  		spin_lock(&cur->d_lock);
+1b82f60fdbf92e Jeff Layton    2020-08-05  2663  		inode = d_inode(cur);
+2f2dc053404feb Sage Weil      2009-10-06  2664  		if (inode && ceph_snap(inode) == CEPH_SNAPDIR) {
+104648ad3f2ebe Sage Weil      2010-03-18  2665  			dout("build_path path+%d: %p SNAPDIR\n",
+1b82f60fdbf92e Jeff Layton    2020-08-05  2666  			     pos, cur);
+0874db5f86bc5b Jeff Layton    2020-08-07  2667  			spin_unlock(&cur->d_lock);
+0874db5f86bc5b Jeff Layton    2020-08-07  2668  			parent = dget_parent(cur);
+0874db5f86bc5b Jeff Layton    2020-08-07  2669  		} else if (for_wire && inode && dentry != cur && ceph_snap(inode) == CEPH_NOSNAP) {
+1b82f60fdbf92e Jeff Layton    2020-08-05  2670  			spin_unlock(&cur->d_lock);
+d6b8bd679c9c88 Jeff Layton    2019-05-09  2671  			pos++; /* get rid of any prepended '/' */
+2f2dc053404feb Sage Weil      2009-10-06  2672  			break;
+0874db5f86bc5b Jeff Layton    2020-08-07  2673  		} else if (!for_wire || !IS_ENCRYPTED(d_inode(cur->d_parent))) {
+1b82f60fdbf92e Jeff Layton    2020-08-05  2674  			pos -= cur->d_name.len;
+1b71fe2efa31cd Al Viro        2011-07-16  2675  			if (pos < 0) {
+1b82f60fdbf92e Jeff Layton    2020-08-05  2676  				spin_unlock(&cur->d_lock);
+2f2dc053404feb Sage Weil      2009-10-06  2677  				break;
+1b71fe2efa31cd Al Viro        2011-07-16  2678  			}
+1b82f60fdbf92e Jeff Layton    2020-08-05  2679  			memcpy(path + pos, cur->d_name.name, cur->d_name.len);
+0874db5f86bc5b Jeff Layton    2020-08-07  2680  			spin_unlock(&cur->d_lock);
+0874db5f86bc5b Jeff Layton    2020-08-07  2681  			parent = dget_parent(cur);
+0874db5f86bc5b Jeff Layton    2020-08-07  2682  		} else {
+0874db5f86bc5b Jeff Layton    2020-08-07  2683  			int len, ret;
+0874db5f86bc5b Jeff Layton    2020-08-07  2684  			char buf[NAME_MAX];
+0874db5f86bc5b Jeff Layton    2020-08-07  2685  
+0874db5f86bc5b Jeff Layton    2020-08-07  2686  			/*
+0874db5f86bc5b Jeff Layton    2020-08-07  2687  			 * Proactively copy name into buf, in case we need to present
+0874db5f86bc5b Jeff Layton    2020-08-07  2688  			 * it as-is.
+0874db5f86bc5b Jeff Layton    2020-08-07  2689  			 */
+0874db5f86bc5b Jeff Layton    2020-08-07  2690  			memcpy(buf, cur->d_name.name, cur->d_name.len);
+0874db5f86bc5b Jeff Layton    2020-08-07  2691  			len = cur->d_name.len;
+0874db5f86bc5b Jeff Layton    2020-08-07  2692  			spin_unlock(&cur->d_lock);
+0874db5f86bc5b Jeff Layton    2020-08-07  2693  			parent = dget_parent(cur);
+0874db5f86bc5b Jeff Layton    2020-08-07  2694  
+97142624013d56 Luís Henriques 2022-11-29  2695  			ret = ceph_fscrypt_prepare_readdir(d_inode(parent));
+0874db5f86bc5b Jeff Layton    2020-08-07  2696  			if (ret < 0) {
+0874db5f86bc5b Jeff Layton    2020-08-07  2697  				dput(parent);
+0874db5f86bc5b Jeff Layton    2020-08-07  2698  				dput(cur);
+0874db5f86bc5b Jeff Layton    2020-08-07  2699  				return ERR_PTR(ret);
+0874db5f86bc5b Jeff Layton    2020-08-07  2700  			}
+0874db5f86bc5b Jeff Layton    2020-08-07  2701  
+0874db5f86bc5b Jeff Layton    2020-08-07  2702  			if (fscrypt_has_encryption_key(d_inode(parent))) {
+0874db5f86bc5b Jeff Layton    2020-08-07  2703  				len = ceph_encode_encrypted_fname(d_inode(parent), cur, buf);
+0874db5f86bc5b Jeff Layton    2020-08-07  2704  				if (len < 0) {
+0874db5f86bc5b Jeff Layton    2020-08-07  2705  					dput(parent);
+0874db5f86bc5b Jeff Layton    2020-08-07  2706  					dput(cur);
+0874db5f86bc5b Jeff Layton    2020-08-07  2707  					return ERR_PTR(len);
+2f2dc053404feb Sage Weil      2009-10-06  2708  				}
+0874db5f86bc5b Jeff Layton    2020-08-07  2709  			}
+0874db5f86bc5b Jeff Layton    2020-08-07  2710  			pos -= len;
+0874db5f86bc5b Jeff Layton    2020-08-07  2711  			if (pos < 0) {
+0874db5f86bc5b Jeff Layton    2020-08-07  2712  				dput(parent);
+0874db5f86bc5b Jeff Layton    2020-08-07  2713  				break;
+0874db5f86bc5b Jeff Layton    2020-08-07  2714  			}
+0874db5f86bc5b Jeff Layton    2020-08-07  2715  			memcpy(path + pos, buf, len);
+0874db5f86bc5b Jeff Layton    2020-08-07  2716  		}
+0874db5f86bc5b Jeff Layton    2020-08-07  2717  		dput(cur);
+0874db5f86bc5b Jeff Layton    2020-08-07  2718  		cur = parent;
+f77f21bb28367d Jeff Layton    2019-04-29  2719  
+f77f21bb28367d Jeff Layton    2019-04-29  2720  		/* Are we at the root? */
+1b82f60fdbf92e Jeff Layton    2020-08-05  2721  		if (IS_ROOT(cur))
+f77f21bb28367d Jeff Layton    2019-04-29  2722  			break;
+f77f21bb28367d Jeff Layton    2019-04-29  2723  
+f77f21bb28367d Jeff Layton    2019-04-29  2724  		/* Are we out of buffer? */
+f77f21bb28367d Jeff Layton    2019-04-29  2725  		if (--pos < 0)
+f77f21bb28367d Jeff Layton    2019-04-29  2726  			break;
+f77f21bb28367d Jeff Layton    2019-04-29  2727  
+f77f21bb28367d Jeff Layton    2019-04-29  2728  		path[pos] = '/';
+2f2dc053404feb Sage Weil      2009-10-06  2729  	}
+1b82f60fdbf92e Jeff Layton    2020-08-05  2730  	inode = d_inode(cur);
+1b82f60fdbf92e Jeff Layton    2020-08-05  2731  	base = inode ? ceph_ino(inode) : 0;
+1b82f60fdbf92e Jeff Layton    2020-08-05  2732  	dput(cur);
+f5946bcc5e7903 Jeff Layton    2019-10-16  2733  
+f5946bcc5e7903 Jeff Layton    2019-10-16  2734  	if (read_seqretry(&rename_lock, seq))
+f5946bcc5e7903 Jeff Layton    2019-10-16  2735  		goto retry;
+f5946bcc5e7903 Jeff Layton    2019-10-16  2736  
+f5946bcc5e7903 Jeff Layton    2019-10-16  2737  	if (pos < 0) {
+f5946bcc5e7903 Jeff Layton    2019-10-16  2738  		/*
+f5946bcc5e7903 Jeff Layton    2019-10-16  2739  		 * A rename didn't occur, but somehow we didn't end up where
+f5946bcc5e7903 Jeff Layton    2019-10-16  2740  		 * we thought we would. Throw a warning and try again.
+f5946bcc5e7903 Jeff Layton    2019-10-16  2741  		 */
+0874db5f86bc5b Jeff Layton    2020-08-07  2742  		pr_warn("build_path did not end path lookup where expected (pos = %d)\n", pos);
+2f2dc053404feb Sage Weil      2009-10-06  2743  		goto retry;
+2f2dc053404feb Sage Weil      2009-10-06  2744  	}
+2f2dc053404feb Sage Weil      2009-10-06  2745  
+69a10fb3f4b876 Jeff Layton    2019-04-26  2746  	*pbase = base;
+f77f21bb28367d Jeff Layton    2019-04-29  2747  	*plen = PATH_MAX - 1 - pos;
+104648ad3f2ebe Sage Weil      2010-03-18  2748  	dout("build_path on %p %d built %llx '%.*s'\n",
+f77f21bb28367d Jeff Layton    2019-04-29  2749  	     dentry, d_count(dentry), base, *plen, path + pos);
+f77f21bb28367d Jeff Layton    2019-04-29  2750  	return path + pos;
+2f2dc053404feb Sage Weil      2009-10-06  2751  }
+2f2dc053404feb Sage Weil      2009-10-06  2752  
+
+:::::: The code at line 2639 was first introduced by commit
+:::::: 2f2dc053404febedc9c273452d9d518fb31fde72 ceph: MDS client
+
+:::::: TO: Sage Weil <sage@newdream.net>
+:::::: CC: Sage Weil <sage@newdream.net>
 
 -- 
 0-DAY CI Kernel Test Service
