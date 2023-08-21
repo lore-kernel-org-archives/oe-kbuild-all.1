@@ -1,42 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C34079F1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 15:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A37579F1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 15:37:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692632185; x=1724168185;
+  t=1692632279; x=1724168279;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2K3MI7K+COnRaKbzjapXBahZUN/m1kWbdj6gly6joJE=;
-  b=oKnTipb+EmfeVyf+S8MUq4PllnjS5qyWZjZ6yC+V/MqK6HAytBBqgG1h
-   0a8NRQA//AShCByEUvrLWrKJRrB9gbz2Hys3c89oPlnEPMZ8goQtU9aRC
-   n2lNNPs/Y+44BEMot+ooC7LCarINUmCMM1qXUcbLIi+1Hhg0NED8n4vkI
-   AOW0+yJ7/Upbqo1AuMe1YPMy6rgyi1527hyLySuLWhwceSd8315nFrmZv
-   C6OCn5Dv8jHJCBey96f8yzHEy7eAh83llZbq/ssqJ6tohKFfgIDQ6/fyn
-   7J6CBWv9r4p8XK4RxtmI1cu4u3zlvEfRxUWY84KC12X7W5L1965tmWgQC
+  bh=7YIL7afJRiwZcQa2kOENWh7rvlFztE9aqcKdY2Sgwdg=;
+  b=fpdFtElOeA8jfBMhEN5RVypaGPWvZ1rVm3i6jPrrtbOR0mvuCzX4/eQ+
+   eUfzVEWtRZlDXb6v66pC+aw0S0Kn4rCNFM1CDgHmKfw2ZkAKO9d8wWxBa
+   JBYfWP0mWiJ6nlQcl7CC1YXSsi0dpcKiDCFLh0MewwERqQsXecUQUeJ5g
+   QEOun6uqgf7EZljioasWqhI+0Q6xE4+x9PS0YY26dRnia75Fs3/VA4OA6
+   /X+ZnFiRhItb8dYPRBh9FWXIn71HEC9iv1EY4vRAv9cTEUIU4FxN2i0pK
+   3sQMZ9N35w/G2wvlqyvyXXjfsI+f8wAcaPlW95V0YBPBRC9T0HmKA/6ie
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="377361945"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="358608929"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="377361945"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 08:36:24 -0700
+   d="scan'208";a="358608929"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 08:37:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="738929691"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="850232686"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="738929691"
+   d="scan'208";a="850232686"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Aug 2023 08:36:23 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 21 Aug 2023 08:37:50 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qY6wz-0000e9-0p;
-	Mon, 21 Aug 2023 15:36:20 +0000
-Date: Mon, 21 Aug 2023 23:35:57 +0800
+	id 1qY6y2-0000eG-1C;
+	Mon, 21 Aug 2023 15:37:33 +0000
+Date: Mon, 21 Aug 2023 23:36:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10-2023-07 1/1]
- drivers/hid/hid-core.c:1777: undefined reference to `uhid_hid_driver'
-Message-ID: <202308212320.Kue6tDV0-lkp@intel.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Christoph Hellwig <hch@lst.de>, Dave Chinner <dchinner@redhat.com>,
+	Jan Kara <jack@suse.cz>
+Subject: [linux-next:master 2069/11453] fs/gfs2/super.c:767: warning:
+ Function parameter or member 'who' not described in 'gfs2_freeze_super'
+Message-ID: <202308212348.1TirdKeg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,89 +49,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10-2023-07
-head:   219d8dfbba0713b72b5b1088ad6c600ec9d656f3
-commit: c93516a2d02c0a1f0466b3f512977c40c1bee4f0 [1/1] ANDROID: HID; Over-ride default maximum buffer size when using UHID
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230821/202308212320.Kue6tDV0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212320.Kue6tDV0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47d9bb711707d15b19fad18c8e2b4b027a264a3a
+commit: 880b9577855edddda1e732748e849c63199d489b [2069/11453] fs: distinguish between user initiated freeze and kernel initiated freeze
+config: alpha-randconfig-r011-20230821 (https://download.01.org/0day-ci/archive/20230821/202308212348.1TirdKeg-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212348.1TirdKeg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308212320.Kue6tDV0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308212348.1TirdKeg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/hid/hid-core.o: in function `hid_report_raw_event':
->> drivers/hid/hid-core.c:1777: undefined reference to `uhid_hid_driver'
-   ld: drivers/hid/hid-core.o: in function `hid_add_field':
-   drivers/hid/hid-core.c:293: undefined reference to `uhid_hid_driver'
+>> fs/gfs2/super.c:767: warning: Function parameter or member 'who' not described in 'gfs2_freeze_super'
+>> fs/gfs2/super.c:822: warning: Function parameter or member 'who' not described in 'gfs2_thaw_super'
 
 
-vim +1777 drivers/hid/hid-core.c
+vim +767 fs/gfs2/super.c
 
-  1753	
-  1754	int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
-  1755			int interrupt)
-  1756	{
-  1757		struct hid_report_enum *report_enum = hid->report_enum + type;
-  1758		struct hid_report *report;
-  1759		struct hid_driver *hdrv;
-  1760		int max_buffer_size = HID_MAX_BUFFER_SIZE;
-  1761		unsigned int a;
-  1762		u32 rsize, csize = size;
-  1763		u8 *cdata = data;
-  1764		int ret = 0;
-  1765	
-  1766		report = hid_get_report(report_enum, data);
-  1767		if (!report)
-  1768			goto out;
-  1769	
-  1770		if (report_enum->numbered) {
-  1771			cdata++;
-  1772			csize--;
-  1773		}
-  1774	
-  1775		rsize = hid_compute_report_size(report);
-  1776	
-> 1777		if (hid->ll_driver == &uhid_hid_driver)
-  1778			max_buffer_size = UHID_DATA_MAX;
-  1779	
-  1780		if (report_enum->numbered && rsize >= max_buffer_size)
-  1781			rsize = max_buffer_size - 1;
-  1782		else if (rsize > max_buffer_size)
-  1783			rsize = max_buffer_size;
-  1784	
-  1785		if (csize < rsize) {
-  1786			dbg_hid("report %d is too short, (%d < %d)\n", report->id,
-  1787					csize, rsize);
-  1788			memset(cdata + csize, 0, rsize - csize);
-  1789		}
-  1790	
-  1791		if ((hid->claimed & HID_CLAIMED_HIDDEV) && hid->hiddev_report_event)
-  1792			hid->hiddev_report_event(hid, report);
-  1793		if (hid->claimed & HID_CLAIMED_HIDRAW) {
-  1794			ret = hidraw_report_event(hid, data, size);
-  1795			if (ret)
-  1796				goto out;
-  1797		}
-  1798	
-  1799		if (hid->claimed != HID_CLAIMED_HIDRAW && report->maxfield) {
-  1800			for (a = 0; a < report->maxfield; a++)
-  1801				hid_input_field(hid, report->field[a], cdata, interrupt);
-  1802			hdrv = hid->driver;
-  1803			if (hdrv && hdrv->report)
-  1804				hdrv->report(hid, report);
-  1805		}
-  1806	
-  1807		if (hid->claimed & HID_CLAIMED_INPUT)
-  1808			hidinput_report_event(hid, report);
-  1809	out:
-  1810		return ret;
-  1811	}
-  1812	EXPORT_SYMBOL_GPL(hid_report_raw_event);
-  1813	
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  759  
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  760  /**
+097cca525adf10 Andreas Gruenbacher 2022-11-14  761   * gfs2_freeze_super - prevent further writes to the filesystem
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  762   * @sb: the VFS structure for the filesystem
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  763   *
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  764   */
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  765  
+880b9577855edd Darrick J. Wong     2023-07-17  766  static int gfs2_freeze_super(struct super_block *sb, enum freeze_holder who)
+9e6e0a128bca0a Steven Whitehouse   2009-05-22 @767  {
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  768  	struct gfs2_sbd *sdp = sb->s_fs_info;
+ff132c5f93c06b Bob Peterson        2021-03-25  769  	int error;
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  770  
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  771  	if (!mutex_trylock(&sdp->sd_freeze_mutex))
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  772  		return -EBUSY;
+ff132c5f93c06b Bob Peterson        2021-03-25  773  	error = -EBUSY;
+5432af15f8772d Andreas Gruenbacher 2022-08-18  774  	if (test_bit(SDF_FROZEN, &sdp->sd_flags))
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  775  		goto out;
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  776  
+60528afa78667b Bob Peterson        2019-11-14  777  	for (;;) {
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  778  		error = gfs2_freeze_locally(sdp);
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  779  		if (error) {
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  780  			fs_info(sdp, "GFS2: couldn't freeze filesystem: %d\n",
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  781  				error);
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  782  			goto out;
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  783  		}
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  784  
+52b1cdcb7a84a4 Bob Peterson        2019-11-15  785  		error = gfs2_lock_fs_check_clean(sdp);
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  786  		if (!error)
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  787  			break;  /* success */
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  788  
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  789  		error = gfs2_do_thaw(sdp);
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  790  		if (error)
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  791  			goto out;
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  792  
+55317f5b00f0dc Bob Peterson        2019-04-29  793  		if (error == -EBUSY)
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  794  			fs_err(sdp, "waiting for recovery before freeze\n");
+52b1cdcb7a84a4 Bob Peterson        2019-11-15  795  		else if (error == -EIO) {
+52b1cdcb7a84a4 Bob Peterson        2019-11-15  796  			fs_err(sdp, "Fatal IO error: cannot freeze gfs2 due "
+52b1cdcb7a84a4 Bob Peterson        2019-11-15  797  			       "to recovery error.\n");
+52b1cdcb7a84a4 Bob Peterson        2019-11-15  798  			goto out;
+52b1cdcb7a84a4 Bob Peterson        2019-11-15  799  		} else {
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  800  			fs_err(sdp, "error freezing FS: %d\n", error);
+52b1cdcb7a84a4 Bob Peterson        2019-11-15  801  		}
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  802  		fs_err(sdp, "retrying...\n");
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  803  		msleep(1000);
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  804  	}
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  805  
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  806  out:
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  807  	if (!error) {
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  808  		set_bit(SDF_FREEZE_INITIATOR, &sdp->sd_flags);
+5432af15f8772d Andreas Gruenbacher 2022-08-18  809  		set_bit(SDF_FROZEN, &sdp->sd_flags);
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  810  	}
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  811  	mutex_unlock(&sdp->sd_freeze_mutex);
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  812  	return error;
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  813  }
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  814  
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  815  /**
+097cca525adf10 Andreas Gruenbacher 2022-11-14  816   * gfs2_thaw_super - reallow writes to the filesystem
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  817   * @sb: the VFS structure for the filesystem
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  818   *
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  819   */
+9e6e0a128bca0a Steven Whitehouse   2009-05-22  820  
+880b9577855edd Darrick J. Wong     2023-07-17  821  static int gfs2_thaw_super(struct super_block *sb, enum freeze_holder who)
+9e6e0a128bca0a Steven Whitehouse   2009-05-22 @822  {
+d564053f074634 Steven Whitehouse   2013-01-11  823  	struct gfs2_sbd *sdp = sb->s_fs_info;
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  824  	int error;
+d564053f074634 Steven Whitehouse   2013-01-11  825  
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  826  	if (!mutex_trylock(&sdp->sd_freeze_mutex))
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  827  		return -EBUSY;
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  828  	error = -EINVAL;
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  829  	if (!test_bit(SDF_FREEZE_INITIATOR, &sdp->sd_flags))
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  830  		goto out;
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  831  
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  832  	gfs2_freeze_unlock(&sdp->sd_freeze_gh);
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  833  
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  834  	error = gfs2_do_thaw(sdp);
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  835  
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  836  	if (!error) {
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  837  		clear_bit(SDF_FREEZE_INITIATOR, &sdp->sd_flags);
+5432af15f8772d Andreas Gruenbacher 2022-08-18  838  		clear_bit(SDF_FROZEN, &sdp->sd_flags);
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  839  	}
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  840  out:
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  841  	mutex_unlock(&sdp->sd_freeze_mutex);
+b77b4a4815a965 Andreas Gruenbacher 2022-11-14  842  	return error;
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  843  }
+2e60d7683c8d2e Benjamin Marzinski  2014-11-13  844  
+
+:::::: The code at line 767 was first introduced by commit
+:::::: 9e6e0a128bca0a151d8d3fbd9459b22fc21cfebb GFS2: Merge mount.c and ops_super.c into super.c
+
+:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
+:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
