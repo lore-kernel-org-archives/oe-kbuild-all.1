@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A37579F1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 15:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CF24A31
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 15:47:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692632279; x=1724168279;
+  t=1692632874; x=1724168874;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7YIL7afJRiwZcQa2kOENWh7rvlFztE9aqcKdY2Sgwdg=;
-  b=fpdFtElOeA8jfBMhEN5RVypaGPWvZ1rVm3i6jPrrtbOR0mvuCzX4/eQ+
-   eUfzVEWtRZlDXb6v66pC+aw0S0Kn4rCNFM1CDgHmKfw2ZkAKO9d8wWxBa
-   JBYfWP0mWiJ6nlQcl7CC1YXSsi0dpcKiDCFLh0MewwERqQsXecUQUeJ5g
-   QEOun6uqgf7EZljioasWqhI+0Q6xE4+x9PS0YY26dRnia75Fs3/VA4OA6
-   /X+ZnFiRhItb8dYPRBh9FWXIn71HEC9iv1EY4vRAv9cTEUIU4FxN2i0pK
-   3sQMZ9N35w/G2wvlqyvyXXjfsI+f8wAcaPlW95V0YBPBRC9T0HmKA/6ie
+  bh=d3pZfZEawwrZHOIzz7hdHhVIqdF64cGYlDu1k/VBMg4=;
+  b=B631HFJRVSUbEe5i0bUvqmSi+3fP/NRNSMoFHRxn9CY4FCruG/Znkk0J
+   gNL7mFjG+o/8eVDPlElce/c7ql4uwO1b4zX1KHEHobjqmtF5+vkJJFFfZ
+   +/jhrtfiDjDcPzbryAliYz7aW+rzFDQnmw5hAThJxTv9N4CFiBwtjD02p
+   NIj2HUipUkHFHC0HcSeteBjZ1B5hYZje07yFrOm58T6Zm2zBdw4Sqh+uC
+   rlw/5fnbpFr3skOMDaibCyI4HPS+drch7KUWH+QPAIEyyKWn5L1l+2Eh2
+   k8eiQ6Hzg6ysp9lYbr6t1No+AiuO70nnwic2ssID3WX3Rw/GL5yK1BGGk
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="358608929"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="372526454"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="358608929"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 08:37:53 -0700
+   d="scan'208";a="372526454"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 08:47:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="850232686"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="712828472"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="850232686"
+   d="scan'208";a="712828472"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Aug 2023 08:37:50 -0700
+  by orsmga006.jf.intel.com with ESMTP; 21 Aug 2023 08:47:50 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qY6y2-0000eG-1C;
-	Mon, 21 Aug 2023 15:37:33 +0000
-Date: Mon, 21 Aug 2023 23:36:03 +0800
+	id 1qY789-0000eK-1z;
+	Mon, 21 Aug 2023 15:47:49 +0000
+Date: Mon, 21 Aug 2023 23:47:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christoph Hellwig <hch@lst.de>, Dave Chinner <dchinner@redhat.com>,
-	Jan Kara <jack@suse.cz>
-Subject: [linux-next:master 2069/11453] fs/gfs2/super.c:767: warning:
- Function parameter or member 'who' not described in 'gfs2_freeze_super'
-Message-ID: <202308212348.1TirdKeg-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: shadow.c:(.text+0x80): multiple definition of `memset';
+ arch/x86/lib/memset_64.o:(.noinstr.text+0x0): first defined here
+Message-ID: <202308212351.kgRGqTiM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,118 +47,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   47d9bb711707d15b19fad18c8e2b4b027a264a3a
-commit: 880b9577855edddda1e732748e849c63199d489b [2069/11453] fs: distinguish between user initiated freeze and kernel initiated freeze
-config: alpha-randconfig-r011-20230821 (https://download.01.org/0day-ci/archive/20230821/202308212348.1TirdKeg-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212348.1TirdKeg-lkp@intel.com/reproduce)
+Hi Peter,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f7757129e3dea336c407551c98f50057c22bb266
+commit: 69d4c0d3218692ffa56b0e1b9c76c50c699d7044 entry, kasan, x86: Disallow overriding mem*() functions
+date:   7 months ago
+config: um-randconfig-r036-20230821 (https://download.01.org/0day-ci/archive/20230821/202308212351.kgRGqTiM-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212351.kgRGqTiM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308212348.1TirdKeg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308212351.kgRGqTiM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/gfs2/super.c:767: warning: Function parameter or member 'who' not described in 'gfs2_freeze_super'
->> fs/gfs2/super.c:822: warning: Function parameter or member 'who' not described in 'gfs2_thaw_super'
-
-
-vim +767 fs/gfs2/super.c
-
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  759  
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  760  /**
-097cca525adf10 Andreas Gruenbacher 2022-11-14  761   * gfs2_freeze_super - prevent further writes to the filesystem
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  762   * @sb: the VFS structure for the filesystem
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  763   *
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  764   */
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  765  
-880b9577855edd Darrick J. Wong     2023-07-17  766  static int gfs2_freeze_super(struct super_block *sb, enum freeze_holder who)
-9e6e0a128bca0a Steven Whitehouse   2009-05-22 @767  {
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  768  	struct gfs2_sbd *sdp = sb->s_fs_info;
-ff132c5f93c06b Bob Peterson        2021-03-25  769  	int error;
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  770  
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  771  	if (!mutex_trylock(&sdp->sd_freeze_mutex))
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  772  		return -EBUSY;
-ff132c5f93c06b Bob Peterson        2021-03-25  773  	error = -EBUSY;
-5432af15f8772d Andreas Gruenbacher 2022-08-18  774  	if (test_bit(SDF_FROZEN, &sdp->sd_flags))
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  775  		goto out;
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  776  
-60528afa78667b Bob Peterson        2019-11-14  777  	for (;;) {
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  778  		error = gfs2_freeze_locally(sdp);
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  779  		if (error) {
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  780  			fs_info(sdp, "GFS2: couldn't freeze filesystem: %d\n",
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  781  				error);
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  782  			goto out;
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  783  		}
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  784  
-52b1cdcb7a84a4 Bob Peterson        2019-11-15  785  		error = gfs2_lock_fs_check_clean(sdp);
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  786  		if (!error)
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  787  			break;  /* success */
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  788  
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  789  		error = gfs2_do_thaw(sdp);
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  790  		if (error)
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  791  			goto out;
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  792  
-55317f5b00f0dc Bob Peterson        2019-04-29  793  		if (error == -EBUSY)
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  794  			fs_err(sdp, "waiting for recovery before freeze\n");
-52b1cdcb7a84a4 Bob Peterson        2019-11-15  795  		else if (error == -EIO) {
-52b1cdcb7a84a4 Bob Peterson        2019-11-15  796  			fs_err(sdp, "Fatal IO error: cannot freeze gfs2 due "
-52b1cdcb7a84a4 Bob Peterson        2019-11-15  797  			       "to recovery error.\n");
-52b1cdcb7a84a4 Bob Peterson        2019-11-15  798  			goto out;
-52b1cdcb7a84a4 Bob Peterson        2019-11-15  799  		} else {
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  800  			fs_err(sdp, "error freezing FS: %d\n", error);
-52b1cdcb7a84a4 Bob Peterson        2019-11-15  801  		}
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  802  		fs_err(sdp, "retrying...\n");
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  803  		msleep(1000);
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  804  	}
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  805  
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  806  out:
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  807  	if (!error) {
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  808  		set_bit(SDF_FREEZE_INITIATOR, &sdp->sd_flags);
-5432af15f8772d Andreas Gruenbacher 2022-08-18  809  		set_bit(SDF_FROZEN, &sdp->sd_flags);
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  810  	}
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  811  	mutex_unlock(&sdp->sd_freeze_mutex);
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  812  	return error;
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  813  }
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  814  
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  815  /**
-097cca525adf10 Andreas Gruenbacher 2022-11-14  816   * gfs2_thaw_super - reallow writes to the filesystem
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  817   * @sb: the VFS structure for the filesystem
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  818   *
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  819   */
-9e6e0a128bca0a Steven Whitehouse   2009-05-22  820  
-880b9577855edd Darrick J. Wong     2023-07-17  821  static int gfs2_thaw_super(struct super_block *sb, enum freeze_holder who)
-9e6e0a128bca0a Steven Whitehouse   2009-05-22 @822  {
-d564053f074634 Steven Whitehouse   2013-01-11  823  	struct gfs2_sbd *sdp = sb->s_fs_info;
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  824  	int error;
-d564053f074634 Steven Whitehouse   2013-01-11  825  
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  826  	if (!mutex_trylock(&sdp->sd_freeze_mutex))
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  827  		return -EBUSY;
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  828  	error = -EINVAL;
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  829  	if (!test_bit(SDF_FREEZE_INITIATOR, &sdp->sd_flags))
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  830  		goto out;
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  831  
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  832  	gfs2_freeze_unlock(&sdp->sd_freeze_gh);
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  833  
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  834  	error = gfs2_do_thaw(sdp);
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  835  
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  836  	if (!error) {
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  837  		clear_bit(SDF_FREEZE_INITIATOR, &sdp->sd_flags);
-5432af15f8772d Andreas Gruenbacher 2022-08-18  838  		clear_bit(SDF_FROZEN, &sdp->sd_flags);
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  839  	}
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  840  out:
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  841  	mutex_unlock(&sdp->sd_freeze_mutex);
-b77b4a4815a965 Andreas Gruenbacher 2022-11-14  842  	return error;
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  843  }
-2e60d7683c8d2e Benjamin Marzinski  2014-11-13  844  
-
-:::::: The code at line 767 was first introduced by commit
-:::::: 9e6e0a128bca0a151d8d3fbd9459b22fc21cfebb GFS2: Merge mount.c and ops_super.c into super.c
-
-:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
-:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
+   ld: mm/kasan/shadow.o: in function `memset':
+>> shadow.c:(.text+0x80): multiple definition of `memset'; arch/x86/lib/memset_64.o:(.noinstr.text+0x0): first defined here
+   ld: mm/kasan/shadow.o: in function `memmove':
+>> shadow.c:(.text+0x100): multiple definition of `memmove'; arch/x86/lib/memmove_64.o:(.noinstr.text+0x0): first defined here
+   ld: mm/kasan/shadow.o: in function `memcpy':
+>> shadow.c:(.text+0x180): multiple definition of `memcpy'; arch/x86/lib/memcpy_64.o:(.noinstr.text+0x0): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
