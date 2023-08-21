@@ -1,92 +1,124 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBF3883B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 16:15:27 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37LCdM2u008101;
-	Mon, 21 Aug 2023 10:51:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=v8xBfQxeoQPnjeB
-	Dzth+3/Z0nKdnv94DtabVTPNaYV8=; b=qkq2yblBUVlbywAEdUSy2bKCxblQQKK
-	xeGV2nBQH/0bQNwPrwsdO7nZjIVc0JTo9koi1aQl14P9srUaNnfGetPUfHNncAWw
-	a2e3OZ+FFooHqW2wS4iiAIZ2j8YsfiztVNxOFdGAV92FfwT5IxV+ihmwxSR5UFoJ
-	LW1lQoL49O0x9xouIbSjNpLcMw6z3fcW7X/naBDj142S6lZH0gOOEx7B6t7alnCO
-	IHIbbGCLAPcyKKBaaHhPfT6dSH/k9iG1nxbZoAMwgiBMJLNVyElr9h1KbRqta81Q
-	MJuHRGXUxVz0IiSj6efzr2xifEHF3T6B6YmMx0dlxiRgcdVAUOuJDDw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3sktt5rrdm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 21 Aug 2023 10:51:31 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 21 Aug
- 2023 16:51:29 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.30 via Frontend
- Transport; Mon, 21 Aug 2023 16:51:29 +0100
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 2ED6C3575;
-	Mon, 21 Aug 2023 15:51:29 +0000 (UTC)
-Date: Mon, 21 Aug 2023 15:51:29 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: kernel test robot <lkp@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>,
-        Linux Memory Management List
-	<linux-mm@kvack.org>,
-        Lee Jones <lee@kernel.org>
-Subject: Re: [linux-next:master 9894/11453] drivers/mfd/cs42l43.c:1138:12:
- warning: 'cs42l43_runtime_resume' defined but not used
-Message-ID: <20230821155129.GD103419@ediswmail.ad.cirrus.com>
-References: <202308212225.fGjY1rr6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6054A31
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 16:23:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692635034; x=1724171034;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=df0pNlWExys7JXxdYFyuoQG4di6JR0h4kHkCThFvois=;
+  b=UUdcCskkez3Qbn26tm1SnD1RRlEMQOgYIX6EsnOfd/ryG3w/4HUvh8lf
+   EeEq9JuVpNfSyqKcX5FpHZ1hbAUXyphQJtXxRqyzCNUPUS2YYGgBQfH3r
+   YLnMzbvxwAhaY3N/yLsxkwY/58NUdWyR/Vd89oB6K1xSepayV6flIUiUd
+   9qRVbaqvqnLcf8fM3DOt+MAr18XDjSq9M0dcbWEktWe6ophpJiHpAFJUa
+   hNbdH+yAVB8Z/7Wc4v974vbh5mXrSqmTPBfKzWFUnIW+2fJ2YEm1YpI2e
+   4/9GGQQZtbCB0cSOHvN9yJsetD+S1ugacZcLUqaB7lFJe/a0vC4c2sDMU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="373607403"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
+   d="scan'208";a="373607403"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 09:19:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="765433672"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
+   d="scan'208";a="765433672"
+Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 21 Aug 2023 09:19:50 -0700
+Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qY7d7-0000gW-1a;
+	Mon, 21 Aug 2023 16:19:49 +0000
+Date: Tue, 22 Aug 2023 00:18:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:ceph-iter 20/30] drivers/block/rbd.c:2741:10: warning:
+ #warning needs fixing
+Message-ID: <202308220005.oicMmXaj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202308212225.fGjY1rr6-lkp@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: GUwRwgVmIovh-d5UFMSLKbN_jkJSHfKt
-X-Proofpoint-ORIG-GUID: GUwRwgVmIovh-d5UFMSLKbN_jkJSHfKt
-X-Proofpoint-Spam-Reason: safe
 
-On Mon, Aug 21, 2023 at 10:59:02PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   47d9bb711707d15b19fad18c8e2b4b027a264a3a
-> commit: ace6d14481386ec6c1b63cc2b24c71433a583dc2 [9894/11453] mfd: cs42l43: Add support for cs42l43 core driver
-> config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20230821/202308212225.fGjY1rr6-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212225.fGjY1rr6-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308212225.fGjY1rr6-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/mfd/cs42l43.c:1138:12: warning: 'cs42l43_runtime_resume' defined but not used [-Wunused-function]
->     1138 | static int cs42l43_runtime_resume(struct device *dev)
->          |            ^~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/mfd/cs42l43.c:1124:12: warning: 'cs42l43_runtime_suspend' defined but not used [-Wunused-function]
->     1124 | static int cs42l43_runtime_suspend(struct device *dev)
->          |            ^~~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/mfd/cs42l43.c:1106:12: warning: 'cs42l43_resume' defined but not used [-Wunused-function]
->     1106 | static int cs42l43_resume(struct device *dev)
->          |            ^~~~~~~~~~~~~~
-> >> drivers/mfd/cs42l43.c:1076:12: warning: 'cs42l43_suspend' defined but not used [-Wunused-function]
->     1076 | static int cs42l43_suspend(struct device *dev)
->          |            ^~~~~~~~~~~~~~~
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
+head:   d98064c4bf02eba42e22917aecccfb339c094d26
+commit: 0ec6ade2238b50514b25dff59d86b19b76b1bc2d [20/30] rbd: Switch from using bvec_iter to iov_iter
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230822/202308220005.oicMmXaj-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220005.oicMmXaj-lkp@intel.com/reproduce)
 
-Will check this and get a fixup sent out tomorrow, my
-understanding was that the __maybe_unused shouldn't have been
-necessary with the new style pm macros but it seems I have got
-something wrong on that front.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308220005.oicMmXaj-lkp@intel.com/
 
-Thanks,
-Charles
+All warnings (new ones prefixed by >>):
+
+   drivers/block/rbd.c: In function 'rbd_obj_read_from_parent':
+>> drivers/block/rbd.c:2741:10: warning: #warning needs fixing [-Wcpp]
+    2741 |         #warning needs fixing
+         |          ^~~~~~~
+
+
+vim +2741 drivers/block/rbd.c
+
+  2705	
+  2706	static int rbd_obj_read_from_parent(struct rbd_obj_request *obj_req)
+  2707	{
+  2708		struct rbd_img_request *img_req = obj_req->img_request;
+  2709		struct rbd_device *parent = img_req->rbd_dev->parent;
+  2710		struct rbd_img_request *child_img_req;
+  2711		int ret;
+  2712	
+  2713		child_img_req = kmem_cache_alloc(rbd_img_request_cache, GFP_NOIO);
+  2714		if (!child_img_req)
+  2715			return -ENOMEM;
+  2716	
+  2717		rbd_img_request_init(child_img_req, parent, OBJ_OP_READ);
+  2718		__set_bit(IMG_REQ_CHILD, &child_img_req->flags);
+  2719		child_img_req->obj_request = obj_req;
+  2720	
+  2721		down_read(&parent->header_rwsem);
+  2722		rbd_img_capture_header(child_img_req);
+  2723		up_read(&parent->header_rwsem);
+  2724	
+  2725		dout("%s child_img_req %p for obj_req %p\n", __func__, child_img_req,
+  2726		     obj_req);
+  2727	
+  2728	#if 0 //////////////////// TODO
+  2729		if (!rbd_img_is_write(img_req)) {
+  2730			ret = rbd_img_fill_request(child_img_req,
+  2731						   obj_req->img_extents,
+  2732						   obj_req->num_img_extents,
+  2733						   &obj_req->iter);
+  2734		} else {
+  2735			ret = rbd_img_fill_request(img_req,
+  2736						   obj_req->img_extents,
+  2737						   obj_req->num_img_extents,
+  2738						   &obj_req->copyup_buf->iter);
+  2739		}
+  2740	#else
+> 2741		#warning needs fixing
+  2742		ret = -ENOMEM;
+  2743		BUG();
+  2744	#endif
+  2745		if (ret) {
+  2746			rbd_img_request_destroy(child_img_req);
+  2747			return ret;
+  2748		}
+  2749	
+  2750		/* avoid parent chain recursion */
+  2751		rbd_img_schedule(child_img_req, 0);
+  2752		return 0;
+  2753	}
+  2754	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
