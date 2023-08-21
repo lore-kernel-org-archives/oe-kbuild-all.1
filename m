@@ -1,31 +1,43 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AD28F48
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 18:17:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=BaIcCgLH/pobQ+iDhtF+5SpI8elN6sMt5OgugFWANkE=; b=KAuZA2YK/qBtPor/M+wCjho6xf
-	dScWGVymuxdORbLZUW33Pp1TYGtuCUHvSiqA9h3oXTHdFgugkyeG68sZFi4qaaQmyVvFtXmEKonQi
-	a13mhUEYYv4rbEewuZgehr1WH8BAZN059n1cPv3MKZzrHNZvy/rdZr5LG2GXbRqYHCf6+P9/DJlr9
-	E1DLswltnP0u97s/wJ5dhXIasPdveP2bW8LKtSxjOn1To0lIsJ8NgtbJnGq1eH1f7/0yt5/MtrjOv
-	txfkqWA8OK/byIldUMNgwBDa2s7yHVExzTpCXrOKYlDHxjwV+eDG7OfcqGTUfco0tvdPO2ORH9MyZ
-	6nViNf8g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qY9T3-00BgLK-Ir; Mon, 21 Aug 2023 18:17:33 +0000
-Date: Mon, 21 Aug 2023 19:17:33 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 10448/11214]
- arch/microblaze/include/asm/cacheflush.h:77:13: warning:
- 'flush_dcache_folio' defined but not used
-Message-ID: <ZOOqPZNvScEc+3aK@casper.infradead.org>
-References: <202308220106.VDWkCsdG-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367838833
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 18:38:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692643102; x=1724179102;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5jO7YkE+ILVYqvkQhJ/Yimvx2Sm9RF50PO0fakCFphA=;
+  b=CAYwxzfbVUDpMGAvsIuk0IF/iwnslyW7w6QM10H32zeo0RmiYmnQQLA5
+   66r02qRiQk2OqKru7lZ0Wu3GxSbbe6V1ECHWaS9y9up9buKariBfAfUyV
+   +MVoh4Eb+JZIvwC4wJXRuiXW2jeL7/Vo46rgRWRtafYmqJH8OhwIt6lCP
+   Cm8VgXgu4ndb//1UWYq7kW5s+JHwLEKD5vbHia+Vus1wozQHF8LNCgbKn
+   BQmMSQsI3vxw2ew6YA13/nS7MEJ0cE+oEV2b5ojgC7kDxqp5z/MDcchZL
+   +oNVKBxoVOVJSSesmKMgp+79I9TzZX1Y+r/BDVEVx29Zytjkcgy265Z84
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="358657189"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
+   d="scan'208";a="358657189"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 11:38:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="909801611"
+X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
+   d="scan'208";a="909801611"
+Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 21 Aug 2023 11:38:20 -0700
+Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qY9n6-0000nQ-1t;
+	Mon, 21 Aug 2023 18:38:16 +0000
+Date: Tue, 22 Aug 2023 02:37:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:ceph-iter 29/30] <command-line>: warning: format '%llu'
+ expects argument of type 'long long unsigned int', but argument 11 has type
+ 'size_t' {aka 'long unsigned int'}
+Message-ID: <202308220207.vWQ7n41S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -34,33 +46,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202308220106.VDWkCsdG-lkp@intel.com>
 
-On Tue, Aug 22, 2023 at 01:21:43AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   47d9bb711707d15b19fad18c8e2b4b027a264a3a
-> commit: 2fcc20defd8a07415f6b346d941c22c50bbdada5 [10448/11214] microblaze: implement the new page table range API
-> config: microblaze-allnoconfig (https://download.01.org/0day-ci/archive/20230822/202308220106.VDWkCsdG-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220106.VDWkCsdG-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308220106.VDWkCsdG-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from kernel/signal.c:57:
-> >> arch/microblaze/include/asm/cacheflush.h:77:13: warning: 'flush_dcache_folio' defined but not used [-Wunused-function]
->       77 | static void flush_dcache_folio(struct folio *folio)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
+head:   d98064c4bf02eba42e22917aecccfb339c094d26
+commit: 83fb8ca5f08ed8b16e688b124a3f37de3fc01423 [29/30] ceph: Don't use data_pages
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230822/202308220207.vWQ7n41S-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220207.vWQ7n41S-lkp@intel.com/reproduce)
 
-The bug is real, but I'm a little concerned that I got an email from
-the testbot a few weeks ago suggesting:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308220207.vWQ7n41S-lkp@intel.com/
 
-microblaze           randconfig-r002-20230731   gcc
-microblaze           randconfig-r011-20230731   gcc
-microblaze           randconfig-r014-20230731   gcc
+All warnings (new ones prefixed by >>):
 
-all passed.  Perhaps you could do allnoconfig testing more frequently?
-Those tests should be quick to run since they are allnoconfig ...
+   fs/ceph/addr.c: In function 'finish_netfs_read':
+   fs/ceph/addr.c:272:75: error: 'struct ceph_osd_data' has no member named 'pages'
+     272 |                         err = ceph_fscrypt_decrypt_extents(inode, osd_data->pages,
+         |                                                                           ^~
+   In file included from include/linux/string.h:5,
+                    from include/linux/ceph/ceph_debug.h:7,
+                    from fs/ceph/addr.c:2:
+   fs/ceph/addr.c: In function 'writepages_finish':
+   fs/ceph/addr.c:877:42: error: 'CEPH_OSD_DATA_TYPE_PAGES' undeclared (first use in this function); did you mean 'CEPH_OSD_DATA_TYPE_ITER'?
+     877 |                 BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   fs/ceph/addr.c:877:17: note: in expansion of macro 'BUG_ON'
+     877 |                 BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
+         |                 ^~~~~~
+   fs/ceph/addr.c:877:42: note: each undeclared identifier is reported only once for each function it appears in
+     877 |                 BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   fs/ceph/addr.c:877:17: note: in expansion of macro 'BUG_ON'
+     877 |                 BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
+         |                 ^~~~~~
+   fs/ceph/addr.c:879:57: error: 'struct ceph_osd_data' has no member named 'offset'
+     879 |                 num_pages = calc_pages_for((u64)osd_data->offset,
+         |                                                         ^~
+   fs/ceph/addr.c:883:40: error: 'struct ceph_osd_data' has no member named 'pages'
+     883 |                         page = osd_data->pages[j];
+         |                                        ^~
+   fs/ceph/addr.c:886:66: error: 'struct ceph_osd_data' has no member named 'pages'
+     886 |                                 fscrypt_free_bounce_page(osd_data->pages[j]);
+         |                                                                  ^~
+   fs/ceph/addr.c:887:41: error: 'struct ceph_osd_data' has no member named 'pages'
+     887 |                                 osd_data->pages[j] = page;
+         |                                         ^~
+>> <command-line>: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 11 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
+   include/linux/ceph/ceph_debug.h:5:21: note: in expansion of macro 'KBUILD_MODNAME'
+       5 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         |                     ^~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:222:29: note: in expansion of macro 'pr_fmt'
+     222 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:246:9: note: in expansion of macro '__dynamic_func_call_cls'
+     246 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
+     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:267:9: note: in expansion of macro '_dynamic_func_call'
+     267 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:23:9: note: in expansion of macro 'pr_debug'
+      23 |         pr_debug("%.*s %12.12s:%-4d : [%pU %lld] " fmt,                 \
+         |         ^~~~~~~~
+   fs/ceph/addr.c:907:17: note: in expansion of macro 'doutc'
+     907 |                 doutc(cl, "%llx.%llx wrote %llu bytes cleaned %d pages\n",
+         |                 ^~~~~
+   fs/ceph/addr.c:911:39: error: 'struct ceph_osd_data' has no member named 'pages'
+     911 |                 release_pages(osd_data->pages, num_pages);
+         |                                       ^~
+   fs/ceph/addr.c:920:21: error: 'struct ceph_osd_data' has no member named 'pages_from_pool'
+     920 |         if (osd_data->pages_from_pool)
+         |                     ^~
+   fs/ceph/addr.c:921:38: error: 'struct ceph_osd_data' has no member named 'pages'
+     921 |                 mempool_free(osd_data->pages, ceph_wb_pagevec_pool);
+         |                                      ^~
+   fs/ceph/addr.c:923:31: error: 'struct ceph_osd_data' has no member named 'pages'
+     923 |                 kfree(osd_data->pages);
+         |                               ^~
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
