@@ -1,42 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41356748E;
-	Mon, 21 Aug 2023 23:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4107748E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 23:56:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692662189; x=1724198189;
+  t=1692662197; x=1724198197;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u04jyXkmuGXu5YF2ziLU3+PkXmbptgCxiwLItCi0SX8=;
-  b=RqolW9nvsrMn2g5J03hWwkCY13HysFEocFKazeYR7pbLDixbc6tjytlj
-   Rajl2t331vbvTq1GFcJvRlxOT17B6kJopzV3HTTb4BkKu4wBrFqOlgsES
-   0w3lE6eruEgdHYY8cCuFEdrWy9zna0KRhiaRh8oZNBPIfu4JCw14QqW6i
-   VecaSoxA1/VAOsRWRW7oFaZ3e8TQO/ZiUq5RTymfj8+dJ8az9F6cnkfXg
-   bFlmFdWylm99HO1fZ40mgp5mIJaTVr3Pm9eeHrhQ0OdoSA3tlK6m7HGwS
-   A9q8P8I61iUFl8x8ohL1wqZIVGwbQ1FxQXC8+/3L7oCitxRQfH7IpN2Vs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="440100600"
+  bh=UHnSB/5+1rU3DNwNfBSICblX+HBQBTwKUCdeG7yJpZw=;
+  b=Y32hxdTXvCGUkWKHBvsgF/ELQWiom+lGRXSGY/bHXSinQjJjydalWo+M
+   aJdPj45opq5hFTQOLzbzhMjI+JK+LKDQYi+lkwSB2gSAeOyJ8ojnVfTb6
+   b7OE+ishVilLPt52kugko8EHHLMVLenGQO441syIiABC2ZmMqXshPPEAp
+   s85PEIVvD4qrzZGKyjYOI/Abz23Zju8F/X6C9JruGZFUQCpZuQ2ZTjRdA
+   Mrc9MljW9eRMq9B6OhoWWtpXpJlpRXSaEOXqCtimTG6rt2VPV/i6AsSbx
+   9l5V2t7/wj3MWv7qC6I9xYOIIJxNR39sX3cMNEh+MPhy7Jgr4iWw2FwgP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="440100615"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="440100600"
+   d="scan'208";a="440100615"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 16:56:28 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 16:56:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="685838329"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="685838369"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="685838329"
+   d="scan'208";a="685838369"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 21 Aug 2023 16:56:27 -0700
+  by orsmga003.jf.intel.com with ESMTP; 21 Aug 2023 16:56:32 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYEks-00014u-32;
-	Mon, 21 Aug 2023 23:56:21 +0000
-Date: Tue, 22 Aug 2023 07:56:14 +0800
+	id 1qYEl0-00014w-1V;
+	Mon, 21 Aug 2023 23:56:27 +0000
+Date: Tue, 22 Aug 2023 07:56:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:tpm_buf 19/22] drivers/char/tpm/tpm-interface.c:362:
- warning: Function parameter or member 'length' not described in 'tpm_send'
-Message-ID: <202308220753.4SmhBjcU-lkp@intel.com>
+To: Gregory Greenman <gregory.greenman@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/gpu/drm/i915/gt/selftest_execlists.c:143:4: error: format
+ string is not a string literal (potentially insecure)
+Message-ID: <202308220738.3bnB1kuJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,62 +49,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm_buf
-head:   0cc7499219745d3654fee78abcfb1ccf0051738b
-commit: 96ca71c8cb2d9fff4f7a64135ff7380a770a6e49 [19/22] tpm: Store TPM buffer length
-config: arm-randconfig-001-20230821 (https://download.01.org/0day-ci/archive/20230822/202308220753.4SmhBjcU-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220753.4SmhBjcU-lkp@intel.com/reproduce)
+Hi Chris,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core62-50-1
+head:   aa035fb1ea0a81817398b02a7ca3914558fe23a5
+commit: 33fa2468dce0a27c70fc9a95024281c7a07a3726 UPSTREAM: drm/i915: Add DEBUG_GEM to the recommended CI config
+date:   2 years, 4 months ago
+config: i386-randconfig-005-20230821 (https://download.01.org/0day-ci/archive/20230822/202308220738.3bnB1kuJ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220738.3bnB1kuJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308220753.4SmhBjcU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308220738.3bnB1kuJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/char/tpm/tpm-interface.c:362: warning: Function parameter or member 'length' not described in 'tpm_send'
->> drivers/char/tpm/tpm-interface.c:362: warning: Excess function parameter 'cmdlen' description in 'tpm_send'
---
->> drivers/char/tpm/tpm-buf.c:51: warning: Function parameter or member 'buf' not described in 'tpm_buf_length'
+   In file included from drivers/gpu/drm/i915/gt/intel_execlists_submission.c:3904:
+>> drivers/gpu/drm/i915/gt/selftest_execlists.c:143:4: error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
+                           GEM_TRACE("spinner failed to start\n");
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_gem.h:69:24: note: expanded from macro 'GEM_TRACE'
+   #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:724:3: note: expanded from macro 'trace_printk'
+                   do_trace_printk(fmt, ##__VA_ARGS__);    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:738:30: note: expanded from macro 'do_trace_printk'
+                   __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
+                                              ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/selftest_execlists.c:143:4: note: treat the string as an argument to avoid this
+   drivers/gpu/drm/i915/i915_gem.h:69:24: note: expanded from macro 'GEM_TRACE'
+   #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
+                          ^
+   include/linux/kernel.h:724:3: note: expanded from macro 'trace_printk'
+                   do_trace_printk(fmt, ##__VA_ARGS__);    \
+                   ^
+   include/linux/kernel.h:738:30: note: expanded from macro 'do_trace_printk'
+                   __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
+                                              ^
+   In file included from drivers/gpu/drm/i915/gt/intel_execlists_submission.c:3904:
+   drivers/gpu/drm/i915/gt/selftest_execlists.c:1766:4: error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
+                           GEM_TRACE("lo spinner failed to start\n");
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_gem.h:69:24: note: expanded from macro 'GEM_TRACE'
+   #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:724:3: note: expanded from macro 'trace_printk'
+                   do_trace_printk(fmt, ##__VA_ARGS__);    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:738:30: note: expanded from macro 'do_trace_printk'
+                   __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
+                                              ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/selftest_execlists.c:1766:4: note: treat the string as an argument to avoid this
+   drivers/gpu/drm/i915/i915_gem.h:69:24: note: expanded from macro 'GEM_TRACE'
+   #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
+                          ^
+   include/linux/kernel.h:724:3: note: expanded from macro 'trace_printk'
+                   do_trace_printk(fmt, ##__VA_ARGS__);    \
+                   ^
+   include/linux/kernel.h:738:30: note: expanded from macro 'do_trace_printk'
+                   __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
+                                              ^
+   In file included from drivers/gpu/drm/i915/gt/intel_execlists_submission.c:3904:
+   drivers/gpu/drm/i915/gt/selftest_execlists.c:1783:4: error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
+                           GEM_TRACE("hi spinner failed to start\n");
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_gem.h:69:24: note: expanded from macro 'GEM_TRACE'
+   #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:724:3: note: expanded from macro 'trace_printk'
+                   do_trace_printk(fmt, ##__VA_ARGS__);    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:738:30: note: expanded from macro 'do_trace_printk'
+                   __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
+                                              ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/selftest_execlists.c:1783:4: note: treat the string as an argument to avoid this
+   drivers/gpu/drm/i915/i915_gem.h:69:24: note: expanded from macro 'GEM_TRACE'
+   #define GEM_TRACE(...) trace_printk(__VA_ARGS__)
+                          ^
+   include/linux/kernel.h:724:3: note: expanded from macro 'trace_printk'
+                   do_trace_printk(fmt, ##__VA_ARGS__);    \
+                   ^
+   include/linux/kernel.h:738:30: note: expanded from macro 'do_trace_printk'
+                   __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
+                                              ^
+   3 errors generated.
 
 
-vim +362 drivers/char/tpm/tpm-interface.c
+vim +143 drivers/gpu/drm/i915/gt/selftest_execlists.c
 
-659aaf2bb5496a drivers/char/tpm/tpm.c           Rajiv Andrade   2009-02-02  352  
-aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  353  /**
-aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  354   * tpm_send - send a TPM command
-aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  355   * @chip:	a &struct tpm_chip instance, %NULL for the default chip
-96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  356   * @data:	command blob
-96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  357   * @cmdlen:	length of the command
-aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  358   *
-aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  359   * Return: same as with tpm_transmit_cmd()
-aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  360   */
-96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  361  int tpm_send(struct tpm_chip *chip, void *data, size_t length)
-c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23 @362  {
-412eb585587a1d drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2018-10-26  363  	struct tpm_buf buf;
-c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  364  	int rc;
-c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  365  
-fc1d52b745bae6 drivers/char/tpm/tpm-interface.c Stefan Berger   2018-06-26  366  	chip = tpm_find_get_ops(chip);
-aad887f6641145 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2017-11-05  367  	if (!chip)
-c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  368  		return -ENODEV;
-c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  369  
-96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  370  	buf.flags = 0;
-96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  371  	buf.length = length;
-96ca71c8cb2d9f drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2023-08-11  372  	buf.data = data;
-47a6c28b6861b1 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2018-11-05  373  	rc = tpm_transmit_cmd(chip, &buf, 0, "attempting to a send a command");
-e13cd21ffd50a0 drivers/char/tpm/tpm-interface.c Jarkko Sakkinen 2019-09-16  374  
-4e26195f240d73 drivers/char/tpm/tpm-interface.c Jason Gunthorpe 2016-02-12  375  	tpm_put_ops(chip);
-c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  376  	return rc;
-c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  377  }
-c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  378  EXPORT_SYMBOL_GPL(tpm_send);
-c749ba912e87cc drivers/char/tpm/tpm.c           Mimi Zohar      2010-11-23  379  
+280e285dc78f73 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2020-02-27  110  
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  111  static int live_sanitycheck(void *arg)
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  112  {
+1357fa8136ea03 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-10-16  113  	struct intel_gt *gt = arg;
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  114  	struct intel_engine_cs *engine;
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  115  	enum intel_engine_id id;
+8d2f6e2f272109 drivers/gpu/drm/i915/selftests/intel_lrc.c Tvrtko Ursulin 2018-11-30  116  	struct igt_spinner spin;
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  117  	int err = 0;
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  118  
+1357fa8136ea03 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-10-16  119  	if (!HAS_LOGICAL_RING_CONTEXTS(gt->i915))
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  120  		return 0;
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  121  
+1357fa8136ea03 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-10-16  122  	if (igt_spinner_init(&spin, gt))
+2af402982ab382 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-10-04  123  		return -ENOMEM;
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  124  
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  125  	for_each_engine(engine, gt, id) {
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  126  		struct intel_context *ce;
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  127  		struct i915_request *rq;
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  128  
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  129  		ce = intel_context_create(engine);
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  130  		if (IS_ERR(ce)) {
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  131  			err = PTR_ERR(ce);
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  132  			break;
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  133  		}
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  134  
+f277bc0c98a407 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-07-31  135  		rq = igt_spinner_create_request(&spin, ce, MI_NOOP);
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  136  		if (IS_ERR(rq)) {
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  137  			err = PTR_ERR(rq);
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  138  			goto out_ctx;
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  139  		}
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  140  
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  141  		i915_request_add(rq);
+8d2f6e2f272109 drivers/gpu/drm/i915/selftests/intel_lrc.c Tvrtko Ursulin 2018-11-30  142  		if (!igt_wait_for_spinner(&spin, rq)) {
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04 @143  			GEM_TRACE("spinner failed to start\n");
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  144  			GEM_TRACE_DUMP();
+1357fa8136ea03 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-10-16  145  			intel_gt_set_wedged(gt);
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  146  			err = -EIO;
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  147  			goto out_ctx;
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  148  		}
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  149  
+8d2f6e2f272109 drivers/gpu/drm/i915/selftests/intel_lrc.c Tvrtko Ursulin 2018-11-30  150  		igt_spinner_end(&spin);
+1357fa8136ea03 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-10-16  151  		if (igt_flush_test(gt->i915)) {
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  152  			err = -EIO;
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  153  			goto out_ctx;
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  154  		}
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  155  
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  156  out_ctx:
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  157  		intel_context_put(ce);
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  158  		if (err)
+e6ba76480299a0 drivers/gpu/drm/i915/gt/selftest_lrc.c     Chris Wilson   2019-12-21  159  			break;
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  160  	}
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  161  
+8d2f6e2f272109 drivers/gpu/drm/i915/selftests/intel_lrc.c Tvrtko Ursulin 2018-11-30  162  	igt_spinner_fini(&spin);
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  163  	return err;
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  164  }
+2c66555ec19235 drivers/gpu/drm/i915/selftests/intel_lrc.c Chris Wilson   2018-04-04  165  
 
-:::::: The code at line 362 was first introduced by commit
-:::::: c749ba912e87ccebd674ae24b97462176c63732e key: add tpm_send command
+:::::: The code at line 143 was first introduced by commit
+:::::: 2c66555ec19235efd689741c44bbeb893aa8e7de drm/i915/selftests: Add basic sanitychecks for execlists
 
-:::::: TO: Mimi Zohar <zohar@linux.vnet.ibm.com>
-:::::: CC: James Morris <jmorris@namei.org>
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 -- 
 0-DAY CI Kernel Test Service
