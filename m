@@ -1,43 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC8323C5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 14:59:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E028B79F7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Aug 2023 14:59:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692629963; x=1724165963;
+  t=1692629965; x=1724165965;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KKawEwck+d/iIl0wgoGfXbsS/tQ4RU+7U3GHo4VuW6k=;
-  b=dFc9IdHvdCc4rZ3n9nUlkG+9R8lLwgjM86jazMQyqOyljJ1PZlwjWQK8
-   6L34s4EQ6jqdTsi5EpyKb1UAye79iHnv2LqQ4iFwbFhzsv/jUQk8Bh+7o
-   tnfz84Qw4txo9Z+Y/GDgx2U6PzfHWZkgZ5UoqOahRVXb7ZaJxRUjCZJ36
-   Iht9y64zP7fSJqvZ5x/Cc6KlRYjBocCe8p0QgYFoiX8eKqDeMmQ8eTXBt
-   l3Ym+Xh+/11szgGL1hKkDws1LDhtTfazj5PP3NX6G5es3v349K0xrBWbS
-   EAby04D2WtW22HUePjBkp30gwGOx3DuqISLtkOPtYd2PsvpTQGLuU3ZgT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="376359234"
+  bh=9U2WH4DwRrp4v8v8A6/BhiUepjDETRp0adS6QJ+BGYI=;
+  b=O5tiFGtpzr6Swvg1sFJ1Iiz+fBhQy7F6egTZabhAhPmtl/ej13YGChni
+   Pn28K0GfmWKeeFmCjiA/JwOpDSoI4urofJnUMnn5XQAENjf6dDDLRD6XV
+   088Ucvs518WDp7Iwu133FaOSaf9Nrg1AO8CWc5ENwZv++FrbuAhqbYWA1
+   ckCnIJt4KO83SdwlW0erKPDP1Meg6Zw9QRifa3NxirIOMRe2wGBfm8PAL
+   TOR4K+aGWcufhd5NPsvzcs9bEP99MvVVLc4fzka66HMJEbSdpdUUKrISf
+   OkLVX4c1PFz13DlrO+4FJzkznQc06/O9Aj2Ra4uYwTMPHD1/9nxlGQWBe
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="376359235"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="376359234"
+   d="scan'208";a="376359235"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 07:59:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="712821532"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="712821531"
 X-IronPort-AV: E=Sophos;i="6.01,190,1684825200"; 
-   d="scan'208";a="712821532"
+   d="scan'208";a="712821531"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
   by orsmga006.jf.intel.com with ESMTP; 21 Aug 2023 07:59:21 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qY6NF-0000bm-0q;
+	id 1qY6NF-0000bk-0f;
 	Mon, 21 Aug 2023 14:59:21 +0000
-Date: Mon, 21 Aug 2023 22:59:03 +0800
+Date: Mon, 21 Aug 2023 22:59:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:doe 2/14] crypto/asymmetric_keys/pkcs7_parser.c:526:10: error:
- call to undeclared function 'x509_decode_time'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202308212259.u23eaMjs-lkp@intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Lee Jones <lee@kernel.org>
+Subject: [linux-next:master 9894/11453] drivers/mfd/cs42l43.c:1138:12:
+ warning: 'cs42l43_runtime_resume' defined but not used
+Message-ID: <202308212225.fGjY1rr6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,122 +48,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lukas,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/l1k/linux doe
-head:   458668ded748cd2c1cab9fe959e99d8853df6f37
-commit: 0cb668f620f0cee4a12651f0438e582e09030247 [2/14] X.509: Make certificate parser public
-config: i386-buildonly-randconfig-006-20230821 (https://download.01.org/0day-ci/archive/20230821/202308212259.u23eaMjs-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212259.u23eaMjs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47d9bb711707d15b19fad18c8e2b4b027a264a3a
+commit: ace6d14481386ec6c1b63cc2b24c71433a583dc2 [9894/11453] mfd: cs42l43: Add support for cs42l43 core driver
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20230821/202308212225.fGjY1rr6-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212225.fGjY1rr6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308212259.u23eaMjs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308212225.fGjY1rr6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> crypto/asymmetric_keys/pkcs7_parser.c:526:10: error: call to undeclared function 'x509_decode_time'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   return x509_decode_time(&sinfo->signing_time,
-                          ^
-   1 error generated.
+>> drivers/mfd/cs42l43.c:1138:12: warning: 'cs42l43_runtime_resume' defined but not used [-Wunused-function]
+    1138 | static int cs42l43_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mfd/cs42l43.c:1124:12: warning: 'cs42l43_runtime_suspend' defined but not used [-Wunused-function]
+    1124 | static int cs42l43_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mfd/cs42l43.c:1106:12: warning: 'cs42l43_resume' defined but not used [-Wunused-function]
+    1106 | static int cs42l43_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~
+>> drivers/mfd/cs42l43.c:1076:12: warning: 'cs42l43_suspend' defined but not used [-Wunused-function]
+    1076 | static int cs42l43_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~
 
 
-vim +/x509_decode_time +526 crypto/asymmetric_keys/pkcs7_parser.c
+vim +/cs42l43_runtime_resume +1138 drivers/mfd/cs42l43.c
 
-2e3fadbf730fd0 David Howells 2014-07-01  493  
-2e3fadbf730fd0 David Howells 2014-07-01  494  /*
-99db44350672c8 David Howells 2015-08-05  495   * Parse authenticated attributes.
-2e3fadbf730fd0 David Howells 2014-07-01  496   */
-2e3fadbf730fd0 David Howells 2014-07-01  497  int pkcs7_sig_note_authenticated_attr(void *context, size_t hdrlen,
-2e3fadbf730fd0 David Howells 2014-07-01  498  				      unsigned char tag,
-2e3fadbf730fd0 David Howells 2014-07-01  499  				      const void *value, size_t vlen)
-2e3fadbf730fd0 David Howells 2014-07-01  500  {
-2e3fadbf730fd0 David Howells 2014-07-01  501  	struct pkcs7_parse_context *ctx = context;
-99db44350672c8 David Howells 2015-08-05  502  	struct pkcs7_signed_info *sinfo = ctx->sinfo;
-99db44350672c8 David Howells 2015-08-05  503  	enum OID content_type;
-2e3fadbf730fd0 David Howells 2014-07-01  504  
-2e3fadbf730fd0 David Howells 2014-07-01  505  	pr_devel("AuthAttr: %02x %zu [%*ph]\n", tag, vlen, (unsigned)vlen, value);
-2e3fadbf730fd0 David Howells 2014-07-01  506  
-2e3fadbf730fd0 David Howells 2014-07-01  507  	switch (ctx->last_oid) {
-99db44350672c8 David Howells 2015-08-05  508  	case OID_contentType:
-99db44350672c8 David Howells 2015-08-05  509  		if (__test_and_set_bit(sinfo_has_content_type, &sinfo->aa_set))
-99db44350672c8 David Howells 2015-08-05  510  			goto repeated;
-99db44350672c8 David Howells 2015-08-05  511  		content_type = look_up_OID(value, vlen);
-99db44350672c8 David Howells 2015-08-05  512  		if (content_type != ctx->msg->data_type) {
-99db44350672c8 David Howells 2015-08-05  513  			pr_warn("Mismatch between global data type (%d) and sinfo %u (%d)\n",
-99db44350672c8 David Howells 2015-08-05  514  				ctx->msg->data_type, sinfo->index,
-99db44350672c8 David Howells 2015-08-05  515  				content_type);
-99db44350672c8 David Howells 2015-08-05  516  			return -EBADMSG;
-99db44350672c8 David Howells 2015-08-05  517  		}
-99db44350672c8 David Howells 2015-08-05  518  		return 0;
-99db44350672c8 David Howells 2015-08-05  519  
-99db44350672c8 David Howells 2015-08-05  520  	case OID_signingTime:
-99db44350672c8 David Howells 2015-08-05  521  		if (__test_and_set_bit(sinfo_has_signing_time, &sinfo->aa_set))
-99db44350672c8 David Howells 2015-08-05  522  			goto repeated;
-99db44350672c8 David Howells 2015-08-05  523  		/* Should we check that the signing time is consistent
-99db44350672c8 David Howells 2015-08-05  524  		 * with the signer's X.509 cert?
-99db44350672c8 David Howells 2015-08-05  525  		 */
-99db44350672c8 David Howells 2015-08-05 @526  		return x509_decode_time(&sinfo->signing_time,
-99db44350672c8 David Howells 2015-08-05  527  					hdrlen, tag, value, vlen);
-99db44350672c8 David Howells 2015-08-05  528  
-2e3fadbf730fd0 David Howells 2014-07-01  529  	case OID_messageDigest:
-99db44350672c8 David Howells 2015-08-05  530  		if (__test_and_set_bit(sinfo_has_message_digest, &sinfo->aa_set))
-99db44350672c8 David Howells 2015-08-05  531  			goto repeated;
-2e3fadbf730fd0 David Howells 2014-07-01  532  		if (tag != ASN1_OTS)
-2e3fadbf730fd0 David Howells 2014-07-01  533  			return -EBADMSG;
-99db44350672c8 David Howells 2015-08-05  534  		sinfo->msgdigest = value;
-99db44350672c8 David Howells 2015-08-05  535  		sinfo->msgdigest_len = vlen;
-99db44350672c8 David Howells 2015-08-05  536  		return 0;
-99db44350672c8 David Howells 2015-08-05  537  
-99db44350672c8 David Howells 2015-08-05  538  	case OID_smimeCapabilites:
-99db44350672c8 David Howells 2015-08-05  539  		if (__test_and_set_bit(sinfo_has_smime_caps, &sinfo->aa_set))
-99db44350672c8 David Howells 2015-08-05  540  			goto repeated;
-99db44350672c8 David Howells 2015-08-05  541  		if (ctx->msg->data_type != OID_msIndirectData) {
-99db44350672c8 David Howells 2015-08-05  542  			pr_warn("S/MIME Caps only allowed with Authenticode\n");
-99db44350672c8 David Howells 2015-08-05  543  			return -EKEYREJECTED;
-99db44350672c8 David Howells 2015-08-05  544  		}
-99db44350672c8 David Howells 2015-08-05  545  		return 0;
-99db44350672c8 David Howells 2015-08-05  546  
-99db44350672c8 David Howells 2015-08-05  547  		/* Microsoft SpOpusInfo seems to be contain cont[0] 16-bit BE
-99db44350672c8 David Howells 2015-08-05  548  		 * char URLs and cont[1] 8-bit char URLs.
-99db44350672c8 David Howells 2015-08-05  549  		 *
-99db44350672c8 David Howells 2015-08-05  550  		 * Microsoft StatementType seems to contain a list of OIDs that
-99db44350672c8 David Howells 2015-08-05  551  		 * are also used as extendedKeyUsage types in X.509 certs.
-99db44350672c8 David Howells 2015-08-05  552  		 */
-99db44350672c8 David Howells 2015-08-05  553  	case OID_msSpOpusInfo:
-99db44350672c8 David Howells 2015-08-05  554  		if (__test_and_set_bit(sinfo_has_ms_opus_info, &sinfo->aa_set))
-99db44350672c8 David Howells 2015-08-05  555  			goto repeated;
-99db44350672c8 David Howells 2015-08-05  556  		goto authenticode_check;
-99db44350672c8 David Howells 2015-08-05  557  	case OID_msStatementType:
-99db44350672c8 David Howells 2015-08-05  558  		if (__test_and_set_bit(sinfo_has_ms_statement_type, &sinfo->aa_set))
-99db44350672c8 David Howells 2015-08-05  559  			goto repeated;
-99db44350672c8 David Howells 2015-08-05  560  	authenticode_check:
-99db44350672c8 David Howells 2015-08-05  561  		if (ctx->msg->data_type != OID_msIndirectData) {
-99db44350672c8 David Howells 2015-08-05  562  			pr_warn("Authenticode AuthAttrs only allowed with Authenticode\n");
-99db44350672c8 David Howells 2015-08-05  563  			return -EKEYREJECTED;
-99db44350672c8 David Howells 2015-08-05  564  		}
-99db44350672c8 David Howells 2015-08-05  565  		/* I'm not sure how to validate these */
-2e3fadbf730fd0 David Howells 2014-07-01  566  		return 0;
-2e3fadbf730fd0 David Howells 2014-07-01  567  	default:
-2e3fadbf730fd0 David Howells 2014-07-01  568  		return 0;
-2e3fadbf730fd0 David Howells 2014-07-01  569  	}
-99db44350672c8 David Howells 2015-08-05  570  
-99db44350672c8 David Howells 2015-08-05  571  repeated:
-99db44350672c8 David Howells 2015-08-05  572  	/* We permit max one item per AuthenticatedAttribute and no repeats */
-99db44350672c8 David Howells 2015-08-05  573  	pr_warn("Repeated/multivalue AuthAttrs not permitted\n");
-99db44350672c8 David Howells 2015-08-05  574  	return -EKEYREJECTED;
-2e3fadbf730fd0 David Howells 2014-07-01  575  }
-2e3fadbf730fd0 David Howells 2014-07-01  576  
-
-:::::: The code at line 526 was first introduced by commit
-:::::: 99db44350672c8a5ee9a7b0a6f4cd6ff10136065 PKCS#7: Appropriately restrict authenticated attributes and content type
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
+  1075	
+> 1076	static int cs42l43_suspend(struct device *dev)
+  1077	{
+  1078		struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
+  1079		int ret;
+  1080	
+  1081		/*
+  1082		 * Don't care about being resumed here, but the driver does want
+  1083		 * force_resume to always trigger an actual resume, so that register
+  1084		 * state for the MCU/GPIOs is returned as soon as possible after system
+  1085		 * resume. force_resume will resume if the reference count is resumed on
+  1086		 * suspend hence the get_noresume.
+  1087		 */
+  1088		pm_runtime_get_noresume(dev);
+  1089	
+  1090		ret = pm_runtime_force_suspend(dev);
+  1091		if (ret) {
+  1092			dev_err(cs42l43->dev, "Failed to force suspend: %d\n", ret);
+  1093			pm_runtime_put_noidle(dev);
+  1094			return ret;
+  1095		}
+  1096	
+  1097		pm_runtime_put_noidle(dev);
+  1098	
+  1099		ret = cs42l43_power_down(cs42l43);
+  1100		if (ret)
+  1101			return ret;
+  1102	
+  1103		return 0;
+  1104	}
+  1105	
+> 1106	static int cs42l43_resume(struct device *dev)
+  1107	{
+  1108		struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
+  1109		int ret;
+  1110	
+  1111		ret = cs42l43_power_up(cs42l43);
+  1112		if (ret)
+  1113			return ret;
+  1114	
+  1115		ret = pm_runtime_force_resume(dev);
+  1116		if (ret) {
+  1117			dev_err(cs42l43->dev, "Failed to force resume: %d\n", ret);
+  1118			return ret;
+  1119		}
+  1120	
+  1121		return 0;
+  1122	}
+  1123	
+> 1124	static int cs42l43_runtime_suspend(struct device *dev)
+  1125	{
+  1126		struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
+  1127	
+  1128		/*
+  1129		 * Whilst the driver doesn't power the chip down here, going into runtime
+  1130		 * suspend lets the SoundWire bus power down, which means the driver
+  1131		 * can't communicate with the device any more.
+  1132		 */
+  1133		regcache_cache_only(cs42l43->regmap, true);
+  1134	
+  1135		return 0;
+  1136	}
+  1137	
+> 1138	static int cs42l43_runtime_resume(struct device *dev)
+  1139	{
+  1140		struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
+  1141		unsigned int reset_canary;
+  1142		int ret;
+  1143	
+  1144		ret = cs42l43_wait_for_attach(cs42l43);
+  1145		if (ret)
+  1146			return ret;
+  1147	
+  1148		ret = regmap_read(cs42l43->regmap, CS42L43_RELID, &reset_canary);
+  1149		if (ret) {
+  1150			dev_err(cs42l43->dev, "Failed to check reset canary: %d\n", ret);
+  1151			goto err;
+  1152		}
+  1153	
+  1154		if (!reset_canary) {
+  1155			/*
+  1156			 * If the canary has cleared the chip has reset, re-handle the
+  1157			 * MCU and mark the cache as dirty to indicate the chip reset.
+  1158			 */
+  1159			ret = cs42l43_mcu_update(cs42l43);
+  1160			if (ret)
+  1161				goto err;
+  1162	
+  1163			regcache_mark_dirty(cs42l43->regmap);
+  1164		}
+  1165	
+  1166		ret = regcache_sync(cs42l43->regmap);
+  1167		if (ret) {
+  1168			dev_err(cs42l43->dev, "Failed to restore register cache: %d\n", ret);
+  1169			goto err;
+  1170		}
+  1171	
+  1172		return 0;
+  1173	
+  1174	err:
+  1175		regcache_cache_only(cs42l43->regmap, true);
+  1176	
+  1177		return ret;
+  1178	}
+  1179	
 
 -- 
 0-DAY CI Kernel Test Service
