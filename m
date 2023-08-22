@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817D62B545
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 17:32:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CAF2B544
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 17:43:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692725534; x=1724261534;
+  t=1692726229; x=1724262229;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g7LHkWA1qRmIXZQadUuN7Bgc63tA0DAL6/j+AWVD3Ng=;
-  b=DpTKXy9gnY+9GuMADz7Fl6qd43xMwyrkspCXwHcpJX4Mo6nSnEFIX3zl
-   eI34IwqAct6ZvGSUCVPNWwje0ZNwOj8oIGMW1vNXGwSzj5Q+77KQ1Cyps
-   zHEspJ2gkttWBCFE7xjtHQHDto5NfnWyhWu3Gz3fwLGvbC9R3lZs/myAb
-   iQESlGLR7pXmoVHAAn8uYJJtOjE7p2EY+tTLpsxer8moAS77EXUgEa2p4
-   yIWW1J6Y+VACLbm1twNwwC1EUa6n6sAnUlVyQmoYnVSjr+hoZyKuArGrB
-   Vz5gIuCBDjJA/dmz1g34fWvhYW0OC9yzgbjKxfMrtugYKBEEVu/pAozmt
+  bh=yamNnLdY8jW9piBcT7ht5yQlfTiWqtgQ4dE3wT48Fv0=;
+  b=FVjkwh7RBzw9iXp4iao/akqAcTjErS1t3VDoJhg76MS/6Jmh2BO5aVkR
+   f+R3xPS5W+ebDFaCecopJAq/INmXrqsYmSeL/v+ifhLhS3lz03CxKNC1R
+   lgQBvTYoC8xD2Ol0D2cLgsFGcAe7jbf6WR6o8J8r5e1gknd+WibOlcKPN
+   Xrx64jwjEz6rKZtCzG3MkqVaSEBQdmXMcWqRYmkpr711xT1+KbHsNVUzB
+   9v3pqDpvqGNce63KUxvrVAX0aUKAscUrRZI1zqG/eYfOndxuJ6RczcGad
+   Emq+2cti5BEIyQDEkwYmwF9Wi4A86nmvuWrYaqbA5qe1jQUk5EDnj3kSu
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="440316364"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="376687928"
 X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; 
-   d="scan'208";a="440316364"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 10:31:46 -0700
+   d="scan'208";a="376687928"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 10:43:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="982982533"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="860014058"
 X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; 
-   d="scan'208";a="982982533"
+   d="scan'208";a="860014058"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Aug 2023 10:31:45 -0700
+  by orsmga004.jf.intel.com with ESMTP; 22 Aug 2023 10:43:46 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYVEH-0000NU-0t;
-	Tue, 22 Aug 2023 17:31:45 +0000
-Date: Wed, 23 Aug 2023 01:31:41 +0800
+	id 1qYVPt-0000Nq-1n;
+	Tue, 22 Aug 2023 17:43:45 +0000
+Date: Wed, 23 Aug 2023 01:43:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 14981/30000]
- drivers/of/fdt.c:91: warning: Function parameter or member 'channel' not
- described in 'of_fdt_get_ddrhbb'
-Message-ID: <202308230121.JB9mQskG-lkp@intel.com>
+To: Maximilian Luz <luzmaximilian@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [steev:lenovo-x13s-v6.5-rc7 63/129]
+ drivers/firmware/qcom_qseecom.c:50:16: warning: assignment to 'struct
+ qseecom_client *' from 'int' makes pointer from integer without a cast
+Message-ID: <202308230153.RmOR8Z9U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,116 +48,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   ef983429ea2180ce7f3b17f1c8f5bff8ae61c1fa
-commit: 643e14cfa2005090a6a3a3949191f4baa7b434e7 [14981/30000] ANDROID: GKI: drivers: of: Add APIs to find DDR device rank, HBB
-config: x86_64-randconfig-003-20230822 (https://download.01.org/0day-ci/archive/20230823/202308230121.JB9mQskG-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230121.JB9mQskG-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux lenovo-x13s-v6.5-rc7
+head:   68f425346397c1806f828d4ee58e9468c924f408
+commit: defc461d679dad2ed03d8e760f2e39af95e320c5 [63/129] firmware: qcom_scm: Add support for Qualcomm Secure Execution Environment SCM interface
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230823/202308230153.RmOR8Z9U-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230153.RmOR8Z9U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308230121.JB9mQskG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308230153.RmOR8Z9U-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/of/fdt.c:91: warning: Function parameter or member 'channel' not described in 'of_fdt_get_ddrhbb'
->> drivers/of/fdt.c:91: warning: Function parameter or member 'rank' not described in 'of_fdt_get_ddrhbb'
->> drivers/of/fdt.c:122: warning: Function parameter or member 'channel' not described in 'of_fdt_get_ddrrank'
-   drivers/of/fdt.c:242: warning: Function parameter or member 'blob' not described in 'of_fdt_match'
-   drivers/of/fdt.c:242: warning: Function parameter or member 'node' not described in 'of_fdt_match'
-   drivers/of/fdt.c:242: warning: Function parameter or member 'compat' not described in 'of_fdt_match'
-   drivers/of/fdt.c:645: warning: Function parameter or member 'node' not described in '__reserved_mem_reserve_reg'
-   drivers/of/fdt.c:645: warning: Function parameter or member 'uname' not described in '__reserved_mem_reserve_reg'
-   drivers/of/fdt.c:691: warning: Function parameter or member 'node' not described in '__reserved_mem_check_root'
-   drivers/of/fdt.c:713: warning: Function parameter or member 'node' not described in '__fdt_scan_reserved_mem'
-   drivers/of/fdt.c:713: warning: Function parameter or member 'uname' not described in '__fdt_scan_reserved_mem'
-   drivers/of/fdt.c:713: warning: Function parameter or member 'depth' not described in '__fdt_scan_reserved_mem'
-   drivers/of/fdt.c:713: warning: Function parameter or member 'data' not described in '__fdt_scan_reserved_mem'
-   drivers/of/fdt.c:831: warning: Function parameter or member 'parent' not described in 'of_scan_flat_dt_subnodes'
-   drivers/of/fdt.c:886: warning: Function parameter or member 'node' not described in 'of_get_flat_dt_prop'
-   drivers/of/fdt.c:886: warning: Function parameter or member 'name' not described in 'of_get_flat_dt_prop'
-   drivers/of/fdt.c:886: warning: Function parameter or member 'size' not described in 'of_get_flat_dt_prop'
-   drivers/of/fdt.c:904: warning: Function parameter or member 'node' not described in 'of_flat_dt_match'
-   drivers/of/fdt.c:904: warning: Function parameter or member 'compat' not described in 'of_flat_dt_match'
-   drivers/of/fdt.c:912: warning: Function parameter or member 'node' not described in 'of_get_flat_dt_phandle'
-   drivers/of/fdt.c:1085: warning: Function parameter or member 'node' not described in 'early_init_dt_scan_root'
-   drivers/of/fdt.c:1085: warning: Function parameter or member 'uname' not described in 'early_init_dt_scan_root'
-   drivers/of/fdt.c:1085: warning: Function parameter or member 'depth' not described in 'early_init_dt_scan_root'
-   drivers/of/fdt.c:1085: warning: Function parameter or member 'data' not described in 'early_init_dt_scan_root'
-   drivers/of/fdt.c:1121: warning: Function parameter or member 'node' not described in 'early_init_dt_scan_memory'
-   drivers/of/fdt.c:1121: warning: Function parameter or member 'uname' not described in 'early_init_dt_scan_memory'
-   drivers/of/fdt.c:1121: warning: Function parameter or member 'depth' not described in 'early_init_dt_scan_memory'
-   drivers/of/fdt.c:1121: warning: Function parameter or member 'data' not described in 'early_init_dt_scan_memory'
+   drivers/firmware/qcom_qseecom.c: In function 'qseecom_client_release':
+   drivers/firmware/qcom_qseecom.c:24:9: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
+      24 |         kfree(client);
+         |         ^~~~~
+   drivers/firmware/qcom_qseecom.c: In function 'qseecom_client_register':
+   drivers/firmware/qcom_qseecom.c:50:18: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+      50 |         client = kzalloc(sizeof(*client), GFP_KERNEL);
+         |                  ^~~~~~~
+>> drivers/firmware/qcom_qseecom.c:50:16: warning: assignment to 'struct qseecom_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      50 |         client = kzalloc(sizeof(*client), GFP_KERNEL);
+         |                ^
+   cc1: some warnings being treated as errors
 
 
-vim +91 drivers/of/fdt.c
+vim +50 drivers/firmware/qcom_qseecom.c
 
-    82	
-    83	/**
-    84	 * of_fdt_get_ddrhbb - Return the highest bank bit of ddr on the current device
-    85	 *
-    86	 * On match, returns a non-zero positive value which matches the highest bank
-    87	 * bit.
-    88	 * Otherwise returns -ENOENT.
-    89	 */
-    90	int of_fdt_get_ddrhbb(int channel, int rank)
-  > 91	{
-    92		int memory;
-    93		int len;
-    94		int ret;
-    95		/* Single spaces reserved for channel(0-9), rank(0-9) */
-    96		char pname[] = "ddr_device_hbb_ch _rank ";
-    97		fdt32_t *prop = NULL;
-    98	
-    99		memory = fdt_path_offset(initial_boot_params, "/memory");
-   100		if (memory > 0) {
-   101			snprintf(pname, sizeof(pname),
-   102				 "ddr_device_hbb_ch%d_rank%d", channel, rank);
-   103			prop = fdt_getprop_w(initial_boot_params, memory,
-   104					     pname, &len);
-   105		}
-   106	
-   107		if (!prop || len != sizeof(u32))
-   108			return -ENOENT;
-   109	
-   110		ret = fdt32_to_cpu(*prop);
-   111	
-   112		return ret;
-   113	}
-   114	
-   115	/**
-   116	 * of_fdt_get_ddrrank - Return the rank of ddr on the current device
-   117	 *
-   118	 * On match, returns a non-zero positive value which matches the ddr rank.
-   119	 * Otherwise returns -ENOENT.
-   120	 */
-   121	int of_fdt_get_ddrrank(int channel)
- > 122	{
-   123		int memory;
-   124		int len;
-   125		int ret;
-   126		/* Single space reserved for channel(0-9) */
-   127		char pname[] = "ddr_device_rank_ch ";
-   128		fdt32_t *prop = NULL;
-   129	
-   130		memory = fdt_path_offset(initial_boot_params, "/memory");
-   131		if (memory > 0) {
-   132			snprintf(pname, sizeof(pname),
-   133				 "ddr_device_rank_ch%d", channel);
-   134			prop = fdt_getprop_w(initial_boot_params, memory,
-   135					     pname, &len);
-   136		}
-   137	
-   138		if (!prop || len != sizeof(u32))
-   139			return -ENOENT;
-   140	
-   141		ret = fdt32_to_cpu(*prop);
-   142	
-   143		return ret;
-   144	}
-   145	
+    34	
+    35	static int qseecom_client_register(struct platform_device *qseecom_dev,
+    36					   const struct qseecom_app_desc *desc)
+    37	{
+    38		struct qseecom_client *client;
+    39		u32 app_id;
+    40		int ret;
+    41	
+    42		/* Try to find the app ID, skip device if not found */
+    43		ret = qcom_scm_qseecom_app_get_id(desc->app_name, &app_id);
+    44		if (ret)
+    45			return ret == -ENOENT ? 0 : ret;
+    46	
+    47		dev_info(&qseecom_dev->dev, "setting up client for %s\n", desc->app_name);
+    48	
+    49		/* Allocate and set-up the client device */
+  > 50		client = kzalloc(sizeof(*client), GFP_KERNEL);
+    51		if (!client)
+    52			return -ENOMEM;
+    53	
+    54		client->aux_dev.name = desc->dev_name;
+    55		client->aux_dev.dev.parent = &qseecom_dev->dev;
+    56		client->aux_dev.dev.release = qseecom_client_release;
+    57		client->app_id = app_id;
+    58	
+    59		ret = auxiliary_device_init(&client->aux_dev);
+    60		if (ret) {
+    61			kfree(client);
+    62			return ret;
+    63		}
+    64	
+    65		ret = auxiliary_device_add(&client->aux_dev);
+    66		if (ret) {
+    67			auxiliary_device_uninit(&client->aux_dev);
+    68			return ret;
+    69		}
+    70	
+    71		ret = devm_add_action_or_reset(&qseecom_dev->dev, qseecom_client_remove, client);
+    72		if (ret)
+    73			return ret;
+    74	
+    75		return 0;
+    76	}
+    77	
 
 -- 
 0-DAY CI Kernel Test Service
