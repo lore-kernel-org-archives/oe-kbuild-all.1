@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2008C8473;
-	Tue, 22 Aug 2023 08:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D978F5A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 08:31:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692692356; x=1724228356;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2QzrY/WDas483aKpaGxnYbfLFBGdIzXK1ZVYl86dUaU=;
-  b=gMStaTAikWLRj4eyIdK69e+XO/7t2RQueXAeb7+lLZTyBuOWgKK+eTjT
-   x7DqJv8F4UuTdry8nYwvSwS49AMiygd26THueII0IeOMCxGOnoFHYRFsb
-   tmO+8H0eFkBZIiKQtPL/hZhX+uSFNdhuEt+GEnGXpyz889Vs1ba7m2P7J
-   SSg4colmxhXahmgQAKmDwdyM/5sN3GJchUeWUyMgOOxWlfFZ7N07H3A4y
-   EQ/VwmIFg+9w4fTQpblyjaTakkC0hrW8IdcTXV/g8b2G+YXh0X/u5AUoy
-   +Cmnjz059w7Z7K5O5iEObCkbCMMbSGOcm9kHA5+uRSy5ynUu0O6DHjZ2x
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="373788828"
+  t=1692693071; x=1724229071;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0A5hmjnXK9d5TOrBjohYSE9HqUihyx8IBRp/1RopzVM=;
+  b=kQvihpLQCFVJw2m7Ocs+TronTs8ubT4dLFDjWNfAlRZ2wdiNcyQVile0
+   2W0Xy7/bqKWyDPHL/NWuWGLI7MI/2IP5V5Coe1rRFiFu5dxDRqm1EXx6G
+   mMa1fvNhfZCCzef5ymuycJuXyf8GrYtr4KYJNWBFMdJzwycMTqGPArpyM
+   1pAqI2FouJMW2f8LAndQMuPY+M4f73kIEFLakoz+zf5d4mmWkR40vzEoP
+   6/9oAvap4g4yurP0r2J3EfNlEuJY5IB/03/PvWPjRf1ybi8PERYyjiSZd
+   NB1aX0FSZF5w7KjflOv/5mwUL9GqJ/2uRfjaXxl9hxKRqCbNHBT7WO0/b
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="358813376"
 X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
-   d="scan'208";a="373788828"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 01:19:15 -0700
+   d="scan'208";a="358813376"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 01:30:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="736121440"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="729740131"
 X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
-   d="scan'208";a="736121440"
+   d="scan'208";a="729740131"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 22 Aug 2023 01:19:12 -0700
+  by orsmga007.jf.intel.com with ESMTP; 22 Aug 2023 01:30:54 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYMbV-0001Z2-2F;
-	Tue, 22 Aug 2023 08:19:10 +0000
-Date: Tue, 22 Aug 2023 16:18:42 +0800
+	id 1qYMle-0001aK-0J;
+	Tue, 22 Aug 2023 08:30:13 +0000
+Date: Tue, 22 Aug 2023 16:28:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] ksmbd: reduce descriptor size if remaining bytes is less
- than request size
-Message-ID: <202308221607.e4auCYyC-lkp@intel.com>
-References: <20230821135140.4434-1-linkinjeon@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:upstream-f2fs-stable-linux-5.4.y 21/975]
+ drivers/scsi/sd_zbc.c:340: warning: Function parameter or member 'buf' not
+ described in 'sd_zbc_check_zones'
+Message-ID: <202308221631.lii6Z2kV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,174 +46,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230821135140.4434-1-linkinjeon@kernel.org>
 
-Hi Namjae,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.5-rc7 next-20230821]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Namjae-Jeon/ksmbd-reduce-descriptor-size-if-remaining-bytes-is-less-than-request-size/20230821-215453
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230821135140.4434-1-linkinjeon%40kernel.org
-patch subject: [PATCH] ksmbd: reduce descriptor size if remaining bytes is less than request size
-config: x86_64-randconfig-003-20230822 (https://download.01.org/0day-ci/archive/20230822/202308221607.e4auCYyC-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-5.4.y
+head:   493f9241a6b8df703431ca8204a1dba1ccc05256
+commit: 71cf2b3aead826ff651329231b40e21ecd3017bd [21/975] block: Enhance blk_revalidate_disk_zones()
+config: x86_64-randconfig-006-20230822 (https://download.01.org/0day-ci/archive/20230822/202308221631.lii6Z2kV-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221607.e4auCYyC-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221631.lii6Z2kV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308221607.e4auCYyC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308221631.lii6Z2kV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/smb/server/transport_rdma.c:1370:9: warning: variable 'total_length' set but not used [-Wunused-but-set-variable]
-           size_t total_length = 0;
-                  ^
-   1 warning generated.
+>> drivers/scsi/sd_zbc.c:340: warning: Function parameter or member 'buf' not described in 'sd_zbc_check_zones'
+   drivers/scsi/sd_zbc.c:340: warning: Function parameter or member 'zblocks' not described in 'sd_zbc_check_zones'
 
 
-vim +/total_length +1370 fs/smb/server/transport_rdma.c
+vim +340 drivers/scsi/sd_zbc.c
 
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1355  
-1807abcf8778bc fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1356  static int smb_direct_rdma_xmit(struct smb_direct_transport *t,
-1807abcf8778bc fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1357  				void *buf, int buf_len,
-1807abcf8778bc fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1358  				struct smb2_buffer_desc_v1 *desc,
-1807abcf8778bc fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1359  				unsigned int desc_len,
-1807abcf8778bc fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1360  				bool is_read)
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1361  {
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1362  	struct smb_direct_rdma_rw_msg *msg, *next_msg;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1363  	int i, ret;
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1364  	DECLARE_COMPLETION_ONSTACK(completion);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1365  	struct ib_send_wr *first_wr;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1366  	LIST_HEAD(msg_list);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1367  	char *desc_buf;
-ddbdc861e37c16 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1368  	int credits_needed;
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1369  	unsigned int desc_buf_len, desc_num = 0;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30 @1370  	size_t total_length = 0;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1371  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1372  	if (t->status != SMB_DIRECT_CS_CONNECTED)
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1373  		return -ENOTCONN;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1374  
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1375  	if (buf_len > t->max_rdma_rw_size)
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1376  		return -EINVAL;
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1377  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1378  	/* calculate needed credits */
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1379  	credits_needed = 0;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1380  	desc_buf = buf;
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1381  	for (i = 0; i < desc_len / sizeof(*desc) && buf_len != 0; i++) {
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1382  		if (!buf_len)
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1383  			break;
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1384  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1385  		desc_buf_len = le32_to_cpu(desc[i].length);
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1386  		if (!desc_buf_len)
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1387  			return -EINVAL;
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1388  
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1389  		if (desc_buf_len > buf_len) {
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1390  			desc_buf_len = buf_len;
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1391  			desc[i].length = cpu_to_le32(desc_buf_len);
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1392  			buf_len = 0;
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1393  		}
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1394  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1395  		credits_needed += calc_rw_credits(t, desc_buf, desc_buf_len);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1396  		desc_buf += desc_buf_len;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1397  		total_length += desc_buf_len;
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1398  		buf_len -= desc_buf_len;
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1399  		desc_num++;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1400  	}
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1401  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1402  	ksmbd_debug(RDMA, "RDMA %s, len %#x, needed credits %#x\n",
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1403  		    is_read ? "read" : "write", buf_len, credits_needed);
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1404  
-ddbdc861e37c16 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1405  	ret = wait_for_rw_credits(t, credits_needed);
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1406  	if (ret < 0)
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1407  		return ret;
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1408  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1409  	/* build rdma_rw_ctx for each descriptor */
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1410  	desc_buf = buf;
-7373359abfd031 fs/smb/server/transport_rdma.c Namjae Jeon  2023-08-21  1411  	for (i = 0; i < desc_num; i++) {
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1412  		msg = kzalloc(offsetof(struct smb_direct_rdma_rw_msg, sg_list) +
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1413  			      sizeof(struct scatterlist) * SG_CHUNK_SIZE, GFP_KERNEL);
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1414  		if (!msg) {
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1415  			ret = -ENOMEM;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1416  			goto out;
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1417  		}
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1418  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1419  		desc_buf_len = le32_to_cpu(desc[i].length);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1420  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1421  		msg->t = t;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1422  		msg->cqe.done = is_read ? read_done : write_done;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1423  		msg->completion = &completion;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1424  
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1425  		msg->sgt.sgl = &msg->sg_list[0];
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1426  		ret = sg_alloc_table_chained(&msg->sgt,
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1427  					     get_buf_page_count(desc_buf, desc_buf_len),
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1428  					     msg->sg_list, SG_CHUNK_SIZE);
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1429  		if (ret) {
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1430  			kfree(msg);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1431  			ret = -ENOMEM;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1432  			goto out;
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1433  		}
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1434  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1435  		ret = get_sg_list(desc_buf, desc_buf_len,
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1436  				  msg->sgt.sgl, msg->sgt.orig_nents);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1437  		if (ret < 0) {
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1438  			sg_free_table_chained(&msg->sgt, SG_CHUNK_SIZE);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1439  			kfree(msg);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1440  			goto out;
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1441  		}
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1442  
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1443  		ret = rdma_rw_ctx_init(&msg->rw_ctx, t->qp, t->qp->port,
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1444  				       msg->sgt.sgl,
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1445  				       get_buf_page_count(desc_buf, desc_buf_len),
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1446  				       0,
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1447  				       le64_to_cpu(desc[i].offset),
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1448  				       le32_to_cpu(desc[i].token),
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1449  				       is_read ? DMA_FROM_DEVICE : DMA_TO_DEVICE);
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1450  		if (ret < 0) {
-bde1694aecdb53 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-06-28  1451  			pr_err("failed to init rdma_rw_ctx: %d\n", ret);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1452  			sg_free_table_chained(&msg->sgt, SG_CHUNK_SIZE);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1453  			kfree(msg);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1454  			goto out;
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1455  		}
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1456  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1457  		list_add_tail(&msg->list, &msg_list);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1458  		desc_buf += desc_buf_len;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1459  	}
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1460  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1461  	/* concatenate work requests of rdma_rw_ctxs */
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1462  	first_wr = NULL;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1463  	list_for_each_entry_reverse(msg, &msg_list, list) {
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1464  		first_wr = rdma_rw_ctx_wrs(&msg->rw_ctx, t->qp, t->qp->port,
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1465  					   &msg->cqe, first_wr);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1466  	}
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1467  
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1468  	ret = ib_post_send(t->qp, first_wr, NULL);
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1469  	if (ret) {
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1470  		pr_err("failed to post send wr for RDMA R/W: %d\n", ret);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1471  		goto out;
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1472  	}
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1473  
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1474  	msg = list_last_entry(&msg_list, struct smb_direct_rdma_rw_msg, list);
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1475  	wait_for_completion(&completion);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1476  	ret = msg->status;
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1477  out:
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1478  	list_for_each_entry_safe(msg, next_msg, &msg_list, list) {
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1479  		list_del(&msg->list);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1480  		smb_direct_free_rdma_rw_msg(t, msg,
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1481  					    is_read ? DMA_FROM_DEVICE : DMA_TO_DEVICE);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1482  	}
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1483  	atomic_add(credits_needed, &t->rw_credits);
-ee1b0558965909 fs/ksmbd/transport_rdma.c      Hyunchul Lee 2022-04-30  1484  	wake_up(&t->wait_rw_credits);
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1485  	return ret;
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1486  }
-0626e6641f6b46 fs/cifsd/transport_rdma.c      Namjae Jeon  2021-03-16  1487  
+89d9475610771b Hannes Reinecke 2016-10-18  324  
+e98f42bcad202a Damien Le Moal  2017-10-11  325  /**
+d2e428e49eec9b Damien Le Moal  2018-10-12  326   * sd_zbc_check_zones - Check the device capacity and zone sizes
+e98f42bcad202a Damien Le Moal  2017-10-11  327   * @sdkp: Target disk
+e98f42bcad202a Damien Le Moal  2017-10-11  328   *
+d2e428e49eec9b Damien Le Moal  2018-10-12  329   * Check that the device capacity as reported by READ CAPACITY matches the
+d2e428e49eec9b Damien Le Moal  2018-10-12  330   * max_lba value (plus one)of the report zones command reply. Also check that
+d2e428e49eec9b Damien Le Moal  2018-10-12  331   * all zones of the device have an equal size, only allowing the last zone of
+d2e428e49eec9b Damien Le Moal  2018-10-12  332   * the disk to have a smaller size (runt zone). The zone size must also be a
+d2e428e49eec9b Damien Le Moal  2018-10-12  333   * power of two.
+ccce20fc7968d5 Bart Van Assche 2018-04-16  334   *
+f13cff6c25bd89 Damien Le Moal  2018-07-03  335   * Returns the zone size in number of blocks upon success or an error code
+f13cff6c25bd89 Damien Le Moal  2018-07-03  336   * upon failure.
+e98f42bcad202a Damien Le Moal  2017-10-11  337   */
+71cf2b3aead826 Damien Le Moal  2019-11-11  338  static int sd_zbc_check_zones(struct scsi_disk *sdkp, unsigned char *buf,
+71cf2b3aead826 Damien Le Moal  2019-11-11  339  			      u32 *zblocks)
+89d9475610771b Hannes Reinecke 2016-10-18 @340  {
+71cf2b3aead826 Damien Le Moal  2019-11-11  341  	size_t buflen;
+4b433924b2755a Damien Le Moal  2018-03-02  342  	u64 zone_blocks = 0;
+71cf2b3aead826 Damien Le Moal  2019-11-11  343  	sector_t max_lba;
+89d9475610771b Hannes Reinecke 2016-10-18  344  	unsigned char *rec;
+5f832a395859de Damien Le Moal  2018-10-12  345  	int ret;
+89d9475610771b Hannes Reinecke 2016-10-18  346  
+71cf2b3aead826 Damien Le Moal  2019-11-11  347  	/* Do a report zone to get max_lba and the size of the first zone */
+71cf2b3aead826 Damien Le Moal  2019-11-11  348  	ret = sd_zbc_do_report_zones(sdkp, buf, SD_BUF_SIZE, 0, false);
+4b433924b2755a Damien Le Moal  2018-03-02  349  	if (ret)
+71cf2b3aead826 Damien Le Moal  2019-11-11  350  		return ret;
+89d9475610771b Hannes Reinecke 2016-10-18  351  
+d2e428e49eec9b Damien Le Moal  2018-10-12  352  	if (sdkp->rc_basis == 0) {
+d2e428e49eec9b Damien Le Moal  2018-10-12  353  		/* The max_lba field is the capacity of this device */
+d2e428e49eec9b Damien Le Moal  2018-10-12  354  		max_lba = get_unaligned_be64(&buf[8]);
+d2e428e49eec9b Damien Le Moal  2018-10-12  355  		if (sdkp->capacity != max_lba + 1) {
+d2e428e49eec9b Damien Le Moal  2018-10-12  356  			if (sdkp->first_scan)
+d2e428e49eec9b Damien Le Moal  2018-10-12  357  				sd_printk(KERN_WARNING, sdkp,
+d2e428e49eec9b Damien Le Moal  2018-10-12  358  					"Changing capacity from %llu to max LBA+1 %llu\n",
+d2e428e49eec9b Damien Le Moal  2018-10-12  359  					(unsigned long long)sdkp->capacity,
+d2e428e49eec9b Damien Le Moal  2018-10-12  360  					(unsigned long long)max_lba + 1);
+d2e428e49eec9b Damien Le Moal  2018-10-12  361  			sdkp->capacity = max_lba + 1;
+d2e428e49eec9b Damien Le Moal  2018-10-12  362  		}
+d2e428e49eec9b Damien Le Moal  2018-10-12  363  	}
+d2e428e49eec9b Damien Le Moal  2018-10-12  364  
+89d9475610771b Hannes Reinecke 2016-10-18  365  	/* Parse REPORT ZONES header */
+71cf2b3aead826 Damien Le Moal  2019-11-11  366  	buflen = min_t(size_t, get_unaligned_be32(&buf[0]) + 64, SD_BUF_SIZE);
+89d9475610771b Hannes Reinecke 2016-10-18  367  	rec = buf + 64;
+71cf2b3aead826 Damien Le Moal  2019-11-11  368  	zone_blocks = get_unaligned_be64(&rec[8]);
+71cf2b3aead826 Damien Le Moal  2019-11-11  369  	if (!zone_blocks || !is_power_of_2(zone_blocks)) {
+89d9475610771b Hannes Reinecke 2016-10-18  370  		if (sdkp->first_scan)
+89d9475610771b Hannes Reinecke 2016-10-18  371  			sd_printk(KERN_NOTICE, sdkp,
+89d9475610771b Hannes Reinecke 2016-10-18  372  				  "Devices with non power of 2 zone "
+89d9475610771b Hannes Reinecke 2016-10-18  373  				  "size are not supported\n");
+71cf2b3aead826 Damien Le Moal  2019-11-11  374  		return -ENODEV;
+71cf2b3aead826 Damien Le Moal  2019-11-11  375  	}
+71cf2b3aead826 Damien Le Moal  2019-11-11  376  
+71cf2b3aead826 Damien Le Moal  2019-11-11  377  	if (logical_to_sectors(sdkp->device, zone_blocks) > UINT_MAX) {
+89d9475610771b Hannes Reinecke 2016-10-18  378  		if (sdkp->first_scan)
+89d9475610771b Hannes Reinecke 2016-10-18  379  			sd_printk(KERN_NOTICE, sdkp,
+89d9475610771b Hannes Reinecke 2016-10-18  380  				  "Zone size too large\n");
+71cf2b3aead826 Damien Le Moal  2019-11-11  381  		return -EFBIG;
+4b433924b2755a Damien Le Moal  2018-03-02  382  	}
+89d9475610771b Hannes Reinecke 2016-10-18  383  
+71cf2b3aead826 Damien Le Moal  2019-11-11  384  	*zblocks = zone_blocks;
+4b433924b2755a Damien Le Moal  2018-03-02  385  
+71cf2b3aead826 Damien Le Moal  2019-11-11  386  	return 0;
+89d9475610771b Hannes Reinecke 2016-10-18  387  }
+89d9475610771b Hannes Reinecke 2016-10-18  388  
+
+:::::: The code at line 340 was first introduced by commit
+:::::: 89d9475610771b5e5fe1879075f0fc9ba6e3755f sd: Implement support for ZBC devices
+
+:::::: TO: Hannes Reinecke <hare@suse.de>
+:::::: CC: Jens Axboe <axboe@fb.com>
 
 -- 
 0-DAY CI Kernel Test Service
