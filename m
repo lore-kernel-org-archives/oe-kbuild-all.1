@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3308F20180
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 19:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1385C20180
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 20:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692733658; x=1724269658;
+  t=1692736193; x=1724272193;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pjax2xsnMKpH20ugfP8NQV8JfsGjOoXSw8EcIcB5Zqs=;
-  b=H4QmoRFHKZxCsU259fOxykstYPQ4BoQPTtGUN/4T7wFEhFXhrbR+j6vS
-   D3AVxUy4+VwRIOhzfHj25a1tvxuIu7FUhlxiebEBf6An5tncWuvCHAYnm
-   TPn0hjXlozs2TmZx79ne+CREC+eTBfovnlyVdKzFodTmdn9N7gSzNtFX1
-   gt5mrC+XtDdwp9HkdNnx880Fhhr7oHq+MuFCO8hzdnL4sQoExo98+KKkm
-   9TYjYwvrpXT1E5DeswTf2XNRLbGVxRqOWnlxq4nk9HGTXQsPziaD5sgK5
-   uaGzEVBE/qCvVMNqV4OT/MReEUCYuGBYxpzSV+xksEnN7mH6rTa/uKEIF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="440346205"
+  bh=K7RORICPfxqNBHQcIZ/qDqJ2svKqxnPmCYZf/nKOmrU=;
+  b=EQczg3wGVs6N/zP/33Co7NmKMQuZWM/xjofN4adSyZDSO2iH093X9DND
+   a1rp/kCvhUTbLVGMc9zEoA2xeGnFffs77aACoUMPyAOkRvj03q+f579wc
+   beEeUyko4t3ew7nDwdtyKlfeUTi5PWiTQ1UoK0Vy61hrjD/hCfyZTT3Mi
+   MMxHPA/mbbI9YuHA3i4B0cvbbMSRvvv32nfDic3UEKGXk4fQFHgt+QUyX
+   9WvAQHaGvNIu49Vfya5DsGNY+pTqHqZ+twRcDFKJNBJch90qpANc/PlxL
+   SpyODDsNlOaLgY+vSBqbGk1jXpeUIGYUjnDtlr1R5UirMdqPATk6gM7X+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="372873814"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="440346205"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 12:45:51 -0700
+   d="scan'208";a="372873814"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 13:29:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="880090872"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="850759130"
+X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
+   d="scan'208";a="850759130"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 22 Aug 2023 12:45:54 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 22 Aug 2023 13:29:51 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYXK1-0000UU-0D;
-	Tue, 22 Aug 2023 19:45:49 +0000
-Date: Wed, 23 Aug 2023 03:44:56 +0800
+	id 1qYY0c-0000W6-0o;
+	Tue, 22 Aug 2023 20:29:50 +0000
+Date: Wed, 23 Aug 2023 04:29:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steev Klimaszewski <steev@kali.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [steev:lenovo-x13s-v6.5-rc7 90/129]
- drivers/bluetooth/btqca.c:213:13: warning: variable 'bid_len' set but not
- used
-Message-ID: <202308230303.lR6YCqeP-lkp@intel.com>
+Subject: [android-common:android12-5.4 14383/28543] htmldocs:
+ ./include/kunit/test.h:174: warning: Function parameter or member 'debugfs'
+ not described in 'kunit_suite'
+Message-ID: <202308230437.I8d4wE5G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,68 +47,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/steev/linux lenovo-x13s-v6.5-rc7
-head:   68f425346397c1806f828d4ee58e9468c924f408
-commit: 8c7ca562bd5afddf0cb49f70f2bdbac24d078e9b [90/129] hack: bluetooth: add way to generate nvm name
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230823/202308230303.lR6YCqeP-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230303.lR6YCqeP-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   a14f43f0b97d279d50029fba7442bb4cd393089d
+commit: f6651bd242ce4de8287e499e74e9f08e52faf0a8 [14383/28543] UPSTREAM: kunit: add debugfs /sys/kernel/debug/kunit/<suite>/results display
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230437.I8d4wE5G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308230303.lR6YCqeP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308230437.I8d4wE5G-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/bluetooth/btqca.c: In function 'qca_read_fw_board_id':
->> drivers/bluetooth/btqca.c:213:13: warning: variable 'bid_len' set but not used [-Wunused-but-set-variable]
-     213 |         int bid_len, err = 0;
-         |             ^~~~~~~
+>> ./include/kunit/test.h:174: warning: Function parameter or member 'debugfs' not described in 'kunit_suite'
+>> ./include/kunit/test.h:174: warning: Function parameter or member 'log' not described in 'kunit_suite'
 
+vim +174 ./include/kunit/test.h
 
-vim +/bid_len +213 drivers/bluetooth/btqca.c
+ff82dbcb3e2cc5 Brendan Higgins 2019-09-23 @174  
 
-   207	
-   208	static int qca_read_fw_board_id(struct hci_dev *hdev, u16 *bid)
-   209	{
-   210		u8 cmd;
-   211		struct sk_buff *skb;
-   212		struct edl_event_hdr *edl;
- > 213		int bid_len, err = 0;
-   214	
-   215		cmd = EDL_GET_BID_REQ_CMD;
-   216		skb = __hci_cmd_sync_ev(hdev, EDL_PATCH_CMD_OPCODE, EDL_PATCH_CMD_LEN,
-   217					&cmd, 0, HCI_INIT_TIMEOUT);
-   218		if (IS_ERR(skb)) {
-   219			err = PTR_ERR(skb);
-   220			bt_dev_err(hdev, "Reading QCA board ID failed (%d)", err);
-   221			return err;
-   222		}
-   223	
-   224		edl = skb_pull_data(skb, sizeof(*edl));
-   225		if (!edl) {
-   226			bt_dev_err(hdev, "QCA read board ID with no header");
-   227			err = -EILSEQ;
-   228			goto out;
-   229		}
-   230	
-   231		if (edl->cresp != EDL_CMD_REQ_RES_EVT ||
-   232		    edl->rtype != EDL_GET_BID_REQ_CMD) {
-   233			bt_dev_err(hdev, "QCA Wrong packet received %d %d", edl->cresp,
-   234				   edl->rtype);
-   235			err = -EIO;
-   236			goto out;
-   237		}
-   238	
-   239		bid_len = edl->data[0];
-   240		*bid = (edl->data[1] << 8) + edl->data[2];
-   241	
-   242	out:
-   243		kfree_skb(skb);
-   244		return err;
-   245	}
-   246	
+:::::: The code at line 174 was first introduced by commit
+:::::: ff82dbcb3e2cc596f464302579fdf331f7422384 UPSTREAM: kunit: test: add KUnit test runner core
+
+:::::: TO: Brendan Higgins <brendanhiggins@google.com>
+:::::: CC: Alexander Potapenko <glider@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
