@@ -1,41 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685647F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 04:19:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5844C1360
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 04:41:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692677945; x=1724213945;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3ZYtaz2cVhFh67VEyThZEnVAAa8juwizS6gX+CGqdVs=;
-  b=e4iM9Mnr8g+Be5YKhG39KSfp9a9a6nHhJpAnYukjLGUz0QNEK+773TEK
-   ZxlO0eEHzw4Qfbow8YFeqdUIhiwn5jr3VxGSuNc+0WEFUDmYIr0zIsQZg
-   GxRkPo62e3vhPf9jfL5Qyib+h0T9PI3gjUCCEoulvT3rLEpAH70vDWS/a
-   GKnku8IvXd+Q00TjIsahh4cMApLhJUJro0BrtfCPrg5Z+3hRuqAfgcv58
-   qS5O7Ti4UYPiJMtPa7TSQFKRAcR8Hpe3a1i87zcQ+qqJclfFzfhBrdMrs
-   RY63HXZBfNj3N1l9wgp/TBbeXM0ygZh+TYTzvBhml6Mn86eYtHRFGNlzn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="373744530"
+  t=1692679282; x=1724215282;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/mW++4NuYxUUCVWxRmzU8pj9vbLZbaW01HUDQp7Dz94=;
+  b=luAOnI69VZyA2o7JzIli8yBVMZb81KhJ/SC4/mGDcjgoLi0PGK9gASfp
+   An/S8WIXJ7CQDWrghg6hvzxLidop+e9ZXaQbXk5kaAd2g1lvilXzh1fGP
+   C0Yk5zJhuZSDCDjde1diJ0ODBnQ0CxBSNf5WfXEvlgk2bP3v7tayKB0z/
+   xjPeufrUl+O1CN7sK8h8ZcFPiFg4db38RNm1vquMpQIHIGXpgGhYIPH4f
+   6yb/IU+E+hxI2I13odBdQKahbZQJpb0N4enlrhTMXxzouKp22aGifleLv
+   49vRV65nu7OK7ImLW2X9CBxnrtVxlP96uVWTeDYNKS/66PTTiDoAs7cS2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="354106889"
 X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
-   d="scan'208";a="373744530"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 21:19:04 -0700
+   d="scan'208";a="354106889"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 21:41:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="879783310"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="736074473"
+X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
+   d="scan'208";a="736074473"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Aug 2023 21:19:07 -0700
+  by orsmga002.jf.intel.com with ESMTP; 21 Aug 2023 21:41:12 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYIq7-0001LM-04;
-	Tue, 22 Aug 2023 04:18:28 +0000
-Date: Tue, 22 Aug 2023 12:14:28 +0800
+	id 1qYJAT-0001Mt-1G;
+	Tue, 22 Aug 2023 04:39:29 +0000
+Date: Tue, 22 Aug 2023 12:37:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:doe 8/14] drivers/pci/cma-x509.c:22:10: fatal error:
- 'linux/x509.h' file not found
-Message-ID: <202308221223.J8ufO6J9-lkp@intel.com>
+To: Wenhua Lin <Wenhua.Lin@unisoc.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, linux-serial@vger.kernel.org,
+	linux-kernel@vger.kernel.org, wenhua lin <wenhua.lin1994@gmail.com>,
+	Wenhua Lin <Wenhua.Lin@unisoc.com>,
+	Xiongpeng Wu <xiongpeng.wu@unisoc.com>,
+	Zhirong Qiu <zhirong.qiu@unisoc.com>,
+	Zhaochen Su <Zhaochen.Su@unisoc.com>
+Subject: Re: [PATCH] tty/serial: Cancel work queue before closing uart
+Message-ID: <202308221254.RnJddA0P-lkp@intel.com>
+References: <20230818031532.15591-1-Wenhua.Lin@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,184 +54,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230818031532.15591-1-Wenhua.Lin@unisoc.com>
 
-tree:   https://github.com/l1k/linux doe
-head:   006eb115706d213104edcfc0e465b759a8ce5034
-commit: ea529fbef3268ef568217c543d0796d4dbbde45d [8/14] PCI/CMA: Validate Subject Alternative Name in certificates
-config: powerpc64-randconfig-r015-20230822 (https://download.01.org/0day-ci/archive/20230822/202308221223.J8ufO6J9-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221223.J8ufO6J9-lkp@intel.com/reproduce)
+Hi Wenhua,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.5-rc7 next-20230821]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wenhua-Lin/tty-serial-Cancel-work-queue-before-closing-uart/20230818-111905
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230818031532.15591-1-Wenhua.Lin%40unisoc.com
+patch subject: [PATCH] tty/serial: Cancel work queue before closing uart
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20230822/202308221254.RnJddA0P-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221254.RnJddA0P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308221223.J8ufO6J9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308221254.RnJddA0P-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/pci/probe.c:23:
->> drivers/pci/pci.h:322:34: warning: declaration of 'struct x509_certificate' will not be visible outside of this function [-Wvisibility]
-     322 | int pci_cma_validate_cert(struct x509_certificate *leaf_cert,
-         |                                  ^
-   1 warning generated.
---
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:29:
-   In file included from include/linux/mm.h:990:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:186:1: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     186 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:176:10: note: expanded from macro '_SIG_SET_OP'
-     176 |         case 2: set->sig[1] = op(set->sig[1]);                          \
-         |                 ^        ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/pci/cma-x509.c:21:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:29:
-   In file included from include/linux/mm.h:990:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:197:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     197 |         case 2: set->sig[1] = 0;
-         |                 ^        ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/pci/cma-x509.c:21:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:29:
-   In file included from include/linux/mm.h:990:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:210:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     210 |         case 2: set->sig[1] = -1;
-         |                 ^        ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/pci/cma-x509.c:21:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:29:
-   In file included from include/linux/mm.h:990:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:241:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     241 |         case 2: set->sig[1] = 0;
-         |                 ^        ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/pci/cma-x509.c:21:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:29:
-   In file included from include/linux/mm.h:990:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:254:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     254 |         case 2: set->sig[1] = -1;
-         |                 ^        ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
->> drivers/pci/cma-x509.c:22:10: fatal error: 'linux/x509.h' file not found
-      22 | #include <linux/x509.h>
-         |          ^~~~~~~~~~~~~~
-   49 warnings and 2 errors generated.
---
-   In file included from drivers/pci/pci-sysfs.c:32:
->> drivers/pci/pci.h:322:34: warning: declaration of 'struct x509_certificate' will not be visible outside of this function [-Wvisibility]
-     322 | int pci_cma_validate_cert(struct x509_certificate *leaf_cert,
-         |                                  ^
-   drivers/pci/pci-sysfs.c:936:13: warning: no previous prototype for function 'pci_adjust_legacy_attr' [-Wmissing-prototypes]
-     936 | void __weak pci_adjust_legacy_attr(struct pci_bus *b,
-         |             ^
-   drivers/pci/pci-sysfs.c:936:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     936 | void __weak pci_adjust_legacy_attr(struct pci_bus *b,
-         | ^
-         | static 
-   2 warnings generated.
---
-   In file included from drivers/pci/hotplug/pci_hotplug_core.c:32:
->> drivers/pci/hotplug/../pci.h:322:34: warning: declaration of 'struct x509_certificate' will not be visible outside of this function [-Wvisibility]
-     322 | int pci_cma_validate_cert(struct x509_certificate *leaf_cert,
-         |                                  ^
-   1 warning generated.
---
-   In file included from drivers/pci/pcie/ptm.c:10:
->> drivers/pci/pcie/../pci.h:322:34: warning: declaration of 'struct x509_certificate' will not be visible outside of this function [-Wvisibility]
-     322 | int pci_cma_validate_cert(struct x509_certificate *leaf_cert,
-         |                                  ^
-   1 warning generated.
---
-   In file included from drivers/pci/controller/pci-v3-semi.c:35:
->> drivers/pci/controller/../pci.h:322:34: warning: declaration of 'struct x509_certificate' will not be visible outside of this function [-Wvisibility]
-     322 | int pci_cma_validate_cert(struct x509_certificate *leaf_cert,
-         |                                  ^
-   1 warning generated.
---
-   In file included from drivers/pci/msi/msi.c:13:
->> drivers/pci/msi/../pci.h:322:34: warning: declaration of 'struct x509_certificate' will not be visible outside of this function [-Wvisibility]
-     322 | int pci_cma_validate_cert(struct x509_certificate *leaf_cert,
-         |                                  ^
-   1 warning generated.
---
-   In file included from drivers/pci/controller/dwc/pci-keystone.c:31:
->> drivers/pci/controller/dwc/../../pci.h:322:34: warning: declaration of 'struct x509_certificate' will not be visible outside of this function [-Wvisibility]
-     322 | int pci_cma_validate_cert(struct x509_certificate *leaf_cert,
-         |                                  ^
-   1 warning generated.
-
-
-vim +22 drivers/pci/cma-x509.c
-
-    18	
-    19	#include <linux/asn1_decoder.h>
-    20	#include <linux/oid_registry.h>
-    21	#include <linux/pci.h>
-  > 22	#include <linux/x509.h>
-    23	
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bpfilter/bpfilter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/x86/video/fbdev.o
+>> ERROR: modpost: "tty_buffer_cancel_work" [drivers/tty/serial/sprd_serial.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
