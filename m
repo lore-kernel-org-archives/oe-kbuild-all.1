@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875412B56F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 18:52:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E4B2B56F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 18:52:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692730332; x=1724266332;
+  t=1692730364; x=1724266364;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nteG2Cax6JFS1QHA8uO9uoaZmpIOTJtYRpL/vL/baqY=;
-  b=lg/LJNsHefLoJBKQMj6E+d9qeiHTFzFRfYbSJd3wBDPoVOwOr/QkjsDQ
-   VhdgctPUQNJWf4tvsDt9sDCuJEvat0BOZojxebt8TrYm5QJlbJp7V7Q7W
-   +9KZE2BoTj/M9pnjqnrfarhxym+Y4jk+GBRMdE8u8Y2KgffVWwO7a8kSa
-   YxFhlzmajGNfA+ht4exH9lEr7VSY0mLx3DywmKX/MZocC897AuBCdN+XZ
-   fnsx3br+43g0KSwAeQNnGu1f92N1PpOWDTWsLhtyR5dv5uVj5MoIjJJ52
-   hFi4u4dU+RbziL9c5Xc0JuZBYYJccbPSKBkv/VSSqnooQBtf5v8jGoBEi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="373941811"
+  bh=kDA/Z6kXajr7mkHh0vUBOEEvlZZlIdEI96D4iaQUwDw=;
+  b=AJAlFkegRn3UzXyiBpf+tWRo1GVE2Ildvv4WrIvKbTrltRAhtVfgwSWm
+   Xz61GJnrPWre/9TBweLa6pMX9+BGcXPEAN4LJxQo3zDBAgePInsFHde7h
+   5pnLtuIUkGTOd9qP+OELMHiKeFTNBWumPDCSYWd5qKRt2E8WcXlOxXTi8
+   2GIDmFIZUipD/NS7JtQfI/hs0l1Iys+UZlOSDdrpRPgKdooTGDfCTiukj
+   UQ6/cE8++aIBK4bQWXPu+jpyKanyYa+L2nVWzfnzi9tbDBvDcX0QGj1Uv
+   529IirmjfPUnXTXP33tbFkCn1rf0KbQWEp4j990eKuFKk7bY+oel488ft
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="364147893"
 X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; 
-   d="scan'208";a="373941811"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 11:52:11 -0700
+   d="scan'208";a="364147893"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 11:52:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="860049022"
-X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; 
-   d="scan'208";a="860049022"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="1067169108"
+X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
+   d="scan'208";a="1067169108"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 22 Aug 2023 11:52:10 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 22 Aug 2023 11:52:37 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYWU1-0000Rk-2y;
-	Tue, 22 Aug 2023 18:52:06 +0000
-Date: Wed, 23 Aug 2023 02:51:36 +0800
+	id 1qYWUR-0000S7-2a;
+	Tue, 22 Aug 2023 18:52:33 +0000
+Date: Wed, 23 Aug 2023 02:51:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.14-stable 9831/29943]
- drivers/net/wireless/virt_wifi.c:432:31: warning: variable 'w_priv' set but
- not used
-Message-ID: <202308230215.db7dboyn-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/sparc/kernel/traps_64.c:2839:13: error: no previous prototype
+ for 'trap_init'
+Message-ID: <202308230215.bfQqngTC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,52 +46,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Cody,
+Hi Rob,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android-4.14-stable
-head:   6904826e1ac9739626b937fd85e37cf539fec91b
-commit: ccd0de1304be3a8863d97872fbf00b8b3b6c7801 [9831/29943] FROMGIT, BACKPORT: mac80211-next: rtnetlink wifi simulation device
-config: i386-randconfig-005-20230822 (https://download.01.org/0day-ci/archive/20230823/202308230215.db7dboyn-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230215.db7dboyn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f7757129e3dea336c407551c98f50057c22bb266
+commit: 7e09cb0b84ac5d17086a65ca21479dfec600a232 of: Drop cpu.h include from of_device.h
+date:   4 months ago
+config: sparc-randconfig-r024-20230821 (https://download.01.org/0day-ci/archive/20230823/202308230215.bfQqngTC-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230215.bfQqngTC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308230215.db7dboyn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308230215.bfQqngTC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/wireless/virt_wifi.c: In function 'virt_wifi_net_device_stop':
->> drivers/net/wireless/virt_wifi.c:432:31: warning: variable 'w_priv' set but not used [-Wunused-but-set-variable]
-     struct virt_wifi_wiphy_priv *w_priv;
-                                  ^~~~~~
+   arch/sparc/kernel/traps_64.c:252:6: error: no previous prototype for 'is_no_fault_exception' [-Werror=missing-prototypes]
+     252 | bool is_no_fault_exception(struct pt_regs *regs)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/sparc/kernel/traps_64.c:2034:6: error: no previous prototype for 'do_mcd_err' [-Werror=missing-prototypes]
+    2034 | void do_mcd_err(struct pt_regs *regs, struct sun4v_error_entry ent)
+         |      ^~~~~~~~~~
+   arch/sparc/kernel/traps_64.c:2152:6: error: no previous prototype for 'sun4v_nonresum_error_user_handled' [-Werror=missing-prototypes]
+    2152 | bool sun4v_nonresum_error_user_handled(struct pt_regs *regs,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/sparc/kernel/traps_64.c:2839:13: error: no previous prototype for 'trap_init' [-Werror=missing-prototypes]
+    2839 | void __init trap_init(void)
+         |             ^~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +/w_priv +432 drivers/net/wireless/virt_wifi.c
+vim +/trap_init +2839 arch/sparc/kernel/traps_64.c
 
-   427	
-   428	/* Called with rtnl lock held. */
-   429	static int virt_wifi_net_device_stop(struct net_device *dev)
-   430	{
-   431		struct virt_wifi_netdev_priv *n_priv = netdev_priv(dev);
- > 432		struct virt_wifi_wiphy_priv *w_priv;
-   433	
-   434		n_priv->is_up = false;
-   435	
-   436		if (!dev->ieee80211_ptr)
-   437			return 0;
-   438		w_priv = wiphy_priv(dev->ieee80211_ptr->wiphy);
-   439	
-   440		virt_wifi_cancel_scan(dev->ieee80211_ptr->wiphy);
-   441		virt_wifi_cancel_connect(dev);
-   442		netif_carrier_off(dev);
-   443	
-   444		return 0;
-   445	}
-   446	
+^1da177e4c3f41 arch/sparc64/kernel/traps.c Linus Torvalds 2005-04-16  2837  
+^1da177e4c3f41 arch/sparc64/kernel/traps.c Linus Torvalds 2005-04-16  2838  /* Only invoked on boot processor. */
+^1da177e4c3f41 arch/sparc64/kernel/traps.c Linus Torvalds 2005-04-16 @2839  void __init trap_init(void)
+
+:::::: The code at line 2839 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
