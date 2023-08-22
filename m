@@ -1,113 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF6E1FA1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 02:30:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692671432; x=1724207432;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bnD7/0pVnDenR+1Gn7nXDkgpoQf0CM6Y5OAiQo1uB3M=;
-  b=Zw2pcS9ZezIiolaf7D7Sv+hGI/73fyWlfb8ILLQzUUNAHRgDDnSbPKqi
-   O672WaEJFrqhS/t0DJSGW/d/kM2FKYfAejJQok+bRSAO8pbA60o6JUHOd
-   jhGP8D2n1IOtM0wjkKBiDBa/kw52t7J3YgWq0tQvBuvQab2a9frvLEhDm
-   RF58mxpcesEfXmAcWbejzyQYcQv2UR49/d5r//TSGtcwv7/wIdE3C7OQw
-   XiW4nulu3hnvnF4k0geIpNs1mZ+/WSD+ESZsB+FnChWjifSQcI1iDgzO9
-   4Memk4oKfqoP8yScKqs95xZSgNcTi3pWamLMA04tIHt+hZLEZzXpSk3Ps
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="363924920"
-X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="363924920"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 19:30:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="712985254"
-X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="712985254"
-Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 21 Aug 2023 19:30:30 -0700
-Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qYH9v-0001FA-1i;
-	Tue, 22 Aug 2023 02:30:21 +0000
-Date: Tue, 22 Aug 2023 10:28:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [deller-parisc:for-next 5/13] arch/parisc/kernel/processor.c:390:46:
- warning: unused variable 'cpuinfo'
-Message-ID: <202308221034.LX3wcH2L-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747737F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 02:33:59 +0000 (UTC)
+Received: from dggpemm100001.china.huawei.com (unknown [172.30.72.54])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RVCxK6KvkztRsW;
+	Tue, 22 Aug 2023 10:30:13 +0800 (CST)
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemm100001.china.huawei.com (7.185.36.93) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Tue, 22 Aug 2023 10:33:55 +0800
+Message-ID: <3506ca92-837b-462e-8cbf-9ed484c71164@huawei.com>
+Date: Tue, 22 Aug 2023 10:33:55 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH rfc v2 01/10] mm: add a generic VMA lock-based page fault
+ handler
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Andrew Morton
+	<akpm@linux-foundation.org>
+CC: <oe-kbuild-all@lists.linux.dev>, Linux Memory Management List
+	<linux-mm@kvack.org>, <surenb@google.com>, <willy@infradead.org>, Russell
+ King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
+	<kernel@xen0n.name>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
+	<npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Paul
+ Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexander Gordeev
+	<agordeev@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
+	<svens@linux.ibm.com>, Dave Hansen <dave.hansen@linux.intel.com>, Andy
+ Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Thomas
+ Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+	<linux-arm-kernel@lists.infradead.org>
+References: <20230821123056.2109942-2-wangkefeng.wang@huawei.com>
+ <202308212249.dZG3d55u-lkp@intel.com>
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <202308212249.dZG3d55u-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.177.243]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm100001.china.huawei.com (7.185.36.93)
+X-CFilter-Loop: Reflected
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git for-next
-head:   557fefd16958f21ae5aa9994dd2b2d9e0d683787
-commit: 90f22b0437b2b738aef254555d24f0d953622cb9 [5/13] parisc: Fix /proc/cpuinfo output for lscpu
-config: parisc-randconfig-r015-20230822 (https://download.01.org/0day-ci/archive/20230822/202308221034.LX3wcH2L-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221034.LX3wcH2L-lkp@intel.com/reproduce)
+Hi
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308221034.LX3wcH2L-lkp@intel.com/
+On 2023/8/21 23:13, kernel test robot wrote:
+> Hi Kefeng,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on next-20230821]
+> [cannot apply to akpm-mm/mm-everything arm64/for-next/core tip/x86/mm s390/features powerpc/next powerpc/fixes arm/for-next arm/fixes linus/master v6.5-rc7 v6.5-rc6 v6.5-rc5 v6.5-rc7]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-add-a-generic-VMA-lock-based-page-fault-handler/20230821-203442
+> base:   next-20230821
+> patch link:    https://lore.kernel.org/r/20230821123056.2109942-2-wangkefeng.wang%40huawei.com
+> patch subject: [PATCH rfc v2 01/10] mm: add a generic VMA lock-based page fault handler
+> config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230821/202308212249.dZG3d55u-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230821/202308212249.dZG3d55u-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308212249.dZG3d55u-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     In file included from include/linux/memcontrol.h:20,
+>                      from include/linux/swap.h:9,
+>                      from include/linux/suspend.h:5,
+>                      from arch/x86/kernel/asm-offsets.c:14:
+>>> include/linux/mm.h:810:38: error: redefinition of 'lock_vma_under_rcu'
+>       810 | static inline struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
+>           |                                      ^~~~~~~~~~~~~~~~~~
+>     include/linux/mm.h:794:38: note: previous definition of 'lock_vma_under_rcu' with type 'struct vm_area_struct *(struct mm_struct *, long unsigned int)'
+>       794 | static inline struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
+>           |                                      ^~~~~~~~~~~~~~~~~~
+>     make[3]: *** [scripts/Makefile.build:116: arch/x86/kernel/asm-offsets.s] Error 1
+>     make[3]: Target 'prepare' not remade because of errors.
+>     make[2]: *** [Makefile:1203: prepare0] Error 2
+>     make[2]: Target 'prepare' not remade because of errors.
+>     make[1]: *** [Makefile:234: __sub-make] Error 2
+>     make[1]: Target 'prepare' not remade because of errors.
+>     make: *** [Makefile:234: __sub-make] Error 2
+>     make: Target 'prepare' not remade because of errors.
+> 
+> 
 
-All warnings (new ones prefixed by >>):
+Yes, the following change should be drop as it is miscopied...
 
-   arch/parisc/kernel/processor.c: In function 'show_cpuinfo':
->> arch/parisc/kernel/processor.c:390:46: warning: unused variable 'cpuinfo' [-Wunused-variable]
-     390 |                 const struct cpuinfo_parisc *cpuinfo = &per_cpu(cpu_data, cpu);
-         |                                              ^~~~~~~
-
-
-vim +/cpuinfo +390 arch/parisc/kernel/processor.c
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  373  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  374  /*
-7022672e4046fa Simon Arlott   2007-05-11  375   * Display CPU info for all CPUs.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  376   */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  377  int
-^1da177e4c3f41 Linus Torvalds 2005-04-16  378  show_cpuinfo (struct seq_file *m, void *v)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  379  {
-ef017bebd01c1b Helge Deller   2008-12-31  380  	unsigned long cpu;
-90f22b0437b2b7 Helge Deller   2023-08-18  381  	char cpu_name[60], *p;
-90f22b0437b2b7 Helge Deller   2023-08-18  382  
-90f22b0437b2b7 Helge Deller   2023-08-18  383  	/* strip PA path from CPU name to not confuse lscpu */
-90f22b0437b2b7 Helge Deller   2023-08-18  384  	strlcpy(cpu_name, per_cpu(cpu_data, 0).dev->name, sizeof(cpu_name));
-90f22b0437b2b7 Helge Deller   2023-08-18  385  	p = strrchr(cpu_name, '[');
-90f22b0437b2b7 Helge Deller   2023-08-18  386  	if (p)
-90f22b0437b2b7 Helge Deller   2023-08-18  387  		*(--p) = 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  388  
-ef017bebd01c1b Helge Deller   2008-12-31  389  	for_each_online_cpu(cpu) {
-ef017bebd01c1b Helge Deller   2008-12-31 @390  		const struct cpuinfo_parisc *cpuinfo = &per_cpu(cpu_data, cpu);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  391  #ifdef CONFIG_SMP
-ef017bebd01c1b Helge Deller   2008-12-31  392  		if (0 == cpuinfo->hpa)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  393  			continue;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  394  #endif
-ef017bebd01c1b Helge Deller   2008-12-31  395  		seq_printf(m, "processor\t: %lu\n"
-^1da177e4c3f41 Linus Torvalds 2005-04-16  396  				"cpu family\t: PA-RISC %s\n",
-ef017bebd01c1b Helge Deller   2008-12-31  397  				 cpu, boot_cpu_data.family_name);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  398  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  399  		seq_printf(m, "cpu\t\t: %s\n",  boot_cpu_data.cpu_name );
-^1da177e4c3f41 Linus Torvalds 2005-04-16  400  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  401  		/* cpu MHz */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  402  		seq_printf(m, "cpu MHz\t\t: %d.%06d\n",
-^1da177e4c3f41 Linus Torvalds 2005-04-16  403  				 boot_cpu_data.cpu_hz / 1000000,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  404  				 boot_cpu_data.cpu_hz % 1000000  );
-^1da177e4c3f41 Linus Torvalds 2005-04-16  405  
-
-:::::: The code at line 390 was first introduced by commit
-:::::: ef017bebd01c1b4e075d649eee0c8c1c79f9ceb9 parisc: Replace NR_CPUS in parisc code
-
-:::::: TO: Helge Deller <deller@gmx.de>
-:::::: CC: Kyle McMartin <kyle@mcmartin.ca>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> vim +/lock_vma_under_rcu +810 include/linux/mm.h
+> 
+>     809	
+>   > 810	static inline struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
+>     811			unsigned long address)
+>     812	{
+>     813		return NULL;
+>     814	}
+>     815	
+> 
