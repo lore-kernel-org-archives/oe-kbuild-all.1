@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B21C7F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 03:36:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056D67F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 04:02:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692675367; x=1724211367;
+  t=1692676948; x=1724212948;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vDOfv2h0LTJaP31se8wIJ4d6GV6zSZegpnQjsZ0ON28=;
-  b=m+CH5v6NFfxM4vwe+9+ERfL3rbe3GQhIL6Xvlx4B8wOEut274La4wvvR
-   BvKYKZXVzn1T5ochKFiXPSSyqHQc5o5XXZgkMeytdWA3HhTfKpnB2DP/X
-   WJ5B0CztSG1UNYzbIzAu24HE5Qiq6PE/DH/9NVMgJ8Zsk1nT5EWtmvFD0
-   g/zCeNdgpsmbwkq11/DujajONwQ9wO+ooBy0Sdsjjt6V+mCH+rUvqF9JJ
-   E2rUH+/ODcoB9D2zmTjKwgVR4jKX8VNc8MSCxmcXIIIMe5Q7sw9rS6kGh
-   CIq8xR5hxtQmHKgleFFutACSvDYw5EYC94JfrEha4fsV64lYvNP+NKlN8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="437681744"
+  bh=O3htJ+kFLf2fHtcw2MsI+po3ccJ4ybveNo01UE0BG8w=;
+  b=QOyR2qHxgPw0RDikCv6hXZfAwLc89OKM7Kqz0zl1kho2dphnzFCX/Qi+
+   PP2jQbtLBRT+XcxuKNFIzGBuakFAwipZqwjFqLgSYJGTGdsO6xWqUbv0l
+   2PTZlmLP12btwjpRnXlKQQaMtIli7hgevg8H06+ya09AKjLZQVHsh3rc1
+   ZV5Uor0ZYqPedH6UDrTi64RU2Wfw/HMPSTsTKsgqHu+MpcUof4XicGzWB
+   5JFUTpjK9VkuWN7SgUOwdzn/7VDNoXupnAxKj/3Gzv6r03BxXODT5HbnE
+   3CXNmppF4FM4delp5hHTAzDtnyIwjUokY/zlx7JG2nOgqJJeiyulA4jrI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="404772014"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="437681744"
+   d="scan'208";a="404772014"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 20:36:02 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 21:02:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="850436375"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="850442004"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="850436375"
+   d="scan'208";a="850442004"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Aug 2023 20:35:59 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 21 Aug 2023 21:02:24 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYIBS-0001Iw-0e;
-	Tue, 22 Aug 2023 03:35:58 +0000
-Date: Tue, 22 Aug 2023 11:35:40 +0800
+	id 1qYIb1-0001KI-2U;
+	Tue, 22 Aug 2023 04:02:23 +0000
+Date: Tue, 22 Aug 2023 12:00:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Michael S . Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org,
-	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH net-next 3/3] net: l2tp_eth: use generic dev->stats fields
-Message-ID: <202308221115.YXoSl0BK-lkp@intel.com>
-References: <20230819044059.833749-4-edumazet@google.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH] tracing: Fix to avoid wakeup loop in splice read of
+ per-cpu buffer
+Message-ID: <202308221154.hil5JaxI-lkp@intel.com>
+References: <169262755804.106231.8245792908363050528.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,77 +49,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230819044059.833749-4-edumazet@google.com>
+In-Reply-To: <169262755804.106231.8245792908363050528.stgit@devnote2>
 
-Hi Eric,
+Hi Masami,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc7 next-20230821]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-add-DEV_STATS_READ-helper/20230821-110051
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230819044059.833749-4-edumazet%40google.com
-patch subject: [PATCH net-next 3/3] net: l2tp_eth: use generic dev->stats fields
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20230822/202308221115.YXoSl0BK-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221115.YXoSl0BK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Fix-to-avoid-wakeup-loop-in-splice-read-of-per-cpu-buffer/20230821-222307
+base:   linus/master
+patch link:    https://lore.kernel.org/r/169262755804.106231.8245792908363050528.stgit%40devnote2
+patch subject: [PATCH] tracing: Fix to avoid wakeup loop in splice read of per-cpu buffer
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230822/202308221154.hil5JaxI-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221154.hil5JaxI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308221115.YXoSl0BK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308221154.hil5JaxI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/l2tp/l2tp_eth.c: In function 'l2tp_eth_dev_recv':
->> net/l2tp/l2tp_eth.c:121:26: warning: variable 'priv' set but not used [-Wunused-but-set-variable]
-     121 |         struct l2tp_eth *priv;
-         |                          ^~~~
+   In file included from arch/mips/include/asm/div64.h:89,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:10,
+                    from include/linux/thread_info.h:14,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/mips/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/ring_buffer.h:5,
+                    from kernel/trace/trace.c:15:
+   kernel/trace/trace.c: In function 'tracing_buffers_splice_read':
+>> include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   kernel/trace/trace.c:8481:25: note: in expansion of macro 'do_div'
+    8481 |                         do_div(full, nr_pages);
+         |                         ^~~~~~
+   In file included from arch/mips/include/asm/bug.h:5,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6:
+>> include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   kernel/trace/trace.c:8481:25: note: in expansion of macro 'do_div'
+    8481 |                         do_div(full, nr_pages);
+         |                         ^~~~~~
 
 
-vim +/priv +121 net/l2tp/l2tp_eth.c
+vim +222 include/asm-generic/div64.h
 
-d9e31d17ceba5f James Chapman    2010-04-02  116  
-d9e31d17ceba5f James Chapman    2010-04-02  117  static void l2tp_eth_dev_recv(struct l2tp_session *session, struct sk_buff *skb, int data_len)
-d9e31d17ceba5f James Chapman    2010-04-02  118  {
-d9e31d17ceba5f James Chapman    2010-04-02  119  	struct l2tp_eth_sess *spriv = l2tp_session_priv(session);
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  120  	struct net_device *dev;
-ee28de6bbd78c2 Guillaume Nault  2017-10-27 @121  	struct l2tp_eth *priv;
-d9e31d17ceba5f James Chapman    2010-04-02  122  
-c0cc88a7627c33 Eric Dumazet     2012-09-04  123  	if (!pskb_may_pull(skb, ETH_HLEN))
-d9e31d17ceba5f James Chapman    2010-04-02  124  		goto error;
-d9e31d17ceba5f James Chapman    2010-04-02  125  
-d9e31d17ceba5f James Chapman    2010-04-02  126  	secpath_reset(skb);
-d9e31d17ceba5f James Chapman    2010-04-02  127  
-d9e31d17ceba5f James Chapman    2010-04-02  128  	/* checksums verified by L2TP */
-d9e31d17ceba5f James Chapman    2010-04-02  129  	skb->ip_summed = CHECKSUM_NONE;
-d9e31d17ceba5f James Chapman    2010-04-02  130  
-d9e31d17ceba5f James Chapman    2010-04-02  131  	skb_dst_drop(skb);
-895b5c9f206eb7 Florian Westphal 2019-09-29  132  	nf_reset_ct(skb);
-d9e31d17ceba5f James Chapman    2010-04-02  133  
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  134  	rcu_read_lock();
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  135  	dev = rcu_dereference(spriv->dev);
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  136  	if (!dev)
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  137  		goto error_rcu;
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  138  
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  139  	priv = netdev_priv(dev);
-d9e31d17ceba5f James Chapman    2010-04-02  140  	if (dev_forward_skb(dev, skb) == NET_RX_SUCCESS) {
-b9494cd37a920d Eric Dumazet     2023-08-19  141  		DEV_STATS_INC(dev, rx_packets);
-b9494cd37a920d Eric Dumazet     2023-08-19  142  		DEV_STATS_ADD(dev, rx_bytes, data_len);
-a2842a1e663297 Eric Dumazet     2012-06-25  143  	} else {
-b9494cd37a920d Eric Dumazet     2023-08-19  144  		DEV_STATS_INC(dev, rx_errors);
-a2842a1e663297 Eric Dumazet     2012-06-25  145  	}
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  146  	rcu_read_unlock();
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  147  
-d9e31d17ceba5f James Chapman    2010-04-02  148  	return;
-d9e31d17ceba5f James Chapman    2010-04-02  149  
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  150  error_rcu:
-ee28de6bbd78c2 Guillaume Nault  2017-10-27  151  	rcu_read_unlock();
-d9e31d17ceba5f James Chapman    2010-04-02  152  error:
-d9e31d17ceba5f James Chapman    2010-04-02  153  	kfree_skb(skb);
-d9e31d17ceba5f James Chapman    2010-04-02  154  }
-d9e31d17ceba5f James Chapman    2010-04-02  155  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  215  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  216  /* The unnecessary pointer compare is there
+^1da177e4c3f41 Linus Torvalds     2005-04-16  217   * to check for type safety (n must be 64bit)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  218   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  219  # define do_div(n,base) ({				\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  220  	uint32_t __base = (base);			\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  221  	uint32_t __rem;					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @222  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  223  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  224  	    is_power_of_2(__base)) {			\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  225  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  226  		(n) >>= ilog2(__base);			\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  227  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  228  		   __base != 0) {			\
+461a5e51060c93 Nicolas Pitre      2015-10-30  229  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  230  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  231  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93 Nicolas Pitre      2015-10-30  232  		__res_lo = (n);				\
+461a5e51060c93 Nicolas Pitre      2015-10-30  233  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02 @234  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  235  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  236  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  237  	} else {					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  238  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  239  	}						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  240  	__rem;						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  241   })
+^1da177e4c3f41 Linus Torvalds     2005-04-16  242  
 
 -- 
 0-DAY CI Kernel Test Service
