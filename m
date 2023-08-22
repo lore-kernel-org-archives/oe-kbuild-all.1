@@ -1,51 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFF97F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 03:02:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52AF7F;
+	Tue, 22 Aug 2023 03:13:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692673322; x=1724209322;
+  t=1692674017; x=1724210017;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DrGmF+TINNE7yZWn9DqTXRdXSL+bSJMmgxeURcbpU0E=;
-  b=GZ65t75EIxVQJrRN1RYEo+lQ5oB3w7c3jFx7unnZPV1KFJr8xX21DJXT
-   CUAoK1y/Ry7lbgp07ERNZiuIbgf1mWemGb3yTPhcc8yfEP2qvAkG8SyBq
-   2xM+5qqnaAIJGYpMTPNoTPTCDuTviMBEwwfKqIVzz5MhQt6afq/nxaaz6
-   oN2CrJp4Le6DTi5fmuFFn1CCWTBHgWHI2V0YOkk9x4Ucnfl8G6X/334aN
-   yephIckMx06NYIE4nFQRufaNHEnXhldMFYpR+12vHVemiPGUEmD5suv62
-   qBPo2Xgr4xY6A6JIx18qYVOP5r1oF1rDy0lwf6BxL3bfT8oWMY4QngqmQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="372657351"
+  bh=gMhOPpln6PZIB0MFQoFjB/JJWAZsbI5O+vFGGPRmOJo=;
+  b=X7ezVimv67n4AUXjJf0G/48UeO/nUtpSsXZa9s/Q3gEwop7FxpcanK37
+   86GMzKXgN1rqLWR2POFgx+r1jWv24TEFZNs6NOryUpsN50cvjFXb7jrcg
+   pX9JloB1t3QS58pGBaah7bVb0MDy/ws+ec46P9GGjpJRbLI3zAE2KcukB
+   YEPAajBm1aAn7XlYCOIlqj5a218URWRe31viZrMshkytuzjK2wR4tmn0w
+   +0+ZVrTo2QQMMxZCCnsf0dcKNVxDKOLwwHL+LPYpxWWOgswSlgV2arQLr
+   RcAcAcNGN2ekJC/4CLj/yuhfJQHwMGdgSMKZklKcYJJLgD6TCuKs6xxZY
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="363932362"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="372657351"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 20:02:01 -0700
+   d="scan'208";a="363932362"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 20:13:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="801491059"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="806129175"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="801491059"
+   d="scan'208";a="806129175"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Aug 2023 20:01:57 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 21 Aug 2023 20:13:33 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYHeW-0001H8-1e;
-	Tue, 22 Aug 2023 03:01:56 +0000
-Date: Tue, 22 Aug 2023 11:01:08 +0800
+	id 1qYHpk-0001Hc-1B;
+	Tue, 22 Aug 2023 03:13:32 +0000
+Date: Tue, 22 Aug 2023 11:12:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
-	matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
-	sarah.walker@imgtec.com, donald.robson@imgtec.com,
-	boris.brezillon@collabora.com, christian.koenig@amd.com,
-	faith.ekstrand@collabora.com, bskeggs@redhat.com,
-	Liam.Howlett@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
-	Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH drm-misc-next 2/3] drm/gpuva_mgr: generalize
- dma_resv/extobj handling and GEM validation
-Message-ID: <202308221050.kTj8uFMA-lkp@intel.com>
-References: <20230820215320.4187-3-dakr@redhat.com>
+To: Eric Dumazet <edumazet@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, netdev@vger.kernel.org,
+	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
+Subject: Re: [PATCH net-next 3/3] net: l2tp_eth: use generic dev->stats fields
+Message-ID: <202308221125.rGMwm9uv-lkp@intel.com>
+References: <20230819044059.833749-4-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,94 +52,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230820215320.4187-3-dakr@redhat.com>
+In-Reply-To: <20230819044059.833749-4-edumazet@google.com>
 
-Hi Danilo,
+Hi Eric,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 25205087df1ffe06ccea9302944ed1f77dc68c6f]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-drm_exec-build-always-builtin/20230821-123143
-base:   25205087df1ffe06ccea9302944ed1f77dc68c6f
-patch link:    https://lore.kernel.org/r/20230820215320.4187-3-dakr%40redhat.com
-patch subject: [PATCH drm-misc-next 2/3] drm/gpuva_mgr: generalize dma_resv/extobj handling and GEM validation
-config: arm-randconfig-r014-20230822 (https://download.01.org/0day-ci/archive/20230822/202308221050.kTj8uFMA-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221050.kTj8uFMA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-add-DEV_STATS_READ-helper/20230821-110051
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230819044059.833749-4-edumazet%40google.com
+patch subject: [PATCH net-next 3/3] net: l2tp_eth: use generic dev->stats fields
+config: i386-randconfig-015-20230822 (https://download.01.org/0day-ci/archive/20230822/202308221125.rGMwm9uv-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221125.rGMwm9uv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308221050.kTj8uFMA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308221125.rGMwm9uv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_gpuva_mgr.c:750:1: warning: no previous prototype for 'drm_gpuva_manager_prepare_objects' [-Wmissing-prototypes]
-     750 | drm_gpuva_manager_prepare_objects(struct drm_gpuva_manager *mgr,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_gpuva_mgr.c: In function '__drm_gpuva_sm_map':
-   drivers/gpu/drm/drm_gpuva_mgr.c:1744:39: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
-    1744 |         struct drm_gpuva *va, *next, *prev = NULL;
-         |                                       ^~~~
---
->> drivers/gpu/drm/drm_gpuva_mgr.c:1091: warning: Function parameter or member '__vm_bo' not described in 'drm_gpuva_gem_obtain_prealloc'
+>> net/l2tp/l2tp_eth.c:121:19: warning: variable 'priv' set but not used [-Wunused-but-set-variable]
+           struct l2tp_eth *priv;
+                            ^
+   1 warning generated.
 
 
-vim +/drm_gpuva_manager_prepare_objects +750 drivers/gpu/drm/drm_gpuva_mgr.c
+vim +/priv +121 net/l2tp/l2tp_eth.c
 
-   734	
-   735	/**
-   736	 * drm_gpuva_manager_prepare_objects() - prepare all assoiciated BOs
-   737	 * @mgr: the &drm_gpuva_manager
-   738	 * @num_fences: the amount of &dma_fences to reserve
-   739	 *
-   740	 * Calls drm_exec_prepare_obj() for all &drm_gem_objects the given
-   741	 * &drm_gpuva_manager contains mappings of.
-   742	 *
-   743	 * Drivers can obtain the corresponding &drm_exec instance through
-   744	 * DRM_GPUVA_EXEC(). It is the drivers responsibility to call drm_exec_init()
-   745	 * and drm_exec_fini() accordingly.
-   746	 *
-   747	 * Returns: 0 on success, negative error code on failure.
-   748	 */
-   749	int
- > 750	drm_gpuva_manager_prepare_objects(struct drm_gpuva_manager *mgr,
-   751					  unsigned int num_fences)
-   752	{
-   753		struct drm_exec *exec = DRM_GPUVA_EXEC(mgr);
-   754		MA_STATE(mas, &mgr->mt_ext, 0, 0);
-   755		union {
-   756			void *ptr;
-   757			uintptr_t cnt;
-   758		} ref;
-   759		int ret;
-   760	
-   761		ret = drm_exec_prepare_obj(exec, &mgr->d_obj, num_fences);
-   762		if (ret)
-   763			goto out;
-   764	
-   765		rcu_read_lock();
-   766		mas_for_each(&mas, ref.ptr, ULONG_MAX) {
-   767			struct drm_gem_object *obj;
-   768	
-   769			mas_pause(&mas);
-   770			rcu_read_unlock();
-   771	
-   772			obj = (struct drm_gem_object *)(uintptr_t)mas.index;
-   773			ret = drm_exec_prepare_obj(exec, obj, num_fences);
-   774			if (ret)
-   775				goto out;
-   776	
-   777			rcu_read_lock();
-   778		}
-   779		rcu_read_unlock();
-   780	
-   781	out:
-   782		return ret;
-   783	}
-   784	EXPORT_SYMBOL_GPL(drm_gpuva_manager_prepare_objects);
-   785	
+d9e31d17ceba5f James Chapman    2010-04-02  116  
+d9e31d17ceba5f James Chapman    2010-04-02  117  static void l2tp_eth_dev_recv(struct l2tp_session *session, struct sk_buff *skb, int data_len)
+d9e31d17ceba5f James Chapman    2010-04-02  118  {
+d9e31d17ceba5f James Chapman    2010-04-02  119  	struct l2tp_eth_sess *spriv = l2tp_session_priv(session);
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  120  	struct net_device *dev;
+ee28de6bbd78c2 Guillaume Nault  2017-10-27 @121  	struct l2tp_eth *priv;
+d9e31d17ceba5f James Chapman    2010-04-02  122  
+c0cc88a7627c33 Eric Dumazet     2012-09-04  123  	if (!pskb_may_pull(skb, ETH_HLEN))
+d9e31d17ceba5f James Chapman    2010-04-02  124  		goto error;
+d9e31d17ceba5f James Chapman    2010-04-02  125  
+d9e31d17ceba5f James Chapman    2010-04-02  126  	secpath_reset(skb);
+d9e31d17ceba5f James Chapman    2010-04-02  127  
+d9e31d17ceba5f James Chapman    2010-04-02  128  	/* checksums verified by L2TP */
+d9e31d17ceba5f James Chapman    2010-04-02  129  	skb->ip_summed = CHECKSUM_NONE;
+d9e31d17ceba5f James Chapman    2010-04-02  130  
+d9e31d17ceba5f James Chapman    2010-04-02  131  	skb_dst_drop(skb);
+895b5c9f206eb7 Florian Westphal 2019-09-29  132  	nf_reset_ct(skb);
+d9e31d17ceba5f James Chapman    2010-04-02  133  
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  134  	rcu_read_lock();
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  135  	dev = rcu_dereference(spriv->dev);
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  136  	if (!dev)
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  137  		goto error_rcu;
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  138  
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  139  	priv = netdev_priv(dev);
+d9e31d17ceba5f James Chapman    2010-04-02  140  	if (dev_forward_skb(dev, skb) == NET_RX_SUCCESS) {
+b9494cd37a920d Eric Dumazet     2023-08-19  141  		DEV_STATS_INC(dev, rx_packets);
+b9494cd37a920d Eric Dumazet     2023-08-19  142  		DEV_STATS_ADD(dev, rx_bytes, data_len);
+a2842a1e663297 Eric Dumazet     2012-06-25  143  	} else {
+b9494cd37a920d Eric Dumazet     2023-08-19  144  		DEV_STATS_INC(dev, rx_errors);
+a2842a1e663297 Eric Dumazet     2012-06-25  145  	}
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  146  	rcu_read_unlock();
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  147  
+d9e31d17ceba5f James Chapman    2010-04-02  148  	return;
+d9e31d17ceba5f James Chapman    2010-04-02  149  
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  150  error_rcu:
+ee28de6bbd78c2 Guillaume Nault  2017-10-27  151  	rcu_read_unlock();
+d9e31d17ceba5f James Chapman    2010-04-02  152  error:
+d9e31d17ceba5f James Chapman    2010-04-02  153  	kfree_skb(skb);
+d9e31d17ceba5f James Chapman    2010-04-02  154  }
+d9e31d17ceba5f James Chapman    2010-04-02  155  
 
 -- 
 0-DAY CI Kernel Test Service
