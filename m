@@ -1,45 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2B910E7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 00:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB2210E9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 01:05:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692665774; x=1724201774;
+  t=1692666353; x=1724202353;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wSsSoYPeMITAmS+zKNkD7FeAwCRfOpeSNirkJsrLm2Y=;
-  b=TqDg/sAFsP5BFLMt24qIgQ3/KW3WoIaQojMmd41dOf3xlOPwHLeuIDjC
-   u1ZdiGDCCCn0bkwEK3QHCohQjk8civVWqvBwvoP28hnIvbsKLtYQ2tr48
-   Ls+kwbdO0mLnSh//QPwBh7NOqIb7s1DKvAExxryQJy+6dcQxgO0YfkFl7
-   XD5KxcRM1ETlJi/LgMbV0TAjgwT3diq8B38B7FxKsGx07X5QO4Dk5hlpV
-   9sqxrtMKH/t6M6gdwQjBBBxDgXQZtkgO8i3WJ7hBYzMGpEqTHwL8GkAoN
-   RWBgUmmN1tLAA38I7DKsvc6MZ6m0ukXHew6gWzlvgkUp8jgnJhUYwxtTf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="371167320"
+  bh=H5c5CsnGJ7ZDUNMMZHW7huMQ+REknKa9KwKOIJX8GYA=;
+  b=Uavhcs8mGGhbqL5A7cWrO/YhHZx54fzDhMa6ChsQq2LKsfb+uQkh9oh+
+   N+scZJXhU0BE+BTLVEtRWMt1gk6hAtQzbvsl6uVtpfE84555Nf6jtdgg6
+   oHX3QxcamxSjCAG1HoRFKhf5Y4Co2TPFQ96uexSgKM1j8/XYlcAX//+Et
+   0KWieVXTY5eqhNkxR95S3lFaYcv4iNt/SHV0TuB+XmK5130BXIhklhQPx
+   Oayv3GHeH7vPOUHpgnOvYUNRm4XtNXm3iMXMbzvgY3Pyz9ieJJD92TnNB
+   /WEokPUG1lb5kF7EKslM+O604vpg+nOWeZY/WS3NYYxAOqOg0Y1qOVptn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="440113842"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="371167320"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 17:56:14 -0700
+   d="scan'208";a="440113842"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 18:05:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="850390974"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="712969462"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="850390974"
+   d="scan'208";a="712969462"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Aug 2023 17:56:12 -0700
+  by orsmga006.jf.intel.com with ESMTP; 21 Aug 2023 18:05:49 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYFgH-00018g-2R;
-	Tue, 22 Aug 2023 00:55:50 +0000
-Date: Tue, 22 Aug 2023 08:52:38 +0800
+	id 1qYFpo-00018w-0q;
+	Tue, 22 Aug 2023 01:05:28 +0000
+Date: Tue, 22 Aug 2023 09:04:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Greenman <gregory.greenman@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: htmldocs: ./drivers/usb/dwc3/core.h:1259: warning: Function
- parameter or member 'need_phy_for_wakeup' not described in 'dwc3'
-Message-ID: <202308220815.Xd2P76za-lkp@intel.com>
+To: Alexander Potapenko <glider@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: drivers/firmware/efi/test/efi_test.c:187:13: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202308220916.w8rxrbv0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,107 +48,489 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
-head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
-commit: a13d98912ca411880fcbbe2732319e8cacd3ca0d FROMLIST: usb: dwc3: core: Host wake up support from system suspend
-date:   2 years, 8 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220815.Xd2P76za-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f7757129e3dea336c407551c98f50057c22bb266
+commit: 888f84a6da4d17e453058169fa7b235fff34f5bf x86: asm: instrument usercopy in get_user() and put_user()
+date:   11 months ago
+config: i386-randconfig-063-20230822 (https://download.01.org/0day-ci/archive/20230822/202308220916.w8rxrbv0-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308220916.w8rxrbv0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308220815.Xd2P76za-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308220916.w8rxrbv0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/firmware/efi/test/efi_test.c:157:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long *[addressable] data_size @@
+   drivers/firmware/efi/test/efi_test.c:157:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:157:13: sparse:     got unsigned long *[addressable] data_size
+   drivers/firmware/efi/test/efi_test.c:160:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct guid_t [usertype] *[addressable] vendor_guid @@
+   drivers/firmware/efi/test/efi_test.c:160:61: sparse:     expected void const [noderef] __user *from
+   drivers/firmware/efi/test/efi_test.c:160:61: sparse:     got struct guid_t [usertype] *[addressable] vendor_guid
+   drivers/firmware/efi/test/efi_test.c:167:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned short [noderef] [usertype] __user *src @@     got unsigned short [usertype] *[addressable] variable_name @@
+   drivers/firmware/efi/test/efi_test.c:167:60: sparse:     expected unsigned short [noderef] [usertype] __user *src
+   drivers/firmware/efi/test/efi_test.c:167:60: sparse:     got unsigned short [usertype] *[addressable] variable_name
+>> drivers/firmware/efi/test/efi_test.c:187:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:187:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:187:13: sparse:     got unsigned long [usertype] *__ptr
+>> drivers/firmware/efi/test/efi_test.c:187:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:187:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:187:13: sparse:     got unsigned long [usertype] *__ptr
+>> drivers/firmware/efi/test/efi_test.c:194:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:194:35: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:194:35: sparse:     got unsigned long *__ptr
+>> drivers/firmware/efi/test/efi_test.c:194:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:194:35: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:194:35: sparse:     got unsigned long *__ptr
+   drivers/firmware/efi/test/efi_test.c:209:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *[addressable] data @@
+   drivers/firmware/efi/test/efi_test.c:209:45: sparse:     expected void [noderef] __user *to
+   drivers/firmware/efi/test/efi_test.c:209:45: sparse:     got void *[addressable] data
+>> drivers/firmware/efi/test/efi_test.c:215:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:215:19: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:215:19: sparse:     got unsigned int [usertype] *__ptr
+>> drivers/firmware/efi/test/efi_test.c:215:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned int [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:215:19: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:215:19: sparse:     got unsigned int [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:220:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:220:19: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:220:19: sparse:     got unsigned long *__ptr
+   drivers/firmware/efi/test/efi_test.c:220:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:220:19: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:220:19: sparse:     got unsigned long *__ptr
+   drivers/firmware/efi/test/efi_test.c:243:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct guid_t [usertype] *[addressable] vendor_guid @@
+   drivers/firmware/efi/test/efi_test.c:243:53: sparse:     expected void const [noderef] __user *from
+   drivers/firmware/efi/test/efi_test.c:243:53: sparse:     got struct guid_t [usertype] *[addressable] vendor_guid
+   drivers/firmware/efi/test/efi_test.c:248:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned short [noderef] [usertype] __user *src @@     got unsigned short [usertype] *[addressable] variable_name @@
+   drivers/firmware/efi/test/efi_test.c:248:60: sparse:     expected unsigned short [noderef] [usertype] __user *src
+   drivers/firmware/efi/test/efi_test.c:248:60: sparse:     got unsigned short [usertype] *[addressable] variable_name
+   drivers/firmware/efi/test/efi_test.c:253:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user * @@     got void *[addressable] data @@
+   drivers/firmware/efi/test/efi_test.c:253:39: sparse:     expected void const [noderef] __user *
+   drivers/firmware/efi/test/efi_test.c:253:39: sparse:     got void *[addressable] data
+   drivers/firmware/efi/test/efi_test.c:263:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:263:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:263:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:263:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:263:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:263:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:292:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:292:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:292:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:292:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:292:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:292:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:301:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct efi_time_cap_t [noderef] [usertype] __user *cap_local @@     got struct efi_time_cap_t [usertype] * @@
+   drivers/firmware/efi/test/efi_test.c:301:27: sparse:     expected struct efi_time_cap_t [noderef] [usertype] __user *cap_local
+   drivers/firmware/efi/test/efi_test.c:301:27: sparse:     got struct efi_time_cap_t [usertype] *
+   drivers/firmware/efi/test/efi_test.c:308:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct efi_time_t [usertype] *[addressable] time @@
+   drivers/firmware/efi/test/efi_test.c:308:41: sparse:     expected void [noderef] __user *to
+   drivers/firmware/efi/test/efi_test.c:308:41: sparse:     got struct efi_time_t [usertype] *[addressable] time
+   drivers/firmware/efi/test/efi_test.c:325:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct efi_time_t [usertype] *[addressable] time @@
+   drivers/firmware/efi/test/efi_test.c:325:46: sparse:     expected void const [noderef] __user *from
+   drivers/firmware/efi/test/efi_test.c:325:46: sparse:     got struct efi_time_t [usertype] *[addressable] time
+   drivers/firmware/efi/test/efi_test.c:330:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:330:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:330:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:330:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:330:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:330:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:354:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:354:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:354:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:354:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:354:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:354:13: sparse:     got unsigned long [usertype] *__ptr
+>> drivers/firmware/efi/test/efi_test.c:360:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned char [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:360:38: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:360:38: sparse:     got unsigned char [usertype] *__ptr
+>> drivers/firmware/efi/test/efi_test.c:360:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned char [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:360:38: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:360:38: sparse:     got unsigned char [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:365:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct efi_time_t [usertype] *[addressable] time @@
+   drivers/firmware/efi/test/efi_test.c:365:47: sparse:     expected void [noderef] __user *to
+   drivers/firmware/efi/test/efi_test.c:365:47: sparse:     got struct efi_time_t [usertype] *[addressable] time
+   drivers/firmware/efi/test/efi_test.c:389:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct efi_time_t [usertype] *[addressable] time @@
+   drivers/firmware/efi/test/efi_test.c:389:60: sparse:     expected void const [noderef] __user *from
+   drivers/firmware/efi/test/efi_test.c:389:60: sparse:     got struct efi_time_t [usertype] *[addressable] time
+   drivers/firmware/efi/test/efi_test.c:397:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:397:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:397:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:397:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:397:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:397:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:421:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long *[addressable] variable_name_size @@
+   drivers/firmware/efi/test/efi_test.c:421:21: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:421:21: sparse:     got unsigned long *[addressable] variable_name_size
+   drivers/firmware/efi/test/efi_test.c:429:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct guid_t [usertype] *[addressable] vendor_guid @@
+   drivers/firmware/efi/test/efi_test.c:429:52: sparse:     expected void const [noderef] __user *from
+   drivers/firmware/efi/test/efi_test.c:429:52: sparse:     got struct guid_t [usertype] *[addressable] vendor_guid
+   drivers/firmware/efi/test/efi_test.c:439:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [noderef] [usertype] __user *src @@     got unsigned short [usertype] *[addressable] variable_name @@
+   drivers/firmware/efi/test/efi_test.c:439:52: sparse:     expected unsigned short [noderef] [usertype] __user *src
+   drivers/firmware/efi/test/efi_test.c:439:52: sparse:     got unsigned short [usertype] *[addressable] variable_name
+   drivers/firmware/efi/test/efi_test.c:452:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned short [noderef] [usertype] __user *src @@     got unsigned short [usertype] *[addressable] variable_name @@
+   drivers/firmware/efi/test/efi_test.c:452:52: sparse:     expected unsigned short [noderef] [usertype] __user *src
+   drivers/firmware/efi/test/efi_test.c:452:52: sparse:     got unsigned short [usertype] *[addressable] variable_name
+   drivers/firmware/efi/test/efi_test.c:461:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:461:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:461:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:461:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:461:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:461:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:468:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:468:35: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:468:35: sparse:     got unsigned long *__ptr
+   drivers/firmware/efi/test/efi_test.c:468:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:468:35: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:468:35: sparse:     got unsigned long *__ptr
+   drivers/firmware/efi/test/efi_test.c:479:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [noderef] [usertype] __user *dst @@     got unsigned short [usertype] *[addressable] variable_name @@
+   drivers/firmware/efi/test/efi_test.c:479:62: sparse:     expected unsigned short [noderef] [usertype] __user *dst
+   drivers/firmware/efi/test/efi_test.c:479:62: sparse:     got unsigned short [usertype] *[addressable] variable_name
+   drivers/firmware/efi/test/efi_test.c:487:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:487:21: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:487:21: sparse:     got unsigned long *__ptr
+   drivers/firmware/efi/test/efi_test.c:487:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:487:21: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:487:21: sparse:     got unsigned long *__ptr
+   drivers/firmware/efi/test/efi_test.c:494:53: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct guid_t [usertype] *[addressable] vendor_guid @@
+   drivers/firmware/efi/test/efi_test.c:494:53: sparse:     expected void [noderef] __user *to
+   drivers/firmware/efi/test/efi_test.c:494:53: sparse:     got struct guid_t [usertype] *[addressable] vendor_guid
+   drivers/firmware/efi/test/efi_test.c:522:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:522:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:522:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:522:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:522:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:522:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:529:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:529:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:529:13: sparse:     got unsigned int [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:529:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned int [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:529:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:529:13: sparse:     got unsigned int [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:546:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user * @@     got void * @@
+   drivers/firmware/efi/test/efi_test.c:546:37: sparse:     expected void const [noderef] __user *
+   drivers/firmware/efi/test/efi_test.c:546:37: sparse:     got void *
+   drivers/firmware/efi/test/efi_test.c:575:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:575:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:575:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:575:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:575:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:575:13: sparse:     got unsigned long [usertype] *__ptr
+>> drivers/firmware/efi/test/efi_test.c:581:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:581:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:581:13: sparse:     got unsigned long long [usertype] *__ptr
+>> drivers/firmware/efi/test/efi_test.c:581:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:581:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:581:13: sparse:     got unsigned long long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:585:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:585:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:585:13: sparse:     got unsigned long long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:585:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:585:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:585:13: sparse:     got unsigned long long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:589:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:589:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:589:13: sparse:     got unsigned long long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:589:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:589:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:589:13: sparse:     got unsigned long long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:625:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got struct efi_capsule_header_t [usertype] ** @@
+   drivers/firmware/efi/test/efi_test.c:625:21: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:625:21: sparse:     got struct efi_capsule_header_t [usertype] **
+   drivers/firmware/efi/test/efi_test.c:629:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct efi_capsule_header_t [usertype] *[assigned] c @@
+   drivers/firmware/efi/test/efi_test.c:629:50: sparse:     expected void const [noderef] __user *from
+   drivers/firmware/efi/test/efi_test.c:629:50: sparse:     got struct efi_capsule_header_t [usertype] *[assigned] c
+   drivers/firmware/efi/test/efi_test.c:643:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:643:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:643:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:643:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:643:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:643:13: sparse:     got unsigned long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:653:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:653:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:653:13: sparse:     got unsigned long long [usertype] *__ptr
+   drivers/firmware/efi/test/efi_test.c:653:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got unsigned long long [usertype] *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:653:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:653:13: sparse:     got unsigned long long [usertype] *__ptr
+>> drivers/firmware/efi/test/efi_test.c:658:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got int *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:658:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:658:13: sparse:     got int *__ptr
+>> drivers/firmware/efi/test/efi_test.c:658:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *__ptr_pu @@     got int *__ptr @@
+   drivers/firmware/efi/test/efi_test.c:658:13: sparse:     expected void [noderef] __user *__ptr_pu
+   drivers/firmware/efi/test/efi_test.c:658:13: sparse:     got int *__ptr
+   drivers/firmware/efi/test/efi_test.c:671:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [noderef] __user *supported_mask @@     got unsigned int * @@
+   drivers/firmware/efi/test/efi_test.c:671:24: sparse:     expected unsigned int [noderef] __user *supported_mask
+   drivers/firmware/efi/test/efi_test.c:671:24: sparse:     got unsigned int *
+   drivers/firmware/efi/test/efi_test.c:35:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned short [usertype] *s @@     got unsigned short [noderef] [usertype] __user *str @@
+   drivers/firmware/efi/test/efi_test.c:35:27: sparse:     expected unsigned short [usertype] *s
+   drivers/firmware/efi/test/efi_test.c:35:27: sparse:     got unsigned short [noderef] [usertype] __user *str
+   drivers/firmware/efi/test/efi_test.c:44:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] * @@
+   drivers/firmware/efi/test/efi_test.c:44:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:44:13: sparse:     got unsigned short [usertype] *
+   drivers/firmware/efi/test/efi_test.c:50:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] * @@
+   drivers/firmware/efi/test/efi_test.c:50:21: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:50:21: sparse:     got unsigned short [usertype] *
+   drivers/firmware/efi/test/efi_test.c:35:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned short [usertype] *[assigned] s @@     got unsigned short [noderef] [usertype] __user *str @@
+   drivers/firmware/efi/test/efi_test.c:35:27: sparse:     expected unsigned short [usertype] *[assigned] s
+   drivers/firmware/efi/test/efi_test.c:35:27: sparse:     got unsigned short [noderef] [usertype] __user *str
+   drivers/firmware/efi/test/efi_test.c:44:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] * @@
+   drivers/firmware/efi/test/efi_test.c:44:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:44:13: sparse:     got unsigned short [usertype] *
+   drivers/firmware/efi/test/efi_test.c:50:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] * @@
+   drivers/firmware/efi/test/efi_test.c:50:21: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:50:21: sparse:     got unsigned short [usertype] *
+   drivers/firmware/efi/test/efi_test.c:35:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned short [usertype] *[assigned] s @@     got unsigned short [noderef] [usertype] __user *str @@
+   drivers/firmware/efi/test/efi_test.c:35:27: sparse:     expected unsigned short [usertype] *[assigned] s
+   drivers/firmware/efi/test/efi_test.c:35:27: sparse:     got unsigned short [noderef] [usertype] __user *str
+   drivers/firmware/efi/test/efi_test.c:44:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] * @@
+   drivers/firmware/efi/test/efi_test.c:44:13: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:44:13: sparse:     got unsigned short [usertype] *
+   drivers/firmware/efi/test/efi_test.c:50:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] * @@
+   drivers/firmware/efi/test/efi_test.c:50:21: sparse:     expected void const volatile [noderef] __user *ptr
+   drivers/firmware/efi/test/efi_test.c:50:21: sparse:     got unsigned short [usertype] *
 
->> ./drivers/usb/dwc3/core.h:1259: warning: Function parameter or member 'need_phy_for_wakeup' not described in 'dwc3'
->> ./drivers/usb/dwc3/core.h:1259: warning: Function parameter or member 'hs_phy_flags' not described in 'dwc3'
+vim +187 drivers/firmware/efi/test/efi_test.c
 
-vim +1259 ./drivers/usb/dwc3/core.h
+ff6301dabc3ca2 Ivan Hu 2016-08-25  138  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  139  static long efi_runtime_get_variable(unsigned long arg)
+ff6301dabc3ca2 Ivan Hu 2016-08-25  140  {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  141  	struct efi_getvariable __user *getvariable_user;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  142  	struct efi_getvariable getvariable;
+46b9b7135332d1 Ivan Hu 2016-10-18  143  	unsigned long datasize = 0, prev_datasize, *dz;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  144  	efi_guid_t vendor_guid, *vd = NULL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  145  	efi_status_t status;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  146  	efi_char16_t *name = NULL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  147  	u32 attr, *at;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  148  	void *data = NULL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  149  	int rv = 0;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  150  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  151  	getvariable_user = (struct efi_getvariable __user *)arg;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  152  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  153  	if (copy_from_user(&getvariable, getvariable_user,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  154  			   sizeof(getvariable)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  155  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  156  	if (getvariable.data_size &&
+ff6301dabc3ca2 Ivan Hu 2016-08-25  157  	    get_user(datasize, getvariable.data_size))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  158  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  159  	if (getvariable.vendor_guid) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  160  		if (copy_from_user(&vendor_guid, getvariable.vendor_guid,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  161  					sizeof(vendor_guid)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  162  			return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  163  		vd = &vendor_guid;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  164  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  165  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  166  	if (getvariable.variable_name) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  167  		rv = copy_ucs2_from_user(&name, getvariable.variable_name);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  168  		if (rv)
+ff6301dabc3ca2 Ivan Hu 2016-08-25  169  			return rv;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  170  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  171  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  172  	at = getvariable.attributes ? &attr : NULL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  173  	dz = getvariable.data_size ? &datasize : NULL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  174  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  175  	if (getvariable.data_size && getvariable.data) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  176  		data = kmalloc(datasize, GFP_KERNEL);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  177  		if (!data) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  178  			kfree(name);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  179  			return -ENOMEM;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  180  		}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  181  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  182  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  183  	prev_datasize = datasize;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  184  	status = efi.get_variable(name, vd, at, dz, data);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  185  	kfree(name);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  186  
+ff6301dabc3ca2 Ivan Hu 2016-08-25 @187  	if (put_user(status, getvariable.status)) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  188  		rv = -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  189  		goto out;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  190  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  191  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  192  	if (status != EFI_SUCCESS) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  193  		if (status == EFI_BUFFER_TOO_SMALL) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25 @194  			if (dz && put_user(datasize, getvariable.data_size)) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  195  				rv = -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  196  				goto out;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  197  			}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  198  		}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  199  		rv = -EINVAL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  200  		goto out;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  201  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  202  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  203  	if (prev_datasize < datasize) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  204  		rv = -EINVAL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  205  		goto out;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  206  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  207  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  208  	if (data) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  209  		if (copy_to_user(getvariable.data, data, datasize)) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  210  			rv = -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  211  			goto out;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  212  		}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  213  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  214  
+ff6301dabc3ca2 Ivan Hu 2016-08-25 @215  	if (at && put_user(attr, getvariable.attributes)) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  216  		rv = -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  217  		goto out;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  218  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  219  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  220  	if (dz && put_user(datasize, getvariable.data_size))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  221  		rv = -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  222  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  223  out:
+ff6301dabc3ca2 Ivan Hu 2016-08-25  224  	kfree(data);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  225  	return rv;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  226  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  227  }
+ff6301dabc3ca2 Ivan Hu 2016-08-25  228  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  229  static long efi_runtime_set_variable(unsigned long arg)
+ff6301dabc3ca2 Ivan Hu 2016-08-25  230  {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  231  	struct efi_setvariable __user *setvariable_user;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  232  	struct efi_setvariable setvariable;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  233  	efi_guid_t vendor_guid;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  234  	efi_status_t status;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  235  	efi_char16_t *name = NULL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  236  	void *data;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  237  	int rv = 0;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  238  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  239  	setvariable_user = (struct efi_setvariable __user *)arg;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  240  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  241  	if (copy_from_user(&setvariable, setvariable_user, sizeof(setvariable)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  242  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  243  	if (copy_from_user(&vendor_guid, setvariable.vendor_guid,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  244  				sizeof(vendor_guid)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  245  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  246  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  247  	if (setvariable.variable_name) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  248  		rv = copy_ucs2_from_user(&name, setvariable.variable_name);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  249  		if (rv)
+ff6301dabc3ca2 Ivan Hu 2016-08-25  250  			return rv;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  251  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  252  
+c208ed916e5870 Ivan Hu 2016-10-18  253  	data = memdup_user(setvariable.data, setvariable.data_size);
+c208ed916e5870 Ivan Hu 2016-10-18  254  	if (IS_ERR(data)) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  255  		kfree(name);
+c208ed916e5870 Ivan Hu 2016-10-18  256  		return PTR_ERR(data);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  257  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  258  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  259  	status = efi.set_variable(name, &vendor_guid,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  260  				setvariable.attributes,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  261  				setvariable.data_size, data);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  262  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  263  	if (put_user(status, setvariable.status)) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  264  		rv = -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  265  		goto out;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  266  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  267  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  268  	rv = status == EFI_SUCCESS ? 0 : -EINVAL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  269  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  270  out:
+ff6301dabc3ca2 Ivan Hu 2016-08-25  271  	kfree(data);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  272  	kfree(name);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  273  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  274  	return rv;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  275  }
+ff6301dabc3ca2 Ivan Hu 2016-08-25  276  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  277  static long efi_runtime_get_time(unsigned long arg)
+ff6301dabc3ca2 Ivan Hu 2016-08-25  278  {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  279  	struct efi_gettime __user *gettime_user;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  280  	struct efi_gettime  gettime;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  281  	efi_status_t status;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  282  	efi_time_cap_t cap;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  283  	efi_time_t efi_time;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  284  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  285  	gettime_user = (struct efi_gettime __user *)arg;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  286  	if (copy_from_user(&gettime, gettime_user, sizeof(gettime)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  287  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  288  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  289  	status = efi.get_time(gettime.time ? &efi_time : NULL,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  290  			      gettime.capabilities ? &cap : NULL);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  291  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  292  	if (put_user(status, gettime.status))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  293  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  294  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  295  	if (status != EFI_SUCCESS)
+ff6301dabc3ca2 Ivan Hu 2016-08-25  296  		return -EINVAL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  297  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  298  	if (gettime.capabilities) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  299  		efi_time_cap_t __user *cap_local;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  300  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  301  		cap_local = (efi_time_cap_t *)gettime.capabilities;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  302  		if (put_user(cap.resolution, &(cap_local->resolution)) ||
+ff6301dabc3ca2 Ivan Hu 2016-08-25  303  			put_user(cap.accuracy, &(cap_local->accuracy)) ||
+ff6301dabc3ca2 Ivan Hu 2016-08-25  304  			put_user(cap.sets_to_zero, &(cap_local->sets_to_zero)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  305  			return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  306  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  307  	if (gettime.time) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  308  		if (copy_to_user(gettime.time, &efi_time, sizeof(efi_time_t)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  309  			return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  310  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  311  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  312  	return 0;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  313  }
+ff6301dabc3ca2 Ivan Hu 2016-08-25  314  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  315  static long efi_runtime_set_time(unsigned long arg)
+ff6301dabc3ca2 Ivan Hu 2016-08-25  316  {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  317  	struct efi_settime __user *settime_user;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  318  	struct efi_settime settime;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  319  	efi_status_t status;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  320  	efi_time_t efi_time;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  321  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  322  	settime_user = (struct efi_settime __user *)arg;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  323  	if (copy_from_user(&settime, settime_user, sizeof(settime)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  324  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  325  	if (copy_from_user(&efi_time, settime.time,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  326  					sizeof(efi_time_t)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  327  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  328  	status = efi.set_time(&efi_time);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  329  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  330  	if (put_user(status, settime.status))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  331  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  332  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  333  	return status == EFI_SUCCESS ? 0 : -EINVAL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  334  }
+ff6301dabc3ca2 Ivan Hu 2016-08-25  335  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  336  static long efi_runtime_get_waketime(unsigned long arg)
+ff6301dabc3ca2 Ivan Hu 2016-08-25  337  {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  338  	struct efi_getwakeuptime __user *getwakeuptime_user;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  339  	struct efi_getwakeuptime getwakeuptime;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  340  	efi_bool_t enabled, pending;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  341  	efi_status_t status;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  342  	efi_time_t efi_time;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  343  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  344  	getwakeuptime_user = (struct efi_getwakeuptime __user *)arg;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  345  	if (copy_from_user(&getwakeuptime, getwakeuptime_user,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  346  				sizeof(getwakeuptime)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  347  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  348  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  349  	status = efi.get_wakeup_time(
+ff6301dabc3ca2 Ivan Hu 2016-08-25  350  		getwakeuptime.enabled ? (efi_bool_t *)&enabled : NULL,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  351  		getwakeuptime.pending ? (efi_bool_t *)&pending : NULL,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  352  		getwakeuptime.time ? &efi_time : NULL);
+ff6301dabc3ca2 Ivan Hu 2016-08-25  353  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  354  	if (put_user(status, getwakeuptime.status))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  355  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  356  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  357  	if (status != EFI_SUCCESS)
+ff6301dabc3ca2 Ivan Hu 2016-08-25  358  		return -EINVAL;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  359  
+ff6301dabc3ca2 Ivan Hu 2016-08-25 @360  	if (getwakeuptime.enabled && put_user(enabled,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  361  						getwakeuptime.enabled))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  362  		return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  363  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  364  	if (getwakeuptime.time) {
+ff6301dabc3ca2 Ivan Hu 2016-08-25  365  		if (copy_to_user(getwakeuptime.time, &efi_time,
+ff6301dabc3ca2 Ivan Hu 2016-08-25  366  				sizeof(efi_time_t)))
+ff6301dabc3ca2 Ivan Hu 2016-08-25  367  			return -EFAULT;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  368  	}
+ff6301dabc3ca2 Ivan Hu 2016-08-25  369  
+ff6301dabc3ca2 Ivan Hu 2016-08-25  370  	return 0;
+ff6301dabc3ca2 Ivan Hu 2016-08-25  371  }
+ff6301dabc3ca2 Ivan Hu 2016-08-25  372  
 
-475d8e0197f1bc Thinh Nguyen         2018-11-08  1184  
-b53c772d16a975 Felipe Balbi         2011-08-30  1185  	enum dwc3_ep0_next	ep0_next_event;
-72246da40f3719 Felipe Balbi         2011-08-19  1186  	enum dwc3_ep0_state	ep0state;
-72246da40f3719 Felipe Balbi         2011-08-19  1187  	enum dwc3_link_state	link_state;
-72246da40f3719 Felipe Balbi         2011-08-19  1188  
-865e09e71622f9 Felipe Balbi         2012-04-24  1189  	u16			u2sel;
-865e09e71622f9 Felipe Balbi         2012-04-24  1190  	u16			u2pel;
-865e09e71622f9 Felipe Balbi         2012-04-24  1191  	u8			u1sel;
-865e09e71622f9 Felipe Balbi         2012-04-24  1192  	u8			u1pel;
-865e09e71622f9 Felipe Balbi         2012-04-24  1193  
-72246da40f3719 Felipe Balbi         2011-08-19  1194  	u8			speed;
-865e09e71622f9 Felipe Balbi         2012-04-24  1195  
-47d3946ea220f2 Bryan O'Donoghue     2017-01-31  1196  	u8			num_eps;
-789451f6c69828 Felipe Balbi         2011-05-05  1197  
-a32994998c2ffa Felipe Balbi         2011-09-30  1198  	struct dwc3_hwparams	hwparams;
-72246da40f3719 Felipe Balbi         2011-08-19  1199  	struct dentry		*root;
-d7668024b3b5f9 Felipe Balbi         2013-01-18  1200  	struct debugfs_regset32	*regset;
-3b637367ae40b6 Gerard Cauvy         2012-02-10  1201  
-62ba09d6bb6330 Thinh Nguyen         2018-11-07  1202  	u32			dbg_lsp_select;
-62ba09d6bb6330 Thinh Nguyen         2018-11-07  1203  
-3b637367ae40b6 Gerard Cauvy         2012-02-10  1204  	u8			test_mode;
-3b637367ae40b6 Gerard Cauvy         2012-02-10  1205  	u8			test_mode_nr;
-80caf7d21adca1 Huang Rui            2014-10-28  1206  	u8			lpm_nyet_threshold;
-460d098cb67281 Huang Rui            2014-10-31  1207  	u8			hird_threshold;
-938a5ad1d3055c Thinh Nguyen         2018-03-16  1208  	u8			rx_thr_num_pkt_prd;
-938a5ad1d3055c Thinh Nguyen         2018-03-16  1209  	u8			rx_max_burst_prd;
-938a5ad1d3055c Thinh Nguyen         2018-03-16  1210  	u8			tx_thr_num_pkt_prd;
-938a5ad1d3055c Thinh Nguyen         2018-03-16  1211  	u8			tx_max_burst_prd;
-f2b685d5aad81f Felipe Balbi         2013-12-19  1212  
-3e10a2ce98d1a5 Heikki Krogerus      2015-05-13  1213  	const char		*hsphy_interface;
-3e10a2ce98d1a5 Heikki Krogerus      2015-05-13  1214  
-fc8bb91bc83ef8 Felipe Balbi         2016-05-16  1215  	unsigned		connected:1;
-f2b685d5aad81f Felipe Balbi         2013-12-19  1216  	unsigned		delayed_status:1;
-f2b685d5aad81f Felipe Balbi         2013-12-19  1217  	unsigned		ep0_bounced:1;
-f2b685d5aad81f Felipe Balbi         2013-12-19  1218  	unsigned		ep0_expect_in:1;
-81bc5599d66d74 Felipe Balbi         2013-12-19  1219  	unsigned		has_hibernation:1;
-d64ff406e51e4f Arnd Bergmann        2016-11-17  1220  	unsigned		sysdev_is_parent:1;
-80caf7d21adca1 Huang Rui            2014-10-28  1221  	unsigned		has_lpm_erratum:1;
-460d098cb67281 Huang Rui            2014-10-31  1222  	unsigned		is_utmi_l1_suspend:1;
-946bd579a63855 Huang Rui            2014-10-28  1223  	unsigned		is_fpga:1;
-fc8bb91bc83ef8 Felipe Balbi         2016-05-16  1224  	unsigned		pending_events:1;
-f2b685d5aad81f Felipe Balbi         2013-12-19  1225  	unsigned		pullups_connected:1;
-f2b685d5aad81f Felipe Balbi         2013-12-19  1226  	unsigned		setup_packet_pending:1;
-f2b685d5aad81f Felipe Balbi         2013-12-19  1227  	unsigned		three_stage_setup:1;
-d92021f66063b3 Thinh Nguyen         2018-11-14  1228  	unsigned		dis_start_transfer_quirk:1;
-eac68e8f979b82 Robert Baldyga       2015-03-09  1229  	unsigned		usb3_lpm_capable:1;
-022a0208c0ff03 Thinh Nguyen         2018-11-07  1230  	unsigned		usb2_lpm_disable:1;
-3b81221a529c08 Huang Rui            2014-10-28  1231  
-3b81221a529c08 Huang Rui            2014-10-28  1232  	unsigned		disable_scramble_quirk:1;
-9a5b2f3167c1f9 Huang Rui            2014-10-28  1233  	unsigned		u2exit_lfps_quirk:1;
-b5a65c406367e3 Huang Rui            2014-10-28  1234  	unsigned		u2ss_inp3_quirk:1;
-df31f5b3a6d3ef Huang Rui            2014-10-28  1235  	unsigned		req_p1p2p3_quirk:1;
-a2a1d0f5838d6a Huang Rui            2014-10-28  1236  	unsigned                del_p1p2p3_quirk:1;
-41c06ffdf9cc63 Huang Rui            2014-10-28  1237  	unsigned		del_phy_power_chg_quirk:1;
-fb67afca177a21 Huang Rui            2014-10-28  1238  	unsigned		lfps_filter_quirk:1;
-14f4ac53dfb232 Huang Rui            2014-10-28  1239  	unsigned		rx_detect_poll_quirk:1;
-59acfa20816420 Huang Rui            2014-10-31  1240  	unsigned		dis_u3_susphy_quirk:1;
-0effe0a3e741c0 Huang Rui            2014-10-31  1241  	unsigned		dis_u2_susphy_quirk:1;
-ec791d149bca45 John Youn            2015-10-02  1242  	unsigned		dis_enblslpm_quirk:1;
-729dcffd1ed319 Anurag Kumar Vulisha 2019-05-10  1243  	unsigned		dis_u1_entry_quirk:1;
-729dcffd1ed319 Anurag Kumar Vulisha 2019-05-10  1244  	unsigned		dis_u2_entry_quirk:1;
-e58dd357741b93 Rajesh Bhagat        2016-03-14  1245  	unsigned		dis_rxdet_inp3_quirk:1;
-16199f33893922 William Wu           2016-08-16  1246  	unsigned		dis_u2_freeclk_exists_quirk:1;
-00fe081dc3a370 William Wu           2016-08-16  1247  	unsigned		dis_del_phy_power_chg_quirk:1;
-65db7a0c981637 William Wu           2017-04-19  1248  	unsigned		dis_tx_ipgap_linecheck_quirk:1;
-7ba6b09fda5e0c Neil Armstrong       2020-02-21  1249  	unsigned		parkmode_disable_ss_quirk:1;
-6b6a0c9a3ffa31 Huang Rui            2014-10-31  1250  
-6b6a0c9a3ffa31 Huang Rui            2014-10-31  1251  	unsigned		tx_de_emphasis_quirk:1;
-6b6a0c9a3ffa31 Huang Rui            2014-10-31  1252  	unsigned		tx_de_emphasis:2;
-cf40b86b6ef6df John Youn            2016-11-14  1253  
-42bf02ec6e420e Roger Quadros        2017-10-31  1254  	unsigned		dis_metastability_quirk:1;
-42bf02ec6e420e Roger Quadros        2017-10-31  1255  
-f580170f135af1 Yu Chen              2020-09-08  1256  	unsigned		dis_split_quirk:1;
-f580170f135af1 Yu Chen              2020-09-08  1257  
-cf40b86b6ef6df John Youn            2016-11-14  1258  	u16			imod_interval;
-72246da40f3719 Felipe Balbi         2011-08-19 @1259  };
-72246da40f3719 Felipe Balbi         2011-08-19  1260  
+:::::: The code at line 187 was first introduced by commit
+:::::: ff6301dabc3ca20ab8f50f8d0252ac05da610d89 efi: Add efi_test driver for exporting UEFI runtime service interfaces
 
-:::::: The code at line 1259 was first introduced by commit
-:::::: 72246da40f3719af3bfd104a2365b32537c27d83 usb: Introduce DesignWare USB3 DRD Driver
-
-:::::: TO: Felipe Balbi <balbi@ti.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+:::::: TO: Ivan Hu <ivan.hu@canonical.com>
+:::::: CC: Matt Fleming <matt@codeblueprint.co.uk>
 
 -- 
 0-DAY CI Kernel Test Service
