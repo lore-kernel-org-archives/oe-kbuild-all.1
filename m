@@ -1,42 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECB617EE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 05:58:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6CF17EE;
+	Tue, 22 Aug 2023 05:58:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692683909; x=1724219909;
+  t=1692683912; x=1724219912;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R80NIAKJf8+K1vNAX50fNiHx4eRPU2kfT6kzqCj0UVs=;
-  b=TBXY6sdzrJO4jwo0yOCyI+vgXV3bDWr8RlmjHZLz5H0Xyi/oGre1NeIX
-   rC+r4al0a9GF3iLt5mMD1knqwRO+LqY8Ep4mTxLFFnY7Amj+fyTwSXo5m
-   Ga3AJgTAEnVVnDHEf5c1tfxC+XY7oYt1YBtUBYYohx0rmTXJhtXO8OBuK
-   HK7vQuKBoZ6DZ+/bS4O/TsrVE9+ASMvNiJ5sHhRjps6z8iy3as7PAe1eZ
-   Kxe3RziiSZ37Wtxzk7FoBKuHA1VV/nbSKwQeXyJ8Prg+M0HWzGlQY8mhA
-   IthnYGR4RyK2phirBFF8lJCnpFSUwz+SvQUgwnpXZ4m6yelvkxLuE/3Q+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="460152784"
+  bh=dh6VKg/k7t96RPnIKLfzpJLVxZOwEG25irD700GdLGQ=;
+  b=UIjUFV783uUbK0wwF8rWdmVhl+O94nHvR8iTt4BYqVfVnlS8OHfNQnfQ
+   3qMKVsYmbbx+KWa24hnP+f3EC52y8bGPPeR6nHQxRcAscGOONwogQz0n0
+   vYuQLY7n25+KF8ALzlWr3RPxRHUVxsv8iVeQYFIwospNrQvvZcwiT52hg
+   35lZKo9Sq22rVEvWnO4h//U+KCMUJERIBQDrhkwEjxWsXujfVGBd3zKaC
+   FgMzu1aa4Bfjl2IEBH0CXPSaA80pMKHSxrB0BmORv+Kcjopfsz4IOZr0/
+   DXXvWXu3qjxEM3jIkfbYKReNrN4iNR4FhErAg8+Ozb0V9aThBwrM/IJHc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="460152785"
 X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
-   d="scan'208";a="460152784"
+   d="scan'208";a="460152785"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2023 22:58:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="1066911725"
+X-IronPort-AV: E=McAfee;i="6600,9927,10809"; a="1066911724"
 X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
-   d="scan'208";a="1066911725"
+   d="scan'208";a="1066911724"
 Received: from lkp-server02.sh.intel.com (HELO 6809aa828f2a) ([10.239.97.151])
   by fmsmga005.fm.intel.com with ESMTP; 21 Aug 2023 22:58:26 -0700
 Received: from kbuild by 6809aa828f2a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYKPJ-0001Po-2h;
+	id 1qYKPJ-0001Pk-2L;
 	Tue, 22 Aug 2023 05:58:25 +0000
-Date: Tue, 22 Aug 2023 13:57:55 +0800
+Date: Tue, 22 Aug 2023 13:58:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 68/27479]
- drivers/md/dm-bow.c:97:10: warning: no previous declaration for 'range_top'
-Message-ID: <202308221340.qvmKJErb-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: [powerpc:next-test 9/109] arch/powerpc/include/asm/paca.h:155:23:
+ error: field has incomplete type 'struct tlb_core_data'
+Message-ID: <202308221352.nocgtdJP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,206 +48,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   0b89add3a32b77a9c7d68570de0ae6c67daae047
-commit: 0ce3eb37e9eab307def1bad31c028d86ae7b2ea1 [68/27479] ANDROID: dm-bow: Add dm-bow feature
-config: i386-randconfig-r035-20230822 (https://download.01.org/0day-ci/archive/20230822/202308221340.qvmKJErb-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221340.qvmKJErb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next-test
+head:   0f71dcfb4aef6043da6cc509e7a7f6a3ae87c12d
+commit: 3a24ea0df83e32355d897a18bbd82e05986dcdc3 [9/109] powerpc/kuap: Use ASM feature fixups instead of static branches
+config: powerpc64-randconfig-r012-20230822 (https://download.01.org/0day-ci/archive/20230822/202308221352.nocgtdJP-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230822/202308221352.nocgtdJP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308221340.qvmKJErb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308221352.nocgtdJP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/md/dm-bow.c:97:10: warning: no previous declaration for 'range_top' [-Wmissing-declarations]
-    sector_t range_top(struct bow_range *br)
-             ^~~~~~~~~
->> drivers/md/dm-bow.c:103:5: warning: no previous declaration for 'range_size' [-Wmissing-declarations]
-    u64 range_size(struct bow_range *br)
-        ^~~~~~~~~~
->> drivers/md/dm-bow.c:148:6: warning: no previous declaration for 'add_before' [-Wmissing-declarations]
-    void add_before(struct rb_root *ranges, struct bow_range *new_br,
-         ^~~~~~~~~~
-   In file included from include/linux/printk.h:7:0,
-                    from include/linux/kernel.h:14,
-                    from include/linux/list.h:9,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from drivers/md/dm.h:13,
-                    from drivers/md/dm-bow.c:7:
-   drivers/md/dm-bow.c: In function 'copy_data':
-   include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 2 has type 'sector_t {aka long long unsigned int}' [-Wformat=]
-    #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                     ^
-   include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
-    #define KERN_ERR KERN_SOH "3" /* error conditions */
-                     ^~~~~~~~
-   include/linux/printk.h:308:9: note: in expansion of macro 'KERN_ERR'
-     printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-            ^~~~~~~~
-   include/linux/device-mapper.h:534:25: note: in expansion of macro 'pr_err'
-    #define DMERR(fmt, ...) pr_err(DM_FMT(fmt), ##__VA_ARGS__)
-                            ^~~~~~
-   drivers/md/dm-bow.c:294:4: note: in expansion of macro 'DMERR'
-       DMERR("Cannot read page %lu", page);
-       ^~~~~
-   drivers/md/dm-bow.c:294:30: note: format string is defined here
-       DMERR("Cannot read page %lu", page);
-                               ~~^
-                               %llu
-   In file included from include/linux/printk.h:7:0,
-                    from include/linux/kernel.h:14,
-                    from include/linux/list.h:9,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from drivers/md/dm.h:13,
-                    from drivers/md/dm-bow.c:7:
-   drivers/md/dm-bow.c: In function 'add_trim':
-   include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 2 has type 'sector_t {aka long long unsigned int}' [-Wformat=]
-    #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                     ^
-   include/linux/kern_levels.h:15:20: note: in expansion of macro 'KERN_SOH'
-    #define KERN_DEBUG KERN_SOH "7" /* debug-level messages */
-                       ^~~~~~~~
-   include/linux/device-mapper.h:542:34: note: in expansion of macro 'KERN_DEBUG'
-    #define DMDEBUG(fmt, ...) printk(KERN_DEBUG DM_FMT(fmt), ##__VA_ARGS__)
-                                     ^~~~~~~~~~
-   drivers/md/dm-bow.c:955:2: note: in expansion of macro 'DMDEBUG'
-     DMDEBUG("add_trim: %lu, %u",
-     ^~~~~~~
-   drivers/md/dm-bow.c:955:23: note: format string is defined here
-     DMDEBUG("add_trim: %lu, %u",
-                        ~~^
-                        %llu
-   In file included from include/linux/printk.h:7:0,
-                    from include/linux/kernel.h:14,
-                    from include/linux/list.h:9,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from drivers/md/dm.h:13,
-                    from drivers/md/dm-bow.c:7:
-   drivers/md/dm-bow.c: In function 'remove_trim':
-   include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 2 has type 'sector_t {aka long long unsigned int}' [-Wformat=]
-    #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                     ^
-   include/linux/kern_levels.h:15:20: note: in expansion of macro 'KERN_SOH'
-    #define KERN_DEBUG KERN_SOH "7" /* debug-level messages */
-                       ^~~~~~~~
-   include/linux/device-mapper.h:542:34: note: in expansion of macro 'KERN_DEBUG'
-    #define DMDEBUG(fmt, ...) printk(KERN_DEBUG DM_FMT(fmt), ##__VA_ARGS__)
-                                     ^~~~~~~~~~
-   drivers/md/dm-bow.c:993:2: note: in expansion of macro 'DMDEBUG'
-     DMDEBUG("remove_trim: %lu, %u",
-     ^~~~~~~
-   drivers/md/dm-bow.c:993:26: note: format string is defined here
-     DMDEBUG("remove_trim: %lu, %u",
-                           ~~^
-                           %llu
-   drivers/md/dm-bow.c: At top level:
->> drivers/md/dm-bow.c:1025:5: warning: no previous declaration for 'remap_unless_illegal_trim' [-Wmissing-declarations]
-    int remap_unless_illegal_trim(struct bow_context *bc, struct bio *bio)
-        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-bow.c: In function 'dm_bow_map':
-   drivers/md/dm-bow.c:1061:23: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-        /* pass-through */;
-                          ^
-   drivers/md/dm-bow.c:1068:23: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-        /* pass-through */;
-                          ^
-   drivers/md/dm-bow.c: In function 'dm_bow_tablestatus':
-   drivers/md/dm-bow.c:1119:52: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'sector_t {aka long long unsigned int}' [-Wformat=]
-      result += scnprintf(result, end - result, "%s: %lu",
-                                                     ~~^
-                                                     %llu
-            readable_type[br->type], br->sector);
-                                     ~~~~~~~~~~         
-   drivers/md/dm-bow.c: At top level:
->> drivers/md/dm-bow.c:1179:5: warning: no previous declaration for 'dm_bow_prepare_ioctl' [-Wmissing-declarations]
-    int dm_bow_prepare_ioctl(struct dm_target *ti, struct block_device **bdev)
-        ^~~~~~~~~~~~~~~~~~~~
->> drivers/md/dm-bow.c:1209:12: warning: no previous declaration for 'dm_bow_init' [-Wmissing-declarations]
-    int __init dm_bow_init(void)
-               ^~~~~~~~~~~
->> drivers/md/dm-bow.c:1218:6: warning: no previous declaration for 'dm_bow_exit' [-Wmissing-declarations]
-    void dm_bow_exit(void)
-         ^~~~~~~~~~~
+   In file included from arch/powerpc/mm/nohash/kup.c:11:
+   In file included from arch/powerpc/include/asm/kup.h:24:
+   In file included from arch/powerpc/include/asm/nohash/kup-booke.h:6:
+   In file included from arch/powerpc/include/asm/mmu.h:148:
+   In file included from arch/powerpc/include/asm/percpu.h:20:
+>> arch/powerpc/include/asm/paca.h:155:23: error: field has incomplete type 'struct tlb_core_data'
+     155 |         struct tlb_core_data tcd;
+         |                              ^
+   arch/powerpc/include/asm/paca.h:139:9: note: forward declaration of 'struct tlb_core_data'
+     139 |         struct tlb_core_data *tcd_ptr;
+         |                ^
+   arch/powerpc/include/asm/paca.h:291:36: warning: declaration of 'struct mm_struct' will not be visible outside of this function [-Wvisibility]
+     291 | extern void copy_mm_to_paca(struct mm_struct *mm);
+         |                                    ^
+   1 warning and 1 error generated.
 
 
-vim +/range_top +97 drivers/md/dm-bow.c
+vim +155 arch/powerpc/include/asm/paca.h
 
-    96	
-  > 97	sector_t range_top(struct bow_range *br)
-    98	{
-    99		return container_of(rb_next(&br->node), struct bow_range, node)
-   100			->sector;
-   101	}
-   102	
- > 103	u64 range_size(struct bow_range *br)
-   104	{
-   105		return (range_top(br) - br->sector) * SECTOR_SIZE;
-   106	}
-   107	
-   108	static sector_t bvec_top(struct bvec_iter *bi_iter)
-   109	{
-   110		return bi_iter->bi_sector + bi_iter->bi_size / SECTOR_SIZE;
-   111	}
-   112	
-   113	/*
-   114	 * Find the first range that overlaps with bi_iter
-   115	 * bi_iter is set to the size of the overlapping sub-range
-   116	 */
-   117	static struct bow_range *find_first_overlapping_range(struct rb_root *ranges,
-   118							      struct bvec_iter *bi_iter)
-   119	{
-   120		struct rb_node *node = ranges->rb_node;
-   121		struct bow_range *br;
-   122	
-   123		while (node) {
-   124			br = container_of(node, struct bow_range, node);
-   125	
-   126			if (br->sector <= bi_iter->bi_sector
-   127			    && bi_iter->bi_sector < range_top(br))
-   128				break;
-   129	
-   130			if (bi_iter->bi_sector < br->sector)
-   131				node = node->rb_left;
-   132			else
-   133				node = node->rb_right;
-   134		}
-   135	
-   136		WARN_ON(!node);
-   137		if (!node)
-   138			return NULL;
-   139	
-   140		if (range_top(br) - bi_iter->bi_sector
-   141		    < bi_iter->bi_size >> SECTOR_SHIFT)
-   142			bi_iter->bi_size = (range_top(br) - bi_iter->bi_sector)
-   143				<< SECTOR_SHIFT;
-   144	
-   145		return br;
-   146	}
-   147	
- > 148	void add_before(struct rb_root *ranges, struct bow_range *new_br,
-   149			struct bow_range *existing)
-   150	{
-   151		struct rb_node *parent = &(existing->node);
-   152		struct rb_node **link = &(parent->rb_left);
-   153	
-   154		while (*link) {
-   155			parent = *link;
-   156			link = &((*link)->rb_right);
-   157		}
-   158	
-   159		rb_link_node(&new_br->node, parent, link);
-   160		rb_insert_color(&new_br->node, ranges);
-   161	}
-   162	
+91c60b5b8209627 Benjamin Herrenschmidt 2009-06-02  131  
+e0d68273d706953 Christophe Leroy       2022-09-19  132  #ifdef CONFIG_PPC_BOOK3E_64
+016f8cf0d87bb2b Kevin Hao              2015-03-10  133  	u64 exgen[8] __aligned(0x40);
+f67f4ef5fcdfdee Scott Wood             2011-06-22  134  	/* Keep pgd in the same cacheline as the start of extlb */
+016f8cf0d87bb2b Kevin Hao              2015-03-10  135  	pgd_t *pgd __aligned(0x40); /* Current PGD */
+f67f4ef5fcdfdee Scott Wood             2011-06-22  136  	pgd_t *kernel_pgd;		/* Kernel PGD */
+28efc35fe68dacb Scott Wood             2013-10-11  137  
+28efc35fe68dacb Scott Wood             2013-10-11  138  	/* Shared by all threads of a core -- points to tcd of first thread */
+28efc35fe68dacb Scott Wood             2013-10-11  139  	struct tlb_core_data *tcd_ptr;
+28efc35fe68dacb Scott Wood             2013-10-11  140  
+609af38f8fc0f1d Scott Wood             2014-03-10  141  	/*
+609af38f8fc0f1d Scott Wood             2014-03-10  142  	 * We can have up to 3 levels of reentrancy in the TLB miss handler,
+609af38f8fc0f1d Scott Wood             2014-03-10  143  	 * in each of four exception levels (normal, crit, mcheck, debug).
+609af38f8fc0f1d Scott Wood             2014-03-10  144  	 */
+609af38f8fc0f1d Scott Wood             2014-03-10  145  	u64 extlb[12][EX_TLB_SIZE / sizeof(u64)];
+dce6670aaa7efec Benjamin Herrenschmidt 2009-07-23  146  	u64 exmc[8];		/* used for machine checks */
+dce6670aaa7efec Benjamin Herrenschmidt 2009-07-23  147  	u64 excrit[8];		/* used for crit interrupts */
+dce6670aaa7efec Benjamin Herrenschmidt 2009-07-23  148  	u64 exdbg[8];		/* used for debug interrupts */
+dce6670aaa7efec Benjamin Herrenschmidt 2009-07-23  149  
+dce6670aaa7efec Benjamin Herrenschmidt 2009-07-23  150  	/* Kernel stack pointers for use by special exceptions */
+dce6670aaa7efec Benjamin Herrenschmidt 2009-07-23  151  	void *mc_kstack;
+dce6670aaa7efec Benjamin Herrenschmidt 2009-07-23  152  	void *crit_kstack;
+dce6670aaa7efec Benjamin Herrenschmidt 2009-07-23  153  	void *dbg_kstack;
+28efc35fe68dacb Scott Wood             2013-10-11  154  
+28efc35fe68dacb Scott Wood             2013-10-11 @155  	struct tlb_core_data tcd;
+e0d68273d706953 Christophe Leroy       2022-09-19  156  #endif /* CONFIG_PPC_BOOK3E_64 */
+dce6670aaa7efec Benjamin Herrenschmidt 2009-07-23  157  
+
+:::::: The code at line 155 was first introduced by commit
+:::::: 28efc35fe68dacbddc4b12c2fa8f2df1593a4ad3 powerpc/e6500: TLB miss handler with hardware tablewalk support
+
+:::::: TO: Scott Wood <scottwood@freescale.com>
+:::::: CC: Scott Wood <scottwood@freescale.com>
 
 -- 
 0-DAY CI Kernel Test Service
