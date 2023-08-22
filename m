@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0899B20183
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Aug 2023 22:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A29920183;
+	Tue, 22 Aug 2023 22:26:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692742582; x=1724278582;
+  t=1692743195; x=1724279195;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HL9wUfiXCVcRWuFvjKYoXAB5T24cJeGZu2bbgqDol2g=;
-  b=awK6IzHMAR9ALKXvOKV+FEPsZcvaO7h1x2uUR4AFYsnfiLDI065VsTM0
-   Ex+8PX8r4v9Ao02/dbukO/m1v7haKEizg7kdWam/0YJ8/t3g5NXOFyxwQ
-   Gd8mALVveNpWDko3GQkHoV3PhWhn1F/ffKpAb/n3OFVQzN6xC4cBvMua9
-   lbGLnJeuncfXfS8CWQapGpq5sByPeU/9VjHrgmrHCZ+LJ/xTsp20hn5L0
-   Ysl2B3GnMiJsSoJmSZ8sODgkv9UoiXsxvdyVw4fItOimxDxn7KF0TC1WH
-   1MEqIiuScb0iNyqSTiH7w/uOZjTYv40/GnUBtn3yPx2BPUNDrW1cmahP+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="460370788"
+  bh=/nUhKEi/fBYzKkURoZWSb/wFRFPAD0iy0hEcZ6Slxew=;
+  b=nwjeN/guWgNUyzKdfUZpoP8V+DhzdnDjWyaF8taCKjcgJr25X5Rtp/hH
+   5rbZ6Vkmy1S/vNiXEtSIPhTVHXQ1JnXDPY189suBztfLrRIxMtT/pX0iC
+   17GALsZrb0mANGjnmGFo4r68aIvkaTuSSfvzw0ebJx3eDgqZPZwud17D2
+   +G4KR9El+PvM+dGYVSe1S251pJBqHaczFBs13W4SeyuM052P8CZxobT2E
+   lcstJJ/ufXlRniihrTDjTMAqCpQCX03oDh+XQb+ejcGoTfN8y+poEdWiQ
+   i+HPhTkTpm2Vv48FxP6ayx6P0UPGFvkpiTbsmNe+Xc1irlgTwf5qM4j6s
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="364192810"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="460370788"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 15:16:21 -0700
+   d="scan'208";a="364192810"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 15:26:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="736395725"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="983047595"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="736395725"
+   d="scan'208";a="983047595"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 22 Aug 2023 15:16:18 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 22 Aug 2023 15:26:31 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYZfd-0000ZO-1z;
-	Tue, 22 Aug 2023 22:16:17 +0000
-Date: Wed, 23 Aug 2023 06:15:29 +0800
+	id 1qYZpX-0000a1-0X;
+	Tue, 22 Aug 2023 22:26:31 +0000
+Date: Wed, 23 Aug 2023 06:25:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manish Rangankar <mrangankar@marvell.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: [mkp-scsi:for-next 113/134] drivers/nvme/target/fc.c:372:41: sparse:
- sparse: restricted __le32 degrades to integer
-Message-ID: <202308230637.iOlZTt2m-lkp@intel.com>
+To: Rohan McLure <rmclure@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>
+Subject: drivers/media/dvb-frontends/dib0090.c:2542:12: warning: stack frame
+ size (2080) exceeds limit (2048) in 'dib0090_set_params'
+Message-ID: <202308230658.YWtkC9Oz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,95 +47,168 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-head:   091462cb57e4ac146f134e258c4f764662ba3961
-commit: 875386b98857822b77ac7f95bdf367b70af5b78c [113/134] scsi: qla2xxx: Add Unsolicited LS Request and Response Support for NVMe
-config: i386-randconfig-061-20230823 (https://download.01.org/0day-ci/archive/20230823/202308230637.iOlZTt2m-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230637.iOlZTt2m-lkp@intel.com/reproduce)
+Hi Rohan,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   89bf6209cad66214d3774dac86b6bbf2aec6a30d
+commit: 6f0926c00565a91f3bd7ca1aa05db307daed5e0f powerpc/kcsan: Add KCSAN Support
+date:   6 months ago
+config: powerpc64-randconfig-r032-20230823 (https://download.01.org/0day-ci/archive/20230823/202308230658.YWtkC9Oz-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230658.YWtkC9Oz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308230637.iOlZTt2m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308230658.YWtkC9Oz-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/target/fc.c:372:41: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:372:58: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:398:40: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:398:57: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:404:47: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:428:41: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:428:58: sparse: sparse: restricted __le32 degrades to integer
->> drivers/nvme/target/fc.c:1699:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got int @@
-   drivers/nvme/target/fc.c:1699:36: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1699:36: sparse:     got int
->> drivers/nvme/target/fc.c:1716:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got unsigned int @@
-   drivers/nvme/target/fc.c:1716:28: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1716:28: sparse:     got unsigned int
-   drivers/nvme/target/fc.c:1792:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got int @@
-   drivers/nvme/target/fc.c:1792:36: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1792:36: sparse:     got int
-   drivers/nvme/target/fc.c:1807:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got unsigned int @@
-   drivers/nvme/target/fc.c:1807:28: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1807:28: sparse:     got unsigned int
-   drivers/nvme/target/fc.c:1854:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got int @@
-   drivers/nvme/target/fc.c:1854:36: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1854:36: sparse:     got int
-   drivers/nvme/target/fc.c:1865:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got unsigned int @@
-   drivers/nvme/target/fc.c:1865:28: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1865:28: sparse:     got unsigned int
-   drivers/nvme/target/fc.c:1897:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got int @@
-   drivers/nvme/target/fc.c:1897:38: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1897:38: sparse:     got int
-   drivers/nvme/target/fc.c:1981:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got int @@
-   drivers/nvme/target/fc.c:1981:36: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1981:36: sparse:     got int
-   drivers/nvme/target/fc.c: note: in included file:
->> drivers/nvme/target/../host/fc.h:168:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rqstlen @@     got unsigned int @@
-   drivers/nvme/target/../host/fc.h:168:24: sparse:     expected restricted __le32 [usertype] rqstlen
-   drivers/nvme/target/../host/fc.h:168:24: sparse:     got unsigned int
->> drivers/nvme/target/../host/fc.h:170:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got unsigned int @@
-   drivers/nvme/target/../host/fc.h:170:23: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/../host/fc.h:170:23: sparse:     got unsigned int
+All warnings (new ones prefixed by >>):
 
-vim +372 drivers/nvme/target/fc.c
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:640:
+   arch/powerpc/include/asm/io-defs.h:47:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   DEF_PCI_AC_NORET(insl, (unsigned long p, void *b, unsigned long c),
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:637:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+                   __do_##name al;                                 \
+                   ^~~~~~~~~~~~~~
+   <scratch space>:207:1: note: expanded from here
+   __do_insl
+   ^
+   arch/powerpc/include/asm/io.h:579:56: note: expanded from macro '__do_insl'
+   #define __do_insl(p, b, n)      readsl((PCI_IO_ADDR)_IO_BASE+(p), (b), (n))
+                                          ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from drivers/media/dvb-frontends/dib0090.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:640:
+   arch/powerpc/include/asm/io-defs.h:49:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   DEF_PCI_AC_NORET(outsb, (unsigned long p, const void *b, unsigned long c),
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:637:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+                   __do_##name al;                                 \
+                   ^~~~~~~~~~~~~~
+   <scratch space>:211:1: note: expanded from here
+   __do_outsb
+   ^
+   arch/powerpc/include/asm/io.h:580:58: note: expanded from macro '__do_outsb'
+   #define __do_outsb(p, b, n)     writesb((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from drivers/media/dvb-frontends/dib0090.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:640:
+   arch/powerpc/include/asm/io-defs.h:51:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   DEF_PCI_AC_NORET(outsw, (unsigned long p, const void *b, unsigned long c),
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:637:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+                   __do_##name al;                                 \
+                   ^~~~~~~~~~~~~~
+   <scratch space>:215:1: note: expanded from here
+   __do_outsw
+   ^
+   arch/powerpc/include/asm/io.h:581:58: note: expanded from macro '__do_outsw'
+   #define __do_outsw(p, b, n)     writesw((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from drivers/media/dvb-frontends/dib0090.c:15:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:640:
+   arch/powerpc/include/asm/io-defs.h:53:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   DEF_PCI_AC_NORET(outsl, (unsigned long p, const void *b, unsigned long c),
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:637:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+                   __do_##name al;                                 \
+                   ^~~~~~~~~~~~~~
+   <scratch space>:219:1: note: expanded from here
+   __do_outsl
+   ^
+   arch/powerpc/include/asm/io.h:582:58: note: expanded from macro '__do_outsl'
+   #define __do_outsl(p, b, n)     writesl((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+>> drivers/media/dvb-frontends/dib0090.c:2542:12: warning: stack frame size (2080) exceeds limit (2048) in 'dib0090_set_params' [-Wframe-larger-than]
+   static int dib0090_set_params(struct dvb_frontend *fe)
+              ^
+   1997/2080 (96.01%) spills, 83/2080 (3.99%) variables
+   13 warnings generated.
 
-47bf3241064498 James Smart 2020-03-31  349  
-47bf3241064498 James Smart 2020-03-31  350  
-47bf3241064498 James Smart 2020-03-31  351  static void
-47bf3241064498 James Smart 2020-03-31  352  __nvmet_fc_finish_ls_req(struct nvmet_fc_ls_req_op *lsop)
-47bf3241064498 James Smart 2020-03-31  353  {
-47bf3241064498 James Smart 2020-03-31  354  	struct nvmet_fc_tgtport *tgtport = lsop->tgtport;
-47bf3241064498 James Smart 2020-03-31  355  	struct nvmefc_ls_req *lsreq = &lsop->ls_req;
-47bf3241064498 James Smart 2020-03-31  356  	unsigned long flags;
-47bf3241064498 James Smart 2020-03-31  357  
-47bf3241064498 James Smart 2020-03-31  358  	spin_lock_irqsave(&tgtport->lock, flags);
-47bf3241064498 James Smart 2020-03-31  359  
-47bf3241064498 James Smart 2020-03-31  360  	if (!lsop->req_queued) {
-47bf3241064498 James Smart 2020-03-31  361  		spin_unlock_irqrestore(&tgtport->lock, flags);
-47bf3241064498 James Smart 2020-03-31  362  		return;
-47bf3241064498 James Smart 2020-03-31  363  	}
-47bf3241064498 James Smart 2020-03-31  364  
-47bf3241064498 James Smart 2020-03-31  365  	list_del(&lsop->lsreq_list);
-47bf3241064498 James Smart 2020-03-31  366  
-47bf3241064498 James Smart 2020-03-31  367  	lsop->req_queued = false;
-47bf3241064498 James Smart 2020-03-31  368  
-47bf3241064498 James Smart 2020-03-31  369  	spin_unlock_irqrestore(&tgtport->lock, flags);
-47bf3241064498 James Smart 2020-03-31  370  
-47bf3241064498 James Smart 2020-03-31  371  	fc_dma_unmap_single(tgtport->dev, lsreq->rqstdma,
-47bf3241064498 James Smart 2020-03-31 @372  				  (lsreq->rqstlen + lsreq->rsplen),
-47bf3241064498 James Smart 2020-03-31  373  				  DMA_BIDIRECTIONAL);
-47bf3241064498 James Smart 2020-03-31  374  
-47bf3241064498 James Smart 2020-03-31  375  	nvmet_fc_tgtport_put(tgtport);
-47bf3241064498 James Smart 2020-03-31  376  }
-47bf3241064498 James Smart 2020-03-31  377  
 
-:::::: The code at line 372 was first introduced by commit
-:::::: 47bf3241064498878ffed10a69131be9154201eb nvmet-fc: Add Disconnect Association Xmt support
+vim +/dib0090_set_params +2542 drivers/media/dvb-frontends/dib0090.c
 
-:::::: TO: James Smart <jsmart2021@gmail.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2541  
+14d24d148c7521 drivers/media/dvb/frontends/dib0090.c Mauro Carvalho Chehab 2011-12-24 @2542  static int dib0090_set_params(struct dvb_frontend *fe)
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2543  {
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2544  	struct dib0090_state *state = fe->tuner_priv;
+28fafca78797be drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2011-01-04  2545  	u32 ret;
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2546  
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2547  	state->tune_state = CT_TUNER_START;
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2548  
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2549  	do {
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2550  		ret = dib0090_tune(fe);
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2551  		if (ret == FE_CALLBACK_TIME_NEVER)
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2552  			break;
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2553  
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2554  		/*
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2555  		 * Despite dib0090_tune returns time at a 0.1 ms range,
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2556  		 * the actual sleep time depends on CONFIG_HZ. The worse case
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2557  		 * is when CONFIG_HZ=100. In such case, the minimum granularity
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2558  		 * is 10ms. On some real field tests, the tuner sometimes don't
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2559  		 * lock when this timer is lower than 10ms. So, enforce a 10ms
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2560  		 * granularity and use usleep_range() instead of msleep().
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2561  		 */
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2562  		ret = 10 * (ret + 99)/100;
+0de04ca1dc0bd3 drivers/media/dvb-frontends/dib0090.c Mauro Carvalho Chehab 2014-07-04  2563  		usleep_range(ret * 1000, (ret + 1) * 1000);
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2564  	} while (state->tune_state != CT_TUNER_STOP);
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2565  
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2566  	return 0;
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2567  }
+03245a5ee69a5f drivers/media/dvb/frontends/dib0090.c Olivier Grenie        2009-12-04  2568  
+
+:::::: The code at line 2542 was first introduced by commit
+:::::: 14d24d148c7521b2b88b396652e36f55d061e195 [media] tuners: remove dvb_frontend_parameters from set_params()
+
+:::::: TO: Mauro Carvalho Chehab <mchehab@redhat.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
