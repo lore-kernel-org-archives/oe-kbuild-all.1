@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B65320F18
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 13:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A7BBE7B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 13:52:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692795822; x=1724331822;
+  t=1692798737; x=1724334737;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BquTohv3LwIJ9ZuikwtYbbBYyyhiYo0Kyiyvy539z84=;
-  b=lhjqdEJUV/F7nuRwV993IZ/pzTE0Ic2DrdpkQbDjR2InzjEExnMjgvLo
-   LPkgkq2Xaln2H5RQ2yLS3WgeARgWlCxnGlNipx/Yh8iRtZ8KMnfAQQHeN
-   GhwQLwVwqrzN0/QHBUCL1COCPQuE64nraTDOd03f+ZCvBSmkU9KKP8pBB
-   EYLLtlZRArIODQf59EEJp5pOAyqNDvhiLX1Uv1nQwpHUd5Noux5ieEiev
-   GW71jZohQTD3T8XpKBHxi/PwH+iGCvoGMNVha2mCa0o5kCFcDEZir6OGo
-   loKTahVHnavLMWw3NIZDOQoef0d8iM3sZJOk6+80Xfgx9SnXi6PZNJyKq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="376880735"
+  bh=H/NTYeuGA5/wyB8Cd9zpovHWYXMiV35WLMCejluzwPA=;
+  b=it42l30B2247SG1B1nx3rFebeVwgbeQeX38KGrtEGzOOS6hEe5wPQ8IB
+   hlV/NkLJjPiwpXuOyAP472jZt/v0vZ/5PqzHPaomP3Au8k/cXbke4SnO8
+   t49rUWzkauyhqwfQ4Ko9Jvrf0GjJzJ7UdxVlL7fG+8Ewe/Y/a7gS8NfXk
+   VpHR7LMz4/iMfAkGjAxpLmA/QexDYfqkW62vKrlWGXilkrZbfYi+tbN+z
+   GKLCVSl/pczLs19zxzs+ie51qCfUEYc2f1vwplP8MSYdioeOqZyfqzfyp
+   eNyMByhHRdEdgmR1xfjIJkvxOw4mIL5+H5kk7epROwohMyodg8p4PUvOv
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="377923015"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="376880735"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 05:58:10 -0700
+   d="scan'208";a="377923015"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 06:52:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="771709706"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="736680324"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="771709706"
+   d="scan'208";a="736680324"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 23 Aug 2023 05:58:08 -0700
+  by orsmga002.jf.intel.com with ESMTP; 23 Aug 2023 06:52:15 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYnR1-0001DL-2R;
-	Wed, 23 Aug 2023 12:58:07 +0000
-Date: Wed, 23 Aug 2023 20:57:43 +0800
+	id 1qYoHO-0001FV-2q;
+	Wed, 23 Aug 2023 13:52:14 +0000
+Date: Wed, 23 Aug 2023 21:51:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Subject: arch/sh/kernel/cpu/adc.c:22:15: sparse: sparse: incorrect type in
- argument 1 (different base types)
-Message-ID: <202308232042.kyTaPvw6-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10-2022-12 23043/23290]
+ drivers/dma-buf/dma-buf-sysfs-stats.c:142:2: error: static assertion failed
+ due to requirement 'sizeof(struct kobject) >= sizeof(struct work_struct)':
+ kobject is smaller than work_struct
+Message-ID: <202308232117.fAptHGNt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,194 +48,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   89bf6209cad66214d3774dac86b6bbf2aec6a30d
-commit: e5fc436f06eef54ef512ea55a9db8eb9f2e76959 sparse: use static inline for __chk_{user,io}_ptr()
-date:   3 years ago
-config: sh-randconfig-r122-20230822 (https://download.01.org/0day-ci/archive/20230823/202308232042.kyTaPvw6-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232042.kyTaPvw6-lkp@intel.com/reproduce)
+Hi Mercier,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2022-12
+head:   6bd08d107095ac76b3210aac75ee13576366885c
+commit: 5aec776ef8c9319df4938fa87e8f2df018426960 [23043/23290] BACKPORT: ANDROID: dma-buf: Move sysfs work out of DMA-BUF export path
+config: x86_64-randconfig-012-20230823 (https://download.01.org/0day-ci/archive/20230823/202308232117.fAptHGNt-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232117.fAptHGNt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308232042.kyTaPvw6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308232117.fAptHGNt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/sh/kernel/cpu/adc.c:22:15: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/kernel/cpu/adc.c:22:15: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/kernel/cpu/adc.c:22:15: sparse:     got unsigned int
-   arch/sh/kernel/cpu/adc.c:24:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/kernel/cpu/adc.c:24:9: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/kernel/cpu/adc.c:24:9: sparse:     got unsigned int
-   arch/sh/kernel/cpu/adc.c:27:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/kernel/cpu/adc.c:27:23: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/kernel/cpu/adc.c:27:23: sparse:     got unsigned int
-   arch/sh/kernel/cpu/adc.c:31:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/kernel/cpu/adc.c:31:9: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/kernel/cpu/adc.c:31:9: sparse:     got unsigned int
-   arch/sh/kernel/cpu/adc.c:33:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/kernel/cpu/adc.c:33:19: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/kernel/cpu/adc.c:33:19: sparse:     got unsigned int
-   arch/sh/kernel/cpu/adc.c:34:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/kernel/cpu/adc.c:34:17: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/kernel/cpu/adc.c:34:17: sparse:     got unsigned int
---
-   fs/binfmt_flat.c:402:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long const *__gu_addr @@     got unsigned long [noderef] __user *[assigned] ptr @@
-   fs/binfmt_flat.c:402:9: sparse:     expected unsigned long const *__gu_addr
-   fs/binfmt_flat.c:402:9: sparse:     got unsigned long [noderef] __user *[assigned] ptr
->> fs/binfmt_flat.c:402:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long const *__gu_addr @@
-   fs/binfmt_flat.c:402:9: sparse:     expected void const volatile [noderef] __user *ptr
-   fs/binfmt_flat.c:402:9: sparse:     got unsigned long const *__gu_addr
-   fs/binfmt_flat.c:775:29: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const *__gu_addr @@     got unsigned int [noderef] [usertype] __user *[assigned] rp @@
-   fs/binfmt_flat.c:775:29: sparse:     expected unsigned int const *__gu_addr
-   fs/binfmt_flat.c:775:29: sparse:     got unsigned int [noderef] [usertype] __user *[assigned] rp
-   fs/binfmt_flat.c:775:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int const *__gu_addr @@
-   fs/binfmt_flat.c:775:29: sparse:     expected void const volatile [noderef] __user *ptr
-   fs/binfmt_flat.c:775:29: sparse:     got unsigned int const *__gu_addr
-   fs/binfmt_flat.c:812:29: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected restricted __be32 const *__gu_addr @@     got restricted __be32 [noderef] [usertype] __user * @@
-   fs/binfmt_flat.c:812:29: sparse:     expected restricted __be32 const *__gu_addr
-   fs/binfmt_flat.c:812:29: sparse:     got restricted __be32 [noderef] [usertype] __user *
-   fs/binfmt_flat.c:812:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got restricted __be32 const *__gu_addr @@
-   fs/binfmt_flat.c:812:29: sparse:     expected void const volatile [noderef] __user *ptr
-   fs/binfmt_flat.c:812:29: sparse:     got restricted __be32 const *__gu_addr
-   fs/binfmt_flat.c:855:29: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected restricted __be32 const *__gu_addr @@     got restricted __be32 [noderef] [usertype] __user * @@
-   fs/binfmt_flat.c:855:29: sparse:     expected restricted __be32 const *__gu_addr
-   fs/binfmt_flat.c:855:29: sparse:     got restricted __be32 [noderef] [usertype] __user *
-   fs/binfmt_flat.c:855:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got restricted __be32 const *__gu_addr @@
-   fs/binfmt_flat.c:855:29: sparse:     expected void const volatile [noderef] __user *ptr
-   fs/binfmt_flat.c:855:29: sparse:     got restricted __be32 const *__gu_addr
-   fs/binfmt_flat.c:865:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got void [noderef] __user *__cl_addr @@
-   fs/binfmt_flat.c:865:13: sparse:     expected void *addr
-   fs/binfmt_flat.c:865:13: sparse:     got void [noderef] __user *__cl_addr
---
-   kernel/locking/lockdep_proc.c:448:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/locking/lockdep_proc.c:448:17: sparse:    char const [noderef] __rcu *
-   kernel/locking/lockdep_proc.c:448:17: sparse:    char const *
-   kernel/locking/lockdep_proc.c:449:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/locking/lockdep_proc.c:449:17: sparse:    struct lockdep_subclass_key const [noderef] __rcu *
-   kernel/locking/lockdep_proc.c:449:17: sparse:    struct lockdep_subclass_key const *
-   kernel/locking/lockdep_proc.c:649:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char const *__gu_addr @@     got char const [noderef] __user *buf @@
-   kernel/locking/lockdep_proc.c:649:21: sparse:     expected char const *__gu_addr
-   kernel/locking/lockdep_proc.c:649:21: sparse:     got char const [noderef] __user *buf
->> kernel/locking/lockdep_proc.c:649:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got char const *__gu_addr @@
-   kernel/locking/lockdep_proc.c:649:21: sparse:     expected void const volatile [noderef] __user *ptr
-   kernel/locking/lockdep_proc.c:649:21: sparse:     got char const *__gu_addr
---
-   drivers/hid/usbhid/hiddev.c:569:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int const *__gu_addr @@     got int [noderef] __user * @@
-   drivers/hid/usbhid/hiddev.c:569:13: sparse:     expected int const *__gu_addr
-   drivers/hid/usbhid/hiddev.c:569:13: sparse:     got int [noderef] __user *
->> drivers/hid/usbhid/hiddev.c:569:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got int const *__gu_addr @@
-   drivers/hid/usbhid/hiddev.c:569:13: sparse:     expected void const volatile [noderef] __user *ptr
-   drivers/hid/usbhid/hiddev.c:569:13: sparse:     got int const *__gu_addr
-   drivers/hid/usbhid/hiddev.c:664:29: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int const *__gu_addr @@     got int [noderef] __user * @@
-   drivers/hid/usbhid/hiddev.c:664:29: sparse:     expected int const *__gu_addr
-   drivers/hid/usbhid/hiddev.c:664:29: sparse:     got int [noderef] __user *
-   drivers/hid/usbhid/hiddev.c:664:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got int const *__gu_addr @@
-   drivers/hid/usbhid/hiddev.c:664:29: sparse:     expected void const volatile [noderef] __user *ptr
-   drivers/hid/usbhid/hiddev.c:664:29: sparse:     got int const *__gu_addr
---
-   drivers/media/rc/lirc_dev.c:378:23: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const *__gu_addr @@     got unsigned int [noderef] [usertype] __user *argp @@
-   drivers/media/rc/lirc_dev.c:378:23: sparse:     expected unsigned int const *__gu_addr
-   drivers/media/rc/lirc_dev.c:378:23: sparse:     got unsigned int [noderef] [usertype] __user *argp
->> drivers/media/rc/lirc_dev.c:378:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int const *__gu_addr @@
-   drivers/media/rc/lirc_dev.c:378:23: sparse:     expected void const volatile [noderef] __user *ptr
-   drivers/media/rc/lirc_dev.c:378:23: sparse:     got unsigned int const *__gu_addr
---
-   drivers/tee/tee_core.c:683:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const *__gu_addr @@     got unsigned int [noderef] __user * @@
-   drivers/tee/tee_core.c:683:13: sparse:     expected unsigned int const *__gu_addr
-   drivers/tee/tee_core.c:683:13: sparse:     got unsigned int [noderef] __user *
->> drivers/tee/tee_core.c:683:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int const *__gu_addr @@
-   drivers/tee/tee_core.c:683:13: sparse:     expected void const volatile [noderef] __user *ptr
-   drivers/tee/tee_core.c:683:13: sparse:     got unsigned int const *__gu_addr
-   drivers/tee/tee_core.c:781:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const *__gu_addr @@     got unsigned int [noderef] __user * @@
-   drivers/tee/tee_core.c:781:13: sparse:     expected unsigned int const *__gu_addr
-   drivers/tee/tee_core.c:781:13: sparse:     got unsigned int [noderef] __user *
-   drivers/tee/tee_core.c:781:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int const *__gu_addr @@
-   drivers/tee/tee_core.c:781:13: sparse:     expected void const volatile [noderef] __user *ptr
-   drivers/tee/tee_core.c:781:13: sparse:     got unsigned int const *__gu_addr
-   drivers/tee/tee_core.c:782:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const *__gu_addr @@     got unsigned int [noderef] __user * @@
-   drivers/tee/tee_core.c:782:13: sparse:     expected unsigned int const *__gu_addr
-   drivers/tee/tee_core.c:782:13: sparse:     got unsigned int [noderef] __user *
-   drivers/tee/tee_core.c:782:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int const *__gu_addr @@
-   drivers/tee/tee_core.c:782:13: sparse:     expected void const volatile [noderef] __user *ptr
-   drivers/tee/tee_core.c:782:13: sparse:     got unsigned int const *__gu_addr
---
-   sound/soc/uniphier/aio-compress.c:295:23: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const *__gu_addr @@     got unsigned int [noderef] [usertype] __user * @@
-   sound/soc/uniphier/aio-compress.c:295:23: sparse:     expected unsigned int const *__gu_addr
-   sound/soc/uniphier/aio-compress.c:295:23: sparse:     got unsigned int [noderef] [usertype] __user *
->> sound/soc/uniphier/aio-compress.c:295:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int const *__gu_addr @@
-   sound/soc/uniphier/aio-compress.c:295:23: sparse:     expected void const volatile [noderef] __user *ptr
-   sound/soc/uniphier/aio-compress.c:295:23: sparse:     got unsigned int const *__gu_addr
-   sound/soc/uniphier/aio-compress.c:309:34: sparse: sparse: cast to restricted __be16
-   sound/soc/uniphier/aio-compress.c:309:34: sparse: sparse: cast to restricted __be16
-   sound/soc/uniphier/aio-compress.c:309:34: sparse: sparse: cast to restricted __be16
-   sound/soc/uniphier/aio-compress.c:309:34: sparse: sparse: cast to restricted __be16
---
-   drivers/video/fbdev/s3c-fb.c:1024:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const *__gu_addr @@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/video/fbdev/s3c-fb.c:1024:21: sparse:     expected unsigned int const *__gu_addr
-   drivers/video/fbdev/s3c-fb.c:1024:21: sparse:     got unsigned int [noderef] [usertype] __user *
->> drivers/video/fbdev/s3c-fb.c:1024:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int const *__gu_addr @@
-   drivers/video/fbdev/s3c-fb.c:1024:21: sparse:     expected void const volatile [noderef] __user *ptr
-   drivers/video/fbdev/s3c-fb.c:1024:21: sparse:     got unsigned int const *__gu_addr
---
-   drivers/watchdog/at91rm9200_wdt.c:174:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int const *__gu_addr @@     got int [noderef] __user *p @@
-   drivers/watchdog/at91rm9200_wdt.c:174:21: sparse:     expected int const *__gu_addr
-   drivers/watchdog/at91rm9200_wdt.c:174:21: sparse:     got int [noderef] __user *p
->> drivers/watchdog/at91rm9200_wdt.c:174:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got int const *__gu_addr @@
-   drivers/watchdog/at91rm9200_wdt.c:174:21: sparse:     expected void const volatile [noderef] __user *ptr
-   drivers/watchdog/at91rm9200_wdt.c:174:21: sparse:     got int const *__gu_addr
-   drivers/watchdog/at91rm9200_wdt.c:185:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected int const *__gu_addr @@     got int [noderef] __user *p @@
-   drivers/watchdog/at91rm9200_wdt.c:185:21: sparse:     expected int const *__gu_addr
-   drivers/watchdog/at91rm9200_wdt.c:185:21: sparse:     got int [noderef] __user *p
-   drivers/watchdog/at91rm9200_wdt.c:185:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got int const *__gu_addr @@
-   drivers/watchdog/at91rm9200_wdt.c:185:21: sparse:     expected void const volatile [noderef] __user *ptr
-   drivers/watchdog/at91rm9200_wdt.c:185:21: sparse:     got int const *__gu_addr
-   drivers/watchdog/at91rm9200_wdt.c:219:27: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *write )( ... ) @@     got int ( * )( ... ) @@
-   drivers/watchdog/at91rm9200_wdt.c:219:27: sparse:     expected int ( *write )( ... )
-   drivers/watchdog/at91rm9200_wdt.c:219:27: sparse:     got int ( * )( ... )
---
->> arch/sh/oprofile/backtrace.c:43:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long *stackaddr @@
-   arch/sh/oprofile/backtrace.c:43:14: sparse:     expected void const volatile [noderef] __user *ptr
-   arch/sh/oprofile/backtrace.c:43:14: sparse:     got unsigned long *stackaddr
-   arch/sh/oprofile/backtrace.c:46:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned long *stackaddr @@
-   arch/sh/oprofile/backtrace.c:46:51: sparse:     expected void const [noderef] __user *from
-   arch/sh/oprofile/backtrace.c:46:51: sparse:     got unsigned long *stackaddr
+All errors (new ones prefixed by >>):
 
-vim +22 arch/sh/kernel/cpu/adc.c
+>> drivers/dma-buf/dma-buf-sysfs-stats.c:142:2: error: static assertion failed due to requirement 'sizeof(struct kobject) >= sizeof(struct work_struct)': kobject is smaller than work_struct
+           _Static_assert(sizeof(struct kobject) >= sizeof(struct work_struct),
+           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/dma-buf-sysfs-stats.c:142:40: note: expression evaluates to '64 >= 80'
+           _Static_assert(sizeof(struct kobject) >= sizeof(struct work_struct),
+                          ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  11  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  12  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  13  int adc_single(unsigned int channel)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  14  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  15  	int off;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  16  	unsigned char csr;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  17  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  18  	if (channel >= 8) return -1;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  19  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  20  	off = (channel & 0x03) << 2;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  21  
-9d56dd3b083a3b Paul Mundt     2010-01-26 @22  	csr = __raw_readb(ADCSR);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  23  	csr = channel | ADCSR_ADST | ADCSR_CKS;
-9d56dd3b083a3b Paul Mundt     2010-01-26  24  	__raw_writeb(csr, ADCSR);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  25  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  26  	do {
-9d56dd3b083a3b Paul Mundt     2010-01-26  27  		csr = __raw_readb(ADCSR);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  28  	} while ((csr & ADCSR_ADF) == 0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  29  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  30  	csr &= ~(ADCSR_ADF | ADCSR_ADST);
-9d56dd3b083a3b Paul Mundt     2010-01-26  31  	__raw_writeb(csr, ADCSR);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  32  
-9d56dd3b083a3b Paul Mundt     2010-01-26  33  	return (((__raw_readb(ADDRAH + off) << 8) |
-9d56dd3b083a3b Paul Mundt     2010-01-26  34  		__raw_readb(ADDRAL + off)) >> 6);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  35  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  36  
 
-:::::: The code at line 22 was first introduced by commit
-:::::: 9d56dd3b083a3bec56e9da35ce07baca81030b03 sh: Mass ctrl_in/outX to __raw_read/writeX conversion.
+vim +142 drivers/dma-buf/dma-buf-sysfs-stats.c
 
-:::::: TO: Paul Mundt <lethal@linux-sh.org>
-:::::: CC: Paul Mundt <lethal@linux-sh.org>
+   138	
+   139	static void sysfs_add_workfn(struct work_struct *work)
+   140	{
+   141		/* The ABI would have to change for this to be false, but let's be paranoid. */
+ > 142		_Static_assert(sizeof(struct kobject) >= sizeof(struct work_struct),
+   143			"kobject is smaller than work_struct");
+   144	
+   145		struct dma_buf_sysfs_entry *sysfs_entry =
+   146			container_of((struct kobject *)work, struct dma_buf_sysfs_entry, kobj);
+   147		struct dma_buf *dmabuf = sysfs_entry->dmabuf;
+   148	
+   149		/*
+   150		 * A dmabuf is ref-counted via its file member. If this handler holds the only
+   151		 * reference to the dmabuf, there is no need for sysfs kobject creation. This is an
+   152		 * optimization and a race; when the reference count drops to 1 immediately after
+   153		 * this check it is not harmful as the sysfs entry will still get cleaned up in
+   154		 * dma_buf_stats_teardown, which won't get called until the final dmabuf reference
+   155		 * is released, and that can't happen until the end of this function.
+   156		 */
+   157		if (file_count(dmabuf->file) > 1) {
+   158			/*
+   159			 * kobject_init_and_add expects kobject to be zero-filled, but we have populated it
+   160			 * to trigger this work function.
+   161			 */
+   162			memset(&dmabuf->sysfs_entry->kobj, 0, sizeof(dmabuf->sysfs_entry->kobj));
+   163			dmabuf->sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
+   164			if (kobject_init_and_add(&dmabuf->sysfs_entry->kobj, &dma_buf_ktype, NULL,
+   165							"%lu", file_inode(dmabuf->file)->i_ino)) {
+   166				kobject_put(&dmabuf->sysfs_entry->kobj);
+   167				dmabuf->sysfs_entry = NULL;
+   168			}
+   169		} else {
+   170			/*
+   171			 * Free the sysfs_entry and reset the pointer so dma_buf_stats_teardown doesn't
+   172			 * attempt to operate on it.
+   173			 */
+   174			kfree(dmabuf->sysfs_entry);
+   175			dmabuf->sysfs_entry = NULL;
+   176		}
+   177		dma_buf_put(dmabuf);
+   178	}
+   179	
 
 -- 
 0-DAY CI Kernel Test Service
