@@ -1,46 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C286FA940
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 12:20:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD08C132
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 12:33:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692793200; x=1724329200;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=58i9UZ4uOkfxY9He9AhTZG1ivpLYgdX1oN+5EKz0+3g=;
-  b=lLlcIbNrV12DHfvadFPKbRi3vZLXwUmx3ECRhdNBjWr0yPkISWNZg5WB
-   3PAG47bLCSPUq/6z4ciHmWrnO8kEOlw0SYoLQyGEHFeudTo1LqkmLb2ZF
-   ZXUi7AN7+NyGjZRBkuxqykSRD+AAfFNPTpL5J9Pn+QBD9VA2NBJl97VqC
-   jDMD5WCaiUnVB0TDdgkXxsEd/GWsD73vc7dwAzp8qXEOrFmcX55riH9QM
-   DjnNBCUXbiO/+NCGrglQ3kzjQCrW6Rju2zEg4oAONhsO/e8KSagHV0vuL
-   D4OTs0f6w1xbP1SgYPUQk2PGRne6iqiIEDddUyohTevK/dtUPqoAlXC7O
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="438081772"
+  t=1692793980; x=1724329980;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XnpA35LfJDLKCRlvJjVhs2705u6X9OOp+1E2Ns9N6Lw=;
+  b=kZjv1IxRYRUmp1BCQnVzHayvI/3/QqPFFFMo6x5rYReh0QcxlT2BBJjn
+   5j4iuUVtYNu0nSda69p/aioySOEqCzIH8M1RxYiQ2frVAqja5Z13e5pI6
+   RSqHKxsRMtNlBRewKozKZt5CdkNAHcYOJ0Z8EJW0ZMFhFPzxSx9CSBU1b
+   emNyIDoSWVlUb+wmaN573Zj6Wj8g16pxO/z7GgW8Vvxr66jyBiTGi+05+
+   ohANZBbOureIG43s/M6MIjKAGNHyPRxRjzuBersQ7d+hfb1QuY3DI06V3
+   3n2aIxQK/312hRdhBmDXtmPwqo5RH7E7g4ZZrFECeoNvYYE26NIuWLC/Z
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="353697915"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="438081772"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 05:19:57 -0700
+   d="scan'208";a="353697915"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 05:32:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="802086805"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="739762317"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="802086805"
+   d="scan'208";a="739762317"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Aug 2023 05:19:55 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 23 Aug 2023 05:32:58 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYmq3-0001BO-0G;
-	Wed, 23 Aug 2023 12:19:55 +0000
-Date: Wed, 23 Aug 2023 20:18:55 +0800
+	id 1qYn2f-0001Bs-0t;
+	Wed, 23 Aug 2023 12:32:57 +0000
+Date: Wed, 23 Aug 2023 20:32:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH] tracing: Fix to avoid wakeup loop in splice read of
- per-cpu buffer
-Message-ID: <202308232056.401OxapL-lkp@intel.com>
-References: <169262755804.106231.8245792908363050528.stgit@devnote2>
+To: Stefan Roesch <shr@devkernel.io>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 11986/12208] fs/proc/task_mmu.c:457:40: error:
+ implicit declaration of function 'is_ksm_zero_pte'
+Message-ID: <202308232003.eoFc7Z2h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,162 +47,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <169262755804.106231.8245792908363050528.stgit@devnote2>
 
-Hi Masami,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.5-rc7 next-20230823]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Fix-to-avoid-wakeup-loop-in-splice-read-of-per-cpu-buffer/20230821-222307
-base:   linus/master
-patch link:    https://lore.kernel.org/r/169262755804.106231.8245792908363050528.stgit%40devnote2
-patch subject: [PATCH] tracing: Fix to avoid wakeup loop in splice read of per-cpu buffer
-config: mips-randconfig-r131-20230823 (https://download.01.org/0day-ci/archive/20230823/202308232056.401OxapL-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232056.401OxapL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e3f80d3eae76c3557b3c9b5938ad01c0e6cf25ec
+commit: 5233d9beb1a81c08d8155b62df5e9635ee99ee27 [11986/12208] proc/ksm: add ksm stats to /proc/pid/smaps
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230823/202308232003.eoFc7Z2h-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232003.eoFc7Z2h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308232056.401OxapL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308232003.eoFc7Z2h-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/trace.c:446:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct trace_export **list @@     got struct trace_export [noderef] __rcu ** @@
-   kernel/trace/trace.c:446:28: sparse:     expected struct trace_export **list
-   kernel/trace/trace.c:446:28: sparse:     got struct trace_export [noderef] __rcu **
-   kernel/trace/trace.c:460:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct trace_export **list @@     got struct trace_export [noderef] __rcu ** @@
-   kernel/trace/trace.c:460:33: sparse:     expected struct trace_export **list
-   kernel/trace/trace.c:460:33: sparse:     got struct trace_export [noderef] __rcu **
-   kernel/trace/trace.c:2959:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct event_filter *filter @@     got struct event_filter [noderef] __rcu *filter @@
-   kernel/trace/trace.c:2959:38: sparse:     expected struct event_filter *filter
-   kernel/trace/trace.c:2959:38: sparse:     got struct event_filter [noderef] __rcu *filter
->> kernel/trace/trace.c:8481:25: sparse: sparse: incompatible types in comparison expression (different type sizes):
->> kernel/trace/trace.c:8481:25: sparse:    unsigned int *
->> kernel/trace/trace.c:8481:25: sparse:    unsigned long long [usertype] *
-   kernel/trace/trace.c:400:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/trace/trace.c:400:9: sparse:    struct trace_export [noderef] __rcu *
-   kernel/trace/trace.c:400:9: sparse:    struct trace_export *
-   kernel/trace/trace.c:415:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/trace/trace.c:415:9: sparse:    struct trace_export [noderef] __rcu *
-   kernel/trace/trace.c:415:9: sparse:    struct trace_export *
->> kernel/trace/trace.c:8481:25: sparse: sparse: shift too big (32) for type unsigned int
+Note: the linux-next/master HEAD e3f80d3eae76c3557b3c9b5938ad01c0e6cf25ec builds fine.
+      It may have been fixed somewhere.
 
-vim +8481 kernel/trace/trace.c
+All errors (new ones prefixed by >>):
 
-  8400	
-  8401		if (*ppos & (PAGE_SIZE - 1))
-  8402			return -EINVAL;
-  8403	
-  8404		if (len & (PAGE_SIZE - 1)) {
-  8405			if (len < PAGE_SIZE)
-  8406				return -EINVAL;
-  8407			len &= PAGE_MASK;
-  8408		}
-  8409	
-  8410		if (splice_grow_spd(pipe, &spd))
-  8411			return -ENOMEM;
-  8412	
-  8413	 again:
-  8414		trace_access_lock(iter->cpu_file);
-  8415		entries = ring_buffer_entries_cpu(iter->array_buffer->buffer, iter->cpu_file);
-  8416	
-  8417		for (i = 0; i < spd.nr_pages_max && len && entries; i++, len -= PAGE_SIZE) {
-  8418			struct page *page;
-  8419			int r;
-  8420	
-  8421			ref = kzalloc(sizeof(*ref), GFP_KERNEL);
-  8422			if (!ref) {
-  8423				ret = -ENOMEM;
-  8424				break;
-  8425			}
-  8426	
-  8427			refcount_set(&ref->refcount, 1);
-  8428			ref->buffer = iter->array_buffer->buffer;
-  8429			ref->page = ring_buffer_alloc_read_page(ref->buffer, iter->cpu_file);
-  8430			if (IS_ERR(ref->page)) {
-  8431				ret = PTR_ERR(ref->page);
-  8432				ref->page = NULL;
-  8433				kfree(ref);
-  8434				break;
-  8435			}
-  8436			ref->cpu = iter->cpu_file;
-  8437	
-  8438			r = ring_buffer_read_page(ref->buffer, &ref->page,
-  8439						  len, iter->cpu_file, 1);
-  8440			if (r < 0) {
-  8441				ring_buffer_free_read_page(ref->buffer, ref->cpu,
-  8442							   ref->page);
-  8443				kfree(ref);
-  8444				break;
-  8445			}
-  8446	
-  8447			page = virt_to_page(ref->page);
-  8448	
-  8449			spd.pages[i] = page;
-  8450			spd.partial[i].len = PAGE_SIZE;
-  8451			spd.partial[i].offset = 0;
-  8452			spd.partial[i].private = (unsigned long)ref;
-  8453			spd.nr_pages++;
-  8454			*ppos += PAGE_SIZE;
-  8455	
-  8456			entries = ring_buffer_entries_cpu(iter->array_buffer->buffer, iter->cpu_file);
-  8457		}
-  8458	
-  8459		trace_access_unlock(iter->cpu_file);
-  8460		spd.nr_pages = i;
-  8461	
-  8462		/* did we read anything? */
-  8463		if (!spd.nr_pages) {
-  8464			long wait_index;
-  8465			size_t nr_pages;
-  8466			size_t full;
-  8467	
-  8468			if (ret)
-  8469				goto out;
-  8470	
-  8471			ret = -EAGAIN;
-  8472			if ((file->f_flags & O_NONBLOCK) || (flags & SPLICE_F_NONBLOCK))
-  8473				goto out;
-  8474	
-  8475			wait_index = READ_ONCE(iter->wait_index);
-  8476	
-  8477			/* For splice, we have to ensure at least 1 page is filled */
-  8478			nr_pages = ring_buffer_nr_pages(iter->array_buffer->buffer, iter->cpu_file);
-  8479			if (nr_pages * iter->tr->buffer_percent < 100) {
-  8480				full = nr_pages + 99;
-> 8481				do_div(full, nr_pages);
-  8482			} else
-  8483				full = iter->tr->buffer_percent;
-  8484	
-  8485			ret = wait_on_pipe(iter, full);
-  8486			if (ret)
-  8487				goto out;
-  8488	
-  8489			/* No need to wait after waking up when tracing is off */
-  8490			if (!tracer_tracing_is_on(iter->tr))
-  8491				goto out;
-  8492	
-  8493			/* Make sure we see the new wait_index */
-  8494			smp_rmb();
-  8495			if (wait_index != iter->wait_index)
-  8496				goto out;
-  8497	
-  8498			goto again;
-  8499		}
-  8500	
-  8501		ret = splice_to_pipe(pipe, &spd);
-  8502	out:
-  8503		splice_shrink_spd(&spd);
-  8504	
-  8505		return ret;
-  8506	}
-  8507	
+   fs/proc/task_mmu.c: In function 'smaps_account':
+>> fs/proc/task_mmu.c:457:40: error: implicit declaration of function 'is_ksm_zero_pte' [-Werror=implicit-function-declaration]
+     457 |         if (PageKsm(page) && (!pte || !is_ksm_zero_pte(*pte)))
+         |                                        ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/is_ksm_zero_pte +457 fs/proc/task_mmu.c
+
+   439	
+   440	static void smaps_account(struct mem_size_stats *mss, pte_t *pte,
+   441			struct page *page, bool compound, bool young, bool dirty,
+   442			bool locked, bool migration)
+   443	{
+   444		int i, nr = compound ? compound_nr(page) : 1;
+   445		unsigned long size = nr * PAGE_SIZE;
+   446	
+   447		/*
+   448		 * First accumulate quantities that depend only on |size| and the type
+   449		 * of the compound page.
+   450		 */
+   451		if (PageAnon(page)) {
+   452			mss->anonymous += size;
+   453			if (!PageSwapBacked(page) && !dirty && !PageDirty(page))
+   454				mss->lazyfree += size;
+   455		}
+   456	
+ > 457		if (PageKsm(page) && (!pte || !is_ksm_zero_pte(*pte)))
+   458			mss->ksm += size;
+   459	
+   460		mss->resident += size;
+   461		/* Accumulate the size in pages that have been accessed. */
+   462		if (young || page_is_young(page) || PageReferenced(page))
+   463			mss->referenced += size;
+   464	
+   465		/*
+   466		 * Then accumulate quantities that may depend on sharing, or that may
+   467		 * differ page-by-page.
+   468		 *
+   469		 * page_count(page) == 1 guarantees the page is mapped exactly once.
+   470		 * If any subpage of the compound page mapped with PTE it would elevate
+   471		 * page_count().
+   472		 *
+   473		 * The page_mapcount() is called to get a snapshot of the mapcount.
+   474		 * Without holding the page lock this snapshot can be slightly wrong as
+   475		 * we cannot always read the mapcount atomically.  It is not safe to
+   476		 * call page_mapcount() even with PTL held if the page is not mapped,
+   477		 * especially for migration entries.  Treat regular migration entries
+   478		 * as mapcount == 1.
+   479		 */
+   480		if ((page_count(page) == 1) || migration) {
+   481			smaps_page_accumulate(mss, page, size, size << PSS_SHIFT, dirty,
+   482				locked, true);
+   483			return;
+   484		}
+   485		for (i = 0; i < nr; i++, page++) {
+   486			int mapcount = page_mapcount(page);
+   487			unsigned long pss = PAGE_SIZE << PSS_SHIFT;
+   488			if (mapcount >= 2)
+   489				pss /= mapcount;
+   490			smaps_page_accumulate(mss, page, PAGE_SIZE, pss, dirty, locked,
+   491					      mapcount < 2);
+   492		}
+   493	}
+   494	
 
 -- 
 0-DAY CI Kernel Test Service
