@@ -1,120 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36D520F16
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 06:19:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 938C3C433C7;
-	Wed, 23 Aug 2023 06:19:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692771561;
-	bh=hRs5dH0ZEPcb6II3vz8akVjaVIarEG42/y1v3tkpUzg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UbMFTgwT5DIncy9OyNxvxDcjJUmUgPFw7S5x606CbXJpl2Ajsbj6TiDFa/YQ78dFo
-	 1+xteboubD3G3s2MMuyXy7QqqaOpnoMuXlTFuZs1E0QwQR/S7H4ciOpbbZTs8BD8T0
-	 8l8KYh2C/htx1VRg17/k91/sHkNTodHdEZ4IORwl7MM3q0gbMowADeU8FOT74pFuEG
-	 jb6nHdr6AO1SubsNLRkHgMqKZliGUYRAHjHivlSBs95f500FCOHFu984DexcWtjTVw
-	 sRvufy3n7QSLO17xEiOpa46LpK20gEYM9LCIxNrJUyUZht9U30Ml8YPOhPJ+lqxC6Z
-	 x9ciOHFMWXwig==
-Date: Wed, 23 Aug 2023 11:49:04 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-	manivannan.sadhasivam@linaro.org, oe-kbuild-all@lists.linux.dev,
-	helgaas@kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
-	quic_skananth@quicinc.com, quic_ramkri@quicinc.com,
-	quic_parass@quicinc.com, krzysztof.kozlowski@linaro.org,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
-Message-ID: <20230823061904.GC3737@thinkpad>
-References: <1690948281-2143-2-git-send-email-quic_krichai@quicinc.com>
- <202308021312.obgu7FWM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92824846D;
+	Wed, 23 Aug 2023 07:35:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692776101; x=1724312101;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+WoV4tVJSCaUjsWyOMHHl7owKPLxv8Zvbh4nBhVd9LM=;
+  b=SI2j6nZ4LaqLJ8a2WO3F2L/26BZtorLiWyIvlQntflipeDH2G3+55sjT
+   uFS7XNzQQU9iV6E1jmEgBby7rNSxtyqIe6NABZT0qgBOUDEENML1I/GBp
+   xESdB22qksW7Ra+fbR+FPVnrJy89wQq8aHFiaCXR2XkpxmQbQ5dbQImaU
+   YmnR6J1C3KTO/Fk/NeJcDDIB/OM9tmvRz+5MXBys/2E1003Kk7o6l7PRK
+   90+jW6I8iv6+2yylSb6k5evP6c1hYGMRbgetXCgcGiiHsu2bRt29bb79G
+   X+4GtCaKOCOriTc+kh1fQEj+h/PViijJis7j0aApxs7Fcbwo2dQfCajv/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="460459184"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="460459184"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 00:34:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="713476425"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="713476425"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 23 Aug 2023 00:34:56 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qYiOF-0000y4-2F;
+	Wed, 23 Aug 2023 07:34:55 +0000
+Date: Wed, 23 Aug 2023 15:34:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Antipov <dmantipov@yandex.ru>,
+	Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kalle Valo <kvalo@kernel.org>, ath10k@lists.infradead.org,
+	linux-wireless@vger.kernel.org, lvc-project@linuxtesting.org,
+	Dmitry Antipov <dmantipov@yandex.ru>
+Subject: Re: [PATCH 1/3] wifi: ath10k: cleanup CE initialization
+Message-ID: <202308231552.qVY1nOZs-lkp@intel.com>
+References: <20230822155532.95983-1-dmantipov@yandex.ru>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202308021312.obgu7FWM-lkp@intel.com>
+In-Reply-To: <20230822155532.95983-1-dmantipov@yandex.ru>
 
-On Wed, Aug 02, 2023 at 01:14:44PM +0800, kernel test robot wrote:
-> Hi Krishna,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on pci/next]
-> [also build test WARNING on pci/for-linus linus/master v6.5-rc4 next-20230801]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/PCI-endpoint-Add-D-state-change-notifier-support/20230802-115309
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> patch link:    https://lore.kernel.org/r/1690948281-2143-2-git-send-email-quic_krichai%40quicinc.com
-> patch subject: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
-> config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230802/202308021312.obgu7FWM-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021312.obgu7FWM-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308021312.obgu7FWM-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/pci/endpoint/pci-epc-core.c:795:6: warning: no previous prototype for 'pci_epc_dstate_notity' [-Wmissing-prototypes]
->      795 | void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
+Hi Dmitry,
 
-This tells that you haven't build tested the series before sending. Please
-always do both build and functionality testing before sending each iteration.
+kernel test robot noticed the following build warnings:
 
-- Mani
+[auto build test WARNING on kvalo-ath/ath-next]
+[also build test WARNING on wireless-next/main wireless/main linus/master v6.5-rc7 next-20230822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->          |      ^~~~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +/pci_epc_dstate_notity +795 drivers/pci/endpoint/pci-epc-core.c
-> 
->    785	
->    786	/**
->    787	 * pci_epc_dstate_notity() - Notify the EPF driver that EPC device D-state
->    788	 *			has changed
->    789	 * @epc: the EPC device which has change in D-state
->    790	 * @state: the changed D-state
->    791	 *
->    792	 * Invoke to Notify the EPF device that the EPC device has D-state has
->    793	 * changed.
->    794	 */
->  > 795	void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
->    796	{
->    797		struct pci_epf *epf;
->    798	
->    799		if (!epc || IS_ERR(epc))
->    800			return;
->    801	
->    802		mutex_lock(&epc->list_lock);
->    803		list_for_each_entry(epf, &epc->pci_epf, list) {
->    804			mutex_lock(&epf->lock);
->    805			if (epf->event_ops && epf->event_ops->dstate_notify)
->    806				epf->event_ops->dstate_notify(epf, state);
->    807			mutex_unlock(&epf->lock);
->    808		}
->    809		mutex_unlock(&epc->list_lock);
->    810	}
->    811	EXPORT_SYMBOL_GPL(pci_epc_dstate_notity);
->    812	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Antipov/wifi-ath10k-simplify-ath10k_peer_assoc_h_vht/20230822-235854
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git ath-next
+patch link:    https://lore.kernel.org/r/20230822155532.95983-1-dmantipov%40yandex.ru
+patch subject: [PATCH 1/3] wifi: ath10k: cleanup CE initialization
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230823/202308231552.qVY1nOZs-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231552.qVY1nOZs-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308231552.qVY1nOZs-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/wireless/ath/ath10k/snoc.c:1083:1: warning: unused label 'err_free_rri' [-Wunused-label]
+   err_free_rri:
+   ^~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/err_free_rri +1083 drivers/net/wireless/ath/ath10k/snoc.c
+
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1056  
+3c545a25939c27 Rakesh Pillai  2019-02-08  1057  static int ath10k_snoc_hif_power_up(struct ath10k *ar,
+3c545a25939c27 Rakesh Pillai  2019-02-08  1058  				    enum ath10k_firmware_mode fw_mode)
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1059  {
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1060  	int ret;
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1061  
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1062  	ath10k_dbg(ar, ATH10K_DBG_SNOC, "%s:WCN3990 driver state = %d\n",
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1063  		   __func__, ar->state);
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1064  
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1065  	ret = ath10k_hw_power_on(ar);
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1066  	if (ret) {
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1067  		ath10k_err(ar, "failed to power on device: %d\n", ret);
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1068  		return ret;
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1069  	}
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1070  
+3c545a25939c27 Rakesh Pillai  2019-02-08  1071  	ret = ath10k_snoc_wlan_enable(ar, fw_mode);
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1072  	if (ret) {
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1073  		ath10k_err(ar, "failed to enable wcn3990: %d\n", ret);
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1074  		goto err_hw_power_off;
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1075  	}
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1076  
+4945af5b264fbd Govind Singh   2018-04-17  1077  	ath10k_ce_alloc_rri(ar);
+4945af5b264fbd Govind Singh   2018-04-17  1078  
+7279d6262224cd Dmitry Antipov 2023-08-22  1079  	ath10k_snoc_init_pipes(ar);
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1080  
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1081  	return 0;
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1082  
+31561e8557cd1e Rakesh Pillai  2020-12-12 @1083  err_free_rri:
+31561e8557cd1e Rakesh Pillai  2020-12-12  1084  	ath10k_ce_free_rri(ar);
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1085  	ath10k_snoc_wlan_disable(ar);
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1086  
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1087  err_hw_power_off:
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1088  	ath10k_hw_power_off(ar);
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1089  
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1090  	return ret;
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1091  }
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1092  
 
 -- 
-மணிவண்ணன் சதாசிவம்
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
