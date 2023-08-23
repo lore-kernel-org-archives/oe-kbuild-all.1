@@ -1,44 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDDA9448;
-	Wed, 23 Aug 2023 15:02:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE31FC8ED
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 16:08:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692802935; x=1724338935;
+  t=1692806933; x=1724342933;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XoYlHaV0VXAIjcphGBJfb0IW7ncRV0piEo6vbID/CmM=;
-  b=gGMfywz+2exfsjXXFVHhm9aLvDhsfb5I235w+/JpRLQ80/auVfXmTEAd
-   yTkgDrvXXkECdKTPLW3vOVJB/g5/ZXQTlMmPbvmhKo22ET/a4wLpvjkt/
-   6XrhYRhcqPdirHTbusdc4fR2gSv9ibVpEno+TDfhxAwju0fGu/lRKH71U
-   dV9H0Nt3y5/mslKAYD+b1RpFblPiO+tVRadpCkO5zNBbF5i8sHtHn95ta
-   ayR7b6nUdh7tWdsJxjmgj5nqGwX7Omff9s1LyMeuQJEoXzWs1CHq4wPK+
-   KnUuGXRJGyg8R7T9flw7Iplcz8HrUk134U3YQsCSeVDi19of7nHkuWkQl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="405183515"
+  bh=GdSC7CFYdriPz8asefgmK7GQ58pymgMhzulv8Eqm/xI=;
+  b=iS5puPKB6y2uon3RWOSrjy//gzUuXTo3zo0ifjZB0OO7XUSLg8vAZ1w2
+   8yclty2osXFnVYXGfKDLg9xpBZiPPr/08Jopi5q+46xxaS1+vzGL/ZT98
+   Tgqawg5WQgIrpfVC+3yMFRy+/mhFQenfCJkzyN6nI6ApkScXUAxncAaC5
+   LFF2Tat4e0hab/aJy+cqffaUoLUWfP29mAKJ5ceNxzCdTlNgVt2wgmO8A
+   bRWTTsS2SGmJsVh2DmHv66RJW1vWvipICdvyS7baEcca/c2bTPOWd/y7s
+   7wZdheBCvxJqfqO8b7nKjC4yPDG0s9cgrk1ODWWWl5D7HU64hhMbJmTPv
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="460566906"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="405183515"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 08:02:14 -0700
+   d="scan'208";a="460566906"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 09:05:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="983328547"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="766187930"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="983328547"
+   d="scan'208";a="766187930"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 23 Aug 2023 08:02:12 -0700
+  by orsmga008.jf.intel.com with ESMTP; 23 Aug 2023 09:05:46 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYpN5-0001J6-2y;
-	Wed, 23 Aug 2023 15:02:11 +0000
-Date: Wed, 23 Aug 2023 23:01:27 +0800
+	id 1qYqMX-0001L9-12;
+	Wed, 23 Aug 2023 16:05:42 +0000
+Date: Thu, 24 Aug 2023 00:04:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Roesch <shr@devkernel.io>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 11986/12208] fs/proc/task_mmu.c:457:33: error:
- implicit declaration of function 'is_ksm_zero_pte' is invalid in C99
-Message-ID: <202308232225.dKxD5VzA-lkp@intel.com>
+To: Jan Kara <jack@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jack-fs:bdev_handle 15/30] drivers/s390/block/dasd.c:67:13:
+ warning: 'do_requeue_requests' used but never defined
+Message-ID: <202308232301.dWUtJveH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,168 +46,174 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e3f80d3eae76c3557b3c9b5938ad01c0e6cf25ec
-commit: 5233d9beb1a81c08d8155b62df5e9635ee99ee27 [11986/12208] proc/ksm: add ksm stats to /proc/pid/smaps
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230823/202308232225.dKxD5VzA-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232225.dKxD5VzA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git bdev_handle
+head:   da5dcba801d35f1a8fba1aa1e5eaf1e769a4373d
+commit: 95c993a9b1178afc4f000bfef7bcfb9ea10abb6a [15/30] s390/dasd: Convert to bdev_open_by_path()
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230823/202308232301.dWUtJveH-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232301.dWUtJveH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308232225.dKxD5VzA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308232301.dWUtJveH-lkp@intel.com/
 
-Note: the linux-next/master HEAD e3f80d3eae76c3557b3c9b5938ad01c0e6cf25ec builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+      74 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:86:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      86 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:3946:1: note: in expansion of macro 'EXPORT_SYMBOL'
+    3946 | EXPORT_SYMBOL(dasd_schedule_requeue);
+         | ^~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:3939:6: note: previous definition of 'dasd_schedule_requeue' with type 'void(struct dasd_device *)'
+    3939 | void dasd_schedule_requeue(struct dasd_device *device)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:3948:12: error: invalid storage class for function 'dasd_handle_autoquiesce'
+    3948 | static int dasd_handle_autoquiesce(struct dasd_device *device,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:3973:29: error: invalid storage class for function 'dasd_generic_build_rdc'
+    3973 | static struct dasd_ccw_req *dasd_generic_build_rdc(struct dasd_device *device,
+         |                             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:4022:19: error: non-static declaration of 'dasd_generic_read_dev_chars' follows static declaration
+    4022 | EXPORT_SYMBOL_GPL(dasd_generic_read_dev_chars);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
+      74 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:4022:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    4022 | EXPORT_SYMBOL_GPL(dasd_generic_read_dev_chars);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:4006:5: note: previous definition of 'dasd_generic_read_dev_chars' with type 'int(struct dasd_device *, int,  void *, int)'
+    4006 | int dasd_generic_read_dev_chars(struct dasd_device *device, int magic,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:4055:19: error: non-static declaration of 'dasd_get_sense' follows static declaration
+    4055 | EXPORT_SYMBOL_GPL(dasd_get_sense);
+         |                   ^~~~~~~~~~~~~~
+   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
+      74 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:4055:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    4055 | EXPORT_SYMBOL_GPL(dasd_get_sense);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:4030:7: note: previous definition of 'dasd_get_sense' with type 'char *(struct irb *)'
+    4030 | char *dasd_get_sense(struct irb *irb)
+         |       ^~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:4072:19: error: non-static declaration of 'dasd_generic_shutdown' follows static declaration
+    4072 | EXPORT_SYMBOL_GPL(dasd_generic_shutdown);
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
+      74 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:4072:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    4072 | EXPORT_SYMBOL_GPL(dasd_generic_shutdown);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:4057:6: note: previous definition of 'dasd_generic_shutdown' with type 'void(struct ccw_device *)'
+    4057 | void dasd_generic_shutdown(struct ccw_device *cdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c:4074:19: error: invalid storage class for function 'dasd_init'
+    4074 | static int __init dasd_init(void)
+         |                   ^~~~~~~~~
+   In file included from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/s390/include/asm/bug.h:69,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from arch/s390/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:79:
+   drivers/s390/block/dasd.c:4123:13: error: initializer element is not constant
+    4123 | module_init(dasd_init);
+         |             ^~~~~~~~~
+   include/linux/init.h:270:55: note: in definition of macro '____define_initcall'
+     270 |                 __attribute__((__section__(__sec))) = fn;
+         |                                                       ^~
+   include/linux/init.h:280:9: note: in expansion of macro '__unique_initcall'
+     280 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:282:35: note: in expansion of macro '___define_initcall'
+     282 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
+         |                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/init.h:311:41: note: in expansion of macro '__define_initcall'
+     311 | #define device_initcall(fn)             __define_initcall(fn, 6)
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:316:24: note: in expansion of macro 'device_initcall'
+     316 | #define __initcall(fn) device_initcall(fn)
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/module.h:88:25: note: in expansion of macro '__initcall'
+      88 | #define module_init(x)  __initcall(x);
+         |                         ^~~~~~~~~~
+   drivers/s390/block/dasd.c:4123:1: note: in expansion of macro 'module_init'
+    4123 | module_init(dasd_init);
+         | ^~~~~~~~~~~
+   drivers/s390/block/dasd.c:4124:1: error: expected declaration or statement at end of input
+    4124 | module_exit(dasd_exit);
+         | ^~~~~~~~~~~
+   drivers/s390/block/dasd.c: At top level:
+>> drivers/s390/block/dasd.c:67:13: warning: 'do_requeue_requests' used but never defined
+      67 | static void do_requeue_requests(struct work_struct *);
+         |             ^~~~~~~~~~~~~~~~~~~
+>> drivers/s390/block/dasd.c:76:12: warning: 'dasd_handle_autoquiesce' used but never defined
+      76 | static int dasd_handle_autoquiesce(struct dasd_device *, struct dasd_ccw_req *,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/s390/block/dasd.c: In function 'dasd_generic_set_offline':
+   drivers/s390/block/dasd.c:4125: error: control reaches end of non-void function [-Werror=return-type]
+   drivers/s390/block/dasd.c: At top level:
+>> drivers/s390/block/dasd.c:3948:12: warning: 'dasd_handle_autoquiesce' defined but not used [-Wunused-function]
+    3948 | static int dasd_handle_autoquiesce(struct dasd_device *device,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/s390/block/dasd.c:3928:13: warning: 'do_requeue_requests' defined but not used [-Wunused-function]
+    3928 | static void do_requeue_requests(struct work_struct *work)
+         |             ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   In file included from fs/proc/task_mmu.c:3:
-   In file included from include/linux/mm_inline.h:7:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from fs/proc/task_mmu.c:3:
-   In file included from include/linux/mm_inline.h:7:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from fs/proc/task_mmu.c:3:
-   In file included from include/linux/mm_inline.h:7:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> fs/proc/task_mmu.c:457:33: error: implicit declaration of function 'is_ksm_zero_pte' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           if (PageKsm(page) && (!pte || !is_ksm_zero_pte(*pte)))
-                                          ^
-   12 warnings and 1 error generated.
 
+vim +/do_requeue_requests +67 drivers/s390/block/dasd.c
 
-vim +/is_ksm_zero_pte +457 fs/proc/task_mmu.c
+^1da177e4c3f41 Linus Torvalds   2005-04-16  58  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  59  /*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  60   * SECTION: prototypes for static functions of dasd.c
+^1da177e4c3f41 Linus Torvalds   2005-04-16  61   */
+8e09f21574ea30 Stefan Weinhuber 2008-01-26  62  static int dasd_flush_block_queue(struct dasd_block *);
+d2f2df69885d05 Sebastian Ott    2018-07-03  63  static void dasd_device_tasklet(unsigned long);
+d2f2df69885d05 Sebastian Ott    2018-07-03  64  static void dasd_block_tasklet(unsigned long);
+4927b3f74c6a2f Al Viro          2006-12-06  65  static void do_kick_device(struct work_struct *);
+501183f2ed7443 Stefan Haberland 2010-05-17  66  static void do_reload_device(struct work_struct *);
+a521b048bc8c5d Stefan Haberland 2016-08-08 @67  static void do_requeue_requests(struct work_struct *);
+8e09f21574ea30 Stefan Weinhuber 2008-01-26  68  static void dasd_return_cqr_cb(struct dasd_ccw_req *, void *);
+e99e88a9d2b067 Kees Cook        2017-10-16  69  static void dasd_device_timeout(struct timer_list *);
+e99e88a9d2b067 Kees Cook        2017-10-16  70  static void dasd_block_timeout(struct timer_list *);
+eb6e199bef2886 Stefan Weinhuber 2009-12-07  71  static void __dasd_process_erp(struct dasd_device *, struct dasd_ccw_req *);
+4fa52aa7a82f92 Stefan Weinhuber 2011-07-24  72  static void dasd_profile_init(struct dasd_profile *, struct dentry *);
+4fa52aa7a82f92 Stefan Weinhuber 2011-07-24  73  static void dasd_profile_exit(struct dasd_profile *);
+5a3b7b112884f8 Stefan Haberland 2016-03-18  74  static void dasd_hosts_init(struct dentry *, struct dasd_device *);
+5a3b7b112884f8 Stefan Haberland 2016-03-18  75  static void dasd_hosts_exit(struct dasd_device *);
+1cee2975bbabd8 Stefan Haberland 2023-04-05 @76  static int dasd_handle_autoquiesce(struct dasd_device *, struct dasd_ccw_req *,
+1cee2975bbabd8 Stefan Haberland 2023-04-05  77  				   unsigned int);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  78  /*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  79   * SECTION: Operations on the device structure.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  80   */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  81  static wait_queue_head_t dasd_init_waitq;
+8f61701bdf536c Horst Hummel     2006-08-30  82  static wait_queue_head_t dasd_flush_wq;
+c80ee724966a8c Stefan Haberland 2008-05-30  83  static wait_queue_head_t generic_waitq;
+4679e8933ae6b5 Stefan Haberland 2012-06-19  84  static wait_queue_head_t shutdown_waitq;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  85  
 
-   439	
-   440	static void smaps_account(struct mem_size_stats *mss, pte_t *pte,
-   441			struct page *page, bool compound, bool young, bool dirty,
-   442			bool locked, bool migration)
-   443	{
-   444		int i, nr = compound ? compound_nr(page) : 1;
-   445		unsigned long size = nr * PAGE_SIZE;
-   446	
-   447		/*
-   448		 * First accumulate quantities that depend only on |size| and the type
-   449		 * of the compound page.
-   450		 */
-   451		if (PageAnon(page)) {
-   452			mss->anonymous += size;
-   453			if (!PageSwapBacked(page) && !dirty && !PageDirty(page))
-   454				mss->lazyfree += size;
-   455		}
-   456	
- > 457		if (PageKsm(page) && (!pte || !is_ksm_zero_pte(*pte)))
-   458			mss->ksm += size;
-   459	
-   460		mss->resident += size;
-   461		/* Accumulate the size in pages that have been accessed. */
-   462		if (young || page_is_young(page) || PageReferenced(page))
-   463			mss->referenced += size;
-   464	
-   465		/*
-   466		 * Then accumulate quantities that may depend on sharing, or that may
-   467		 * differ page-by-page.
-   468		 *
-   469		 * page_count(page) == 1 guarantees the page is mapped exactly once.
-   470		 * If any subpage of the compound page mapped with PTE it would elevate
-   471		 * page_count().
-   472		 *
-   473		 * The page_mapcount() is called to get a snapshot of the mapcount.
-   474		 * Without holding the page lock this snapshot can be slightly wrong as
-   475		 * we cannot always read the mapcount atomically.  It is not safe to
-   476		 * call page_mapcount() even with PTL held if the page is not mapped,
-   477		 * especially for migration entries.  Treat regular migration entries
-   478		 * as mapcount == 1.
-   479		 */
-   480		if ((page_count(page) == 1) || migration) {
-   481			smaps_page_accumulate(mss, page, size, size << PSS_SHIFT, dirty,
-   482				locked, true);
-   483			return;
-   484		}
-   485		for (i = 0; i < nr; i++, page++) {
-   486			int mapcount = page_mapcount(page);
-   487			unsigned long pss = PAGE_SIZE << PSS_SHIFT;
-   488			if (mapcount >= 2)
-   489				pss /= mapcount;
-   490			smaps_page_accumulate(mss, page, PAGE_SIZE, pss, dirty, locked,
-   491					      mapcount < 2);
-   492		}
-   493	}
-   494	
+:::::: The code at line 67 was first introduced by commit
+:::::: a521b048bc8c5d3c57a468c2cba70eb60e873616 s390/dasd: channel path aware error recovery
+
+:::::: TO: Stefan Haberland <sth@linux.vnet.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
