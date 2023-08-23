@@ -1,49 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5761F188
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 21:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFEA1F188
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 22:09:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692827846; x=1724363846;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jmOzwFjkvQ1zr3bWRNoXSZIkw0+/fNbuzLpsAQQVuS0=;
-  b=Y67ZI3nP1Dz41Wp2JaL0NXuffJwp5VBnkyDrIeI+G61q5hhitjCmTsam
-   uA4T3FxCy3l564mJwu/U0EJqrzj8y9pZLZIYUWukSsiGEnEH9mGuPdp1e
-   8mrn17KGUmXvY3rQw/PBeItkhpkhqg/Xx7QeX6O5pEvK3G0SLCfHXbQiA
-   D1rHLOe5D79QnQw0PlYSYwimfDluiRKUfwxkHtSviLQzWjn7JbQHTf60U
-   5n6am0sVcIZvlBWTTj91yJmcktOOGmvAmmKz7sa20/wilLwU/GRLkmUpZ
-   Ayu52FLDx6CVYd7S/nU5xkTiKc9u0kU4sS4nS9cWU57xrIAyPE4Rxj7Yk
+  t=1692828563; x=1724364563;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=F7xLTsJqFb5+CBDRtTHdJoFfEtc1Xi82HpVWJCok8A0=;
+  b=J+lNuAM0szzVJOYxzpdlmyYCmSfslJSkVdYXo8T37bnivbLGxWGFQtH2
+   +hPWr4viObfptzF0r9JsrH0JVB2yZuI2EKjS0Oy7ojExIVNXxzM6VhCmq
+   kzQLBLv96R6w/bYdo/CKCZsR/ZNisYi3c/DPUBCLJaf2hqmmivwKDdYmD
+   dt2Yz3B444SUc/vWCmJ4o3lomtOalXYZornAgN9iICUZttOWztR9Hg3ch
+   wyHGoGfZn6UCdY6uiAUkejxH0HrpNYCyFVwSS1bPdpfdRCo6cQogFn5WO
+   ZJCnQCDA6IPsIDyX26dNuRqpzVEOqyMeXNkkKry4ea9v+NW1YfzlPSUCE
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="373166842"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="354614495"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="373166842"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 14:57:25 -0700
+   d="scan'208";a="354614495"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 15:09:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="686620412"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="802298732"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="686620412"
+   d="scan'208";a="802298732"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 23 Aug 2023 14:57:20 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Aug 2023 15:09:21 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYvqp-0001XI-2f;
-	Wed, 23 Aug 2023 21:57:19 +0000
-Date: Thu, 24 Aug 2023 05:56:17 +0800
+	id 1qYw2T-0001Xg-0S;
+	Wed, 23 Aug 2023 22:09:21 +0000
+Date: Thu, 24 Aug 2023 06:08:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kyle Meyer <kyle.meyer@hpe.com>, seanjc@google.com, pbonzini@redhat.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@intel.com, x86@kernel.org, hpa@zytor.com,
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	vkuznets@redhat.com, dmatlack@google.com
-Cc: oe-kbuild-all@lists.linux.dev, russ.anderson@hpe.com,
-	dimitri.sivanich@hpe.com, steve.wahl@hpe.com,
-	Kyle Meyer <kyle.meyer@hpe.com>
-Subject: Re: [PATCH v2] KVM: x86: Add CONFIG_KVM_MAX_NR_VCPUS
-Message-ID: <202308240540.9fQYjHB2-lkp@intel.com>
-References: <20230823193842.2544394-1-kyle.meyer@hpe.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/base/regmap/regmap-raw-ram.c:24:24: sparse: sparse: cast to
+ restricted __be16
+Message-ID: <202308240651.5l5Q4csN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,59 +45,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230823193842.2544394-1-kyle.meyer@hpe.com>
 
-Hi Kyle,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on linus/master v6.5-rc7 next-20230823]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Meyer/KVM-x86-Add-CONFIG_KVM_MAX_NR_VCPUS/20230824-034224
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20230823193842.2544394-1-kyle.meyer%40hpe.com
-patch subject: [PATCH v2] KVM: x86: Add CONFIG_KVM_MAX_NR_VCPUS
-config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230824/202308240540.9fQYjHB2-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a5e505a99ca748583dbe558b691be1b26f05d678
+commit: 65dd2f671875b1d97b6fa9bcf7677f5e1c55f776 regmap: Provide a ram backed regmap with raw support
+date:   2 months ago
+config: i386-randconfig-061-20230823 (https://download.01.org/0day-ci/archive/20230824/202308240651.5l5Q4csN-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240540.9fQYjHB2-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240651.5l5Q4csN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308240540.9fQYjHB2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308240651.5l5Q4csN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/regmap/regmap-raw-ram.c:24:24: sparse: sparse: cast to restricted __be16
+>> drivers/base/regmap/regmap-raw-ram.c:26:24: sparse: sparse: cast to restricted __le16
 
-   In file included from include/vdso/const.h:5,
-                    from include/linux/const.h:4,
-                    from include/uapi/linux/kernel.h:6,
-                    from include/linux/cache.h:5,
-                    from include/linux/slab.h:15,
-                    from arch/x86/events/intel/core.c:14:
->> arch/x86/include/asm/kvm_host.h:42:23: error: 'CONFIG_KVM_MAX_NR_VCPUS' undeclared here (not in a function)
-      42 | #define KVM_MAX_VCPUS CONFIG_KVM_MAX_NR_VCPUS
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:34:40: note: in definition of macro '__KERNEL_DIV_ROUND_UP'
-      34 | #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-         |                                        ^
-   arch/x86/include/asm/kvm_host.h:1120:33: note: in expansion of macro 'BITS_TO_LONGS'
-    1120 |         unsigned long poll_mask[BITS_TO_LONGS(KVM_MAX_VCPUS)];
-         |                                 ^~~~~~~~~~~~~
-   arch/x86/include/asm/kvm_host.h:1120:47: note: in expansion of macro 'KVM_MAX_VCPUS'
-    1120 |         unsigned long poll_mask[BITS_TO_LONGS(KVM_MAX_VCPUS)];
-         |                                               ^~~~~~~~~~~~~
+vim +24 drivers/base/regmap/regmap-raw-ram.c
 
-
-vim +/CONFIG_KVM_MAX_NR_VCPUS +42 arch/x86/include/asm/kvm_host.h
-
-    41	
-  > 42	#define KVM_MAX_VCPUS CONFIG_KVM_MAX_NR_VCPUS
-    43	
+    18	
+    19	static unsigned int decode_reg(enum regmap_endian endian, const void *reg)
+    20	{
+    21		const u16 *r = reg;
+    22	
+    23		if (endian == REGMAP_ENDIAN_BIG)
+  > 24			return be16_to_cpu(*r);
+    25		else
+  > 26			return le16_to_cpu(*r);
+    27	}
+    28	
 
 -- 
 0-DAY CI Kernel Test Service
