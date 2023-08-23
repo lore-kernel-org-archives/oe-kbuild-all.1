@@ -1,45 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5C2A956
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 11:03:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D2ABA33
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 11:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692788605; x=1724324605;
+  t=1692789985; x=1724325985;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=90mFy0giDcyu6emWCddSJtkY89m9kcGhMqnajXR+Zes=;
-  b=MD7Obj4S5MEQh8gmXm02RKDyAgHWgCNXl0mw2+/9P1lagvK38jjncLVa
-   a53Aufm0JwMOdXLIrZrSVrPb/wUr/fyshaE2UHg2dWWRABIv0dYYeRS/9
-   plKv0+fLXhGvgtYfTwd9YtINTpaKsjpcbnyM66EoVOz7ynOmCNyKzCYVg
-   TbuyYiNZy6fw6lsUAmY3TLOVZgrhNzWnUivCKdcLXW6j9iRgRBdzIy6Af
-   u+JM/MA6g2i0tmrSB567x+Lh/nUhrh/qO8Wx91M4/6MsvIMfM4WRGNK24
-   /SVBW5Pk5QHBTUBimdldbvT81Gm6nv2RcGyqB3HEsr8r2Tt4C7LqWUye6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="460500134"
+  bh=cBPJTpYFBNnFSl+YMxACf3oOg1GWvEnicCoN8Xn6i+E=;
+  b=QCRp92Hml08sTOvCUGQWNY3iOIDK9+usW8SHjx3+Xkj3VzRtjF1v7Rvz
+   dp04Tka3JDoS3KwG1xBGv2sHJxl9B68xUhFwI6tixqtEZGUJuNzF6P34x
+   xEU13dakqxSdFgWDL6OyXiaSGDswSdHryUStixkJyVcngVnl3zSK8lDlR
+   xaIHjFCcGwusOPjvIRVXVec0XzDiyPgqi4r0k/Qdy1xA5IqXYxJqrCuCA
+   zo+H8oAjTlqd09rDhe6FRYHO9pLaU7LqpSAbKyomA7P88IkQ1J1mSYvBD
+   GV6b7M7tJOTSrD/ljjYDDnVejwopCi7bfZybw+U8FFqQr8bFT6Z1hcZrR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="376862805"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="460500134"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 04:03:21 -0700
+   d="scan'208";a="376862805"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 04:26:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="730175867"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="983283723"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="730175867"
+   d="scan'208";a="983283723"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 23 Aug 2023 04:03:20 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 23 Aug 2023 04:26:23 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYldv-00017m-0t;
-	Wed, 23 Aug 2023 11:03:19 +0000
-Date: Wed, 23 Aug 2023 19:02:39 +0800
+	id 1qYm0E-00018h-2A;
+	Wed, 23 Aug 2023 11:26:22 +0000
+Date: Wed, 23 Aug 2023 19:25:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tianyu Lan <tiala@microsoft.com>
+To: Frank Li <Frank.Li@nxp.com>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Michael Kelley <mikelley@microsoft.com>
-Subject: [linux-next:master 11576/12208] arch/x86/kernel/cpu/mshyperv.c:407:
- undefined reference to `isolation_type_en_snp'
-Message-ID: <202308231805.RyYOycAU-lkp@intel.com>
+	Vinod Koul <vkoul@kernel.org>
+Subject: [linux-next:master 11808/12208] drivers/dma/fsl-edma-common.c:76:15:
+ sparse: sparse: cast removes address space '__iomem' of expression
+Message-ID: <202308231917.NfCYTXDO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,117 +50,61 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   e3f80d3eae76c3557b3c9b5938ad01c0e6cf25ec
-commit: d6e2d652443751e290b2edb70173ec3c22f78fbe [11576/12208] x86/hyperv: Add sev-snp enlightened guest static key
-config: x86_64-randconfig-103-20230823 (https://download.01.org/0day-ci/archive/20230823/202308231805.RyYOycAU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231805.RyYOycAU-lkp@intel.com/reproduce)
+commit: 72f5801a4e2b7122ed8ff5672ea965a0b3458e6b [11808/12208] dmaengine: fsl-edma: integrate v3 support
+config: sparc64-randconfig-r121-20230823 (https://download.01.org/0day-ci/archive/20230823/202308231917.NfCYTXDO-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231917.NfCYTXDO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308231805.RyYOycAU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308231917.NfCYTXDO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma/fsl-edma-common.c:76:15: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:93:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:96:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:98:15: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:100:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:125:19: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:131:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/dma/fsl-edma-common.c:134:9: sparse: sparse: cast removes address space '__iomem' of expression
 
-   ld: vmlinux.o: in function `ms_hyperv_init_platform':
->> arch/x86/kernel/cpu/mshyperv.c:407: undefined reference to `isolation_type_en_snp'
+vim +/__iomem +76 drivers/dma/fsl-edma-common.c
 
-
-vim +407 arch/x86/kernel/cpu/mshyperv.c
-
-   327	
-   328		/*
-   329		 * Extract the features and hints
-   330		 */
-   331		ms_hyperv.features = cpuid_eax(HYPERV_CPUID_FEATURES);
-   332		ms_hyperv.priv_high = cpuid_ebx(HYPERV_CPUID_FEATURES);
-   333		ms_hyperv.misc_features = cpuid_edx(HYPERV_CPUID_FEATURES);
-   334		ms_hyperv.hints    = cpuid_eax(HYPERV_CPUID_ENLIGHTMENT_INFO);
-   335	
-   336		hv_max_functions_eax = cpuid_eax(HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS);
-   337	
-   338		pr_info("Hyper-V: privilege flags low 0x%x, high 0x%x, hints 0x%x, misc 0x%x\n",
-   339			ms_hyperv.features, ms_hyperv.priv_high, ms_hyperv.hints,
-   340			ms_hyperv.misc_features);
-   341	
-   342		ms_hyperv.max_vp_index = cpuid_eax(HYPERV_CPUID_IMPLEMENT_LIMITS);
-   343		ms_hyperv.max_lp_index = cpuid_ebx(HYPERV_CPUID_IMPLEMENT_LIMITS);
-   344	
-   345		pr_debug("Hyper-V: max %u virtual processors, %u logical processors\n",
-   346			 ms_hyperv.max_vp_index, ms_hyperv.max_lp_index);
-   347	
-   348		/*
-   349		 * Check CPU management privilege.
-   350		 *
-   351		 * To mirror what Windows does we should extract CPU management
-   352		 * features and use the ReservedIdentityBit to detect if Linux is the
-   353		 * root partition. But that requires negotiating CPU management
-   354		 * interface (a process to be finalized). For now, use the privilege
-   355		 * flag as the indicator for running as root.
-   356		 *
-   357		 * Hyper-V should never specify running as root and as a Confidential
-   358		 * VM. But to protect against a compromised/malicious Hyper-V trying
-   359		 * to exploit root behavior to expose Confidential VM memory, ignore
-   360		 * the root partition setting if also a Confidential VM.
-   361		 */
-   362		if ((ms_hyperv.priv_high & HV_CPU_MANAGEMENT) &&
-   363		    !(ms_hyperv.priv_high & HV_ISOLATION)) {
-   364			hv_root_partition = true;
-   365			pr_info("Hyper-V: running as root partition\n");
-   366		}
-   367	
-   368		if (ms_hyperv.hints & HV_X64_HYPERV_NESTED) {
-   369			hv_nested = true;
-   370			pr_info("Hyper-V: running on a nested hypervisor\n");
-   371		}
-   372	
-   373		/*
-   374		 * Extract host information.
-   375		 */
-   376		if (hv_max_functions_eax >= HYPERV_CPUID_VERSION) {
-   377			hv_host_info_eax = cpuid_eax(HYPERV_CPUID_VERSION);
-   378			hv_host_info_ebx = cpuid_ebx(HYPERV_CPUID_VERSION);
-   379			hv_host_info_ecx = cpuid_ecx(HYPERV_CPUID_VERSION);
-   380			hv_host_info_edx = cpuid_edx(HYPERV_CPUID_VERSION);
-   381	
-   382			pr_info("Hyper-V: Host Build %d.%d.%d.%d-%d-%d\n",
-   383				hv_host_info_ebx >> 16, hv_host_info_ebx & 0xFFFF,
-   384				hv_host_info_eax, hv_host_info_edx & 0xFFFFFF,
-   385				hv_host_info_ecx, hv_host_info_edx >> 24);
-   386		}
-   387	
-   388		if (ms_hyperv.features & HV_ACCESS_FREQUENCY_MSRS &&
-   389		    ms_hyperv.misc_features & HV_FEATURE_FREQUENCY_MSRS_AVAILABLE) {
-   390			x86_platform.calibrate_tsc = hv_get_tsc_khz;
-   391			x86_platform.calibrate_cpu = hv_get_tsc_khz;
-   392		}
-   393	
-   394		if (ms_hyperv.priv_high & HV_ISOLATION) {
-   395			ms_hyperv.isolation_config_a = cpuid_eax(HYPERV_CPUID_ISOLATION_CONFIG);
-   396			ms_hyperv.isolation_config_b = cpuid_ebx(HYPERV_CPUID_ISOLATION_CONFIG);
-   397	
-   398			if (ms_hyperv.shared_gpa_boundary_active)
-   399				ms_hyperv.shared_gpa_boundary =
-   400					BIT_ULL(ms_hyperv.shared_gpa_boundary_bits);
-   401	
-   402			pr_info("Hyper-V: Isolation Config: Group A 0x%x, Group B 0x%x\n",
-   403				ms_hyperv.isolation_config_a, ms_hyperv.isolation_config_b);
-   404	
-   405	
-   406			if (cc_platform_has(CC_ATTR_GUEST_SEV_SNP)) {
- > 407				static_branch_enable(&isolation_type_en_snp);
-   408			} else if (hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP) {
-   409				static_branch_enable(&isolation_type_snp);
-   410			}
-   411		}
-   412	
-   413		if (hv_max_functions_eax >= HYPERV_CPUID_NESTED_FEATURES) {
-   414			ms_hyperv.nested_features =
-   415				cpuid_eax(HYPERV_CPUID_NESTED_FEATURES);
-   416			pr_info("Hyper-V: Nested features: 0x%x\n",
-   417				ms_hyperv.nested_features);
-   418		}
-   419	
+    70	
+    71	static void fsl_edma3_enable_request(struct fsl_edma_chan *fsl_chan)
+    72	{
+    73		u32 val, flags;
+    74	
+    75		flags = fsl_edma_drvflags(fsl_chan);
+  > 76		val = edma_readl_chreg(fsl_chan, ch_sbr);
+    77		/* Remote/local swapped wrongly on iMX8 QM Audio edma */
+    78		if (flags & FSL_EDMA_DRV_QUIRK_SWAPPED) {
+    79			if (!fsl_chan->is_rxchan)
+    80				val |= EDMA_V3_CH_SBR_RD;
+    81			else
+    82				val |= EDMA_V3_CH_SBR_WR;
+    83		} else {
+    84			if (fsl_chan->is_rxchan)
+    85				val |= EDMA_V3_CH_SBR_RD;
+    86			else
+    87				val |= EDMA_V3_CH_SBR_WR;
+    88		}
+    89	
+    90		if (fsl_chan->is_remote)
+    91			val &= ~(EDMA_V3_CH_SBR_RD | EDMA_V3_CH_SBR_WR);
+    92	
+    93		edma_writel_chreg(fsl_chan, val, ch_sbr);
+    94	
+    95		if (flags & FSL_EDMA_DRV_HAS_CHMUX)
+    96			edma_writel_chreg(fsl_chan, fsl_chan->srcid, ch_mux);
+    97	
+    98		val = edma_readl_chreg(fsl_chan, ch_csr);
+    99		val |= EDMA_V3_CH_CSR_ERQ;
+   100		edma_writel_chreg(fsl_chan, val, ch_csr);
+   101	}
+   102	
 
 -- 
 0-DAY CI Kernel Test Service
