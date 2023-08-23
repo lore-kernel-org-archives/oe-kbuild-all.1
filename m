@@ -1,71 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C1220F12
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 03:41:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B21B20F15
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 03:54:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692762101; x=1724298101;
-  h=date:from:to:cc:subject:message-id;
-  bh=5ItVpTJ/08Y2RVhO476jTzsmx9wp52uRlwRpOf5A+0Y=;
-  b=NJOax8aJqZjql3mx4Pzr8McePA5b//TSs4kHzFNO1eJjbtE/Qm/VdSbZ
-   gHi7x7rOhtph6E+fJzqP2iyiAaqiuabe/XF+Ie4ZD4vDURfy4Xw61ySYk
-   G1isZxLq6tvgPKCGCwLqLdbfQ7FiBftYt1u2anUNiI5lLypYueqH4Dfrc
-   0KmNGp7/XM4yCbFGQCkCyTFqIypnB8KfdYiLSMm7O/Ndf8OwJq2q9xtMk
-   wE6nMUbvscqeNxFbbWsIs3K50KoIvNzbIOx0pOiz9RdenvYXAbJ4lLrAu
-   qGghI9wdR0E+8G48xMOQB6HQbN+P2Y8yiDYEj9+aHZoHccMyks19T6QE9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="437986921"
+  t=1692762867; x=1724298867;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IEYqTrTDh+BvLPCnLAC5C65s5S4wYoJhOm7ReGlFngw=;
+  b=CzajEOfIwTJLmG+HYflkZ0dHaStnFPbEMfgZUc8UoWftMjg+Av/jKODK
+   0PWzCw1ypUog/a4XDB5dLytgWJVrsW71VksQBcv3HYpcXfGzviqH5TpWq
+   w1oCuezucvo4Qv7oPiX5NFmRlkfvRMbLer8myJZQ7x5Q+LmgVlhU2UMYZ
+   eRacsscUWfzyINU4oWxYHi7EF5H3jZiGZf8zKLEdrOaroEr5IgpemtUSO
+   VfZC6dpOE+MuLjcZeo2doAEgBGok9XzmU3vFpdLDuSs5s1g61SJhOFUpJ
+   D7uUuwFkF3bnhbHe5u67ns3WXOFLApNFY7tr0GwgFh1RSY2TaMMIImFmF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="372944833"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="437986921"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 20:41:40 -0700
+   d="scan'208";a="372944833"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 20:54:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="806514420"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="771567109"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="806514420"
+   d="scan'208";a="771567109"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Aug 2023 20:41:38 -0700
+  by orsmga001.jf.intel.com with ESMTP; 22 Aug 2023 20:54:24 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYejC-0000oW-0W;
-	Wed, 23 Aug 2023 03:40:48 +0000
-Date: Wed, 23 Aug 2023 11:40:17 +0800
+	id 1qYewq-0000pE-0X;
+	Wed, 23 Aug 2023 03:54:24 +0000
+Date: Wed, 23 Aug 2023 11:53:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, lkp@intel.com
-Subject: [lkp] [+84 bytes kernel size regression] [i386-tinyconfig]
- [ba6eabcee7] mm/readahead.c: adjust readahead window to account for min order
-Message-ID: <20230823034017.sjxpF%lkp@intel.com>
-User-Agent: s-nail v14.9.24
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-5.4 6125/27207]
+ drivers/mmc/core/crypto.c:14:6: warning: no previous prototype for function
+ 'mmc_crypto_setup_queue'
+Message-ID: <202308231156.vf8OotJI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Satya,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   d62f1fc1623efbeb110e393379097ee39766655d
+commit: 555cf12eb672727979bc7b7840c7503f3de27220 [6125/27207] ANDROID: mmc: MMC crypto API
+config: x86_64-randconfig-072-20230823 (https://download.01.org/0day-ci/archive/20230823/202308231156.vf8OotJI-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231156.vf8OotJI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308231156.vf8OotJI-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/mmc/core/crypto.c:14:6: warning: no previous prototype for function 'mmc_crypto_setup_queue' [-Wmissing-prototypes]
+   void mmc_crypto_setup_queue(struct mmc_host *host, struct request_queue *q)
+        ^
+   drivers/mmc/core/crypto.c:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void mmc_crypto_setup_queue(struct mmc_host *host, struct request_queue *q)
+   ^
+   static 
+>> drivers/mmc/core/crypto.c:21:6: warning: no previous prototype for function 'mmc_crypto_free_host' [-Wmissing-prototypes]
+   void mmc_crypto_free_host(struct mmc_host *host)
+        ^
+   drivers/mmc/core/crypto.c:21:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void mmc_crypto_free_host(struct mmc_host *host)
+   ^
+   static 
+>> drivers/mmc/core/crypto.c:26:6: warning: no previous prototype for function 'mmc_crypto_prepare_req' [-Wmissing-prototypes]
+   void mmc_crypto_prepare_req(struct mmc_queue_req *mqrq)
+        ^
+   drivers/mmc/core/crypto.c:26:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void mmc_crypto_prepare_req(struct mmc_queue_req *mqrq)
+   ^
+   static 
+   3 warnings generated.
 
 
-FYI, we noticed a +84 bytes kernel size regression due to commit:
+vim +/mmc_crypto_setup_queue +14 drivers/mmc/core/crypto.c
 
-commit: ba6eabcee75883b616aec61ff872a57bd661ffad (mm/readahead.c: adjust readahead window to account for min order)
-https://git.kernel.org/cgit/linux/kernel/git/mcgrof/linux-next.git large-block-nobdev-20230822-minorder
+    13	
+  > 14	void mmc_crypto_setup_queue(struct mmc_host *host, struct request_queue *q)
+    15	{
+    16		if (host->caps2 & MMC_CAP2_CRYPTO)
+    17			q->ksm = host->ksm;
+    18	}
+    19	EXPORT_SYMBOL_GPL(mmc_crypto_setup_queue);
+    20	
+  > 21	void mmc_crypto_free_host(struct mmc_host *host)
+    22	{
+    23		keyslot_manager_destroy(host->ksm);
+    24	}
+    25	
+  > 26	void mmc_crypto_prepare_req(struct mmc_queue_req *mqrq)
 
-
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
-
-79cea1f5: mm/readahead.c: use min order folio multiplier on force_page_cache_ra()
-ba6eabce: mm/readahead.c: adjust readahead window to account for min order
-
-+-------------------------+----------+----------+-------+
-|         symbol          | 79cea1f5 | ba6eabce | delta |
-+-------------------------+----------+----------+-------+
-| bzImage                 | 522336   | 522496   | 160   |
-| nm.T.file_ra_state_init | 32       | 73       | 41    |
-| nm.t.get_next_ra_size   | 31       | 54       | 23    |
-| nm.t.ondemand_readahead | 557      | 577      | 20    |
-+-------------------------+----------+----------+-------+
-
-
-
-Thanks
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
