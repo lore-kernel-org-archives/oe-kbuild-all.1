@@ -1,42 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16136A92F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 09:56:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB3BA92F;
+	Wed, 23 Aug 2023 10:20:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692784611; x=1724320611;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z60808Z4MKVjFGOO5nhbrPCUMmN7/+v2b0fOx3XQDik=;
-  b=az/KdifNjs56W/niE7NAayLqWKdmOG9yK4rky/jvHg1FPPRN++rQUoS6
-   EZh1qN/2dp0VWnosX/0DFKk+7SiIxqoSJR8iWVEmY4LuJruQETg7OrB8k
-   IGUxO60HzXHBLkdBQhYUM8wNPx4w/1VwS9fxi5JOizO2fks1vQfZ1EtPi
-   d5+iOsYaYwXB5sXdohZAbUwb5R0IDi2UWfoFHFj090cP5UY1F7Y6WZ8sC
-   yCX5Z+0PAcu7RfsQ6A1bPvfacymGZvefXvqIVVQhtJD7PpuaD3glZ4zxq
-   3cM+F5tnqtssOtSe3OK8MqtHc4eJZvJtTIUmmhhFCIZMZkggjalyMWc7P
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="373010898"
+  t=1692786003; x=1724322003;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J/smH+od+JQo9e6T8OxoQJwtGe7Bs2VOOafthAAhtBs=;
+  b=ly7RPjJa9pPchWinWLJkwPPoX7NDIBTz6HcdkrMX2qVMrPb1LwTJYhlM
+   FkY5E07VyHjkSJ5OjDGguhmJDucfU0DDvaMnKc7iDeX+dG5ecNGetTtJx
+   yH1AGal06klx+X8nx5LQqi8KTC3opBLoW/ItZ5NEL0gIOBXv3YP40rJuy
+   +YseZMuZQRwybtVwnEJs3wH64hJX6CsfnARGk17RJUATJd5GcViVwTQgV
+   I+XZ+RJSmx3QWopPnYVaEYwDMbDSef8ehKVTKauNj3XY54z+v/8cettp6
+   FDXJUkhZLZcyZ/zO8L2N2n2l3mANqlEZtvb5p1KniHiBcdr/oB+cq93M7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="377884497"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="373010898"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 02:56:47 -0700
+   d="scan'208";a="377884497"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 03:20:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="686382003"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="730169336"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="686382003"
+   d="scan'208";a="730169336"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 23 Aug 2023 02:56:42 -0700
+  by orsmga007.jf.intel.com with ESMTP; 23 Aug 2023 03:19:57 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYkbS-000152-0Z;
-	Wed, 23 Aug 2023 09:56:42 +0000
-Date: Wed, 23 Aug 2023 17:55:49 +0800
+	id 1qYkxw-00016C-0r;
+	Wed, 23 Aug 2023 10:19:56 +0000
+Date: Wed, 23 Aug 2023 18:19:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 2/4] kernel/sched/pelt.c:183:5:
- warning: no previous declaration for '___update_load_sum'
-Message-ID: <202308231725.4pbCoa5o-lkp@intel.com>
+To: Huang Jiaqing <jiaqing.huang@intel.com>, kvm@vger.kernel.org,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, joro@8bytes.org,
+	will@kernel.org, robin.murphy@arm.com, kevin.tian@intel.com,
+	baolu.lu@linux.intel.com, jacob.jun.pan@linux.intel.com,
+	yi.l.liu@intel.com, yi.y.sun@intel.com, jiaqing.huang@intel.com
+Subject: Re: [PATCH] iommu/vt-d: Introduce a rb_tree for looking up device
+Message-ID: <202308231801.6MtvqTmB-lkp@intel.com>
+References: <20230821071659.123981-1-jiaqing.huang@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,160 +50,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230821071659.123981-1-jiaqing.huang@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   10800b39da4031ac30a74e28be12b1d7c8860b32
-commit: eb994f2728240e45740702a76bac52dc80dcd4ed [2/4] ANDROID: sched: Add vendor hook for util-update related functions
-config: i386-randconfig-062-20230822 (https://download.01.org/0day-ci/archive/20230823/202308231725.4pbCoa5o-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231725.4pbCoa5o-lkp@intel.com/reproduce)
+Hi Huang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.5-rc7]
+[also build test WARNING on linus/master]
+[cannot apply to joro-iommu/next next-20230823]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huang-Jiaqing/iommu-vt-d-Introduce-a-rb_tree-for-looking-up-device/20230821-151945
+base:   v6.5-rc7
+patch link:    https://lore.kernel.org/r/20230821071659.123981-1-jiaqing.huang%40intel.com
+patch subject: [PATCH] iommu/vt-d: Introduce a rb_tree for looking up device
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230823/202308231801.6MtvqTmB-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231801.6MtvqTmB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308231725.4pbCoa5o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308231801.6MtvqTmB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/sched/pelt.c:183:5: warning: no previous declaration for '___update_load_sum' [-Wmissing-declarations]
-    int ___update_load_sum(u64 now, struct sched_avg *sa,
-        ^~~~~~~~~~~~~~~~~~
->> kernel/sched/pelt.c:260:6: warning: no previous declaration for '___update_load_avg' [-Wmissing-declarations]
-    void ___update_load_avg(struct sched_avg *sa, unsigned long load)
-         ^~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ARCH_HAS_NONLEAF_PMD_YOUNG
-   Depends on [n]: PGTABLE_LEVELS [=2]>2
-   Selected by [y]:
-   - X86 [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+>> drivers/iommu/intel/iommu.c:239:28: warning: no previous prototype for function 'device_rbtree_find' [-Wmissing-prototypes]
+   struct device_domain_info *device_rbtree_find(struct intel_iommu *iommu, u8 bus, u8 devfn)
+                              ^
+   drivers/iommu/intel/iommu.c:239:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct device_domain_info *device_rbtree_find(struct intel_iommu *iommu, u8 bus, u8 devfn)
+   ^
+   static 
+   1 warning generated.
 
 
-vim +/___update_load_sum +183 kernel/sched/pelt.c
+vim +/device_rbtree_find +239 drivers/iommu/intel/iommu.c
 
-   154	
-   155	/*
-   156	 * We can represent the historical contribution to runnable average as the
-   157	 * coefficients of a geometric series.  To do this we sub-divide our runnable
-   158	 * history into segments of approximately 1ms (1024us); label the segment that
-   159	 * occurred N-ms ago p_N, with p_0 corresponding to the current period, e.g.
-   160	 *
-   161	 * [<- 1024us ->|<- 1024us ->|<- 1024us ->| ...
-   162	 *      p0            p1           p2
-   163	 *     (now)       (~1ms ago)  (~2ms ago)
-   164	 *
-   165	 * Let u_i denote the fraction of p_i that the entity was runnable.
-   166	 *
-   167	 * We then designate the fractions u_i as our co-efficients, yielding the
-   168	 * following representation of historical load:
-   169	 *   u_0 + u_1*y + u_2*y^2 + u_3*y^3 + ...
-   170	 *
-   171	 * We choose y based on the with of a reasonably scheduling period, fixing:
-   172	 *   y^32 = 0.5
-   173	 *
-   174	 * This means that the contribution to load ~32ms ago (u_32) will be weighted
-   175	 * approximately half as much as the contribution to load within the last ms
-   176	 * (u_0).
-   177	 *
-   178	 * When a period "rolls over" and we have new u_0`, multiplying the previous
-   179	 * sum again by y is sufficient to update:
-   180	 *   load_avg = u_0` + y*(u_0 + u_1*y + u_2*y^2 + ... )
-   181	 *            = u_0 + u_1*y + u_2*y^2 + ... [re-labeling u_i --> u_{i+1}]
-   182	 */
- > 183	int ___update_load_sum(u64 now, struct sched_avg *sa,
-   184			       unsigned long load, unsigned long runnable, int running)
-   185	{
-   186		u64 delta;
-   187	
-   188		delta = now - sa->last_update_time;
-   189		/*
-   190		 * This should only happen when time goes backwards, which it
-   191		 * unfortunately does during sched clock init when we swap over to TSC.
-   192		 */
-   193		if ((s64)delta < 0) {
-   194			sa->last_update_time = now;
-   195			return 0;
-   196		}
-   197	
-   198		/*
-   199		 * Use 1024ns as the unit of measurement since it's a reasonable
-   200		 * approximation of 1us and fast to compute.
-   201		 */
-   202		delta >>= 10;
-   203		if (!delta)
-   204			return 0;
-   205	
-   206		sa->last_update_time += delta << 10;
-   207	
-   208		/*
-   209		 * running is a subset of runnable (weight) so running can't be set if
-   210		 * runnable is clear. But there are some corner cases where the current
-   211		 * se has been already dequeued but cfs_rq->curr still points to it.
-   212		 * This means that weight will be 0 but not running for a sched_entity
-   213		 * but also for a cfs_rq if the latter becomes idle. As an example,
-   214		 * this happens during idle_balance() which calls
-   215		 * update_blocked_averages().
-   216		 *
-   217		 * Also see the comment in accumulate_sum().
-   218		 */
-   219		if (!load)
-   220			runnable = running = 0;
-   221	
-   222		/*
-   223		 * Now we know we crossed measurement unit boundaries. The *_avg
-   224		 * accrues by two steps:
-   225		 *
-   226		 * Step 1: accumulate *_sum since last_update_time. If we haven't
-   227		 * crossed period boundaries, finish.
-   228		 */
-   229		if (!accumulate_sum(delta, sa, load, runnable, running))
-   230			return 0;
-   231	
-   232		return 1;
-   233	}
-   234	EXPORT_SYMBOL_GPL(___update_load_sum);
-   235	
-   236	/*
-   237	 * When syncing *_avg with *_sum, we must take into account the current
-   238	 * position in the PELT segment otherwise the remaining part of the segment
-   239	 * will be considered as idle time whereas it's not yet elapsed and this will
-   240	 * generate unwanted oscillation in the range [1002..1024[.
-   241	 *
-   242	 * The max value of *_sum varies with the position in the time segment and is
-   243	 * equals to :
-   244	 *
-   245	 *   LOAD_AVG_MAX*y + sa->period_contrib
-   246	 *
-   247	 * which can be simplified into:
-   248	 *
-   249	 *   LOAD_AVG_MAX - 1024 + sa->period_contrib
-   250	 *
-   251	 * because LOAD_AVG_MAX*y == LOAD_AVG_MAX-1024
-   252	 *
-   253	 * The same care must be taken when a sched entity is added, updated or
-   254	 * removed from a cfs_rq and we need to update sched_avg. Scheduler entities
-   255	 * and the cfs rq, to which they are attached, have the same position in the
-   256	 * time segment because they use the same clock. This means that we can use
-   257	 * the period_contrib of cfs_rq when updating the sched_avg of a sched_entity
-   258	 * if it's more convenient.
-   259	 */
- > 260	void ___update_load_avg(struct sched_avg *sa, unsigned long load)
-   261	{
-   262		u32 divider = get_pelt_divider(sa);
-   263	
-   264		/*
-   265		 * Step 2: update *_avg.
-   266		 */
-   267		sa->load_avg = div_u64(load * sa->load_sum, divider);
-   268		sa->runnable_avg = div_u64(sa->runnable_sum, divider);
-   269		WRITE_ONCE(sa->util_avg, sa->util_sum / divider);
-   270	}
-   271	EXPORT_SYMBOL_GPL(___update_load_avg);
-   272	
+   237	
+   238	
+ > 239	struct device_domain_info *device_rbtree_find(struct intel_iommu *iommu, u8 bus, u8 devfn)
+   240	{
+   241		struct device_domain_info *data = NULL;
+   242		struct rb_node *node;
+   243	
+   244		down_read(&iommu->iopf_device_sem);
+   245	
+   246		node = iommu->iopf_device_rbtree.rb_node;
+   247		while (node) {
+   248			data = container_of(node, struct device_domain_info, node);
+   249			s16 result = RB_NODE_CMP(bus, devfn, data->bus, data->devfn);
+   250	
+   251			if (result < 0)
+   252				node = node->rb_left;
+   253			else if (result > 0)
+   254				node = node->rb_right;
+   255			else
+   256				break;
+   257		}
+   258		up_read(&iommu->iopf_device_sem);
+   259	
+   260		return node ? data : NULL;
+   261	}
+   262	
 
 -- 
 0-DAY CI Kernel Test Service
