@@ -1,41 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7EC110B;
-	Wed, 23 Aug 2023 12:48:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4C2110B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 12:48:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692794880; x=1724330880;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=RRs6jsWiZW5jdTc65L8I1vLbiWNf10jxH1Z4gz1KlUA=;
-  b=hbwIJlr6pHf51Z8RIqrztjJIiGBrgyhhDx8Olf8Sf3HsJ4x4qoRNRPiS
-   G+CNqjNlJMNvCEe/jYuaWX8IyZ7L6eiYheLiLv3LRlK5m2stn+1Pw7OzY
-   5t7Gha+zcAvFnQfjBmcJIHDgwln/jyl6bho/duQSkkw15Pd0HznNNR0t9
-   zNsNa7jDP2tJZ3R/B0neOUQQiGwyJFPd8H1iX2nrcbCjfqkTsOSIG+1QL
-   rngg2rEn+sSWS1yiv7DHiPwMAX/GVBa80i8T0zYsEOKnSW0z4XOipfKJ3
-   2QSNSG9Y7O8woeXHAG57Gojn4pfFlg5RshAA8rXBulUoVRmsirohDPiqq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="376875937"
+  t=1692794884; x=1724330884;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CbXqawBEj7B2MEs7M6/kZuQALHKhJDp66dmB2oKp/CY=;
+  b=aYrMqEU0G7YOuqcYwRAkjau830zFE8XXqKA49Z37U9ZxlpdkX3wVaEhD
+   Ez5hxyk/98h77BGglb2gU+1CcifPiqE4JmjsibPHvO1qWxUyd7XM7JROw
+   FRjBQMMhJbF9fXIjazBv4d7q6pMGp8U4G65/iioXhEN3fbZIvKAcSk/yV
+   Q81zLvStikjw058mdRGArCfa/jhEz6fcNx3zOxWrhzv1DwIZwZAwHO2+n
+   K4lasvg6XtkCMlz/mEUfcNsi4eGeh+Z0haxQq8A2gqK7Cg+RW0ptBI5BD
+   QgV8N/y7H0xG+dHgvDu1ITW9FBzJBHkwImApnW2G5oscInhgwBBY+3OXx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="376875970"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="376875937"
+   d="scan'208";a="376875970"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 05:47:04 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 05:47:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="771707186"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="771707188"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="771707186"
+   d="scan'208";a="771707188"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 23 Aug 2023 05:47:03 -0700
+  by orsmga001.jf.intel.com with ESMTP; 23 Aug 2023 05:47:04 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYnGI-0001Cc-2y;
-	Wed, 23 Aug 2023 12:47:02 +0000
-Date: Wed, 23 Aug 2023 20:46:04 +0800
+	id 1qYnGJ-0001Cl-36;
+	Wed, 23 Aug 2023 12:47:03 +0000
+Date: Wed, 23 Aug 2023 20:46:05 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [stable:linux-6.1.y 8410/8698] arch/x86/lib/retpoline.o: warning:
- objtool: srso_untrain_ret+0xd: call without frame pointer save/setup
-Message-ID: <202308232056.Ly6kWF9t-lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+	bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com,
+	faith.ekstrand@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
+	Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH drm-misc-next] drm/nouveau: uapi: don't pass NO_PREFETCH
+ flag implicitly
+Message-ID: <202308232030.0r1irPMu-lkp@intel.com>
+References: <20230822234139.11185-1-dakr@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,31 +51,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230822234139.11185-1-dakr@redhat.com>
 
-TO: "Borislav Petkov (AMD)" <bp@alien8.de>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Hi Danilo,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-6.1.y
-head:   6c44e13dc284f7f4db17706ca48fd016d6b3d49a
-commit: ac41e90d8daa8815d8bee774a1975435fbfe1ae7 [8410/8698] x86/srso: Add a Speculative RAS Overflow mitigation
-config: x86_64-randconfig-r031-20230823 (https://download.01.org/0day-ci/archive/20230823/202308232056.Ly6kWF9t-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232056.Ly6kWF9t-lkp@intel.com/reproduce)
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ad1367f831f8743746a1f49705c28e36a7c95525]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-nouveau-uapi-don-t-pass-NO_PREFETCH-flag-implicitly/20230823-074237
+base:   ad1367f831f8743746a1f49705c28e36a7c95525
+patch link:    https://lore.kernel.org/r/20230822234139.11185-1-dakr%40redhat.com
+patch subject: [PATCH drm-misc-next] drm/nouveau: uapi: don't pass NO_PREFETCH flag implicitly
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232030.0r1irPMu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308232056.Ly6kWF9t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308232030.0r1irPMu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/lib/retpoline.o: warning: objtool: srso_untrain_ret+0xd: call without frame pointer save/setup
+>> ./include/uapi/drm/nouveau_drm.h:344: warning: Incorrect use of kernel-doc format:          * flags: the flags for this push buffer mapping
+>> ./include/uapi/drm/nouveau_drm.h:348: warning: Function parameter or member 'flags' not described in 'drm_nouveau_exec_push'
 
+vim +344 ./include/uapi/drm/nouveau_drm.h
 
-objdump-func vmlinux.o srso_untrain_ret:
-0000 00000000000000be <srso_untrain_ret>:
-0000   be:	48                   	rex.W
-0001   bf:	b8                   	.byte 0xb8
+   327	
+   328	/**
+   329	 * struct drm_nouveau_exec_push - EXEC push operation
+   330	 *
+   331	 * This structure represents a single EXEC push operation. UMDs should pass an
+   332	 * array of this structure via struct drm_nouveau_exec's &push_ptr field.
+   333	 */
+   334	struct drm_nouveau_exec_push {
+   335		/**
+   336		 * @va: the virtual address of the push buffer mapping
+   337		 */
+   338		__u64 va;
+   339		/**
+   340		 * @va_len: the length of the push buffer mapping
+   341		 */
+   342		__u32 va_len;
+   343		/**
+ > 344		 * flags: the flags for this push buffer mapping
+   345		 */
+   346		__u32 flags;
+   347	#define DRM_NOUVEAU_EXEC_PUSH_NO_PREFETCH 0x1
+ > 348	};
+   349	
 
 -- 
 0-DAY CI Kernel Test Service
