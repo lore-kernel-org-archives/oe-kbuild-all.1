@@ -1,118 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72316187E;
-	Wed, 23 Aug 2023 04:41:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692765684; x=1724301684;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=bUbe6Hsw/84h5OwrnJ0gpPSk4aQuXwiwR4q8pOX7Exk=;
-  b=YDLm6969ejepUXgEzeZabkCXarQ2GT2U8Iq8mbmvpWmz447XNDBqjZSq
-   xCTViQl9H95hI60VzLdZznombxFp9Z0UNXaT7jVUOF0VPW/L4jx9D0IU+
-   yJUTvRch8XUZMLk3WMk4e3fkRJzPJba347dbCxJ9eB68JBpdQabB+QbjD
-   OLFHgruXxBVWnDMB31LrSUEJ624U20j3I/L8O/Yjv/AOmojFCtxr9WRmo
-   Q3eLAEANkdSoQpka/f3y10+NA+xq1bbFka2QR7XHtvX2SjoKW1Mlzr4LY
-   T+Wjx+bPbdKJEqVTW1g5lasnsTSeIMmWVD4ebGRZJCkK8xFQP8850L9Wf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="460429472"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="460429472"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 21:41:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="739603782"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="739603782"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Aug 2023 21:41:20 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qYfgF-0000qs-13;
-	Wed, 23 Aug 2023 04:41:19 +0000
-Date: Wed, 23 Aug 2023 12:40:30 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [stable:linux-6.1.y 4237/8698] vmlinux.o: warning: objtool:
- do_pre_smp_initcalls+0xab: unreachable instruction
-Message-ID: <202308231204.11IHcprF-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36D520F16
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 06:19:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 938C3C433C7;
+	Wed, 23 Aug 2023 06:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692771561;
+	bh=hRs5dH0ZEPcb6II3vz8akVjaVIarEG42/y1v3tkpUzg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UbMFTgwT5DIncy9OyNxvxDcjJUmUgPFw7S5x606CbXJpl2Ajsbj6TiDFa/YQ78dFo
+	 1+xteboubD3G3s2MMuyXy7QqqaOpnoMuXlTFuZs1E0QwQR/S7H4ciOpbbZTs8BD8T0
+	 8l8KYh2C/htx1VRg17/k91/sHkNTodHdEZ4IORwl7MM3q0gbMowADeU8FOT74pFuEG
+	 jb6nHdr6AO1SubsNLRkHgMqKZliGUYRAHjHivlSBs95f500FCOHFu984DexcWtjTVw
+	 sRvufy3n7QSLO17xEiOpa46LpK20gEYM9LCIxNrJUyUZht9U30Ml8YPOhPJ+lqxC6Z
+	 x9ciOHFMWXwig==
+Date: Wed, 23 Aug 2023 11:49:04 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	manivannan.sadhasivam@linaro.org, oe-kbuild-all@lists.linux.dev,
+	helgaas@kernel.org, linux-pci@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_skananth@quicinc.com, quic_ramkri@quicinc.com,
+	quic_parass@quicinc.com, krzysztof.kozlowski@linaro.org,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
+Message-ID: <20230823061904.GC3737@thinkpad>
+References: <1690948281-2143-2-git-send-email-quic_krichai@quicinc.com>
+ <202308021312.obgu7FWM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202308021312.obgu7FWM-lkp@intel.com>
 
-TO: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+On Wed, Aug 02, 2023 at 01:14:44PM +0800, kernel test robot wrote:
+> Hi Krishna,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on pci/next]
+> [also build test WARNING on pci/for-linus linus/master v6.5-rc4 next-20230801]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/PCI-endpoint-Add-D-state-change-notifier-support/20230802-115309
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+> patch link:    https://lore.kernel.org/r/1690948281-2143-2-git-send-email-quic_krichai%40quicinc.com
+> patch subject: [PATCH v5 1/4] PCI: endpoint: Add D-state change notifier support
+> config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230802/202308021312.obgu7FWM-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021312.obgu7FWM-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308021312.obgu7FWM-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/pci/endpoint/pci-epc-core.c:795:6: warning: no previous prototype for 'pci_epc_dstate_notity' [-Wmissing-prototypes]
+>      795 | void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-6.1.y
-head:   6c44e13dc284f7f4db17706ca48fd016d6b3d49a
-commit: c8f31c1a0b7cf1024832980e4629b97c2aac1b42 [4237/8698] tracing: Make tracepoint lockdep check actually test something
-config: x86_64-randconfig-015-20230821 (https://download.01.org/0day-ci/archive/20230823/202308231204.11IHcprF-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231204.11IHcprF-lkp@intel.com/reproduce)
+This tells that you haven't build tested the series before sending. Please
+always do both build and functionality testing before sending each iteration.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308231204.11IHcprF-lkp@intel.com/
+- Mani
 
-All warnings (new ones prefixed by >>):
-
->> vmlinux.o: warning: objtool: do_pre_smp_initcalls+0xab: unreachable instruction
-
-
-objdump-func vmlinux.o do_pre_smp_initcalls:
-0000 00000000000025e6 <do_pre_smp_initcalls>:
-0000     25e6:	41 57                	push   %r15
-0002     25e8:	41 56                	push   %r14
-0004     25ea:	53                   	push   %rbx
-0005     25eb:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	25ee: R_X86_64_32S	__tracepoint_initcall_level+0x8
-000c     25f2:	e8 00 00 00 00       	call   25f7 <do_pre_smp_initcalls+0x11>	25f3: R_X86_64_PLT32	__tsan_volatile_read4-0x4
-0011     25f7:	83 3d 00 00 00 00 00 	cmpl   $0x0,0x0(%rip)        # 25fe <do_pre_smp_initcalls+0x18>	25f9: R_X86_64_PC32	__tracepoint_initcall_level+0x3
-0018     25fe:	7e 3f                	jle    263f <do_pre_smp_initcalls+0x59>
-001a     2600:	ff 05 00 00 00 00    	incl   0x0(%rip)        # 2606 <do_pre_smp_initcalls+0x20>	2602: R_X86_64_PC32	__preempt_count-0x4
-0020     2606:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	2609: R_X86_64_32S	__tracepoint_initcall_level+0x38
-0027     260d:	e8 00 00 00 00       	call   2612 <do_pre_smp_initcalls+0x2c>	260e: R_X86_64_PLT32	__tsan_volatile_read8-0x4
-002c     2612:	48 8b 1d 00 00 00 00 	mov    0x0(%rip),%rbx        # 2619 <do_pre_smp_initcalls+0x33>	2615: R_X86_64_PC32	__tracepoint_initcall_level+0x34
-0033     2619:	48 85 db             	test   %rbx,%rbx
-0036     261c:	74 19                	je     2637 <do_pre_smp_initcalls+0x51>
-0038     261e:	48 8d 7b 08          	lea    0x8(%rbx),%rdi
-003c     2622:	e8 00 00 00 00       	call   2627 <do_pre_smp_initcalls+0x41>	2623: R_X86_64_PLT32	__tsan_read8-0x4
-0041     2627:	48 8b 7b 08          	mov    0x8(%rbx),%rdi
-0045     262b:	48 c7 c6 00 00 00 00 	mov    $0x0,%rsi	262e: R_X86_64_32S	.rodata.str1.1+0x3a812
-004c     2632:	e8 00 00 00 00       	call   2637 <do_pre_smp_initcalls+0x51>	2633: R_X86_64_PLT32	__SCT__tp_func_initcall_level-0x4
-0051     2637:	ff 0d 00 00 00 00    	decl   0x0(%rip)        # 263d <do_pre_smp_initcalls+0x57>	2639: R_X86_64_PC32	__preempt_count-0x4
-0057     263d:	74 4d                	je     268c <do_pre_smp_initcalls+0xa6>
-0059     263f:	e8 00 00 00 00       	call   2644 <do_pre_smp_initcalls+0x5e>	2640: R_X86_64_PLT32	rcu_is_watching-0x4
-005e     2644:	84 c0                	test   %al,%al
-0060     2646:	74 40                	je     2688 <do_pre_smp_initcalls+0xa2>
-0062     2648:	49 c7 c6 00 00 00 00 	mov    $0x0,%r14	264b: R_X86_64_32S	__initcall0_start
-0069     264f:	49 c7 c7 00 00 00 00 	mov    $0x0,%r15	2652: R_X86_64_32S	__initcall_start
-0070     2656:	4d 39 f7             	cmp    %r14,%r15
-0073     2659:	73 27                	jae    2682 <do_pre_smp_initcalls+0x9c>
-0075     265b:	48 c7 c3 00 00 00 00 	mov    $0x0,%rbx	265e: R_X86_64_32S	__initcall_start
-007c     2662:	48 89 df             	mov    %rbx,%rdi
-007f     2665:	e8 00 00 00 00       	call   266a <do_pre_smp_initcalls+0x84>	2666: R_X86_64_PLT32	__tsan_read4-0x4
-0084     266a:	48 63 3b             	movslq (%rbx),%rdi
-0087     266d:	4c 01 ff             	add    %r15,%rdi
-008a     2670:	e8 00 00 00 00       	call   2675 <do_pre_smp_initcalls+0x8f>	2671: R_X86_64_PLT32	do_one_initcall-0x4
-008f     2675:	48 83 c3 04          	add    $0x4,%rbx
-0093     2679:	49 83 c7 04          	add    $0x4,%r15
-0097     267d:	4c 39 f3             	cmp    %r14,%rbx
-009a     2680:	72 e0                	jb     2662 <do_pre_smp_initcalls+0x7c>
-009c     2682:	5b                   	pop    %rbx
-009d     2683:	41 5e                	pop    %r14
-009f     2685:	41 5f                	pop    %r15
-00a1     2687:	c3                   	ret
-00a2     2688:	0f 0b                	ud2
-00a4     268a:	eb bc                	jmp    2648 <do_pre_smp_initcalls+0x62>
-00a6     268c:	e8 00 00 00 00       	call   2691 <do_pre_smp_initcalls+0xab>	268d: R_X86_64_PLT32	preempt_schedule_notrace_thunk-0x4
-00ab     2691:	eb ac                	jmp    263f <do_pre_smp_initcalls+0x59>
+>          |      ^~~~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +/pci_epc_dstate_notity +795 drivers/pci/endpoint/pci-epc-core.c
+> 
+>    785	
+>    786	/**
+>    787	 * pci_epc_dstate_notity() - Notify the EPF driver that EPC device D-state
+>    788	 *			has changed
+>    789	 * @epc: the EPC device which has change in D-state
+>    790	 * @state: the changed D-state
+>    791	 *
+>    792	 * Invoke to Notify the EPF device that the EPC device has D-state has
+>    793	 * changed.
+>    794	 */
+>  > 795	void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
+>    796	{
+>    797		struct pci_epf *epf;
+>    798	
+>    799		if (!epc || IS_ERR(epc))
+>    800			return;
+>    801	
+>    802		mutex_lock(&epc->list_lock);
+>    803		list_for_each_entry(epf, &epc->pci_epf, list) {
+>    804			mutex_lock(&epf->lock);
+>    805			if (epf->event_ops && epf->event_ops->dstate_notify)
+>    806				epf->event_ops->dstate_notify(epf, state);
+>    807			mutex_unlock(&epf->lock);
+>    808		}
+>    809		mutex_unlock(&epc->list_lock);
+>    810	}
+>    811	EXPORT_SYMBOL_GPL(pci_epc_dstate_notity);
+>    812	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
