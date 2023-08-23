@@ -1,44 +1,41 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C393623BF;
-	Wed, 23 Aug 2023 22:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129821FB35;
+	Wed, 23 Aug 2023 23:04:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692831128; x=1724367128;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AbeS99VugIUEPB9d0Z+Be9wVHLljiYqMEsBSAflYgd8=;
-  b=D/4mzOlu8+GEaAGjDM4ZUTwZ4N3/Tnj/IXZRs8IfOqX97JP5f5sJonda
-   9o2BGNE4zri1OknO7ySD2jEpjHfyMMitxzYm5+8RyzUXCFVZL7pnpkJcN
-   31c78EJeCh336Sk6HpUUe/mgAgkmJOf761d/9jgQJfy04YuE5SaeH+v7o
-   wH/MrEnQiFmUHRHR5Ox14i1ZQYnTrExpg3mNkeKngpFHpoH7e7+1K7zh/
-   1ApwQPvrzM3s3rwcDZAhqgyR2ejAY/j9tXWjvh0WADFiaSjs5Z1+Fm9fr
-   8ds9UvuBvSPyZbAs3+lryoCIOMSGd0fnX6rJN3DT1ZUJYW3esWayF5gJt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="359275905"
+  t=1692831847; x=1724367847;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=KTt68IUYHvwEzQZfWcC0BI5uq2Qo8ip4yWRCPM0k1bc=;
+  b=ASEuFrDUzabnbnJ0kXeLMZfgpbcULXfUdk0dXoYFhGqjDupGRZCevdhj
+   8ZwAxwM2/IZKOR/OwBhY5C+iCWOI3BrSHtGI3oMDQUjQgOBmnk20Pk/Io
+   jYxcKM0zqQ9Dkuph6/YBfBrWWs2FHrzOryfQFthoacynd9D36leUpksq+
+   mz0uwP7yuv6FS87VDKNqvuzvPTS8n516J9VLmt00kI13st5N9VObTL+/q
+   gmQTxcuRfDVmXQ6vAFlmtyKy/HfCDHnHZJoHF1xmQ59vavMvpChofcsEh
+   bOW1zmn7jMfdKXBJaDGXPlMSDkqCn0jggwu39PrkYsD8TwWyNluoR6lD+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="359279254"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="359275905"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 15:52:01 -0700
+   d="scan'208";a="359279254"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 16:04:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="802309090"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="739946354"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="802309090"
+   d="scan'208";a="739946354"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Aug 2023 15:51:59 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 23 Aug 2023 16:04:04 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYwhi-0001Yy-0p;
-	Wed, 23 Aug 2023 22:51:58 +0000
-Date: Thu, 24 Aug 2023 06:51:10 +0800
+	id 1qYwtP-0001ZM-25;
+	Wed, 23 Aug 2023 23:04:03 +0000
+Date: Thu, 24 Aug 2023 07:03:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 11462/12208] mm/internal.h:709:3: error: implicit
- declaration of function 'release_fault_lock' is invalid in C99
-Message-ID: <202308240613.DrqV4VT4-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [stable:linux-5.15.y 6360/9999] arch/x86/kernel/smp.o: warning:
+ objtool: sysvec_reboot()+0x4a: unreachable instruction
+Message-ID: <202308240730.0z1y2c4w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,208 +45,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e3f80d3eae76c3557b3c9b5938ad01c0e6cf25ec
-commit: 0790e1e2b1b71ba357e89e779451efe79dff28e6 [11462/12208] mm: allow fault_dirty_shared_page() to be called under the VMA lock
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230824/202308240613.DrqV4VT4-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240613.DrqV4VT4-lkp@intel.com/reproduce)
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Sasha Levin <sashal@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   f6f7927ac664ba23447f8dd3c3dfe2f4ee39272f
+commit: 54aa76ad5f0148ad54fc7ad42ad5a079bc12efee [6360/9999] x86: Mark stop_this_cpu() __noreturn
+config: x86_64-randconfig-002-20230824 (https://download.01.org/0day-ci/archive/20230824/202308240730.0z1y2c4w-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240730.0z1y2c4w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308240613.DrqV4VT4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308240730.0z1y2c4w-lkp@intel.com/
 
-Note: the linux-next/master HEAD e3f80d3eae76c3557b3c9b5938ad01c0e6cf25ec builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
-   In file included from mm/filemap.c:20:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from mm/filemap.c:20:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from mm/filemap.c:20:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from mm/filemap.c:50:
->> mm/internal.h:709:3: error: implicit declaration of function 'release_fault_lock' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   release_fault_lock(vmf);
-                   ^
-   12 warnings and 1 error generated.
---
-   In file included from lib/vsprintf.c:36:
-   In file included from include/linux/rtc.h:17:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from lib/vsprintf.c:36:
-   In file included from include/linux/rtc.h:17:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from lib/vsprintf.c:36:
-   In file included from include/linux/rtc.h:17:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from lib/vsprintf.c:49:
->> lib/../mm/internal.h:709:3: error: implicit declaration of function 'release_fault_lock' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   release_fault_lock(vmf);
-                   ^
-   12 warnings and 1 error generated.
+>> arch/x86/kernel/smp.o: warning: objtool: sysvec_reboot()+0x4a: unreachable instruction
 
 
-vim +/release_fault_lock +709 mm/internal.h
-
-   692	
-   693	static inline struct file *maybe_unlock_mmap_for_io(struct vm_fault *vmf,
-   694							    struct file *fpin)
-   695	{
-   696		int flags = vmf->flags;
-   697	
-   698		if (fpin)
-   699			return fpin;
-   700	
-   701		/*
-   702		 * FAULT_FLAG_RETRY_NOWAIT means we don't want to wait on page locks or
-   703		 * anything, so we only pin the file and drop the mmap_lock if only
-   704		 * FAULT_FLAG_ALLOW_RETRY is set, while this is the first attempt.
-   705		 */
-   706		if (fault_flag_allow_retry_first(flags) &&
-   707		    !(flags & FAULT_FLAG_RETRY_NOWAIT)) {
-   708			fpin = get_file(vmf->vma->vm_file);
- > 709			release_fault_lock(vmf);
-   710		}
-   711		return fpin;
-   712	}
-   713	#else /* !CONFIG_MMU */
-   714	static inline void unmap_mapping_folio(struct folio *folio) { }
-   715	static inline void mlock_new_folio(struct folio *folio) { }
-   716	static inline bool need_mlock_drain(int cpu) { return false; }
-   717	static inline void mlock_drain_local(void) { }
-   718	static inline void mlock_drain_remote(int cpu) { }
-   719	static inline void vunmap_range_noflush(unsigned long start, unsigned long end)
-   720	{
-   721	}
-   722	#endif /* !CONFIG_MMU */
-   723	
+objdump-func vmlinux.o sysvec_reboot:
+0000 00000000000024c0 <sysvec_reboot>:
+0000     24c0:	55                   	push   %rbp
+0001     24c1:	48 89 e5             	mov    %rsp,%rbp
+0004     24c4:	41 56                	push   %r14
+0006     24c6:	53                   	push   %rbx
+0007     24c7:	48 89 fb             	mov    %rdi,%rbx
+000a     24ca:	e8 00 00 00 00       	call   24cf <sysvec_reboot+0xf>	24cb: R_X86_64_PLT32	irqentry_enter-0x4
+000f     24cf:	90                   	nop
+0010     24d0:	f6 83 88 00 00 00 03 	testb  $0x3,0x88(%rbx)
+0017     24d7:	75 5a                	jne    2533 <sysvec_reboot+0x73>
+0019     24d9:	41 89 c6             	mov    %eax,%r14d
+001c     24dc:	65 8a 05 00 00 00 00 	mov    %gs:0x0(%rip),%al        # 24e3 <sysvec_reboot+0x23>	24df: R_X86_64_PC32	hardirq_stack_inuse-0x4
+0023     24e3:	84 c0                	test   %al,%al
+0025     24e5:	75 4c                	jne    2533 <sysvec_reboot+0x73>
+0027     24e7:	65 c6 05 00 00 00 00 01 	movb   $0x1,%gs:0x0(%rip)        # 24ef <sysvec_reboot+0x2f>	24ea: R_X86_64_PC32	hardirq_stack_inuse-0x5
+002f     24ef:	65 4c 8b 1d 00 00 00 00 	mov    %gs:0x0(%rip),%r11        # 24f7 <sysvec_reboot+0x37>	24f3: R_X86_64_PC32	hardirq_stack_ptr-0x4
+0037     24f7:	49 89 23             	mov    %rsp,(%r11)
+003a     24fa:	4c 89 dc             	mov    %r11,%rsp
+003d     24fd:	e8 00 00 00 00       	call   2502 <sysvec_reboot+0x42>	24fe: R_X86_64_PLT32	irq_enter_rcu-0x4
+0042     2502:	48 89 df             	mov    %rbx,%rdi
+0045     2505:	e8 00 00 00 00       	call   250a <sysvec_reboot+0x4a>	2506: R_X86_64_PLT32	.text+0x88d3c
+004a     250a:	e8 00 00 00 00       	call   250f <sysvec_reboot+0x4f>	250b: R_X86_64_PLT32	irq_exit_rcu-0x4
+004f     250f:	5c                   	pop    %rsp
+0050     2510:	65 c6 05 00 00 00 00 00 	movb   $0x0,%gs:0x0(%rip)        # 2518 <sysvec_reboot+0x58>	2513: R_X86_64_PC32	hardirq_stack_inuse-0x5
+0058     2518:	90                   	nop
+0059     2519:	41 0f b6 f6          	movzbl %r14b,%esi
+005d     251d:	48 89 df             	mov    %rbx,%rdi
+0060     2520:	e8 00 00 00 00       	call   2525 <sysvec_reboot+0x65>	2521: R_X86_64_PLT32	irqentry_exit-0x4
+0065     2525:	5b                   	pop    %rbx
+0066     2526:	41 5e                	pop    %r14
+0068     2528:	5d                   	pop    %rbp
+0069     2529:	31 c0                	xor    %eax,%eax
+006b     252b:	31 ff                	xor    %edi,%edi
+006d     252d:	31 f6                	xor    %esi,%esi
+006f     252f:	45 31 db             	xor    %r11d,%r11d
+0072     2532:	c3                   	ret
+0073     2533:	e8 00 00 00 00       	call   2538 <sysvec_reboot+0x78>	2534: R_X86_64_PLT32	irq_enter_rcu-0x4
+0078     2538:	e8 00 00 00 00       	call   253d <sysvec_reboot+0x7d>	2539: R_X86_64_PLT32	.text+0x88d3c
+007d     253d:	0f 1f 00             	nopl   (%rax)
 
 -- 
 0-DAY CI Kernel Test Service
