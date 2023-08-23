@@ -1,45 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4648815BC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 02:46:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3031C15BC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 02:59:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692758763; x=1724294763;
+  t=1692759555; x=1724295555;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iBxRQlvvQyQereA07kOa8tUnhA3mq2NgUhVuGYRGmAk=;
-  b=mq2V/jIxLYd1iNDJ7O5I1JfYqFmfpQPnQ+77FeHjNQdUdt289fB7g3jg
-   PknRvRZ5vok0T5YZlkGdyRP/RMugPSrAI50mJ8l2TYptt037Ux7+XOpNV
-   Nt2vJwtRP0OctGhI8GhpJ0BKDk6QBa5qZgwchkgjhYLdFF0pWlpFb9lLM
-   tyHu2pv2GDgc5l6aKZxF8IqRE4zGzmt68RKzsih/xYLClbmE36q0Pg8Gs
-   nDZ9OUJPAd+M/E0j1Np18fiwEh9DNiN5PVZtiE5HRbldJpJY1O3mVdWyx
-   BZt0NCtdx7LI1MnRK+0l1zu9uBhMwbz6WvFKRv836eBJd82bf6G0MLQJi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="359032973"
+  bh=q8tH6SZqAcsysEhA0vGGwZwBczMf3O6Zdhd2uFr13Xw=;
+  b=e6a7s7Qw87nKuRCZFznc8i9rzCOV8v+iF8dUCyYTuujGXhGnYzR45yYV
+   JOrfKyeV3okRG2EyDOoFteIIdpGFrX0Tur7zDiz/DTWHLSp6Wl+q2epge
+   VkXQEfqJyhW2Zeqt8EUekG7P/UlnQVFlADTNAHGL3SKb5rcWNzX4Y4J2o
+   47VUQXhaiSd5cdLhe4uh0IaEGJp9fBDS4HK9v7NumIW1Tf5poYGLSoNm3
+   OUT0Ot8lMi0aj+IBT9TG+QXZA4ZJcM60yewWyoidFnTEmXOy8CpOYd4/7
+   J8t45iYmr3D86AEMxChg7s3rAF3oiDm6CFlyBXYD4aJXf7OuCIemfK4P6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="364228954"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="359032973"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 19:46:01 -0700
+   d="scan'208";a="364228954"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 19:59:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="910334528"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="826555721"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="910334528"
+   d="scan'208";a="826555721"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 22 Aug 2023 19:45:59 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Aug 2023 19:59:12 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYdsc-0000mI-1f;
-	Wed, 23 Aug 2023 02:45:58 +0000
-Date: Wed, 23 Aug 2023 10:45:22 +0800
+	id 1qYe4I-0000n2-25;
+	Wed, 23 Aug 2023 02:58:47 +0000
+Date: Wed, 23 Aug 2023 10:56:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manish Rangankar <mrangankar@marvell.com>
+To: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
 Cc: oe-kbuild-all@lists.linux.dev,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: [mkp-scsi:for-next 113/134] drivers/nvme/target/fcloop.c:385:9:
- sparse: sparse: incorrect type in argument 3 (different base types)
-Message-ID: <202308231059.Lux2gyKy-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [linux-next:master 1241/11761] ERROR: modpost: ".L874"
+ [drivers/mtd/nand/raw/nand.ko] undefined!
+Message-ID: <202308231008.lxCTs3d2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,111 +48,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-head:   091462cb57e4ac146f134e258c4f764662ba3961
-commit: 875386b98857822b77ac7f95bdf367b70af5b78c [113/134] scsi: qla2xxx: Add Unsolicited LS Request and Response Support for NVMe
-config: sparc64-randconfig-r131-20230823 (https://download.01.org/0day-ci/archive/20230823/202308231059.Lux2gyKy-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231059.Lux2gyKy-lkp@intel.com/reproduce)
+Hi Arseniy,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   28c736b0e92e11bfe2b9997688213dc43cb22182
+commit: 079c8d9da26ed041a54706de68b754337e6df17e [1241/11761] mtd: rawnand: export 'nand_exit_status_op()'
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20230823/202308231008.lxCTs3d2-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231008.lxCTs3d2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308231059.Lux2gyKy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308231008.lxCTs3d2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/nvme/target/fcloop.c:370:57: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected unsigned int [usertype] lsreqbuf_len @@     got restricted __le32 [usertype] rqstlen @@
-   drivers/nvme/target/fcloop.c:370:57: sparse:     expected unsigned int [usertype] lsreqbuf_len
-   drivers/nvme/target/fcloop.c:370:57: sparse:     got restricted __le32 [usertype] rqstlen
-   drivers/nvme/target/fcloop.c:385:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fcloop.c:385:9: sparse: sparse: restricted __le32 degrades to integer
->> drivers/nvme/target/fcloop.c:385:9: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long @@     got restricted __le32 @@
-   drivers/nvme/target/fcloop.c:385:9: sparse:     expected unsigned long
-   drivers/nvme/target/fcloop.c:385:9: sparse:     got restricted __le32
-   drivers/nvme/target/fcloop.c:457:56: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int [usertype] lsreqbuf_len @@     got restricted __le32 [usertype] rqstlen @@
-   drivers/nvme/target/fcloop.c:457:56: sparse:     expected unsigned int [usertype] lsreqbuf_len
-   drivers/nvme/target/fcloop.c:457:56: sparse:     got restricted __le32 [usertype] rqstlen
-   drivers/nvme/target/fcloop.c:473:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fcloop.c:473:9: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fcloop.c:473:9: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long @@     got restricted __le32 @@
-   drivers/nvme/target/fcloop.c:473:9: sparse:     expected unsigned long
-   drivers/nvme/target/fcloop.c:473:9: sparse:     got restricted __le32
---
-   drivers/nvme/target/fc.c:372:41: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:372:58: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:398:40: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:398:57: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:404:47: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:428:41: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:428:58: sparse: sparse: restricted __le32 degrades to integer
-   drivers/nvme/target/fc.c:1699:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got int @@
-   drivers/nvme/target/fc.c:1699:36: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1699:36: sparse:     got int
->> drivers/nvme/target/fc.c:1716:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got unsigned long @@
-   drivers/nvme/target/fc.c:1716:28: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1716:28: sparse:     got unsigned long
-   drivers/nvme/target/fc.c:1792:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got int @@
-   drivers/nvme/target/fc.c:1792:36: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1792:36: sparse:     got int
-   drivers/nvme/target/fc.c:1807:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got unsigned long @@
-   drivers/nvme/target/fc.c:1807:28: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1807:28: sparse:     got unsigned long
-   drivers/nvme/target/fc.c:1854:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got int @@
-   drivers/nvme/target/fc.c:1854:36: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1854:36: sparse:     got int
-   drivers/nvme/target/fc.c:1865:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got unsigned long @@
-   drivers/nvme/target/fc.c:1865:28: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1865:28: sparse:     got unsigned long
-   drivers/nvme/target/fc.c:1897:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got int @@
-   drivers/nvme/target/fc.c:1897:38: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1897:38: sparse:     got int
-   drivers/nvme/target/fc.c:1981:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got int @@
-   drivers/nvme/target/fc.c:1981:36: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/fc.c:1981:36: sparse:     got int
-   drivers/nvme/target/fc.c: note: in included file:
->> drivers/nvme/target/../host/fc.h:168:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rqstlen @@     got unsigned long @@
-   drivers/nvme/target/../host/fc.h:168:24: sparse:     expected restricted __le32 [usertype] rqstlen
-   drivers/nvme/target/../host/fc.h:168:24: sparse:     got unsigned long
->> drivers/nvme/target/../host/fc.h:170:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rsplen @@     got unsigned long @@
-   drivers/nvme/target/../host/fc.h:170:23: sparse:     expected restricted __le32 [usertype] rsplen
-   drivers/nvme/target/../host/fc.h:170:23: sparse:     got unsigned long
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +385 drivers/nvme/target/fcloop.c
-
-475d0fe795516a James Smart   2016-12-02  374  
-475d0fe795516a James Smart   2016-12-02  375  static int
-ea39765843faf5 James Smart   2020-03-31  376  fcloop_h2t_xmt_ls_rsp(struct nvmet_fc_target_port *targetport,
-72e6329f86c714 James Smart   2020-03-31  377  			struct nvmefc_ls_rsp *lsrsp)
-475d0fe795516a James Smart   2016-12-02  378  {
-72e6329f86c714 James Smart   2020-03-31  379  	struct fcloop_lsreq *tls_req = ls_rsp_to_lsreq(lsrsp);
-475d0fe795516a James Smart   2016-12-02  380  	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
-38803fcffb5baf James Smart   2020-03-18  381  	struct fcloop_tport *tport = targetport->private;
-38803fcffb5baf James Smart   2020-03-18  382  	struct nvme_fc_remote_port *remoteport = tport->remoteport;
-38803fcffb5baf James Smart   2020-03-18  383  	struct fcloop_rport *rport;
-475d0fe795516a James Smart   2016-12-02  384  
-72e6329f86c714 James Smart   2020-03-31 @385  	memcpy(lsreq->rspaddr, lsrsp->rspbuf,
-72e6329f86c714 James Smart   2020-03-31  386  		((lsreq->rsplen < lsrsp->rsplen) ?
-72e6329f86c714 James Smart   2020-03-31  387  				lsreq->rsplen : lsrsp->rsplen));
-38803fcffb5baf James Smart   2020-03-18  388  
-72e6329f86c714 James Smart   2020-03-31  389  	lsrsp->done(lsrsp);
-475d0fe795516a James Smart   2016-12-02  390  
-38803fcffb5baf James Smart   2020-03-18  391  	if (remoteport) {
-38803fcffb5baf James Smart   2020-03-18  392  		rport = remoteport->private;
-38803fcffb5baf James Smart   2020-03-18  393  		spin_lock(&rport->lock);
-38803fcffb5baf James Smart   2020-03-18  394  		list_add_tail(&rport->ls_list, &tls_req->ls_list);
-38803fcffb5baf James Smart   2020-03-18  395  		spin_unlock(&rport->lock);
-8832cf922151e9 Sagi Grimberg 2022-03-21  396  		queue_work(nvmet_wq, &rport->ls_work);
-38803fcffb5baf James Smart   2020-03-18  397  	}
-475d0fe795516a James Smart   2016-12-02  398  
-475d0fe795516a James Smart   2016-12-02  399  	return 0;
-475d0fe795516a James Smart   2016-12-02  400  }
-475d0fe795516a James Smart   2016-12-02  401  
-
-:::::: The code at line 385 was first introduced by commit
-:::::: 72e6329f86c714785ac195d293cb19dd24507880 nvme-fc and nvmet-fc: revise LLDD api for LS reception and LS request
-
-:::::: TO: James Smart <jsmart2021@gmail.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
+>> ERROR: modpost: ".L874" [drivers/mtd/nand/raw/nand.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
