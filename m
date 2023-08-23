@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7151381;
-	Wed, 23 Aug 2023 01:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D9617C6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 02:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692755312; x=1724291312;
+  t=1692756055; x=1724292055;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/UX/VJr+eHMWDrw7OUXO6P7GMzF6UwuOSz3W+cQBqmI=;
-  b=Cqtbp9AR5vxPJI52cKsa1mzbvnYiOLtV0N7ElDxRSVkv37KQaDcTULpe
-   sPAeONvQ2dqPK0yGH3/RNrxPLHfaqscx8ISOg/rc4KlLf980UNw2znYh1
-   O14JJd71RKGOAgox5OfyDe6YHE4r9cgAv2pOnzlEyTVo1zQ+8Gw6xIVpa
-   Ja5afkXguDXaYBTARVjgTLoV2XjGNZ1PJr+d0wjw5sNFBh3xVdXebSp9Q
-   p1AbzjdTkUwCpuu6OfJEATH1RO5BjmV6FTqyQjIWyYuVAUX5RG2xXvWhF
-   7Vm/nn/7q/GhxXpcy09tvpl9rl0rZqnwDpv3aQqu5HEkqh2X7w8ycdLEg
+  bh=yl+KEQzc4x6NHVj3CjHlnSRqdf04HRQDNwnh6bBobF4=;
+  b=LKuD94FxOpVQO1c8FM3jIf0Tt+N3uovZ69KU2wnLvyaxp7aP8jSIKYQK
+   a+vihbSbwqlubCwYGmoZtFlpIRoptH66mwQdLPQO9hntxPNy0T1GPrZP9
+   jHsxRHIHWZB3EstsDJGSq1fyY18JvDt/bayh3APRLyTBhLfJlMdCPSmhE
+   7eeTdhjv6F9z+lJ9onTkY1jBsPJBhcmxvXjCfAwWtUg1LBlDGpv1vJD4F
+   p5gV6cf5HoLJZIt8xgooTrT6ubZyNAhVl2xg6h63gzL7d2tER0RnuPkit
+   DF/7PorxB8jQbazwu5qPHDTyztxPjvT08ALIrTEBN0mh/l5iv9kh9i+iB
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="371452639"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="460403852"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="371452639"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 18:48:22 -0700
+   d="scan'208";a="460403852"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2023 19:00:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="860142153"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="765956470"
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="860142153"
+   d="scan'208";a="765956470"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 22 Aug 2023 18:48:18 -0700
+  by orsmga008.jf.intel.com with ESMTP; 22 Aug 2023 19:00:27 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYcyn-0000ja-2I;
-	Wed, 23 Aug 2023 01:48:17 +0000
-Date: Wed, 23 Aug 2023 09:47:48 +0800
+	id 1qYdAY-0000k8-20;
+	Wed, 23 Aug 2023 02:00:26 +0000
+Date: Wed, 23 Aug 2023 09:59:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huang Jiaqing <jiaqing.huang@intel.com>, kvm@vger.kernel.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, joro@8bytes.org, will@kernel.org,
-	robin.murphy@arm.com, kevin.tian@intel.com,
-	baolu.lu@linux.intel.com, jacob.jun.pan@linux.intel.com,
-	yi.l.liu@intel.com, yi.y.sun@intel.com, jiaqing.huang@intel.com
-Subject: Re: [PATCH] iommu/vt-d: Introduce a rb_tree for looking up device
-Message-ID: <202308230922.9PKf5JkV-lkp@intel.com>
-References: <20230821071659.123981-1-jiaqing.huang@intel.com>
+To: Dmitry Antipov <dmantipov@yandex.ru>,
+	Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kalle Valo <kvalo@kernel.org>,
+	ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+	lvc-project@linuxtesting.org, Dmitry Antipov <dmantipov@yandex.ru>
+Subject: Re: [PATCH 1/3] wifi: ath10k: cleanup CE initialization
+Message-ID: <202308230929.vOiA1VSe-lkp@intel.com>
+References: <20230822155532.95983-1-dmantipov@yandex.ru>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,67 +49,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230821071659.123981-1-jiaqing.huang@intel.com>
+In-Reply-To: <20230822155532.95983-1-dmantipov@yandex.ru>
 
-Hi Huang,
+Hi Dmitry,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on v6.5-rc7]
-[also build test WARNING on linus/master]
-[cannot apply to joro-iommu/next next-20230822]
+[auto build test WARNING on kvalo-ath/ath-next]
+[also build test WARNING on wireless-next/main wireless/main linus/master v6.5-rc7 next-20230822]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Huang-Jiaqing/iommu-vt-d-Introduce-a-rb_tree-for-looking-up-device/20230821-151945
-base:   v6.5-rc7
-patch link:    https://lore.kernel.org/r/20230821071659.123981-1-jiaqing.huang%40intel.com
-patch subject: [PATCH] iommu/vt-d: Introduce a rb_tree for looking up device
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230823/202308230922.9PKf5JkV-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230922.9PKf5JkV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Antipov/wifi-ath10k-simplify-ath10k_peer_assoc_h_vht/20230822-235854
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git ath-next
+patch link:    https://lore.kernel.org/r/20230822155532.95983-1-dmantipov%40yandex.ru
+patch subject: [PATCH 1/3] wifi: ath10k: cleanup CE initialization
+config: sparc64-allyesconfig (https://download.01.org/0day-ci/archive/20230823/202308230929.vOiA1VSe-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308230929.vOiA1VSe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308230922.9PKf5JkV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308230929.vOiA1VSe-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iommu/intel/iommu.c:239:28: warning: no previous prototype for 'device_rbtree_find' [-Wmissing-prototypes]
-     239 | struct device_domain_info *device_rbtree_find(struct intel_iommu *iommu, u8 bus, u8 devfn)
-         |                            ^~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath10k/snoc.c: In function 'ath10k_snoc_hif_power_up':
+>> drivers/net/wireless/ath/ath10k/snoc.c:1083:1: warning: label 'err_free_rri' defined but not used [-Wunused-label]
+    1083 | err_free_rri:
+         | ^~~~~~~~~~~~
 
 
-vim +/device_rbtree_find +239 drivers/iommu/intel/iommu.c
+vim +/err_free_rri +1083 drivers/net/wireless/ath/ath10k/snoc.c
 
-   237	
-   238	
- > 239	struct device_domain_info *device_rbtree_find(struct intel_iommu *iommu, u8 bus, u8 devfn)
-   240	{
-   241		struct device_domain_info *data = NULL;
-   242		struct rb_node *node;
-   243	
-   244		down_read(&iommu->iopf_device_sem);
-   245	
-   246		node = iommu->iopf_device_rbtree.rb_node;
-   247		while (node) {
-   248			data = container_of(node, struct device_domain_info, node);
-   249			s16 result = RB_NODE_CMP(bus, devfn, data->bus, data->devfn);
-   250	
-   251			if (result < 0)
-   252				node = node->rb_left;
-   253			else if (result > 0)
-   254				node = node->rb_right;
-   255			else
-   256				break;
-   257		}
-   258		up_read(&iommu->iopf_device_sem);
-   259	
-   260		return node ? data : NULL;
-   261	}
-   262	
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1056  
+3c545a25939c27 Rakesh Pillai  2019-02-08  1057  static int ath10k_snoc_hif_power_up(struct ath10k *ar,
+3c545a25939c27 Rakesh Pillai  2019-02-08  1058  				    enum ath10k_firmware_mode fw_mode)
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1059  {
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1060  	int ret;
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1061  
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1062  	ath10k_dbg(ar, ATH10K_DBG_SNOC, "%s:WCN3990 driver state = %d\n",
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1063  		   __func__, ar->state);
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1064  
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1065  	ret = ath10k_hw_power_on(ar);
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1066  	if (ret) {
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1067  		ath10k_err(ar, "failed to power on device: %d\n", ret);
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1068  		return ret;
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1069  	}
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1070  
+3c545a25939c27 Rakesh Pillai  2019-02-08  1071  	ret = ath10k_snoc_wlan_enable(ar, fw_mode);
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1072  	if (ret) {
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1073  		ath10k_err(ar, "failed to enable wcn3990: %d\n", ret);
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1074  		goto err_hw_power_off;
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1075  	}
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1076  
+4945af5b264fbd Govind Singh   2018-04-17  1077  	ath10k_ce_alloc_rri(ar);
+4945af5b264fbd Govind Singh   2018-04-17  1078  
+7279d6262224cd Dmitry Antipov 2023-08-22  1079  	ath10k_snoc_init_pipes(ar);
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1080  
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1081  	return 0;
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1082  
+31561e8557cd1e Rakesh Pillai  2020-12-12 @1083  err_free_rri:
+31561e8557cd1e Rakesh Pillai  2020-12-12  1084  	ath10k_ce_free_rri(ar);
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1085  	ath10k_snoc_wlan_disable(ar);
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1086  
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1087  err_hw_power_off:
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1088  	ath10k_hw_power_off(ar);
+5f1aa93ffa1f36 Rakesh Pillai  2020-12-12  1089  
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1090  	return ret;
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1091  }
+0fa4fbe9b8cf76 Govind Singh   2018-04-10  1092  
 
 -- 
 0-DAY CI Kernel Test Service
