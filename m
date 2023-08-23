@@ -1,42 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E779BA3B;
-	Wed, 23 Aug 2023 14:50:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCF69448
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 14:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692802213; x=1724338213;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+rC0todhL7nhyTC3I6aSmta0A5PLR+rZFf57fc0unEY=;
-  b=jdCufYaxowjDFn5CQRQKmIsPvkR+gpP9dNKPHXrtlWqKQl7HwBlKDMW8
-   1TlhsWjD32kFCV56d8r82iftwM0G/yvOInRsAJibFnmMYxMFbb0bPMODi
-   sQcjsCSAucAWd/eQFSAAuTTzM2cjPvnOKHtyN6l0g28crqMixAmVqqM1w
-   ekXZbQAeqCYW8pZwRQKN5kHJgDLdLS4jhtIfyKZV1kaEFy6S9BnavqyaI
-   n3B9YQGSKIaYvaqnP2vCqUiuu0UF+OemT/MEtOo3PPBf5KCnoqipQgXUq
-   rdlhdnSsWWah91qSCwxT7M51M7k43+OiJlfQaxI9HpnInjnaVOTghtM+l
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="460546536"
+  t=1692802214; x=1724338214;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EyWNtPcXwUUX8H+6bBWM7FE00K956XHV5T2ZmK9CicY=;
+  b=RnfDwALoupiQjdou7CCisB9tCkkNR+aQH59YMMqAx5X7oDQC+vTfStxX
+   6EyGoWlzC2W3UV7kXVI2jeKOPBPv4CmeI0G1q+XWmh13KYblc45B/K9Lv
+   rJVvXFKpUZTuFxGbUJprHvz7VHAHfypDAkYo2FkMAD1gEgn4VvtPzpkfx
+   XY8C+mNexw40Nc7gJ0rC6rMBGXUFvpqcTWHrbGBQKdndWn7tlk290KBtz
+   XMGsDw8N6y0aagNtWDkzsd+kCS1hGooPraNaTNyRXfZ2VoNSedfuq4OjN
+   NA2UXmebze+0kjrFYNgzHx3f2kBFqoy6egbrymkEPCWCUEFlTFSrpWHb0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="373066843"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="460546536"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 07:50:11 -0700
+   d="scan'208";a="373066843"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 07:50:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="910536184"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="736702197"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="910536184"
+   d="scan'208";a="736702197"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 23 Aug 2023 07:50:09 -0700
+  by orsmga002.jf.intel.com with ESMTP; 23 Aug 2023 07:50:09 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYpBQ-0001IM-1U;
+	id 1qYpBQ-0001IP-1a;
 	Wed, 23 Aug 2023 14:50:08 +0000
-Date: Wed, 23 Aug 2023 22:49:42 +0800
+Date: Wed, 23 Aug 2023 22:49:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:total_mapcount 4/4] mm/rmap.c:1306:4: warning:
- variable 'first' is uninitialized when used here
-Message-ID: <202308232256.hYlT8CIL-lkp@intel.com>
+To: Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	netdev@vger.kernel.org, linux-net-drivers@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
+	pabeni@redhat.com, edumazet@google.com, ecree.xilinx@gmail.com,
+	habetsm.xilinx@gmail.com,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+Subject: Re: [PATCH net-next 3/6] sfc: add decrement ttl by offloading set
+ ipv4 ttl actions
+Message-ID: <202308232237.WkCLb0PW-lkp@intel.com>
+References: <20230823111725.28090-4-pieter.jansen-van-vuuren@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,169 +51,180 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230823111725.28090-4-pieter.jansen-van-vuuren@amd.com>
 
-tree:   https://github.com/davidhildenbrand/linux total_mapcount
-head:   a51a7d038794500ca596fc544499429062372ac4
-commit: a51a7d038794500ca596fc544499429062372ac4 [4/4] tmp
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230823/202308232256.hYlT8CIL-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232256.hYlT8CIL-lkp@intel.com/reproduce)
+Hi Pieter,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pieter-Jansen-van-Vuuren/sfc-introduce-ethernet-pedit-set-action-infrastructure/20230823-192051
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230823111725.28090-4-pieter.jansen-van-vuuren%40amd.com
+patch subject: [PATCH net-next 3/6] sfc: add decrement ttl by offloading set ipv4 ttl actions
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230823/202308232237.WkCLb0PW-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232237.WkCLb0PW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308232256.hYlT8CIL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308232237.WkCLb0PW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from mm/rmap.c:59:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from mm/rmap.c:59:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from mm/rmap.c:59:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> mm/rmap.c:1306:4: warning: variable 'first' is uninitialized when used here [-Wuninitialized]
-    1306 |                         first += atomic_inc_and_test(&page->_mapcount);
-         |                         ^~~~~
-   mm/rmap.c:1298:41: note: initialize the variable 'first' to silence this warning
-    1298 |         unsigned int nr_pmdmapped = 0, i, first;
-         |                                                ^
-         |                                                 = 0
-   13 warnings generated.
+>> drivers/net/ethernet/sfc/tc.c:1074: warning: Function parameter or member 'match' not described in 'efx_tc_mangle'
 
 
-vim +/first +1306 mm/rmap.c
+vim +1074 drivers/net/ethernet/sfc/tc.c
 
-  1281	
-  1282	/**
-  1283	 * folio_add_file_rmap_range - add pte mapping to page range of a folio
-  1284	 * @folio:	The folio to add the mapping to
-  1285	 * @page:	The first page to add
-  1286	 * @nr_pages:	The number of pages which will be mapped
-  1287	 * @vma:	the vm area in which the mapping is added
-  1288	 * @compound:	charge the page as compound or small page
-  1289	 *
-  1290	 * The page range of folio is defined by [first_page, first_page + nr_pages)
-  1291	 *
-  1292	 * The caller needs to hold the pte lock.
-  1293	 */
-  1294	void folio_add_file_rmap_range(struct folio *folio, struct page *page,
-  1295				unsigned int nr_pages, struct vm_area_struct *vma,
-  1296				bool compound)
-  1297	{
-  1298		unsigned int nr_pmdmapped = 0, i, first;
-  1299		int nr = 0;
-  1300	
-  1301		VM_WARN_ON_FOLIO(compound && !folio_test_pmd_mappable(folio), folio);
-  1302	
-  1303		/* Is page being mapped by PTE? Is this its first map to be added? */
-  1304		if (likely(!compound)) {
-  1305			for (i = 0; i < nr_pages; i++, page++)
-> 1306				first += atomic_inc_and_test(&page->_mapcount);
-  1307			nr = first;
-  1308			if (unlikely(folio_test_large(folio))) {
-  1309				folio_mapcount_lock(folio);
-  1310				if (first) {
-  1311					nr = folio_nr_pages_mapped_add_return(folio,
-  1312									      first);
-  1313					nr = (nr < COMPOUND_MAPPED);
-  1314				}
-  1315				folio_total_mapcount_add(folio, nr_pages, vma);
-  1316				folio_mapcount_unlock(folio);
-  1317			}
-  1318		} else if (folio_test_pmd_mappable(folio)) {
-  1319			/* That test is redundant: it's for safety or to optimize out */
-  1320			folio_mapcount_lock(folio);
-  1321			first = folio_entire_mapcount_inc_test_first(folio);
-  1322			if (first) {
-  1323				nr = folio_nr_pages_mapped_add_return(folio, COMPOUND_MAPPED);
-  1324				if (likely(nr < COMPOUND_MAPPED + COMPOUND_MAPPED)) {
-  1325					nr_pmdmapped = folio_nr_pages(folio);
-  1326					nr = nr_pmdmapped - (nr & FOLIO_PAGES_MAPPED);
-  1327					/* Raced ahead of a remove and another add? */
-  1328					if (unlikely(nr < 0))
-  1329						nr = 0;
-  1330				} else {
-  1331					/* Raced ahead of a remove of COMPOUND_MAPPED */
-  1332					nr = 0;
-  1333				}
-  1334			}
-  1335			folio_total_mapcount_inc(folio, vma);
-  1336			folio_mapcount_unlock(folio);
-  1337		}
-  1338	
-  1339		if (nr_pmdmapped)
-  1340			__lruvec_stat_mod_folio(folio, folio_test_swapbacked(folio) ?
-  1341				NR_SHMEM_PMDMAPPED : NR_FILE_PMDMAPPED, nr_pmdmapped);
-  1342		if (nr)
-  1343			__lruvec_stat_mod_folio(folio, NR_FILE_MAPPED, nr);
-  1344	
-  1345		mlock_vma_folio(folio, vma, compound);
-  1346	}
-  1347	
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1054  
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1055  /**
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1056   * efx_tc_mangle() - handle a single 32-bit (or less) pedit
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1057   * @efx: NIC we're installing a flow rule on
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1058   * @act: action set (cursor) to update
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1059   * @fa:          FLOW_ACTION_MANGLE action metadata
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1060   * @mung:        accumulator for partial mangles
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1061   * @extack:      netlink extended ack for reporting errors
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1062   *
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1063   * Identify the fields written by a FLOW_ACTION_MANGLE, and record
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1064   * the partial mangle state in @mung.  If this mangle completes an
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1065   * earlier partial mangle, consume and apply to @act by calling
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1066   * efx_tc_complete_mac_mangle().
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1067   */
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1068  
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1069  static int efx_tc_mangle(struct efx_nic *efx, struct efx_tc_action_set *act,
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1070  			 const struct flow_action_entry *fa,
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1071  			 struct efx_tc_mangler_state *mung,
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1072  			 struct netlink_ext_ack *extack,
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1073  			 struct efx_tc_match *match)
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23 @1074  {
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1075  	__le32 mac32;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1076  	__le16 mac16;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1077  	u8 tr_ttl;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1078  
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1079  	switch (fa->mangle.htype) {
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1080  	case FLOW_ACT_MANGLE_HDR_TYPE_ETH:
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1081  		BUILD_BUG_ON(offsetof(struct ethhdr, h_dest) != 0);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1082  		BUILD_BUG_ON(offsetof(struct ethhdr, h_source) != 6);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1083  		if (!efx_tc_flower_action_order_ok(act, EFX_TC_AO_PEDIT_MAC_ADDRS)) {
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1084  			NL_SET_ERR_MSG_MOD(extack,
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1085  					   "Pedit mangle mac action violates action order");
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1086  			return -EOPNOTSUPP;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1087  		}
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1088  		switch (fa->mangle.offset) {
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1089  		case 0:
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1090  			if (fa->mangle.mask) {
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1091  				NL_SET_ERR_MSG_FMT_MOD(extack,
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1092  						       "Unsupported: mask (%#x) of eth.dst32 mangle",
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1093  						       fa->mangle.mask);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1094  				return -EOPNOTSUPP;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1095  			}
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1096  			/* Ethernet address is little-endian */
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1097  			mac32 = cpu_to_le32(fa->mangle.val);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1098  			memcpy(mung->dst_mac, &mac32, sizeof(mac32));
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1099  			mung->dst_mac_32 = 1;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1100  			return efx_tc_complete_mac_mangle(efx, act, mung, extack);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1101  		case 4:
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1102  			if (fa->mangle.mask == 0xffff) {
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1103  				mac16 = cpu_to_le16(fa->mangle.val >> 16);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1104  				memcpy(mung->src_mac, &mac16, sizeof(mac16));
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1105  				mung->src_mac_16 = 1;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1106  			} else if (fa->mangle.mask == 0xffff0000) {
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1107  				mac16 = cpu_to_le16((u16)fa->mangle.val);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1108  				memcpy(mung->dst_mac + 4, &mac16, sizeof(mac16));
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1109  				mung->dst_mac_16 = 1;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1110  			} else {
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1111  				NL_SET_ERR_MSG_FMT_MOD(extack,
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1112  						       "Unsupported: mask (%#x) of eth+4 mangle is not high or low 16b",
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1113  						       fa->mangle.mask);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1114  				return -EOPNOTSUPP;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1115  			}
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1116  			return efx_tc_complete_mac_mangle(efx, act, mung, extack);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1117  		case 8:
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1118  			if (fa->mangle.mask) {
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1119  				NL_SET_ERR_MSG_FMT_MOD(extack,
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1120  						       "Unsupported: mask (%#x) of eth.src32 mangle",
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1121  						       fa->mangle.mask);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1122  				return -EOPNOTSUPP;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1123  			}
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1124  			mac32 = cpu_to_le32(fa->mangle.val);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1125  			memcpy(mung->src_mac + 2, &mac32, sizeof(mac32));
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1126  			mung->src_mac_32 = 1;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1127  			return efx_tc_complete_mac_mangle(efx, act, mung, extack);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1128  		default:
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1129  			NL_SET_ERR_MSG_FMT_MOD(extack, "Unsupported: mangle eth+%u %x/%x",
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1130  					       fa->mangle.offset, fa->mangle.val, fa->mangle.mask);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1131  			return -EOPNOTSUPP;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1132  		}
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1133  		break;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1134  	case FLOW_ACT_MANGLE_HDR_TYPE_IP4:
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1135  		switch (fa->mangle.offset) {
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1136  		case offsetof(struct iphdr, ttl):
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1137  			/* we currently only support pedit IP4 when it applies
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1138  			 * to TTL and then only when it can be achieved with a
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1139  			 * decrement ttl action
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1140  			 */
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1141  
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1142  			/* check that pedit applies to ttl only */
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1143  			if (fa->mangle.mask != ~EFX_TC_HDR_TYPE_TTL_MASK) {
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1144  				NL_SET_ERR_MSG_FMT_MOD(extack,
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1145  						       "Unsupported: mask (%#x) out of range, only support mangle action on ipv4.ttl",
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1146  						       fa->mangle.mask);
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1147  				return -EOPNOTSUPP;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1148  			}
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1149  
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1150  			/* we can only convert to a dec ttl when we have an
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1151  			 * exact match on the ttl field
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1152  			 */
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1153  			if (match->mask.ip_ttl != U8_MAX) {
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1154  				NL_SET_ERR_MSG_FMT_MOD(extack,
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1155  						       "Unsupported: only support mangle ipv4.ttl when we have an exact match on ttl, mask used for match (%#x)",
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1156  						       match->mask.ip_ttl);
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1157  				return -EOPNOTSUPP;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1158  			}
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1159  
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1160  			/* check that we don't try to decrement 0, which equates
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1161  			 * to setting the ttl to 0xff
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1162  			 */
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1163  			if (match->value.ip_ttl == 0) {
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1164  				NL_SET_ERR_MSG_MOD(extack,
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1165  						   "Unsupported: we cannot decrement ttl past 0");
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1166  				return -EOPNOTSUPP;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1167  			}
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1168  
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1169  			/* check that we do not decrement ttl twice */
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1170  			if (!efx_tc_flower_action_order_ok(act,
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1171  							   EFX_TC_AO_DEC_TTL)) {
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1172  				NL_SET_ERR_MSG_MOD(extack,
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1173  						   "Unsupported: multiple dec ttl");
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1174  				return -EOPNOTSUPP;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1175  			}
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1176  
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1177  			/* check pedit can be achieved with decrement action */
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1178  			tr_ttl = match->value.ip_ttl - 1;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1179  			if ((fa->mangle.val & EFX_TC_HDR_TYPE_TTL_MASK) == tr_ttl) {
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1180  				act->do_ttl_dec = 1;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1181  				return 0;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1182  			}
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1183  
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1184  			fallthrough;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1185  		default:
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1186  			NL_SET_ERR_MSG_FMT_MOD(extack,
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1187  					       "Unsupported: only support mangle on the ttl field (offset is %u)",
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1188  					       fa->mangle.offset);
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1189  			return -EOPNOTSUPP;
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1190  		}
+b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1191  		break;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1192  	default:
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1193  		NL_SET_ERR_MSG_FMT_MOD(extack, "Unhandled mangle htype %u for action rule",
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1194  				       fa->mangle.htype);
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1195  		return -EOPNOTSUPP;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1196  	}
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1197  	return 0;
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1198  }
+12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1199  
 
 -- 
 0-DAY CI Kernel Test Service
