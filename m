@@ -1,231 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2052.outbound.protection.outlook.com [40.107.223.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCF69448
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 14:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692802214; x=1724338214;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EyWNtPcXwUUX8H+6bBWM7FE00K956XHV5T2ZmK9CicY=;
-  b=RnfDwALoupiQjdou7CCisB9tCkkNR+aQH59YMMqAx5X7oDQC+vTfStxX
-   6EyGoWlzC2W3UV7kXVI2jeKOPBPv4CmeI0G1q+XWmh13KYblc45B/K9Lv
-   rJVvXFKpUZTuFxGbUJprHvz7VHAHfypDAkYo2FkMAD1gEgn4VvtPzpkfx
-   XY8C+mNexw40Nc7gJ0rC6rMBGXUFvpqcTWHrbGBQKdndWn7tlk290KBtz
-   XMGsDw8N6y0aagNtWDkzsd+kCS1hGooPraNaTNyRXfZ2VoNSedfuq4OjN
-   NA2UXmebze+0kjrFYNgzHx3f2kBFqoy6egbrymkEPCWCUEFlTFSrpWHb0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="373066843"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="373066843"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 07:50:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="736702197"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="736702197"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 23 Aug 2023 07:50:09 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qYpBQ-0001IP-1a;
-	Wed, 23 Aug 2023 14:50:08 +0000
-Date: Wed, 23 Aug 2023 22:49:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	netdev@vger.kernel.org, linux-net-drivers@amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425319448
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 15:01:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QYm1gZqKLU5ReLZVJHbtjrTMeKSKPyiYTxgGyjO/Yll6unr8J0+fPHrEtJGita5UQ8Fzj+MZPvLy0pxp6an/sY5b5N5BzhkDUJaTmRE66oiOherSoPAveNt6482qMGcJcrmz/WVtTi/u7RnTMHzwX0PBPGsMN3/IhNXpgCkv8Wek6leYSAFFJXfgr1tvFcfrAnOxa8GoSDUX9TbNTwoX4z0rJWKVQxAT17W+nOXntr6OuAcVTKd0+eyU0Le85VNtZ4aoULb12mmihSTfKxOHGeL3tbfH2gz32HLc7hRnMHdDEwpIlNPC//gbzyp2pM9IBnbV8pZXp4ZjpzUp/wGksg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WHM96VtGP/VnBm/wHXb7yZp3mWOafMkBZfdPM45cxRo=;
+ b=buKqpRKpg5FoQy7gbYe8c3kprT8ugw0p774N4a2jI7KZ+Gc7yDtvVlJTmsAKXRCdhEn4QFS1ojEO8vt/uKrvwkrqFfF17uajZKP6e5FXph5oPx6RxgJu0Osk4LOsjiXRB6KzOx2FfCnF4A/cqNFuY/CwOrLOL8QAk5IKanuHtrPum0ET/BIWWn4vVFMuQ8aH++w2Hf3VC1LflEWM5zbQy7V8g0KOnouRZYbtLleSqdaEB4KyU5aWjn1WHgNKWoiD4Z8E7sgpFx2X8E2JPM3gRAdGU5x1oTSL8MaxLcs27ks79qGvPStY2VoYHgKdW4EPbHM2OXT97JeNlM0NvOO8LA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WHM96VtGP/VnBm/wHXb7yZp3mWOafMkBZfdPM45cxRo=;
+ b=zsPw6D4EMI4/foAH2B6EFaQHPoz4/MwWtwCKzWuDA2KzKDnOlc4e2ZX6o9dd49XM9c5aHzV9pnKHa7SrMNqIzkDCFZ/u8ZJgFEO45bbGTIxVhfOQY958GiHr0e3+kfrc/09nRUPij/C1Ya5ymHWEzROgV6oTzIP3p2Dvnc1k+N4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM8PR12MB5398.namprd12.prod.outlook.com (2603:10b6:8:3f::5) by
+ SJ2PR12MB8012.namprd12.prod.outlook.com (2603:10b6:a03:4c7::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6699.25; Wed, 23 Aug 2023 15:01:42 +0000
+Received: from DM8PR12MB5398.namprd12.prod.outlook.com
+ ([fe80::cd16:f185:acb7:e047]) by DM8PR12MB5398.namprd12.prod.outlook.com
+ ([fe80::cd16:f185:acb7:e047%7]) with mapi id 15.20.6699.026; Wed, 23 Aug 2023
+ 15:01:42 +0000
+Message-ID: <68884b04-8019-37e9-5907-beb8ee7f91c7@amd.com>
+Date: Wed, 23 Aug 2023 16:01:35 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.14.0
+Subject: Re: [PATCH net-next 5/6] sfc: introduce pedit add actions on the ipv4
+ ttl field
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
+ linux-net-drivers@amd.com
 Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@google.com, ecree.xilinx@gmail.com,
-	habetsm.xilinx@gmail.com,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
-Subject: Re: [PATCH net-next 3/6] sfc: add decrement ttl by offloading set
- ipv4 ttl actions
-Message-ID: <202308232237.WkCLb0PW-lkp@intel.com>
-References: <20230823111725.28090-4-pieter.jansen-van-vuuren@amd.com>
+ pabeni@redhat.com, edumazet@google.com, ecree.xilinx@gmail.com,
+ habetsm.xilinx@gmail.com
+References: <20230823111725.28090-6-pieter.jansen-van-vuuren@amd.com>
+ <202308232244.jYYwKnlV-lkp@intel.com>
+From: Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+In-Reply-To: <202308232244.jYYwKnlV-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0185.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:311::14) To DM8PR12MB5398.namprd12.prod.outlook.com
+ (2603:10b6:8:3f::5)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230823111725.28090-4-pieter.jansen-van-vuuren@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM8PR12MB5398:EE_|SJ2PR12MB8012:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2eab8534-e3d7-49a3-9133-08dba3e9dc1d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	jD10voMp7LpdRnPkKdrAYAmafu01gmg9wGYx2cn+Aq3YlojkPDQToIFfv/kEBSd7loXqGkeOSPWme3oBwMrwjwNTKrD97KFCnuJ5k3ok0tqR38YzGSHdYPy7N01F+nTQ7E0csP6/GAbIAFpxMWNzn763jYtphfxA0xH9YQewGhLHmliRTHaKu8U9+tbpxadWUEjriP2U9UD6jNNl1OyN6j9PmTpdPyPp89ZmSRZ39GBXGLgt89PfhjHsMnEQHVr3Q05T5RfNUxIlbnjEVR2GJGP6QyxU4bpVT8lcbcbnVSxpMYq1XBpGeaTZmJfvzmgrRwx0mbZgGL63u7kIiDYwnxBi//7OuBgW6inDbgW5JsGAsKl79yMxFne4VJOVETZ+18HH9MLGUXnk+oYnMaLwcKNPuu7899UO1Lui4BR8lpXrmURP1AEYWR+Q08/GqkXcAiJkAm8rO1cg5k7CBZCIan2Y3Lbbju0MfSmNAzDa6AsxqOevhAEY7sXXJX6qnieMFbETXpUoNhrNvJRoSZGkLL0Vl8ILzW50/guZXJjlbBNAXNye7e0QIe5uN+NfhbWgDdLzsQ0cJX5/i66afojRISWlUkNwIfMjfjy4obnPA/2Z29stuBbkUr12nUHZNgmJ1QLjz7G5iYtwXfWf8qmpP8pGD8H6u///cOSD8LM9Wb8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR12MB5398.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(39860400002)(346002)(366004)(376002)(451199024)(186009)(1800799009)(31686004)(966005)(478600001)(6666004)(6486002)(83380400001)(38100700002)(2906002)(26005)(6506007)(2616005)(6512007)(41300700001)(8936002)(36756003)(66556008)(66476007)(31696002)(316002)(53546011)(86362001)(4326008)(66946007)(5660300002)(8676002)(6636002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dVoyY3Z0RGIrcHU4TGRxUXpiTWdGcXhTYXB4b2Q0NGlHenhGNkQrL0w4by9y?=
+ =?utf-8?B?R0gydWF5QUhiN3p6d05DQm9mbVRnZTFEVUpZdFhqdmIrRHh3RGMrdXRRbDhm?=
+ =?utf-8?B?MEgxeWlXM0FvSllTOUF2VnRSckMyR1dwYU1BOTFMY0F6SktpcDdQdnVRaC9H?=
+ =?utf-8?B?SWlqNXVLMjhacTRyTzlZV2hHa3BWWHhUY2hTcXpEdmkzWUdmYU4yUjBsUURy?=
+ =?utf-8?B?Z1dWT0U2RjNJY1R2QnBvQkh1ODRwbVFEcTMxZ3BsWjJJWlRqY2FpTjVpSWJi?=
+ =?utf-8?B?aGFObFl2YThNYnhNOE5TcWNDbExVN1NFZlZoM3lhRnZyOXhienpLZFptd2N1?=
+ =?utf-8?B?Mkt5UWdNaWtxNzB4bVFFSVdrTDNhczlaMnl6VUJud2daMXhWdkJJTlEyK1Vp?=
+ =?utf-8?B?ODBPYVYzSUhZQlZBUVZpNFN6Z3R0VWhpTVZvRVpjRWRJNDNIdTRqb0lxeHcz?=
+ =?utf-8?B?amwyTVNOTDVSZ2VWQlIrcHY3c0RoZjdSdEU0REdwRGJneWNPUlZ1cVBpOUVm?=
+ =?utf-8?B?ZjJPK1BRQWFvQ2J6RDB6eUlPWTdjZVpWaXdKU2lDYWVXWE5yRHlGc2FDa2M5?=
+ =?utf-8?B?MS9uV0JDMHlibWVORS9zWWwxdFhhSW96T1ZtVE54MEZ5d1NsOEZiVVpOWGl3?=
+ =?utf-8?B?MnMyZ1B0aGY3UkM3dVJmSVhXZHpsRmdoZlp2RjluT1lYb1hkV3kyMUFrcDhO?=
+ =?utf-8?B?NENjY0ljNWhWUC9ZRmxkeHhBdWdHNnc5QXhTQ1V6VVFmN2dWcWxyVG1NaUd5?=
+ =?utf-8?B?aU5NOC9iK3dUZDZFYzA0MnUxNEVCa2JVamJQM01hYW5PVERXTG1xYjNzam0x?=
+ =?utf-8?B?cWR1eEMyQ1JJcHlxQy92T0R1NlhGMmZiRjVGdjk2QnpKNFYxN1YwSVNqTk8v?=
+ =?utf-8?B?R3M0dmJZelVWa0lHSC82WkJRZ21Mdm5MTjFoN0ZTT0htQjNiNkZ6RlV6cTM1?=
+ =?utf-8?B?NFBkczR3T2tFZkpDcEo5NW54QXZWeHZsTmdjcEVqTVo3Y2JkWS8zeTBKaXkv?=
+ =?utf-8?B?TjNENm5vbC9TZ2dwRjdGbHRnV0RLd1VCbk5Ob0QxQzdEaTVDcHdvMmZuclcr?=
+ =?utf-8?B?VWs3YjRWdTBrZHZsQlFsbW9KYTlKa20rU3JJakVkSExWc1lOZjRzZVNxSnd2?=
+ =?utf-8?B?UkpaZzMzL3QxVUZBTWJneFFkL0VTaG1DMVdPM2IrWHFVMjVHRWE0WloyU1RB?=
+ =?utf-8?B?Z3N1bkZFd1FpYWR1ZVQralJpZDByNkUxZXdKL0lCZkVlaThhZ2twSjR4b3pw?=
+ =?utf-8?B?R0lESk5rYXFjNXFXN1VzWm9qb2I3UnhUOExMRDc3N3VrWUNDOVJDekFMU2NM?=
+ =?utf-8?B?SDFlYU5wVVVwaE13QTZBZ2NJVUw5MU5wcVpWNGY0alVpS3V0SnVnUjZjVGtk?=
+ =?utf-8?B?N3FrOHVNajFJWUxIdXZVQWh4Sy9DM2J3aFQzVnpPNXNibkJTZ1kxeDZnNEpp?=
+ =?utf-8?B?NDBVcDlLYVVqa3lmdVZrR09BZWpaL1NKK2dTNjNsWnVUT2I1UmJNRHRZQ0Zt?=
+ =?utf-8?B?emRrQ0pyODZDUzlxYjdLZlh0dTVlemp2TjdiSmRlNkRodHZCdWx5T3Q4b3ov?=
+ =?utf-8?B?czByYUp1KzYrV2RUdVNZeUprT0JqRGpzQXBpRFR4RjltbXZrWlNTQUhEUFNp?=
+ =?utf-8?B?VkRpdDdqSllqenlTYlErMEcvYWwwQjgxUU9Jb1BkMFhrMU01WU5JSERqcStD?=
+ =?utf-8?B?SFdRMFU0QXd2L2xxSzFoL2RZbXpBTXJFeW5nTldRNXFmUDM0bC9uNk5QTkpp?=
+ =?utf-8?B?NGRXK09LQUpYR3g0cGxieWtneTYrbEltL3Z1WVliSjh6MW5uMzB1dmVwQnNC?=
+ =?utf-8?B?TVhKS1BYRUJ2eTlrU1dIempFUnU0VWdud1ZHbUF3SHpHS2FBYVlDbllPdFRr?=
+ =?utf-8?B?RWxsSkdvdHdSa1MrUTNDd3R6NW41WEJ5MFc2c2UwV1h5VHcxZXREdHhZWU85?=
+ =?utf-8?B?MDRpckZ6TFRkajJvelVyc3hiSkk1QjlsY2NyejdqTE56RUV4Y0ZEWUlralpO?=
+ =?utf-8?B?YjZEQ2pPTXFiWFFydXNUSmFaRkF5RTBiUU5WKzBINXJxeGlBSXd4VDMzRFVm?=
+ =?utf-8?B?Z1FCc0UyRTM2aGhDcWFLRE1rVlVobmhEcERaUjdWMEc1dFp1L2lESTcvZyt6?=
+ =?utf-8?Q?8Kx9nZj61GJ8P7F8RlJy4+mu4?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2eab8534-e3d7-49a3-9133-08dba3e9dc1d
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5398.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2023 15:01:42.0951
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KZxFxj7yk4VRSZwbZwwojG9gsosK6V0NRZRaBleZ3wNSrcmmR25OEjBzhy2PqMkw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8012
 
-Hi Pieter,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pieter-Jansen-van-Vuuren/sfc-introduce-ethernet-pedit-set-action-infrastructure/20230823-192051
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230823111725.28090-4-pieter.jansen-van-vuuren%40amd.com
-patch subject: [PATCH net-next 3/6] sfc: add decrement ttl by offloading set ipv4 ttl actions
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230823/202308232237.WkCLb0PW-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232237.WkCLb0PW-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308232237.WkCLb0PW-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/net/ethernet/sfc/tc.c:1074: warning: Function parameter or member 'match' not described in 'efx_tc_mangle'
 
 
-vim +1074 drivers/net/ethernet/sfc/tc.c
+On 23/08/2023 15:25, kernel test robot wrote:
+> Hi Pieter,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on net-next/main]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Pieter-Jansen-van-Vuuren/sfc-introduce-ethernet-pedit-set-action-infrastructure/20230823-192051
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20230823111725.28090-6-pieter.jansen-van-vuuren%40amd.com
+> patch subject: [PATCH net-next 5/6] sfc: introduce pedit add actions on the ipv4 ttl field
+> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230823/202308232244.jYYwKnlV-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 13.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232244.jYYwKnlV-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308232244.jYYwKnlV-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> drivers/net/ethernet/sfc/tc.c:1073: warning: expecting prototype for efx_tc_mangle(). Prototype was for efx_tc_pedit_add() instead
 
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1054  
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1055  /**
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1056   * efx_tc_mangle() - handle a single 32-bit (or less) pedit
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1057   * @efx: NIC we're installing a flow rule on
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1058   * @act: action set (cursor) to update
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1059   * @fa:          FLOW_ACTION_MANGLE action metadata
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1060   * @mung:        accumulator for partial mangles
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1061   * @extack:      netlink extended ack for reporting errors
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1062   *
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1063   * Identify the fields written by a FLOW_ACTION_MANGLE, and record
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1064   * the partial mangle state in @mung.  If this mangle completes an
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1065   * earlier partial mangle, consume and apply to @act by calling
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1066   * efx_tc_complete_mac_mangle().
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1067   */
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1068  
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1069  static int efx_tc_mangle(struct efx_nic *efx, struct efx_tc_action_set *act,
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1070  			 const struct flow_action_entry *fa,
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1071  			 struct efx_tc_mangler_state *mung,
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1072  			 struct netlink_ext_ack *extack,
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1073  			 struct efx_tc_match *match)
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23 @1074  {
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1075  	__le32 mac32;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1076  	__le16 mac16;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1077  	u8 tr_ttl;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1078  
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1079  	switch (fa->mangle.htype) {
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1080  	case FLOW_ACT_MANGLE_HDR_TYPE_ETH:
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1081  		BUILD_BUG_ON(offsetof(struct ethhdr, h_dest) != 0);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1082  		BUILD_BUG_ON(offsetof(struct ethhdr, h_source) != 6);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1083  		if (!efx_tc_flower_action_order_ok(act, EFX_TC_AO_PEDIT_MAC_ADDRS)) {
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1084  			NL_SET_ERR_MSG_MOD(extack,
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1085  					   "Pedit mangle mac action violates action order");
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1086  			return -EOPNOTSUPP;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1087  		}
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1088  		switch (fa->mangle.offset) {
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1089  		case 0:
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1090  			if (fa->mangle.mask) {
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1091  				NL_SET_ERR_MSG_FMT_MOD(extack,
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1092  						       "Unsupported: mask (%#x) of eth.dst32 mangle",
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1093  						       fa->mangle.mask);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1094  				return -EOPNOTSUPP;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1095  			}
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1096  			/* Ethernet address is little-endian */
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1097  			mac32 = cpu_to_le32(fa->mangle.val);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1098  			memcpy(mung->dst_mac, &mac32, sizeof(mac32));
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1099  			mung->dst_mac_32 = 1;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1100  			return efx_tc_complete_mac_mangle(efx, act, mung, extack);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1101  		case 4:
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1102  			if (fa->mangle.mask == 0xffff) {
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1103  				mac16 = cpu_to_le16(fa->mangle.val >> 16);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1104  				memcpy(mung->src_mac, &mac16, sizeof(mac16));
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1105  				mung->src_mac_16 = 1;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1106  			} else if (fa->mangle.mask == 0xffff0000) {
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1107  				mac16 = cpu_to_le16((u16)fa->mangle.val);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1108  				memcpy(mung->dst_mac + 4, &mac16, sizeof(mac16));
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1109  				mung->dst_mac_16 = 1;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1110  			} else {
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1111  				NL_SET_ERR_MSG_FMT_MOD(extack,
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1112  						       "Unsupported: mask (%#x) of eth+4 mangle is not high or low 16b",
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1113  						       fa->mangle.mask);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1114  				return -EOPNOTSUPP;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1115  			}
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1116  			return efx_tc_complete_mac_mangle(efx, act, mung, extack);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1117  		case 8:
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1118  			if (fa->mangle.mask) {
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1119  				NL_SET_ERR_MSG_FMT_MOD(extack,
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1120  						       "Unsupported: mask (%#x) of eth.src32 mangle",
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1121  						       fa->mangle.mask);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1122  				return -EOPNOTSUPP;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1123  			}
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1124  			mac32 = cpu_to_le32(fa->mangle.val);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1125  			memcpy(mung->src_mac + 2, &mac32, sizeof(mac32));
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1126  			mung->src_mac_32 = 1;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1127  			return efx_tc_complete_mac_mangle(efx, act, mung, extack);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1128  		default:
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1129  			NL_SET_ERR_MSG_FMT_MOD(extack, "Unsupported: mangle eth+%u %x/%x",
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1130  					       fa->mangle.offset, fa->mangle.val, fa->mangle.mask);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1131  			return -EOPNOTSUPP;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1132  		}
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1133  		break;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1134  	case FLOW_ACT_MANGLE_HDR_TYPE_IP4:
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1135  		switch (fa->mangle.offset) {
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1136  		case offsetof(struct iphdr, ttl):
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1137  			/* we currently only support pedit IP4 when it applies
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1138  			 * to TTL and then only when it can be achieved with a
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1139  			 * decrement ttl action
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1140  			 */
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1141  
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1142  			/* check that pedit applies to ttl only */
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1143  			if (fa->mangle.mask != ~EFX_TC_HDR_TYPE_TTL_MASK) {
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1144  				NL_SET_ERR_MSG_FMT_MOD(extack,
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1145  						       "Unsupported: mask (%#x) out of range, only support mangle action on ipv4.ttl",
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1146  						       fa->mangle.mask);
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1147  				return -EOPNOTSUPP;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1148  			}
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1149  
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1150  			/* we can only convert to a dec ttl when we have an
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1151  			 * exact match on the ttl field
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1152  			 */
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1153  			if (match->mask.ip_ttl != U8_MAX) {
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1154  				NL_SET_ERR_MSG_FMT_MOD(extack,
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1155  						       "Unsupported: only support mangle ipv4.ttl when we have an exact match on ttl, mask used for match (%#x)",
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1156  						       match->mask.ip_ttl);
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1157  				return -EOPNOTSUPP;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1158  			}
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1159  
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1160  			/* check that we don't try to decrement 0, which equates
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1161  			 * to setting the ttl to 0xff
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1162  			 */
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1163  			if (match->value.ip_ttl == 0) {
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1164  				NL_SET_ERR_MSG_MOD(extack,
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1165  						   "Unsupported: we cannot decrement ttl past 0");
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1166  				return -EOPNOTSUPP;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1167  			}
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1168  
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1169  			/* check that we do not decrement ttl twice */
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1170  			if (!efx_tc_flower_action_order_ok(act,
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1171  							   EFX_TC_AO_DEC_TTL)) {
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1172  				NL_SET_ERR_MSG_MOD(extack,
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1173  						   "Unsupported: multiple dec ttl");
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1174  				return -EOPNOTSUPP;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1175  			}
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1176  
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1177  			/* check pedit can be achieved with decrement action */
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1178  			tr_ttl = match->value.ip_ttl - 1;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1179  			if ((fa->mangle.val & EFX_TC_HDR_TYPE_TTL_MASK) == tr_ttl) {
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1180  				act->do_ttl_dec = 1;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1181  				return 0;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1182  			}
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1183  
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1184  			fallthrough;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1185  		default:
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1186  			NL_SET_ERR_MSG_FMT_MOD(extack,
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1187  					       "Unsupported: only support mangle on the ttl field (offset is %u)",
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1188  					       fa->mangle.offset);
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1189  			return -EOPNOTSUPP;
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1190  		}
-b1a793d7986335 Pieter Jansen van Vuuren 2023-08-23  1191  		break;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1192  	default:
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1193  		NL_SET_ERR_MSG_FMT_MOD(extack, "Unhandled mangle htype %u for action rule",
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1194  				       fa->mangle.htype);
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1195  		return -EOPNOTSUPP;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1196  	}
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1197  	return 0;
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1198  }
-12322dfaf48dc2 Pieter Jansen van Vuuren 2023-08-23  1199  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sorry, I messed up the kdoc while rebasing here. I will get this fixed in v2.
