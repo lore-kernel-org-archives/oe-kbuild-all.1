@@ -1,43 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B76BE6C;
-	Wed, 23 Aug 2023 12:20:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C286FA940
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 12:20:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1692793200; x=1724329200;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jf/KAd6jYEn0ig90OrcV/cRvSUivvkPKWWD0ZOcG2yQ=;
-  b=QQY1iJN0+mHB04SwkC1npat2dfssdCeWqIcYkyMzH5RY4ZczzpVSmaO4
-   BejdTn2FvuVz+gZptyG+CzCYJbvgsYfy7LR2njzj5HIUhBUU5weBhDqVT
-   bLR6xpHRFwKtf5t/2GzkjfalS0DTKzjhIsBsOupODPDPNHKjpRnhZULtH
-   XDp/JHiY4ehjIwiUdO9x0yqKrIaxHB3cD0UveTc5EtlBLlO6MkDTkedhm
-   vOEHAhOEzgLO9+4KxOnyNOtu9OoDOkI8FCrQEFqERA33Nn5CwGvYGzUR7
-   gAHKWEhYFbJT20MZ6995Amvy2t6n0bNcNQuQzH3ljg9FDbA0BtaQmv8fR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="438081770"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=58i9UZ4uOkfxY9He9AhTZG1ivpLYgdX1oN+5EKz0+3g=;
+  b=lLlcIbNrV12DHfvadFPKbRi3vZLXwUmx3ECRhdNBjWr0yPkISWNZg5WB
+   3PAG47bLCSPUq/6z4ciHmWrnO8kEOlw0SYoLQyGEHFeudTo1LqkmLb2ZF
+   ZXUi7AN7+NyGjZRBkuxqykSRD+AAfFNPTpL5J9Pn+QBD9VA2NBJl97VqC
+   jDMD5WCaiUnVB0TDdgkXxsEd/GWsD73vc7dwAzp8qXEOrFmcX55riH9QM
+   DjnNBCUXbiO/+NCGrglQ3kzjQCrW6Rju2zEg4oAONhsO/e8KSagHV0vuL
+   D4OTs0f6w1xbP1SgYPUQk2PGRne6iqiIEDddUyohTevK/dtUPqoAlXC7O
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="438081772"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="438081770"
+   d="scan'208";a="438081772"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 05:19:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="802086804"
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="802086805"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="802086804"
+   d="scan'208";a="802086805"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
   by fmsmga008.fm.intel.com with ESMTP; 23 Aug 2023 05:19:55 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYmq3-0001BM-04;
+	id 1qYmq3-0001BO-0G;
 	Wed, 23 Aug 2023 12:19:55 +0000
-Date: Wed, 23 Aug 2023 20:18:56 +0800
+Date: Wed, 23 Aug 2023 20:18:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:guest-kexec 1/8] arch/x86/kernel/acpi/boot.c:1186:2:
- error: call to undeclared function 'cpu_hotplug_not_supported'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202308232008.WJtnOzai-lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH] tracing: Fix to avoid wakeup loop in splice read of
+ per-cpu buffer
+Message-ID: <202308232056.401OxapL-lkp@intel.com>
+References: <169262755804.106231.8245792908363050528.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,57 +49,162 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <169262755804.106231.8245792908363050528.stgit@devnote2>
 
-tree:   https://github.com/intel/tdx.git guest-kexec
-head:   7d7a8fcef30fe2515b3cce811bd7b96a14e2a75f
-commit: 602cc233a076ee5e78eb0bf5bc5e0519ecc15676 [1/8] cpu/hotplug, x86/acpi: Disable CPU hotplug for ACPI MADT wakeup
-config: x86_64-randconfig-073-20230823 (https://download.01.org/0day-ci/archive/20230823/202308232008.WJtnOzai-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232008.WJtnOzai-lkp@intel.com/reproduce)
+Hi Masami,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc7 next-20230823]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Fix-to-avoid-wakeup-loop-in-splice-read-of-per-cpu-buffer/20230821-222307
+base:   linus/master
+patch link:    https://lore.kernel.org/r/169262755804.106231.8245792908363050528.stgit%40devnote2
+patch subject: [PATCH] tracing: Fix to avoid wakeup loop in splice read of per-cpu buffer
+config: mips-randconfig-r131-20230823 (https://download.01.org/0day-ci/archive/20230823/202308232056.401OxapL-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232056.401OxapL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308232008.WJtnOzai-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308232056.401OxapL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/trace/trace.c:446:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct trace_export **list @@     got struct trace_export [noderef] __rcu ** @@
+   kernel/trace/trace.c:446:28: sparse:     expected struct trace_export **list
+   kernel/trace/trace.c:446:28: sparse:     got struct trace_export [noderef] __rcu **
+   kernel/trace/trace.c:460:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct trace_export **list @@     got struct trace_export [noderef] __rcu ** @@
+   kernel/trace/trace.c:460:33: sparse:     expected struct trace_export **list
+   kernel/trace/trace.c:460:33: sparse:     got struct trace_export [noderef] __rcu **
+   kernel/trace/trace.c:2959:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct event_filter *filter @@     got struct event_filter [noderef] __rcu *filter @@
+   kernel/trace/trace.c:2959:38: sparse:     expected struct event_filter *filter
+   kernel/trace/trace.c:2959:38: sparse:     got struct event_filter [noderef] __rcu *filter
+>> kernel/trace/trace.c:8481:25: sparse: sparse: incompatible types in comparison expression (different type sizes):
+>> kernel/trace/trace.c:8481:25: sparse:    unsigned int *
+>> kernel/trace/trace.c:8481:25: sparse:    unsigned long long [usertype] *
+   kernel/trace/trace.c:400:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/trace/trace.c:400:9: sparse:    struct trace_export [noderef] __rcu *
+   kernel/trace/trace.c:400:9: sparse:    struct trace_export *
+   kernel/trace/trace.c:415:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/trace/trace.c:415:9: sparse:    struct trace_export [noderef] __rcu *
+   kernel/trace/trace.c:415:9: sparse:    struct trace_export *
+>> kernel/trace/trace.c:8481:25: sparse: sparse: shift too big (32) for type unsigned int
 
->> arch/x86/kernel/acpi/boot.c:1186:2: error: call to undeclared function 'cpu_hotplug_not_supported'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           cpu_hotplug_not_supported();
-           ^
-   1 error generated.
+vim +8481 kernel/trace/trace.c
 
-
-vim +/cpu_hotplug_not_supported +1186 arch/x86/kernel/acpi/boot.c
-
-  1167	
-  1168	#ifdef CONFIG_X86_64
-  1169	static int __init acpi_parse_mp_wake(union acpi_subtable_headers *header,
-  1170					     const unsigned long end)
-  1171	{
-  1172		struct acpi_madt_multiproc_wakeup *mp_wake;
-  1173	
-  1174		if (!IS_ENABLED(CONFIG_SMP))
-  1175			return -ENODEV;
-  1176	
-  1177		mp_wake = (struct acpi_madt_multiproc_wakeup *)header;
-  1178		if (BAD_MADT_ENTRY(mp_wake, end))
-  1179			return -EINVAL;
-  1180	
-  1181		acpi_table_print_madt_entry(&header->common);
-  1182	
-  1183		acpi_mp_wake_mailbox_paddr = mp_wake->base_address;
-  1184	
-  1185		/* Disable CPU onlining/offlining */
-> 1186		cpu_hotplug_not_supported();
-  1187	
-  1188		acpi_wake_cpu_handler_update(acpi_wakeup_cpu);
-  1189	
-  1190		return 0;
-  1191	}
-  1192	#endif				/* CONFIG_X86_64 */
-  1193	#endif				/* CONFIG_X86_LOCAL_APIC */
-  1194	
+  8400	
+  8401		if (*ppos & (PAGE_SIZE - 1))
+  8402			return -EINVAL;
+  8403	
+  8404		if (len & (PAGE_SIZE - 1)) {
+  8405			if (len < PAGE_SIZE)
+  8406				return -EINVAL;
+  8407			len &= PAGE_MASK;
+  8408		}
+  8409	
+  8410		if (splice_grow_spd(pipe, &spd))
+  8411			return -ENOMEM;
+  8412	
+  8413	 again:
+  8414		trace_access_lock(iter->cpu_file);
+  8415		entries = ring_buffer_entries_cpu(iter->array_buffer->buffer, iter->cpu_file);
+  8416	
+  8417		for (i = 0; i < spd.nr_pages_max && len && entries; i++, len -= PAGE_SIZE) {
+  8418			struct page *page;
+  8419			int r;
+  8420	
+  8421			ref = kzalloc(sizeof(*ref), GFP_KERNEL);
+  8422			if (!ref) {
+  8423				ret = -ENOMEM;
+  8424				break;
+  8425			}
+  8426	
+  8427			refcount_set(&ref->refcount, 1);
+  8428			ref->buffer = iter->array_buffer->buffer;
+  8429			ref->page = ring_buffer_alloc_read_page(ref->buffer, iter->cpu_file);
+  8430			if (IS_ERR(ref->page)) {
+  8431				ret = PTR_ERR(ref->page);
+  8432				ref->page = NULL;
+  8433				kfree(ref);
+  8434				break;
+  8435			}
+  8436			ref->cpu = iter->cpu_file;
+  8437	
+  8438			r = ring_buffer_read_page(ref->buffer, &ref->page,
+  8439						  len, iter->cpu_file, 1);
+  8440			if (r < 0) {
+  8441				ring_buffer_free_read_page(ref->buffer, ref->cpu,
+  8442							   ref->page);
+  8443				kfree(ref);
+  8444				break;
+  8445			}
+  8446	
+  8447			page = virt_to_page(ref->page);
+  8448	
+  8449			spd.pages[i] = page;
+  8450			spd.partial[i].len = PAGE_SIZE;
+  8451			spd.partial[i].offset = 0;
+  8452			spd.partial[i].private = (unsigned long)ref;
+  8453			spd.nr_pages++;
+  8454			*ppos += PAGE_SIZE;
+  8455	
+  8456			entries = ring_buffer_entries_cpu(iter->array_buffer->buffer, iter->cpu_file);
+  8457		}
+  8458	
+  8459		trace_access_unlock(iter->cpu_file);
+  8460		spd.nr_pages = i;
+  8461	
+  8462		/* did we read anything? */
+  8463		if (!spd.nr_pages) {
+  8464			long wait_index;
+  8465			size_t nr_pages;
+  8466			size_t full;
+  8467	
+  8468			if (ret)
+  8469				goto out;
+  8470	
+  8471			ret = -EAGAIN;
+  8472			if ((file->f_flags & O_NONBLOCK) || (flags & SPLICE_F_NONBLOCK))
+  8473				goto out;
+  8474	
+  8475			wait_index = READ_ONCE(iter->wait_index);
+  8476	
+  8477			/* For splice, we have to ensure at least 1 page is filled */
+  8478			nr_pages = ring_buffer_nr_pages(iter->array_buffer->buffer, iter->cpu_file);
+  8479			if (nr_pages * iter->tr->buffer_percent < 100) {
+  8480				full = nr_pages + 99;
+> 8481				do_div(full, nr_pages);
+  8482			} else
+  8483				full = iter->tr->buffer_percent;
+  8484	
+  8485			ret = wait_on_pipe(iter, full);
+  8486			if (ret)
+  8487				goto out;
+  8488	
+  8489			/* No need to wait after waking up when tracing is off */
+  8490			if (!tracer_tracing_is_on(iter->tr))
+  8491				goto out;
+  8492	
+  8493			/* Make sure we see the new wait_index */
+  8494			smp_rmb();
+  8495			if (wait_index != iter->wait_index)
+  8496				goto out;
+  8497	
+  8498			goto again;
+  8499		}
+  8500	
+  8501		ret = splice_to_pipe(pipe, &spd);
+  8502	out:
+  8503		splice_shrink_spd(&spd);
+  8504	
+  8505		return ret;
+  8506	}
+  8507	
 
 -- 
 0-DAY CI Kernel Test Service
