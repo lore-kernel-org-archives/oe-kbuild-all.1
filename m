@@ -1,389 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from DM6FTOPR00CU001.outbound.protection.outlook.com (mail-centralusazon11020019.outbound.protection.outlook.com [52.101.61.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DEBC139
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 16:49:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692809346; x=1724345346;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=55+6sxbv4lZsabuU2iOM3ULNDCa1wZQ83X3jVd6oEac=;
-  b=UgKIhRpb1lNSD80NL5ZV/DsF72TnfwlzkzLuJUB2IvDbg1oOjxPMtU/m
-   KoFR4h2BVmyYAJO9XBC8lOAyveJVa7AwQHTwdMCHVpUGAE1iFd1XdYgsf
-   wpYJzkQl04STq8xjWWmp+ghgd1UJfWwM8pWJ+IP0/8bRTSfSKKlYuTeBY
-   pysCF3DCx7WhwVJ8LKN8q6XE+0626IV4HkMbZZGZ/g6PzM3ypc7v0ePPi
-   6TmjflckDt9WMEW0wmTqNfeVU67QzJsulgGFBwJHDqQYzmOah7sxLGFXs
-   LvRuqOmjlydUWdUd65h67fVGR0Bgof8gwe2Vci02wA8+u4/1LBhPTvVd5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="373098652"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="373098652"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 09:48:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="766207894"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="766207894"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 23 Aug 2023 09:48:53 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qYr2H-0001M0-30;
-	Wed, 23 Aug 2023 16:48:50 +0000
-Date: Thu, 24 Aug 2023 00:48:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qais Yousef <qyousef@layalina.io>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [qais-yousef:generalized-misfit-lb 6/13] kernel/sched/sched.h:949:1:
- error: version control conflict marker in file
-Message-ID: <202308240012.WPdwrurD-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B4AC139
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 17:06:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GHfhuSVEQdoqdgcaKuzrl5hfLe9mmVjxCQr+9xzn+nZnmYwlzScbqn9GaAbvdVBinw5mv1gcPKPIbL67bKtj9mlVN5i0jvpl7gOsADoLaOhm2hoPMBdV7W74LCYn7j3QNUpxXPNWH7xLjCRaoNMGizkG5GJFKYBlimXumLrbFWsDaJK0GwZfry0edZ1oZJXi3iSdELNs9teddmPdhPw8Ap/x2yCtfQi5Laf8pSVk0DUKqZK1gMkRn0yTa0L0vWSfYijGwJmVdq3eF0moelojwyXS215+U6IrAPJioFqNvBhBJSuL0p7/9yKq8GORrqADeSs4PbMp7/gjIUILsQNy1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O0UMo2g33/UFKSaYzPNL3iJfBLZInJhKTym05+JlKro=;
+ b=lpcTYKGFaYWQ1ToWgVFdpv1M/YxwpMUH3qjSRoPXNjtWpR7uQsDnEp22kwpNZf2ia42o2qmhMWCyS3OBpxuVOpv0P7DuN3G79aiU2obBIVuyTy/Y/9c8QzrzLw4LLXZqvxAhFN0PPNrYOddquZXqqOve+sJRjpfzwDM5DC0fZT3ZSB1GJReCkCzwYd+oEyeU6xjAfgQN53yIXMKoXiXxAI70Fw04AIstNPPGHo7Nb9gZ27b8g75nUHQWm+ze4QakjXMQ+TfuPH1Rp2TahY7HL6tJ8ZT2DOxAAQc8IXxx+2AFRawUFqGpv8f4rsuqN5fYC6WqKRavHyUnVT7h0ekbuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O0UMo2g33/UFKSaYzPNL3iJfBLZInJhKTym05+JlKro=;
+ b=cToIqkqFJhPRTwSxqWexWHNazrvOaUwK1TuLv8JCwDdVqBN7BOpSIBDzyoDFdCIBeh7/vSoSTN3er2E7S6rjjUv6bEPujF0g/J/E+LWZukBAHGM/II7MHhqQjwiVjWAHKIDMovSQ65XUOURoOT/Wr0P3aVjBgSQQJu6DSjklCls=
+Received: from SA1PR21MB1335.namprd21.prod.outlook.com (2603:10b6:806:1f2::11)
+ by SN7PR21MB3939.namprd21.prod.outlook.com (2603:10b6:806:2ea::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.4; Wed, 23 Aug
+ 2023 17:06:48 +0000
+Received: from SA1PR21MB1335.namprd21.prod.outlook.com
+ ([fe80::b05:d4ac:60ff:3b3f]) by SA1PR21MB1335.namprd21.prod.outlook.com
+ ([fe80::b05:d4ac:60ff:3b3f%5]) with mapi id 15.20.6745.005; Wed, 23 Aug 2023
+ 17:06:48 +0000
+From: Dexuan Cui <decui@microsoft.com>
+To: kernel test robot <lkp@intel.com>, Tianyu Lan <Tianyu.Lan@microsoft.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Linux
+ Memory Management List <linux-mm@kvack.org>, Wei Liu <wei.liu@kernel.org>,
+	"Michael Kelley (LINUX)" <mikelley@microsoft.com>
+Subject: RE: [linux-next:master 11576/12208]
+ arch/x86/kernel/cpu/mshyperv.c:407: undefined reference to
+ `isolation_type_en_snp'
+Thread-Topic: [linux-next:master 11576/12208]
+ arch/x86/kernel/cpu/mshyperv.c:407: undefined reference to
+ `isolation_type_en_snp'
+Thread-Index: AQHZ1bFxMcPkHcJlSUK5b48zJH6pU6/4G+mg
+Date: Wed, 23 Aug 2023 17:06:48 +0000
+Message-ID:
+ <SA1PR21MB1335B4EC7F7D51BB12F71C67BF1CA@SA1PR21MB1335.namprd21.prod.outlook.com>
+References: <202308231805.RyYOycAU-lkp@intel.com>
+In-Reply-To: <202308231805.RyYOycAU-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=aef8cc26-b34e-4e51-80ef-66b2985f0c77;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-08-23T17:02:50Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR21MB1335:EE_|SN7PR21MB3939:EE_
+x-ms-office365-filtering-correlation-id: 6fff7e14-fd60-458c-fff0-08dba3fb5695
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ zGqNtyltEkR3J9qv3exWSHajGToIExsf3O8Mfxi97v4LlIkqAlv8dKUEk+vK6WNSd7FNw0eRy/NKQ3QwWKCsW+zXkkcx1nyQArF9P1Ra5rxp6utgmAywMfcQfI4SMpGQhJetfy5O3bdFh58hTV0kKtt3Ja6KWBOqPLhnw0BTgbkixM5GMFA5P3F3xCvppPDlUDA4sWqdVRJa3UXjSfls5C9XKWPlApMUBlYbPbCwL5FeXZtTl9xUFRX+ZwY7inGBPy0Dql+0yVjM29zjGP6pfnrt5HV2uhZK3i3QXW08TpRldnqd3Yhw6fDQYkFgMA9vLtTf91Jb5f52ezoXEbZBT92TwgweQj5wcXDqA/wB1T8RcfbzfAHdAyhE2W0kQxLAhVAjO+OlcqX3q/4imauy0bRcotTevy4HVa81/bzNvAYSmcE/4DA2zLPD/MMIu7ZX0ZdFuPCCjINtn2HJxIy0402IPPqVXKPNccyMo+B+MnOHQHOEDJZsMpm2Wy3NVM6/GgrJ/O1ARFkV6CnWft8SnDW6lM4KfyTU1Wl4PsDOHHnYgfW8UIMvwKxYlN1PAz9GYqOn3FGePw8O2q3PA9RVMS7IlMhhK2dBktG2rZCxrcOi+s/iIIcctE1HgLzXhQK+7ioZuFfSSoYVUPkF8Fv3NRXwqgHNQ4wzPX10+jkFd34zj++X4kdO+pRA7U9269Zq3XOzoSTwFBIQueSipzn4dQ==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR21MB1335.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(136003)(366004)(39860400002)(396003)(186009)(1800799009)(451199024)(966005)(478600001)(10290500003)(71200400001)(110136005)(6506007)(7696005)(9686003)(107886003)(76116006)(8990500004)(53546011)(2906002)(66556008)(8936002)(33656002)(66946007)(64756008)(52536014)(66476007)(316002)(4744005)(41300700001)(6636002)(8676002)(5660300002)(54906003)(4326008)(66446008)(86362001)(82960400001)(38100700002)(38070700005)(83380400001)(122000001)(82950400001)(12101799020)(55016003)(81973001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?Dt3hj6eVam1DluT0RkDcDbnl+Yy6vxw6oovnWMCt3Og3CSJrs7uIYbwZDx/E?=
+ =?us-ascii?Q?fthbiXuPZIz6yHuiyizaCd7LPk+dWTcOZeVsPi++RJ2nWCY3JptrecdLq2XZ?=
+ =?us-ascii?Q?zerF/SbsiBuLE++NGOJZPVAWZOUx6m4JWK9uunLMBc/Vs0V5209O14QY76HJ?=
+ =?us-ascii?Q?AQZu8vFOsibxyZTfeAou/YU0yNSkS1SUvnXD+YDbq9ENUu1O/Ge4hhBeX+84?=
+ =?us-ascii?Q?ypkwk4rzWqGBbHpR+Xt0x7KOQOy1XNo+8DiF8N9azXd9V/mOOSrfnBkgxFX7?=
+ =?us-ascii?Q?vehoeLnxVrGTUn5VHUEO6mKwZj26i7qw7jbtOa4KTfEuEXoFsE88AbDrmiZp?=
+ =?us-ascii?Q?4IM5Y3eapyT8dLAOm7tm1NTfFU3vijSYktYMD+6Fub1/VdNjpFmVtx3M64og?=
+ =?us-ascii?Q?5O/F9Q5IONf1cPUJHApz7hQqaZQAPq8UuRIh92goaFkByXB596Qmkt9Q4Z9d?=
+ =?us-ascii?Q?VQpxZXG3bnByw9bVkAYw/66pR3o5vmRULggxX4WAk2tEyGCEwu1oSnXzxNTW?=
+ =?us-ascii?Q?XezWBUKgag4nYPcdUaFleucw0q/mnPKflx8GoYhvsapJz+tfMENAUWlm622v?=
+ =?us-ascii?Q?BzldC9/+m5Qf0+6SpaOfKB1w2bP0l0aPBKr9fFgk9+aRQU7+UFDk70l2CBo4?=
+ =?us-ascii?Q?Gao+Eme0imuSMIgJWbH6hOkuEAGkgdlS9/0GJiGLiezHJfDqQ7QaFm19e7XV?=
+ =?us-ascii?Q?9qwxUnWWTrsATZmk7TocIp+K8tueNDmpR89L5XIN7As/DraTtLOzxgjU3zyO?=
+ =?us-ascii?Q?hx+FTpT0qS0k6iAXiIu5OmY6G4HVmXmZ7qqQdtnx8wPF6T6hwlhOSVxQSguU?=
+ =?us-ascii?Q?x5Sp/REQLuwnf1cUw1cBa2XMYdq6ZaooCOwN1AoTuRgVYmgtfMbKUzVl1lMk?=
+ =?us-ascii?Q?lP+LXLtmGHvqX+D8xfb0baShxTNh3/CqA7a7e13HZm8Y7LvNdN5OpixvynFW?=
+ =?us-ascii?Q?wgP08FMDcnRPh0xiQsW2+vbjItAooAyEtlp+nxvVrf6cYI7BxRHR3j11TXfz?=
+ =?us-ascii?Q?bskQnUt5+33JEYxwu/kFFe24w9UsrBuD9q3PsXfaLlIQLNOmradY38FDcICQ?=
+ =?us-ascii?Q?HVVfiJDni8cmGEaU5AOQT9mMJju3KfTz+Gr+EUG8oON+gwPxfX6YpQRYm0U5?=
+ =?us-ascii?Q?CNzX+4oEXLytD34owl20IJXKw6vqKR4jOz9twctzq3m3YOx/5YTflKXIueWs?=
+ =?us-ascii?Q?Mol0Wis8B2iaZRs4SQhk+LAHNyqxWFy/H7AdLKD7ZtH3ON7rdKGTgC3L6CGr?=
+ =?us-ascii?Q?/YdDnQ9gLv+zZJTkyEp9BDWNouDYm/7UEMaMgp6ZtkNijWWuyo1MqEuSXjeW?=
+ =?us-ascii?Q?1pWQCqIId37Dty3ASnXsD2so0yMNWwe0qFibl6eU9hK8DZI534T3+2Fnuv7k?=
+ =?us-ascii?Q?rhxmk6H88jW7B3+dzb/nwz2oiMFJHu5W7wjA8BrRoaUT6CxRqvNVRtPKggg6?=
+ =?us-ascii?Q?3hJ5SmpAkmJkxfSYAgLbuKcpygB3tD2CUckUf7bjq/iDWS0P1iTzso7FTvqY?=
+ =?us-ascii?Q?mvAEuiahLejRs+oDHHJoGHndjaSDbenHxvDHw1Pxm2OIYQCKxjOLibXfJFc2?=
+ =?us-ascii?Q?005MpLDrrSENntswaLHL1zzWaHZVxY35Fb2HSNgrOKhvKREemzy/M/h8vBro?=
+ =?us-ascii?Q?u96u8H3osz+WhUwfyPQLSX8g/HO06bsXQ1JzH0XfFsop?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR21MB1335.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fff7e14-fd60-458c-fff0-08dba3fb5695
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2023 17:06:48.7695
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GUL2gEh2vTofa6PrngXGjxYIq71euYsPbiPbMK33T8gO7fg3SDR5mrBTaC6qNGdeiiMg/9YbAxPx8VTiiG1woA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR21MB3939
 
-tree:   https://github.com/qais-yousef/linux generalized-misfit-lb
-head:   c3b510f9f9b7eb321f7179b6036214b7a9509333
-commit: 9d321b581f2987c828cba02753a41273b7f155c3 [6/13] sched/fair: Add a misfit reason
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20230824/202308240012.WPdwrurD-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240012.WPdwrurD-lkp@intel.com/reproduce)
+> From: kernel test robot <lkp@intel.com>
+> Sent: Wednesday, August 23, 2023 4:03 AM
+> To: Tianyu Lan <Tianyu.Lan@microsoft.com>
+> Cc: oe-kbuild-all@lists.linux.dev; Linux Memory Management List <linux-
+> mm@kvack.org>; Wei Liu <wei.liu@kernel.org>; Dexuan Cui
+> <decui@microsoft.com>; Michael Kelley (LINUX) <mikelley@microsoft.com>
+> Subject: [linux-next:master 11576/12208]
+> arch/x86/kernel/cpu/mshyperv.c:407: undefined reference to
+> `isolation_type_en_snp'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308240012.WPdwrurD-lkp@intel.com/
+The failure happens because we have CONFIG_HYPERVISOR_GUEST=3Dy, but
+CONFIG_HYPERV is not set. This has been fixed in the hyperv-next branch:
 
-All error/warnings (new ones prefixed by >>):
+https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git/log/?h=3Dh=
+yperv-next
+https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git/commit/?h=
+=3Dhyperv-next&id=3D86e619c922e616d8780833562a14a5bda329f0c3
 
-   In file included from kernel/sched/core.c:86:
->> kernel/sched/sched.h:949:1: error: version control conflict marker in file
-     949 | <<<<<<< HEAD
-         | ^~~~~~~
-   kernel/sched/sched.h:955:1: error: version control conflict marker in file
-     955 | =======
-         | ^~~~~~~
->> kernel/sched/sched.h:959:3: warning: data definition has no type or storage class
-     959 | } misfit_reason_t;
-         |   ^~~~~~~~~~~~~~~
->> kernel/sched/sched.h:959:3: error: type defaults to 'int' in declaration of 'misfit_reason_t' [-Werror=implicit-int]
-   kernel/sched/sched.h:960:1: error: version control conflict marker in file
-     960 | >>>>>>> 142f46429aff (sched/fair: Add a misfit reason)
-         | ^~~~~~~
->> kernel/sched/sched.h:960:9: error: invalid suffix "f46429aff" on integer constant
-     960 | >>>>>>> 142f46429aff (sched/fair: Add a misfit reason)
-         |         ^~~~~~~~~~~~
-   kernel/sched/sched.h:1183:9: error: invalid suffix "f46429aff" on integer constant
-    1183 | >>>>>>> 142f46429aff (sched/fair: Add a misfit reason)
-         |         ^~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from kernel/sched/core.c:9:
-   kernel/sched/sched.h: In function 'rq_of':
->> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct rq'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   kernel/sched/sched.h:1198:16: note: in expansion of macro 'container_of'
-    1198 |         return container_of(cfs_rq, struct rq, cfs);
-         |                ^~~~~~~~~~~~
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   kernel/sched/sched.h:1198:16: note: in expansion of macro 'container_of'
-    1198 |         return container_of(cfs_rq, struct rq, cfs);
-         |                ^~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/arm/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:246,
-                    from include/linux/export.h:5,
-                    from include/linux/linkage.h:7,
-                    from include/linux/fs.h:5:
->> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct rq'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   kernel/sched/sched.h:1198:16: note: in expansion of macro 'container_of'
-    1198 |         return container_of(cfs_rq, struct rq, cfs);
-         |                ^~~~~~~~~~~~
-   kernel/sched/sched.h: In function 'rq_lockp':
->> kernel/sched/sched.h:1349:19: error: invalid use of undefined type 'struct rq'
-    1349 |         return &rq->__lock;
-         |                   ^~
-   kernel/sched/sched.h: In function '__rq_lockp':
-   kernel/sched/sched.h:1354:19: error: invalid use of undefined type 'struct rq'
-    1354 |         return &rq->__lock;
-         |                   ^~
-   In file included from include/asm-generic/percpu.h:7,
-                    from arch/arm/include/asm/percpu.h:68,
-                    from include/linux/irqflags.h:18,
-                    from arch/arm/include/asm/bitops.h:28,
-                    from include/linux/bitops.h:68,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from arch/arm/include/asm/div64.h:107,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time64.h:5,
-                    from include/linux/restart_block.h:10,
-                    from include/linux/thread_info.h:14,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9:
-   kernel/sched/sched.h: In function 'task_cfs_rq':
->> include/linux/percpu-defs.h:219:59: error: invalid use of undefined type 'struct rq'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                           ^
-   include/linux/percpu-defs.h:259:9: note: in expansion of macro '__verify_pcpu_ptr'
-     259 |         __verify_pcpu_ptr(__p);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:263:49: note: in expansion of macro 'VERIFY_PERCPU_PTR'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                 ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                   ^~~~~~~~~~~
-   kernel/sched/sched.h:1224:35: note: in expansion of macro 'per_cpu'
-    1224 | #define cpu_rq(cpu)             (&per_cpu(runqueues, (cpu)))
-         |                                   ^~~~~~~
-   kernel/sched/sched.h:1226:33: note: in expansion of macro 'cpu_rq'
-    1226 | #define task_rq(p)              cpu_rq(task_cpu(p))
-         |                                 ^~~~~~
-   kernel/sched/sched.h:1463:17: note: in expansion of macro 'task_rq'
-    1463 |         return &task_rq(p)->cfs;
-         |                 ^~~~~~~
-   kernel/sched/sched.h:1463:27: error: invalid use of undefined type 'struct rq'
-    1463 |         return &task_rq(p)->cfs;
-         |                           ^~
-   kernel/sched/sched.h: In function 'cfs_rq_of':
->> include/linux/percpu-defs.h:219:59: error: invalid use of undefined type 'struct rq'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                           ^
-   include/linux/percpu-defs.h:259:9: note: in expansion of macro '__verify_pcpu_ptr'
-     259 |         __verify_pcpu_ptr(__p);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:263:49: note: in expansion of macro 'VERIFY_PERCPU_PTR'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                 ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                   ^~~~~~~~~~~
-   kernel/sched/sched.h:1224:35: note: in expansion of macro 'per_cpu'
-    1224 | #define cpu_rq(cpu)             (&per_cpu(runqueues, (cpu)))
-         |                                   ^~~~~~~
-   kernel/sched/sched.h:1226:33: note: in expansion of macro 'cpu_rq'
-    1226 | #define task_rq(p)              cpu_rq(task_cpu(p))
-         |                                 ^~~~~~
-   kernel/sched/sched.h:1469:25: note: in expansion of macro 'task_rq'
-    1469 |         struct rq *rq = task_rq(p);
-         |                         ^~~~~~~
-   kernel/sched/sched.h:1471:19: error: invalid use of undefined type 'struct rq'
-    1471 |         return &rq->cfs;
-         |                   ^~
-   kernel/sched/sched.h: In function 'assert_clock_updated':
-   kernel/sched/sched.h:1516:25: error: invalid use of undefined type 'struct rq'
-    1516 |         SCHED_WARN_ON(rq->clock_update_flags < RQCF_ACT_SKIP);
-         |                         ^~
-   kernel/sched/sched.h:97:42: note: in definition of macro 'SCHED_WARN_ON'
-      97 | # define SCHED_WARN_ON(x)      ({ (void)(x), 0; })
-         |                                          ^
->> kernel/sched/sched.h:97:44: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-      97 | # define SCHED_WARN_ON(x)      ({ (void)(x), 0; })
-         |                                            ^
-   kernel/sched/sched.h:1516:9: note: in expansion of macro 'SCHED_WARN_ON'
-    1516 |         SCHED_WARN_ON(rq->clock_update_flags < RQCF_ACT_SKIP);
-         |         ^~~~~~~~~~~~~
-   kernel/sched/sched.h: In function 'rq_clock':
-   kernel/sched/sched.h:1524:18: error: invalid use of undefined type 'struct rq'
-    1524 |         return rq->clock;
-         |                  ^~
-   kernel/sched/sched.h: In function 'rq_clock_task':
-   kernel/sched/sched.h:1532:18: error: invalid use of undefined type 'struct rq'
-    1532 |         return rq->clock_task;
-         |                  ^~
-   kernel/sched/sched.h: In function 'rq_clock_skip_update':
-   kernel/sched/sched.h:1556:11: error: invalid use of undefined type 'struct rq'
-    1556 |         rq->clock_update_flags |= RQCF_REQ_SKIP;
-         |           ^~
-   kernel/sched/sched.h: In function 'rq_clock_cancel_skipupdate':
-   kernel/sched/sched.h:1566:11: error: invalid use of undefined type 'struct rq'
-    1566 |         rq->clock_update_flags &= ~RQCF_REQ_SKIP;
-         |           ^~
-   kernel/sched/sched.h: In function 'rq_clock_start_loop_update':
-   kernel/sched/sched.h:1581:25: error: invalid use of undefined type 'struct rq'
-    1581 |         SCHED_WARN_ON(rq->clock_update_flags & RQCF_ACT_SKIP);
-         |                         ^~
-   kernel/sched/sched.h:97:42: note: in definition of macro 'SCHED_WARN_ON'
-      97 | # define SCHED_WARN_ON(x)      ({ (void)(x), 0; })
-         |                                          ^
->> kernel/sched/sched.h:97:44: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-      97 | # define SCHED_WARN_ON(x)      ({ (void)(x), 0; })
-         |                                            ^
-   kernel/sched/sched.h:1581:9: note: in expansion of macro 'SCHED_WARN_ON'
-    1581 |         SCHED_WARN_ON(rq->clock_update_flags & RQCF_ACT_SKIP);
-         |         ^~~~~~~~~~~~~
-   kernel/sched/sched.h:1582:11: error: invalid use of undefined type 'struct rq'
-    1582 |         rq->clock_update_flags |= RQCF_ACT_SKIP;
-         |           ^~
-   kernel/sched/sched.h: In function 'rq_clock_stop_loop_update':
-   kernel/sched/sched.h:1588:11: error: invalid use of undefined type 'struct rq'
-    1588 |         rq->clock_update_flags &= ~RQCF_ACT_SKIP;
-         |           ^~
-   kernel/sched/sched.h: In function 'this_rq_lock_irq':
->> include/linux/percpu-defs.h:219:59: error: invalid use of undefined type 'struct rq'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                           ^
-   include/linux/percpu-defs.h:259:9: note: in expansion of macro '__verify_pcpu_ptr'
-     259 |         __verify_pcpu_ptr(__p);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:263:49: note: in expansion of macro 'VERIFY_PERCPU_PTR'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                 ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:264:33: note: in expansion of macro 'per_cpu_ptr'
-     264 | #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
-         |                                 ^~~~~~~~~~~
-   include/linux/percpu-defs.h:265:33: note: in expansion of macro 'raw_cpu_ptr'
-     265 | #define this_cpu_ptr(ptr)       raw_cpu_ptr(ptr)
-         |                                 ^~~~~~~~~~~
-   kernel/sched/sched.h:1225:33: note: in expansion of macro 'this_cpu_ptr'
-    1225 | #define this_rq()               this_cpu_ptr(&runqueues)
-         |                                 ^~~~~~~~~~~~
-   kernel/sched/sched.h:1745:14: note: in expansion of macro 'this_rq'
-    1745 |         rq = this_rq();
-         |              ^~~~~~~
-   kernel/sched/sched.h: In function 'task_current':
-   kernel/sched/sched.h:2147:18: error: invalid use of undefined type 'struct rq'
-    2147 |         return rq->curr == p;
-         |                  ^~
-   In file included from include/asm-generic/bug.h:7,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13:
-   kernel/sched/sched.h: In function 'put_prev_task':
-   kernel/sched/sched.h:2310:24: error: invalid use of undefined type 'struct rq'
-    2310 |         WARN_ON_ONCE(rq->curr != prev);
-         |                        ^~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   kernel/sched/sched.h:2310:9: note: in expansion of macro 'WARN_ON_ONCE'
-    2310 |         WARN_ON_ONCE(rq->curr != prev);
-         |         ^~~~~~~~~~~~
-   kernel/sched/sched.h: In function 'sched_stop_runnable':
-   kernel/sched/sched.h:2355:18: error: invalid use of undefined type 'struct rq'
-    2355 |         return rq->stop && task_on_rq_queued(rq->stop);
-         |                  ^~
-   kernel/sched/sched.h:2355:48: error: invalid use of undefined type 'struct rq'
-    2355 |         return rq->stop && task_on_rq_queued(rq->stop);
-         |                                                ^~
-   kernel/sched/sched.h: In function 'sched_dl_runnable':
-   kernel/sched/sched.h:2360:18: error: invalid use of undefined type 'struct rq'
-    2360 |         return rq->dl.dl_nr_running > 0;
-         |                  ^~
-   kernel/sched/sched.h: In function 'sched_rt_runnable':
-   kernel/sched/sched.h:2365:18: error: invalid use of undefined type 'struct rq'
-    2365 |         return rq->rt.rt_queued > 0;
-         |                  ^~
-   kernel/sched/sched.h: In function 'sched_fair_runnable':
-   kernel/sched/sched.h:2370:18: error: invalid use of undefined type 'struct rq'
-    2370 |         return rq->cfs.nr_running > 0;
-         |                  ^~
-   kernel/sched/sched.h: In function 'add_nr_running':
-   kernel/sched/sched.h:2497:30: error: invalid use of undefined type 'struct rq'
-    2497 |         unsigned prev_nr = rq->nr_running;
-         |                              ^~
-   kernel/sched/sched.h:2499:11: error: invalid use of undefined type 'struct rq'
-    2499 |         rq->nr_running = prev_nr + count;
-         |           ^~
-   kernel/sched/sched.h: In function 'sub_nr_running':
-   kernel/sched/sched.h:2516:11: error: invalid use of undefined type 'struct rq'
-    2516 |         rq->nr_running -= count;
-         |           ^~
-   In file included from <command-line>:
-   kernel/sched/sched.h: In function 'membarrier_switch_mm':
-   kernel/sched/sched.h:3258:25: error: invalid use of undefined type 'struct rq'
-    3258 |         if (READ_ONCE(rq->membarrier_state) == membarrier_state)
-         |                         ^~
-   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
-     377 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/sched.h:3258:13: note: in expansion of macro 'READ_ONCE'
-    3258 |         if (READ_ONCE(rq->membarrier_state) == membarrier_state)
-         |             ^~~~~~~~~
-   kernel/sched/sched.h:3258:25: error: invalid use of undefined type 'struct rq'
-    3258 |         if (READ_ONCE(rq->membarrier_state) == membarrier_state)
-         |                         ^~
-   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
-     377 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-..
+The fix is not in linux-next's master branch (currently it's next-20230823)=
+ yet.
+I believe tomorrow's linux-next would build successfully.
 
-
-vim +949 kernel/sched/sched.h
-
-   948	
- > 949	<<<<<<< HEAD
-   950	struct rq;
-   951	struct balance_callback {
-   952		struct balance_callback *next;
-   953		void (*func)(struct rq *rq);
-   954	};
-   955	=======
-   956	typedef enum misfit_reason {
-   957		UPMIGRATION,
-   958		DOWNMIGRATION,
- > 959	} misfit_reason_t;
- > 960	>>>>>>> 142f46429aff (sched/fair: Add a misfit reason)
-   961	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Dexuan
