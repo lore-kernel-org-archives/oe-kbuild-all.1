@@ -1,119 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598E3C139
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 17:41:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59970C433C8;
-	Wed, 23 Aug 2023 17:41:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692812491;
-	bh=8/YkxvUodqJ527upFRob3AUp9TczYWqFKqOQZJShlhs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UKkqTI5okUK/duxYIhKPEvdcLUFyd/oXFKdl+qJYjBnK1MvAZg67vPyI91yaaz82c
-	 WSkMT9W+WQrDjgvVvE12AyHQlbCriWXQE/bxYf+t6BT7S9cXZD/johMFGFrxvA02s3
-	 Q29tQ+GODZB79QQd4Ozh4FuoVrlEVI90Nln9lSSwGE7uF10+Xme5f0aU/KbyBg7Lyx
-	 STTwrZFXo4BpH9yJqMTbD95SPPYtCndjWYm02WklV9bA5y1wdW57dmhebYrxSDG97W
-	 2uSsCynRgTtXXdchQD4XjF18erlCfpAGvcTNeZKnabHi1AuuU26S08UiDnhIRw+Z9Q
-	 Fsbfp4baIGeiA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4161C139
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 17:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692812669; x=1724348669;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xMcDu8/efmWQqcbCMV3AaAAvtAQJrv9A/hoNMWOAHG8=;
+  b=l2E7/RagX7t1sGdqFeuJNnDyc3KRQTkQRJ/2P12OiHpM9bTYi9lT3fVL
+   PCeoxHAnvXN9hSPg9dm1N3fy7W9kSE/9Ios4KyRd6rQA2Mv5VwQAmkNma
+   v4uEcXkxujUyyH+u4YdB24Cz3IkrCUS2MZhEQfgwdAH0cccsaz82JQ7QU
+   jsy12RI4p/3kcRLoQPgKtQl/OBMudnqZXzjug0jqXM2TeE1DEH14HNSkT
+   OWvTr9Oe6j34ahhYGuNipyUK7hctbeDOASOQ5qp3n9B2OF3KemKyUejGw
+   z5JDBzlg/D5N18KzUsn8A9erO3h2ncNpEbjcYOy6cDlVmzpjGj9Hf8cSN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="371644858"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="371644858"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 10:44:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="826817980"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="826817980"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Aug 2023 10:44:27 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qYru6-0001OB-24;
+	Wed, 23 Aug 2023 17:44:26 +0000
+Date: Thu, 24 Aug 2023 01:44:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:arm64-lpa2-v4 33/61] arch/arm64/kernel/pi/map_range.c:30:
+ warning: Function parameter or member 'prot' not described in 'map_range'
+Message-ID: <202308240103.JgtPcRvu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 23 Aug 2023 20:41:29 +0300
-Message-Id: <CV03Y1UQZTON.21AZAH4SXCQS3@suppilovahvero>
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "kernel test robot" <lkp@intel.com>
-Cc: <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [jarkko-tpmdd:tpm_buf 24/25] drivers/char/tpm/tpm-buf.c:176:16:
- sparse: sparse: cast to restricted __be16
-X-Mailer: aerc 0.14.0
-References: <202308232048.CHgYYDuz-lkp@intel.com>
-In-Reply-To: <202308232048.CHgYYDuz-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed Aug 23, 2023 at 3:19 PM EEST, kernel test robot wrote:
-> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.=
-git tpm_buf
-> head:   a1d8288229c7c1acfe0b2acf8107eaad8f49e070
-> commit: 9976c4e1af56380aaa5ac3eb3b717176d70bd2b3 [24/25] tpm: Add tpm_buf=
-_read_{u8,u16,u32}
-> config: sh-randconfig-r122-20230823 (https://download.01.org/0day-ci/arch=
-ive/20230823/202308232048.CHgYYDuz-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230823/202308232048=
-.CHgYYDuz-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308232048.CHgYYDuz-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/char/tpm/tpm-buf.c:176:16: sparse: sparse: cast to restricted =
-__be16
-> >> drivers/char/tpm/tpm-buf.c:176:16: sparse: sparse: cast to restricted =
-__be16
-> >> drivers/char/tpm/tpm-buf.c:176:16: sparse: sparse: cast to restricted =
-__be16
-> >> drivers/char/tpm/tpm-buf.c:176:16: sparse: sparse: cast to restricted =
-__be16
-> >> drivers/char/tpm/tpm-buf.c:193:16: sparse: sparse: cast to restricted =
-__be32
-> >> drivers/char/tpm/tpm-buf.c:193:16: sparse: sparse: cast to restricted =
-__be32
-> >> drivers/char/tpm/tpm-buf.c:193:16: sparse: sparse: cast to restricted =
-__be32
-> >> drivers/char/tpm/tpm-buf.c:193:16: sparse: sparse: cast to restricted =
-__be32
-> >> drivers/char/tpm/tpm-buf.c:193:16: sparse: sparse: cast to restricted =
-__be32
-> >> drivers/char/tpm/tpm-buf.c:193:16: sparse: sparse: cast to restricted =
-__be32
->
-> vim +176 drivers/char/tpm/tpm-buf.c
->
->    162=09
->    163	/**
->    164	 * tpm_buf_read_u16() - Read 16-bit word from a TPM buffer
->    165	 * @buf:	&tpm_buf instance
->    166	 * @offset:	offset within the buffer
->    167	 *
->    168	 * Return: next 16-bit word
->    169	 */
->    170	u16 tpm_buf_read_u16(const struct tpm_buf *buf, off_t *offset)
->    171	{
->    172		u16 value;
->    173=09
->    174		tpm_buf_read(buf, offset, sizeof(value), &value);
->    175=09
->  > 176		return be16_to_cpu(value);
->    177	}
->    178	EXPORT_SYMBOL_GPL(tpm_buf_read_u16);
->    179=09
->    180	/**
->    181	 * tpm_buf_read_u32() - Read 32-bit word from a TPM buffer
->    182	 * @buf:	&tpm_buf instance
->    183	 * @offset:	offset within the buffer
->    184	 *
->    185	 * Return: next 32-bit word
->    186	 */
->    187	u32 tpm_buf_read_u32(const struct tpm_buf *buf, off_t *offset)
->    188	{
->    189		u32 value;
->    190=09
->    191		tpm_buf_read(buf, offset, sizeof(value), &value);
->    192=09
->  > 193		return be32_to_cpu(value);
->
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-lpa2-v4
+head:   9008d04c49a096b76a306257c177ad6220d6e37f
+commit: 7110671a7bf4a513f53e0a6262d64ee106b5acca [33/61] arm64: head: Move early kernel mapping routines into C code
+config: arm64-randconfig-r026-20230823 (https://download.01.org/0day-ci/archive/20230824/202308240103.JgtPcRvu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240103.JgtPcRvu-lkp@intel.com/reproduce)
 
-Right, I can fix these for the next iteration, which will be v3.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308240103.JgtPcRvu-lkp@intel.com/
 
-BR, Jarkko
+All warnings (new ones prefixed by >>):
+
+>> arch/arm64/kernel/pi/map_range.c:30: warning: Function parameter or member 'prot' not described in 'map_range'
+
+
+vim +30 arch/arm64/kernel/pi/map_range.c
+
+    13	
+    14	/**
+    15	 * map_range - Map a contiguous range of physical pages into virtual memory
+    16	 *
+    17	 * @pte:		Address of physical pointer to array of pages to
+    18	 *			allocate page tables from
+    19	 * @start:		Virtual address of the start of the range
+    20	 * @end:		Virtual address of the end of the range (exclusive)
+    21	 * @pa:			Physical address of the start of the range
+    22	 * @level:		Translation level for the mapping
+    23	 * @tbl:		The level @level page table to create the mappings in
+    24	 * @may_use_cont:	Whether the use of the contiguous attribute is allowed
+    25	 * @va_offset:		Offset between a physical page and its current mapping
+    26	 * 			in the VA space
+    27	 */
+    28	void __init map_range(u64 *pte, u64 start, u64 end, u64 pa, pgprot_t prot,
+    29			      int level, pte_t *tbl, bool may_use_cont, u64 va_offset)
+  > 30	{
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
