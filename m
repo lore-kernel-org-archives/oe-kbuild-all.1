@@ -1,139 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BD51FB53
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 21:13:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692825195; x=1724361195;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=defJ4soWaA1pNiXr8MEpc33gCgleHCb3i8oy08Xij0k=;
-  b=MSVDAV+dkEH3vJgZ6DMmGnIc9Mbq0cVKZ1lpqity1padTPJ043mkCa2e
-   c7uc/4Xf4chDFHLhds6KHSW6cM7Y+HNwCnP7ryR3/yCXgXC3VLSP+iMcO
-   xXWJ9/lqtN/6ZK2ATz+EZk3LsAPm/MWAC1oS8b0lB5iYaUO0qQcUe8RaH
-   kTfjuNEI8P88BF24+4JlNfjYsmdQd048L5sfsM8c8evI6zcrFeFWJ49XG
-   DX9Fu/m+GBRp3OUQ7vwLgqqqujYgsNWTpXaAOzDu6vvdzLZ6jjnjrq6Lp
-   lqoPDpyR6fQykwyilTe1LAHoSM02+bmuNvKd72ZvAqkbA0u1oGa5oyQ7C
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="353819304"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="353819304"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 14:13:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="851197932"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="851197932"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Aug 2023 14:13:07 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qYvA2-0001Vq-0c;
-	Wed, 23 Aug 2023 21:13:06 +0000
-Date: Thu, 24 Aug 2023 05:12:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: John Stultz <jstultz@google.com>, LKML <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, John Stultz <jstultz@google.com>,
-	Joel Fernandes <joelaf@google.com>,
-	Qais Yousef <qyousef@google.com>, Ingo Molnar <mingo@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Zimuzo Ezeozue <zezeozue@google.com>,
-	Youssef Esmat <youssefesmat@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>, kernel-team@android.com
-Subject: Re: [PATCH v5 13/19] sched: Split out __sched() deactivate task
- logic into a helper
-Message-ID: <202308240439.2aDXO6Ks-lkp@intel.com>
-References: <20230819060915.3001568-14-jstultz@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30771FB35
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 21:26:03 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4005f0a6c2bso13025e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 14:26:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1692825961; x=1693430761;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mE5NUi80BYiMWmMQEl2r329pNGrPmM5nPALAZHC39A8=;
+        b=gyVSt5OXIy9m33InJl2cRqgjTnAXbscfq16qPU8ezve9IYTQsTSP5HdhxOX+DoxKLn
+         ZYPT+ALh7vZnEZoxXFyZXlPTcxdSm5cNO6JxpZlLh9mwB4wUS2kVFfPtLdL+DTKjR3ii
+         CvTlFQJf3XvbjN8QRnmnUp/Hi1yeld4e7t4TP1xxaB6JknbqVlFfo11S9vvR/eUpSiwK
+         IC1K12qEHGfIK3dqtZ3jF4b25uB1Veaz8Rls8/4g+sxIXKQNJrD6TCUWyOgMoxhhrKXr
+         CQ8C533uzQnegYLv3BvKUOGIgyqHyNBK+4++27nRAocXKbBxncTb0UKgGbW8XumSoh/M
+         RxWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692825961; x=1693430761;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mE5NUi80BYiMWmMQEl2r329pNGrPmM5nPALAZHC39A8=;
+        b=YxmdYJnar9so2tHJRhemicieELpydh3JH11PAfo5ji1MsZzi/AtelZQqBtVQKgbYx9
+         6tx1W3hKKGG6WymU/OJeoiIPQLORqqc484JrWNe6hk/EcsfWSEinCraCY686/IwViyKJ
+         uP1hjqmh+9p8qwvqxdhcK1B93QOsfnGIu2FuRuwmHP2LTpmqL0dbscenWc8OM7vVtFi3
+         slX0nAMOhY3F+ixq8QCXKIkUcHvsRROmV1UCAFfbeqjrIXbPiIY1IQ7YtaWguwz74eWU
+         pmACbEWNx2MutxisSZDpQHNWr7CDD6Dz0sDaWOSPJhv7/otu2qTBQMqe1J5jj2wbYTJa
+         EhmQ==
+X-Gm-Message-State: AOJu0Yz/GQjuPM75Nt6CKDQ8jdDu4G7rFdgUOEPnPxstxEPa26yyopFa
+	loFLZbEEgZ/SEOCkf5EGi+w0Yu0Ba7I6xNgi3XlD
+X-Google-Smtp-Source: AGHT+IGyZvegz/OMu2JzbjOWZUXuqzRYNJvCk+urb/uxPw44a1nWVrvdjKbzjjJTWgDt8+60lSyMmAMzeWYEoBaYYeE=
+X-Received: by 2002:a05:600c:512a:b0:3f7:3e85:36a with SMTP id
+ o42-20020a05600c512a00b003f73e85036amr299558wms.7.1692825961407; Wed, 23 Aug
+ 2023 14:26:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230819060915.3001568-14-jstultz@google.com>
+References: <20230819060915.3001568-14-jstultz@google.com> <202308240439.2aDXO6Ks-lkp@intel.com>
+In-Reply-To: <202308240439.2aDXO6Ks-lkp@intel.com>
+From: John Stultz <jstultz@google.com>
+Date: Wed, 23 Aug 2023 14:25:50 -0700
+Message-ID: <CANDhNCpuozSe7Ygf84iRmmUtA2C+MhNUj+TfBn-rqe=7BwVu3Q@mail.gmail.com>
+Subject: Re: [PATCH v5 13/19] sched: Split out __sched() deactivate task logic
+ into a helper
+To: kernel test robot <lkp@intel.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, oe-kbuild-all@lists.linux.dev, 
+	Joel Fernandes <joelaf@google.com>, Qais Yousef <qyousef@google.com>, Ingo Molnar <mingo@redhat.com>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Valentin Schneider <vschneid@redhat.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+	Zimuzo Ezeozue <zezeozue@google.com>, Youssef Esmat <youssefesmat@google.com>, 
+	Mel Gorman <mgorman@suse.de>, Daniel Bristot de Oliveira <bristot@redhat.com>, Will Deacon <will@kernel.org>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	"Paul E . McKenney" <paulmck@kernel.org>, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi John,
+On Wed, Aug 23, 2023 at 2:13=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi John,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on tip/locking/core]
+> [also build test WARNING on linus/master tip/auto-latest v6.5-rc7]
+> [cannot apply to tip/sched/core tip/master next-20230823]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/John-Stultz/sched-=
+Unify-runtime-accounting-across-classes/20230821-121604
+> base:   tip/locking/core
+> patch link:    https://lore.kernel.org/r/20230819060915.3001568-14-jstult=
+z%40google.com
+> patch subject: [PATCH v5 13/19] sched: Split out __sched() deactivate tas=
+k logic into a helper
+> config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/202308=
+24/202308240439.2aDXO6Ks-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 13.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240439=
+.2aDXO6Ks-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308240439.2aDXO6Ks-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> kernel/sched/core.c:6565:6: warning: no previous prototype for 'try_to=
+_deactivate_task' [-Wmissing-prototypes]
+>     6565 | bool try_to_deactivate_task(struct rq *rq, struct task_struct =
+*p, unsigned long state)
+>          |      ^~~~~~~~~~~~~~~~~~~~~~
 
-kernel test robot noticed the following build warnings:
+Ah, thanks for pointing this out. Switched it to being static.
 
-[auto build test WARNING on tip/locking/core]
-[also build test WARNING on linus/master tip/auto-latest v6.5-rc7]
-[cannot apply to tip/sched/core tip/master next-20230823]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Stultz/sched-Unify-runtime-accounting-across-classes/20230821-121604
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20230819060915.3001568-14-jstultz%40google.com
-patch subject: [PATCH v5 13/19] sched: Split out __sched() deactivate task logic into a helper
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230824/202308240439.2aDXO6Ks-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240439.2aDXO6Ks-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308240439.2aDXO6Ks-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/sched/core.c:6565:6: warning: no previous prototype for 'try_to_deactivate_task' [-Wmissing-prototypes]
-    6565 | bool try_to_deactivate_task(struct rq *rq, struct task_struct *p, unsigned long state)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/try_to_deactivate_task +6565 kernel/sched/core.c
-
-  6564	
-> 6565	bool try_to_deactivate_task(struct rq *rq, struct task_struct *p, unsigned long state)
-  6566	{
-  6567		if (signal_pending_state(state, p)) {
-  6568			WRITE_ONCE(p->__state, TASK_RUNNING);
-  6569		} else {
-  6570			p->sched_contributes_to_load =
-  6571				(state & TASK_UNINTERRUPTIBLE) &&
-  6572				!(state & TASK_NOLOAD) &&
-  6573				!(state & TASK_FROZEN);
-  6574	
-  6575			if (p->sched_contributes_to_load)
-  6576				rq->nr_uninterruptible++;
-  6577	
-  6578			/*
-  6579			 * __schedule()			ttwu()
-  6580			 *   prev_state = prev->state;    if (p->on_rq && ...)
-  6581			 *   if (prev_state)		    goto out;
-  6582			 *     p->on_rq = 0;		  smp_acquire__after_ctrl_dep();
-  6583			 *				  p->state = TASK_WAKING
-  6584			 *
-  6585			 * Where __schedule() and ttwu() have matching control dependencies.
-  6586			 *
-  6587			 * After this, schedule() must not care about p->state any more.
-  6588			 */
-  6589			deactivate_task(rq, p, DEQUEUE_SLEEP | DEQUEUE_NOCLOCK);
-  6590	
-  6591			if (p->in_iowait) {
-  6592				atomic_inc(&rq->nr_iowait);
-  6593				delayacct_blkio_start();
-  6594			}
-  6595			return true;
-  6596		}
-  6597		return false;
-  6598	}
-  6599	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+thanks
+-john
