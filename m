@@ -1,42 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFEA1F188
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 22:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F771FB3E;
+	Wed, 23 Aug 2023 22:42:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692828563; x=1724364563;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F7xLTsJqFb5+CBDRtTHdJoFfEtc1Xi82HpVWJCok8A0=;
-  b=J+lNuAM0szzVJOYxzpdlmyYCmSfslJSkVdYXo8T37bnivbLGxWGFQtH2
-   +hPWr4viObfptzF0r9JsrH0JVB2yZuI2EKjS0Oy7ojExIVNXxzM6VhCmq
-   kzQLBLv96R6w/bYdo/CKCZsR/ZNisYi3c/DPUBCLJaf2hqmmivwKDdYmD
-   dt2Yz3B444SUc/vWCmJ4o3lomtOalXYZornAgN9iICUZttOWztR9Hg3ch
-   wyHGoGfZn6UCdY6uiAUkejxH0HrpNYCyFVwSS1bPdpfdRCo6cQogFn5WO
-   ZJCnQCDA6IPsIDyX26dNuRqpzVEOqyMeXNkkKry4ea9v+NW1YfzlPSUCE
+  t=1692830522; x=1724366522;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7GsoHVjGAnzr0npIMBdQcCZqngf3794Y9d9PFhE5SKM=;
+  b=hJ8K8TbOnpDaXM1UDsJsBxkmlz3YTF/xW2fDnYIMWTzxHKjzY/n0Rc6n
+   gwOEc1tjAEQRRqUqgoRA7c1yiq8XJrFCfzSpUH7z92VIMvsgcNpM8XSPx
+   r+58UqA2v94abokJxTHVR1ADLsbQEOyVs+ePoC9YbIzoFGXCQP9712oqL
+   EqGR/zO0ZjoUnoFyfKFftdfLqMi1BpPExxU5IJY717Vu0nFpDslZqyuuI
+   +lbkbw8FrS+VwajevCGioiTw4YHFrnzzInZtlgMPHC35Sp2R0KZ3WeNqS
+   N1l1O0toLBQn5fck6W1ue/QNNdeR+4rpyLnuuhlfGJxU0jv7Dd23d6vst
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="354614495"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="371700011"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="354614495"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 15:09:22 -0700
+   d="scan'208";a="371700011"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 15:42:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="802298732"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="910688312"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="802298732"
+   d="scan'208";a="910688312"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Aug 2023 15:09:21 -0700
+  by orsmga005.jf.intel.com with ESMTP; 23 Aug 2023 15:41:58 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYw2T-0001Xg-0S;
-	Wed, 23 Aug 2023 22:09:21 +0000
-Date: Thu, 24 Aug 2023 06:08:34 +0800
+	id 1qYwY1-0001Ye-27;
+	Wed, 23 Aug 2023 22:41:57 +0000
+Date: Thu, 24 Aug 2023 06:40:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/base/regmap/regmap-raw-ram.c:24:24: sparse: sparse: cast to
- restricted __be16
-Message-ID: <202308240651.5l5Q4csN-lkp@intel.com>
+To: Johannes Weiner <hannes@cmpxchg.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vlastimil Babka <vbabka@suse.cz>, Mel Gorman <mgorman@suse.de>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 8/8] mm: page_alloc: consolidate free page accounting
+Message-ID: <202308240628.YoW5rQTu-lkp@intel.com>
+References: <20230821183733.106619-9-hannes@cmpxchg.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,37 +50,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230821183733.106619-9-hannes@cmpxchg.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a5e505a99ca748583dbe558b691be1b26f05d678
-commit: 65dd2f671875b1d97b6fa9bcf7677f5e1c55f776 regmap: Provide a ram backed regmap with raw support
-date:   2 months ago
-config: i386-randconfig-061-20230823 (https://download.01.org/0day-ci/archive/20230824/202308240651.5l5Q4csN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240651.5l5Q4csN-lkp@intel.com/reproduce)
+Hi Johannes,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.5-rc7]
+[cannot apply to akpm-mm/mm-everything next-20230823]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Weiner/mm-page_alloc-use-get_pfnblock_migratetype-where-pfn-available/20230822-024104
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230821183733.106619-9-hannes%40cmpxchg.org
+patch subject: [PATCH 8/8] mm: page_alloc: consolidate free page accounting
+config: x86_64-randconfig-075-20230823 (https://download.01.org/0day-ci/archive/20230824/202308240628.YoW5rQTu-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240628.YoW5rQTu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308240651.5l5Q4csN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308240628.YoW5rQTu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/base/regmap/regmap-raw-ram.c:24:24: sparse: sparse: cast to restricted __be16
->> drivers/base/regmap/regmap-raw-ram.c:26:24: sparse: sparse: cast to restricted __le16
+All errors (new ones prefixed by >>):
 
-vim +24 drivers/base/regmap/regmap-raw-ram.c
+>> mm/page_alloc.c:6702:2: error: call to undeclared function '__mod_zone_freepage_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           __mod_zone_freepage_state(zone, -MAX_ORDER_NR_PAGES, MIGRATE_MOVABLE);
+           ^
+   mm/page_alloc.c:6702:2: note: did you mean '__mod_zone_page_state'?
+   include/linux/vmstat.h:319:20: note: '__mod_zone_page_state' declared here
+   static inline void __mod_zone_page_state(struct zone *zone,
+                      ^
+   mm/page_alloc.c:6754:2: error: call to undeclared function '__mod_zone_freepage_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           __mod_zone_freepage_state(zone, MAX_ORDER_NR_PAGES, MIGRATE_MOVABLE);
+           ^
+   2 errors generated.
 
-    18	
-    19	static unsigned int decode_reg(enum regmap_endian endian, const void *reg)
-    20	{
-    21		const u16 *r = reg;
-    22	
-    23		if (endian == REGMAP_ENDIAN_BIG)
-  > 24			return be16_to_cpu(*r);
-    25		else
-  > 26			return le16_to_cpu(*r);
-    27	}
-    28	
+
+vim +/__mod_zone_freepage_state +6702 mm/page_alloc.c
+
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6681  
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6682  static bool try_to_accept_memory_one(struct zone *zone)
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6683  {
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6684  	unsigned long flags;
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6685  	struct page *page;
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6686  	bool last;
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6687  
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6688  	if (list_empty(&zone->unaccepted_pages))
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6689  		return false;
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6690  
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6691  	spin_lock_irqsave(&zone->lock, flags);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6692  	page = list_first_entry_or_null(&zone->unaccepted_pages,
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6693  					struct page, lru);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6694  	if (!page) {
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6695  		spin_unlock_irqrestore(&zone->lock, flags);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6696  		return false;
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6697  	}
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6698  
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6699  	list_del(&page->lru);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6700  	last = list_empty(&zone->unaccepted_pages);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6701  
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06 @6702  	__mod_zone_freepage_state(zone, -MAX_ORDER_NR_PAGES, MIGRATE_MOVABLE);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6703  	__mod_zone_page_state(zone, NR_UNACCEPTED, -MAX_ORDER_NR_PAGES);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6704  	spin_unlock_irqrestore(&zone->lock, flags);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6705  
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6706  	accept_page(page, MAX_ORDER);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6707  
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6708  	__free_pages_ok(page, MAX_ORDER, FPI_TO_TAIL);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6709  
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6710  	if (last)
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6711  		static_branch_dec(&zones_with_unaccepted_pages);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6712  
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6713  	return true;
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6714  }
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  6715  
 
 -- 
 0-DAY CI Kernel Test Service
