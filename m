@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD05134CC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 17:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6075028917
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 18:01:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692899441; x=1724435441;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ii54Xgap6nKfgKj+3jqxStyCcajeCI1tHDnQ8cOpNes=;
-  b=QZ/lpBCF/aKYJD0BzDFcuLffvxde2wCsqwhClBjh18h1se/CNNcT/E35
-   /fMoNpFQC+kh6hoUKu5aGxf8XV/yRtHlirRdaYpeACm1E6yJY93dx5vVx
-   iSNwXCEQJaMEK2DddHh+H07yZf8EJYzdzgLynsuYS5ytrQl4nCltu6/CA
-   7ymLKaAOcX9lam53OkggH+2d/mxYkf0j7N2B3/YQtWepBJGaugY1Hlnvy
-   8w7uf3HOlmrIEjiL12LPvc1iniE4WDHdY9tHmXrkP+OUbg/veRBimIqSW
-   wwqph0Aa1nb+b5ioTcHjR2c1LwT5pL7xwionJVDQ7tNRWlx1CSW6wDPDk
+  t=1692900099; x=1724436099;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jGwpeWQsLj66DjWJnPxH2AJWXC7IvXah5A9doEjI5No=;
+  b=U9bMBsbQknZVPGoeXbLIFnrgK1xBja6uKsxFNl606CL0tcWNnYgwMbbH
+   0Aob19kQeX8APhhwmMUPadkouAiJ5Gqn7GiHnnF7I4W+0xEH1qUhYaptH
+   q3rsf7UV8LrxfGdLhm4907D7pWUXJ6ehx6RoA4RkYJlJ/Mn94CjCsU6B1
+   Bu9RYMhy5lbPhOakfXYe/NQ2AN1PPO8uHcuvpqvoszo0OXwe/44O5enfB
+   xn7yhPFAdq+2V3m9ywY3dLhTQpCPbWaeETFa0zik9TwbplzUgCiuwR+QQ
+   uzOXcGTFiL/THhKS3lAApesFrLYCbSyMjyFpxiKQ+lpSFy4hvcO9FErYP
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="377261365"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="378300707"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="377261365"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 10:50:33 -0700
+   d="scan'208";a="378300707"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 11:01:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="880877998"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="807215356"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
+   d="scan'208";a="807215356"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2023 10:50:36 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 24 Aug 2023 11:01:35 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZETX-0002sk-0f;
-	Thu, 24 Aug 2023 17:50:31 +0000
-Date: Fri, 25 Aug 2023 01:49:49 +0800
+	id 1qZEeE-0002t6-2w;
+	Thu, 24 Aug 2023 18:01:34 +0000
+Date: Fri, 25 Aug 2023 02:01:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Justin Stitt <justinstitt@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] partitions/ibm: refactor deprecated strncpy
-Message-ID: <202308250139.GRjOAsEz-lkp@intel.com>
-References: <20230823-strncpy-block-partitions-cmdline-ibm-v2-1-40c77f7182fc@google.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Sagi Grimberg <sagi@grimberg.me>
+Subject: [hare-nvme:tls.v16 13/20] drivers/nvme/host/tcp.c:1588:22: warning:
+ variable 'keyring' set but not used
+Message-ID: <202308250115.acVHXy8q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,138 +45,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230823-strncpy-block-partitions-cmdline-ibm-v2-1-40c77f7182fc@google.com>
 
-Hi Justin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 706a741595047797872e669b3101429ab8d378ef]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Stitt/partitions-ibm-refactor-deprecated-strncpy/20230824-052625
-base:   706a741595047797872e669b3101429ab8d378ef
-patch link:    https://lore.kernel.org/r/20230823-strncpy-block-partitions-cmdline-ibm-v2-1-40c77f7182fc%40google.com
-patch subject: [PATCH v2] partitions/ibm: refactor deprecated strncpy
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230825/202308250139.GRjOAsEz-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250139.GRjOAsEz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git tls.v16
+head:   f988c307b2e1f2482e0479f117b644e087894cbc
+commit: 74d89f8bb73bd16d8d8be25944964974a860e956 [13/20] nvme-fabrics: parse options 'keyring' and 'tls_key'
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230825/202308250115.acVHXy8q-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250115.acVHXy8q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308250139.GRjOAsEz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308250115.acVHXy8q-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   block/partitions/ibm.c: In function 'find_label.isra':
-   include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_329' declared with attribute error: BUILD_BUG_ON failed: !__builtin_constant_p(_dest_len) || _dest_len == (size_t)-1
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/string.h:281:9: note: in expansion of macro 'BUILD_BUG_ON'
-     281 |         BUILD_BUG_ON(!__builtin_constant_p(_dest_len) ||                \
-         |         ^~~~~~~~~~~~
-   block/partitions/ibm.c:114:33: note: in expansion of macro 'strtomem_pad'
-     114 |                                 strtomem_pad(type, label->vol.vollbl, 4);
-         |                                 ^~~~~~~~~~~~
-   include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_331' declared with attribute error: BUILD_BUG_ON failed: !__builtin_constant_p(_dest_len) || _dest_len == (size_t)-1
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/string.h:281:9: note: in expansion of macro 'BUILD_BUG_ON'
-     281 |         BUILD_BUG_ON(!__builtin_constant_p(_dest_len) ||                \
-         |         ^~~~~~~~~~~~
-   block/partitions/ibm.c:117:33: note: in expansion of macro 'strtomem_pad'
-     117 |                                 strtomem_pad(type, label->lnx.vollbl, 4);
-         |                                 ^~~~~~~~~~~~
-   block/partitions/ibm.c: In function 'ibm_partition':
->> block/partitions/ibm.c:335:22: warning: 'strncmp' of strings of length 0 and 4 and bound of 4 evaluates to nonzero [-Wstring-compare]
-     335 |                 if (!strncmp(type, "VOL1", 4)) {
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
-   block/partitions/ibm.c:338:29: warning: 'strncmp' of strings of length 0 and 4 and bound of 4 evaluates to nonzero [-Wstring-compare]
-     338 |                 } else if (!strncmp(type, "LNX1", 4)) {
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
-   block/partitions/ibm.c:342:29: warning: 'strncmp' of strings of length 0 and 4 and bound of 4 evaluates to nonzero [-Wstring-compare]
-     342 |                 } else if (!strncmp(type, "CMS1", 4)) {
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/tcp.c: In function 'nvme_tcp_start_tls':
+   drivers/nvme/host/tcp.c:1599:58: error: expected ')' before ';' token
+    1599 |                 keyring = key_serial(nctrl->opts->keyring;
+         |                                     ~                    ^
+         |                                                          )
+   drivers/nvme/host/tcp.c:1625:20: error: expected ';' before '}' token
+    1625 |         return ret;
+         |                    ^
+         |                    ;
+    1626 | }
+         | ~                   
+>> drivers/nvme/host/tcp.c:1588:22: warning: variable 'keyring' set but not used [-Wunused-but-set-variable]
+    1588 |         key_serial_t keyring = nvme_keyring_id();
+         |                      ^~~~~~~
+>> drivers/nvme/host/tcp.c:1587:23: warning: unused variable 'tmo' [-Wunused-variable]
+    1587 |         unsigned long tmo = tls_handshake_timeout * HZ;
+         |                       ^~~
+>> drivers/nvme/host/tcp.c:1585:13: warning: unused variable 'ret' [-Wunused-variable]
+    1585 |         int ret;
+         |             ^~~
+   drivers/nvme/host/tcp.c:1626:1: error: control reaches end of non-void function [-Werror=return-type]
+    1626 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +/strncmp +335 block/partitions/ibm.c
+vim +/keyring +1588 drivers/nvme/host/tcp.c
 
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  285  
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  286  
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  287  /*
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  288   * This is the main function, called by check.c
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  289   */
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  290  int ibm_partition(struct parsed_partitions *state)
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  291  {
-26d7e28e38206b block/partitions/ibm.c Stefan Haberland  2020-05-19  292  	int (*fn)(struct gendisk *disk, dasd_information2_t *info);
-a08aa9bccdc282 block/partitions/ibm.c Christoph Hellwig 2021-08-10  293  	struct gendisk *disk = state->disk;
-a08aa9bccdc282 block/partitions/ibm.c Christoph Hellwig 2021-08-10  294  	struct block_device *bdev = disk->part0;
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  295  	int blocksize, res;
-97eeb5fc14cc4b block/partitions/ibm.c Christoph Hellwig 2021-10-19  296  	loff_t offset, size;
-97eeb5fc14cc4b block/partitions/ibm.c Christoph Hellwig 2021-10-19  297  	sector_t nr_sectors;
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  298  	dasd_information2_t *info;
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  299  	struct hd_geometry *geo;
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  300  	char type[5] = {0,};
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  301  	char name[7] = {0,};
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  302  	sector_t labelsect;
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  303  	union label_t *label;
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  304  
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  305  	res = 0;
-26d7e28e38206b block/partitions/ibm.c Stefan Haberland  2020-05-19  306  	if (!disk->fops->getgeo)
-26d7e28e38206b block/partitions/ibm.c Stefan Haberland  2020-05-19  307  		goto out_exit;
-26d7e28e38206b block/partitions/ibm.c Stefan Haberland  2020-05-19  308  	fn = symbol_get(dasd_biodasdinfo);
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  309  	blocksize = bdev_logical_block_size(bdev);
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  310  	if (blocksize <= 0)
-26d7e28e38206b block/partitions/ibm.c Stefan Haberland  2020-05-19  311  		goto out_symbol;
-97eeb5fc14cc4b block/partitions/ibm.c Christoph Hellwig 2021-10-19  312  	nr_sectors = bdev_nr_sectors(bdev);
-97eeb5fc14cc4b block/partitions/ibm.c Christoph Hellwig 2021-10-19  313  	if (nr_sectors == 0)
-26d7e28e38206b block/partitions/ibm.c Stefan Haberland  2020-05-19  314  		goto out_symbol;
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  315  	info = kmalloc(sizeof(dasd_information2_t), GFP_KERNEL);
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  316  	if (info == NULL)
-26d7e28e38206b block/partitions/ibm.c Stefan Haberland  2020-05-19  317  		goto out_symbol;
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  318  	geo = kmalloc(sizeof(struct hd_geometry), GFP_KERNEL);
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  319  	if (geo == NULL)
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  320  		goto out_nogeo;
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  321  	label = kmalloc(sizeof(union label_t), GFP_KERNEL);
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  322  	if (label == NULL)
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  323  		goto out_nolab;
-26d7e28e38206b block/partitions/ibm.c Stefan Haberland  2020-05-19  324  	/* set start if not filled by getgeo function e.g. virtblk */
-26d7e28e38206b block/partitions/ibm.c Stefan Haberland  2020-05-19  325  	geo->start = get_start_sect(bdev);
-26d7e28e38206b block/partitions/ibm.c Stefan Haberland  2020-05-19  326  	if (disk->fops->getgeo(bdev, geo))
-57881dd9df40b7 fs/partitions/ibm.c    Suzuki K P        2006-12-06  327  		goto out_freeall;
-7370997d48520a block/partitions/ibm.c Christoph Hellwig 2020-10-07  328  	if (!fn || fn(disk, info)) {
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  329  		kfree(info);
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  330  		info = NULL;
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  331  	}
-57881dd9df40b7 fs/partitions/ibm.c    Suzuki K P        2006-12-06  332  
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  333  	if (find_label(state, info, geo, blocksize, &labelsect, name, type,
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31  334  		       label)) {
-46e8894786327c block/partitions/ibm.c Stefan Weinhuber  2012-08-31 @335  		if (!strncmp(type, "VOL1", 4)) {
+20553726487e99 Hannes Reinecke 2023-02-14  1579  
+20553726487e99 Hannes Reinecke 2023-02-14  1580  static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+20553726487e99 Hannes Reinecke 2023-02-14  1581  			      struct nvme_tcp_queue *queue,
+20553726487e99 Hannes Reinecke 2023-02-14  1582  			      key_serial_t pskid)
+20553726487e99 Hannes Reinecke 2023-02-14  1583  {
+20553726487e99 Hannes Reinecke 2023-02-14  1584  	int qid = nvme_tcp_queue_id(queue);
+20553726487e99 Hannes Reinecke 2023-02-14 @1585  	int ret;
+20553726487e99 Hannes Reinecke 2023-02-14  1586  	struct tls_handshake_args args;
+20553726487e99 Hannes Reinecke 2023-02-14 @1587  	unsigned long tmo = tls_handshake_timeout * HZ;
+20553726487e99 Hannes Reinecke 2023-02-14 @1588  	key_serial_t keyring = nvme_keyring_id();
+20553726487e99 Hannes Reinecke 2023-02-14  1589  
+20553726487e99 Hannes Reinecke 2023-02-14  1590  	dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
+20553726487e99 Hannes Reinecke 2023-02-14  1591  		qid, pskid);
+20553726487e99 Hannes Reinecke 2023-02-14  1592  	memset(&args, 0, sizeof(args));
+20553726487e99 Hannes Reinecke 2023-02-14  1593  	args.ta_sock = queue->sock;
+20553726487e99 Hannes Reinecke 2023-02-14  1594  	args.ta_done = nvme_tcp_tls_done;
+20553726487e99 Hannes Reinecke 2023-02-14  1595  	args.ta_data = queue;
+20553726487e99 Hannes Reinecke 2023-02-14  1596  	args.ta_my_peerids[0] = pskid;
+20553726487e99 Hannes Reinecke 2023-02-14  1597  	args.ta_num_peerids = 1;
+74d89f8bb73bd1 Hannes Reinecke 2023-03-23  1598  	if (nctrl->opts->keyring)
+74d89f8bb73bd1 Hannes Reinecke 2023-03-23  1599  		keyring = key_serial(nctrl->opts->keyring;
+20553726487e99 Hannes Reinecke 2023-02-14  1600  	args.ta_keyring = keyring;
+20553726487e99 Hannes Reinecke 2023-02-14  1601  	args.ta_timeout_ms = tls_handshake_timeout * 1000;
+20553726487e99 Hannes Reinecke 2023-02-14  1602  	queue->tls_err = -EOPNOTSUPP;
+20553726487e99 Hannes Reinecke 2023-02-14  1603  	init_completion(&queue->tls_complete);
+20553726487e99 Hannes Reinecke 2023-02-14  1604  	ret = tls_client_hello_psk(&args, GFP_KERNEL);
+20553726487e99 Hannes Reinecke 2023-02-14  1605  	if (ret) {
+20553726487e99 Hannes Reinecke 2023-02-14  1606  		dev_err(nctrl->device, "queue %d: failed to start TLS: %d\n",
+20553726487e99 Hannes Reinecke 2023-02-14  1607  			qid, ret);
+20553726487e99 Hannes Reinecke 2023-02-14  1608  		return ret;
+20553726487e99 Hannes Reinecke 2023-02-14  1609  	}
+20553726487e99 Hannes Reinecke 2023-02-14  1610  	ret = wait_for_completion_interruptible_timeout(&queue->tls_complete, tmo);
+20553726487e99 Hannes Reinecke 2023-02-14  1611  	if (ret <= 0) {
+20553726487e99 Hannes Reinecke 2023-02-14  1612  		if (ret == 0)
+20553726487e99 Hannes Reinecke 2023-02-14  1613  			ret = -ETIMEDOUT;
+20553726487e99 Hannes Reinecke 2023-02-14  1614  
+20553726487e99 Hannes Reinecke 2023-02-14  1615  		dev_err(nctrl->device,
+20553726487e99 Hannes Reinecke 2023-02-14  1616  			"queue %d: TLS handshake failed, error %d\n",
+20553726487e99 Hannes Reinecke 2023-02-14  1617  			qid, ret);
+20553726487e99 Hannes Reinecke 2023-02-14  1618  		tls_handshake_cancel(queue->sock->sk);
+20553726487e99 Hannes Reinecke 2023-02-14  1619  	} else {
+20553726487e99 Hannes Reinecke 2023-02-14  1620  		dev_dbg(nctrl->device,
+20553726487e99 Hannes Reinecke 2023-02-14  1621  			"queue %d: TLS handshake complete, error %d\n",
+20553726487e99 Hannes Reinecke 2023-02-14  1622  			qid, queue->tls_err);
+20553726487e99 Hannes Reinecke 2023-02-14  1623  		ret = queue->tls_err;
+20553726487e99 Hannes Reinecke 2023-02-14  1624  	}
+20553726487e99 Hannes Reinecke 2023-02-14  1625  	return ret;
+20553726487e99 Hannes Reinecke 2023-02-14  1626  }
+20553726487e99 Hannes Reinecke 2023-02-14  1627  #else
+20553726487e99 Hannes Reinecke 2023-02-14  1628  static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+20553726487e99 Hannes Reinecke 2023-02-14  1629  			      struct nvme_tcp_queue *queue,
+20553726487e99 Hannes Reinecke 2023-02-14  1630  			      key_serial_t pskid)
+20553726487e99 Hannes Reinecke 2023-02-14  1631  {
+20553726487e99 Hannes Reinecke 2023-02-14  1632  	return -EPROTONOSUPPORT;
+20553726487e99 Hannes Reinecke 2023-02-14  1633  }
+20553726487e99 Hannes Reinecke 2023-02-14  1634  #endif
+20553726487e99 Hannes Reinecke 2023-02-14  1635  
+
+:::::: The code at line 1588 was first introduced by commit
+:::::: 20553726487e99408e4a971560c8528965731a6b nvme-tcp: enable TLS handshake upcall
+
+:::::: TO: Hannes Reinecke <hare@suse.de>
+:::::: CC: Hannes Reinecke <hare@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
