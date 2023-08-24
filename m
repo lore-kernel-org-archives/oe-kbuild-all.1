@@ -1,45 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAD91F17F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Aug 2023 23:19:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B46179;
+	Thu, 24 Aug 2023 00:01:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692832758; x=1724368758;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mtCLv0QH0mF7YcBR52RL4lANRGz7nSX9LjHsXigvn50=;
-  b=aeXhmuS0iXRaooHrJ2QC04ruNA0AJDb0Q6lg9l9dh+cnw3aIW6d31Qwh
-   jopvb+zPIVwLuXJNftvyyLWk+oey+Oz2R9R3/sF6OgBzLWliA5iZItGIX
-   1jGyNzaZsoFmb4GtO5Cx7XMuiWWO9ecVMR/p96xYjHWRUL4tT4il7yNmw
-   Y8OdPuR+9FkyCihNKt2bV53EXY2hnODgZUU0V/2miIVulfkTxFnPwmFvn
-   lEyzaQPGsdqF1R+IY+fDkFJKWeNJIkFKi8XrZG9ARI10UigR6Qpk/O8U0
-   M9cDFQ1FRarbGmP8UcFBOkC0J+qhlPKZ6B5VBdIl6ACJWUT04hM/E64Qv
+  t=1692835287; x=1724371287;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nhyqneDoLJjZ/M+Loz6bMRFomtPYuD47bFXLTP1ffc0=;
+  b=E/YX4xSUg06XE2IEQimS9HU0fBIRdB/mDTusyD3dPTgQgVyZtbUk9BC9
+   FsarpfIanJUTTFtSjwI2wROkktKvwtWf3SU6ps/GDxFcZ+B6iGZ5EOvHW
+   3Bd4FYHtjAK48kxX5GmiZPZ9X/WcT6QkjOrjjrdiTnZ+ND6AceeR6hex+
+   amWYAj5MFyoMz9cvRH4CQ6ImhHPw0Ui3VSC/GGrcBYjYam8xT/VHxXOAx
+   kpaMUT1i5XvsXw51k+QE2UKTPqkfY8vQCzm33zsZYW6XDoxwXoEPSv8C6
+   J8LHpiIVnc+Bgw/z81fV7gqnBIjSM5koLCeH24Ty4UDbjFOxTU99CIv44
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="353842480"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="364477168"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="353842480"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 16:19:09 -0700
+   d="scan'208";a="364477168"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 17:01:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="686645168"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="771905331"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="686645168"
+   d="scan'208";a="771905331"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 23 Aug 2023 16:19:08 -0700
+  by orsmga001.jf.intel.com with ESMTP; 23 Aug 2023 17:01:16 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYx7z-0001Zr-0o;
-	Wed, 23 Aug 2023 23:19:07 +0000
-Date: Thu, 24 Aug 2023 07:18:20 +0800
+	id 1qYxmm-0001bA-16;
+	Thu, 24 Aug 2023 00:01:16 +0000
+Date: Thu, 24 Aug 2023 08:00:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakob Hauser <jahau@rocketmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Lee Jones <lee@kernel.org>
-Subject: [linux-next:master 10528/12208]
- drivers/power/supply/rt5033_charger.c:696: undefined reference to
- `extcon_find_edev_by_node'
-Message-ID: <202308240723.O2rW0InU-lkp@intel.com>
+To: John Stultz <jstultz@google.com>, LKML <linux-kernel@vger.kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	John Stultz <jstultz@google.com>,
+	Joel Fernandes <joelaf@google.com>,
+	Qais Yousef <qyousef@google.com>, Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Zimuzo Ezeozue <zezeozue@google.com>,
+	Youssef Esmat <youssefesmat@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	"Paul E . McKenney" <paulmck@kernel.org>, kernel-team@android.com
+Subject: Re: [PATCH v5 13/19] sched: Split out __sched() deactivate task
+ logic into a helper
+Message-ID: <202308240712.RzqTiO81-lkp@intel.com>
+References: <20230819060915.3001568-14-jstultz@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,183 +63,166 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230819060915.3001568-14-jstultz@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e3f80d3eae76c3557b3c9b5938ad01c0e6cf25ec
-commit: 12cc585f36b8dffa68b809c2d23a9bd73ee6ffd2 [10528/12208] power: supply: rt5033_charger: Add cable detection and USB OTG supply
-config: x86_64-randconfig-r011-20230823 (https://download.01.org/0day-ci/archive/20230824/202308240723.O2rW0InU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240723.O2rW0InU-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on linus/master tip/auto-latest v6.5-rc7]
+[cannot apply to tip/sched/core tip/master next-20230823]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Stultz/sched-Unify-runtime-accounting-across-classes/20230821-121604
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20230819060915.3001568-14-jstultz%40google.com
+patch subject: [PATCH v5 13/19] sched: Split out __sched() deactivate task logic into a helper
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230824/202308240712.RzqTiO81-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240712.RzqTiO81-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308240723.O2rW0InU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308240712.RzqTiO81-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `rt5033_charger_probe':
->> drivers/power/supply/rt5033_charger.c:696: undefined reference to `extcon_find_edev_by_node'
->> ld: drivers/power/supply/rt5033_charger.c:710: undefined reference to `devm_extcon_register_notifier_all'
-   ld: vmlinux.o: in function `rt5033_charger_extcon_work':
->> drivers/power/supply/rt5033_charger.c:578: undefined reference to `extcon_get_state'
+   In file included from kernel/sched/core.c:9:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from kernel/sched/core.c:9:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from kernel/sched/core.c:9:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> kernel/sched/core.c:6565:6: warning: no previous prototype for function 'try_to_deactivate_task' [-Wmissing-prototypes]
+    6565 | bool try_to_deactivate_task(struct rq *rq, struct task_struct *p, unsigned long state)
+         |      ^
+   kernel/sched/core.c:6565:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    6565 | bool try_to_deactivate_task(struct rq *rq, struct task_struct *p, unsigned long state)
+         | ^
+         | static 
+   kernel/sched/core.c:3697:20: warning: unused function 'rq_has_pinned_tasks' [-Wunused-function]
+    3697 | static inline bool rq_has_pinned_tasks(struct rq *rq)
+         |                    ^
+   kernel/sched/core.c:5834:20: warning: unused function 'sched_tick_start' [-Wunused-function]
+    5834 | static inline void sched_tick_start(int cpu) { }
+         |                    ^
+   kernel/sched/core.c:5835:20: warning: unused function 'sched_tick_stop' [-Wunused-function]
+    5835 | static inline void sched_tick_stop(int cpu) { }
+         |                    ^
+   kernel/sched/core.c:6535:20: warning: unused function 'sched_core_cpu_starting' [-Wunused-function]
+    6535 | static inline void sched_core_cpu_starting(unsigned int cpu) {}
+         |                    ^
+   kernel/sched/core.c:6536:20: warning: unused function 'sched_core_cpu_deactivate' [-Wunused-function]
+    6536 | static inline void sched_core_cpu_deactivate(unsigned int cpu) {}
+         |                    ^
+   kernel/sched/core.c:6537:20: warning: unused function 'sched_core_cpu_dying' [-Wunused-function]
+    6537 | static inline void sched_core_cpu_dying(unsigned int cpu) {}
+         |                    ^
+   19 warnings generated.
 
 
-vim +696 drivers/power/supply/rt5033_charger.c
+vim +/try_to_deactivate_task +6565 kernel/sched/core.c
 
-   567	
-   568	static void rt5033_charger_extcon_work(struct work_struct *work)
-   569	{
-   570		struct rt5033_charger *charger =
-   571			container_of(work, struct rt5033_charger, extcon_work);
-   572		struct extcon_dev *edev = charger->edev;
-   573		int connector, state;
-   574		int ret;
-   575	
-   576		for (connector = EXTCON_USB_HOST; connector <= EXTCON_CHG_USB_PD;
-   577		     connector++) {
- > 578			state = extcon_get_state(edev, connector);
-   579			if (state == 1)
-   580				break;
-   581		}
-   582	
-   583		/*
-   584		 * Adding a delay between extcon notification and extcon action. This
-   585		 * makes extcon action execution more reliable. Without the delay the
-   586		 * execution sometimes fails, possibly because the chip is busy or not
-   587		 * ready.
-   588		 */
-   589		msleep(100);
-   590	
-   591		switch (connector) {
-   592		case EXTCON_CHG_USB_SDP:
-   593			ret = rt5033_charger_set_mivr(charger);
-   594			if (ret) {
-   595				dev_err(charger->dev, "failed to set USB mode\n");
-   596				break;
-   597			}
-   598			dev_info(charger->dev, "USB mode. connector type: %d\n",
-   599				 connector);
-   600			break;
-   601		case EXTCON_CHG_USB_DCP:
-   602		case EXTCON_CHG_USB_CDP:
-   603		case EXTCON_CHG_USB_ACA:
-   604		case EXTCON_CHG_USB_FAST:
-   605		case EXTCON_CHG_USB_SLOW:
-   606		case EXTCON_CHG_WPT:
-   607		case EXTCON_CHG_USB_PD:
-   608			ret = rt5033_charger_set_charging(charger);
-   609			if (ret) {
-   610				dev_err(charger->dev, "failed to set charging\n");
-   611				break;
-   612			}
-   613			dev_info(charger->dev, "charging. connector type: %d\n",
-   614				 connector);
-   615			break;
-   616		case EXTCON_USB_HOST:
-   617			ret = rt5033_charger_set_otg(charger);
-   618			if (ret) {
-   619				dev_err(charger->dev, "failed to set OTG\n");
-   620				break;
-   621			}
-   622			dev_info(charger->dev, "OTG enabled\n");
-   623			break;
-   624		default:
-   625			ret = rt5033_charger_set_disconnect(charger);
-   626			if (ret) {
-   627				dev_err(charger->dev, "failed to set disconnect\n");
-   628				break;
-   629			}
-   630			dev_info(charger->dev, "disconnected\n");
-   631			break;
-   632		}
-   633	
-   634		power_supply_changed(charger->psy);
-   635	}
-   636	
-   637	static int rt5033_charger_extcon_notifier(struct notifier_block *nb,
-   638						  unsigned long event, void *param)
-   639	{
-   640		struct rt5033_charger *charger =
-   641			container_of(nb, struct rt5033_charger, extcon_nb);
-   642	
-   643		schedule_work(&charger->extcon_work);
-   644	
-   645		return NOTIFY_OK;
-   646	}
-   647	
-   648	static const struct power_supply_desc rt5033_charger_desc = {
-   649		.name = "rt5033-charger",
-   650		.type = POWER_SUPPLY_TYPE_USB,
-   651		.properties = rt5033_charger_props,
-   652		.num_properties = ARRAY_SIZE(rt5033_charger_props),
-   653		.get_property = rt5033_charger_get_property,
-   654	};
-   655	
-   656	static int rt5033_charger_probe(struct platform_device *pdev)
-   657	{
-   658		struct rt5033_charger *charger;
-   659		struct power_supply_config psy_cfg = {};
-   660		struct device_node *np_conn, *np_edev;
-   661		int ret;
-   662	
-   663		charger = devm_kzalloc(&pdev->dev, sizeof(*charger), GFP_KERNEL);
-   664		if (!charger)
-   665			return -ENOMEM;
-   666	
-   667		platform_set_drvdata(pdev, charger);
-   668		charger->dev = &pdev->dev;
-   669		charger->regmap = dev_get_regmap(pdev->dev.parent, NULL);
-   670		mutex_init(&charger->lock);
-   671	
-   672		psy_cfg.of_node = pdev->dev.of_node;
-   673		psy_cfg.drv_data = charger;
-   674	
-   675		charger->psy = devm_power_supply_register(&pdev->dev,
-   676							  &rt5033_charger_desc,
-   677							  &psy_cfg);
-   678		if (IS_ERR(charger->psy))
-   679			return dev_err_probe(&pdev->dev, PTR_ERR(charger->psy),
-   680					     "Failed to register power supply\n");
-   681	
-   682		charger->chg = rt5033_charger_dt_init(charger);
-   683		if (IS_ERR_OR_NULL(charger->chg))
-   684			return PTR_ERR(charger->chg);
-   685	
-   686		ret = rt5033_charger_reg_init(charger);
-   687		if (ret)
-   688			return ret;
-   689	
-   690		/*
-   691		 * Extcon support is not vital for the charger to work. If no extcon
-   692		 * is available, just emit a warning and leave the probe function.
-   693		 */
-   694		np_conn = of_parse_phandle(pdev->dev.of_node, "richtek,usb-connector", 0);
-   695		np_edev = of_get_parent(np_conn);
- > 696		charger->edev = extcon_find_edev_by_node(np_edev);
-   697		if (IS_ERR(charger->edev)) {
-   698			dev_warn(&pdev->dev, "no extcon device found in device-tree\n");
-   699			goto out;
-   700		}
-   701	
-   702		ret = devm_work_autocancel(&pdev->dev, &charger->extcon_work,
-   703					   rt5033_charger_extcon_work);
-   704		if (ret) {
-   705			dev_err(&pdev->dev, "failed to initialize extcon work\n");
-   706			return ret;
-   707		}
-   708	
-   709		charger->extcon_nb.notifier_call = rt5033_charger_extcon_notifier;
- > 710		ret = devm_extcon_register_notifier_all(&pdev->dev, charger->edev,
-   711							&charger->extcon_nb);
-   712		if (ret) {
-   713			dev_err(&pdev->dev, "failed to register extcon notifier\n");
-   714			return ret;
-   715		}
-   716	out:
-   717		return 0;
-   718	}
-   719	
+  6564	
+> 6565	bool try_to_deactivate_task(struct rq *rq, struct task_struct *p, unsigned long state)
+  6566	{
+  6567		if (signal_pending_state(state, p)) {
+  6568			WRITE_ONCE(p->__state, TASK_RUNNING);
+  6569		} else {
+  6570			p->sched_contributes_to_load =
+  6571				(state & TASK_UNINTERRUPTIBLE) &&
+  6572				!(state & TASK_NOLOAD) &&
+  6573				!(state & TASK_FROZEN);
+  6574	
+  6575			if (p->sched_contributes_to_load)
+  6576				rq->nr_uninterruptible++;
+  6577	
+  6578			/*
+  6579			 * __schedule()			ttwu()
+  6580			 *   prev_state = prev->state;    if (p->on_rq && ...)
+  6581			 *   if (prev_state)		    goto out;
+  6582			 *     p->on_rq = 0;		  smp_acquire__after_ctrl_dep();
+  6583			 *				  p->state = TASK_WAKING
+  6584			 *
+  6585			 * Where __schedule() and ttwu() have matching control dependencies.
+  6586			 *
+  6587			 * After this, schedule() must not care about p->state any more.
+  6588			 */
+  6589			deactivate_task(rq, p, DEQUEUE_SLEEP | DEQUEUE_NOCLOCK);
+  6590	
+  6591			if (p->in_iowait) {
+  6592				atomic_inc(&rq->nr_iowait);
+  6593				delayacct_blkio_start();
+  6594			}
+  6595			return true;
+  6596		}
+  6597		return false;
+  6598	}
+  6599	
 
 -- 
 0-DAY CI Kernel Test Service
