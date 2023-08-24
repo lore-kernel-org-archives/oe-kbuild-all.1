@@ -1,171 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59EF1FB4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 07:44:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692863082; x=1724399082;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KjXKLMK+N4GSRL7HZ1n601Fx0NCTEWQ6GDChxqLcKWM=;
-  b=i/BaHIhbBp7aWFunCnQ1+e02tgp/lMvHSnBo+A6UWm9UA4lcWbFRNoVa
-   EVt32JhUk5CoCx5X0VIvZbRIT5BlSqAF+HJR8FTBJHq+CVhhkAuWW/xgH
-   hNHYUQbzVtDpP5SoPjfyFy81fTmJQLRXXccJ5m91C/hkHskbvK0nTrv7k
-   8bU+mjkCohzwnQW+3NIWXOVyuOdoBB3T9q48GPjtFyk4Yg0Wf1H5/35KR
-   GNfe288omnU8N12ORoMmwNExloTR9HHce5shgJG6gGwJxKUKBlZTWC8ga
-   mQxqw4sdY6Y2BDT9+m0LWkGHHia+sOG8PfIBpL6lT1o0PjzExFxFg3h8t
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="374341869"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="374341869"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 00:44:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="880706428"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2023 00:44:42 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qZ51B-0001qc-0z;
-	Thu, 24 Aug 2023 07:44:37 +0000
-Date: Thu, 24 Aug 2023 15:43:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hao Jia <jiahao.os@bytedance.com>, mingo@redhat.com,
-	peterz@infradead.org, mingo@kernel.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-	bristot@redhat.com, vschneid@redhat.com, pauld@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Hao Jia <jiahao.os@bytedance.com>
-Subject: Re: [PATCH 1/2] sched/core: Introduce sched_class::can_stop_tick()
-Message-ID: <202308241526.be4l9ROa-lkp@intel.com>
-References: <20230821094927.51079-2-jiahao.os@bytedance.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D595388
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 08:14:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D07AC433C9;
+	Thu, 24 Aug 2023 08:14:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692864867;
+	bh=SRSONfBaD/LVoEAXKaL33y0Djjd+T5WcAY48EKiJksc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RDAE748lYPiJMQAVWZxSJoMzRQd13KAzS19bXIORO9juDvwA6TAG6OU4QuBZU/sWA
+	 X5/jUVcAuoVXRcfxRxnH6Off7EyrLXJSBqbNDZ+mFsHUfIAPaez+AOeqsPFpdh7qs7
+	 E8SBWWixKAS/WHGsKfpfT28kcdcaWxo2u1enHIIymqmHtGH+cRn57PIYQh1HW5Gw2h
+	 IFOXx5b+fWmEUkIOy5RzFSZ6Tr2XCe8zyCglTd8JnbchMoenSfRvf04DwL2sA0rKIM
+	 9jigwfj1nUv6hhYkoIZTyl88x8y8U1key8xpp/vhHHS4je9pv2f5i112yILBwEJYm9
+	 5JKVAs5WuMxzg==
+Received: from disco-boy.misterjones.org ([217.182.43.188] helo=www.loen.fr)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1qZ5U1-007aYy-0H;
+	Thu, 24 Aug 2023 09:14:25 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230821094927.51079-2-jiahao.os@bytedance.com>
+Date: Thu, 24 Aug 2023 09:14:24 +0100
+From: Marc Zyngier <maz@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>
+Subject: Re: [linux-next:master 11762/12208] drivers/perf/arm_pmuv3.c:776:
+ undefined reference to `kvm_vcpu_pmu_resync_el0'
+In-Reply-To: <202308240834.9JkuU1vW-lkp@intel.com>
+References: <202308240834.9JkuU1vW-lkp@intel.com>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <3e5319a59f74856b2ad5db9c22e033ec@kernel.org>
+X-Sender: maz@kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 217.182.43.188
+X-SA-Exim-Rcpt-To: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Hi Hao,
+On 2023-08-24 01:11, kernel test robot wrote:
+> tree:
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> master
+> head:   e3f80d3eae76c3557b3c9b5938ad01c0e6cf25ec
+> commit: b1f778a223a2a8ad6262e5233cfc3483bcf6e213 [11762/12208] KVM:
+> arm64: pmu: Resync EL0 state on counter rotation
+> config: arm64-randconfig-r011-20230823
+> (https://download.01.org/0day-ci/archive/20230824/202308240834.9JkuU1vW-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 12.3.0
+> reproduce:
+> (https://download.01.org/0day-ci/archive/20230824/202308240834.9JkuU1vW-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes:
+> https://lore.kernel.org/oe-kbuild-all/202308240834.9JkuU1vW-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+>    aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+>    aarch64-linux-ld: drivers/perf/arm_pmuv3.o: in function 
+> `armv8pmu_start':
+>>> drivers/perf/arm_pmuv3.c:776: undefined reference to 
+>>> `kvm_vcpu_pmu_resync_el0'
 
-kernel test robot noticed the following build warnings:
+This should be fixed in today's -next, which contains 9b80b9676be9
+("KVM: arm64: pmu: Guard PMU emulation definitions with CONFIG_KVM").
 
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on next-20230824]
-[cannot apply to linus/master v6.5-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hao-Jia/sched-core-Introduce-sched_class-can_stop_tick/20230821-175200
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20230821094927.51079-2-jiahao.os%40bytedance.com
-patch subject: [PATCH 1/2] sched/core: Introduce sched_class::can_stop_tick()
-config: arm64-randconfig-r122-20230824 (https://download.01.org/0day-ci/archive/20230824/202308241526.be4l9ROa-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241526.be4l9ROa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308241526.be4l9ROa-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:702:6: sparse: sparse: symbol 'update_entity_lag' was not declared. Should it be static?
-   kernel/sched/fair.c:1140:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1140:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1140:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:12087:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12087:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12087:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:5674:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:5674:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:5674:22: sparse:    struct task_struct *
->> kernel/sched/fair.c:6336:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:6336:56: sparse:     expected struct task_struct *p
-   kernel/sched/fair.c:6336:56: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:6337:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:6337:47: sparse:     expected struct task_struct *p
-   kernel/sched/fair.c:6337:47: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:6438:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:6438:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:6438:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:7738:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7738:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:7738:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:7940:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7940:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:7940:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8039:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8039:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8039:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8319:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8319:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8319:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:9312:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:9312:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:9312:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:9939:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:9939:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:9939:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:11359:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11359:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:11359:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11018:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11018:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:11018:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11455:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11455:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:11455:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2130:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2130:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2130:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2296:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2296:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2296:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2130:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2130:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2130:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2130:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2130:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2130:25: sparse:    struct task_struct *
-
-vim +6336 kernel/sched/fair.c
-
-  6321	
-  6322	static bool can_stop_tick_fair(struct rq *rq, int *stop_next)
-  6323	{
-  6324		if (rq->nr_running > 1) {
-  6325			*stop_next = 1;
-  6326			return false;
-  6327		}
-  6328	
-  6329		/*
-  6330		 * If there is one task and it has CFS runtime bandwidth constraints
-  6331		 * and it's on the cpu now we don't want to stop the tick.
-  6332		 * This check prevents clearing the bit if a newly enqueued task here is
-  6333		 * dequeued by migrating while the constrained task continues to run.
-  6334		 * E.g. going from 2->1 without going through pick_next_task().
-  6335		 */
-> 6336		if (sched_feat(HZ_BW) && __need_bw_check(rq, rq->curr)) {
-  6337			if (cfs_task_bw_constrained(rq->curr)) {
-  6338				*stop_next = 1;
-  6339				return false;
-  6340			}
-  6341		}
-  6342	
-  6343		return true;
-  6344	}
-  6345	#endif
-  6346	
-
+         M.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jazz is not dead. It just smells funny...
