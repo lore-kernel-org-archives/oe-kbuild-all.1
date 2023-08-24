@@ -1,42 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936BA7E;
-	Thu, 24 Aug 2023 23:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DB97E;
+	Thu, 24 Aug 2023 23:50:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692918472; x=1724454472;
+  t=1692921050; x=1724457050;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WqZZmB9Jkzkp5OADhFuXNVAbz5f2RPWNuZiyTKvGiUg=;
-  b=Ge+pnCkNlqLTCsG4/jm//tEe/Ep3d1VUiLsXcIueqB6/P/WTq1cjB7iU
-   zXnX1gcXc3BniVJNAd1wH+1FimozrBFgcw7ohaEpCs7d61LnqR/MHwqii
-   fqYn++I/5O1FyTiJOZ3EfgiSJcu8GDHam9CAvAYo30FmzIyObtrqww4n4
-   JbXfMZdk7DoANJ/dhyyR8hFvIFf7Xi4gmrNpAQDG6/RaLE2dqNZA4yh6J
-   gbjC6DYfRV3Ftwoc6IEXhZ8B4EcoHYKiAMGu0aEB54vC1X2xTIFVfj2aF
-   6KIqdlP5fVwJMbrJI6CoOninoYDAOLeVLFKQNG4IaRCM4M17jTaFLF5j5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="364771515"
+  bh=g4VFOJbtovw2DN+qXbHP4f3kJSN5/g9kvpuxGRhrGok=;
+  b=P4/3lRvVrjdfxfQA8zbPAuZXwG+42NAdbi4Wh6MjxV4wrmba+mJQPnwY
+   2WEUMs0sgKqNIDjuRu95aYIfAiyh+cOY/r6LrJqS2EbSj6N6Rk+2z0Saj
+   EGAmqlUd5xXMWp6PcFXEPVa6YafXvYJf9jTi/xEHbs8BUZT4ubJmWe2Sq
+   ca68eklkcXpypt7pmxuJIAKYlFYx7CKC2YUXBKb4VzyNVDMMnTUtrdQ1J
+   nX7um+gw+Y+OD4TCEvXdRV32qmd6h6PpOxKdn8flLULHQCPPD8DbypYS/
+   URSJ1xQHPmLlA1WO9kuKZ28WejhkO3W0VFmYIIiB0a5HsQy3rTisOpGBB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="438532203"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="364771515"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 16:07:52 -0700
+   d="scan'208";a="438532203"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 16:50:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="714141379"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="687078982"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="714141379"
+   d="scan'208";a="687078982"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 24 Aug 2023 16:07:50 -0700
+  by orsmga003.jf.intel.com with ESMTP; 24 Aug 2023 16:50:47 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZJQb-00032C-1m;
-	Thu, 24 Aug 2023 23:07:49 +0000
-Date: Fri, 25 Aug 2023 07:07:05 +0800
+	id 1qZK68-00033K-1P;
+	Thu, 24 Aug 2023 23:50:45 +0000
+Date: Fri, 25 Aug 2023 07:50:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:total_mapcount 4/4] mm/rmap.c:1306:4: warning:
- variable 'first' is uninitialized when used here
-Message-ID: <202308250733.ARMY38JJ-lkp@intel.com>
+To: Manuel Lauss <manuel.lauss@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-5.10.y 9024/9999]
+ arch/mips/alchemy/common/dbdma.c:632:7: error: use of undeclared identifier
+ 'dma_default_coherent'
+Message-ID: <202308250714.HOhcCYxf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,99 +50,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/davidhildenbrand/linux total_mapcount
-head:   a51a7d038794500ca596fc544499429062372ac4
-commit: a51a7d038794500ca596fc544499429062372ac4 [4/4] tmp
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230825/202308250733.ARMY38JJ-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250733.ARMY38JJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
+head:   da742ebfa00c3add4a358dd79ec92161c07e1435
+commit: 619672bf2d04cdc1bc3925defd0312c2ef11e5d0 [9024/9999] MIPS: Alchemy: fix dbdma2
+config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20230825/202308250714.HOhcCYxf-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250714.HOhcCYxf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308250733.ARMY38JJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308250714.HOhcCYxf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/rmap.c:1306:4: warning: variable 'first' is uninitialized when used here [-Wuninitialized]
-                           first += atomic_inc_and_test(&page->_mapcount);
-                           ^~~~~
-   mm/rmap.c:1298:41: note: initialize the variable 'first' to silence this warning
-           unsigned int nr_pmdmapped = 0, i, first;
-                                                  ^
-                                                   = 0
-   1 warning generated.
+>> arch/mips/alchemy/common/dbdma.c:632:7: error: use of undeclared identifier 'dma_default_coherent'
+           if (!dma_default_coherent)
+                ^
+   arch/mips/alchemy/common/dbdma.c:695:7: error: use of undeclared identifier 'dma_default_coherent'
+           if (!dma_default_coherent)
+                ^
+   2 errors generated.
 
 
-vim +/first +1306 mm/rmap.c
+vim +/dma_default_coherent +632 arch/mips/alchemy/common/dbdma.c
 
-  1281	
-  1282	/**
-  1283	 * folio_add_file_rmap_range - add pte mapping to page range of a folio
-  1284	 * @folio:	The folio to add the mapping to
-  1285	 * @page:	The first page to add
-  1286	 * @nr_pages:	The number of pages which will be mapped
-  1287	 * @vma:	the vm area in which the mapping is added
-  1288	 * @compound:	charge the page as compound or small page
-  1289	 *
-  1290	 * The page range of folio is defined by [first_page, first_page + nr_pages)
-  1291	 *
-  1292	 * The caller needs to hold the pte lock.
-  1293	 */
-  1294	void folio_add_file_rmap_range(struct folio *folio, struct page *page,
-  1295				unsigned int nr_pages, struct vm_area_struct *vma,
-  1296				bool compound)
-  1297	{
-  1298		unsigned int nr_pmdmapped = 0, i, first;
-  1299		int nr = 0;
-  1300	
-  1301		VM_WARN_ON_FOLIO(compound && !folio_test_pmd_mappable(folio), folio);
-  1302	
-  1303		/* Is page being mapped by PTE? Is this its first map to be added? */
-  1304		if (likely(!compound)) {
-  1305			for (i = 0; i < nr_pages; i++, page++)
-> 1306				first += atomic_inc_and_test(&page->_mapcount);
-  1307			nr = first;
-  1308			if (unlikely(folio_test_large(folio))) {
-  1309				folio_mapcount_lock(folio);
-  1310				if (first) {
-  1311					nr = folio_nr_pages_mapped_add_return(folio,
-  1312									      first);
-  1313					nr = (nr < COMPOUND_MAPPED);
-  1314				}
-  1315				folio_total_mapcount_add(folio, nr_pages, vma);
-  1316				folio_mapcount_unlock(folio);
-  1317			}
-  1318		} else if (folio_test_pmd_mappable(folio)) {
-  1319			/* That test is redundant: it's for safety or to optimize out */
-  1320			folio_mapcount_lock(folio);
-  1321			first = folio_entire_mapcount_inc_test_first(folio);
-  1322			if (first) {
-  1323				nr = folio_nr_pages_mapped_add_return(folio, COMPOUND_MAPPED);
-  1324				if (likely(nr < COMPOUND_MAPPED + COMPOUND_MAPPED)) {
-  1325					nr_pmdmapped = folio_nr_pages(folio);
-  1326					nr = nr_pmdmapped - (nr & FOLIO_PAGES_MAPPED);
-  1327					/* Raced ahead of a remove and another add? */
-  1328					if (unlikely(nr < 0))
-  1329						nr = 0;
-  1330				} else {
-  1331					/* Raced ahead of a remove of COMPOUND_MAPPED */
-  1332					nr = 0;
-  1333				}
-  1334			}
-  1335			folio_total_mapcount_inc(folio, vma);
-  1336			folio_mapcount_unlock(folio);
-  1337		}
-  1338	
-  1339		if (nr_pmdmapped)
-  1340			__lruvec_stat_mod_folio(folio, folio_test_swapbacked(folio) ?
-  1341				NR_SHMEM_PMDMAPPED : NR_FILE_PMDMAPPED, nr_pmdmapped);
-  1342		if (nr)
-  1343			__lruvec_stat_mod_folio(folio, NR_FILE_MAPPED, nr);
-  1344	
-  1345		mlock_vma_folio(folio, vma, compound);
-  1346	}
-  1347	
+   586	
+   587	/*
+   588	 * Put a source buffer into the DMA ring.
+   589	 * This updates the source pointer and byte count.  Normally used
+   590	 * for memory to fifo transfers.
+   591	 */
+   592	u32 au1xxx_dbdma_put_source(u32 chanid, dma_addr_t buf, int nbytes, u32 flags)
+   593	{
+   594		chan_tab_t		*ctp;
+   595		au1x_ddma_desc_t	*dp;
+   596	
+   597		/*
+   598		 * I guess we could check this to be within the
+   599		 * range of the table......
+   600		 */
+   601		ctp = *(chan_tab_t **)chanid;
+   602	
+   603		/*
+   604		 * We should have multiple callers for a particular channel,
+   605		 * an interrupt doesn't affect this pointer nor the descriptor,
+   606		 * so no locking should be needed.
+   607		 */
+   608		dp = ctp->put_ptr;
+   609	
+   610		/*
+   611		 * If the descriptor is valid, we are way ahead of the DMA
+   612		 * engine, so just return an error condition.
+   613		 */
+   614		if (dp->dscr_cmd0 & DSCR_CMD0_V)
+   615			return 0;
+   616	
+   617		/* Load up buffer address and byte count. */
+   618		dp->dscr_source0 = buf & ~0UL;
+   619		dp->dscr_cmd1 = nbytes;
+   620		/* Check flags */
+   621		if (flags & DDMA_FLAGS_IE)
+   622			dp->dscr_cmd0 |= DSCR_CMD0_IE;
+   623		if (flags & DDMA_FLAGS_NOIE)
+   624			dp->dscr_cmd0 &= ~DSCR_CMD0_IE;
+   625	
+   626		/*
+   627		 * There is an erratum on certain Au1200/Au1550 revisions that could
+   628		 * result in "stale" data being DMA'ed. It has to do with the snoop
+   629		 * logic on the cache eviction buffer.  dma_default_coherent is set
+   630		 * to false on these parts.
+   631		 */
+ > 632		if (!dma_default_coherent)
+   633			dma_cache_wback_inv(KSEG0ADDR(buf), nbytes);
+   634		dp->dscr_cmd0 |= DSCR_CMD0_V;	/* Let it rip */
+   635		wmb(); /* drain writebuffer */
+   636		dma_cache_wback_inv((unsigned long)dp, sizeof(*dp));
+   637		ctp->chan_ptr->ddma_dbell = 0;
+   638		wmb(); /* force doorbell write out to dma engine */
+   639	
+   640		/* Get next descriptor pointer. */
+   641		ctp->put_ptr = phys_to_virt(DSCR_GET_NXTPTR(dp->dscr_nxtptr));
+   642	
+   643		/* Return something non-zero. */
+   644		return nbytes;
+   645	}
+   646	EXPORT_SYMBOL(au1xxx_dbdma_put_source);
+   647	
 
 -- 
 0-DAY CI Kernel Test Service
