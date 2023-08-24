@@ -1,42 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6127D7F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 02:12:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337847F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 02:12:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692843133; x=1724379133;
+  t=1692843136; x=1724379136;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kL2F0fdL40R3JbpylzN6/lLWca8m7gc0BbiXkJkNDSc=;
-  b=PAJE8PRUgUt/BuyFGSSJWNqtgngD20YMmcOUODGFrqb6GAYGUUEmkyIl
-   GH30vCCPYWywGna0eIbuJLe2XqRE3XpHHQX/Agwp7FrvrZ1ErM+pbiMDV
-   12Zp0Gt8i00N6Tbnb/REkOG8gWJM0OEAjRwPx0G8oMI617VTM1HX5FH3w
-   3hUkpYqnLtpxUz6sau3IYysqkwJQCRDMsG9Sfj1arCShSu3pB/lxa/GST
-   2GZ+kmkjG7LFa+akw4cvFoPlF0TzmM6SybDeTHdGzEe3Cs136e+p7T6Lu
-   nyQvwJqJ6eEdGFpa1KgjCMZM3KOTbneP5oQVu91yDmVSY0yNxm0krxgIJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="353870777"
+  bh=HfBVstP+IORl5Xp9OteKttBKQzrnf5izvJWV7ugtsOI=;
+  b=Eds7RsnkIjovJ0P1dUwRYRyXc6eYUCLbxSj2PCav5xmk1blvRR9PKZZo
+   PHWLMdBJHhVs07GMhHHznuiNHIPIuUHD1Goa8+QNaG7S+Zi1QKpPRbyq9
+   PnmRNo+yosCE5JPJU421ggH9tD8nBUgXlyPtZIXbnrCPL/zTQJScaiP83
+   aRy7x/oLeUv2yjvidqvMVZuxiPxIRByoA8dyBuyUNuyuv7Nb2hyGMu8w+
+   A94lmqh7VIwCJDr/+XWcu/3KkSNzywU/sahQmSW3V6zdSyRVcTvl2he5S
+   ZAA8YP9lZKggc6lemp6gG8yIdlzVRtLEOCs788XsDHBeO3fpTpKjiIE/C
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="353870778"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="353870777"
+   d="scan'208";a="353870778"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 19:12:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="851285752"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="851285761"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="851285752"
+   d="scan'208";a="851285761"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
   by fmsmga002.fm.intel.com with ESMTP; 23 Aug 2023 19:12:11 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYzpS-0001fa-11;
+	id 1qYzpS-0001fd-1A;
 	Thu, 24 Aug 2023 02:12:10 +0000
-Date: Thu, 24 Aug 2023 10:11:16 +0800
+Date: Thu, 24 Aug 2023 10:11:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qais Yousef <qyousef@layalina.io>
+To: Gregory Greenman <gregory.greenman@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [qais-yousef:generalized-misfit-lb 7/13]
- kernel/sched/fair.c:10814:42: error: 'UPMIGRATION' undeclared
-Message-ID: <202308241026.qF0ReUNr-lkp@intel.com>
+Subject: mm/low-mem-notify.c:53:6: warning: no previous prototype for
+ function 'low_mem_notify'
+Message-ID: <202308241017.0hrXcBu2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,372 +49,178 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/qais-yousef/linux generalized-misfit-lb
-head:   c3b510f9f9b7eb321f7179b6036214b7a9509333
-commit: 4f1c772d36fcd69a18428ffebb84b0a6be2ce14a [7/13] sched/fair: Don't skip cpu in find_busiest_queue for DOWNMIGRATION misfit
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230824/202308241026.qF0ReUNr-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241026.qF0ReUNr-lkp@intel.com/reproduce)
+Hi Yu,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
+head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
+commit: 585b704d6b9decff53ce46e97eaa1f71a15e388c CHROMIUM: mm: move low memory code
+date:   2 years, 8 months ago
+config: x86_64-randconfig-012-20230823 (https://download.01.org/0day-ci/archive/20230824/202308241017.0hrXcBu2-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241017.0hrXcBu2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308241026.qF0ReUNr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308241017.0hrXcBu2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-    9953 |         if (rq->curr != rq->idle && rq->curr != p)
-         |               ^~
-   kernel/sched/fair.c:9953:27: error: invalid use of undefined type 'struct rq'
-    9953 |         if (rq->curr != rq->idle && rq->curr != p)
-         |                           ^~
-   kernel/sched/fair.c:9953:39: error: invalid use of undefined type 'struct rq'
-    9953 |         if (rq->curr != rq->idle && rq->curr != p)
-         |                                       ^~
-   kernel/sched/fair.c:9963:15: error: invalid use of undefined type 'struct rq'
-    9963 |         if (rq->ttwu_pending)
-         |               ^~
-   kernel/sched/fair.c: In function 'update_sg_wakeup_stats':
-   include/linux/percpu-defs.h:219:59: error: invalid use of undefined type 'struct rq'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                           ^
-   include/linux/percpu-defs.h:235:9: note: in expansion of macro '__verify_pcpu_ptr'
-     235 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                   ^~~~~~~~~~~
-   kernel/sched/sched.h:1224:35: note: in expansion of macro 'per_cpu'
-    1224 | #define cpu_rq(cpu)             (&per_cpu(runqueues, (cpu)))
-         |                                   ^~~~~~~
-   kernel/sched/fair.c:9991:33: note: in expansion of macro 'cpu_rq'
-    9991 |                 struct rq *rq = cpu_rq(i);
-         |                                 ^~~~~~
-   kernel/sched/fair.c:9992:17: warning: statement with no effect [-Wunused-value]
-    9992 |                 misfit_reason_t reason;
-         |                 ^~~~~~~~~~~~~~~
-   kernel/sched/fair.c:9992:32: error: expected ';' before 'reason'
-    9992 |                 misfit_reason_t reason;
-         |                                ^~~~~~~
-         |                                ;
-   kernel/sched/fair.c:9999:44: error: invalid use of undefined type 'struct rq'
-    9999 |                 sgs->sum_h_nr_running += rq->cfs.h_nr_running - local;
-         |                                            ^~
-   kernel/sched/fair.c:10001:32: error: invalid use of undefined type 'struct rq'
-   10001 |                 nr_running = rq->nr_running - local;
-         |                                ^~
-   kernel/sched/fair.c:10013:49: error: 'reason' undeclared (first use in this function)
-   10013 |                     if (!is_misfit_task(p, rq, &reason)) {
-         |                                                 ^~~~~~
-   kernel/sched/fair.c:10015:30: error: 'struct sg_lb_stats' has no member named 'group_misfit_reason'; did you mean 'group_misfit_task_load'?
-   10015 |                         sgs->group_misfit_reason = -1;
-         |                              ^~~~~~~~~~~~~~~~~~~
-         |                              group_misfit_task_load
-   kernel/sched/fair.c:10018:30: error: 'struct sg_lb_stats' has no member named 'group_misfit_reason'; did you mean 'group_misfit_task_load'?
-   10018 |                         sgs->group_misfit_reason = reason;
-         |                              ^~~~~~~~~~~~~~~~~~~
-         |                              group_misfit_task_load
-   kernel/sched/fair.c: In function 'find_idlest_group':
-   include/linux/percpu-defs.h:219:59: error: invalid use of undefined type 'struct rq'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                           ^
-   include/linux/percpu-defs.h:235:9: note: in expansion of macro '__verify_pcpu_ptr'
-     235 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                   ^~~~~~~~~~~
-   kernel/sched/sched.h:1224:35: note: in expansion of macro 'per_cpu'
-    1224 | #define cpu_rq(cpu)             (&per_cpu(runqueues, (cpu)))
-         |                                   ^~~~~~~
-   kernel/sched/fair.c:10119:47: note: in expansion of macro 'cpu_rq'
-   10119 |                 if (!sched_group_cookie_match(cpu_rq(this_cpu), p, group))
-         |                                               ^~~~~~
-   kernel/sched/fair.c: In function 'update_sd_lb_stats':
-   kernel/sched/fair.c:10396:53: error: invalid use of undefined type 'struct rq'
-   10396 |                 struct root_domain *rd = env->dst_rq->rd;
-         |                                                     ^~
-   kernel/sched/fair.c:10405:53: error: invalid use of undefined type 'struct rq'
-   10405 |                 struct root_domain *rd = env->dst_rq->rd;
-         |                                                     ^~
-   kernel/sched/fair.c: In function 'find_busiest_group':
-   kernel/sched/fair.c:10646:53: error: invalid use of undefined type 'struct rq'
-   10646 |                 struct root_domain *rd = env->dst_rq->rd;
-         |                                                     ^~
-   kernel/sched/fair.c: In function 'find_busiest_queue':
-   include/linux/percpu-defs.h:219:59: error: invalid use of undefined type 'struct rq'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                           ^
-   include/linux/percpu-defs.h:235:9: note: in expansion of macro '__verify_pcpu_ptr'
-     235 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                   ^~~~~~~~~~~
-   kernel/sched/sched.h:1224:35: note: in expansion of macro 'per_cpu'
-    1224 | #define cpu_rq(cpu)             (&per_cpu(runqueues, (cpu)))
-         |                                   ^~~~~~~
-   kernel/sched/fair.c:10776:22: note: in expansion of macro 'cpu_rq'
-   10776 |                 rq = cpu_rq(i);
-         |                      ^~~~~~
-   kernel/sched/fair.c:10801:32: error: invalid use of undefined type 'struct rq'
-   10801 |                 nr_running = rq->cfs.h_nr_running;
-         |                                ^~
-   kernel/sched/fair.c:10814:23: error: invalid use of undefined type 'struct rq'
-   10814 |                     rq->misfit_reason == UPMIGRATION &&
-         |                       ^~
->> kernel/sched/fair.c:10814:42: error: 'UPMIGRATION' undeclared (first use in this function)
-   10814 |                     rq->misfit_reason == UPMIGRATION &&
-         |                                          ^~~~~~~~~~~
-   kernel/sched/fair.c:10893:31: error: invalid use of undefined type 'struct rq'
-   10893 |                         if (rq->misfit_task_load > busiest_load) {
-         |                               ^~
-   kernel/sched/fair.c:10894:50: error: invalid use of undefined type 'struct rq'
-   10894 |                                 busiest_load = rq->misfit_task_load;
-         |                                                  ^~
-   kernel/sched/fair.c: In function 'need_active_balance':
-   kernel/sched/fair.c:10965:25: error: invalid use of undefined type 'struct rq'
-   10965 |             (env->src_rq->cfs.h_nr_running == 1)) {
-         |                         ^~
-   kernel/sched/fair.c: In function 'should_we_balance':
-   kernel/sched/fair.c:10999:32: error: invalid use of undefined type 'struct rq'
-   10999 |                 if (env->dst_rq->nr_running > 0 || env->dst_rq->ttwu_pending)
-         |                                ^~
-   kernel/sched/fair.c:10999:63: error: invalid use of undefined type 'struct rq'
-   10999 |                 if (env->dst_rq->nr_running > 0 || env->dst_rq->ttwu_pending)
-         |                                                               ^~
-   kernel/sched/fair.c: In function 'load_balance':
-   kernel/sched/fair.c:11083:30: error: invalid use of undefined type 'struct rq'
-   11083 |         env.src_cpu = busiest->cpu;
-         |                              ^~
-   kernel/sched/fair.c:11089:20: error: invalid use of undefined type 'struct rq'
-   11089 |         if (busiest->nr_running > 1) {
-         |                    ^~
-   kernel/sched/fair.c:11096:69: error: invalid use of undefined type 'struct rq'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                                                     ^~
-   include/linux/minmax.h:20:46: note: in definition of macro '__typecheck'
-      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-         |                                              ^
-   include/linux/minmax.h:36:31: note: in expansion of macro '__safe_cmp'
-      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |                               ^~~~~~~~~~
-   include/linux/minmax.h:67:25: note: in expansion of macro '__careful_cmp'
-      67 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   kernel/sched/fair.c:11096:33: note: in expansion of macro 'min'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                 ^~~
-   kernel/sched/fair.c:11096:69: error: invalid use of undefined type 'struct rq'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                                                     ^~
-   include/linux/const.h:12:55: note: in definition of macro '__is_constexpr'
-      12 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
-         |                                                       ^
-   include/linux/minmax.h:26:39: note: in expansion of macro '__no_side_effects'
-      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
-         |                                       ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:31: note: in expansion of macro '__safe_cmp'
-      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |                               ^~~~~~~~~~
-   include/linux/minmax.h:67:25: note: in expansion of macro '__careful_cmp'
-      67 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   kernel/sched/fair.c:11096:33: note: in expansion of macro 'min'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                 ^~~
-   kernel/sched/fair.c:11096:69: error: invalid use of undefined type 'struct rq'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                                                     ^~
-   include/linux/minmax.h:28:34: note: in definition of macro '__cmp'
-      28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-         |                                  ^
-   include/linux/minmax.h:67:25: note: in expansion of macro '__careful_cmp'
-      67 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   kernel/sched/fair.c:11096:33: note: in expansion of macro 'min'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                 ^~~
-   kernel/sched/fair.c:11096:69: error: invalid use of undefined type 'struct rq'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                                                     ^~
-   include/linux/minmax.h:28:46: note: in definition of macro '__cmp'
-      28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-         |                                              ^
-   include/linux/minmax.h:67:25: note: in expansion of macro '__careful_cmp'
-      67 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   kernel/sched/fair.c:11096:33: note: in expansion of macro 'min'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                 ^~~
-   kernel/sched/fair.c:11096:69: error: invalid use of undefined type 'struct rq'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                                                     ^~
-   include/linux/minmax.h:32:24: note: in definition of macro '__cmp_once'
-      32 |                 typeof(y) unique_y = (y);               \
-         |                        ^
-   include/linux/minmax.h:67:25: note: in expansion of macro '__careful_cmp'
-      67 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   kernel/sched/fair.c:11096:33: note: in expansion of macro 'min'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                 ^~~
-   kernel/sched/fair.c:11096:69: error: invalid use of undefined type 'struct rq'
-   11096 |                 env.loop_max  = min(sysctl_sched_nr_migrate, busiest->nr_running);
-         |                                                                     ^~
-   include/linux/minmax.h:32:39: note: in definition of macro '__cmp_once'
-      32 |                 typeof(y) unique_y = (y);               \
+>> mm/low-mem-notify.c:53:6: warning: no previous prototype for function 'low_mem_notify' [-Wmissing-prototypes]
+   void low_mem_notify(void)
+        ^
+   mm/low-mem-notify.c:53:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void low_mem_notify(void)
+   ^
+   static 
+>> mm/low-mem-notify.c:121:6: warning: no previous prototype for function 'low_mem_check' [-Wmissing-prototypes]
+   bool low_mem_check(void)
+        ^
+   mm/low-mem-notify.c:121:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   bool low_mem_check(void)
+   ^
+   static 
+   2 warnings generated.
 
 
-vim +/UPMIGRATION +10814 kernel/sched/fair.c
+vim +/low_mem_notify +53 mm/low-mem-notify.c
 
- 10759	
- 10760	/*
- 10761	 * find_busiest_queue - find the busiest runqueue among the CPUs in the group.
- 10762	 */
- 10763	static struct rq *find_busiest_queue(struct lb_env *env,
- 10764					     struct sched_group *group)
- 10765	{
- 10766		struct rq *busiest = NULL, *rq;
- 10767		unsigned long busiest_util = 0, busiest_load = 0, busiest_capacity = 1;
- 10768		unsigned int busiest_nr = 0;
- 10769		int i;
- 10770	
- 10771		for_each_cpu_and(i, sched_group_span(group), env->cpus) {
- 10772			unsigned long capacity, load, util;
- 10773			unsigned int nr_running;
- 10774			enum fbq_type rt;
- 10775	
- 10776			rq = cpu_rq(i);
- 10777			rt = fbq_classify_rq(rq);
- 10778	
- 10779			/*
- 10780			 * We classify groups/runqueues into three groups:
- 10781			 *  - regular: there are !numa tasks
- 10782			 *  - remote:  there are numa tasks that run on the 'wrong' node
- 10783			 *  - all:     there is no distinction
- 10784			 *
- 10785			 * In order to avoid migrating ideally placed numa tasks,
- 10786			 * ignore those when there's better options.
- 10787			 *
- 10788			 * If we ignore the actual busiest queue to migrate another
- 10789			 * task, the next balance pass can still reduce the busiest
- 10790			 * queue by moving tasks around inside the node.
- 10791			 *
- 10792			 * If we cannot move enough load due to this classification
- 10793			 * the next pass will adjust the group classification and
- 10794			 * allow migration of more tasks.
- 10795			 *
- 10796			 * Both cases only affect the total convergence complexity.
- 10797			 */
- 10798			if (rt > env->fbq_type)
- 10799				continue;
- 10800	
- 10801			nr_running = rq->cfs.h_nr_running;
- 10802			if (!nr_running)
- 10803				continue;
- 10804	
- 10805			capacity = capacity_of(i);
- 10806	
- 10807			/*
- 10808			 * For ASYM_CPUCAPACITY domains, don't pick a CPU that could
- 10809			 * eventually lead to active_balancing high->low capacity.
- 10810			 * Higher per-CPU capacity is considered better than balancing
- 10811			 * average load.
- 10812			 */
- 10813			if (env->sd->flags & SD_ASYM_CPUCAPACITY &&
- 10814			    rq->misfit_reason == UPMIGRATION &&
- 10815			    !capacity_greater(capacity_of(env->dst_cpu), capacity) &&
- 10816			    nr_running == 1)
- 10817				continue;
- 10818	
- 10819			/*
- 10820			 * Make sure we only pull tasks from a CPU of lower priority
- 10821			 * when balancing between SMT siblings.
- 10822			 *
- 10823			 * If balancing between cores, let lower priority CPUs help
- 10824			 * SMT cores with more than one busy sibling.
- 10825			 */
- 10826			if ((env->sd->flags & SD_ASYM_PACKING) &&
- 10827			    sched_use_asym_prio(env->sd, i) &&
- 10828			    sched_asym_prefer(i, env->dst_cpu) &&
- 10829			    nr_running == 1)
- 10830				continue;
- 10831	
- 10832			switch (env->migration_type) {
- 10833			case migrate_load:
- 10834				/*
- 10835				 * When comparing with load imbalance, use cpu_load()
- 10836				 * which is not scaled with the CPU capacity.
- 10837				 */
- 10838				load = cpu_load(rq);
- 10839	
- 10840				if (nr_running == 1 && load > env->imbalance &&
- 10841				    !check_cpu_capacity(rq, env->sd))
- 10842					break;
- 10843	
- 10844				/*
- 10845				 * For the load comparisons with the other CPUs,
- 10846				 * consider the cpu_load() scaled with the CPU
- 10847				 * capacity, so that the load can be moved away
- 10848				 * from the CPU that is potentially running at a
- 10849				 * lower capacity.
- 10850				 *
- 10851				 * Thus we're looking for max(load_i / capacity_i),
- 10852				 * crosswise multiplication to rid ourselves of the
- 10853				 * division works out to:
- 10854				 * load_i * capacity_j > load_j * capacity_i;
- 10855				 * where j is our previous maximum.
- 10856				 */
- 10857				if (load * busiest_capacity > busiest_load * capacity) {
- 10858					busiest_load = load;
- 10859					busiest_capacity = capacity;
- 10860					busiest = rq;
- 10861				}
- 10862				break;
- 10863	
- 10864			case migrate_util:
- 10865				util = cpu_util_cfs_boost(i);
- 10866	
- 10867				/*
- 10868				 * Don't try to pull utilization from a CPU with one
- 10869				 * running task. Whatever its utilization, we will fail
- 10870				 * detach the task.
- 10871				 */
- 10872				if (nr_running <= 1)
- 10873					continue;
- 10874	
- 10875				if (busiest_util < util) {
- 10876					busiest_util = util;
- 10877					busiest = rq;
- 10878				}
- 10879				break;
- 10880	
- 10881			case migrate_task:
- 10882				if (busiest_nr < nr_running) {
- 10883					busiest_nr = nr_running;
- 10884					busiest = rq;
- 10885				}
- 10886				break;
- 10887	
- 10888			case migrate_misfit:
- 10889				/*
- 10890				 * For ASYM_CPUCAPACITY domains with misfit tasks we
- 10891				 * simply seek the "biggest" misfit task.
- 10892				 */
- 10893				if (rq->misfit_task_load > busiest_load) {
- 10894					busiest_load = rq->misfit_task_load;
- 10895					busiest = rq;
- 10896				}
- 10897	
- 10898				break;
- 10899	
- 10900			}
- 10901		}
- 10902	
- 10903		return busiest;
- 10904	}
- 10905	
+bca855d46bcc36 Luigi Semenzato 2014-04-03   52  
+bca855d46bcc36 Luigi Semenzato 2014-04-03  @53  void low_mem_notify(void)
+bca855d46bcc36 Luigi Semenzato 2014-04-03   54  {
+bca855d46bcc36 Luigi Semenzato 2014-04-03   55  	atomic_set(&low_mem_state, true);
+bca855d46bcc36 Luigi Semenzato 2014-04-03   56  	wake_up(&low_mem_wait);
+bca855d46bcc36 Luigi Semenzato 2014-04-03   57  }
+bca855d46bcc36 Luigi Semenzato 2014-04-03   58  
+585b704d6b9dec Yu Zhao         2019-11-10   59  /*
+585b704d6b9dec Yu Zhao         2019-11-10   60   * Compute available memory used by files that can be reclaimed quickly.
+585b704d6b9dec Yu Zhao         2019-11-10   61   */
+585b704d6b9dec Yu Zhao         2019-11-10   62  static unsigned long get_available_file_mem(void)
+bca855d46bcc36 Luigi Semenzato 2014-04-03   63  {
+585b704d6b9dec Yu Zhao         2019-11-10   64  	unsigned long file_mem =
+585b704d6b9dec Yu Zhao         2019-11-10   65  			global_node_page_state(NR_ACTIVE_FILE) +
+585b704d6b9dec Yu Zhao         2019-11-10   66  			global_node_page_state(NR_INACTIVE_FILE);
+585b704d6b9dec Yu Zhao         2019-11-10   67  	unsigned long dirty_mem = global_node_page_state(NR_FILE_DIRTY);
+585b704d6b9dec Yu Zhao         2019-11-10   68  	unsigned long min_file_mem = min_filelist_kbytes >> (PAGE_SHIFT - 10);
+585b704d6b9dec Yu Zhao         2019-11-10   69  	unsigned long clean_file_mem = file_mem > dirty_mem ?
+585b704d6b9dec Yu Zhao         2019-11-10   70  			file_mem - dirty_mem : 0;
+585b704d6b9dec Yu Zhao         2019-11-10   71  	/* Conservatively estimate the amount of available_file_mem */
+585b704d6b9dec Yu Zhao         2019-11-10   72  	unsigned long available_file_mem = clean_file_mem > min_file_mem ?
+585b704d6b9dec Yu Zhao         2019-11-10   73  			clean_file_mem - min_file_mem : 0;
+585b704d6b9dec Yu Zhao         2019-11-10   74  	return available_file_mem;
+585b704d6b9dec Yu Zhao         2019-11-10   75  }
+bca855d46bcc36 Luigi Semenzato 2014-04-03   76  
+585b704d6b9dec Yu Zhao         2019-11-10   77  /*
+585b704d6b9dec Yu Zhao         2019-11-10   78   * Available anonymous memory.
+585b704d6b9dec Yu Zhao         2019-11-10   79   */
+585b704d6b9dec Yu Zhao         2019-11-10   80  static unsigned long get_available_anon_mem(void)
+585b704d6b9dec Yu Zhao         2019-11-10   81  {
+585b704d6b9dec Yu Zhao         2019-11-10   82  	return global_node_page_state(NR_ACTIVE_ANON) +
+585b704d6b9dec Yu Zhao         2019-11-10   83  		global_node_page_state(NR_INACTIVE_ANON);
+bca855d46bcc36 Luigi Semenzato 2014-04-03   84  }
+bca855d46bcc36 Luigi Semenzato 2014-04-03   85  
+585b704d6b9dec Yu Zhao         2019-11-10   86  /*
+585b704d6b9dec Yu Zhao         2019-11-10   87   * Compute "available" memory, that is either free memory or memory that can be
+585b704d6b9dec Yu Zhao         2019-11-10   88   * reclaimed quickly, adjusted for the presence of swap.
+585b704d6b9dec Yu Zhao         2019-11-10   89   */
+585b704d6b9dec Yu Zhao         2019-11-10   90  static unsigned long get_available_mem_adj(void)
+585b704d6b9dec Yu Zhao         2019-11-10   91  {
+585b704d6b9dec Yu Zhao         2019-11-10   92  	/* free_mem is completely unallocated; clean file-backed memory
+585b704d6b9dec Yu Zhao         2019-11-10   93  	 * (file_mem - dirty_mem) is easy to reclaim, except for the last
+585b704d6b9dec Yu Zhao         2019-11-10   94  	 * min_filelist_kbytes. totalreserve_pages is the reserve of pages that
+585b704d6b9dec Yu Zhao         2019-11-10   95  	 * are not available to user space.
+585b704d6b9dec Yu Zhao         2019-11-10   96  	 */
+585b704d6b9dec Yu Zhao         2019-11-10   97  	unsigned long raw_free_mem = global_zone_page_state(NR_FREE_PAGES);
+585b704d6b9dec Yu Zhao         2019-11-10   98  	unsigned long free_mem = raw_free_mem > totalreserve_pages ?
+585b704d6b9dec Yu Zhao         2019-11-10   99  			raw_free_mem - totalreserve_pages : 0;
+585b704d6b9dec Yu Zhao         2019-11-10  100  	unsigned long available_mem = free_mem + get_available_file_mem();
+585b704d6b9dec Yu Zhao         2019-11-10  101  	unsigned long swappable_pages = min_t(unsigned long,
+585b704d6b9dec Yu Zhao         2019-11-10  102  			get_nr_swap_pages(), get_available_anon_mem());
+585b704d6b9dec Yu Zhao         2019-11-10  103  	/*
+585b704d6b9dec Yu Zhao         2019-11-10  104  	 * The contribution of swap is reduced by a factor of
+585b704d6b9dec Yu Zhao         2019-11-10  105  	 * low_mem_ram_vs_swap_weight.
+585b704d6b9dec Yu Zhao         2019-11-10  106  	 */
+585b704d6b9dec Yu Zhao         2019-11-10  107  	return available_mem + swappable_pages / low_mem_ram_vs_swap_weight;
+585b704d6b9dec Yu Zhao         2019-11-10  108  }
+585b704d6b9dec Yu Zhao         2019-11-10  109  
+585b704d6b9dec Yu Zhao         2019-11-10  110  #ifdef CONFIG_SYSFS
+585b704d6b9dec Yu Zhao         2019-11-10  111  static void low_mem_threshold_notify(void);
+585b704d6b9dec Yu Zhao         2019-11-10  112  #else
+585b704d6b9dec Yu Zhao         2019-11-10  113  static void low_mem_threshold_notify(void)
+585b704d6b9dec Yu Zhao         2019-11-10  114  {
+585b704d6b9dec Yu Zhao         2019-11-10  115  }
+585b704d6b9dec Yu Zhao         2019-11-10  116  #endif
+585b704d6b9dec Yu Zhao         2019-11-10  117  
+585b704d6b9dec Yu Zhao         2019-11-10  118  /*
+585b704d6b9dec Yu Zhao         2019-11-10  119   * Returns TRUE if we are in a low memory state.
+585b704d6b9dec Yu Zhao         2019-11-10  120   */
+585b704d6b9dec Yu Zhao         2019-11-10 @121  bool low_mem_check(void)
+585b704d6b9dec Yu Zhao         2019-11-10  122  {
+585b704d6b9dec Yu Zhao         2019-11-10  123  	static bool was_low_mem;	/* = false, as per style guide */
+585b704d6b9dec Yu Zhao         2019-11-10  124  	static atomic_t in_low_mem_check = ATOMIC_INIT(0);
+585b704d6b9dec Yu Zhao         2019-11-10  125  	/* last observed threshold */
+585b704d6b9dec Yu Zhao         2019-11-10  126  	static unsigned int low_mem_threshold_last = UINT_MAX;
+585b704d6b9dec Yu Zhao         2019-11-10  127  	/* Limit logging low memory to once per second. */
+585b704d6b9dec Yu Zhao         2019-11-10  128  	static DEFINE_RATELIMIT_STATE(low_mem_logging_ratelimit, 1 * HZ, 1);
+585b704d6b9dec Yu Zhao         2019-11-10  129  
+585b704d6b9dec Yu Zhao         2019-11-10  130  	/* We declare a low-memory condition when a combination of RAM and swap
+585b704d6b9dec Yu Zhao         2019-11-10  131  	 * space is low.
+585b704d6b9dec Yu Zhao         2019-11-10  132  	 */
+585b704d6b9dec Yu Zhao         2019-11-10  133  	unsigned long available_mem = get_available_mem_adj();
+585b704d6b9dec Yu Zhao         2019-11-10  134  	/*
+585b704d6b9dec Yu Zhao         2019-11-10  135  	 * For backwards compatibility with the older margin interface, we will
+585b704d6b9dec Yu Zhao         2019-11-10  136  	 * trigger the /dev/chromeos-low_mem device when we are below the
+585b704d6b9dec Yu Zhao         2019-11-10  137  	 * lowest threshold
+585b704d6b9dec Yu Zhao         2019-11-10  138  	 */
+585b704d6b9dec Yu Zhao         2019-11-10  139  	bool is_low_mem = available_mem < low_mem_thresholds[0];
+585b704d6b9dec Yu Zhao         2019-11-10  140  	unsigned int threshold_lowest = UINT_MAX;
+585b704d6b9dec Yu Zhao         2019-11-10  141  	int i;
+585b704d6b9dec Yu Zhao         2019-11-10  142  
+585b704d6b9dec Yu Zhao         2019-11-10  143  	if (!low_mem_margin_enabled)
+585b704d6b9dec Yu Zhao         2019-11-10  144  		return false;
+585b704d6b9dec Yu Zhao         2019-11-10  145  
+585b704d6b9dec Yu Zhao         2019-11-10  146  	if (atomic_read(&in_low_mem_check) || atomic_xchg(&in_low_mem_check, 1))
+585b704d6b9dec Yu Zhao         2019-11-10  147  		return was_low_mem;
+585b704d6b9dec Yu Zhao         2019-11-10  148  
+585b704d6b9dec Yu Zhao         2019-11-10  149  	if (unlikely(is_low_mem && !was_low_mem) &&
+585b704d6b9dec Yu Zhao         2019-11-10  150  	    __ratelimit(&low_mem_logging_ratelimit)) {
+585b704d6b9dec Yu Zhao         2019-11-10  151  		pr_info("entering low_mem (avail RAM = %lu kB, avail swap %lu kB, avail file %lu kB, anon mem: %lu kB)\n",
+585b704d6b9dec Yu Zhao         2019-11-10  152  			available_mem * PAGE_SIZE / 1024,
+585b704d6b9dec Yu Zhao         2019-11-10  153  			get_nr_swap_pages() * PAGE_SIZE / 1024,
+585b704d6b9dec Yu Zhao         2019-11-10  154  			get_available_file_mem() * PAGE_SIZE / 1024,
+585b704d6b9dec Yu Zhao         2019-11-10  155  			get_available_anon_mem() * PAGE_SIZE / 1024);
+585b704d6b9dec Yu Zhao         2019-11-10  156  	}
+585b704d6b9dec Yu Zhao         2019-11-10  157  	was_low_mem = is_low_mem;
+585b704d6b9dec Yu Zhao         2019-11-10  158  
+585b704d6b9dec Yu Zhao         2019-11-10  159  	if (is_low_mem)
+585b704d6b9dec Yu Zhao         2019-11-10  160  		low_mem_notify();
+585b704d6b9dec Yu Zhao         2019-11-10  161  
+585b704d6b9dec Yu Zhao         2019-11-10  162  	for (i = 0; i < low_mem_threshold_count; i++) {
+585b704d6b9dec Yu Zhao         2019-11-10  163  		if (available_mem < low_mem_thresholds[i]) {
+585b704d6b9dec Yu Zhao         2019-11-10  164  			threshold_lowest = i;
+585b704d6b9dec Yu Zhao         2019-11-10  165  			break;
+585b704d6b9dec Yu Zhao         2019-11-10  166  		}
+585b704d6b9dec Yu Zhao         2019-11-10  167  	}
+585b704d6b9dec Yu Zhao         2019-11-10  168  
+585b704d6b9dec Yu Zhao         2019-11-10  169  	/* we crossed one or more thresholds */
+585b704d6b9dec Yu Zhao         2019-11-10  170  	if (unlikely(threshold_lowest < low_mem_threshold_last))
+585b704d6b9dec Yu Zhao         2019-11-10  171  		low_mem_threshold_notify();
+585b704d6b9dec Yu Zhao         2019-11-10  172  
+585b704d6b9dec Yu Zhao         2019-11-10  173  	low_mem_threshold_last = threshold_lowest;
+585b704d6b9dec Yu Zhao         2019-11-10  174  
+585b704d6b9dec Yu Zhao         2019-11-10  175  	atomic_set(&in_low_mem_check, 0);
+585b704d6b9dec Yu Zhao         2019-11-10  176  
+585b704d6b9dec Yu Zhao         2019-11-10  177  	return is_low_mem;
+585b704d6b9dec Yu Zhao         2019-11-10  178  }
+585b704d6b9dec Yu Zhao         2019-11-10  179  
+
+:::::: The code at line 53 was first introduced by commit
+:::::: bca855d46bcc364801c1336e96d238fbf1d3c20b CHROMIUM: Add /dev/low-mem device for low-memory notification.
+
+:::::: TO: Luigi Semenzato <semenzato@chromium.org>
+:::::: CC: Guenter Roeck <groeck@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
