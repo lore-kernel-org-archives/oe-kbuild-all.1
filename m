@@ -1,59 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6747F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 00:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F87F7F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 01:07:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692837342; x=1724373342;
+  t=1692839268; x=1724375268;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fLmhUzL/MeUrvdUoqFUQx93UlfX+PWDtxxYHmtQBJ/0=;
-  b=iFxTVQ0w8srU7Y1cdxNvxtz/H88dkOccDWpetiCD/llrSyZq8IP8NWIG
-   +Pdh8RLExm2zyj55S8HHxqofRtMzQgVyS/VuOMa0Rx49eX05HiqUo2/1M
-   OvuCFypxBpX88+7ykucCkfaTvlQPMPmmGEIAbr4Twv7k4Im1i5kZIID8w
-   wls2kFExLQ0UE7Eg1984xNGBCtm358TGjHdPE7dcW+f+Qt3lLd1qTeMJh
-   h5F4LJqTbYk6wf5rXeJsqi09KohK+8fqrUO3ny/+cZp/c+PvYnj60+MVK
-   YPgq62Y7177QMqFzCffVqY+ax5LmN3mhJd6t9P4J3CnDoIC+xd6gVMRgB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="438237982"
+  bh=Lv3S5ouPY4y8kBlrKh8HvQ7grObroP43ydep697gLqI=;
+  b=a5I0tUszl+mpvTLZPg1OibIlsCUR/iZ3eRRtCUDARq9Y+YfgwG9dqqwq
+   GLkRm27YP5I2xDG32ixR997AACIFFe1k9yalLwmS3F3d/QDGGU3zlvxkN
+   LLazE4WRGXYbRnUmyorWzW+2A6QaD2BDHm2t+L82CczzTr/GLKbJIGq1I
+   EpM3l1AJZhxNnQpZWFEMRo5tjK7CBE9zar2vcKtXapf4UZZm55Q5ABQY2
+   IVhoQNKBC15cp/S1CQJfoiU1+OT3DVrL+awu8rMz1oHrszzaCzHb+kYDO
+   JBhUDVNOYf/cWCz2o/oirxqiDyfURcclWfta5EEInvK2ZTreQ+Xqv6UUe
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="438244455"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="438237982"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 17:35:42 -0700
+   d="scan'208";a="438244455"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 18:07:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="860520213"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="826935169"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="860520213"
+   d="scan'208";a="826935169"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 23 Aug 2023 17:35:36 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Aug 2023 18:07:44 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qYyK0-0001cf-0d;
-	Thu, 24 Aug 2023 00:35:36 +0000
-Date: Thu, 24 Aug 2023 08:34:57 +0800
+	id 1qYyp5-0001dw-2S;
+	Thu, 24 Aug 2023 01:07:43 +0000
+Date: Thu, 24 Aug 2023 09:07:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Stultz <jstultz@google.com>, LKML <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, John Stultz <jstultz@google.com>,
-	Joel Fernandes <joelaf@google.com>,
-	Qais Yousef <qyousef@google.com>, Ingo Molnar <mingo@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Zimuzo Ezeozue <zezeozue@google.com>,
-	Youssef Esmat <youssefesmat@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>, kernel-team@android.com
-Subject: Re: [PATCH v5 13/19] sched: Split out __sched() deactivate task
- logic into a helper
-Message-ID: <202308240824.ugWLq8LH-lkp@intel.com>
-References: <20230819060915.3001568-14-jstultz@google.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Brian Norris <briannorris@chromium.org>,
+	Kalle Valo <kvalo@kernel.org>,
+	Amitkumar Karwar <akarwar@marvell.com>,
+	Xinming Hu <huxm@marvell.com>, Dan Williams <dcbw@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 3/3] wifi: mwifiex: Sanity check tlv_len and
+ tlv_bitmap_len
+Message-ID: <202308240844.leyoOwdG-lkp@intel.com>
+References: <587423b0737108effe82aefed4407daca39e9a51.1692829410.git.gustavoars@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,77 +54,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230819060915.3001568-14-jstultz@google.com>
+In-Reply-To: <587423b0737108effe82aefed4407daca39e9a51.1692829410.git.gustavoars@kernel.org>
 
-Hi John,
+Hi Gustavo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/locking/core]
-[also build test WARNING on linus/master tip/auto-latest v6.5-rc7]
-[cannot apply to tip/sched/core tip/master next-20230823]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.5-rc7 next-20230823]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Stultz/sched-Unify-runtime-accounting-across-classes/20230821-121604
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20230819060915.3001568-14-jstultz%40google.com
-patch subject: [PATCH v5 13/19] sched: Split out __sched() deactivate task logic into a helper
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230824/202308240824.ugWLq8LH-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240824.ugWLq8LH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gustavo-A-R-Silva/wifi-mwifiex-Fix-tlv_buf_left-calculation/20230824-063517
+base:   linus/master
+patch link:    https://lore.kernel.org/r/587423b0737108effe82aefed4407daca39e9a51.1692829410.git.gustavoars%40kernel.org
+patch subject: [PATCH 3/3] wifi: mwifiex: Sanity check tlv_len and tlv_bitmap_len
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230824/202308240844.leyoOwdG-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308240844.leyoOwdG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308240824.ugWLq8LH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308240844.leyoOwdG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/sched/core.c:6565:6: warning: no previous declaration for 'try_to_deactivate_task' [-Wmissing-declarations]
-    bool try_to_deactivate_task(struct rq *rq, struct task_struct *p, unsigned long state)
-         ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c:12:
+   drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c: In function 'mwifiex_11n_rxba_sync_event':
+>> drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c:926:37: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     926 |                                     "TLV size (%ld) overflows event_buf (%d)\n",
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     927 |                                     size_add(sizeof(tlv_rxba->header), tlv_len),
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                     |
+         |                                     size_t {aka unsigned int}
+   drivers/net/wireless/marvell/mwifiex/main.h:199:51: note: in definition of macro 'mwifiex_dbg'
+     199 |         _mwifiex_dbg(adapter, MWIFIEX_DBG_##mask, fmt, ##__VA_ARGS__)
+         |                                                   ^~~
+   drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c:926:50: note: format string is defined here
+     926 |                                     "TLV size (%ld) overflows event_buf (%d)\n",
+         |                                                ~~^
+         |                                                  |
+         |                                                  long int
+         |                                                %d
+   drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c:942:37: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     942 |                                     "TLV size (%ld) overflows event_buf (%d)\n",
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     943 |                                     size_add(sizeof(*tlv_rxba), tlv_bitmap_len),
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                     |
+         |                                     size_t {aka unsigned int}
+   drivers/net/wireless/marvell/mwifiex/main.h:199:51: note: in definition of macro 'mwifiex_dbg'
+     199 |         _mwifiex_dbg(adapter, MWIFIEX_DBG_##mask, fmt, ##__VA_ARGS__)
+         |                                                   ^~~
+   drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c:942:50: note: format string is defined here
+     942 |                                     "TLV size (%ld) overflows event_buf (%d)\n",
+         |                                                ~~^
+         |                                                  |
+         |                                                  long int
+         |                                                %d
 
 
-vim +/try_to_deactivate_task +6565 kernel/sched/core.c
+vim +926 drivers/net/wireless/marvell/mwifiex/11n_rxreorder.c
 
-  6564	
-> 6565	bool try_to_deactivate_task(struct rq *rq, struct task_struct *p, unsigned long state)
-  6566	{
-  6567		if (signal_pending_state(state, p)) {
-  6568			WRITE_ONCE(p->__state, TASK_RUNNING);
-  6569		} else {
-  6570			p->sched_contributes_to_load =
-  6571				(state & TASK_UNINTERRUPTIBLE) &&
-  6572				!(state & TASK_NOLOAD) &&
-  6573				!(state & TASK_FROZEN);
-  6574	
-  6575			if (p->sched_contributes_to_load)
-  6576				rq->nr_uninterruptible++;
-  6577	
-  6578			/*
-  6579			 * __schedule()			ttwu()
-  6580			 *   prev_state = prev->state;    if (p->on_rq && ...)
-  6581			 *   if (prev_state)		    goto out;
-  6582			 *     p->on_rq = 0;		  smp_acquire__after_ctrl_dep();
-  6583			 *				  p->state = TASK_WAKING
-  6584			 *
-  6585			 * Where __schedule() and ttwu() have matching control dependencies.
-  6586			 *
-  6587			 * After this, schedule() must not care about p->state any more.
-  6588			 */
-  6589			deactivate_task(rq, p, DEQUEUE_SLEEP | DEQUEUE_NOCLOCK);
-  6590	
-  6591			if (p->in_iowait) {
-  6592				atomic_inc(&rq->nr_iowait);
-  6593				delayacct_blkio_start();
-  6594			}
-  6595			return true;
-  6596		}
-  6597		return false;
-  6598	}
-  6599	
+   904	
+   905	/* This function handles rxba_sync event
+   906	 */
+   907	void mwifiex_11n_rxba_sync_event(struct mwifiex_private *priv,
+   908					 u8 *event_buf, u16 len)
+   909	{
+   910		struct mwifiex_ie_types_rxba_sync *tlv_rxba = (void *)event_buf;
+   911		u16 tlv_type, tlv_len;
+   912		struct mwifiex_rx_reorder_tbl *rx_reor_tbl_ptr;
+   913		u8 i, j;
+   914		u16 seq_num, tlv_seq_num, tlv_bitmap_len;
+   915		int tlv_buf_left = len;
+   916		int ret;
+   917		u8 *tmp;
+   918	
+   919		mwifiex_dbg_dump(priv->adapter, EVT_D, "RXBA_SYNC event:",
+   920				 event_buf, len);
+   921		while (tlv_buf_left > sizeof(*tlv_rxba)) {
+   922			tlv_type = le16_to_cpu(tlv_rxba->header.type);
+   923			tlv_len  = le16_to_cpu(tlv_rxba->header.len);
+   924			if (size_add(sizeof(tlv_rxba->header), tlv_len) > tlv_buf_left) {
+   925				mwifiex_dbg(priv->adapter, WARN,
+ > 926					    "TLV size (%ld) overflows event_buf (%d)\n",
 
 -- 
 0-DAY CI Kernel Test Service
