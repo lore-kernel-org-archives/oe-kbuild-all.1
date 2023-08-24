@@ -1,121 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D26185D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 06:50:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3384185E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 07:33:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692859825; x=1724395825;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=7c1u4LL4oLHnfK/HLKKjWnjJYUV11K5kwkL59BvWvZQ=;
-  b=lfRUAr/vpKBhF23uxrxiiKODvBBdwDLTybzk0XsyyZ9MBYV5FvTD2Muo
-   UeKjUjT/ZTYnePPcLE6wugw/KgWThuzVJapHukm2q30dnmX6ChBkEYLMz
-   CNMKU90xgvu1j5GEnDo19fdER6+7uMg1c0wS20WBEP9xYZeFMqCRtNTmH
-   RPYefKTB1m+O7DUAn3y94T6g84jNhP5YCrg1DcHsxCmG2BT5ZWl/L31OS
-   nwzA2iVcMgngnXsuTkQlEhHCTP65lre7GAWVk0Mkq/yJOgByDR4d8ivZA
-   gTYFduUaNAa1serZa2/0vqrUUaJA4gmtmb7BHyhCitCm7sgQ7YAosnWx1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="378114824"
+  t=1692862419; x=1724398419;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JS8MQhe+LMr6QO98dAq7PSE5qP1i41s3ABpSiUF5b8M=;
+  b=VB/yi5A4h+02dvNCHSZFFgV23LliB6oddgua7prpaTmDP4FWOFE49ae7
+   TSRingOkHshVpASrjSWr1Ptq+qKBkjQw2SjzUtZYlMLOR+0HYup8IM4I3
+   rYHNYhbHd8yV2zK+u8b9rYxVNJ7FG+s1znb5cVCWHxmNv0CmRz9T4JjCW
+   1LagdaG24+N1oQNdFK5fPYMEl2cjcKd53DJXqpidsPaUGwnxzZzr81I4N
+   2YWaWAFJVGzWXJLU9yC7TxQtna/Mjv9GzWwMHoLJkN3OXDgx//xMbgpZ4
+   KPMiS6b2GB1b3VH5AndGSbZH5Qqai9BI5ch3XmFf4PxRleIC5fwzxDdqs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="405368127"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="378114824"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 23:50:24 -0700
+   d="scan'208";a="405368127"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 00:33:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="910789373"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="851382386"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="910789373"
+   d="scan'208";a="851382386"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 23 Aug 2023 23:50:19 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 24 Aug 2023 00:33:37 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZ4Ac-0001oG-27;
-	Thu, 24 Aug 2023 06:50:18 +0000
-Date: Thu, 24 Aug 2023 14:49:52 +0800
+	id 1qZ4qW-0001q0-1T;
+	Thu, 24 Aug 2023 07:33:36 +0000
+Date: Thu, 24 Aug 2023 15:33:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
-	robdclark@gmail.com, quic_abhinavk@quicinc.com,
-	dmitry.baryshkov@linaro.org, sean@poorly.run,
-	marijn.suijten@somainline.org, robh@kernel.org,
-	steven.price@arm.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	adrian.larumbe@collabora.com, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, healych@amazon.com,
-	kernel@collabora.com, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 6/6] drm/drm-file: Allow size unit selection in
- drm_show_memory_stats
-Message-ID: <202308241401.Hr6gvevs-lkp@intel.com>
-References: <20230824013604.466224-7-adrian.larumbe@collabora.com>
+To: Andrew Davis <afd@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-6.1.y-cicd 256/382] microblaze-linux-ld:
+ drivers/misc/dma-buf-phys.c:59:undefined reference to `dma_buf_put'
+Message-ID: <202308241509.qEX4uyQj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230824013604.466224-7-adrian.larumbe@collabora.com>
 
-Hi Adrián,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.5-rc7 next-20230823]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panfrost-Add-cycle-count-GPU-register-definitions/20230824-093848
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230824013604.466224-7-adrian.larumbe%40collabora.com
-patch subject: [PATCH v2 6/6] drm/drm-file: Allow size unit selection in drm_show_memory_stats
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230824/202308241401.Hr6gvevs-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241401.Hr6gvevs-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   dd944f14304d2ce6d26c9cdc3d2d2d6d373a322c
+commit: a6d074da1a95aa77f6d6315d7c454623ff578a7e [256/382] HACK: misc: Add dma-buf to physical address exporter
+config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20230824/202308241509.qEX4uyQj-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241509.qEX4uyQj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308241401.Hr6gvevs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308241509.qEX4uyQj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_file.c:905: warning: Function parameter or member 'unit' not described in 'drm_print_memory_stats'
-
-
-vim +905 drivers/gpu/drm/drm_file.c
-
-686b21b5f6ca2f Rob Clark      2023-05-24  891  
-686b21b5f6ca2f Rob Clark      2023-05-24  892  /**
-686b21b5f6ca2f Rob Clark      2023-05-24  893   * drm_print_memory_stats - A helper to print memory stats
-686b21b5f6ca2f Rob Clark      2023-05-24  894   * @p: The printer to print output to
-686b21b5f6ca2f Rob Clark      2023-05-24  895   * @stats: The collected memory stats
-686b21b5f6ca2f Rob Clark      2023-05-24  896   * @supported_status: Bitmask of optional stats which are available
-686b21b5f6ca2f Rob Clark      2023-05-24  897   * @region: The memory region
-686b21b5f6ca2f Rob Clark      2023-05-24  898   *
-686b21b5f6ca2f Rob Clark      2023-05-24  899   */
-686b21b5f6ca2f Rob Clark      2023-05-24  900  void drm_print_memory_stats(struct drm_printer *p,
-686b21b5f6ca2f Rob Clark      2023-05-24  901  			    const struct drm_memory_stats *stats,
-686b21b5f6ca2f Rob Clark      2023-05-24  902  			    enum drm_gem_object_status supported_status,
-cccad8cb432637 Adrián Larumbe 2023-08-24  903  			    const char *region,
-cccad8cb432637 Adrián Larumbe 2023-08-24  904  			    unsigned int unit)
-686b21b5f6ca2f Rob Clark      2023-05-24 @905  {
-cccad8cb432637 Adrián Larumbe 2023-08-24  906  	print_size(p, "total", region, stats->private + stats->shared, unit);
-cccad8cb432637 Adrián Larumbe 2023-08-24  907  	print_size(p, "shared", region, stats->shared, unit);
-cccad8cb432637 Adrián Larumbe 2023-08-24  908  	print_size(p, "active", region, stats->active, unit);
-686b21b5f6ca2f Rob Clark      2023-05-24  909  
-686b21b5f6ca2f Rob Clark      2023-05-24  910  	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
-cccad8cb432637 Adrián Larumbe 2023-08-24  911  		print_size(p, "resident", region, stats->resident, unit);
-686b21b5f6ca2f Rob Clark      2023-05-24  912  
-686b21b5f6ca2f Rob Clark      2023-05-24  913  	if (supported_status & DRM_GEM_OBJECT_PURGEABLE)
-cccad8cb432637 Adrián Larumbe 2023-08-24  914  		print_size(p, "purgeable", region, stats->purgeable, unit);
-686b21b5f6ca2f Rob Clark      2023-05-24  915  }
-686b21b5f6ca2f Rob Clark      2023-05-24  916  EXPORT_SYMBOL(drm_print_memory_stats);
-686b21b5f6ca2f Rob Clark      2023-05-24  917  
+   microblaze-linux-ld: drivers/misc/dma-buf-phys.o: in function `dma_buf_phys_release':
+   drivers/misc/dma-buf-phys.c:55:(.text+0x48): undefined reference to `dma_buf_unmap_attachment'
+>> microblaze-linux-ld: drivers/misc/dma-buf-phys.c:59:(.text+0x64): undefined reference to `dma_buf_put'
+>> microblaze-linux-ld: drivers/misc/dma-buf-phys.c:57:(.text+0x98): undefined reference to `dma_buf_detach'
+   microblaze-linux-ld: drivers/misc/dma-buf-phys.o: in function `dma_buf_phys_convert':
+   drivers/misc/dma-buf-phys.c:75:(.text+0x1e0): undefined reference to `dma_buf_get'
+>> microblaze-linux-ld: drivers/misc/dma-buf-phys.c:80:(.text+0x1fc): undefined reference to `dma_buf_attach'
+>> microblaze-linux-ld: drivers/misc/dma-buf-phys.c:86:(.text+0x218): undefined reference to `dma_buf_map_attachment'
+>> microblaze-linux-ld: drivers/misc/dma-buf-phys.c:110:(.text+0x298): undefined reference to `dma_buf_unmap_attachment'
+   microblaze-linux-ld: drivers/misc/dma-buf-phys.c:112:(.text+0x2b0): undefined reference to `dma_buf_detach'
+   microblaze-linux-ld: drivers/misc/dma-buf-phys.c:114:(.text+0x2c4): undefined reference to `dma_buf_put'
 
 -- 
 0-DAY CI Kernel Test Service
