@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFAF17FF0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 20:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CA915AC8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 20:27:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692907605; x=1724443605;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IQfaHD+DuyVsbsv8z1qkTOosiOK8pcjMsTTt+TvyONE=;
-  b=l6CjqtQ9g0yEzH7exgot6uT3JmJw9X4DPrULV8c3PBDQ3gMptQ4E/29S
-   QQhIugC+564bNaTSQ33x9Ed3KADbWejd/iIHkJcHRWMXwN5q5FPkPRTHb
-   Pg0COQcWPaNqR7KCfjvYlIxRlVpvVlV95/4p3WqJyzsrvlahLDyOQDvzk
-   erKaazOrzYP19zx4uTkEaJcWr08kAzaeE8zdctCFJX8GsANVOY1ROQ40n
-   14Bkp90JA0FScJCZZ0UnM32pwVmH/fmKqJfD9lX23pP2hOop4MWKYNfGj
-   OekS/r14zodIQQ9RG2xYiNedT9FzOaK/TQKvNzLWPlu2nbyBDBLtJq2Px
+  t=1692908854; x=1724444854;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8HNB24aNxEV6aHFbLdvObZnueWLnmek16RCPDSvqGxM=;
+  b=YFV+/y/v7pkASVSKGTgJqECYSSreiWt9q0qPSWyn6X8faWCMZVxbqjzl
+   2MIsT4CgSV75JAjEMWbK6VkuOBF1S2DU3ALI78nwk6nU59CMBq2RgdnRb
+   7Ua5LOsdMEFypHk1fj0U6af6ELy+J1UrWa6X3J71+bqj3Q12mQwP/i024
+   P77a5zw9QcThx61wqeJRxi0j0wA9hNXGzTCteuPpHEPl3mXbc0nEWfbyr
+   11VzkXFf0sJHMufH7fJuxsJBJB6V3c0GD7EJZr4w+12JwTp2PmCsbxzg5
+   /tqAt10Xejv/7LxIsJUxIzUMGOA3Adj30XN4KnYU/QW7MIQqsz/GmBmOg
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="373422298"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="354080187"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="373422298"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 13:06:26 -0700
+   d="scan'208";a="354080187"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 13:27:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="1067965430"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="860844732"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="1067965430"
+   d="scan'208";a="860844732"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 24 Aug 2023 13:06:25 -0700
+  by orsmga004.jf.intel.com with ESMTP; 24 Aug 2023 13:27:30 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZGb2-0002wa-1G;
-	Thu, 24 Aug 2023 20:06:24 +0000
-Date: Fri, 25 Aug 2023 04:05:44 +0800
+	id 1qZGvM-0002x6-2f;
+	Thu, 24 Aug 2023 20:27:26 +0000
+Date: Fri, 25 Aug 2023 04:26:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uros Bizjak <ubizjak@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: test_set_error_stamp: rm
- /kbuild/obj/consumer/parisc-randconfig-r016-20230825/.reduce_errors/drivers-mtd-nand-raw-nand_base.c:internal-compiler-error:in-maybe_record_trace_start-at-dwarf2cfi.cc
-Message-ID: <202308250338.Upxr6yeb-lkp@intel.com>
+To: Justin Stitt <justinstitt@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] partitions/ibm: refactor deprecated strncpy
+Message-ID: <202308250444.JdyxfAJf-lkp@intel.com>
+References: <20230823-strncpy-block-partitions-cmdline-ibm-v2-1-40c77f7182fc@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,42 +46,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230823-strncpy-block-partitions-cmdline-ibm-v2-1-40c77f7182fc@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b5cc3833f13ace75e26e3f7b51cd7b6da5e9cf17
-commit: 43c249ea0b1e10baac4a1264a25d69723ce5d2c2 compiler-gcc.h: remove ancient workaround for gcc PR 58670
-date:   1 year, 1 month ago
-config: parisc-randconfig-r016-20230825 (https://download.01.org/0day-ci/archive/20230825/202308250338.Upxr6yeb-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250338.Upxr6yeb-lkp@intel.com/reproduce)
+Hi Justin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 706a741595047797872e669b3101429ab8d378ef]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Stitt/partitions-ibm-refactor-deprecated-strncpy/20230824-052625
+base:   706a741595047797872e669b3101429ab8d378ef
+patch link:    https://lore.kernel.org/r/20230823-strncpy-block-partitions-cmdline-ibm-v2-1-40c77f7182fc%40google.com
+patch subject: [PATCH v2] partitions/ibm: refactor deprecated strncpy
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230825/202308250444.JdyxfAJf-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250444.JdyxfAJf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308250338.Upxr6yeb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308250444.JdyxfAJf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   during RTL pass: dwarf2
-   drivers/mtd/nand/raw/nand_base.c: In function 'nand_do_write_ops':
->> drivers/mtd/nand/raw/nand_base.c:4370:1: internal compiler error: in maybe_record_trace_start, at dwarf2cfi.cc:2539
-    4370 | }
-         | ^
-   0x788517 maybe_record_trace_start
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:2539
-   0x788a5a create_trace_edges
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:2687
-   0x788d8e scan_trace
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:2911
-   0x789127 create_cfi_notes
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:2938
-   0x789127 execute_dwarf2_frame
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:3309
-   0x789127 execute
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:3799
-   Please submit a full bug report, with preprocessed source (by using -freport-bug).
-   Please include the complete backtrace with any bug report.
-   See <https://gcc.gnu.org/bugs/> for instructions.
+   In file included from <command-line>:
+   block/partitions/ibm.c: In function 'find_label.isra':
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_329' declared with attribute error: BUILD_BUG_ON failed: !__builtin_constant_p(_dest_len) || _dest_len == (size_t)-1
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/string.h:281:9: note: in expansion of macro 'BUILD_BUG_ON'
+     281 |         BUILD_BUG_ON(!__builtin_constant_p(_dest_len) ||                \
+         |         ^~~~~~~~~~~~
+   block/partitions/ibm.c:114:33: note: in expansion of macro 'strtomem_pad'
+     114 |                                 strtomem_pad(type, label->vol.vollbl, 4);
+         |                                 ^~~~~~~~~~~~
+   include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_331' declared with attribute error: BUILD_BUG_ON failed: !__builtin_constant_p(_dest_len) || _dest_len == (size_t)-1
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/string.h:281:9: note: in expansion of macro 'BUILD_BUG_ON'
+     281 |         BUILD_BUG_ON(!__builtin_constant_p(_dest_len) ||                \
+         |         ^~~~~~~~~~~~
+   block/partitions/ibm.c:117:33: note: in expansion of macro 'strtomem_pad'
+     117 |                                 strtomem_pad(type, label->lnx.vollbl, 4);
+         |                                 ^~~~~~~~~~~~
+   block/partitions/ibm.c: In function 'ibm_partition':
+   block/partitions/ibm.c:335:22: warning: 'strncmp' of strings of length 0 and 4 and bound of 4 evaluates to nonzero [-Wstring-compare]
+     335 |                 if (!strncmp(type, "VOL1", 4)) {
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
+   block/partitions/ibm.c:338:29: warning: 'strncmp' of strings of length 0 and 4 and bound of 4 evaluates to nonzero [-Wstring-compare]
+     338 |                 } else if (!strncmp(type, "LNX1", 4)) {
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   block/partitions/ibm.c:342:29: warning: 'strncmp' of strings of length 0 and 4 and bound of 4 evaluates to nonzero [-Wstring-compare]
+     342 |                 } else if (!strncmp(type, "CMS1", 4)) {
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
