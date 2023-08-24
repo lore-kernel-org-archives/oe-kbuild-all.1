@@ -1,44 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2331E24550
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 11:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87FA24550
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 11:34:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692876265; x=1724412265;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jE4qVtu2UiWGC+c25VMdEfXzSCMOjbZ3T3WD9J4tJVc=;
-  b=jiZkkDaNBLZ+EHOvW8+hpJSFyvo0BTiwp8N7XySKV+HK80wG8AbOjYR5
-   1ANGgDjDDRrrmCYowQNCM3femP24IhynI3Xqq2PKEDu6i877CVUyVuyH7
-   WCIN1MQKajirrr6PQ/s2Z/KAgbw7HSzT4OpfdMuvCoTbHCOyrvkNWHk59
-   6g+1YUYT6hKyltEg1Q/99z2iX2E0bbTU531G+6rvQhJwS5Rd1+KyYwb5v
-   D1KttktfiTKva/+Gnjcnb9XdAEXgT96qtHAMliMEjhCS2BMkP/9LjJ5y6
-   Zj0TmUyWAcPeqmwLBmEUSPDmvOfGose+JFZFyHFH7RDDJ5yAUwlO11GjA
+  t=1692876880; x=1724412880;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CrnoNF/qGMXjiWOVC2r0bJQWdRM/pmr5B5MUn/sQ93Q=;
+  b=elr1GfSFTDPabhD93fU2Ggor28ZGaLRSGKKb30U/IItOJrfA7pya+G0K
+   WcX84DmROLVHXT/qlcN+n6SLvFY9IEUmFl0qdjRImUlCf4EEtTyXz/JKF
+   i/yvQig9MfcVvUsLWD+rRIKtUZF47vEe4q2XY3ZnO2HJwXLCP0fja3vws
+   VQIIqvub+8frBl3lhr/Cs/hPupuuVFedUCXg2DMDUEmtNKSteXX8LTmg7
+   Wy2AO2xWah4nIMFLQwFwrjjMrL9OATfuZ7aizZ1KOwTUwfEFQvTja2K6r
+   gQ4EKt9Icq52PxzO4dLNZJCN91dEMalZqPZzSpOtE8ETJz9wSONBGrPGk
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="460769476"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="460771725"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="460769476"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 04:24:18 -0700
+   d="scan'208";a="460771725"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 04:34:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="860668212"
-X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="860668212"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="880770237"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 24 Aug 2023 04:24:16 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2023 04:34:39 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZ8Rj-0001z2-37;
-	Thu, 24 Aug 2023 11:24:15 +0000
-Date: Thu, 24 Aug 2023 19:24:07 +0800
+	id 1qZ8be-0001zY-0M;
+	Thu, 24 Aug 2023 11:34:30 +0000
+Date: Thu, 24 Aug 2023 19:34:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lizhi Hou <lizhi.hou@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Rob Herring <robh@kernel.org>
-Subject: [linux-next:master 11796/12477] drivers/of/unittest.c:3763:14:
- error: 'overlays' undeclared
-Message-ID: <202308241954.oRNfVqmB-lkp@intel.com>
+To: John Stultz <jstultz@google.com>, LKML <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, John Stultz <jstultz@google.com>,
+	Joel Fernandes <joelaf@google.com>,
+	Qais Yousef <qyousef@google.com>, Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Zimuzo Ezeozue <zezeozue@google.com>,
+	Youssef Esmat <youssefesmat@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	"Paul E . McKenney" <paulmck@kernel.org>, kernel-team@android.com
+Subject: Re: [PATCH v5 15/19] sched: Add proxy deactivate helper
+Message-ID: <202308241905.goxohVDL-lkp@intel.com>
+References: <20230819060915.3001568-16-jstultz@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,78 +60,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230819060915.3001568-16-jstultz@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2b3bd393093b04d4882152398019cbb96b0440ff
-commit: 26409dd045892904b059dc411403e9c8ce7543ca [11796/12477] of: unittest: Add pci_dt_testdrv pci driver
-config: x86_64-randconfig-r033-20230824 (https://download.01.org/0day-ci/archive/20230824/202308241954.oRNfVqmB-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241954.oRNfVqmB-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on linus/master tip/auto-latest v6.5-rc7]
+[cannot apply to tip/sched/core tip/master next-20230824]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Stultz/sched-Unify-runtime-accounting-across-classes/20230821-121604
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20230819060915.3001568-16-jstultz%40google.com
+patch subject: [PATCH v5 15/19] sched: Add proxy deactivate helper
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230824/202308241905.goxohVDL-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241905.goxohVDL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308241954.oRNfVqmB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308241905.goxohVDL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/of/unittest.c: In function 'testdrv_probe':
->> drivers/of/unittest.c:3763:14: error: 'overlays' undeclared (first use in this function)
-    3763 |  for (info = overlays; info && info->name; info++) {
-         |              ^~~~~~~~
-   drivers/of/unittest.c:3763:14: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/of/unittest.c:3763:36: error: dereferencing pointer to incomplete type 'struct overlay_info'
-    3763 |  for (info = overlays; info && info->name; info++) {
-         |                                    ^~
->> drivers/of/unittest.c:3763:48: error: increment of pointer to an incomplete type 'struct overlay_info'
-    3763 |  for (info = overlays; info && info->name; info++) {
-         |                                                ^~
->> drivers/of/unittest.c:3773:8: error: too many arguments to function 'of_overlay_fdt_apply'
-    3773 |  ret = of_overlay_fdt_apply(info->dtbo_begin, size, &ovcs_id, dn);
-         |        ^~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/of/unittest.c:15:
-   include/linux/of.h:1679:19: note: declared here
-    1679 | static inline int of_overlay_fdt_apply(void *overlay_fdt, u32 overlay_fdt_size,
-         |                   ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:6565:6: warning: no previous prototype for 'try_to_deactivate_task' [-Wmissing-prototypes]
+    6565 | bool try_to_deactivate_task(struct rq *rq, struct task_struct *p,
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/core.c:6603:6: warning: no previous prototype for 'proxy_deactivate' [-Wmissing-prototypes]
+    6603 | bool proxy_deactivate(struct rq *rq, struct task_struct *next)
+         |      ^~~~~~~~~~~~~~~~
 
 
-vim +/overlays +3763 drivers/of/unittest.c
+vim +/proxy_deactivate +6603 kernel/sched/core.c
 
-  3749	
-  3750	static int testdrv_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-  3751	{
-  3752		struct overlay_info *info;
-  3753		struct device_node *dn;
-  3754		int ret, ovcs_id;
-  3755		u32 size;
-  3756	
-  3757		dn = pdev->dev.of_node;
-  3758		if (!dn) {
-  3759			dev_err(&pdev->dev, "does not find bus endpoint");
-  3760			return -EINVAL;
-  3761		}
-  3762	
-> 3763		for (info = overlays; info && info->name; info++) {
-  3764			if (!strcmp(info->name, "overlay_pci_node"))
-  3765				break;
-  3766		}
-  3767		if (!info || !info->name) {
-  3768			dev_err(&pdev->dev, "no overlay data for overlay_pci_node");
-  3769			return -ENODEV;
-  3770		}
-  3771	
-  3772		size = info->dtbo_end - info->dtbo_begin;
-> 3773		ret = of_overlay_fdt_apply(info->dtbo_begin, size, &ovcs_id, dn);
-  3774		of_node_put(dn);
-  3775		if (ret)
-  3776			return ret;
-  3777	
-  3778		of_platform_default_populate(dn, NULL, &pdev->dev);
-  3779		pci_set_drvdata(pdev, (void *)(uintptr_t)ovcs_id);
-  3780	
-  3781		return 0;
-  3782	}
-  3783	
+  6564	
+> 6565	bool try_to_deactivate_task(struct rq *rq, struct task_struct *p,
+  6566				    unsigned long state, bool deactivate_cond)
+  6567	{
+  6568		if (signal_pending_state(state, p)) {
+  6569			WRITE_ONCE(p->__state, TASK_RUNNING);
+  6570		} else if (deactivate_cond) {
+  6571			p->sched_contributes_to_load =
+  6572				(state & TASK_UNINTERRUPTIBLE) &&
+  6573				!(state & TASK_NOLOAD) &&
+  6574				!(state & TASK_FROZEN);
+  6575	
+  6576			if (p->sched_contributes_to_load)
+  6577				rq->nr_uninterruptible++;
+  6578	
+  6579			/*
+  6580			 * __schedule()			ttwu()
+  6581			 *   prev_state = prev->state;    if (p->on_rq && ...)
+  6582			 *   if (prev_state)		    goto out;
+  6583			 *     p->on_rq = 0;		  smp_acquire__after_ctrl_dep();
+  6584			 *				  p->state = TASK_WAKING
+  6585			 *
+  6586			 * Where __schedule() and ttwu() have matching control dependencies.
+  6587			 *
+  6588			 * After this, schedule() must not care about p->state any more.
+  6589			 */
+  6590			deactivate_task(rq, p, DEQUEUE_SLEEP | DEQUEUE_NOCLOCK);
+  6591	
+  6592			if (p->in_iowait) {
+  6593				atomic_inc(&rq->nr_iowait);
+  6594				delayacct_blkio_start();
+  6595			}
+  6596			return true;
+  6597		}
+  6598		return false;
+  6599	}
+  6600	
+  6601	#ifdef CONFIG_PROXY_EXEC
+  6602	
+> 6603	bool proxy_deactivate(struct rq *rq, struct task_struct *next)
+  6604	{
+  6605		unsigned long state = READ_ONCE(next->__state);
+  6606	
+  6607		/* Don't deactivate if the state has been changed to TASK_RUNNING */
+  6608		if (!state)
+  6609			return false;
+  6610		if (!try_to_deactivate_task(rq, next, state, true))
+  6611			return false;
+  6612		put_prev_task(rq, next);
+  6613		rq_set_selected(rq, rq->idle);
+  6614		resched_curr(rq);
+  6615		return true;
+  6616	}
+  6617	
 
 -- 
 0-DAY CI Kernel Test Service
