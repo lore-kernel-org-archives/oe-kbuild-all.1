@@ -1,69 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1636B2454A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 10:51:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B542324543
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 11:15:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692874316; x=1724410316;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k6Xc+QX1wcKslecdfxQ7XpLx00Sl3oMjF5/XZkprmyI=;
-  b=Ylm1iMfxNQk9bBbWWbGNgEkxTesxqFxPuysVlWggcOMLGjSGr6DAEvot
-   mfBh/yTW3JYsdyu9UnN2XLJuBw9aR4QsO5n5ScB+HAmpOohoGmFaZpNyP
-   KJUvtYLZN0tLE0xdiQyKdPs+CV+8+QDSYbHtz+X3lC4NqPv1OrbcvZk7+
-   VL5+2UwJSIKMzSyyK/yFz81w9e7u3JFjTWHdzkl+WZhz3B2rOHhUZcZXR
-   kugKrpIAqb3LZoIBWr6uas/i5pCMbkmBUHSB5i8d49Aw+wZTrYnz9/FRf
-   F29v58rpSlo2kjG0+N2GQCtPg9Ilp//YECImaY8qMl6pMBKFnYjSmE9SB
+  t=1692875701; x=1724411701;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=CtK1R/zQ6fsYubBUoIg4emRPJbgoJXj1/hZIVxAHWHw=;
+  b=YV2t4b9GBw7eyuX+blxqXajmwmtTo5M2Rl7RAckpOS0/sJbgtylhmxBT
+   a5Euql5mGEiTs5rfQVOTfcPaQiCwC+3dSTwHo7fog4ClDmSTaO4Sn0p1L
+   BZr/7pJ6qfX8xUgjwAotyb/wewVf/Lt8je4mbOEIanLypEGs7Kfl+VoO6
+   94BiTfdP7zJeOMGKL0JucRAPP/pdw1SPIZSvOt+/ftcROnOOGV2/PwTge
+   66SLppA3u9kYnopxjJBnn/yhKyjU9etfBQnhHCCmrTjNUn1oDaCY1FqXB
+   fxQULUG2UU+PhfeGZvapI6BuaIWytLk0AX2a+/foe4v97i6EVKJcgqb8D
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="405412500"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="378164697"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="405412500"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 03:51:50 -0700
+   d="scan'208";a="378164697"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 04:15:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="807086359"
+X-IronPort-AV: E=McAfee;i="6600,9927,10811"; a="766502137"
 X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
-   d="scan'208";a="807086359"
+   d="scan'208";a="766502137"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 24 Aug 2023 03:51:48 -0700
+  by orsmga008.jf.intel.com with ESMTP; 24 Aug 2023 04:14:55 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZ7wK-0001xM-0e;
-	Thu, 24 Aug 2023 10:51:48 +0000
-Date: Thu, 24 Aug 2023 18:51:17 +0800
+	id 1qZ8IX-0001ye-2N;
+	Thu, 24 Aug 2023 11:14:48 +0000
+Date: Thu, 24 Aug 2023 19:13:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maximilian Luz <luzmaximilian@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: [steev:lenovo-x13s-v6.5-rc7 64/129] qcom_qseecom.c:undefined
- reference to `qcom_scm_qseecom_app_get_id'
-Message-ID: <202308241803.B1JiVfOX-lkp@intel.com>
+To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+	robdclark@gmail.com, quic_abhinavk@quicinc.com,
+	dmitry.baryshkov@linaro.org, sean@poorly.run,
+	marijn.suijten@somainline.org, robh@kernel.org,
+	steven.price@arm.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	adrian.larumbe@collabora.com, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, healych@amazon.com,
+	kernel@collabora.com, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 5/6] drm/panfrost: Implement generic DRM object RSS
+ reporting function
+Message-ID: <202308241850.UjqyDaGz-lkp@intel.com>
+References: <20230824013604.466224-6-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230824013604.466224-6-adrian.larumbe@collabora.com>
 
-tree:   https://github.com/steev/linux lenovo-x13s-v6.5-rc7
-head:   68f425346397c1806f828d4ee58e9468c924f408
-commit: e54a5193d61abc174dff575a57c7530d0b62863f [64/129] firmware: Add support for Qualcomm UEFI Secure Application
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20230824/202308241803.B1JiVfOX-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241803.B1JiVfOX-lkp@intel.com/reproduce)
+Hi Adrián,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.5-rc7 next-20230824]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panfrost-Add-cycle-count-GPU-register-definitions/20230824-093848
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230824013604.466224-6-adrian.larumbe%40collabora.com
+patch subject: [PATCH v2 5/6] drm/panfrost: Implement generic DRM object RSS reporting function
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230824/202308241850.UjqyDaGz-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308241850.UjqyDaGz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308241803.B1JiVfOX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308241850.UjqyDaGz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   nios2-linux-ld: drivers/firmware/qcom_qseecom.o: in function `qcom_qseecom_probe':
->> qcom_qseecom.c:(.text+0x80): undefined reference to `qcom_scm_qseecom_app_get_id'
-   qcom_qseecom.c:(.text+0x80): relocation truncated to fit: R_NIOS2_CALL26 against `qcom_scm_qseecom_app_get_id'
+>> drivers/gpu/drm/panfrost/panfrost_gem.c:210:8: warning: no previous prototype for 'panfrost_gem_rss' [-Wmissing-prototypes]
+     210 | size_t panfrost_gem_rss(struct drm_gem_object *obj)
+         |        ^~~~~~~~~~~~~~~~
+
+
+vim +/panfrost_gem_rss +210 drivers/gpu/drm/panfrost/panfrost_gem.c
+
+   209	
+ > 210	size_t panfrost_gem_rss(struct drm_gem_object *obj)
+   211	{
+   212		struct panfrost_gem_object *bo = to_panfrost_bo(obj);
+   213	
+   214		if (!bo->base.pages)
+   215			return 0;
+   216	
+   217		return bo->rss_size;
+   218	}
+   219	
 
 -- 
 0-DAY CI Kernel Test Service
