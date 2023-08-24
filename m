@@ -1,41 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C24156FB;
-	Thu, 24 Aug 2023 19:55:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5607717FF0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 19:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692906920; x=1724442920;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=E5taHdwxDBb/dTIclA08znj7ku26RhKjtUKW852n4Vw=;
-  b=X1bL55++7o2tGWThj6o7eQllDo+fwYmefk7Cs2cTPXTQOo+Yl6Vu1zQu
-   6eruJDchUfmD0gTJgT4fsVdJjLHOyMvlEM1KssU41CpKJWj5CiXKWKXRR
-   qNk5ig5i5tJNaYAC8vnduci9uYggtDjvBWfyKAVEPpTxBAb3+H9bUYXL7
-   5NXWzWFY90L+n8at0qHjLiB+IF9+OX8tzi1OXlAL/hfM9YIV9fOumFo2D
-   pxjbQQVdMMtpOly4iCJXR0CrTmlL/8aOWdZonQxfpJf4dwzdu7JrsPfGM
-   dBuGCyEgh/EFH3lGAttg1brrW0jPlGXyME4V0aFbC1kfQTSjBCqPag0Cu
+  t=1692906922; x=1724442922;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HHxd+sRQno+zlKMlOXPg8GU8rShd+SQCJ3iQuiwJQoA=;
+  b=iqr37zVJlwf4CSAlXcHKqADe8xmuDJCGA26pe9jGasuKVcTu9QvhNnr6
+   H/mjeF5MqmpHpFnkMxIg5N+hC7560b7CotTsDx68En8eUNEta7Y5B8Zpx
+   hjuDPL0TlI2u6hJ1eQUGv3+Ga8kzUwBXB8IPmGFroXcbPgA3xlvMZYPe6
+   dzyp2aqsP7pK27r4kNXVXszCwPY6KeqnWq+GqT59NXRgsea2lIC3qYtxT
+   SoHI5+zlvBuT7lbvZySsVRq8fs44eWS2etrcF6g/wsKJCUFu5ulXKjCxM
+   MXTOMMnpUDRGTiLqnFMvqfyBFaTNZABEgWSp13r+ry9tfQr5BJ9XybK3m
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="359543607"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="359543610"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="359543607"
+   d="scan'208";a="359543610"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 12:55:19 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 12:55:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="740339869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="740339883"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="740339869"
+   d="scan'208";a="740339883"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
   by fmsmga007.fm.intel.com with ESMTP; 24 Aug 2023 12:55:18 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZGQH-0002w8-1L;
+	id 1qZGQH-0002wA-1Q;
 	Thu, 24 Aug 2023 19:55:17 +0000
 Date: Fri, 25 Aug 2023 03:54:45 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [stable:linux-5.10.y 68/9999] test_set_error_stamp: rm
- /kbuild/obj/consumer/arm-spear3xx_defconfig/.reduce_errors/error:unknown-target-CPU-armv5te
-Message-ID: <202308250318.vDtbk2TY-lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Rob Herring <robh@kernel.org>, linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Sudeep Holla <sudeep.holla@arm.com>, Len Brown <lenb@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Frank Rowand <frowand.list@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/1] amba: bus: balance firmware node reference
+ counting
+Message-ID: <202308250317.taQ9kshJ-lkp@intel.com>
+References: <20230824162654.2890992-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,39 +57,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230824162654.2890992-1-andriy.shevchenko@linux.intel.com>
 
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Hi Andy,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
-head:   da742ebfa00c3add4a358dd79ec92161c07e1435
-commit: 241c74cc655540fd34df083832e40fb6050d70b5 [68/9999] ARM: 9156/1: drop cc-option fallbacks for architecture selection
-config: arm-spear3xx_defconfig (https://download.01.org/0day-ci/archive/20230825/202308250318.vDtbk2TY-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250318.vDtbk2TY-lkp@intel.com/reproduce)
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20230824]
+[cannot apply to rafael-pm/linux-next robh/for-next soc/for-next linus/master v6.5-rc7 v6.5-rc6 v6.5-rc5 v6.5-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/amba-bus-balance-firmware-node-reference-counting/20230825-003007
+base:   next-20230824
+patch link:    https://lore.kernel.org/r/20230824162654.2890992-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] amba: bus: balance firmware node reference counting
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230825/202308250317.taQ9kshJ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250317.taQ9kshJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308250318.vDtbk2TY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308250317.taQ9kshJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
->> error: unknown target CPU 'armv5te'
-   note: valid target CPU values are: nocona, core2, penryn, bonnell, atom, silvermont, slm, goldmont, goldmont-plus, tremont, nehalem, corei7, westmere, sandybridge, corei7-avx, ivybridge, core-avx-i, haswell, core-avx2, broadwell, skylake, skylake-avx512, skx, cascadelake, cooperlake, cannonlake, icelake-client, rocketlake, icelake-server, tigerlake, sapphirerapids, alderlake, raptorlake, meteorlake, sierraforest, grandridge, graniterapids, emeraldrapids, knl, knm, k8, athlon64, athlon-fx, opteron, k8-sse3, athlon64-sse3, opteron-sse3, amdfam10, barcelona, btver1, btver2, bdver1, bdver2, bdver3, bdver4, znver1, znver2, znver3, znver4, x86-64, x86-64-v2, x86-64-v3, x86-64-v4
-   make[2]: *** [scripts/Makefile.build:280: scripts/mod/empty.o] Error 1
->> error: unknown target CPU 'armv5te'
-   note: valid target CPU values are: nocona, core2, penryn, bonnell, atom, silvermont, slm, goldmont, goldmont-plus, tremont, nehalem, corei7, westmere, sandybridge, corei7-avx, ivybridge, core-avx-i, haswell, core-avx2, broadwell, skylake, skylake-avx512, skx, cascadelake, cooperlake, cannonlake, icelake-client, rocketlake, icelake-server, tigerlake, sapphirerapids, alderlake, raptorlake, meteorlake, sierraforest, grandridge, graniterapids, emeraldrapids, knl, knm, k8, athlon64, athlon-fx, opteron, k8-sse3, athlon64-sse3, opteron-sse3, amdfam10, barcelona, btver1, btver2, bdver1, bdver2, bdver3, bdver4, znver1, znver2, znver3, znver4, x86-64, x86-64-v2, x86-64-v3, x86-64-v4
-   make[2]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1214: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   drivers/amba/bus.c: In function 'amba_device_release':
+>> drivers/amba/bus.c:532:46: error: expected ')' before ';' token
+     532 |         fwnode_handle_put(dev_fwnode(&d->dev);
+         |                          ~                   ^
+>> drivers/amba/bus.c:536:18: error: expected ';' before '}' token
+     536 |         kfree(d);
+         |                  ^
+         |                  ;
+     537 | }
+         | ~                 
+
+
+vim +532 drivers/amba/bus.c
+
+   527	
+   528	static void amba_device_release(struct device *dev)
+   529	{
+   530		struct amba_device *d = to_amba_device(dev);
+   531	
+ > 532		fwnode_handle_put(dev_fwnode(&d->dev);
+   533		if (d->res.parent)
+   534			release_resource(&d->res);
+   535		mutex_destroy(&d->periphid_lock);
+ > 536		kfree(d);
+   537	}
+   538	
 
 -- 
 0-DAY CI Kernel Test Service
