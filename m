@@ -1,42 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C4D288EC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 14:38:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E518710979;
+	Thu, 24 Aug 2023 15:15:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692887913; x=1724423913;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RV4wpFLvySfVoQ44zCOd4MDVI+cxMEWm3B7p+TFUuaA=;
-  b=Xq74VcK1zZYj6Pk5Xuq4M24JfCUHudNeAhtvH1rbwiTpZMgh1sNZEELT
-   S22ScPlBOhKEebiDua9n5MhoOjU63s1TSd3NkNcpRtMO7yM99LypvXQBX
-   6kE/ElggwcEQG1WXul5D5DBDC9pVHJSVe26zcefhCcAMgDz2JvLmERoS8
-   75XRWPMnJVocrV8W5gzcqNixaOe+JM95iogezJba/msmvtwoNDLUHpdOt
-   fJHrXy8U/wSJIZJFJYv3/rZi835To55MqMpe3b72IoDAn0gkxXJnH+orC
-   oqyWUI2vCqmVnGoCbaixzN/4ADtNK5Nh4x5dDr+pS00yHYFQfA1N2x8+e
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="374422071"
+  t=1692890106; x=1724426106;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j3s15fzbY21jU7a4dXxI63BSMfPORjJ31zoaNT3reHQ=;
+  b=Tjx+XEjFviEOmMmC6tsAis9YN6dsHAWlUVvcjIPNG5BRATWY+mbWOL7W
+   Oezh6jAuAiN+ILEgW5S8eBjKzO5Gb5Zh0zKN4rjlvRqSMmA/TFa923BZa
+   q5afT+yAQlXjcM0Y0EAdXGcEf02d87uwxICjH0+TScXMYx1Q93rZz0yqa
+   MlbANkKbUShwsIY+5WFwYXo4GihmNcV+53FfLhZwU2Og3/1Md/H33taEk
+   +dfNPb20P+uWZf5vZY/5i1IN9a/Tbevl3KMIf5Sa+22KiqbhOm8emri2q
+   8aNGpHJkElKzmvRyjZWGXY1MYaSr4yngR2OLwo1oqGVa1NQasnviC0Hdo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="374433213"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="374422071"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 07:38:32 -0700
+   d="scan'208";a="374433213"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 08:07:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="983732509"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="983732509"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="880838364"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Aug 2023 07:38:30 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2023 08:06:58 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZBTi-0002mC-0R;
-	Thu, 24 Aug 2023 14:38:30 +0000
-Date: Thu, 24 Aug 2023 22:38:02 +0800
+	id 1qZBv5-0002me-0p;
+	Thu, 24 Aug 2023 15:06:49 +0000
+Date: Thu, 24 Aug 2023 23:06:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 2047/28386] ERROR: modpost:
- "virtio_dma_buf_attach" [drivers/gpu/drm/virtio/virtio-gpu.ko] undefined!
-Message-ID: <202308242233.Bok0jbOs-lkp@intel.com>
+To: Jisheng Zhang <jszhang@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH net-next 3/3] net: stmmac: add glue layer for T-HEAD
+ TH1520 SoC
+Message-ID: <202308242250.G39QxvdR-lkp@intel.com>
+References: <20230820120213.2054-4-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,53 +60,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230820120213.2054-4-jszhang@kernel.org>
 
-Hi Alistair,
+Hi Jisheng,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   8001debfc11998c8d6ea9695f5062b2839468ea3
-commit: e03a3cf3cc429a2770817a1721bda8946a8c3989 [2047/28386] ANDROID: GKI: Unhide VIRTIO_DMA_SHARED_BUFFER
-config: x86_64-buildonly-randconfig-001-20230824 (https://download.01.org/0day-ci/archive/20230824/202308242233.Bok0jbOs-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230824/202308242233.Bok0jbOs-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/dt-bindings-net-snps-dwmac-allow-dwmac-3-70a-to-set-pbl-properties/20230821-114902
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230820120213.2054-4-jszhang%40kernel.org
+patch subject: [PATCH net-next 3/3] net: stmmac: add glue layer for T-HEAD TH1520 SoC
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230824/202308242250.G39QxvdR-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230824/202308242250.G39QxvdR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308242233.Bok0jbOs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308242250.G39QxvdR-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "virtio_dma_buf_attach" [drivers/gpu/drm/virtio/virtio-gpu.ko] undefined!
->> ERROR: modpost: "virtio_dma_buf_export" [drivers/gpu/drm/virtio/virtio-gpu.ko] undefined!
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c:151:3: warning: variable 'div' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+     151 |                 default:
+         |                 ^~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c:156:50: note: uninitialized use occurs here
+     156 |                                    GMAC_PLLCLK_DIV_MASK, GMAC_PLLCLK_DIV_NUM(div));
+         |                                                                              ^~~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c:40:68: note: expanded from macro 'GMAC_PLLCLK_DIV_NUM'
+      40 | #define  GMAC_PLLCLK_DIV_NUM(x)         FIELD_PREP(GMAC_PLLCLK_DIV_MASK, (x))
+         |                                                                           ^
+   include/linux/bitfield.h:114:33: note: expanded from macro 'FIELD_PREP'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                                               ^~~~
+   include/linux/bitfield.h:68:41: note: expanded from macro '__BF_FIELD_CHECK'
+      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+         |                                                       ^~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
+     385 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c:121:9: note: initialize the variable 'div' to silence this warning
+     121 |         u32 div;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+vim +/div +151 drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
+
+   115	
+   116	static void thead_dwmac_fix_speed(void *priv, unsigned int speed, unsigned int mode)
+   117	{
+   118		struct thead_dwmac *dwmac = priv;
+   119		struct plat_stmmacenet_data *plat = dwmac->plat;
+   120		unsigned long rate;
+   121		u32 div;
+   122	
+   123		switch (plat->interface) {
+   124		/* For MII, rxc/txc is provided by phy */
+   125		case PHY_INTERFACE_MODE_MII:
+   126			return;
+   127	
+   128		case PHY_INTERFACE_MODE_RGMII:
+   129		case PHY_INTERFACE_MODE_RGMII_ID:
+   130		case PHY_INTERFACE_MODE_RGMII_RXID:
+   131		case PHY_INTERFACE_MODE_RGMII_TXID:
+   132			rate = clk_get_rate(plat->stmmac_clk);
+   133			if (!rate || rate % GMAC_GMII_RGMII_RATE != 0 ||
+   134			    rate % GMAC_MII_RATE != 0) {
+   135				dev_err(dwmac->dev, "invalid gmac rate %ld\n", rate);
+   136				return;
+   137			}
+   138	
+   139			regmap_update_bits(dwmac->apb_regmap, GMAC_PLLCLK_DIV, GMAC_PLLCLK_DIV_EN, 0);
+   140	
+   141			switch (speed) {
+   142			case SPEED_1000:
+   143				div = rate / GMAC_GMII_RGMII_RATE;
+   144				break;
+   145			case SPEED_100:
+   146				div = rate / GMAC_MII_RATE;
+   147				break;
+   148			case SPEED_10:
+   149				div = rate * 10 / GMAC_MII_RATE;
+   150				break;
+ > 151			default:
+   152				dev_err(dwmac->dev, "invalid speed %u\n", speed);
+   153				break;
+   154			}
+   155			regmap_update_bits(dwmac->apb_regmap, GMAC_PLLCLK_DIV,
+   156					   GMAC_PLLCLK_DIV_MASK, GMAC_PLLCLK_DIV_NUM(div));
+   157	
+   158			regmap_update_bits(dwmac->apb_regmap, GMAC_PLLCLK_DIV,
+   159					   GMAC_PLLCLK_DIV_EN, GMAC_PLLCLK_DIV_EN);
+   160			break;
+   161		default:
+   162			dev_err(dwmac->dev, "unsupported phy interface %d\n",
+   163				plat->interface);
+   164			return;
+   165		}
+   166	}
+   167	
 
 -- 
 0-DAY CI Kernel Test Service
