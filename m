@@ -1,54 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5607717FF0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 19:55:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFAF17FF0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Aug 2023 20:06:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692906922; x=1724442922;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HHxd+sRQno+zlKMlOXPg8GU8rShd+SQCJ3iQuiwJQoA=;
-  b=iqr37zVJlwf4CSAlXcHKqADe8xmuDJCGA26pe9jGasuKVcTu9QvhNnr6
-   H/mjeF5MqmpHpFnkMxIg5N+hC7560b7CotTsDx68En8eUNEta7Y5B8Zpx
-   hjuDPL0TlI2u6hJ1eQUGv3+Ga8kzUwBXB8IPmGFroXcbPgA3xlvMZYPe6
-   dzyp2aqsP7pK27r4kNXVXszCwPY6KeqnWq+GqT59NXRgsea2lIC3qYtxT
-   SoHI5+zlvBuT7lbvZySsVRq8fs44eWS2etrcF6g/wsKJCUFu5ulXKjCxM
-   MXTOMMnpUDRGTiLqnFMvqfyBFaTNZABEgWSp13r+ry9tfQr5BJ9XybK3m
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="359543610"
+  t=1692907605; x=1724443605;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IQfaHD+DuyVsbsv8z1qkTOosiOK8pcjMsTTt+TvyONE=;
+  b=l6CjqtQ9g0yEzH7exgot6uT3JmJw9X4DPrULV8c3PBDQ3gMptQ4E/29S
+   QQhIugC+564bNaTSQ33x9Ed3KADbWejd/iIHkJcHRWMXwN5q5FPkPRTHb
+   Pg0COQcWPaNqR7KCfjvYlIxRlVpvVlV95/4p3WqJyzsrvlahLDyOQDvzk
+   erKaazOrzYP19zx4uTkEaJcWr08kAzaeE8zdctCFJX8GsANVOY1ROQ40n
+   14Bkp90JA0FScJCZZ0UnM32pwVmH/fmKqJfD9lX23pP2hOop4MWKYNfGj
+   OekS/r14zodIQQ9RG2xYiNedT9FzOaK/TQKvNzLWPlu2nbyBDBLtJq2Px
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="373422298"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="359543610"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 12:55:21 -0700
+   d="scan'208";a="373422298"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 13:06:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="740339883"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="1067965430"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="740339883"
+   d="scan'208";a="1067965430"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 24 Aug 2023 12:55:18 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 24 Aug 2023 13:06:25 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZGQH-0002wA-1Q;
-	Thu, 24 Aug 2023 19:55:17 +0000
-Date: Fri, 25 Aug 2023 03:54:45 +0800
+	id 1qZGb2-0002wa-1G;
+	Thu, 24 Aug 2023 20:06:24 +0000
+Date: Fri, 25 Aug 2023 04:05:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Rob Herring <robh@kernel.org>, linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Sudeep Holla <sudeep.holla@arm.com>, Len Brown <lenb@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Frank Rowand <frowand.list@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] amba: bus: balance firmware node reference
- counting
-Message-ID: <202308250317.taQ9kshJ-lkp@intel.com>
-References: <20230824162654.2890992-1-andriy.shevchenko@linux.intel.com>
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: test_set_error_stamp: rm
+ /kbuild/obj/consumer/parisc-randconfig-r016-20230825/.reduce_errors/drivers-mtd-nand-raw-nand_base.c:internal-compiler-error:in-maybe_record_trace_start-at-dwarf2cfi.cc
+Message-ID: <202308250338.Upxr6yeb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,59 +47,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230824162654.2890992-1-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20230824]
-[cannot apply to rafael-pm/linux-next robh/for-next soc/for-next linus/master v6.5-rc7 v6.5-rc6 v6.5-rc5 v6.5-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/amba-bus-balance-firmware-node-reference-counting/20230825-003007
-base:   next-20230824
-patch link:    https://lore.kernel.org/r/20230824162654.2890992-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/1] amba: bus: balance firmware node reference counting
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230825/202308250317.taQ9kshJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250317.taQ9kshJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b5cc3833f13ace75e26e3f7b51cd7b6da5e9cf17
+commit: 43c249ea0b1e10baac4a1264a25d69723ce5d2c2 compiler-gcc.h: remove ancient workaround for gcc PR 58670
+date:   1 year, 1 month ago
+config: parisc-randconfig-r016-20230825 (https://download.01.org/0day-ci/archive/20230825/202308250338.Upxr6yeb-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250338.Upxr6yeb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308250317.taQ9kshJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308250338.Upxr6yeb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/amba/bus.c: In function 'amba_device_release':
->> drivers/amba/bus.c:532:46: error: expected ')' before ';' token
-     532 |         fwnode_handle_put(dev_fwnode(&d->dev);
-         |                          ~                   ^
->> drivers/amba/bus.c:536:18: error: expected ';' before '}' token
-     536 |         kfree(d);
-         |                  ^
-         |                  ;
-     537 | }
-         | ~                 
-
-
-vim +532 drivers/amba/bus.c
-
-   527	
-   528	static void amba_device_release(struct device *dev)
-   529	{
-   530		struct amba_device *d = to_amba_device(dev);
-   531	
- > 532		fwnode_handle_put(dev_fwnode(&d->dev);
-   533		if (d->res.parent)
-   534			release_resource(&d->res);
-   535		mutex_destroy(&d->periphid_lock);
- > 536		kfree(d);
-   537	}
-   538	
+   during RTL pass: dwarf2
+   drivers/mtd/nand/raw/nand_base.c: In function 'nand_do_write_ops':
+>> drivers/mtd/nand/raw/nand_base.c:4370:1: internal compiler error: in maybe_record_trace_start, at dwarf2cfi.cc:2539
+    4370 | }
+         | ^
+   0x788517 maybe_record_trace_start
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:2539
+   0x788a5a create_trace_edges
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:2687
+   0x788d8e scan_trace
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:2911
+   0x789127 create_cfi_notes
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:2938
+   0x789127 execute_dwarf2_frame
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:3309
+   0x789127 execute
+   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/dwarf2cfi.cc:3799
+   Please submit a full bug report, with preprocessed source (by using -freport-bug).
+   Please include the complete backtrace with any bug report.
+   See <https://gcc.gnu.org/bugs/> for instructions.
 
 -- 
 0-DAY CI Kernel Test Service
