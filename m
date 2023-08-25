@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A5E17E8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 06:27:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6662617EA;
+	Fri, 25 Aug 2023 06:37:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692944866; x=1724480866;
+  t=1692945478; x=1724481478;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NL4LOBPAGNf0SBup4xQACul9KRP6svJZXDxjCiC2sFM=;
-  b=nQOdhcASxaosun8zERKU13eZfhtwbzUjsLpWlmfCv9tXEu1fpA5bXZ5+
-   jt3TtyBk8o7D43QXyEYyZx4Hk8AcpU6elf+jbxjehh6mvGslb8OaHYwkr
-   xI4ZPzwnMxOfCZy8md5OXzcw06KkTJWYa3f4gyp53eN4IRLfmXaKYPSZZ
-   nzn0xVZAkrJ2HRLy2NbaoirxjiU+kEmYLn9cjGhvJpRPCnwPplxO3Ms58
-   JKw6X0DuD21yTg1hVi/Nx48TDSlw1Kwcz4D3rfQQ89Q3uWHQz7ZNjXpQt
-   F2RLO2gGrW0d65WnljYXTXtyyZ26FP3xsdxcez5EgiPXMdje1VouQ5HGn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="440987331"
+  bh=pV8ekNNMAxTA4+vHF2loLxjGa17Kbulq6RW+d0X+oMo=;
+  b=oI/mVB4Q7BZPuSTYnWKdt7lkr/MIMUMNSIsE9eryyP4kD4dCrqSmGEp7
+   xHKtj642FqcoLzT2Wb4Wx92sahsU6YEqwxQmYc4GW0Zw7W2d4D7t55h89
+   btTSDtuvjNSO6TfSmS9GSfD5NRu84tvB6nlsUSOBIGY3YD/IBV5s9figI
+   LFWk0Lz1M0ahIg4/vp27B45hwCy4/6OI/VAN3zsrjSWOEDaNG7Z16gQC7
+   an7SAXYCPvKxF2SNOHWF4fOo68fzgPK52t3h6fF0GjuJz7Vh3N3+PHgy3
+   Yc9Id4bbFU3eBTPC9XujLwLsYYE6x44fMb0RyePhuXRb8vAc6mWwfA/oe
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="364841521"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="440987331"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 23:27:46 -0700
+   d="scan'208";a="364841521"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 23:37:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="740495053"
-X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="740495053"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="881071899"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 24 Aug 2023 23:27:44 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2023 23:38:00 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZQIJ-0003HE-2u;
-	Fri, 25 Aug 2023 06:27:43 +0000
-Date: Fri, 25 Aug 2023 14:27:34 +0800
+	id 1qZQSA-0003Hg-2x;
+	Fri, 25 Aug 2023 06:37:54 +0000
+Date: Fri, 25 Aug 2023 14:37:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dexuan Cui <decui@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dcui-tdx:decui/mainline/x86/hyperv/tdx-v3-wip 10/11]
- arch/x86/hyperv/ivm.c:408:13: warning: 'hv_is_private_mmio' defined but not
- used
-Message-ID: <202308251431.GUUdq9Fl-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [paulmck-rcu:dev.2023.08.22a 61/69]
+ kernel/locking/qspinlock.c:660:19: error: redefinition of 'tail_to_cpu'
+Message-ID: <202308251435.gwLevKf4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,113 +46,157 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/dcui/tdx decui/mainline/x86/hyperv/tdx-v3-wip
-head:   39842ee60a25efe7d0d325de7192a9792db282e8
-commit: 17b065e175082497907563297083b13dc86d84a9 [10/11] x86/hyperv: Use TDX GHCI to access some MSRs in a TDX VM with the paravisor
-config: x86_64-randconfig-001-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251431.GUUdq9Fl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251431.GUUdq9Fl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.08.22a
+head:   354957ec11dc80eac68c4b1e10c237d69adc1833
+commit: bdd8d60bd4047aa4a7dc207789dc4ad0dfd5f07e [61/69] EXP qspinlock: Dump lock state, add call from locktorture
+config: i386-buildonly-randconfig-001-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251435.gwLevKf4-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251435.gwLevKf4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308251431.GUUdq9Fl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308251435.gwLevKf4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/hyperv/ivm.c:408:13: warning: 'hv_is_private_mmio' defined but not used [-Wunused-function]
-     408 | static bool hv_is_private_mmio(u64 addr)
-         |             ^~~~~~~~~~~~~~~~~~
->> arch/x86/hyperv/ivm.c:403:13: warning: 'hv_vtom_cache_flush_required' defined but not used [-Wunused-function]
-     403 | static bool hv_vtom_cache_flush_required(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/hyperv/ivm.c:398:13: warning: 'hv_vtom_tlb_flush_required' defined but not used [-Wunused-function]
-     398 | static bool hv_vtom_tlb_flush_required(bool private)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/hyperv/ivm.c:365:13: warning: 'hv_vtom_set_host_visibility' defined but not used [-Wunused-function]
-     365 | static bool hv_vtom_set_host_visibility(unsigned long kbuffer, int pagecount, bool enc)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/qspinlock.c:709:102: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
+                   __func__, _Q_TAIL_CPU_OFFSET, _Q_TAIL_IDX_MASK, _Q_TAIL_IDX_OFFSET, _Q_LOCKED_VAL, _Q_TAIL_OFFSET, sizeof(qval.tail));
+                                                                                                                      ^~~~~~~~~~~~~~~~~
+   include/linux/printk.h:478:35: note: expanded from macro 'pr_alert'
+           printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
+                                    ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   In file included from kernel/locking/qspinlock.c:741:
+   kernel/locking/qspinlock_paravirt.h:298:7: warning: variable 'wait_early' set but not used [-Wunused-but-set-variable]
+           bool wait_early;
+                ^
+   kernel/locking/qspinlock_paravirt.h:407:6: warning: variable 'waitcnt' set but not used [-Wunused-but-set-variable]
+           int waitcnt = 0;
+               ^
+   kernel/locking/qspinlock_paravirt.h:493:1: warning: no previous prototype for function '__pv_queued_spin_unlock_slowpath' [-Wmissing-prototypes]
+   __pv_queued_spin_unlock_slowpath(struct qspinlock *lock, u8 locked)
+   ^
+   kernel/locking/qspinlock_paravirt.h:492:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   __visible __lockfunc void
+                        ^
+                        static 
+   In file included from kernel/locking/qspinlock.c:742:
+>> kernel/locking/qspinlock.c:660:19: error: redefinition of 'tail_to_cpu'
+   static __pure int tail_to_cpu(u32 tail)
+                     ^
+   kernel/locking/qspinlock.c:660:19: note: previous definition is here
+   static __pure int tail_to_cpu(u32 tail)
+                     ^
+   In file included from kernel/locking/qspinlock.c:742:
+>> kernel/locking/qspinlock.c:665:19: error: redefinition of 'tail_to_idx'
+   static __pure int tail_to_idx(u32 tail)
+                     ^
+   kernel/locking/qspinlock.c:665:19: note: previous definition is here
+   static __pure int tail_to_idx(u32 tail)
+                     ^
+   In file included from kernel/locking/qspinlock.c:742:
+>> kernel/locking/qspinlock.c:670:29: error: redefinition of 'next_to_prev'
+   static struct mcs_spinlock *next_to_prev(struct mcs_spinlock *msp, int *cpup, int *idxp)
+                               ^
+   kernel/locking/qspinlock.c:670:29: note: previous definition is here
+   static struct mcs_spinlock *next_to_prev(struct mcs_spinlock *msp, int *cpup, int *idxp)
+                               ^
+   In file included from kernel/locking/qspinlock.c:742:
+>> kernel/locking/qspinlock.c:691:6: error: redefinition of 'spinlock_dump'
+   void spinlock_dump(spinlock_t *sp, bool full)
+        ^
+   kernel/locking/qspinlock.c:691:6: note: previous definition is here
+   void spinlock_dump(spinlock_t *sp, bool full)
+        ^
+   In file included from kernel/locking/qspinlock.c:742:
+   kernel/locking/qspinlock.c:709:102: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
+                   __func__, _Q_TAIL_CPU_OFFSET, _Q_TAIL_IDX_MASK, _Q_TAIL_IDX_OFFSET, _Q_LOCKED_VAL, _Q_TAIL_OFFSET, sizeof(qval.tail));
+                                                                                                                      ^~~~~~~~~~~~~~~~~
+   include/linux/printk.h:478:35: note: expanded from macro 'pr_alert'
+           printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
+                                    ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   5 warnings and 4 errors generated.
 
 
-vim +/hv_is_private_mmio +408 arch/x86/hyperv/ivm.c
+vim +/tail_to_cpu +660 kernel/locking/qspinlock.c
 
-810a521265023a Tianyu Lan     2021-10-25  356  
-810a521265023a Tianyu Lan     2021-10-25  357  /*
-812b0597fb4043 Michael Kelley 2023-03-26  358   * hv_vtom_set_host_visibility - Set specified memory visible to host.
-810a521265023a Tianyu Lan     2021-10-25  359   *
-810a521265023a Tianyu Lan     2021-10-25  360   * In Isolation VM, all guest memory is encrypted from host and guest
-810a521265023a Tianyu Lan     2021-10-25  361   * needs to set memory visible to host via hvcall before sharing memory
-810a521265023a Tianyu Lan     2021-10-25  362   * with host. This function works as wrap of hv_mark_gpa_visibility()
-810a521265023a Tianyu Lan     2021-10-25  363   * with memory base and size.
-810a521265023a Tianyu Lan     2021-10-25  364   */
-812b0597fb4043 Michael Kelley 2023-03-26 @365  static bool hv_vtom_set_host_visibility(unsigned long kbuffer, int pagecount, bool enc)
-810a521265023a Tianyu Lan     2021-10-25  366  {
-812b0597fb4043 Michael Kelley 2023-03-26  367  	enum hv_mem_host_visibility visibility = enc ?
-812b0597fb4043 Michael Kelley 2023-03-26  368  			VMBUS_PAGE_NOT_VISIBLE : VMBUS_PAGE_VISIBLE_READ_WRITE;
-810a521265023a Tianyu Lan     2021-10-25  369  	u64 *pfn_array;
-810a521265023a Tianyu Lan     2021-10-25  370  	int ret = 0;
-812b0597fb4043 Michael Kelley 2023-03-26  371  	bool result = true;
-810a521265023a Tianyu Lan     2021-10-25  372  	int i, pfn;
-810a521265023a Tianyu Lan     2021-10-25  373  
-810a521265023a Tianyu Lan     2021-10-25  374  	pfn_array = kmalloc(HV_HYP_PAGE_SIZE, GFP_KERNEL);
-810a521265023a Tianyu Lan     2021-10-25  375  	if (!pfn_array)
-812b0597fb4043 Michael Kelley 2023-03-26  376  		return false;
-810a521265023a Tianyu Lan     2021-10-25  377  
-810a521265023a Tianyu Lan     2021-10-25  378  	for (i = 0, pfn = 0; i < pagecount; i++) {
-810a521265023a Tianyu Lan     2021-10-25  379  		pfn_array[pfn] = virt_to_hvpfn((void *)kbuffer + i * HV_HYP_PAGE_SIZE);
-810a521265023a Tianyu Lan     2021-10-25  380  		pfn++;
-810a521265023a Tianyu Lan     2021-10-25  381  
-810a521265023a Tianyu Lan     2021-10-25  382  		if (pfn == HV_MAX_MODIFY_GPA_REP_COUNT || i == pagecount - 1) {
-810a521265023a Tianyu Lan     2021-10-25  383  			ret = hv_mark_gpa_visibility(pfn, pfn_array,
-810a521265023a Tianyu Lan     2021-10-25  384  						     visibility);
-812b0597fb4043 Michael Kelley 2023-03-26  385  			if (ret) {
-812b0597fb4043 Michael Kelley 2023-03-26  386  				result = false;
-810a521265023a Tianyu Lan     2021-10-25  387  				goto err_free_pfn_array;
-812b0597fb4043 Michael Kelley 2023-03-26  388  			}
-810a521265023a Tianyu Lan     2021-10-25  389  			pfn = 0;
-810a521265023a Tianyu Lan     2021-10-25  390  		}
-810a521265023a Tianyu Lan     2021-10-25  391  	}
-810a521265023a Tianyu Lan     2021-10-25  392  
-810a521265023a Tianyu Lan     2021-10-25  393   err_free_pfn_array:
-810a521265023a Tianyu Lan     2021-10-25  394  	kfree(pfn_array);
-812b0597fb4043 Michael Kelley 2023-03-26  395  	return result;
-812b0597fb4043 Michael Kelley 2023-03-26  396  }
-812b0597fb4043 Michael Kelley 2023-03-26  397  
-812b0597fb4043 Michael Kelley 2023-03-26 @398  static bool hv_vtom_tlb_flush_required(bool private)
-812b0597fb4043 Michael Kelley 2023-03-26  399  {
-812b0597fb4043 Michael Kelley 2023-03-26  400  	return true;
-812b0597fb4043 Michael Kelley 2023-03-26  401  }
-812b0597fb4043 Michael Kelley 2023-03-26  402  
-812b0597fb4043 Michael Kelley 2023-03-26 @403  static bool hv_vtom_cache_flush_required(void)
-812b0597fb4043 Michael Kelley 2023-03-26  404  {
-812b0597fb4043 Michael Kelley 2023-03-26  405  	return false;
-812b0597fb4043 Michael Kelley 2023-03-26  406  }
-812b0597fb4043 Michael Kelley 2023-03-26  407  
-812b0597fb4043 Michael Kelley 2023-03-26 @408  static bool hv_is_private_mmio(u64 addr)
-812b0597fb4043 Michael Kelley 2023-03-26  409  {
-812b0597fb4043 Michael Kelley 2023-03-26  410  	/*
-812b0597fb4043 Michael Kelley 2023-03-26  411  	 * Hyper-V always provides a single IO-APIC in a guest VM.
-812b0597fb4043 Michael Kelley 2023-03-26  412  	 * When a paravisor is used, it is emulated by the paravisor
-812b0597fb4043 Michael Kelley 2023-03-26  413  	 * in the guest context and must be mapped private.
-812b0597fb4043 Michael Kelley 2023-03-26  414  	 */
-812b0597fb4043 Michael Kelley 2023-03-26  415  	if (addr >= HV_IOAPIC_BASE_ADDRESS &&
-812b0597fb4043 Michael Kelley 2023-03-26  416  	    addr < (HV_IOAPIC_BASE_ADDRESS + PAGE_SIZE))
-812b0597fb4043 Michael Kelley 2023-03-26  417  		return true;
-812b0597fb4043 Michael Kelley 2023-03-26  418  
-812b0597fb4043 Michael Kelley 2023-03-26  419  	/* Same with a vTPM */
-812b0597fb4043 Michael Kelley 2023-03-26  420  	if (addr >= VTPM_BASE_ADDRESS &&
-812b0597fb4043 Michael Kelley 2023-03-26  421  	    addr < (VTPM_BASE_ADDRESS + PAGE_SIZE))
-812b0597fb4043 Michael Kelley 2023-03-26  422  		return true;
-812b0597fb4043 Michael Kelley 2023-03-26  423  
-812b0597fb4043 Michael Kelley 2023-03-26  424  	return false;
-810a521265023a Tianyu Lan     2021-10-25  425  }
-846da38de0e822 Tianyu Lan     2021-12-13  426  
-
-:::::: The code at line 408 was first introduced by commit
-:::::: 812b0597fb4043240724e4c7bed7ba1fe15c0e3f x86/hyperv: Change vTOM handling to use standard coco mechanisms
-
-:::::: TO: Michael Kelley <mikelley@microsoft.com>
-:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
+   658	
+   659	/* Dump out queued spinlock state. */
+ > 660	static __pure int tail_to_cpu(u32 tail)
+   661	{
+   662		return (tail >> (_Q_TAIL_CPU_OFFSET - _Q_TAIL_OFFSET)) - 1;
+   663	}
+   664	
+ > 665	static __pure int tail_to_idx(u32 tail)
+   666	{
+   667		return (tail & _Q_TAIL_IDX_MASK) >> (_Q_TAIL_IDX_OFFSET - _Q_TAIL_OFFSET);
+   668	}
+   669	
+ > 670	static struct mcs_spinlock *next_to_prev(struct mcs_spinlock *msp, int *cpup, int *idxp)
+   671	{
+   672		int cpu;
+   673		int idx;
+   674	
+   675		for_each_possible_cpu(cpu) {
+   676			struct qnode *qnp = per_cpu_ptr(&qnodes[0], cpu);
+   677	
+   678			for (idx = 0; idx < MAX_NODES; idx++) {
+   679				if (qnp[idx].mcs.next == msp) {
+   680					*cpup = cpu;
+   681					*idxp = idx;
+   682					return &qnp[idx].mcs;
+   683				}
+   684			}
+   685		}
+   686		*cpup = -1;
+   687		*idxp = -1;
+   688		return NULL;
+   689	}
+   690	
+ > 691	void spinlock_dump(spinlock_t *sp, bool full)
+   692	{
+   693		int cpu;
+   694		int i = 0;
+   695		int idx;
+   696		struct mcs_spinlock *msp;
+   697		struct qspinlock qval = sp->rlock.raw_lock;
+   698	
+   699		cpu = tail_to_cpu(qval.tail);
+   700		idx = tail_to_idx(qval.tail);
+   701		pr_alert("%s: %ps %#x (%c%c%c%c %#x: %d[%d]\n",
+   702			 __func__, sp, (unsigned int)atomic_read(&qval.val),
+   703			 ".L"[!!qval.locked],
+   704			 ".P"[!!qval.pending],
+   705			 ".Q"[cpu >= 0 && idx >= 0],
+   706			 ".F"[!!full],
+   707			 (unsigned int)qval.tail, cpu, idx);
+   708		pr_alert("%s: _Q_TAIL_CPU_OFFSET=%d _Q_TAIL_IDX_MASK=%d _Q_TAIL_IDX_OFFSET=%d _Q_LOCKED_VAL=%d _Q_TAIL_OFFSET=%d sizeof(->tail)=%lu\n",
+   709			__func__, _Q_TAIL_CPU_OFFSET, _Q_TAIL_IDX_MASK, _Q_TAIL_IDX_OFFSET, _Q_LOCKED_VAL, _Q_TAIL_OFFSET, sizeof(qval.tail));
+   710		if (!full)
+   711			return;
+   712		while (i++ < nr_cpu_ids && (msp = next_to_prev(msp, &cpu, &idx))) {
+   713			pr_alert("%s: Q%d CPU %d[%d] %c%d\n", __func__, i, cpu, idx,
+   714				 ".L"[!!msp->locked], msp->count);
+   715		}
+   716		if (i >= nr_cpu_ids && cpu >= 0 && idx >= 0)
+   717			pr_alert("%s: Queue output truncated.\n", __func__);
+   718		else
+   719			pr_alert("%s: End of queue.\n", __func__);
+   720	}
+   721	EXPORT_SYMBOL(spinlock_dump);
+   722	
 
 -- 
 0-DAY CI Kernel Test Service
