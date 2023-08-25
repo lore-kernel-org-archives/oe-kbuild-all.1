@@ -1,53 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FEDCA61;
-	Fri, 25 Aug 2023 10:31:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53441C2EB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 10:52:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692959464; x=1724495464;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wVJ88ABD5p0H2+9hwW3zAACiH9v23ThhILL1RUf5G20=;
-  b=ON4UjiYvi6rEoGKjzkMsr/RF1ShOWhtCJnhFdtkdKCW6JsCgQzWbIURf
-   rv8zT6SgEDdMXWD8xZfYUp7h1uO6bkfIrNs3OKfHE3iCDifNFzZ60Femj
-   eVkSNe53eD802I/yyAeKEVGBgTKZjtCHHHiOLsIN5aJqZfsKeO/w9ziDd
-   lBjzUMMjw0EludFu9z4C5APoalQXWmVKtRQhz5eunWTa9kg4Y5CEdoOj4
-   f9RoJ7SSvraQJlxTOVBHpvGbLDF3y/VU5o4VG+Cfk55ySh7u2j1vMN1hX
-   gcIrGUCFtTc/KNK0Tu2ric2KJ1cMMmEtEC0RRuSxlchmIOdkZMXIy5Wg2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="373554766"
+  t=1692960721; x=1724496721;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3HNm/6a9XHt0w9oaO2F07Ql+LmtVdx6BDfueJqdI2yo=;
+  b=FbxmzC7RraGI1hgCFoejLyTv0TV30zPUcWB7UfEJQEvzJtPEOe5LSs7P
+   vH6tj2y28uD0mdu+8o5Q63BRKEXu076KhhMxcJhOnnDkp2ANYQG8kblSA
+   AO9A1OECL62ikNR28djArMsVyX8+KbjpfPv4zPsXjqOMvuPr820M0AHiA
+   tue67tODG0EUnbX/OJTQGm0tCupHP19jhyDKazIj0lqBemjlgJHARsats
+   cTKHG9daueGzTpJd5Vr1h+V2V0JWE2aN0OVJY7eXI1MEz/2e5xTYGi89q
+   ssaUsaI6G1IfNGqn5e918U2j7drOSdYStit5Zdft6RSkbNSTHZNOYOIQv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="461048668"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="373554766"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 03:31:03 -0700
+   d="scan'208";a="461048668"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 03:51:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="687259081"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="827549432"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="687259081"
+   d="scan'208";a="827549432"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 25 Aug 2023 03:30:50 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 25 Aug 2023 03:51:55 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZU5Y-0003Rw-15;
-	Fri, 25 Aug 2023 10:30:48 +0000
-Date: Fri, 25 Aug 2023 18:29:54 +0800
+	id 1qZUPy-0003T6-11;
+	Fri, 25 Aug 2023 10:51:54 +0000
+Date: Fri, 25 Aug 2023 18:51:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
-	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for
- DELETE_BUFS ioctl
-Message-ID: <202308251828.fSyIXACx-lkp@intel.com>
-References: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 12822/12910] sound/core/ump.c:1194:53: warning:
+ '%s' directive output may be truncated writing up to 127 bytes into a region
+ of size 80
+Message-ID: <202308251844.1FuQYsql-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,77 +47,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
 
-Hi Benjamin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20230824]
-[also build test ERROR on v6.5-rc7]
-[cannot apply to linus/master v6.5-rc7 v6.5-rc6 v6.5-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230824-172416
-base:   next-20230824
-patch link:    https://lore.kernel.org/r/20230824092133.39510-11-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-config: alpha-randconfig-r005-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251828.fSyIXACx-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251828.fSyIXACx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6269320850097903b30be8f07a5c61d9f7592393
+commit: 7266869cd146d5b98a659dad9afb747e90fc45ce [12822/12910] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230825/202308251844.1FuQYsql-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251844.1FuQYsql-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308251828.fSyIXACx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308251844.1FuQYsql-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/test-drivers/vim2m.c:963:10: error: 'const struct v4l2_ioctl_ops' has no member named 'vidioc_delete_buf'; did you mean 'vidioc_delete_bufs'?
-     963 |         .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
-         |          ^~~~~~~~~~~~~~~~~
-         |          vidioc_delete_bufs
->> drivers/media/test-drivers/vim2m.c:963:35: error: 'v4l2_m2m_ioctl_delete_buf' undeclared here (not in a function); did you mean 'v4l2_m2m_ioctl_delete_bufs'?
-     963 |         .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                   v4l2_m2m_ioctl_delete_bufs
+   sound/core/ump.c: In function 'snd_ump_attach_legacy_rawmidi':
+>> sound/core/ump.c:1194:53: warning: '%s' directive output may be truncated writing up to 127 bytes into a region of size 80 [-Wformat-truncation=]
+    1194 |         snprintf(rmidi->name, sizeof(rmidi->name), "%s (MIDI 1.0)",
+         |                                                     ^~
+   sound/core/ump.c:1194:9: note: 'snprintf' output between 12 and 139 bytes into a destination of size 80
+    1194 |         snprintf(rmidi->name, sizeof(rmidi->name), "%s (MIDI 1.0)",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1195 |                  ump->info.name);
+         |                  ~~~~~~~~~~~~~~~
+>> sound/core/ump.c:1194:53: warning: '%s' directive output may be truncated writing up to 127 bytes into a region of size 80 [-Wformat-truncation=]
+    1194 |         snprintf(rmidi->name, sizeof(rmidi->name), "%s (MIDI 1.0)",
+         |                                                     ^~
+   sound/core/ump.c:1194:9: note: 'snprintf' output between 12 and 139 bytes into a destination of size 80
+    1194 |         snprintf(rmidi->name, sizeof(rmidi->name), "%s (MIDI 1.0)",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1195 |                  ump->info.name);
+         |                  ~~~~~~~~~~~~~~~
+>> sound/core/ump.c:1194:53: warning: '%s' directive output may be truncated writing up to 127 bytes into a region of size 80 [-Wformat-truncation=]
+    1194 |         snprintf(rmidi->name, sizeof(rmidi->name), "%s (MIDI 1.0)",
+         |                                                     ^~
+   sound/core/ump.c:1194:9: note: 'snprintf' output between 12 and 139 bytes into a destination of size 80
+    1194 |         snprintf(rmidi->name, sizeof(rmidi->name), "%s (MIDI 1.0)",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1195 |                  ump->info.name);
+         |                  ~~~~~~~~~~~~~~~
+>> sound/core/ump.c:1160:63: warning: '%s' directive output may be truncated writing up to 127 bytes into a region of size between 21 and 23 [-Wformat-truncation=]
+    1160 |                 snprintf(s->name, sizeof(s->name), "Group %d (%s)",
+         |                                                               ^~
+   In function 'fill_substream_names',
+       inlined from 'snd_ump_attach_legacy_rawmidi' at sound/core/ump.c:1201:3:
+   sound/core/ump.c:1160:17: note: 'snprintf' output between 11 and 140 bytes into a destination of size 32
+    1160 |                 snprintf(s->name, sizeof(s->name), "Group %d (%s)",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1161 |                          ump->legacy_mapping[s->number] + 1, ump->info.name);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/ump.c: In function 'snd_ump_attach_legacy_rawmidi':
+>> sound/core/ump.c:1160:63: warning: '%s' directive output may be truncated writing up to 127 bytes into a region of size between 21 and 23 [-Wformat-truncation=]
+    1160 |                 snprintf(s->name, sizeof(s->name), "Group %d (%s)",
+         |                                                               ^~
+   In function 'fill_substream_names',
+       inlined from 'snd_ump_attach_legacy_rawmidi' at sound/core/ump.c:1203:3:
+   sound/core/ump.c:1160:17: note: 'snprintf' output between 11 and 140 bytes into a destination of size 32
+    1160 |                 snprintf(s->name, sizeof(s->name), "Group %d (%s)",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1161 |                          ump->legacy_mapping[s->number] + 1, ump->info.name);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +963 drivers/media/test-drivers/vim2m.c
+vim +1194 sound/core/ump.c
 
-   942	
-   943	static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
-   944		.vidioc_querycap	= vidioc_querycap,
-   945	
-   946		.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt_vid_cap,
-   947		.vidioc_enum_framesizes = vidioc_enum_framesizes,
-   948		.vidioc_g_fmt_vid_cap	= vidioc_g_fmt_vid_cap,
-   949		.vidioc_try_fmt_vid_cap	= vidioc_try_fmt_vid_cap,
-   950		.vidioc_s_fmt_vid_cap	= vidioc_s_fmt_vid_cap,
-   951	
-   952		.vidioc_enum_fmt_vid_out = vidioc_enum_fmt_vid_out,
-   953		.vidioc_g_fmt_vid_out	= vidioc_g_fmt_vid_out,
-   954		.vidioc_try_fmt_vid_out	= vidioc_try_fmt_vid_out,
-   955		.vidioc_s_fmt_vid_out	= vidioc_s_fmt_vid_out,
-   956	
-   957		.vidioc_reqbufs		= v4l2_m2m_ioctl_reqbufs,
-   958		.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
-   959		.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
-   960		.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
-   961		.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
-   962		.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
- > 963		.vidioc_delete_buf	= v4l2_m2m_ioctl_delete_buf,
-   964		.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
-   965	
-   966		.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-   967		.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
-   968	
-   969		.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-   970		.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-   971	};
-   972	
+b2bcbd031d34d1b Takashi Iwai 2023-08-24  1153  
+1761f4cc114af53 Takashi Iwai 2023-08-24  1154  static void fill_substream_names(struct snd_ump_endpoint *ump,
+1761f4cc114af53 Takashi Iwai 2023-08-24  1155  				 struct snd_rawmidi *rmidi, int dir)
+1761f4cc114af53 Takashi Iwai 2023-08-24  1156  {
+1761f4cc114af53 Takashi Iwai 2023-08-24  1157  	struct snd_rawmidi_substream *s;
+1761f4cc114af53 Takashi Iwai 2023-08-24  1158  
+1761f4cc114af53 Takashi Iwai 2023-08-24  1159  	list_for_each_entry(s, &rmidi->streams[dir].substreams, list)
+1761f4cc114af53 Takashi Iwai 2023-08-24 @1160  		snprintf(s->name, sizeof(s->name), "Group %d (%s)",
+b2bcbd031d34d1b Takashi Iwai 2023-08-24  1161  			 ump->legacy_mapping[s->number] + 1, ump->info.name);
+1761f4cc114af53 Takashi Iwai 2023-08-24  1162  }
+1761f4cc114af53 Takashi Iwai 2023-08-24  1163  
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1164  int snd_ump_attach_legacy_rawmidi(struct snd_ump_endpoint *ump,
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1165  				  char *id, int device)
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1166  {
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1167  	struct snd_rawmidi *rmidi;
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1168  	bool input, output;
+b2bcbd031d34d1b Takashi Iwai 2023-08-24  1169  	int err, num;
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1170  
+b2bcbd031d34d1b Takashi Iwai 2023-08-24  1171  	ump->out_cvts = kcalloc(SNDRV_UMP_MAX_GROUPS,
+b2bcbd031d34d1b Takashi Iwai 2023-08-24  1172  				sizeof(*ump->out_cvts), GFP_KERNEL);
+33cd7630782df22 Takashi Iwai 2023-06-23  1173  	if (!ump->out_cvts)
+33cd7630782df22 Takashi Iwai 2023-06-23  1174  		return -ENOMEM;
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1175  
+b2bcbd031d34d1b Takashi Iwai 2023-08-24  1176  	num = fill_legacy_mapping(ump);
+b2bcbd031d34d1b Takashi Iwai 2023-08-24  1177  
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1178  	input = ump->core.info_flags & SNDRV_RAWMIDI_INFO_INPUT;
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1179  	output = ump->core.info_flags & SNDRV_RAWMIDI_INFO_OUTPUT;
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1180  	err = snd_rawmidi_new(ump->core.card, id, device,
+b2bcbd031d34d1b Takashi Iwai 2023-08-24  1181  			      output ? num : 0, input ? num : 0,
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1182  			      &rmidi);
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1183  	if (err < 0) {
+33cd7630782df22 Takashi Iwai 2023-06-23  1184  		kfree(ump->out_cvts);
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1185  		return err;
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1186  	}
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1187  
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1188  	if (input)
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1189  		snd_rawmidi_set_ops(rmidi, SNDRV_RAWMIDI_STREAM_INPUT,
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1190  				    &snd_ump_legacy_input_ops);
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1191  	if (output)
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1192  		snd_rawmidi_set_ops(rmidi, SNDRV_RAWMIDI_STREAM_OUTPUT,
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1193  				    &snd_ump_legacy_output_ops);
+5f11dd938fe7657 Takashi Iwai 2023-08-24 @1194  	snprintf(rmidi->name, sizeof(rmidi->name), "%s (MIDI 1.0)",
+5f11dd938fe7657 Takashi Iwai 2023-08-24  1195  		 ump->info.name);
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1196  	rmidi->info_flags = ump->core.info_flags & ~SNDRV_RAWMIDI_INFO_UMP;
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1197  	rmidi->ops = &snd_ump_legacy_ops;
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1198  	rmidi->private_data = ump;
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1199  	ump->legacy_rmidi = rmidi;
+1761f4cc114af53 Takashi Iwai 2023-08-24  1200  	if (input)
+1761f4cc114af53 Takashi Iwai 2023-08-24  1201  		fill_substream_names(ump, rmidi, SNDRV_RAWMIDI_STREAM_INPUT);
+1761f4cc114af53 Takashi Iwai 2023-08-24  1202  	if (output)
+1761f4cc114af53 Takashi Iwai 2023-08-24  1203  		fill_substream_names(ump, rmidi, SNDRV_RAWMIDI_STREAM_OUTPUT);
+1761f4cc114af53 Takashi Iwai 2023-08-24  1204  
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1205  	ump_dbg(ump, "Created a legacy rawmidi #%d (%s)\n", device, id);
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1206  	return 0;
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1207  }
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1208  EXPORT_SYMBOL_GPL(snd_ump_attach_legacy_rawmidi);
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1209  #endif /* CONFIG_SND_UMP_LEGACY_RAWMIDI */
+0b5288f5fe63eab Takashi Iwai 2023-05-23  1210  
+
+:::::: The code at line 1194 was first introduced by commit
+:::::: 5f11dd938fe7657899ca79b2ffc4d708e43f4737 ALSA: usb-audio: Attach legacy rawmidi after probing all UMP EPs
+
+:::::: TO: Takashi Iwai <tiwai@suse.de>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
