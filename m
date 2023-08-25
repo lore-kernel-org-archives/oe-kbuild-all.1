@@ -1,44 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF30631;
-	Fri, 25 Aug 2023 01:27:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A7D631
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 01:27:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692926821; x=1724462821;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rgO7oXXWf20WhU95EfNEyYx5r2vtRSNXmvEZ04PFR24=;
-  b=mb7DimxZjf6e34N2ePfscRhrbTOX0ijK4CaDL9+DCAbXigSCqFfETKgy
-   +HrHOuHAhnJNqMgQuTgcviDdVKkVtYwMKDnuIxxpUZopdQ+GG3iAsMgbu
-   JoXrnLLFuFHmD+HtkjW3aWIgYvRy2TU6JO/aWhTZUCVEeVH6jI9PCWI+A
-   ARREPpRwc1Q2BzKFZOZh/IZhrjrlivGwets/5kYUVFKEb22/DVeXEJKLa
-   ItIZu/S3OB9hrJxYIsrDFw1uNIWNBoWtDifUDpoeIm2nbPAzeaZXl1O3W
-   rrQJ5szEGw0fsjjWDXYgPjOUcbMkLj3QdaAogpIQLq0Vn2oodqOBy5J/d
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="359600421"
+  t=1692926823; x=1724462823;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v0UeNta87Sx8HA/Ip3QXS/fJh65LXYDTOgPDQc5jqwo=;
+  b=FC08CZ97VsfLFnJrJswqOxzj/tK1E3qNNUXTkldnGoYING8xtsP0jrCQ
+   lZj0K2rSgthWheRovSiVLxh4fo5F8wsA38UBe0v1z3JBE4XzLlWVKnaVY
+   +rF3+XN2Xz776GQbx9ogv6P603/I2OJaQq0kDfZqifP1h5qJTUhaii5OT
+   h0gVAbcX0hSdF/UC82Hsq2Nb6hgG1Wu55LrpiEhibYHYLAV9atVAD1zaI
+   PLs3iVGk0pkk/QhoKbOznDBBGunt/ujKB/vlYNcRMVgwPDIhiKGr1lmQ6
+   eiJe5Gj5lCB0WuO6X122sVfKwQsYO/40pzTN6DTNwwPJxFqg2+L8m0uYA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="354932356"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="359600421"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 18:26:58 -0700
+   d="scan'208";a="354932356"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 18:27:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="1068053764"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="730858553"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="1068053764"
+   d="scan'208";a="730858553"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 24 Aug 2023 18:26:56 -0700
+  by orsmga007.jf.intel.com with ESMTP; 24 Aug 2023 18:26:57 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZLbE-000365-0b;
+	id 1qZLbE-000368-0i;
 	Fri, 25 Aug 2023 01:26:56 +0000
-Date: Fri, 25 Aug 2023 09:26:31 +0800
+Date: Fri, 25 Aug 2023 09:26:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+To: Puranjay Mohan <puranjay12@gmail.com>, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, pulehui@huawei.com,
+	conor.dooley@microchip.com, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
+	yhs@fb.com, kpsingh@kernel.org, bjorn@kernel.org,
+	bpf@vger.kernel.org, linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:dev.2023.08.22a 61/69]
- kernel/locking/locktorture.c:279:13: warning: no previous prototype for
- function 'spinlock_dump'
-Message-ID: <202308250940.ak8AUxEz-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, puranjay12@gmail.com
+Subject: Re: [PATCH bpf-next v2 2/3] riscv: implement a memset like function
+ for text
+Message-ID: <202308250924.NlFcBoND-lkp@intel.com>
+References: <20230824133135.1176709-3-puranjay12@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,39 +53,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230824133135.1176709-3-puranjay12@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.08.22a
-head:   354957ec11dc80eac68c4b1e10c237d69adc1833
-commit: bdd8d60bd4047aa4a7dc207789dc4ad0dfd5f07e [61/69] EXP qspinlock: Dump lock state, add call from locktorture
-config: mips-randconfig-r025-20230825 (https://download.01.org/0day-ci/archive/20230825/202308250940.ak8AUxEz-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250940.ak8AUxEz-lkp@intel.com/reproduce)
+Hi Puranjay,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Puranjay-Mohan/riscv-extend-patch_text_nosync-for-multiple-pages/20230824-213410
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230824133135.1176709-3-puranjay12%40gmail.com
+patch subject: [PATCH bpf-next v2 2/3] riscv: implement a memset like function for text
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230825/202308250924.NlFcBoND-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250924.NlFcBoND-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308250940.ak8AUxEz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308250924.NlFcBoND-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/locking/locktorture.c:279:13: warning: no previous prototype for function 'spinlock_dump' [-Wmissing-prototypes]
-     279 | void __weak spinlock_dump(spinlock_t *sp, bool full)
-         |             ^
-   kernel/locking/locktorture.c:279:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     279 | void __weak spinlock_dump(spinlock_t *sp, bool full)
-         | ^
-         | static 
-   1 warning generated.
+   arch/riscv/kernel/patch.c: In function '__patch_insn_set':
+>> arch/riscv/kernel/patch.c:61:13: warning: unused variable 'ret' [-Wunused-variable]
+      61 |         int ret;
+         |             ^~~
 
 
-vim +/spinlock_dump +279 kernel/locking/locktorture.c
+vim +/ret +61 arch/riscv/kernel/patch.c
 
-   278	
- > 279	void __weak spinlock_dump(spinlock_t *sp, bool full)
-   280	{
-   281		pr_alert("%s __weak stub invoked.\n", __func__);
-   282	}
-   283	
+    56	
+    57	static int __patch_insn_set(void *addr, const int c, size_t len)
+    58	{
+    59		void *waddr = addr;
+    60		bool across_pages = (((uintptr_t) addr & ~PAGE_MASK) + len) > PAGE_SIZE;
+  > 61		int ret;
+    62	
+    63		/*
+    64		 * Only two pages can be mapped at a time for writing.
+    65		 */
+    66		if (len > 2 * PAGE_SIZE)
+    67			return -EINVAL;
+    68	
+    69		if (across_pages)
+    70			patch_map(addr + PAGE_SIZE, FIX_TEXT_POKE1);
+    71	
+    72		waddr = patch_map(addr, FIX_TEXT_POKE0);
+    73	
+    74		memset(waddr, c, len);
+    75	
+    76		patch_unmap(FIX_TEXT_POKE0);
+    77	
+    78		if (across_pages)
+    79			patch_unmap(FIX_TEXT_POKE1);
+    80	
+    81		return 0;
+    82	}
+    83	NOKPROBE_SYMBOL(__patch_insn_set);
+    84	
 
 -- 
 0-DAY CI Kernel Test Service
