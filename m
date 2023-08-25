@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC82C2EB;
-	Fri, 25 Aug 2023 11:25:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5527C2EB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 11:26:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692962755; x=1724498755;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dZCkDVpzdGis2FkhXG4Y9vSWt92TtsbxnFXC3X8+rus=;
-  b=i9h7qdm199udcYy+yNoX4tHea1K+JDC3pZ2d28sJ2ZN38i9uUMBYgmLD
-   mWQfjwabubfjSuaXnGIw++gKsx6SMXRTydqfH7IUMik/4NkjhFOVbISQo
-   5m+91P+2W0iExw5qL1W+lSL6eflSi45z898ke4VhsuT1Gth56+b2z6qN0
-   mfm8d1Rxwyj5xYYlDjsevXgGd/8HfYayppKJ0+xuG4xUYe+faPESaJjI3
-   9YCM+GJ4uZ3CrCooriWzm0JAGNZqRU38GCiIMUC33+rjlxZGPpX+NpvpD
-   vyljFMb5xkxt9vA4LQLWMvU7ZJVeQ0Je85FL6qSWAzK4D2EiLd66iupEX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="378475236"
+  t=1692962779; x=1724498779;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Zgw4sLWDGWUm5qL+PZd4iP2mM4yO+1bqfsU+W9QJHiw=;
+  b=EOt1n816vbAvByTzYRFfwFaRe8AVMtG2vk27ePEZLdcEhaNKEgii1+8E
+   5OhjFvHYCUw3UNpXgtvr020Ca/4IoexUSxVhUQ2fe4QEFSIT21YBxNDif
+   +GpDjU9KFihzWHeLGyUwCJ7+FNmN4DXjWqJ7obdAbBSFwZtsKRS/4qPac
+   OgUFeQMdOU0WR7iblPT6R+9blZjKhU97lurSngT9wO8ZFX7LagTetaUEM
+   uGC9IdjlznE+lCn+pVeBh3Lj6L6CH/dQyhsrqOq8oRInvMywe7MxbLjre
+   5YBbxZfb5wa/ad33Ky5viRtrrW041bWeXTIGdtCKEf8pmKuEJSK9mPzgC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="359690995"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="378475236"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 04:25:54 -0700
+   d="scan'208";a="359690995"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 04:26:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="687268624"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="731036214"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="687268624"
+   d="scan'208";a="731036214"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 25 Aug 2023 04:25:52 -0700
+  by orsmga007.jf.intel.com with ESMTP; 25 Aug 2023 04:26:15 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZUw0-0003VW-0O;
-	Fri, 25 Aug 2023 11:25:09 +0000
-Date: Fri, 25 Aug 2023 19:23:29 +0800
+	id 1qZUwp-0003Va-1w;
+	Fri, 25 Aug 2023 11:26:00 +0000
+Date: Fri, 25 Aug 2023 19:23:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [linux-next:master 3581/12910]
- arch/powerpc/kvm/../../../virt/kvm/vfio.c:89:7: error: attribute declaration
- must precede definition
-Message-ID: <202308251949.5IiaV0sz-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
+	Jani Nikula <jani.nikula@intel.com>,
+	intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH 4/6] drm/cec: add drm_dp_cec_attach() as the
+ non-edid version of set edid
+Message-ID: <202308251944.9tpk0wma-lkp@intel.com>
+References: <f8ed9b38fd2ebcd8344a1889a6c0f288969454ea.1692884619.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,68 +49,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <f8ed9b38fd2ebcd8344a1889a6c0f288969454ea.1692884619.git.jani.nikula@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6269320850097903b30be8f07a5c61d9f7592393
-commit: c1cce6d079b875396c9a7c6838fc5b024758e540 [3581/12910] vfio: Compile vfio_group infrastructure optionally
-config: powerpc64-randconfig-r001-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251949.5IiaV0sz-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251949.5IiaV0sz-lkp@intel.com/reproduce)
+Hi Jani,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm/drm-next next-20230825]
+[cannot apply to drm-intel/for-linux-next-fixes drm-misc/drm-misc-next linus/master v6.5-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-edid-add-drm_edid_is_digital/20230824-220926
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/f8ed9b38fd2ebcd8344a1889a6c0f288969454ea.1692884619.git.jani.nikula%40intel.com
+patch subject: [Intel-gfx] [PATCH 4/6] drm/cec: add drm_dp_cec_attach() as the non-edid version of set edid
+config: i386-buildonly-randconfig-001-20230824 (https://download.01.org/0day-ci/archive/20230825/202308251944.9tpk0wma-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251944.9tpk0wma-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308251949.5IiaV0sz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308251944.9tpk0wma-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/powerpc/kvm/../../../virt/kvm/vfio.c:89:7: error: attribute declaration must precede definition [-Werror,-Wignored-attributes]
-           fn = symbol_get(vfio_file_iommu_group);
-                ^
-   include/linux/module.h:805:60: note: expanded from macro 'symbol_get'
-   #define symbol_get(x) ({ extern typeof(x) x __attribute__((weak,visibility("hidden"))); &(x); })
-                                                              ^
-   include/linux/vfio.h:294:35: note: previous definition is here
-   static inline struct iommu_group *vfio_file_iommu_group(struct file *file)
-                                     ^
->> arch/powerpc/kvm/../../../virt/kvm/vfio.c:89:7: error: attribute declaration must precede definition [-Werror,-Wignored-attributes]
-           fn = symbol_get(vfio_file_iommu_group);
-                ^
-   include/linux/module.h:805:65: note: expanded from macro 'symbol_get'
-   #define symbol_get(x) ({ extern typeof(x) x __attribute__((weak,visibility("hidden"))); &(x); })
-                                                                   ^
-   include/linux/vfio.h:294:35: note: previous definition is here
-   static inline struct iommu_group *vfio_file_iommu_group(struct file *file)
-                                     ^
-   2 errors generated.
+   drivers/gpu/drm/display/drm_dp_cec.c: In function 'drm_dp_cec_attach':
+   drivers/gpu/drm/display/drm_dp_cec.c:342:20: error: 'adap' undeclared (first use in this function)
+     342 |    cec_s_phys_addr(adap, source_physical_address, false);
+         |                    ^~~~
+   drivers/gpu/drm/display/drm_dp_cec.c:342:20: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/display/drm_dp_cec.c: In function 'drm_dp_cec_set_edid':
+>> drivers/gpu/drm/display/drm_dp_cec.c:388:18: error: dereferencing pointer to incomplete type 'const struct edid'
+     388 |  if (edid && edid->extensions)
+         |                  ^~
+   drivers/gpu/drm/display/drm_dp_cec.c:389:3: error: 'pa' undeclared (first use in this function)
+     389 |   pa = cec_get_edid_phys_addr((const u8 *)edid,
+         |   ^~
+   drivers/gpu/drm/display/drm_dp_cec.c:390:10: error: 'EDID_LENGTH' undeclared (first use in this function)
+     390 |          EDID_LENGTH * (edid->extensions + 1), NULL);
+         |          ^~~~~~~~~~~
 
 
-vim +89 arch/powerpc/kvm/../../../virt/kvm/vfio.c
+vim +388 drivers/gpu/drm/display/drm_dp_cec.c
 
-4b22ef042d6f54 Jason Gunthorpe      2022-10-07  82  
-4b22ef042d6f54 Jason Gunthorpe      2022-10-07  83  #ifdef CONFIG_SPAPR_TCE_IOMMU
-50d63b5bbfd122 Jason Gunthorpe      2022-05-04  84  static struct iommu_group *kvm_vfio_file_iommu_group(struct file *file)
-121f80ba68f1a5 Alexey Kardashevskiy 2017-03-22  85  {
-50d63b5bbfd122 Jason Gunthorpe      2022-05-04  86  	struct iommu_group *(*fn)(struct file *file);
-50d63b5bbfd122 Jason Gunthorpe      2022-05-04  87  	struct iommu_group *ret;
-121f80ba68f1a5 Alexey Kardashevskiy 2017-03-22  88  
-50d63b5bbfd122 Jason Gunthorpe      2022-05-04 @89  	fn = symbol_get(vfio_file_iommu_group);
-121f80ba68f1a5 Alexey Kardashevskiy 2017-03-22  90  	if (!fn)
-50d63b5bbfd122 Jason Gunthorpe      2022-05-04  91  		return NULL;
-121f80ba68f1a5 Alexey Kardashevskiy 2017-03-22  92  
-50d63b5bbfd122 Jason Gunthorpe      2022-05-04  93  	ret = fn(file);
-121f80ba68f1a5 Alexey Kardashevskiy 2017-03-22  94  
-50d63b5bbfd122 Jason Gunthorpe      2022-05-04  95  	symbol_put(vfio_file_iommu_group);
-121f80ba68f1a5 Alexey Kardashevskiy 2017-03-22  96  
-121f80ba68f1a5 Alexey Kardashevskiy 2017-03-22  97  	return ret;
-121f80ba68f1a5 Alexey Kardashevskiy 2017-03-22  98  }
-121f80ba68f1a5 Alexey Kardashevskiy 2017-03-22  99  
-
-:::::: The code at line 89 was first introduced by commit
-:::::: 50d63b5bbfd12262069ad062611cd5e69c5e9e05 vfio: Change vfio_external_user_iommu_id() to vfio_file_iommu_group()
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Alex Williamson <alex.williamson@redhat.com>
+   379	
+   380	/*
+   381	 * Note: Prefer calling drm_dp_cec_attach() with
+   382	 * connector->display_info.source_physical_address if possible.
+   383	 */
+   384	void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
+   385	{
+   386		u16 source_physical_address = CEC_PHYS_ADDR_INVALID;
+   387	
+ > 388		if (edid && edid->extensions)
+   389			pa = cec_get_edid_phys_addr((const u8 *)edid,
+   390						    EDID_LENGTH * (edid->extensions + 1), NULL);
+   391	
+   392		drm_dp_cec_attach(aux, source_physical_address);
+   393	}
+   394	EXPORT_SYMBOL(drm_dp_cec_set_edid);
+   395	
 
 -- 
 0-DAY CI Kernel Test Service
