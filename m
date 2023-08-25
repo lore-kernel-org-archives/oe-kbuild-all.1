@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270AF621
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 01:59:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6232EC2C0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 02:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692928779; x=1724464779;
+  t=1692930702; x=1724466702;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ppoJsK6QitLx+eQgGIQoVlJVqcSDhi8YPrDIe/SfnFk=;
-  b=lhsCJMC1qAEsADvjDIKjRoIdwpoxWBogOu7RH2eCQiTOJT7AhuDrA7Kr
-   4CF9GixDb8EkFii4/dhHdthWPf2hGqwO95kk3xFdh3C892oroMe3BcD0A
-   kIGGMWvutd2CyYVg0bGUV2asa6DvwUT2plerqOzbIoK3ehR9mcGLI3oyg
-   f4CQmnXxQhuZ2PsqU7wku1z23OoP8elcUCiy2mGFw1JEAqnF7BxzFZEyF
-   7lNXqMST4uildvNzneUXLmQ1Tb47ZGM20WaW8o9G7dlqQ13j0k28bTyZc
-   O2hU7ZoBlTg+7dPuFh+Pdz5tBDh6oL7rZwN/JmA01yC7Bylmy9AGxI4nl
+  bh=2Uee1TpFBx+zKFWY3dK/MZo2wCIDNR8Tl4ktcuSdjNs=;
+  b=IJw5z3owNguX9k4t1JCDY5+klUfbKO20WvAz17GXxO5TSCajQAf18V55
+   K3NBnrKdStGQkdrDKY/8d3BGVjF5k9HUjwkV105kKwHySvMxv80wuH3+Y
+   uBo9aLK+Wk2XIykPNibsZhAPzYRIUJcGOWUsfXAGb2MIXhL4mPJfZqbXH
+   3kwTuIbB32h3Sh7Ij6pHZVKrtmg6rh4cI9+FuKaUCDQDLvGYa6Z3gmZlE
+   4ux+cUTaJ0iPn7XGJ6Kq/TYs2+cdSUcxdYwCKlymDBaKRdqg3e3isJuhL
+   CP+FVr9bcjXm1UjBwrPnILv98uk6ncZNDktxHlj3Oqh3REk/x7wYEijVD
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="378393198"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="372009229"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="378393198"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 18:59:38 -0700
+   d="scan'208";a="372009229"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 19:31:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="827412774"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="730874855"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="827412774"
+   d="scan'208";a="730874855"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Aug 2023 18:59:35 -0700
+  by orsmga007.jf.intel.com with ESMTP; 24 Aug 2023 19:31:39 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZM6o-00037w-1x;
-	Fri, 25 Aug 2023 01:59:34 +0000
-Date: Fri, 25 Aug 2023 09:58:55 +0800
+	id 1qZMbr-000392-04;
+	Fri, 25 Aug 2023 02:31:39 +0000
+Date: Fri, 25 Aug 2023 10:30:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4_2 11419/11472]
- drivers/mtd/nand/spi/core.c:979:5: warning: no previous prototype for
- function 'spinand_cal_read'
-Message-ID: <202308250929.B5Mg0zrD-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [paulmck-rcu:dev.2023.08.22a 69/69] ERROR: modpost: "dump_cpu_task"
+ [kernel/locking/locktorture.ko] undefined!
+Message-ID: <202308251055.cPX2KFlo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,89 +46,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4_2
-head:   765ced40ad936e2be7291aa23b2433a3c7df658c
-commit: 1d8e5fd5901586947f6a443a6adae052f5b9922e [11419/11472] drivers: mtd: spinand: Add calibration support for spinand
-config: riscv-randconfig-r002-20230825 (https://download.01.org/0day-ci/archive/20230825/202308250929.B5Mg0zrD-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250929.B5Mg0zrD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.08.22a
+head:   354957ec11dc80eac68c4b1e10c237d69adc1833
+commit: 354957ec11dc80eac68c4b1e10c237d69adc1833 [69/69] locktorture: Dump CPUs running writer tasks when RCU stalls
+config: riscv-randconfig-r022-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251055.cPX2KFlo-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251055.cPX2KFlo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308250929.B5Mg0zrD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308251055.cPX2KFlo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/mtd/nand/spi/core.c:1020:37: error: too few arguments to function call, expected 4, have 2
-           ret = spinand_wait(spinand, &status);
-                 ~~~~~~~~~~~~                 ^
-   drivers/mtd/nand/spi/core.c:499:12: note: 'spinand_wait' declared here
-   static int spinand_wait(struct spinand_device *spinand,
-              ^
->> drivers/mtd/nand/spi/core.c:979:5: warning: no previous prototype for function 'spinand_cal_read' [-Wmissing-prototypes]
-   int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
-       ^
-   drivers/mtd/nand/spi/core.c:979:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
-   ^
-   static 
-   1 warning and 1 error generated.
-
-
-vim +/spinand_cal_read +979 drivers/mtd/nand/spi/core.c
-
-   978	
- > 979	int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
-   980		struct spinand_device *spinand = (struct spinand_device *)priv;
-   981		struct device *dev = &spinand->spimem->spi->dev;
-   982		struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
-   983		struct nand_pos pos;
-   984		struct nand_page_io_req req;
-   985		u8 status;
-   986		int ret;
-   987	
-   988		if(addrlen != sizeof(struct nand_addr)/sizeof(unsigned int)) {
-   989			dev_err(dev, "Must provide correct addr(length) for spinand calibration\n");
-   990			return -EINVAL;
-   991		}
-   992	
-   993		ret = spinand_reset_op(spinand);
-   994		if (ret)
-   995			return ret;
-   996	
-   997		/* We should store our golden data in first target because
-   998		 * we can't switch target at this moment.
-   999		 */
-  1000		pos = (struct nand_pos){
-  1001			.target = 0,
-  1002			.lun = *addr,
-  1003			.plane = *(addr+1),
-  1004			.eraseblock = *(addr+2),
-  1005			.page = *(addr+3),
-  1006		};
-  1007	
-  1008		req = (struct nand_page_io_req){
-  1009			.pos = pos,
-  1010			.dataoffs = *(addr+4),
-  1011			.datalen = readlen,
-  1012			.databuf.in = buf,
-  1013			.mode = MTD_OPS_AUTO_OOB,
-  1014		};
-  1015	
-  1016		ret = spinand_load_page_op(spinand, &req);
-  1017		if (ret)
-  1018			return ret;
-  1019	
-  1020		ret = spinand_wait(spinand, &status);
-  1021		if (ret < 0)
-  1022			return ret;
-  1023	
-  1024		ret = spi_mem_exec_op(spinand->spimem, &op);
-  1025	
-  1026		return 0;
-  1027	}
-  1028	
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_string.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-string_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strcat_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/gud/gud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/udl/udl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/common/usb-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/core/usbcore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+>> ERROR: modpost: "dump_cpu_task" [kernel/locking/locktorture.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
