@@ -1,41 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09B4160;
-	Fri, 25 Aug 2023 00:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86F7179
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 00:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692922365; x=1724458365;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=R1j1PkhS8G7mh9MMB5t2wOq0yXqRfXWvz/4dLesK1bU=;
-  b=GL2v9BYq3M30PpHp+ZuEcDbXcYLWzuELl0lqdZRXwSqSf45+xXVsCyzw
-   YXqsG0EFSMXgZO6Z9BHquUu6SOpoWhMVeNo/ve4SM9vX6g40YrYaYDTip
-   P8koqgLBk4nx+6WiShUtvU04ijs9v4QD46Qg4vMc84MTCPlfhtf8OicxN
-   p3QH59N3+G2/+7DT8BbhCMwOwm24PU2k9Y68jiPTLRxq104qYiQV1nD6o
-   gg0APLvdH2VB8mbGG53o9yUNbLdaLCb/iqjwOlFHzcrrkjHgYLgom6NNZ
-   ytD4GTZiTg0/10oVG232dYmhgbdK51EIkCgOeAkxoS+cFSKY/Uv24T//7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="364783937"
+  t=1692924300; x=1724460300;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2T+jKDPy+/Mm7hFvTMk3qJSi94X86O8CjhJDKUj3iQo=;
+  b=Vbyx6rgCBqKiQ7wOwbRrs7ca0W6NvSjP2wrFq0SbMftpofTbXWRlAcXL
+   z8+BPLfdP4M69dzLjMfVWvoD+hrwnmOdftFxaQxCriS7wK3o58OcQ3NXu
+   KD3Fmln2jqwG9hbGjHHVqhONI5MyyNTBRplZMrsy+Rm2nUJV5gXFMTSiR
+   LWmZ4wXoIgD0sPShBt2Akn4WnxEXJWHXIrW4Lwr5k+A3GaK4fesHiUB3R
+   r7WOY0xIH0xrlCrpFViVIW42Kz0ioJ7aC/+lmwAcSnEr8B8NmSk06QuJL
+   HjJk0/UcKjIglPbwHHRXvI7vE/KEMIGFZ9oVxBeKxwpUNr29fiH5/ddND
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="438541531"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="364783937"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 17:12:30 -0700
+   d="scan'208";a="438541531"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 17:44:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="766757355"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="730852664"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="766757355"
+   d="scan'208";a="730852664"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 24 Aug 2023 17:12:29 -0700
+  by orsmga007.jf.intel.com with ESMTP; 24 Aug 2023 17:44:56 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZKQd-000348-17;
-	Fri, 25 Aug 2023 00:12:05 +0000
-Date: Fri, 25 Aug 2023 08:11:35 +0800
+	id 1qZKwZ-00035U-0X;
+	Fri, 25 Aug 2023 00:44:55 +0000
+Date: Fri, 25 Aug 2023 08:44:10 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [stable:linux-5.15.y 127/9999] test_set_error_stamp: rm
- /kbuild/obj/consumer/x86_64-randconfig-013-20230825/.reduce_errors/arch-x86-crypto-crc32c-pcl-intel-asm_64.o:warning:objtool:crc_pcl:missing-int3-after-indirect-jump
-Message-ID: <202308250800.d2y2XHxT-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: [linux-stable-rc:linux-5.10.y 9990/9999] test_set_error_stamp: rm
+ /kbuild/obj/consumer/x86_64-defconfig/.reduce_errors/arch-x86-lib-retpoline.o:warning:objtool:.altinstr_replacement:unsupported-relocation-in-alternatives-section
+Message-ID: <202308250836.EC6Ck8DK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,26 +48,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Borislav Petkov <bp@suse.de>
-CC: Sasha Levin <sashal@kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
-head:   f6f7927ac664ba23447f8dd3c3dfe2f4ee39272f
-commit: 370d33da35e31c1544eb77bcf2539f09b1064b9c [127/9999] x86: Add straight-line-speculation mitigation
-config: x86_64-randconfig-013-20230825 (https://download.01.org/0day-ci/archive/20230825/202308250800.d2y2XHxT-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250800.d2y2XHxT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
+head:   78bdf347b342992291284fd060ee34dbccf570a8
+commit: fbda31ad0b4265bd0f261f4bd57b10cacce55d2b [9990/9999] x86/cpu: Cleanup the untrain mess
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230825/202308250836.EC6Ck8DK-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250836.EC6Ck8DK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308250800.d2y2XHxT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308250836.EC6Ck8DK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/crypto/crc32c-pcl-intel-asm_64.o: warning: objtool: crc_pcl()+0x78: missing int3 after indirect jump
+>> arch/x86/lib/retpoline.o: warning: objtool: .altinstr_replacement+0x90: unsupported relocation in alternatives section
 
 -- 
 0-DAY CI Kernel Test Service
