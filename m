@@ -1,42 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6232EC2C0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 02:31:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09023392
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 02:31:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692930702; x=1724466702;
+  t=1692930707; x=1724466707;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2Uee1TpFBx+zKFWY3dK/MZo2wCIDNR8Tl4ktcuSdjNs=;
-  b=IJw5z3owNguX9k4t1JCDY5+klUfbKO20WvAz17GXxO5TSCajQAf18V55
-   K3NBnrKdStGQkdrDKY/8d3BGVjF5k9HUjwkV105kKwHySvMxv80wuH3+Y
-   uBo9aLK+Wk2XIykPNibsZhAPzYRIUJcGOWUsfXAGb2MIXhL4mPJfZqbXH
-   3kwTuIbB32h3Sh7Ij6pHZVKrtmg6rh4cI9+FuKaUCDQDLvGYa6Z3gmZlE
-   4ux+cUTaJ0iPn7XGJ6Kq/TYs2+cdSUcxdYwCKlymDBaKRdqg3e3isJuhL
-   CP+FVr9bcjXm1UjBwrPnILv98uk6ncZNDktxHlj3Oqh3REk/x7wYEijVD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="372009229"
+  bh=P9UAyYVo8GcwbrXP5ALpyboyLmrzRKu/CBuKr6JfZHw=;
+  b=CfLd7vhHr+BVgLbO/ZqjcW/HRK6u4mtvI+e9CcMf2HvAQBAk7c/ia1Re
+   G6vZYmD9p+gvNY3fXUiym956Va1dE90sXzVdTKrPKZEGsjMmv7Ibd7bqj
+   ca1MeCXODz5OfFTEShaluldkqdV5pXFGwWcQhkwDugMeBo88qKiWFs0ab
+   8c8jGa/HSd/5T6H6KqOZYIUO8zYORDpjwRi9/y2eIvUbbOEbrbGfiBr0z
+   zkHLNWgNVN2NmRB7N+V6TICCkZBQCtg1InYB8E0zaddhpqnrSxITaxMf0
+   yQGBbhBqnCz0U/d8G0eXXBBuV4gwq8c7BDWkLjVgXqAASd0raYBLgoXpO
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="373485912"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="372009229"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 19:31:41 -0700
+   d="scan'208";a="373485912"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 19:31:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="730874855"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="827418677"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="730874855"
+   d="scan'208";a="827418677"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 24 Aug 2023 19:31:39 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Aug 2023 19:31:39 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZMbr-000392-04;
+	id 1qZMbr-00038z-00;
 	Fri, 25 Aug 2023 02:31:39 +0000
-Date: Fri, 25 Aug 2023 10:30:47 +0800
+Date: Fri, 25 Aug 2023 10:30:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:dev.2023.08.22a 69/69] ERROR: modpost: "dump_cpu_task"
- [kernel/locking/locktorture.ko] undefined!
-Message-ID: <202308251055.cPX2KFlo-lkp@intel.com>
+To: Maximilian Luz <luzmaximilian@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [steev:lenovo-x13s-v6.5-rc7 64/129]
+ drivers/firmware/qcom_qseecom_uefisecapp.c:172: warning: Function parameter
+ or member 'guid_offset' not described in 'qsee_rsp_uefi_get_next_variable'
+Message-ID: <202308251028.BnSdu23P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,121 +48,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.08.22a
-head:   354957ec11dc80eac68c4b1e10c237d69adc1833
-commit: 354957ec11dc80eac68c4b1e10c237d69adc1833 [69/69] locktorture: Dump CPUs running writer tasks when RCU stalls
-config: riscv-randconfig-r022-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251055.cPX2KFlo-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251055.cPX2KFlo-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux lenovo-x13s-v6.5-rc7
+head:   68f425346397c1806f828d4ee58e9468c924f408
+commit: e54a5193d61abc174dff575a57c7530d0b62863f [64/129] firmware: Add support for Qualcomm UEFI Secure Application
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230825/202308251028.BnSdu23P-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251028.BnSdu23P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308251055.cPX2KFlo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308251028.BnSdu23P-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_string.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-string_helpers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kprobes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strcat_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/gud/gud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/udl/udl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/common/usb-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/core/usbcore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-emsff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-razer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steelseries.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/matrix-keymap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
->> ERROR: modpost: "dump_cpu_task" [kernel/locking/locktorture.ko] undefined!
+>> drivers/firmware/qcom_qseecom_uefisecapp.c:172: warning: Function parameter or member 'guid_offset' not described in 'qsee_rsp_uefi_get_next_variable'
+
+
+vim +172 drivers/firmware/qcom_qseecom_uefisecapp.c
+
+   149	
+   150	/**
+   151	 * struct qsee_rsp_uefi_get_next_variable - Response for the
+   152	 * GetNextVariableName command.
+   153	 * @command_id:  The ID of the command. Should be
+   154	 *               %QSEE_CMD_UEFI_GET_NEXT_VARIABLE.
+   155	 * @length:      Length of the response in bytes, including this struct and any
+   156	 *               parameters (name, GUID) stored after it as well as any padding
+   157	 *               thereof for alignment.
+   158	 * @status:      Status of this command.
+   159	 * @guid_size:   Size of the GUID parameter in bytes, i.e. sizeof(efi_guid_t).
+   160	 * @name_offset: Offset from the start of this struct to where the variable
+   161	 *               name is stored (as utf-16 string), in bytes.
+   162	 * @name_size:   Size of the name parameter in bytes, including null-terminator.
+   163	 */
+   164	struct qsee_rsp_uefi_get_next_variable {
+   165		u32 command_id;
+   166		u32 length;
+   167		u32 status;
+   168		u32 guid_offset;
+   169		u32 guid_size;
+   170		u32 name_offset;
+   171		u32 name_size;
+ > 172	} __packed;
+   173	
 
 -- 
 0-DAY CI Kernel Test Service
