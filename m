@@ -1,153 +1,106 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FAC18050;
-	Fri, 25 Aug 2023 18:15:06 +0000 (UTC)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37PI6rIq031177;
-	Fri, 25 Aug 2023 18:14:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=NeXVYWHkVo+QL2tc3Wf4sqBVf7FNluO78WFdmMiRrBU=;
- b=kEZ7Vqwap8o9dWigtL2QMK0IRZccw1DLmwOL+4c4mv/31rVk2CwuVDr4LAV46uNUOnDt
- SmNekR2iAqmucijCXjh4JG0CaRq4jYbiIDzSY5o5QnRv+zFkQ/f4fkEvDmLp14d1vPwX
- 3ebQNBJWyg+zqQTDxtGy6RRd+HBypB6eD7BLnpk20I63bw7Om6BZqxPhXMCBfp7GBYHv
- 3rU0oqG4OCXvpIMwhatZNwl6bviwD4OsFPneEMqqOhButhXQihAJOS7HJhTaOVe6YF0U
- 2BmR3a6hSBWZ+Rb9FSjiygnQswsG2NM5n0GSIEJSK43lmrRRBD1imI3ONnSnFgqxaHn0 tw== 
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sq0p092pb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Aug 2023 18:14:56 +0000
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37PHrDmY027333;
-	Fri, 25 Aug 2023 18:14:54 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3sn20t1mjy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Aug 2023 18:14:54 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37PIEqFR24314394
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 25 Aug 2023 18:14:52 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6446E20040;
-	Fri, 25 Aug 2023 18:14:52 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E757820043;
-	Fri, 25 Aug 2023 18:14:50 +0000 (GMT)
-Received: from [9.43.10.206] (unknown [9.43.10.206])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 25 Aug 2023 18:14:50 +0000 (GMT)
-Message-ID: <f7a8070c-ee4e-c485-487b-a5da860a1330@linux.ibm.com>
-Date: Fri, 25 Aug 2023 23:44:49 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [powerpc:next 84/128] arch/powerpc/mm/init_64.c:477:38: error:
- use of undeclared identifier 'SECTION_SIZE_BITS'
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linuxppc-dev@lists.ozlabs.org, Michael Ellerman <mpe@ellerman.id.au>,
-        Reza Arbab <arbab@linux.ibm.com>
-References: <202308251532.k9PpWEAD-lkp@intel.com>
-Content-Language: en-US
-From: Aneesh Kumar K V <aneesh.kumar@linux.ibm.com>
-In-Reply-To: <202308251532.k9PpWEAD-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: oF6YQjjPGp9Ammrv8J5rP6yhmKVFOsuw
-X-Proofpoint-GUID: oF6YQjjPGp9Ammrv8J5rP6yhmKVFOsuw
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58AB218042
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 18:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692987893; x=1724523893;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RBjmbcP/48Z/9RDJfjhXfkwKSBxaNq5tG2haEM+tDS4=;
+  b=cpZvcwJ35HlFLPObae4qo2NMIjF40/4ogsWteQl1Q5hTB+iZ8KL03Lay
+   Wc+2YGV8zZU5HUEViGdxtxxeDeP6pUX/6vG7HiGqddD7hRv8dg5loU38Q
+   DXMHCmHI2jVMhhccwSONLLvQSJBM4kXbNh+wvZfpjdDpLvcvJ+Ik6b9ch
+   t1QZ8MbpR0sYPUuvwXYpIekKj0wT01qkGJpPf83qmsWu0UrXOtTN9Wxlo
+   HM7jAbglIUUM+QN62OlTnu1lePzgi7BeEcm9r+vd24hRkZ/6fIt9JQHMv
+   14bb1min4nX8nJfXQvqSIdC+hhguZ0eMMqYHFZH/nMkPhGNUZxsQP+EnN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="377513192"
+X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
+   d="scan'208";a="377513192"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 11:24:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="772569384"
+X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
+   d="scan'208";a="772569384"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 25 Aug 2023 11:24:49 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qZbUG-0003tL-0Y;
+	Fri, 25 Aug 2023 18:24:48 +0000
+Date: Sat, 26 Aug 2023 02:24:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+Cc: oe-kbuild-all@lists.linux.dev, azkali <a.ffcc7@gmail.com>,
+	Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
+	Adam Jiang <chaoj@nvidia.com>, CTCaer <ctcaer@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] misc: bm92txx: Add driver for the ROHM BM92Txx
+Message-ID: <202308260240.OBZU72Ht-lkp@intel.com>
+References: <20230824153059.212244-3-linkmauve@linkmauve.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-25_16,2023-08-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- lowpriorityscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
- priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0 clxscore=1011
- spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308250162
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230824153059.212244-3-linkmauve@linkmauve.fr>
 
-On 8/25/23 12:39 PM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-> head:   b9bbbf4979073d5536b7650decd37fcb901e6556
-> commit: 4d15721177d539d743fcf31d7bb376fb3b81aeb6 [84/128] powerpc/mm: Cleanup memory block size probing
-> config: powerpc64-randconfig-r005-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251532.k9PpWEAD-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251532.k9PpWEAD-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308251532.k9PpWEAD-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> arch/powerpc/mm/init_64.c:477:38: error: use of undeclared identifier 'SECTION_SIZE_BITS'
->      477 |         unsigned long section_size = 1UL << SECTION_SIZE_BITS;
->          |                                             ^
->    arch/powerpc/mm/init_64.c:510:18: error: use of undeclared identifier 'SECTION_SIZE_BITS'
->      510 |                         *block_size = MIN_MEMORY_BLOCK_SIZE;
->          |                                       ^
->    include/linux/memory.h:23:43: note: expanded from macro 'MIN_MEMORY_BLOCK_SIZE'
->       23 | #define MIN_MEMORY_BLOCK_SIZE     (1UL << SECTION_SIZE_BITS)
->          |                                           ^
->    2 errors generated.
-> 
-> 
-> vim +/SECTION_SIZE_BITS +477 arch/powerpc/mm/init_64.c
-> 
->    474	
->    475	static void update_memory_block_size(unsigned long *block_size, unsigned long mem_size)
->    476	{
->  > 477		unsigned long section_size = 1UL << SECTION_SIZE_BITS;
->    478	
->    479		for (; *block_size > section_size; *block_size >>= 2) {
->    480	
->    481			if ((mem_size & *block_size) == 0)
->    482				break;
->    483		}
->    484	}
->    485	
-> 
+Hi Emmanuel,
 
-Not a nice fix: 
+kernel test robot noticed the following build warnings:
 
-modified   arch/powerpc/mm/init_64.c
-@@ -472,11 +472,17 @@ static int __init dt_scan_mmu_pid_width(unsigned long node,
- 	return 1;
- }
- 
-+#ifndef CONFIG_MEMORY_HOTPLUG
-+#define MEMORY_BLOCK_SIZE     SZ_16M
-+#else
-+#define MEMORY_BLOCK_SIZE MIN_MEMORY_BLOCK_SIZE
-+#endif
-+
- static void update_memory_block_size(unsigned long *block_size, unsigned long mem_size)
- {
--	unsigned long section_size = 1UL << SECTION_SIZE_BITS;
-+	unsigned long min_memory_block_size = MEMORY_BLOCK_SIZE;
- 
--	for (; *block_size > section_size; *block_size >>= 2) {
-+	for (; *block_size > min_memory_block_size; *block_size >>= 2) {
- 
- 		if ((mem_size & *block_size) == 0)
- 			break;
-@@ -507,7 +513,7 @@ static int __init probe_memory_block_size(unsigned long node, const char *uname,
- 			/*
- 			 * Nothing in the device tree
- 			 */
--			*block_size = MIN_MEMORY_BLOCK_SIZE;
-+			*block_size = MEMORY_BLOCK_SIZE;
- 		else
- 			*block_size = of_read_number(prop, dt_root_size_cells);
- 		/*
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus robh/for-next linus/master v6.5-rc7 next-20230825]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Emmanuel-Gil-Peyrot/dt-bindings-misc-rohm-bm92txx-Add-BM92Txx-support/20230824-233354
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20230824153059.212244-3-linkmauve%40linkmauve.fr
+patch subject: [PATCH 2/2] misc: bm92txx: Add driver for the ROHM BM92Txx
+config: csky-randconfig-r036-20230826 (https://download.01.org/0day-ci/archive/20230826/202308260240.OBZU72Ht-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260240.OBZU72Ht-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308260240.OBZU72Ht-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/misc/bm92txx.c: In function 'bm92t_remove':
+>> drivers/misc/bm92txx.c:1800:28: warning: unused variable 'info' [-Wunused-variable]
+    1800 |         struct bm92t_info *info = i2c_get_clientdata(client);
+         |                            ^~~~
+   drivers/misc/bm92txx.c: At top level:
+>> drivers/misc/bm92txx.c:1179:13: warning: 'bm92t_usbhub_dp_sleep' defined but not used [-Wunused-function]
+    1179 | static void bm92t_usbhub_dp_sleep(struct bm92t_info *info, bool sleep)
+         |             ^~~~~~~~~~~~~~~~~~~~~
 
 
+vim +/info +1800 drivers/misc/bm92txx.c
+
+  1797	
+  1798	static void bm92t_remove(struct i2c_client *client)
+  1799	{
+> 1800		struct bm92t_info *info = i2c_get_clientdata(client);
+  1801	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
