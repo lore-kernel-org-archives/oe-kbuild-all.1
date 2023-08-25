@@ -1,43 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C24CA79
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 13:18:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD19D523
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 13:30:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692969508; x=1724505508;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DcPpEbWxRCuzKrViCFOxkU4BVhQXb3LvFSYnGpB0/Io=;
-  b=Z8+EKGHvp80PUFRyu4U6hbxWJ39L6bIhqDGC/1/BkRU7EvZjgbEPAtdY
-   6+PkeypvsPYWwd7c9CE/qInsrI6kzqT5vZJsPI99jAyLYGn+UMw3R3bD1
-   7SN/8XmuV+ICHIyr0Ze0BMoiSESSZhjXuYomR8qxmHMI93sndU8QcUOyk
-   CUC/saWp1b/MBsQ8wnuIf3G5fo4dlxgksphgGnOF++kl2inmtXKHlERKO
-   Eo8oSm6Ubdc+ZpoTIIkBBDfBhRCjTvIwVsQx0C6++1wARBnwNCwsOtATw
-   SIh+MilIxORfu3iIXD3DgQ4tXRaWE8YKwOr1oBizIGUvt7IplVIUB//LV
+  t=1692970207; x=1724506207;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SE0GPPGuGVla4ffFlLmr2AKmEA+L7zTsjzfS23WMDOI=;
+  b=MNL/ovOV0p1nDcIG1Ei082WPNxuYRz+JWy8aUIOP+4bxxo2NR2dNosa8
+   HsYTbXwYPPuHp1ZkQ+HK1bhSgLhCLozkP3ffomSU8/5QS/g+5h/4QqirW
+   xTjE3TzjiI0Vnb7Wq73SB53LI+gLqo74Y1aTZQdm4TxMM2UV+bVPfL9D4
+   wy0LSiKThhMmYag0HojgISCfv07GgRaQ1GtvZlHP6rnAjem4N4Bhnb4YA
+   /5wxDjHYbISDoIJyt8WCNDej3UwVjBttYINxzXg5atn/3Cue9XFK2UJWC
+   9HE5+IjiAbNlWXgzWucpITfXNBGNQ9YCvngcaOcxUSv3M/1cYCrnLCXRE
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="378495270"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="359711313"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="378495270"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 06:18:28 -0700
+   d="scan'208";a="359711313"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 06:29:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="687297040"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="766955947"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="687297040"
+   d="scan'208";a="766955947"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 25 Aug 2023 06:18:26 -0700
+  by orsmga008.jf.intel.com with ESMTP; 25 Aug 2023 06:29:53 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZWhj-0003bQ-1e;
-	Fri, 25 Aug 2023 13:18:24 +0000
-Date: Fri, 25 Aug 2023 21:18:11 +0800
+	id 1qZWsq-0003cI-1g;
+	Fri, 25 Aug 2023 13:29:52 +0000
+Date: Fri, 25 Aug 2023 21:28:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Joerg Roedel <jroedel@suse.de>
-Subject: drivers/iommu/ipmmu-vmsa.c:946:34: warning: 'ipmmu_of_ids' defined
- but not used
-Message-ID: <202308252118.Y7JJYSj1-lkp@intel.com>
+To: Stefan Binding <sbinding@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+	Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>
+Subject: Re: [PATCH v1] ALSA: hda: cs35l41: Support mute notifications for
+ CS35L41 HDA
+Message-ID: <202308252129.LN14FqG9-lkp@intel.com>
+References: <20230825120525.1337417-1-sbinding@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,91 +51,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230825120525.1337417-1-sbinding@opensource.cirrus.com>
 
-Hi Robin,
+Hi Stefan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4f9e7fabf8643003afefc172e62dd276686f016e
-commit: b87d6d7fa405e23478f1e1dff6d66b5a533a5433 iommu/ipmmu-vmsa: Clean up bus_set_iommu()
-date:   12 months ago
-config: alpha-randconfig-r005-20230824 (https://download.01.org/0day-ci/archive/20230825/202308252118.Y7JJYSj1-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308252118.Y7JJYSj1-lkp@intel.com/reproduce)
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on next-20230825]
+[cannot apply to tiwai-sound/for-linus linus/master v6.5-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Binding/ALSA-hda-cs35l41-Support-mute-notifications-for-CS35L41-HDA/20230825-200835
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230825120525.1337417-1-sbinding%40opensource.cirrus.com
+patch subject: [PATCH v1] ALSA: hda: cs35l41: Support mute notifications for CS35L41 HDA
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230825/202308252129.LN14FqG9-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308252129.LN14FqG9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308252118.Y7JJYSj1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308252129.LN14FqG9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iommu/ipmmu-vmsa.c:946:34: warning: 'ipmmu_of_ids' defined but not used [-Wunused-const-variable=]
-     946 | static const struct of_device_id ipmmu_of_ids[] = {
-         |                                  ^~~~~~~~~~~~
+   sound/pci/hda/patch_realtek.c: In function 'comp_acpi_device_notify':
+   sound/pci/hda/patch_realtek.c:6717:52: error: implicit declaration of function 'acpi_device_handle'; did you mean 'acpi_fwnode_handle'? [-Werror=implicit-function-declaration]
+    6717 |                         spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
+         |                                                    ^~~~~~~~~~~~~~~~~~
+         |                                                    acpi_fwnode_handle
+>> sound/pci/hda/patch_realtek.c:6717:52: warning: passing argument 1 of 'spec->comps[i].acpi_notify' makes pointer from integer without a cast [-Wint-conversion]
+    6717 |                         spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                    |
+         |                                                    int
+   sound/pci/hda/patch_realtek.c:6717:52: note: expected 'acpi_handle' {aka 'void *'} but argument is of type 'int'
+   sound/pci/hda/patch_realtek.c: In function 'comp_bind':
+   sound/pci/hda/patch_realtek.c:6737:47: error: invalid use of undefined type 'struct acpi_device'
+    6737 |         ret = acpi_install_notify_handler(adev->handle, ACPI_DEVICE_NOTIFY,
+         |                                               ^~
+   sound/pci/hda/patch_realtek.c: In function 'comp_unbind':
+   sound/pci/hda/patch_realtek.c:6760:46: error: invalid use of undefined type 'struct acpi_device'
+    6760 |         ret = acpi_remove_notify_handler(adev->handle, ACPI_DEVICE_NOTIFY,
+         |                                              ^~
+   cc1: some warnings being treated as errors
 
 
-vim +/ipmmu_of_ids +946 drivers/iommu/ipmmu-vmsa.c
+vim +6717 sound/pci/hda/patch_realtek.c
 
-7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  945  
-33f3ac9b511612 Magnus Damm             2017-10-16 @946  static const struct of_device_id ipmmu_of_ids[] = {
-33f3ac9b511612 Magnus Damm             2017-10-16  947  	{
-33f3ac9b511612 Magnus Damm             2017-10-16  948  		.compatible = "renesas,ipmmu-vmsa",
-33f3ac9b511612 Magnus Damm             2017-10-16  949  		.data = &ipmmu_features_default,
-60fb0083c9d43b Fabrizio Castro         2018-08-23  950  	}, {
-60fb0083c9d43b Fabrizio Castro         2018-08-23  951  		.compatible = "renesas,ipmmu-r8a774a1",
-60fb0083c9d43b Fabrizio Castro         2018-08-23  952  		.data = &ipmmu_features_rcar_gen3,
-757f26a3a9ec2c Biju Das                2019-09-27  953  	}, {
-757f26a3a9ec2c Biju Das                2019-09-27  954  		.compatible = "renesas,ipmmu-r8a774b1",
-757f26a3a9ec2c Biju Das                2019-09-27  955  		.data = &ipmmu_features_rcar_gen3,
-b6d39cd82241bf Fabrizio Castro         2018-12-13  956  	}, {
-b6d39cd82241bf Fabrizio Castro         2018-12-13  957  		.compatible = "renesas,ipmmu-r8a774c0",
-b6d39cd82241bf Fabrizio Castro         2018-12-13  958  		.data = &ipmmu_features_rcar_gen3,
-4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  959  	}, {
-4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  960  		.compatible = "renesas,ipmmu-r8a774e1",
-4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  961  		.data = &ipmmu_features_rcar_gen3,
-58b8e8bf409236 Magnus Damm             2017-10-16  962  	}, {
-58b8e8bf409236 Magnus Damm             2017-10-16  963  		.compatible = "renesas,ipmmu-r8a7795",
-0b8ac1409641e1 Magnus Damm             2018-06-14  964  		.data = &ipmmu_features_rcar_gen3,
-0b8ac1409641e1 Magnus Damm             2018-06-14  965  	}, {
-0b8ac1409641e1 Magnus Damm             2018-06-14  966  		.compatible = "renesas,ipmmu-r8a7796",
-0b8ac1409641e1 Magnus Damm             2018-06-14  967  		.data = &ipmmu_features_rcar_gen3,
-17fe1618163980 Yoshihiro Shimoda       2020-06-11  968  	}, {
-17fe1618163980 Yoshihiro Shimoda       2020-06-11  969  		.compatible = "renesas,ipmmu-r8a77961",
-17fe1618163980 Yoshihiro Shimoda       2020-06-11  970  		.data = &ipmmu_features_rcar_gen3,
-98dbffd39a6513 Jacopo Mondi            2018-06-14  971  	}, {
-98dbffd39a6513 Jacopo Mondi            2018-06-14  972  		.compatible = "renesas,ipmmu-r8a77965",
-98dbffd39a6513 Jacopo Mondi            2018-06-14  973  		.data = &ipmmu_features_rcar_gen3,
-3701c123e1c13c Simon Horman            2018-06-14  974  	}, {
-3701c123e1c13c Simon Horman            2018-06-14  975  		.compatible = "renesas,ipmmu-r8a77970",
-3701c123e1c13c Simon Horman            2018-06-14  976  		.data = &ipmmu_features_rcar_gen3,
-1cdeb52e5c245b Nikita Yushchenko       2021-09-23  977  	}, {
-1cdeb52e5c245b Nikita Yushchenko       2021-09-23  978  		.compatible = "renesas,ipmmu-r8a77980",
-1cdeb52e5c245b Nikita Yushchenko       2021-09-23  979  		.data = &ipmmu_features_rcar_gen3,
-b0c32912150565 Hai Nguyen Pham         2018-10-17  980  	}, {
-b0c32912150565 Hai Nguyen Pham         2018-10-17  981  		.compatible = "renesas,ipmmu-r8a77990",
-b0c32912150565 Hai Nguyen Pham         2018-10-17  982  		.data = &ipmmu_features_rcar_gen3,
-3701c123e1c13c Simon Horman            2018-06-14  983  	}, {
-3701c123e1c13c Simon Horman            2018-06-14  984  		.compatible = "renesas,ipmmu-r8a77995",
-3701c123e1c13c Simon Horman            2018-06-14  985  		.data = &ipmmu_features_rcar_gen3,
-7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  986  	}, {
-7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  987  		.compatible = "renesas,ipmmu-r8a779a0",
-ae684caf465b7d Yoshihiro Shimoda       2022-02-08  988  		.data = &ipmmu_features_rcar_gen4,
-ae684caf465b7d Yoshihiro Shimoda       2022-02-08  989  	}, {
-9f7d09fe23a011 Yoshihiro Shimoda       2022-06-17  990  		.compatible = "renesas,rcar-gen4-ipmmu-vmsa",
-ae684caf465b7d Yoshihiro Shimoda       2022-02-08  991  		.data = &ipmmu_features_rcar_gen4,
-33f3ac9b511612 Magnus Damm             2017-10-16  992  	}, {
-33f3ac9b511612 Magnus Damm             2017-10-16  993  		/* Terminator */
-33f3ac9b511612 Magnus Damm             2017-10-16  994  	},
-33f3ac9b511612 Magnus Damm             2017-10-16  995  };
-33f3ac9b511612 Magnus Damm             2017-10-16  996  
-
-:::::: The code at line 946 was first introduced by commit
-:::::: 33f3ac9b511612153bae1d328b0c84c0367cd08d iommu/ipmmu-vmsa: Introduce features, break out alias
-
-:::::: TO: Magnus Damm <damm+renesas@opensource.se>
-:::::: CC: Alex Williamson <alex.williamson@redhat.com>
+  6706	
+  6707	static void comp_acpi_device_notify(acpi_handle handle, u32 event, void *data)
+  6708	{
+  6709		struct hda_codec *cdc = data;
+  6710		struct alc_spec *spec = cdc->spec;
+  6711		int i;
+  6712	
+  6713		codec_info(cdc, "ACPI Notification %d\n", event);
+  6714	
+  6715		for (i = 0; i < HDA_MAX_COMPONENTS; i++) {
+  6716			if (spec->comps[i].dev && spec->comps[i].acpi_notify)
+> 6717				spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
+  6718							   spec->comps[i].dev);
+  6719		}
+  6720	}
+  6721	
 
 -- 
 0-DAY CI Kernel Test Service
