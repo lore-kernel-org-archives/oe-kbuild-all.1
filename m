@@ -1,46 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662041AA82
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 22:23:32 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0F471C02
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 22:36:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693002213; x=1724538213;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JBnc0QG+1aFQQroftxh2ThC8FXzf6nI5IRhrwD0d8tY=;
-  b=EV7LBi1vzDgKiRgnY24MvEl96q8mBvIu0XjTKfaB4ZIdoC5LPDM/17RF
-   +OV4EGHvOO4W9aehq/evjrptbKO7FNDXlpyg9gd72u4vw9iXqOyE+vzrE
-   wTWFZa873XpRR3bSPg+5yovd+urym2cngFKvR/R8/SzVwZsuOM1WVh9xZ
-   wS80+1gdUm65UsDOn5UA6OcdV2pZggI+5VDbuOPCmTv7o7+SqGTx0dZ26
-   aFAACrCXY/dc1T/ijPo/MKtjurhr6vm847OPPoB5qrD2F41KTwG4XnR4d
-   Py6de/Cxu7k0P9Z5oOqz5NujSVwMgUnjiSz4wNhs2VV5whLn94rd3xPPH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="374789358"
+  t=1693002990; x=1724538990;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IC+g9XnEHCL49krEuuJWpMekK4o/yMDgAbOkOVN2S94=;
+  b=UjAHr7F3NQuDrGwkkxDJi+KAZxvTOqR6a4Q8FnRYzk0ds2WNtPkO7xHI
+   OD7l0Kp87eXmKT3M/5hoQSluf0ngDl6mTr8vV4UO7wdjOMq1dsEl60j5t
+   CNVLQQH2rGBCsug9ku9Sgyy3vCis2VCTVP3IOv6L3DaLm0HV5uR7IM+WK
+   0N1BeiChNE+8iWwtCjyTWRNI99k4yzHytDFAw2qQlEVomRFwG5ZrNmMnA
+   IlO639wJTjCo2FBg/mar70SNHurxNVQKLFj1mXD4qJiR+R6FnO/GQipcg
+   PWyNSg9fA7SE+9AcMdB25rzU9W6SEXL2SNNQEdxnlhOY8T77CjiUM9i5W
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="372221564"
 X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="374789358"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 15:22:13 -0700
+   d="scan'208";a="372221564"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 15:33:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="772640758"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="714487671"
 X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="772640758"
+   d="scan'208";a="714487671"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 25 Aug 2023 15:22:09 -0700
+  by orsmga006.jf.intel.com with ESMTP; 25 Aug 2023 15:33:07 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZfBu-000445-0v;
-	Fri, 25 Aug 2023 22:22:06 +0000
-Date: Sat, 26 Aug 2023 06:21:58 +0800
+	id 1qZfMY-00044p-1z;
+	Fri, 25 Aug 2023 22:33:06 +0000
+Date: Sat, 26 Aug 2023 06:32:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pawel Chmielewski <pawel.chmielewski@intel.com>,
-	intel-wired-lan@osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	aelior@marvell.com, manishc@marvell.com, andrew@lunn.ch
-Subject: Re: [Intel-wired-lan] [PATCH iwl-next v3 2/8] ethtool: Add forced
- speed to supported link modes maps
-Message-ID: <202308260616.Sf8QzI7c-lkp@intel.com>
-References: <20230823180633.2450617-3-pawel.chmielewski@intel.com>
+To: Ramji Jiyani <ramjiyani@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sudeep-holla:android13-5.10/ffa 8677/9999]
+ kernel/gki_module.c:35:6: warning: no previous prototype for
+ 'gki_is_module_protected_symbol'
+Message-ID: <202308260656.nW00VBCI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,108 +44,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230823180633.2450617-3-pawel.chmielewski@intel.com>
 
-Hi Pawel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tnguy-next-queue/dev-queue]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Chmielewski/ice-Add-E830-device-IDs-MAC-type-and-registers/20230824-021235
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20230823180633.2450617-3-pawel.chmielewski%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-next v3 2/8] ethtool: Add forced speed to supported link modes maps
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230826/202308260616.Sf8QzI7c-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260616.Sf8QzI7c-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
+head:   9e12ac4f9c69befe08119567c073adc938aafc4d
+commit: 9ab6a242258a9ac17506b74c6ed7332703d536f4 [8677/9999] ANDROID: GKI: Add module load time protected symbol lookup
+config: i386-buildonly-randconfig-001-20230826 (https://download.01.org/0day-ci/archive/20230826/202308260656.nW00VBCI-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260656.nW00VBCI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308260616.Sf8QzI7c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308260656.nW00VBCI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/qlogic/qede/qede_ethtool.c: In function 'qede_set_link_ksettings':
->> drivers/net/ethernet/qlogic/qede/qede_ethtool.c:584:29: error: assignment to 'const struct qede_forced_speed_map *' from incompatible pointer type 'struct ethtool_forced_speed_map *' [-Werror=incompatible-pointer-types]
-     584 |                         map = qede_forced_speed_maps + i;
-         |                             ^
->> drivers/net/ethernet/qlogic/qede/qede_ethtool.c:586:47: error: invalid use of undefined type 'const struct qede_forced_speed_map'
-     586 |                         if (base->speed != map->speed ||
-         |                                               ^~
-   drivers/net/ethernet/qlogic/qede/qede_ethtool.c:588:53: error: invalid use of undefined type 'const struct qede_forced_speed_map'
-     588 |                                                  map->caps))
-         |                                                     ^~
-   drivers/net/ethernet/qlogic/qede/qede_ethtool.c:592:70: error: invalid use of undefined type 'const struct qede_forced_speed_map'
-     592 |                                      current_link.supported_caps, map->caps);
-         |                                                                      ^~
-   cc1: some warnings being treated as errors
+   ld: warning: drivers/of/unittest-data/testcases.dtb.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: drivers/of/unittest-data/testcases.dtb.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: drivers/net/phy/phylink.o: in function `phylink_get_fixed_state':
+   phylink.c:(.text+0x20d): undefined reference to `linkmode_resolve_pause'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mac_config':
+   phylink.c:(.text+0x2a6): undefined reference to `phy_duplex_to_str'
+   ld: phylink.c:(.text+0x2b4): undefined reference to `phy_speed_to_str'
+   ld: phylink.c:(.text+0x348): undefined reference to `phy_duplex_to_str'
+   ld: phylink.c:(.text+0x356): undefined reference to `phy_speed_to_str'
+   ld: drivers/net/phy/phylink.o: in function `phylink_disconnect_phy':
+>> (.text+0x72e): undefined reference to `phy_disconnect'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_wol':
+>> (.text+0x79a): undefined reference to `phy_ethtool_get_wol'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_wol':
+>> (.text+0x7fc): undefined reference to `phy_ethtool_set_wol'
+   ld: drivers/net/phy/phylink.o: in function `phylink_get_eee_err':
+>> (.text+0x86b): undefined reference to `phy_get_eee_err'
+   ld: drivers/net/phy/phylink.o: in function `phylink_init_eee':
+>> (.text+0x8be): undefined reference to `phy_init_eee'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_eee':
+>> (.text+0x8ec): undefined reference to `phy_ethtool_get_eee'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_eee':
+>> (.text+0x95c): undefined reference to `phy_ethtool_set_eee'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c45_pcs_get_state':
+>> (.text+0x9c8): undefined reference to `mdiobus_read'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_an_restart':
+   (.text+0xa38): undefined reference to `mdiobus_read'
+   ld: (.text+0xa4e): undefined reference to `mdiobus_write'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_emul_read':
+   phylink.c:(.text+0xaa0): undefined reference to `swphy_read_reg'
+   ld: drivers/net/phy/phylink.o: in function `phylink_speed_down':
+>> (.text+0xaf7): undefined reference to `phy_speed_down'
+   ld: drivers/net/phy/phylink.o: in function `phylink_speed_up':
+>> (.text+0xb6a): undefined reference to `phy_speed_up'
+   ld: drivers/net/phy/phylink.o: in function `phylink_stop':
+>> (.text+0xbc7): undefined reference to `phy_stop'
+   ld: drivers/net/phy/phylink.o: in function `phylink_link_up.isra.0':
+   phylink.c:(.text+0xd01): undefined reference to `phy_duplex_to_str'
+   ld: phylink.c:(.text+0xd0c): undefined reference to `phy_speed_to_str'
+   ld: phylink.c:(.text+0xd4b): undefined reference to `phy_duplex_to_str'
+   ld: phylink.c:(.text+0xd56): undefined reference to `phy_speed_to_str'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_pauseparam':
+>> (.text+0xf6b): undefined reference to `linkmode_set_pause'
+   ld: (.text+0xfb3): undefined reference to `phy_set_asym_pause'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_set_advertisement':
+   (.text+0x10d2): undefined reference to `mdiobus_read'
+   ld: (.text+0x10f2): undefined reference to `mdiobus_read'
+   ld: (.text+0x110b): undefined reference to `mdiobus_write'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_config':
+>> (.text+0x117a): undefined reference to `mdiobus_modify'
+   ld: drivers/net/phy/phylink.o: in function `phylink_decode_c37_word':
+   phylink.c:(.text+0x1208): undefined reference to `linkmode_resolve_pause'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_get_state':
+   (.text+0x12a2): undefined reference to `mdiobus_read'
+   ld: (.text+0x12b3): undefined reference to `mdiobus_read'
+   ld: drivers/net/phy/phylink.o: in function `phylink_phy_change':
+   phylink.c:(.text+0x156b): undefined reference to `phy_get_pause'
+   ld: phylink.c:(.text+0x1625): undefined reference to `phy_duplex_to_str'
+   ld: phylink.c:(.text+0x1633): undefined reference to `phy_speed_to_str'
+   ld: phylink.c:(.text+0x16a7): undefined reference to `phy_duplex_to_str'
+   ld: phylink.c:(.text+0x16b5): undefined reference to `phy_speed_to_str'
+   ld: drivers/net/phy/phylink.o: in function `phylink_start':
+>> (.text+0x1789): undefined reference to `phy_start'
+   ld: drivers/net/phy/phylink.o: in function `phylink_mii_ioctl':
+>> (.text+0x1e58): undefined reference to `phy_mii_ioctl'
+   ld: (.text+0x1f21): undefined reference to `mdiobus_read'
+   ld: (.text+0x1fa6): undefined reference to `mdiobus_write'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_get':
+>> (.text+0x2173): undefined reference to `phy_ethtool_ksettings_get'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_nway_reset':
+>> (.text+0x224a): undefined reference to `phy_restart_aneg'
+   ld: drivers/net/phy/phylink.o: in function `phylink_parse_fixedlink':
+   phylink.c:(.text+0x240c): undefined reference to `phy_lookup_setting'
+   ld: drivers/net/phy/phylink.o: in function `phylink_bringup_phy':
+   phylink.c:(.text+0x2563): undefined reference to `phy_support_asym_pause'
+   ld: phylink.c:(.text+0x263b): undefined reference to `phy_attached_info_irq'
+   ld: phylink.c:(.text+0x271e): undefined reference to `phy_request_interrupt'
+   ld: drivers/net/phy/phylink.o: in function `phylink_connect_phy':
+>> (.text+0x27ba): undefined reference to `phy_attach_direct'
+   ld: (.text+0x280b): undefined reference to `phy_detach'
+   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_set':
+>> (.text+0x2854): undefined reference to `phy_ethtool_ksettings_set'
+   ld: (.text+0x29fe): undefined reference to `phy_lookup_setting'
+   ld: drivers/power/supply/wm831x_power.o: in function `wm831x_power_probe':
+   wm831x_power.c:(.text+0xa3e): undefined reference to `devm_usb_get_phy_by_phandle'
+--
+>> kernel/gki_module.c:35:6: warning: no previous prototype for 'gki_is_module_protected_symbol' [-Wmissing-prototypes]
+      35 | bool gki_is_module_protected_symbol(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/gki_module.c:46:6: warning: no previous prototype for 'gki_is_module_exported_symbol' [-Wmissing-prototypes]
+      46 | bool gki_is_module_exported_symbol(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +584 drivers/net/ethernet/qlogic/qede/qede_ethtool.c
+vim +/gki_is_module_protected_symbol +35 kernel/gki_module.c
 
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  546  
-054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  547  static int qede_set_link_ksettings(struct net_device *dev,
-054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  548  				   const struct ethtool_link_ksettings *cmd)
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  549  {
-054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  550  	const struct ethtool_link_settings *base = &cmd->base;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  551  	struct qede_dev *edev = netdev_priv(dev);
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  552  	const struct qede_forced_speed_map *map;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  553  	struct qed_link_output current_link;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  554  	struct qed_link_params params;
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  555  	u32 i;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  556  
-fe7cd2bfdac4d8 Yuval Mintz                  2016-04-22  557  	if (!edev->ops || !edev->ops->common->can_link_change(edev->cdev)) {
-054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  558  		DP_INFO(edev, "Link settings are not allowed to be changed\n");
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  559  		return -EOPNOTSUPP;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  560  	}
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  561  	memset(&current_link, 0, sizeof(current_link));
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  562  	memset(&params, 0, sizeof(params));
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  563  	edev->ops->common->get_link(edev->cdev, &current_link);
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  564  
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  565  	params.override_flags |= QED_LINK_OVERRIDE_SPEED_ADV_SPEEDS;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  566  	params.override_flags |= QED_LINK_OVERRIDE_SPEED_AUTONEG;
-bdb5d8ec47611c Alexander Lobakin            2020-07-20  567  
-054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  568  	if (base->autoneg == AUTONEG_ENABLE) {
-bdb5d8ec47611c Alexander Lobakin            2020-07-20  569  		if (!phylink_test(current_link.supported_caps, Autoneg)) {
-161adb046b9119 sudarsana.kalluru@cavium.com 2017-05-04  570  			DP_INFO(edev, "Auto negotiation is not supported\n");
-161adb046b9119 sudarsana.kalluru@cavium.com 2017-05-04  571  			return -EOPNOTSUPP;
-161adb046b9119 sudarsana.kalluru@cavium.com 2017-05-04  572  		}
-161adb046b9119 sudarsana.kalluru@cavium.com 2017-05-04  573  
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  574  		params.autoneg = true;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  575  		params.forced_speed = 0;
-bdb5d8ec47611c Alexander Lobakin            2020-07-20  576  
-bdb5d8ec47611c Alexander Lobakin            2020-07-20  577  		linkmode_copy(params.adv_speeds, cmd->link_modes.advertising);
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  578  	} else {		/* forced speed */
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  579  		params.override_flags |= QED_LINK_OVERRIDE_SPEED_FORCED_SPEED;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  580  		params.autoneg = false;
-054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  581  		params.forced_speed = base->speed;
-bdb5d8ec47611c Alexander Lobakin            2020-07-20  582  
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  583  		for (i = 0; i < ARRAY_SIZE(qede_forced_speed_maps); i++) {
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20 @584  			map = qede_forced_speed_maps + i;
-bdb5d8ec47611c Alexander Lobakin            2020-07-20  585  
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20 @586  			if (base->speed != map->speed ||
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  587  			    !linkmode_intersects(current_link.supported_caps,
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  588  						 map->caps))
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  589  				continue;
-bdb5d8ec47611c Alexander Lobakin            2020-07-20  590  
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  591  			linkmode_and(params.adv_speeds,
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  592  				     current_link.supported_caps, map->caps);
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  593  			goto set_link;
-bdb5d8ec47611c Alexander Lobakin            2020-07-20  594  		}
-bdb5d8ec47611c Alexander Lobakin            2020-07-20  595  
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  596  		DP_INFO(edev, "Unsupported speed %u\n", base->speed);
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  597  		return -EINVAL;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  598  	}
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  599  
-1d4e4ecccb1144 Alexander Lobakin            2020-07-20  600  set_link:
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  601  	params.link_up = true;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  602  	edev->ops->common->set_link(edev->cdev, &params);
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  603  
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  604  	return 0;
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  605  }
-133fac0eedc355 Sudarsana Kalluru            2015-10-26  606  
+    29	
+    30	/**
+    31	 * gki_is_module_protected_symbol - Is a symbol protected from unsigned module?
+    32	 *
+    33	 * @name:	Symbol being checked against protection from unsigned module
+    34	 */
+  > 35	bool gki_is_module_protected_symbol(const char *name)
+    36	{
+    37		return bsearch(name, gki_protected_symbols, NO_OF_PROTECTED_SYMBOLS,
+    38			       MAX_PROTECTED_NAME_LEN, cmp_name) != NULL;
+    39	}
+    40	
+    41	/**
+    42	 * gki_is_module_exported_symbol - Is a symbol exported from a GKI module?
+    43	 *
+    44	 * @name:	Symbol being checked against exported symbols from GKI modules
+    45	 */
+  > 46	bool gki_is_module_exported_symbol(const char *name)
 
 -- 
 0-DAY CI Kernel Test Service
