@@ -1,182 +1,316 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0B12915
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 18:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692989157; x=1724525157;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Bdi3UHV6cWAJbUhLUlM5vlImO4KnMAKOGjs965oD0OI=;
-  b=RahZIZ63Nhvm+8cMRBpJpRl2rXFVxEMktYlHlpkOCdVmL1Dys5k/VUVa
-   DrnS0spn/9T7SPlpdBFSezcoSsVGzh/AjBYYtRWNtA6QmlMpToeD9hxVI
-   Fm8qVtAc+T8xzNa0XlI3sKBwivgIg205uScDnOIjbXQx+OoxYJluoIy0p
-   XJ72ozEeo9d2aqfmrliQ2aEJLSeSeCzdAxLTM4o4c8aT8RvxgIlFli4Qs
-   8GuCtG0BXjF7mS7RWkCzzIgYlAmg6fjM9Wf3gX3mnumVnete0yqfPLJia
-   a+UWsZWXkq11bCQ7HyoANFPDUYVsNeumScQSWFZIYQVBvufK+MzJ3CKSN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="378560379"
-X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
-   d="scan'208";a="378560379"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 11:45:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="984198849"
-X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
-   d="scan'208";a="984198849"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 25 Aug 2023 11:45:50 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qZbob-0003uV-1G;
-	Fri, 25 Aug 2023 18:45:49 +0000
-Date: Sat, 26 Aug 2023 02:45:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-Cc: oe-kbuild-all@lists.linux.dev, azkali <a.ffcc7@gmail.com>,
-	Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
-	Adam Jiang <chaoj@nvidia.com>, CTCaer <ctcaer@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] misc: bm92txx: Add driver for the ROHM BM92Txx
-Message-ID: <202308260248.MfhnxNk4-lkp@intel.com>
-References: <20230824153059.212244-3-linkmauve@linkmauve.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A1617743
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 18:50:06 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-64bd231c95cso7498586d6.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 11:50:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1692989405; x=1693594205;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h9OpAPTbZ3wNNM0mxwWe5mRvai82387mVIXj9OVtNdk=;
+        b=6iuloOTXDJ8ZCqCBNofRfCNpRB/xEoBcGKnt7i5XEFPJbB6KQagZqwHtNTVoTBMm12
+         qdAKGIc1fdSFd37Ad5yCkAkAnLKYZHlV/Ii969cnuICosCa0ZCI8ZeZaVnpga5qkI2eZ
+         he+0zhe5qWfjtgbU4HObfbl+6Mvw+jBbtsDT/iYtErhMVbfbseScSKTHbYRi52+n1wjy
+         tyGPCAf/RlQuX5sAaV7Wf8S1zHKu9aPe3gvHiC86ArBd3qSrgi5nRk4D02Y/LRU5buTj
+         8by0CqLpNJC4cK9oXpnH7nhns2Avv4IYFPTg+Gx07ZZk3X+RkxJLfMwkn32XSIxleeIw
+         eMOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692989405; x=1693594205;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h9OpAPTbZ3wNNM0mxwWe5mRvai82387mVIXj9OVtNdk=;
+        b=D+dWIJZ4H6Wk4D9dj6/y7mEMcUG1+lfxl30Fr2MQa3lneOfIyO/V+O1+hopLuCmjOp
+         /P3fC54TmM3awYwZo92mL7tCyzg0N3beeRs8x1/lyFZ7GLG/PtjENXYyTv9mP2ELYPlI
+         /1wqrbAxBP2yKbDsmBQ8RALzdTjOkixXlrcGUlWbOSeEI3qdYvTkzJk1hLuqBwSrViQr
+         VakugPJA5H69REZLH7n0KtGBX1J1BxtYvOHz+RL9GenMRRcI8FVQJttlilSRAiAA3Wsw
+         pbH3go+VQeK0xbPipwTjawLT8RDwKphi126wNOf4T/yLrGqpHaESyenVyLIxQqN/EJo+
+         mNtw==
+X-Gm-Message-State: AOJu0YzpxK6BUSqtrUSOSayNCOw4IT4/MKSn+ZaJ9R9vvskbuFrgnqiL
+	U0azoVP2hJJQAgWNtkeceaR+hzAc9ubgv3KDK0MxIQ==
+X-Google-Smtp-Source: AGHT+IFq+roUlNyt9X1sD8n8JL+O82NlCWsAGoBXHT60lEuPonY8dvkPphl1k7OLoVkpKekR8n1wvi0vOjqY/DcDoJc=
+X-Received: by 2002:a0c:c984:0:b0:64f:6d93:3cbe with SMTP id
+ b4-20020a0cc984000000b0064f6d933cbemr6207479qvk.47.1692989405367; Fri, 25 Aug
+ 2023 11:50:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230824153059.212244-3-linkmauve@linkmauve.fr>
+References: <202308251949.5IiaV0sz-lkp@intel.com> <ZOiapxgvLqM1w+DU@nvidia.com>
+In-Reply-To: <ZOiapxgvLqM1w+DU@nvidia.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Fri, 25 Aug 2023 11:49:53 -0700
+Message-ID: <CAKwvOdmoewb30p1yazbkPAEDPhrSN2csngohDiC2fOJ=3Mufng@mail.gmail.com>
+Subject: Re: [linux-next:master 3581/12910] arch/powerpc/kvm/../../../virt/kvm/vfio.c:89:7:
+ error: attribute declaration must precede definition
+To: Jason Gunthorpe <jgg@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Alex Williamson <alex.williamson@redhat.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Jessica Yu <jeyu@kernel.org>, Kees Cook <keescook@chromium.org>, 
+	Will Deacon <will@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Emmanuel,
+On Fri, Aug 25, 2023 at 5:12=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
+ote:
+>
+> On Fri, Aug 25, 2023 at 07:23:29PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+.git master
+> > head:   6269320850097903b30be8f07a5c61d9f7592393
+> > commit: c1cce6d079b875396c9a7c6838fc5b024758e540 [3581/12910] vfio: Com=
+pile vfio_group infrastructure optionally
+> > config: powerpc64-randconfig-r001-20230825 (https://download.01.org/0da=
+y-ci/archive/20230825/202308251949.5IiaV0sz-lkp@intel.com/config)
+> > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.gi=
+t ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> > reproduce: (https://download.01.org/0day-ci/archive/20230825/2023082519=
+49.5IiaV0sz-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202308251949.5IiaV0sz-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> arch/powerpc/kvm/../../../virt/kvm/vfio.c:89:7: error: attribute dec=
+laration must precede definition [-Werror,-Wignored-attributes]
+> >            fn =3D symbol_get(vfio_file_iommu_group);
+> >                 ^
+> >    include/linux/module.h:805:60: note: expanded from macro 'symbol_get=
+'
+> >    #define symbol_get(x) ({ extern typeof(x) x __attribute__((weak,visi=
+bility("hidden"))); &(x); })
+> >                                                               ^
+> >    include/linux/vfio.h:294:35: note: previous definition is here
+> >    static inline struct iommu_group *vfio_file_iommu_group(struct file =
+*file)
+> >                                      ^
+> > >> arch/powerpc/kvm/../../../virt/kvm/vfio.c:89:7: error: attribute dec=
+laration must precede definition [-Werror,-Wignored-attributes]
+> >            fn =3D symbol_get(vfio_file_iommu_group);
+> >                 ^
+> >    include/linux/module.h:805:65: note: expanded from macro 'symbol_get=
+'
+>
+> This VFIO code is fine..
+>
+> >    #define symbol_get(x) ({ extern typeof(x) x __attribute__((weak,visi=
+bility("hidden"))); &(x); })
+> >                                                                    ^
+> >    include/linux/vfio.h:294:35: note: previous definition is here
+> >    static inline struct iommu_group *vfio_file_iommu_group(struct file =
+*file)
+> >                                      ^
+> >    2 errors generated.
+>
+> Clang is complaining about this line
+>
+> Which is from:
+>
+> commit 13150bc5416f45234c955e5bed91623d178c6117
+> Author: Ard Biesheuvel <ardb@kernel.org>
+> Date:   Tue Oct 27 16:11:32 2020 +0100
+>
+>     module: use hidden visibility for weak symbol references
+>
+>     Geert reports that commit be2881824ae9eb92 ("arm64/build: Assert for
+>     unwanted sections") results in build errors on arm64 for configuratio=
+ns
+>     that have CONFIG_MODULES disabled.
+>
+> I assume some tweaking there or a clang change is needed
 
-kernel test robot noticed the following build errors:
+In my experience, how attributes are "merged" upon redeclaration is
+kind of a disaster fest.  Adding new attributes to clang has a fair
+amount of boilerplate because "what should happen when something is
+redeclared w/ AND w/o the attribute" is a question that the code
+reviewers (who also generally happens to be the clang code owner who
+had ISO WG14 standardize attributes for C23) force authors to think
+about.  The semantics for some must match the compiler that initially
+implemented them for compatibility.
 
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus robh/for-next linus/master v6.5-rc7 next-20230825]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This is the method in clang that's emitting that diagnostic:
+https://github.com/llvm/llvm-project/blob/1034688d58783779168d59b47d2b3e897=
+ad869c6/clang/lib/Sema/SemaDecl.cpp#L3133
+As you can see above the line I highlighted, there are different rules
+for different attributes, some even dependent on the language mode (C
+vs C++).  And that's not all of the logic for function attribute
+"merging" upon redeclaration that's alluded to in comments of that
+function.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Emmanuel-Gil-Peyrot/dt-bindings-misc-rohm-bm92txx-Add-BM92Txx-support/20230824-233354
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20230824153059.212244-3-linkmauve%40linkmauve.fr
-patch subject: [PATCH 2/2] misc: bm92txx: Add driver for the ROHM BM92Txx
-config: riscv-randconfig-r034-20230826 (https://download.01.org/0day-ci/archive/20230826/202308260248.MfhnxNk4-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260248.MfhnxNk4-lkp@intel.com/reproduce)
+I think this example demonstrates a little clearer what's going on:
+https://godbolt.org/z/9d6scv1hE
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308260248.MfhnxNk4-lkp@intel.com/
+So based on the warning, it seems like symbol_get() can only be used
+before the parameter it's passed is defined, otherwise the "weak" and
+"visibility(hidden)" attributes are ignored.  These attributes are
+merge-able upon redeclaration up until the first definition.
 
-All error/warnings (new ones prefixed by >>):
+If the definition of vfio_file_iommu_group() is visible to
+virt/kvm/vfio.c, do we even need this weak+hidden redeclaration?
+```
+diff --git a/virt/kvm/vfio.c b/virt/kvm/vfio.c
+index ca24ce120906..b497b762ddba 100644
+--- a/virt/kvm/vfio.c
++++ b/virt/kvm/vfio.c
+@@ -86,7 +86,7 @@ static struct iommu_group
+*kvm_vfio_file_iommu_group(struct file *file)
+        struct iommu_group *(*fn)(struct file *file);
+        struct iommu_group *ret;
 
-   drivers/misc/bm92txx.c: In function 'bm92t_cmd_write':
-   drivers/misc/bm92txx.c:2037:16: error: invalid storage class for function 'bm92t_usbhub_dp_sleep_write'
-    2037 | static ssize_t bm92t_usbhub_dp_sleep_write(struct file *file,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c:2063:18: error: initializer element is not constant
-    2063 |         .write = bm92t_usbhub_dp_sleep_write,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c:2063:18: note: (near initialization for 'bm92t_usbhub_dp_sleep_fops.write')
-   drivers/misc/bm92txx.c:2066:12: error: invalid storage class for function 'bm92t_debug_init'
-    2066 | static int bm92t_debug_init(struct bm92t_info *info)
-         |            ^~~~~~~~~~~~~~~~
->> drivers/misc/bm92txx.c:2126:1: warning: 'alias' attribute ignored [-Wattributes]
-    2126 | MODULE_DEVICE_TABLE(of, bm92t_of_match);
-         | ^~~~~~~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c:2129:36: error: invalid storage class for function 'bm92t_parse_dt'
-    2129 | static struct bm92t_platform_data *bm92t_parse_dt(struct device *dev)
-         |                                    ^~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c:2180:12: error: invalid storage class for function 'bm92t_probe'
-    2180 | static int bm92t_probe(struct i2c_client *client)
-         |            ^~~~~~~~~~~
-   drivers/misc/bm92txx.c:2316:12: error: invalid storage class for function 'bm92t_pm_suspend'
-    2316 | static int bm92t_pm_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c:2335:12: error: invalid storage class for function 'bm92t_pm_resume'
-    2335 | static int bm92t_pm_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c:2365:20: error: initializer element is not constant
-    2365 |         .suspend = bm92t_pm_suspend,
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c:2365:20: note: (near initialization for 'bm92t_pm_ops.suspend')
-   drivers/misc/bm92txx.c:2366:19: error: initializer element is not constant
-    2366 |         .resume = bm92t_pm_resume,
-         |                   ^~~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c:2366:19: note: (near initialization for 'bm92t_pm_ops.resume')
-   drivers/misc/bm92txx.c:2374:1: warning: 'alias' attribute ignored [-Wattributes]
-    2374 | MODULE_DEVICE_TABLE(i2c, bm92t_id);
-         | ^~~~~~~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c:2386:18: error: initializer element is not constant
-    2386 |         .probe = bm92t_probe,
-         |                  ^~~~~~~~~~~
-   drivers/misc/bm92txx.c:2386:18: note: (near initialization for 'bm92t_i2c_driver.<anonymous>.probe')
-   drivers/misc/bm92txx.c:2391:19: error: invalid storage class for function 'bm92t_init'
-    2391 | static int __init bm92t_init(void)
-         |                   ^~~~~~~~~~
-   In file included from drivers/misc/bm92txx.c:15:
->> include/linux/module.h:131:49: error: invalid storage class for function '__inittest'
-     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^~~~~~~~~~
-   include/linux/module.h:118:41: note: in expansion of macro 'module_init'
-     118 | #define subsys_initcall_sync(fn)        module_init(fn)
-         |                                         ^~~~~~~~~~~
-   drivers/misc/bm92txx.c:2395:1: note: in expansion of macro 'subsys_initcall_sync'
-    2395 | subsys_initcall_sync(bm92t_init);
-         | ^~~~~~~~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c:2395:1: warning: 'alias' attribute ignored [-Wattributes]
-   drivers/misc/bm92txx.c:2397:20: error: invalid storage class for function 'bm92t_exit'
-    2397 | static void __exit bm92t_exit(void)
-         |                    ^~~~~~~~~~
->> include/linux/module.h:139:49: error: invalid storage class for function '__exittest'
-     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
-         |                                                 ^~~~~~~~~~
-   drivers/misc/bm92txx.c:2401:1: note: in expansion of macro 'module_exit'
-    2401 | module_exit(bm92t_exit);
-         | ^~~~~~~~~~~
-   drivers/misc/bm92txx.c:2401:1: warning: 'alias' attribute ignored [-Wattributes]
-   drivers/misc/bm92txx.c:2403:1: error: expected declaration or statement at end of input
-    2403 | MODULE_LICENSE("GPL");
-         | ^~~~~~~~~~~~~~
-   drivers/misc/bm92txx.c: At top level:
-   drivers/misc/bm92txx.c:2008:16: warning: 'bm92t_cmd_write' defined but not used [-Wunused-function]
-    2008 | static ssize_t bm92t_cmd_write(struct file *file,
-         |                ^~~~~~~~~~~~~~~
+-       fn =3D symbol_get(vfio_file_iommu_group);
++       fn =3D vfio_file_iommu_group;
+        if (!fn)
+                return NULL;
+```
+Fixes the error for me in -next (can't repro on mainline):
+$ wget https://download.01.org/0day-ci/archive/20230825/202308251949.5IiaV0=
+sz-lkp@intel.com/config
+-O .config
+$ make LLVM=3D1 ARCH=3Dpowerpc -j128 olddefconfig
+arch/powerpc/kvm/../../../virt/kvm/vfio.o
 
+The vmlinux target also builds with that change for that randconfig
+the bot unearthed.
 
-vim +/__inittest +131 include/linux/module.h
+The all target hits
+https://github.com/ClangBuiltLinux/linux/issues/1601 (see below).
 
-0fd972a7d91d6e Paul Gortmaker 2015-05-01  128  
-0fd972a7d91d6e Paul Gortmaker 2015-05-01  129  /* Each module must use one module_init(). */
-0fd972a7d91d6e Paul Gortmaker 2015-05-01  130  #define module_init(initfn)					\
-1f318a8bafcfba Arnd Bergmann  2017-02-01 @131  	static inline initcall_t __maybe_unused __inittest(void)		\
-0fd972a7d91d6e Paul Gortmaker 2015-05-01  132  	{ return initfn; }					\
-cf68fffb66d60d Sami Tolvanen  2021-04-08  133  	int init_module(void) __copy(initfn)			\
-cf68fffb66d60d Sami Tolvanen  2021-04-08  134  		__attribute__((alias(#initfn)));		\
-92efda8eb15295 Sami Tolvanen  2022-09-08  135  	___ADDRESSABLE(init_module, __initdata);
-0fd972a7d91d6e Paul Gortmaker 2015-05-01  136  
-0fd972a7d91d6e Paul Gortmaker 2015-05-01  137  /* This is only required if you want to be unloadable. */
-0fd972a7d91d6e Paul Gortmaker 2015-05-01  138  #define module_exit(exitfn)					\
-1f318a8bafcfba Arnd Bergmann  2017-02-01 @139  	static inline exitcall_t __maybe_unused __exittest(void)		\
-0fd972a7d91d6e Paul Gortmaker 2015-05-01  140  	{ return exitfn; }					\
-cf68fffb66d60d Sami Tolvanen  2021-04-08  141  	void cleanup_module(void) __copy(exitfn)		\
-cf68fffb66d60d Sami Tolvanen  2021-04-08  142  		__attribute__((alias(#exitfn)));		\
-92efda8eb15295 Sami Tolvanen  2022-09-08  143  	___ADDRESSABLE(cleanup_module, __exitdata);
-0fd972a7d91d6e Paul Gortmaker 2015-05-01  144  
+But I'll admit I don't fully understand the implications of that
+change.  Whenever I see weak symbols I get suspicious, especially for
+a kernel that's heavily configurable; usually providing a definition
+per config can accomplish what we sometimes use weak linkage for.  At
+the least, it makes it obvious at build time what definition will be
+observed at runtime; not so for weak symbols.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Also, vfio_file_iommu_group() has two different declarations based on
+CONFIG_VFIO_GROUP, which is probably how the bot's randconfig dug this
+up. Should my diff above be preprocessor-conditional on that config?
+Or should that function be doing something else in case
+CONFIG_VFIO_GROUP is not set?
+
+$ grep -rn CONFIG_VFIO_GROUP .config
+$ echo $?
+1
+
+So the bot's randconfig is reporting an issue specific to
+CONFIG_VFIO_GROUP=3Dn where a static inline definition is provided as
+the declaration, hence the warning.
+
+The following does not work; the diagnostics are still observed.
+```
+diff --git a/virt/kvm/vfio.c b/virt/kvm/vfio.c
+index ca24ce120906..fd6046a63605 100644
+--- a/virt/kvm/vfio.c
++++ b/virt/kvm/vfio.c
+@@ -86,6 +86,9 @@ static struct iommu_group
+*kvm_vfio_file_iommu_group(struct file *file)
+        struct iommu_group *(*fn)(struct file *file);
+        struct iommu_group *ret;
+
++       if (!IS_ENABLED(CONFIG_VFIO_GROUP))
++               return NULL;
++
+        fn =3D symbol_get(vfio_file_iommu_group);
+        if (!fn)
+                return NULL;
+```
+This also builds:
+```
+diff --git a/virt/kvm/vfio.c b/virt/kvm/vfio.c
+index ca24ce120906..f76c26f2ee77 100644
+--- a/virt/kvm/vfio.c
++++ b/virt/kvm/vfio.c
+@@ -80,7 +80,7 @@ static bool kvm_vfio_file_is_valid(struct file *file)
+        return ret;
+ }
+
+-#ifdef CONFIG_SPAPR_TCE_IOMMU
++#if defined(CONFIG_SPAPR_TCE_IOMMU) && defined(CONFIG_VFIO_GROUP)
+ static struct iommu_group *kvm_vfio_file_iommu_group(struct file *file)
+ {
+        struct iommu_group *(*fn)(struct file *file);
+@@ -207,7 +207,7 @@ static int kvm_vfio_file_del(struct kvm_device
+*dev, unsigned int fd)
+
+                list_del(&kvf->node);
+                kvm_arch_end_assignment(dev->kvm);
+-#ifdef CONFIG_SPAPR_TCE_IOMMU
++#if defined(CONFIG_SPAPR_TCE_IOMMU) && defined(CONFIG_VFIO_GROUP)
+                kvm_spapr_tce_release_vfio_group(dev->kvm, kvf);
+ #endif
+                kvm_vfio_file_set_kvm(kvf->file, NULL);
+@@ -226,7 +226,7 @@ static int kvm_vfio_file_del(struct kvm_device
+*dev, unsigned int fd)
+        return ret;
+ }
+
+-#ifdef CONFIG_SPAPR_TCE_IOMMU
++#if defined(CONFIG_SPAPR_TCE_IOMMU) && defined(CONFIG_VFIO_GROUP)
+ static int kvm_vfio_file_set_spapr_tce(struct kvm_device *dev,
+                                       void __user *arg)
+ {
+@@ -288,7 +288,7 @@ static int kvm_vfio_set_file(struct kvm_device
+*dev, long attr,
+                        return -EFAULT;
+                return kvm_vfio_file_del(dev, fd);
+
+-#ifdef CONFIG_SPAPR_TCE_IOMMU
++#if defined(CONFIG_SPAPR_TCE_IOMMU) && defined(CONFIG_VFIO_GROUP)
+        case KVM_DEV_VFIO_GROUP_SET_SPAPR_TCE:
+                return kvm_vfio_file_set_spapr_tce(dev, arg);
+ #endif
+@@ -335,7 +335,7 @@ static void kvm_vfio_release(struct kvm_device *dev)
+        struct kvm_vfio_file *kvf, *tmp;
+
+        list_for_each_entry_safe(kvf, tmp, &kv->file_list, node) {
+-#ifdef CONFIG_SPAPR_TCE_IOMMU
++#if defined(CONFIG_SPAPR_TCE_IOMMU) && defined(CONFIG_VFIO_GROUP)
+                kvm_spapr_tce_release_vfio_group(dev->kvm, kvf);
+ #endif
+                kvm_vfio_file_set_kvm(kvf->file, NULL);
+```
+Thought that then makes me think that perhaps even better would be
+some sort of Kconfig dependency expressed between
+CONFIG_SPAPR_TCE_IOMMU and CONFIG_VFIO_GROUP.
+
+Though I do see:
+drivers/vfio/Kconfig
+7:      select VFIO_GROUP if SPAPR_TCE_IOMMU || IOMMUFD=3Dn
+
+Perhaps something is wrong with that, and randconfig is able to tickle
+IOMMUFD=3Dn and still set VFIO_GROUP without SPAPR_TCE_IOMMU.
+$ grep -rn -e CONFIG_VFIO_GROUP -e CONFIG_SPAPR_TCE_IOMMU -e
+CONFIG_VFIO_GROUP .config
+4678:CONFIG_SPAPR_TCE_IOMMU=3Dy
+
+Yi, any thoughts on the above?
+
+>
+> (BTW does clang actually work on power, I tried it a bit ago and it
+> didn't get very far)
+
+So it looks like in CI we build+boot test the following configs:
+https://github.com/ClangBuiltLinux/continuous-integration2/blob/32a9db9c4a4=
+b4950407dfceb4bd4c36bf7a6ac4e/generator.yml#L2686
+- ppc44x_defconfig
+- ppc64_guest_defconfig
+- allmodconfig
+- fedora's ppc config
+- suse's ppc config
+
+I just tried simply defconfig and ran into some hermiticity issues
+with the kbuild rules for their vdso:
+https://github.com/ClangBuiltLinux/linux/issues/1601
+--=20
+Thanks,
+~Nick Desaulniers
