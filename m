@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86F7179
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 00:45:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CD839B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 00:45:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692924300; x=1724460300;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2T+jKDPy+/Mm7hFvTMk3qJSi94X86O8CjhJDKUj3iQo=;
-  b=Vbyx6rgCBqKiQ7wOwbRrs7ca0W6NvSjP2wrFq0SbMftpofTbXWRlAcXL
-   z8+BPLfdP4M69dzLjMfVWvoD+hrwnmOdftFxaQxCriS7wK3o58OcQ3NXu
-   KD3Fmln2jqwG9hbGjHHVqhONI5MyyNTBRplZMrsy+Rm2nUJV5gXFMTSiR
-   LWmZ4wXoIgD0sPShBt2Akn4WnxEXJWHXIrW4Lwr5k+A3GaK4fesHiUB3R
-   r7WOY0xIH0xrlCrpFViVIW42Kz0ioJ7aC/+lmwAcSnEr8B8NmSk06QuJL
-   HjJk0/UcKjIglPbwHHRXvI7vE/KEMIGFZ9oVxBeKxwpUNr29fiH5/ddND
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="438541531"
+  t=1692924305; x=1724460305;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=afLM1rkW7JPdkp9r+iv/FoVsC4qGuhaFonlqUHd3Af0=;
+  b=OFpBY7lDueoISUd0LiKnViKQGkVAkBz56x6AB8d4KlEXR7WXFAXDzV2e
+   3ZF3Sn1qcz2wUG8UvBXny3dTBHejjSihjVeclTnuv+OH0IMNREzHhpaOI
+   xIlwtDDUJ768/2jicRedV0THbweVB9R0/23k3WP0hpHDf82aKuFm8sid2
+   sr55Vqy0FecSV5CbN3E4Dd7rncj0342CGqoBDuINl/eLJD6IPMyJal0G+
+   XS1yorOWwQQQyRCY+P+yVVwBEyVho5Z0frXAVsEZE+1a7M+rqi7+l6cgU
+   WNC65reG6+UbJWxLhZjEIObcvKbg20JIBvF6oUip8OF0PFaTxIJIikqi6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="359593550"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="438541531"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 17:44:57 -0700
+   d="scan'208";a="359593550"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 17:44:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="730852664"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="714165772"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="730852664"
+   d="scan'208";a="714165772"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 24 Aug 2023 17:44:56 -0700
+  by orsmga006.jf.intel.com with ESMTP; 24 Aug 2023 17:44:56 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZKwZ-00035U-0X;
+	id 1qZKwZ-00035W-0b;
 	Fri, 25 Aug 2023 00:44:55 +0000
-Date: Fri, 25 Aug 2023 08:44:10 +0800
+Date: Fri, 25 Aug 2023 08:44:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>
-Subject: [linux-stable-rc:linux-5.10.y 9990/9999] test_set_error_stamp: rm
- /kbuild/obj/consumer/x86_64-defconfig/.reduce_errors/arch-x86-lib-retpoline.o:warning:objtool:.altinstr_replacement:unsupported-relocation-in-alternatives-section
-Message-ID: <202308250836.EC6Ck8DK-lkp@intel.com>
+To: Daniel Golle <daniel@makrotopia.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net] net: ethernet: mtk_eth_soc: add reset bits for MT7988
+Message-ID: <202308250819.n5vxT2dN-lkp@intel.com>
+References: <b983a3adf5184a30e4ce620fbbf028c9c76648ae.1692382239.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,22 +46,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b983a3adf5184a30e4ce620fbbf028c9c76648ae.1692382239.git.daniel@makrotopia.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
-head:   78bdf347b342992291284fd060ee34dbccf570a8
-commit: fbda31ad0b4265bd0f261f4bd57b10cacce55d2b [9990/9999] x86/cpu: Cleanup the untrain mess
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230825/202308250836.EC6Ck8DK-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250836.EC6Ck8DK-lkp@intel.com/reproduce)
+Hi Daniel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linux-next/master]
+[cannot apply to net/main linus/master v6.5-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/net-ethernet-mtk_eth_soc-add-reset-bits-for-MT7988/20230821-102205
+base:   linux-next/master
+patch link:    https://lore.kernel.org/r/b983a3adf5184a30e4ce620fbbf028c9c76648ae.1692382239.git.daniel%40makrotopia.org
+patch subject: [PATCH net] net: ethernet: mtk_eth_soc: add reset bits for MT7988
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230825/202308250819.n5vxT2dN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308250819.n5vxT2dN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308250836.EC6Ck8DK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308250819.n5vxT2dN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/lib/retpoline.o: warning: objtool: .altinstr_replacement+0x90: unsupported relocation in alternatives section
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:31:
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_hw_reset':
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:3625:50: error: 'MTK_RSTCTRL_PPE2' undeclared (first use in this function); did you mean 'MTK_RSTCTRL_PPE1'?
+    3625 |                 if (MTK_HAS_CAPS(eth->soc->caps, MTK_RSTCTRL_PPE2))
+         |                                                  ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:1022:53: note: in definition of macro 'MTK_HAS_CAPS'
+    1022 | #define MTK_HAS_CAPS(caps, _x)          (((caps) & (_x)) == (_x))
+         |                                                     ^~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3625:50: note: each undeclared identifier is reported only once for each function it appears in
+    3625 |                 if (MTK_HAS_CAPS(eth->soc->caps, MTK_RSTCTRL_PPE2))
+         |                                                  ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:1022:53: note: in definition of macro 'MTK_HAS_CAPS'
+    1022 | #define MTK_HAS_CAPS(caps, _x)          (((caps) & (_x)) == (_x))
+         |                                                     ^~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_hw_warm_reset':
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3673:50: error: 'MTK_RSTCTRL_PPE2' undeclared (first use in this function); did you mean 'MTK_RSTCTRL_PPE1'?
+    3673 |                 if (MTK_HAS_CAPS(eth->soc->caps, MTK_RSTCTRL_PPE2))
+         |                                                  ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:1022:53: note: in definition of macro 'MTK_HAS_CAPS'
+    1022 | #define MTK_HAS_CAPS(caps, _x)          (((caps) & (_x)) == (_x))
+         |                                                     ^~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_prepare_for_reset':
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:4042:50: error: 'MTK_RSTCTRL_PPE2' undeclared (first use in this function); did you mean 'MTK_RSTCTRL_PPE1'?
+    4042 |                 if (MTK_HAS_CAPS(eth->soc->caps, MTK_RSTCTRL_PPE2))
+         |                                                  ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:1022:53: note: in definition of macro 'MTK_HAS_CAPS'
+    1022 | #define MTK_HAS_CAPS(caps, _x)          (((caps) & (_x)) == (_x))
+         |                                                     ^~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_pending_work':
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c:4113:50: error: 'MTK_RSTCTRL_PPE2' undeclared (first use in this function); did you mean 'MTK_RSTCTRL_PPE1'?
+    4113 |                 if (MTK_HAS_CAPS(eth->soc->caps, MTK_RSTCTRL_PPE2))
+         |                                                  ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mediatek/mtk_eth_soc.h:1022:53: note: in definition of macro 'MTK_HAS_CAPS'
+    1022 | #define MTK_HAS_CAPS(caps, _x)          (((caps) & (_x)) == (_x))
+         |                                                     ^~
+
+
+vim +3625 drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+  3611	
+  3612	static void mtk_hw_reset(struct mtk_eth *eth)
+  3613	{
+  3614		u32 val;
+  3615	
+  3616		if (mtk_is_netsys_v2_or_greater(eth))
+  3617			regmap_write(eth->ethsys, ETHSYS_FE_RST_CHK_IDLE_EN, 0);
+  3618	
+  3619		if (mtk_is_netsys_v3_or_greater(eth)) {
+  3620			val = RSTCTRL_PPE0_V3;
+  3621	
+  3622			if (MTK_HAS_CAPS(eth->soc->caps, MTK_RSTCTRL_PPE1))
+  3623				val |= RSTCTRL_PPE1_V3;
+  3624	
+> 3625			if (MTK_HAS_CAPS(eth->soc->caps, MTK_RSTCTRL_PPE2))
+  3626				val |= RSTCTRL_PPE2;
+  3627	
+  3628			val |= RSTCTRL_WDMA0 | RSTCTRL_WDMA1 | RSTCTRL_WDMA2;
+  3629		} else if (mtk_is_netsys_v2_or_greater(eth)) {
+  3630			val = RSTCTRL_PPE0_V2;
+  3631	
+  3632			if (MTK_HAS_CAPS(eth->soc->caps, MTK_RSTCTRL_PPE1))
+  3633				val |= RSTCTRL_PPE1;
+  3634		} else {
+  3635			val = RSTCTRL_PPE0;
+  3636		}
+  3637	
+  3638		ethsys_reset(eth, RSTCTRL_ETH | RSTCTRL_FE | val);
+  3639	
+  3640		if (mtk_is_netsys_v3_or_greater(eth))
+  3641			regmap_write(eth->ethsys, ETHSYS_FE_RST_CHK_IDLE_EN,
+  3642				     0x6f8ff);
+  3643		else if (mtk_is_netsys_v2_or_greater(eth))
+  3644			regmap_write(eth->ethsys, ETHSYS_FE_RST_CHK_IDLE_EN,
+  3645				     0x3ffffff);
+  3646	}
+  3647	
 
 -- 
 0-DAY CI Kernel Test Service
