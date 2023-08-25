@@ -1,47 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8541840;
-	Fri, 25 Aug 2023 07:31:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB351FD3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 08:04:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692948673; x=1724484673;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eeH2sPNSiqdy3jxJvKVu7yF5DPRFOdMNgYX5QPiMDxc=;
-  b=WbrpfNPnjNu60i61q1wxVjKa3dn8O/36qZbePtb7GyBdHWW+bZXRwJc8
-   0ZLpxWI5v6mswoka+DJtdC/UJm1bqxNzZA+unPheRi5pjNHTLBSGLakxi
-   o8piDGZUbpyuzqxCu1RLHf8pqB0s63URlUqnMyoSnifbI9tq1tW8laBCX
-   1HUN5gT0SBy8J2zwvWij6zDR21Uh8NgJ4C8UWo8zqZ9D0Whdh8Sz5uskH
-   jBuDsq8NNdfqf1RdQwK1qdqw84TBeuDN4UVXWz9VMFQpxTQCV+JUQfyKb
-   cfasSYYVBSx54tJUzcGK9Y8lF81T7W7i/iGnV/khvq3lrgxNvwkSkddGv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="374630800"
+  t=1692950664; x=1724486664;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1MR3Ida9srmpE4iWDYKy46a1z+3MDx+0IdT6gLqLGtM=;
+  b=VYr0Zxtm53skMgQtWr9lhEh01zhxEMfIBZHK/1kft86L9TxRLBHIQ+JV
+   QgnLcO08w8safDmHAgW/sYJd62LZ7tsRzmg+Xf4IeiMcID2bUACuP9JSr
+   6KXAHPYlitjvyn2aUjAxBjVcyTtmXzA8KUzRO4RR6yMvTPoOaXBWFRk22
+   6SlwPqY3rRnJwnDxxO+hfPKXpVOEympGNUp2DX1VgRHJ0gf/dB7TIHJVZ
+   X2agXZyXjoA8T+7aQVpo0uXm7P18nbpWMbAmniSz+3fqYmh4yAs3ZqSk0
+   sMxy9ZntGS1/d26YXJnE7QFuVITXEGtsJQiVSzFHmvfJliccrd/KT/1M5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="378445278"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="374630800"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 00:31:12 -0700
+   d="scan'208";a="378445278"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 01:04:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="860992646"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="737396603"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="860992646"
+   d="scan'208";a="737396603"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 25 Aug 2023 00:31:09 -0700
+  by orsmga002.jf.intel.com with ESMTP; 25 Aug 2023 01:04:10 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZRHh-0003JM-09;
-	Fri, 25 Aug 2023 07:31:09 +0000
-Date: Fri, 25 Aug 2023 15:30:42 +0800
+	id 1qZRnd-0003KM-2i;
+	Fri, 25 Aug 2023 08:04:09 +0000
+Date: Fri, 25 Aug 2023 16:03:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>,
-	brendan.higgins@linux.dev, davidgow@google.com, rmoar@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	Richard Fitzgerald <rf@opensource.cirrus.com>
-Subject: Re: [PATCH v5 09/10] kunit: Use string_stream for test log
-Message-ID: <202308251509.VjWK804c-lkp@intel.com>
-References: <20230824143129.1957914-10-rf@opensource.cirrus.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/missed_stats 1/12] kernel/bpf/trampoline.c:824:21:
+ error: 'BPF_PROG_NO_START_TIME' undeclared
+Message-ID: <202308251522.yUyaVXBf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,89 +45,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230824143129.1957914-10-rf@opensource.cirrus.com>
 
-Hi Richard,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shuah-kselftest/kunit]
-[also build test WARNING on next-20230824]
-[cannot apply to shuah-kselftest/kunit-fixes linus/master v6.5-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/kunit-string-stream-Don-t-create-a-fragment-for-empty-strings/20230824-223722
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
-patch link:    https://lore.kernel.org/r/20230824143129.1957914-10-rf%40opensource.cirrus.com
-patch subject: [PATCH v5 09/10] kunit: Use string_stream for test log
-config: hexagon-randconfig-001-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251509.VjWK804c-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251509.VjWK804c-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/missed_stats
+head:   e594b26a49255791ab295eabb5010c8cede34a5e
+commit: 2808857ed76e5b13ceedcf55e13c9280f791fc33 [1/12] bpf: Move update_prog_stats to syscall object
+config: arm64-randconfig-r025-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251522.yUyaVXBf-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251522.yUyaVXBf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308251509.VjWK804c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308251522.yUyaVXBf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> lib/kunit/kunit-test.c:557:25: warning: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-     557 |         kunit_add_action(test, (kunit_action_t *)kfree, full_log);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/kunit-test.c:564:25: warning: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-     564 |         kunit_add_action(test, (kunit_action_t *)kfree, full_log);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/kunit-test.c:581:26: warning: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-     581 |                 kunit_add_action(test, (kunit_action_t *)kfree, full_log);
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
+   kernel/bpf/trampoline.c: In function 'bpf_prog_start_time':
+>> kernel/bpf/trampoline.c:824:21: error: 'BPF_PROG_NO_START_TIME' undeclared (first use in this function)
+     824 |         u64 start = BPF_PROG_NO_START_TIME;
+         |                     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:824:21: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/bpf/trampoline.c: In function '__bpf_prog_enter_lsm_cgroup':
+   kernel/bpf/trampoline.c:886:16: error: 'BPF_PROG_NO_START_TIME' undeclared (first use in this function)
+     886 |         return BPF_PROG_NO_START_TIME;
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:887:1: error: control reaches end of non-void function [-Werror=return-type]
+     887 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +557 lib/kunit/kunit-test.c
+vim +/BPF_PROG_NO_START_TIME +824 kernel/bpf/trampoline.c
 
-   533	
-   534	/*
-   535	 * Log tests call string_stream functions, which aren't exported. So only
-   536	 * build this code if this test is built-in.
-   537	 */
-   538	#if IS_BUILTIN(CONFIG_KUNIT_TEST)
-   539	static void kunit_log_test(struct kunit *test)
-   540	{
-   541		struct kunit_suite suite;
-   542		char *full_log;
-   543	
-   544		suite.log = kunit_alloc_string_stream(test, GFP_KERNEL);
-   545		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, suite.log);
-   546		string_stream_set_append_newlines(suite.log, true);
-   547	
-   548		kunit_log(KERN_INFO, test, "put this in log.");
-   549		kunit_log(KERN_INFO, test, "this too.");
-   550		kunit_log(KERN_INFO, &suite, "add to suite log.");
-   551		kunit_log(KERN_INFO, &suite, "along with this.");
-   552	
-   553	#ifdef CONFIG_KUNIT_DEBUGFS
-   554		KUNIT_EXPECT_TRUE(test, test->log->append_newlines);
-   555	
-   556		full_log = string_stream_get_string(test->log);
- > 557		kunit_add_action(test, (kunit_action_t *)kfree, full_log);
-   558		KUNIT_EXPECT_NOT_ERR_OR_NULL(test,
-   559					     strstr(full_log, "put this in log."));
-   560		KUNIT_EXPECT_NOT_ERR_OR_NULL(test,
-   561					     strstr(full_log, "this too."));
-   562	
-   563		full_log = string_stream_get_string(suite.log);
-   564		kunit_add_action(test, (kunit_action_t *)kfree, full_log);
-   565		KUNIT_EXPECT_NOT_ERR_OR_NULL(test,
-   566					     strstr(full_log, "add to suite log."));
-   567		KUNIT_EXPECT_NOT_ERR_OR_NULL(test,
-   568					     strstr(full_log, "along with this."));
-   569	#else
-   570		KUNIT_EXPECT_NULL(test, test->log);
-   571	#endif
-   572	}
-   573	
+   821	
+   822	static __always_inline u64 notrace bpf_prog_start_time(void)
+   823	{
+ > 824		u64 start = BPF_PROG_NO_START_TIME;
+   825	
+   826		if (static_branch_unlikely(&bpf_stats_enabled_key)) {
+   827			start = sched_clock();
+   828			if (unlikely(!start))
+   829				start = BPF_PROG_NO_START_TIME;
+   830		}
+   831		return start;
+   832	}
+   833	
 
 -- 
 0-DAY CI Kernel Test Service
