@@ -1,50 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA8419386
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 21:09:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692997762; x=1724533762;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9KgjcJf3oUFZsCckYwsRBIZm34FJhS+OzL6mTSQHt9U=;
-  b=P6jSh3p2IWtgunZMEG9Vs4OWNkm+FzMThejfMuf+chUpfjgnhBrq8pqf
-   EFNb8l7sbCa8wUjO5cuzy28fTzVB8gNgaOZcB3dz2YjBnUT1Ou1Nd6VQA
-   maCTDLToXJLuYu8hb4SQLkHCMQ/5m+yWKimu9KQMTEJnviihY1e6Lb/f4
-   6qv81rniG3XpnGi363ARF0/5E6Pskgll8gRSPc1V6S8snNloBvBRt/Vzg
-   VS+e2FjmW8bpAPYxolLcpGia3s6EvUjIYUzUbcnsBFKxc/BCojMYqoUe/
-   X7UPGtNCtV3Tp7cKFc31MefMZzEhXMDfV78hBz3ryg/OlkO0f2bLaVJXH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="461167751"
-X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="461167751"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 14:09:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="827717088"
-X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="827717088"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 25 Aug 2023 14:09:18 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qZe3S-00040B-0A;
-	Fri, 25 Aug 2023 21:09:18 +0000
-Date: Sat, 26 Aug 2023 05:08:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ninad Malwade <nmalwade@nvidia.com>, jdelvare@suse.com,
-	linux@roeck-us.net, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ninad Malwade <nmalwade@nvidia.com>,
-	Rajkumar Kasirajan <rkasirajan@nvidia.com>
-Subject: Re: [PATCH V2 3/4] hwmon: ina3221: add support for summation channel
- control
-Message-ID: <202308260438.7OwsGAd8-lkp@intel.com>
-References: <20230825164249.22860-4-nmalwade@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7EC5CAC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 21:21:48 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-68becf931bfso1131869b3a.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 14:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692998508; x=1693603308;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y4OY3QMtQlW2A8shzjZaxk5Of7hJ4fmFNlBUbsxtkxQ=;
+        b=fei7i0uyzl9ptkYyenDgvKj7vBA/GDCxWwYRfjKiD1l8g9jTZv1V5AE1sf3PGmsjVJ
+         DymKAFHmwRkvAHeKJEEozluqczr53bD73KTvLcmtPBG/yjUMT1ks9d4gD3X5AOEbStzd
+         u4RYm67sqIEtn3WiHIdt0LlfYQhAlx687Tcx8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692998508; x=1693603308;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y4OY3QMtQlW2A8shzjZaxk5Of7hJ4fmFNlBUbsxtkxQ=;
+        b=KKr8mtjjFEQo8w1OGE08LIcCADys83fXLOY0yxhaZpotE6fUGY9Bm1i6udFkrtqV1y
+         CM5oIkzbFbWsKMpZMDchrUzDNPv5JGBT7lUo3kfc5cefqpBCATO+f5FcEHnl3E9OSoZP
+         77ByqXCejRBra7b59IIz4JXjQBzv6HL3EkoES3zGJ+w18vfCAl0uQdIjPQEBgBnBJErT
+         pVWG1vp9RNoHVui9XHoyeiN43jbnk5W1J2bPSjvJdA3cApLGeIMFr/0q48Q3G8Qulb9l
+         SD/GC0VUv5Pn8OThgcQs6nhg9p4gM5LkhmIwygdTSOzirRO67oWSaD8H8C72oej3ro/1
+         B8OQ==
+X-Gm-Message-State: AOJu0YwyslEKK6F7hCmO3En3ACqLzMCBG9C6W52PGehxZz/z95IQzw8W
+	EaPKU2hy5x49/lGqfQQTV62qBw==
+X-Google-Smtp-Source: AGHT+IGAd0eL6EeVbMYxqriAmnLzeAiz+RO+l1tdF9fEaU4IwWXUrBlVotMXRKCSDJwtaCSW7sT05A==
+X-Received: by 2002:a05:6a21:3e14:b0:14c:5f8:fb3e with SMTP id bk20-20020a056a213e1400b0014c05f8fb3emr5693501pzc.38.1692998507874;
+        Fri, 25 Aug 2023 14:21:47 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id u18-20020a170902e5d200b001b9d95945afsm2199984plf.155.2023.08.25.14.21.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Aug 2023 14:21:47 -0700 (PDT)
+Date: Fri, 25 Aug 2023 14:21:46 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: lkp@intel.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	x86@kernel.org, yu-cheng.yu@intel.com
+Subject: Re: [PATCH] x86/shstk: Change order of __user in type
+Message-ID: <202308251419.0EB21A4A@keescook>
+References: <202308222312.Jt4Tog5T-lkp@intel.com>
+ <20230825014554.1769194-1-rick.p.edgecombe@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,79 +52,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230825164249.22860-4-nmalwade@nvidia.com>
+In-Reply-To: <20230825014554.1769194-1-rick.p.edgecombe@intel.com>
 
-Hi Ninad,
+On Thu, Aug 24, 2023 at 06:45:54PM -0700, Rick Edgecombe wrote:
+> 0day reports a sparse warning:
+> arch/x86/kernel/shstk.c:295:55: sparse: sparse: cast removes address space
+> '__user' of expression
+> 
+> The __user is in the wrong spot. Move it to right spot and make sparse
+> happy.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202308222312.Jt4Tog5T-lkp@intel.com/
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
-kernel test robot noticed the following build warnings:
+Ah yeah, a good find. I with we could sanely use "address spaces" in GCC
+and Clang so we didn't need to depend on sparse for these checks. I
+tried to get Clang doing it[1] a few years ago, but the wall of warnings
+was huge.
 
-[auto build test WARNING on next-20230825]
-[also build test WARNING on linus/master v6.5-rc7]
-[cannot apply to groeck-staging/hwmon-next robh/for-next v6.5-rc7 v6.5-rc6 v6.5-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ninad-Malwade/dt-bindings-hwmon-ina3221-Convert-to-json-schema/20230826-004606
-base:   next-20230825
-patch link:    https://lore.kernel.org/r/20230825164249.22860-4-nmalwade%40nvidia.com
-patch subject: [PATCH V2 3/4] hwmon: ina3221: add support for summation channel control
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230826/202308260438.7OwsGAd8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260438.7OwsGAd8-lkp@intel.com/reproduce)
+-Kees
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308260438.7OwsGAd8-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/hwmon/ina3221.c:108: warning: Function parameter or member 'summation_bypass' not described in 'ina3221_input'
->> drivers/hwmon/ina3221.c:132: warning: Function parameter or member 'summation_channel_control' not described in 'ina3221_data'
-
-
-vim +108 drivers/hwmon/ina3221.c
-
-7cb6dcff1956ec Andrew F. Davis 2016-06-10   96  
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01   97  /**
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01   98   * struct ina3221_input - channel input source specific information
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01   99   * @label: label of channel input source
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  100   * @shunt_resistor: shunt resistor value of channel input source
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  101   * @disconnected: connection status of channel input source
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  102   */
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  103  struct ina3221_input {
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  104  	const char *label;
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  105  	int shunt_resistor;
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  106  	bool disconnected;
-3aab5d0b835881 Ninad Malwade   2023-08-26  107  	bool summation_bypass;
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01 @108  };
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  109  
-7cb6dcff1956ec Andrew F. Davis 2016-06-10  110  /**
-7cb6dcff1956ec Andrew F. Davis 2016-06-10  111   * struct ina3221_data - device specific information
-323aeb0eb5d9a6 Nicolin Chen    2018-11-05  112   * @pm_dev: Device pointer for pm runtime
-7cb6dcff1956ec Andrew F. Davis 2016-06-10  113   * @regmap: Register map of the device
-7cb6dcff1956ec Andrew F. Davis 2016-06-10  114   * @fields: Register fields of the device
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  115   * @inputs: Array of channel input source specific structures
-87625b24986bc2 Nicolin Chen    2018-11-05  116   * @lock: mutex lock to serialize sysfs attribute accesses
-59d608e152e582 Nicolin Chen    2018-09-29  117   * @reg_config: Register value of INA3221_CONFIG
-2057bdfb7184e9 Nicolin Chen    2019-10-16  118   * @summation_shunt_resistor: equivalent shunt resistor value for summation
-43dece162de047 Nicolin Chen    2019-01-17  119   * @single_shot: running in single-shot operating mode
-7cb6dcff1956ec Andrew F. Davis 2016-06-10  120   */
-7cb6dcff1956ec Andrew F. Davis 2016-06-10  121  struct ina3221_data {
-323aeb0eb5d9a6 Nicolin Chen    2018-11-05  122  	struct device *pm_dev;
-7cb6dcff1956ec Andrew F. Davis 2016-06-10  123  	struct regmap *regmap;
-7cb6dcff1956ec Andrew F. Davis 2016-06-10  124  	struct regmap_field *fields[F_MAX_FIELDS];
-a9e9dd9c6de5d8 Nicolin Chen    2018-10-01  125  	struct ina3221_input inputs[INA3221_NUM_CHANNELS];
-87625b24986bc2 Nicolin Chen    2018-11-05  126  	struct mutex lock;
-59d608e152e582 Nicolin Chen    2018-09-29  127  	u32 reg_config;
-2057bdfb7184e9 Nicolin Chen    2019-10-16  128  	int summation_shunt_resistor;
-3aab5d0b835881 Ninad Malwade   2023-08-26  129  	u32 summation_channel_control;
-43dece162de047 Nicolin Chen    2019-01-17  130  
-43dece162de047 Nicolin Chen    2019-01-17  131  	bool single_shot;
-7cb6dcff1956ec Andrew F. Davis 2016-06-10 @132  };
-7cb6dcff1956ec Andrew F. Davis 2016-06-10  133  
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=clang/address_space&id=beff911c13390a71b3f7921fd82ec6a71ca75c02
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
