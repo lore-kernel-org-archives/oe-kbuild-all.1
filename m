@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0D5125D2;
-	Fri, 25 Aug 2023 19:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48636322B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 19:37:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692991023; x=1724527023;
+  t=1692992225; x=1724528225;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NwNOp5ObJawmkCtx0reRMWPpn4TZiTct6jKZA2CxKQ0=;
-  b=KQOpxKqMuTcMRbMQ3VJoQOkR8cFhKTmw9w5QI+YwhYjMuhA+mll0V0eU
-   LKvdV+meyOdURurWQIdUqMR0V3gUqyonIzWQNpjCRxb6ZH1wrvblau0CK
-   inuMZ8pKYWa1Vm159Y0tSFWSgXj63Opi/KJxORCljz0+wtCtDbaAr424j
-   l+vFStYoITUf81YxUM/JwYkkFcoAXYhOqtYOwjGn1zGC2TQwm91S9Vdfx
-   NneEf2thAs3lT8tnaSjbvvc4DBqJZMcC6lI7vI2e/nq9jjwt+51LA0O3L
-   C1aPEgxPee31okjJ8LeC36DBuDsawkwvGBohVWX4M+pndowmD0H+mewcA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="438724669"
+  bh=KyAP6nMwOJLLo4fpwWgWAbyWCIKlgu3zT8S6U4Jm+BQ=;
+  b=H49WyaNGjYGqDq7ltSuubvXyLfHUM9NfyH6u3B1nYU4wI2K/vqNU7siv
+   4bu9eIWOck29B3Q5mqlO10BQ6+flQfl2XAPQtpVd1UrTuxNDYhMFne7UT
+   Tu0qqNY+C3+Y/T2f4Sd4VVbVA/H5wn5JC3XaOE9axhiMjDbJ+Hqy8juAI
+   lGmOu5CT9ysQpCUgkK9Jv2YkhS77AJHmAWSReyst50kFmCP/ugk1nJRfY
+   dydCohUJjefeOPIdhoUqUP9RS1ZCHnLHQ4KeJ89Lm1ieo62rCeYjFR3pU
+   J4HabtDzveajqGAvNgyNMtXGdVdDg8xxwmiliBP5sEPPih5StIdrx+avb
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="359785030"
 X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
-   d="scan'208";a="438724669"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 12:17:02 -0700
+   d="scan'208";a="359785030"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 12:37:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="740715774"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="714449106"
 X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
-   d="scan'208";a="740715774"
+   d="scan'208";a="714449106"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Aug 2023 12:16:59 -0700
+  by orsmga006.jf.intel.com with ESMTP; 25 Aug 2023 12:37:02 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZcIl-0003vr-0a;
-	Fri, 25 Aug 2023 19:16:59 +0000
-Date: Sat, 26 Aug 2023 03:16:00 +0800
+	id 1qZcc9-0003wv-2i;
+	Fri, 25 Aug 2023 19:37:01 +0000
+Date: Sat, 26 Aug 2023 03:36:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: [linuxppc:next-test 85/129] arch/powerpc/xmon/xmon.c:489:12: error:
- stack frame size (2160) exceeds limit (2048) in 'xmon_core'
-Message-ID: <202308260344.Vc4Giuk7-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.14-stable 20607/30000]
+ fs/incfs/format.c:377:23: sparse: sparse: cast truncates bits from constant
+ value (5346434e49 becomes 46434e49)
+Message-ID: <202308260326.gSqGJVVX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,66 +47,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/linuxppc/linux next-test
-head:   c37b6908f7b2bd24dcaaf14a180e28c9132b9c58
-commit: 7f3c5d099b6f8452dc4dcfe4179ea48e6a13d0eb [85/129] Revert "powerpc/xmon: Relax frame size for clang"
-config: powerpc64-randconfig-r006-20230825 (https://download.01.org/0day-ci/archive/20230826/202308260344.Vc4Giuk7-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260344.Vc4Giuk7-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-4.14-stable
+head:   c399249bc92003dde1c005501c03056039f0ccce
+commit: 57e7c47daa1cae8cb8c1450ad359027bac68fb9b [20607/30000] ANDROID: Incremental fs: fix magic compatibility again
+config: i386-randconfig-061-20230825 (https://download.01.org/0day-ci/archive/20230826/202308260326.gSqGJVVX-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260326.gSqGJVVX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308260344.Vc4Giuk7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308260326.gSqGJVVX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/incfs/format.c:377:23: sparse: sparse: cast truncates bits from constant value (5346434e49 becomes 46434e49)
+   fs/incfs/format.c:559:41: sparse: sparse: cast truncates bits from constant value (5346434e49 becomes 46434e49)
+   In file included from include/linux/printk.h:7:0,
+                    from include/linux/kernel.h:14,
+                    from include/linux/list.h:9,
+                    from include/linux/wait.h:7,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/incfs/format.c:5:
+   fs/incfs/format.c: In function 'incfs_read_next_metadata_record':
+   include/linux/kern_levels.h:5:18: warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'size_t {aka unsigned int}' [-Wformat=]
+    #define KERN_SOH "001"  /* ASCII Start Of Header */
+                     ^
+   include/linux/kern_levels.h:12:22: note: in expansion of macro 'KERN_SOH'
+    #define KERN_WARNING KERN_SOH "4" /* warning conditions */
+                         ^~~~~~~~
+   include/linux/printk.h:308:9: note: in expansion of macro 'KERN_WARNING'
+     printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+            ^~~~~~~~~~~~
+   include/linux/printk.h:309:17: note: in expansion of macro 'pr_warning'
+    #define pr_warn pr_warning
+                    ^~~~~~~~~~
+   fs/incfs/format.c:619:3: note: in expansion of macro 'pr_warn'
+      pr_warn("incfs: The record is too large. Size: %ld",
+      ^~~~~~~
+   fs/incfs/format.c:619:52: note: format string is defined here
+      pr_warn("incfs: The record is too large. Size: %ld",
+                                                     ~~^
+                                                     %d
 
->> arch/powerpc/xmon/xmon.c:489:12: error: stack frame size (2160) exceeds limit (2048) in 'xmon_core' [-Werror,-Wframe-larger-than]
-   static int xmon_core(struct pt_regs *regs, volatile int fromipi)
-              ^
-   1 error generated.
+vim +377 fs/incfs/format.c
 
+318babce66a62d Eugene Zemtsov 2019-11-18  361  
+318babce66a62d Eugene Zemtsov 2019-11-18  362  /*
+318babce66a62d Eugene Zemtsov 2019-11-18  363   * Write a backing file header
+318babce66a62d Eugene Zemtsov 2019-11-18  364   * It should always be called only on empty file.
+318babce66a62d Eugene Zemtsov 2019-11-18  365   * incfs_super_block.s_first_md_offset is 0 for now, but will be updated
+318babce66a62d Eugene Zemtsov 2019-11-18  366   * once first metadata record is added.
+318babce66a62d Eugene Zemtsov 2019-11-18  367   */
+318babce66a62d Eugene Zemtsov 2019-11-18  368  int incfs_write_fh_to_backing_file(struct backing_file_context *bfc,
+318babce66a62d Eugene Zemtsov 2019-11-18  369  				   incfs_uuid_t *uuid, u64 file_size)
+318babce66a62d Eugene Zemtsov 2019-11-18  370  {
+318babce66a62d Eugene Zemtsov 2019-11-18  371  	struct incfs_file_header fh = {};
+318babce66a62d Eugene Zemtsov 2019-11-18  372  	loff_t file_pos = 0;
+318babce66a62d Eugene Zemtsov 2019-11-18  373  
+318babce66a62d Eugene Zemtsov 2019-11-18  374  	if (!bfc)
+318babce66a62d Eugene Zemtsov 2019-11-18  375  		return -EFAULT;
+318babce66a62d Eugene Zemtsov 2019-11-18  376  
+318babce66a62d Eugene Zemtsov 2019-11-18 @377  	fh.fh_magic = cpu_to_le64(INCFS_MAGIC_NUMBER);
+318babce66a62d Eugene Zemtsov 2019-11-18  378  	fh.fh_version = cpu_to_le64(INCFS_FORMAT_CURRENT_VER);
+318babce66a62d Eugene Zemtsov 2019-11-18  379  	fh.fh_header_size = cpu_to_le16(sizeof(fh));
+318babce66a62d Eugene Zemtsov 2019-11-18  380  	fh.fh_first_md_offset = cpu_to_le64(0);
+318babce66a62d Eugene Zemtsov 2019-11-18  381  	fh.fh_data_block_size = cpu_to_le16(INCFS_DATA_FILE_BLOCK_SIZE);
+318babce66a62d Eugene Zemtsov 2019-11-18  382  
+318babce66a62d Eugene Zemtsov 2019-11-18  383  	fh.fh_file_size = cpu_to_le64(file_size);
+318babce66a62d Eugene Zemtsov 2019-11-18  384  	fh.fh_uuid = *uuid;
+318babce66a62d Eugene Zemtsov 2019-11-18  385  
+318babce66a62d Eugene Zemtsov 2019-11-18  386  	LOCK_REQUIRED(bfc->bc_mutex);
+318babce66a62d Eugene Zemtsov 2019-11-18  387  
+318babce66a62d Eugene Zemtsov 2019-11-18  388  	file_pos = incfs_get_end_offset(bfc->bc_file);
+318babce66a62d Eugene Zemtsov 2019-11-18  389  	if (file_pos != 0)
+318babce66a62d Eugene Zemtsov 2019-11-18  390  		return -EEXIST;
+318babce66a62d Eugene Zemtsov 2019-11-18  391  
+4f81903f2276fc Paul Lawrence  2020-04-07  392  	return write_to_bf(bfc, &fh, sizeof(fh), file_pos);
+318babce66a62d Eugene Zemtsov 2019-11-18  393  }
+318babce66a62d Eugene Zemtsov 2019-11-18  394  
 
-vim +/xmon_core +489 arch/powerpc/xmon/xmon.c
+:::::: The code at line 377 was first introduced by commit
+:::::: 318babce66a62d8bc8d5434909a044b89ab3a53e ANDROID: Initial commit of Incremental FS
 
-5c699396f5f6cf arch/powerpc/xmon/xmon.c Anton Blanchard      2020-06-30  488  
-a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann        2021-04-29 @489  static int xmon_core(struct pt_regs *regs, volatile int fromipi)
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  490  {
-a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann        2021-04-29  491  	volatile int cmd = 0;
-a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann        2021-04-29  492  	struct bpt *volatile bp;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  493  	long recurse_jmp[JMP_BUF_LEN];
-69393cb03ccdf2 arch/powerpc/xmon/xmon.c Christopher M. Riedl 2019-09-07  494  	bool locked_down;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  495  	unsigned long offset;
-f13659e0b39075 arch/powerpc/xmon/xmon.c Anton Blanchard      2007-03-21  496  	unsigned long flags;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  497  #ifdef CONFIG_SMP
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  498  	int cpu;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  499  	int secondary;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  500  #endif
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  501  
-f13659e0b39075 arch/powerpc/xmon/xmon.c Anton Blanchard      2007-03-21  502  	local_irq_save(flags);
-a71d64b4dc4067 arch/powerpc/xmon/xmon.c Anton Blanchard      2014-08-05  503  	hard_irq_disable();
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  504  
-69393cb03ccdf2 arch/powerpc/xmon/xmon.c Christopher M. Riedl 2019-09-07  505  	locked_down = xmon_is_locked_down();
-69393cb03ccdf2 arch/powerpc/xmon/xmon.c Christopher M. Riedl 2019-09-07  506  
-aaf06665f7ea3e arch/powerpc/xmon/xmon.c Naveen N. Rao        2019-06-27  507  	if (!fromipi) {
-ed49f7fd6438dc arch/powerpc/xmon/xmon.c Breno Leitao         2017-08-02  508  		tracing_enabled = tracing_is_on();
-ed49f7fd6438dc arch/powerpc/xmon/xmon.c Breno Leitao         2017-08-02  509  		tracing_off();
-aaf06665f7ea3e arch/powerpc/xmon/xmon.c Naveen N. Rao        2019-06-27  510  	}
-ed49f7fd6438dc arch/powerpc/xmon/xmon.c Breno Leitao         2017-08-02  511  
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  512  	bp = in_breakpoint_table(regs->nip, &offset);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  513  	if (bp != NULL) {
-59dc5bfca0cb6a arch/powerpc/xmon/xmon.c Nicholas Piggin      2021-06-18  514  		regs_set_return_ip(regs, bp->address + offset);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  515  		atomic_dec(&bp->ref_count);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  516  	}
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  517  
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  518  	remove_cpu_bpts();
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  519  
-
-:::::: The code at line 489 was first introduced by commit
-:::::: a2305e3de819394a7adf68078964a92d06f9db33 powerpc: mark local variables around longjmp as volatile
-
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+:::::: TO: Eugene Zemtsov <ezemtsov@google.com>
+:::::: CC: Paul Lawrence <paullawrence@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
