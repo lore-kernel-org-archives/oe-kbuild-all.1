@@ -1,127 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0AA18051
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 18:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692987283; x=1724523283;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X33ySa/Y0OjFTnpKOQaAxWeKl8X1KoaM22Y15O0U/EU=;
-  b=mORH9pWoyyeEp5R9v8+QbrR0KvLrHT/PX5SeHlpCCWIrNxeANAOqzlQr
-   CYPHhN2IkrO7DHFVH+Oqk2eKPFvmzay4qtvMYiy7qy+zhhACTv/RZdj83
-   7rWYXh1wZFS3gQyElDnPfm58spqMS2HaHCFKWpWXh2EK07D6EcFjhxlOC
-   8h0nAiXeMOtosoDYGak8s0wFG16j1AbUUIjjXcm2qSkfWojo+06rtFwHA
-   dpdcgNWLmhAZ80Snmj4AAlzbvZGk1mpz7vEj8dKZTJY/h5sQx/w22lHER
-   fH5FuOBLlzRA9ml/KoP9ywghPbjPCRTQPIb0yUxgo/l8gWfzrf+MfDv9/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="359770305"
-X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
-   d="scan'208";a="359770305"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 11:14:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="861165701"
-X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
-   d="scan'208";a="861165701"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 25 Aug 2023 11:14:38 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qZbKP-0003st-1b;
-	Fri, 25 Aug 2023 18:14:37 +0000
-Date: Sat, 26 Aug 2023 02:14:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Miroslav Benes <mbenes@suse.cz>
-Subject: vmlinux.o: warning: objtool: cfi_probe_chip.cold+0x0: unreachable
- instruction
-Message-ID: <202308260227.qlDu27e5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FAC18050;
+	Fri, 25 Aug 2023 18:15:06 +0000 (UTC)
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37PI6rIq031177;
+	Fri, 25 Aug 2023 18:14:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=NeXVYWHkVo+QL2tc3Wf4sqBVf7FNluO78WFdmMiRrBU=;
+ b=kEZ7Vqwap8o9dWigtL2QMK0IRZccw1DLmwOL+4c4mv/31rVk2CwuVDr4LAV46uNUOnDt
+ SmNekR2iAqmucijCXjh4JG0CaRq4jYbiIDzSY5o5QnRv+zFkQ/f4fkEvDmLp14d1vPwX
+ 3ebQNBJWyg+zqQTDxtGy6RRd+HBypB6eD7BLnpk20I63bw7Om6BZqxPhXMCBfp7GBYHv
+ 3rU0oqG4OCXvpIMwhatZNwl6bviwD4OsFPneEMqqOhButhXQihAJOS7HJhTaOVe6YF0U
+ 2BmR3a6hSBWZ+Rb9FSjiygnQswsG2NM5n0GSIEJSK43lmrRRBD1imI3ONnSnFgqxaHn0 tw== 
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sq0p092pb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Aug 2023 18:14:56 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37PHrDmY027333;
+	Fri, 25 Aug 2023 18:14:54 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3sn20t1mjy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Aug 2023 18:14:54 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37PIEqFR24314394
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 25 Aug 2023 18:14:52 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6446E20040;
+	Fri, 25 Aug 2023 18:14:52 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E757820043;
+	Fri, 25 Aug 2023 18:14:50 +0000 (GMT)
+Received: from [9.43.10.206] (unknown [9.43.10.206])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 25 Aug 2023 18:14:50 +0000 (GMT)
+Message-ID: <f7a8070c-ee4e-c485-487b-a5da860a1330@linux.ibm.com>
+Date: Fri, 25 Aug 2023 23:44:49 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [powerpc:next 84/128] arch/powerpc/mm/init_64.c:477:38: error:
+ use of undeclared identifier 'SECTION_SIZE_BITS'
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linuxppc-dev@lists.ozlabs.org, Michael Ellerman <mpe@ellerman.id.au>,
+        Reza Arbab <arbab@linux.ibm.com>
+References: <202308251532.k9PpWEAD-lkp@intel.com>
+Content-Language: en-US
+From: Aneesh Kumar K V <aneesh.kumar@linux.ibm.com>
+In-Reply-To: <202308251532.k9PpWEAD-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: oF6YQjjPGp9Ammrv8J5rP6yhmKVFOsuw
+X-Proofpoint-GUID: oF6YQjjPGp9Ammrv8J5rP6yhmKVFOsuw
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-25_16,2023-08-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ lowpriorityscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
+ priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0 clxscore=1011
+ spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308250162
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4942fed84b98cfb71d3cdff1a3df0072a57bbdfa
-commit: 5e3992fe72748ed3892be876f09d4d990548b7af objtool: Limit unreachable warnings to once per function
-date:   3 months ago
-config: x86_64-randconfig-074-20230824 (https://download.01.org/0day-ci/archive/20230826/202308260227.qlDu27e5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260227.qlDu27e5-lkp@intel.com/reproduce)
+On 8/25/23 12:39 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+> head:   b9bbbf4979073d5536b7650decd37fcb901e6556
+> commit: 4d15721177d539d743fcf31d7bb376fb3b81aeb6 [84/128] powerpc/mm: Cleanup memory block size probing
+> config: powerpc64-randconfig-r005-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251532.k9PpWEAD-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251532.k9PpWEAD-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308251532.k9PpWEAD-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> arch/powerpc/mm/init_64.c:477:38: error: use of undeclared identifier 'SECTION_SIZE_BITS'
+>      477 |         unsigned long section_size = 1UL << SECTION_SIZE_BITS;
+>          |                                             ^
+>    arch/powerpc/mm/init_64.c:510:18: error: use of undeclared identifier 'SECTION_SIZE_BITS'
+>      510 |                         *block_size = MIN_MEMORY_BLOCK_SIZE;
+>          |                                       ^
+>    include/linux/memory.h:23:43: note: expanded from macro 'MIN_MEMORY_BLOCK_SIZE'
+>       23 | #define MIN_MEMORY_BLOCK_SIZE     (1UL << SECTION_SIZE_BITS)
+>          |                                           ^
+>    2 errors generated.
+> 
+> 
+> vim +/SECTION_SIZE_BITS +477 arch/powerpc/mm/init_64.c
+> 
+>    474	
+>    475	static void update_memory_block_size(unsigned long *block_size, unsigned long mem_size)
+>    476	{
+>  > 477		unsigned long section_size = 1UL << SECTION_SIZE_BITS;
+>    478	
+>    479		for (; *block_size > section_size; *block_size >>= 2) {
+>    480	
+>    481			if ((mem_size & *block_size) == 0)
+>    482				break;
+>    483		}
+>    484	}
+>    485	
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308260227.qlDu27e5-lkp@intel.com/
+Not a nice fix: 
 
-All warnings (new ones prefixed by >>):
-
-   vmlinux.o: warning: objtool: cfi_chip_setup+0x1ba: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_probe_chip+0x72: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_staa_resume+0x184: unreachable instruction
-   vmlinux.o: warning: objtool: do_write_buffer+0x1e4: unreachable instruction
-   vmlinux.o: warning: objtool: do_read_onechip+0x132: unreachable instruction
-   vmlinux.o: warning: objtool: do_unlock_oneblock+0x146: unreachable instruction
-   vmlinux.o: warning: objtool: do_lock_oneblock+0x146: unreachable instruction
-   vmlinux.o: warning: objtool: do_erase_oneblock+0x118: unreachable instruction
-   vmlinux.o: warning: objtool: fixup_sst39vf_rev_b+0x13a: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_amdstd_resume+0x1cd: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_check_err_status+0x17c: unreachable instruction
-   vmlinux.o: warning: objtool: chip_ready+0x17c: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_amdstd_panic_wait+0xe9: unreachable instruction
-   vmlinux.o: warning: objtool: do_panic_write_oneword+0x2f5: unreachable instruction
-   vmlinux.o: warning: objtool: do_write_oneword_once+0x133: unreachable instruction
-   vmlinux.o: warning: objtool: fixup_sst38vf640x_sectorsize+0x147: unreachable instruction
-   vmlinux.o: warning: objtool: put_chip.constprop.0+0x39f: unreachable instruction
-   vmlinux.o: warning: objtool: get_chip+0x553: unreachable instruction
-   vmlinux.o: warning: objtool: do_write_oneword+0x376: unreachable instruction
-   vmlinux.o: warning: objtool: do_atmel_unlock+0x16e: unreachable instruction
-   vmlinux.o: warning: objtool: do_atmel_lock+0x171: unreachable instruction
-   vmlinux.o: warning: objtool: fwh_xxlock_oneblock+0x1a4: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_amdstd_read+0x199: unreachable instruction
-   vmlinux.o: warning: objtool: do_erase_chip+0x375: unreachable instruction
-   vmlinux.o: warning: objtool: do_write_buffer+0x1ec: unreachable instruction
-   vmlinux.o: warning: objtool: do_erase_oneblock+0x383: unreachable instruction
-   vmlinux.o: warning: objtool: do_otp_lock+0x171: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_amdstd_otp_walk+0x277: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_amdstd_reset.isra.0+0x1b9: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_amdstd_secsi_read+0x42a: unreachable instruction
-   vmlinux.o: warning: objtool: do_otp_write+0x11f: unreachable instruction
-   vmlinux.o: warning: objtool: do_read_secsi_onechip+0x2d6: unreachable instruction
->> vmlinux.o: warning: objtool: cfi_probe_chip.cold+0x0: unreachable instruction
->> vmlinux.o: warning: objtool: do_erase_oneblock.cold+0x0: unreachable instruction
+modified   arch/powerpc/mm/init_64.c
+@@ -472,11 +472,17 @@ static int __init dt_scan_mmu_pid_width(unsigned long node,
+ 	return 1;
+ }
+ 
++#ifndef CONFIG_MEMORY_HOTPLUG
++#define MEMORY_BLOCK_SIZE     SZ_16M
++#else
++#define MEMORY_BLOCK_SIZE MIN_MEMORY_BLOCK_SIZE
++#endif
++
+ static void update_memory_block_size(unsigned long *block_size, unsigned long mem_size)
+ {
+-	unsigned long section_size = 1UL << SECTION_SIZE_BITS;
++	unsigned long min_memory_block_size = MEMORY_BLOCK_SIZE;
+ 
+-	for (; *block_size > section_size; *block_size >>= 2) {
++	for (; *block_size > min_memory_block_size; *block_size >>= 2) {
+ 
+ 		if ((mem_size & *block_size) == 0)
+ 			break;
+@@ -507,7 +513,7 @@ static int __init probe_memory_block_size(unsigned long node, const char *uname,
+ 			/*
+ 			 * Nothing in the device tree
+ 			 */
+-			*block_size = MIN_MEMORY_BLOCK_SIZE;
++			*block_size = MEMORY_BLOCK_SIZE;
+ 		else
+ 			*block_size = of_read_number(prop, dt_root_size_cells);
+ 		/*
 
 
-objdump-func vmlinux.o cfi_probe_chip.cold:
-0000 000000000005c6d6 <cfi_probe_chip.cold>:
-0000    5c6d6:	48 8b 75 b8          	mov    -0x48(%rbp),%rsi
-0004    5c6da:	48 89 ca             	mov    %rcx,%rdx
-0007    5c6dd:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	5c6e0: R_X86_64_32S	.data+0xa9b5e0
-000e    5c6e4:	48 89 4d d0          	mov    %rcx,-0x30(%rbp)
-0012    5c6e8:	e8 00 00 00 00       	call   5c6ed <cfi_probe_chip.cold+0x17>	5c6e9: R_X86_64_PLT32	__ubsan_handle_shift_out_of_bounds-0x4
-0017    5c6ed:	48 8b 4d d0          	mov    -0x30(%rbp),%rcx
-001b    5c6f1:	e9 00 00 00 00       	jmp    5c6f6 <cfi_probe_chip.cold+0x20>	5c6f2: R_X86_64_PC32	.text+0x1f824ff
-0020    5c6f6:	48 89 ca             	mov    %rcx,%rdx
-0023    5c6f9:	4c 89 c6             	mov    %r8,%rsi
-0026    5c6fc:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	5c6ff: R_X86_64_32S	.data+0xa9b620
-002d    5c703:	48 89 4d d0          	mov    %rcx,-0x30(%rbp)
-0031    5c707:	e8 00 00 00 00       	call   5c70c <cfi_probe_chip.cold+0x36>	5c708: R_X86_64_PLT32	__ubsan_handle_shift_out_of_bounds-0x4
-0036    5c70c:	48 8b 4d d0          	mov    -0x30(%rbp),%rcx
-003a    5c710:	e9 00 00 00 00       	jmp    5c715 <cfi_probe_chip.cold+0x3f>	5c711: R_X86_64_PC32	.text+0x1f823ef
-003f    5c715:	48 8b 75 b8          	mov    -0x48(%rbp),%rsi
-0043    5c719:	48 89 ca             	mov    %rcx,%rdx
-0046    5c71c:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	5c71f: R_X86_64_32S	.data+0xa9b660
-004d    5c723:	48 89 4d d0          	mov    %rcx,-0x30(%rbp)
-0051    5c727:	e8 00 00 00 00       	call   5c72c <cfi_probe_chip.cold+0x56>	5c728: R_X86_64_PLT32	__ubsan_handle_shift_out_of_bounds-0x4
-0056    5c72c:	48 8b 4d d0          	mov    -0x30(%rbp),%rcx
-005a    5c730:	e9 00 00 00 00       	jmp    5c735 <cfi_varsize_frob.cold>	5c731: R_X86_64_PC32	.text+0x1f823a0
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
