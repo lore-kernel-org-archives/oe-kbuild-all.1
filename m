@@ -1,47 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA4017E9;
-	Fri, 25 Aug 2023 06:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A5E17E8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 06:27:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692944395; x=1724480395;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Bmfd8qRTID5gBvloZQsb4+G4sktL/Sul01ezj7s1kaE=;
-  b=SVWljTGKzyrerkSMq3sHbyciEzGWSyFTxwy3HAv1Su36s/YG6B6PWyEt
-   n344IQyBh9uTDzaqE+XldJExT7CkfY8WKtWoyalln1WeV5t8CEdr7cIQD
-   Y7msh3hQoecMIDeCbM0vBC5GOLR0y6Wyt0py2/3+X4PrIag5OUcLRMe4B
-   O0UwbUbWmCORSCm+lKrcvQ/rrfJ4f8i/z/GFQ3OIxGbOtn64okIGeQXop
-   IbXB++rP10YeRbv4EbwSa9U4yTYX0+lG8jxK6onqtQYLV+/W3HbxLurfs
-   lmG+tEcJViKghWjIG9qaNO1FuoUpSaj1ilDb2Dx2AbxwvEpeMKKwMLRFa
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="372038767"
+  t=1692944866; x=1724480866;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NL4LOBPAGNf0SBup4xQACul9KRP6svJZXDxjCiC2sFM=;
+  b=nQOdhcASxaosun8zERKU13eZfhtwbzUjsLpWlmfCv9tXEu1fpA5bXZ5+
+   jt3TtyBk8o7D43QXyEYyZx4Hk8AcpU6elf+jbxjehh6mvGslb8OaHYwkr
+   xI4ZPzwnMxOfCZy8md5OXzcw06KkTJWYa3f4gyp53eN4IRLfmXaKYPSZZ
+   nzn0xVZAkrJ2HRLy2NbaoirxjiU+kEmYLn9cjGhvJpRPCnwPplxO3Ms58
+   JKw6X0DuD21yTg1hVi/Nx48TDSlw1Kwcz4D3rfQQ89Q3uWHQz7ZNjXpQt
+   F2RLO2gGrW0d65WnljYXTXtyyZ26FP3xsdxcez5EgiPXMdje1VouQ5HGn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="440987331"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="372038767"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 23:17:47 -0700
+   d="scan'208";a="440987331"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 23:27:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="730923769"
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="740495053"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="730923769"
+   d="scan'208";a="740495053"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 24 Aug 2023 23:17:44 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 24 Aug 2023 23:27:44 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZQ8d-0003Gm-1E;
-	Fri, 25 Aug 2023 06:17:43 +0000
-Date: Fri, 25 Aug 2023 14:17:22 +0800
+	id 1qZQIJ-0003HE-2u;
+	Fri, 25 Aug 2023 06:27:43 +0000
+Date: Fri, 25 Aug 2023 14:27:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>,
-	brendan.higgins@linux.dev, davidgow@google.com, rmoar@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	Richard Fitzgerald <rf@opensource.cirrus.com>
-Subject: Re: [PATCH v5 09/10] kunit: Use string_stream for test log
-Message-ID: <202308251443.dMAw1CW3-lkp@intel.com>
-References: <20230824143129.1957914-10-rf@opensource.cirrus.com>
+To: Dexuan Cui <decui@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dcui-tdx:decui/mainline/x86/hyperv/tdx-v3-wip 10/11]
+ arch/x86/hyperv/ivm.c:408:13: warning: 'hv_is_private_mmio' defined but not
+ used
+Message-ID: <202308251431.GUUdq9Fl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,65 +46,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230824143129.1957914-10-rf@opensource.cirrus.com>
 
-Hi Richard,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shuah-kselftest/kunit]
-[also build test WARNING on next-20230824]
-[cannot apply to shuah-kselftest/kunit-fixes linus/master v6.5-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/kunit-string-stream-Don-t-create-a-fragment-for-empty-strings/20230824-223722
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
-patch link:    https://lore.kernel.org/r/20230824143129.1957914-10-rf%40opensource.cirrus.com
-patch subject: [PATCH v5 09/10] kunit: Use string_stream for test log
-config: hexagon-randconfig-002-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251443.dMAw1CW3-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251443.dMAw1CW3-lkp@intel.com/reproduce)
+tree:   https://github.com/dcui/tdx decui/mainline/x86/hyperv/tdx-v3-wip
+head:   39842ee60a25efe7d0d325de7192a9792db282e8
+commit: 17b065e175082497907563297083b13dc86d84a9 [10/11] x86/hyperv: Use TDX GHCI to access some MSRs in a TDX VM with the paravisor
+config: x86_64-randconfig-001-20230825 (https://download.01.org/0day-ci/archive/20230825/202308251431.GUUdq9Fl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308251431.GUUdq9Fl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308251443.dMAw1CW3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308251431.GUUdq9Fl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/kunit/kunit-test.c:542:8: warning: unused variable 'full_log' [-Wunused-variable]
-     542 |         char *full_log;
-         |               ^
-   lib/kunit/kunit-test.c:581:26: warning: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-     581 |                 kunit_add_action(test, (kunit_action_t *)kfree, full_log);
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+>> arch/x86/hyperv/ivm.c:408:13: warning: 'hv_is_private_mmio' defined but not used [-Wunused-function]
+     408 | static bool hv_is_private_mmio(u64 addr)
+         |             ^~~~~~~~~~~~~~~~~~
+>> arch/x86/hyperv/ivm.c:403:13: warning: 'hv_vtom_cache_flush_required' defined but not used [-Wunused-function]
+     403 | static bool hv_vtom_cache_flush_required(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/hyperv/ivm.c:398:13: warning: 'hv_vtom_tlb_flush_required' defined but not used [-Wunused-function]
+     398 | static bool hv_vtom_tlb_flush_required(bool private)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/hyperv/ivm.c:365:13: warning: 'hv_vtom_set_host_visibility' defined but not used [-Wunused-function]
+     365 | static bool hv_vtom_set_host_visibility(unsigned long kbuffer, int pagecount, bool enc)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/full_log +542 lib/kunit/kunit-test.c
+vim +/hv_is_private_mmio +408 arch/x86/hyperv/ivm.c
 
-   533	
-   534	/*
-   535	 * Log tests call string_stream functions, which aren't exported. So only
-   536	 * build this code if this test is built-in.
-   537	 */
-   538	#if IS_BUILTIN(CONFIG_KUNIT_TEST)
-   539	static void kunit_log_test(struct kunit *test)
-   540	{
-   541		struct kunit_suite suite;
- > 542		char *full_log;
-   543	
-   544		suite.log = kunit_alloc_string_stream(test, GFP_KERNEL);
-   545		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, suite.log);
-   546		string_stream_set_append_newlines(suite.log, true);
-   547	
-   548		kunit_log(KERN_INFO, test, "put this in log.");
-   549		kunit_log(KERN_INFO, test, "this too.");
-   550		kunit_log(KERN_INFO, &suite, "add to suite log.");
-   551		kunit_log(KERN_INFO, &suite, "along with this.");
-   552	
+810a521265023a Tianyu Lan     2021-10-25  356  
+810a521265023a Tianyu Lan     2021-10-25  357  /*
+812b0597fb4043 Michael Kelley 2023-03-26  358   * hv_vtom_set_host_visibility - Set specified memory visible to host.
+810a521265023a Tianyu Lan     2021-10-25  359   *
+810a521265023a Tianyu Lan     2021-10-25  360   * In Isolation VM, all guest memory is encrypted from host and guest
+810a521265023a Tianyu Lan     2021-10-25  361   * needs to set memory visible to host via hvcall before sharing memory
+810a521265023a Tianyu Lan     2021-10-25  362   * with host. This function works as wrap of hv_mark_gpa_visibility()
+810a521265023a Tianyu Lan     2021-10-25  363   * with memory base and size.
+810a521265023a Tianyu Lan     2021-10-25  364   */
+812b0597fb4043 Michael Kelley 2023-03-26 @365  static bool hv_vtom_set_host_visibility(unsigned long kbuffer, int pagecount, bool enc)
+810a521265023a Tianyu Lan     2021-10-25  366  {
+812b0597fb4043 Michael Kelley 2023-03-26  367  	enum hv_mem_host_visibility visibility = enc ?
+812b0597fb4043 Michael Kelley 2023-03-26  368  			VMBUS_PAGE_NOT_VISIBLE : VMBUS_PAGE_VISIBLE_READ_WRITE;
+810a521265023a Tianyu Lan     2021-10-25  369  	u64 *pfn_array;
+810a521265023a Tianyu Lan     2021-10-25  370  	int ret = 0;
+812b0597fb4043 Michael Kelley 2023-03-26  371  	bool result = true;
+810a521265023a Tianyu Lan     2021-10-25  372  	int i, pfn;
+810a521265023a Tianyu Lan     2021-10-25  373  
+810a521265023a Tianyu Lan     2021-10-25  374  	pfn_array = kmalloc(HV_HYP_PAGE_SIZE, GFP_KERNEL);
+810a521265023a Tianyu Lan     2021-10-25  375  	if (!pfn_array)
+812b0597fb4043 Michael Kelley 2023-03-26  376  		return false;
+810a521265023a Tianyu Lan     2021-10-25  377  
+810a521265023a Tianyu Lan     2021-10-25  378  	for (i = 0, pfn = 0; i < pagecount; i++) {
+810a521265023a Tianyu Lan     2021-10-25  379  		pfn_array[pfn] = virt_to_hvpfn((void *)kbuffer + i * HV_HYP_PAGE_SIZE);
+810a521265023a Tianyu Lan     2021-10-25  380  		pfn++;
+810a521265023a Tianyu Lan     2021-10-25  381  
+810a521265023a Tianyu Lan     2021-10-25  382  		if (pfn == HV_MAX_MODIFY_GPA_REP_COUNT || i == pagecount - 1) {
+810a521265023a Tianyu Lan     2021-10-25  383  			ret = hv_mark_gpa_visibility(pfn, pfn_array,
+810a521265023a Tianyu Lan     2021-10-25  384  						     visibility);
+812b0597fb4043 Michael Kelley 2023-03-26  385  			if (ret) {
+812b0597fb4043 Michael Kelley 2023-03-26  386  				result = false;
+810a521265023a Tianyu Lan     2021-10-25  387  				goto err_free_pfn_array;
+812b0597fb4043 Michael Kelley 2023-03-26  388  			}
+810a521265023a Tianyu Lan     2021-10-25  389  			pfn = 0;
+810a521265023a Tianyu Lan     2021-10-25  390  		}
+810a521265023a Tianyu Lan     2021-10-25  391  	}
+810a521265023a Tianyu Lan     2021-10-25  392  
+810a521265023a Tianyu Lan     2021-10-25  393   err_free_pfn_array:
+810a521265023a Tianyu Lan     2021-10-25  394  	kfree(pfn_array);
+812b0597fb4043 Michael Kelley 2023-03-26  395  	return result;
+812b0597fb4043 Michael Kelley 2023-03-26  396  }
+812b0597fb4043 Michael Kelley 2023-03-26  397  
+812b0597fb4043 Michael Kelley 2023-03-26 @398  static bool hv_vtom_tlb_flush_required(bool private)
+812b0597fb4043 Michael Kelley 2023-03-26  399  {
+812b0597fb4043 Michael Kelley 2023-03-26  400  	return true;
+812b0597fb4043 Michael Kelley 2023-03-26  401  }
+812b0597fb4043 Michael Kelley 2023-03-26  402  
+812b0597fb4043 Michael Kelley 2023-03-26 @403  static bool hv_vtom_cache_flush_required(void)
+812b0597fb4043 Michael Kelley 2023-03-26  404  {
+812b0597fb4043 Michael Kelley 2023-03-26  405  	return false;
+812b0597fb4043 Michael Kelley 2023-03-26  406  }
+812b0597fb4043 Michael Kelley 2023-03-26  407  
+812b0597fb4043 Michael Kelley 2023-03-26 @408  static bool hv_is_private_mmio(u64 addr)
+812b0597fb4043 Michael Kelley 2023-03-26  409  {
+812b0597fb4043 Michael Kelley 2023-03-26  410  	/*
+812b0597fb4043 Michael Kelley 2023-03-26  411  	 * Hyper-V always provides a single IO-APIC in a guest VM.
+812b0597fb4043 Michael Kelley 2023-03-26  412  	 * When a paravisor is used, it is emulated by the paravisor
+812b0597fb4043 Michael Kelley 2023-03-26  413  	 * in the guest context and must be mapped private.
+812b0597fb4043 Michael Kelley 2023-03-26  414  	 */
+812b0597fb4043 Michael Kelley 2023-03-26  415  	if (addr >= HV_IOAPIC_BASE_ADDRESS &&
+812b0597fb4043 Michael Kelley 2023-03-26  416  	    addr < (HV_IOAPIC_BASE_ADDRESS + PAGE_SIZE))
+812b0597fb4043 Michael Kelley 2023-03-26  417  		return true;
+812b0597fb4043 Michael Kelley 2023-03-26  418  
+812b0597fb4043 Michael Kelley 2023-03-26  419  	/* Same with a vTPM */
+812b0597fb4043 Michael Kelley 2023-03-26  420  	if (addr >= VTPM_BASE_ADDRESS &&
+812b0597fb4043 Michael Kelley 2023-03-26  421  	    addr < (VTPM_BASE_ADDRESS + PAGE_SIZE))
+812b0597fb4043 Michael Kelley 2023-03-26  422  		return true;
+812b0597fb4043 Michael Kelley 2023-03-26  423  
+812b0597fb4043 Michael Kelley 2023-03-26  424  	return false;
+810a521265023a Tianyu Lan     2021-10-25  425  }
+846da38de0e822 Tianyu Lan     2021-12-13  426  
+
+:::::: The code at line 408 was first introduced by commit
+:::::: 812b0597fb4043240724e4c7bed7ba1fe15c0e3f x86/hyperv: Change vTOM handling to use standard coco mechanisms
+
+:::::: TO: Michael Kelley <mikelley@microsoft.com>
+:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
 
 -- 
 0-DAY CI Kernel Test Service
