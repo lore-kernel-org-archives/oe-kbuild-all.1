@@ -1,140 +1,182 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769DE1938B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 20:04:44 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-64b8e1c739aso8224176d6.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 13:04:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2C01938C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 20:09:40 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-649921ec030so7649546d6.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 13:09:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692993883; x=1693598683;
+        d=google.com; s=20221208; t=1692994179; x=1693598979;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bs29xw10SRNGIK+cNNQqN7g2ipvhccnPkcKfeXZtYSs=;
-        b=2DCP05hsG4eQDJywmHXXJnqzuHw9Y/wgrbGd0CVa91cm9CiOWAPFU8JkiRaGUs43sh
-         GRKwTmy6aaVO4Kzpb8C1buCE+VlYi8w5hnIqxHBVCDVWiZvuAyub+atxpJOhNxFTlQbs
-         uGkKPCTe+VmYSGONIjzEklBNeS8wndTpps90TGqxndQ3w2B5FrvaQ5N4kcycPBj8gPsu
-         j/XK7UIhk6+xziFeYCXCPHbsLi0qwk725VFHcHtC/voBttGT7bFoB6drmMuByKZBZb25
-         Lw3eoRMkcxhIp0bdLmSvcrhMFziuihKKRdJ2eWjKYxxa6RWqk0FDU6GcW35CqEda/n5K
-         vRyQ==
+        bh=F743H///oAY0f4Y0oAJ801yTb/k/wv+BjxPHl3RvQhk=;
+        b=Uq8rWD0YkZWtHmxiyoMaNHLUQCSm5Ck4B9j+kJqLaSYUS0VVqfBXLBMKP9HadIhoZv
+         RU/z0k4EgKdU4HEOzK9bGRqjzYXEDU0tuJ5TMAu1aALGR1i9z8htv052n7k9Fl3fPSg3
+         dlfDFuhSp6Hyk4mAUgoWTumrYsVrwG3KNXxYovKmaXMhvjGyp9RJkLI775VUJ7jYDU4b
+         gKuH8d2nBH2RoaRGHHrUx/opkLUWIOVaWp+TrC2IjvP5Z8m367qD1qMaTZTYAgwrBl8S
+         80hiE7/ixYrAZTsfCnjEjnluo0iCN2v7Cuegv99dbu3huxsBc9r81JM5lz6ZcomG5bUo
+         hNng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692993883; x=1693598683;
+        d=1e100.net; s=20221208; t=1692994179; x=1693598979;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bs29xw10SRNGIK+cNNQqN7g2ipvhccnPkcKfeXZtYSs=;
-        b=bxMLw7GTzMDBFQMfSzMuPYBNosCixFjxLmeGdkdO5ZH6prAo/hG+Nh2j+0mTvhRAqx
-         KYfT90A1qme2zT9iR4bDRYrr5qDqnCx0c6eqPnRPPm4/NAyOi7Z2PO2UDHRUHO1bAmKS
-         ABKJ+OdcxUtoA7U7LyzV7tbYsMgDV+BDSrq9H91hHPzWjLcwgafTdWAWe67yXB6RgNnG
-         zfyNtgkoYDTe1AU3uE6q98yGVUVA1t1NImS40Stco48hf3OGdbrHXnwsawvPfDXgYd6n
-         j/xRdBrxCWZqy0qy8pqk6vTyqeJDpAwwdYjrhEXwjQ/GGYsDmJntExsAPjneXj4x6Y1x
-         gRAA==
-X-Gm-Message-State: AOJu0Yy4e1u0w35HK2H2Uo/+4EM0bNSP65m//Uqigk2swBBPnNaestak
-	coiFtiNJzFyEqIQjCPIdnGThOaTqabYG2KSnCIcrBA==
-X-Google-Smtp-Source: AGHT+IFZ6NuIfRAXBaz7gAFVr7wWN+jiMnVHDzKWRspR3LpMEU/QY+aa/ZtinnL4fwAbN4krsf3cMJQrkYdA6NcETYQ=
-X-Received: by 2002:a0c:8e83:0:b0:635:e0dd:db4b with SMTP id
- x3-20020a0c8e83000000b00635e0dddb4bmr18237764qvb.37.1692993883038; Fri, 25
- Aug 2023 13:04:43 -0700 (PDT)
+        bh=F743H///oAY0f4Y0oAJ801yTb/k/wv+BjxPHl3RvQhk=;
+        b=cbSf+z+5g9DVbPLENzaOTJGUE5kywLYbjHYyYK/xHDMj+F8HgFdTV3K6SOPlEEBUcp
+         QlnB+Sv9JZ2tQAUM4abZlFqmsNliullzXXdoTYHegS/bPRjycmLzRC3sqa7YJIyRMWKV
+         zwcdWyn2GyiJKfustvajcpgrmkuaH+l2vJIPjmjzA/U5U2/Nx8yKgTubuG/AZQ4OxeZ3
+         DcZs1bXUqCeB/4RunHB1nGnOmeVccgNxqO1L0EI1cLc68O50O0j2NUMiZUylnBrarrbP
+         nVUMjObL7eLYI0MapxQZ98z6n08OYPr5O2OpBbjGeB+JMagbzxQOkUiAXXYYE/QYvWxd
+         nXTw==
+X-Gm-Message-State: AOJu0Yyxja4kh58K2HjYNI7bLQq03W2ivw3hr4tLPK8hYCVwSOaEEs/N
+	BnSd4OaM61upzUkE/qPXUH6Yo1CJ2cqoASvYmNoWKQ==
+X-Google-Smtp-Source: AGHT+IGH/PLn2u6DX/uQfVHGH+TRn8b/22cHo8PqEU5+q3lDDMDR1dQWrocsXdEpy+Z0qDsqMv89Z3BFLw6SRWuM/6I=
+X-Received: by 2002:a0c:a993:0:b0:64f:5b21:f162 with SMTP id
+ a19-20020a0ca993000000b0064f5b21f162mr9264537qvb.61.1692994179359; Fri, 25
+ Aug 2023 13:09:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202308251949.5IiaV0sz-lkp@intel.com> <ZOiapxgvLqM1w+DU@nvidia.com>
- <CAKwvOdmoewb30p1yazbkPAEDPhrSN2csngohDiC2fOJ=3Mufng@mail.gmail.com> <ZOkDvPOt/UMprbU4@nvidia.com>
-In-Reply-To: <ZOkDvPOt/UMprbU4@nvidia.com>
+References: <202308260344.Vc4Giuk7-lkp@intel.com>
+In-Reply-To: <202308260344.Vc4Giuk7-lkp@intel.com>
 From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 25 Aug 2023 13:04:31 -0700
-Message-ID: <CAKwvOdnBg2aY+WwG_GGusRcf-XPZYyqNAYoDb62dJw1MoZs_Nw@mail.gmail.com>
-Subject: Re: [linux-next:master 3581/12910] arch/powerpc/kvm/../../../virt/kvm/vfio.c:89:7:
- error: attribute declaration must precede definition
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Yi Liu <yi.l.liu@intel.com>, kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Alex Williamson <alex.williamson@redhat.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Jessica Yu <jeyu@kernel.org>, Kees Cook <keescook@chromium.org>, 
-	Will Deacon <will@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Date: Fri, 25 Aug 2023 13:09:28 -0700
+Message-ID: <CAKwvOdk=UvBxv7a2cV-Z_zK0CwzPSjBnQ0SQHaVAEUodA=hfQQ@mail.gmail.com>
+Subject: Re: [linuxppc:next-test 85/129] arch/powerpc/xmon/xmon.c:489:12:
+ error: stack frame size (2160) exceeds limit (2048) in 'xmon_core'
+To: Michael Ellerman <mpe@ellerman.id.au>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 25, 2023 at 12:40=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> w=
-rote:
+On Fri, Aug 25, 2023 at 12:17=E2=80=AFPM kernel test robot <lkp@intel.com> =
+wrote:
 >
-> On Fri, Aug 25, 2023 at 11:49:53AM -0700, Nick Desaulniers wrote:
-> > I think this example demonstrates a little clearer what's going on:
-> > https://godbolt.org/z/9d6scv1hE
-> >
-> > So based on the warning, it seems like symbol_get() can only be used
-> > before the parameter it's passed is defined, otherwise the "weak" and
-> > "visibility(hidden)" attributes are ignored.  These attributes are
-> > merge-able upon redeclaration up until the first definition.
->
-> No, that doesn't make sense. The macro does:
->
-> #define symbol_get(x) ({ extern typeof(x) x __attribute__((weak,visibilit=
-y("hidden"))); &(x); })
->
-> x must be defined for typeof(x) to work.
+> tree:   https://github.com/linuxppc/linux next-test
+> head:   c37b6908f7b2bd24dcaaf14a180e28c9132b9c58
+> commit: 7f3c5d099b6f8452dc4dcfe4179ea48e6a13d0eb [85/129] Revert "powerpc=
+/xmon: Relax frame size for clang"
+> config: powerpc64-randconfig-r006-20230825 (https://download.01.org/0day-=
+ci/archive/20230826/202308260344.Vc4Giuk7-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git =
+f28c006a5895fc0e329fe15fead81e37457cb1d1)
 
-x must be //declared// for typeof(x) to work, but x doesn't need to be
-//defined//.
-https://godbolt.org/z/qv6zPWf9K
+Hi Michael,
+Given this report and
+https://github.com/ClangBuiltLinux/linux/issues/252#issuecomment-1690371256=
+,
+it seems that it's still possible to trigger this warning (and build
+failure with CONFIG_WERROR). Is it possible to drop my patch at this
+point?
 
-But I think it's kind of moot, given the kconfig discussion below.
+I'll need to go back to the drawing board with these configs +
+specific versions of clang to better understand what's going wrong
+here.  Sorry for the trouble.
 
+> reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260344=
+.Vc4Giuk7-lkp@intel.com/reproduce)
 >
-> I think the issue is that:
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308260344.Vc4Giuk7-lkp=
+@intel.com/
 >
-> # CONFIG_VFIO is not set
-> CONFIG_KVM_VFIO=3Dy
+> All errors (new ones prefixed by >>):
 >
-> And
+> >> arch/powerpc/xmon/xmon.c:489:12: error: stack frame size (2160) exceed=
+s limit (2048) in 'xmon_core' [-Werror,-Wframe-larger-than]
+>    static int xmon_core(struct pt_regs *regs, volatile int fromipi)
+>               ^
+>    1 error generated.
 >
-> kvm-$(CONFIG_KVM_VFIO) +=3D $(KVM)/vfio.o
 >
-> Which is a combination that doesn't make any sense.
+> vim +/xmon_core +489 arch/powerpc/xmon/xmon.c
 >
-> Looks like CONFIG_KVM_VFIO should probably be called CONFIG_KVM_ARCH_VFIO
+> 5c699396f5f6cf arch/powerpc/xmon/xmon.c Anton Blanchard      2020-06-30  =
+488
+> a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann        2021-04-29 @=
+489  static int xmon_core(struct pt_regs *regs, volatile int fromipi)
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+490  {
+> a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann        2021-04-29  =
+491    volatile int cmd =3D 0;
+> a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann        2021-04-29  =
+492    struct bpt *volatile bp;
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+493    long recurse_jmp[JMP_BUF_LEN];
+> 69393cb03ccdf2 arch/powerpc/xmon/xmon.c Christopher M. Riedl 2019-09-07  =
+494    bool locked_down;
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+495    unsigned long offset;
+> f13659e0b39075 arch/powerpc/xmon/xmon.c Anton Blanchard      2007-03-21  =
+496    unsigned long flags;
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+497  #ifdef CONFIG_SMP
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+498    int cpu;
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+499    int secondary;
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+500  #endif
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+501
+> f13659e0b39075 arch/powerpc/xmon/xmon.c Anton Blanchard      2007-03-21  =
+502    local_irq_save(flags);
+> a71d64b4dc4067 arch/powerpc/xmon/xmon.c Anton Blanchard      2014-08-05  =
+503    hard_irq_disable();
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+504
+> 69393cb03ccdf2 arch/powerpc/xmon/xmon.c Christopher M. Riedl 2019-09-07  =
+505    locked_down =3D xmon_is_locked_down();
+> 69393cb03ccdf2 arch/powerpc/xmon/xmon.c Christopher M. Riedl 2019-09-07  =
+506
+> aaf06665f7ea3e arch/powerpc/xmon/xmon.c Naveen N. Rao        2019-06-27  =
+507    if (!fromipi) {
+> ed49f7fd6438dc arch/powerpc/xmon/xmon.c Breno Leitao         2017-08-02  =
+508            tracing_enabled =3D tracing_is_on();
+> ed49f7fd6438dc arch/powerpc/xmon/xmon.c Breno Leitao         2017-08-02  =
+509            tracing_off();
+> aaf06665f7ea3e arch/powerpc/xmon/xmon.c Naveen N. Rao        2019-06-27  =
+510    }
+> ed49f7fd6438dc arch/powerpc/xmon/xmon.c Breno Leitao         2017-08-02  =
+511
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+512    bp =3D in_breakpoint_table(regs->nip, &offset);
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+513    if (bp !=3D NULL) {
+> 59dc5bfca0cb6a arch/powerpc/xmon/xmon.c Nicholas Piggin      2021-06-18  =
+514            regs_set_return_ip(regs, bp->address + offset);
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+515            atomic_dec(&bp->ref_count);
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+516    }
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+517
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+518    remove_cpu_bpts();
+> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
+519
 >
-> And then
+> :::::: The code at line 489 was first introduced by commit
+> :::::: a2305e3de819394a7adf68078964a92d06f9db33 powerpc: mark local varia=
+bles around longjmp as volatile
 >
-> config KVM_VFIO
->      bool
->      depends on KVM_ARCH_VFIO
->      depends on VFIO
+> :::::: TO: Arnd Bergmann <arnd@arndb.de>
+> :::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 >
-> (or similar)
->
-> So we don't even attempt to compile kvm/vfio.c if we don't have VFIO
-> support turned on.
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-Do we need to split the Kconfig?
 
-```
-diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-index 484d0873061c..e5ebf89de855 100644
---- a/virt/kvm/Kconfig
-+++ b/virt/kvm/Kconfig
-@@ -61,6 +61,7 @@ config HAVE_KVM_CPU_RELAX_INTERCEPT
 
- config KVM_VFIO
-        bool
-+       depends on VFIO
-
- config HAVE_KVM_INVALID_WAKEUPS
-        bool
-```
-$ ./scripts/config -e VFIO
-$ make LLVM=3D1 ARCH=3Dpowerpc -j128 olddefconfig
-arch/powerpc/kvm/../../../virt/kvm/vfio.o
-#
-# configuration written to .config
-#
-  SYNC    include/config/auto.conf.cmd
-  CALL    scripts/checksyscalls.sh
-  CC      arch/powerpc/kvm/../../../virt/kvm/vfio.o
-$
 --=20
 Thanks,
 ~Nick Desaulniers
