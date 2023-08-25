@@ -1,54 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD76D302;
-	Fri, 25 Aug 2023 12:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E3B81A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 12:37:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692966415; x=1724502415;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=psOCa7KDDmybtBbFrOreIdagf4PFHIM8yxTia2JKqqs=;
-  b=Q55W5bcnJHqxYk1xRGo7ChZn6/kIzlfzw+1CdbopTHi+rCzL1QaimSsp
-   jJCy/5kpzh0H0mOufM18NOi9qFRfjPnzh/K6jKSMuH5yYa6UGO4SwoMQY
-   JWm+DCsyDZOjjLiQ4PKjDfiLIK2rC6ZP3cGrPo3+b9pYehDDDQBrcm/Fj
-   2p7EZzc9uH7PBP4jTg2y+ui1vjUrlO9c8cO9K4Wy3wD1iMWsj7Xq2rZRe
-   i88ZD6B0Obw9/4r3W35xggciwBLj50k1h0b3aviRvT8RFZcftmtecUvPf
-   eL7RrsvBbZwb0BrdExWjuf+3XXYfiyJK7m3YFOLcH20LlA4i+Hk+pm0ha
+  t=1692967038; x=1724503038;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X2tHinMtFoYxE7VP2OzxhvIXpdkwqn+dmypQPOThdCM=;
+  b=CrtnCmTvfVQDVQB15Bo5MqhNzFdkXdmgKWrp6EtUNaJNyEtxVf//XwvA
+   CM1qL/cl2skVP7217z9Q3ZjTRWmTujmZuCNvS/FdPkSXqOmETPQrDqsYJ
+   BC21RSVySt/Q0XU5sH+Am7q1X5Dp4iStnDsooaSggsl4YLQgfZ4g+T4U+
+   Vf1fVa4CX+hlZCZpycTWfusXa1TaaaVqYVcl7k6iHUnAL8fwzGphWrLL1
+   N6Vy9jhNoOt44vc80e4bIjukMI5EuM/xng2uapM1a9zTDhtw3jimsh9Wg
+   HE5p/r8sppyHr4fShbKBmRFbZ8cBopSKpdacm4OO2PGOOgV/cgIAoAz8q
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="355030434"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="461064328"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="355030434"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 05:26:52 -0700
+   d="scan'208";a="461064328"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 05:37:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="1068223843"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="984104118"
 X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
-   d="scan'208";a="1068223843"
+   d="scan'208";a="984104118"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Aug 2023 05:26:47 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 25 Aug 2023 05:37:16 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZVtn-0003Z4-0l;
-	Fri, 25 Aug 2023 12:26:47 +0000
-Date: Fri, 25 Aug 2023 20:26:10 +0800
+	id 1qZW3w-0003ZU-05;
+	Fri, 25 Aug 2023 12:37:16 +0000
+Date: Fri, 25 Aug 2023 20:36:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
-	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for
- DELETE_BUFS ioctl
-Message-ID: <202308252057.jcyaKKOJ-lkp@intel.com>
-References: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.5-rc1 65/150] drivers/acpi/pptt.c:308:
+ warning: Function parameter or member 'callback' not described in
+ 'acpi_pptt_for_each_container'
+Message-ID: <202308252045.RoPaBwSK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,84 +46,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230824092133.39510-11-benjamin.gaignard@collabora.com>
 
-Hi Benjamin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20230824]
-[also build test ERROR on v6.5-rc7]
-[cannot apply to linus/master v6.5-rc7 v6.5-rc6 v6.5-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Rework-offset-cookie-encoding-pattern/20230824-172416
-base:   next-20230824
-patch link:    https://lore.kernel.org/r/20230824092133.39510-11-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v5 10/10] media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
-config: i386-randconfig-r033-20230825 (https://download.01.org/0day-ci/archive/20230825/202308252057.jcyaKKOJ-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230825/202308252057.jcyaKKOJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.5-rc1
+head:   b35e256b516ef563cb57da2628dc19bcd600e35f
+commit: ac00bd5fb4f893f43b13c6299db1f6795de94709 [65/150] ACPI / PPTT: Provide a helper to walk processor containers
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230825/202308252045.RoPaBwSK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230825/202308252045.RoPaBwSK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308252057.jcyaKKOJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308252045.RoPaBwSK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/test-drivers/vim2m.c:963:23: error: use of undeclared identifier 'v4l2_m2m_ioctl_delete_buf'; did you mean 'v4l2_m2m_ioctl_delete_bufs'?
-           .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-                                     v4l2_m2m_ioctl_delete_bufs
-   include/media/v4l2-mem2mem.h:873:5: note: 'v4l2_m2m_ioctl_delete_bufs' declared here
-   int v4l2_m2m_ioctl_delete_bufs(struct file *file, void *priv,
-       ^
->> drivers/media/test-drivers/vim2m.c:963:3: error: field designator 'vidioc_delete_buf' does not refer to any field in type 'const struct v4l2_ioctl_ops'; did you mean 'vidioc_delete_bufs'?
-           .vidioc_delete_buf      = v4l2_m2m_ioctl_delete_buf,
-            ^~~~~~~~~~~~~~~~~
-            vidioc_delete_bufs
-   include/media/v4l2-ioctl.h:427:8: note: 'vidioc_delete_bufs' declared here
-           int (*vidioc_delete_bufs)(struct file *file, void *fh,
-                 ^
-   2 errors generated.
+>> drivers/acpi/pptt.c:308: warning: Function parameter or member 'callback' not described in 'acpi_pptt_for_each_container'
+>> drivers/acpi/pptt.c:308: warning: Function parameter or member 'arg' not described in 'acpi_pptt_for_each_container'
 
 
-vim +963 drivers/media/test-drivers/vim2m.c
+vim +308 drivers/acpi/pptt.c
 
-   942	
-   943	static const struct v4l2_ioctl_ops vim2m_ioctl_ops = {
-   944		.vidioc_querycap	= vidioc_querycap,
-   945	
-   946		.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt_vid_cap,
-   947		.vidioc_enum_framesizes = vidioc_enum_framesizes,
-   948		.vidioc_g_fmt_vid_cap	= vidioc_g_fmt_vid_cap,
-   949		.vidioc_try_fmt_vid_cap	= vidioc_try_fmt_vid_cap,
-   950		.vidioc_s_fmt_vid_cap	= vidioc_s_fmt_vid_cap,
-   951	
-   952		.vidioc_enum_fmt_vid_out = vidioc_enum_fmt_vid_out,
-   953		.vidioc_g_fmt_vid_out	= vidioc_g_fmt_vid_out,
-   954		.vidioc_try_fmt_vid_out	= vidioc_try_fmt_vid_out,
-   955		.vidioc_s_fmt_vid_out	= vidioc_s_fmt_vid_out,
-   956	
-   957		.vidioc_reqbufs		= v4l2_m2m_ioctl_reqbufs,
-   958		.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
-   959		.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
-   960		.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
-   961		.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
-   962		.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
- > 963		.vidioc_delete_buf	= v4l2_m2m_ioctl_delete_buf,
-   964		.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
-   965	
-   966		.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
-   967		.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
-   968	
-   969		.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-   970		.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-   971	};
-   972	
+   295	
+   296	/**
+   297	 * acpi_pptt_for_each_container() - Iterate over all processor containers
+   298	 *
+   299	 * Not all 'Processor' entries in the PPTT are either a CPU or a Processor
+   300	 * Container, they may exist purely to describe a Private resource. CPUs
+   301	 * have to be leaves, so a Processor Container is a non-leaf that has the
+   302	 * 'ACPI Processor ID valid' flag set.
+   303	 *
+   304	 * Return: 0 for a complete walk, or the first non-zero value from the callback
+   305	 *         that stopped the walk.
+   306	 */
+   307	int acpi_pptt_for_each_container(acpi_pptt_cpu_callback_t callback, void *arg)
+ > 308	{
+   309		struct acpi_pptt_processor *cpu_node;
+   310		struct acpi_table_header *table_hdr;
+   311		struct acpi_subtable_header *entry;
+   312		bool leaf_flag, has_leaf_flag = false;
+   313		unsigned long table_end;
+   314		acpi_status status;
+   315		u32 proc_sz;
+   316		int ret = 0;
+   317	
+   318		status = acpi_get_table(ACPI_SIG_PPTT, 0, &table_hdr);
+   319		if (ACPI_FAILURE(status))
+   320			return 0;
+   321	
+   322		if (table_hdr->revision > 1)
+   323			has_leaf_flag = true;
+   324	
+   325		table_end = (unsigned long)table_hdr + table_hdr->length;
+   326		entry = ACPI_ADD_PTR(struct acpi_subtable_header, table_hdr,
+   327				     sizeof(struct acpi_table_pptt));
+   328		proc_sz = sizeof(struct acpi_pptt_processor);
+   329		while ((unsigned long)entry + proc_sz < table_end) {
+   330			cpu_node = (struct acpi_pptt_processor *)entry;
+   331			if (entry->type == ACPI_PPTT_TYPE_PROCESSOR &&
+   332			    cpu_node->flags & ACPI_PPTT_ACPI_PROCESSOR_ID_VALID)
+   333			{
+   334				leaf_flag = cpu_node->flags & ACPI_PPTT_ACPI_LEAF_NODE;
+   335				if ((has_leaf_flag && !leaf_flag) ||
+   336				    (!has_leaf_flag && !acpi_pptt_leaf_node(table_hdr, cpu_node)))
+   337				{
+   338					ret = callback(cpu_node, arg);
+   339					if (ret)
+   340						break;
+   341				}
+   342			}
+   343			entry = ACPI_ADD_PTR(struct acpi_subtable_header, entry,
+   344					     entry->length);
+   345		}
+   346	
+   347		acpi_put_table(table_hdr);
+   348	
+   349		return ret;
+   350	}
+   351	
 
 -- 
 0-DAY CI Kernel Test Service
