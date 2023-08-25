@@ -1,43 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E26019883
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 22:23:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662041AA82
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 22:23:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693002205; x=1724538205;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ml8orwrF6O9pr5DbmMLl8AV+y2Ubapnubw+wn7tpDks=;
-  b=ASUr1sIm0ZC/VrDaefwGSlSXZ97+5ZRrOqOYMkaHURSPOSLVSWpDOKcA
-   l87U96h/HCnFknBFDyv4U7WCjL1BsPu8fjZKWEmA3aHtxSO6BklzPaG8/
-   OG/HXaWSi16eKeeFSI49ImkKvKyYnpoe2x9aErs842nS1+hgsdX0pr5Jz
-   2rXU4kS6BV9w/10oNVvMxoEolf0SsqGkT3yhnOOhrfIgJv91LX1XiUr8c
-   jCD45B520ZLKG8kz8o80m9S6BySHzLberzSMzkis9flUAfQAyrw5nKXAq
-   Y9xZwiBe/IArVyxy0dRuLiDzuf0bmJT2py4ZUMyQ6m73DF0wlxVXABZWn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="374789349"
+  t=1693002213; x=1724538213;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JBnc0QG+1aFQQroftxh2ThC8FXzf6nI5IRhrwD0d8tY=;
+  b=EV7LBi1vzDgKiRgnY24MvEl96q8mBvIu0XjTKfaB4ZIdoC5LPDM/17RF
+   +OV4EGHvOO4W9aehq/evjrptbKO7FNDXlpyg9gd72u4vw9iXqOyE+vzrE
+   wTWFZa873XpRR3bSPg+5yovd+urym2cngFKvR/R8/SzVwZsuOM1WVh9xZ
+   wS80+1gdUm65UsDOn5UA6OcdV2pZggI+5VDbuOPCmTv7o7+SqGTx0dZ26
+   aFAACrCXY/dc1T/ijPo/MKtjurhr6vm847OPPoB5qrD2F41KTwG4XnR4d
+   Py6de/Cxu7k0P9Z5oOqz5NujSVwMgUnjiSz4wNhs2VV5whLn94rd3xPPH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="374789358"
 X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="374789349"
+   d="scan'208";a="374789358"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 15:22:08 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 15:22:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="772640743"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="772640758"
 X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="772640743"
+   d="scan'208";a="772640758"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 25 Aug 2023 15:22:08 -0700
+  by orsmga001.jf.intel.com with ESMTP; 25 Aug 2023 15:22:09 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZfBu-000443-0o;
+	id 1qZfBu-000445-0v;
 	Fri, 25 Aug 2023 22:22:06 +0000
-Date: Sat, 26 Aug 2023 06:21:57 +0800
+Date: Sat, 26 Aug 2023 06:21:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chanho Park <chanho61.park@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>
-Subject: [sudeep-holla:android13-5.10/ffa 2111/9999] ld: phylink.c:undefined
- reference to `phy_duplex_to_str'
-Message-ID: <202308260604.FPTEBDBd-lkp@intel.com>
+To: Pawel Chmielewski <pawel.chmielewski@intel.com>,
+	intel-wired-lan@osuosl.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	aelior@marvell.com, manishc@marvell.com, andrew@lunn.ch
+Subject: Re: [Intel-wired-lan] [PATCH iwl-next v3 2/8] ethtool: Add forced
+ speed to supported link modes maps
+Message-ID: <202308260616.Sf8QzI7c-lkp@intel.com>
+References: <20230823180633.2450617-3-pawel.chmielewski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,180 +49,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230823180633.2450617-3-pawel.chmielewski@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
-head:   9e12ac4f9c69befe08119567c073adc938aafc4d
-commit: 36ab8cea47b0d4a3c5067577430c147a903b5261 [2111/9999] ANDROID: GKI: Kconfig.gki: Add GKI_HIDDEN_ETHERNET_CONFIGS
-config: x86_64-buildonly-randconfig-004-20230824 (https://download.01.org/0day-ci/archive/20230826/202308260604.FPTEBDBd-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260604.FPTEBDBd-lkp@intel.com/reproduce)
+Hi Pawel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tnguy-next-queue/dev-queue]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Chmielewski/ice-Add-E830-device-IDs-MAC-type-and-registers/20230824-021235
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20230823180633.2450617-3-pawel.chmielewski%40intel.com
+patch subject: [Intel-wired-lan] [PATCH iwl-next v3 2/8] ethtool: Add forced speed to supported link modes maps
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230826/202308260616.Sf8QzI7c-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260616.Sf8QzI7c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308260604.FPTEBDBd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308260616.Sf8QzI7c-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   vmlinux.o: warning: objtool: __do_fast_syscall_32()+0x7d: call to trace_hardirqs_off() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: match_held_lock()+0xef: call to rcu_read_lock_any_held() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: check_preemption_disabled.isra.0()+0x4a: return with instrumentation enabled
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
-   ld: drivers/net/phy/phylink.o: in function `phylink_get_fixed_state':
-   phylink.c:(.text+0xa4): undefined reference to `linkmode_resolve_pause'
-   ld: drivers/net/phy/phylink.o: in function `phylink_decode_c37_word':
-   phylink.c:(.text+0x175): undefined reference to `linkmode_resolve_pause'
-   ld: drivers/net/phy/phylink.o: in function `phylink_mii_emul_read':
-   phylink.c:(.text+0x2cd): undefined reference to `swphy_read_reg'
-   ld: drivers/net/phy/phylink.o: in function `phylink_major_config':
-   phylink.c:(.text+0x452): undefined reference to `netdev_printk'
-   ld: drivers/net/phy/phylink.o: in function `phylink_phy_change':
-   phylink.c:(.text+0x50e): undefined reference to `phy_get_pause'
-   ld: drivers/net/phy/phylink.o: in function `phylink_link_down':
-   phylink.c:(.text+0x642): undefined reference to `netif_carrier_off'
-   ld: drivers/net/phy/phylink.o: in function `phylink_resolve':
-   phylink.c:(.text+0x99c): undefined reference to `netif_carrier_on'
->> ld: phylink.c:(.text+0xb69): undefined reference to `phy_duplex_to_str'
->> ld: phylink.c:(.text+0xb71): undefined reference to `phy_speed_to_str'
-   ld: phylink.c:(.text+0xc0c): undefined reference to `phy_duplex_to_str'
-   ld: phylink.c:(.text+0xc17): undefined reference to `phy_speed_to_str'
->> ld: phylink.c:(.text+0xc3a): undefined reference to `netdev_printk'
-   ld: drivers/net/phy/phylink.o: in function `phylink_create':
-   phylink.c:(.text+0xec1): undefined reference to `netdev_printk'
-   ld: phylink.c:(.text+0x1090): undefined reference to `netdev_printk'
-   ld: phylink.c:(.text+0x11ce): undefined reference to `netdev_printk'
->> ld: phylink.c:(.text+0x138d): undefined reference to `phy_lookup_setting'
-   ld: phylink.c:(.text+0x1466): undefined reference to `netdev_printk'
-   ld: phylink.c:(.text+0x14c9): undefined reference to `netdev_printk'
-   ld: phylink.c:(.text+0x14e4): undefined reference to `netdev_printk'
-   ld: drivers/net/phy/phylink.o: in function `phylink_connect_phy':
-   phylink.c:(.text+0x15be): undefined reference to `phy_attach_direct'
->> ld: phylink.c:(.text+0x15d8): undefined reference to `phy_support_asym_pause'
->> ld: phylink.c:(.text+0x167e): undefined reference to `phy_detach'
->> ld: phylink.c:(.text+0x16ee): undefined reference to `phy_attached_info_irq'
->> ld: phylink.c:(.text+0x17b8): undefined reference to `phy_request_interrupt'
-   ld: phylink.c:(.text+0x17fe): undefined reference to `netdev_printk'
-   ld: phylink.c:(.text+0x184e): undefined reference to `netdev_printk'
-   ld: drivers/net/phy/phylink.o: in function `phylink_disconnect_phy':
-   phylink.c:(.text+0x190f): undefined reference to `rtnl_is_locked'
-   ld: drivers/net/phy/phylink.o: in function `phylink_start':
-   phylink.c:(.text+0x1a02): undefined reference to `rtnl_is_locked'
->> ld: phylink.c:(.text+0x1a26): undefined reference to `netif_carrier_off'
->> ld: phylink.c:(.text+0x1a6e): undefined reference to `phy_start'
-   ld: phylink.c:(.text+0x1cf7): undefined reference to `netdev_printk'
-   ld: drivers/net/phy/phylink.o: in function `phylink_stop':
-   phylink.c:(.text+0x1d1a): undefined reference to `rtnl_is_locked'
->> ld: phylink.c:(.text+0x1d2c): undefined reference to `phy_stop'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_wol':
-   phylink.c:(.text+0x1dce): undefined reference to `rtnl_is_locked'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_wol':
-   phylink.c:(.text+0x1e3e): undefined reference to `rtnl_is_locked'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_get':
-   phylink.c:(.text+0x1ed5): undefined reference to `rtnl_is_locked'
->> ld: phylink.c:(.text+0x1eee): undefined reference to `phy_ethtool_ksettings_get'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_set':
-   phylink.c:(.text+0x1ff7): undefined reference to `rtnl_is_locked'
->> ld: phylink.c:(.text+0x2010): undefined reference to `phy_ethtool_ksettings_set'
-   ld: phylink.c:(.text+0x21e1): undefined reference to `phy_lookup_setting'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_nway_reset':
-   phylink.c:(.text+0x22eb): undefined reference to `rtnl_is_locked'
->> ld: phylink.c:(.text+0x22ff): undefined reference to `phy_restart_aneg'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_pauseparam':
-   phylink.c:(.text+0x235e): undefined reference to `rtnl_is_locked'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_pauseparam':
-   phylink.c:(.text+0x23e4): undefined reference to `rtnl_is_locked'
->> ld: phylink.c:(.text+0x2477): undefined reference to `linkmode_set_pause'
->> ld: phylink.c:(.text+0x24d7): undefined reference to `phy_set_asym_pause'
-   ld: drivers/net/phy/phylink.o: in function `phylink_get_eee_err':
-   phylink.c:(.text+0x25aa): undefined reference to `rtnl_is_locked'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_eee':
-   phylink.c:(.text+0x262e): undefined reference to `rtnl_is_locked'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_eee':
-   phylink.c:(.text+0x269e): undefined reference to `rtnl_is_locked'
-   ld: drivers/net/phy/phylink.o: in function `phylink_mii_ioctl':
-   phylink.c:(.text+0x2739): undefined reference to `rtnl_is_locked'
->> ld: phylink.c:(.text+0x2774): undefined reference to `phy_mii_ioctl'
->> ld: phylink.c:(.text+0x2837): undefined reference to `mdiobus_write'
->> ld: phylink.c:(.text+0x28e2): undefined reference to `mdiobus_read'
-   ld: drivers/net/phy/phylink.o: in function `phylink_speed_down':
-   phylink.c:(.text+0x2a2d): undefined reference to `rtnl_is_locked'
-   ld: drivers/net/phy/phylink.o: in function `phylink_speed_up':
-   phylink.c:(.text+0x2a9a): undefined reference to `rtnl_is_locked'
-   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_get_state':
-   phylink.c:(.text+0x2c38): undefined reference to `mdiobus_read'
-   ld: phylink.c:(.text+0x2c4a): undefined reference to `mdiobus_read'
-   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_set_advertisement':
-   phylink.c:(.text+0x2d7c): undefined reference to `mdiobus_read'
-   ld: phylink.c:(.text+0x2d97): undefined reference to `mdiobus_write'
-   ld: phylink.c:(.text+0x2db5): undefined reference to `mdiobus_read'
-   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_config':
-   phylink.c:(.text+0x2e13): undefined reference to `mdiobus_modify'
-   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_an_restart':
-   phylink.c:(.text+0x2e5c): undefined reference to `mdiobus_read'
-   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c45_pcs_get_state':
-   phylink.c:(.text+0x2e9c): undefined reference to `mdiobus_read'
-   ld: drivers/net/phy/phylink.o: in function `phylink_major_config':
-   phylink.c:(.text+0x439): undefined reference to `netdev_printk'
-   ld: drivers/net/phy/phylink.o: in function `phylink_link_down':
-   phylink.c:(.text+0x67b): undefined reference to `netdev_printk'
-   ld: drivers/net/phy/phylink.o: in function `phylink_disconnect_phy':
-   phylink.c:(.text+0x1970): undefined reference to `phy_disconnect'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_wol':
-   phylink.c:(.text+0x1ded): undefined reference to `phy_ethtool_get_wol'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_wol':
-   phylink.c:(.text+0x1e55): undefined reference to `phy_ethtool_set_wol'
-   ld: drivers/net/phy/phylink.o: in function `phylink_get_eee_err':
-   phylink.c:(.text+0x25bd): undefined reference to `phy_get_eee_err'
-   ld: drivers/net/phy/phylink.o: in function `phylink_init_eee':
-   phylink.c:(.text+0x2613): undefined reference to `phy_init_eee'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_eee':
-   phylink.c:(.text+0x2645): undefined reference to `phy_ethtool_get_eee'
-   ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_eee':
-   phylink.c:(.text+0x26b5): undefined reference to `phy_ethtool_set_eee'
-   ld: drivers/net/phy/phylink.o: in function `phylink_speed_down':
-   phylink.c:(.text+0x2a54): undefined reference to `phy_speed_down'
-   ld: drivers/net/phy/phylink.o: in function `phylink_speed_up':
-   phylink.c:(.text+0x2abb): undefined reference to `phy_speed_up'
-   ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_an_restart':
-   phylink.c:(.text+0x2e74): undefined reference to `mdiobus_write'
+   drivers/net/ethernet/qlogic/qede/qede_ethtool.c: In function 'qede_set_link_ksettings':
+>> drivers/net/ethernet/qlogic/qede/qede_ethtool.c:584:29: error: assignment to 'const struct qede_forced_speed_map *' from incompatible pointer type 'struct ethtool_forced_speed_map *' [-Werror=incompatible-pointer-types]
+     584 |                         map = qede_forced_speed_maps + i;
+         |                             ^
+>> drivers/net/ethernet/qlogic/qede/qede_ethtool.c:586:47: error: invalid use of undefined type 'const struct qede_forced_speed_map'
+     586 |                         if (base->speed != map->speed ||
+         |                                               ^~
+   drivers/net/ethernet/qlogic/qede/qede_ethtool.c:588:53: error: invalid use of undefined type 'const struct qede_forced_speed_map'
+     588 |                                                  map->caps))
+         |                                                     ^~
+   drivers/net/ethernet/qlogic/qede/qede_ethtool.c:592:70: error: invalid use of undefined type 'const struct qede_forced_speed_map'
+     592 |                                      current_link.supported_caps, map->caps);
+         |                                                                      ^~
+   cc1: some warnings being treated as errors
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+vim +584 drivers/net/ethernet/qlogic/qede/qede_ethtool.c
+
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  546  
+054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  547  static int qede_set_link_ksettings(struct net_device *dev,
+054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  548  				   const struct ethtool_link_ksettings *cmd)
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  549  {
+054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  550  	const struct ethtool_link_settings *base = &cmd->base;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  551  	struct qede_dev *edev = netdev_priv(dev);
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  552  	const struct qede_forced_speed_map *map;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  553  	struct qed_link_output current_link;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  554  	struct qed_link_params params;
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  555  	u32 i;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  556  
+fe7cd2bfdac4d8 Yuval Mintz                  2016-04-22  557  	if (!edev->ops || !edev->ops->common->can_link_change(edev->cdev)) {
+054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  558  		DP_INFO(edev, "Link settings are not allowed to be changed\n");
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  559  		return -EOPNOTSUPP;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  560  	}
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  561  	memset(&current_link, 0, sizeof(current_link));
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  562  	memset(&params, 0, sizeof(params));
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  563  	edev->ops->common->get_link(edev->cdev, &current_link);
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  564  
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  565  	params.override_flags |= QED_LINK_OVERRIDE_SPEED_ADV_SPEEDS;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  566  	params.override_flags |= QED_LINK_OVERRIDE_SPEED_AUTONEG;
+bdb5d8ec47611c Alexander Lobakin            2020-07-20  567  
+054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  568  	if (base->autoneg == AUTONEG_ENABLE) {
+bdb5d8ec47611c Alexander Lobakin            2020-07-20  569  		if (!phylink_test(current_link.supported_caps, Autoneg)) {
+161adb046b9119 sudarsana.kalluru@cavium.com 2017-05-04  570  			DP_INFO(edev, "Auto negotiation is not supported\n");
+161adb046b9119 sudarsana.kalluru@cavium.com 2017-05-04  571  			return -EOPNOTSUPP;
+161adb046b9119 sudarsana.kalluru@cavium.com 2017-05-04  572  		}
+161adb046b9119 sudarsana.kalluru@cavium.com 2017-05-04  573  
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  574  		params.autoneg = true;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  575  		params.forced_speed = 0;
+bdb5d8ec47611c Alexander Lobakin            2020-07-20  576  
+bdb5d8ec47611c Alexander Lobakin            2020-07-20  577  		linkmode_copy(params.adv_speeds, cmd->link_modes.advertising);
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  578  	} else {		/* forced speed */
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  579  		params.override_flags |= QED_LINK_OVERRIDE_SPEED_FORCED_SPEED;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  580  		params.autoneg = false;
+054c67d1c82afd Sudarsana Reddy Kalluru      2016-08-09  581  		params.forced_speed = base->speed;
+bdb5d8ec47611c Alexander Lobakin            2020-07-20  582  
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  583  		for (i = 0; i < ARRAY_SIZE(qede_forced_speed_maps); i++) {
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20 @584  			map = qede_forced_speed_maps + i;
+bdb5d8ec47611c Alexander Lobakin            2020-07-20  585  
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20 @586  			if (base->speed != map->speed ||
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  587  			    !linkmode_intersects(current_link.supported_caps,
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  588  						 map->caps))
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  589  				continue;
+bdb5d8ec47611c Alexander Lobakin            2020-07-20  590  
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  591  			linkmode_and(params.adv_speeds,
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  592  				     current_link.supported_caps, map->caps);
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  593  			goto set_link;
+bdb5d8ec47611c Alexander Lobakin            2020-07-20  594  		}
+bdb5d8ec47611c Alexander Lobakin            2020-07-20  595  
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  596  		DP_INFO(edev, "Unsupported speed %u\n", base->speed);
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  597  		return -EINVAL;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  598  	}
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  599  
+1d4e4ecccb1144 Alexander Lobakin            2020-07-20  600  set_link:
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  601  	params.link_up = true;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  602  	edev->ops->common->set_link(edev->cdev, &params);
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  603  
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  604  	return 0;
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  605  }
+133fac0eedc355 Sudarsana Kalluru            2015-10-26  606  
 
 -- 
 0-DAY CI Kernel Test Service
