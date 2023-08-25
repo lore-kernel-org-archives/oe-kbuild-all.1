@@ -1,182 +1,186 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2C01938C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 20:09:40 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-649921ec030so7649546d6.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 13:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692994179; x=1693598979;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F743H///oAY0f4Y0oAJ801yTb/k/wv+BjxPHl3RvQhk=;
-        b=Uq8rWD0YkZWtHmxiyoMaNHLUQCSm5Ck4B9j+kJqLaSYUS0VVqfBXLBMKP9HadIhoZv
-         RU/z0k4EgKdU4HEOzK9bGRqjzYXEDU0tuJ5TMAu1aALGR1i9z8htv052n7k9Fl3fPSg3
-         dlfDFuhSp6Hyk4mAUgoWTumrYsVrwG3KNXxYovKmaXMhvjGyp9RJkLI775VUJ7jYDU4b
-         gKuH8d2nBH2RoaRGHHrUx/opkLUWIOVaWp+TrC2IjvP5Z8m367qD1qMaTZTYAgwrBl8S
-         80hiE7/ixYrAZTsfCnjEjnluo0iCN2v7Cuegv99dbu3huxsBc9r81JM5lz6ZcomG5bUo
-         hNng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692994179; x=1693598979;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F743H///oAY0f4Y0oAJ801yTb/k/wv+BjxPHl3RvQhk=;
-        b=cbSf+z+5g9DVbPLENzaOTJGUE5kywLYbjHYyYK/xHDMj+F8HgFdTV3K6SOPlEEBUcp
-         QlnB+Sv9JZ2tQAUM4abZlFqmsNliullzXXdoTYHegS/bPRjycmLzRC3sqa7YJIyRMWKV
-         zwcdWyn2GyiJKfustvajcpgrmkuaH+l2vJIPjmjzA/U5U2/Nx8yKgTubuG/AZQ4OxeZ3
-         DcZs1bXUqCeB/4RunHB1nGnOmeVccgNxqO1L0EI1cLc68O50O0j2NUMiZUylnBrarrbP
-         nVUMjObL7eLYI0MapxQZ98z6n08OYPr5O2OpBbjGeB+JMagbzxQOkUiAXXYYE/QYvWxd
-         nXTw==
-X-Gm-Message-State: AOJu0Yyxja4kh58K2HjYNI7bLQq03W2ivw3hr4tLPK8hYCVwSOaEEs/N
-	BnSd4OaM61upzUkE/qPXUH6Yo1CJ2cqoASvYmNoWKQ==
-X-Google-Smtp-Source: AGHT+IGH/PLn2u6DX/uQfVHGH+TRn8b/22cHo8PqEU5+q3lDDMDR1dQWrocsXdEpy+Z0qDsqMv89Z3BFLw6SRWuM/6I=
-X-Received: by 2002:a0c:a993:0:b0:64f:5b21:f162 with SMTP id
- a19-20020a0ca993000000b0064f5b21f162mr9264537qvb.61.1692994179359; Fri, 25
- Aug 2023 13:09:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D3619397
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Aug 2023 20:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692995292; x=1724531292;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KNQDy7GoPxw1urxB2S4tKwYFVUxfZeMu1tMfLdgJCiI=;
+  b=VUvJg3uhnTv989K2UNXL+vKOjeIVhrA0/0tV/Ob35rZZ+T2kVTBjDXmd
+   r4ME6lbjk06AN3TgTyX8LZdK6JKKPvOdRGfxXHdYZDDAlnTsZJFhuae59
+   YByZrHzS9q4oHpGoDvfjwiJWveaIotSy5EQJDntvOZ3k310F/cEytWaP4
+   QBQ+R1U1xDVYuZdUIsZV7SlYL6a+pmK8bpQ97N0FlJbPLxTKKKP4wBVl0
+   F3USAPfESh+1fLeMwevTwn1OjPzkaK2/4yGa2cPubb0PyZcrg8TDhLoVK
+   FV2/JsoQoSTtcHeR2etzxbdugnmpLVgNY1ays8V1Pn7bEFLgExXF3cnji
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="373665533"
+X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
+   d="scan'208";a="373665533"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 13:28:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="731162064"
+X-IronPort-AV: E=Sophos;i="6.02,201,1688454000"; 
+   d="scan'208";a="731162064"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 25 Aug 2023 13:28:09 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qZdPX-0003yt-0j;
+	Fri, 25 Aug 2023 20:28:05 +0000
+Date: Sat, 26 Aug 2023 04:27:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Huang, Sean Z" <sean.z.huang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>,
+	Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+	Alan Previn <alan.previn.teres.alexis@intel.com>
+Subject: [intel-lts:6.1/linux 2335/2351]
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h:144: warning: Function parameter
+ or member 'next_tag_id' not described in 'intel_pxp'
+Message-ID: <202308260434.tDPLuOXg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202308260344.Vc4Giuk7-lkp@intel.com>
-In-Reply-To: <202308260344.Vc4Giuk7-lkp@intel.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 25 Aug 2023 13:09:28 -0700
-Message-ID: <CAKwvOdk=UvBxv7a2cV-Z_zK0CwzPSjBnQ0SQHaVAEUodA=hfQQ@mail.gmail.com>
-Subject: Re: [linuxppc:next-test 85/129] arch/powerpc/xmon/xmon.c:489:12:
- error: stack frame size (2160) exceeds limit (2048) in 'xmon_core'
-To: Michael Ellerman <mpe@ellerman.id.au>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Aug 25, 2023 at 12:17=E2=80=AFPM kernel test robot <lkp@intel.com> =
-wrote:
->
-> tree:   https://github.com/linuxppc/linux next-test
-> head:   c37b6908f7b2bd24dcaaf14a180e28c9132b9c58
-> commit: 7f3c5d099b6f8452dc4dcfe4179ea48e6a13d0eb [85/129] Revert "powerpc=
-/xmon: Relax frame size for clang"
-> config: powerpc64-randconfig-r006-20230825 (https://download.01.org/0day-=
-ci/archive/20230826/202308260344.Vc4Giuk7-lkp@intel.com/config)
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git =
-f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/intel/linux-intel-lts.git 6.1/linux
+head:   bcf6f14318c852a7319cf3ebeb0978432e314c0e
+commit: 6977158e8425a487e4952c99eb80310471226b9f [2335/2351] drm/i915/pxp:[PXP-MULTI-UAPI] Implement ioctl action to query PXP tag
+config: x86_64-randconfig-004-20230825 (https://download.01.org/0day-ci/archive/20230826/202308260434.tDPLuOXg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260434.tDPLuOXg-lkp@intel.com/reproduce)
 
-Hi Michael,
-Given this report and
-https://github.com/ClangBuiltLinux/linux/issues/252#issuecomment-1690371256=
-,
-it seems that it's still possible to trigger this warning (and build
-failure with CONFIG_WERROR). Is it possible to drop my patch at this
-point?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308260434.tDPLuOXg-lkp@intel.com/
 
-I'll need to go back to the drawing board with these configs +
-specific versions of clang to better understand what's going wrong
-here.  Sorry for the trouble.
+All warnings (new ones prefixed by >>):
 
-> reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260344=
-.Vc4Giuk7-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308260344.Vc4Giuk7-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> arch/powerpc/xmon/xmon.c:489:12: error: stack frame size (2160) exceed=
-s limit (2048) in 'xmon_core' [-Werror,-Wframe-larger-than]
->    static int xmon_core(struct pt_regs *regs, volatile int fromipi)
->               ^
->    1 error generated.
->
->
-> vim +/xmon_core +489 arch/powerpc/xmon/xmon.c
->
-> 5c699396f5f6cf arch/powerpc/xmon/xmon.c Anton Blanchard      2020-06-30  =
-488
-> a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann        2021-04-29 @=
-489  static int xmon_core(struct pt_regs *regs, volatile int fromipi)
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-490  {
-> a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann        2021-04-29  =
-491    volatile int cmd =3D 0;
-> a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann        2021-04-29  =
-492    struct bpt *volatile bp;
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-493    long recurse_jmp[JMP_BUF_LEN];
-> 69393cb03ccdf2 arch/powerpc/xmon/xmon.c Christopher M. Riedl 2019-09-07  =
-494    bool locked_down;
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-495    unsigned long offset;
-> f13659e0b39075 arch/powerpc/xmon/xmon.c Anton Blanchard      2007-03-21  =
-496    unsigned long flags;
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-497  #ifdef CONFIG_SMP
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-498    int cpu;
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-499    int secondary;
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-500  #endif
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-501
-> f13659e0b39075 arch/powerpc/xmon/xmon.c Anton Blanchard      2007-03-21  =
-502    local_irq_save(flags);
-> a71d64b4dc4067 arch/powerpc/xmon/xmon.c Anton Blanchard      2014-08-05  =
-503    hard_irq_disable();
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-504
-> 69393cb03ccdf2 arch/powerpc/xmon/xmon.c Christopher M. Riedl 2019-09-07  =
-505    locked_down =3D xmon_is_locked_down();
-> 69393cb03ccdf2 arch/powerpc/xmon/xmon.c Christopher M. Riedl 2019-09-07  =
-506
-> aaf06665f7ea3e arch/powerpc/xmon/xmon.c Naveen N. Rao        2019-06-27  =
-507    if (!fromipi) {
-> ed49f7fd6438dc arch/powerpc/xmon/xmon.c Breno Leitao         2017-08-02  =
-508            tracing_enabled =3D tracing_is_on();
-> ed49f7fd6438dc arch/powerpc/xmon/xmon.c Breno Leitao         2017-08-02  =
-509            tracing_off();
-> aaf06665f7ea3e arch/powerpc/xmon/xmon.c Naveen N. Rao        2019-06-27  =
-510    }
-> ed49f7fd6438dc arch/powerpc/xmon/xmon.c Breno Leitao         2017-08-02  =
-511
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-512    bp =3D in_breakpoint_table(regs->nip, &offset);
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-513    if (bp !=3D NULL) {
-> 59dc5bfca0cb6a arch/powerpc/xmon/xmon.c Nicholas Piggin      2021-06-18  =
-514            regs_set_return_ip(regs, bp->address + offset);
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-515            atomic_dec(&bp->ref_count);
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-516    }
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-517
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-518    remove_cpu_bpts();
-> ^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16  =
-519
->
-> :::::: The code at line 489 was first introduced by commit
-> :::::: a2305e3de819394a7adf68078964a92d06f9db33 powerpc: mark local varia=
-bles around longjmp as volatile
->
-> :::::: TO: Arnd Bergmann <arnd@arndb.de>
-> :::::: CC: Michael Ellerman <mpe@ellerman.id.au>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+   drivers/gpu/drm/i915/pxp/intel_pxp_types.h:144: warning: Function parameter or member 'reserved_sessions' not described in 'intel_pxp'
+   drivers/gpu/drm/i915/pxp/intel_pxp_types.h:144: warning: Function parameter or member 'hwdrm_sessions' not described in 'intel_pxp'
+   drivers/gpu/drm/i915/pxp/intel_pxp_types.h:144: warning: Function parameter or member 'arb_session' not described in 'intel_pxp'
+>> drivers/gpu/drm/i915/pxp/intel_pxp_types.h:144: warning: Function parameter or member 'next_tag_id' not described in 'intel_pxp'
+   4 warnings as Errors
 
 
+vim +144 drivers/gpu/drm/i915/pxp/intel_pxp_types.h
 
---=20
-Thanks,
-~Nick Desaulniers
+3ad2dd9c4caa73 Daniele Ceraolo Spurio 2021-09-24   44  
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   45  /**
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   46   * struct intel_pxp - pxp state
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   47   */
+3ad2dd9c4caa73 Daniele Ceraolo Spurio 2021-09-24   48  struct intel_pxp {
+ba9fb207e7fa78 Alan Previn            2022-12-08   49  	/**
+ba9fb207e7fa78 Alan Previn            2022-12-08   50  	 * @ctrl_gt: poiner to the tile that owns the controls for PXP subsystem assets that
+ba9fb207e7fa78 Alan Previn            2022-12-08   51  	 * the VDBOX, the KCR engine (and GSC CS depending on the platform)
+ba9fb207e7fa78 Alan Previn            2022-12-08   52  	 */
+ba9fb207e7fa78 Alan Previn            2022-12-08   53  	struct intel_gt *ctrl_gt;
+ba9fb207e7fa78 Alan Previn            2022-12-08   54  
+ec41a80740ee13 Alan Previn            2023-05-11   55  	/**
+ec41a80740ee13 Alan Previn            2023-05-11   56  	 * @kcr_base: base mmio offset for the KCR engine which is different on legacy platforms
+ec41a80740ee13 Alan Previn            2023-05-11   57  	 * vs newer platforms where the KCR is inside the media-tile.
+ec41a80740ee13 Alan Previn            2023-05-11   58  	 */
+ec41a80740ee13 Alan Previn            2023-05-11   59  	u32 kcr_base;
+ec41a80740ee13 Alan Previn            2023-05-11   60  
+7949319302adfe Alan Previn            2023-05-11   61  	/**
+7949319302adfe Alan Previn            2023-05-11   62  	 * @gsccs_res: resources for request submission for platforms that have a GSC engine.
+7949319302adfe Alan Previn            2023-05-11   63  	 */
+7949319302adfe Alan Previn            2023-05-11   64  	struct gsccs_session_resources {
+7949319302adfe Alan Previn            2023-05-11   65  		u64 host_session_handle; /* used by firmware to link commands to sessions */
+7949319302adfe Alan Previn            2023-05-11   66  		struct intel_context *ce; /* context for gsc command submission */
+33b9efbde1283c Alan Previn            2023-05-11   67  
+33b9efbde1283c Alan Previn            2023-05-11   68  		struct i915_vma *pkt_vma; /* GSC FW cmd packet vma */
+33b9efbde1283c Alan Previn            2023-05-11   69  		void *pkt_vaddr;  /* GSC FW cmd packet virt pointer */
+33b9efbde1283c Alan Previn            2023-05-11   70  
+33b9efbde1283c Alan Previn            2023-05-11   71  		struct i915_vma *bb_vma; /* HECI_PKT batch buffer vma */
+33b9efbde1283c Alan Previn            2023-05-11   72  		void *bb_vaddr; /* HECI_PKT batch buffer virt pointer */
+7949319302adfe Alan Previn            2023-05-11   73  	} gsccs_res;
+7949319302adfe Alan Previn            2023-05-11   74  
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   75  	/**
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   76  	 * @pxp_component: i915_pxp_component struct of the bound mei_pxp
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   77  	 * module. Only set and cleared inside component bind/unbind functions,
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   78  	 * which are protected by &tee_mutex.
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   79  	 */
+0436ac1b008d48 Huang, Sean Z          2021-09-24   80  	struct i915_pxp_component *pxp_component;
+a6133bdffc8b57 Alexander Usyskin      2023-01-25   81  
+6ac392fcbec01a Jani Nikula            2023-05-02   82  	/**
+6ac392fcbec01a Jani Nikula            2023-05-02   83  	 * @dev_link: Enforce module relationship for power management ordering.
+6ac392fcbec01a Jani Nikula            2023-05-02   84  	 */
+a6133bdffc8b57 Alexander Usyskin      2023-01-25   85  	struct device_link *dev_link;
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   86  	/**
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   87  	 * @pxp_component_added: track if the pxp component has been added.
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   88  	 * Set and cleared in tee init and fini functions respectively.
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   89  	 */
+0436ac1b008d48 Huang, Sean Z          2021-09-24   90  	bool pxp_component_added;
+0436ac1b008d48 Huang, Sean Z          2021-09-24   91  
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   92  	/** @ce: kernel-owned context used for PXP operations */
+3ad2dd9c4caa73 Daniele Ceraolo Spurio 2021-09-24   93  	struct intel_context *ce;
+cbbd3764b2399a Huang, Sean Z          2021-09-24   94  
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   95  	/** @arb_mutex: protects arb session start */
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   96  	struct mutex arb_mutex;
+cbbd3764b2399a Huang, Sean Z          2021-09-24   97  
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   98  	/**
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24   99  	 * @key_instance: tracks which key instance we're on, so we can use it
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  100  	 * to determine if an object was created using the current key or a
+d3ac8d42168a9b Daniele Ceraolo Spurio 2021-09-24  101  	 * previous one.
+d3ac8d42168a9b Daniele Ceraolo Spurio 2021-09-24  102  	 */
+d3ac8d42168a9b Daniele Ceraolo Spurio 2021-09-24  103  	u32 key_instance;
+d3ac8d42168a9b Daniele Ceraolo Spurio 2021-09-24  104  
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  105  	/** @tee_mutex: protects the tee channel binding and messaging. */
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  106  	struct mutex tee_mutex;
+2ae096872a2c61 Huang, Sean Z          2021-09-24  107  
+8bb68ea7d2d926 Vitaly Lubart          2022-09-27  108  	/** @stream_cmd: LMEM obj used to send stream PXP commands to the GSC */
+8bb68ea7d2d926 Vitaly Lubart          2022-09-27  109  	struct {
+8bb68ea7d2d926 Vitaly Lubart          2022-09-27  110  		struct drm_i915_gem_object *obj; /* contains PXP command memory */
+8bb68ea7d2d926 Vitaly Lubart          2022-09-27  111  		void *vaddr; /* virtual memory for PXP command */
+8bb68ea7d2d926 Vitaly Lubart          2022-09-27  112  	} stream_cmd;
+8bb68ea7d2d926 Vitaly Lubart          2022-09-27  113  
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  114  	/**
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  115  	 * @hw_state_invalidated: if the HW perceives an attack on the integrity
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  116  	 * of the encryption it will invalidate the keys and expect SW to
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  117  	 * re-initialize the session. We keep track of this state to make sure
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  118  	 * we only re-start the arb session when required.
+2ae096872a2c61 Huang, Sean Z          2021-09-24  119  	 */
+2ae096872a2c61 Huang, Sean Z          2021-09-24  120  	bool hw_state_invalidated;
+2ae096872a2c61 Huang, Sean Z          2021-09-24  121  
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  122  	/** @irq_enabled: tracks the status of the kcr irqs */
+2ae096872a2c61 Huang, Sean Z          2021-09-24  123  	bool irq_enabled;
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  124  	/**
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  125  	 * @termination: tracks the status of a pending termination. Only
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  126  	 * re-initialized under gt->irq_lock and completed in &session_work.
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  127  	 */
+2ae096872a2c61 Huang, Sean Z          2021-09-24  128  	struct completion termination;
+2ae096872a2c61 Huang, Sean Z          2021-09-24  129  
+aa985f9124e10e Daniele Ceraolo Spurio 2021-04-28  130  	/** @session_mutex: protects hwdrm_sesions, and reserved_sessions. */
+aa985f9124e10e Daniele Ceraolo Spurio 2021-04-28  131  	struct mutex session_mutex;
+aa985f9124e10e Daniele Ceraolo Spurio 2021-04-28  132  	DECLARE_BITMAP(reserved_sessions, INTEL_PXP_MAX_HWDRM_SESSIONS);
+aa985f9124e10e Daniele Ceraolo Spurio 2021-04-28  133  	struct intel_pxp_session *hwdrm_sessions[INTEL_PXP_MAX_HWDRM_SESSIONS];
+aa985f9124e10e Daniele Ceraolo Spurio 2021-04-28  134  	struct intel_pxp_session arb_session;
+6977158e8425a4 Huang, Sean Z          2020-12-09  135  	u8 next_tag_id[INTEL_PXP_MAX_HWDRM_SESSIONS];
+aa985f9124e10e Daniele Ceraolo Spurio 2021-04-28  136  
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  137  	/** @session_work: worker that manages session events. */
+2ae096872a2c61 Huang, Sean Z          2021-09-24  138  	struct work_struct session_work;
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  139  	/** @session_events: pending session events, protected with gt->irq_lock. */
+2d5517a5c8bfcd Daniele Ceraolo Spurio 2021-09-24  140  	u32 session_events;
+2ae096872a2c61 Huang, Sean Z          2021-09-24  141  #define PXP_TERMINATION_REQUEST  BIT(0)
+2ae096872a2c61 Huang, Sean Z          2021-09-24  142  #define PXP_TERMINATION_COMPLETE BIT(1)
+32271ecd6596e6 Daniele Ceraolo Spurio 2021-09-24  143  #define PXP_INVAL_REQUIRED       BIT(2)
+3ad2dd9c4caa73 Daniele Ceraolo Spurio 2021-09-24 @144  };
+3ad2dd9c4caa73 Daniele Ceraolo Spurio 2021-09-24  145  
+
+:::::: The code at line 144 was first introduced by commit
+:::::: 3ad2dd9c4caa7330dd08244e94bec49a62fee6e4 drm/i915/pxp: allocate a vcs context for pxp usage
+
+:::::: TO: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
