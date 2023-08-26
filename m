@@ -1,42 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A5E2102
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 10:08:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA0AC8C7;
+	Sat, 26 Aug 2023 10:08:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693044484; x=1724580484;
+  t=1693044486; x=1724580486;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pr0hMqGmQDL7eLUlIRyqu6569I3qO2T/x6vpuy2oir8=;
-  b=JF02enCK2BWmEAb0Ck2/to5vGBBlcsQw6sEf7al6Cg/8zZHABZvlEsHK
-   bnY1i18vL1c2WM1D2puqBvhquGq/sT/nYlNXWz3xJWq1oiPXLY9mDT+ID
-   1D5oTHqzT/a1BUW6tbMQuTutaewQ63XVihxOC1gcOZ6pmXk+/W+rXsBRO
-   KwjqDDtmPIroW22as5lOjU7rgB8unjpe2/OcAXEHqO0aTZ17hyn6GEllT
-   3Ynw1aj38YuYtAEtDsmHpuz6hwYFYfX6D9WqysSIZS7LtxAgYjJ28Kgtb
-   YlgHcOmgpeHamCTRBC3PR6yUpRmaG2nnQze5dR7LbCnlQOywXF5EQJcCK
+  bh=nEcMl3UmVyaVeKG8oDzYBK25gQcEQgG9pMV2FQ7RBRA=;
+  b=YdNFjGtUFBYIRK5Ua8fQmsh04NPp2vrHz+FxzjI01UwgtACHAIckSIMJ
+   M8h4gGTgH/bXBfhC2mgylcZ5xISibAbi3+OosI6esq3pIqpM0FfZ8A1FS
+   aL21IQxajssc34X3NLsCKpeU6x4eJkeRZtG/r0qkpOdbjzwKd8jnKtToH
+   a7+Ai22qSrRSw4aWuC084Z4uRUvae7op+dc1t2EX+biCs57ItgbrXgHDm
+   k9ZeDYfMoj9Oa/2bJbpYykeld/82/wcznLbPS+IOFDjadjp+jafSFCb2H
+   3JdBHKcJaeFLW0uE6GMj9iln3FJNlNhnleN9HE+HaPEmSDRqFxVSapUIu
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="441210625"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="441210627"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="441210625"
+   d="scan'208";a="441210627"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 03:08:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="861317493"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="861317492"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="861317493"
+   d="scan'208";a="861317492"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
   by orsmga004.jf.intel.com with ESMTP; 26 Aug 2023 03:08:02 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZqD4-0004aZ-0K;
+	id 1qZqD4-0004ab-0O;
 	Sat, 26 Aug 2023 10:08:02 +0000
-Date: Sat, 26 Aug 2023 18:07:28 +0800
+Date: Sat, 26 Aug 2023 18:07:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morse:mpam/snapshot/v6.5-rc1 138/150] fs/resctrl/rdtgroup.c:850:15:
- warning: assignment makes pointer from integer without a cast
-Message-ID: <202308261713.M0Tu9fm6-lkp@intel.com>
+To: Qais Yousef <qais.yousef@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [qais-yousef:sched-setscheduler-hide 2/9]
+ kernel/rcu/rcutorture.c:3174:9: error: call to undeclared function
+ 'rcu_get_gp_kthreads_prio'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202308261851.tRxdvzGA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,62 +48,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.5-rc1
-head:   b35e256b516ef563cb57da2628dc19bcd600e35f
-commit: 9e9af35cd8e4b32e9ccba2fa49c1ce600b3066b8 [138/150] fs/resctrl: Add support for assigning iommu_groups to resctrl groups
-config: x86_64-randconfig-072-20230826 (https://download.01.org/0day-ci/archive/20230826/202308261713.M0Tu9fm6-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261713.M0Tu9fm6-lkp@intel.com/reproduce)
+tree:   https://github.com/qais-yousef/linux sched-setscheduler-hide
+head:   e586c67baa1c537a793f135e324cc56df2b6585b
+commit: 029b407f286d7bc9a7ace79c65483efa8ead8671 [2/9] rcu: Use a new sched_set_rcu_fifo() to set gp kthread prio
+config: hexagon-randconfig-r025-20230826 (https://download.01.org/0day-ci/archive/20230826/202308261851.tRxdvzGA-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261851.tRxdvzGA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308261713.M0Tu9fm6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308261851.tRxdvzGA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/resctrl/rdtgroup.c: In function 'show_rdt_iommu':
-   fs/resctrl/rdtgroup.c:850:17: error: implicit declaration of function 'iommu_get_group_kset'; did you mean 'iommu_group_get'? [-Werror=implicit-function-declaration]
-     iommu_groups = iommu_get_group_kset();
-                    ^~~~~~~~~~~~~~~~~~~~
-                    iommu_group_get
->> fs/resctrl/rdtgroup.c:850:15: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-     iommu_groups = iommu_get_group_kset();
-                  ^
-   cc1: some warnings being treated as errors
+   In file included from kernel/rcu/rcutorture.c:24:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from kernel/rcu/rcutorture.c:24:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from kernel/rcu/rcutorture.c:24:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   kernel/rcu/rcutorture.c:412:16: warning: variable 'started' set but not used [-Wunused-but-set-variable]
+     412 |         unsigned long started;
+         |                       ^
+   kernel/rcu/rcutorture.c:413:16: warning: variable 'completed' set but not used [-Wunused-but-set-variable]
+     413 |         unsigned long completed;
+         |                       ^
+   kernel/rcu/rcutorture.c:416:21: warning: variable 'ts' set but not used [-Wunused-but-set-variable]
+     416 |         unsigned long long ts;
+         |                            ^
+   kernel/rcu/rcutorture.c:1967:21: warning: variable 'ts' set but not used [-Wunused-but-set-variable]
+    1967 |         unsigned long long ts;
+         |                            ^
+>> kernel/rcu/rcutorture.c:3174:9: error: call to undeclared function 'rcu_get_gp_kthreads_prio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3174 |         prio = rcu_get_gp_kthreads_prio();
+         |                ^
+   10 warnings and 1 error generated.
 
 
-vim +850 fs/resctrl/rdtgroup.c
+vim +/rcu_get_gp_kthreads_prio +3174 kernel/rcu/rcutorture.c
 
-   839	
-   840	static void show_rdt_iommu(struct rdtgroup *r, struct seq_file *s)
-   841	{
-   842		struct kset *iommu_groups;
-   843		struct iommu_group *group;
-   844		struct kobject *group_kobj = NULL;
-   845	
-   846		if (!IS_ENABLED(CONFIG_RESCTRL_IOMMU) ||
-   847		    !static_branch_unlikely(&resctrl_abi_playground))
-   848			return;
-   849	
- > 850		iommu_groups = iommu_get_group_kset();
-   851	
-   852		while ((group_kobj = kset_get_next_obj(iommu_groups, group_kobj))) {
-   853	
-   854			/* iommu_group_get_from_kobj() wants to drop a reference */
-   855			kobject_get(group_kobj);
-   856	
-   857			group = iommu_group_get_from_kobj(group_kobj);
-   858			if (!group)
-   859				continue;
-   860	
-   861			if (iommu_matches_rdtgroup(group, r))
-   862				seq_printf(s, "iommu_group:%s\n", group_kobj->name);
-   863		}
-   864	
-   865		kset_put(iommu_groups);
-   866	}
-   867	
+fae4b54f28f034 kernel/rcutorture.c     Paul E. McKenney        2012-02-20  3163  
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3164) static bool rcu_torture_can_boost(void)
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3165) {
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3166) 	static int boost_warn_once;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3167) 	int prio;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3168) 
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3169) 	if (!(test_boost == 1 && cur_ops->can_boost) && test_boost != 2)
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3170) 		return false;
+ea6d962e80b619 kernel/rcu/rcutorture.c Paul E. McKenney        2021-03-30  3171  	if (!cur_ops->start_gp_poll || !cur_ops->poll_gp_state)
+5e59fba573e64c kernel/rcu/rcutorture.c Paul E. McKenney        2021-01-15  3172  		return false;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3173) 
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19 @3174) 	prio = rcu_get_gp_kthreads_prio();
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3175) 	if (!prio)
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3176) 		return false;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3177) 
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3178) 	if (prio < 2) {
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3179) 		if (boost_warn_once == 1)
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3180) 			return false;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3181) 
+bf5b64355a3ce4 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3182) 		pr_alert("%s: WARN: RCU kthread priority too low to test boosting.  Skipping RCU boost test. Try passing rcutree.kthread_prio > 1 on the kernel command line.\n", KBUILD_MODNAME);
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3183) 		boost_warn_once = 1;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3184) 		return false;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3185) 	}
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3186) 
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3187) 	return true;
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3188) }
+4babd855fd6137 kernel/rcu/rcutorture.c Joel Fernandes (Google  2018-06-19  3189) 
+
+:::::: The code at line 3174 was first introduced by commit
+:::::: 4babd855fd6137f9792117eb73b096c221a49d3c rcutorture: Add support to detect if boost kthread prio is too low
+
+:::::: TO: Joel Fernandes (Google) <joel@joelfernandes.org>
+:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
