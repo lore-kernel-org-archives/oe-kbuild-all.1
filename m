@@ -1,42 +1,29 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB44CA58
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 13:29:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693056543; x=1724592543;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6esqsmPbc2c2yPfztSqjmTOUkRA+PWVm2YJJXIiKYPc=;
-  b=DoBLXPi6y/TlN7rO3CyLA4wL84/qyk4xH5fBY5txIipt1jYVBlNgKLUc
-   UzqwBEQ6u19qcJP5515mBSFPlGwPZ7H0lwDxpKvwybV1MMqs9BlJoptkT
-   xEL8XgnTiTgMC7YEMtPvcGz7LbN0FdVkMtR2tRJu56SiSkeRmuesr4+Pc
-   m2pv7qldL5ylhPNNNPRZNf75dCRxwNU8l3jsLFtWQITWsRrQsjtXGWkl+
-   3N29hiaVWD5u7i7wIZOA4yuem2akte0guRBLlqyDyEn/wLD4m6tdVaNaZ
-   8hoFxGOZjIPiA7rnWU0NYfg8L7Obstgn3DKZ/IlNxxxT9XhG1zvXmjLeb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="377610295"
-X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="377610295"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 06:29:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="1068540622"
-X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="1068540622"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Aug 2023 06:29:00 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qZtLR-0004jf-37;
-	Sat, 26 Aug 2023 13:28:57 +0000
-Date: Sat, 26 Aug 2023 21:28:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/637 1221/12466] include/drm/drm_of.h:85:12:
- warning: 'drm_of_component_probe_with_match' defined but not used
-Message-ID: <202308262155.4ALxx9r0-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9218CD2E5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 15:38:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9E4FC433C7;
+	Sat, 26 Aug 2023 15:38:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693064336;
+	bh=AhHOE+P4JxMBh24kPTGMBSIjODF9G+hVoKWd0iLMDb8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f5I/QpkZpUHIadlb9K4ekM1osqMox8ACZMZM8NdOhpFkhMHe8RD5OpWahZ7dlzYI4
+	 YbRb8mpdXi2IklJDm46leDrznZcIEX4e4dyLeg1q8lp9zoCW3LFNLCqAnuYC2edZ0e
+	 O0weZIK8cQAcQEutUMXWOACeqgbSnrXOXKLPo181m6sE3FKg2d8r8XaNrLFrse+Ep6
+	 E5GxEwJuKsxnUq0mDBAAyGH4dj7z040ZjQTstDWdV6FL90FgcIlOm7ZTiy2xhHkuRi
+	 KF2s2lvz7y4jaEqDISmAdOnq8nrzDDHo5SjK11i0ajDXy0SBf3yVP4hO/3IGCebWfo
+	 RHLQKT7EuaZjw==
+Date: Sun, 27 Aug 2023 00:38:54 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org
+Subject: Re: [pci:controller/qcom-edma 2/7] ERROR: modpost: "__umoddi3"
+ [drivers/pci/endpoint/functions/pci-epf-mhi.ko] undefined!
+Message-ID: <20230826153854.GB774351@rocinante>
+References: <202308260652.rZm0oJCE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,39 +32,13 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202308260652.rZm0oJCE-lkp@intel.com>
 
-tree:   https://github.com/Freescale/linux-fslc pr/637
-head:   ec33c7fc43bef23fa0b69db996fee0ba601875e9
-commit: 8c692185192065cbc4c5e1358fcc1abe5356149a [1221/12466] MLK-16290 drm: Add drm_of_component_probe_with_match() helper
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230826/202308262155.4ALxx9r0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308262155.4ALxx9r0-lkp@intel.com/reproduce)
+Hello,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308262155.4ALxx9r0-lkp@intel.com/
+[...]
+> >> ERROR: modpost: "__umoddi3" [drivers/pci/endpoint/functions/pci-epf-mhi.ko] undefined!
 
-All warnings (new ones prefixed by >>):
+I will take care of this on Manivannan's behalf.
 
-   In file included from drivers/gpu/drm/drm_bridge.c:32:
->> include/drm/drm_of.h:85:12: warning: 'drm_of_component_probe_with_match' defined but not used [-Wunused-function]
-      85 | static int drm_of_component_probe_with_match(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/drm_of_component_probe_with_match +85 include/drm/drm_of.h
-
-    84	
-  > 85	static int drm_of_component_probe_with_match(struct device *dev,
-    86				   struct component_match *match,
-    87				   int (*compare_of)(struct device *, void *),
-    88				   const struct component_master_ops *m_ops)
-    89	{
-    90		return -EINVAL;
-    91	}
-    92	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Krzysztof
