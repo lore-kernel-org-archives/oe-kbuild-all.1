@@ -1,43 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC502C9C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 17:24:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B91DF4F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 18:15:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693070660; x=1724606660;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kY15YCq4JkkYMGB5sPlwoQrRj3V2xAP2CcD1jK/YZdA=;
-  b=EvcFtk13nsfMIS8OinQ8Ff0tPlr/JjYPiTjLhvdY9Y0kitLvgTZ4BPLP
-   UFETd3auRCXSAMqW/OlAHe5DrNCrUYYn+R7ybbnfx05xQ68lMk9IRcNR7
-   ApNTwUhOFIdfOtiiF88YX8upKtIQIfRv+44qwXzd4+bzzf3uKWuyeIUd1
-   i8SaLwl20mBB28D+AIoZYOUdu+qTpysou7CT4+FOQ+BeFm/XSyY0GFx7a
-   KWJz1Ddi8Q0MtLjrFpdxaTC1N0pZYh/0AFIul6L3Lf48k+MjFLCn8RDVL
-   dwP+NI/metpgqqaIfotVGBkS9A9YUHZYALFr+561UcOjoUg7etMUuDT0Y
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="378670653"
+  t=1693073724; x=1724609724;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sow/NUD0MSkiIp8x5GRqQtIOQTiTt/joLibtDQWus5o=;
+  b=H+VBWrnfRBXOS53nT4pGsY141OfFk6DVW0M4OFl/CGY3X31LsNNJE57+
+   LSDk7nsA+pyNTKzI4XCIsfsZYzI1B5A8oPi7S1It29MsxWWjOKtni2PuN
+   PJ3ySLolbp3WtjIwLHrOFAGpBCIes2kOh6uL+PafxHE5ixMhCW3QMQD/m
+   1/+gqXwqKUDG/0ABcEIIX1t5U4/DzAKe3Nlizt65kFn+dVMMfx8O1xd8T
+   +oIe8HIuOrQkPZKOnc49SMsL95l2u8LmmaPVPOa+X48N0wkvJhPEUaEQz
+   1M0S6/S6yo8yVrY3E29UAHOyE4Eh5b5gtM7MEACmpCq8vH2PcypXcuyBh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="378673439"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="378670653"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 10:24:19 -0700
+   d="scan'208";a="378673439"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 11:15:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="687641130"
-X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="687641130"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="881491461"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 26 Aug 2023 10:24:18 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2023 11:15:24 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZx1F-0004vz-1K;
-	Sat, 26 Aug 2023 17:24:17 +0000
-Date: Sun, 27 Aug 2023 01:23:20 +0800
+	id 1qZxoc-0004yF-2W;
+	Sat, 26 Aug 2023 18:15:18 +0000
+Date: Sun, 27 Aug 2023 02:14:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4_2 11366/11472]
- drivers/net/ethernet/mediatek/mtk_eth_soc.h:1656:21: warning: no previous
- prototype for function 'mtk_sgmii_wrapper_select_pcs'
-Message-ID: <202308270156.NWkDS3v2-lkp@intel.com>
+To: Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Muchun Song <songmuchun@bytedance.com>,
+	Joao Martins <joao.m.martins@oracle.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@redhat.com>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	David Rientjes <rientjes@google.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Naoya Horiguchi <naoya.horiguchi@linux.dev>,
+	Barry Song <song.bao.hua@hisilicon.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Xiongchun Duan <duanxiongchun@bytedance.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Mike Kravetz <mike.kravetz@oracle.com>
+Subject: Re: [PATCH 10/12] hugetlb: batch PMD split for bulk vmemmap dedup
+Message-ID: <202308270248.eJT8UDG3-lkp@intel.com>
+References: <20230825190436.55045-11-mike.kravetz@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,148 +60,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230825190436.55045-11-mike.kravetz@oracle.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4_2
-head:   9da4af54446a9e2a6f6e734ea33cff68ce412a6c
-commit: a5a54758c1022d9da88499b08f2ca26d4d8d230f [11366/11472] net: ethernet: mtk_eth_soc: add paths and SerDes modes for MT7988
-config: mips-randconfig-r003-20230826 (https://download.01.org/0day-ci/archive/20230827/202308270156.NWkDS3v2-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230827/202308270156.NWkDS3v2-lkp@intel.com/reproduce)
+Hi Mike,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20230825]
+[cannot apply to akpm-mm/mm-everything v6.5-rc7 v6.5-rc6 v6.5-rc5 linus/master v6.5-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Kravetz/hugetlb-clear-flags-in-tail-pages-that-will-be-freed-individually/20230826-030805
+base:   next-20230825
+patch link:    https://lore.kernel.org/r/20230825190436.55045-11-mike.kravetz%40oracle.com
+patch subject: [PATCH 10/12] hugetlb: batch PMD split for bulk vmemmap dedup
+config: x86_64-randconfig-r031-20230826 (https://download.01.org/0day-ci/archive/20230827/202308270248.eJT8UDG3-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230827/202308270248.eJT8UDG3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308270156.NWkDS3v2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308270248.eJT8UDG3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/mediatek/mtk_eth_path.c:13:
->> drivers/net/ethernet/mediatek/mtk_eth_soc.h:1656:21: warning: no previous prototype for function 'mtk_sgmii_wrapper_select_pcs' [-Wmissing-prototypes]
-    1656 | struct phylink_pcs *mtk_sgmii_wrapper_select_pcs(struct mtk_eth *eth, int id)
-         |                     ^
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:1656:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1656 | struct phylink_pcs *mtk_sgmii_wrapper_select_pcs(struct mtk_eth *eth, int id)
-         | ^
-         | static 
-   1 warning generated.
---
-   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:31:
->> drivers/net/ethernet/mediatek/mtk_eth_soc.h:1656:21: warning: no previous prototype for function 'mtk_sgmii_wrapper_select_pcs' [-Wmissing-prototypes]
-    1656 | struct phylink_pcs *mtk_sgmii_wrapper_select_pcs(struct mtk_eth *eth, int id)
-         |                     ^
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:1656:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1656 | struct phylink_pcs *mtk_sgmii_wrapper_select_pcs(struct mtk_eth *eth, int id)
-         | ^
-         | static 
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1447:11: warning: shift count >= width of type [-Wshift-count-overflow]
-    1447 |                 data |= TX_DMA_PREP_ADDR64(info->addr);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:336:67: note: expanded from macro 'TX_DMA_PREP_ADDR64'
-     336 | #define TX_DMA_PREP_ADDR64(x)   FIELD_PREP(TX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^  ~~
-   include/linux/bitfield.h:114:33: note: expanded from macro 'FIELD_PREP'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                                               ^~~~
-   include/linux/bitfield.h:68:41: note: expanded from macro '__BF_FIELD_CHECK'
-      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                                                       ^~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:425:22: note: expanded from macro 'compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:413:23: note: expanded from macro '_compiletime_assert'
-     413 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:405:9: note: expanded from macro '__compiletime_assert'
-     405 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1447:11: warning: shift count >= width of type [-Wshift-count-overflow]
-    1447 |                 data |= TX_DMA_PREP_ADDR64(info->addr);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:336:67: note: expanded from macro 'TX_DMA_PREP_ADDR64'
-     336 | #define TX_DMA_PREP_ADDR64(x)   FIELD_PREP(TX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^  ~~
-   include/linux/bitfield.h:114:33: note: expanded from macro 'FIELD_PREP'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                                               ^~~~
-   include/linux/bitfield.h:69:39: note: expanded from macro '__BF_FIELD_CHECK'
-      69 |                                  ~((_mask) >> __bf_shf(_mask)) & (_val) : 0, \
-         |                                                                   ^~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:425:22: note: expanded from macro 'compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:413:23: note: expanded from macro '_compiletime_assert'
-     413 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:405:9: note: expanded from macro '__compiletime_assert'
-     405 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1447:11: warning: shift count >= width of type [-Wshift-count-overflow]
-    1447 |                 data |= TX_DMA_PREP_ADDR64(info->addr);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:336:67: note: expanded from macro 'TX_DMA_PREP_ADDR64'
-     336 | #define TX_DMA_PREP_ADDR64(x)   FIELD_PREP(TX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^  ~~
-   include/linux/bitfield.h:115:20: note: expanded from macro 'FIELD_PREP'
-     115 |                 ((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask);   \
-         |                                  ^~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2214:24: warning: result of comparison of constant 65536 with expression of type 'u16' (aka 'unsigned short') is always true [-Wtautological-constant-out-of-range-compare]
-    2214 |                         if (ring->frag_size <= PAGE_SIZE)
-         |                             ~~~~~~~~~~~~~~~ ^  ~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2304:17: warning: shift count >= width of type [-Wshift-count-overflow]
-    2304 |                         rxd->rxd2 |= RX_DMA_PREP_ADDR64(dma_addr);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:351:67: note: expanded from macro 'RX_DMA_PREP_ADDR64'
-     351 | #define RX_DMA_PREP_ADDR64(x)   FIELD_PREP(RX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^  ~~
-   include/linux/bitfield.h:114:33: note: expanded from macro 'FIELD_PREP'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                                               ^~~~
-   include/linux/bitfield.h:68:41: note: expanded from macro '__BF_FIELD_CHECK'
-      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                                                       ^~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:425:22: note: expanded from macro 'compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:413:23: note: expanded from macro '_compiletime_assert'
-     413 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:405:9: note: expanded from macro '__compiletime_assert'
-     405 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2304:17: warning: shift count >= width of type [-Wshift-count-overflow]
-    2304 |                         rxd->rxd2 |= RX_DMA_PREP_ADDR64(dma_addr);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:351:67: note: expanded from macro 'RX_DMA_PREP_ADDR64'
-     351 | #define RX_DMA_PREP_ADDR64(x)   FIELD_PREP(RX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^  ~~
-   include/linux/bitfield.h:114:33: note: expanded from macro 'FIELD_PREP'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                                               ^~~~
-   include/linux/bitfield.h:69:39: note: expanded from macro '__BF_FIELD_CHECK'
-      69 |                                  ~((_mask) >> __bf_shf(_mask)) & (_val) : 0, \
-         |                                                                   ^~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:425:22: note: expanded from macro 'compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
+>> mm/hugetlb_vmemmap.c:40: warning: Function parameter or member 'flags' not described in 'vmemmap_remap_walk'
 
 
-vim +/mtk_sgmii_wrapper_select_pcs +1656 drivers/net/ethernet/mediatek/mtk_eth_soc.h
+vim +40 mm/hugetlb_vmemmap.c
 
-  1650	
-  1651	#ifdef CONFIG_NET_MEDIATEK_SOC_USXGMII
-  1652	struct phylink_pcs *mtk_sgmii_wrapper_select_pcs(struct mtk_eth *eth, int id);
-  1653	struct phylink_pcs *mtk_usxgmii_select_pcs(struct mtk_eth *eth, int id);
-  1654	int mtk_usxgmii_init(struct mtk_eth *eth);
-  1655	#else
-> 1656	struct phylink_pcs *mtk_sgmii_wrapper_select_pcs(struct mtk_eth *eth, int id)
-  1657	{
-  1658		return NULL;
-  1659	}
-  1660	
+f41f2ed43ca525 Muchun Song  2021-06-30  19  
+998a2997885f73 Muchun Song  2022-06-28  20  /**
+998a2997885f73 Muchun Song  2022-06-28  21   * struct vmemmap_remap_walk - walk vmemmap page table
+998a2997885f73 Muchun Song  2022-06-28  22   *
+998a2997885f73 Muchun Song  2022-06-28  23   * @remap_pte:		called for each lowest-level entry (PTE).
+998a2997885f73 Muchun Song  2022-06-28  24   * @nr_walked:		the number of walked pte.
+998a2997885f73 Muchun Song  2022-06-28  25   * @reuse_page:		the page which is reused for the tail vmemmap pages.
+998a2997885f73 Muchun Song  2022-06-28  26   * @reuse_addr:		the virtual address of the @reuse_page page.
+998a2997885f73 Muchun Song  2022-06-28  27   * @vmemmap_pages:	the list head of the vmemmap pages that can be freed
+998a2997885f73 Muchun Song  2022-06-28  28   *			or is mapped from.
+506a27a4627ab7 Joao Martins 2023-08-25  29   * @flags		used to modify behavior in bulk operations
+998a2997885f73 Muchun Song  2022-06-28  30   */
+998a2997885f73 Muchun Song  2022-06-28  31  struct vmemmap_remap_walk {
+998a2997885f73 Muchun Song  2022-06-28  32  	void			(*remap_pte)(pte_t *pte, unsigned long addr,
+998a2997885f73 Muchun Song  2022-06-28  33  					     struct vmemmap_remap_walk *walk);
+998a2997885f73 Muchun Song  2022-06-28  34  	unsigned long		nr_walked;
+998a2997885f73 Muchun Song  2022-06-28  35  	struct page		*reuse_page;
+998a2997885f73 Muchun Song  2022-06-28  36  	unsigned long		reuse_addr;
+998a2997885f73 Muchun Song  2022-06-28  37  	struct list_head	*vmemmap_pages;
+506a27a4627ab7 Joao Martins 2023-08-25  38  #define VMEMMAP_REMAP_ONLY_SPLIT	BIT(0)
+506a27a4627ab7 Joao Martins 2023-08-25  39  	unsigned long		flags;
+998a2997885f73 Muchun Song  2022-06-28 @40  };
+998a2997885f73 Muchun Song  2022-06-28  41  
 
 -- 
 0-DAY CI Kernel Test Service
