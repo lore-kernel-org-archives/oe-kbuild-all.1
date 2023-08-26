@@ -1,43 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EF9EDC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 07:42:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278CF137D;
+	Sat, 26 Aug 2023 08:02:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693035720; x=1724571720;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jP5KcMVcmuHCd0t4ODPpWgAAcSUXHPh89vlXQlHxrRQ=;
-  b=CIr4Yes6UEJGDMxfW2xSfNE2b+ZobKOOKNnNPv++oJw0pQHfcajY9eSi
-   8cgRCQ/sG8C9FGaJ7bcPmdk4/7KeTLggYu3DEPvC1uIvg7ruchTWBAawp
-   e4ekzPQt5d73C7E0HFAwmJAUjo6Nxm7u/A+ZUeYJGRUiX+jERnBiAAxVi
-   YG3ZXgb2rY3AptOW8hnPAfxDjpwt+50qJqRLjdOrYWLtVjjZzWkfB8yuE
-   z4x1vA/IEC+fkbNisq6BPbDcj/uIYK1ONB0j1AGTWB1GwVoG2FRE/H+5w
-   L5HSVTw0ZsFw9KM7QjzCdMq1qit8xn3TFEv9V5Nc4YmpDudlRXvtBTjqJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="373730849"
+  t=1693036924; x=1724572924;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bVpGnSBGvSJPKPCdKmhHM2u3QgUVXmp2aXiWFiOxQUA=;
+  b=fQZTAN5fexHHx53mx3xcAUQ+urwC7Zkl3e1vhK7zTpEcbanUoErfF9lD
+   rTCMgxHq+oo1HoYe11yqIC4eeMzMy/XAYr4fMgq8QdnqUBN/sjiSYutZ5
+   oaoUH070a8UOvBdBmtaFFqyuvl+6bgDChNGjg8n77zw5Nr3fVHW9kCLwJ
+   ViOE6lmDu17HbEyTPPgQPeUUmnsMCUCiJncdP86eQSrydcSmkKt3kRq/7
+   hOwdCPPVrbXqZ4hUZQxYAHloYZvjvcOTBALicy8zEwKBQ9qKxck8Y8yC2
+   rKyWtu2HckGB3DN7Nn6mlN9IH/Nq1gvP6TdPQ38WnJzQvD3VMC6wBzqlv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="372260804"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="373730849"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 00:41:59 -0700
+   d="scan'208";a="372260804"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 01:02:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="881396449"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="827815883"
+X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
+   d="scan'208";a="827815883"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2023 00:42:03 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 26 Aug 2023 01:01:58 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZnv6-0004Sh-1R;
-	Sat, 26 Aug 2023 07:41:30 +0000
-Date: Sat, 26 Aug 2023 15:40:34 +0800
+	id 1qZoF4-0004U3-0E;
+	Sat, 26 Aug 2023 08:01:58 +0000
+Date: Sat, 26 Aug 2023 16:01:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qais Yousef <qyousef@layalina.io>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [qais-yousef:sched-setscheduler-hide 9/9]
- include/linux/kthread.h:28:65: warning: 'struct kernel_param' declared
- inside parameter list will not be visible outside of this definition or
- declaration
-Message-ID: <202308261506.HViL7oWg-lkp@intel.com>
+To: Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Muchun Song <songmuchun@bytedance.com>,
+	Joao Martins <joao.m.martins@oracle.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@redhat.com>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	David Rientjes <rientjes@google.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Naoya Horiguchi <naoya.horiguchi@linux.dev>,
+	Barry Song <song.bao.hua@hisilicon.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Xiongchun Duan <duanxiongchun@bytedance.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Mike Kravetz <mike.kravetz@oracle.com>
+Subject: Re: [PATCH 12/12] hugetlb: batch TLB flushes when restoring vmemmap
+Message-ID: <202308261516.F6FBNktd-lkp@intel.com>
+References: <20230825190436.55045-13-mike.kravetz@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,98 +62,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230825190436.55045-13-mike.kravetz@oracle.com>
 
-tree:   https://github.com/qais-yousef/linux sched-setscheduler-hide
-head:   e586c67baa1c537a793f135e324cc56df2b6585b
-commit: e586c67baa1c537a793f135e324cc56df2b6585b [9/9] kthread: Provide a mechanism to control kthread sched_attr
-config: arm-randconfig-r024-20230826 (https://download.01.org/0day-ci/archive/20230826/202308261506.HViL7oWg-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261506.HViL7oWg-lkp@intel.com/reproduce)
+Hi Mike,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20230825]
+[cannot apply to akpm-mm/mm-everything v6.5-rc7 v6.5-rc6 v6.5-rc5 linus/master v6.5-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Kravetz/hugetlb-clear-flags-in-tail-pages-that-will-be-freed-individually/20230826-030805
+base:   next-20230825
+patch link:    https://lore.kernel.org/r/20230825190436.55045-13-mike.kravetz%40oracle.com
+patch subject: [PATCH 12/12] hugetlb: batch TLB flushes when restoring vmemmap
+config: s390-randconfig-001-20230826 (https://download.01.org/0day-ci/archive/20230826/202308261516.F6FBNktd-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261516.F6FBNktd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308261506.HViL7oWg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308261516.F6FBNktd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/locking/test-ww_mutex.c:10:
->> include/linux/kthread.h:28:65: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      28 | extern int param_set_sched_policy(const char *val, const struct kernel_param *kp);
-         |                                                                 ^~~~~~~~~~~~
-   include/linux/kthread.h:29:62: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      29 | extern int param_get_sched_policy(char *buffer, const struct kernel_param *kp);
-         |                                                              ^~~~~~~~~~~~
-   include/linux/kthread.h:32:63: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      32 | extern int param_set_sched_nice(const char *val, const struct kernel_param *kp);
-         |                                                               ^~~~~~~~~~~~
-   include/linux/kthread.h:33:60: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      33 | extern int param_get_sched_nice(char *buffer, const struct kernel_param *kp);
-         |                                                            ^~~~~~~~~~~~
-   include/linux/kthread.h:36:67: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      36 | extern int param_set_sched_priority(const char *val, const struct kernel_param *kp);
-         |                                                                   ^~~~~~~~~~~~
-   include/linux/kthread.h:37:64: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      37 | extern int param_get_sched_priority(char *buffer, const struct kernel_param *kp);
-         |                                                                ^~~~~~~~~~~~
-   include/linux/kthread.h:40:66: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      40 | extern int param_set_sched_runtime(const char *val, const struct kernel_param *kp);
-         |                                                                  ^~~~~~~~~~~~
-   include/linux/kthread.h:41:63: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      41 | extern int param_get_sched_runtime(char *buffer, const struct kernel_param *kp);
-         |                                                               ^~~~~~~~~~~~
-   include/linux/kthread.h:44:67: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      44 | extern int param_set_sched_deadline(const char *val, const struct kernel_param *kp);
-         |                                                                   ^~~~~~~~~~~~
-   include/linux/kthread.h:45:64: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      45 | extern int param_get_sched_deadline(char *buffer, const struct kernel_param *kp);
-         |                                                                ^~~~~~~~~~~~
-   include/linux/kthread.h:48:65: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      48 | extern int param_set_sched_period(const char *val, const struct kernel_param *kp);
-         |                                                                 ^~~~~~~~~~~~
-   include/linux/kthread.h:49:62: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      49 | extern int param_get_sched_period(char *buffer, const struct kernel_param *kp);
-         |                                                              ^~~~~~~~~~~~
-   include/linux/kthread.h:52:67: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      52 | extern int param_set_sched_util_min(const char *val, const struct kernel_param *kp);
-         |                                                                   ^~~~~~~~~~~~
-   include/linux/kthread.h:53:64: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      53 | extern int param_get_sched_util_min(char *buffer, const struct kernel_param *kp);
-         |                                                                ^~~~~~~~~~~~
-   include/linux/kthread.h:56:67: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      56 | extern int param_set_sched_util_max(const char *val, const struct kernel_param *kp);
-         |                                                                   ^~~~~~~~~~~~
-   include/linux/kthread.h:57:64: warning: 'struct kernel_param' declared inside parameter list will not be visible outside of this definition or declaration
-      57 | extern int param_get_sched_util_max(char *buffer, const struct kernel_param *kp);
-         |                                                                ^~~~~~~~~~~~
+>> mm/hugetlb_vmemmap.c:516:5: warning: no previous prototype for function '__hugetlb_vmemmap_restore' [-Wmissing-prototypes]
+     516 | int __hugetlb_vmemmap_restore(const struct hstate *h, struct page *head, bool bulk)
+         |     ^
+   mm/hugetlb_vmemmap.c:516:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     516 | int __hugetlb_vmemmap_restore(const struct hstate *h, struct page *head, bool bulk)
+         | ^
+         | static 
+   mm/hugetlb_vmemmap.c:567:28: error: use of undeclared identifier 'TLB_FLUSH_ALL'
+     567 |         flush_tlb_kernel_range(0, TLB_FLUSH_ALL);
+         |                                   ^
+   mm/hugetlb_vmemmap.c:673:6: warning: no previous prototype for function 'hugetlb_vmemmap_optimize_bulk' [-Wmissing-prototypes]
+     673 | void hugetlb_vmemmap_optimize_bulk(const struct hstate *h, struct page *head,
+         |      ^
+   mm/hugetlb_vmemmap.c:673:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     673 | void hugetlb_vmemmap_optimize_bulk(const struct hstate *h, struct page *head,
+         | ^
+         | static 
+   mm/hugetlb_vmemmap.c:679:6: warning: no previous prototype for function 'hugetlb_vmemmap_split' [-Wmissing-prototypes]
+     679 | void hugetlb_vmemmap_split(const struct hstate *h, struct page *head)
+         |      ^
+   mm/hugetlb_vmemmap.c:679:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     679 | void hugetlb_vmemmap_split(const struct hstate *h, struct page *head)
+         | ^
+         | static 
+   mm/hugetlb_vmemmap.c:710:28: error: use of undeclared identifier 'TLB_FLUSH_ALL'
+     710 |         flush_tlb_kernel_range(0, TLB_FLUSH_ALL);
+         |                                   ^
+   mm/hugetlb_vmemmap.c:715:28: error: use of undeclared identifier 'TLB_FLUSH_ALL'
+     715 |         flush_tlb_kernel_range(0, TLB_FLUSH_ALL);
+         |                                   ^
+   3 warnings and 3 errors generated.
 
 
-vim +28 include/linux/kthread.h
+vim +/__hugetlb_vmemmap_restore +516 mm/hugetlb_vmemmap.c
 
-     7	
-     8	#define ___kthread_param(name, type, attr, perm) do {	\
-     9		static type attr;				\
-    10		__module_param_call("kthread." name ".", attr , &param_ops_##attr, &attr, perm, -1, 0); \
-    11		} while(0)
-    12	
-    13	#define __kthread_param(name, type, attr)		\
-    14		___kthread_param(name, type, attr, 0644)	\
-    15	
-    16	#define kthread_param(name) do {					\
-    17		__kthread_param(name, unsigned long, sched_policy);		\
-    18		__kthread_param(name, long, sched_nice);			\
-    19		__kthread_param(name, unsigned long, sched_priority);		\
-    20		__kthread_param(name, unsigned long long, sched_runtime);	\
-    21		__kthread_param(name, unsigned long long, sched_deadline);	\
-    22		__kthread_param(name, unsigned long long, sched_period);	\
-    23		__kthread_param(name, unsigned long, sched_util_min);		\
-    24		__kthread_param(name, unsigned long, sched_util_max);		\
-    25		} while (0)
-    26	
-    27	extern const struct kernel_param_ops param_ops_sched_policy;
-  > 28	extern int param_set_sched_policy(const char *val, const struct kernel_param *kp);
-    29	extern int param_get_sched_policy(char *buffer, const struct kernel_param *kp);
-    30	
+   515	
+ > 516	int __hugetlb_vmemmap_restore(const struct hstate *h, struct page *head, bool bulk)
+   517	{
+   518		int ret;
+   519		unsigned long vmemmap_start = (unsigned long)head, vmemmap_end;
+   520		unsigned long vmemmap_reuse;
+   521	
+   522		if (!HPageVmemmapOptimized(head))
+   523			return 0;
+   524	
+   525		vmemmap_end	= vmemmap_start + hugetlb_vmemmap_size(h);
+   526		vmemmap_reuse	= vmemmap_start;
+   527		vmemmap_start	+= HUGETLB_VMEMMAP_RESERVE_SIZE;
+   528	
+   529		/*
+   530		 * The pages which the vmemmap virtual address range [@vmemmap_start,
+   531		 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
+   532		 * the range is mapped to the page which @vmemmap_reuse is mapped to.
+   533		 * When a HugeTLB page is freed to the buddy allocator, previously
+   534		 * discarded vmemmap pages must be allocated and remapping.
+   535		 */
+   536		ret = vmemmap_remap_alloc(vmemmap_start, vmemmap_end, vmemmap_reuse, bulk);
+   537		if (!ret) {
+   538			ClearHPageVmemmapOptimized(head);
+   539			static_branch_dec(&hugetlb_optimize_vmemmap_key);
+   540		}
+   541	
+   542		return ret;
+   543	}
+   544	
 
 -- 
 0-DAY CI Kernel Test Service
