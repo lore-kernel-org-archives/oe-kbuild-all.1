@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F94A53
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 18:35:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4113C151
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 18:57:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693074937; x=1724610937;
+  t=1693076227; x=1724612227;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vU7pC4qm0LnJuRnIv2DkXxnY5EdXQ72tdPN2xA8UTb0=;
-  b=PiaeAKWclLFfUqPlKIfO9sUsM3dApgvxMqe1/AlqiEzH0jSXTMwcbePQ
-   70tXevNMd7qUjAQUXivdcda0UHcpz2rrQ0xYEnEcIU3wc1kCNr5InDElK
-   AflwnPeO+eQrn8gs4ZEUzra19Lefph2H/OMVNzl7/3it+K5We37ep68xD
-   U4PXy+NBUQQ3ibZrhSkvF42x4wB9j1KeVtlDLroi6FSlJKQ1S2/a5OVjs
-   hK/D+Femn/qCPWkAMxMYgaYRKtcyu/eg2WKBjrCa54TcwdAbNbj2b5WtC
-   Hz8/NoLhtfMGK2/bK2zOB0hPm0Bbeka53s98NLh2Tmaobd6ZG2jXmVNOp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="355224326"
+  bh=gtBHHK+BhO+VdmETDnh82ZmVC9oCeOtHVOZY0nSCZn8=;
+  b=ABG4gmMH3nRTLdxgHCzngIvqjPaC5MNoCXoy59L9JUNig2bgg9lAb0Wu
+   osiwT3c4+0tRzYJDlxr9HAYMb1hxz0Uf0vO/TvI0B0meCTIjlTSMIWYUR
+   HbUKvhamXjsqrn7O+BXYOL2+fhjs5TskuivzwlAVc32chTZhQ/fYlGoEx
+   S/a5I35LBV6SN5khUyIgOt9hnWqU5ewEiG2R294HYQ9zBP4DSDIqeB/LP
+   masz6J5fLGOxV/cESjoTeC16RM8gctILisKyea4Gkeo7qkwJUj50GyVyy
+   Y/3tuugyK+1VJxK0PoAAIisDGJnOoezFgZHoYi7TD2LNUfDEEiXb3le5W
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="374863756"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="355224326"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 11:35:37 -0700
+   d="scan'208";a="374863756"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 11:57:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="1068581870"
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="803269497"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="1068581870"
+   d="scan'208";a="803269497"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Aug 2023 11:35:36 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 26 Aug 2023 11:57:04 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZy8A-0004z4-2z;
-	Sat, 26 Aug 2023 18:35:32 +0000
-Date: Sun, 27 Aug 2023 02:35:03 +0800
+	id 1qZyT1-0004zv-2j;
+	Sat, 26 Aug 2023 18:57:03 +0000
+Date: Sun, 27 Aug 2023 02:56:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4_2 11434/11474]
- drivers/mtd/mtdsplit/mtdsplit_fit.c:303: undefined reference to
- `fdt_path_offset'
-Message-ID: <202308270204.jCF9Bhxf-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4_2 11432/11474]
+ drivers/block/fitblk.c:400:19: warning: comparison of distinct pointer types
+ ('typeof (bytes_left) *' (aka 'unsigned int *') and 'typeof
+ (folio_size(folio) - ((unsigned long)(0) & (folio_size(folio) - 1))) *' (aka
+ 'unsigned long *'))
+Message-ID: <202308270256.1C5kjNCK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,284 +51,473 @@ Content-Disposition: inline
 
 tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4_2
 head:   9da4af54446a9e2a6f6e734ea33cff68ce412a6c
-commit: 5d223b90700e4682e6263d8bdedd6c490c2b2e5a [11434/11474] OWRT BUILD: mtd: mtdsplit support
-config: x86_64-randconfig-r006-20230826 (https://download.01.org/0day-ci/archive/20230827/202308270204.jCF9Bhxf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230827/202308270204.jCF9Bhxf-lkp@intel.com/reproduce)
+commit: b63634c90091daeda86ffc2f7db7b8bf2ccad746 [11432/11474] block: add uImage.FIT subimage block driver
+config: hexagon-randconfig-r026-20230827 (https://download.01.org/0day-ci/archive/20230827/202308270256.1C5kjNCK-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230827/202308270256.1C5kjNCK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308270204.jCF9Bhxf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308270256.1C5kjNCK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/mtd/mtdsplit/mtdsplit_fit.o: in function `mtdsplit_fit_parse':
->> drivers/mtd/mtdsplit/mtdsplit_fit.c:303: undefined reference to `fdt_path_offset'
->> ld: drivers/mtd/mtdsplit/mtdsplit_fit.c:311: undefined reference to `fdt_next_node'
-   ld: drivers/mtd/mtdsplit/mtdsplit_fit.c:313: undefined reference to `fdt_next_node'
-   ld: drivers/mtd/mtdsplit/mtdsplit_fit.o: in function `fit_image_get_data_position':
->> drivers/mtd/mtdsplit/mtdsplit_fit.c:110: undefined reference to `fdt_getprop'
-   ld: drivers/mtd/mtdsplit/mtdsplit_fit.o: in function `fit_image_get_data_size':
-   drivers/mtd/mtdsplit/mtdsplit_fit.c:134: undefined reference to `fdt_getprop'
-   ld: drivers/mtd/mtdsplit/mtdsplit_fit.o: in function `fit_image_get_data_offset':
-   drivers/mtd/mtdsplit/mtdsplit_fit.c:85: undefined reference to `fdt_getprop'
-   ld: drivers/mtd/mtdsplit/mtdsplit_fit.o: in function `fit_image_get_data':
-   drivers/mtd/mtdsplit/mtdsplit_fit.c:59: undefined reference to `fdt_getprop'
-   ld: drivers/mtd/mtdsplit/mtdsplit_fit.o: in function `mtdsplit_fit_parse':
->> drivers/mtd/mtdsplit/mtdsplit_fit.c:305: undefined reference to `fdt_strerror'
+   In file included from drivers/block/fitblk.c:24:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/block/fitblk.c:24:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/block/fitblk.c:24:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/block/fitblk.c:400:19: warning: comparison of distinct pointer types ('typeof (bytes_left) *' (aka 'unsigned int *') and 'typeof (folio_size(folio) - ((unsigned long)(0) & (folio_size(folio) - 1))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     400 |                 bytes_to_copy = min(bytes_left, folio_size(folio) - offset_in_folio(folio, 0));
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:68:19: note: expanded from macro 'min'
+      68 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:37:24: note: expanded from macro '__careful_cmp'
+      37 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:27:4: note: expanded from macro '__safe_cmp'
+      27 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:21:28: note: expanded from macro '__typecheck'
+      21 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+>> drivers/block/fitblk.c:485:2: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     485 |         if (images < 0) {
+         |         ^~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:28: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:30: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/fitblk.c:590:7: note: uninitialized use occurs here
+     590 |         if (!found || ret)
+         |              ^~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   drivers/block/fitblk.c:485:2: note: remove the 'if' if its condition is always false
+     485 |         if (images < 0) {
+         |         ^~~~~~~~~~~~~~~~~
+     486 |                 pr_err("FIT: Cannot find %s node: %d\n", FIT_IMAGES_PATH, images);
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     487 |                 ret = -EINVAL;
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     488 |                 goto out_bootconf;
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     489 |         }
+         | ~~~~~~~~~
+   include/linux/compiler.h:55:23: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                       ^
+   drivers/block/fitblk.c:476:2: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     476 |         if (!config_loadables || !config_loadables_len) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:28: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:30: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/fitblk.c:590:7: note: uninitialized use occurs here
+     590 |         if (!found || ret)
+         |              ^~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   drivers/block/fitblk.c:476:2: note: remove the 'if' if its condition is always false
+     476 |         if (!config_loadables || !config_loadables_len) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     477 |                 pr_err("FIT: No loadables configured in \"%s\"\n",
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     478 |                         bootconf ?: config_default);
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     479 |                 ret = -ENOENT;
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     480 |                 goto out_bootconf;
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     481 |         }
+         | ~~~~~~~~~
+   include/linux/compiler.h:55:23: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                       ^
+   drivers/block/fitblk.c:452:2: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     452 |         if (node < 0) {
+         |         ^~~~~~~~~~~~~
+   include/linux/compiler.h:55:28: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:30: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/fitblk.c:590:7: note: uninitialized use occurs here
+     590 |         if (!found || ret)
+         |              ^~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   drivers/block/fitblk.c:452:2: note: remove the 'if' if its condition is always false
+     452 |         if (node < 0) {
+         |         ^~~~~~~~~~~~~~~
+     453 |                 pr_err("FIT: Cannot find %s node: %d\n",
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     454 |                         bootconf ?: config_default, node);
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     455 |                 ret = -ENOENT;
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     456 |                 goto out_bootconf;
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     457 |         }
+         | ~~~~~~~~~
+   include/linux/compiler.h:55:23: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                       ^
+   drivers/block/fitblk.c:444:2: warning: variable 'found' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
 
 
-vim +303 drivers/mtd/mtdsplit/mtdsplit_fit.c
+vim +400 drivers/block/fitblk.c
 
-    93	
-    94	/**
-    95	 * Get 'data-position' property from a given image node.
-    96	 *
-    97	 * @fit: pointer to the FIT image header
-    98	 * @noffset: component image node offset
-    99	 * @data_position: holds the data-position property
-   100	 *
-   101	 * returns:
-   102	 *     0, on success
-   103	 *     -ENOENT if the property could not be found
-   104	 */
-   105	static int fit_image_get_data_position(const void *fit, int noffset,
-   106					int *data_position)
-   107	{
-   108		const fdt32_t *val;
-   109	
- > 110		val = fdt_getprop(fit, noffset, FIT_DATA_POSITION_PROP, NULL);
-   111		if (!val)
-   112			return -ENOENT;
-   113	
-   114		*data_position = fdt32_to_cpu(*val);
-   115	
-   116		return 0;
-   117	}
-   118	
-   119	/**
-   120	 * Get 'data-size' property from a given image node.
-   121	 *
-   122	 * @fit: pointer to the FIT image header
-   123	 * @noffset: component image node offset
-   124	 * @data_size: holds the data-size property
-   125	 *
-   126	 * returns:
-   127	 *     0, on success
-   128	 *     -ENOENT if the property could not be found
-   129	 */
-   130	static int fit_image_get_data_size(const void *fit, int noffset, int *data_size)
-   131	{
-   132		const fdt32_t *val;
-   133	
-   134		val = fdt_getprop(fit, noffset, FIT_DATA_SIZE_PROP, NULL);
-   135		if (!val)
-   136			return -ENOENT;
-   137	
-   138		*data_size = fdt32_to_cpu(*val);
-   139	
-   140		return 0;
-   141	}
-   142	
-   143	/**
-   144	 * fit_image_get_data_and_size - get data and its size including
-   145	 *				 both embedded and external data
-   146	 * @fit: pointer to the FIT format image header
-   147	 * @noffset: component image node offset
-   148	 * @data: double pointer to void, will hold data property's data address
-   149	 * @size: pointer to size_t, will hold data property's data size
-   150	 *
-   151	 * fit_image_get_data_and_size() finds data and its size including
-   152	 * both embedded and external data. If the property is found
-   153	 * its data start address and size are returned to the caller.
-   154	 *
-   155	 * returns:
-   156	 *     0, on success
-   157	 *     otherwise, on failure
-   158	 */
-   159	static int fit_image_get_data_and_size(const void *fit, int noffset,
-   160					const void **data, size_t *size)
-   161	{
-   162		bool external_data = false;
-   163		int offset;
-   164		int len;
-   165		int ret;
-   166	
-   167		if (!fit_image_get_data_position(fit, noffset, &offset)) {
-   168			external_data = true;
-   169		} else if (!fit_image_get_data_offset(fit, noffset, &offset)) {
-   170			external_data = true;
-   171			/*
-   172			 * For FIT with external data, figure out where
-   173			 * the external images start. This is the base
-   174			 * for the data-offset properties in each image.
-   175			 */
-   176			offset += ((fdt_totalsize(fit) + 3) & ~3);
-   177		}
-   178	
-   179		if (external_data) {
-   180			ret = fit_image_get_data_size(fit, noffset, &len);
-   181			if (!ret) {
-   182				*data = fit + offset;
-   183				*size = len;
-   184			}
-   185		} else {
-   186			ret = fit_image_get_data(fit, noffset, data, size);
-   187		}
-   188	
-   189		return ret;
-   190	}
-   191	
-   192	static int
-   193	mtdsplit_fit_parse(struct mtd_info *mtd,
-   194			   const struct mtd_partition **pparts,
-   195		           struct mtd_part_parser_data *data)
-   196	{
-   197		struct device_node *np = mtd_get_of_node(mtd);
-   198		const char *cmdline_match = NULL;
-   199		struct fdt_header hdr;
-   200		size_t hdr_len, retlen;
-   201		size_t offset;
-   202		u32 offset_start = 0;
-   203		size_t fit_offset, fit_size;
-   204		size_t rootfs_offset, rootfs_size;
-   205		size_t data_size, img_total, max_size = 0;
-   206		struct mtd_partition *parts;
-   207		int ret, ndepth, noffset, images_noffset;
-   208		const void *img_data;
-   209		void *fit;
-   210	
-   211		of_property_read_string(np, "openwrt,cmdline-match", &cmdline_match);
-   212		if (cmdline_match && !strstr(saved_command_line, cmdline_match))
-   213			return -ENODEV;
-   214	
-   215		of_property_read_u32(np, "openwrt,fit-offset", &offset_start);
-   216	
-   217		hdr_len = sizeof(struct fdt_header);
-   218	
-   219		/* Parse the MTD device & search for the FIT image location */
-   220		for(offset = 0; offset + hdr_len <= mtd->size; offset += mtd->erasesize) {
-   221			ret = mtd_read(mtd, offset + offset_start, hdr_len, &retlen, (void*) &hdr);
-   222			if (ret) {
-   223				pr_err("read error in \"%s\" at offset 0x%llx\n",
-   224				       mtd->name, (unsigned long long) offset);
-   225				return ret;
-   226			}
-   227	
-   228			if (retlen != hdr_len) {
-   229				pr_err("short read in \"%s\"\n", mtd->name);
-   230				return -EIO;
-   231			}
-   232	
-   233			/* Check the magic - see if this is a FIT image */
-   234			if (be32_to_cpu(hdr.magic) != OF_DT_HEADER) {
-   235				pr_debug("no valid FIT image found in \"%s\" at offset %llx\n",
-   236					 mtd->name, (unsigned long long) offset);
-   237				continue;
-   238			}
-   239	
-   240			/* We found a FIT image. Let's keep going */
-   241			break;
-   242		}
-   243	
-   244		fit_offset = offset;
-   245		fit_size = be32_to_cpu(hdr.totalsize);
-   246	
-   247		if (fit_size == 0) {
-   248			pr_err("FIT image in \"%s\" at offset %llx has null size\n",
-   249			       mtd->name, (unsigned long long) fit_offset);
-   250			return -ENODEV;
-   251		}
-   252	
-   253		/*
-   254		 * Classic uImage.FIT has all data embedded into the FDT
-   255		 * data structure. Hence the total size of the image equals
-   256		 * the total size of the FDT structure.
-   257		 * Modern uImage.FIT may have only references to data in FDT,
-   258		 * hence we need to parse FDT structure to find the end of the
-   259		 * last external data refernced.
-   260		 */
-   261		if (fit_size > 0x1000) {
-   262			enum mtdsplit_part_type type;
-   263	
-   264			/* Search for the rootfs partition after the FIT image */
-   265			ret = mtd_find_rootfs_from(mtd, fit_offset + fit_size + offset_start, mtd->size,
-   266						   &rootfs_offset, &type);
-   267			if (ret) {
-   268				pr_info("no rootfs found after FIT image in \"%s\"\n",
-   269					mtd->name);
-   270				return ret;
-   271			}
-   272	
-   273			rootfs_size = mtd->size - rootfs_offset;
-   274	
-   275			parts = kzalloc(2 * sizeof(*parts), GFP_KERNEL);
-   276			if (!parts)
-   277				return -ENOMEM;
-   278	
-   279			parts[0].name = KERNEL_PART_NAME;
-   280			parts[0].offset = fit_offset;
-   281			parts[0].size = mtd_rounddown_to_eb(fit_size + offset_start, mtd) + mtd->erasesize;
-   282	
-   283			if (type == MTDSPLIT_PART_TYPE_UBI)
-   284				parts[1].name = UBI_PART_NAME;
-   285			else
-   286				parts[1].name = ROOTFS_PART_NAME;
-   287			parts[1].offset = rootfs_offset;
-   288			parts[1].size = rootfs_size;
-   289	
-   290			*pparts = parts;
-   291	
-   292			return 2;
-   293		} else {
-   294			/* Search for rootfs_data after FIT external data */
-   295			fit = kzalloc(fit_size, GFP_KERNEL);
-   296			ret = mtd_read(mtd, offset, fit_size + offset_start, &retlen, fit);
-   297			if (ret) {
-   298				pr_err("read error in \"%s\" at offset 0x%llx\n",
-   299				       mtd->name, (unsigned long long) offset);
-   300				return ret;
-   301			}
-   302	
- > 303			images_noffset = fdt_path_offset(fit, FIT_IMAGES_PATH);
-   304			if (images_noffset < 0) {
- > 305				pr_err("Can't find images parent node '%s' (%s)\n",
-   306				FIT_IMAGES_PATH, fdt_strerror(images_noffset));
-   307				return -ENODEV;
-   308			}
-   309	
-   310			for (ndepth = 0,
- > 311			     noffset = fdt_next_node(fit, images_noffset, &ndepth);
-   312			     (noffset >= 0) && (ndepth > 0);
-   313			     noffset = fdt_next_node(fit, noffset, &ndepth)) {
-   314				if (ndepth == 1) {
-   315					ret = fit_image_get_data_and_size(fit, noffset, &img_data, &data_size);
-   316					if (ret)
-   317						return 0;
    318	
-   319					img_total = data_size + (img_data - fit);
-   320	
-   321					max_size = (max_size > img_total) ? max_size : img_total;
-   322				}
-   323			}
-   324	
-   325			parts = kzalloc(sizeof(*parts), GFP_KERNEL);
-   326			if (!parts)
-   327				return -ENOMEM;
-   328	
-   329			parts[0].name = ROOTFS_SPLIT_NAME;
-   330			parts[0].offset = fit_offset + mtd_rounddown_to_eb(max_size, mtd) + mtd->erasesize;
-   331			parts[0].size = mtd->size - parts[0].offset;
-   332	
-   333			*pparts = parts;
-   334	
-   335			kfree(fit);
-   336	
-   337			return 1;
-   338		}
-   339	}
-   340	
+   319	static int parse_fit_on_dev(struct device *dev)
+   320	{
+   321		struct block_device *bdev;
+   322		struct address_space *mapping;
+   323		struct folio *folio;
+   324		pgoff_t f_index = 0;
+   325		size_t bytes_left, bytes_to_copy;
+   326		void *pre_fit, *fit, *fit_c;
+   327		u64 dsize, dsectors, imgmaxsect = 0;
+   328		u32 size, image_pos, image_len;
+   329		const __be32 *image_offset_be, *image_len_be, *image_pos_be;
+   330		int ret = 0, node, images, config;
+   331		const char *image_name, *image_type, *image_description,
+   332			*config_default, *config_description, *config_loadables;
+   333		u32 image_name_len, image_type_len, image_description_len,
+   334			bootconf_len, config_default_len, config_description_len,
+   335			config_loadables_len;
+   336		sector_t start_sect, nr_sects;
+   337		struct device_node *np = NULL;
+   338		const char *bootconf_c;
+   339		const char *loadable;
+   340		char *bootconf = NULL, *bootconf_term;
+   341		bool found;
+   342		int loadables_rem_len, loadable_len;
+   343		u16 loadcnt;
+   344		unsigned int slot = 0;
+   345	
+   346		/* Exclusive open the block device to receive holder notifications */
+   347		bdev = blkdev_get_by_dev(dev->devt, FMODE_READ, &_fitblk_claim_ptr, &fitblk_hops);
+   348		if (!bdev)
+   349			return -ENODEV;
+   350	
+   351		if (IS_ERR(bdev))
+   352			return PTR_ERR(bdev);
+   353	
+   354		mapping = bdev->bd_inode->i_mapping;
+   355	
+   356		/* map first page */
+   357		folio = read_mapping_folio(mapping, f_index++, NULL);
+   358		if (IS_ERR(folio)) {
+   359			ret = PTR_ERR(folio);
+   360			goto out_blkdev;
+   361		}
+   362		pre_fit = folio_address(folio) + offset_in_folio(folio, 0);
+   363	
+   364		/* uImage.FIT is based on flattened device tree structure */
+   365		if (fdt_check_header(pre_fit)) {
+   366			ret = -EINVAL;
+   367			folio_put(folio);
+   368			goto out_blkdev;
+   369		}
+   370	
+   371		size = fdt_totalsize(pre_fit);
+   372	
+   373		if (size > PAGE_SIZE * FIT_MAX_PAGES) {
+   374			ret = -EOPNOTSUPP;
+   375			folio_put(folio);
+   376			goto out_blkdev;
+   377		}
+   378	
+   379		/* acquire disk size */
+   380		dsectors = bdev_nr_sectors(bdev);
+   381		dsize = dsectors << SECTOR_SHIFT;
+   382	
+   383		/* abort if FIT structure is larger than disk or partition size */
+   384		if (size >= dsize) {
+   385			ret = -EFBIG;
+   386			folio_put(folio);
+   387			goto out_blkdev;
+   388		}
+   389	
+   390		fit = kmalloc(size, GFP_KERNEL);
+   391		if (!fit) {
+   392			ret = -ENOMEM;
+   393			folio_put(folio);
+   394			goto out_blkdev;
+   395		}
+   396	
+   397		bytes_left = size;
+   398		fit_c = fit;
+   399		while (bytes_left > 0) {
+ > 400			bytes_to_copy = min(bytes_left, folio_size(folio) - offset_in_folio(folio, 0));
+   401			memcpy(fit_c, pre_fit, bytes_to_copy);
+   402			fit_c += bytes_to_copy;
+   403			bytes_left -= bytes_to_copy;
+   404			if (bytes_left) {
+   405				folio_put(folio);
+   406				folio = read_mapping_folio(mapping, f_index++, NULL);
+   407				if (IS_ERR(folio)) {
+   408					ret = PTR_ERR(folio);
+   409					goto out_blkdev;
+   410				};
+   411				pre_fit = folio_address(folio) + offset_in_folio(folio, 0);
+   412			}
+   413		}
+   414		folio_put(folio);
+   415	
+   416		/* set boot config node name U-Boot may have added to the device tree */
+   417		np = of_find_node_by_path("/chosen");
+   418		if (np) {
+   419			bootconf_c = of_get_property(np, "u-boot,bootconf", &bootconf_len);
+   420			if (bootconf_c && bootconf_len)
+   421				bootconf = kmemdup_nul(bootconf_c, bootconf_len, GFP_KERNEL);
+   422		}
+   423	
+   424		if (bootconf) {
+   425			bootconf_term = strchr(bootconf, '#');
+   426			if (bootconf_term)
+   427				*bootconf_term = '\0';
+   428		}
+   429	
+   430		/* find configuration path in uImage.FIT */
+   431		config = fdt_path_offset(fit, FIT_CONFS_PATH);
+   432		if (config < 0) {
+   433			pr_err("FIT: Cannot find %s node: %d\n",
+   434				FIT_CONFS_PATH, config);
+   435			ret = -ENOENT;
+   436			goto out_bootconf;
+   437		}
+   438	
+   439		/* get default configuration node name */
+   440		config_default =
+   441			fdt_getprop(fit, config, FIT_DEFAULT_PROP, &config_default_len);
+   442	
+   443		/* make sure we got either default or selected boot config node name */
+   444		if (!config_default && !bootconf) {
+   445			pr_err("FIT: Cannot find default configuration\n");
+   446			ret = -ENOENT;
+   447			goto out_bootconf;
+   448		}
+   449	
+   450		/* find selected boot config node, fallback on default config node */
+   451		node = fdt_subnode_offset(fit, config, bootconf ?: config_default);
+   452		if (node < 0) {
+   453			pr_err("FIT: Cannot find %s node: %d\n",
+   454				bootconf ?: config_default, node);
+   455			ret = -ENOENT;
+   456			goto out_bootconf;
+   457		}
+   458	
+   459		pr_info("FIT: Detected U-Boot %s\n", ubootver);
+   460	
+   461		/* get selected configuration data */
+   462		config_description =
+   463			fdt_getprop(fit, node, FIT_DESC_PROP, &config_description_len);
+   464		config_loadables = fdt_getprop(fit, node, FIT_LOADABLE_PROP,
+   465					       &config_loadables_len);
+   466	
+   467		pr_info("FIT: %s configuration: \"%.*s\"%s%.*s%s\n",
+   468			bootconf ? "Selected" : "Default",
+   469			bootconf ? bootconf_len : config_default_len,
+   470			bootconf ?: config_default,
+   471			config_description ? " (" : "",
+   472			config_description ? config_description_len : 0,
+   473			config_description ?: "",
+   474			config_description ? ")" : "");
+   475	
+   476		if (!config_loadables || !config_loadables_len) {
+   477			pr_err("FIT: No loadables configured in \"%s\"\n",
+   478				bootconf ?: config_default);
+   479			ret = -ENOENT;
+   480			goto out_bootconf;
+   481		}
+   482	
+   483		/* get images path in uImage.FIT */
+   484		images = fdt_path_offset(fit, FIT_IMAGES_PATH);
+ > 485		if (images < 0) {
+   486			pr_err("FIT: Cannot find %s node: %d\n", FIT_IMAGES_PATH, images);
+   487			ret = -EINVAL;
+   488			goto out_bootconf;
+   489		}
+   490	
+   491		/* iterate over images in uImage.FIT */
+   492		fdt_for_each_subnode(node, fit, images) {
+   493			image_name = fdt_get_name(fit, node, &image_name_len);
+   494			image_type = fdt_getprop(fit, node, FIT_TYPE_PROP, &image_type_len);
+   495			image_offset_be = fdt_getprop(fit, node, FIT_DATA_OFFSET_PROP, NULL);
+   496			image_pos_be = fdt_getprop(fit, node, FIT_DATA_POSITION_PROP, NULL);
+   497			image_len_be = fdt_getprop(fit, node, FIT_DATA_SIZE_PROP, NULL);
+   498	
+   499			if (!image_name || !image_type || !image_len_be ||
+   500			    !image_name_len || !image_type_len)
+   501				continue;
+   502	
+   503			image_len = be32_to_cpu(*image_len_be);
+   504			if (!image_len)
+   505				continue;
+   506	
+   507			if (image_offset_be)
+   508				image_pos = be32_to_cpu(*image_offset_be) + size;
+   509			else if (image_pos_be)
+   510				image_pos = be32_to_cpu(*image_pos_be);
+   511			else
+   512				continue;
+   513	
+   514			image_description = fdt_getprop(fit, node, FIT_DESC_PROP,
+   515							&image_description_len);
+   516	
+   517			pr_info("FIT: %16s sub-image 0x%08x..0x%08x \"%.*s\"%s%.*s%s\n",
+   518				image_type, image_pos, image_pos + image_len - 1,
+   519				image_name_len, image_name, image_description ? " (" : "",
+   520				image_description ? image_description_len : 0,
+   521				image_description ?: "", image_description ? ") " : "");
+   522	
+   523			/* only 'filesystem' images should be mapped as partitions */
+   524			if (strncmp(image_type, FIT_FILESYSTEM_PROP, image_type_len))
+   525				continue;
+   526	
+   527			/* check if sub-image is part of configured loadables */
+   528			found = false;
+   529			loadable = config_loadables;
+   530			loadables_rem_len = config_loadables_len;
+   531			for (loadcnt = 0; loadables_rem_len > 1 &&
+   532					  loadcnt < MAX_FIT_LOADABLES; ++loadcnt) {
+   533				loadable_len =
+   534					strnlen(loadable, loadables_rem_len - 1) + 1;
+   535				loadables_rem_len -= loadable_len;
+   536				if (!strncmp(image_name, loadable, loadable_len)) {
+   537					found = true;
+   538					break;
+   539				}
+   540				loadable += loadable_len;
+   541			}
+   542			if (!found)
+   543				continue;
+   544	
+   545			if (image_pos % (1 << PAGE_SHIFT)) {
+   546				dev_err(dev, "FIT: image %.*s start not aligned to page boundaries, skipping\n",
+   547					image_name_len, image_name);
+   548				continue;
+   549			}
+   550	
+   551			if (image_len % (1 << PAGE_SHIFT)) {
+   552				dev_err(dev, "FIT: sub-image %.*s end not aligned to page boundaries, skipping\n",
+   553					image_name_len, image_name);
+   554				continue;
+   555			}
+   556	
+   557			start_sect = image_pos >> SECTOR_SHIFT;
+   558			nr_sects = image_len >> SECTOR_SHIFT;
+   559			imgmaxsect = max_t(sector_t, imgmaxsect, start_sect + nr_sects);
+   560	
+   561			if (start_sect + nr_sects > dsectors) {
+   562				dev_err(dev, "FIT: sub-image %.*s disk access beyond EOD\n",
+   563					image_name_len, image_name);
+   564				continue;
+   565			}
+   566	
+   567			add_fit_subimage_device(bdev, slot++, start_sect, nr_sects, true);
+   568		}
+   569	
+   570		if (!found)
+   571			goto out_bootconf;
+   572	
+   573		if (slot)
+   574			dev_info(dev, "mapped %u uImage.FIT filesystem sub-image%s as /dev/fit%s%u%s\n",
+   575				 slot, (slot > 1)?"s":"", (slot > 1)?"[0...":"", slot - 1,
+   576				 (slot > 1)?"]":"");
+   577	
+   578		/* in case uImage.FIT is stored in a partition, map the remaining space */
+   579		if (!bdev->bd_read_only && bdev_is_partition(bdev) &&
+   580		    (imgmaxsect + MIN_FREE_SECT) < dsectors) {
+   581			add_fit_subimage_device(bdev, slot++, imgmaxsect,
+   582						dsectors - imgmaxsect, false);
+   583			dev_info(dev, "mapped remaing space as /dev/fitrw\n");
+   584		}
+   585	
+   586	out_bootconf:
+   587		kfree(bootconf);
+   588		kfree(fit);
+   589	out_blkdev:
+   590		if (!found || ret)
+   591			blkdev_put(bdev, &_fitblk_claim_ptr);
+   592	
+   593		return ret;
+   594	}
+   595	
 
 -- 
 0-DAY CI Kernel Test Service
