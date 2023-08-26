@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABBF7E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 03:19:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFCA7E;
+	Sat, 26 Aug 2023 04:00:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693019968; x=1724555968;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HjutYw/VK+vOUZWJkVlMG4vkIYEEtXxc7Q3Vzdw2xwQ=;
-  b=euXbHkiiyPb021FKzq2ZspVweQxDgomP50V6kP/Ya6ekBQ1MeRKzQFhX
-   mbuT+WoRHZZd9F2LCYrLYzWPSKtcvnx+ZYSCP0RON5En6sKpiDAZ/iiR6
-   eTzfzI98tbNPfxFqsc5tLpVEcH69a4C48dIopGHWpvTJkICXtbrx1TsMN
-   Z2abXG0aF3RnsrohyVV66MAzdt84POCHtiqtvkZOrRACzn/VAWl29YSlY
-   XSDWosUXuduytjCUozty2RpxgkpScSVi4nWCbvUCC3UCrLjj1IZFE1C8Q
-   egNEnvWGnQS+rxQYy0iWGylbS4PB7p5xLSvpsM83wbpxJ1HZKgXyy5h11
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="405838172"
+  t=1693022447; x=1724558447;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=wlOkT1wHpkvrTgb8ZcFgCvxxodZvakmlFE8hJr8t7eY=;
+  b=gIlV0F51SD815dZiK1dLnZCWLvwChWudZFEoAavBm9vi+wdlFSLFLqJv
+   xLS8vMuHCyzWYEVbCduRXAZmz1kK+SWEQZ9ftovq7GyP4x9JhmHhmNJ7Q
+   /VcJlXxTdJenuGumEra+KFgT203bc6roEVzsAV7J7k6XmOpKfdZrbpT4i
+   09qAWE66Yl6VKl5d0md6UENY+TBqoLoFzxjQxfAAH1Lee4+l8GZdiusjO
+   WIlzKdsBKvO/9mI5vQtKB4IF8EGvxa/NBEvVY1aohLeO1VSPK9lzjcQzi
+   42YsIEpdrI71tq1UQmq38LIkGXOGYrRiHFrsLpBJLGTsjam2mmpRvqvX3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="373718313"
 X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="405838172"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 20:19:28 -0700
+   d="scan'208";a="373718313"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 21:00:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="807725155"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="1068437842"
 X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="807725155"
+   d="scan'208";a="1068437842"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 25 Aug 2023 20:19:27 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 25 Aug 2023 21:00:44 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZjpe-0004Hj-1H;
-	Sat, 26 Aug 2023 03:19:26 +0000
-Date: Sat, 26 Aug 2023 11:18:41 +0800
+	id 1qZkTc-0004Jt-04;
+	Sat, 26 Aug 2023 04:00:44 +0000
+Date: Sat, 26 Aug 2023 12:00:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:block-for-next 6/17] ERROR: modpost:
- "scsi_call_prepare_resubmit" [drivers/scsi/scsi_error_test.ko] undefined!
-Message-ID: <202308261111.VdwLbEkN-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [kvalo-ath:pending 12/37] ld.lld: error:
+ vmlinux.a(fs/jfs/super.o):(function jfs_error: .text+0x48): relocation
+ R_RISCV_HI20 out of range: 539669 is not in [-524288, 524287]; references
+ 'jfs_handle_error.__if_trace.0'
+Message-ID: <202308261101.1y97PACY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,121 +47,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/bvanassche/linux block-for-next
-head:   8a714f18cc204da2e2152b23778852308ecbfe9e
-commit: ad371a4337b9c92851d7e31ea531f45c14158f59 [6/17] scsi: core: Add unit tests for scsi_call_prepare_resubmit()
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20230826/202308261111.VdwLbEkN-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261111.VdwLbEkN-lkp@intel.com/reproduce)
+CC: Kalle Valo <kvalo@codeaurora.org>
+CC: ath10k@lists.infradead.org
+TO: Jeff Johnson <quic_jjohnson@quicinc.com>
+CC: Kalle Valo <quic_kvalo@quicinc.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git pending
+head:   d3fba4753be9529617e4373a6e6e58b5cd9d8739
+commit: d68a283bfc39aeed2a51c67804e014bf4b35c7e1 [12/37] wifi: ath11k: Fix a few spelling errors
+config: riscv-randconfig-r033-20230823 (https://download.01.org/0day-ci/archive/20230826/202308261101.1y97PACY-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261101.1y97PACY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308261111.VdwLbEkN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308261101.1y97PACY-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Note: the kvalo-ath/pending HEAD d3fba4753be9529617e4373a6e6e58b5cd9d8739 builds fine.
+      It only hurts bisectability.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "scsi_call_prepare_resubmit" [drivers/scsi/scsi_error_test.ko] undefined!
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: vmlinux.a(fs/jfs/super.o):(function jfs_error: .text+0x48): relocation R_RISCV_HI20 out of range: 539669 is not in [-524288, 524287]; references 'jfs_handle_error.__if_trace.0'
+   >>> referenced by super.c:84 (fs/jfs/super.c:84)
+   >>> defined in vmlinux.a(fs/jfs/super.o)
+--
+>> ld.lld: error: vmlinux.a(fs/jfs/super.o):(function jfs_error: .text+0x8c): relocation R_RISCV_HI20 out of range: 539669 is not in [-524288, 524287]; references 'jfs_handle_error.__if_trace.3.0'
+   >>> referenced by fs.h:1988 (include/linux/fs.h:1988)
+   >>> defined in vmlinux.a(fs/jfs/super.o)
+--
+>> ld.lld: error: vmlinux.a(fs/jfs/super.o):(function jfs_error: .text+0x184): relocation R_RISCV_HI20 out of range: 537115 is not in [-524288, 524287]; references '.L.str.4'
+   >>> referenced by super.c:66 (fs/jfs/super.c:66)
+   >>> defined in vmlinux.a(fs/jfs/super.o)
 
 -- 
 0-DAY CI Kernel Test Service
