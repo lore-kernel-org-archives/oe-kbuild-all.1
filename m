@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F30CA58
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 12:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72213CA58
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 13:07:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693054675; x=1724590675;
+  t=1693055276; x=1724591276;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=050b9mD+Z4GRkWwOWeW+tcmz0gRJ1Go2R01hHBpVfAw=;
-  b=H0c5JYGWyRnsi7FI/l3VJva/pMtzionCYknRcg66bQ25/FMBSD171yOa
-   yu/E2PO61P3j2swTmHCuh62SOyCFX9Ybrlk8eo/U2tGGVm+32HS/1ZVqx
-   Fih0UWEZM9A/t35MR3lsLzsNllUoSxvKdyAYnIAy2M/GEZtySe+k6J2z6
-   COr1IzciojfjdD2kS9B1vSYPaG1PJ9wJ+r+qVfa+ib1BDi64meF4o103c
-   FKm0CVtd/hIKkqiQqotJ8YYP+r3U8HhTlH1t0VmkaOdADU4qTYJFsypn/
-   jRdEvthhtWZT0XQ9Q+6MxShBotFlUos6/22uzwzaYsqXbW8Xw5AcQM16U
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="355203911"
+  bh=aXGpKoTb6r32UkIxJtyvyBDHkQBstHeHh3ycXoOxLWo=;
+  b=gUttiYApEP0zF/+xQgkCLykCgCOrlcm9wnhsshBjuRnoMWzWLDWjJWyX
+   l57038A8T/QNvOOss5dD1TCSCyF/UvcCJzM8g+8ujwFV1OEOdQFkqc/ww
+   Jwbg/7QpyCKjI29BnwkmJGGhe6twCfQXG52vl7KK6pm26q1WJaXzB+RPy
+   WX+vSgHgSKRG/ViE7YI878+XwPFCodB0VceaN92HFs3nlQwL7Be5TSj+4
+   vWsLVhW8tYlbDvjbsjBYqrpznPhWeVoDYLRJCzzciXugzSFKoWekwB21p
+   +c2DPijXMl1CfdtViKs5AZyxjhDP9KmmA2ed8Dgx1VXgPvdSmAo3vYPOS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="374844334"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="355203911"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 05:57:54 -0700
+   d="scan'208";a="374844334"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 06:07:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="827855449"
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="852281514"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="827855449"
+   d="scan'208";a="852281514"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 26 Aug 2023 05:57:54 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 26 Aug 2023 06:07:54 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZsrR-0004ip-1U;
-	Sat, 26 Aug 2023 12:57:53 +0000
-Date: Sat, 26 Aug 2023 20:56:58 +0800
+	id 1qZt17-0004jH-2J;
+	Sat, 26 Aug 2023 13:07:53 +0000
+Date: Sat, 26 Aug 2023 21:07:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/missed_stats_3 1/7] include/linux/bpf.h:2650:13:
- warning: 'bpf_prog_update_prog_stats' defined but not used
-Message-ID: <202308262036.ajA38Yei-lkp@intel.com>
+Subject: [freescale-fslc:pr/638 3816/12469]
+ drivers/spi/spi-nxp-fspi.c:1295:12: warning: 'nxp_fspi_resume' defined but
+ not used
+Message-ID: <202308262118.4yy7jAlm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,35 +47,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/missed_stats_3
-head:   903afc5b7a9fa7c9bff7f7dc86d955b637fb1fd9
-commit: 3d25b22ba2534fedca5325362b88adab8ac6c651 [1/7] bpf: Move update_prog_stats to syscall object
-config: i386-buildonly-randconfig-r004-20230720 (https://download.01.org/0day-ci/archive/20230826/202308262036.ajA38Yei-lkp@intel.com/config)
+tree:   https://github.com/Freescale/linux-fslc pr/638
+head:   3f1f2ea7295505de340ba4089817ae1021920928
+commit: e0b338dc8b0a33b70718899aa798738d157d0259 [3816/12469] spi: spi-nxp-fspi: enable runtime pm for fspi
+config: i386-randconfig-r034-20230718 (https://download.01.org/0day-ci/archive/20230826/202308262118.4yy7jAlm-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308262036.ajA38Yei-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308262118.4yy7jAlm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308262036.ajA38Yei-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308262118.4yy7jAlm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/filter.h:9,
-                    from kernel/sysctl.c:35:
->> include/linux/bpf.h:2650:13: warning: 'bpf_prog_update_prog_stats' defined but not used [-Wunused-function]
-    2650 | static void bpf_prog_update_prog_stats(struct bpf_prog *prog,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/spi/spi-nxp-fspi.c:1295:12: warning: 'nxp_fspi_resume' defined but not used [-Wunused-function]
+    1295 | static int nxp_fspi_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~
+>> drivers/spi/spi-nxp-fspi.c:1282:12: warning: 'nxp_fspi_suspend' defined but not used [-Wunused-function]
+    1282 | static int nxp_fspi_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~
 
 
-vim +/bpf_prog_update_prog_stats +2650 include/linux/bpf.h
+vim +/nxp_fspi_resume +1295 drivers/spi/spi-nxp-fspi.c
 
-  2649	
-> 2650	static void bpf_prog_update_prog_stats(struct bpf_prog *prog,
-  2651					       u64 start)
-  2652	{
-  2653	}
-  2654	
+  1281	
+> 1282	static int nxp_fspi_suspend(struct device *dev)
+  1283	{
+  1284		int ret;
+  1285	
+  1286		ret = pinctrl_pm_select_sleep_state(dev);
+  1287		if (ret) {
+  1288			dev_err(dev, "select flexspi sleep pinctrl failed!\n");
+  1289			return ret;
+  1290		}
+  1291	
+  1292		return pm_runtime_force_suspend(dev);
+  1293	}
+  1294	
+> 1295	static int nxp_fspi_resume(struct device *dev)
+  1296	{
+  1297		int ret;
+  1298	
+  1299		ret = pm_runtime_force_resume(dev);
+  1300		if (ret)
+  1301			return ret;
+  1302	
+  1303		ret = pinctrl_pm_select_default_state(dev);
+  1304		if (ret)
+  1305			dev_err(dev, "select flexspi default pinctrl failed!\n");
+  1306	
+  1307		return ret;
+  1308	}
+  1309	
 
 -- 
 0-DAY CI Kernel Test Service
