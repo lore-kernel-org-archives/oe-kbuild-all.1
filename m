@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FB51C29;
-	Sat, 26 Aug 2023 09:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C122102
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 09:58:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693041988; x=1724577988;
+  t=1693043887; x=1724579887;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QoRqAXyypzIZtNDTfW6EgjkVaOCSwTVW/Bwef7Q8bVc=;
-  b=MP+LSkD+4eVZloWUKbl4GM4zJRKDM+FkY30XCMttJ4ushcbhDhPua8rJ
-   gFluUojZbNDNyMUF2lDx/bRXcqYNNeSNopipmMTJ9RXxWMNhVBuztbbQ6
-   kIpUEkvAztwmo9vldQcfV2GG4GzfB38TtEvqJ1fgm1CMQSFR/TVLaauE3
-   mWlQ9Y8AK4hPMIZhyaRRI+kOab98ZYxjvvnm69suVPtX6VJqhRMHpRZdf
-   hd38cp11YdvOSVAZZkjYZro+iAMSq9EyEn6ktFYRrdbSp1SpOLiMvDxk9
-   E+gpCw39B2q1i+g9nsoJ9MPFqfbrO2pFcpI6z+RVUYtCwGxemDg4gRf/X
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="372264866"
+  bh=GNzfhaCJ3WbW/KuQz01jwzxf1LzliHt6Xmuu6st4/Is=;
+  b=VJvBhAP5rcsLph7m+zOUDNiFuTI4cQHlbKC7+LO0hLKxENJLsHAUerJY
+   swGN2eH4zH8pjN13oKjQjNvqIUCL671CyqbcoScyN6gX3ar8F9rot4q/Z
+   GyAuFTnqRVoN6YfkgaKljdiACnyJP+Hq8b8EVcbw6kpSARGyFNqLY4ZBt
+   EYgaB7dptlvUErbNNztqe975vqJTYL2/925toftCi51dm9F6bGqjR8Rk/
+   6SmSDHSilNL9YhIZSxjPd8EWEzsvxLHLK0G9ijJNow5VQ3i5g3yKrMBVb
+   Pj/K3q0C3Nmvhf+4E/ZL4n/PwLcUuIb5CtL3fcbJ/golvFVcnYG+M6PJG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="354390581"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="372264866"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 02:26:27 -0700
+   d="scan'208";a="354390581"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 02:58:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="1068490919"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="911539602"
 X-IronPort-AV: E=Sophos;i="6.02,203,1688454000"; 
-   d="scan'208";a="1068490919"
+   d="scan'208";a="911539602"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Aug 2023 02:26:26 -0700
+  by orsmga005.jf.intel.com with ESMTP; 26 Aug 2023 02:58:02 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZpYn-0004YN-20;
-	Sat, 26 Aug 2023 09:26:25 +0000
-Date: Sat, 26 Aug 2023 17:25:29 +0800
+	id 1qZq3N-0004a1-2k;
+	Sat, 26 Aug 2023 09:58:01 +0000
+Date: Sat, 26 Aug 2023 17:57:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qais Yousef <qais.yousef@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [qais-yousef:sched-setscheduler-hide 8/9]
- kernel/rcu/rcutorture.c:2409:3: error: call to undeclared function
- 'sched_setscheduler_nocheck'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202308261704.SSuhTI8n-lkp@intel.com>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [povik:sio-v2-wip 2/5] include/linux/compiler_types.h:397:45: error:
+ call to '__compiletime_assert_271' declared with attribute error: FIELD_GET:
+ mask is zero
+Message-ID: <202308261744.ZIvykj5F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,73 +47,742 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/qais-yousef/linux sched-setscheduler-hide
-head:   e586c67baa1c537a793f135e324cc56df2b6585b
-commit: 66cbe87c50b34ba823e5542a7c699fcbe8663d5d [8/9] sched: Make sched_set{scheduler, attr}() static
-config: i386-randconfig-r022-20230826 (https://download.01.org/0day-ci/archive/20230826/202308261704.SSuhTI8n-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261704.SSuhTI8n-lkp@intel.com/reproduce)
+tree:   https://github.com/povik/linux sio-v2-wip
+head:   ca354f32cf579dac12daf68f098dc50ed434f5c9
+commit: 33553c01448be5606fcca75ccae587fe454ea8fe [2/5] dmaengine: apple-sio: Add Apple SIO driver
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20230826/202308261744.ZIvykj5F-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261744.ZIvykj5F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308261704.SSuhTI8n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308261744.ZIvykj5F-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> kernel/rcu/rcutorture.c:2409:3: error: call to undeclared function 'sched_setscheduler_nocheck'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   sched_setscheduler_nocheck(t, SCHED_FIFO, &sp);
-                   ^
-   1 error generated.
+   drivers/dma/apple-sio.c:234:25: warning: no previous prototype for 'sio_alloc_desc' [-Wmissing-prototypes]
+     234 | struct sio_coproc_desc *sio_alloc_desc(struct sio_data *sio)
+         |                         ^~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:245:6: warning: no previous prototype for 'sio_free_desc' [-Wmissing-prototypes]
+     245 | void sio_free_desc(struct sio_data *sio, struct sio_coproc_desc *desc)
+         |      ^~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:250:5: warning: no previous prototype for 'sio_coproc_desc_slot' [-Wmissing-prototypes]
+     250 | int sio_coproc_desc_slot(struct sio_data *sio, struct sio_coproc_desc *desc)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   drivers/dma/apple-sio.c: In function 'sio_fill_in_locked':
+>> include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:71:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      71 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:71:34: note: in expansion of macro '__bf_cast_unsigned'
+      71 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:71:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      71 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:71:34: note: in expansion of macro '__bf_cast_unsigned'
+      71 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                                  ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:75:56: note: in expansion of macro '__bf_shf'
+      75 |                                               (1ULL << __bf_shf(_mask))); \
+         |                                                        ^~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:75:56: note: in expansion of macro '__bf_shf'
+      75 |                                               (1ULL << __bf_shf(_mask))); \
+         |                                                        ^~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:75:56: note: in expansion of macro '__bf_shf'
+      75 |                                               (1ULL << __bf_shf(_mask))); \
+         |                                                        ^~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:75:56: note: in expansion of macro '__bf_shf'
+      75 |                                               (1ULL << __bf_shf(_mask))); \
+         |                                                        ^~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+   In file included from drivers/dma/apple-sio.c:8:
+>> include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/bitfield.h:45:38: note: in definition of macro '__bf_shf'
+      45 | #define __bf_shf(x) (__builtin_ffsll(x) - 1)
+         |                                      ^
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/bitfield.h:45:38: note: in definition of macro '__bf_shf'
+      45 | #define __bf_shf(x) (__builtin_ffsll(x) - 1)
+         |                                      ^
+   drivers/dma/apple-sio.c:410:38: note: in expansion of macro 'FIELD_PREP'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                      ^~~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/bitfield.h:115:63: note: in definition of macro 'FIELD_PREP'
+     115 |                 ((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask);   \
+         |                                                               ^~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/bitfield.h:115:63: note: in definition of macro 'FIELD_PREP'
+     115 |                 ((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask);   \
+         |                                                               ^~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:410:49: note: in expansion of macro 'SIOMSG_DATA'
+     410 |                                      FIELD_PREP(SIOMSG_DATA, sio_coproc_desc_slot(sio, d)),
+         |                                                 ^~~~~~~~~~~
+   drivers/dma/apple-sio.c: In function 'sio_recv_msg':
+>> include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:569:17: note: in expansion of macro 'FIELD_GET'
+     569 |         data  = FIELD_GET(SIOMSG_DATA, msg);
+         |                 ^~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:569:27: note: in expansion of macro 'SIOMSG_DATA'
+     569 |         data  = FIELD_GET(SIOMSG_DATA, msg);
+         |                           ^~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:569:17: note: in expansion of macro 'FIELD_GET'
+     569 |         data  = FIELD_GET(SIOMSG_DATA, msg);
+         |                 ^~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:569:27: note: in expansion of macro 'SIOMSG_DATA'
+     569 |         data  = FIELD_GET(SIOMSG_DATA, msg);
+         |                           ^~~~~~~~~~~
+   include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:569:17: note: in expansion of macro 'FIELD_GET'
+     569 |         data  = FIELD_GET(SIOMSG_DATA, msg);
+         |                 ^~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:569:27: note: in expansion of macro 'SIOMSG_DATA'
+     569 |         data  = FIELD_GET(SIOMSG_DATA, msg);
+         |                           ^~~~~~~~~~~
+   include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:154:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     154 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/dma/apple-sio.c:569:17: note: in expansion of macro 'FIELD_GET'
+     569 |         data  = FIELD_GET(SIOMSG_DATA, msg);
+         |                 ^~~~~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/apple-sio.c:27:25: note: in expansion of macro 'GENMASK'
+      27 | #define SIOMSG_DATA     GENMASK(63, 32)
+         |                         ^~~~~~~
+   drivers/dma/apple-sio.c:569:27: note: in expansion of macro 'SIOMSG_DATA'
+     569 |         data  = FIELD_GET(SIOMSG_DATA, msg);
+         |                           ^~~~~~~~~~~
+   include/linux/bits.h:34:29: warning: left shift count >= width of type [-Wshift-count-overflow]
+      34 |         (((~UL(0)) - (UL(1) << (l)) + 1) & \
+         |                             ^~
+   include/linux/compiler_types.h:377:23: note: in definition of macro '__compiletime_assert'
+     377 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
 
 
-vim +/sched_setscheduler_nocheck +2409 kernel/rcu/rcutorture.c
+vim +/__compiletime_assert_271 +397 include/linux/compiler_types.h
 
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2391  
-0ffd374b2207a1 kernel/rcu/rcutorture.c Sebastian Andrzej Siewior 2016-08-18  2392  static int rcutorture_booster_init(unsigned int cpu)
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2393  {
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2394  	int retval;
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2395  
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2396  	if (boost_tasks[cpu] != NULL)
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2397  		return 0;  /* Already created, nothing more to do. */
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2398  
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2399  	// Testing RCU priority boosting requires rcutorture do
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2400  	// some serious abuse.  Counter this by running ksoftirqd
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2401  	// at higher priority.
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2402  	if (IS_BUILTIN(CONFIG_RCU_TORTURE_TEST)) {
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2403  		struct sched_param sp;
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2404  		struct task_struct *t;
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2405  
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2406  		t = per_cpu(ksoftirqd, cpu);
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2407  		WARN_ON_ONCE(!t);
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2408  		sp.sched_priority = 2;
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10 @2409  		sched_setscheduler_nocheck(t, SCHED_FIFO, &sp);
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2410  	}
-3002153a91a973 kernel/rcu/rcutorture.c Frederic Weisbecker       2022-06-10  2411  
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2412  	/* Don't allow time recalculation while creating a new task. */
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2413  	mutex_lock(&boost_mutex);
-450efca7182a51 kernel/rcu/rcutorture.c Joel Fernandes (Google    2018-06-10  2414) 	rcu_torture_disable_rt_throttle();
-5ccf60f23d33af kernel/rcu/rcutorture.c Paul E. McKenney          2014-01-29  2415  	VERBOSE_TOROUT_STRING("Creating rcu_torture_boost task");
-3b9cb4ba4b54ec kernel/rcu/rcutorture.c Cai Huoqing               2022-01-14  2416  	boost_tasks[cpu] = kthread_run_on_cpu(rcu_torture_boost, NULL,
-3b9cb4ba4b54ec kernel/rcu/rcutorture.c Cai Huoqing               2022-01-14  2417  					      cpu, "rcu_torture_boost_%u");
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2418  	if (IS_ERR(boost_tasks[cpu])) {
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2419  		retval = PTR_ERR(boost_tasks[cpu]);
-5ccf60f23d33af kernel/rcu/rcutorture.c Paul E. McKenney          2014-01-29  2420  		VERBOSE_TOROUT_STRING("rcu_torture_boost task create failed");
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2421  		n_rcu_torture_boost_ktrerror++;
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2422  		boost_tasks[cpu] = NULL;
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2423  		mutex_unlock(&boost_mutex);
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2424  		return retval;
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2425  	}
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2426  	mutex_unlock(&boost_mutex);
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2427  	return 0;
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2428  }
-8e8be45e8e55da kernel/rcutorture.c     Paul E. McKenney          2010-09-02  2429  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
 
-:::::: The code at line 2409 was first introduced by commit
-:::::: 3002153a91a9732a6d1d0bb95138593c7da15743 rcutorture: Fix ksoftirqd boosting timing and iteration
+:::::: The code at line 397 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
 
-:::::: TO: Frederic Weisbecker <frederic@kernel.org>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
