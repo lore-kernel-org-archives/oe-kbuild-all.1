@@ -1,45 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CB1394;
-	Sat, 26 Aug 2023 02:06:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FBC7E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 02:37:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693015576; x=1724551576;
+  t=1693017444; x=1724553444;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2boz+0DqsT89h8sY/taKcahLfp+lgCs1CjvxlvowQTM=;
-  b=jA1FcRGdY4519+aWWEki2ZKMSW7ruf5R+E2z36ACiDEzQD2KPG9Vrbv8
-   MXfhlMX05bhdU5+owrkGkBKw+2GP41M69GP5AyaGNRjp+wZUiHpTC73D7
-   VJeDJMXWVyxGjCslKIu7QUuSY2FK0PH0U5RWy6K+J/LTk7F//iscxN5oj
-   9LvHYtQCd5h2jkTKT4NR5M3GAaeDvm7GcEcETOBTEI0d/2PzQDRg56iAr
-   iwPFgxUSgWu3jEeeBD18OPSC11SDzjSfOgo+TZr9JrCALOLErz0PKIfLn
-   NLn/qaZwYjLd6w5EhsXSCJDStwGPfRuugHnUE/jjz5oOIv463YZp4NohH
+  bh=k8Zff2hBZ0UqOg+mI0sHcTv5cgn12WHRknGtb6k3+4o=;
+  b=dJkPLTbloKTEkbD4LTNwp8nXLkbl2zH+q5UREoeK/F2n7ECfGPjOKHOv
+   NMq3VOZyuQqYevZuXJu4iYs5PdAwNOLyLBpaGLUZt2tWo6PAl1bIBzNfT
+   QVzKjtddLgv5IsQnxfTiwv2bbp/wWExsdL9WO6dDSol7/5s72vQuPiBPS
+   D9ztu6lG0cn5zo/RTUhlQoNdnJRhL6wwEdoAO1XHEMLBXUez6xQzu0P30
+   RizuN6euy0OKVQXI7n6pqsx5Zm2d8nKbKdo+DKRUzg4tXoxQQ0REhCNrm
+   2ZzEsWCpYBM53wGjdbAK7Nb6VnKurOSjH0/NhoQ5qrIIO4pZx874k3Kjk
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="354365260"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="441188289"
 X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="354365260"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 19:06:12 -0700
+   d="scan'208";a="441188289"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 19:37:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="772686717"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="740805544"
 X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="772686717"
+   d="scan'208";a="740805544"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 25 Aug 2023 19:06:10 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 25 Aug 2023 19:37:21 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZigk-0004FT-0o;
-	Sat, 26 Aug 2023 02:06:10 +0000
-Date: Sat, 26 Aug 2023 10:05:36 +0800
+	id 1qZjAu-0004GZ-1f;
+	Sat, 26 Aug 2023 02:37:20 +0000
+Date: Sat, 26 Aug 2023 10:37:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Animesh Manna <animesh.manna@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH v4 4/6] drm/i915/panelreplay: Initializaton
- and compute config for panel replay
-Message-ID: <202308260901.MphIjr2l-lkp@intel.com>
-References: <20230824040952.186407-5-animesh.manna@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH] kbuild: get lib-y objects back to static library
+Message-ID: <202308261038.mYLTBV2P-lkp@intel.com>
+References: <20230823120816.824352-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,101 +50,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230824040952.186407-5-animesh.manna@intel.com>
+In-Reply-To: <20230823120816.824352-1-masahiroy@kernel.org>
 
-Hi Animesh,
+Hi Masahiro,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-tip/drm-tip]
+[auto build test ERROR on masahiroy-kbuild/for-next]
+[also build test ERROR on masahiroy-kbuild/fixes linus/master v6.5-rc7 next-20230825]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Manna/drm-panelreplay-dpcd-register-definition-for-panelreplay/20230824-122224
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230824040952.186407-5-animesh.manna%40intel.com
-patch subject: [Intel-gfx] [PATCH v4 4/6] drm/i915/panelreplay: Initializaton and compute config for panel replay
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230826/202308260901.MphIjr2l-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260901.MphIjr2l-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbuild-get-lib-y-objects-back-to-static-library/20230823-201119
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+patch link:    https://lore.kernel.org/r/20230823120816.824352-1-masahiroy%40kernel.org
+patch subject: [PATCH] kbuild: get lib-y objects back to static library
+config: m68k-randconfig-r011-20230823 (https://download.01.org/0day-ci/archive/20230826/202308261038.mYLTBV2P-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261038.mYLTBV2P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308260901.MphIjr2l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308261038.mYLTBV2P-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/gpu/drm/i915/display/intel_dp.c:3776:27: warning: overlapping comparisons always evaluate to true [-Wtautological-overlap-compare]
-           if (vsc->revision != 0x5 || vsc->revision != 0x7)
-               ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +3776 drivers/gpu/drm/i915/display/intel_dp.c
-
-  3751	
-  3752	static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-  3753					     struct dp_sdp *sdp, size_t size)
-  3754	{
-  3755		size_t length = sizeof(struct dp_sdp);
-  3756	
-  3757		if (size < length)
-  3758			return -ENOSPC;
-  3759	
-  3760		memset(sdp, 0, size);
-  3761	
-  3762		/*
-  3763		 * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
-  3764		 * VSC SDP Header Bytes
-  3765		 */
-  3766		sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
-  3767		sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
-  3768		sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
-  3769		sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
-  3770	
-  3771		/*
-  3772		 * Other than revision 0x5 which supports Pixel Encoding/Colorimetry
-  3773		 * Format as per DP 1.4a spec, revision 0x7 also supports Pixel
-  3774		 * Encoding/Colorimetry Format as per DP 2.0 spec.
-  3775		 */
-> 3776		if (vsc->revision != 0x5 || vsc->revision != 0x7)
-  3777			goto out;
-  3778	
-  3779		/* VSC SDP Payload for DB16 through DB18 */
-  3780		/* Pixel Encoding and Colorimetry Formats  */
-  3781		sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
-  3782		sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
-  3783	
-  3784		switch (vsc->bpc) {
-  3785		case 6:
-  3786			/* 6bpc: 0x0 */
-  3787			break;
-  3788		case 8:
-  3789			sdp->db[17] = 0x1; /* DB17[3:0] */
-  3790			break;
-  3791		case 10:
-  3792			sdp->db[17] = 0x2;
-  3793			break;
-  3794		case 12:
-  3795			sdp->db[17] = 0x3;
-  3796			break;
-  3797		case 16:
-  3798			sdp->db[17] = 0x4;
-  3799			break;
-  3800		default:
-  3801			MISSING_CASE(vsc->bpc);
-  3802			break;
-  3803		}
-  3804		/* Dynamic Range and Component Bit Depth */
-  3805		if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
-  3806			sdp->db[17] |= 0x80;  /* DB17[7] */
-  3807	
-  3808		/* Content Type */
-  3809		sdp->db[18] = vsc->content_type & 0x7;
-  3810	
-  3811	out:
-  3812		return length;
-  3813	}
-  3814	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-npgtech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-odroid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pctv-sedna.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pine64.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-color.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-grey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-pctv-hd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-002t.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-mk12.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-new.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-powercolor-real-angel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-proteus-2309.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-purpletv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pv951.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-rc6-mce.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-real-audio-220-32-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-reddo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-snapstream-firefly.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-streamzap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-su3000.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx3mini.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx5max.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tbs-nec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-ts35.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-usb2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-c-pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-s2-hd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-xs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim-2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tevii-nec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand-02.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-trekstor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tt-1500.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan1027.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan-dtv-cab-ci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-vega-s9x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-m1f.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-s350.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-tv-pvr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videostrong-kii-pro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-play2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast-usbii-deluxe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-x96max.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-360.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-dvd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-zx-irdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
+>> ERROR: modpost: "__lshrdi3" [drivers/mtd/nand/raw/nand.ko] undefined!
+>> ERROR: modpost: "__lshrdi3" [drivers/mtd/nand/raw/diskonchip.ko] undefined!
+>> ERROR: modpost: "__lshrdi3" [drivers/mtd/nand/raw/nandsim.ko] undefined!
+>> ERROR: modpost: "__memcat_p" [drivers/hwtracing/stm/stm_core.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
