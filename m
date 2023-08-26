@@ -1,53 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C3E18D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 00:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AF518D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Aug 2023 00:49:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693010385; x=1724546385;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zBEsPpbqpz0jgz/L1/kzw9Bxwx0vlfNsgqHrm4AXy+Y=;
-  b=ahloIwhntAo04CGxyx3jF94Joy5KKMcQo8eMkMHhrY/sTsDB4l68YG6Z
-   eGBM7o09GUmZDXmRN6vqMB2IbfJ9fxLtiPLSPhDPZilkp037qHDDLohtx
-   l2sJUtpiLe+Ia5b7HVtV0znv542r5TpW+iKclk4PEDmdke4DbFBzP7izX
-   7t7hC3lnaAdxIieVJOIg9HM8FAz1tT9HvY1uqWMjscDefiuBtDf0AkNZE
-   M7FFPGwJ4a5lQO3AXaTx1RhbDAQOBT71+n2+VzHaAJLKx1cgDtwKZi6Sr
-   2BHzxLmNRT+uYDaB+FKcBTFwcTPIvTIMWly6UmlVukPtoFXK44vt3R+Iu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="373704375"
+  t=1693010992; x=1724546992;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q175luwHx5038P0HnyemLJSqPjZsZ5FyyPuU1t0GWhM=;
+  b=KvqFPLJ0oA8+9/QN5hWjJ4h8LA9Ma5RkEyIt35K80gldOrmA2awaVGeS
+   VyUlK8OvfcDUBQrhnqMjstvoYnCoDhI3Ja+by2GQlhd63KbLXJ0ojMiGc
+   Fz5PGeWmnry9Xq1BaH3gFdjnLLw5w3IFTLqqP7yfUhkl6GE7RhM49DRKE
+   jJqOBOC+vHUMn/4McnfM4za+kFk6+t4jZCiEXwa0ldkAgUB/JXJ96l2A0
+   2nRC4jXJR2QwSTcWviKJMLkfkRcz9fLrDsRPfVpkVU1hRSHoawWp9OOgC
+   MP2xtU8uOJ7rAkf3VC55oJqavOjEMDWhNEBAUMBrGLISiQWxn3t3+xaw+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="461197822"
 X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="373704375"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 17:39:44 -0700
+   d="scan'208";a="461197822"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 17:49:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="772670959"
+X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="984281662"
 X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="772670959"
+   d="scan'208";a="984281662"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 25 Aug 2023 17:39:40 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 25 Aug 2023 17:49:50 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qZhL1-0004At-1O;
-	Sat, 26 Aug 2023 00:39:39 +0000
-Date: Sat, 26 Aug 2023 08:38:52 +0800
+	id 1qZhUr-0004BL-28;
+	Sat, 26 Aug 2023 00:49:49 +0000
+Date: Sat, 26 Aug 2023 08:49:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukasz Majewski <lukma@denx.de>, Tristram.Ha@microchip.com,
-	Eric Dumazet <edumazet@google.com>, davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Kristian Overskeid <koverskeid@gmail.com>,
-	Matthieu Baerts <matthieu.baerts@tessares.net>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Lukasz Majewski <lukma@denx.de>
-Subject: Re: [PATCH] net: hsr : Provide fix for HSRv1 supervisor frames
- decoding
-Message-ID: <202308260833.erhVKBnc-lkp@intel.com>
-References: <20230825153111.228768-1-lukma@denx.de>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-5.15 155/167]
+ drivers/s390/crypto/zcrypt_msgtype6.c:1170:46: error: 'AP_MSG_FLAG_ADMIN'
+ undeclared; did you mean 'AP_MSG_FLAG_SPECIAL'?
+Message-ID: <202308260818.BzY4jnjq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,202 +46,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230825153111.228768-1-lukma@denx.de>
 
-Hi Lukasz,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-[also build test ERROR on net/main linus/master v6.5-rc7 next-20230825]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukasz-Majewski/net-hsr-Provide-fix-for-HSRv1-supervisor-frames-decoding/20230825-233423
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230825153111.228768-1-lukma%40denx.de
-patch subject: [PATCH] net: hsr : Provide fix for HSRv1 supervisor frames decoding
-config: riscv-randconfig-001-20230826 (https://download.01.org/0day-ci/archive/20230826/202308260833.erhVKBnc-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260833.erhVKBnc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.15
+head:   b0877f85780f9385c158a9ccc1c8cabd63ababf8
+commit: c28383389215cca0a5c3d93f1064725ecca8526d [155/167] s390/zcrypt: do not retry administrative requests
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230826/202308260818.BzY4jnjq-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230826/202308260818.BzY4jnjq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308260833.erhVKBnc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308260818.BzY4jnjq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/hsr/hsr_framereg.c: In function 'hsr_handle_sup_frame':
->> net/hsr/hsr_framereg.c:289:12: error: 'And' undeclared (first use in this function)
-     289 |          * And leave the HSR tag.
-         |            ^~~
-   net/hsr/hsr_framereg.c:289:12: note: each undeclared identifier is reported only once for each function it appears in
->> net/hsr/hsr_framereg.c:289:15: error: expected ';' before 'leave'
-     289 |          * And leave the HSR tag.
-         |               ^~~~~~
-         |               ;
+   drivers/s390/crypto/zcrypt_msgtype6.c: In function 'zcrypt_msgtype6_send_cprb':
+>> drivers/s390/crypto/zcrypt_msgtype6.c:1170:46: error: 'AP_MSG_FLAG_ADMIN' undeclared (first use in this function); did you mean 'AP_MSG_FLAG_SPECIAL'?
+    1170 |         if (rc == -EAGAIN && ap_msg->flags & AP_MSG_FLAG_ADMIN)
+         |                                              ^~~~~~~~~~~~~~~~~
+         |                                              AP_MSG_FLAG_SPECIAL
+   drivers/s390/crypto/zcrypt_msgtype6.c:1170:46: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/s390/crypto/zcrypt_msgtype6.c: In function 'zcrypt_msgtype6_send_ep11_cprb':
+   drivers/s390/crypto/zcrypt_msgtype6.c:1279:46: error: 'AP_MSG_FLAG_ADMIN' undeclared (first use in this function); did you mean 'AP_MSG_FLAG_SPECIAL'?
+    1279 |         if (rc == -EAGAIN && ap_msg->flags & AP_MSG_FLAG_ADMIN)
+         |                                              ^~~~~~~~~~~~~~~~~
+         |                                              AP_MSG_FLAG_SPECIAL
 
 
-vim +/And +289 net/hsr/hsr_framereg.c
+vim +1170 drivers/s390/crypto/zcrypt_msgtype6.c
 
-   249	
-   250	/* Use the Supervision frame's info about an eventual macaddress_B for merging
-   251	 * nodes that has previously had their macaddress_B registered as a separate
-   252	 * node.
-   253	 */
-   254	void hsr_handle_sup_frame(struct hsr_frame_info *frame)
-   255	{
-   256		struct hsr_node *node_curr = frame->node_src;
-   257		struct hsr_port *port_rcv = frame->port_rcv;
-   258		struct hsr_priv *hsr = port_rcv->hsr;
-   259		struct hsr_sup_payload *hsr_sp;
-   260		struct hsr_sup_tlv *hsr_sup_tlv;
-   261		struct hsr_node *node_real;
-   262		struct sk_buff *skb = NULL;
-   263		struct list_head *node_db;
-   264		struct ethhdr *ethhdr;
-   265		int i;
-   266		unsigned int pull_size = 0;
-   267		unsigned int total_pull_size = 0;
-   268	
-   269		/* Here either frame->skb_hsr or frame->skb_prp should be
-   270		 * valid as supervision frame always will have protocol
-   271		 * header info.
-   272		 */
-   273		if (frame->skb_hsr)
-   274			skb = frame->skb_hsr;
-   275		else if (frame->skb_prp)
-   276			skb = frame->skb_prp;
-   277		else if (frame->skb_std)
-   278			skb = frame->skb_std;
-   279		if (!skb)
-   280			return;
-   281	
-   282		/* Leave the ethernet header. */
-   283		pull_size = sizeof(struct ethhdr);
-   284		skb_pull(skb, pull_size);
-   285		total_pull_size += pull_size;
-   286	
-   287		ethhdr = (struct ethhdr *)skb_mac_header(skb);
-   288	
- > 289		 * And leave the HSR tag.
-   290		 *
-   291		 * The HSRv1 supervisory frame encapsulates the v0 frame
-   292		 * with EtherType of 0x88FB
-   293		 */
-   294		if (ethhdr->h_proto == htons(ETH_P_HSR)) {
-   295			if (hsr->prot_version == HSR_V1)
-   296				/* In the above step the DA, SA and EtherType
-   297				 * (0x892F - HSRv1) bytes has been removed.
-   298				 *
-   299				 * As the HSRv1 has the HSR header added, one need
-   300				 * to remove path_and_LSDU_size and sequence_nr fields.
-   301				 *
-   302				 */
-   303				pull_size = 4;
-   304			else
-   305				pull_size = sizeof(struct hsr_tag);
-   306	
-   307			skb_pull(skb, pull_size);
-   308			total_pull_size += pull_size;
-   309		}
-   310	
-   311		/* And leave the HSR sup tag. */
-   312		pull_size = sizeof(struct hsr_tag);
-   313		skb_pull(skb, pull_size);
-   314		total_pull_size += pull_size;
-   315	
-   316		/* get HSR sup payload */
-   317		if (hsr->prot_version == HSR_V1) {
-   318			/* In the HSRv1 supervisor frame, when
-   319			 * one with EtherType = 0x88FB is extracted, the Node A
-   320			 * MAC address is preceded with type and length elements of TLV
-   321			 * data field.
-   322			 *
-   323			 * It needs to be removed to get the remote peer MAC address.
-   324			 */
-   325			pull_size = sizeof(struct hsr_sup_tlv);
-   326			skb_pull(skb, pull_size);
-   327			total_pull_size += pull_size;
-   328		}
-   329	
-   330		hsr_sp = (struct hsr_sup_payload *)skb->data;
-   331	
-   332		/* Merge node_curr (registered on macaddress_B) into node_real */
-   333		node_db = &port_rcv->hsr->node_db;
-   334		node_real = find_node_by_addr_A(node_db, hsr_sp->macaddress_A);
-   335		if (!node_real)
-   336			/* No frame received from AddrA of this node yet */
-   337			node_real = hsr_add_node(hsr, node_db, hsr_sp->macaddress_A,
-   338						 HSR_SEQNR_START - 1, true,
-   339						 port_rcv->type);
-   340		if (!node_real)
-   341			goto done; /* No mem */
-   342		if (node_real == node_curr)
-   343			/* Node has already been merged */
-   344			goto done;
-   345	
-   346		/* Leave the first HSR sup payload. */
-   347		pull_size = sizeof(struct hsr_sup_payload);
-   348		skb_pull(skb, pull_size);
-   349		total_pull_size += pull_size;
-   350	
-   351		/* Get second supervision tlv */
-   352		hsr_sup_tlv = (struct hsr_sup_tlv *)skb->data;
-   353		/* And check if it is a redbox mac TLV */
-   354		if (hsr_sup_tlv->HSR_TLV_type == PRP_TLV_REDBOX_MAC) {
-   355			/* We could stop here after pushing hsr_sup_payload,
-   356			 * or proceed and allow macaddress_B and for redboxes.
-   357			 */
-   358			/* Sanity check length */
-   359			if (hsr_sup_tlv->HSR_TLV_length != 6)
-   360				goto done;
-   361	
-   362			/* Leave the second HSR sup tlv. */
-   363			pull_size = sizeof(struct hsr_sup_tlv);
-   364			skb_pull(skb, pull_size);
-   365			total_pull_size += pull_size;
-   366	
-   367			/* Get redbox mac address. */
-   368			hsr_sp = (struct hsr_sup_payload *)skb->data;
-   369	
-   370			/* Check if redbox mac and node mac are equal. */
-   371			if (!ether_addr_equal(node_real->macaddress_A, hsr_sp->macaddress_A)) {
-   372				/* This is a redbox supervision frame for a VDAN! */
-   373				goto done;
-   374			}
-   375		}
-   376	
-   377		ether_addr_copy(node_real->macaddress_B, ethhdr->h_source);
-   378		spin_lock_bh(&node_real->seq_out_lock);
-   379		for (i = 0; i < HSR_PT_PORTS; i++) {
-   380			if (!node_curr->time_in_stale[i] &&
-   381			    time_after(node_curr->time_in[i], node_real->time_in[i])) {
-   382				node_real->time_in[i] = node_curr->time_in[i];
-   383				node_real->time_in_stale[i] =
-   384							node_curr->time_in_stale[i];
-   385			}
-   386			if (seq_nr_after(node_curr->seq_out[i], node_real->seq_out[i]))
-   387				node_real->seq_out[i] = node_curr->seq_out[i];
-   388		}
-   389		spin_unlock_bh(&node_real->seq_out_lock);
-   390		node_real->addr_B_port = port_rcv->type;
-   391	
-   392		spin_lock_bh(&hsr->list_lock);
-   393		if (!node_curr->removed) {
-   394			list_del_rcu(&node_curr->mac_list);
-   395			node_curr->removed = true;
-   396			kfree_rcu(node_curr, rcu_head);
-   397		}
-   398		spin_unlock_bh(&hsr->list_lock);
-   399	
-   400	done:
-   401		/* Push back here */
-   402		skb_push(skb, total_pull_size);
-   403	}
-   404	
+  1142	
+  1143	/*
+  1144	 * The request distributor calls this function if it picked the CEXxC
+  1145	 * device to handle a send_cprb request.
+  1146	 * @zq: pointer to zcrypt_queue structure that identifies the
+  1147	 *	CEXxC device to the request distributor
+  1148	 * @xcRB: pointer to the send_cprb request buffer
+  1149	 */
+  1150	static long zcrypt_msgtype6_send_cprb(bool userspace, struct zcrypt_queue *zq,
+  1151					      struct ica_xcRB *xcRB,
+  1152					      struct ap_message *ap_msg)
+  1153	{
+  1154		int rc;
+  1155		struct response_type *rtype = (struct response_type *)(ap_msg->private);
+  1156	
+  1157		init_completion(&rtype->work);
+  1158		rc = ap_queue_message(zq->queue, ap_msg);
+  1159		if (rc)
+  1160			goto out;
+  1161		rc = wait_for_completion_interruptible(&rtype->work);
+  1162		if (rc == 0) {
+  1163			rc = ap_msg->rc;
+  1164			if (rc == 0)
+  1165				rc = convert_response_xcrb(userspace, zq, ap_msg, xcRB);
+  1166		} else
+  1167			/* Signal pending. */
+  1168			ap_cancel_message(zq->queue, ap_msg);
+  1169	
+> 1170		if (rc == -EAGAIN && ap_msg->flags & AP_MSG_FLAG_ADMIN)
+  1171			rc = -EIO; /* do not retry administrative requests */
+  1172	
+  1173	out:
+  1174		return rc;
+  1175	}
+  1176	
 
 -- 
 0-DAY CI Kernel Test Service
