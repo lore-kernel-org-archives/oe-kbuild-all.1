@@ -1,74 +1,313 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BB463A5;
-	Sun, 27 Aug 2023 11:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1693135922;
-	bh=5T04emPiqpwjpNOBK+5sgoQ1jikwwcTW1EnGrCwmyWI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=pWlsL+flxMUz3Q14GgXrF5FSQcEnP9YkMOy1C5dUcQTGzK4Y7QfnFIgoBeVCIc4tn
-	 8b0Ev6/OX3HA2zcg1iutNZCPZbobXD+5I8CgyyYWQM+c8grkscZL6gQDnYE/0KskaD
-	 fowZiu/2ueFkNQycn7boPlbPuaPHnML1o5rbp/z2Rtk6v1cPh8/FvnhZXybHYUL81C
-	 huRq1tUsiHoKYsRmtqNxjmHKAXuJLBY2DDGTYZMt21RHai7q6rMKJmPteRLlsYBqov
-	 QcmWzJ2k15ukvKdX2AYllASLh65JWwXMatNs83rKOy8bb50WoiLFWFQg3bOGYv38jI
-	 upoNjBk1QIyqg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4RYWkB32t0z4wZn;
-	Sun, 27 Aug 2023 21:32:02 +1000 (AEST)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Nathan Chancellor
- <nathan@kernel.org>, kernel test robot <lkp@intel.com>
-Subject: Re: [linuxppc:next-test 85/129] arch/powerpc/xmon/xmon.c:489:12:
- error: stack frame size (2160) exceeds limit (2048) in 'xmon_core'
-In-Reply-To: <CAKwvOdk=UvBxv7a2cV-Z_zK0CwzPSjBnQ0SQHaVAEUodA=hfQQ@mail.gmail.com>
-References: <202308260344.Vc4Giuk7-lkp@intel.com>
- <CAKwvOdk=UvBxv7a2cV-Z_zK0CwzPSjBnQ0SQHaVAEUodA=hfQQ@mail.gmail.com>
-Date: Sun, 27 Aug 2023 21:32:00 +1000
-Message-ID: <874jkkvhzj.fsf@mail.lhotse>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C81A63A5
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Aug 2023 11:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693136415; x=1724672415;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sEtApCH/xTSAMqHz+ySvniOtg4d/v8Xo6i3ziW3Klvs=;
+  b=RjS+0Xp21DYua/t3CC6b9GZZO4CW0Sn/Vy0LducnkBwEHVhkgx0OhntO
+   SyC19KalnCO3XRYjv/D4xOrsiV4w0IEaNfolT3pXcquRuHclEcgZFYuac
+   VHX12R8KP5ewiKkDhEqj9ps4m/KjIBMrx4OidSJiRj9LwPhAJ286vDwU9
+   PBx5IYcW5/fFQh3bB0Zsqn1LoIWsm5L/UCv975yEqUElAv9/x+QfmIWOI
+   /Q3CVK9kQ7zOFSbppJu9kx18xkETWLEvWBl1E3HVHAa4imVDgcySz6xVb
+   Hg+m8LibXNbPcwg2nIFnyrj3VkGd/cPpAl5wFNSvNjRvwYw8EWGYzhXdS
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="359929917"
+X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
+   d="scan'208";a="359929917"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 04:40:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="807993592"
+X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
+   d="scan'208";a="807993592"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 27 Aug 2023 04:40:12 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qaE7o-0005jv-0Y;
+	Sun, 27 Aug 2023 11:40:12 +0000
+Date: Sun, 27 Aug 2023 19:39:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:aass 22/28] include/linux/bitmap.h:765:17: error: use of
+ undeclared identifier 'dst'
+Message-ID: <202308271926.Ezje7gDY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Nick Desaulniers <ndesaulniers@google.com> writes:
-> On Fri, Aug 25, 2023 at 12:17=E2=80=AFPM kernel test robot <lkp@intel.com=
-> wrote:
->>
->> tree:   https://github.com/linuxppc/linux next-test
->> head:   c37b6908f7b2bd24dcaaf14a180e28c9132b9c58
->> commit: 7f3c5d099b6f8452dc4dcfe4179ea48e6a13d0eb [85/129] Revert "powerp=
-c/xmon: Relax frame size for clang"
->> config: powerpc64-randconfig-r006-20230825 (https://download.01.org/0day=
--ci/archive/20230826/202308260344.Vc4Giuk7-lkp@intel.com/config)
->> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git=
- f28c006a5895fc0e329fe15fead81e37457cb1d1)
->
-> Hi Michael,
-> Given this report and
-> https://github.com/ClangBuiltLinux/linux/issues/252#issuecomment-16903712=
-56,
-> it seems that it's still possible to trigger this warning (and build
-> failure with CONFIG_WERROR). Is it possible to drop my patch at this
-> point?
+tree:   https://github.com/norov/linux aass
+head:   09c5536da36c57d74f151b53a4b810a46fc63948
+commit: 2b2196b70138e822fae24225696c3835914f6b56 [22/28] bitmap: add small_const_nbits() optimization for bitmap_bitremap()
+config: i386-randconfig-001-20230827 (https://download.01.org/0day-ci/archive/20230827/202308271926.Ezje7gDY-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230827/202308271926.Ezje7gDY-lkp@intel.com/reproduce)
 
-It's too late to drop it, so we'd need to do a revert.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308271926.Ezje7gDY-lkp@intel.com/
 
-But rather than just a straight revert maybe we can do something that's
-more tightly focused, ie. just to specific Clang versions?
+All error/warnings (new ones prefixed by >>):
 
-> I'll need to go back to the drawing board with these configs +
-> specific versions of clang to better understand what's going wrong
-> here.  Sorry for the trouble.
+                                 bits
+   include/asm-generic/bitsperlong.h:36:35: note: expanded from macro 'small_const_nbits'
+           (__builtin_constant_p(nbits) && (nbits) <= BITS_PER_LONG && (nbits) > 0)
+                                            ^
+   include/linux/bitmap.h:748:59: note: 'bits' declared here
+                   const unsigned long *old, const unsigned long *new, int bits)
+                                                                           ^
+   include/linux/bitmap.h:750:24: error: use of undeclared identifier 'nbits'; did you mean 'bits'?
+           if (small_const_nbits(nbits)) {
+                                 ^~~~~
+                                 bits
+   include/asm-generic/bitsperlong.h:36:63: note: expanded from macro 'small_const_nbits'
+           (__builtin_constant_p(nbits) && (nbits) <= BITS_PER_LONG && (nbits) > 0)
+                                                                        ^
+   include/linux/bitmap.h:748:59: note: 'bits' declared here
+                   const unsigned long *old, const unsigned long *new, int bits)
+                                                                           ^
+   include/linux/bitmap.h:750:24: error: use of undeclared identifier 'nbits'; did you mean 'bits'?
+           if (small_const_nbits(nbits)) {
+                                 ^~~~~
+                                 bits
+   include/asm-generic/bitsperlong.h:36:24: note: expanded from macro 'small_const_nbits'
+           (__builtin_constant_p(nbits) && (nbits) <= BITS_PER_LONG && (nbits) > 0)
+                                 ^
+   include/linux/bitmap.h:748:59: note: 'bits' declared here
+                   const unsigned long *old, const unsigned long *new, int bits)
+                                                                           ^
+   include/linux/bitmap.h:753:12: warning: & has lower precedence than ==; == will be evaluated first [-Wparentheses]
+                   if (*old & BIT(oldbit) == 0 ||
+                            ^~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:753:12: note: place parentheses around the '==' expression to silence this warning
+                   if (*old & BIT(oldbit) == 0 ||
+                            ^ ~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:753:12: note: place parentheses around the & expression to evaluate it first
+                   if (*old & BIT(oldbit) == 0 ||
+                       ~~~~~^~~~~~~~~~~~~
+   include/linux/bitmap.h:754:36: error: use of undeclared identifier 'nbits'; did you mean 'bits'?
+                       *old & BITMAP_LAST_WORD_MASK(nbits) == 0 ||
+                                                    ^~~~~
+                                                    bits
+   include/linux/bitmap.h:239:50: note: expanded from macro 'BITMAP_LAST_WORD_MASK'
+   #define BITMAP_LAST_WORD_MASK(nbits) (~0UL >> (-(nbits) & (BITS_PER_LONG - 1)))
+                                                    ^
+   include/linux/bitmap.h:748:59: note: 'bits' declared here
+                   const unsigned long *old, const unsigned long *new, int bits)
+                                                                           ^
+   include/linux/bitmap.h:754:12: warning: & has lower precedence than ==; == will be evaluated first [-Wparentheses]
+                       *old & BITMAP_LAST_WORD_MASK(nbits) == 0 ||
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:754:12: note: place parentheses around the '==' expression to silence this warning
+                       *old & BITMAP_LAST_WORD_MASK(nbits) == 0 ||
+                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:754:12: note: place parentheses around the & expression to evaluate it first
+                       *old & BITMAP_LAST_WORD_MASK(nbits) == 0 ||
+                       ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:755:36: error: use of undeclared identifier 'nbits'; did you mean 'bits'?
+                       *new & BITMAP_LAST_WORD_MASK(nbits) == 0 ||
+                                                    ^~~~~
+                                                    bits
+   include/linux/bitmap.h:239:50: note: expanded from macro 'BITMAP_LAST_WORD_MASK'
+   #define BITMAP_LAST_WORD_MASK(nbits) (~0UL >> (-(nbits) & (BITS_PER_LONG - 1)))
+                                                    ^
+   include/linux/bitmap.h:748:59: note: 'bits' declared here
+                   const unsigned long *old, const unsigned long *new, int bits)
+                                                                           ^
+   include/linux/bitmap.h:755:12: warning: & has lower precedence than ==; == will be evaluated first [-Wparentheses]
+                       *new & BITMAP_LAST_WORD_MASK(nbits) == 0 ||
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:755:12: note: place parentheses around the '==' expression to silence this warning
+                       *new & BITMAP_LAST_WORD_MASK(nbits) == 0 ||
+                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:755:12: note: place parentheses around the & expression to evaluate it first
+                       *new & BITMAP_LAST_WORD_MASK(nbits) == 0 ||
+                       ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:756:45: error: use of undeclared identifier 'nbits'; did you mean 'bits'?
+                       (*new ^ *old) & BITMAP_LAST_WORD_MASK(nbits) == 0) {
+                                                             ^~~~~
+                                                             bits
+   include/linux/bitmap.h:239:50: note: expanded from macro 'BITMAP_LAST_WORD_MASK'
+   #define BITMAP_LAST_WORD_MASK(nbits) (~0UL >> (-(nbits) & (BITS_PER_LONG - 1)))
+                                                    ^
+   include/linux/bitmap.h:748:59: note: 'bits' declared here
+                   const unsigned long *old, const unsigned long *new, int bits)
+                                                                           ^
+   include/linux/bitmap.h:756:21: warning: & has lower precedence than ==; == will be evaluated first [-Wparentheses]
+                       (*new ^ *old) & BITMAP_LAST_WORD_MASK(nbits) == 0) {
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:756:21: note: place parentheses around the '==' expression to silence this warning
+                       (*new ^ *old) & BITMAP_LAST_WORD_MASK(nbits) == 0) {
+                                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:756:21: note: place parentheses around the & expression to evaluate it first
+                       (*new ^ *old) & BITMAP_LAST_WORD_MASK(nbits) == 0) {
+                       ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:762:28: error: use of undeclared identifier 'nbits'; did you mean 'bits'?
+                   return find_nth_bit(new, nbits, n % w);
+                                            ^~~~~
+                                            bits
+   include/linux/bitmap.h:748:59: note: 'bits' declared here
+                   const unsigned long *old, const unsigned long *new, int bits)
+                                                                           ^
+>> include/linux/bitmap.h:765:17: error: use of undeclared identifier 'dst'
+           __bitmap_remap(dst, src, old, new, nbits);
+                          ^
+>> include/linux/bitmap.h:765:22: error: use of undeclared identifier 'src'
+           __bitmap_remap(dst, src, old, new, nbits);
+                               ^
+   include/linux/bitmap.h:765:37: error: use of undeclared identifier 'nbits'
+           __bitmap_remap(dst, src, old, new, nbits);
+                                              ^
+>> include/linux/bitmap.h:747:5: warning: no previous prototype for function 'bitmap_bitremap' [-Wmissing-prototypes]
+   int bitmap_bitremap(int oldbit,
+       ^
+   include/linux/bitmap.h:747:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int bitmap_bitremap(int oldbit,
+   ^
+   static 
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                           ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+                   return (set->sig[3] | set->sig[2] |
+                                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                            ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                   return  (set1->sig[3] == set2->sig[3]) &&
+                                            ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                           (set1->sig[2] == set2->sig[2]) &&
+                            ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+                           (set1->sig[2] == set2->sig[2]) &&
+                                            ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+           unsigned long sig[_NSIG_WORDS];
+           ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
 
-No worries.
 
-cheers
+vim +/dst +765 include/linux/bitmap.h
+
+   735	
+   736	/**
+   737	 * bitmap_bitremap - Apply map defined by a pair of bitmaps to a single bit
+   738	 *	@oldbit: bit position to be mapped
+   739	 *	@old: defines domain of map
+   740	 *	@new: defines range of map
+   741	 *	@bits: number of bits in each of these bitmaps
+   742	 *
+   743	 * A special case of bitmap_remap(), when a single bit remapping is needed.
+   744	 *
+   745	 * Returns: position of remapped bit
+   746	 */
+ > 747	int bitmap_bitremap(int oldbit,
+ > 748			const unsigned long *old, const unsigned long *new, int bits)
+   749	{
+   750		if (small_const_nbits(nbits)) {
+   751			unsigned int w, n;
+   752	
+   753			if (*old & BIT(oldbit) == 0 ||
+   754			    *old & BITMAP_LAST_WORD_MASK(nbits) == 0 ||
+   755			    *new & BITMAP_LAST_WORD_MASK(nbits) == 0 ||
+   756			    (*new ^ *old) & BITMAP_LAST_WORD_MASK(nbits) == 0) {
+   757				return oldbit;
+   758			}
+   759	
+   760			w = bitmap_weight(new, bits);
+   761			n = bitmap_weight(old, bits);
+ > 762			return find_nth_bit(new, nbits, n % w);
+   763		}
+   764	
+ > 765		__bitmap_remap(dst, src, old, new, nbits);
+   766	}
+   767	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
