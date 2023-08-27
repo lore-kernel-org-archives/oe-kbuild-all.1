@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0825236A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Aug 2023 01:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5583436A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Aug 2023 01:41:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693098004; x=1724634004;
+  t=1693100499; x=1724636499;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/reEIsgtQD2Y0uaUNwfoEw4zZOhL6ccS73HONc29eC0=;
-  b=WWFG4gB60lxi+COB3NgVghTky8KMHvk467yEXO4YETgRmBn5tQHW/rP+
-   WPW7iz9Kgi+B+axHmvaUq0SIrrnd6IgS8/OrR4jNyKBSzMnJMS7lG4OEl
-   KnwmF4cf2B3JtSxcUbSY5wfVQuwhH+BTvNR75RVX8nFyac6NZ1UE+6s+K
-   7vmj3WHErKLKDmae7KxYjMpPwvNHUn8/Kn10N1OcCNIF0mjpReeTVbV1e
-   RGVFkM693dSsAq/wtdlNnCYHs03qIeVPZjwXk8D/uq+GJ2dEMFl7EHF7S
-   7AALJYC3a4q+2VOqH9hhQUDzYdAW+s9Q3UoVp6qrbHH9z5+ZX2Ygs/XFt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="378689763"
+  bh=Y7XoI2JL/nJjBX9Fe2pFzuHxd22kQZfOHtuORwsFACw=;
+  b=nvz92yIRBx2FA3eBJL0iAiO0FPugGCob5By+EGZJmdfZgCXtrjTZ/PEL
+   jlwiJQm6e8W8w1hlFnkQtsFI4EQFuFVcwYzGbgWEqkmqO97bMow+2vWrZ
+   A4aiBPBZQ/BMTWudYE3Rd5mvkfE5oeFt0XkN09ROrAHmnDPc4cFCnI20I
+   eDoE1ZuWO6mifsctz9xMoljHm0vmNE/3S12ilVrky+5vXV/QPF3tNQ485
+   dUTW9JGGdawO5eVC5u3g2w+PVrBKluUlwkeEMEBR2vKzqIq/LIwJVRZjS
+   CT4dzEK1PlzMVWLuqL/9Zzu8d1VGCGBT0Iu3enyUas5/avHAKgd0AjNJ8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="373790129"
 X-IronPort-AV: E=Sophos;i="6.02,204,1688454000"; 
-   d="scan'208";a="378689763"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 18:00:04 -0700
+   d="scan'208";a="373790129"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2023 18:41:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="881544155"
+X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="687707444"
+X-IronPort-AV: E=Sophos;i="6.02,204,1688454000"; 
+   d="scan'208";a="687707444"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2023 18:00:07 -0700
+  by orsmga003.jf.intel.com with ESMTP; 26 Aug 2023 18:41:34 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qa48H-0005EZ-2a;
-	Sun, 27 Aug 2023 01:00:01 +0000
-Date: Sun, 27 Aug 2023 08:59:15 +0800
+	id 1qa4mT-0005GR-2n;
+	Sun, 27 Aug 2023 01:41:33 +0000
+Date: Sun, 27 Aug 2023 09:40:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: Pankaj Raghav <p.raghav@samsung.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4_2 11365/11475]
- drivers/net/ethernet/mediatek/mtk_eth_soc.h:336:69: warning: right shift
- count >= width of type
-Message-ID: <202308270819.Zw9EMCSd-lkp@intel.com>
+Subject: [mcgrof-next:large-block-nobdev-20230822-minorder 11585/11599]
+ mm/filemap.c:1877 __filemap_get_folio() warn: inconsistent indenting
+Message-ID: <202308270953.qOl0WKg9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,191 +46,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4_2
-head:   d6000c552c7d192fdd2d7e21a320c3b269bff5a5
-commit: 3f31085c427397694bdaf679ebad6eac8645f842 [11365/11475] net: ethernet: mtk_eth_soc: support 36-bit DMA addressing on MT7988
-config: mips-randconfig-r034-20230827 (https://download.01.org/0day-ci/archive/20230827/202308270819.Zw9EMCSd-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230827/202308270819.Zw9EMCSd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git large-block-nobdev-20230822-minorder
+head:   8685ca5fce6fede915222ae35e0885eb9442d25e
+commit: 5f72bf46d09d734d5b4d55f18dc93b606c84279e [11585/11599] filemap: use minimum order while allocating folios
+config: x86_64-randconfig-161-20230823 (https://download.01.org/0day-ci/archive/20230827/202308270953.qOl0WKg9-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230827/202308270953.qOl0WKg9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308270819.Zw9EMCSd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308270953.qOl0WKg9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+mm/filemap.c:1877 __filemap_get_folio() warn: inconsistent indenting
 
-   In file included from <command-line>:
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_tx_set_dma_desc_v2':
->> drivers/net/ethernet/mediatek/mtk_eth_soc.h:336:69: warning: right shift count >= width of type [-Wshift-count-overflow]
-     336 | #define TX_DMA_PREP_ADDR64(x)   FIELD_PREP(TX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^~
-   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
-     405 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:336:33: note: in expansion of macro 'FIELD_PREP'
-     336 | #define TX_DMA_PREP_ADDR64(x)   FIELD_PREP(TX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                 ^~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1333:25: note: in expansion of macro 'TX_DMA_PREP_ADDR64'
-    1333 |                 data |= TX_DMA_PREP_ADDR64(info->addr);
-         |                         ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/mediatek/mtk_eth_soc.h:336:69: warning: right shift count >= width of type [-Wshift-count-overflow]
-     336 | #define TX_DMA_PREP_ADDR64(x)   FIELD_PREP(TX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^~
-   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
-     405 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:336:33: note: in expansion of macro 'FIELD_PREP'
-     336 | #define TX_DMA_PREP_ADDR64(x)   FIELD_PREP(TX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                 ^~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1333:25: note: in expansion of macro 'TX_DMA_PREP_ADDR64'
-    1333 |                 data |= TX_DMA_PREP_ADDR64(info->addr);
-         |                         ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/mdio.h:10,
-                    from include/linux/phy.h:20,
-                    from include/linux/of_mdio.h:12,
-                    from drivers/net/ethernet/mediatek/mtk_eth_soc.c:10:
->> drivers/net/ethernet/mediatek/mtk_eth_soc.h:336:69: warning: right shift count >= width of type [-Wshift-count-overflow]
-     336 | #define TX_DMA_PREP_ADDR64(x)   FIELD_PREP(TX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^~
-   include/linux/bitfield.h:115:34: note: in definition of macro 'FIELD_PREP'
-     115 |                 ((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask);   \
-         |                                  ^~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1333:25: note: in expansion of macro 'TX_DMA_PREP_ADDR64'
-    1333 |                 data |= TX_DMA_PREP_ADDR64(info->addr);
-         |                         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_poll_rx':
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:351:69: warning: right shift count >= width of type [-Wshift-count-overflow]
-     351 | #define RX_DMA_PREP_ADDR64(x)   FIELD_PREP(RX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^~
-   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
-     405 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:351:33: note: in expansion of macro 'FIELD_PREP'
-     351 | #define RX_DMA_PREP_ADDR64(x)   FIELD_PREP(RX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                 ^~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2190:38: note: in expansion of macro 'RX_DMA_PREP_ADDR64'
-    2190 |                         rxd->rxd2 |= RX_DMA_PREP_ADDR64(dma_addr);
-         |                                      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:351:69: warning: right shift count >= width of type [-Wshift-count-overflow]
-     351 | #define RX_DMA_PREP_ADDR64(x)   FIELD_PREP(RX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^~
-   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
-     405 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:351:33: note: in expansion of macro 'FIELD_PREP'
-     351 | #define RX_DMA_PREP_ADDR64(x)   FIELD_PREP(RX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                 ^~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2190:38: note: in expansion of macro 'RX_DMA_PREP_ADDR64'
-    2190 |                         rxd->rxd2 |= RX_DMA_PREP_ADDR64(dma_addr);
-         |                                      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:351:69: warning: right shift count >= width of type [-Wshift-count-overflow]
-     351 | #define RX_DMA_PREP_ADDR64(x)   FIELD_PREP(RX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^~
-   include/linux/bitfield.h:115:34: note: in definition of macro 'FIELD_PREP'
-     115 |                 ((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask);   \
-         |                                  ^~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2190:38: note: in expansion of macro 'RX_DMA_PREP_ADDR64'
-    2190 |                         rxd->rxd2 |= RX_DMA_PREP_ADDR64(dma_addr);
-         |                                      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_rx_alloc':
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:351:69: warning: right shift count >= width of type [-Wshift-count-overflow]
-     351 | #define RX_DMA_PREP_ADDR64(x)   FIELD_PREP(RX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^~
-   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
-     405 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:351:33: note: in expansion of macro 'FIELD_PREP'
-     351 | #define RX_DMA_PREP_ADDR64(x)   FIELD_PREP(RX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                 ^~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2685:38: note: in expansion of macro 'RX_DMA_PREP_ADDR64'
-    2685 |                         rxd->rxd2 |= RX_DMA_PREP_ADDR64(dma_addr);
-         |                                      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.h:351:69: warning: right shift count >= width of type [-Wshift-count-overflow]
-     351 | #define RX_DMA_PREP_ADDR64(x)   FIELD_PREP(RX_DMA_ADDR64_MASK, ((x) >> 32))
-         |                                                                     ^~
-   include/linux/compiler_types.h:405:23: note: in definition of macro '__compiletime_assert'
-     405 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
-     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
+vim +1877 mm/filemap.c
 
-
-vim +336 drivers/net/ethernet/mediatek/mtk_eth_soc.h
-
-   326	
-   327	/* QDMA descriptor txd3 */
-   328	#define TX_DMA_OWNER_CPU	BIT(31)
-   329	#define TX_DMA_LS0		BIT(30)
-   330	#define TX_DMA_PLEN0(x)		(((x) & eth->soc->txrx.dma_max_len) << eth->soc->txrx.dma_len_offset)
-   331	#define TX_DMA_PLEN1(x)		((x) & eth->soc->txrx.dma_max_len)
-   332	#define TX_DMA_SWC		BIT(14)
-   333	#define TX_DMA_PQID		GENMASK(3, 0)
-   334	#define TX_DMA_ADDR64_MASK	GENMASK(3, 0)
-   335	#define TX_DMA_GET_ADDR64(x)	(((u64)FIELD_GET(TX_DMA_ADDR64_MASK, (x))) << 32)
- > 336	#define TX_DMA_PREP_ADDR64(x)	FIELD_PREP(TX_DMA_ADDR64_MASK, ((x) >> 32))
-   337	
+  1856	
+  1857	/**
+  1858	 * __filemap_get_folio - Find and get a reference to a folio.
+  1859	 * @mapping: The address_space to search.
+  1860	 * @index: The page index.
+  1861	 * @fgp_flags: %FGP flags modify how the folio is returned.
+  1862	 * @gfp: Memory allocation flags to use if %FGP_CREAT is specified.
+  1863	 *
+  1864	 * Looks up the page cache entry at @mapping & @index.
+  1865	 *
+  1866	 * If %FGP_LOCK or %FGP_CREAT are specified then the function may sleep even
+  1867	 * if the %GFP flags specified for %FGP_CREAT are atomic.
+  1868	 *
+  1869	 * If this function returns a folio, it is returned with an increased refcount.
+  1870	 *
+  1871	 * Return: The found folio or an ERR_PTR() otherwise.
+  1872	 */
+  1873	struct folio *__filemap_get_folio(struct address_space *mapping, pgoff_t index,
+  1874			fgf_t fgp_flags, gfp_t gfp)
+  1875	{
+  1876		struct folio *folio;
+> 1877	       int min_order = mapping_min_folio_order(mapping);
+  1878	       int nr_of_pages = (1U << min_order);
+  1879	
+  1880	
+  1881	repeat:
+  1882		folio = filemap_get_entry(mapping, index);
+  1883		if (xa_is_value(folio))
+  1884			folio = NULL;
+  1885		if (!folio)
+  1886			goto no_page;
+  1887	
+  1888		if (fgp_flags & FGP_LOCK) {
+  1889			if (fgp_flags & FGP_NOWAIT) {
+  1890				if (!folio_trylock(folio)) {
+  1891					folio_put(folio);
+  1892					return ERR_PTR(-EAGAIN);
+  1893				}
+  1894			} else {
+  1895				folio_lock(folio);
+  1896			}
+  1897	
+  1898			/* Has the page been truncated? */
+  1899			if (unlikely(folio->mapping != mapping)) {
+  1900				folio_unlock(folio);
+  1901				folio_put(folio);
+  1902				goto repeat;
+  1903			}
+  1904			VM_BUG_ON_FOLIO(!folio_contains(folio, index), folio);
+  1905		}
+  1906	
+  1907		if (fgp_flags & FGP_ACCESSED)
+  1908			folio_mark_accessed(folio);
+  1909		else if (fgp_flags & FGP_WRITE) {
+  1910			/* Clear idle flag for buffer write */
+  1911			if (folio_test_idle(folio))
+  1912				folio_clear_idle(folio);
+  1913		}
+  1914	
+  1915		if (fgp_flags & FGP_STABLE)
+  1916			folio_wait_stable(folio);
+  1917	no_page:
+  1918		if (!folio && (fgp_flags & FGP_CREAT)) {
+  1919			unsigned order = FGF_GET_ORDER(fgp_flags);
+  1920			int err;
+  1921	
+  1922			if ((fgp_flags & FGP_WRITE) && mapping_can_writeback(mapping))
+  1923				gfp |= __GFP_WRITE;
+  1924			if (fgp_flags & FGP_NOFS)
+  1925				gfp &= ~__GFP_FS;
+  1926			if (fgp_flags & FGP_NOWAIT) {
+  1927				gfp &= ~GFP_KERNEL;
+  1928				gfp |= GFP_NOWAIT | __GFP_NOWARN;
+  1929			}
+  1930			if (WARN_ON_ONCE(!(fgp_flags & (FGP_LOCK | FGP_FOR_MMAP))))
+  1931				fgp_flags |= FGP_LOCK;
+  1932	
+  1933			if (!mapping_large_folio_support(mapping))
+  1934				order = 0;
+  1935			if (order > MAX_PAGECACHE_ORDER)
+  1936				order = MAX_PAGECACHE_ORDER;
+  1937	
+  1938			if (min_order)
+  1939				index = round_down(index, nr_of_pages);
+  1940			/* If we're not aligned, allocate a smaller folio */
+  1941			if (index & ((1UL << order) - 1))
+  1942				order = __ffs(index);
+  1943	
+  1944			do {
+  1945				gfp_t alloc_gfp = gfp;
+  1946	
+  1947				err = -ENOMEM;
+  1948				if (order == 1)
+  1949					order = 0;
+  1950				if (order > 0)
+  1951					alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
+  1952	
+  1953				if (min_order && (order < min_order))
+  1954					BUG();
+  1955	
+  1956				folio = filemap_alloc_folio(alloc_gfp, order);
+  1957				if (!folio)
+  1958					continue;
+  1959	
+  1960				/* Init accessed so avoid atomic mark_page_accessed later */
+  1961				if (fgp_flags & FGP_ACCESSED)
+  1962					__folio_set_referenced(folio);
+  1963	
+  1964				err = filemap_add_folio(mapping, folio, index, gfp);
+  1965				if (!err)
+  1966					break;
+  1967				folio_put(folio);
+  1968				folio = NULL;
+  1969			} while (order-- > 0);
+  1970	
+  1971			if (err == -EEXIST)
+  1972				goto repeat;
+  1973			if (err)
+  1974				return ERR_PTR(err);
+  1975			/*
+  1976			 * filemap_add_folio locks the page, and for mmap
+  1977			 * we expect an unlocked page.
+  1978			 */
+  1979			if (folio && (fgp_flags & FGP_FOR_MMAP))
+  1980				folio_unlock(folio);
+  1981		}
+  1982	
+  1983		if (!folio)
+  1984			return ERR_PTR(-ENOENT);
+  1985		return folio;
+  1986	}
+  1987	EXPORT_SYMBOL(__filemap_get_folio);
+  1988	
 
 -- 
 0-DAY CI Kernel Test Service
