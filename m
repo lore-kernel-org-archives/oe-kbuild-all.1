@@ -1,43 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E311514A88
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Aug 2023 23:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3B01428C;
+	Sun, 27 Aug 2023 23:43:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693178587; x=1724714587;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EmEM72+c2263W/JpspSeyM5d+cUXAWrQ3yTm25GkF3I=;
-  b=mVpSNHdmJHzbTHrWsZi9UtVU8iGpjIE3s5BjhLG9NxO7H2fRsq7Iqf3U
-   DNbJW+nsvBCc/uCeXqZqzwsndWeiC4IPW236oTb0ohlw/0Ejt7gQz8wol
-   fmHIrtLwNIaCp/p/GaVWEqEO+U4b6rYjBmKvfr3ESE4J7z6tBAkXH2Hdt
-   EmmiqYs4oA34vojJbY0t2bHtKavCGxudrBlooDEZ7UFjNqED33OqjxMso
-   abIK8WitTNorj3mx+eS5xVun+GX39HFJ9oWNVOdF3BYj2XVP2m+QJTmVH
-   NKbt4mYO2IyeBT2YGCmdyksrz/OA1+juk1JqjfU+y2MoE8uVJbmIQWId0
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="441322462"
-X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
-   d="scan'208";a="441322462"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 16:23:04 -0700
+  t=1693179789; x=1724715789;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fNmyjqdkxR2jHWMWgDRNMlIPPjHHGf2jHqpfKu0Q9IY=;
+  b=XoFcRaNm1z+ClegI/rpmDdz1sjSbZr8eT+phLJXeABlHyj9aDLZakkho
+   gp0QsZ/UWbJqvFK0GVnjBoCocxQxLChZMAE7Mng9PdhuHubaYbRJSIglv
+   IfJ/smWx9w64VrGVp24oz37JN29i/m9bUhLH6iWs/FzjpGSMjzFnTi0ME
+   RP8IQkx7DEzXRaGwJXig0Eq4gZJ+6WB5k7RZcC4pHFWdWLQkJl1Gc3gB+
+   w/0waL4MNwgDa10I82KD3MB/Bgfzxu60+JQreC4x0rofdDsJ9tYj/Zb1i
+   UAxhsmelIlFhVNC46MkyhWJUup8iV0hBsRwdS5DEIFw0yxctG/XW7v/gV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="441323925"
+X-IronPort-AV: E=Sophos;i="6.02,206,1688454000"; 
+   d="scan'208";a="441323925"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 16:43:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="1068840586"
-X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
-   d="scan'208";a="1068840586"
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="773076438"
+X-IronPort-AV: E=Sophos;i="6.02,206,1688454000"; 
+   d="scan'208";a="773076438"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Aug 2023 16:23:02 -0700
+  by orsmga001.jf.intel.com with ESMTP; 27 Aug 2023 16:43:06 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qaP5x-0006IV-38;
-	Sun, 27 Aug 2023 23:23:01 +0000
-Date: Mon, 28 Aug 2023 07:22:21 +0800
+	id 1qaPPN-0006JP-0y;
+	Sun, 27 Aug 2023 23:43:05 +0000
+Date: Mon, 28 Aug 2023 07:42:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4_2 11419/11475]
- drivers/mtd/nand/spi/core.c:979:5: warning: no previous declaration for
- 'spinand_cal_read'
-Message-ID: <202308280741.9zRCBHkQ-lkp@intel.com>
+To: Oliver Crumrine <ozlinux@hotmail.com>, gregkh@linuxfoundation.org,
+	colin.i.king@gmail.com, sumitraartsy@gmail.com,
+	u.kleine-koenig@pengutronix.de, geert@linux-m68k.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 6/6] staging: octeon: clean up the octeon ethernet driver
+Message-ID: <202308280701.II3T3JeO-lkp@intel.com>
+References: <PH7PR11MB7643F9F5DBB6781022CC4F4DBCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,92 +49,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <PH7PR11MB7643F9F5DBB6781022CC4F4DBCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4_2
-head:   cc0a2308a5003e3fbb2547245447de5dc7ddc718
-commit: 1d8e5fd5901586947f6a443a6adae052f5b9922e [11419/11475] drivers: mtd: spinand: Add calibration support for spinand
-config: i386-randconfig-r006-20230828 (https://download.01.org/0day-ci/archive/20230828/202308280741.9zRCBHkQ-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230828/202308280741.9zRCBHkQ-lkp@intel.com/reproduce)
+Hi Oliver,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Crumrine/staging-octeon-clean-up-the-octeon-ethernet-driver/20230828-051802
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/PH7PR11MB7643F9F5DBB6781022CC4F4DBCE1A%40PH7PR11MB7643.namprd11.prod.outlook.com
+patch subject: [PATCH 6/6] staging: octeon: clean up the octeon ethernet driver
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230828/202308280701.II3T3JeO-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230828/202308280701.II3T3JeO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308280741.9zRCBHkQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308280701.II3T3JeO-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mtd/nand/spi/core.c:979:5: warning: no previous declaration for 'spinand_cal_read' [-Wmissing-declarations]
-    int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
-        ^~~~~~~~~~~~~~~~
-   drivers/mtd/nand/spi/core.c: In function 'spinand_cal_read':
-   drivers/mtd/nand/spi/core.c:1020:30: warning: passing argument 2 of 'spinand_wait' makes integer from pointer without a cast [-Wint-conversion]
-     ret = spinand_wait(spinand, &status);
-                                 ^
-   drivers/mtd/nand/spi/core.c:499:12: note: expected 'long unsigned int' but argument is of type 'u8 * {aka unsigned char *}'
-    static int spinand_wait(struct spinand_device *spinand,
-               ^~~~~~~~~~~~
-   drivers/mtd/nand/spi/core.c:1020:8: error: too few arguments to function 'spinand_wait'
-     ret = spinand_wait(spinand, &status);
-           ^~~~~~~~~~~~
-   drivers/mtd/nand/spi/core.c:499:12: note: declared here
-    static int spinand_wait(struct spinand_device *spinand,
-               ^~~~~~~~~~~~
+   drivers/staging/octeon/ethernet.c: In function 'cvm_oct_common_get_stats':
+   drivers/staging/octeon/ethernet.c:204:39: error: storage size of 'rx_status' isn't known
+     204 |         struct cvmx_pip_port_status_t rx_status;
+         |                                       ^~~~~~~~~
+   In file included from include/linux/string.h:254,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from arch/loongarch/include/asm/processor.h:9,
+                    from arch/loongarch/include/asm/thread_info.h:15,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/current.h:5,
+                    from ./arch/loongarch/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/staging/octeon/ethernet.c:8:
+>> include/linux/fortify-string.h:515:65: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     515 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
+         |                                                                 ^
+   include/linux/fortify-string.h:524:25: note: in expansion of macro '__fortify_memset_chk'
+     524 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+         |                         ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/octeon/ethernet.c:211:25: note: in expansion of macro 'memset'
+     211 |                         memset(&rx_status, 0, sizeof(rx_status));
+         |                         ^~~~~~
+   drivers/staging/octeon/ethernet.c:204:39: warning: unused variable 'rx_status' [-Wunused-variable]
+     204 |         struct cvmx_pip_port_status_t rx_status;
+         |                                       ^~~~~~~~~
 
 
-vim +/spinand_cal_read +979 drivers/mtd/nand/spi/core.c
+vim +515 include/linux/fortify-string.h
 
-   978	
- > 979	int spinand_cal_read(void *priv, u32 *addr, int addrlen, u8 *buf, int readlen) {
-   980		struct spinand_device *spinand = (struct spinand_device *)priv;
-   981		struct device *dev = &spinand->spimem->spi->dev;
-   982		struct spi_mem_op op = SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, buf, readlen);
-   983		struct nand_pos pos;
-   984		struct nand_page_io_req req;
-   985		u8 status;
-   986		int ret;
-   987	
-   988		if(addrlen != sizeof(struct nand_addr)/sizeof(unsigned int)) {
-   989			dev_err(dev, "Must provide correct addr(length) for spinand calibration\n");
-   990			return -EINVAL;
-   991		}
-   992	
-   993		ret = spinand_reset_op(spinand);
-   994		if (ret)
-   995			return ret;
-   996	
-   997		/* We should store our golden data in first target because
-   998		 * we can't switch target at this moment.
-   999		 */
-  1000		pos = (struct nand_pos){
-  1001			.target = 0,
-  1002			.lun = *addr,
-  1003			.plane = *(addr+1),
-  1004			.eraseblock = *(addr+2),
-  1005			.page = *(addr+3),
-  1006		};
-  1007	
-  1008		req = (struct nand_page_io_req){
-  1009			.pos = pos,
-  1010			.dataoffs = *(addr+4),
-  1011			.datalen = readlen,
-  1012			.databuf.in = buf,
-  1013			.mode = MTD_OPS_AUTO_OOB,
-  1014		};
-  1015	
-  1016		ret = spinand_load_page_op(spinand, &req);
-  1017		if (ret)
-  1018			return ret;
-  1019	
-  1020		ret = spinand_wait(spinand, &status);
-  1021		if (ret < 0)
-  1022			return ret;
-  1023	
-  1024		ret = spi_mem_exec_op(spinand->spimem, &op);
-  1025	
-  1026		return 0;
-  1027	}
-  1028	
+28e77cc1c06866 Kees Cook 2021-06-16  512  
+28e77cc1c06866 Kees Cook 2021-06-16  513  #define __fortify_memset_chk(p, c, size, p_size, p_size_field) ({	\
+28e77cc1c06866 Kees Cook 2021-06-16  514  	size_t __fortify_size = (size_t)(size);				\
+28e77cc1c06866 Kees Cook 2021-06-16 @515  	fortify_memset_chk(__fortify_size, p_size, p_size_field),	\
+28e77cc1c06866 Kees Cook 2021-06-16  516  	__underlying_memset(p, c, __fortify_size);			\
+28e77cc1c06866 Kees Cook 2021-06-16  517  })
+28e77cc1c06866 Kees Cook 2021-06-16  518  
 
 -- 
 0-DAY CI Kernel Test Service
