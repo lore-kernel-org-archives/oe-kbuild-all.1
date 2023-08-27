@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F69B11184
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Aug 2023 17:18:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE5C11185
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Aug 2023 18:11:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693156683; x=1724692683;
+  t=1693159892; x=1724695892;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7wERZng3VDxs4MDVo0k25IAxr9GaB9fXBARRx+6bY7U=;
-  b=bENsoRVYUcafyyDoKnDLLx+zU+44lJwQPk9LUyJEgqiMLgTLv6NoSP4L
-   HQJ/mv/4lQSdSvSjzHSsrvWSIKKhe552qByr5CxSnkJc3TLWV2vAFTqxL
-   eAgdjHHmN6CkxWybmgcpUtO+JCAOD/d7K7U51WMpSkiBYzrVmi2D9+GOH
-   DvufD0kY7va3R+gTSBcprFm+fp9l1DVn6r5nwK6HGyu4xVwvhHFBhwsRN
-   W+L/WmgCJmZ+3lZq+z14etiNDI00meomc5SILK7iWBOh3JL4MBeSy9NMz
-   7GNFMqzdbSlRKquNUtDOfvz1awDdt8IGXYCjJqy21jJ1GEBXiB6ArhVa4
+  bh=YhGb9lB3qJxUjkGd34jSuk4c/srvGmcBXZoiIzvmYNM=;
+  b=dNh2qZoDwFZcc9EuPfYsUR6lvlcBaaUG+V/uCCnDrcpghf4weeA/FGXP
+   5iV/QN/g59RJvhG7DT4VgZRdQ2qSWAHH9eDEzMC7h5MaKmU2pT6BLC8H/
+   4wIDrIWLyTWl4DK/UoUR+x1/JOq175ThsN4wL5ncSlohlc1UpeGavqBQp
+   jN152FuE6p4uN/GwB3ZE7ATUUQULj71XgJbfJLPDWYEe/MYC2iGngvojA
+   HcKOhFxW74tgLhm66sE5EKkepYKmZQG0kSazaA0oERGVsNgNHmjZbi8DQ
+   dHiLX9CVHIB1ZuEkKmGD57rTRBjJrfq9Oazf52LbiIXD+VI65TJTQr+qp
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="461325722"
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="365166828"
 X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
-   d="scan'208";a="461325722"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 10:18:00 -0700
+   d="scan'208";a="365166828"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 11:11:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="731589653"
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="767438204"
 X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
-   d="scan'208";a="731589653"
+   d="scan'208";a="767438204"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 27 Aug 2023 10:17:58 -0700
+  by orsmga008.jf.intel.com with ESMTP; 27 Aug 2023 11:11:30 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qaJOf-00061r-2B;
-	Sun, 27 Aug 2023 17:17:57 +0000
-Date: Mon, 28 Aug 2023 01:17:37 +0800
+	id 1qaKET-00065D-0l;
+	Sun, 27 Aug 2023 18:11:29 +0000
+Date: Mon, 28 Aug 2023 02:10:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ruifeng Gao <ruifeng.gao@intel.com>,
-	Kai Huang <kai.huang@intel.com>
-Subject: [intel-tdx:osv-integration 125/272]
- arch/x86/kvm/mmu/tdp_mmu.c:627:17: sparse: sparse: incorrect type in
+Cc: oe-kbuild-all@lists.linux.dev, Ruifeng Gao <ruifeng.gao@intel.com>
+Subject: [intel-tdx:osv-integration 220/272]
+ arch/x86/kvm/mmu/tdp_mmu.c:1293:32: sparse: sparse: incorrect type in
  argument 1 (different address spaces)
-Message-ID: <202308280100.gcXY0GYj-lkp@intel.com>
+Message-ID: <202308280231.G7Oym8DH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,332 +49,232 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/tdx.git osv-integration
 head:   5617f3b0634401156d29e3d8d107db54f66bd3d6
-commit: 74d79c60913f99a5e9378c2e64e381301800f9fc [125/272] KVM: x86/tdp_mmu: Support TDX private mapping for TDP MMU
-config: x86_64-randconfig-123-20230827 (https://download.01.org/0day-ci/archive/20230828/202308280100.gcXY0GYj-lkp@intel.com/config)
+commit: f97babf124418a069ecd9144db3343d713d79db8 [220/272] KVM: x86/tdp_mmu: Try to merge pages into a large page
+config: x86_64-randconfig-123-20230827 (https://download.01.org/0day-ci/archive/20230828/202308280231.G7Oym8DH-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230828/202308280100.gcXY0GYj-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230828/202308280231.G7Oym8DH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308280100.gcXY0GYj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308280231.G7Oym8DH-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/mmu/tdp_mmu.c:627:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu * @@
+   arch/x86/kvm/mmu/tdp_mmu.c:627:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu * @@
    arch/x86/kvm/mmu/tdp_mmu.c:627:17: sparse:     expected unsigned long long [usertype] *sptep
    arch/x86/kvm/mmu/tdp_mmu.c:627:17: sparse:     got unsigned long long [noderef] [usertype] __rcu *
->> arch/x86/kvm/mmu/tdp_mmu.c:691:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr @@
-   arch/x86/kvm/mmu/tdp_mmu.c:691:14: sparse:     expected void const volatile *v
-   arch/x86/kvm/mmu/tdp_mmu.c:691:14: sparse:     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr
->> arch/x86/kvm/mmu/tdp_mmu.c:691:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:691:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:691:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:691:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:829:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:829:30: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:829:30: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:837:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:837:28: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:837:28: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:1335:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:1335:25: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1335:25: sparse:     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1611:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:1611:9: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1611:9: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:707:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr @@
+   arch/x86/kvm/mmu/tdp_mmu.c:707:14: sparse:     expected void const volatile *v
+   arch/x86/kvm/mmu/tdp_mmu.c:707:14: sparse:     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr
+   arch/x86/kvm/mmu/tdp_mmu.c:707:14: sparse: sparse: cast removes address space '__rcu' of expression
+   arch/x86/kvm/mmu/tdp_mmu.c:707:14: sparse: sparse: cast removes address space '__rcu' of expression
+   arch/x86/kvm/mmu/tdp_mmu.c:707:14: sparse: sparse: cast removes address space '__rcu' of expression
+   arch/x86/kvm/mmu/tdp_mmu.c:707:14: sparse: sparse: cast removes address space '__rcu' of expression
+   arch/x86/kvm/mmu/tdp_mmu.c:845:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:845:30: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:845:30: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:853:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:853:28: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:853:28: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1862:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:1862:9: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1862:9: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+>> arch/x86/kvm/mmu/tdp_mmu.c:1293:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[assigned] [usertype] child_pt @@
+   arch/x86/kvm/mmu/tdp_mmu.c:1293:32: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1293:32: sparse:     got unsigned long long [noderef] [usertype] __rcu *[assigned] [usertype] child_pt
+>> arch/x86/kvm/mmu/tdp_mmu.c:1375:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@     got unsigned long long [usertype] *sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:1375:34: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1375:34: sparse:     got unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1387:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@     got unsigned long long [usertype] *sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:1387:34: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1387:34: sparse:     got unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1582:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:1582:25: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:1582:25: sparse:     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
    arch/x86/kvm/mmu/tdp_mmu.c:336:13: sparse: sparse: context imbalance in 'tdp_mmu_unlink_sp' - different lock contexts for basic block
->> arch/x86/kvm/mmu/tdp_mmu.c:691:14: sparse: sparse: dereference of noderef expression
->> arch/x86/kvm/mmu/tdp_mmu.c:691:14: sparse: sparse: dereference of noderef expression
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     got unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:707:14: sparse: sparse: dereference of noderef expression
+   arch/x86/kvm/mmu/tdp_mmu.c:707:14: sparse: sparse: dereference of noderef expression
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     got unsigned long long [usertype] *sptep
    arch/x86/kvm/mmu/tdp_mmu.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
    include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in '__tdp_mmu_zap_root' - unexpected unlock
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     got unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     got unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     got unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     got unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     got unsigned long long [usertype] *sptep
    include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'tdp_mmu_alloc_sp_for_split' - unexpected unlock
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     got unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:736:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:765:42: sparse:     got unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     got unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     expected unsigned long long [usertype] *sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:752:34: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@     got unsigned long long [usertype] *sptep @@
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     expected unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
+   arch/x86/kvm/mmu/tdp_mmu.c:781:42: sparse:     got unsigned long long [usertype] *sptep
 
-vim +627 arch/x86/kvm/mmu/tdp_mmu.c
+vim +1293 arch/x86/kvm/mmu/tdp_mmu.c
 
-   521	
-   522	/**
-   523	 * handle_changed_spte - handle bookkeeping associated with an SPTE change
-   524	 * @kvm: kvm instance
-   525	 * @as_id: the address space of the paging structure the SPTE was a part of
-   526	 * @gfn: the base GFN that was mapped by the SPTE
-   527	 * @old_spte: The value of the SPTE before the change
-   528	 * @new_spte: The value of the SPTE after the change
-   529	 * @role: the role of the PT the SPTE is part of in the paging structure
-   530	 * @shared: This operation may not be running under the exclusive use of
-   531	 *	    the MMU lock and the operation must synchronize with other
-   532	 *	    threads that might be modifying SPTEs.
-   533	 *
-   534	 * Handle bookkeeping that might result from the modification of a SPTE.  Note,
-   535	 * dirty logging updates are handled in common code, not here (see make_spte()
-   536	 * and fast_pf_fix_direct_spte()).
-   537	 */
-   538	static void handle_changed_spte(struct kvm *kvm, int as_id, gfn_t gfn,
-   539					u64 old_spte, u64 new_spte,
-   540					union kvm_mmu_page_role role, bool shared)
-   541	{
-   542		bool is_private = kvm_mmu_page_role_is_private(role);
-   543		int level = role.level;
-   544		bool was_present = is_shadow_present_pte(old_spte);
-   545		bool is_present = is_shadow_present_pte(new_spte);
-   546		bool was_leaf = was_present && is_last_spte(old_spte, level);
-   547		bool is_leaf = is_present && is_last_spte(new_spte, level);
-   548		kvm_pfn_t old_pfn = spte_to_pfn(old_spte);
-   549		kvm_pfn_t new_pfn = spte_to_pfn(new_spte);
-   550		bool pfn_changed = old_pfn != new_pfn;
-   551	
-   552		WARN_ON(level > PT64_ROOT_MAX_LEVEL);
-   553		WARN_ON(level < PG_LEVEL_4K);
-   554		WARN_ON(gfn & (KVM_PAGES_PER_HPAGE(level) - 1));
-   555	
-   556		/*
-   557		 * If this warning were to trigger it would indicate that there was a
-   558		 * missing MMU notifier or a race with some notifier handler.
-   559		 * A present, leaf SPTE should never be directly replaced with another
-   560		 * present leaf SPTE pointing to a different PFN. A notifier handler
-   561		 * should be zapping the SPTE before the main MM's page table is
-   562		 * changed, or the SPTE should be zeroed, and the TLBs flushed by the
-   563		 * thread before replacement.
-   564		 */
-   565		if (was_leaf && is_leaf && pfn_changed) {
-   566			pr_err("Invalid SPTE change: cannot replace a present leaf\n"
-   567			       "SPTE with another present leaf SPTE mapping a\n"
-   568			       "different PFN!\n"
-   569			       "as_id: %d gfn: %llx old_spte: %llx new_spte: %llx level: %d",
-   570			       as_id, gfn, old_spte, new_spte, level);
-   571	
-   572			/*
-   573			 * Crash the host to prevent error propagation and guest data
-   574			 * corruption.
-   575			 */
-   576			BUG();
-   577		}
-   578	
-   579		if (old_spte == new_spte)
-   580			return;
-   581	
-   582		trace_kvm_tdp_mmu_spte_changed(as_id, gfn, level, old_spte, new_spte);
-   583	
-   584		if (is_leaf)
-   585			check_spte_writable_invariants(new_spte);
-   586	
-   587		/*
-   588		 * The only times a SPTE should be changed from a non-present to
-   589		 * non-present state is when an MMIO entry is installed/modified/
-   590		 * removed. In that case, there is nothing to do here.
-   591		 */
-   592		if (!was_present && !is_present) {
-   593			/*
-   594			 * If this change does not involve a MMIO SPTE or removed SPTE,
-   595			 * it is unexpected. Log the change, though it should not
-   596			 * impact the guest since both the former and current SPTEs
-   597			 * are nonpresent.
-   598			 */
-   599			if (WARN_ON(!is_mmio_spte(kvm, old_spte) &&
-   600				    !is_mmio_spte(kvm, new_spte) &&
-   601				    !is_removed_spte(new_spte)))
-   602				pr_err("Unexpected SPTE change! Nonpresent SPTEs\n"
-   603				       "should not be replaced with another,\n"
-   604				       "different nonpresent SPTE, unless one or both\n"
-   605				       "are MMIO SPTEs, or the new SPTE is\n"
-   606				       "a temporary removed SPTE.\n"
-   607				       "as_id: %d gfn: %llx old_spte: %llx new_spte: %llx level: %d",
-   608				       as_id, gfn, old_spte, new_spte, level);
-   609			return;
-   610		}
-   611	
-   612		if (is_leaf != was_leaf)
-   613			kvm_update_page_stats(kvm, level, is_leaf ? 1 : -1);
-   614	
-   615		if (was_leaf && is_dirty_spte(old_spte) &&
-   616		    (!is_present || !is_dirty_spte(new_spte) || pfn_changed))
-   617			kvm_set_pfn_dirty(old_pfn);
-   618	
-   619		/*
-   620		 * Recursively handle child PTs if the change removed a subtree from
-   621		 * the paging structure.  Note the WARN on the PFN changing without the
-   622		 * SPTE being converted to a hugepage (leaf) or being zapped.  Shadow
-   623		 * pages are kernel allocations and should never be migrated.
-   624		 */
-   625		if (was_present && !was_leaf &&
-   626		    (is_leaf || !is_present || WARN_ON_ONCE(pfn_changed))) {
- > 627			KVM_BUG_ON(is_private != is_private_sptep(spte_to_child_pt(old_spte, level)),
-   628				   kvm);
-   629			handle_removed_pt(kvm, spte_to_child_pt(old_spte, level), shared);
-   630		}
-   631	
-   632		/*
-   633		 * Secure-EPT requires to remove Secure-EPT tables after removing
-   634		 * children.  hooks after handling lower page table by above
-   635		 * handle_remove_pt().
-   636		 */
-   637		if (is_private && !is_present)
-   638			handle_removed_private_spte(kvm, gfn, old_spte, new_spte, role.level);
-   639	
-   640		if (was_leaf && is_accessed_spte(old_spte) &&
-   641		    (!is_present || !is_accessed_spte(new_spte) || pfn_changed))
-   642			kvm_set_pfn_accessed(spte_to_pfn(old_spte));
-   643	}
-   644	
-   645	static int __must_check __set_private_spte_present(struct kvm *kvm, tdp_ptep_t sptep,
-   646							   gfn_t gfn, u64 old_spte,
-   647							   u64 new_spte, int level)
-   648	{
-   649		bool was_present = is_shadow_present_pte(old_spte);
-   650		bool is_present = is_shadow_present_pte(new_spte);
-   651		bool is_leaf = is_present && is_last_spte(new_spte, level);
-   652		kvm_pfn_t new_pfn = spte_to_pfn(new_spte);
-   653		int ret = 0;
-   654	
-   655		lockdep_assert_held(&kvm->mmu_lock);
-   656		/* TDP MMU doesn't change present -> present */
-   657		KVM_BUG_ON(was_present, kvm);
-   658	
-   659		/*
-   660		 * Use different call to either set up middle level
-   661		 * private page table, or leaf.
-   662		 */
-   663		if (is_leaf)
-   664			ret = static_call(kvm_x86_set_private_spte)(kvm, gfn, level, new_pfn);
-   665		else {
-   666			void *private_spt = get_private_spt(gfn, new_spte, level);
-   667	
-   668			KVM_BUG_ON(!private_spt, kvm);
-   669			ret = static_call(kvm_x86_link_private_spt)(kvm, gfn, level, private_spt);
-   670		}
-   671	
-   672		return ret;
-   673	}
-   674	
-   675	static int __must_check set_private_spte_present(struct kvm *kvm, tdp_ptep_t sptep,
-   676							 gfn_t gfn, u64 old_spte,
-   677							 u64 new_spte, int level)
-   678	{
-   679		int ret;
-   680	
-   681		/*
-   682		 * For private page table, callbacks are needed to propagate SPTE
-   683		 * change into the protected page table.  In order to atomically update
-   684		 * both the SPTE and the protected page tables with callbacks, utilize
-   685		 * freezing SPTE.
-   686		 * - Freeze the SPTE. Set entry to REMOVED_SPTE.
-   687		 * - Trigger callbacks for protected page tables.
-   688		 * - Unfreeze the SPTE.  Set the entry to new_spte.
-   689		 */
-   690		lockdep_assert_held(&kvm->mmu_lock);
- > 691		if (!try_cmpxchg64(sptep, &old_spte, REMOVED_SPTE))
-   692			return -EBUSY;
-   693	
-   694		ret = __set_private_spte_present(kvm, sptep, gfn, old_spte, new_spte, level);
-   695		if (ret)
-   696			__kvm_tdp_mmu_write_spte(sptep, old_spte);
-   697		else
-   698			__kvm_tdp_mmu_write_spte(sptep, new_spte);
-   699		return ret;
-   700	}
-   701	
-   702	/*
-   703	 * tdp_mmu_set_spte_atomic - Set a TDP MMU SPTE atomically
-   704	 * and handle the associated bookkeeping.  Do not mark the page dirty
-   705	 * in KVM's dirty bitmaps.
-   706	 *
-   707	 * If setting the SPTE fails because it has changed, iter->old_spte will be
-   708	 * refreshed to the current value of the spte.
-   709	 *
-   710	 * @kvm: kvm instance
-   711	 * @iter: a tdp_iter instance currently on the SPTE that should be set
-   712	 * @new_spte: The value the SPTE should be set to
-   713	 * Return:
-   714	 * * 0      - If the SPTE was set.
-   715	 * * -EBUSY - If the SPTE cannot be set. In this case this function will have
-   716	 *            no side-effects other than setting iter->old_spte to the last
-   717	 *            known value of the spte.
-   718	 */
-   719	static inline int __must_check tdp_mmu_set_spte_atomic(struct kvm *kvm,
-   720							       struct tdp_iter *iter,
-   721							       u64 new_spte)
-   722	{
-   723		u64 *sptep = rcu_dereference(iter->sptep);
-   724		bool freezed = false;
-   725	
-   726		/*
-   727		 * The caller is responsible for ensuring the old SPTE is not a REMOVED
-   728		 * SPTE.  KVM should never attempt to zap or manipulate a REMOVED SPTE,
-   729		 * and pre-checking before inserting a new SPTE is advantageous as it
-   730		 * avoids unnecessary work.
-   731		 */
-   732		WARN_ON_ONCE(iter->yielded || is_removed_spte(iter->old_spte));
-   733	
-   734		lockdep_assert_held_read(&kvm->mmu_lock);
-   735	
-   736		if (is_private_sptep(iter->sptep) && !is_removed_spte(new_spte)) {
-   737			int ret;
-   738	
-   739			if (is_shadow_present_pte(new_spte)) {
-   740				ret = set_private_spte_present(kvm, iter->sptep, iter->gfn,
-   741							       iter->old_spte, new_spte, iter->level);
-   742				if (ret)
-   743					return ret;
-   744			} else {
-   745				if (!try_cmpxchg64(sptep, &iter->old_spte, REMOVED_SPTE))
-   746					return -EBUSY;
-   747				freezed = true;
-   748			}
-   749		} else {
-   750			/*
-   751			 * Note, fast_pf_fix_direct_spte() can also modify TDP MMU SPTEs
-   752			 * and does not hold the mmu_lock.  On failure, i.e. if a
-   753			 * different logical CPU modified the SPTE, try_cmpxchg64()
-   754			 * updates iter->old_spte with the current value, so the caller
-   755			 * operates on fresh data, e.g. if it retries
-   756			 * tdp_mmu_set_spte_atomic()
-   757			 */
-   758			if (!try_cmpxchg64(sptep, &iter->old_spte, new_spte))
-   759				return -EBUSY;
-   760		}
-   761	
-   762		handle_changed_spte(kvm, iter->as_id, iter->gfn, iter->old_spte,
-   763				    new_spte, sptep_to_sp(sptep)->role, true);
-   764		if (freezed)
- > 765			__kvm_tdp_mmu_write_spte(sptep, new_spte);
-   766		return 0;
-   767	}
-   768	
+  1258	
+  1259	static int tdp_mmu_merge_private_spt(struct kvm_vcpu *vcpu,
+  1260					     struct kvm_page_fault *fault,
+  1261					     struct tdp_iter *iter, u64 new_spte)
+  1262	{
+  1263		u64 *sptep = rcu_dereference(iter->sptep);
+  1264		u64 old_spte = iter->old_spte;
+  1265		struct kvm_mmu_page *child_sp;
+  1266		struct kvm *kvm = vcpu->kvm;
+  1267		struct tdp_iter child_iter;
+  1268		bool ret_pf_retry = false;
+  1269		int level = iter->level;
+  1270		gfn_t gfn = iter->gfn;
+  1271		tdp_ptep_t child_pt;
+  1272		u64 child_spte;
+  1273		int ret = 0;
+  1274		int i;
+  1275	
+  1276		/*
+  1277		 * TDX KVM supports only 2MB large page.  It's not supported to merge
+  1278		 * 2MB pages into 1GB page at the moment.
+  1279		 */
+  1280		WARN_ON_ONCE(fault->goal_level != PG_LEVEL_2M);
+  1281		WARN_ON_ONCE(iter->level != PG_LEVEL_2M);
+  1282		WARN_ON_ONCE(!is_large_pte(new_spte));
+  1283	
+  1284		/* Freeze the spte to prevent other threads from working spte. */
+  1285		if (!try_cmpxchg64(sptep, &iter->old_spte, REMOVED_SPTE))
+  1286			return -EBUSY;
+  1287	
+  1288		/*
+  1289		 * Step down to the child spte.  Because tdp_iter_next() assumes the
+  1290		 * parent spte isn't freezed, do it manually.
+  1291		 */
+  1292		child_pt = spte_to_child_pt(iter->old_spte, iter->level);
+> 1293		child_sp = sptep_to_sp(child_pt);
+  1294		WARN_ON_ONCE(child_sp->role.level != PG_LEVEL_4K);
+  1295		WARN_ON_ONCE(!kvm_mmu_page_role_is_private(child_sp->role));
+  1296	
+  1297		/* Don't modify iter as the caller will use iter after this function. */
+  1298		child_iter = *iter;
+  1299		/* Adjust the target gfn to the head gfn of the large page. */
+  1300		child_iter.next_last_level_gfn &= -KVM_PAGES_PER_HPAGE(level);
+  1301		tdp_iter_step_down(&child_iter, child_pt);
+  1302	
+  1303		/*
+  1304		 * All child pages are required to be populated for merging them into a
+  1305		 * large page.  Populate all child spte.
+  1306		 */
+  1307		for (i = 0; i < SPTE_ENT_PER_PAGE; i = tdp_mmu_iter_step_side(i, &child_iter)) {
+  1308			WARN_ON_ONCE(child_iter.level != PG_LEVEL_4K);
+  1309			if (is_shadow_present_pte(child_iter.old_spte)) {
+  1310				/* TODO: relocate page for huge page. */
+  1311				if (WARN_ON_ONCE(spte_to_pfn(child_iter.old_spte) !=
+  1312						 spte_to_pfn(new_spte) + i)) {
+  1313					ret = -EAGAIN;
+  1314					ret_pf_retry = true;
+  1315				}
+  1316				/*
+  1317				 * When SEPT_VE_DISABLE=true and the page state is
+  1318				 * pending, this case can happen.  Just resume the vcpu
+  1319				 * again with the expectation for other vcpu to accept
+  1320				 * this page.
+  1321				 */
+  1322				if (child_iter.gfn == fault->gfn) {
+  1323					ret = -EAGAIN;
+  1324					ret_pf_retry = true;
+  1325					break;
+  1326				}
+  1327				continue;
+  1328			}
+  1329	
+  1330			WARN_ON_ONCE(spte_to_pfn(child_iter.old_spte) != spte_to_pfn(new_spte) + i);
+  1331			child_spte = make_huge_page_split_spte(kvm, new_spte, child_sp->role, i);
+  1332			/*
+  1333			 * Because other thread may have started to operate on this spte
+  1334			 * before freezing the parent spte,  Use atomic version to
+  1335			 * prevent race.
+  1336			 */
+  1337			ret = tdp_mmu_set_spte_atomic(vcpu->kvm, &child_iter, child_spte);
+  1338			if (ret == -EBUSY || ret == -EAGAIN)
+  1339				/*
+  1340				 * There was a race condition.  Populate remaining 4K
+  1341				 * spte to resolve fault->gfn to guarantee the forward
+  1342				 * progress.
+  1343				 */
+  1344				ret_pf_retry = true;
+  1345			else if (ret)
+  1346				goto out;
+  1347		}
+  1348		if (ret_pf_retry)
+  1349			goto out;
+  1350	
+  1351		/* Prevent the Secure-EPT entry from being used. */
+  1352		ret = static_call(kvm_x86_zap_private_spte)(kvm, gfn, level);
+  1353		if (ret)
+  1354			goto out;
+  1355		kvm_flush_remote_tlbs_range(kvm, gfn & KVM_HPAGE_GFN_MASK(level),
+  1356					    KVM_PAGES_PER_HPAGE(level));
+  1357	
+  1358		/* Merge pages into a large page. */
+  1359		ret = static_call(kvm_x86_merge_private_spt)(kvm, gfn, level,
+  1360							     kvm_mmu_private_spt(child_sp));
+  1361		/*
+  1362		 * Failed to merge pages because some pages are accepted and some are
+  1363		 * pending.  Since the child page was mapped above, let vcpu run.
+  1364		 */
+  1365		if (ret) {
+  1366			if (static_call(kvm_x86_unzap_private_spte)(kvm, gfn, level))
+  1367				old_spte = SHADOW_NONPRESENT_VALUE |
+  1368					(spte_to_pfn(old_spte) << PAGE_SHIFT) |
+  1369					PT_PAGE_SIZE_MASK;
+  1370			goto out;
+  1371		}
+  1372	
+  1373		/* Unfreeze spte. */
+  1374		iter->old_spte = new_spte;
+> 1375		__kvm_tdp_mmu_write_spte(sptep, new_spte);
+  1376	
+  1377		/*
+  1378		 * Free unused child sp.  Secure-EPT page was already freed at TDX level
+  1379		 * by kvm_x86_merge_private_spt().
+  1380		 */
+  1381		tdp_unaccount_mmu_page(kvm, child_sp);
+  1382		tdp_mmu_free_sp(child_sp);
+  1383		return -EAGAIN;
+  1384	
+  1385	out:
+  1386		iter->old_spte = old_spte;
+  1387		__kvm_tdp_mmu_write_spte(sptep, old_spte);
+  1388		return ret;
+  1389	}
+  1390	
 
 -- 
 0-DAY CI Kernel Test Service
