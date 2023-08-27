@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3362F3A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Aug 2023 20:37:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8A72F3A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Aug 2023 22:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693168622; x=1724704622;
+  t=1693174784; x=1724710784;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Luvto9sto0R859bTOVUWryDrE4izvYwuP4ICSkEoqnI=;
-  b=J8sFO0pPZ4u7yf1Wdjwu5V4wGEBhyNVFPEfKs0Ejj29yOiX+Qek4HQs9
-   YMGRFXCOAyMaj9D+hyWb8jL22omCtQ4jN0ifhEHVNhvsVKRpLF6mh8UYh
-   ddm9upkTqVqbs34kPHnrrmRnf4wkrvcBxtknxLPV79uJkZawXOhBXfE/J
-   ccSGyqC0IKVcA9kR6EMaow15tJpJhmojw2WN+91JPE9w2H7yIGF+ObWHK
-   rcw+55DzzEi4kwxt9JiS//FjrHh+fqOkPu8z9hhGZvFopZEfFDx7dMmMj
-   MaQgzCnLRV1LnpRLkvAtBoO6f+cCny7DAz5dNo+s7Tw2LKsX3toMM/iLC
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="461335544"
+  bh=GXXwQfH5hTfMOdT+ZegeHa3Tze6UVgumD5yL+/ijcU4=;
+  b=jZ/4iV9ioPe46xxxejWiOVVq3rYq2KX+9bNtm1yVDLFtV04EF5fbNztB
+   QycHymiS0Hp2Ro83349MFlKenSzo4I2473AledsrNRFlhJbir5G/p1w/h
+   6a0W9X5tsphhnGu/sUmMIJ3TtpuDZTOohwyYMcSA9DAWgtNFM3BLI4aGn
+   V9cuicOfQA1IcX5xmEU+nZ1DLkN4d4pd+dzx+nt2tLy7EUbsSMf++Ca1e
+   W65IqOxx2HYSvRQIL9efHpuGFHGjTCHq83KEuP8f+nO1epVH2Ojr4FoVz
+   fMA1LNeeikc/REilChGJXUprdvRtZiv38FUyfDti2J3/WJhEph7dgtiO1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="438926887"
 X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
-   d="scan'208";a="461335544"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 13:36:58 -0700
+   d="scan'208";a="438926887"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 15:19:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="828114471"
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="731629826"
 X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
-   d="scan'208";a="828114471"
+   d="scan'208";a="731629826"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 27 Aug 2023 13:36:57 -0700
+  by orsmga007.jf.intel.com with ESMTP; 27 Aug 2023 15:19:42 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qaMVE-0006An-2G;
-	Sun, 27 Aug 2023 20:36:56 +0000
-Date: Mon, 28 Aug 2023 04:36:06 +0800
+	id 1qaO6f-0006Ej-0F;
+	Sun, 27 Aug 2023 22:19:41 +0000
+Date: Mon, 28 Aug 2023 06:19:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qing Zhang <zhangqing@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: [linux-next:master 6813/12910] kasan_init.c:undefined reference to
- `kasan_early_shadow_pmd'
-Message-ID: <202308280448.VyuqdiDV-lkp@intel.com>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: drivers/power/supply/qcom_battmgr.c:357:31: sparse: sparse:
+ incorrect type in initializer (different base types)
+Message-ID: <202308280602.nE6xa80J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,23 +47,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6269320850097903b30be8f07a5c61d9f7592393
-commit: 5020c5f9d5f72b4ce537df61345b1db94b4c9d65 [6813/12910] LoongArch: Add kernel address sanitizer support
-config: loongarch-randconfig-r033-20230828 (https://download.01.org/0day-ci/archive/20230828/202308280448.VyuqdiDV-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230828/202308280448.VyuqdiDV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   85eb043618bb17124050197d71c453d4a1f556e5
+commit: 29e8142b5623b5949587bcc4f591c4e6595c4aca power: supply: Introduce Qualcomm PMIC GLINK power supply
+date:   7 months ago
+config: i386-randconfig-061-20230828 (https://download.01.org/0day-ci/archive/20230828/202308280602.nE6xa80J-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230828/202308280602.nE6xa80J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308280448.VyuqdiDV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308280602.nE6xa80J-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/power/supply/qcom_battmgr.c:357:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] battery_id @@     got restricted __le32 [usertype] @@
+   drivers/power/supply/qcom_battmgr.c:357:31: sparse:     expected unsigned int [usertype] battery_id
+   drivers/power/supply/qcom_battmgr.c:357:31: sparse:     got restricted __le32 [usertype]
+   drivers/power/supply/qcom_battmgr.c:369:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] battery_id @@     got restricted __le32 [usertype] @@
+   drivers/power/supply/qcom_battmgr.c:369:31: sparse:     expected unsigned int [usertype] battery_id
+   drivers/power/supply/qcom_battmgr.c:369:31: sparse:     got restricted __le32 [usertype]
+>> drivers/power/supply/qcom_battmgr.c:1286:30: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] owner @@     got int @@
+   drivers/power/supply/qcom_battmgr.c:1286:30: sparse:     expected restricted __le32 [usertype] owner
+   drivers/power/supply/qcom_battmgr.c:1286:30: sparse:     got int
+>> drivers/power/supply/qcom_battmgr.c:1287:29: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
+   drivers/power/supply/qcom_battmgr.c:1287:29: sparse:     expected restricted __le32 [usertype] type
+   drivers/power/supply/qcom_battmgr.c:1287:29: sparse:     got int
+>> drivers/power/supply/qcom_battmgr.c:1288:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] opcode @@     got int @@
+   drivers/power/supply/qcom_battmgr.c:1288:31: sparse:     expected restricted __le32 [usertype] opcode
+   drivers/power/supply/qcom_battmgr.c:1288:31: sparse:     got int
 
-   loongarch64-linux-ld: arch/loongarch/mm/kasan_init.o: in function `.L21':
->> kasan_init.c:(.init.text+0x1b4): undefined reference to `kasan_early_shadow_pmd'
->> loongarch64-linux-ld: kasan_init.c:(.init.text+0x1b8): undefined reference to `kasan_early_shadow_pmd'
+vim +357 drivers/power/supply/qcom_battmgr.c
+
+   350	
+   351	static int qcom_battmgr_update_status(struct qcom_battmgr *battmgr)
+   352	{
+   353		struct qcom_battmgr_update_request request = {
+   354			.hdr.owner = cpu_to_le32(PMIC_GLINK_OWNER_BATTMGR),
+   355			.hdr.type = cpu_to_le32(PMIC_GLINK_REQ_RESP),
+   356			.hdr.opcode = cpu_to_le32(BATTMGR_BAT_STATUS),
+ > 357			.battery_id = cpu_to_le32(0),
+   358		};
+   359	
+   360		return qcom_battmgr_request(battmgr, &request, sizeof(request));
+   361	}
+   362	
 
 -- 
 0-DAY CI Kernel Test Service
