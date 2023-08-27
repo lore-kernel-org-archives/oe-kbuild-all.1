@@ -1,171 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2398463B5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Aug 2023 11:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693134550; x=1724670550;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DaitM8GlIKFP0fVF8qT9vyCxeJen+yOmio2UGdkk9lo=;
-  b=Y/zGOtA8mKWRhz9GpI33+X0sWEnlltFTopsgyqr1WWUdHm++bdZo6AS3
-   i4SP83c0gaP5RpKLoPFo2dHhZJzDX3+IFxJ3KdtHS7DM0fDun5IiMKvnI
-   St7qLN18onhWDL7Mc0y/PVpynP4Zhbfq4ITj+9OpeMxycppBrqb/Wzkbb
-   lNDzMcGgWT99RrH1+0UrUtD3Zko0kTLqEsA5GKDW1TSMaW4GhZ+rUIsBS
-   UAhw1xxUFxiP1pcK6Kom+oFxmVwAGyWY2lUy/hitfe8jm21dVZAaUeaSC
-   FXWT63xsCkOrX0NM28SsMSSdGyFu1irlgy7EUEz2tgund7POBlwuAfHUZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="372336887"
-X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
-   d="scan'208";a="372336887"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 04:09:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10814"; a="803403762"
-X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
-   d="scan'208";a="803403762"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 27 Aug 2023 04:09:07 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qaDdj-0005it-0s;
-	Sun, 27 Aug 2023 11:09:07 +0000
-Date: Sun, 27 Aug 2023 19:08:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:aass 21/29] version.c:(.text+0x0): multiple definition of
- `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-Message-ID: <202308271944.LX2qC9SB-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BB463A5;
+	Sun, 27 Aug 2023 11:32:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1693135922;
+	bh=5T04emPiqpwjpNOBK+5sgoQ1jikwwcTW1EnGrCwmyWI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=pWlsL+flxMUz3Q14GgXrF5FSQcEnP9YkMOy1C5dUcQTGzK4Y7QfnFIgoBeVCIc4tn
+	 8b0Ev6/OX3HA2zcg1iutNZCPZbobXD+5I8CgyyYWQM+c8grkscZL6gQDnYE/0KskaD
+	 fowZiu/2ueFkNQycn7boPlbPuaPHnML1o5rbp/z2Rtk6v1cPh8/FvnhZXybHYUL81C
+	 huRq1tUsiHoKYsRmtqNxjmHKAXuJLBY2DDGTYZMt21RHai7q6rMKJmPteRLlsYBqov
+	 QcmWzJ2k15ukvKdX2AYllASLh65JWwXMatNs83rKOy8bb50WoiLFWFQg3bOGYv38jI
+	 upoNjBk1QIyqg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4RYWkB32t0z4wZn;
+	Sun, 27 Aug 2023 21:32:02 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Nathan Chancellor
+ <nathan@kernel.org>, kernel test robot <lkp@intel.com>
+Subject: Re: [linuxppc:next-test 85/129] arch/powerpc/xmon/xmon.c:489:12:
+ error: stack frame size (2160) exceeds limit (2048) in 'xmon_core'
+In-Reply-To: <CAKwvOdk=UvBxv7a2cV-Z_zK0CwzPSjBnQ0SQHaVAEUodA=hfQQ@mail.gmail.com>
+References: <202308260344.Vc4Giuk7-lkp@intel.com>
+ <CAKwvOdk=UvBxv7a2cV-Z_zK0CwzPSjBnQ0SQHaVAEUodA=hfQQ@mail.gmail.com>
+Date: Sun, 27 Aug 2023 21:32:00 +1000
+Message-ID: <874jkkvhzj.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/norov/linux aass
-head:   ad585573c81bc132c3f64aae4eef20d68484abfb
-commit: 7fb65ed43cfb3add68a884fd6722a6a1ad0f3ed8 [21/29] bitmap: add small_cont_nbits() optimization for bitmap_remap()
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20230827/202308271944.LX2qC9SB-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230827/202308271944.LX2qC9SB-lkp@intel.com/reproduce)
+Nick Desaulniers <ndesaulniers@google.com> writes:
+> On Fri, Aug 25, 2023 at 12:17=E2=80=AFPM kernel test robot <lkp@intel.com=
+> wrote:
+>>
+>> tree:   https://github.com/linuxppc/linux next-test
+>> head:   c37b6908f7b2bd24dcaaf14a180e28c9132b9c58
+>> commit: 7f3c5d099b6f8452dc4dcfe4179ea48e6a13d0eb [85/129] Revert "powerp=
+c/xmon: Relax frame size for clang"
+>> config: powerpc64-randconfig-r006-20230825 (https://download.01.org/0day=
+-ci/archive/20230826/202308260344.Vc4Giuk7-lkp@intel.com/config)
+>> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git=
+ f28c006a5895fc0e329fe15fead81e37457cb1d1)
+>
+> Hi Michael,
+> Given this report and
+> https://github.com/ClangBuiltLinux/linux/issues/252#issuecomment-16903712=
+56,
+> it seems that it's still possible to trigger this warning (and build
+> failure with CONFIG_WERROR). Is it possible to drop my patch at this
+> point?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308271944.LX2qC9SB-lkp@intel.com/
+It's too late to drop it, so we'd need to do a revert.
 
-Note: the norov/aass HEAD ad585573c81bc132c3f64aae4eef20d68484abfb builds fine.
-      It only hurts bisectability.
+But rather than just a straight revert maybe we can do something that's
+more tightly focused, ie. just to specific Clang versions?
 
-All errors (new ones prefixed by >>):
+> I'll need to go back to the drawing board with these configs +
+> specific versions of clang to better understand what's going wrong
+> here.  Sorry for the trouble.
 
-   arc-elf-ld: init/version.o: in function `bitmap_remap':
->> version.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: init/do_mounts.o: in function `bitmap_remap':
-   do_mounts.c:(.text+0x4): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: init/noinitramfs.o: in function `bitmap_remap':
-   noinitramfs.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: init/calibrate.o: in function `bitmap_remap':
-   calibrate.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: init/init_task.o: in function `bitmap_remap':
-   init_task.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/arcksyms.o: in function `bitmap_remap':
-   arcksyms.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/setup.o: in function `bitmap_remap':
-   setup.c:(.text+0x898): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/irq.o: in function `bitmap_remap':
-   irq.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/reset.o: in function `bitmap_remap':
-   reset.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/ptrace.o: in function `bitmap_remap':
-   ptrace.c:(.text+0x1114): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/process.o: in function `bitmap_remap':
-   process.c:(.text+0xcc): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/devtree.o: in function `bitmap_remap':
-   devtree.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/signal.o: in function `bitmap_remap':
-   signal.c:(.text+0x53c): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/traps.o: in function `bitmap_remap':
-   traps.c:(.text+0x60): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/sys.o: in function `bitmap_remap':
-   sys.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/troubleshoot.o: in function `bitmap_remap':
-   troubleshoot.c:(.text+0x21c): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/stacktrace.o: in function `bitmap_remap':
-   stacktrace.c:(.text+0xbc): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/disasm.o: in function `bitmap_remap':
-   disasm.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/kernel/intc-arcv2.o: in function `bitmap_remap':
-   intc-arcv2.c:(.text+0x88): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/mm/extable.o: in function `bitmap_remap':
-   extable.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/mm/ioremap.o: in function `bitmap_remap':
-   ioremap.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/mm/dma.o: in function `bitmap_remap':
-   dma.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/mm/fault.o: in function `bitmap_remap':
-   fault.c:(.text+0x30): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/mm/init.o: in function `bitmap_remap':
-   init.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/mm/tlb.o: in function `bitmap_remap':
-   tlb.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/mm/cache.o: in function `bitmap_remap':
-   cache.c:(.text+0xc): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: arch/arc/mm/mmap.o: in function `bitmap_remap':
-   mmap.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/fork.o: in function `bitmap_remap':
-   fork.c:(.text+0x80c): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/exec_domain.o: in function `bitmap_remap':
-   exec_domain.c:(.text+0x14): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/panic.o: in function `bitmap_remap':
-   panic.c:(.text+0xc0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/cpu.o: in function `bitmap_remap':
-   cpu.c:(.text+0x1d4): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/exit.o: in function `bitmap_remap':
-   exit.c:(.text+0x680): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/softirq.o: in function `bitmap_remap':
-   softirq.c:(.text+0x14c): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/resource.o: in function `bitmap_remap':
-   resource.c:(.text+0x48c): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/sysctl.o: in function `bitmap_remap':
-   sysctl.c:(.text+0xeac): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/capability.o: in function `bitmap_remap':
-   capability.c:(.text+0x4fc): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/ptrace.o: in function `bitmap_remap':
-   ptrace.c:(.text+0x60c): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/user.o: in function `bitmap_remap':
-   user.c:(.text+0x8c): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/signal.o: in function `bitmap_remap':
-   signal.c:(.text+0xb9c): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/sys.o: in function `bitmap_remap':
-   sys.c:(.text+0x1088): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/umh.o: in function `bitmap_remap':
-   umh.c:(.text+0x28c): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/workqueue.o: in function `bitmap_remap':
-   workqueue.c:(.text+0x32c8): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/pid.o: in function `bitmap_remap':
-   pid.c:(.text+0xa4): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/task_work.o: in function `bitmap_remap':
-   task_work.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/extable.o: in function `bitmap_remap':
-   extable.c:(.text+0x0): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/params.o: in function `bitmap_remap':
-   params.c:(.text+0x710): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/kthread.o: in function `bitmap_remap':
-   kthread.c:(.text+0x604): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/nsproxy.o: in function `bitmap_remap':
-   nsproxy.c:(.text+0x17c): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/notifier.o: in function `bitmap_remap':
-   notifier.c:(.text+0x70): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/ksysfs.o: in function `bitmap_remap':
-   ksysfs.c:(.text+0x78): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
-   arc-elf-ld: kernel/cred.o: in function `bitmap_remap':
-   cred.c:(.text+0x74): multiple definition of `bitmap_remap'; init/main.o:main.c:(.text+0x0): first defined here
+No worries.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+cheers
