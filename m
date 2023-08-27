@@ -1,42 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9D8111A3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Aug 2023 20:05:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0472714006;
+	Sun, 27 Aug 2023 20:25:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693166752; x=1724702752;
+  t=1693167959; x=1724703959;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NowYhPGpjyh63CT3sgXVEUCIdMOyJ1I1AJXc14Otp3U=;
-  b=VZSG9uJ97mAQx9sR+6622qilbn2u1sKo+C/Vmf5xtfD3lwCR+LVKI8a7
-   XMoig0UUjaO2L/vA3VjzZikeZf30wVuNhm8QLvi2SpFr0Bax5MnxDEeOi
-   QbYHd0Vs9u7BeLwv950OEIs3umrKYv7ACSRmIMEpTRpAETVabolg8lOAB
-   7NH8vPCyEHvtiZcXsiEL2SlxiUYk/4PTeu52H1Xy0MeNhHWNArCf5KtQm
-   VMPvxVarMCRXuA/lbpGOuMxuT90YCUoM64oNRbYMtfs9Xxi/5JqKZC3xm
-   C4AfZh6abhode+PmO1BADk9aSSqXz+hBmPZq8o8yyheqM5LWBuGJJ1ZtN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="372371036"
+  bh=ovndHV9hLKdTZvQnsCTnqeQ+3Wl+RwYyqBnW8kOuPFA=;
+  b=dXJRVYu1/igVMKyUuB2fzR2iVlsf+wX9vA3uJV1ho+xTueSbp23LMNV7
+   k6ptrM9phqqlEk+UyiyAA46lqKzQ5QlfTfrOoWpGZn9rP3rAeM9nBsmsE
+   ZQQ4wvUG80kIJHaNk0ewcS9i7+r01IXDCRd3z5ihGZ61KKbjl9rNqaS20
+   0vUU0+we/5E8+2S+gD6a4C3Rk3ToTJZilmpZ4YxthpUD5QuA5lB/5TS25
+   gvSERv9OUjTfs18krb+qM+0e8ohY86GUkRzQeTeUQOOFQNjV1A/hDybcC
+   vgldjN2H0idEAKKGCpF0v9FqhUcm1FBC0dOqiSXKCcEtuugG14IQtIN37
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="359963376"
 X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
-   d="scan'208";a="372371036"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 13:05:44 -0700
+   d="scan'208";a="359963376"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 13:25:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="1068812851"
-X-IronPort-AV: E=Sophos;i="6.02,205,1688454000"; 
-   d="scan'208";a="1068812851"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="881709548"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Aug 2023 13:05:43 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2023 13:26:02 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qaM10-000699-35;
-	Sun, 27 Aug 2023 20:05:42 +0000
-Date: Mon, 28 Aug 2023 04:05:31 +0800
+	id 1qaMKZ-0006AF-2z;
+	Sun, 27 Aug 2023 20:25:55 +0000
+Date: Mon, 28 Aug 2023 04:25:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:aass 20/28] lib/test_bitmap.c:381:1: warning: 'inline' is not
- at beginning of declaration
-Message-ID: <202308280412.LQt3JTYB-lkp@intel.com>
+To: Edward Cree <ecree.xilinx@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+	Andy Moreton <andy.moreton@amd.com>,
+	Simon Horman <simon.horman@corigine.com>
+Subject: drivers/net/ethernet/sfc/selftest.c:48:16: warning: field ip within
+ 'struct efx_loopback_payload::(anonymous at
+ drivers/net/ethernet/sfc/selftest.c:46:2)' is less aligned than 'struct
+ iphdr' and is usually due to 'struct efx_loopback_payload::(anonymous a...
+Message-ID: <202308280404.zWFYpWWE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,41 +50,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/norov/linux aass
-head:   8386ab615ebe5a903dba203bea05929a997d7ea4
-commit: 6c6a992b79376ff426f49fc0646db751cbb79967 [20/28] bitmap: add test for bitmap_bitremap()
-config: arc-randconfig-001-20230828 (https://download.01.org/0day-ci/archive/20230828/202308280412.LQt3JTYB-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230828/202308280412.LQt3JTYB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   85eb043618bb17124050197d71c453d4a1f556e5
+commit: 55c1528f9b97ff3b7efad73e8f79627fc2efb298 sfc: fix field-spanning memcpy in selftest
+date:   4 weeks ago
+config: arm-randconfig-r001-20230828 (https://download.01.org/0day-ci/archive/20230828/202308280404.zWFYpWWE-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230828/202308280404.zWFYpWWE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308280412.LQt3JTYB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308280404.zWFYpWWE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/test_bitmap.c:381:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
-     381 | static void __always_inline __init __test_bitremap(unsigned long *dst, unsigned long *src,
-         | ^~~~~~
+>> drivers/net/ethernet/sfc/selftest.c:48:16: warning: field ip within 'struct efx_loopback_payload::(anonymous at drivers/net/ethernet/sfc/selftest.c:46:2)' is less aligned than 'struct iphdr' and is usually due to 'struct efx_loopback_payload::(anonymous at drivers/net/ethernet/sfc/selftest.c:46:2)' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      48 |                 struct iphdr ip;
+         |                              ^
+>> drivers/net/ethernet/sfc/selftest.c:48:16: warning: field ip within 'struct efx_loopback_payload::(unnamed at drivers/net/ethernet/sfc/selftest.c:46:2)' is less aligned than 'struct iphdr' and is usually due to 'struct efx_loopback_payload::(unnamed at drivers/net/ethernet/sfc/selftest.c:46:2)' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+   2 warnings generated.
 
 
-vim +/inline +381 lib/test_bitmap.c
+vim +48 drivers/net/ethernet/sfc/selftest.c
 
-   380	
- > 381	static void __always_inline __init __test_bitremap(unsigned long *dst, unsigned long *src,
-   382					unsigned long *old, unsigned long *new, unsigned long nbits)
-   383	{
-   384		unsigned long oldbit, newbit;
-   385	
-   386		bitmap_zero(dst, nbits);
-   387	
-   388		for_each_set_bit(oldbit, src, nbits) {
-   389			newbit = bitmap_bitremap(oldbit, old, new, nbits);
-   390			__set_bit(newbit, dst);
-   391		}
-   392	}
-   393	
+93e5dfa59b0e26a drivers/net/ethernet/sfc/selftest.c Ben Hutchings   2012-02-28  37  
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  38  /*
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  39   * Loopback test packet structure
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  40   *
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  41   * The self-test should stress every RSS vector, and unfortunately
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  42   * Falcon only performs RSS on TCP/UDP packets.
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  43   */
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  44  struct efx_loopback_payload {
+cf60ed469629927 drivers/net/ethernet/sfc/selftest.c Edward Cree     2023-06-23  45  	char pad[2]; /* Ensures ip is 4-byte aligned */
+55c1528f9b97ff3 drivers/net/ethernet/sfc/selftest.c Edward Cree     2023-07-28  46  	struct_group_attr(packet, __packed,
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  47  		struct ethhdr header;
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07 @48  		struct iphdr ip;
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  49  		struct udphdr udp;
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  50  		__be16 iteration;
+1d20a16062e771b drivers/net/ethernet/sfc/selftest.c David S. Miller 2015-04-17  51  		char msg[64];
+55c1528f9b97ff3 drivers/net/ethernet/sfc/selftest.c Edward Cree     2023-07-28  52  	);
+cf60ed469629927 drivers/net/ethernet/sfc/selftest.c Edward Cree     2023-06-23  53  } __packed __aligned(4);
+55c1528f9b97ff3 drivers/net/ethernet/sfc/selftest.c Edward Cree     2023-07-28  54  #define EFX_LOOPBACK_PAYLOAD_LEN	\
+55c1528f9b97ff3 drivers/net/ethernet/sfc/selftest.c Edward Cree     2023-07-28  55  		sizeof_field(struct efx_loopback_payload, packet)
+3273c2e8c66a21a drivers/net/sfc/selftest.c          Ben Hutchings   2008-05-07  56  
+
+:::::: The code at line 48 was first introduced by commit
+:::::: 3273c2e8c66a21ae1c53b0c730ee937c6efde7e2 [netdrvr] sfc: sfc: Add self-test support
+
+:::::: TO: Ben Hutchings <bhutchings@solarflare.com>
+:::::: CC: Jeff Garzik <jgarzik@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
