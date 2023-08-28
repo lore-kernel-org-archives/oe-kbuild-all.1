@@ -1,49 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D217046BA;
-	Mon, 28 Aug 2023 12:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8600C125B8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Aug 2023 12:52:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693227147; x=1724763147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=63cN16He7oU1cpUOTTDNru9E4nWgxrEdWbwOQMyKlZ0=;
-  b=KXN8QtfMx+at/9PMPQdeuMAjAJkmK8d4BWtuPuBiToL5KG+JxcFSFSFC
-   WRFARnlVF4vaFF7+jdMW26VrJVztuqi61xrai2eUJqKq7lLcjDwZpmgBt
-   e7c6h4jY0A+s5ezF3IpDAqoaa0Oj/kYu4QEyVnTYoUwGOlUHrLaexwneo
-   ca1B1DuXNamkxCzOorriMxD21upf0ctDl3TS5m7FwTPeUWsqF5RJybOHk
-   D+2Sq60d6bimjpmYhtwhSUaJd50lnQle5iB4FxKJLJwznbkOAfQrbaysS
-   Dx/XWlXBbXHYDfiDVlzAtU5mZaXsKpVZingwDmqbM7QDrtmUh8HlCVXRm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="439038878"
+  t=1693227155; x=1724763155;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0tLU3Y09BQUkxu4IV89orRIQpc+aKxw3Ks/9MpQmPaU=;
+  b=ep/FHOHi9+rHnhEaPvN/fNv8szlozo3YdQFT2IwUcmYIQOTN2z6UUBvX
+   1mQhnj/kmeHDSQSPWnZ7lPduCTG6UwGsnCibySOgFzgyRf5isr8plpOR7
+   /P4NyN8ROVO7+9Izq2A5IerbG9C/45f9obQfx/29N0VZOlilllHIFBFOQ
+   TYt14MWkjDsFunn3hhzTe0OEA0RYHM1xPGMqs+OD7+msUaxub+I2mhJrM
+   zqqvc/zf7lTQOaSasvr4dcu5HT/pItm6Rampal7bltSMRA8RXN9zidtlk
+   sAbnXh+NYcb36MTdud5ANSTY50HN+YKNlb2i+83sgVGKwUo0cqgEHnJwg
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="441438597"
 X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="439038878"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 05:52:27 -0700
+   d="scan'208";a="441438597"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 05:52:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="912044321"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="688092568"
 X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
-   d="scan'208";a="912044321"
+   d="scan'208";a="688092568"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 28 Aug 2023 05:52:22 -0700
+  by orsmga003.jf.intel.com with ESMTP; 28 Aug 2023 05:52:27 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qabj4-0007sp-1l;
-	Mon, 28 Aug 2023 12:52:16 +0000
-Date: Mon, 28 Aug 2023 20:52:00 +0800
+	id 1qabjB-0007sr-1r;
+	Mon, 28 Aug 2023 12:52:23 +0000
+Date: Mon, 28 Aug 2023 20:51:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brandon Pollack <brpol@chromium.org>, marius.vlad@collabora.com,
-	mairacanal@riseup.net, jshargo@chromium.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
-	linux-doc@vger.kernel.org, hirono@chromium.org, corbet@lwn.net,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	melissa.srw@gmail.com, mduggan@chromium.org, mripard@kernel.org,
-	tzimmermann@suse.de, Brandon Pollack <brpol@chromium.org>
-Subject: Re: [PATCH v5 5/7] drm/vkms: Support enabling ConfigFS devices
-Message-ID: <202308282031.pHgZz2pY-lkp@intel.com>
-References: <20230828081929.3574228-6-brpol@chromium.org>
+To: "David S. Miller" <davem@davemloft.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	netdev@vger.kernel.org
+Subject: [linux-next:master 13014/13109] include/linux/netlink.h:116:13:
+ warning: 'sfc: Unsupported: only suppo...' directive output truncated
+ writing 104 bytes into a region of size 80
+Message-ID: <202308282000.2XNh0K6D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,97 +48,212 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230828081929.3574228-6-brpol@chromium.org>
 
-Hi Brandon,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on next-20230828]
-[cannot apply to linus/master v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Brandon-Pollack/drm-vkms-Back-VKMS-with-DRM-memory-management-instead-of-static-objects/20230828-162136
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230828081929.3574228-6-brpol%40chromium.org
-patch subject: [PATCH v5 5/7] drm/vkms: Support enabling ConfigFS devices
-config: x86_64-randconfig-r015-20230828 (https://download.01.org/0day-ci/archive/20230828/202308282031.pHgZz2pY-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230828/202308282031.pHgZz2pY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2ee82481c392eec06a7ef28df61b7f0d8e45be2e
+commit: 01183204bc24d9612add84a809377cb10737e77f [13014/13109] Merge branch 'main' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230828/202308282000.2XNh0K6D-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230828/202308282000.2XNh0K6D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308282031.pHgZz2pY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308282000.2XNh0K6D-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/vkms/vkms_output.c:180: warning: Function parameter or member 'vkmsdev' not described in 'validate_vkms_configfs_no_dangling_objects'
+   In file included from include/uapi/linux/neighbour.h:6,
+                    from include/linux/netdevice.h:45,
+                    from include/net/sch_generic.h:5,
+                    from include/net/pkt_cls.h:7,
+                    from drivers/net/ethernet/sfc/tc.c:12:
+   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_mangle':
+>> include/linux/netlink.h:116:13: warning: 'sfc: Unsupported: only suppo...' directive output truncated writing 104 bytes into a region of size 80 [-Wformat-truncation=]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1223:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1223 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: directive argument in the range [0, 254]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1223:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1223 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: 'snprintf' output between 107 and 110 bytes into a destination of size 80
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1223:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1223 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: warning: 'sfc: Unsupported: only suppo...' directive output truncated writing 110 bytes into a region of size 80 [-Wformat-truncation=]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1282:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1282 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: directive argument in the range [0, 254]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1282:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1282 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: 'snprintf' output between 113 and 116 bytes into a destination of size 80
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1282:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1282 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/netlink.h:116:13: warning: ') out of range, only support...' directive output truncated writing 60 bytes into a region of size between 46 and 55 [-Wformat-truncation=]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1271:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1271 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: 'snprintf' output between 86 and 95 bytes into a destination of size 80
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:1271:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+    1271 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_flower_record_encap_match':
+   include/linux/netlink.h:116:13: warning: ' conflicts with existing pse...' directive output truncated writing 53 bytes into a region of size between 28 and 33 [-Wformat-truncation=]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:634:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     634 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: directive argument in the range [0, 65535]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:634:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     634 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: 'snprintf' output between 102 and 112 bytes into a destination of size 80
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:634:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     634 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: warning: ' conflicts with existing pse...' directive output truncated writing 57 bytes into a region of size 39 [-Wformat-truncation=]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:627:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     627 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: directive argument in the range [0, 255]
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:627:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     627 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:116:13: note: 'snprintf' output 103 bytes into a destination of size 80
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     117 |                      "%s" fmt "%s", "", ##args, "") >=                         \
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:131:9: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sfc/tc.c:627:33: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
+     627 |                                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +180 drivers/gpu/drm/vkms/vkms_output.c
+vim +116 include/linux/netlink.h
 
-   166	
-   167	/**
-   168	* validate_vkms_configfs_no_dangling_objects - warn on unused objects in vkms
-   169	* configfs.
-   170	* @vkmsdev vkms device
-   171	*
-   172	* This gives slightly more visible warning messaging to the user before the drm
-   173	* system finds the configuration invalid and prints it's debug information.  In
-   174	* this case the user may have accidentally not included some links, or the user
-   175	* could be testing this faulty configuration.
-   176	*
-   177	*/
-   178	static void
-   179	validate_vkms_configfs_no_dangling_objects(struct vkms_device *vkmsdev)
- > 180	{
-   181		struct vkms_configfs *configfs = vkmsdev->configfs;
-   182		struct config_item *item;
-   183	
-   184		// 1. Planes
-   185		list_for_each_entry(item, &configfs->planes_group.cg_children,
-   186				    ci_entry) {
-   187			struct vkms_config_plane *config_plane =
-   188				item_to_config_plane(item);
-   189			if (config_plane->possible_crtcs.linked_object_bitmap == 0)
-   190				DRM_WARN(
-   191					"Vkms configfs created plane %s has no linked crtcs",
-   192					item->ci_name);
-   193		}
-   194	
-   195		// 2. connectors
-   196		list_for_each_entry(item, &configfs->connectors_group.cg_children,
-   197				    ci_entry) {
-   198			struct vkms_config_connector *config_connector =
-   199				item_to_config_connector(item);
-   200			if (config_connector->possible_encoders.linked_object_bitmap ==
-   201			    0) {
-   202				DRM_WARN(
-   203					"Vkms configfs created connector %s has no linked encoders",
-   204					item->ci_name);
-   205			}
-   206		}
-   207	
-   208		// 3. encoders
-   209		list_for_each_entry(item, &configfs->encoders_group.cg_children,
-   210				    ci_entry) {
-   211			struct vkms_config_encoder *config_encoder =
-   212				item_to_config_encoder(item);
-   213			if (config_encoder->possible_crtcs.linked_object_bitmap == 0) {
-   214				DRM_WARN(
-   215					"Vkms configfs created encoder %s has no linked crtcs",
-   216					item->ci_name);
-   217			}
-   218		}
-   219	
-   220		// 4. crtcs only require a primary plane to function, this is checked during
-   221		// output initialization and returns an error.
-   222	}
-   223	
+2d4bc93368f5a0d Johannes Berg 2017-04-12  107  
+51c352bdbcd23d7 Edward Cree   2022-10-18  108  /* We splice fmt with %s at each end even in the snprintf so that both calls
+51c352bdbcd23d7 Edward Cree   2022-10-18  109   * can use the same string constant, avoiding its duplication in .ro
+51c352bdbcd23d7 Edward Cree   2022-10-18  110   */
+51c352bdbcd23d7 Edward Cree   2022-10-18  111  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {			       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  112  	struct netlink_ext_ack *__extack = (extack);			       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  113  									       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  114  	if (!__extack)							       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  115  		break;							       \
+51c352bdbcd23d7 Edward Cree   2022-10-18 @116  	if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,	       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  117  		     "%s" fmt "%s", "", ##args, "") >=			       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  118  	    NETLINK_MAX_FMTMSG_LEN)					       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  119  		net_warn_ratelimited("%s" fmt "%s", "truncated extack: ",      \
+51c352bdbcd23d7 Edward Cree   2022-10-18  120  				     ##args, "\n");			       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  121  									       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  122  	do_trace_netlink_extack(__extack->_msg_buf);			       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  123  									       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  124  	__extack->_msg = __extack->_msg_buf;				       \
+51c352bdbcd23d7 Edward Cree   2022-10-18  125  } while (0)
+51c352bdbcd23d7 Edward Cree   2022-10-18  126  
+
+:::::: The code at line 116 was first introduced by commit
+:::::: 51c352bdbcd23d7ce46b06c1e64c82754dc44044 netlink: add support for formatted extack messages
+
+:::::: TO: Edward Cree <ecree.xilinx@gmail.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
