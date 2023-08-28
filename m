@@ -1,73 +1,111 @@
-Received: from forwardcorp1b.mail.yandex.net (forwardcorp1b.mail.yandex.net [178.154.239.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50C3EC2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Aug 2023 07:24:54 +0000 (UTC)
-Received: from mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net [IPv6:2a02:6b8:c08:ac00:0:640:e1b9:0])
-	by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 2A091632B9;
-	Mon, 28 Aug 2023 10:22:56 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b53b::1:23] (unknown [2a02:6b8:b081:b53b::1:23])
-	by mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id sMJW2N1OlmI0-jjXWCNTg;
-	Mon, 28 Aug 2023 10:22:55 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
-	t=1693207375; bh=Exq5huRwtFyDOI2IRKeFFQP3cuVx5hXB1qJx+jCkpm4=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=QNVqU8Z2B9WCnWL+nN8KwG0Qdt0Rd773VUsy74j36GCwDIiNvSUsp7J301RzvIvMQ
-	 TEKTDda27DhqjPAd0+/NOj+wz2Kv80BamafBSa81BywWfmhcqu1BVgFpzXBhz7f2d9
-	 AHRxykRjatkd00HHoSRFvGDNtqWGpj7qq6xd2XsE=
-Authentication-Results: mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
-Message-ID: <3dc7f3f3-b2a0-530d-9688-b725204e3270@yandex-team.ru>
-Date: Mon, 28 Aug 2023 12:22:54 +0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1917210F4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Aug 2023 07:29:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693207779; x=1724743779;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cVsUjoypq/KYkql7yhMPoaF3oTxdWjfYpknXpXwZL6s=;
+  b=izDG/C59hwFUuWYrMI2EX3XPZa7ghqEf6vgUQhTlVfIjAR1k38UB6hUq
+   5WlImxGs7j+lwLxbzg99nOwVxLyY5nafUds/rWA4JkCC0SlAoqoI+b6ni
+   wMXb2UDpSgbj/ud84IAcq/X9NS+T/jslFVltERRTTDOu3CDGs3otVeQK1
+   0cR//nEFh/nIJqINC/RwA0IHK9xZgsc+BnZW29R4OFbvxCXHCYD17HPS/
+   Ix7/IM4xzal8F+2Mb772f2P/TeCumC7Tk3R90tN64onCly6QyrBLnEin7
+   hiWr6DU7mrcLUXTJmp5MB8jYptOzYek+rIyGn9ZVocnL+mc63K6M6ej81
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="372440933"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
+   d="scan'208";a="372440933"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 00:29:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="741273388"
+X-IronPort-AV: E=Sophos;i="6.02,207,1688454000"; 
+   d="scan'208";a="741273388"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 28 Aug 2023 00:29:31 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qaWgf-0007g3-29;
+	Mon, 28 Aug 2023 07:29:27 +0000
+Date: Mon, 28 Aug 2023 15:29:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:gpu/rust-wip 20/21] drivers/iommu/dma-iommu.c:1612:29:
+ warning: unused variable 'iovad'
+Message-ID: <202308281515.f5yUcddM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v5 2/2] PCI: Implement custom llseek for sysfs resource
- entries
-To: kernel test robot <lkp@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Bjorn Helgaas <helgaas@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- linux-kernel@vger.kernel.org
-References: <20230823125834.492298-2-valesini@yandex-team.ru>
- <202308252133.YO5zs5rv-lkp@intel.com>
-Content-Language: ru, en-US
-From: Valentin Sinitsyn <valesini@yandex-team.ru>
-In-Reply-To: <202308252133.YO5zs5rv-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi all,
+tree:   https://github.com/AsahiLinux/linux gpu/rust-wip
+head:   a8f31bd038880e11b0786822f42ef8fa6276c303
+commit: df42097830d935f6c1e5ca942a6335511b6e27ee [20/21] iommu hack for DCP
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230828/202308281515.f5yUcddM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281515.f5yUcddM-lkp@intel.com/reproduce)
 
-On 25.08.2023 19:10, kernel test robot wrote:
-> Hi Valentine,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-[..]
-> All warnings (new ones prefixed by >>):
-> 
->     drivers/pci/pci-sysfs.c:1268:12: warning: no previous prototype for 'pci_create_resource_files' [-Wmissing-prototypes]
->      1268 | int __weak pci_create_resource_files(struct pci_dev *dev) { return 0; }
->           |            ^~~~~~~~~~~~~~~~~~~~~~~~~
->     drivers/pci/pci-sysfs.c:1269:13: warning: no previous prototype for 'pci_remove_resource_files' [-Wmissing-prototypes]
->      1269 | void __weak pci_remove_resource_files(struct pci_dev *dev) { return; }
->           |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->>> drivers/pci/pci-sysfs.c:838:15: warning: 'pci_llseek_resource' defined but not used [-Wunused-function]
->       838 | static loff_t pci_llseek_resource(struct file *filep,
->           |               ^~~~~~~~~~~~~~~~~~~
-I'm not sure if I should do anything about it: arc doesn't HAVE_* 
-anything PCI-related, and pci-sysfs doesn't seem to be written with this 
-case in mind. Guarding pci_llseek_resource() with an #ifdef 
-HAVE_AT_LEAST_SOMETHING is trivial, but it feels more like a patch to 
-silence a bot than a proper fix.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308281515.f5yUcddM-lkp@intel.com/
 
-Any thoughts / objections on this?
+All warnings (new ones prefixed by >>):
 
-Best,
-Valentine
+   drivers/iommu/dma-iommu.c: In function 'iommu_dma_get_sgtable':
+>> drivers/iommu/dma-iommu.c:1612:29: warning: unused variable 'iovad' [-Wunused-variable]
+    1612 |         struct iova_domain *iovad = &cookie->iovad;
+         |                             ^~~~~
+
+
+vim +/iovad +1612 drivers/iommu/dma-iommu.c
+
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1605  
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1606  static int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1607  		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1608  		unsigned long attrs)
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1609  {
+575249979250ed Asahi Lina        2023-03-22  1610  	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+575249979250ed Asahi Lina        2023-03-22  1611  	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+575249979250ed Asahi Lina        2023-03-22 @1612  	struct iova_domain *iovad = &cookie->iovad;
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1613  	struct page *page;
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1614  	int ret;
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1615  
+f5ff79fddf0efe Christoph Hellwig 2022-02-26  1616  	if (is_vmalloc_addr(cpu_addr)) {
+5cf4537975bbd5 Christoph Hellwig 2019-06-03  1617  		struct page **pages = dma_common_find_pages(cpu_addr);
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1618  
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1619  		if (pages) {
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1620  			return sg_alloc_table_from_pages(sgt, pages,
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1621  					PAGE_ALIGN(size) >> PAGE_SHIFT,
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1622  					0, size, GFP_KERNEL);
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1623  		}
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1624  
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1625  		page = vmalloc_to_page(cpu_addr);
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1626  	} else {
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1627  		page = virt_to_page(cpu_addr);
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1628  	}
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1629  
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1630  	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1631  	if (!ret)
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1632  		sg_set_page(sgt->sgl, page, PAGE_ALIGN(size), 0);
+3fb3378bb1eb29 Christoph Hellwig 2019-05-20  1633  	return ret;
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1634  }
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1635  
+
+:::::: The code at line 1612 was first introduced by commit
+:::::: 575249979250ed2029744f5293672c9c7427298b 4k iommu hack
+
+:::::: TO: Asahi Lina <lina@asahilina.net>
+:::::: CC: Asahi Lina <lina@asahilina.net>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
