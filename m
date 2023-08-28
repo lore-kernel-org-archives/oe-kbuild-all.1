@@ -1,149 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC4C654;
-	Mon, 28 Aug 2023 02:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08600634
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Aug 2023 04:47:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693190930; x=1724726930;
+  t=1693198075; x=1724734075;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MGOQof3/0GwxYRKJJukycYMzoBjUOOyTQDx9zZt6q8s=;
-  b=kBIOlSBa6L6YhJ/+9Ex8djQeSWGTyaoloEIIahJfHwKzb/mNF2/Si8aR
-   xn/MU4gZ6/MrlepkEwoyTYMEPuBBQ6dEp7tRR1IPiy5B++FZTiO3tOgjr
-   lF8mV7vbez2S77wFvPQM+uXTYKpVokZ7TKo6otTQCU4/30jeZvnWEOAa/
-   pUlg4G++f3zEJx8HDoU1y5STVZeGZyijV6XHhSFgUItWxVnpee3SkSuq+
-   RedL7eTafeOD20ilpDyksyU46fvf7Ur+oiAy4rTffyByxVVjl898gB0jg
-   queWdv5ocjKbMwBQVErQuxiqIzQtHgpYA2+ajMXX2rcrHZor9o9tq3fie
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="378774567"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=AML3Z8z7qdGvxJYdKNtfiMw06abAIFsPRuYSYCZd6zI=;
+  b=I++xsoqMaMFki3fY7OFIFIDDOcb48H2TeYqXX+Q9NQciAlsZIAdT5H8x
+   PoJO1nmBYCwIw9zCqRbfhLvPjk4Mp5WWTXzPHLBmhNytVIXFopGAjBCc7
+   duMYmlzFK26UZnGZ7PgiJ0cyScshUwFpmEC3tjQOG7vqoA0aNFtRFRPOU
+   GAjW0niMO+U5OqTxsRaVOniP4AOgdfYw5ka327C1sk72u787IraKw63Og
+   pqCysaukt5yVa74T2w62GEVk1Wb4iTueNymQ8Ma5gGfnCzagUXc2FSJpK
+   Bmt0AGsSh+81UVEikrkk1HhHfOvNc5fpsYuzHzpxT1roZLdFweyfMXzTi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="377746049"
 X-IronPort-AV: E=Sophos;i="6.02,206,1688454000"; 
-   d="scan'208";a="378774567"
+   d="scan'208";a="377746049"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 19:48:49 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2023 21:47:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="984718120"
+X-IronPort-AV: E=McAfee;i="6600,9927,10815"; a="984740233"
 X-IronPort-AV: E=Sophos;i="6.02,206,1688454000"; 
-   d="scan'208";a="984718120"
+   d="scan'208";a="984740233"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Aug 2023 19:48:46 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 27 Aug 2023 21:47:52 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qaSJ3-0006Ql-2J;
-	Mon, 28 Aug 2023 02:48:45 +0000
-Date: Mon, 28 Aug 2023 10:48:16 +0800
+	id 1qaUAB-0007YV-1x;
+	Mon, 28 Aug 2023 04:47:45 +0000
+Date: Mon, 28 Aug 2023 12:47:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Crumrine <ozlinux@hotmail.com>, gregkh@linuxfoundation.org,
-	colin.i.king@gmail.com, sumitraartsy@gmail.com,
-	u.kleine-koenig@pengutronix.de, geert@linux-m68k.org
-Cc: oe-kbuild-all@lists.linux.dev, Oliver Crumrine <ozlinux@hotmail.com>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 6/6] staging: octeon: clean up the octeon ethernet
- driver
-Message-ID: <202308281043.2o6mVbgk-lkp@intel.com>
-References: <PH7PR11MB764329EC8CFB56ABFA7A8D77BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+To: Li zeming <zeming@nfschina.com>, tj@kernel.org, jiangshanlai@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Li zeming <zeming@nfschina.com>
+Subject: Re: [PATCH] kernel/workqueue: =?utf-8?Q?Re?=
+ =?utf-8?B?bW92ZSB1bm5lY2Vzc2FyeSDigJgw4oCZ?= values from hash
+Message-ID: <202308281239.bDfhnlkw-lkp@intel.com>
+References: <20230829181755.3204-1-zeming@nfschina.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <PH7PR11MB764329EC8CFB56ABFA7A8D77BCE1A@PH7PR11MB7643.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230829181755.3204-1-zeming@nfschina.com>
 
-Hi Oliver,
+Hi Li,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on staging/staging-testing]
+[auto build test WARNING on tj-wq/for-next]
+[also build test WARNING on linus/master v6.5 next-20230825]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Crumrine/staging-octeon-clean-up-the-octeon-ethernet-driver/20230828-080105
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/PH7PR11MB764329EC8CFB56ABFA7A8D77BCE1A%40PH7PR11MB7643.namprd11.prod.outlook.com
-patch subject: [PATCH v3 6/6] staging: octeon: clean up the octeon ethernet driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230828/202308281043.2o6mVbgk-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281043.2o6mVbgk-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-zeming/kernel-workqueue-Remove-unnecessary-0-values-from-hash/20230828-095048
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-next
+patch link:    https://lore.kernel.org/r/20230829181755.3204-1-zeming%40nfschina.com
+patch subject: [PATCH] kernel/workqueue: Remove unnecessary ‘0’ values from hash
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230828/202308281239.bDfhnlkw-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281239.bDfhnlkw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308281043.2o6mVbgk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308281239.bDfhnlkw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/staging/octeon/ethernet.c: In function 'cvm_oct_common_get_stats':
-   drivers/staging/octeon/ethernet.c:204:39: error: storage size of 'rx_status' isn't known
-     204 |         struct cvmx_pip_port_status_t rx_status;
-         |                                       ^~~~~~~~~
-   In file included from include/linux/string.h:254,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from arch/x86/include/asm/paravirt.h:17,
-                    from arch/x86/include/asm/irqflags.h:60,
-                    from include/linux/irqflags.h:17,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/staging/octeon/ethernet.c:8:
->> include/linux/fortify-string.h:515:65: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     515 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
-         |                                                                 ^
-   include/linux/fortify-string.h:524:25: note: in expansion of macro '__fortify_memset_chk'
-     524 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-         |                         ^~~~~~~~~~~~~~~~~~~~
-   drivers/staging/octeon/ethernet.c:211:25: note: in expansion of macro 'memset'
-     211 |                         memset(&rx_status, 0, sizeof(rx_status));
-         |                         ^~~~~~
->> drivers/staging/octeon/ethernet.c:204:39: warning: unused variable 'rx_status' [-Wunused-variable]
-     204 |         struct cvmx_pip_port_status_t rx_status;
-         |                                       ^~~~~~~~~
+   kernel/workqueue.c: In function 'wqattrs_hash':
+>> kernel/workqueue.c:3777:16: warning: 'hash' is used uninitialized [-Wuninitialized]
+    3777 |         hash = jhash_1word(attrs->nice, hash);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/workqueue.c:3775:13: note: 'hash' was declared here
+    3775 |         u32 hash;
+         |             ^~~~
 
 
-vim +/rx_status +204 drivers/staging/octeon/ethernet.c
+vim +/hash +3777 kernel/workqueue.c
 
-   195	
-   196	/**
-   197	 * cvm_oct_common_get_stats - get the low level ethernet statistics
-   198	 * @dev:    Device to get the statistics from
-   199	 *
-   200	 * Returns Pointer to the statistics
-   201	 */
-   202	static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
-   203	{
- > 204		struct cvmx_pip_port_status_t rx_status;
-   205		cvmx_pko_port_status_t tx_status;
-   206		struct octeon_ethernet *priv = netdev_priv(dev);
-   207	
-   208		if (priv->port < CVMX_PIP_NUM_INPUT_PORTS) {
-   209			if (octeon_is_simulation()) {
-   210				/* The simulator doesn't support statistics */
-   211				memset(&rx_status, 0, sizeof(rx_status));
-   212				memset(&tx_status, 0, sizeof(tx_status));
-   213			} else {
-   214				cvmx_pip_get_port_status(priv->port, 1, &rx_status);
-   215				cvmx_pko_get_port_status(priv->port, 1, &tx_status);
-   216			}
-   217	
-   218			dev->stats.rx_packets += rx_status.inb_packets;
-   219			dev->stats.tx_packets += tx_status.packets;
-   220			dev->stats.rx_bytes += rx_status.inb_octets;
-   221			dev->stats.tx_bytes += tx_status.octets;
-   222			dev->stats.multicast += rx_status.multicast_packets;
-   223			dev->stats.rx_crc_errors += rx_status.inb_errors;
-   224			dev->stats.rx_frame_errors += rx_status.fcs_align_err_packets;
-   225			dev->stats.rx_dropped += rx_status.dropped_packets;
-   226		}
-   227	
-   228		return &dev->stats;
-   229	}
-   230	
+5de7a03cac14765 Tejun Heo           2023-08-07  3771  
+6ba94429c8e7b87 Frederic Weisbecker 2015-04-02  3772  /* hash value of the content of @attr */
+6ba94429c8e7b87 Frederic Weisbecker 2015-04-02  3773  static u32 wqattrs_hash(const struct workqueue_attrs *attrs)
+226223ab3c4118d Tejun Heo           2013-03-12  3774  {
+dd46423224bbdfa Li zeming           2023-08-30  3775  	u32 hash;
+226223ab3c4118d Tejun Heo           2013-03-12  3776  
+6ba94429c8e7b87 Frederic Weisbecker 2015-04-02 @3777  	hash = jhash_1word(attrs->nice, hash);
+6ba94429c8e7b87 Frederic Weisbecker 2015-04-02  3778  	hash = jhash(cpumask_bits(attrs->cpumask),
+6ba94429c8e7b87 Frederic Weisbecker 2015-04-02  3779  		     BITS_TO_LONGS(nr_cpumask_bits) * sizeof(long), hash);
+9546b29e4a6ad6e Tejun Heo           2023-08-07  3780  	hash = jhash(cpumask_bits(attrs->__pod_cpumask),
+9546b29e4a6ad6e Tejun Heo           2023-08-07  3781  		     BITS_TO_LONGS(nr_cpumask_bits) * sizeof(long), hash);
+8639ecebc9b1796 Tejun Heo           2023-08-07  3782  	hash = jhash_1word(attrs->affn_strict, hash);
+6ba94429c8e7b87 Frederic Weisbecker 2015-04-02  3783  	return hash;
+d55262c4d164759 Tejun Heo           2013-04-01  3784  }
+226223ab3c4118d Tejun Heo           2013-03-12  3785  
 
 -- 
 0-DAY CI Kernel Test Service
