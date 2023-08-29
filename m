@@ -1,41 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941BC14F6D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 17:09:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8E717AB1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 17:29:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693328961; x=1724864961;
+  t=1693330185; x=1724866185;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=12N19j3yHxzAdbKGxZnP1d/lyoEEgwaT6AuHVePM3oQ=;
-  b=lGHVhMWfZjwQOgGR47aLez9HD0PExDemzfusozp4ZTOVe9TF3IgjRT+n
-   Ly6PDvVkIhRhe6Gr8msop6lGQlgbBMGglsd7iKKMGS6Cr5bziEyKLGp6B
-   nwxd2yO5VxblZQNwfwT+GTaea1/Lvhn/ATV1DXT/e/oS+GgtvOUBi2BcU
-   yefjmJk8HB15/5VjjFFJEvEUo0FY+/hTzy54c0rxdboIePeWVDIfJQ4fL
-   V+3XODy1tkZWsANdCPan1AohifJ4tg6nKlk2FPw7CyVoQuWMZTknWaepS
-   u/2RwBX0i2dKMOQZU5hkXcMDmFccNVLXXIvSHlRZRwkC6qBHVl06NphpT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="360426818"
+  bh=j4212a8cHjsh4rrjR5w9LKvgsrZBufADOI8XiMoqo8c=;
+  b=i+H0tQ++eRKXXJOlRn2bkwjjWfuevmldC/bBtJXGT/+fsfbPXpzWy7LB
+   V9R11AvLTECwKfkWLIkDttfORqVVLYm7jR7ZcfV/qMZcblNSOBFPe1zRu
+   sxPwuNx1PARd49lapJrQar4JMac4598rh1hLhsxB8Lvxe2R3P63YBIeGO
+   poqGeXn9rJ5cxohJsmenWlfvlUYvzaU+v7G4xiLxOQklCJj562yvxJvUA
+   ve6OW4ZaSA8Ro2nT2lfHzxAxUSPRUHbWIcP7hMld3GHYuumPTCRhIhpqQ
+   l2Q5ppPb9pJril6dPEP8qGPTW0h4bSPZ2McD5h3lur307CVNEYVwIAJNl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="439385475"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="360426818"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 10:09:20 -0700
+   d="scan'208";a="439385475"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 10:29:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="882392896"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="808782973"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
+   d="scan'208";a="808782973"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 29 Aug 2023 10:09:25 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 29 Aug 2023 10:29:43 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qb2DO-0008w3-38;
-	Tue, 29 Aug 2023 17:09:18 +0000
-Date: Wed, 30 Aug 2023 01:08:38 +0800
+	id 1qb2X8-0008xJ-1L;
+	Tue, 29 Aug 2023 17:29:42 +0000
+Date: Wed, 30 Aug 2023 01:29:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: Vincent Guittot <vincent.guittot@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.5/bbr3 1/1] ERROR: modpost: "__udivdi3" [net/ipv4/tcp_bbr.ko]
- undefined!
-Message-ID: <202308300024.tdZjlR2B-lkp@intel.com>
+Subject: [vincent-guittot:sched/cpu_capacity 2/2]
+ include/linux/energy_model.h:244:20: error: implicit declaration of function
+ 'arch_scale_freq_ref'; did you mean 'arch_scale_freq_tick'?
+Message-ID: <202308300138.41WAYETz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,122 +47,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.5/bbr3
-head:   bcb27e4adacda606c76349bfba3305db6ea83887
-commit: bcb27e4adacda606c76349bfba3305db6ea83887 [1/1] bbr3-6.5: initial import
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20230830/202308300024.tdZjlR2B-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300024.tdZjlR2B-lkp@intel.com/reproduce)
+tree:   https://git.linaro.org/people/vincent.guittot/kernel.git sched/cpu_capacity
+head:   1e50757c35dd9dab6ccb07ddc4d4ac5b59022dcb
+commit: 1e50757c35dd9dab6ccb07ddc4d4ac5b59022dcb [2/2] topology: add a new arch_scale_freq_reference
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230830/202308300138.41WAYETz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300138.41WAYETz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308300024.tdZjlR2B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308300138.41WAYETz-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_rr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "__udivdi3" [net/ipv4/tcp_bbr.ko] undefined!
->> ERROR: modpost: "__divdi3" [net/ipv4/tcp_bbr.ko] undefined!
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   In file included from include/linux/device.h:16,
+                    from include/linux/blk_types.h:11,
+                    from include/linux/writeback.h:13,
+                    from include/linux/memcontrol.h:22,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/x86/kernel/asm-offsets.c:14:
+   include/linux/energy_model.h: In function 'em_cpu_energy':
+>> include/linux/energy_model.h:244:20: error: implicit declaration of function 'arch_scale_freq_ref'; did you mean 'arch_scale_freq_tick'? [-Werror=implicit-function-declaration]
+     244 |         ref_freq = arch_scale_freq_ref(cpu);
+         |                    ^~~~~~~~~~~~~~~~~~~
+         |                    arch_scale_freq_tick
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:116: arch/x86/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1275: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +244 include/linux/energy_model.h
+
+   206	
+   207	/**
+   208	 * em_cpu_energy() - Estimates the energy consumed by the CPUs of a
+   209	 *		performance domain
+   210	 * @pd		: performance domain for which energy has to be estimated
+   211	 * @max_util	: highest utilization among CPUs of the domain
+   212	 * @sum_util	: sum of the utilization of all CPUs in the domain
+   213	 * @allowed_cpu_cap	: maximum allowed CPU capacity for the @pd, which
+   214	 *			  might reflect reduced frequency (due to thermal)
+   215	 *
+   216	 * This function must be used only for CPU devices. There is no validation,
+   217	 * i.e. if the EM is a CPU type and has cpumask allocated. It is called from
+   218	 * the scheduler code quite frequently and that is why there is not checks.
+   219	 *
+   220	 * Return: the sum of the energy consumed by the CPUs of the domain assuming
+   221	 * a capacity state satisfying the max utilization of the domain.
+   222	 */
+   223	static inline unsigned long em_cpu_energy(struct em_perf_domain *pd,
+   224					unsigned long max_util, unsigned long sum_util,
+   225					unsigned long allowed_cpu_cap)
+   226	{
+   227		unsigned long freq, ref_freq, scale_cpu;
+   228		struct em_perf_state *ps;
+   229		int cpu;
+   230	
+   231		if (!sum_util)
+   232			return 0;
+   233	
+   234		/*
+   235		 * In order to predict the performance state, map the utilization of
+   236		 * the most utilized CPU of the performance domain to a requested
+   237		 * frequency, like schedutil. Take also into account that the real
+   238		 * frequency might be set lower (due to thermal capping). Thus, clamp
+   239		 * max utilization to the allowed CPU capacity before calculating
+   240		 * effective frequency.
+   241		 */
+   242		cpu = cpumask_first(to_cpumask(pd->cpus));
+   243		scale_cpu = arch_scale_cpu_capacity(cpu);
+ > 244		ref_freq = arch_scale_freq_ref(cpu);
+   245	
+   246		max_util = map_util_perf(max_util);
+   247		max_util = min(max_util, allowed_cpu_cap);
+   248		freq = map_util_freq(max_util, ref_freq, scale_cpu);
+   249	
+   250		/*
+   251		 * Find the lowest performance state of the Energy Model above the
+   252		 * requested frequency.
+   253		 */
+   254		ps = em_pd_get_efficient_state(pd, freq);
+   255	
+   256		/*
+   257		 * The capacity of a CPU in the domain at the performance state (ps)
+   258		 * can be computed as:
+   259		 *
+   260		 *             ps->freq * scale_cpu
+   261		 *   ps->cap = --------------------                          (1)
+   262		 *                 cpu_max_freq
+   263		 *
+   264		 * So, ignoring the costs of idle states (which are not available in
+   265		 * the EM), the energy consumed by this CPU at that performance state
+   266		 * is estimated as:
+   267		 *
+   268		 *             ps->power * cpu_util
+   269		 *   cpu_nrg = --------------------                          (2)
+   270		 *                   ps->cap
+   271		 *
+   272		 * since 'cpu_util / ps->cap' represents its percentage of busy time.
+   273		 *
+   274		 *   NOTE: Although the result of this computation actually is in
+   275		 *         units of power, it can be manipulated as an energy value
+   276		 *         over a scheduling period, since it is assumed to be
+   277		 *         constant during that interval.
+   278		 *
+   279		 * By injecting (1) in (2), 'cpu_nrg' can be re-expressed as a product
+   280		 * of two terms:
+   281		 *
+   282		 *             ps->power * cpu_max_freq   cpu_util
+   283		 *   cpu_nrg = ------------------------ * ---------          (3)
+   284		 *                    ps->freq            scale_cpu
+   285		 *
+   286		 * The first term is static, and is stored in the em_perf_state struct
+   287		 * as 'ps->cost'.
+   288		 *
+   289		 * Since all CPUs of the domain have the same micro-architecture, they
+   290		 * share the same 'ps->cost', and the same CPU capacity. Hence, the
+   291		 * total energy of the domain (which is the simple sum of the energy of
+   292		 * all of its CPUs) can be factorized as:
+   293		 *
+   294		 *            ps->cost * \Sum cpu_util
+   295		 *   pd_nrg = ------------------------                       (4)
+   296		 *                  scale_cpu
+   297		 */
+   298		return em_estimate_energy(ps->cost, sum_util, scale_cpu);
+   299	}
+   300	
 
 -- 
 0-DAY CI Kernel Test Service
