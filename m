@@ -1,41 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F2514AAF;
-	Tue, 29 Aug 2023 20:50:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD97414AAF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 21:02:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693342211; x=1724878211;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=KYmFPHXnaFkGmxAMbMwXDRJruRZ6CnBvhtFyYf6OTNo=;
-  b=lWdWOTrFlXfu5ygqDtWDGSA9t2c880mjEek13v7zDiqvLnvlB/S4MHve
-   VD52Ln/tQSqmsqV07e+nNYPysSO4rMn9b4jQ+NYZ7lCmrNVJN56i+lI45
-   sKeawd90M9SLTt7lM0tBNE/lqZqn3TxQk43HOcpoq1LtcX8TXL+fcm4Ad
-   y5qkZlAosqlmCDqOdqubAvXMyB5ydRaOlm9qf9X1AddZETvVyCSL/RyCr
-   r2b5+yG84y5Zwst1ZodfKH3DSzb2b4xZG0nKzK8H1S3ncSvo5FlHeyJU8
-   NY6Hvxx11CvsHuKhwK4yX10oGvdMmqxlB9/KdsZpP+pmPSVItrJs26YA+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="374378340"
+  t=1693342930; x=1724878930;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nVk1A+1Ni3pFt1rqce2zpa+cx5K73ZqUXiOBq2VXYTI=;
+  b=I8bsO/vRUrCnCSf5melugQzuzYEAj+4Z4Br+FsMGqtUKJD95mreVOGNK
+   994lr70tR5ZeBsJw0N3bWEqpY7DYisJtKPnakBqPAQsSTZDx3tSIioNps
+   DNolytLuD85avF5Z9qXBIFxdUAlY3un/ao6pL2LmVmsDEchVPxkOe8QXu
+   lzfyXI17gaTDibV14x8vY/KQISADQOu8oeWA6+lDWrO3/uGHuamNVq7mj
+   YoNn7YLjO3/HnIKP3V+IIvon8R6kRlb2JlW3qfb7skAL5CcWyD/vHf77L
+   jbw9FZN7ggFkX+cAxKYlSo4i7ysyt9l4IfZXL+eDzUdGLSC8XwikESMmU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="374381191"
 X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
-   d="scan'208";a="374378340"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 13:50:09 -0700
+   d="scan'208";a="374381191"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 14:02:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688642495"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="773848742"
 X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
-   d="scan'208";a="688642495"
+   d="scan'208";a="773848742"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 29 Aug 2023 13:50:08 -0700
+  by orsmga001.jf.intel.com with ESMTP; 29 Aug 2023 14:02:08 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qb5f5-00094R-1Z;
-	Tue, 29 Aug 2023 20:50:07 +0000
-Date: Wed, 30 Aug 2023 04:49:42 +0800
+	id 1qb5qh-000951-2u;
+	Tue, 29 Aug 2023 21:02:07 +0000
+Date: Wed, 30 Aug 2023 05:02:06 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: arch/x86/kvm/kvm-amd.o: warning: objtool:
- __svm_sev_es_vcpu_run+0x4a: BP used as a scratch register
-Message-ID: <202308300414.IzgpaT6c-lkp@intel.com>
+To: Michael Sit <michael.wei.hong.sit@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:5.15/android_t 1/1]
+ drivers/net/ethernet/intel/igb/igb_main.c:10224:13: warning: variable
+ 'ret_val' set but not used
+Message-ID: <202308300415.YvuTjMUl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,31 +47,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-CC: Nicolas Schier <nicolas@fjasle.eu>
-CC: Sami Tolvanen <samitolvanen@google.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eaf9f4649cf03ba3442712497a30686380ba7c23
-commit: c25e1c55822f9b3b53ccbf88b85644317a525752 kbuild: do not create *.prelink.o for Clang LTO or IBT
-date:   1 year, 3 months ago
-config: x86_64-randconfig-012-20230830 (https://download.01.org/0day-ci/archive/20230830/202308300414.IzgpaT6c-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300414.IzgpaT6c-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/android_t
+head:   527e3ce50b7f5010c8c9097b9c1b43cb5d7463c4
+commit: 527e3ce50b7f5010c8c9097b9c1b43cb5d7463c4 [1/1] igb_avb: AVB feature enablement
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230830/202308300415.YvuTjMUl-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300415.YvuTjMUl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308300414.IzgpaT6c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308300415.YvuTjMUl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/x86/kvm/kvm-amd.o: warning: objtool: __svm_vcpu_run+0xe2: BP used as a scratch register
->> arch/x86/kvm/kvm-amd.o: warning: objtool: __svm_sev_es_vcpu_run+0x4a: BP used as a scratch register
+   drivers/net/ethernet/intel/igb/igb_main.c: In function 'igb_lookup':
+>> drivers/net/ethernet/intel/igb/igb_main.c:10224:13: warning: variable 'ret_val' set but not used [-Wunused-but-set-variable]
+   10224 |         int ret_val;
+         |             ^~~~~~~
 
 
-objdump-func vmlinux.o __svm_sev_es_vcpu_run:
+vim +/ret_val +10224 drivers/net/ethernet/intel/igb/igb_main.c
+
+ 10220	
+ 10221	static struct igb_adapter *igb_lookup(char *id)
+ 10222	{
+ 10223		struct igb_pci_lookup adapter_lookup;
+ 10224		int ret_val;
+ 10225	
+ 10226		adapter_lookup.adapter = NULL;
+ 10227		adapter_lookup.pci_info = id;
+ 10228	
+ 10229		/* iterate over the loaded intefaces and match on their
+ 10230		 * pci device ID identifier - e.g. "0000:7:0.0"
+ 10231		 */
+ 10232		ret_val = driver_for_each_device(&igb_driver.driver, NULL,
+ 10233						 &adapter_lookup, __igb_notify_lookup);
+ 10234	
+ 10235		return adapter_lookup.adapter;
+ 10236	}
+ 10237	
 
 -- 
 0-DAY CI Kernel Test Service
