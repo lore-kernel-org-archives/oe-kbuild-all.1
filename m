@@ -1,114 +1,140 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFF0A21
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 05:13:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=v7yy8KuNyAVC/aJA6ag651RbI8R+xf9nSt8GLFJg/IA=; b=1HB3hUuCNWuPyEv/taD47yOU/N
-	OMMBbTzRgLijiV/at3P8KdHd8BdUIyAMklbIEMXBRVhQQSw7bfiNaVQ2AmvTG02FYVnNjHJsx20hY
-	P18Q3npchkXjDgTxF65LdAIMzRG2QnceKXm9ZG5DlKbgDHrlHJCKSuf7ei89ss8cooCJeLw1cSrCZ
-	2ujIMF6zBMMU2/+gljEv0LkVrQNM1vnEBRL9PHoP01oFG/kYhKCzH0m1f62qdGi9jrmUPPJw2Qn8B
-	Mz6nYUIXUvAk6kTZluBmqAo3u9g6muCUgPgrwT+H4/W9CZ+F/8Mfsl4O9EjZuQRIGyjnm+PwYc5Hy
-	GQSDQuKw==;
-Received: from [2601:1c2:980:9ec0::2764]
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qar2L-00AnWf-2V;
-	Tue, 29 Aug 2023 05:13:09 +0000
-Message-ID: <9a05d92f-60c5-6ede-2105-829f09c737b7@infradead.org>
-Date: Mon, 28 Aug 2023 22:13:06 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85860A21
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 05:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693286607; x=1724822607;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1o4jLOHWaKqzesrSwD0QZcHw21CEqlnf0sBTCC4A0ro=;
+  b=BZDym8s5ETbLhO+9IlqioR4kATKCPSAC+rV/MWcvBLSJrIwzK5nEjmwP
+   vCatZS6oKHoQ8xA5PSRvFJmh8SpPcaN3NOQw4PPncplGAP88t8JG/hh9N
+   L7tdb39LIGfGUpP8Bvw/tKzrOWhOrATitgBDLZYj/jhQ95LbDqO1etRWj
+   pa+VyWpTiWgJrJ30C5ADRO7yImbSjtdjEMCMjJDDh4arw889ywtW8Mvhb
+   9hK4djq8TpzPmAclr4bMzl5yTi0Rf5QD2JrLHvDLD6hTbMI0neEpD75ou
+   o/M3zZ21ej4qLNDaW0gjM/8CWKvqg/WoFVYIfAdoNogaaHf0elfv/AvRI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="372695086"
+X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
+   d="scan'208";a="372695086"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 22:23:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="773538172"
+X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
+   d="scan'208";a="773538172"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 28 Aug 2023 22:23:17 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qarC8-0008QF-1I;
+	Tue, 29 Aug 2023 05:23:16 +0000
+Date: Tue, 29 Aug 2023 13:22:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Qais Yousef <qyousef@layalina.io>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [qais-yousef:rt-thermal-pressure 1/2] kernel/sched/rt.c:2650:39:
+ error: 'struct rq' has no member named 'cpu'
+Message-ID: <202308291327.Aj06hv5J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: kernel/user_namespace.c:239: warning: Function parameter or
- member 'map_up' not described in 'idmap_key'
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202308172003.O1QB7TgB-lkp@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202308172003.O1QB7TgB-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Christian,
+tree:   https://github.com/qais-yousef/linux rt-thermal-pressure
+head:   f9adf589d645dfda6f820165dafbc0f9d11747b4
+commit: 6a44180bbdcfdd7281062d068cd85458f74c53e7 [1/2] sched/rt: Handle misfit RT task due to changed uclamp_min value
+config: csky-randconfig-r024-20230829 (https://download.01.org/0day-ci/archive/20230829/202308291327.Aj06hv5J-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308291327.Aj06hv5J-lkp@intel.com/reproduce)
 
-On 8/17/23 05:56, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
-> commit: e227db4d4f125efb1cae2f1337da85bc10b3185e userns: fix a struct's kernel-doc notation
-> date:   7 months ago
-> config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20230817/202308172003.O1QB7TgB-lkp@intel.com/config)
-> compiler: hppa64-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172003.O1QB7TgB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308172003.O1QB7TgB-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> kernel/user_namespace.c:239: warning: Function parameter or member 'map_up' not described in 'idmap_key'
->>> kernel/user_namespace.c:239: warning: Function parameter or member 'id' not described in 'idmap_key'
->>> kernel/user_namespace.c:239: warning: Function parameter or member 'count' not described in 'idmap_key'
->    kernel/user_namespace.c:246: warning: Function parameter or member 'k' not described in 'cmp_map_id'
->    kernel/user_namespace.c:246: warning: Function parameter or member 'e' not described in 'cmp_map_id'
->    kernel/user_namespace.c:277: warning: Function parameter or member 'extents' not described in 'map_id_range_down_max'
->    kernel/user_namespace.c:277: warning: Function parameter or member 'map' not described in 'map_id_range_down_max'
->    kernel/user_namespace.c:277: warning: Function parameter or member 'id' not described in 'map_id_range_down_max'
->    kernel/user_namespace.c:277: warning: Function parameter or member 'count' not described in 'map_id_range_down_max'
->    kernel/user_namespace.c:295: warning: Function parameter or member 'extents' not described in 'map_id_range_down_base'
->    kernel/user_namespace.c:295: warning: Function parameter or member 'map' not described in 'map_id_range_down_base'
->    kernel/user_namespace.c:295: warning: Function parameter or member 'id' not described in 'map_id_range_down_base'
->    kernel/user_namespace.c:295: warning: Function parameter or member 'count' not described in 'map_id_range_down_base'
->    kernel/user_namespace.c:344: warning: Function parameter or member 'extents' not described in 'map_id_up_base'
->    kernel/user_namespace.c:344: warning: Function parameter or member 'map' not described in 'map_id_up_base'
->    kernel/user_namespace.c:344: warning: Function parameter or member 'id' not described in 'map_id_up_base'
->    kernel/user_namespace.c:364: warning: Function parameter or member 'extents' not described in 'map_id_up_max'
->    kernel/user_namespace.c:364: warning: Function parameter or member 'map' not described in 'map_id_up_max'
->    kernel/user_namespace.c:364: warning: Function parameter or member 'id' not described in 'map_id_up_max'
->    kernel/user_namespace.c:776: warning: Function parameter or member 'map' not described in 'insert_extent'
->    kernel/user_namespace.c:776: warning: Function parameter or member 'extent' not described in 'insert_extent'
->    kernel/user_namespace.c:844: warning: Function parameter or member 'map' not described in 'sort_idmaps'
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308291327.Aj06hv5J-lkp@intel.com/
 
-According to 'git blame', all of these come from additions that you made.
+All errors (new ones prefixed by >>):
 
-What do you think about a patch that converts all of these into non-kernel-doc comments?
-I.e., change "/**" to "/*" for the functions and struct?
+   In file included from kernel/sched/build_policy.c:45:
+   kernel/sched/rt.c: In function 'task_tick_rt':
+   kernel/sched/rt.c:2648:14: error: implicit declaration of function 'rt_task_fits_cpu'; did you mean 'rt_task_fits_capacity'? [-Werror=implicit-function-declaration]
+    2648 |         if (!rt_task_fits_cpu(p, cpu_of(rq))) {
+         |              ^~~~~~~~~~~~~~~~
+         |              rt_task_fits_capacity
+>> kernel/sched/rt.c:2650:39: error: 'struct rq' has no member named 'cpu'
+    2650 |                 stop_one_cpu_nowait(rq->cpu, push_cpu_stop,
+         |                                       ^~
+>> kernel/sched/rt.c:2650:46: error: 'push_cpu_stop' undeclared (first use in this function); did you mean 'put_cpu_ptr'?
+    2650 |                 stop_one_cpu_nowait(rq->cpu, push_cpu_stop,
+         |                                              ^~~~~~~~~~~~~
+         |                                              put_cpu_ptr
+   kernel/sched/rt.c:2650:46: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/sched/rt.c:2651:37: error: 'push_task' undeclared (first use in this function); did you mean 'curr_task'?
+    2651 |                                     push_task, &rq->push_work);
+         |                                     ^~~~~~~~~
+         |                                     curr_task
+   cc1: some warnings being treated as errors
 
-> 
-> vim +239 kernel/user_namespace.c
-> 
-> 5c1469de7545a3 Eric W. Biederman 2010-06-13  230  
-> 6397fac4915ab3 Christian Brauner 2017-10-25  231  /**
-> e227db4d4f125e Randy Dunlap      2023-01-07  232   * struct idmap_key - holds the information necessary to find an idmapping in a
-> 6397fac4915ab3 Christian Brauner 2017-10-25  233   * sorted idmap array. It is passed to cmp_map_id() as first argument.
-> 6397fac4915ab3 Christian Brauner 2017-10-25  234   */
-> 6397fac4915ab3 Christian Brauner 2017-10-25  235  struct idmap_key {
-> 6397fac4915ab3 Christian Brauner 2017-10-25  236  	bool map_up; /* true  -> id from kid; false -> kid from id */
-> 6397fac4915ab3 Christian Brauner 2017-10-25  237  	u32 id; /* id to find */
-> 6397fac4915ab3 Christian Brauner 2017-10-25  238  	u32 count; /* == 0 unless used with map_id_range_down() */
-> 6397fac4915ab3 Christian Brauner 2017-10-25 @239  };
-> 6397fac4915ab3 Christian Brauner 2017-10-25  240  
-> 
-> :::::: The code at line 239 was first introduced by commit
-> :::::: 6397fac4915ab3002dc15aae751455da1a852f25 userns: bump idmap limits to 340
-> 
-> :::::: TO: Christian Brauner <christian.brauner@ubuntu.com>
-> :::::: CC: Eric W. Biederman <ebiederm@xmission.com>
-> 
 
-thanks.
+vim +2650 kernel/sched/rt.c
+
+  2630	
+  2631	/*
+  2632	 * scheduler tick hitting a task of our scheduling class.
+  2633	 *
+  2634	 * NOTE: This function can be called remotely by the tick offload that
+  2635	 * goes along full dynticks. Therefore no local assumption can be made
+  2636	 * and everything must be accessed through the @rq and @curr passed in
+  2637	 * parameters.
+  2638	 */
+  2639	static void task_tick_rt(struct rq *rq, struct task_struct *p, int queued)
+  2640	{
+  2641		struct sched_rt_entity *rt_se = &p->rt;
+  2642	
+  2643		update_curr_rt(rq);
+  2644		update_rt_rq_load_avg(rq_clock_pelt(rq), rq, 1);
+  2645	
+  2646		watchdog(rq, p);
+  2647	
+> 2648		if (!rt_task_fits_cpu(p, cpu_of(rq))) {
+  2649			raw_spin_rq_unlock(rq);
+> 2650			stop_one_cpu_nowait(rq->cpu, push_cpu_stop,
+> 2651					    push_task, &rq->push_work);
+  2652			raw_spin_rq_lock(rq);
+  2653			return;
+  2654		}
+  2655	
+  2656		/*
+  2657		 * RR tasks need a special form of timeslice management.
+  2658		 * FIFO tasks have no timeslices.
+  2659		 */
+  2660		if (p->policy != SCHED_RR)
+  2661			return;
+  2662	
+  2663		if (--p->rt.time_slice)
+  2664			return;
+  2665	
+  2666		p->rt.time_slice = sched_rr_timeslice;
+  2667	
+  2668		/*
+  2669		 * Requeue to the end of queue if we (and all of our ancestors) are not
+  2670		 * the only element on the queue
+  2671		 */
+  2672		for_each_sched_rt_entity(rt_se) {
+  2673			if (rt_se->run_list.prev != rt_se->run_list.next) {
+  2674				requeue_task_rt(rq, p, 0);
+  2675				resched_curr(rq);
+  2676				return;
+  2677			}
+  2678		}
+  2679	}
+  2680	
+
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
