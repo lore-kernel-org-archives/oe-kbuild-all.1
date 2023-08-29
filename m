@@ -1,181 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B004210E2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 05:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FD8A21;
+	Tue, 29 Aug 2023 05:32:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693286612; x=1724822612;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=lkPTYICtUGyrdJu3DLzKhaTXKV8kNIrQF5BZ+2++mHE=;
-  b=mtaSEiYnunZ2BKyY928paBPcuOnoxKzZXDbkIHlcTXs9fKG+cWPblWmm
-   PHnlCKi1PJm8zvhrY3pPa328F+os55cMp7tQ6dSBkOGoASH+cNM8Oug7Q
-   jicXOcLDYeirobx+x7Z967hOgCjfkbQYlHko++Cc/RhLhjDWfosqLigCI
-   RFjBEBJ/yKxITxid9Pa0+XOjoZkYxeXS3hLsvUYR0nCVa3i/rizA9hfJ1
-   Zu+ZnBwXMntjFF/QJFhhpqGqKDNgPSUqoAibTJEdZtWuxekBtDo6X65Yz
-   ZE3XMNDxxlN+wR9VO9eVrJNnDr9SsY7uzL+Cy01BG6ijHz2u/8Ofba7S0
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="372695091"
+  t=1693287135; x=1724823135;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=wMMXozrau2R7WKvCKRz9bKh+AzcpumoqQSilIgVpgw8=;
+  b=OaXLvejXfgRKjOZ91q3K93J+MyGGJmc0oYvxjR0jr58CE8yXuMDBa4gY
+   zMXKu/3yXlFPGcOkRBkSk5Vh5e4YnR6P4sT00n5CwVbo9fcyUBPVABqOG
+   N7x7Rr1SCVpR2v1vt0leQAJ5ybKpwwQD2zhXjZmklereNqUr/ABJkUAsv
+   PaBCNoCLJnwEet9mBDZKplNmwHDLqvz7uKEszxCaFQpEYvtghl/GH8FGC
+   l3gvDvmesWxyQi2CCRDexkYlZjERkqs2AoNyJex+QCcsph8RJJ26zsvsu
+   HJVwxDaGF/bxu/+so5afrv1eZavHIlRVaPBEMUz0rm8Rk/+fXRtxTpwag
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="461645115"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="372695091"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 22:23:21 -0700
+   d="scan'208";a="461645115"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 22:31:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="773538173"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="808547821"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="773538173"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 28 Aug 2023 22:23:17 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qarC8-0008QI-1Y
-	for oe-kbuild-all@lists.linux.dev;
-	Tue, 29 Aug 2023 05:23:16 +0000
-Date: Tue, 29 Aug 2023 13:22:28 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:5.15/dovetail-xenomai 2297/26832]
- arch/arm/mm/fault.c:160:15: warning: no previous prototype for function
- 'fault_entry'
-Message-ID: <202308291313.LaheCtKO-lkp@intel.com>
+   d="scan'208";a="808547821"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga004.fm.intel.com with ESMTP; 28 Aug 2023 22:31:47 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 28 Aug 2023 22:31:47 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 28 Aug 2023 22:31:47 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.48) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Mon, 28 Aug 2023 22:31:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FNwpZ1x8m8GdjAa0m03+6Uk9HXZyhY8//UDsH/GMoBDRp27GTvHwIXyqI+NYYo6PTrwhU5Qhj99TUngr0/eSgZMt7p4X7pb/Jt+bmKTStSrJjmy79QxbQgFtJrVirgEjgML8IY5xjRYcyv/IlVYdwiCPGK14XGZpTOfUuRviCz6fl6Y4TxDp2fdzLmo4z4eYJTVaMQ9pPXKx4zP1FUZkkZf0HP5lKlAswk8fFJvtyP3/kuJ3FtDHPezLa5mYCqk7BPALphE0nq42DoyzExkSyThkJ3XibribcCyQqGv1IDzXBRU7hYlmaCkIIroejBcJ7HEmVaOVznLYIwW0EEu27Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tgRNROQZvJQJdgF8SRr6TDJBbXYTFrT7geGiA7wmkLs=;
+ b=So5Z9yisrnhlRjJMJo9V/dcDbWBRL8kKQAZDd3Y+aRxxYndOe9Yz+s1f2kVpXHct8aVEZZwflBY4NnUszucr5R6rSo576dxuUDzGIpX/e00c730fLQRiHn616nHbSmHWQRnYr/yVr5kkkfHo5XdRg/sIqkXkLN+9+sLTnj5vtmDF1qHAtRf1xSroKWGOJ3iSNPxGhiuPJNJ1lttijFKBv8U5Q6TGmzOMh8H650YzsBTKxLrrPACFzfVNGvJ0YuENgYZ72lSQdwZCKUhx7Xhrs08Y/THjMb6SVwAy5qMFKulQgnxIUpmMFqp/SJTF8fYXGI84FWN7He7MvhsXvwtr0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by MW4PR11MB6739.namprd11.prod.outlook.com (2603:10b6:303:20b::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.35; Tue, 29 Aug
+ 2023 05:31:43 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::d718:207a:ec74:2556]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::d718:207a:ec74:2556%5]) with mapi id 15.20.6699.034; Tue, 29 Aug 2023
+ 05:31:43 +0000
+Date: Tue, 29 Aug 2023 13:31:33 +0800
+From: Philip Li <philip.li@intel.com>
+To: Borislav Petkov <bp@alien8.de>
+CC: kernel test robot <lkp@intel.com>, <llvm@lists.linux.dev>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: arch/x86/kernel/cpu/amd.c:1289:6: warning: no previous prototype
+ for function 'amd_check_microcode'
+Message-ID: <ZO2CtepNj3jTAYCF@rli9-mobl>
+References: <202308291220.DOn00Y1A-lkp@intel.com>
+ <20230829044745.GAZO14cRtwAnfERdR9@fat_crate.local>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230829044745.GAZO14cRtwAnfERdR9@fat_crate.local>
+X-ClientProxiedBy: SG2PR04CA0162.apcprd04.prod.outlook.com (2603:1096:4::24)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|MW4PR11MB6739:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1675c24e-8e98-4663-36c0-08dba8513a48
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PizKS/g1MuWIUSdITzSYjT3UcB3sRlmiZSfaO5YJx3rBu7H9Pginq14MRhULrTV+ea4WSS+nn+AHhgplAUDrOecNv6XP+/G1XxQAJ/XSY16M2QVQOKRxjTAY3VDPGfJ9Oh1SXQP1bIj1pVMIOlu8YWzwfhksyA8sUq7XyDCCT5NFPBoEaoov9uUBB/7YgjMBTTH6cQjtg4L0X1cAqrpsLlBbPJqnAPXUB4HPM2t7Whel0hZx4RVknDe0tLlggPiLP8Sj4OO/+dLHGu6/ra4nkVcF4l4DNssTS7AHuo60SDMy2BJS9hgQN9EeebV8sgVHgNzUmaI83s5459qEWH0gHuW2AIFd9dRcq3sYq8wSz6mNSXWmxw2ThLR2r48pUhcsHotPivupXHF+ulzJ8nxcRQF1bUY33t41bi34FjkO0CDymxsbWhwlASV5+3D6oad66lFtDsVn0eTXiiISbomRUkSsiibanYqsmG7G4nn4c8xzGVZS6amm3wJrecBwE9azwkjtL9pA4ZWoPMgISpw+rTQHYPaDWzNz5X+jag5eUpo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(366004)(346002)(396003)(376002)(136003)(1800799009)(451199024)(186009)(9686003)(6512007)(38100700002)(316002)(6916009)(41300700001)(82960400001)(4326008)(2906002)(86362001)(33716001)(26005)(5660300002)(44832011)(8676002)(8936002)(6666004)(6506007)(966005)(6486002)(66556008)(66476007)(66946007)(478600001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?X4XOOjIKqb7usTckqluctGPCOGfNVpM8j2krnicO4VrwdomKY3zFXaH5F9K9?=
+ =?us-ascii?Q?REGIOgdVlRFWlTZCPJ4l5ujc3dSBGuoaTF6L+V2E3jN1z/5EdykxDbYogcPc?=
+ =?us-ascii?Q?emcrBe0VjX/FQvYo4TB3eFEMkZdfX8LVjWZ9VKWExO0KQVOGf8vDiMdoefww?=
+ =?us-ascii?Q?K0VPuOHDPzysdXHZENVZGxfX83ruGJg6Aaee2smIQFYco4zlvY27oQC8Ipzr?=
+ =?us-ascii?Q?351/2xWoTvVNrm/UdppbIuvEC7hWGLgzazN6nTFQ8VpSsySdZdkRdfYK3aKM?=
+ =?us-ascii?Q?9jrW4V+Yce3KJy4aZDqQb5iRO8LUvt5eqeF6YhZhC37B3S1EUfXxY2U+rW40?=
+ =?us-ascii?Q?ObN2YC/W9sFe1868lc9t/r60dZuBS+JrFlBtG4lwSHVWbAA+KfGma0cagZCK?=
+ =?us-ascii?Q?DCbT9C9FDSsQ/SXSuVi/Hlb+sD3dbAFGxfXtiIH7kFMZAoyqF4oozBKT/WA2?=
+ =?us-ascii?Q?Lej6pezq1oIf0M7HwqqmAxY9Bgt2TiX5uLQA3KFjN/AmoC7Uhc/9MRy+ia4e?=
+ =?us-ascii?Q?yUy2w7DECk49BPct/xu9kIxWt9c3aWnn8qG4SkZue7l8pUJqAZ3ApN2nu4lG?=
+ =?us-ascii?Q?xSq9j4oezrDP6YgWZ3Bdndz4yqfjsOVYDKn4ExbQmtcDn1D03OADvmH+UH5r?=
+ =?us-ascii?Q?sDepSL/0rWMwXvmIGTzgT5lP+74ydey/WOPONmPkZIbk0QE1aPAmJ+ZmYqZc?=
+ =?us-ascii?Q?HA1MzCqSXJk0LAQVkVbxRIfMpbDEbPrnqndXRN8p67tc4/acT21bxbbowox+?=
+ =?us-ascii?Q?1u1Dt9gUdRX8JSLUuavq6jdCAh2InpzPBNyFEIBHJNc3jIyFAvk/r1bSsGh9?=
+ =?us-ascii?Q?u8ldixtM8WzV/t1aNTS0BlqGnr0TyEDVT9bLrhE6dLjySW4U8jODwrdGgqV9?=
+ =?us-ascii?Q?PSF81HFlywUCIW8VPVoNQkq97+zmMltuBA5e0wqA9SWMQb+Kr6zt0jpVMGed?=
+ =?us-ascii?Q?l8kdoVGo/c/NiMd0weXfDh8k3XZBF46KhB+7cLr/QhhAJhfoDog4MI4pHKMJ?=
+ =?us-ascii?Q?pmgjX2Tg6Gy5btsDKd9fl4QW304jDL8Kgj+Smo9Gdop3+aVtQe4qZLFtOv/I?=
+ =?us-ascii?Q?J7wJ/hWVqcLndV/+veOCs9GU7xyrBtazkHAXoZCEjRB0YHnzOO8O1fhqXc0x?=
+ =?us-ascii?Q?zP08TCpbiZ/7VUyhKxJFG0cv8SyKlHwYPpOG5tDK+asFKR8vQaf7FS49hHzS?=
+ =?us-ascii?Q?jh09lAS0ZBtD+3WEVxCY08z3Y5Ft2EjtDANIJuNCq3/ldG21FC4hZeCoNj+Z?=
+ =?us-ascii?Q?im1VTdYXnW7fJKU6ZoStBWguARLGpFrblSE47RMr+4qxjSeaOJ7MFRJlaa+A?=
+ =?us-ascii?Q?V9ZABtPPlnkaZPeARpOmaRgQQNvGl7kNC0lcR35p9uQ8YnY91gLGDAB7jz8Q?=
+ =?us-ascii?Q?TT5ygRSLu/Yw2/GvBbkj54olDKMbeXa2Dy9uLpBwzrBzKRUk4yu41CQQtk96?=
+ =?us-ascii?Q?YpDBKy7hK0ul3R47kVNvn7qG4rUqa+wuG+VTgq64Yz6CGqhcUqblS7Rl3GgW?=
+ =?us-ascii?Q?aEsYNIXA/Qu116bA21+ZaHEvc1MDZCWgFNoupgGpRjLux1B2CdIT6AXbPw3A?=
+ =?us-ascii?Q?aDctl1ZdFGmDhS1+7d1NiW1glCsb617FzxNrd3qY?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1675c24e-8e98-4663-36c0-08dba8513a48
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 05:31:43.1306
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8NC+gLgc2wUFwB+kMSeJQVUibDtjzTrF3iA80MI2n4tqQdyzD3uQPxKj1vFJVXk3MdJJfafEL6KUKkZm/OsvOQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6739
+X-OriginatorOrg: intel.com
 
-Hi Philippe,
+On Tue, Aug 29, 2023 at 06:47:45AM +0200, Borislav Petkov wrote:
+> On Tue, Aug 29, 2023 at 12:07:59PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   1c59d383390f970b891b503b7f79b63a02db2ec5
+> 
+> It doesn't trigger here:
 
-FYI, the error/warning still remains.
+Sorry Boris for this invalid report to cost your time. We will fix the code
+issue asap to understand why this one is sent out when head is good.
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/dovetail-xenomai
-head:   ef4cd214d7c9836eb64fced61f30c02eadf8a91c
-commit: 609f24eceac5bc30ee8dabb2168eba914c1a18e0 [2297/26832] ARM: dovetail: route traps
-config: arm-randconfig-r033-20230828 (https://download.01.org/0day-ci/archive/20230829/202308291313.LaheCtKO-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308291313.LaheCtKO-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308291313.LaheCtKO-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> arch/arm/mm/fault.c:160:15: warning: no previous prototype for function 'fault_entry' [-Wmissing-prototypes]
-   unsigned long fault_entry(int exception, struct pt_regs *regs)
-                 ^
-   arch/arm/mm/fault.c:160:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   unsigned long fault_entry(int exception, struct pt_regs *regs)
-   ^
-   static 
-   arch/arm/mm/fault.c:609:1: warning: no previous prototype for function 'do_DataAbort' [-Wmissing-prototypes]
-   do_DataAbort(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
-   ^
-   arch/arm/mm/fault.c:608:12: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   asmlinkage void
-              ^
-              static 
-   arch/arm/mm/fault.c:642:1: warning: no previous prototype for function 'do_PrefetchAbort' [-Wmissing-prototypes]
-   do_PrefetchAbort(unsigned long addr, unsigned int ifsr, struct pt_regs *regs)
-   ^
-   arch/arm/mm/fault.c:641:12: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   asmlinkage void
-              ^
-              static 
-   3 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GENERIC_CLOCKSOURCE_VDSO
-   Depends on [n]: HAVE_GENERIC_VDSO [=n]
-   Selected by [y]:
-   - CLKSRC_EXYNOS_MCT [=y] && GENERIC_CLOCKEVENTS [=y] && (ARM [=y] || ARM64)
-   - CLKSRC_IMX_GPT [=y] && GENERIC_CLOCKEVENTS [=y] && (ARM [=y] || ARM64) && HAVE_CLK [=y]
-   - CLKSRC_ST_LPC [=y] && GENERIC_CLOCKEVENTS [=y] && HAS_IOMEM [=y]
-
-
-vim +/fault_entry +160 arch/arm/mm/fault.c
-
-    89	
-    90	/*
-    91	 * This is useful to dump out the page tables associated with
-    92	 * 'addr' in mm 'mm'.
-    93	 */
-    94	void show_pte(const char *lvl, struct mm_struct *mm, unsigned long addr)
-    95	{
-    96		pgd_t *pgd;
-    97	
-    98		if (!mm)
-    99			mm = &init_mm;
-   100	
-   101		printk("%spgd = %p\n", lvl, mm->pgd);
-   102		pgd = pgd_offset(mm, addr);
-   103		printk("%s[%08lx] *pgd=%08llx", lvl, addr, (long long)pgd_val(*pgd));
-   104	
-   105		do {
-   106			p4d_t *p4d;
-   107			pud_t *pud;
-   108			pmd_t *pmd;
-   109			pte_t *pte;
-   110	
-   111			p4d = p4d_offset(pgd, addr);
-   112			if (p4d_none(*p4d))
-   113				break;
-   114	
-   115			if (p4d_bad(*p4d)) {
-   116				pr_cont("(bad)");
-   117				break;
-   118			}
-   119	
-   120			pud = pud_offset(p4d, addr);
-   121			if (PTRS_PER_PUD != 1)
-   122				pr_cont(", *pud=%08llx", (long long)pud_val(*pud));
-   123	
-   124			if (pud_none(*pud))
-   125				break;
-   126	
-   127			if (pud_bad(*pud)) {
-   128				pr_cont("(bad)");
-   129				break;
-   130			}
-   131	
-   132			pmd = pmd_offset(pud, addr);
-   133			if (PTRS_PER_PMD != 1)
-   134				pr_cont(", *pmd=%08llx", (long long)pmd_val(*pmd));
-   135	
-   136			if (pmd_none(*pmd))
-   137				break;
-   138	
-   139			if (pmd_bad(*pmd)) {
-   140				pr_cont("(bad)");
-   141				break;
-   142			}
-   143	
-   144			/* We must not map this if we have highmem enabled */
-   145			if (PageHighMem(pfn_to_page(pmd_val(*pmd) >> PAGE_SHIFT)))
-   146				break;
-   147	
-   148			pte = pte_offset_map(pmd, addr);
-   149			pr_cont(", *pte=%08llx", (long long)pte_val(*pte));
-   150	#ifndef CONFIG_ARM_LPAE
-   151			pr_cont(", *ppte=%08llx",
-   152			       (long long)pte_val(pte[PTE_HWTABLE_PTRS]));
-   153	#endif
-   154			pte_unmap(pte);
-   155		} while(0);
-   156	
-   157		pr_cont("\n");
-   158	}
-   159	#else					/* CONFIG_MMU */
- > 160	unsigned long fault_entry(int exception, struct pt_regs *regs)
-   161	{
-   162		return 0;
-   163	}
-   164	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> $ git describe
+> v6.5-1207-g1c59d383390f
+> 
+> $ make ARCH=i386 CC=clang-16 HOSTCC=clang-16 allnoconfig
+> 
+> $ make W=1 ARCH=i386 CC=clang-16 HOSTCC=clang-16 arch/x86/kernel/cpu/
+> 
+> ...
+>   CC      arch/x86/kernel/cpu/intel_pconfig.o
+>   CC      arch/x86/kernel/cpu/tsx.o
+>   CC      arch/x86/kernel/cpu/amd.o
+>   CC      arch/x86/kernel/cpu/hygon.o
+>   CC      arch/x86/kernel/cpu/centaur.o
+> ...
+> 
+> > commit: 522b1d69219d8f083173819fde04f994aa051a98 x86/cpu/amd: Add a Zenbleed fix
+> > date:   6 weeks ago
+> 
+> Likely an old report.
+> 
+> -- 
+> Regards/Gruss,
+>     Boris.
+> 
+> https://people.kernel.org/tglx/notes-about-netiquette
+> 
