@@ -1,55 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FAB17AD2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 14:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2106B17ACC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 14:32:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693319484; x=1724855484;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yw62dOklpzeSWoXfbi5MAtuQ2UE1D/akr1KXO4x2oJE=;
-  b=l/aeZ9/slZjV2exW255eFOjmlJ5xCIEjvlFob2JcZU5lorwan++LZ9UE
-   8rzuis+t35RBs68FMOQ7g/Eifk7ZaJPzRV0d2FqR7kgFwHUOhBniLmhdw
-   3t/XrCesfekznmvCBDtcPOXqYQB9Gb/KFFyGafl4HbsSXdq6sb9CucZpE
-   d82v9Ot8mCuE0FE5qIMdspN7FADT9ItQnE8QPZ/bnDQRnkT43jCsp/VvD
-   QMA5iTMgesG78R4bg1V9vZLtLZQZxxm271Ki31Dp0xEhW+WcnIGWI8SBD
-   qDFwG8N73FRsDe5cNDrUsII9rCbRkl9k0GF+DoBBwVXBDFrXJUBjy6mn2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="374274090"
+  t=1693319533; x=1724855533;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bKbUC7frJEONdCr40wx4Z/CyLzHeBQhegSW+hMKs8Ss=;
+  b=dD3Vbg0Nqk3lX9D4lJZvEXc7sSuJYkVrLpvHulOvkOCoRw5v2rFdJ0Cs
+   jQS6E/J0PKdUwkaGTUToCVBRdkU4WfJpc/YQ6vgHUnzSrN0CTFHubceQT
+   GnaAvwZAmYj3GoJt7ZQer07sZNqwu6Ulz+c13HDpb/E/9pNrw1J9REJHR
+   9nOo0ZAwI3Q02yvYaMA9lHClRSBvc+8+x1lICRFUIYkvDqPxx4fpQpXcK
+   UMqiH9tBNyWTbKu8pk5Z7BIUcBMFXlZkGx2BksWCEAn30O8IBIZE91NB0
+   +as1cQ6x7oY2ZM48lXcprO6NF8HhOTxzNQlaP8pYOSK3RdZ7MGpq3DQjk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="355703399"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="374274090"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 07:31:14 -0700
+   d="scan'208";a="355703399"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 07:31:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="808691186"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="1069481405"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="808691186"
+   d="scan'208";a="1069481405"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Aug 2023 07:31:10 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 29 Aug 2023 07:31:34 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qazk5-0008oB-2V;
-	Tue, 29 Aug 2023 14:30:58 +0000
-Date: Tue, 29 Aug 2023 22:30:19 +0800
+	id 1qazkL-0008oD-0p;
+	Tue, 29 Aug 2023 14:31:14 +0000
+Date: Tue, 29 Aug 2023 22:30:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Uladzislau Rezki (Sony)" <urezki@gmail.com>, linux-mm@kvack.org,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	LKML <linux-kernel@vger.kernel.org>, Baoquan He <bhe@redhat.com>,
-	Lorenzo Stoakes <lstoakes@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Dave Chinner <david@fromorbit.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Oleksiy Avramchenko <oleksiy.avramchenko@sony.com>
-Subject: Re: [PATCH v2 4/9] mm: vmalloc: Remove global vmap_area_root rb-tree
-Message-ID: <202308292228.RRrGUYyB-lkp@intel.com>
-References: <20230829081142.3619-5-urezki@gmail.com>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [pci:controller/qcom-ep 3/3]
+ drivers/pci/controller/dwc/pcie-qcom-ep.c:198: warning: Function parameter
+ or member 'icc_mem' not described in 'qcom_pcie_ep'
+Message-ID: <202308292252.HNCCTM4u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,84 +48,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230829081142.3619-5-urezki@gmail.com>
 
-Hi Uladzislau,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uladzislau-Rezki-Sony/mm-vmalloc-Add-va_alloc-helper/20230829-161248
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230829081142.3619-5-urezki%40gmail.com
-patch subject: [PATCH v2 4/9] mm: vmalloc: Remove global vmap_area_root rb-tree
-config: csky-randconfig-r024-20230829 (https://download.01.org/0day-ci/archive/20230829/202308292228.RRrGUYyB-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292228.RRrGUYyB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/qcom-ep
+head:   0c104996e6a856536e311c6fee66d8099c5c6c7b
+commit: 0c104996e6a856536e311c6fee66d8099c5c6c7b [3/3] PCI: qcom-ep: Add ICC bandwidth voting support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230829/202308292252.HNCCTM4u-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292252.HNCCTM4u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308292228.RRrGUYyB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308292252.HNCCTM4u-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/vmalloc.c: In function 'vmap_init_free_space':
->> mm/vmalloc.c:4506:45: warning: ordered comparison of pointer with integer zero [-Wextra]
-    4506 |                 if (busy->addr - vmap_start > 0) {
-         |                                             ^
+>> drivers/pci/controller/dwc/pcie-qcom-ep.c:198: warning: Function parameter or member 'icc_mem' not described in 'qcom_pcie_ep'
 
 
-vim +4506 mm/vmalloc.c
+vim +198 drivers/pci/controller/dwc/pcie-qcom-ep.c
 
-  4491	
-  4492	static void vmap_init_free_space(void)
-  4493	{
-  4494		unsigned long vmap_start = 1;
-  4495		const unsigned long vmap_end = ULONG_MAX;
-  4496		struct vmap_area *free;
-  4497		struct vm_struct *busy;
-  4498	
-  4499		/*
-  4500		 *     B     F     B     B     B     F
-  4501		 * -|-----|.....|-----|-----|-----|.....|-
-  4502		 *  |           The KVA space           |
-  4503		 *  |<--------------------------------->|
-  4504		 */
-  4505		for (busy = vmlist; busy; busy = busy->next) {
-> 4506			if (busy->addr - vmap_start > 0) {
-  4507				free = kmem_cache_zalloc(vmap_area_cachep, GFP_NOWAIT);
-  4508				if (!WARN_ON_ONCE(!free)) {
-  4509					free->va_start = vmap_start;
-  4510					free->va_end = (unsigned long) busy->addr;
-  4511	
-  4512					insert_vmap_area_augment(free, NULL,
-  4513						&free_vmap_area_root,
-  4514							&free_vmap_area_list);
-  4515				}
-  4516			}
-  4517	
-  4518			vmap_start = (unsigned long) busy->addr + busy->size;
-  4519		}
-  4520	
-  4521		if (vmap_end - vmap_start > 0) {
-  4522			free = kmem_cache_zalloc(vmap_area_cachep, GFP_NOWAIT);
-  4523			if (!WARN_ON_ONCE(!free)) {
-  4524				free->va_start = vmap_start;
-  4525				free->va_end = vmap_end;
-  4526	
-  4527				insert_vmap_area_augment(free, NULL,
-  4528					&free_vmap_area_root,
-  4529						&free_vmap_area_list);
-  4530			}
-  4531		}
-  4532	}
-  4533	
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  150  
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  151  /**
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  152   * struct qcom_pcie_ep - Qualcomm PCIe Endpoint Controller
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  153   * @pci: Designware PCIe controller struct
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  154   * @parf: Qualcomm PCIe specific PARF register base
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  155   * @elbi: Designware PCIe specific ELBI register base
+6dbba2b53c3bcb Manivannan Sadhasivam     2022-09-14  156   * @mmio: MMIO register base
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  157   * @perst_map: PERST regmap
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  158   * @mmio_res: MMIO region resource
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  159   * @core_reset: PCIe Endpoint core reset
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  160   * @reset: PERST# GPIO
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  161   * @wake: WAKE# GPIO
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  162   * @phy: PHY controller block
+6dbba2b53c3bcb Manivannan Sadhasivam     2022-09-14  163   * @debugfs: PCIe Endpoint Debugfs directory
+e2efd31465b1d9 Manivannan Sadhasivam     2022-09-14  164   * @clks: PCIe clocks
+e2efd31465b1d9 Manivannan Sadhasivam     2022-09-14  165   * @num_clks: PCIe clocks count
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  166   * @perst_en: Flag for PERST enable
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  167   * @perst_sep_en: Flag for PERST separation enable
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  168   * @link_status: PCIe Link status
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  169   * @global_irq: Qualcomm PCIe specific Global IRQ
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  170   * @perst_irq: PERST# IRQ
+f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  171   */
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  172  struct qcom_pcie_ep {
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  173  	struct dw_pcie pci;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  174  
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  175  	void __iomem *parf;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  176  	void __iomem *elbi;
+6dbba2b53c3bcb Manivannan Sadhasivam     2022-09-14  177  	void __iomem *mmio;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  178  	struct regmap *perst_map;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  179  	struct resource *mmio_res;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  180  
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  181  	struct reset_control *core_reset;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  182  	struct gpio_desc *reset;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  183  	struct gpio_desc *wake;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  184  	struct phy *phy;
+6dbba2b53c3bcb Manivannan Sadhasivam     2022-09-14  185  	struct dentry *debugfs;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  186  
+0c104996e6a856 Krishna chaitanya chundru 2023-07-19  187  	struct icc_path *icc_mem;
+0c104996e6a856 Krishna chaitanya chundru 2023-07-19  188  
+e2efd31465b1d9 Manivannan Sadhasivam     2022-09-14  189  	struct clk_bulk_data *clks;
+e2efd31465b1d9 Manivannan Sadhasivam     2022-09-14  190  	int num_clks;
+e2efd31465b1d9 Manivannan Sadhasivam     2022-09-14  191  
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  192  	u32 perst_en;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  193  	u32 perst_sep_en;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  194  
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  195  	enum qcom_pcie_ep_link_status link_status;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  196  	int global_irq;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  197  	int perst_irq;
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20 @198  };
+f55fee56a63103 Manivannan Sadhasivam     2021-09-20  199  
+
+:::::: The code at line 198 was first introduced by commit
+:::::: f55fee56a631032969480e4b0ee5d79734fe3c69 PCI: qcom-ep: Add Qualcomm PCIe Endpoint controller driver
+
+:::::: TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
