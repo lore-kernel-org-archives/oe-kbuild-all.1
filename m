@@ -1,42 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85860A21
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 05:23:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B004210E2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 05:23:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693286607; x=1724822607;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1o4jLOHWaKqzesrSwD0QZcHw21CEqlnf0sBTCC4A0ro=;
-  b=BZDym8s5ETbLhO+9IlqioR4kATKCPSAC+rV/MWcvBLSJrIwzK5nEjmwP
-   vCatZS6oKHoQ8xA5PSRvFJmh8SpPcaN3NOQw4PPncplGAP88t8JG/hh9N
-   L7tdb39LIGfGUpP8Bvw/tKzrOWhOrATitgBDLZYj/jhQ95LbDqO1etRWj
-   pa+VyWpTiWgJrJ30C5ADRO7yImbSjtdjEMCMjJDDh4arw889ywtW8Mvhb
-   9hK4djq8TpzPmAclr4bMzl5yTi0Rf5QD2JrLHvDLD6hTbMI0neEpD75ou
-   o/M3zZ21ej4qLNDaW0gjM/8CWKvqg/WoFVYIfAdoNogaaHf0elfv/AvRI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="372695086"
+  t=1693286612; x=1724822612;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=lkPTYICtUGyrdJu3DLzKhaTXKV8kNIrQF5BZ+2++mHE=;
+  b=mtaSEiYnunZ2BKyY928paBPcuOnoxKzZXDbkIHlcTXs9fKG+cWPblWmm
+   PHnlCKi1PJm8zvhrY3pPa328F+os55cMp7tQ6dSBkOGoASH+cNM8Oug7Q
+   jicXOcLDYeirobx+x7Z967hOgCjfkbQYlHko++Cc/RhLhjDWfosqLigCI
+   RFjBEBJ/yKxITxid9Pa0+XOjoZkYxeXS3hLsvUYR0nCVa3i/rizA9hfJ1
+   Zu+ZnBwXMntjFF/QJFhhpqGqKDNgPSUqoAibTJEdZtWuxekBtDo6X65Yz
+   ZE3XMNDxxlN+wR9VO9eVrJNnDr9SsY7uzL+Cy01BG6ijHz2u/8Ofba7S0
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="372695091"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="372695086"
+   d="scan'208";a="372695091"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 22:23:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="773538172"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="773538173"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="773538172"
+   d="scan'208";a="773538173"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
   by orsmga001.jf.intel.com with ESMTP; 28 Aug 2023 22:23:17 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qarC8-0008QF-1I;
+	id 1qarC8-0008QI-1Y
+	for oe-kbuild-all@lists.linux.dev;
 	Tue, 29 Aug 2023 05:23:16 +0000
-Date: Tue, 29 Aug 2023 13:22:27 +0800
+Date: Tue, 29 Aug 2023 13:22:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qais Yousef <qyousef@layalina.io>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [qais-yousef:rt-thermal-pressure 1/2] kernel/sched/rt.c:2650:39:
- error: 'struct rq' has no member named 'cpu'
-Message-ID: <202308291327.Aj06hv5J-lkp@intel.com>
+Subject: [intel-lts:5.15/dovetail-xenomai 2297/26832]
+ arch/arm/mm/fault.c:160:15: warning: no previous prototype for function
+ 'fault_entry'
+Message-ID: <202308291313.LaheCtKO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,94 +47,134 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/qais-yousef/linux rt-thermal-pressure
-head:   f9adf589d645dfda6f820165dafbc0f9d11747b4
-commit: 6a44180bbdcfdd7281062d068cd85458f74c53e7 [1/2] sched/rt: Handle misfit RT task due to changed uclamp_min value
-config: csky-randconfig-r024-20230829 (https://download.01.org/0day-ci/archive/20230829/202308291327.Aj06hv5J-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308291327.Aj06hv5J-lkp@intel.com/reproduce)
+Hi Philippe,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/dovetail-xenomai
+head:   ef4cd214d7c9836eb64fced61f30c02eadf8a91c
+commit: 609f24eceac5bc30ee8dabb2168eba914c1a18e0 [2297/26832] ARM: dovetail: route traps
+config: arm-randconfig-r033-20230828 (https://download.01.org/0day-ci/archive/20230829/202308291313.LaheCtKO-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308291313.LaheCtKO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308291327.Aj06hv5J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308291313.LaheCtKO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:45:
-   kernel/sched/rt.c: In function 'task_tick_rt':
-   kernel/sched/rt.c:2648:14: error: implicit declaration of function 'rt_task_fits_cpu'; did you mean 'rt_task_fits_capacity'? [-Werror=implicit-function-declaration]
-    2648 |         if (!rt_task_fits_cpu(p, cpu_of(rq))) {
-         |              ^~~~~~~~~~~~~~~~
-         |              rt_task_fits_capacity
->> kernel/sched/rt.c:2650:39: error: 'struct rq' has no member named 'cpu'
-    2650 |                 stop_one_cpu_nowait(rq->cpu, push_cpu_stop,
-         |                                       ^~
->> kernel/sched/rt.c:2650:46: error: 'push_cpu_stop' undeclared (first use in this function); did you mean 'put_cpu_ptr'?
-    2650 |                 stop_one_cpu_nowait(rq->cpu, push_cpu_stop,
-         |                                              ^~~~~~~~~~~~~
-         |                                              put_cpu_ptr
-   kernel/sched/rt.c:2650:46: note: each undeclared identifier is reported only once for each function it appears in
->> kernel/sched/rt.c:2651:37: error: 'push_task' undeclared (first use in this function); did you mean 'curr_task'?
-    2651 |                                     push_task, &rq->push_work);
-         |                                     ^~~~~~~~~
-         |                                     curr_task
-   cc1: some warnings being treated as errors
+>> arch/arm/mm/fault.c:160:15: warning: no previous prototype for function 'fault_entry' [-Wmissing-prototypes]
+   unsigned long fault_entry(int exception, struct pt_regs *regs)
+                 ^
+   arch/arm/mm/fault.c:160:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   unsigned long fault_entry(int exception, struct pt_regs *regs)
+   ^
+   static 
+   arch/arm/mm/fault.c:609:1: warning: no previous prototype for function 'do_DataAbort' [-Wmissing-prototypes]
+   do_DataAbort(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
+   ^
+   arch/arm/mm/fault.c:608:12: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   asmlinkage void
+              ^
+              static 
+   arch/arm/mm/fault.c:642:1: warning: no previous prototype for function 'do_PrefetchAbort' [-Wmissing-prototypes]
+   do_PrefetchAbort(unsigned long addr, unsigned int ifsr, struct pt_regs *regs)
+   ^
+   arch/arm/mm/fault.c:641:12: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   asmlinkage void
+              ^
+              static 
+   3 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GENERIC_CLOCKSOURCE_VDSO
+   Depends on [n]: HAVE_GENERIC_VDSO [=n]
+   Selected by [y]:
+   - CLKSRC_EXYNOS_MCT [=y] && GENERIC_CLOCKEVENTS [=y] && (ARM [=y] || ARM64)
+   - CLKSRC_IMX_GPT [=y] && GENERIC_CLOCKEVENTS [=y] && (ARM [=y] || ARM64) && HAVE_CLK [=y]
+   - CLKSRC_ST_LPC [=y] && GENERIC_CLOCKEVENTS [=y] && HAS_IOMEM [=y]
 
 
-vim +2650 kernel/sched/rt.c
+vim +/fault_entry +160 arch/arm/mm/fault.c
 
-  2630	
-  2631	/*
-  2632	 * scheduler tick hitting a task of our scheduling class.
-  2633	 *
-  2634	 * NOTE: This function can be called remotely by the tick offload that
-  2635	 * goes along full dynticks. Therefore no local assumption can be made
-  2636	 * and everything must be accessed through the @rq and @curr passed in
-  2637	 * parameters.
-  2638	 */
-  2639	static void task_tick_rt(struct rq *rq, struct task_struct *p, int queued)
-  2640	{
-  2641		struct sched_rt_entity *rt_se = &p->rt;
-  2642	
-  2643		update_curr_rt(rq);
-  2644		update_rt_rq_load_avg(rq_clock_pelt(rq), rq, 1);
-  2645	
-  2646		watchdog(rq, p);
-  2647	
-> 2648		if (!rt_task_fits_cpu(p, cpu_of(rq))) {
-  2649			raw_spin_rq_unlock(rq);
-> 2650			stop_one_cpu_nowait(rq->cpu, push_cpu_stop,
-> 2651					    push_task, &rq->push_work);
-  2652			raw_spin_rq_lock(rq);
-  2653			return;
-  2654		}
-  2655	
-  2656		/*
-  2657		 * RR tasks need a special form of timeslice management.
-  2658		 * FIFO tasks have no timeslices.
-  2659		 */
-  2660		if (p->policy != SCHED_RR)
-  2661			return;
-  2662	
-  2663		if (--p->rt.time_slice)
-  2664			return;
-  2665	
-  2666		p->rt.time_slice = sched_rr_timeslice;
-  2667	
-  2668		/*
-  2669		 * Requeue to the end of queue if we (and all of our ancestors) are not
-  2670		 * the only element on the queue
-  2671		 */
-  2672		for_each_sched_rt_entity(rt_se) {
-  2673			if (rt_se->run_list.prev != rt_se->run_list.next) {
-  2674				requeue_task_rt(rq, p, 0);
-  2675				resched_curr(rq);
-  2676				return;
-  2677			}
-  2678		}
-  2679	}
-  2680	
+    89	
+    90	/*
+    91	 * This is useful to dump out the page tables associated with
+    92	 * 'addr' in mm 'mm'.
+    93	 */
+    94	void show_pte(const char *lvl, struct mm_struct *mm, unsigned long addr)
+    95	{
+    96		pgd_t *pgd;
+    97	
+    98		if (!mm)
+    99			mm = &init_mm;
+   100	
+   101		printk("%spgd = %p\n", lvl, mm->pgd);
+   102		pgd = pgd_offset(mm, addr);
+   103		printk("%s[%08lx] *pgd=%08llx", lvl, addr, (long long)pgd_val(*pgd));
+   104	
+   105		do {
+   106			p4d_t *p4d;
+   107			pud_t *pud;
+   108			pmd_t *pmd;
+   109			pte_t *pte;
+   110	
+   111			p4d = p4d_offset(pgd, addr);
+   112			if (p4d_none(*p4d))
+   113				break;
+   114	
+   115			if (p4d_bad(*p4d)) {
+   116				pr_cont("(bad)");
+   117				break;
+   118			}
+   119	
+   120			pud = pud_offset(p4d, addr);
+   121			if (PTRS_PER_PUD != 1)
+   122				pr_cont(", *pud=%08llx", (long long)pud_val(*pud));
+   123	
+   124			if (pud_none(*pud))
+   125				break;
+   126	
+   127			if (pud_bad(*pud)) {
+   128				pr_cont("(bad)");
+   129				break;
+   130			}
+   131	
+   132			pmd = pmd_offset(pud, addr);
+   133			if (PTRS_PER_PMD != 1)
+   134				pr_cont(", *pmd=%08llx", (long long)pmd_val(*pmd));
+   135	
+   136			if (pmd_none(*pmd))
+   137				break;
+   138	
+   139			if (pmd_bad(*pmd)) {
+   140				pr_cont("(bad)");
+   141				break;
+   142			}
+   143	
+   144			/* We must not map this if we have highmem enabled */
+   145			if (PageHighMem(pfn_to_page(pmd_val(*pmd) >> PAGE_SHIFT)))
+   146				break;
+   147	
+   148			pte = pte_offset_map(pmd, addr);
+   149			pr_cont(", *pte=%08llx", (long long)pte_val(*pte));
+   150	#ifndef CONFIG_ARM_LPAE
+   151			pr_cont(", *ppte=%08llx",
+   152			       (long long)pte_val(pte[PTE_HWTABLE_PTRS]));
+   153	#endif
+   154			pte_unmap(pte);
+   155		} while(0);
+   156	
+   157		pr_cont("\n");
+   158	}
+   159	#else					/* CONFIG_MMU */
+ > 160	unsigned long fault_entry(int exception, struct pt_regs *regs)
+   161	{
+   162		return 0;
+   163	}
+   164	
 
 -- 
 0-DAY CI Kernel Test Service
