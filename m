@@ -1,105 +1,112 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C707814F66;
-	Tue, 29 Aug 2023 11:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1693309705;
-	bh=V7fp4M9m50UUinbeFQ1LBWrcpG397hshYrmRg4hs78o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ld+GC+EV4Zu+j0MWCz9YSYef3C+5Ig5srlyGRbxzJY1VRX0A7tAuee/Im30uP23XS
-	 hLzLy9MNLElY+77KNRrDZEApxw+r5WXfZwXLZcU0I3Cv7AR0bs4GwHj6m0RgIcl5i7
-	 pGHiKFSI7QYWqvakfvamyqq4K+T1GGciAx9EE2HYz3bN9YsyVmAEscsInMPGLvjZA+
-	 uqZZ4mPASaPlNfTNNtBEbdCyjg8orG0ECVaNS/VCcauiGQifpBvDFD0sWz3/o2UAIS
-	 DMYxgWIOUFvZZgoFj9GTgdvF228twAda/t9F60m7bebZnCe9RECs8yLjJKc0GGaGI9
-	 sAAMichvM70mw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4RZm090DPRz4wxQ;
-	Tue, 29 Aug 2023 21:48:25 +1000 (AEST)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Herbert Xu <herbert@gondor.apana.org.au>, kernel test robot
- <lkp@intel.com>, Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- linuxppc-dev@lists.ozlabs.org
-Cc: Danny Tsen <dtsen@linux.ibm.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: crypto: powerpc/chacha20,poly1305-p10 - Add dependency on VSX
-In-Reply-To: <ZOxj3rFGVcRUzgwb@gondor.apana.org.au>
-References: <202308251906.SYawej6g-lkp@intel.com>
- <ZOxj3rFGVcRUzgwb@gondor.apana.org.au>
-Date: Tue, 29 Aug 2023 21:48:17 +1000
-Message-ID: <87msyakr26.fsf@mail.lhotse>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CE9156C7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 12:55:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693313700; x=1724849700;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OqrJ7NCugAHCrcBizDstYU3tAj/RSOo3I5oth/zsfMI=;
+  b=P4eUdrx4SXeO6Buj4yfsPu3YR3UOrQMEjIzmIxI4Oo1O640Ab8/kaq4e
+   JchrVGCkfRwe1e0QVWZXO123e5EeveCbGPgPRt0R5E2ziUy3EmYC+e9Lu
+   NJFSmcc6yUJLudytvViOO7k13UnI/L5/0heqy1OO4CdZ1ln67Bft7Iclo
+   jaMSTs+c1nDfU372a0fcQ1z9Lk5fJ/ZHeRm8KCZNLLUpnsnC7TJJur+6v
+   op7YIu9duw+hpFYN7/wkT3JeXajTWhwYCpA1DcX3WhEPq2gW6Pq6ek/fq
+   uK69d8OhyBR7oCXyGxdOe5AauKbx2PbNOW8wyEIp4OBDcdswD4+ANlhzx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="379128823"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
+   d="scan'208";a="379128823"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 05:54:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="828785221"
+X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
+   d="scan'208";a="828785221"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Aug 2023 05:54:57 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qayF8-0008jn-1C;
+	Tue, 29 Aug 2023 12:54:52 +0000
+Date: Tue, 29 Aug 2023 20:54:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Karol Kolacinski <karol.kolacinski@intel.com>,
+	intel-wired-lan@lists.osuosl.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Karol Kolacinski <karol.kolacinski@intel.com>,
+	anthony.l.nguyen@intel.com, jesse.brandeburg@intel.com
+Subject: Re: [Intel-wired-lan] [PATCH v4 iwl-next 02/11] ice: introduce PTP
+ state machine
+Message-ID: <202308292029.9Je6bgXn-lkp@intel.com>
+References: <20230829104041.64131-3-karol.kolacinski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230829104041.64131-3-karol.kolacinski@intel.com>
 
-Herbert Xu <herbert@gondor.apana.org.au> writes:
-> On Fri, Aug 25, 2023 at 07:44:32PM +0800, kernel test robot wrote:
->>
->> All errors (new ones prefixed by >>):
->> 
->>    In file included from arch/powerpc/crypto/poly1305-p10-glue.c:19:
->
-> ...
->
->> ae3a197e3d0bfe3 David Howells    2012-03-28  75  
->> ae3a197e3d0bfe3 David Howells    2012-03-28  76  #ifdef CONFIG_VSX
->> d1e1cf2e38def30 Anton Blanchard  2015-10-29  77  extern void enable_kernel_vsx(void);
->> ae3a197e3d0bfe3 David Howells    2012-03-28  78  extern void flush_vsx_to_thread(struct task_struct *);
->> 3eb5d5888dc68c9 Anton Blanchard  2015-10-29  79  static inline void disable_kernel_vsx(void)
->> 3eb5d5888dc68c9 Anton Blanchard  2015-10-29  80  {
->> 3eb5d5888dc68c9 Anton Blanchard  2015-10-29  81  	msr_check_and_clear(MSR_FP|MSR_VEC|MSR_VSX);
->> 3eb5d5888dc68c9 Anton Blanchard  2015-10-29  82  }
->> bd73758803c2eed Christophe Leroy 2021-03-09  83  #else
->> bd73758803c2eed Christophe Leroy 2021-03-09  84  static inline void enable_kernel_vsx(void)
->> bd73758803c2eed Christophe Leroy 2021-03-09  85  {
->> bd73758803c2eed Christophe Leroy 2021-03-09 @86  	BUILD_BUG();
->> bd73758803c2eed Christophe Leroy 2021-03-09  87  }
->> bd73758803c2eed Christophe Leroy 2021-03-09  88  
->
-> ---8<---
-> Add dependency on VSX as otherwise the build will fail without
-> it.
->
-> Fixes: 161fca7e3e90 ("crypto: powerpc - Add chacha20/poly1305-p10 to Kconfig and Makefile")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202308251906.SYawej6g-lkp@intel.com/
-> Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+Hi Karol,
 
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+kernel test robot noticed the following build warnings:
 
-cheers
+[auto build test WARNING on 938672aefaeb88c4e3b6d8bc04ff97900e0809dd]
 
-> diff --git a/arch/powerpc/crypto/Kconfig b/arch/powerpc/crypto/Kconfig
-> index f25024afdda5..7a66d7c0e6a2 100644
-> --- a/arch/powerpc/crypto/Kconfig
-> +++ b/arch/powerpc/crypto/Kconfig
-> @@ -113,7 +113,7 @@ config CRYPTO_AES_GCM_P10
->  
->  config CRYPTO_CHACHA20_P10
->  	tristate "Ciphers: ChaCha20, XChacha20, XChacha12 (P10 or later)"
-> -	depends on PPC64 && CPU_LITTLE_ENDIAN
-> +	depends on PPC64 && CPU_LITTLE_ENDIAN && VSX
->  	select CRYPTO_SKCIPHER
->  	select CRYPTO_LIB_CHACHA_GENERIC
->  	select CRYPTO_ARCH_HAVE_LIB_CHACHA
-> @@ -127,7 +127,7 @@ config CRYPTO_CHACHA20_P10
->  
->  config CRYPTO_POLY1305_P10
->  	tristate "Hash functions: Poly1305 (P10 or later)"
-> -	depends on PPC64 && CPU_LITTLE_ENDIAN
-> +	depends on PPC64 && CPU_LITTLE_ENDIAN && VSX
->  	select CRYPTO_HASH
->  	select CRYPTO_LIB_POLY1305_GENERIC
->  	help
-> -- 
-> Email: Herbert Xu <herbert@gondor.apana.org.au>
-> Home Page: http://gondor.apana.org.au/~herbert/
-> PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+url:    https://github.com/intel-lab-lkp/linux/commits/Karol-Kolacinski/ice-use-ice_pf_src_tmr_owned-where-available/20230829-184543
+base:   938672aefaeb88c4e3b6d8bc04ff97900e0809dd
+patch link:    https://lore.kernel.org/r/20230829104041.64131-3-karol.kolacinski%40intel.com
+patch subject: [Intel-wired-lan] [PATCH v4 iwl-next 02/11] ice: introduce PTP state machine
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230829/202308292029.9Je6bgXn-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292029.9Je6bgXn-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308292029.9Je6bgXn-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/intel/ice/ice_ptp.c:265:20: warning: 'ice_ptp_state_str' defined but not used [-Wunused-function]
+     265 | static const char *ice_ptp_state_str(enum ice_ptp_state state)
+         |                    ^~~~~~~~~~~~~~~~~
+
+
+vim +/ice_ptp_state_str +265 drivers/net/ethernet/intel/ice/ice_ptp.c
+
+   257	
+   258	/**
+   259	 * ice_ptp_state_str - Convert PTP state to readable string
+   260	 * @state: PTP state to convert
+   261	 *
+   262	 * Returns: the human readable string representation of the provided PTP
+   263	 * state, used for printing error messages.
+   264	 */
+ > 265	static const char *ice_ptp_state_str(enum ice_ptp_state state)
+   266	{
+   267		switch (state) {
+   268		case ICE_PTP_UNINIT:
+   269			return "UNINITIALIZED";
+   270		case ICE_PTP_INITIALIZING:
+   271			return "INITIALIZING";
+   272		case ICE_PTP_READY:
+   273			return "READY";
+   274		case ICE_PTP_RESETTING:
+   275			return "RESETTING";
+   276		case ICE_PTP_ERROR:
+   277			return "ERROR";
+   278		}
+   279	
+   280		return "UNKNOWN";
+   281	}
+   282	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
