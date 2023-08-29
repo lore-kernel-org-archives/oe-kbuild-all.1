@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794AD13FF4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 09:28:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA1914F75
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 09:38:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693301306; x=1724837306;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UD5GCBmBelbOLn9MHjoVvxmjPdsbkP/HltMU15Ya9pc=;
-  b=mJa3r78YIP6pHb4XXrSvW4/ddXEOXudxbjH1S+8VPibFgj6f3QcDpQh+
-   w80ovIsdJL18Eb9ZPRkQSory1VxbuiiPthdsuiZ/qdvjg4xBI/Obshlui
-   WfrVGN+1h1ZxchhdQYw2nhGLjNXGkNDdq4y8tpEFcj1VRepu1N3esQAzI
-   b8jZ1HzgAV00z5mFfwkGbi20O6ZFq+Ih95wGMsFmxjkzaw+1rWVh9DNlc
-   bN3wDt99kEazbTKwnCTj6KddWo5hSgK9g4ExnleQ3picKbyWwJIPjNKBS
-   yoaM0pEtLm4IJ9ecTPD1VLApKoN2SZhFnB2nqrBgzWEgaFDOZTnFxoZEe
+  t=1693301905; x=1724837905;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=M4t3hQTiC5vwpABmBl+73lUgnAzS7iYtWIEEYQROIq4=;
+  b=NjrVmHlXKpa0ZfjbM+i0Z5B8Lnii0hs87sATPwF3xZMeVfGM99Wg0a9d
+   +YPCebJ1I1opx4Gh7f9l5Ni0HlUDjK6Ya8/XwSteTogauQVC9hqtW8hLP
+   YJDRjfjVvz570ACluijki7iPEJL50JEtzGLYtud/OMwIX536DNTseNPdG
+   nUO7Qiqjp2U0E1BtrGp8m7geXFjx2GNdA5SJrRGG2h7y6eutI7T+ADVkX
+   BUmkYnBByeU7Aas2N6UNa9FG1mnZP2YpmtSK2flwqNSB58VXrgpjGRVvi
+   7NybsVqOXCzBA6EVcrUC3orUz91i2LC1uB0RP3VqmsgWSVDW39yCb/Vg3
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="441673248"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="378044669"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="441673248"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 02:27:46 -0700
+   d="scan'208";a="378044669"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 02:38:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="741743853"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="688431514"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="741743853"
+   d="scan'208";a="688431514"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Aug 2023 02:27:45 -0700
+  by orsmga003.jf.intel.com with ESMTP; 29 Aug 2023 02:38:22 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qav0i-0008cD-21;
-	Tue, 29 Aug 2023 09:27:44 +0000
-Date: Tue, 29 Aug 2023 17:27:04 +0800
+	id 1qavAo-0008cp-0s;
+	Tue, 29 Aug 2023 09:38:11 +0000
+Date: Tue, 29 Aug 2023 17:37:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Chinner <david@fromorbit.com>
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] [RFC] xfs: reduce AGF hold times during fstrim operations
-Message-ID: <202308291718.fmi9ZE7N-lkp@intel.com>
-References: <20230829065710.938039-1-david@fromorbit.com>
+Subject: [zen:6.5/bbr3 1/1] net/ipv4/tcp_bbr.c:1079:48: warning: use of
+ logical '&&' with constant operand
+Message-ID: <202308291750.aRFnXTdu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,192 +45,226 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230829065710.938039-1-david@fromorbit.com>
 
-Hi Dave,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on xfs-linux/for-next]
-[also build test WARNING on linus/master v6.5 next-20230828]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Chinner/xfs-reduce-AGF-hold-times-during-fstrim-operations/20230829-145931
-base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
-patch link:    https://lore.kernel.org/r/20230829065710.938039-1-david%40fromorbit.com
-patch subject: [PATCH] [RFC] xfs: reduce AGF hold times during fstrim operations
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230829/202308291718.fmi9ZE7N-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308291718.fmi9ZE7N-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.5/bbr3
+head:   bcb27e4adacda606c76349bfba3305db6ea83887
+commit: bcb27e4adacda606c76349bfba3305db6ea83887 [1/1] bbr3-6.5: initial import
+config: powerpc-randconfig-r033-20230829 (https://download.01.org/0day-ci/archive/20230829/202308291750.aRFnXTdu-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308291750.aRFnXTdu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308291718.fmi9ZE7N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308291750.aRFnXTdu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/xfs/xfs_discard.c: In function 'xfs_trim_gather_extents':
->> fs/xfs/xfs_discard.c:93:34: warning: variable 'agf' set but not used [-Wunused-but-set-variable]
-      93 |         struct xfs_agf          *agf;
-         |                                  ^~~
+   In file included from net/ipv4/tcp_bbr.c:63:
+   In file included from include/net/tcp.h:20:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:47:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      47 | DEF_PCI_AC_NORET(insl, (unsigned long p, void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      48 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:53:1: note: expanded from here
+      53 | __do_insl
+         | ^
+   arch/powerpc/include/asm/io.h:616:56: note: expanded from macro '__do_insl'
+     616 | #define __do_insl(p, b, n)      readsl((PCI_IO_ADDR)_IO_BASE+(p), (b), (n))
+         |                                        ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from net/ipv4/tcp_bbr.c:63:
+   In file included from include/net/tcp.h:20:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:49:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      49 | DEF_PCI_AC_NORET(outsb, (unsigned long p, const void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      50 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:55:1: note: expanded from here
+      55 | __do_outsb
+         | ^
+   arch/powerpc/include/asm/io.h:617:58: note: expanded from macro '__do_outsb'
+     617 | #define __do_outsb(p, b, n)     writesb((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+         |                                         ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from net/ipv4/tcp_bbr.c:63:
+   In file included from include/net/tcp.h:20:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:51:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      51 | DEF_PCI_AC_NORET(outsw, (unsigned long p, const void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      52 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:57:1: note: expanded from here
+      57 | __do_outsw
+         | ^
+   arch/powerpc/include/asm/io.h:618:58: note: expanded from macro '__do_outsw'
+     618 | #define __do_outsw(p, b, n)     writesw((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+         |                                         ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from net/ipv4/tcp_bbr.c:63:
+   In file included from include/net/tcp.h:20:
+   In file included from include/linux/tcp.h:17:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/powerpc/include/asm/io.h:677:
+   arch/powerpc/include/asm/io-defs.h:53:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+      53 | DEF_PCI_AC_NORET(outsl, (unsigned long p, const void *b, unsigned long c),
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      54 |                  (p, b, c), pio, p)
+         |                  ~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/io.h:674:3: note: expanded from macro 'DEF_PCI_AC_NORET'
+     674 |                 __do_##name al;                                 \
+         |                 ^~~~~~~~~~~~~~
+   <scratch space>:59:1: note: expanded from here
+      59 | __do_outsl
+         | ^
+   arch/powerpc/include/asm/io.h:619:58: note: expanded from macro '__do_outsl'
+     619 | #define __do_outsl(p, b, n)     writesl((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
+         |                                         ~~~~~~~~~~~~~~~~~~~~~^
+>> net/ipv4/tcp_bbr.c:1079:48: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+    1079 |         if (!bbr->ecn_eligible && bbr_can_use_ecn(sk) &&
+         |                                                       ^
+    1080 |             bbr_param(sk, ecn_factor) &&
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bbr.c:1079:48: note: use '&' for a bitwise operation
+    1079 |         if (!bbr->ecn_eligible && bbr_can_use_ecn(sk) &&
+         |                                                       ^~
+         |                                                       &
+   net/ipv4/tcp_bbr.c:1079:48: note: remove constant to silence this warning
+    1079 |         if (!bbr->ecn_eligible && bbr_can_use_ecn(sk) &&
+         |                                                      ~^~
+    1080 |             bbr_param(sk, ecn_factor) &&
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bbr.c:1187:24: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+    1187 |             bbr->ecn_eligible && bbr_param(sk, ecn_thresh)) {
+         |                               ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bbr.c:1187:24: note: use '&' for a bitwise operation
+    1187 |             bbr->ecn_eligible && bbr_param(sk, ecn_thresh)) {
+         |                               ^~
+         |                               &
+   net/ipv4/tcp_bbr.c:1187:24: note: remove constant to silence this warning
+    1187 |             bbr->ecn_eligible && bbr_param(sk, ecn_thresh)) {
+         |                              ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/ipv4/tcp_bbr.c:1315:5: warning: no previous prototype for function 'bbr_ecn_cut' [-Wmissing-prototypes]
+    1315 | u32 bbr_ecn_cut(struct sock *sk)
+         |     ^
+   net/ipv4/tcp_bbr.c:1315:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1315 | u32 bbr_ecn_cut(struct sock *sk)
+         | ^
+         | static 
+   net/ipv4/tcp_bbr.c:1385:24: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+    1385 |         if (bbr->ecn_in_round && bbr_param(sk, ecn_factor)) {
+         |                               ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bbr.c:1385:24: note: use '&' for a bitwise operation
+    1385 |         if (bbr->ecn_in_round && bbr_param(sk, ecn_factor)) {
+         |                               ^~
+         |                               &
+   net/ipv4/tcp_bbr.c:1385:24: note: remove constant to silence this warning
+    1385 |         if (bbr->ecn_in_round && bbr_param(sk, ecn_factor)) {
+         |                              ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/ipv4/tcp_bbr.c:2042:10: warning: variable 'round_delivered' set but not used [-Wunused-but-set-variable]
+    2042 |         u32 bw, round_delivered;
+         |                 ^
+>> net/ipv4/tcp_bbr.c:2036:18: warning: no previous prototype for function 'bbr_main' [-Wmissing-prototypes]
+    2036 | __bpf_kfunc void bbr_main(struct sock *sk, const struct rate_sample *rs)
+         |                  ^
+   net/ipv4/tcp_bbr.c:2036:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2036 | __bpf_kfunc void bbr_main(struct sock *sk, const struct rate_sample *rs)
+         |             ^
+         |             static 
+   12 warnings generated.
 
 
-vim +/agf +93 fs/xfs/xfs_discard.c
+vim +1079 net/ipv4/tcp_bbr.c
 
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29   80  
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29   81  static int
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29   82  xfs_trim_gather_extents(
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13   83  	struct xfs_perag	*pag,
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22   84  	xfs_daddr_t		start,
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22   85  	xfs_daddr_t		end,
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22   86  	xfs_daddr_t		minlen,
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29   87  	xfs_extlen_t		*longest,
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29   88  	struct xfs_trim_work	*twork)
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07   89  {
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13   90  	struct xfs_mount	*mp = pag->pag_mount;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07   91  	struct xfs_btree_cur	*cur;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07   92  	struct xfs_buf		*agbp;
-9798f615ad2be48 fs/xfs/xfs_discard.c           Christoph Hellwig 2020-03-10  @93  	struct xfs_agf		*agf;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07   94  	int			error;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07   95  	int			i;
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29   96  	int			batch = 100;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07   97  
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07   98  	/*
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07   99  	 * Force out the log.  This means any transactions that might have freed
-8c81dd46ef3c416 fs/xfs/xfs_discard.c           Carlos Maiolino   2018-04-10  100  	 * space before we take the AGF buffer lock are now on disk, and the
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  101  	 * volatile disk cache is flushed.
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  102  	 */
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  103  	xfs_log_force(mp, XFS_LOG_SYNC);
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  104  
-08d3e84feeb8cb8 fs/xfs/xfs_discard.c           Dave Chinner      2022-07-07  105  	error = xfs_alloc_read_agf(pag, NULL, 0, &agbp);
-706b8c5bc70391b fs/xfs/xfs_discard.c           Darrick J. Wong   2020-01-23  106  	if (error)
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13  107  		return error;
-9798f615ad2be48 fs/xfs/xfs_discard.c           Christoph Hellwig 2020-03-10  108  	agf = agbp->b_addr;
-8c81dd46ef3c416 fs/xfs/xfs_discard.c           Carlos Maiolino   2018-04-10  109  
-289d38d22cd8896 fs/xfs/xfs_discard.c           Dave Chinner      2021-06-02  110  	cur = xfs_allocbt_init_cursor(mp, NULL, agbp, pag, XFS_BTNUM_CNT);
-8c81dd46ef3c416 fs/xfs/xfs_discard.c           Carlos Maiolino   2018-04-10  111  
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  112  	/*
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  113  	 * Look up the extent length requested in the AGF and start with it.
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  114  	 *
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  115  	 * XXX: continuations really want a lt lookup here, so we get the
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  116  	 * largest extent adjacent to the size finished off in the last batch.
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  117  	 * The ge search here results in the extent discarded in the last batch
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  118  	 * being discarded again before we move on to the smaller size...
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  119  	 */
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  120  	error = xfs_alloc_lookup_ge(cur, 0, *longest, &i);
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  121  	if (error)
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  122  		goto out_del_cursor;
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  123  	if (i == 0) {
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  124  		/* nothing of that length left in the AG, we are done */
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  125  		*longest = 0;
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  126  		goto out_del_cursor;
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  127  	}
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  128  
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  129  	/*
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  130  	 * Loop until we are done with all extents that are large
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  131  	 * enough to be worth discarding or we hit batch limits.
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  132  	 */
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  133  	while (i && batch-- > 0) {
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  134  		xfs_agblock_t	fbno;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  135  		xfs_extlen_t	flen;
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  136  		xfs_daddr_t	dbno;
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  137  		xfs_extlen_t	dlen;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  138  
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  139  		error = xfs_alloc_get_rec(cur, &fbno, &flen, &i);
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  140  		if (error)
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13  141  			break;
-f9e0370648b9f99 fs/xfs/xfs_discard.c           Darrick J. Wong   2019-11-11  142  		if (XFS_IS_CORRUPT(mp, i != 1)) {
-f9e0370648b9f99 fs/xfs/xfs_discard.c           Darrick J. Wong   2019-11-11  143  			error = -EFSCORRUPTED;
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13  144  			break;
-f9e0370648b9f99 fs/xfs/xfs_discard.c           Darrick J. Wong   2019-11-11  145  		}
-9798f615ad2be48 fs/xfs/xfs_discard.c           Christoph Hellwig 2020-03-10  146  		ASSERT(flen <= be32_to_cpu(agf->agf_longest));
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  147  
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  148  		/*
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  149  		 * Keep going on this batch until we hit the record size
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  150  		 * changes. That way we will start the next batch with the new
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  151  		 * extent size and we don't get stuck on an extent size when
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  152  		 * there are more extents of that size than the batch size.
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  153  		 */
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  154  		if (batch == 0) {
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  155  			if (flen != *longest)
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  156  				break;
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  157  			batch++;
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  158  		} else {
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  159  			*longest = flen;
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  160  		}
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  161  
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  162  		/*
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  163  		 * use daddr format for all range/len calculations as that is
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  164  		 * the format the range/len variables are supplied in by
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  165  		 * userspace.
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  166  		 */
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13  167  		dbno = XFS_AGB_TO_DADDR(mp, pag->pag_agno, fbno);
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  168  		dlen = XFS_FSB_TO_BB(mp, flen);
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  169  
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  170  		/*
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  171  		 * Too small?  Give up.
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  172  		 */
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  173  		if (dlen < minlen) {
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13  174  			trace_xfs_discard_toosmall(mp, pag->pag_agno, fbno, flen);
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  175  			*longest = 0;
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13  176  			break;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  177  		}
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  178  
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  179  		/*
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  180  		 * If the extent is entirely outside of the range we are
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  181  		 * supposed to discard skip it.  Do not bother to trim
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  182  		 * down partially overlapping ranges for now.
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  183  		 */
-a66d636385d621e fs/xfs/xfs_discard.c           Dave Chinner      2012-03-22  184  		if (dbno + dlen < start || dbno > end) {
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13  185  			trace_xfs_discard_exclude(mp, pag->pag_agno, fbno, flen);
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  186  			goto next_extent;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  187  		}
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  188  
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  189  		/*
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  190  		 * If any blocks in the range are still busy, skip the
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  191  		 * discard and try again the next time.
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  192  		 */
-45d0662117565e6 fs/xfs/xfs_discard.c           Dave Chinner      2021-06-02  193  		if (xfs_extent_busy_search(mp, pag, fbno, flen)) {
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13  194  			trace_xfs_discard_busy(mp, pag->pag_agno, fbno, flen);
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  195  			goto next_extent;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  196  		}
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  197  
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  198  		xfs_extent_busy_insert_discard(pag, fbno, flen,
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  199  				&twork->busy_extents);
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  200  		twork->blocks_trimmed += flen;
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  201  next_extent:
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  202  		error = xfs_btree_decrement(cur, 0, &i);
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  203  		if (error)
-35bf2b1abc9a753 fs/xfs/xfs_discard.c           Dave Chinner      2023-02-13  204  			break;
-a46db60834883c1 fs/xfs/linux-2.6/xfs_discard.c Christoph Hellwig 2011-01-07  205  
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  206  		/*
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  207  		 * If there's no more records in the tree, we are done. Set
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  208  		 * longest to 0 to indicate to the caller that there is no more
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  209  		 * extents to search.
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  210  		 */
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  211  		if (i == 0)
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  212  			*longest = 0;
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  213  	}
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  214  
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  215  	/*
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  216  	 * If there was an error, release all the gathered busy extents because
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  217  	 * we aren't going to issue a discard on them any more. If we ran out of
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  218  	 * records, set *longest to zero to tell the caller there is nothing
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  219  	 * left in this AG.
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  220  	 */
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  221  	if (error)
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  222  		xfs_extent_busy_clear(pag->pag_mount, &twork->busy_extents,
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  223  				false);
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  224  out_del_cursor:
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  225  	xfs_btree_del_cursor(cur, error);
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  226  	xfs_buf_relse(agbp);
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  227  	return error;
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  228  }
-99affa6f39376f6 fs/xfs/xfs_discard.c           Dave Chinner      2023-08-29  229  
+  1066	
+  1067	/* Updates ecn_alpha and returns ce_ratio. -1 if not available. */
+  1068	static int bbr_update_ecn_alpha(struct sock *sk)
+  1069	{
+  1070		struct tcp_sock *tp = tcp_sk(sk);
+  1071		struct net *net = sock_net(sk);
+  1072		struct bbr *bbr = inet_csk_ca(sk);
+  1073		s32 delivered, delivered_ce;
+  1074		u64 alpha, ce_ratio;
+  1075		u32 gain;
+  1076		bool want_ecn_alpha;
+  1077	
+  1078		/* See if we should use ECN sender logic for this connection. */
+> 1079		if (!bbr->ecn_eligible && bbr_can_use_ecn(sk) &&
+  1080		    bbr_param(sk, ecn_factor) &&
+  1081		    (bbr->min_rtt_us <= bbr_ecn_max_rtt_us ||
+  1082		     !bbr_ecn_max_rtt_us))
+  1083			bbr->ecn_eligible = 1;
+  1084	
+  1085		/* Skip updating alpha only if not ECN-eligible and PLB is disabled. */
+  1086		want_ecn_alpha = (bbr->ecn_eligible ||
+  1087				  (bbr_can_use_ecn(sk) &&
+  1088				   READ_ONCE(net->ipv4.sysctl_tcp_plb_enabled)));
+  1089		if (!want_ecn_alpha)
+  1090			return -1;
+  1091	
+  1092		delivered = tp->delivered - bbr->alpha_last_delivered;
+  1093		delivered_ce = tp->delivered_ce - bbr->alpha_last_delivered_ce;
+  1094	
+  1095		if (delivered == 0 ||		/* avoid divide by zero */
+  1096		    WARN_ON_ONCE(delivered < 0 || delivered_ce < 0))  /* backwards? */
+  1097			return -1;
+  1098	
+  1099		BUILD_BUG_ON(BBR_SCALE != TCP_PLB_SCALE);
+  1100		ce_ratio = (u64)delivered_ce << BBR_SCALE;
+  1101		do_div(ce_ratio, delivered);
+  1102	
+  1103		gain = bbr_param(sk, ecn_alpha_gain);
+  1104		alpha = ((BBR_UNIT - gain) * bbr->ecn_alpha) >> BBR_SCALE;
+  1105		alpha += (gain * ce_ratio) >> BBR_SCALE;
+  1106		bbr->ecn_alpha = min_t(u32, alpha, BBR_UNIT);
+  1107	
+  1108		bbr->alpha_last_delivered = tp->delivered;
+  1109		bbr->alpha_last_delivered_ce = tp->delivered_ce;
+  1110	
+  1111		bbr_check_ecn_too_high_in_startup(sk, ce_ratio);
+  1112		return (int)ce_ratio;
+  1113	}
+  1114	
 
 -- 
 0-DAY CI Kernel Test Service
