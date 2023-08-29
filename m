@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1E2366;
-	Tue, 29 Aug 2023 00:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA2C7E8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 00:40:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693269635; x=1724805635;
+  t=1693269637; x=1724805637;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l/Wg5ruRLRRxsdqqSlDecDcufdVNMEZpzXBlIW2kQIE=;
-  b=UIk+1ndTN6XyJ0X1JUgatq07BEPRF6V5nrUx5N8Yxb7CrJ4tpMUKMIo/
-   KH3Zen7DoCykzAShWmkHNsIqeVbWMcds/KPq5MqOQWc/fIZHiZEpvRftS
-   BIbZsML3S+0kKpRLm3xGA7H7BO9IMVeOfeii7O/8P5IoX6qnwjaDcNZKo
-   UVeVje52MbSszOJTnX+ma3tpE87GHxp4/Yh8bRJM70+qMCtV4GD2UWLNd
-   8hmuvfWDQRyEcyl+WnxlEfYrH5SPQRveDrOj7H4ONn3MWf+rebdHewG+O
-   MvbQ/Fb6Ejsz2WQ2k1QVybbEdudeQZtBIfXVTP+J6A6XQXFb/ZvfAtCvO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="365449538"
+  bh=ts5cAkLul8rhv5kxBCCjWJU+WbsXiBuEKWO34vdY0qI=;
+  b=I6qUIpia1uxOjteJH2YBfH7k+zSpyjeF6C/vurLEbXfQzrWkFRYmw/FQ
+   rKWH2qAF71/nrb35Pwfj7xYXhUUWa0K9JAXOXaTCTlJlxjDbX6liNA82k
+   fIxjrqVuTbLbitxehU14Y+mWn38LUUF747ldznXEn2SAqsStHRzdnfvDr
+   LVsW6DmLUfYq/4tXMQsyiWkup5wpABxXDPqrfi+IJSx7NM12bYWJ2J8M6
+   c1ATlMpueyq8tLvf9VlyEKfiGz0kiQ/KjdPjG8r1Zgw5qxLz5wliauHXv
+   c4DZf64P76mj+u1gZr53HwYq9BQB5JHlhbPVNDFVCIVOddggl3GnO0J57
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="355568924"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="365449538"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 17:40:34 -0700
+   d="scan'208";a="355568924"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 17:40:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="738475849"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="912215489"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="738475849"
+   d="scan'208";a="912215489"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 28 Aug 2023 17:40:32 -0700
+  by orsmga005.jf.intel.com with ESMTP; 28 Aug 2023 17:40:32 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qammW-0008Er-0R;
+	id 1qammW-0008Ep-0M;
 	Tue, 29 Aug 2023 00:40:32 +0000
-Date: Tue, 29 Aug 2023 08:39:52 +0800
+Date: Tue, 29 Aug 2023 08:39:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.5-esp32 33/34]
- kernel/events/core.c:6374:15: warning: variable 'flags' set but not used
-Message-ID: <202308290814.H4gSvIDX-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.5/zen-sauce 3/31] drivers/i2c/busses/i2c-nct6775.c:221:39:
+ warning: this statement may fall through
+Message-ID: <202308290813.hoqelN1F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,249 +46,298 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.5-esp32
-head:   edbe560c2ce9974f4b2e47ca13050e6a62d604b3
-commit: aced503663eb363cb3da0475b133143e486e239f [33/34] WIP: perf: support mmapping event on noMMU
-config: hexagon-randconfig-r016-20230829 (https://download.01.org/0day-ci/archive/20230829/202308290814.H4gSvIDX-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308290814.H4gSvIDX-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.5/zen-sauce
+head:   bf45053c965e9b8a0b6225c5d378493b5aaf1336
+commit: ee5667d8f6c9a26f0b881e0732f80e672b0b5fee [3/31] ZEN: Add OpenRGB patches
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230829/202308290813.hoqelN1F-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308290813.hoqelN1F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308290814.H4gSvIDX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308290813.hoqelN1F-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/events/core.c:20:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from kernel/events/core.c:20:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from kernel/events/core.c:20:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> kernel/events/core.c:6374:15: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
-    6374 |         int ret = 0, flags = 0;
-         |                      ^
->> kernel/events/core.c:6583:15: warning: no previous prototype for function 'perf_get_unmapped_area' [-Wmissing-prototypes]
-    6583 | unsigned long perf_get_unmapped_area(struct file *file,
-         |               ^
-   kernel/events/core.c:6583:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    6583 | unsigned long perf_get_unmapped_area(struct file *file,
-         | ^
-         | static 
-   kernel/events/core.c:6639:17: warning: unused function 'perf_mmap_capabilities' [-Wunused-function]
-    6639 | static unsigned perf_mmap_capabilities(struct file *file)
-         |                 ^
-   9 warnings generated.
+   drivers/i2c/busses/i2c-nct6775.c: In function 'nct6775_access':
+>> drivers/i2c/busses/i2c-nct6775.c:221:39: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     221 |                         tmp_data.byte = data->byte;
+         |                         ~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/i2c/busses/i2c-nct6775.c:222:17: note: here
+     222 |                 case I2C_SMBUS_BYTE:
+         |                 ^~~~
+   drivers/i2c/busses/i2c-nct6775.c: At top level:
+>> drivers/i2c/busses/i2c-nct6775.c:93:27: warning: 'nct6775_device_names' defined but not used [-Wunused-const-variable=]
+      93 | static const char * const nct6775_device_names[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/flags +6374 kernel/events/core.c
+vim +221 drivers/i2c/busses/i2c-nct6775.c
 
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6363  
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6364  static int perf_mmap(struct file *file, struct vm_area_struct *vma)
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6365  {
-cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6366  	struct perf_event *event = file->private_data;
-22a4f650d686ee kernel/perf_counter.c Ingo Molnar             2009-06-01  6367  	unsigned long user_locked, user_lock_limit;
-789f90fcf6b0b5 kernel/perf_counter.c Peter Zijlstra          2009-05-15  6368  	struct user_struct *user = current_user();
-56de4e8f914668 kernel/events/core.c  Steven Rostedt (VMware  2019-12-13  6369) 	struct perf_buffer *rb = NULL;
-22a4f650d686ee kernel/perf_counter.c Ingo Molnar             2009-06-01  6370  	unsigned long locked, lock_limit;
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6371  	unsigned long vma_size;
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6372  	unsigned long nr_pages;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6373  	long user_extra = 0, extra = 0;
-d57e34fdd60be7 kernel/perf_event.c   Peter Zijlstra          2010-05-28 @6374  	int ret = 0, flags = 0;
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6375  
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6376  	/*
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6377  	 * Don't allow mmap() of inherited per-task counters. This would
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6378  	 * create a performance issue due to all children writing to the
-76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6379  	 * same rb.
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6380  	 */
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6381  	if (event->cpu == -1 && event->attr.inherit)
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6382  		return -EINVAL;
-c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6383  
-43a21ea81a2400 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6384  	if (!(vma->vm_flags & VM_SHARED))
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6385  		return -EINVAL;
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6386  
-da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6387) 	ret = security_perf_event_read(event);
-da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6388) 	if (ret)
-da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6389) 		return ret;
-da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6390) 
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6391  	vma_size = vma->vm_end - vma->vm_start;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6392  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6393  	if (vma->vm_pgoff == 0) {
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6394  		nr_pages = (vma_size / PAGE_SIZE) - 1;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6395  	} else {
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6396  		/*
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6397  		 * AUX area mapping: if rb->aux_nr_pages != 0, it's already
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6398  		 * mapped, all subsequent mappings should have the same size
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6399  		 * and offset. Must be above the normal perf buffer.
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6400  		 */
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6401  		u64 aux_offset, aux_size;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6402  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6403  		if (!event->rb)
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6404  			return -EINVAL;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6405  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6406  		nr_pages = vma_size / PAGE_SIZE;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6407  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6408  		mutex_lock(&event->mmap_mutex);
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6409  		ret = -EINVAL;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6410  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6411  		rb = event->rb;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6412  		if (!rb)
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6413  			goto aux_unlock;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6414  
-6aa7de059173a9 kernel/events/core.c  Mark Rutland            2017-10-23  6415  		aux_offset = READ_ONCE(rb->user_page->aux_offset);
-6aa7de059173a9 kernel/events/core.c  Mark Rutland            2017-10-23  6416  		aux_size = READ_ONCE(rb->user_page->aux_size);
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6417  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6418  		if (aux_offset < perf_data_size(rb) + PAGE_SIZE)
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6419  			goto aux_unlock;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6420  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6421  		if (aux_offset != vma->vm_pgoff << PAGE_SHIFT)
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6422  			goto aux_unlock;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6423  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6424  		/* already mapped with a different offset */
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6425  		if (rb_has_aux(rb) && rb->aux_pgoff != vma->vm_pgoff)
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6426  			goto aux_unlock;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6427  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6428  		if (aux_size != vma_size || aux_size != nr_pages * PAGE_SIZE)
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6429  			goto aux_unlock;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6430  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6431  		/* already mapped with a different size */
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6432  		if (rb_has_aux(rb) && rb->aux_nr_pages != nr_pages)
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6433  			goto aux_unlock;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6434  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6435  		if (!is_power_of_2(nr_pages))
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6436  			goto aux_unlock;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6437  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6438  		if (!atomic_inc_not_zero(&rb->mmap_count))
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6439  			goto aux_unlock;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6440  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6441  		if (rb_has_aux(rb)) {
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6442  			atomic_inc(&rb->aux_mmap_count);
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6443  			ret = 0;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6444  			goto unlock;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6445  		}
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6446  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6447  		atomic_set(&rb->aux_mmap_count, 1);
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6448  		user_extra = nr_pages;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6449  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6450  		goto accounting;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6451  	}
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6452  
-7730d8655880f4 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6453  	/*
-76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6454  	 * If we have rb pages ensure they're a power-of-two number, so we
-7730d8655880f4 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6455  	 * can do bitmasks instead of modulo.
-7730d8655880f4 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6456  	 */
-2ed11312eb1950 kernel/events/core.c  Kan Liang               2015-03-02  6457  	if (nr_pages != 0 && !is_power_of_2(nr_pages))
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6458  		return -EINVAL;
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6459  
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6460  	if (vma_size != PAGE_SIZE * (1 + nr_pages))
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6461  		return -EINVAL;
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6462  
-cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6463  	WARN_ON_ONCE(event->ctx->parent_ctx);
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6464  again:
-cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6465  	mutex_lock(&event->mmap_mutex);
-76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6466  	if (event->rb) {
-60490e7966659b kernel/events/core.c  Zhipeng Xie             2022-02-09  6467  		if (data_page_nr(event->rb) != nr_pages) {
-ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6468  			ret = -EINVAL;
-ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6469  			goto unlock;
-ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6470  		}
-ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6471  
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6472  		if (!atomic_inc_not_zero(&event->rb->mmap_count)) {
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6473  			/*
-68e3c69803dada kernel/events/core.c  Peter Zijlstra          2022-07-05  6474  			 * Raced against perf_mmap_close(); remove the
-68e3c69803dada kernel/events/core.c  Peter Zijlstra          2022-07-05  6475  			 * event and try again.
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6476  			 */
-68e3c69803dada kernel/events/core.c  Peter Zijlstra          2022-07-05  6477  			ring_buffer_attach(event, NULL);
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6478  			mutex_unlock(&event->mmap_mutex);
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6479  			goto again;
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6480  		}
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6481  
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6482  		goto unlock;
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6483  	}
-9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6484  
-789f90fcf6b0b5 kernel/perf_counter.c Peter Zijlstra          2009-05-15  6485  	user_extra = nr_pages + 1;
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6486  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6487  accounting:
-cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6488  	user_lock_limit = sysctl_perf_event_mlock >> (PAGE_SHIFT - 10);
-a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6489  
-a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6490  	/*
-a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6491  	 * Increase the limit linearly with more CPUs:
-a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6492  	 */
-a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6493  	user_lock_limit *= num_online_cpus();
-a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6494  
-003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6495  	user_locked = atomic_long_read(&user->locked_vm);
-003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6496  
-003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6497  	/*
-003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6498  	 * sysctl_perf_event_mlock may have changed, so that
-003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6499  	 *     user->locked_vm > user_lock_limit
-003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6500  	 */
-003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6501  	if (user_locked > user_lock_limit)
-003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6502  		user_locked = user_lock_limit;
-003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6503  	user_locked += user_extra;
-c5078f78b455fb kernel/perf_counter.c Peter Zijlstra          2009-05-05  6504  
-c4b75479741c9c kernel/events/core.c  Alexander Shishkin      2019-11-20  6505  	if (user_locked > user_lock_limit) {
-d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6506  		/*
-d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6507  		 * charge locked_vm until it hits user_lock_limit;
-d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6508  		 * charge the rest from pinned_vm
-d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6509  		 */
-789f90fcf6b0b5 kernel/perf_counter.c Peter Zijlstra          2009-05-15  6510  		extra = user_locked - user_lock_limit;
-d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6511  		user_extra -= extra;
-d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6512  	}
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6513  
-78d7d407b62a02 kernel/perf_event.c   Jiri Slaby              2010-03-05  6514  	lock_limit = rlimit(RLIMIT_MEMLOCK);
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6515  	lock_limit >>= PAGE_SHIFT;
-70f8a3ca68d3e1 kernel/events/core.c  Davidlohr Bueso         2019-02-06  6516  	locked = atomic64_read(&vma->vm_mm->pinned_vm) + extra;
-37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6517  
-da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6518) 	if ((locked > lock_limit) && perf_is_paranoid() &&
-459ec28ab404d7 kernel/perf_counter.c Ingo Molnar             2009-09-13  6519  		!capable(CAP_IPC_LOCK)) {
-ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6520  		ret = -EPERM;
-ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6521  		goto unlock;
-ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6522  	}
-7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6523  
-45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6524  	WARN_ON(!rb && event->rb);
-906010b2134e14 kernel/perf_event.c   Peter Zijlstra          2009-09-21  6525  
-d57e34fdd60be7 kernel/perf_event.c   Peter Zijlstra          2010-05-28  6526  	if (vma->vm_flags & VM_WRITE)
-76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6527  		flags |= RING_BUFFER_WRITABLE;
-d57e34fdd60be7 kernel/perf_event.c   Peter Zijlstra          2010-05-28  6528  
-
-:::::: The code at line 6374 was first introduced by commit
-:::::: d57e34fdd60be7ffd0b1d86bfa1a553df86b7172 perf: Simplify the ring-buffer logic: make perf_buffer_alloc() do everything needed
-
-:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+    91	
+    92	/* used to set data->name = nct6775_device_names[data->sio_kind] */
+  > 93	static const char * const nct6775_device_names[] = {
+    94		"nct6106",
+    95		"nct6775",
+    96		"nct6776",
+    97		"nct6779",
+    98		"nct6791",
+    99		"nct6792",
+   100		"nct6793",
+   101		"nct6795",
+   102		"nct6796",
+   103		"nct6798",
+   104	};
+   105	
+   106	static const char * const nct6775_sio_names[] __initconst = {
+   107		"NCT6106D",
+   108		"NCT6775F",
+   109		"NCT6776D/F",
+   110		"NCT6779D",
+   111		"NCT6791D",
+   112		"NCT6792D",
+   113		"NCT6793D",
+   114		"NCT6795D",
+   115		"NCT6796D",
+   116		"NCT6798D",
+   117	};
+   118	
+   119	#define SIO_REG_LDSEL		0x07	/* Logical device select */
+   120	#define SIO_REG_DEVID		0x20	/* Device ID (2 bytes) */
+   121	#define SIO_REG_SMBA		0x62	/* SMBus base address register */
+   122	
+   123	#define SIO_NCT6106_ID		0xc450
+   124	#define SIO_NCT6775_ID		0xb470
+   125	#define SIO_NCT6776_ID		0xc330
+   126	#define SIO_NCT6779_ID		0xc560
+   127	#define SIO_NCT6791_ID		0xc800
+   128	#define SIO_NCT6792_ID		0xc910
+   129	#define SIO_NCT6793_ID		0xd120
+   130	#define SIO_NCT6795_ID		0xd350
+   131	#define SIO_NCT6796_ID		0xd420
+   132	#define SIO_NCT6798_ID		0xd428
+   133	#define SIO_ID_MASK			0xFFF0
+   134	
+   135	static inline void
+   136	superio_outb(int ioreg, int reg, int val)
+   137	{
+   138		outb(reg, ioreg);
+   139		outb(val, ioreg + 1);
+   140	}
+   141	
+   142	static inline int
+   143	superio_inb(int ioreg, int reg)
+   144	{
+   145		outb(reg, ioreg);
+   146		return inb(ioreg + 1);
+   147	}
+   148	
+   149	static inline void
+   150	superio_select(int ioreg, int ld)
+   151	{
+   152		outb(SIO_REG_LDSEL, ioreg);
+   153		outb(ld, ioreg + 1);
+   154	}
+   155	
+   156	static inline int
+   157	superio_enter(int ioreg)
+   158	{
+   159		/*
+   160		 * Try to reserve <ioreg> and <ioreg + 1> for exclusive access.
+   161		 */
+   162		if (!request_muxed_region(ioreg, 2, DRVNAME))
+   163			return -EBUSY;
+   164	
+   165		outb(0x87, ioreg);
+   166		outb(0x87, ioreg);
+   167	
+   168		return 0;
+   169	}
+   170	
+   171	static inline void
+   172	superio_exit(int ioreg)
+   173	{
+   174		outb(0xaa, ioreg);
+   175		outb(0x02, ioreg);
+   176		outb(0x02, ioreg + 1);
+   177		release_region(ioreg, 2);
+   178	}
+   179	
+   180	/*
+   181	 * ISA constants
+   182	 */
+   183	
+   184	#define IOREGION_ALIGNMENT	(~7)
+   185	#define IOREGION_LENGTH		2
+   186	#define ADDR_REG_OFFSET		0
+   187	#define DATA_REG_OFFSET		1
+   188	
+   189	#define NCT6775_REG_BANK	0x4E
+   190	#define NCT6775_REG_CONFIG	0x40
+   191	
+   192	static struct i2c_adapter *nct6775_adapter;
+   193	
+   194	struct i2c_nct6775_adapdata {
+   195		unsigned short smba;
+   196	};
+   197	
+   198	/* Return negative errno on error. */
+   199	static s32 nct6775_access(struct i2c_adapter * adap, u16 addr,
+   200			 unsigned short flags, char read_write,
+   201			 u8 command, int size, union i2c_smbus_data * data)
+   202	{
+   203		struct i2c_nct6775_adapdata *adapdata = i2c_get_adapdata(adap);
+   204		unsigned short nuvoton_nct6793d_smba = adapdata->smba;
+   205		int i, len, cnt;
+   206		union i2c_smbus_data tmp_data;
+   207		int timeout = 0;
+   208	
+   209		tmp_data.word = 0;
+   210		cnt = 0;
+   211		len = 0;
+   212	
+   213		outb_p(NCT6793D_SOFT_RESET, SMBHSTCTL);
+   214	
+   215		switch (size) {
+   216			case I2C_SMBUS_QUICK:
+   217				outb_p((addr << 1) | read_write,
+   218				       SMBHSTADD);
+   219				break;
+   220			case I2C_SMBUS_BYTE_DATA:
+ > 221				tmp_data.byte = data->byte;
+   222			case I2C_SMBUS_BYTE:
+   223				outb_p((addr << 1) | read_write,
+   224				       SMBHSTADD);
+   225				outb_p(command, SMBHSTIDX);
+   226				if (read_write == I2C_SMBUS_WRITE) {
+   227					outb_p(tmp_data.byte, SMBHSTDAT);
+   228					outb_p(NCT6793D_WRITE_BYTE, SMBHSTCMD);
+   229				}
+   230				else {
+   231					outb_p(NCT6793D_READ_BYTE, SMBHSTCMD);
+   232				}
+   233				break;
+   234			case I2C_SMBUS_WORD_DATA:
+   235				outb_p((addr << 1) | read_write,
+   236				       SMBHSTADD);
+   237				outb_p(command, SMBHSTIDX);
+   238				if (read_write == I2C_SMBUS_WRITE) {
+   239					outb_p(data->word & 0xff, SMBHSTDAT);
+   240					outb_p((data->word & 0xff00) >> 8, SMBHSTDAT);
+   241					outb_p(NCT6793D_WRITE_WORD, SMBHSTCMD);
+   242				}
+   243				else {
+   244					outb_p(NCT6793D_READ_WORD, SMBHSTCMD);
+   245				}
+   246				break;
+   247			case I2C_SMBUS_BLOCK_DATA:
+   248				outb_p((addr << 1) | read_write,
+   249				       SMBHSTADD);
+   250				outb_p(command, SMBHSTIDX);
+   251				if (read_write == I2C_SMBUS_WRITE) {
+   252					len = data->block[0];
+   253					if (len == 0 || len > I2C_SMBUS_BLOCK_MAX)
+   254						return -EINVAL;
+   255					outb_p(len, SMBBLKSZ);
+   256	
+   257					cnt = 1;
+   258					if (len >= 4) {
+   259						for (i = cnt; i <= 4; i++) {
+   260							outb_p(data->block[i], SMBHSTDAT);
+   261						}
+   262	
+   263						len -= 4;
+   264						cnt += 4;
+   265					}
+   266					else {
+   267						for (i = cnt; i <= len; i++ ) {
+   268							outb_p(data->block[i], SMBHSTDAT);
+   269						}
+   270	
+   271						len = 0;
+   272					}
+   273	
+   274					outb_p(NCT6793D_WRITE_BLOCK, SMBHSTCMD);
+   275				}
+   276				else {
+   277					return -ENOTSUPP;
+   278				}
+   279				break;
+   280			default:
+   281				dev_warn(&adap->dev, "Unsupported transaction %d\n", size);
+   282				return -EOPNOTSUPP;
+   283		}
+   284	
+   285		outb_p(NCT6793D_MANUAL_START, SMBHSTCTL);
+   286	
+   287		while ((size == I2C_SMBUS_BLOCK_DATA) && (len > 0)) {
+   288			if (read_write == I2C_SMBUS_WRITE) {
+   289				timeout = 0;
+   290				while ((inb_p(SMBHSTSTS) & NCT6793D_FIFO_EMPTY) == 0)
+   291				{
+   292					if(timeout > MAX_RETRIES)
+   293					{
+   294						return -ETIMEDOUT;
+   295					}
+   296					usleep_range(250, 500);
+   297					timeout++;
+   298				}
+   299	
+   300				//Load more bytes into FIFO
+   301				if (len >= 4) {
+   302					for (i = cnt; i <= (cnt + 4); i++) {
+   303						outb_p(data->block[i], SMBHSTDAT);
+   304					}
+   305	
+   306					len -= 4;
+   307					cnt += 4;
+   308				}
+   309				else {
+   310					for (i = cnt; i <= (cnt + len); i++) {
+   311						outb_p(data->block[i], SMBHSTDAT);
+   312					}
+   313	
+   314					len = 0;
+   315				}
+   316			}
+   317			else {
+   318				return -ENOTSUPP;
+   319			}
+   320			
+   321		}
+   322	
+   323		//wait for manual mode to complete
+   324		timeout = 0;
+   325		while ((inb_p(SMBHSTSTS) & NCT6793D_MANUAL_ACTIVE) != 0)
+   326		{
+   327			if(timeout > MAX_RETRIES)
+   328			{
+   329				return -ETIMEDOUT;
+   330			}
+   331			usleep_range(250, 500);
+   332			timeout++;
+   333		}
+   334	
+   335		if ((inb_p(SMBHSTERR) & NCT6793D_NO_ACK) != 0) {    	
+   336			return -ENXIO;
+   337		}
+   338		else if ((read_write == I2C_SMBUS_WRITE) || (size == I2C_SMBUS_QUICK)) {
+   339			return 0;
+   340		}
+   341	
+   342		switch (size) {
+   343			case I2C_SMBUS_QUICK:
+   344			case I2C_SMBUS_BYTE_DATA:
+   345				data->byte = inb_p(SMBHSTDAT);
+   346				break;
+   347			case I2C_SMBUS_WORD_DATA:
+   348				data->word = inb_p(SMBHSTDAT) + (inb_p(SMBHSTDAT) << 8);
+   349				break;
+   350		}
+   351		return 0;
+   352	}
+   353	
 
 -- 
 0-DAY CI Kernel Test Service
