@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B513A47
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 03:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD6EA47
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 03:15:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693278422; x=1724814422;
+  t=1693278942; x=1724814942;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VpGmmvcWZMcISepZReJdE/5Zb854jOUkZ5iZ6hBur8c=;
-  b=nCtxsP4j7h8zFXRQ4YZziB3PrvSyjnTuT6udCCwirLCw15IPTQYPWgSy
-   4MEKE6bEdrhLqRijT2oSckRj1Y/NcyMXK05l6wuNOUvRtilhFYeHRvAde
-   EhMRzgiaIIg3svmygQ7bUCwedclth54MG63uyQaruAa3sgbqN68VW2gF+
-   JbZvmvNTE2SqbFVmo48I1UOEBBSjxyA1fz+XXjDLxJ8G79acQaIJBPtcq
-   NFDuzy2CVozcA7/AteqX0ZfLxDccqd1NmiW537XHEm0BTEj5eKt/Aing7
-   0GJnhCTPOhezBYs1Qb0Sn4wKlqTAXW20xx27/0tdxf+JKAg+gJz/K2yJ/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="379038958"
+  bh=JWjC9vY9vdIpumUU591JZMA76ODXN0XyrqQl/iYRgs0=;
+  b=HFTgmZvhAD8dhCPYkk/yP1+2zY0Z7jVzne3FycpnkPsyLA1HZW7+93Dq
+   Vt4oMwZgxH+GrzPr6NZ8qtahGKJmwIAj9rlOZnXOf51AeyLBogK3LrUyk
+   wkyeq0zAVUO1HiEuI80a1TVOStt9+k5utkJYM6O/bPkmkdK1OlAO9Vwtr
+   AQG9cwmEANM+l96psB3QyR5j0xEl5y+3YIkXwf+oluzqxPO5k92fHkcyk
+   0ZByOLYQa13xVGvh3UKVOeQg1Mmr7Mim1GlhRqRJWGWw4ybcuT4QP/QTW
+   rY6VoM36LLtRRiQElhzg0i3rvOiph8DaZa2xyh7e3nXvMjOwaFqjgAwZP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="365469449"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="379038958"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 20:05:36 -0700
+   d="scan'208";a="365469449"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 20:15:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="715373604"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="985164581"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="715373604"
+   d="scan'208";a="985164581"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 28 Aug 2023 20:05:35 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 28 Aug 2023 20:15:40 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qap2s-0008KV-15;
-	Tue, 29 Aug 2023 03:05:34 +0000
-Date: Tue, 29 Aug 2023 11:04:36 +0800
+	id 1qapCd-0008LB-0Z;
+	Tue, 29 Aug 2023 03:15:39 +0000
+Date: Tue, 29 Aug 2023 11:14:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: Joel Stanley <joel@jms.id.au>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:spb1-hacking 6952/9113] drivers/hwmon/pmbus/mp2975.c:878:7:
- error: use of undeclared identifier 'CONFIG_SENSORS_MP2975_REGULATOR'
-Message-ID: <202308291013.jj5KBVQh-lkp@intel.com>
+Subject: [shenki:dev-6.1 176/194]
+ drivers/regulator/max597x-regulator.c:447:41: error: 'struct max597x_data'
+ has no member named 'dev'
+Message-ID: <202308291157.xHKRbaHY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,109 +47,135 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/shenki/linux spb1-hacking
-head:   b3de99e1aeeeae3e96ffc4c34afae3d2ef4c8175
-commit: 8301c92a0180503b1eabf8921845160d118c326a [6952/9113] hwmon: (pmbus/mp2975) Add regulator support
-config: i386-buildonly-randconfig-001-20230829 (https://download.01.org/0day-ci/archive/20230829/202308291013.jj5KBVQh-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308291013.jj5KBVQh-lkp@intel.com/reproduce)
+Hi Patrick,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/shenki/linux dev-6.1
+head:   85fab119da960f995715afa217cb4bf1696b596d
+commit: d46fda7e582fc22ad8241538cb2ea62312519df7 [176/194] mfd: max597x: Add support for MAX5970 and MAX5978
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230829/202308291157.xHKRbaHY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308291157.xHKRbaHY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308291013.jj5KBVQh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308291157.xHKRbaHY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/hwmon/pmbus/mp2975.c:878:7: error: use of undeclared identifier 'CONFIG_SENSORS_MP2975_REGULATOR'
-                   if (CONFIG_SENSORS_MP2975_REGULATOR)
-                       ^
-   1 error generated.
+   drivers/regulator/max597x-regulator.c: In function 'max597x_regulator_probe':
+>> drivers/regulator/max597x-regulator.c:447:41: error: 'struct max597x_data' has no member named 'dev'
+     447 |                     devm_kzalloc(max597x->dev, sizeof(struct max597x_regulator),
+         |                                         ^~
+>> drivers/regulator/max597x-regulator.c:453:39: error: 'struct max597x_data' has no member named 'regmap'
+     453 |                 data->regmap = max597x->regmap;
+         |                                       ^~
+   drivers/regulator/max597x-regulator.c:462:37: error: 'struct max597x_data' has no member named 'dev'
+     462 |                 config.dev = max597x->dev;
+         |                                     ^~
+   drivers/regulator/max597x-regulator.c:465:55: error: 'struct max597x_data' has no member named 'dev'
+     465 |                 rdev = devm_regulator_register(max597x->dev,
+         |                                                       ^~
+   In file included from include/linux/device.h:15,
+                    from drivers/regulator/max597x-regulator.c:11:
+   drivers/regulator/max597x-regulator.c:468:40: error: 'struct max597x_data' has no member named 'dev'
+     468 |                         dev_err(max597x->dev, "failed to register regulator %s\n",
+         |                                        ^~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/regulator/max597x-regulator.c:468:25: note: in expansion of macro 'dev_err'
+     468 |                         dev_err(max597x->dev, "failed to register regulator %s\n",
+         |                         ^~~~~~~
+>> drivers/regulator/max597x-regulator.c:476:20: error: 'struct max597x_data' has no member named 'irq'
+     476 |         if (max597x->irq) {
+         |                    ^~
+   drivers/regulator/max597x-regulator.c:478:46: error: 'struct max597x_data' has no member named 'dev'
+     478 |                     max597x_setup_irq(max597x->dev, max597x->irq, rdevs, num_switches,
+         |                                              ^~
+   drivers/regulator/max597x-regulator.c:478:60: error: 'struct max597x_data' has no member named 'irq'
+     478 |                     max597x_setup_irq(max597x->dev, max597x->irq, rdevs, num_switches,
+         |                                                            ^~
+   drivers/regulator/max597x-regulator.c:481:40: error: 'struct max597x_data' has no member named 'dev'
+     481 |                         dev_err(max597x->dev, "IRQ setup failed");
+         |                                        ^~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/regulator/max597x-regulator.c:481:25: note: in expansion of macro 'dev_err'
+     481 |                         dev_err(max597x->dev, "IRQ setup failed");
+         |                         ^~~~~~~
+   drivers/regulator/max597x-regulator.c: At top level:
+   drivers/regulator/max597x-regulator.c:360:35: warning: 'max597x_regmap_config' defined but not used [-Wunused-const-variable=]
+     360 | static const struct regmap_config max597x_regmap_config = {
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/CONFIG_SENSORS_MP2975_REGULATOR +878 drivers/hwmon/pmbus/mp2975.c
+vim +447 drivers/regulator/max597x-regulator.c
 
-   841	
-   842	static int mp2975_probe(struct i2c_client *client)
-   843	{
-   844		struct pmbus_driver_info *info;
-   845		struct mp2975_data *data;
-   846		int ret;
-   847	
-   848		data = devm_kzalloc(&client->dev, sizeof(struct mp2975_data),
-   849				    GFP_KERNEL);
-   850		if (!data)
-   851			return -ENOMEM;
-   852	
-   853		if (client->dev.of_node)
-   854			data->chip_id = (enum chips)of_device_get_match_data(&client->dev);
-   855		else
-   856			data->chip_id = i2c_match_id(mp2975_id, client)->driver_data;
-   857	
-   858		memcpy(data->max_phases, mp2975_max_phases[data->chip_id],
-   859		       sizeof(data->max_phases));
-   860	
-   861		if (data->chip_id == mp2975)
-   862			memcpy(&data->info, &mp2975_info, sizeof(*info));
-   863		else
-   864			memcpy(&data->info, &mp2973_info, sizeof(*info));
-   865	
-   866		info = &data->info;
-   867	
-   868		/* Identify multiphase configuration for rail 2. */
-   869		ret = mp2975_identify_multiphase_rail2(client, data);
-   870		if (ret < 0)
-   871			return ret;
-   872	
-   873		if (ret) {
-   874			/* Two rails are connected. */
-   875			data->info.pages = MP2975_PAGE_NUM;
-   876			data->info.phases[1] = ret;
-   877			data->info.func[1] = MP2975_RAIL2_FUNC;
- > 878			if (CONFIG_SENSORS_MP2975_REGULATOR)
-   879				data->info.num_regulators = MP2975_PAGE_NUM;
-   880		}
-   881	
-   882		if (data->chip_id == mp2975) {
-   883			/* Identify multiphase configuration. */
-   884			ret = mp2975_identify_multiphase(client, data, info);
-   885			if (ret)
-   886				return ret;
-   887	
-   888			/* Identify VID setting per rail. */
-   889			ret = mp2975_identify_rails_vid(client, data, info);
-   890			if (ret < 0)
-   891				return ret;
-   892	
-   893			/* Obtain current sense gain of power stage. */
-   894			ret = mp2975_current_sense_gain_get(client, data);
-   895			if (ret)
-   896				return ret;
-   897	
-   898			/* Obtain voltage reference values. */
-   899			ret = mp2975_vref_get(client, data, info);
-   900			if (ret)
-   901				return ret;
-   902	
-   903			/* Obtain vout over-voltage scales. */
-   904			ret = mp2975_vout_ov_scale_get(client, data, info);
-   905			if (ret < 0)
-   906				return ret;
-   907		} else {
-   908			/* Identify VID setting per rail. */
-   909			ret = mp2973_identify_rails_vid(client, data, info);
-   910			if (ret < 0)
-   911				return ret;
-   912		}
-   913	
-   914		/* Obtain offsets, maximum and format for vout. */
-   915		ret = mp2975_vout_per_rail_config_get(client, data, info);
-   916		if (ret)
-   917			return ret;
-   918	
-   919		return pmbus_do_probe(client, info);
-   920	}
-   921	
+38493f008deb43 Patrick Rudolph 2022-07-05  434  
+38493f008deb43 Patrick Rudolph 2022-07-05  435  
+38493f008deb43 Patrick Rudolph 2022-07-05  436  	struct max597x_data *max597x = dev_get_drvdata(pdev->dev.parent);
+38493f008deb43 Patrick Rudolph 2022-07-05  437  	struct max597x_regulator *data;
+38493f008deb43 Patrick Rudolph 2022-07-05  438  
+38493f008deb43 Patrick Rudolph 2022-07-05  439  	struct regulator_config config = { };
+38493f008deb43 Patrick Rudolph 2022-07-05  440  	struct regulator_dev *rdev;
+38493f008deb43 Patrick Rudolph 2022-07-05  441  	struct regulator_dev *rdevs[MAX5970_NUM_SWITCHES];
+38493f008deb43 Patrick Rudolph 2022-07-05  442  	int num_switches = max597x->num_switches;
+38493f008deb43 Patrick Rudolph 2022-07-05  443  	int ret, i;
+38493f008deb43 Patrick Rudolph 2022-07-05  444  
+38493f008deb43 Patrick Rudolph 2022-07-05  445  	for (i = 0; i < num_switches; i++) {
+38493f008deb43 Patrick Rudolph 2022-07-05  446  		data =
+38493f008deb43 Patrick Rudolph 2022-07-05 @447  		    devm_kzalloc(max597x->dev, sizeof(struct max597x_regulator),
+38493f008deb43 Patrick Rudolph 2022-07-05  448  				 GFP_KERNEL);
+38493f008deb43 Patrick Rudolph 2022-07-05  449  		if (!data)
+38493f008deb43 Patrick Rudolph 2022-07-05  450  			return -ENOMEM;
+38493f008deb43 Patrick Rudolph 2022-07-05  451  
+38493f008deb43 Patrick Rudolph 2022-07-05  452  		data->num_switches = num_switches;
+38493f008deb43 Patrick Rudolph 2022-07-05 @453  		data->regmap = max597x->regmap;
+38493f008deb43 Patrick Rudolph 2022-07-05  454  
+38493f008deb43 Patrick Rudolph 2022-07-05  455  		ret = max597x_adc_range(data->regmap, i, &max597x->irng[i], &max597x->mon_rng[i]);
+38493f008deb43 Patrick Rudolph 2022-07-05  456  		if (ret < 0)
+38493f008deb43 Patrick Rudolph 2022-07-05  457  			return ret;
+38493f008deb43 Patrick Rudolph 2022-07-05  458  
+38493f008deb43 Patrick Rudolph 2022-07-05  459  		data->irng = max597x->irng[i];
+38493f008deb43 Patrick Rudolph 2022-07-05  460  		data->mon_rng = max597x->mon_rng[i];
+38493f008deb43 Patrick Rudolph 2022-07-05  461  
+38493f008deb43 Patrick Rudolph 2022-07-05  462  		config.dev = max597x->dev;
+38493f008deb43 Patrick Rudolph 2022-07-05  463  		config.driver_data = (void *)data;
+38493f008deb43 Patrick Rudolph 2022-07-05  464  		config.regmap = data->regmap;
+38493f008deb43 Patrick Rudolph 2022-07-05  465  		rdev = devm_regulator_register(max597x->dev,
+38493f008deb43 Patrick Rudolph 2022-07-05  466  					       &regulators[i], &config);
+38493f008deb43 Patrick Rudolph 2022-07-05  467  		if (IS_ERR(rdev)) {
+38493f008deb43 Patrick Rudolph 2022-07-05  468  			dev_err(max597x->dev, "failed to register regulator %s\n",
+38493f008deb43 Patrick Rudolph 2022-07-05  469  				regulators[i].name);
+38493f008deb43 Patrick Rudolph 2022-07-05  470  			return PTR_ERR(rdev);
+38493f008deb43 Patrick Rudolph 2022-07-05  471  		}
+38493f008deb43 Patrick Rudolph 2022-07-05  472  		rdevs[i] = rdev;
+38493f008deb43 Patrick Rudolph 2022-07-05  473  		max597x->shunt_micro_ohms[i] = data->shunt_micro_ohms;
+38493f008deb43 Patrick Rudolph 2022-07-05  474  	}
+38493f008deb43 Patrick Rudolph 2022-07-05  475  
+38493f008deb43 Patrick Rudolph 2022-07-05 @476  	if (max597x->irq) {
+38493f008deb43 Patrick Rudolph 2022-07-05  477  		ret =
+38493f008deb43 Patrick Rudolph 2022-07-05  478  		    max597x_setup_irq(max597x->dev, max597x->irq, rdevs, num_switches,
+38493f008deb43 Patrick Rudolph 2022-07-05  479  				      data);
+38493f008deb43 Patrick Rudolph 2022-07-05  480  		if (ret) {
+38493f008deb43 Patrick Rudolph 2022-07-05  481  			dev_err(max597x->dev, "IRQ setup failed");
+38493f008deb43 Patrick Rudolph 2022-07-05  482  			return ret;
+38493f008deb43 Patrick Rudolph 2022-07-05  483  		}
+38493f008deb43 Patrick Rudolph 2022-07-05  484  	}
+38493f008deb43 Patrick Rudolph 2022-07-05  485  
+38493f008deb43 Patrick Rudolph 2022-07-05  486  	return ret;
+38493f008deb43 Patrick Rudolph 2022-07-05  487  }
+38493f008deb43 Patrick Rudolph 2022-07-05  488  
+
+:::::: The code at line 447 was first introduced by commit
+:::::: 38493f008deb435577361d4c4cdd69f7bb30f4b9 regulator: max597x: Add support for max597x regulator
+
+:::::: TO: Patrick Rudolph <patrick.rudolph@9elements.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
