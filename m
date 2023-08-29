@@ -1,45 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2106B17ACC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 14:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3983B28E7;
+	Tue, 29 Aug 2023 14:52:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693319533; x=1724855533;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bKbUC7frJEONdCr40wx4Z/CyLzHeBQhegSW+hMKs8Ss=;
-  b=dD3Vbg0Nqk3lX9D4lJZvEXc7sSuJYkVrLpvHulOvkOCoRw5v2rFdJ0Cs
-   jQS6E/J0PKdUwkaGTUToCVBRdkU4WfJpc/YQ6vgHUnzSrN0CTFHubceQT
-   GnaAvwZAmYj3GoJt7ZQer07sZNqwu6Ulz+c13HDpb/E/9pNrw1J9REJHR
-   9nOo0ZAwI3Q02yvYaMA9lHClRSBvc+8+x1lICRFUIYkvDqPxx4fpQpXcK
-   UMqiH9tBNyWTbKu8pk5Z7BIUcBMFXlZkGx2BksWCEAn30O8IBIZE91NB0
-   +as1cQ6x7oY2ZM48lXcprO6NF8HhOTxzNQlaP8pYOSK3RdZ7MGpq3DQjk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="355703399"
+  t=1693320750; x=1724856750;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FylhOCBxnWrtavNBNeHVWqufiBk07ThM8X7Znf1QkXc=;
+  b=Q6GH1icUEEgt/vTYDkq1Wm4wtef9dz3NFJ9qrhl8CzMQD7OJkFDd+LRx
+   mSWiEw83Y5SJNM204tVynKAn5WuvBvHmuFqvtWkAOHIXG8YiuvYJCCaip
+   9tlm+Kp+ebcXe4vItpUoDllgdxWZRTX/w4fTkIG4YZu47ndG8gLxVP8ry
+   fe1MxjIZEXS6Q99FCaR1bwRpCluB8skpuiF+wtgX2bfrtwxE5Sbm1ipkj
+   /RZFJ75e/WS/uCg6GqdMG6QttGnpzi6ed8Vtqr6ZRpa2ULir0l+xYpGIi
+   3Nd2bYtvX+Lm/YVTlMoOx/NBkZPNIjfWgw8ZuiF5yhtv38LQmNTgNFZKI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="406380414"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="355703399"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 07:31:35 -0700
+   d="scan'208";a="406380414"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 07:52:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="1069481405"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="985369271"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="1069481405"
+   d="scan'208";a="985369271"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 29 Aug 2023 07:31:34 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 29 Aug 2023 07:52:24 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qazkL-0008oD-0p;
-	Tue, 29 Aug 2023 14:31:14 +0000
-Date: Tue, 29 Aug 2023 22:30:11 +0800
+	id 1qb04t-0008pB-3A;
+	Tue, 29 Aug 2023 14:52:23 +0000
+Date: Tue, 29 Aug 2023 22:52:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [pci:controller/qcom-ep 3/3]
- drivers/pci/controller/dwc/pcie-qcom-ep.c:198: warning: Function parameter
- or member 'icc_mem' not described in 'qcom_pcie_ep'
-Message-ID: <202308292252.HNCCTM4u-lkp@intel.com>
+To: Meng Li <li.meng@amd.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	Huang Rui <ray.huang@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	x86@kernel.org, linux-acpi@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kselftest@vger.kernel.org,
+	Nathan Fontenot <nathan.fontenot@amd.com>,
+	Deepak Sharma <deepak.sharma@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Shimmer Huang <shimmer.huang@amd.com>,
+	Perry Yuan <Perry.Yuan@amd.com>, Xiaojian Du <Xiaojian.Du@amd.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Borislav Petkov <bp@alien8.de>, Meng Li <li.meng@amd.com>
+Subject: Re: [PATCH V4 3/7] cpufreq: amd-pstate: Enable AMD Pstate Preferred
+ Core Supporting.
+Message-ID: <202308292233.XhcXfvSm-lkp@intel.com>
+References: <20230829064340.1136448-4-li.meng@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,82 +61,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230829064340.1136448-4-li.meng@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/qcom-ep
-head:   0c104996e6a856536e311c6fee66d8099c5c6c7b
-commit: 0c104996e6a856536e311c6fee66d8099c5c6c7b [3/3] PCI: qcom-ep: Add ICC bandwidth voting support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230829/202308292252.HNCCTM4u-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292252.HNCCTM4u-lkp@intel.com/reproduce)
+Hi Meng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on linus/master v6.5 next-20230829]
+[cannot apply to tip/x86/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Meng-Li/x86-Drop-CPU_SUP_INTEL-from-SCHED_MC_PRIO-for-the-expansion/20230829-144723
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230829064340.1136448-4-li.meng%40amd.com
+patch subject: [PATCH V4 3/7] cpufreq: amd-pstate: Enable AMD Pstate Preferred Core Supporting.
+config: x86_64-randconfig-r005-20230829 (https://download.01.org/0day-ci/archive/20230829/202308292233.XhcXfvSm-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292233.XhcXfvSm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308292252.HNCCTM4u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308292233.XhcXfvSm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pcie-qcom-ep.c:198: warning: Function parameter or member 'icc_mem' not described in 'qcom_pcie_ep'
+>> drivers/cpufreq/amd-pstate.c:692: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Get the highest performance register value.
 
 
-vim +198 drivers/pci/controller/dwc/pcie-qcom-ep.c
+vim +692 drivers/cpufreq/amd-pstate.c
 
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  150  
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  151  /**
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  152   * struct qcom_pcie_ep - Qualcomm PCIe Endpoint Controller
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  153   * @pci: Designware PCIe controller struct
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  154   * @parf: Qualcomm PCIe specific PARF register base
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  155   * @elbi: Designware PCIe specific ELBI register base
-6dbba2b53c3bcb Manivannan Sadhasivam     2022-09-14  156   * @mmio: MMIO register base
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  157   * @perst_map: PERST regmap
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  158   * @mmio_res: MMIO region resource
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  159   * @core_reset: PCIe Endpoint core reset
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  160   * @reset: PERST# GPIO
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  161   * @wake: WAKE# GPIO
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  162   * @phy: PHY controller block
-6dbba2b53c3bcb Manivannan Sadhasivam     2022-09-14  163   * @debugfs: PCIe Endpoint Debugfs directory
-e2efd31465b1d9 Manivannan Sadhasivam     2022-09-14  164   * @clks: PCIe clocks
-e2efd31465b1d9 Manivannan Sadhasivam     2022-09-14  165   * @num_clks: PCIe clocks count
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  166   * @perst_en: Flag for PERST enable
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  167   * @perst_sep_en: Flag for PERST separation enable
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  168   * @link_status: PCIe Link status
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  169   * @global_irq: Qualcomm PCIe specific Global IRQ
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  170   * @perst_irq: PERST# IRQ
-f1bfbd000f3bc4 Manivannan Sadhasivam     2022-09-14  171   */
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  172  struct qcom_pcie_ep {
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  173  	struct dw_pcie pci;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  174  
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  175  	void __iomem *parf;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  176  	void __iomem *elbi;
-6dbba2b53c3bcb Manivannan Sadhasivam     2022-09-14  177  	void __iomem *mmio;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  178  	struct regmap *perst_map;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  179  	struct resource *mmio_res;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  180  
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  181  	struct reset_control *core_reset;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  182  	struct gpio_desc *reset;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  183  	struct gpio_desc *wake;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  184  	struct phy *phy;
-6dbba2b53c3bcb Manivannan Sadhasivam     2022-09-14  185  	struct dentry *debugfs;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  186  
-0c104996e6a856 Krishna chaitanya chundru 2023-07-19  187  	struct icc_path *icc_mem;
-0c104996e6a856 Krishna chaitanya chundru 2023-07-19  188  
-e2efd31465b1d9 Manivannan Sadhasivam     2022-09-14  189  	struct clk_bulk_data *clks;
-e2efd31465b1d9 Manivannan Sadhasivam     2022-09-14  190  	int num_clks;
-e2efd31465b1d9 Manivannan Sadhasivam     2022-09-14  191  
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  192  	u32 perst_en;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  193  	u32 perst_sep_en;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  194  
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  195  	enum qcom_pcie_ep_link_status link_status;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  196  	int global_irq;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  197  	int perst_irq;
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20 @198  };
-f55fee56a63103 Manivannan Sadhasivam     2021-09-20  199  
-
-:::::: The code at line 198 was first introduced by commit
-:::::: f55fee56a631032969480e4b0ee5d79734fe3c69 PCI: qcom-ep: Add Qualcomm PCIe Endpoint controller driver
-
-:::::: TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+   690	
+   691	/**
+ > 692	 * Get the highest performance register value.
+   693	 * @cpu: CPU from which to get highest performance.
+   694	 * @highest_perf: Return address.
+   695	 *
+   696	 * Return: 0 for success, -EIO otherwise.
+   697	 */
+   698	static int amd_pstate_get_highest_perf(int cpu, u64 *highest_perf)
+   699	{
+   700	       int ret;
+   701	
+   702	       if (boot_cpu_has(X86_FEATURE_CPPC)) {
+   703	               u64 cap1;
+   704	
+   705	               ret = rdmsrl_safe_on_cpu(cpu, MSR_AMD_CPPC_CAP1, &cap1);
+   706	               if (ret)
+   707	                       return ret;
+   708	               WRITE_ONCE(*highest_perf, AMD_CPPC_HIGHEST_PERF(cap1));
+   709	       } else {
+   710	               ret = cppc_get_highest_perf(cpu, highest_perf);
+   711	       }
+   712	
+   713	       return (ret);
+   714	}
+   715	
 
 -- 
 0-DAY CI Kernel Test Service
