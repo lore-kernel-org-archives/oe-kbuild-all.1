@@ -1,132 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83264EC9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 05:00:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693285258; x=1724821258;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nYqvRCEfGF1L0QWOK0YZqnE2B/xasCUH9RVmro0SXfc=;
-  b=HiiVKbTIYHua7wH/FegBPA4aUbT/yzkeRPCXtS0L3xP4v8V0LwKipJ1C
-   gxIOAz9fSg4WzWGzxh8EMrHs/pSAliVl2ADBh3ZCAjUXmReOPl2HoMdvy
-   x98tq7fqnZkA8YR6slnof59GA09+JoiZmMMJeflg01KcrHeHhde+TBhYL
-   mSm+tDcbqXQhDnKscGu9ELjHTWU61P+ENUHGx812X7TBzArewh0pcLaYS
-   nna2jBrmRjPOi20pO/sEWPaydXCdwLv6Y2Bo37/qRI04tY/gZs+Zu9E0B
-   tqzJeQwrHIPRNVoq1JPYL7Ja1FJH17QeGA9cFtDgj2aXRS7mxu8Q/9mnp
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="372691737"
-X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="372691737"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 22:00:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="773533550"
-X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="773533550"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 28 Aug 2023 22:00:54 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qaqqT-0008PH-26;
-	Tue, 29 Aug 2023 05:00:53 +0000
-Date: Tue, 29 Aug 2023 13:00:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Naushir Patuck <naush@raspberrypi.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [pinchartl:rpi/v6.5/isp/v2 21/23] htmldocs:
- ./include/uapi/linux/bcm2835-isp.h:146: warning: Function parameter or
- member 'padding' not described in 'bcm2835_isp_black_level'
-Message-ID: <202308291211.kJYIPEDZ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFF0A21
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 05:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=v7yy8KuNyAVC/aJA6ag651RbI8R+xf9nSt8GLFJg/IA=; b=1HB3hUuCNWuPyEv/taD47yOU/N
+	OMMBbTzRgLijiV/at3P8KdHd8BdUIyAMklbIEMXBRVhQQSw7bfiNaVQ2AmvTG02FYVnNjHJsx20hY
+	P18Q3npchkXjDgTxF65LdAIMzRG2QnceKXm9ZG5DlKbgDHrlHJCKSuf7ei89ss8cooCJeLw1cSrCZ
+	2ujIMF6zBMMU2/+gljEv0LkVrQNM1vnEBRL9PHoP01oFG/kYhKCzH0m1f62qdGi9jrmUPPJw2Qn8B
+	Mz6nYUIXUvAk6kTZluBmqAo3u9g6muCUgPgrwT+H4/W9CZ+F/8Mfsl4O9EjZuQRIGyjnm+PwYc5Hy
+	GQSDQuKw==;
+Received: from [2601:1c2:980:9ec0::2764]
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qar2L-00AnWf-2V;
+	Tue, 29 Aug 2023 05:13:09 +0000
+Message-ID: <9a05d92f-60c5-6ede-2105-829f09c737b7@infradead.org>
+Date: Mon, 28 Aug 2023 22:13:06 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: kernel/user_namespace.c:239: warning: Function parameter or
+ member 'map_up' not described in 'idmap_key'
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>
+References: <202308172003.O1QB7TgB-lkp@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202308172003.O1QB7TgB-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git rpi/v6.5/isp/v2
-head:   f21e9808068119a1ea8f1ddb5677c982b79ac10d
-commit: f53111061a1c4624e8c08104ced1b968eeb173f5 [21/23] docs: admin-guide: media: bcm2835-isp: Add documentation for bcm2835-isp
-reproduce: (https://download.01.org/0day-ci/archive/20230829/202308291211.kJYIPEDZ-lkp@intel.com/reproduce)
+Hi Christian,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308291211.kJYIPEDZ-lkp@intel.com/
+On 8/17/23 05:56, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   4853c74bd7ab7fdb83f319bd9ace8a08c031e9b6
+> commit: e227db4d4f125efb1cae2f1337da85bc10b3185e userns: fix a struct's kernel-doc notation
+> date:   7 months ago
+> config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20230817/202308172003.O1QB7TgB-lkp@intel.com/config)
+> compiler: hppa64-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172003.O1QB7TgB-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308172003.O1QB7TgB-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> kernel/user_namespace.c:239: warning: Function parameter or member 'map_up' not described in 'idmap_key'
+>>> kernel/user_namespace.c:239: warning: Function parameter or member 'id' not described in 'idmap_key'
+>>> kernel/user_namespace.c:239: warning: Function parameter or member 'count' not described in 'idmap_key'
+>    kernel/user_namespace.c:246: warning: Function parameter or member 'k' not described in 'cmp_map_id'
+>    kernel/user_namespace.c:246: warning: Function parameter or member 'e' not described in 'cmp_map_id'
+>    kernel/user_namespace.c:277: warning: Function parameter or member 'extents' not described in 'map_id_range_down_max'
+>    kernel/user_namespace.c:277: warning: Function parameter or member 'map' not described in 'map_id_range_down_max'
+>    kernel/user_namespace.c:277: warning: Function parameter or member 'id' not described in 'map_id_range_down_max'
+>    kernel/user_namespace.c:277: warning: Function parameter or member 'count' not described in 'map_id_range_down_max'
+>    kernel/user_namespace.c:295: warning: Function parameter or member 'extents' not described in 'map_id_range_down_base'
+>    kernel/user_namespace.c:295: warning: Function parameter or member 'map' not described in 'map_id_range_down_base'
+>    kernel/user_namespace.c:295: warning: Function parameter or member 'id' not described in 'map_id_range_down_base'
+>    kernel/user_namespace.c:295: warning: Function parameter or member 'count' not described in 'map_id_range_down_base'
+>    kernel/user_namespace.c:344: warning: Function parameter or member 'extents' not described in 'map_id_up_base'
+>    kernel/user_namespace.c:344: warning: Function parameter or member 'map' not described in 'map_id_up_base'
+>    kernel/user_namespace.c:344: warning: Function parameter or member 'id' not described in 'map_id_up_base'
+>    kernel/user_namespace.c:364: warning: Function parameter or member 'extents' not described in 'map_id_up_max'
+>    kernel/user_namespace.c:364: warning: Function parameter or member 'map' not described in 'map_id_up_max'
+>    kernel/user_namespace.c:364: warning: Function parameter or member 'id' not described in 'map_id_up_max'
+>    kernel/user_namespace.c:776: warning: Function parameter or member 'map' not described in 'insert_extent'
+>    kernel/user_namespace.c:776: warning: Function parameter or member 'extent' not described in 'insert_extent'
+>    kernel/user_namespace.c:844: warning: Function parameter or member 'map' not described in 'sort_idmaps'
+> 
 
-All warnings (new ones prefixed by >>):
+According to 'git blame', all of these come from additions that you made.
 
->> ./include/uapi/linux/bcm2835-isp.h:146: warning: Function parameter or member 'padding' not described in 'bcm2835_isp_black_level'
->> ./include/uapi/linux/bcm2835-isp.h:178: warning: Function parameter or member 'x' not described in 'bcm2835_isp_gamma'
->> ./include/uapi/linux/bcm2835-isp.h:178: warning: Function parameter or member 'y' not described in 'bcm2835_isp_gamma'
->> Documentation/userspace-api/media/drivers/index.rst:30: WARNING: toctree contains reference to nonexisting document 'userspace-api/media/drivers/bcm2835-isp'
->> Documentation/admin-guide/media/bcm2835-isp.rst: WARNING: document isn't included in any toctree
->> Documentation/admin-guide/media/bcm2835-isp.rst:76: WARNING: undefined label: v4l2-meta-fmt-bcm2835-isp-stats (if the link has no caption the label must precede a section header)
+What do you think about a patch that converts all of these into non-kernel-doc comments?
+I.e., change "/**" to "/*" for the functions and struct?
 
-vim +146 ./include/uapi/linux/bcm2835-isp.h
+> 
+> vim +239 kernel/user_namespace.c
+> 
+> 5c1469de7545a3 Eric W. Biederman 2010-06-13  230  
+> 6397fac4915ab3 Christian Brauner 2017-10-25  231  /**
+> e227db4d4f125e Randy Dunlap      2023-01-07  232   * struct idmap_key - holds the information necessary to find an idmapping in a
+> 6397fac4915ab3 Christian Brauner 2017-10-25  233   * sorted idmap array. It is passed to cmp_map_id() as first argument.
+> 6397fac4915ab3 Christian Brauner 2017-10-25  234   */
+> 6397fac4915ab3 Christian Brauner 2017-10-25  235  struct idmap_key {
+> 6397fac4915ab3 Christian Brauner 2017-10-25  236  	bool map_up; /* true  -> id from kid; false -> kid from id */
+> 6397fac4915ab3 Christian Brauner 2017-10-25  237  	u32 id; /* id to find */
+> 6397fac4915ab3 Christian Brauner 2017-10-25  238  	u32 count; /* == 0 unless used with map_id_range_down() */
+> 6397fac4915ab3 Christian Brauner 2017-10-25 @239  };
+> 6397fac4915ab3 Christian Brauner 2017-10-25  240  
+> 
+> :::::: The code at line 239 was first introduced by commit
+> :::::: 6397fac4915ab3002dc15aae751455da1a852f25 userns: bump idmap limits to 340
+> 
+> :::::: TO: Christian Brauner <christian.brauner@ubuntu.com>
+> :::::: CC: Eric W. Biederman <ebiederm@xmission.com>
+> 
 
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  130  
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  131  /**
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  132   * struct bcm2835_isp_black_level - Sensor black level set with the
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  133   *				    V4L2_CID_USER_BCM2835_ISP_BLACK_LEVEL ctrl.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  134   *
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  135   * @enabled:		Enable black level.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  136   * @black_level_r:	Black level for red channel.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  137   * @black_level_g:	Black level for green channels.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  138   * @black_level_b:	Black level for blue channel.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  139   */
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  140  struct bcm2835_isp_black_level {
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  141  	__u32 enabled;
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  142  	__u16 black_level_r;
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  143  	__u16 black_level_g;
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  144  	__u16 black_level_b;
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  145  	__u8 padding[2]; /* Unused */
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12 @146  };
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  147  
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  148  /**
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  149   * struct bcm2835_isp_geq - Green equalisation parameters set with the
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  150   *			    V4L2_CID_USER_BCM2835_ISP_GEQ ctrl.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  151   *
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  152   * @enabled:	Enable green equalisation.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  153   * @offset:	Fixed offset of the green equalisation threshold.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  154   * @slope:	Slope of the green equalisation threshold.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  155   */
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  156  struct bcm2835_isp_geq {
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  157  	__u32 enabled;
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  158  	__u32 offset;
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  159  	struct bcm2835_isp_rational slope;
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  160  };
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  161  
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  162  #define BCM2835_NUM_GAMMA_PTS 33
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  163  
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  164  /**
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  165   * struct bcm2835_isp_gamma - Gamma parameters set with the
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  166   *			      V4L2_CID_USER_BCM2835_ISP_GAMMA ctrl.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  167   *
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  168   * @enabled:	Enable gamma adjustment.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  169   * @X:		X values of the points defining the gamma curve.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  170   *		Values should be scaled to 16 bits.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  171   * @Y:		Y values of the points defining the gamma curve.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  172   *		Values should be scaled to 16 bits.
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  173   */
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  174  struct bcm2835_isp_gamma {
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  175  	__u32 enabled;
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  176  	__u16 x[BCM2835_NUM_GAMMA_PTS];
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  177  	__u16 y[BCM2835_NUM_GAMMA_PTS];
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12 @178  };
-2374cc3ebbe4f56 Dave Stevenson 2020-10-12  179  
-
-:::::: The code at line 146 was first introduced by commit
-:::::: 2374cc3ebbe4f56da5cdd08fad8e87f568521505 uapi: bcm2835-isp: Add bcm2835-isp uapi header file
-
-:::::: TO: Dave Stevenson <dave.stevenson@raspberrypi.com>
-:::::: CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+thanks.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
