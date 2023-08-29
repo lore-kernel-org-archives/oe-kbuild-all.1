@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B1C182BC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 21:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418EA14AAF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 21:37:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693344297; x=1724880297;
+  t=1693345062; x=1724881062;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Shi7/IOyOuxY2qAg8pV9u6oOZl8+1AUEhzjUzRoeB10=;
-  b=moYmAkxWDSBu1RxFBizYkSLctUheIKI7r3gmuxgEAQF90Ju6ZOS8fdb0
-   J8f/WuhYtzCgqITmNFohQf397XGh4/6l/ArkSi6OYTq6NrfWb6VGPyXuU
-   P9BMNVFqboy9CcdqjJtVU57/85TjKeCiiTOiIkeirriF+Jw7F6h2Xo3v8
-   tEJfZYheFGwcHX80EdgnkmeDDAYuwPXTaZddECbyPogSxBTmAIDh4FSkl
-   qriNgHNDpd374y+B+iTiluD2BS/m4eTOmmqez6Kb341itfFbXtOSmj8+3
-   YxRjYdR3s15YxBmAGGgQXSeb0bJRJQAo9+VRyiL7NE/wwcYjyO5ans7Xp
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="375440899"
+  bh=UkuSJ0aCL76HRt93f5IdKGK0TvI9BZtbZIqy9NilJek=;
+  b=R522G58IhwSTuUmUILBXSZkmOJmqR6IbyPxBvi2E28aTvdOwGNeZBIOt
+   Nfe0CXXIwRaPAmZFWaDYp4ibjlIbTbbtpqyjxflFs4m//fXqYAi9EHYqV
+   Qu6XIl+Epb4QDNVej3rIrxfU8X0c1oWFMYTAe05J90Zq119k4HFZj/j0p
+   rqkK+EUvqgaOfULGQBwMEANATSuOynMhhZ9/qz5e8Ns3stmMoIJ9QcrpG
+   8S/206d3AlrimJnMO+ZYcUp12lYiNi/D/0XwUQ9eh90jty/BFbaXOawCi
+   LJDSgY+6rJxE61/pFKWxQ96eEwTAgaGoNqJ7dkiJ69hgpdUQ3QfJBgD/3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="365688975"
 X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
-   d="scan'208";a="375440899"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 14:24:51 -0700
+   d="scan'208";a="365688975"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 14:37:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="741992117"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="853459507"
 X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
-   d="scan'208";a="741992117"
+   d="scan'208";a="853459507"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Aug 2023 14:24:49 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2023 14:37:38 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qb6Ce-00095d-1j;
-	Tue, 29 Aug 2023 21:24:48 +0000
-Date: Wed, 30 Aug 2023 05:24:43 +0800
+	id 1qb6Ox-00096D-16;
+	Tue, 29 Aug 2023 21:37:34 +0000
+Date: Wed, 30 Aug 2023 05:37:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naresh Solanki <naresh.solanki@9elements.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, zev@bewilderbeest.net,
-	Naresh Solanki <Naresh.Solanki@9elements.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH] regulator: userspace-consumer: Retrieve supplies
- from DT
-Message-ID: <202308300533.15rJTpNI-lkp@intel.com>
-References: <20230829141413.2605621-1-Naresh.Solanki@9elements.com>
+To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	catalin.marinas@arm.com, thunder.leizhen@huawei.com,
+	dyoung@redhat.com, prudo@redhat.com, samuel.holland@sifive.com,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org, Baoquan He <bhe@redhat.com>
+Subject: Re: [PATCH v2 6/8] x86: kdump: use generic interface to simplify
+ crashkernel reservation code
+Message-ID: <202308300522.oOG0V3U3-lkp@intel.com>
+References: <20230829121610.138107-7-bhe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,72 +51,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230829141413.2605621-1-Naresh.Solanki@9elements.com>
+In-Reply-To: <20230829121610.138107-7-bhe@redhat.com>
 
-Hi Naresh,
+Hi Baoquan,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 8950c4a350c188deb5f5b05df3244d4db82fe3d8]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on tip/x86/core powerpc/next powerpc/fixes linus/master v6.5]
+[cannot apply to next-20230829]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/regulator-userspace-consumer-Retrieve-supplies-from-DT/20230829-222520
-base:   8950c4a350c188deb5f5b05df3244d4db82fe3d8
-patch link:    https://lore.kernel.org/r/20230829141413.2605621-1-Naresh.Solanki%409elements.com
-patch subject: [RESEND PATCH] regulator: userspace-consumer: Retrieve supplies from DT
-config: s390-randconfig-r016-20230830 (https://download.01.org/0day-ci/archive/20230830/202308300533.15rJTpNI-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300533.15rJTpNI-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/crash_core-c-remove-unnecessary-parameter-of-function/20230829-201942
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20230829121610.138107-7-bhe%40redhat.com
+patch subject: [PATCH v2 6/8] x86: kdump: use generic interface to simplify crashkernel reservation code
+config: i386-randconfig-r026-20230830 (https://download.01.org/0day-ci/archive/20230830/202308300522.oOG0V3U3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300522.oOG0V3U3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308300533.15rJTpNI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308300522.oOG0V3U3-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/regulator/userspace-consumer.c: In function 'get_num_supplies':
->> drivers/regulator/userspace-consumer.c:164:9: error: implicit declaration of function 'for_each_property_of_node'; did you mean 'for_each_child_of_node'? [-Werror=implicit-function-declaration]
-     164 |         for_each_property_of_node(pdev->dev.of_node, prop) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         for_each_child_of_node
->> drivers/regulator/userspace-consumer.c:164:59: error: expected ';' before '{' token
-     164 |         for_each_property_of_node(pdev->dev.of_node, prop) {
-         |                                                           ^~
-         |                                                           ;
->> drivers/regulator/userspace-consumer.c:162:13: warning: unused variable 'num_supplies' [-Wunused-variable]
-     162 |         int num_supplies = 0;
-         |             ^~~~~~~~~~~~
-   drivers/regulator/userspace-consumer.c:174:1: error: no return statement in function returning non-void [-Werror=return-type]
-     174 | }
-         | ^
-   drivers/regulator/userspace-consumer.c: In function 'regulator_userspace_consumer_probe':
-   drivers/regulator/userspace-consumer.c:200:67: error: expected ';' before '{' token
-     200 |                 for_each_property_of_node(pdev->dev.of_node, prop) {
-         |                                                                   ^~
-         |                                                                   ;
-   cc1: some warnings being treated as errors
+   ld: kernel/crash_core.o: in function `reserve_crashkernel_generic':
+>> kernel/crash_core.c:450: undefined reference to `crashk_low_res'
+>> ld: kernel/crash_core.c:451: undefined reference to `crashk_low_res'
+>> ld: kernel/crash_core.c:455: undefined reference to `crashk_res'
+   ld: kernel/crash_core.c:453: undefined reference to `crashk_res'
+   ld: kernel/crash_core.c:454: undefined reference to `crashk_res'
 
 
-vim +164 drivers/regulator/userspace-consumer.c
+vim +450 kernel/crash_core.c
 
-   158	
-   159	static int get_num_supplies(struct platform_device *pdev)
-   160	{
-   161		struct  property *prop;
- > 162		int num_supplies = 0;
-   163	
- > 164		for_each_property_of_node(pdev->dev.of_node, prop) {
-   165			const char *prop_name = prop->name;
-   166			int len = strlen(prop_name);
-   167	
-   168			if (len > SUPPLY_SUFFIX_LEN && \
-   169			    strcmp(prop_name + len - SUPPLY_SUFFIX_LEN, SUPPLY_SUFFIX) == 0) {
-   170				num_supplies++;
-   171			}
-   172		}
-   173		return num_supplies;
-   174	}
-   175	
+6bee83d29d2e09 Baoquan He 2023-08-29  375  
+6bee83d29d2e09 Baoquan He 2023-08-29  376  void __init reserve_crashkernel_generic(char *cmdline,
+6bee83d29d2e09 Baoquan He 2023-08-29  377  			     unsigned long long crash_size,
+6bee83d29d2e09 Baoquan He 2023-08-29  378  			     unsigned long long crash_base,
+6bee83d29d2e09 Baoquan He 2023-08-29  379  			     unsigned long long crash_low_size,
+6bee83d29d2e09 Baoquan He 2023-08-29  380  			     bool high)
+6bee83d29d2e09 Baoquan He 2023-08-29  381  {
+6bee83d29d2e09 Baoquan He 2023-08-29  382  	unsigned long long search_end = CRASH_ADDR_LOW_MAX, search_base = 0;
+6bee83d29d2e09 Baoquan He 2023-08-29  383  	bool fixed_base = false;
+6bee83d29d2e09 Baoquan He 2023-08-29  384  
+6bee83d29d2e09 Baoquan He 2023-08-29  385  	/* User specifies base address explicitly. */
+6bee83d29d2e09 Baoquan He 2023-08-29  386  	if (crash_base) {
+6bee83d29d2e09 Baoquan He 2023-08-29  387  		fixed_base = true;
+6bee83d29d2e09 Baoquan He 2023-08-29  388  		search_base = crash_base;
+6bee83d29d2e09 Baoquan He 2023-08-29  389  		search_end = crash_base + crash_size;
+6bee83d29d2e09 Baoquan He 2023-08-29  390  	}
+6bee83d29d2e09 Baoquan He 2023-08-29  391  
+6bee83d29d2e09 Baoquan He 2023-08-29  392  	if (high) {
+6bee83d29d2e09 Baoquan He 2023-08-29  393  		search_base = CRASH_ADDR_LOW_MAX;
+6bee83d29d2e09 Baoquan He 2023-08-29  394  		search_end = CRASH_ADDR_HIGH_MAX;
+6bee83d29d2e09 Baoquan He 2023-08-29  395  	}
+6bee83d29d2e09 Baoquan He 2023-08-29  396  
+6bee83d29d2e09 Baoquan He 2023-08-29  397  retry:
+6bee83d29d2e09 Baoquan He 2023-08-29  398  	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+6bee83d29d2e09 Baoquan He 2023-08-29  399  					       search_base, search_end);
+6bee83d29d2e09 Baoquan He 2023-08-29  400  	if (!crash_base) {
+6bee83d29d2e09 Baoquan He 2023-08-29  401  		/*
+6bee83d29d2e09 Baoquan He 2023-08-29  402  		 * For crashkernel=size[KMG]@offset[KMG], print out failure
+6bee83d29d2e09 Baoquan He 2023-08-29  403  		 * message if can't reserve the specified region.
+6bee83d29d2e09 Baoquan He 2023-08-29  404  		 */
+6bee83d29d2e09 Baoquan He 2023-08-29  405  		if (fixed_base) {
+6bee83d29d2e09 Baoquan He 2023-08-29  406  			pr_warn("crashkernel reservation failed - memory is in use.\n");
+6bee83d29d2e09 Baoquan He 2023-08-29  407  			return;
+6bee83d29d2e09 Baoquan He 2023-08-29  408  		}
+6bee83d29d2e09 Baoquan He 2023-08-29  409  
+6bee83d29d2e09 Baoquan He 2023-08-29  410  		/*
+6bee83d29d2e09 Baoquan He 2023-08-29  411  		 * For crashkernel=size[KMG], if the first attempt was for
+6bee83d29d2e09 Baoquan He 2023-08-29  412  		 * low memory, fall back to high memory, the minimum required
+6bee83d29d2e09 Baoquan He 2023-08-29  413  		 * low memory will be reserved later.
+6bee83d29d2e09 Baoquan He 2023-08-29  414  		 */
+6bee83d29d2e09 Baoquan He 2023-08-29  415  		if (!high && search_end == CRASH_ADDR_LOW_MAX) {
+6bee83d29d2e09 Baoquan He 2023-08-29  416  			search_end = CRASH_ADDR_HIGH_MAX;
+6bee83d29d2e09 Baoquan He 2023-08-29  417  			search_base = CRASH_ADDR_LOW_MAX;
+6bee83d29d2e09 Baoquan He 2023-08-29  418  			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+6bee83d29d2e09 Baoquan He 2023-08-29  419  			goto retry;
+6bee83d29d2e09 Baoquan He 2023-08-29  420  		}
+6bee83d29d2e09 Baoquan He 2023-08-29  421  
+6bee83d29d2e09 Baoquan He 2023-08-29  422  		/*
+6bee83d29d2e09 Baoquan He 2023-08-29  423  		 * For crashkernel=size[KMG],high, if the first attempt was
+6bee83d29d2e09 Baoquan He 2023-08-29  424  		 * for high memory, fall back to low memory.
+6bee83d29d2e09 Baoquan He 2023-08-29  425  		 */
+6bee83d29d2e09 Baoquan He 2023-08-29  426  		if (high && search_end == CRASH_ADDR_HIGH_MAX) {
+6bee83d29d2e09 Baoquan He 2023-08-29  427  			search_end = CRASH_ADDR_LOW_MAX;
+6bee83d29d2e09 Baoquan He 2023-08-29  428  			search_base = 0;
+6bee83d29d2e09 Baoquan He 2023-08-29  429  			goto retry;
+6bee83d29d2e09 Baoquan He 2023-08-29  430  		}
+6bee83d29d2e09 Baoquan He 2023-08-29  431  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+6bee83d29d2e09 Baoquan He 2023-08-29  432  			crash_size);
+6bee83d29d2e09 Baoquan He 2023-08-29  433  		return;
+6bee83d29d2e09 Baoquan He 2023-08-29  434  	}
+6bee83d29d2e09 Baoquan He 2023-08-29  435  
+6bee83d29d2e09 Baoquan He 2023-08-29  436  	if ((crash_base > CRASH_ADDR_LOW_MAX) &&
+6bee83d29d2e09 Baoquan He 2023-08-29  437  	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+6bee83d29d2e09 Baoquan He 2023-08-29  438  		memblock_phys_free(crash_base, crash_size);
+6bee83d29d2e09 Baoquan He 2023-08-29  439  		return;
+6bee83d29d2e09 Baoquan He 2023-08-29  440  	}
+6bee83d29d2e09 Baoquan He 2023-08-29  441  
+6bee83d29d2e09 Baoquan He 2023-08-29  442  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+6bee83d29d2e09 Baoquan He 2023-08-29  443  		crash_base, crash_base + crash_size, crash_size >> 20);
+6bee83d29d2e09 Baoquan He 2023-08-29  444  
+6bee83d29d2e09 Baoquan He 2023-08-29  445  	/*
+6bee83d29d2e09 Baoquan He 2023-08-29  446  	 * The crashkernel memory will be removed from the kernel linear
+6bee83d29d2e09 Baoquan He 2023-08-29  447  	 * map. Inform kmemleak so that it won't try to access it.
+6bee83d29d2e09 Baoquan He 2023-08-29  448  	 */
+6bee83d29d2e09 Baoquan He 2023-08-29  449  	kmemleak_ignore_phys(crash_base);
+6bee83d29d2e09 Baoquan He 2023-08-29 @450  	if (crashk_low_res.end)
+6bee83d29d2e09 Baoquan He 2023-08-29 @451  		kmemleak_ignore_phys(crashk_low_res.start);
+6bee83d29d2e09 Baoquan He 2023-08-29  452  
+6bee83d29d2e09 Baoquan He 2023-08-29  453  	crashk_res.start = crash_base;
+6bee83d29d2e09 Baoquan He 2023-08-29  454  	crashk_res.end = crash_base + crash_size - 1;
+6bee83d29d2e09 Baoquan He 2023-08-29 @455  	insert_resource(&iomem_resource, &crashk_res);
+6bee83d29d2e09 Baoquan He 2023-08-29  456  }
+6bee83d29d2e09 Baoquan He 2023-08-29  457  #endif
+6bee83d29d2e09 Baoquan He 2023-08-29  458  
 
 -- 
 0-DAY CI Kernel Test Service
