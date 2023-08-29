@@ -1,90 +1,126 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759726FCD;
-	Tue, 29 Aug 2023 23:29:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1693351786;
-	bh=Hw1MdoVIM7z3jMwdCP5UrPw0ce9Z1kH8tvbb7II820k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QfvQ29uhTdzH63I2LPmzE4pMW6sB4q58yprH7r00LPlP8GfiPvkJdzUwk22L0X9ee
-	 U4IvzMi8AA0C58Fs8bV+3vHtqpyYUspsncoFr84y2WledhSO1jVEdDBrPLOF5ihZ9z
-	 LMsXPmUabaghIbjaRonf4F64ldkHjp+kF7bHPneeqP70KIO1Al8W9JXHE/o/oIfgv2
-	 d+sWvwiNVTHThb8U3HfzLq+uMcXm7mVuBhgYutMhaQHo5xkNfEtuBGagGft+wHZpi6
-	 RYjFeD+ckj7T8Cg5HRtxWKbSsMNCQHEqygr9UVIOxP2oiUTjdxBwesQh7wO1sBEa/O
-	 rhZACQLhwthLQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Rb3YP5754z4wy8;
-	Wed, 30 Aug 2023 09:29:45 +1000 (AEST)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Nathan Chancellor
- <nathan@kernel.org>, kernel test robot <lkp@intel.com>
-Subject: Re: [linuxppc:next-test 85/129] arch/powerpc/xmon/xmon.c:489:12:
- error: stack frame size (2160) exceeds limit (2048) in 'xmon_core'
-In-Reply-To: <CAKwvOdkO77jDijPwqkQJz6bGhjm5-3xWkTXbaxtXL8eZsqTi3g@mail.gmail.com>
-References: <202308260344.Vc4Giuk7-lkp@intel.com>
- <CAKwvOdk=UvBxv7a2cV-Z_zK0CwzPSjBnQ0SQHaVAEUodA=hfQQ@mail.gmail.com>
- <874jkkvhzj.fsf@mail.lhotse>
- <CAKwvOdkO77jDijPwqkQJz6bGhjm5-3xWkTXbaxtXL8eZsqTi3g@mail.gmail.com>
-Date: Wed, 30 Aug 2023 09:29:39 +1000
-Message-ID: <87r0nlxw9o.fsf@mail.lhotse>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BA46FCE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 23:54:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693353290; x=1724889290;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=poo2erOym6FYVcclncpP4gJ8Sb9wFCKFIGFC0CCir4M=;
+  b=EsKMp15GzekEI5Bv+WTa8phgyVGVlaCGIi4sOLBoYnQGCw99KalK0fy1
+   CxdUmd4eaQN89uigU0nKoq1TQVNPdTnByx06uCQCAlQcKxl1qI61Zh91x
+   PKS/vTBbREDXZTbXj1y+PjzSYZ8H/6lhjtQQBDj9EYBbR/yMO/4qOdHI1
+   NbOyT8Xxi/Vq2VOe/egp98oUB/L2pvVBkWiYE2fLcAH+XcEI4bs3TZFLI
+   qJFn7FfaPcDnX4PmcPJRfG/j365kgqCazZcz2axhFpMfewTf5coXuNGP4
+   9oKdHl9v0aNMDL23OpSVh7VXia8zLzV0KbV9XEaWHc5sMsr1NWlqR5Oef
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="374413066"
+X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
+   d="scan'208";a="374413066"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 16:54:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="732395012"
+X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
+   d="scan'208";a="732395012"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 29 Aug 2023 16:54:32 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qb8XX-0009DH-2O;
+	Tue, 29 Aug 2023 23:54:31 +0000
+Date: Wed, 30 Aug 2023 07:54:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oza Pawandeep <quic_poza@quicinc.com>, sudeep.holla@arm.com,
+	catalin.marinas@arm.com, will@kernel.org, rafael@kernel.org,
+	lenb@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Oza Pawandeep <quic_poza@quicinc.com>
+Subject: Re: [PATCH v3] cpuidle, ACPI: Evaluate LPI arch_flags for broadcast
+ timer
+Message-ID: <202308300720.JEfxnfQ5-lkp@intel.com>
+References: <20230829201101.3330337-1-quic_poza@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230829201101.3330337-1-quic_poza@quicinc.com>
 
-Nick Desaulniers <ndesaulniers@google.com> writes:
-> On Sun, Aug 27, 2023 at 4:32=E2=80=AFAM Michael Ellerman <mpe@ellerman.id=
-.au> wrote:
->>
->> Nick Desaulniers <ndesaulniers@google.com> writes:
->> > On Fri, Aug 25, 2023 at 12:17=E2=80=AFPM kernel test robot <lkp@intel.=
-com> wrote:
->> >>
->> >> tree:   https://github.com/linuxppc/linux next-test
->> >> head:   c37b6908f7b2bd24dcaaf14a180e28c9132b9c58
->> >> commit: 7f3c5d099b6f8452dc4dcfe4179ea48e6a13d0eb [85/129] Revert "pow=
-erpc/xmon: Relax frame size for clang"
->> >> config: powerpc64-randconfig-r006-20230825 (https://download.01.org/0=
-day-ci/archive/20230826/202308260344.Vc4Giuk7-lkp@intel.com/config)
->> >> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.=
-git f28c006a5895fc0e329fe15fead81e37457cb1d1)
->> >
->> > Hi Michael,
->> > Given this report and
->> > https://github.com/ClangBuiltLinux/linux/issues/252#issuecomment-16903=
-71256,
->> > it seems that it's still possible to trigger this warning (and build
->> > failure with CONFIG_WERROR). Is it possible to drop my patch at this
->> > point?
->>
->> It's too late to drop it, so we'd need to do a revert.
->
-> Np. Sent: https://lore.kernel.org/llvm/20230828-ppc_rerevert-v1-1-74f55b8=
-18907@google.com/
+Hi Oza,
 
-Thanks.
+kernel test robot noticed the following build warnings:
 
->> But rather than just a straight revert maybe we can do something that's
->> more tightly focused, ie. just to specific Clang versions?
->
-> Seeing as the bot found a randconfig, I'm not confident that a version
-> check would be enough at this point.
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on v6.5]
+[cannot apply to rafael-pm/linux-next arm64/for-next/core linus/master next-20230829]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Yeah fair enough.
+url:    https://github.com/intel-lab-lkp/linux/commits/Oza-Pawandeep/cpuidle-ACPI-Evaluate-LPI-arch_flags-for-broadcast-timer/20230830-041258
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20230829201101.3330337-1-quic_poza%40quicinc.com
+patch subject: [PATCH v3] cpuidle, ACPI: Evaluate LPI arch_flags for broadcast timer
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230830/202308300720.JEfxnfQ5-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300720.JEfxnfQ5-lkp@intel.com/reproduce)
 
-> Also, quite a few fires this Monday morning. I'd rather back this out
-> entirely and revisit it another day.  I thought it would be a simple
-> revert; obviously not!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308300720.JEfxnfQ5-lkp@intel.com/
 
-No worries.
+All warnings (new ones prefixed by >>):
 
-cheers
+   drivers/acpi/processor_idle.c: In function 'acpi_processor_setup_lpi_states':
+>> drivers/acpi/processor_idle.c:1220:61: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+    1220 |                 arch_update_idle_state_flags(lpi->arch_flags, &state->flags);
+         |                                                             ^
+>> drivers/acpi/processor_idle.c:1220:61: warning: statement with no effect [-Wunused-value]
+    1220 |                 arch_update_idle_state_flags(lpi->arch_flags, &state->flags);
+         |                                             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+
+
+vim +1220 drivers/acpi/processor_idle.c
+
+  1201	
+  1202	static int acpi_processor_setup_lpi_states(struct acpi_processor *pr)
+  1203	{
+  1204		int i;
+  1205		struct acpi_lpi_state *lpi;
+  1206		struct cpuidle_state *state;
+  1207		struct cpuidle_driver *drv = &acpi_idle_driver;
+  1208	
+  1209		if (!pr->flags.has_lpi)
+  1210			return -EOPNOTSUPP;
+  1211	
+  1212		for (i = 0; i < pr->power.count && i < CPUIDLE_STATE_MAX; i++) {
+  1213			lpi = &pr->power.lpi_states[i];
+  1214	
+  1215			state = &drv->states[i];
+  1216			snprintf(state->name, CPUIDLE_NAME_LEN, "LPI-%d", i);
+  1217			strscpy(state->desc, lpi->desc, CPUIDLE_DESC_LEN);
+  1218			state->exit_latency = lpi->wake_latency;
+  1219			state->target_residency = lpi->min_residency;
+> 1220			arch_update_idle_state_flags(lpi->arch_flags, &state->flags);
+  1221			if (i != 0 && lpi->entry_method == ACPI_CSTATE_FFH)
+  1222				state->flags |= CPUIDLE_FLAG_RCU_IDLE;
+  1223			state->enter = acpi_idle_lpi_enter;
+  1224			drv->safe_state_index = i;
+  1225		}
+  1226	
+  1227		drv->state_count = i;
+  1228	
+  1229		return 0;
+  1230	}
+  1231	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
