@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8E717AB1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 17:29:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12C217FE6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 17:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1693330185; x=1724866185;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j4212a8cHjsh4rrjR5w9LKvgsrZBufADOI8XiMoqo8c=;
-  b=i+H0tQ++eRKXXJOlRn2bkwjjWfuevmldC/bBtJXGT/+fsfbPXpzWy7LB
-   V9R11AvLTECwKfkWLIkDttfORqVVLYm7jR7ZcfV/qMZcblNSOBFPe1zRu
-   sxPwuNx1PARd49lapJrQar4JMac4598rh1hLhsxB8Lvxe2R3P63YBIeGO
-   poqGeXn9rJ5cxohJsmenWlfvlUYvzaU+v7G4xiLxOQklCJj562yvxJvUA
-   ve6OW4ZaSA8Ro2nT2lfHzxAxUSPRUHbWIcP7hMld3GHYuumPTCRhIhpqQ
-   l2Q5ppPb9pJril6dPEP8qGPTW0h4bSPZ2McD5h3lur307CVNEYVwIAJNl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="439385475"
+  bh=1dzQwmw8+dfgNKsSCT7CbsEL2Z+wOVPKIQ8cuylujvE=;
+  b=FHWOshlOcFOipkZ4TD9awlrC4C6jEoq4t5yEtP7nw71YZvdkZqtu7wZg
+   LmMXHpXJZ3HRvcsHb+F3kLCbzF5FGS/SlVAb2nm+/jhJYe0GwykEQ+9Gi
+   Khh8jL+TRar1jjauUFmqts2IrZNnfAz5jpboSvod3Dgvqat7jdlfn18FL
+   VRQZSSRjVGQlLI78FAs5SPcg0GBpw/Q6Z66VjHiKUbGRAmt/9gob+KGoZ
+   ZuCjQ2Frzm8pCEmeUat9oDagLi6fflx5CXFnzpRll0p0KA5dhy8uo4yX4
+   cJd3sJ+vF1eJma5GK8k7gPjiSkjNijKATgXax/rlzHp0emsVOOd9ow+oq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="461812107"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="439385475"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 10:29:44 -0700
+   d="scan'208";a="461812107"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 10:29:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="808782973"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="715623959"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="808782973"
+   d="scan'208";a="715623959"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Aug 2023 10:29:43 -0700
+  by orsmga006.jf.intel.com with ESMTP; 29 Aug 2023 10:29:43 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qb2X8-0008xJ-1L;
+	id 1qb2X8-0008xM-1Q;
 	Tue, 29 Aug 2023 17:29:42 +0000
-Date: Wed, 30 Aug 2023 01:29:01 +0800
+Date: Wed, 30 Aug 2023 01:29:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vincent Guittot <vincent.guittot@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [vincent-guittot:sched/cpu_capacity 2/2]
  include/linux/energy_model.h:244:20: error: implicit declaration of function
  'arch_scale_freq_ref'; did you mean 'arch_scale_freq_tick'?
-Message-ID: <202308300138.41WAYETz-lkp@intel.com>
+Message-ID: <202308300141.sxHu3Z70-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,20 +50,17 @@ Content-Disposition: inline
 tree:   https://git.linaro.org/people/vincent.guittot/kernel.git sched/cpu_capacity
 head:   1e50757c35dd9dab6ccb07ddc4d4ac5b59022dcb
 commit: 1e50757c35dd9dab6ccb07ddc4d4ac5b59022dcb [2/2] topology: add a new arch_scale_freq_reference
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230830/202308300138.41WAYETz-lkp@intel.com/config)
+config: i386-randconfig-011-20230829 (https://download.01.org/0day-ci/archive/20230830/202308300141.sxHu3Z70-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300138.41WAYETz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300141.sxHu3Z70-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308300138.41WAYETz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308300141.sxHu3Z70-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
    In file included from include/linux/device.h:16,
                     from include/linux/blk_types.h:11,
                     from include/linux/writeback.h:13,
@@ -77,13 +74,13 @@ All errors (new ones prefixed by >>):
          |                    ^~~~~~~~~~~~~~~~~~~
          |                    arch_scale_freq_tick
    cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:116: arch/x86/kernel/asm-offsets.s] Error 1
+   make[3]: *** [scripts/Makefile.build:116: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=2820040985
    make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2
+   make[2]: *** [Makefile:1275: prepare0] Error 2 shuffle=2820040985
    make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=2820040985
    make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
+   make: *** [Makefile:234: __sub-make] Error 2 shuffle=2820040985
    make: Target 'prepare' not remade because of errors.
 
 
