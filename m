@@ -1,70 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAC010EC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 05:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693288044; x=1724824044;
-  h=date:from:to:cc:subject:message-id;
-  bh=q1iEJoSmiuGFpcKEFseZ59R/H5QjV+wwpEsCTKdf/as=;
-  b=Z6XIi8E+pVOUnTV9hTO4Q54gZOTzCUMn75dr13NPChvfMOAL+JhbF1TP
-   tAvIajXYYiXF2dzp0pQUpieW2VCoqPSwnXWZOksQFYYpOmuWsg3bcRpX6
-   3AK+DW156GFI2Th3Lab+RsuXqVM97cVuGNQLI2YRn5OWlJbeMETPgkZCb
-   3XgcV6TewcNNU0g5x6mpoPC8EeHPUUF+UzubCB6wfebqXlus7KZIj0NmM
-   dg1TtSHfXbI8kVPtB5rqgHf64KJDYisFr9vYWAydidBIodtMqViDdu/iA
-   13m6c2rIHXvPO2d6wyu5gwL0+PIx06cy9+PCjVAK/nSsqYLIedj5hJx+D
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="441630220"
-X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="441630220"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 22:47:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="882183773"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Aug 2023 22:47:27 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qarZR-0008Rv-13;
-	Tue, 29 Aug 2023 05:47:21 +0000
-Date: Tue, 29 Aug 2023 13:46:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sultan Alsawaf <sultan@kerneltoast.com>,
- Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-Cc: oe-kbuild-all@lists.linux.dev, lkp@intel.com,
- Josh Triplett <josh@joshtriplett.org>
-Subject: [lkp] [+139 bytes kernel size regression] [i386-tinyconfig]
- [bf45053c96] ZEN: mm: Don't hog the CPU and zone lock in rmqueue_bulk()
-Message-ID: <20230829054635.LaFn7%lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB0510EC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 06:08:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C02B7C433C7;
+	Tue, 29 Aug 2023 06:08:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693289311;
+	bh=G2WROhMpXMDBqI+bhcJRZahfWRGJzUJTtNMDtpNyag4=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=jAzgm/doZ3akpznL21It69r0KSll+R63lgXUOG2JHspshsDYUE5vyGExZYuZ45Cs4
+	 w/Va/Dih/UQBO/NF6+gX2dGmPC1xlQTDCiv8WAUd80y7xlf/dC9gwIQJM8HBuTWW+I
+	 +6pFsgs8kCYMvHGGIWCWSyjcPGTk8zeYgoy5QHJ/NUOmH5P5d+XD+JlGDGOSHYdCBb
+	 t10Gr1llGLe3G9Ua7ZlzPUKhehphw0zziDeSGNfBroX05crr6nqpiXqh3A00Usu9bo
+	 iiRDxzFTh2i65VC2soIpoZSeGrxNvSqRfO5dAbJSLiX45YS0W0JvvaABRpdHXH5ALP
+	 IZvO69M5yPfNA==
+From: Kalle Valo <kvalo@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Ajay Singh <ajay.kathat@microchip.com>,  oe-kbuild-all@lists.linux.dev,
+  linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org
+Subject: Re: drivers/net/wireless/microchip/wilc1000/cfg80211.c:361:42:
+ sparse: sparse: incorrect type in assignment (different base types)
+References: <202308290615.lUTIgqUl-lkp@intel.com>
+Date: Tue, 29 Aug 2023 09:09:40 +0300
+In-Reply-To: <202308290615.lUTIgqUl-lkp@intel.com> (kernel test robot's
+	message of "Tue, 29 Aug 2023 06:56:10 +0800")
+Message-ID: <877cpev0pn.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain
 
+kernel test robot <lkp@intel.com> writes:
 
-FYI, we noticed a +139 bytes kernel size regression due to commit:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   727dbda16b83600379061c4ca8270ef3e2f51922
+> commit: c5b331d4f550fb78bf1a553b2517616a5ea913d6 wifi: wilc1000: add WPA3 SAE support
+> date:   1 year, 3 months ago
+> config: i386-randconfig-063-20230829 (https://download.01.org/0day-ci/archive/20230829/202308290615.lUTIgqUl-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308290615.lUTIgqUl-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308290615.lUTIgqUl-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> drivers/net/wireless/microchip/wilc1000/cfg80211.c:361:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int key_mgmt_suite @@     got restricted __be32 [usertype] @@
+>    drivers/net/wireless/microchip/wilc1000/cfg80211.c:361:42: sparse:     expected unsigned int key_mgmt_suite
+>    drivers/net/wireless/microchip/wilc1000/cfg80211.c:361:42: sparse:     got restricted __be32 [usertype]
 
-commit: bf45053c965e9b8a0b6225c5d378493b5aaf1336 (ZEN: mm: Don't hog the CPU and zone lock in rmqueue_bulk())
-https://github.com/zen-kernel/zen-kernel 6.5/zen-sauce
+Yeah, this is an old issue but we really should try to fix this,
+especially so as I would like to make wireless code sparse warning free
+in the near future. IIRC there were some problems with nl80211 interface
+as well so this might not be simple fix still.
 
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
 
-Details as below (size data is obtained by `nm --size-sort vmlinux`):
-
-42ed39f2: ZEN: INTERACTIVE: Document PDS/BMQ configuration
-bf45053c: ZEN: mm: Don't hog the CPU and zone lock in rmqueue_bulk()
-
-+-------------------+----------+----------+-------+
-|      symbol       | 42ed39f2 | bf45053c | delta |
-+-------------------+----------+----------+-------+
-| bzImage           | 516656   | 516848   | 192   |
-| nm.t.rmqueue_bulk | 353      | 492      | 139   |
-+-------------------+----------+----------+-------+
-
-
-
-Thanks
-
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
