@@ -1,44 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17CB4156DB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 12:57:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2803A14AA7;
+	Tue, 29 Aug 2023 14:00:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693313832; x=1724849832;
+  t=1693317608; x=1724853608;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FDLnPvtZuBswgvsRAi4Jlam0+1WlSml+GvsP/kyPF4Y=;
-  b=gkY7AYAWitXCQdYlA3/9d6TVqZNI7AwxCK6+ZGcunToFFbb7NqKUgArI
-   sIUyc4DwwLHf8Kf/2FahqCGMPVkJMhp4zbzfYiOx1iFHEd8Ede+LWqI0Z
-   7xnX98SXBG56ZjXvGjH11uG+KxSkBqLNXwRyrNgrzMtgzfWfszLaYVVUt
-   1wE2kmxbEPb+uNZp4sHucwHB3XdB67zwmH0oTYhKBW6R1GYy8lqcsz5Fm
-   aapFfkL98+EcejajhRZ3JukU/IWHd1G5TTDFTkCnUuwTOzueuCnBwXxny
-   qew5DWK4qFOvJEnpVPJoKPrs6RWT7HfZGoG4P7XErsrYn1UhZ5dU17W3v
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="354872407"
+  bh=02NpMlu8Rxv74LcPcOAdpDKAtuEGzSPj0b0k5Y5v8AQ=;
+  b=hdjAmaJSa/7+gct/2xpSIeFRnZ++L3ivhJAYw1zwZ0YQpY1kLcgSBcbu
+   RKABZgIXJAazgEgoQyYZ2VCW81qfaobkOO8F35Ftz2FbbI3Q2MJ4sKJWo
+   5s045Kqy4qPyqsuOU+O4we6h9BpeI4K1OWPdslcdgdD7BUTPvYX3FufTV
+   9N5NCPxmU+LO02VNmjvYsbZ6JQCtiImSbEoxmBm5LV6TejIs4o/CEwktm
+   OBJ/FMVt1VQ7nkRTuaXk5Qp7PgkR74TEGq4ONzqkb0XqF+AZBlCU2ssiR
+   RIk7Gl7lgFX/uF5zOsz9XEb5DARHuc1cacBO5NQ55Yo+H0rIxBCryOi/E
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="372786733"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="354872407"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 05:57:06 -0700
+   d="scan'208";a="372786733"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 06:59:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="862240739"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="738719299"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="862240739"
+   d="scan'208";a="738719299"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 29 Aug 2023 05:57:04 -0700
+  by orsmga002.jf.intel.com with ESMTP; 29 Aug 2023 06:59:40 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qayGX-0008k7-1C;
-	Tue, 29 Aug 2023 12:56:27 +0000
-Date: Tue, 29 Aug 2023 20:54:55 +0800
+	id 1qazFY-0008n9-1E;
+	Tue, 29 Aug 2023 13:59:26 +0000
+Date: Tue, 29 Aug 2023 21:58:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.4 61/64] kernel/sched/debug.c:551:23: error:
- format '%lu' expects argument of type 'long unsigned int', but argument 4
- has type 'u32' {aka 'unsigned int'}
-Message-ID: <202308292053.imtNRwTb-lkp@intel.com>
+To: Yimin Gu <ustcymgu@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	Jesse Taube <Mr.Bossman075@gmail.com>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: drivers/net/ethernet/8390/axnet_cs.c:639:5: warning: performing
+ pointer arithmetic on a null pointer has undefined behavior
+Message-ID: <202308292137.MoYgoSrV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,148 +50,417 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.4
-head:   a1f444069f1cadb488c919ead761560c4135de15
-commit: cda81ec600e3709bef3de7b2f65a227a4582802b [61/64] CHROMIUM: BACKPORT: FROMLIST: sched/fair: Add util_guest for tasks
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230829/202308292053.imtNRwTb-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292053.imtNRwTb-lkp@intel.com/reproduce)
+Hi Yimin,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1c59d383390f970b891b503b7f79b63a02db2ec5
+commit: b5e2c507b06c9d36411845149162a804ae7b04a9 riscv: Kconfig: Allow RV32 to build with no MMU
+date:   5 months ago
+config: riscv-randconfig-r002-20230829 (https://download.01.org/0day-ci/archive/20230829/202308292137.MoYgoSrV-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292137.MoYgoSrV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308292053.imtNRwTb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308292137.MoYgoSrV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/sched/debug.c: In function 'print_cfs_rq':
->> kernel/sched/debug.c:551:23: error: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'u32' {aka 'unsigned int'} [-Werror=format=]
-     551 |         SEQ_printf(m, "  .%-30s: %lu\n", "util_avg",
-         |                       ^~~~~~~~~~~~~~~~~
-     552 |                         cfs_rq->avg.util_avg);
-         |                         ~~~~~~~~~~~~~~~~~~~~
-         |                                    |
-         |                                    u32 {aka unsigned int}
-   kernel/sched/debug.c:18:31: note: in definition of macro 'SEQ_printf'
-      18 |                 seq_printf(m, x);               \
-         |                               ^
-   kernel/sched/debug.c:551:36: note: format string is defined here
-     551 |         SEQ_printf(m, "  .%-30s: %lu\n", "util_avg",
-         |                                  ~~^
-         |                                    |
-         |                                    long unsigned int
-         |                                  %u
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:15,
-                    from include/asm-generic/bug.h:19,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from include/asm-generic/current.h:5,
-                    from ./arch/arm/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from kernel/sched/sched.h:5,
-                    from kernel/sched/debug.c:9:
->> include/linux/kern_levels.h:5:25: error: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'u32' {aka 'unsigned int'} [-Werror=format=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:24:25: note: in expansion of macro 'KERN_SOH'
-      24 | #define KERN_CONT       KERN_SOH "c"
-         |                         ^~~~~~~~
-   include/linux/printk.h:313:16: note: in expansion of macro 'KERN_CONT'
-     313 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |                ^~~~~~~~~
-   kernel/sched/debug.c:20:17: note: in expansion of macro 'pr_cont'
-      20 |                 pr_cont(x);                     \
-         |                 ^~~~~~~
-   kernel/sched/debug.c:551:9: note: in expansion of macro 'SEQ_printf'
-     551 |         SEQ_printf(m, "  .%-30s: %lu\n", "util_avg",
-         |         ^~~~~~~~~~
-   cc1: all warnings being treated as errors
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/8390/axnet_cs.c:36:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/8390/axnet_cs.c:36:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/8390/axnet_cs.c:36:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/8390/axnet_cs.c:36:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/8390/axnet_cs.c:36:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+                                                     ~~~~~~~~~~ ^
+>> drivers/net/ethernet/8390/axnet_cs.c:639:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+       insw(nic_base + AXNET_DATAPORT, hdr,
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/net/ethernet/8390/axnet_cs.c:662:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+       insw(nic_base + AXNET_DATAPORT,buf,count>>1);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/net/ethernet/8390/axnet_cs.c:653:9: warning: variable 'xfer_count' set but not used [-Wunused-but-set-variable]
+       int xfer_count = count;
+           ^
+   drivers/net/ethernet/8390/axnet_cs.c:688:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+       outsw(nic_base + AXNET_DATAPORT, buf, count>>1);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   17 warnings generated.
+--
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/8390/pcnet_cs.c:39:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/8390/pcnet_cs.c:39:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/8390/pcnet_cs.c:39:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/8390/pcnet_cs.c:39:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/8390/pcnet_cs.c:39:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+                                                     ~~~~~~~~~~ ^
+>> drivers/net/ethernet/8390/pcnet_cs.c:1155:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+       insw(nic_base + PCNET_DATAPORT, hdr,
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/net/ethernet/8390/pcnet_cs.c:1190:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+       insw(nic_base + PCNET_DATAPORT,buf,count>>1);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/net/ethernet/8390/pcnet_cs.c:1170:9: warning: variable 'xfer_count' set but not used [-Wunused-but-set-variable]
+       int xfer_count = count;
+           ^
+   drivers/net/ethernet/8390/pcnet_cs.c:1266:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+       outsw(nic_base + PCNET_DATAPORT, buf, count>>1);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   17 warnings generated.
+--
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/xircom/xirc2ps_cs.c:74:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/xircom/xirc2ps_cs.c:74:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           insl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/xircom/xirc2ps_cs.c:74:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsb(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/xircom/xirc2ps_cs.c:74:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsw(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/xircom/xirc2ps_cs.c:74:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           outsl(addr, buffer, count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/xircom/xirc2ps_cs.c:74:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+                                                     ~~~~~~~~~~ ^
+>> drivers/net/ethernet/xircom/xirc2ps_cs.c:1059:4: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+                           insw(ioaddr+XIRCREG_EDP,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/net/ethernet/xircom/xirc2ps_cs.c:1087:7: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+                       insw(ioaddr+XIRCREG_EDP, skb_put(skb, pktlen),
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+                                            ~~~~~~~~~~ ^
+   drivers/net/ethernet/xircom/xirc2ps_cs.c:1250:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+       outsw(ioaddr+XIRCREG_EDP, skb->data, pktlen>>1);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+                                              ~~~~~~~~~~ ^
+   16 warnings generated.
+..
 
 
-vim +551 kernel/sched/debug.c
+vim +639 drivers/net/ethernet/8390/axnet_cs.c
 
-43ae34cb4cd650 kernel/sched_debug.c Ingo Molnar     2007-07-09  501  
-5cef9eca3837a8 kernel/sched_debug.c Ingo Molnar     2007-08-09  502  void print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq)
-43ae34cb4cd650 kernel/sched_debug.c Ingo Molnar     2007-07-09  503  {
-86d9560cb6bd85 kernel/sched_debug.c Ingo Molnar     2007-10-15  504  	s64 MIN_vruntime = -1, min_vruntime, max_vruntime = -1,
-86d9560cb6bd85 kernel/sched_debug.c Ingo Molnar     2007-10-15  505  		spread, rq0_min_vruntime, spread0;
-348ec61e6268c3 kernel/sched_debug.c Hitoshi Mitake  2009-06-17  506  	struct rq *rq = cpu_rq(cpu);
-67e12eac328b27 kernel/sched_debug.c Ingo Molnar     2007-10-15  507  	struct sched_entity *last;
-67e12eac328b27 kernel/sched_debug.c Ingo Molnar     2007-10-15  508  	unsigned long flags;
-67e12eac328b27 kernel/sched_debug.c Ingo Molnar     2007-10-15  509  
-efe25c2c7b3a5d kernel/sched_debug.c Bharata B Rao   2011-01-11  510  #ifdef CONFIG_FAIR_GROUP_SCHED
-e9ca267096674e kernel/sched/debug.c Joe Lawrence    2018-03-19  511  	SEQ_printf(m, "\n");
-279749d0d4ef1e kernel/sched/debug.c Waiman Long     2021-04-15  512  	SEQ_printf_task_group_path(m, cfs_rq->tg, "cfs_rq[%d]:%s\n", cpu);
-efe25c2c7b3a5d kernel/sched_debug.c Bharata B Rao   2011-01-11  513  #else
-e9ca267096674e kernel/sched/debug.c Joe Lawrence    2018-03-19  514  	SEQ_printf(m, "\n");
-e9ca267096674e kernel/sched/debug.c Joe Lawrence    2018-03-19  515  	SEQ_printf(m, "cfs_rq[%d]:\n", cpu);
-efe25c2c7b3a5d kernel/sched_debug.c Bharata B Rao   2011-01-11  516  #endif
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  517  	SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", "exec_clock",
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  518  			SPLIT_NS(cfs_rq->exec_clock));
-67e12eac328b27 kernel/sched_debug.c Ingo Molnar     2007-10-15  519  
-70028b3759665d kernel/sched/debug.c Peter Zijlstra  2019-02-18  520  	raw_spin_lock_irqsave(rq_lockp(rq), flags);
-bfb068892d30dc kernel/sched/debug.c Davidlohr Bueso 2017-09-08  521  	if (rb_first_cached(&cfs_rq->tasks_timeline))
-ac53db596cc08e kernel/sched_debug.c Rik van Riel    2011-02-01  522  		MIN_vruntime = (__pick_first_entity(cfs_rq))->vruntime;
-67e12eac328b27 kernel/sched_debug.c Ingo Molnar     2007-10-15  523  	last = __pick_last_entity(cfs_rq);
-67e12eac328b27 kernel/sched_debug.c Ingo Molnar     2007-10-15  524  	if (last)
-67e12eac328b27 kernel/sched_debug.c Ingo Molnar     2007-10-15  525  		max_vruntime = last->vruntime;
-5ac5c4d604bf89 kernel/sched_debug.c Peter Zijlstra  2008-11-10  526  	min_vruntime = cfs_rq->min_vruntime;
-348ec61e6268c3 kernel/sched_debug.c Hitoshi Mitake  2009-06-17  527  	rq0_min_vruntime = cpu_rq(0)->cfs.min_vruntime;
-70028b3759665d kernel/sched/debug.c Peter Zijlstra  2019-02-18  528  	raw_spin_unlock_irqrestore(rq_lockp(rq), flags);
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  529  	SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", "MIN_vruntime",
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  530  			SPLIT_NS(MIN_vruntime));
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  531  	SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", "min_vruntime",
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  532  			SPLIT_NS(min_vruntime));
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  533  	SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", "max_vruntime",
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  534  			SPLIT_NS(max_vruntime));
-67e12eac328b27 kernel/sched_debug.c Ingo Molnar     2007-10-15  535  	spread = max_vruntime - MIN_vruntime;
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  536  	SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", "spread",
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  537  			SPLIT_NS(spread));
-86d9560cb6bd85 kernel/sched_debug.c Ingo Molnar     2007-10-15  538  	spread0 = min_vruntime - rq0_min_vruntime;
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  539  	SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", "spread0",
-ef83a5714d9a81 kernel/sched_debug.c Ingo Molnar     2007-10-15  540  			SPLIT_NS(spread0));
-5ac5c4d604bf89 kernel/sched_debug.c Peter Zijlstra  2008-11-10  541  	SEQ_printf(m, "  .%-30s: %d\n", "nr_spread_over",
-ddc972975091ba kernel/sched_debug.c Peter Zijlstra  2007-10-15  542  			cfs_rq->nr_spread_over);
-c82513e513556a kernel/sched/debug.c Peter Zijlstra  2012-04-26  543  	SEQ_printf(m, "  .%-30s: %d\n", "nr_running", cfs_rq->nr_running);
-2069dd75c7d0f4 kernel/sched_debug.c Peter Zijlstra  2010-11-15  544  	SEQ_printf(m, "  .%-30s: %ld\n", "load", cfs_rq->load.weight);
-c09595f63bb190 kernel/sched_debug.c Peter Zijlstra  2008-06-27  545  #ifdef CONFIG_SMP
-1ea6c46a23f121 kernel/sched/debug.c Peter Zijlstra  2017-05-06  546  	SEQ_printf(m, "  .%-30s: %ld\n", "runnable_weight", cfs_rq->runnable_weight);
-9d89c257dfb9c5 kernel/sched/debug.c Yuyang Du       2015-07-15  547  	SEQ_printf(m, "  .%-30s: %lu\n", "load_avg",
-9d89c257dfb9c5 kernel/sched/debug.c Yuyang Du       2015-07-15  548  			cfs_rq->avg.load_avg);
-139622343ef319 kernel/sched/debug.c Yuyang Du       2015-07-15  549  	SEQ_printf(m, "  .%-30s: %lu\n", "runnable_load_avg",
-1ea6c46a23f121 kernel/sched/debug.c Peter Zijlstra  2017-05-06  550  			cfs_rq->avg.runnable_load_avg);
-9d89c257dfb9c5 kernel/sched/debug.c Yuyang Du       2015-07-15 @551  	SEQ_printf(m, "  .%-30s: %lu\n", "util_avg",
-9d89c257dfb9c5 kernel/sched/debug.c Yuyang Du       2015-07-15  552  			cfs_rq->avg.util_avg);
-7f65ea42eb00bc kernel/sched/debug.c Patrick Bellasi 2018-03-09  553  	SEQ_printf(m, "  .%-30s: %u\n", "util_est_enqueued",
-7f65ea42eb00bc kernel/sched/debug.c Patrick Bellasi 2018-03-09  554  			cfs_rq->avg.util_est.enqueued);
-2a2f5d4e44ed16 kernel/sched/debug.c Peter Zijlstra  2017-05-08  555  	SEQ_printf(m, "  .%-30s: %ld\n", "removed.load_avg",
-2a2f5d4e44ed16 kernel/sched/debug.c Peter Zijlstra  2017-05-08  556  			cfs_rq->removed.load_avg);
-2a2f5d4e44ed16 kernel/sched/debug.c Peter Zijlstra  2017-05-08  557  	SEQ_printf(m, "  .%-30s: %ld\n", "removed.util_avg",
-2a2f5d4e44ed16 kernel/sched/debug.c Peter Zijlstra  2017-05-08  558  			cfs_rq->removed.util_avg);
-0e2d2aaaae52c2 kernel/sched/debug.c Peter Zijlstra  2017-05-08  559  	SEQ_printf(m, "  .%-30s: %ld\n", "removed.runnable_sum",
-0e2d2aaaae52c2 kernel/sched/debug.c Peter Zijlstra  2017-05-08  560  			cfs_rq->removed.runnable_sum);
-333bb864f19201 kernel/sched/debug.c Alex Shi        2013-06-28  561  #ifdef CONFIG_FAIR_GROUP_SCHED
-9d89c257dfb9c5 kernel/sched/debug.c Yuyang Du       2015-07-15  562  	SEQ_printf(m, "  .%-30s: %lu\n", "tg_load_avg_contrib",
-9d89c257dfb9c5 kernel/sched/debug.c Yuyang Du       2015-07-15  563  			cfs_rq->tg_load_avg_contrib);
-333bb864f19201 kernel/sched/debug.c Alex Shi        2013-06-28  564  	SEQ_printf(m, "  .%-30s: %ld\n", "tg_load_avg",
-333bb864f19201 kernel/sched/debug.c Alex Shi        2013-06-28  565  			atomic_long_read(&cfs_rq->tg->load_avg));
-c09595f63bb190 kernel/sched_debug.c Peter Zijlstra  2008-06-27  566  #endif
-333bb864f19201 kernel/sched/debug.c Alex Shi        2013-06-28  567  #endif
-f9f9ffc237dd92 kernel/sched/debug.c Ben Segall      2013-10-16  568  #ifdef CONFIG_CFS_BANDWIDTH
-f9f9ffc237dd92 kernel/sched/debug.c Ben Segall      2013-10-16  569  	SEQ_printf(m, "  .%-30s: %d\n", "throttled",
-f9f9ffc237dd92 kernel/sched/debug.c Ben Segall      2013-10-16  570  			cfs_rq->throttled);
-f9f9ffc237dd92 kernel/sched/debug.c Ben Segall      2013-10-16  571  	SEQ_printf(m, "  .%-30s: %d\n", "throttle_count",
-f9f9ffc237dd92 kernel/sched/debug.c Ben Segall      2013-10-16  572  			cfs_rq->throttle_count);
-f9f9ffc237dd92 kernel/sched/debug.c Ben Segall      2013-10-16  573  #endif
-2069dd75c7d0f4 kernel/sched_debug.c Peter Zijlstra  2010-11-15  574  
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  628  
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  629  static void get_8390_hdr(struct net_device *dev,
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  630  			 struct e8390_pkt_hdr *hdr,
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  631  			 int ring_page)
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  632  {
+906da809c5be30 drivers/net/pcmcia/axnet_cs.c Olof Johansson 2008-02-04  633      unsigned int nic_base = dev->base_addr;
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  634  
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  635      outb_p(0, nic_base + EN0_RSARLO);		/* On page boundary */
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  636      outb_p(ring_page, nic_base + EN0_RSARHI);
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  637      outb_p(E8390_RREAD+E8390_START, nic_base + AXNET_CMD);
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  638  
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16 @639      insw(nic_base + AXNET_DATAPORT, hdr,
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  640  	    sizeof(struct e8390_pkt_hdr)>>1);
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  641      /* Fix for big endian systems */
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  642      hdr->count = le16_to_cpu(hdr->count);
+^1da177e4c3f41 drivers/net/pcmcia/axnet_cs.c Linus Torvalds 2005-04-16  643  
 
-:::::: The code at line 551 was first introduced by commit
-:::::: 9d89c257dfb9c51a532d69397f6eed75e5168c35 sched/fair: Rewrite runnable load and utilization average tracking
+:::::: The code at line 639 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Yuyang Du <yuyang.du@intel.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
