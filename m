@@ -1,46 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C236417FE3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 15:56:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89A72C80;
+	Tue, 29 Aug 2023 16:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693324583; x=1724860583;
+  t=1693326828; x=1724862828;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/FxdMVHaC4P+Iomi2vc/Vmvj9NYMSRb9IOpwkfjphqQ=;
-  b=QXJ5P3J5N0bWoQg4krSVa6uRf5bRpeo/dC/kiI69BNZj2OjJ+hN5ZIps
-   R0Ok9nuuNA0tdqMi3EvQ3nSmdeEpB9C1Oj94+8C50KlTXxZIY/BxmebNx
-   cRVnjIt2p1+br7tfHkenY7z7AfUegw3SnWqXwQuCkXcVNtJpkY6ChgMhK
-   NbDB4nkfVkOBPQ8erkmK4k+i4o/Z4dZW8PUG18UvNI2QMsXV/rG4Bv1HC
-   fUiHVZUoBr6kRjO4UL0/nXZqIjM7Vz8lf5M4pu0i4KH9OhlBSRsZsQkQk
-   f6ViQ6Z4n7uo7CuiXUAUvJmVfjIRWtrAQYwCqtTPVLK7n3Gpj4JWjXBYi
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="439359347"
+  bh=LbBndQ30pApFIdN1pPSoRCOwu6jKcidtzAZxrTxto+I=;
+  b=G0mPdmDJyd0ZFftYDC1qtsdyRxiN4gpfjuxiq7XvUYR83T7NilQOG4IC
+   mvbpVNehg+xBptDZpExL21wpo+9EDcVc3v4FjchcDyUHg8aaeVDivhmDa
+   lrbbMONM+156SM5sy+jMr95Q/+q8kOG2KguvLrkj9solvalS76YYMp1gZ
+   JKTKvlHjQNJGt1O/2zSYK1YOLlRl51//a4iVsIQ+n+G6ijDOIq4c5WeT8
+   Ab5jpK1v2aWqR1jmPxUCn3W+CYgqCOPvsWbN+qSDyzgbTS/SbVhJGK3pK
+   B2o/fWnV6biXXqTnOK5QbG2O3WEsUCwPFwxGYmSBuoYDaUYLZEBsko2zD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="461793835"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="439359347"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 08:56:22 -0700
+   d="scan'208";a="461793835"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 09:28:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="732258607"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="741883388"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="732258607"
+   d="scan'208";a="741883388"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 29 Aug 2023 08:56:19 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 29 Aug 2023 09:27:56 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qb14k-0008sQ-3C;
-	Tue, 29 Aug 2023 15:56:18 +0000
-Date: Tue, 29 Aug 2023 23:55:37 +0800
+	id 1qb1ZL-0008u3-28;
+	Tue, 29 Aug 2023 16:27:55 +0000
+Date: Wed, 30 Aug 2023 00:27:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] ALSA: control: Use list_for_each_entry_safe()
-Message-ID: <202308292313.7rKiGzpa-lkp@intel.com>
-References: <20230829135252.3915124-1-andriy.shevchenko@linux.intel.com>
+To: Meng Li <li.meng@amd.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	Huang Rui <ray.huang@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	x86@kernel.org, linux-acpi@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kselftest@vger.kernel.org,
+	Nathan Fontenot <nathan.fontenot@amd.com>,
+	Deepak Sharma <deepak.sharma@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Shimmer Huang <shimmer.huang@amd.com>,
+	Perry Yuan <Perry.Yuan@amd.com>, Xiaojian Du <Xiaojian.Du@amd.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Borislav Petkov <bp@alien8.de>, Meng Li <li.meng@amd.com>
+Subject: Re: [PATCH V4 4/7] cpufreq: Add a notification message that the
+ highest perf has changed
+Message-ID: <202308300057.ASUJQpsV-lkp@intel.com>
+References: <20230829064340.1136448-5-li.meng@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,207 +61,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230829135252.3915124-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230829064340.1136448-5-li.meng@amd.com>
 
-Hi Andy,
+Hi Meng,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v6.5 next-20230829]
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on linus/master v6.5 next-20230829]
+[cannot apply to tip/x86/core]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/ALSA-control-Use-list_for_each_entry_safe/20230829-215501
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230829135252.3915124-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 1/1] ALSA: control: Use list_for_each_entry_safe()
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230829/202308292313.7rKiGzpa-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292313.7rKiGzpa-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Meng-Li/x86-Drop-CPU_SUP_INTEL-from-SCHED_MC_PRIO-for-the-expansion/20230829-144723
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230829064340.1136448-5-li.meng%40amd.com
+patch subject: [PATCH V4 4/7] cpufreq: Add a notification message that the highest perf has changed
+config: i386-randconfig-r031-20230829 (https://download.01.org/0day-ci/archive/20230830/202308300057.ASUJQpsV-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300057.ASUJQpsV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308292313.7rKiGzpa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308300057.ASUJQpsV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
-     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:779:27: note: in expansion of macro 'list_next_entry'
-     779 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   sound/core/control_led.c:304:17: note: in expansion of macro 'list_for_each_entry_safe'
-     304 |                 list_for_each_entry_safe(lctl, _lctl, &led->controls, list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:25: error: invalid type argument of '->' (have 'struct snd_ctl_led_ctl')
-     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |                         ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
-     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:779:27: note: in expansion of macro 'list_next_entry'
-     779 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   sound/core/control_led.c:304:17: note: in expansion of macro 'list_for_each_entry_safe'
-     304 |                 list_for_each_entry_safe(lctl, _lctl, &led->controls, list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
-     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:779:27: note: in expansion of macro 'list_next_entry'
-     779 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   sound/core/control_led.c:304:17: note: in expansion of macro 'list_for_each_entry_safe'
-     304 |                 list_for_each_entry_safe(lctl, _lctl, &led->controls, list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:47: error: invalid type argument of unary '*' (have 'struct snd_ctl_led_ctl')
-     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |                                               ^~~~~~
-   include/linux/container_of.h:23:11: note: in definition of macro 'container_of'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |           ^~~~
-   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
-     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:779:27: note: in expansion of macro 'list_next_entry'
-     779 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   sound/core/control_led.c:304:17: note: in expansion of macro 'list_for_each_entry_safe'
-     304 |                 list_for_each_entry_safe(lctl, _lctl, &led->controls, list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/uapi/linux/sysinfo.h:5,
-                    from include/uapi/linux/kernel.h:5,
-                    from include/linux/cache.h:5,
-                    from include/linux/slab.h:15:
-   include/linux/list.h:564:47: error: invalid type argument of unary '*' (have 'struct snd_ctl_led_ctl')
-     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |                                               ^~~~~~
-   include/linux/stddef.h:16:52: note: in definition of macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                                    ^~~~
-   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
-     520 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:564:9: note: in expansion of macro 'list_entry'
-     564 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:779:27: note: in expansion of macro 'list_next_entry'
-     779 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   sound/core/control_led.c:304:17: note: in expansion of macro 'list_for_each_entry_safe'
-     304 |                 list_for_each_entry_safe(lctl, _lctl, &led->controls, list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/list.h:779:21: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     779 |              pos = n, n = list_next_entry(n, member))
-         |                     ^
-   sound/core/control_led.c:304:17: note: in expansion of macro 'list_for_each_entry_safe'
-     304 |                 list_for_each_entry_safe(lctl, _lctl, &led->controls, list)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/core/control_led.c: In function 'snd_ctl_led_reset':
-   sound/core/control_led.c:329:62: error: macro "list_for_each_entry" passed 4 arguments, but takes just 3
-     329 |         list_for_each_entry(lctl, _lctl, &led->controls, list)
-         |                                                              ^
-   include/linux/list.h:688: note: macro "list_for_each_entry" defined here
-     688 | #define list_for_each_entry(pos, head, member)                          \
-         | 
-   sound/core/control_led.c:329:9: error: 'list_for_each_entry' undeclared (first use in this function); did you mean 'bus_for_each_drv'?
-     329 |         list_for_each_entry(lctl, _lctl, &led->controls, list)
-         |         ^~~~~~~~~~~~~~~~~~~
-         |         bus_for_each_drv
-   sound/core/control_led.c:329:9: note: each undeclared identifier is reported only once for each function it appears in
-   sound/core/control_led.c:329:28: error: expected ';' before 'if'
-     329 |         list_for_each_entry(lctl, _lctl, &led->controls, list)
-         |                            ^
-         |                            ;
-     330 |                 if (lctl->card == card) {
-         |                 ~~          
->> sound/core/control_led.c:315:39: warning: unused variable 'vd' [-Wunused-variable]
-     315 |         struct snd_kcontrol_volatile *vd;
-         |                                       ^~
->> sound/core/control_led.c:314:39: warning: unused variable '_lctl' [-Wunused-variable]
-     314 |         struct snd_ctl_led_ctl *lctl, _lctl;
-         |                                       ^~~~~
->> sound/core/control_led.c:314:33: warning: unused variable 'lctl' [-Wunused-variable]
-     314 |         struct snd_ctl_led_ctl *lctl, _lctl;
-         |                                 ^~~~
->> sound/core/control_led.c:313:29: warning: variable 'led' set but not used [-Wunused-but-set-variable]
-     313 |         struct snd_ctl_led *led;
-         |                             ^~~
+>> drivers/acpi/processor_driver.c:88:3: error: call to undeclared function 'cpufreq_update_highest_perf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   cpufreq_update_highest_perf(pr->id);
+                   ^
+   1 error generated.
 
 
-vim +/vd +315 sound/core/control_led.c
+vim +/cpufreq_update_highest_perf +88 drivers/acpi/processor_driver.c
 
-22d8de62f11b287 Jaroslav Kysela 2021-03-17  309  
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  310  static int snd_ctl_led_reset(int card_number, unsigned int group)
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  311  {
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  312  	struct snd_card *card;
-a135dfb5de15013 Jaroslav Kysela 2021-03-17 @313  	struct snd_ctl_led *led;
-8d00c707fea8284 Andy Shevchenko 2023-08-29 @314  	struct snd_ctl_led_ctl *lctl, _lctl;
-a135dfb5de15013 Jaroslav Kysela 2021-03-17 @315  	struct snd_kcontrol_volatile *vd;
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  316  	bool change = false;
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  317  
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  318  	card = snd_card_ref(card_number);
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  319  	if (!card)
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  320  		return -ENXIO;
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  321  
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  322  	mutex_lock(&snd_ctl_led_mutex);
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  323  	if (!snd_ctl_led_card_valid[card_number]) {
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  324  		mutex_unlock(&snd_ctl_led_mutex);
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  325  		snd_card_unref(card);
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  326  		return -ENXIO;
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  327  	}
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  328  	led = &snd_ctl_leds[group];
-8d00c707fea8284 Andy Shevchenko 2023-08-29  329  	list_for_each_entry(lctl, _lctl, &led->controls, list)
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  330  		if (lctl->card == card) {
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  331  			vd = &lctl->kctl->vd[lctl->index_offset];
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  332  			vd->access &= ~group_to_access(group);
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  333  			snd_ctl_led_ctl_destroy(lctl);
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  334  			change = true;
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  335  		}
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  336  	mutex_unlock(&snd_ctl_led_mutex);
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  337  	if (change)
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  338  		snd_ctl_led_set_state(NULL, group_to_access(group), NULL, 0);
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  339  	snd_card_unref(card);
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  340  	return 0;
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  341  }
-a135dfb5de15013 Jaroslav Kysela 2021-03-17  342  
+    53	
+    54	static void acpi_processor_notify(acpi_handle handle, u32 event, void *data)
+    55	{
+    56		struct acpi_device *device = data;
+    57		struct acpi_processor *pr;
+    58		int saved;
+    59	
+    60		if (device->handle != handle)
+    61			return;
+    62	
+    63		pr = acpi_driver_data(device);
+    64		if (!pr)
+    65			return;
+    66	
+    67		switch (event) {
+    68		case ACPI_PROCESSOR_NOTIFY_PERFORMANCE:
+    69			saved = pr->performance_platform_limit;
+    70			acpi_processor_ppc_has_changed(pr, 1);
+    71			if (saved == pr->performance_platform_limit)
+    72				break;
+    73			acpi_bus_generate_netlink_event(device->pnp.device_class,
+    74							  dev_name(&device->dev), event,
+    75							  pr->performance_platform_limit);
+    76			break;
+    77		case ACPI_PROCESSOR_NOTIFY_POWER:
+    78			acpi_processor_power_state_has_changed(pr);
+    79			acpi_bus_generate_netlink_event(device->pnp.device_class,
+    80							  dev_name(&device->dev), event, 0);
+    81			break;
+    82		case ACPI_PROCESSOR_NOTIFY_THROTTLING:
+    83			acpi_processor_tstate_has_changed(pr);
+    84			acpi_bus_generate_netlink_event(device->pnp.device_class,
+    85							  dev_name(&device->dev), event, 0);
+    86			break;
+    87		case ACPI_PROCESSOR_NOTIFY_HIGEST_PERF_CHANGED:
+  > 88			cpufreq_update_highest_perf(pr->id);
+    89			acpi_bus_generate_netlink_event(device->pnp.device_class,
+    90							  dev_name(&device->dev), event, 0);
+    91			break;
+    92		default:
+    93			acpi_handle_debug(handle, "Unsupported event [0x%x]\n", event);
+    94			break;
+    95		}
+    96	
+    97		return;
+    98	}
+    99	
 
 -- 
 0-DAY CI Kernel Test Service
