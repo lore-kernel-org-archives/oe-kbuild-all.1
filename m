@@ -1,32 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116A217751
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 20:26:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0675CC433C7;
-	Tue, 29 Aug 2023 20:26:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693340775;
-	bh=evqOhXviBKef3wu6rsLB7EURzchx4hr5qk+q8Fuv6tQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=lNLIJK0HooSnG9N+FCLEm25TYYxzm2WcIyzombUj4vPlYJUtxhrY3tGHasjP84mm/
-	 8quK5STOd/PcX+KsJVtwQkcn6WI4tWP2k8EHryPumN5Bdo51C83yO+rmMG7ZpJlEdL
-	 59ZJgCsi8A5rrcx6gJZEMXQL3v+DDDmaBqQDgVFYRyoihLMMjHjmKYQG4IGgaIElQe
-	 MEFeyu6zSlUNyQg6qIbw1zD/IY9jgI0o/FQfQiBoeg4KawKVT+H5OgZOu7UO4d0p0D
-	 ClP0/RpExoG8wBGRdS46bBSlmedeNoTS85NHlS4VvcK9FHTASt2aK6nbfweW8e27U1
-	 jh2nLs9vWkUkw==
-Date: Tue, 29 Aug 2023 15:26:13 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Valentin Sinitsyn <valesini@yandex-team.ru>
-Cc: kernel test robot <lkp@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] PCI: Implement custom llseek for sysfs resource
- entries
-Message-ID: <20230829202613.GA807744@bhelgaas>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0323F14AAF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 20:38:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693341535; x=1724877535;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wyo+0+cwoSn1/zHxwdeLTnbsjkTxTkkE4HlpyFcImWY=;
+  b=WW1BGvb5sNkAnfctVqtGk0pikNG6Q4T03jRR7RYhqmq/iXOEAxlGohjh
+   gjGpjdNqGHRqrl0dZEimkcIaP1musb7mq+U6rXWc8aUKmkpi7kL+ltBf9
+   0klaXoW4h0pfcMGLcSS6bhgDoZVRqu6+LXbyo3rWwZKoCGPQHoNyHfRHA
+   rLWra+OYoFBwwL2MVRjAF6epqnATHfxhxfbFFCkc7rUI4MFFcEbEmG7k3
+   kA44o2YP4Dxw0C7GDVXfAg3odrvs21e4XgLsLSlo5Jtyl83Rp0ppca9B8
+   Fo1rc55M4YX/2vlPOOf2aKsT839IQoGzmedj7GdFr7w7JXlO5FXMMWAdg
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441835616"
+X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
+   d="scan'208";a="441835616"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 13:38:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="912537096"
+X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
+   d="scan'208";a="912537096"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 29 Aug 2023 13:38:47 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qb5U6-00093f-1i;
+	Tue, 29 Aug 2023 20:38:46 +0000
+Date: Wed, 30 Aug 2023 04:37:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v1 1/4] nvmet-trace: avoid dereferencing pointer too early
+Message-ID: <202308300456.n1DBoTie-lkp@intel.com>
+References: <20230829091350.16156-2-dwagner@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,39 +46,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230829200229.GA804314@bhelgaas>
+In-Reply-To: <20230829091350.16156-2-dwagner@suse.de>
 
-On Tue, Aug 29, 2023 at 03:02:29PM -0500, Bjorn Helgaas wrote:
-> On Mon, Aug 28, 2023 at 12:22:54PM +0500, Valentin Sinitsyn wrote:
-> > On 25.08.2023 19:10, kernel test robot wrote:
-> > > Hi Valentine,
-> > > 
-> > > kernel test robot noticed the following build warnings:
-> > > 
-> > [..]
-> > > All warnings (new ones prefixed by >>):
-> > > 
-> > >     drivers/pci/pci-sysfs.c:1268:12: warning: no previous prototype for 'pci_create_resource_files' [-Wmissing-prototypes]
-> > >      1268 | int __weak pci_create_resource_files(struct pci_dev *dev) { return 0; }
-> > >           |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-> > >     drivers/pci/pci-sysfs.c:1269:13: warning: no previous prototype for 'pci_remove_resource_files' [-Wmissing-prototypes]
-> > >      1269 | void __weak pci_remove_resource_files(struct pci_dev *dev) { return; }
-> > >           |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > drivers/pci/pci-sysfs.c:838:15: warning: 'pci_llseek_resource' defined but not used [-Wunused-function]
-> > >       838 | static loff_t pci_llseek_resource(struct file *filep,
-> > >           |               ^~~~~~~~~~~~~~~~~~~
-> > I'm not sure if I should do anything about it: arc doesn't HAVE_* anything
-> > PCI-related, and pci-sysfs doesn't seem to be written with this case in
-> > mind. Guarding pci_llseek_resource() with an #ifdef HAVE_AT_LEAST_SOMETHING
-> > is trivial, but it feels more like a patch to silence a bot than a proper
-> > fix.
-> 
-> Looks like it will require some untangling to figure out a nice fix,
-> but I think you *do* need to do something about it because I don't
-> want to add build errors on any arch.
+Hi Daniel,
 
-P.S. This patch:
-https://lore.kernel.org/r/20230810141947.1236730-5-arnd@kernel.org is
-queued up for v6.6-rc1 and should help with the first two warnings.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-Bjorn
+[auto build test ERROR on hch-configfs/for-next]
+[also build test ERROR on linus/master v6.5 next-20230829]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvmet-trace-avoid-dereferencing-pointer-too-early/20230829-171734
+base:   git://git.infradead.org/users/hch/configfs.git for-next
+patch link:    https://lore.kernel.org/r/20230829091350.16156-2-dwagner%40suse.de
+patch subject: [RFC v1 1/4] nvmet-trace: avoid dereferencing pointer too early
+config: i386-randconfig-013-20230830 (https://download.01.org/0day-ci/archive/20230830/202308300456.n1DBoTie-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300456.n1DBoTie-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308300456.n1DBoTie-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "nvmet_trace_ctrl_id" [drivers/nvme/target/nvmet.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
