@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BF6156CC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 15:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6639514F6B;
+	Tue, 29 Aug 2023 15:26:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693321685; x=1724857685;
+  t=1693322769; x=1724858769;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BO1EXov5sqD9uUDRplSC4VX3VdKDGT4aoOFlEvLvLzk=;
-  b=T3RjMp3svy6Nb30ZeLlFHUg5cFPdv0nHUuP8oyQDl+eBtAzAHCNSU64v
-   l9ao6KIYnHa3oDszYZHVS3nn5bv/PGimU5i0Tjd14aur1XGqk30LbPHDc
-   IJHt4u9wRKtCSuRw1UvnMsxXfm5G8s4SMuVLxFRJ4Ichbf+NVmvKplSkM
-   bcDeNnqjyMXMxSXo8yBR2aWudNRYyn+9DuApb+7qUEuYwibnoLYr+Uuv0
-   ITR/LFJImUan0gpzPV+kLOxZ2j6thrj56EvWYfrZzMJiFL0WZYUS523FA
-   dMtv/CBk/3sbC/kKeIQNOwHZ9RQy9zghhPAvAWxidNAO2UMdcVwcXZf2S
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="461756210"
+  bh=l4Q2QqVZy96C8p0XDB/KS0+6JhEswRx3cuazaro5clw=;
+  b=i7c3VydEWx3owvpFCefXIqWAxrg/YX8j8nENXvSbbPF2YGg9lVlij9fC
+   G2IA7I5jytSPhm18mNnxH0NXCkhEkOhOZp8wa4W/Rf6D9Y5vj+aJvonjt
+   n+OWOWW+yOOZoxbeyV3/KigFLvxJeyFM+Oxxe1zZ6Xb+XptQU6Tvsrlnk
+   XPooik25zYpWFXk9NX05oeRTOWRu7u/51MiJcTdzwsALpSQd3rfY+ABPy
+   Dtvfe0lOLsdigR5W1poJlpo6FAq0HZhnm6juwQWn+ZcNWBalV0zBqSvyy
+   9Z68M4aBonTdurFJP9F+XPv2h8LpW4qRYzKjpapRppelKngWvsZv0GV4y
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="374296502"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="461756210"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 08:03:39 -0700
+   d="scan'208";a="374296502"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 08:25:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="862271074"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="912455846"
 X-IronPort-AV: E=Sophos;i="6.02,210,1688454000"; 
-   d="scan'208";a="862271074"
+   d="scan'208";a="912455846"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 29 Aug 2023 08:03:33 -0700
+  by orsmga005.jf.intel.com with ESMTP; 29 Aug 2023 08:24:59 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qb0FY-0008pb-1c;
-	Tue, 29 Aug 2023 15:03:28 +0000
-Date: Tue, 29 Aug 2023 23:02:46 +0800
+	id 1qb0aQ-0008qh-1S;
+	Tue, 29 Aug 2023 15:24:58 +0000
+Date: Tue, 29 Aug 2023 23:24:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Gregory Greenman <gregory.greenman@intel.com>
-Subject: [iwlwifi-next:pending 18/33]
- drivers/net/wireless/ath/ath11k/mac.c:5896:35: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202308292258.FxyKfz4C-lkp@intel.com>
+To: Nilesh Javali <njavali@marvell.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: [linux-next:master 12683/13297]
+ drivers/scsi/qla2xxx/qla_nvme.c:1183:13: warning: unused variable 'fcport'
+Message-ID: <202308292344.Y3XqInYf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,76 +48,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git pending
-head:   c3a2e3fb72587efd909104792b284f69e1356b79
-commit: bee2e4d5f0125728a96fcc2870acb3bd00e88cb9 [18/33] wifi: cfg80211: annotate iftype_data pointer with sparse
-config: i386-randconfig-063-20230829 (https://download.01.org/0day-ci/archive/20230829/202308292258.FxyKfz4C-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292258.FxyKfz4C-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ae782d4e2bf53b0b642ae860794f7a39470f995a
+commit: 27177862de9676c8c35b86bf89c38864fbe5ed71 [12683/13297] scsi: qla2xxx: Fix nvme_fc_rcv_ls_req() undefined error
+config: arm64-randconfig-r034-20230829 (https://download.01.org/0day-ci/archive/20230829/202308292344.Y3XqInYf-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292344.Y3XqInYf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308292258.FxyKfz4C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308292344.Y3XqInYf-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/ath/ath11k/mac.c:5896:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ieee80211_sband_iftype_data const [noderef] __iftype_data *iftype_data @@     got struct ieee80211_sband_iftype_data * @@
-   drivers/net/wireless/ath/ath11k/mac.c:5896:35: sparse:     expected struct ieee80211_sband_iftype_data const [noderef] __iftype_data *iftype_data
-   drivers/net/wireless/ath/ath11k/mac.c:5896:35: sparse:     got struct ieee80211_sband_iftype_data *
-   drivers/net/wireless/ath/ath11k/mac.c:5905:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ieee80211_sband_iftype_data const [noderef] __iftype_data *iftype_data @@     got struct ieee80211_sband_iftype_data * @@
-   drivers/net/wireless/ath/ath11k/mac.c:5905:35: sparse:     expected struct ieee80211_sband_iftype_data const [noderef] __iftype_data *iftype_data
-   drivers/net/wireless/ath/ath11k/mac.c:5905:35: sparse:     got struct ieee80211_sband_iftype_data *
-   drivers/net/wireless/ath/ath11k/mac.c:5915:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ieee80211_sband_iftype_data const [noderef] __iftype_data *iftype_data @@     got struct ieee80211_sband_iftype_data * @@
-   drivers/net/wireless/ath/ath11k/mac.c:5915:35: sparse:     expected struct ieee80211_sband_iftype_data const [noderef] __iftype_data *iftype_data
-   drivers/net/wireless/ath/ath11k/mac.c:5915:35: sparse:     got struct ieee80211_sband_iftype_data *
->> drivers/net/wireless/ath/ath11k/mac.c:7949:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct ieee80211_sta_he_cap const *he_cap @@     got struct ieee80211_sta_he_cap const [noderef] __iftype_data * @@
-   drivers/net/wireless/ath/ath11k/mac.c:7949:22: sparse:     expected struct ieee80211_sta_he_cap const *he_cap
-   drivers/net/wireless/ath/ath11k/mac.c:7949:22: sparse:     got struct ieee80211_sta_he_cap const [noderef] __iftype_data *
+All warnings (new ones prefixed by >>):
 
-vim +5896 drivers/net/wireless/ath/ath11k/mac.c
+>> drivers/scsi/qla2xxx/qla_nvme.c:1183:13: warning: unused variable 'fcport' [-Wunused-variable]
+    1183 |         fc_port_t *fcport = uctx->fcport;
+         |                    ^
+   1 warning generated.
 
-9f056ed8ee01ad John Crispin           2019-11-25  5884  
-9f056ed8ee01ad John Crispin           2019-11-25  5885  static void ath11k_mac_setup_he_cap(struct ath11k *ar,
-9f056ed8ee01ad John Crispin           2019-11-25  5886  				    struct ath11k_pdev_cap *cap)
-9f056ed8ee01ad John Crispin           2019-11-25  5887  {
-3b4516838eaaba Colin Ian King         2020-01-11  5888  	struct ieee80211_supported_band *band;
-3b4516838eaaba Colin Ian King         2020-01-11  5889  	int count;
-9f056ed8ee01ad John Crispin           2019-11-25  5890  
-9f056ed8ee01ad John Crispin           2019-11-25  5891  	if (cap->supported_bands & WMI_HOST_WLAN_2G_CAP) {
-9f056ed8ee01ad John Crispin           2019-11-25  5892  		count = ath11k_mac_copy_he_cap(ar, cap,
-9f056ed8ee01ad John Crispin           2019-11-25  5893  					       ar->mac.iftype[NL80211_BAND_2GHZ],
-9f056ed8ee01ad John Crispin           2019-11-25  5894  					       NL80211_BAND_2GHZ);
-9f056ed8ee01ad John Crispin           2019-11-25  5895  		band = &ar->mac.sbands[NL80211_BAND_2GHZ];
-9f056ed8ee01ad John Crispin           2019-11-25 @5896  		band->iftype_data = ar->mac.iftype[NL80211_BAND_2GHZ];
-3b4516838eaaba Colin Ian King         2020-01-11  5897  		band->n_iftype_data = count;
-9f056ed8ee01ad John Crispin           2019-11-25  5898  	}
-9f056ed8ee01ad John Crispin           2019-11-25  5899  
-9f056ed8ee01ad John Crispin           2019-11-25  5900  	if (cap->supported_bands & WMI_HOST_WLAN_5G_CAP) {
-9f056ed8ee01ad John Crispin           2019-11-25  5901  		count = ath11k_mac_copy_he_cap(ar, cap,
-9f056ed8ee01ad John Crispin           2019-11-25  5902  					       ar->mac.iftype[NL80211_BAND_5GHZ],
-9f056ed8ee01ad John Crispin           2019-11-25  5903  					       NL80211_BAND_5GHZ);
-9f056ed8ee01ad John Crispin           2019-11-25  5904  		band = &ar->mac.sbands[NL80211_BAND_5GHZ];
-9f056ed8ee01ad John Crispin           2019-11-25  5905  		band->iftype_data = ar->mac.iftype[NL80211_BAND_5GHZ];
-9f056ed8ee01ad John Crispin           2019-11-25  5906  		band->n_iftype_data = count;
-9f056ed8ee01ad John Crispin           2019-11-25  5907  	}
-22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  5908  
-22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  5909  	if (cap->supported_bands & WMI_HOST_WLAN_5G_CAP &&
-22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  5910  	    ar->supports_6ghz) {
-22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  5911  		count = ath11k_mac_copy_he_cap(ar, cap,
-22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  5912  					       ar->mac.iftype[NL80211_BAND_6GHZ],
-22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  5913  					       NL80211_BAND_6GHZ);
-22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  5914  		band = &ar->mac.sbands[NL80211_BAND_6GHZ];
-22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  5915  		band->iftype_data = ar->mac.iftype[NL80211_BAND_6GHZ];
-22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  5916  		band->n_iftype_data = count;
-22eeadcdeab63e Pradeep Kumar Chitrapu 2020-06-09  5917  	}
-3b4516838eaaba Colin Ian King         2020-01-11  5918  }
-9f056ed8ee01ad John Crispin           2019-11-25  5919  
 
-:::::: The code at line 5896 was first introduced by commit
-:::::: 9f056ed8ee01ad6898db49707cdc70ce923be3d0 ath11k: add HE support
+vim +/fcport +1183 drivers/scsi/qla2xxx/qla_nvme.c
 
-:::::: TO: John Crispin <john@phrozen.org>
-:::::: CC: Kalle Valo <kvalo@codeaurora.org>
+875386b9885782 Manish Rangankar 2023-08-21  1167  
+875386b9885782 Manish Rangankar 2023-08-21  1168  /*
+875386b9885782 Manish Rangankar 2023-08-21  1169   * qla2xxx_process_purls_pkt() - Pass-up Unsolicited
+875386b9885782 Manish Rangankar 2023-08-21  1170   * Received FC-NVMe Link Service pkt to nvme_fc_rcv_ls_req().
+875386b9885782 Manish Rangankar 2023-08-21  1171   * LLDD need to provide memory for response buffer, which
+875386b9885782 Manish Rangankar 2023-08-21  1172   * will be used to reference the exchange corresponding
+875386b9885782 Manish Rangankar 2023-08-21  1173   * to the LS when issuing an ls response. LLDD will have to free
+875386b9885782 Manish Rangankar 2023-08-21  1174   * response buffer in lport->ops->xmt_ls_rsp().
+875386b9885782 Manish Rangankar 2023-08-21  1175   *
+875386b9885782 Manish Rangankar 2023-08-21  1176   * @vha: SCSI qla host
+875386b9885782 Manish Rangankar 2023-08-21  1177   * @item: ptr to purex_item
+875386b9885782 Manish Rangankar 2023-08-21  1178   */
+875386b9885782 Manish Rangankar 2023-08-21  1179  static void
+875386b9885782 Manish Rangankar 2023-08-21  1180  qla2xxx_process_purls_pkt(struct scsi_qla_host *vha, struct purex_item *item)
+875386b9885782 Manish Rangankar 2023-08-21  1181  {
+875386b9885782 Manish Rangankar 2023-08-21  1182  	struct qla_nvme_unsol_ctx *uctx = item->purls_context;
+875386b9885782 Manish Rangankar 2023-08-21 @1183  	fc_port_t *fcport = uctx->fcport;
+875386b9885782 Manish Rangankar 2023-08-21  1184  	struct qla_nvme_lsrjt_pt_arg a;
+27177862de9676 Nilesh Javali    2023-08-24  1185  	int ret = 1;
+875386b9885782 Manish Rangankar 2023-08-21  1186  
+
+:::::: The code at line 1183 was first introduced by commit
+:::::: 875386b98857822b77ac7f95bdf367b70af5b78c scsi: qla2xxx: Add Unsolicited LS Request and Response Support for NVMe
+
+:::::: TO: Manish Rangankar <mrangankar@marvell.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
