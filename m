@@ -1,44 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D40410EC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 05:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CC1A21
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Aug 2023 05:33:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693287204; x=1724823204;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/ZkGzMpTxPw+mPzdbIwY7wFhVqSsEYeihK3NEHKEl/c=;
-  b=ab+wa/Fck3Wu8NTM9+t/IROHAee+W8gPK7rE9kTr6tPxhKaei5rFqYH3
-   FmxJIOw8A87jOD4m+sM6VcF1MDVQPpNw4EBLJWR5e3WbdlqbLfzIahUWk
-   eBE53kEDEqYH3S/XJCgyp4aNqLyBfZ98Zxeu9hAQv3jj2Fy6fWlZLyC8u
-   NHJ5JmiOHQZYT6jAcF+4RIx4Kl9iGpWavKVeX6tG0kJogF3dS6qwYFn1w
-   eKxhAmy0Fxx82aPoyM9bJdridCyzc1pn04vA2WkSGDSnLMbbYN2aMNZsL
-   hHpBqzL/jy7J/g8esbW6WxP5hhoAECyXskTwHbkw5a2H6q02W27Ch0/FJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="375245977"
+  t=1693287207; x=1724823207;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qGHFG31yPIV/M/L9zSY0cHEpW0ZoFDwWk16fm7jJJqA=;
+  b=caRFOkH1lgmobRZg6nEznE1pdBgM4XT1jEBDe5rxy4ZTh9iNRwpbpxca
+   86y47HcPk6xPtSwe36Ty4dZO7RReQ6v1bRdx8/VqJeXDpSqw2IrJN0TQr
+   CCHrXqHSWPvLQ89muW07VKAhfmMmcGZ45WhFdQa6SZzwJ5prVejKwOYrl
+   l8F4mUc57bCZapluEgs40b2MXatfhvz1jyPn9vh1g7Jh6l6DOB9c4LFtE
+   kx8KN+pav/AR1d48p5ZRqKFUc6OKE5ds0t112J/KeLCHTdnscnCZNVDgg
+   Y7DFOVWVGT6pVL3XE1nlzC8mZUbH+B2EGo6O24M/PZcw2iq5SzXa7W56K
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="372697844"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="375245977"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 22:33:23 -0700
+   d="scan'208";a="372697844"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2023 22:33:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="862107103"
+X-IronPort-AV: E=McAfee;i="6600,9927,10816"; a="732077943"
 X-IronPort-AV: E=Sophos;i="6.02,208,1688454000"; 
-   d="scan'208";a="862107103"
+   d="scan'208";a="732077943"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 28 Aug 2023 22:33:21 -0700
+  by orsmga007.jf.intel.com with ESMTP; 28 Aug 2023 22:33:21 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qarLs-0008Qz-1i;
+	id 1qarLs-0008Qx-1e;
 	Tue, 29 Aug 2023 05:33:20 +0000
-Date: Tue, 29 Aug 2023 13:32:57 +0800
+Date: Tue, 29 Aug 2023 13:32:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 23/71]
- include/trace/events/cros_net.h:78:1: sparse: sparse: cast to restricted
- __be32
-Message-ID: <202308291300.AOKTUptJ-lkp@intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Alex Elder <elder@linaro.org>,
+	Srini Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, kernel@quicinc.com,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH 07/11] firmware: qcom-scm: use SHM bridge if available
+Message-ID: <202308291359.QP042fIw-lkp@intel.com>
+References: <20230828192507.117334-8-bartosz.golaszewski@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,238 +59,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230828192507.117334-8-bartosz.golaszewski@linaro.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   7882f1fe23d8f51c203639247f05f3f5771252ae
-commit: cf03856077b0b4e18302987c619843341eb855d2 [23/71] CHROMIUM: add new cros_net tracepoints
-config: i386-randconfig-062-20230829 (https://download.01.org/0day-ci/archive/20230829/202308291300.AOKTUptJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308291300.AOKTUptJ-lkp@intel.com/reproduce)
+Hi Bartosz,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on arm64/for-next/core linus/master v6.5]
+[cannot apply to next-20230828]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/firmware-qcom-scm-drop-unneeded-extern-specifiers/20230829-032930
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230828192507.117334-8-bartosz.golaszewski%40linaro.org
+patch subject: [PATCH 07/11] firmware: qcom-scm: use SHM bridge if available
+config: m68k-randconfig-r006-20230829 (https://download.01.org/0day-ci/archive/20230829/202308291359.QP042fIw-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308291359.QP042fIw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308291300.AOKTUptJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308291359.QP042fIw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/ipv4/af_inet.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/cros_net.h):
->> include/trace/events/cros_net.h:78:1: sparse: sparse: cast to restricted __be32
->> include/trace/events/cros_net.h:78:1: sparse: sparse: cast to restricted __be32
->> include/trace/events/cros_net.h:78:1: sparse: sparse: restricted __be32 degrades to integer
->> include/trace/events/cros_net.h:78:1: sparse: sparse: restricted __be32 degrades to integer
->> include/trace/events/cros_net.h:78:1: sparse: sparse: cast to restricted __be32
->> include/trace/events/cros_net.h:78:1: sparse: sparse: cast to restricted __be32
->> include/trace/events/cros_net.h:78:1: sparse: sparse: restricted __be32 degrades to integer
->> include/trace/events/cros_net.h:78:1: sparse: sparse: restricted __be32 degrades to integer
-   include/trace/events/cros_net.h:123:1: sparse: sparse: cast to restricted __be32
-   include/trace/events/cros_net.h:123:1: sparse: sparse: cast to restricted __be32
-   include/trace/events/cros_net.h:123:1: sparse: sparse: restricted __be32 degrades to integer
-   include/trace/events/cros_net.h:123:1: sparse: sparse: restricted __be32 degrades to integer
-   include/trace/events/cros_net.h:123:1: sparse: sparse: cast to restricted __be32
-   include/trace/events/cros_net.h:123:1: sparse: sparse: cast to restricted __be32
-   include/trace/events/cros_net.h:123:1: sparse: sparse: restricted __be32 degrades to integer
-   include/trace/events/cros_net.h:123:1: sparse: sparse: restricted __be32 degrades to integer
-   net/ipv4/af_inet.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/cros_net.h):
-   include/trace/events/cros_net.h:195:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr4 @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   include/trace/events/cros_net.h:195:1: sparse:     expected unsigned int [usertype] saddr4
-   include/trace/events/cros_net.h:195:1: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
-   include/trace/events/cros_net.h:195:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dport @@     got restricted __be16 [usertype] skc_dport @@
-   include/trace/events/cros_net.h:195:1: sparse:     expected unsigned short [usertype] dport
-   include/trace/events/cros_net.h:195:1: sparse:     got restricted __be16 [usertype] skc_dport
-   include/trace/events/cros_net.h:195:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr4 @@     got restricted __be32 [usertype] skc_daddr @@
-   include/trace/events/cros_net.h:195:1: sparse:     expected unsigned int [usertype] daddr4
-   include/trace/events/cros_net.h:195:1: sparse:     got restricted __be32 [usertype] skc_daddr
-   include/trace/events/cros_net.h:227:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr4 @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   include/trace/events/cros_net.h:227:1: sparse:     expected unsigned int [usertype] saddr4
-   include/trace/events/cros_net.h:227:1: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
-   include/trace/events/cros_net.h:227:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dport @@     got restricted __be16 [usertype] skc_dport @@
-   include/trace/events/cros_net.h:227:1: sparse:     expected unsigned short [usertype] dport
-   include/trace/events/cros_net.h:227:1: sparse:     got restricted __be16 [usertype] skc_dport
-   include/trace/events/cros_net.h:227:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr4 @@     got restricted __be32 [usertype] skc_daddr @@
-   include/trace/events/cros_net.h:227:1: sparse:     expected unsigned int [usertype] daddr4
-   include/trace/events/cros_net.h:227:1: sparse:     got restricted __be32 [usertype] skc_daddr
-   include/trace/events/cros_net.h:263:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr4 @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   include/trace/events/cros_net.h:263:1: sparse:     expected unsigned int [usertype] saddr4
-   include/trace/events/cros_net.h:263:1: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
-   include/trace/events/cros_net.h:263:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dport @@     got restricted __be16 [usertype] skc_dport @@
-   include/trace/events/cros_net.h:263:1: sparse:     expected unsigned short [usertype] dport
-   include/trace/events/cros_net.h:263:1: sparse:     got restricted __be16 [usertype] skc_dport
-   include/trace/events/cros_net.h:263:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr4 @@     got restricted __be32 [usertype] skc_daddr @@
-   include/trace/events/cros_net.h:263:1: sparse:     expected unsigned int [usertype] daddr4
-   include/trace/events/cros_net.h:263:1: sparse:     got restricted __be32 [usertype] skc_daddr
-   include/trace/events/cros_net.h:300:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr4 @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   include/trace/events/cros_net.h:300:1: sparse:     expected unsigned int [usertype] saddr4
-   include/trace/events/cros_net.h:300:1: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
-   include/trace/events/cros_net.h:300:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dport @@     got restricted __be16 [usertype] skc_dport @@
-   include/trace/events/cros_net.h:300:1: sparse:     expected unsigned short [usertype] dport
-   include/trace/events/cros_net.h:300:1: sparse:     got restricted __be16 [usertype] skc_dport
-   include/trace/events/cros_net.h:300:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr4 @@     got restricted __be32 [usertype] skc_daddr @@
-   include/trace/events/cros_net.h:300:1: sparse:     expected unsigned int [usertype] daddr4
-   include/trace/events/cros_net.h:300:1: sparse:     got restricted __be32 [usertype] skc_daddr
-   include/trace/events/cros_net.h:336:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr4 @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   include/trace/events/cros_net.h:336:1: sparse:     expected unsigned int [usertype] saddr4
-   include/trace/events/cros_net.h:336:1: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
-   include/trace/events/cros_net.h:336:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dport @@     got restricted __be16 [usertype] skc_dport @@
-   include/trace/events/cros_net.h:336:1: sparse:     expected unsigned short [usertype] dport
-   include/trace/events/cros_net.h:336:1: sparse:     got restricted __be16 [usertype] skc_dport
-   include/trace/events/cros_net.h:336:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr4 @@     got restricted __be32 [usertype] skc_daddr @@
-   include/trace/events/cros_net.h:336:1: sparse:     expected unsigned int [usertype] daddr4
-   include/trace/events/cros_net.h:336:1: sparse:     got restricted __be32 [usertype] skc_daddr
-   include/trace/events/cros_net.h:372:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr4 @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   include/trace/events/cros_net.h:372:1: sparse:     expected unsigned int [usertype] saddr4
-   include/trace/events/cros_net.h:372:1: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
-   include/trace/events/cros_net.h:372:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dport @@     got restricted __be16 [usertype] skc_dport @@
-   include/trace/events/cros_net.h:372:1: sparse:     expected unsigned short [usertype] dport
-   include/trace/events/cros_net.h:372:1: sparse:     got restricted __be16 [usertype] skc_dport
-   include/trace/events/cros_net.h:372:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr4 @@     got restricted __be32 [usertype] skc_daddr @@
-   include/trace/events/cros_net.h:372:1: sparse:     expected unsigned int [usertype] daddr4
-   include/trace/events/cros_net.h:372:1: sparse:     got restricted __be32 [usertype] skc_daddr
-   net/ipv4/af_inet.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, include/trace/events/cros_net.h):
-   include/trace/events/cros_net.h:195:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr4 @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   include/trace/events/cros_net.h:195:1: sparse:     expected unsigned int [usertype] saddr4
-   include/trace/events/cros_net.h:195:1: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
-   include/trace/events/cros_net.h:195:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dport @@     got restricted __be16 [usertype] skc_dport @@
-   include/trace/events/cros_net.h:195:1: sparse:     expected unsigned short [usertype] dport
-   include/trace/events/cros_net.h:195:1: sparse:     got restricted __be16 [usertype] skc_dport
-   include/trace/events/cros_net.h:195:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr4 @@     got restricted __be32 [usertype] skc_daddr @@
-   include/trace/events/cros_net.h:195:1: sparse:     expected unsigned int [usertype] daddr4
-   include/trace/events/cros_net.h:195:1: sparse:     got restricted __be32 [usertype] skc_daddr
-   include/trace/events/cros_net.h:227:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr4 @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   include/trace/events/cros_net.h:227:1: sparse:     expected unsigned int [usertype] saddr4
-   include/trace/events/cros_net.h:227:1: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
-   include/trace/events/cros_net.h:227:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dport @@     got restricted __be16 [usertype] skc_dport @@
-   include/trace/events/cros_net.h:227:1: sparse:     expected unsigned short [usertype] dport
-   include/trace/events/cros_net.h:227:1: sparse:     got restricted __be16 [usertype] skc_dport
-   include/trace/events/cros_net.h:227:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr4 @@     got restricted __be32 [usertype] skc_daddr @@
-   include/trace/events/cros_net.h:227:1: sparse:     expected unsigned int [usertype] daddr4
-   include/trace/events/cros_net.h:227:1: sparse:     got restricted __be32 [usertype] skc_daddr
-   include/trace/events/cros_net.h:263:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr4 @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   include/trace/events/cros_net.h:263:1: sparse:     expected unsigned int [usertype] saddr4
-   include/trace/events/cros_net.h:263:1: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
-   include/trace/events/cros_net.h:263:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dport @@     got restricted __be16 [usertype] skc_dport @@
-   include/trace/events/cros_net.h:263:1: sparse:     expected unsigned short [usertype] dport
-   include/trace/events/cros_net.h:263:1: sparse:     got restricted __be16 [usertype] skc_dport
-   include/trace/events/cros_net.h:263:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr4 @@     got restricted __be32 [usertype] skc_daddr @@
-   include/trace/events/cros_net.h:263:1: sparse:     expected unsigned int [usertype] daddr4
-   include/trace/events/cros_net.h:263:1: sparse:     got restricted __be32 [usertype] skc_daddr
-   include/trace/events/cros_net.h:300:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] saddr4 @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   include/trace/events/cros_net.h:300:1: sparse:     expected unsigned int [usertype] saddr4
-   include/trace/events/cros_net.h:300:1: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
-   include/trace/events/cros_net.h:300:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] dport @@     got restricted __be16 [usertype] skc_dport @@
-   include/trace/events/cros_net.h:300:1: sparse:     expected unsigned short [usertype] dport
-   include/trace/events/cros_net.h:300:1: sparse:     got restricted __be16 [usertype] skc_dport
-   include/trace/events/cros_net.h:300:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] daddr4 @@     got restricted __be32 [usertype] skc_daddr @@
-   include/trace/events/cros_net.h:300:1: sparse:     expected unsigned int [usertype] daddr4
-   include/trace/events/cros_net.h:300:1: sparse:     got restricted __be32 [usertype] skc_daddr
+All errors (new ones prefixed by >>):
 
-vim +78 include/trace/events/cros_net.h
+   m68k-linux-ld: drivers/firmware/qcom_scm-smc.o: in function `__scm_smc_call':
+>> drivers/firmware/qcom_scm-smc.c:179:(.text+0xa8): undefined reference to `qcom_shm_bridge_alloc'
+>> m68k-linux-ld: drivers/firmware/qcom_scm-smc.c:221:(.text+0x1ac): undefined reference to `qcom_shm_bridge_free'
+   m68k-linux-ld: drivers/firmware/qcom_scm-smc.c:206:(.text+0x23a): undefined reference to `qcom_shm_bridge_free'
 
-    17	
-    18	
-    19	#define CROS_NET_FILL_ADDR_PORT(sk, entry)\
-    20		do {							\
-    21			entry->sport = sk->__sk_common.skc_num;		\
-    22			entry->saddr4 = sk->__sk_common.skc_rcv_saddr;	\
-    23			entry->dport = sk->__sk_common.skc_dport;	\
-    24			entry->daddr4 = sk->__sk_common.skc_daddr;	\
-    25			entry->protocol = sk->sk_protocol;		\
-    26		} while (0)
-    27		//protocol is also avable in sk_buff
-    28		//skb_network_header from skba
-    29		// struct iphdr *ip_header = (struct iphdr *) (skb_network_header(skb))
-    30	#define CROS_IP_PROTOCOL_NAME(val) { IPPROTO_#val, #val }
-    31	#define CROS_SHOW_IP_PROTOCOL(val)				\
-    32		__print_symbolic(val,					\
-    33			{IPPROTO_UDP, "UDP"},				\
-    34			{IPPROTO_TCP, "TCP"},				\
-    35			{IPPROTO_ICMP, "ICMP"},				\
-    36			{IPPROTO_RAW, "RAW"})
-    37	
-    38	TRACE_EVENT(cros_ip6_finish_output2_enter,
-    39		TP_PROTO(struct net *net, struct sock *sk, struct sk_buff *skb),
-    40		TP_ARGS(net, sk, skb),
-    41		TP_STRUCT__entry(
-    42			__array(__u8, saddr, 16)
-    43			__array(__u8, daddr, 16)
-    44			__array(char, dev_name, IFNAMSIZ)
-    45		),
-    46		TP_fast_assign(
-    47			struct ipv6hdr *ip_header = (struct ipv6hdr *)(skb_network_header(skb));
-    48			struct net_device *dev;
-    49	
-    50			memmove(__entry->saddr, ip_header->saddr.in6_u.u6_addr8, 16);
-    51			memmove(__entry->daddr, ip_header->daddr.in6_u.u6_addr8, 16);
-    52			dev = ((struct dst_entry *)(skb->_skb_refdst & SKB_DST_PTRMASK))->dev;
-    53			strscpy(__entry->dev_name, dev->name, IFNAMSIZ);
-    54		),
-    55		TP_printk("do_not_depend:%pI6c %pI6c %s", __entry->saddr, __entry->daddr,
-    56			  __entry->dev_name))
-    57	
-    58	TRACE_EVENT(cros_ip6_input_finish_enter,
-    59		TP_PROTO(struct net *net, struct sock *sk, struct sk_buff *skb),
-    60		TP_ARGS(net, sk, skb),
-    61		TP_STRUCT__entry(
-    62			__array(__u8, saddr, 16)
-    63			__array(__u8, daddr, 16)
-    64			__array(char, dev_name, IFNAMSIZ)
-    65		),
-    66		TP_fast_assign(
-    67			struct ipv6hdr *ip_header = (struct ipv6hdr *)(skb_network_header(skb));
-    68			struct net_device *dev;
-    69	
-    70			memmove(__entry->saddr, ip_header->saddr.in6_u.u6_addr8, 16);
-    71			memmove(__entry->daddr, ip_header->daddr.in6_u.u6_addr8, 16);
-    72			dev = skb->dev;
-    73			strscpy(__entry->dev_name, dev->name, IFNAMSIZ);
-    74		),
-    75		TP_printk("do_not_depend:%pI6c %pI6c %s", __entry->saddr, __entry->daddr,
-    76			  __entry->dev_name))
-    77	
-  > 78	TRACE_EVENT(cros_ip_protocol_deliver_rcu_enter,
-    79		TP_PROTO(struct net *net, struct sk_buff *skb, int protocol),
-    80		TP_ARGS(net, skb, protocol),
-    81		TP_STRUCT__entry(
-    82			__field(__be32, saddr)
-    83			__field(__be32, daddr)
-    84			__array(char, dev_name, IFNAMSIZ)
-    85			__field(int, dev_if)
-    86			__field(short, source_port)
-    87			__field(short, dest_port)
-    88			__field(int, proto)
-    89		),
-    90		TP_fast_assign(
-    91			struct iphdr *ip_header = (struct iphdr *)(skb->head + skb->network_header);
-    92			char *transport = (char *)(skb->head + skb->transport_header);
-    93			struct tcphdr *tcp = (struct tcphdr *)transport;
-    94			struct udphdr *udp = (struct udphdr *)transport;
-    95			struct net_device *dev;
-    96			bool has_transport = skb->transport_header != (typeof(skb->transport_header))~0U;
-    97	
-    98			__entry->saddr = ip_header->saddr;
-    99			__entry->daddr = ip_header->daddr;
-   100			__entry->proto = ip_header->protocol;
-   101			if (has_transport) {
-   102				switch (ip_header->protocol) {
-   103				case IPPROTO_TCP:
-   104					__entry->source_port = ntohs(tcp->source);
-   105					__entry->dest_port = ntohs(tcp->dest);
-   106					break;
-   107				case IPPROTO_UDP:
-   108					__entry->source_port = ntohs(udp->source);
-   109					__entry->dest_port = ntohs(udp->dest);
-   110					break;
-   111				default:
-   112					break;
-   113				};
-   114			}
-   115			dev = ((struct dst_entry *)(skb->_skb_refdst & SKB_DST_PTRMASK))->dev;
-   116			strscpy(__entry->dev_name, dev->name, IFNAMSIZ);
-   117			__entry->dev_if = dev->ifindex;
-   118		),
-   119		TP_printk("do_not_depend:%pI4 %u %pI4 %u %s %s", &__entry->saddr, __entry->source_port,
-   120			  &__entry->daddr, __entry->dest_port, CROS_SHOW_IP_PROTOCOL(__entry->proto),
-   121			  __entry->dev_name))
-   122	
+
+vim +179 drivers/firmware/qcom_scm-smc.c
+
+   148	
+   149	
+   150	int __scm_smc_call(struct device *dev, const struct qcom_scm_desc *desc,
+   151			   enum qcom_scm_convention qcom_convention,
+   152			   struct qcom_scm_res *res, bool atomic)
+   153	{
+   154		int arglen = desc->arginfo & 0xf;
+   155		int i, ret;
+   156		dma_addr_t args_phys = 0;
+   157		void *args_virt = NULL;
+   158		size_t alloc_len;
+   159		gfp_t flag = atomic ? GFP_ATOMIC : GFP_KERNEL;
+   160		u32 smccc_call_type = atomic ? ARM_SMCCC_FAST_CALL : ARM_SMCCC_STD_CALL;
+   161		u32 qcom_smccc_convention = (qcom_convention == SMC_CONVENTION_ARM_32) ?
+   162					    ARM_SMCCC_SMC_32 : ARM_SMCCC_SMC_64;
+   163		struct arm_smccc_res smc_res;
+   164		struct arm_smccc_args smc = {0};
+   165		bool using_shm_bridge = qcom_scm_shm_bridge_available();
+   166	
+   167		smc.args[0] = ARM_SMCCC_CALL_VAL(
+   168			smccc_call_type,
+   169			qcom_smccc_convention,
+   170			desc->owner,
+   171			SCM_SMC_FNID(desc->svc, desc->cmd));
+   172		smc.args[1] = desc->arginfo;
+   173		for (i = 0; i < SCM_SMC_N_REG_ARGS; i++)
+   174			smc.args[i + SCM_SMC_FIRST_REG_IDX] = desc->args[i];
+   175	
+   176		if (unlikely(arglen > SCM_SMC_N_REG_ARGS)) {
+   177			alloc_len = SCM_SMC_N_EXT_ARGS * sizeof(u64);
+   178			if (using_shm_bridge)
+ > 179				args_virt = qcom_shm_bridge_alloc(NULL,
+   180								  PAGE_ALIGN(alloc_len),
+   181								  flag);
+   182			else
+   183				args_virt = kzalloc(PAGE_ALIGN(alloc_len), flag);
+   184			if (!args_virt)
+   185				return -ENOMEM;
+   186	
+   187			if (qcom_smccc_convention == ARM_SMCCC_SMC_32) {
+   188				__le32 *args = args_virt;
+   189	
+   190				for (i = 0; i < SCM_SMC_N_EXT_ARGS; i++)
+   191					args[i] = cpu_to_le32(desc->args[i +
+   192							      SCM_SMC_FIRST_EXT_IDX]);
+   193			} else {
+   194				__le64 *args = args_virt;
+   195	
+   196				for (i = 0; i < SCM_SMC_N_EXT_ARGS; i++)
+   197					args[i] = cpu_to_le64(desc->args[i +
+   198							      SCM_SMC_FIRST_EXT_IDX]);
+   199			}
+   200	
+   201			args_phys = dma_map_single(dev, args_virt, alloc_len,
+   202						   DMA_TO_DEVICE);
+   203	
+   204			if (dma_mapping_error(dev, args_phys)) {
+   205				if (using_shm_bridge)
+   206					qcom_shm_bridge_free(args_virt);
+   207				else
+   208					kfree(args_virt);
+   209				return -ENOMEM;
+   210			}
+   211	
+   212			smc.args[SCM_SMC_LAST_REG_IDX] = args_phys;
+   213		}
+   214	
+   215		/* ret error check follows after args_virt cleanup*/
+   216		ret = __scm_smc_do(dev, &smc, &smc_res, atomic);
+   217	
+   218		if (args_virt) {
+   219			dma_unmap_single(dev, args_phys, alloc_len, DMA_TO_DEVICE);
+   220			if (using_shm_bridge)
+ > 221				qcom_shm_bridge_free(args_virt);
+   222			else
+   223				kfree(args_virt);
+   224		}
+   225	
+   226		if (ret)
+   227			return ret;
+   228	
+   229		if (res) {
+   230			res->result[0] = smc_res.a1;
+   231			res->result[1] = smc_res.a2;
+   232			res->result[2] = smc_res.a3;
+   233		}
+   234	
+   235		return (long)smc_res.a0 ? qcom_scm_remap_error(smc_res.a0) : 0;
+   236	
 
 -- 
 0-DAY CI Kernel Test Service
