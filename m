@@ -1,43 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E093FFB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 14:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693406271; x=1724942271;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j1BP7Go9GIBYSc1WmHj6Rffp86FcpVFyQabRFz3cxtI=;
-  b=nR0iuVWwElyxAiqRbapDv4jXmNzQgeXkgtYT5Mgbf2a9vnKGtqzyqYMC
-   CxFe6SnfJllnPXt6xbszYUTjKpb3KmDS3YIFHBKQckClkkZ8v2SoB044X
-   nNU11Xj9ARCzXbAw+ZnIyQ1k6MVOGd4kWrfz3KIiBt1mULm/q9hiCKCFC
-   mAWODxBw7s3M+uW3oHMmdsyotg1M5FAlWgXJBChthzF6CQPP51OgNR443
-   K/xc39Q/X+HhgNBzSipLdHK+fliI/ToWv3HzttB5tb1mnNgMS97qJL8UG
-   6w8p0rKgRVz6EahtkmhORPLqolxMvH62w6uXy6TyJdvUrKXozEnf7jC9K
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="379412916"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="379412916"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 07:37:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="853748060"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="853748060"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 30 Aug 2023 07:37:48 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qbMKI-0009u7-20;
-	Wed, 30 Aug 2023 14:37:46 +0000
-Date: Wed, 30 Aug 2023 22:37:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexey Gladkov <legion@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [legion:sysctl-next 1/5] include/linux/sysctl.h:148:45: warning:
- 'struct file' declared inside parameter list will not be visible outside of
- this definition or declaration
-Message-ID: <202308302240.Lcg7J346-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC496FA1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 14:48:43 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2b9f0b7af65so83856441fa.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 07:48:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693406921; x=1694011721; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H0s5rdZ1FiTFkxNksF6bbHJ9HKt0mAK3Fjc6AoSjYvk=;
+        b=aepMBraP2HgmKe04W7h8HE6NGWx8AWwTzjBkJZ797DkCEvhYj4asWWb9wWedSOuINX
+         FeuvnzdlxEuuFlIybx5ZWWL8Sa4y5nolieW0ZbwsjPRHkYEKKp3oFj9F4CoZKb4B27oy
+         kMDXZv6K+xY90jYehgLLRus8B41U5dSbigYNQgOZtvUrhZqbWd+CBedueEium3LWh0oC
+         MxKByu/WM3Ri9Zs2td8N14rMuquw3ZxePjBSbcNBvmB7Z7qtVoACDbNeEMa0UQBKafDu
+         nAKena2HKMkU8yxu9TCS93Tw24v3jXF11EvB1+sKfk0tbdkwQxmc4Rv3uvhcycbmvHts
+         HLUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693406921; x=1694011721;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H0s5rdZ1FiTFkxNksF6bbHJ9HKt0mAK3Fjc6AoSjYvk=;
+        b=lx05TIalkCCpJhgH+b5J+uZzSy/XDOgqdIdgNp2jveoOvEJUrJPHSlKJyxic44TxMm
+         ZjJmsFLRNzmYhWGmrmbLFHdA7Mh570iFOnuzs/eHNSExG/JR4yWDYKCsxrPrJ2QhG1OZ
+         TpBOi/zJnDUcHiCXGa+ARTXQgz3pIgQEXUdSzjHWF/HwAYpOqeXmxmMqDohR67YleqOr
+         Hrb9cPSJ5FcyqTy1oNV6104y+8RIhlyY0b3zOJIqKsSg2mxNZb5XK7duAIPPnYl5lgZM
+         USxLnF0EJyRCN84jg0O5hgmqAx/MGbGa0PZo1tWqj7kVbXPcNgP8Uh64m72RLes40zRx
+         ZYiQ==
+X-Gm-Message-State: AOJu0Yy7KxlEAFGksOV+p365MvQ9pLMwAc0czU3Fy+eCQizQhTtIcaji
+	jn4GjovrkP5w4k6l4/dF6fA=
+X-Google-Smtp-Source: AGHT+IENIjdVHjEuVjroRVntHbePkfsyv+44mTXRHE3Eb7WYnwxYJ/210xRyEX6YKYcVkcvqFZs7+g==
+X-Received: by 2002:a2e:9d8d:0:b0:2bc:f41a:d9c6 with SMTP id c13-20020a2e9d8d000000b002bcf41ad9c6mr2012590ljj.0.1693406921097;
+        Wed, 30 Aug 2023 07:48:41 -0700 (PDT)
+Received: from pc636 (host-90-235-3-170.mobileonline.telia.com. [90.235.3.170])
+        by smtp.gmail.com with ESMTPSA id z4-20020a2e7e04000000b002b9ff8450aesm2574689ljc.91.2023.08.30.07.48.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Aug 2023 07:48:40 -0700 (PDT)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date: Wed, 30 Aug 2023 16:48:37 +0200
+To: kernel test robot <lkp@intel.com>
+Cc: "Uladzislau Rezki (Sony)" <urezki@gmail.com>, linux-mm@kvack.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	Baoquan He <bhe@redhat.com>, Lorenzo Stoakes <lstoakes@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Dave Chinner <david@fromorbit.com>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Oleksiy Avramchenko <oleksiy.avramchenko@sony.com>
+Subject: Re: [PATCH v2 4/9] mm: vmalloc: Remove global vmap_area_root rb-tree
+Message-ID: <ZO9WxbYUVDfak/5H@pc636>
+References: <20230829081142.3619-5-urezki@gmail.com>
+ <202308292228.RRrGUYyB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,103 +64,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202308292228.RRrGUYyB-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/legion/linux.git sysctl-next
-head:   5db649a3f876dee97af2da8462e4314424a04675
-commit: b3d9978143d4fa8d26fb6efee0a4e615ad987715 [1/5] sysctl: API extension for handling sysctl
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230830/202308302240.Lcg7J346-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308302240.Lcg7J346-lkp@intel.com/reproduce)
+On Tue, Aug 29, 2023 at 10:30:19PM +0800, kernel test robot wrote:
+> Hi Uladzislau,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on akpm-mm/mm-everything]
+> [also build test WARNING on linus/master v6.5]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Uladzislau-Rezki-Sony/mm-vmalloc-Add-va_alloc-helper/20230829-161248
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20230829081142.3619-5-urezki%40gmail.com
+> patch subject: [PATCH v2 4/9] mm: vmalloc: Remove global vmap_area_root rb-tree
+> config: csky-randconfig-r024-20230829 (https://download.01.org/0day-ci/archive/20230829/202308292228.RRrGUYyB-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230829/202308292228.RRrGUYyB-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308292228.RRrGUYyB-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    mm/vmalloc.c: In function 'vmap_init_free_space':
+> >> mm/vmalloc.c:4506:45: warning: ordered comparison of pointer with integer zero [-Wextra]
+>     4506 |                 if (busy->addr - vmap_start > 0) {
+>          |                                             ^
+>
+Right. I will fix it. We should cast the busy->addr to unsigned long.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308302240.Lcg7J346-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from kernel/ucount.c:4:
->> include/linux/sysctl.h:148:45: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
-     148 |         int (*open) (struct inode *, struct file *);
-         |                                             ^~~~
-   include/linux/sysctl.h:149:48: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
-     149 |         int (*release) (struct inode *, struct file *);
-         |                                                ^~~~
-   include/linux/sysctl.h:150:33: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
-     150 |         ssize_t (*read) (struct file *, char *, size_t *, loff_t *);
-         |                                 ^~~~
-   include/linux/sysctl.h:151:34: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
-     151 |         ssize_t (*write) (struct file *, char *, size_t *, loff_t *);
-         |                                  ^~~~
 --
-   In file included from fs/proc/proc_sysctl.c:6:
->> include/linux/sysctl.h:148:45: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
-     148 |         int (*open) (struct inode *, struct file *);
-         |                                             ^~~~
-   include/linux/sysctl.h:149:48: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
-     149 |         int (*release) (struct inode *, struct file *);
-         |                                                ^~~~
-   include/linux/sysctl.h:150:33: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
-     150 |         ssize_t (*read) (struct file *, char *, size_t *, loff_t *);
-         |                                 ^~~~
-   include/linux/sysctl.h:151:34: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
-     151 |         ssize_t (*write) (struct file *, char *, size_t *, loff_t *);
-         |                                  ^~~~
-   fs/proc/proc_sysctl.c: In function 'proc_sys_call_handler':
-   fs/proc/proc_sysctl.c:599:47: error: passing argument 1 of 'table->fops.write' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     599 |                 error = table->fops.write(iocb->ki_filp, kbuf, &count, &iocb->ki_pos);
-         |                                           ~~~~^~~~~~~~~
-         |                                               |
-         |                                               struct file *
-   fs/proc/proc_sysctl.c:599:47: note: expected 'struct file *' but argument is of type 'struct file *'
-   fs/proc/proc_sysctl.c:601:46: error: passing argument 1 of 'table->fops.read' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     601 |                 error = table->fops.read(iocb->ki_filp, kbuf, &count, &iocb->ki_pos);
-         |                                          ~~~~^~~~~~~~~
-         |                                              |
-         |                                              struct file *
-   fs/proc/proc_sysctl.c:601:46: note: expected 'struct file *' but argument is of type 'struct file *'
-   fs/proc/proc_sysctl.c: In function 'proc_sys_open':
-   fs/proc/proc_sysctl.c:656:47: error: passing argument 2 of 'table->fops.open' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     656 |                 ret = table->fops.open(inode, filp);
-         |                                               ^~~~
-         |                                               |
-         |                                               struct file *
-   fs/proc/proc_sysctl.c:656:47: note: expected 'struct file *' but argument is of type 'struct file *'
-   fs/proc/proc_sysctl.c: In function 'proc_sys_release':
-   fs/proc/proc_sysctl.c:677:50: error: passing argument 2 of 'table->fops.release' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     677 |                 ret = table->fops.release(inode, filp);
-         |                                                  ^~~~
-         |                                                  |
-         |                                                  struct file *
-   fs/proc/proc_sysctl.c:677:50: note: expected 'struct file *' but argument is of type 'struct file *'
-   cc1: some warnings being treated as errors
---
-   kernel/bpf/cgroup.c:795: warning: Function parameter or member 'new_prog' not described in '__cgroup_bpf_replace'
-   kernel/bpf/cgroup.c:795: warning: Excess function parameter 'type' description in '__cgroup_bpf_replace'
-   kernel/bpf/cgroup.c:1359: warning: Function parameter or member 'atype' not described in '__cgroup_bpf_run_filter_skb'
-   kernel/bpf/cgroup.c:1359: warning: Excess function parameter 'type' description in '__cgroup_bpf_run_filter_skb'
-   kernel/bpf/cgroup.c:1439: warning: Function parameter or member 'atype' not described in '__cgroup_bpf_run_filter_sk'
-   kernel/bpf/cgroup.c:1439: warning: Excess function parameter 'type' description in '__cgroup_bpf_run_filter_sk'
-   kernel/bpf/cgroup.c:1467: warning: Function parameter or member 'atype' not described in '__cgroup_bpf_run_filter_sock_addr'
-   kernel/bpf/cgroup.c:1467: warning: Excess function parameter 'type' description in '__cgroup_bpf_run_filter_sock_addr'
-   kernel/bpf/cgroup.c:1512: warning: Function parameter or member 'atype' not described in '__cgroup_bpf_run_filter_sock_ops'
-   kernel/bpf/cgroup.c:1512: warning: Excess function parameter 'type' description in '__cgroup_bpf_run_filter_sock_ops'
->> kernel/bpf/cgroup.c:1686: warning: Function parameter or member 'file' not described in '__cgroup_bpf_run_filter_sysctl'
-   kernel/bpf/cgroup.c:1686: warning: Function parameter or member 'atype' not described in '__cgroup_bpf_run_filter_sysctl'
-   kernel/bpf/cgroup.c:1686: warning: Excess function parameter 'type' description in '__cgroup_bpf_run_filter_sysctl'
-
-
-vim +148 include/linux/sysctl.h
-
-   146	
-   147	struct ctl_fops {
- > 148		int (*open) (struct inode *, struct file *);
-   149		int (*release) (struct inode *, struct file *);
-   150		ssize_t (*read) (struct file *, char *, size_t *, loff_t *);
-   151		ssize_t (*write) (struct file *, char *, size_t *, loff_t *);
-   152	};
-   153	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Uladzislau Rezki
