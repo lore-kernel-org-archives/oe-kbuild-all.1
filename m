@@ -1,380 +1,196 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E5B370
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 00:15:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1935664B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 00:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693354546; x=1724890546;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EpTmumGGQIyW1Xg5mhhfgPs2GOfz8d809iGDcuAFexA=;
-  b=g5Eyumfvq6TYa/4b7G/ZirIsz2di/lslF9d0XcFT4pW+JPxc0Pu5cTOp
-   mAChqllw7SjqihCB5XptPiftxOFK1iWP4akeQxGjjl3E6kE8yIWiskowi
-   ZtBPH8oQ23JOmPfU65UiQqmOscHMeuEGpJyD8BkFlcCnfHxoeWKEXUDTm
-   cGhfM8w0WaQxC4QVJKIvNAa4nWQ5eTyEkvLMYHibsifAszA62L8iohigS
-   cylPISEvMd63DwAJdXgMPW1LB+53yYJGaXjBEWNuD5ujAM2vV0pPoDqAI
-   /2n0g2Tcu6pEc2Q/w3g5oFdnRLrTVjLPeJL3O0Uv4pqDtpIhhuupuCScl
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="374417171"
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1693355696; x=1724891696;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=9bhNLpyRpWW6nj5JmzgmPMh0B+Dv3pl8LNS+1SL5FtM=;
+  b=WQ8mRdd8xf/ztW8HPKyQxy7rZUeYOHwCkBTb/H9dyIUgp+6ugrtBQ5Vn
+   UNN8J4yMPwGGQcH34uV5NmaC8MahH2c1l/FdpybjP4d3GSDXmVWHx4CgH
+   4kYDbrforDZAGHkXt04eeye1eeQIiwwVcGRsNg/01Zi6vufca8BxeBQPx
+   13zwuYSh9b/ctPvuLgqrA5UZxVuFeoCf2hiDse1L6c6qr5MEu9VgBoxld
+   Du0hx4iMInFlWGwH7m7VtjspZ+TX29SaXepimhjQa0PArjZXcC0W5qXg4
+   kDdwEePwEo/c8vr0Q31JIXsjVKweU3XBWn93hpoRbWeFHjKM1RtZYHUuq
+   w==;
 X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
-   d="scan'208";a="374417171"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 17:15:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="985532856"
-X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
-   d="scan'208";a="985532856"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 29 Aug 2023 17:15:34 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qb8rt-0009EF-26;
-	Wed, 30 Aug 2023 00:15:33 +0000
-Date: Wed, 30 Aug 2023 08:14:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.5/zen-sauce 2/31] drivers/scsi/vhba/vhba.c:145:6: error: no
- previous prototype for 'devnum_to_bus_and_id'
-Message-ID: <202308300800.iG15uJaz-lkp@intel.com>
+   d="scan'208";a="2020500"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 29 Aug 2023 17:34:54 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 29 Aug 2023 17:34:26 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Tue, 29 Aug 2023 17:34:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HMiqeLx0yntCV/E2FmfJIzJNb1VKtJjiNaAIwYJrgjAwo9Z6Og2e7arFBPVOFdYAS3IojYMdGqisEFqlq1vpvtnPFr6L/TFshcCV4v6aomNqBN+0ScxsGqAefRVYOo3aXO2lWnaGhy3aI2WtDC45/LC2qwJFzgcocd8+eB5kDuU6HOCokgk8AIMRqn8p3e3Y/1FV1c6SbndngDEsPBlqUdTaUBelU4U9QQ1ChEe0f3E1rUTBXncmutqxwVmH7RqSXktT9IsgGVcoinHzS8UMGLk8C34bH+MlldChI+/bO4ObS9D8hXteGb0d0YkLeuIq1yRQ0iiSM2G28jYsUpK4rA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9bhNLpyRpWW6nj5JmzgmPMh0B+Dv3pl8LNS+1SL5FtM=;
+ b=R7eaqkYTL4UAMuyikE1gEUt2bk9+NCbXyHe/ydAEp6ehMskWsFbgBsgtL/bOyIjug/kMqNayxg0AvDR9nwDzPXdYa2UEVQ71EZlNlCPrV9KM9EgPr8AD1Xsucbp5zRcrbgmRZwnoyIfGhrDTMoJ8oc6nGp2yiGG8VKi6qRJCOwaG9a1HYcBXya2U1RzCLNDJPT6Qavnb4rIwy2nzFf/oGjhm31DTyIz6ds8jVPBsXfQwk+PDCgyA+uzlNnGztzgsqeUOk3gHihRELOieTwdkzzfyGVgMX5a0NsdeDISPm0sa/vj2nxS/JFPhl7huug9b6BFpsyr0s4pEvKm92EE7xA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9bhNLpyRpWW6nj5JmzgmPMh0B+Dv3pl8LNS+1SL5FtM=;
+ b=s4Eq5stJCa/XYrSu9I/afE0l7q8Cj6vAPvNc1Ay3UX3+B3jhpMvYxJrGCDE14OuFBQfffnQwjbhPlu7OBS3Bx/KYGbhYxlI0A2ZkxPGg0aDIuAanZgT4tVoo79kPQ7xWbkp5LfAi/Pr7i6kk/wcKyewzpIzmZkHIRKHGxcqAQ2M=
+Received: from PH0PR11MB5176.namprd11.prod.outlook.com (2603:10b6:510:3f::5)
+ by IA1PR11MB6322.namprd11.prod.outlook.com (2603:10b6:208:38a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Wed, 30 Aug
+ 2023 00:34:24 +0000
+Received: from PH0PR11MB5176.namprd11.prod.outlook.com
+ ([fe80::360d:b35b:51e7:f5af]) by PH0PR11MB5176.namprd11.prod.outlook.com
+ ([fe80::360d:b35b:51e7:f5af%3]) with mapi id 15.20.6699.035; Wed, 30 Aug 2023
+ 00:34:24 +0000
+From: <Ajay.Kathat@microchip.com>
+To: <kvalo@kernel.org>, <lkp@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-wireless@vger.kernel.org>
+Subject: Re: drivers/net/wireless/microchip/wilc1000/cfg80211.c:361:42:
+ sparse: sparse: incorrect type in assignment (different base types)
+Thread-Topic: drivers/net/wireless/microchip/wilc1000/cfg80211.c:361:42:
+ sparse: sparse: incorrect type in assignment (different base types)
+Thread-Index: AQHZ2gMQNOMgJor5MkmGejQxkqg1X7AAypeDgAAnkKOAAQ1DAA==
+Date: Wed, 30 Aug 2023 00:34:23 +0000
+Message-ID: <cf141543-fff5-635c-ff51-22f1d9120e09@microchip.com>
+References: <202308290615.lUTIgqUl-lkp@intel.com> <877cpev0pn.fsf@kernel.org>
+ <87a5uatfl1.fsf@kernel.org>
+In-Reply-To: <87a5uatfl1.fsf@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR11MB5176:EE_|IA1PR11MB6322:EE_
+x-ms-office365-filtering-correlation-id: 44cf80dc-2e7c-4615-9789-08dba8f0dbea
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /okjczVHslGnjQwLxI+6QC+ewWEyo8RrlhzkP+Vyje7mmstMYkp36/igyDcaAp0AUHqsO2jxQWntdmM9AxOEZA5yP5Z3aUU6ifFUydamG/xFFPqTaQxiR8+qe4wodx+4L4DRvH61umuJjZSZ4EtbQF0ic7H3BDa49lx5pgZxQGt0xvqghsquL5cLHtz84/+FFaHQ0jxIiCEyIgT7KxCMJpV5wsOcmPH/crTGlkd5MnO3Uy/wDB39gvwHKMzuTrswJ7M+dpspufik4gLXvSeI4veTWyybVHeq9IF/vGq0hKv7fmLwvTxTomIGAMXL8O0R1PgZPOZM/Q7eGzvHmt3DRH/Ou+HMUn8QVM1MCtExeVBd/6XcFaKZP0P9dcS1teBWaQiC2HXwBLcNzmQgJRmBH1IFEYavXgBZTslrFruV7Ju3Or/fdrBjiBOetL1VlCOppfzVv2cVSe9jlInD4McI2LciCftySD1F8W32i6FpfRbQO3pgGuBSvZUKgeKClHjDc9XFLtGxQMrp03tEf6jmDLg15dywT7xCEIKSnRpomYP12g+cpj7bJ2ERR4oHEkasXOJ9u+dOq46XS6gs2uzlpMqGsT2z07XuZ77MWMyTjoQw44wowjpHMB6tEtlhk6JtJreigN/2a/eo0IINxpcKc22Gex4rM78pyS9BUFeqqDo=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5176.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(366004)(346002)(376002)(396003)(186009)(451199024)(1800799009)(31696002)(71200400001)(6512007)(53546011)(110136005)(6506007)(2616005)(6486002)(66556008)(2906002)(5660300002)(316002)(54906003)(36756003)(38070700005)(86362001)(8936002)(4326008)(66446008)(66946007)(76116006)(41300700001)(64756008)(66476007)(38100700002)(8676002)(122000001)(83380400001)(478600001)(966005)(26005)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SUNEdkdMN0NlaUhVeDVRbk1ORVVJamFqbHZrS3dZZFQxSjQ5ckJnWENFNlRr?=
+ =?utf-8?B?bXo3REhkNDNPVUZDNTduOWFnLyt5KzUwZi8xMTNKUEFJenVsY3ZWQlN3bm4w?=
+ =?utf-8?B?Z21YMmh2Yi9tUW5CQUN5YW5IaW95WkxjNWQ0L2tjeVphMW1xbm81SHg4bEpC?=
+ =?utf-8?B?U0M0TnU0SC9NS0RHb0xXSFBYMlBBRFFuaGEyVTJEblhYby83T3QwYnZUbjJy?=
+ =?utf-8?B?UFVWbWJySGlxVHc0WDVvL2xic2J6L1R0bCszdVlxMmFNWXpNek9FNFQ2NEV5?=
+ =?utf-8?B?NWU1dmNZazh0QW1RWEh0dzFoZEVqN3JhR01wZGNqQWh2a3lnalBTUmtHd2hE?=
+ =?utf-8?B?QUhzUW43MDJodkF6cFE0WkhiUE5aSnd5cHdpVkE0d204a3hNTUZHREY1bFpY?=
+ =?utf-8?B?WmZTVlo4OWNLeHhFaEtyd2s0WXN3anVFOVYrMXJ6N1ZhVjhVVElJNE9ZRmdi?=
+ =?utf-8?B?RVkwRGp5MEhIUzBmdGdYdzhMdkVRQldlVkxsU3FDcWo1cFo0RW1QN2RMSW1i?=
+ =?utf-8?B?aVlJTkhFbEhSRnZmRmxvaENzYmJnUHBmM1BxUjVzV0tuTndJS1FrNlZkRnpF?=
+ =?utf-8?B?cC9RYTlHY1h3bFRDS2FlaGJOeXBHVUJDZGZ4VWNpOG9XRWJuS2tQQndVL293?=
+ =?utf-8?B?VnBCNWZEQnN2N1d4Q1c2UVZxK1J2NmNYSFE3bHlHSmQ5dkZRcXBqZWhYYnVl?=
+ =?utf-8?B?cVF0Mlg5ZHJua01mN29McnJmZVhNQ3dRZ2ZhbW8xVXdrT3RDb2MvbzZUQ2Jv?=
+ =?utf-8?B?YTg0ZXRnNUlQd0FjTlRxM29qQjdNaGRveURXV2VJRFYwTkR2bVMyZjk0T1pM?=
+ =?utf-8?B?YWtHc0dSK28yeElRTk1oVWxIS1p0TlZuN0k4QXBvRzA1R1NxVmJOamVYWmRv?=
+ =?utf-8?B?aEFoZnZ0QllJM2lZdHc5SjhHWjFiUituTkVscVZhVGNTRzc0QTVoNytpSEVG?=
+ =?utf-8?B?RFlIUUlDTmlOYXFFRWdET3FIUDI3TlNDL0lseFdBMGU4Y2ppbk9EWE5KZ21h?=
+ =?utf-8?B?dGt2WDVhSFpFZjBYdUlqTnVyeUUrNTBBLzFwSkdNREFXOVZHR0ZSYUF6MGx2?=
+ =?utf-8?B?L0tuOERoWFphSUM1RFJvdEN4b1Q1UTloWHdjU3orNEV0V2lqSUNJa0FIZzM0?=
+ =?utf-8?B?aTBEY05qMTBJYXRsaFFWWDcrTmxDa0djbjVhVDBYbnArbTM2eXBzcTYwVWM2?=
+ =?utf-8?B?NnlTT0crK1A2eWUxYzBBZEVjczhPRWsrdjJ6Ym5BV2daYUZ3NWJHTjRqeldy?=
+ =?utf-8?B?TDJWZkdETm1oWSs4c1cvL3IyZ3JIVFZhSU8wTWZHd1RlSW5CVC9BbFJqODd6?=
+ =?utf-8?B?VDZRTG5WdUxQejRJMXpmR2xzRmVHQklNaXBlYm94YUpHejNsWjRuU3VLRFhL?=
+ =?utf-8?B?SFoyMGc3dGtKbncvckhEb0RhWGpwQzJia2FxUzFFQnROZHFHdXk2UnRGRTdK?=
+ =?utf-8?B?NUtQRVY4K2h1d1FNQjUxNVBSR05wOTlzcFBzVjhZU3YrT09aZXY4OXEvRGhm?=
+ =?utf-8?B?blRzUGxmbzcxTlpJR09kQkJ6alZoTFExY2lRWTZEa21DUmZpVElQV3NLMm9U?=
+ =?utf-8?B?cnZpclNHdHlnNkJtZDJXTXdveUhCa0xQVHlhTEp6VFl5L2hrM1oxWjB5WjZJ?=
+ =?utf-8?B?RVo0eEdWY3k4THo5N0lyaWdyZ0svRFhiaUhUQkV1WklRMXpuN2dyUUJ1L21S?=
+ =?utf-8?B?cGxOZ01naE41S2dOTmd1aTVnQ0NqcnZZSGZ2YmYvMmdHSHFHbll0WmZsUlMz?=
+ =?utf-8?B?WkkvdHhYVVR4Tm1iQ1gyWHI5KzlNaExhQTdVb3hoZ253OXJaRVpqRFdiYnNY?=
+ =?utf-8?B?ZCtER0JTZ2xMRDRUMzMvdGNOc1N5bmJLcUF3Y29XOFdSbms0T3hxMkdXeHpM?=
+ =?utf-8?B?Y0JGZFlmbjZwSFhvdC9mUmhadnJPcUhBcm9LcEZwV3NlaXFoTmFjazVlaVd0?=
+ =?utf-8?B?blc1ejlvd0hESng1OWVxQ01SUm1BZ2NkZExnVEh6c3dvMGYxZTNSUU13NGZm?=
+ =?utf-8?B?ejNGV2RYanhIN2wxYkRoekF6c2c3c1pJUDVDeEFwS2REM2VDQ0pHWW5PZWMr?=
+ =?utf-8?B?bE9LSmZvYTJaaGMvNWxSYlAxdWkxSWpMRkR5TUdYZzU2eGVOZmhtVk1ZU1lP?=
+ =?utf-8?Q?lvfCTWAEybHHxJiASZjGzRSId?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F9828DE0DBA8FE4984A386900F034F91@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5176.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44cf80dc-2e7c-4615-9789-08dba8f0dbea
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2023 00:34:23.7907
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: G/qrIWBi/UUzUn0BwszA0noI9WG1362Uv6gaPGt/6Y6UyGZkEmuk7lET73zpHS5Uf0m6tVBP47JQZwajGeTBkmjuQ25SfIHicR8+2HKw0Po=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6322
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.5/zen-sauce
-head:   bf45053c965e9b8a0b6225c5d378493b5aaf1336
-commit: 09d449c4e5c40b016f38b797e169d46ea4fdf044 [2/31] ZEN: Add VHBA driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230830/202308300800.iG15uJaz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300800.iG15uJaz-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308300800.iG15uJaz-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/scsi/vhba/vhba.c:145:6: error: no previous prototype for 'devnum_to_bus_and_id' [-Werror=missing-prototypes]
-     145 | void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:151:14: error: no previous prototype for 'bus_and_id_to_devnum' [-Werror=missing-prototypes]
-     151 | unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
-         |              ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:156:21: error: no previous prototype for 'vhba_device_alloc' [-Werror=missing-prototypes]
-     156 | struct vhba_device *vhba_device_alloc (void)
-         |                     ^~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:176:6: error: no previous prototype for 'vhba_device_put' [-Werror=missing-prototypes]
-     176 | void vhba_device_put (struct vhba_device *vdev)
-         |      ^~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:183:21: error: no previous prototype for 'vhba_device_get' [-Werror=missing-prototypes]
-     183 | struct vhba_device *vhba_device_get (struct vhba_device *vdev)
-         |                     ^~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:190:5: error: no previous prototype for 'vhba_device_queue' [-Werror=missing-prototypes]
-     190 | int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c: In function 'vhba_device_queue':
->> drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror=unused-but-set-variable]
-     192 |     struct vhba_host *vhost;
-         |                       ^~~~~
-   drivers/scsi/vhba/vhba.c: At top level:
->> drivers/scsi/vhba/vhba.c:219:5: error: no previous prototype for 'vhba_device_dequeue' [-Werror=missing-prototypes]
-     219 | int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:274:6: error: no previous prototype for 'vhba_scan_devices_add' [-Werror=missing-prototypes]
-     274 | void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:287:6: error: no previous prototype for 'vhba_scan_devices_remove' [-Werror=missing-prototypes]
-     287 | void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:300:6: error: no previous prototype for 'vhba_scan_devices' [-Werror=missing-prototypes]
-     300 | void vhba_scan_devices (struct work_struct *work)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:348:5: error: no previous prototype for 'vhba_add_device' [-Werror=missing-prototypes]
-     348 | int vhba_add_device (struct vhba_device *vdev)
-         |     ^~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:382:5: error: no previous prototype for 'vhba_remove_device' [-Werror=missing-prototypes]
-     382 | int vhba_remove_device (struct vhba_device *vdev)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:403:21: error: no previous prototype for 'vhba_lookup_device' [-Werror=missing-prototypes]
-     403 | struct vhba_device *vhba_lookup_device (int devnum)
-         |                     ^~~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:474:5: error: no previous prototype for 'vhba_queuecommand' [-Werror=missing-prototypes]
-     474 | int vhba_queuecommand (struct Scsi_Host *shost, struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:508:5: error: no previous prototype for 'vhba_abort' [-Werror=missing-prototypes]
-     508 | int vhba_abort (struct scsi_cmnd *cmd)
-         |     ^~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:551:9: error: no previous prototype for 'do_request' [-Werror=missing-prototypes]
-     551 | ssize_t do_request (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, char __user *buf, size_t buf_len)
-         |         ^~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:617:9: error: no previous prototype for 'do_response' [-Werror=missing-prototypes]
-     617 | ssize_t do_response (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, const char __user *buf, size_t buf_len, struct vhba_response *res)
-         |         ^~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:693:22: error: no previous prototype for 'next_command' [-Werror=missing-prototypes]
-     693 | struct vhba_command *next_command (struct vhba_device *vdev)
-         |                      ^~~~~~~~~~~~
->> drivers/scsi/vhba/vhba.c:710:22: error: no previous prototype for 'match_command' [-Werror=missing-prototypes]
-     710 | struct vhba_command *match_command (struct vhba_device *vdev, __u32 metatag)
-         |                      ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:727:22: error: no previous prototype for 'wait_command' [-Werror=missing-prototypes]
-     727 | struct vhba_command *wait_command (struct vhba_device *vdev, unsigned long flags)
-         |                      ^~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:754:9: error: no previous prototype for 'vhba_ctl_read' [-Werror=missing-prototypes]
-     754 | ssize_t vhba_ctl_read (struct file *file, char __user *buf, size_t buf_len, loff_t *offset)
-         |         ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:799:9: error: no previous prototype for 'vhba_ctl_write' [-Werror=missing-prototypes]
-     799 | ssize_t vhba_ctl_write (struct file *file, const char __user *buf, size_t buf_len, loff_t *offset)
-         |         ^~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:852:6: error: no previous prototype for 'vhba_ctl_ioctl' [-Werror=missing-prototypes]
-     852 | long vhba_ctl_ioctl (struct file *file, unsigned int cmd, unsigned long arg)
-         |      ^~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:886:6: error: no previous prototype for 'vhba_ctl_compat_ioctl' [-Werror=missing-prototypes]
-     886 | long vhba_ctl_compat_ioctl (struct file *file, unsigned int cmd, unsigned long arg)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:893:14: error: no previous prototype for 'vhba_ctl_poll' [-Werror=missing-prototypes]
-     893 | unsigned int vhba_ctl_poll (struct file *file, poll_table *wait)
-         |              ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:910:5: error: no previous prototype for 'vhba_ctl_open' [-Werror=missing-prototypes]
-     910 | int vhba_ctl_open (struct inode *inode, struct file *file)
-         |     ^~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:942:5: error: no previous prototype for 'vhba_ctl_release' [-Werror=missing-prototypes]
-     942 | int vhba_ctl_release (struct inode *inode, struct file *file)
-         |     ^~~~~~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:998:5: error: no previous prototype for 'vhba_probe' [-Werror=missing-prototypes]
-     998 | int vhba_probe (struct platform_device *pdev)
-         |     ^~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1052:5: error: no previous prototype for 'vhba_remove' [-Werror=missing-prototypes]
-    1052 | int vhba_remove (struct platform_device *pdev)
-         |     ^~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1068:6: error: no previous prototype for 'vhba_release' [-Werror=missing-prototypes]
-    1068 | void vhba_release (struct device * dev)
-         |      ^~~~~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1090:12: error: no previous prototype for 'vhba_init' [-Werror=missing-prototypes]
-    1090 | int __init vhba_init (void)
-         |            ^~~~~~~~~
-   drivers/scsi/vhba/vhba.c:1115:13: error: no previous prototype for 'vhba_exit' [-Werror=missing-prototypes]
-    1115 | void __exit vhba_exit(void)
-         |             ^~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/devnum_to_bus_and_id +145 drivers/scsi/vhba/vhba.c
-
-   140	
-   141	
-   142	
-   143	/* These functions define a symmetric 1:1 mapping between device numbers and
-   144	   the bus and id. We have reserved the last id per bus for the host itself. */
- > 145	void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
-   146	{
-   147	    *bus = devnum / (VHBA_MAX_ID-1);
-   148	    *id  = devnum % (VHBA_MAX_ID-1);
-   149	}
-   150	
- > 151	unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
-   152	{
-   153	    return (bus * (VHBA_MAX_ID-1)) + id;
-   154	}
-   155	
- > 156	struct vhba_device *vhba_device_alloc (void)
-   157	{
-   158	    struct vhba_device *vdev;
-   159	
-   160	    vdev = kzalloc(sizeof(struct vhba_device), GFP_KERNEL);
-   161	    if (!vdev) {
-   162	        return NULL;
-   163	    }
-   164	
-   165	    spin_lock_init(&vdev->cmd_lock);
-   166	    INIT_LIST_HEAD(&vdev->cmd_list);
-   167	    init_waitqueue_head(&vdev->cmd_wq);
-   168	    atomic_set(&vdev->refcnt, 1);
-   169	
-   170	    vdev->kbuf = NULL;
-   171	    vdev->kbuf_size = 0;
-   172	
-   173	    return vdev;
-   174	}
-   175	
- > 176	void vhba_device_put (struct vhba_device *vdev)
-   177	{
-   178	    if (atomic_dec_and_test(&vdev->refcnt)) {
-   179	        kfree(vdev);
-   180	    }
-   181	}
-   182	
- > 183	struct vhba_device *vhba_device_get (struct vhba_device *vdev)
-   184	{
-   185	    atomic_inc(&vdev->refcnt);
-   186	
-   187	    return vdev;
-   188	}
-   189	
- > 190	int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-   191	{
- > 192	    struct vhba_host *vhost;
-   193	    struct vhba_command *vcmd;
-   194	    unsigned long flags;
-   195	
-   196	    vhost = platform_get_drvdata(&vhba_platform_device);
-   197	
-   198	    vcmd = vhba_alloc_command();
-   199	    if (!vcmd) {
-   200	        return SCSI_MLQUEUE_HOST_BUSY;
-   201	    }
-   202	
-   203	    vcmd->cmd = cmd;
-   204	
-   205	    spin_lock_irqsave(&vdev->cmd_lock, flags);
-   206	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
-   207	    vcmd->metatag = scsi_cmd_to_rq(vcmd->cmd)->tag;
-   208	#else
-   209	    vcmd->metatag = vcmd->cmd->request->tag;
-   210	#endif
-   211	    list_add_tail(&vcmd->entry, &vdev->cmd_list);
-   212	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   213	
-   214	    wake_up_interruptible(&vdev->cmd_wq);
-   215	
-   216	    return 0;
-   217	}
-   218	
- > 219	int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
-   220	{
-   221	    struct vhba_command *vcmd;
-   222	    int retval;
-   223	    unsigned long flags;
-   224	
-   225	    spin_lock_irqsave(&vdev->cmd_lock, flags);
-   226	    list_for_each_entry(vcmd, &vdev->cmd_list, entry) {
-   227	        if (vcmd->cmd == cmd) {
-   228	            list_del_init(&vcmd->entry);
-   229	            break;
-   230	        }
-   231	    }
-   232	
-   233	    /* command not found */
-   234	    if (&vcmd->entry == &vdev->cmd_list) {
-   235	        spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   236	        return SUCCESS;
-   237	    }
-   238	
-   239	    while (vcmd->status == VHBA_REQ_READING || vcmd->status == VHBA_REQ_WRITING) {
-   240	        spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   241	        scmd_dbg(cmd, "wait for I/O before aborting\n");
-   242	        schedule_timeout(1);
-   243	        spin_lock_irqsave(&vdev->cmd_lock, flags);
-   244	    }
-   245	
-   246	    retval = (vcmd->status == VHBA_REQ_SENT) ? FAILED : SUCCESS;
-   247	
-   248	    vhba_free_command(vcmd);
-   249	
-   250	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
-   251	
-   252	    return retval;
-   253	}
-   254	
-   255	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 19, 0)
-   256	int vhba_slave_alloc(struct scsi_device *sdev)
-   257	{
-   258	    struct Scsi_Host *shost = sdev->host;
-   259	
-   260	    sdev_dbg(sdev, "enabling tagging (queue depth: %i).\n", sdev->queue_depth);
-   261	#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 17, 0)
-   262	    if (!shost_use_blk_mq(shost) && shost->bqt) {
-   263	#else
-   264	    if (shost->bqt) {
-   265	#endif
-   266	        blk_queue_init_tags(sdev->request_queue, sdev->queue_depth, shost->bqt);
-   267	    }
-   268	    scsi_adjust_queue_depth(sdev, 0, sdev->queue_depth);
-   269	
-   270	    return 0;
-   271	}
-   272	#endif
-   273	
- > 274	void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
-   275	{
-   276	    struct scsi_device *sdev;
-   277	
-   278	    sdev = scsi_device_lookup(vhost->shost, bus, id, 0);
-   279	    if (!sdev) {
-   280	        scsi_add_device(vhost->shost, bus, id, 0);
-   281	    } else {
-   282	        dev_warn(&vhost->shost->shost_gendev, "tried to add an already-existing device %d:%d:0!\n", bus, id);
-   283	        scsi_device_put(sdev);
-   284	    }
-   285	}
-   286	
- > 287	void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
-   288	{
-   289	    struct scsi_device *sdev;
-   290	
-   291	    sdev = scsi_device_lookup(vhost->shost, bus, id, 0);
-   292	    if (sdev) {
-   293	        scsi_remove_device(sdev);
-   294	        scsi_device_put(sdev);
-   295	    } else {
-   296	        dev_warn(&vhost->shost->shost_gendev, "tried to remove non-existing device %d:%d:0!\n", bus, id);
-   297	    }
-   298	}
-   299	
- > 300	void vhba_scan_devices (struct work_struct *work)
-   301	{
-   302	    struct vhba_host *vhost = container_of(work, struct vhba_host, scan_devices);
-   303	    unsigned long flags;
-   304	    int change, exists;
-   305	    unsigned int devnum;
-   306	    unsigned int bus, id;
-   307	
-   308	    for (;;) {
-   309	        spin_lock_irqsave(&vhost->dev_lock, flags);
-   310	
-   311	        devnum = find_first_bit(vhost->chgmap, VHBA_MAX_DEVICES);
-   312	        if (devnum >= VHBA_MAX_DEVICES) {
-   313	            spin_unlock_irqrestore(&vhost->dev_lock, flags);
-   314	            break;
-   315	        }
-   316	        change = vhost->chgtype[devnum];
-   317	        exists = vhost->devices[devnum] != NULL;
-   318	
-   319	        vhost->chgtype[devnum] = 0;
-   320	        clear_bit(devnum, vhost->chgmap);
-   321	
-   322	        spin_unlock_irqrestore(&vhost->dev_lock, flags);
-   323	
-   324	        devnum_to_bus_and_id(devnum, &bus, &id);
-   325	
-   326	        if (change < 0) {
-   327	            dev_dbg(&vhost->shost->shost_gendev, "trying to remove target %d:%d:0\n", bus, id);
-   328	            vhba_scan_devices_remove(vhost, bus, id);
-   329	        } else if (change > 0) {
-   330	            dev_dbg(&vhost->shost->shost_gendev, "trying to add target %d:%d:0\n", bus, id);
-   331	            vhba_scan_devices_add(vhost, bus, id);
-   332	        } else {
-   333	            /* quick sequence of add/remove or remove/add; we determine
-   334	               which one it was by checking if device structure exists */
-   335	            if (exists) {
-   336	                /* remove followed by add: remove and (re)add */
-   337	                dev_dbg(&vhost->shost->shost_gendev, "trying to (re)add target %d:%d:0\n", bus, id);
-   338	                vhba_scan_devices_remove(vhost, bus, id);
-   339	                vhba_scan_devices_add(vhost, bus, id);
-   340	            } else {
-   341	                /* add followed by remove: no-op */
-   342	                dev_dbg(&vhost->shost->shost_gendev, "no-op for target %d:%d:0\n", bus, id);
-   343	            }
-   344	        }
-   345	    }
-   346	}
-   347	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+SGkgS2FsbGUsDQoNCk9uIDgvMjkvMjMgMDE6MzEsIEthbGxlIFZhbG8gd3JvdGU6DQo+IEVYVEVS
+TkFMIEVNQUlMOiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3Mg
+eW91IGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZQ0KPiANCj4gS2FsbGUgVmFsbyA8a3ZhbG9Aa2Vy
+bmVsLm9yZz4gd3JpdGVzOg0KPiANCj4+IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29t
+PiB3cml0ZXM6DQo+Pg0KPj4+IHRyZWU6ICAgaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2Nt
+L2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0IG1hc3Rlcg0KPj4+IGhlYWQ6ICAg
+NzI3ZGJkYTE2YjgzNjAwMzc5MDYxYzRjYTgyNzBlZjNlMmY1MTkyMg0KPj4+IGNvbW1pdDogYzVi
+MzMxZDRmNTUwZmI3OGJmMWE1NTNiMjUxNzYxNmE1ZWE5MTNkNiB3aWZpOiB3aWxjMTAwMDogYWRk
+IFdQQTMgU0FFIHN1cHBvcnQNCj4+PiBkYXRlOiAgIDEgeWVhciwgMyBtb250aHMgYWdvDQo+Pj4g
+Y29uZmlnOiBpMzg2LXJhbmRjb25maWctMDYzLTIwMjMwODI5IChodHRwczovL2Rvd25sb2FkLjAx
+Lm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAyMzA4MjkvMjAyMzA4MjkwNjE1LmxVVElncVVsLWxrcEBp
+bnRlbC5jb20vY29uZmlnKQ0KPj4+IGNvbXBpbGVyOiBnY2MtMTIgKERlYmlhbiAxMi4yLjAtMTQp
+IDEyLjIuMA0KPj4+IHJlcHJvZHVjZSAodGhpcyBpcyBhIFc9MSBidWlsZCk6IChodHRwczovL2Rv
+d25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAyMzA4MjkvMjAyMzA4MjkwNjE1LmxVVEln
+cVVsLWxrcEBpbnRlbC5jb20vcmVwcm9kdWNlKQ0KPj4+DQo+Pj4gSWYgeW91IGZpeCB0aGUgaXNz
+dWUgaW4gYSBzZXBhcmF0ZSBwYXRjaC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBuZXcgdmVyc2lv
+biBvZg0KPj4+IHRoZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5nIHRh
+Z3MNCj4+PiB8IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4N
+Cj4+PiB8IENsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDIz
+MDgyOTA2MTUubFVUSWdxVWwtbGtwQGludGVsLmNvbS8NCj4+Pg0KPj4+IHNwYXJzZSB3YXJuaW5n
+czogKG5ldyBvbmVzIHByZWZpeGVkIGJ5ID4+KQ0KPj4+Pj4gZHJpdmVycy9uZXQvd2lyZWxlc3Mv
+bWljcm9jaGlwL3dpbGMxMDAwL2NmZzgwMjExLmM6MzYxOjQyOiBzcGFyc2U6IHNwYXJzZTogaW5j
+b3JyZWN0IHR5cGUgaW4gYXNzaWdubWVudCAoZGlmZmVyZW50IGJhc2UgdHlwZXMpIEBAICAgICBl
+eHBlY3RlZCB1bnNpZ25lZCBpbnQga2V5X21nbXRfc3VpdGUgQEAgICAgIGdvdCByZXN0cmljdGVk
+IF9fYmUzMiBbdXNlcnR5cGVdIEBADQo+Pj4gICAgZHJpdmVycy9uZXQvd2lyZWxlc3MvbWljcm9j
+aGlwL3dpbGMxMDAwL2NmZzgwMjExLmM6MzYxOjQyOiBzcGFyc2U6ICAgICBleHBlY3RlZCB1bnNp
+Z25lZCBpbnQga2V5X21nbXRfc3VpdGUNCj4+PiAgICBkcml2ZXJzL25ldC93aXJlbGVzcy9taWNy
+b2NoaXAvd2lsYzEwMDAvY2ZnODAyMTEuYzozNjE6NDI6IHNwYXJzZTogICAgIGdvdCByZXN0cmlj
+dGVkIF9fYmUzMiBbdXNlcnR5cGVdDQo+Pg0KPj4gWWVhaCwgdGhpcyBpcyBhbiBvbGQgaXNzdWUg
+YnV0IHdlIHJlYWxseSBzaG91bGQgdHJ5IHRvIGZpeCB0aGlzLA0KPj4gZXNwZWNpYWxseSBzbyBh
+cyBJIHdvdWxkIGxpa2UgdG8gbWFrZSB3aXJlbGVzcyBjb2RlIHNwYXJzZSB3YXJuaW5nIGZyZWUN
+Cj4+IGluIHRoZSBuZWFyIGZ1dHVyZS4gSUlSQyB0aGVyZSB3ZXJlIHNvbWUgcHJvYmxlbXMgd2l0
+aCBubDgwMjExIGludGVyZmFjZQ0KPj4gYXMgd2VsbCBzbyB0aGlzIG1pZ2h0IG5vdCBiZSBzaW1w
+bGUgZml4IHN0aWxsLg0KPiANCj4gRm9yIHJlZmVyZW5jZSBoZXJlJ3MgdGhlIG9sZCBkaXNjdXNz
+aW9uOg0KPiANCj4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LXdp
+cmVsZXNzL3BhdGNoLzIwMjIwNzIwMTYwMzAyLjIzMTUxNi0xLWFqYXkua2F0aGF0QG1pY3JvY2hp
+cC5jb20vDQo+IA0KPiBBbnkgdm9sdW50ZWVycyB0byBoZWxwIGZpeCB0aGlzPyBJIHdvdWxkIHBy
+ZWZlcnMgZml4ZXMgZm9yIGlzc3VlcyBsaWtlDQo+IHRoaXMgY29tcGFyZWQgdG8gcXVlc3Rpb25h
+YmxlIHJhbmRvbSBjbGVhbnVwcyB3ZSBhbHdheXMgZ2V0Lg0KPiANCj4gTWF5YmUgd2Ugc2hvdWxk
+IGNvbWUgdXAgd2l0aCBhIHRvZG8gbGlzdCBzb21ld2hlcmUgYW5kIGFkdm9jYXRlIHRoZQ0KPiAi
+Y2xlYW5lcnMiIHRvIHdvcmsgb24gdGhvc2UgaXRlbXMgaW5zdGVhZD8NCj4gDQoNCkl0IHNlZW1z
+LCB0aGUgd3BhX3MgaXMgbW9kaWZpZWQgdG8gaGFuZGxlIHRoZSBieXRlIG9yZGVyIGZvcg0KJ2tl
+eV9tZ210X3N1aXRlJyB2YWx1ZS4gVGhlIGNoYW5nZXMgYXJlIGNvbW1pdHRlZCBpbiBbMV0gYW5k
+IGl0IHNob3VsZA0Kd29yayBmb3IgYW55IGJ5dGUgb3JkZXIuDQoNCk5vdywgdGhlIGFib3ZlIHNw
+YXJzZSB3YXJuaW5nIGNhbiBiZSBmaXhlZCBieSBqdXN0IHJlbW92aW5nIHRoZSBieXRlDQpjb252
+ZXJzaW9uIGJlZm9yZSBwYXNzaW5nIHRvIHdwYV9zLg0KDQp2aWYtPmF1dGgua2V5X21nbXRfc3Vp
+dGUgPSBjcHVfdG9fYmUzMihzbWUtPmNyeXB0by5ha21fc3VpdGVzWzBdKTsNCg0KdG8NCg0Kdmlm
+LT5hdXRoLmtleV9tZ210X3N1aXRlID0gc21lLT5jcnlwdG8uYWttX3N1aXRlc1swXTsNCg0KSSBj
+YW4gcHVzaCBhIHBhdGNoIHRvIGZpeCB0aGUgc3BhcnNlIHdhcm5pbmcuIEhvd2V2ZXIgdGhlIHBh
+dGNoIHdpbGwNCndvcmsgd2l0aCB1cGRhdGVkIHdwYV9zLg0KDQoNCjEuDQpodHRwczovL3cxLmZp
+L2NnaXQvaG9zdGFwL2NvbW1pdC8/aWQ9ODM5MmVhOWU3NWVhY2YzMGNiMDk2NzFlNDYzZDlhMzdj
+M2VhZGQ2YQ0K
