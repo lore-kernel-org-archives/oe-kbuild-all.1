@@ -1,105 +1,148 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD1C63BC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 14:29:56 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-58ca499456dso67379307b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 07:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1693405795; x=1694010595; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NghURf49RK5ylycOOwon5RzRxws9/PW8JtsRCxfmiyY=;
-        b=cL/oz/02trymgQ0p0z0kA9LUmKReWVCkDVrFzlTcQ9tkKkb5xWjVN80owJhV1xYcL3
-         8WTe9FeoGrDcgWWPhNQVGXFTsrzimR/KyCv1v0LPPwZaFRjp7/SMgy7NtGTkm8Qo0kle
-         qvMckiZwizhSCF/3xDs7krqVkFeuc91kGH9fB8A82jxeo28yDJlCUq6/GeM6XMd9ml6h
-         1w6oB1gHEWO5xHjdv4hIihdVh2jvH3jTbfJEBr3WfLmEcm45qlHYb08prMitpGJ89co3
-         PAbYznIaF7SPqlsnlO+8JwSKtqaRfP0GDaaTYN6T3hi6ed4v6sVMzbsTU/KcaoSxPO7i
-         8nUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693405795; x=1694010595;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NghURf49RK5ylycOOwon5RzRxws9/PW8JtsRCxfmiyY=;
-        b=CheWvzrCFq1uKktzP/Xl1tSraPQR3n1LWXTMA0pvCIcs20ebUrdvBI8irSu8Y1+Jq4
-         S++2QVOvHLt1Ik4J35TxJsQwrmRY9n4NMFDwDHlcEWhW6WOEujBtx5Hrbf5JmDuTfcFG
-         eF7B70pHFze21BM2pfwmffmVMAUW/Gxlg3rOGb+nmTopgY5P+m6h5J/EhH8KmtY8mncf
-         KtyyoUb86qElEjeIJuIua/kjPOyIqtjt1P3qBCqbDhLIGVNPB5vP5zc/0RszJQid2Dfg
-         BauK041ZV5t16gh676Nxtrr9G2IB6yiad/FYWtitqO6ZYC35OTQBncNTzxEYwqPJSjvl
-         kJYA==
-X-Gm-Message-State: AOJu0YwBKn5dWEuMIv5DnG8Wp53eyrgNMickF1EMJrAquGE6o5bM0Q5A
-	LcqhJW2Otwyr/nWvZMOC0LQwcba8Ev7FoPq48Emup9hFZDGKxqA=
-X-Google-Smtp-Source: AGHT+IENUcGV1zmTTBYYJ4iI6kb1uCtEbWSrgnMVUQ/8HiTd3flLhgpR3sz66wZeZ1ViiieOOnosB8xqzoOlplCZg5w=
-X-Received: by 2002:a0d:f747:0:b0:595:80e4:907d with SMTP id
- h68-20020a0df747000000b0059580e4907dmr2056857ywf.32.1693405795614; Wed, 30
- Aug 2023 07:29:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E093FFB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 14:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693406271; x=1724942271;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=j1BP7Go9GIBYSc1WmHj6Rffp86FcpVFyQabRFz3cxtI=;
+  b=nR0iuVWwElyxAiqRbapDv4jXmNzQgeXkgtYT5Mgbf2a9vnKGtqzyqYMC
+   CxFe6SnfJllnPXt6xbszYUTjKpb3KmDS3YIFHBKQckClkkZ8v2SoB044X
+   nNU11Xj9ARCzXbAw+ZnIyQ1k6MVOGd4kWrfz3KIiBt1mULm/q9hiCKCFC
+   mAWODxBw7s3M+uW3oHMmdsyotg1M5FAlWgXJBChthzF6CQPP51OgNR443
+   K/xc39Q/X+HhgNBzSipLdHK+fliI/ToWv3HzttB5tb1mnNgMS97qJL8UG
+   6w8p0rKgRVz6EahtkmhORPLqolxMvH62w6uXy6TyJdvUrKXozEnf7jC9K
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="379412916"
+X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
+   d="scan'208";a="379412916"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 07:37:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="853748060"
+X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
+   d="scan'208";a="853748060"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 30 Aug 2023 07:37:48 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qbMKI-0009u7-20;
+	Wed, 30 Aug 2023 14:37:46 +0000
+Date: Wed, 30 Aug 2023 22:37:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexey Gladkov <legion@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [legion:sysctl-next 1/5] include/linux/sysctl.h:148:45: warning:
+ 'struct file' declared inside parameter list will not be visible outside of
+ this definition or declaration
+Message-ID: <202308302240.Lcg7J346-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202308301248.hEwyeVEl-lkp@intel.com>
-In-Reply-To: <202308301248.hEwyeVEl-lkp@intel.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 30 Aug 2023 10:29:44 -0400
-Message-ID: <CAHC9VhQZFZTaXb_S5YCy9KniVfPBmEQrY74_dMi5cBftZsrwNg@mail.gmail.com>
-Subject: Re: [pcmoore-audit:main 1/1] README.orig: warning: ignored by one of
- the .gitignore files
-To: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Cc: linux-audit@redhat.com, audit@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Aug 30, 2023 at 12:17=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git=
- main
-> head:   94e5ef9b157c6c3779352a8d4121542f71de52a1
-> commit: 94e5ef9b157c6c3779352a8d4121542f71de52a1 [1/1] audit: add a Linux=
- Audit specific README.md and SECURITY.md
-> config: parisc-randconfig-r012-20230830 (https://download.01.org/0day-ci/=
-archive/20230830/202308301248.hEwyeVEl-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20230830/202308301248.hEwyeVEl-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308301248.hEwyeVEl-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> README.orig: warning: ignored by one of the .gitignore files
->    tools/perf/util/bpf_skel/vmlinux/vmlinux.h: warning: ignored by one of=
- the .gitignore files
->    tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one=
- of the .gitignore files
->    tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one o=
-f the .gitignore files
->    tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored =
-by one of the .gitignore files
->    tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by on=
-e of the .gitignore files
->    tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the=
- .gitignore files
->    tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .=
-gitignore files
->    tools/testing/selftests/kvm/config: warning: ignored by one of the .gi=
-tignore files
->    tools/testing/selftests/kvm/settings: warning: ignored by one of the .=
-gitignore files
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/legion/linux.git sysctl-next
+head:   5db649a3f876dee97af2da8462e4314424a04675
+commit: b3d9978143d4fa8d26fb6efee0a4e615ad987715 [1/5] sysctl: API extension for handling sysctl
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230830/202308302240.Lcg7J346-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308302240.Lcg7J346-lkp@intel.com/reproduce)
 
-I have no idea if there is a person attached to any of the addresses
-on the To line above, but please send audit kernel issues to
-audit@vger.kernel.org and not linux-audit@redhat.com.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308302240.Lcg7J346-lkp@intel.com/
 
-Thanks.
+All warnings (new ones prefixed by >>):
 
---=20
-paul-moore.com
+   In file included from kernel/ucount.c:4:
+>> include/linux/sysctl.h:148:45: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
+     148 |         int (*open) (struct inode *, struct file *);
+         |                                             ^~~~
+   include/linux/sysctl.h:149:48: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
+     149 |         int (*release) (struct inode *, struct file *);
+         |                                                ^~~~
+   include/linux/sysctl.h:150:33: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
+     150 |         ssize_t (*read) (struct file *, char *, size_t *, loff_t *);
+         |                                 ^~~~
+   include/linux/sysctl.h:151:34: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
+     151 |         ssize_t (*write) (struct file *, char *, size_t *, loff_t *);
+         |                                  ^~~~
+--
+   In file included from fs/proc/proc_sysctl.c:6:
+>> include/linux/sysctl.h:148:45: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
+     148 |         int (*open) (struct inode *, struct file *);
+         |                                             ^~~~
+   include/linux/sysctl.h:149:48: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
+     149 |         int (*release) (struct inode *, struct file *);
+         |                                                ^~~~
+   include/linux/sysctl.h:150:33: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
+     150 |         ssize_t (*read) (struct file *, char *, size_t *, loff_t *);
+         |                                 ^~~~
+   include/linux/sysctl.h:151:34: warning: 'struct file' declared inside parameter list will not be visible outside of this definition or declaration
+     151 |         ssize_t (*write) (struct file *, char *, size_t *, loff_t *);
+         |                                  ^~~~
+   fs/proc/proc_sysctl.c: In function 'proc_sys_call_handler':
+   fs/proc/proc_sysctl.c:599:47: error: passing argument 1 of 'table->fops.write' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     599 |                 error = table->fops.write(iocb->ki_filp, kbuf, &count, &iocb->ki_pos);
+         |                                           ~~~~^~~~~~~~~
+         |                                               |
+         |                                               struct file *
+   fs/proc/proc_sysctl.c:599:47: note: expected 'struct file *' but argument is of type 'struct file *'
+   fs/proc/proc_sysctl.c:601:46: error: passing argument 1 of 'table->fops.read' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     601 |                 error = table->fops.read(iocb->ki_filp, kbuf, &count, &iocb->ki_pos);
+         |                                          ~~~~^~~~~~~~~
+         |                                              |
+         |                                              struct file *
+   fs/proc/proc_sysctl.c:601:46: note: expected 'struct file *' but argument is of type 'struct file *'
+   fs/proc/proc_sysctl.c: In function 'proc_sys_open':
+   fs/proc/proc_sysctl.c:656:47: error: passing argument 2 of 'table->fops.open' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     656 |                 ret = table->fops.open(inode, filp);
+         |                                               ^~~~
+         |                                               |
+         |                                               struct file *
+   fs/proc/proc_sysctl.c:656:47: note: expected 'struct file *' but argument is of type 'struct file *'
+   fs/proc/proc_sysctl.c: In function 'proc_sys_release':
+   fs/proc/proc_sysctl.c:677:50: error: passing argument 2 of 'table->fops.release' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     677 |                 ret = table->fops.release(inode, filp);
+         |                                                  ^~~~
+         |                                                  |
+         |                                                  struct file *
+   fs/proc/proc_sysctl.c:677:50: note: expected 'struct file *' but argument is of type 'struct file *'
+   cc1: some warnings being treated as errors
+--
+   kernel/bpf/cgroup.c:795: warning: Function parameter or member 'new_prog' not described in '__cgroup_bpf_replace'
+   kernel/bpf/cgroup.c:795: warning: Excess function parameter 'type' description in '__cgroup_bpf_replace'
+   kernel/bpf/cgroup.c:1359: warning: Function parameter or member 'atype' not described in '__cgroup_bpf_run_filter_skb'
+   kernel/bpf/cgroup.c:1359: warning: Excess function parameter 'type' description in '__cgroup_bpf_run_filter_skb'
+   kernel/bpf/cgroup.c:1439: warning: Function parameter or member 'atype' not described in '__cgroup_bpf_run_filter_sk'
+   kernel/bpf/cgroup.c:1439: warning: Excess function parameter 'type' description in '__cgroup_bpf_run_filter_sk'
+   kernel/bpf/cgroup.c:1467: warning: Function parameter or member 'atype' not described in '__cgroup_bpf_run_filter_sock_addr'
+   kernel/bpf/cgroup.c:1467: warning: Excess function parameter 'type' description in '__cgroup_bpf_run_filter_sock_addr'
+   kernel/bpf/cgroup.c:1512: warning: Function parameter or member 'atype' not described in '__cgroup_bpf_run_filter_sock_ops'
+   kernel/bpf/cgroup.c:1512: warning: Excess function parameter 'type' description in '__cgroup_bpf_run_filter_sock_ops'
+>> kernel/bpf/cgroup.c:1686: warning: Function parameter or member 'file' not described in '__cgroup_bpf_run_filter_sysctl'
+   kernel/bpf/cgroup.c:1686: warning: Function parameter or member 'atype' not described in '__cgroup_bpf_run_filter_sysctl'
+   kernel/bpf/cgroup.c:1686: warning: Excess function parameter 'type' description in '__cgroup_bpf_run_filter_sysctl'
+
+
+vim +148 include/linux/sysctl.h
+
+   146	
+   147	struct ctl_fops {
+ > 148		int (*open) (struct inode *, struct file *);
+   149		int (*release) (struct inode *, struct file *);
+   150		ssize_t (*read) (struct file *, char *, size_t *, loff_t *);
+   151		ssize_t (*write) (struct file *, char *, size_t *, loff_t *);
+   152	};
+   153	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
