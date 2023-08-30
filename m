@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3681106;
-	Wed, 30 Aug 2023 03:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167431374
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 03:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693367121; x=1724903121;
+  t=1693367729; x=1724903729;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uMEVXrMiH9BVNZV4yUy9NOesvof8AOqh1/bTKEvD4oU=;
-  b=nLUL+3c6c/TW0MunRHEAjKhCIvFkGFtA5iAUVKYhEURCY8FziVRV9wIO
-   cnrPzHAtWZ8VmmTImvlrRGIEps0QyE1LbgVfQDvgQ/+U5aHQNySbQQPkj
-   dJEAWNt2ayEgFTtWxGIU7N6lyzi+pU3rIkaKKm1W2N02THKg83iCy2EXN
-   GcJGWNFy7R+t6KXYqtLTbXWRXYoIBWe/iifJFOUGPuHnEuw7M99ciCgYs
-   K1j6rnamfZlM0mx68YXaXUxd3irndP0JCgBTgUtq22yOsIy2BMmtIJqEj
-   +E1ANtvj5gXVCR4J3XKFMFXAF3YGQyejc87i0TTpDFEEtVKFND2bziMf0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441903169"
+  bh=BINzG93AjWLvRRywILx1lgUZuYmxeUNJ/G+oIy8tdL0=;
+  b=HgMTE7obnWnRL/cuLl0obRFag2k+5gPaArNygsbJMzRIigEmKaSe6dXf
+   fo7KHOkNVYk+++GCPYEn1sbnUbo+l5nNuZrvMLXTOZ8jZmWhf/1x3L820
+   B7x22b+Z9K/0CfdkuXCBrt038UUET+acqV0mUm9Ri49l2daFi/uXOe2Sm
+   LuaT+3lcbBIHVQJ+aZ4quFNv7LE5f4BFEDQo7j76Qrtbnq2sh5/P9kphI
+   Z4EnPoKbqrmOxwcuUqphF5yQ2prDvPIQSPrNXBC3LwzGnM3BqxvGFzOf8
+   zV7iCJlmNVy3aErq2zFeOHdS8aFSJDgE03Hb29GWBSdgb+RGYQtl0d9qE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="355050814"
 X-IronPort-AV: E=Sophos;i="6.02,212,1688454000"; 
-   d="scan'208";a="441903169"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 20:45:20 -0700
+   d="scan'208";a="355050814"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 20:55:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="742070570"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="732450482"
 X-IronPort-AV: E=Sophos;i="6.02,212,1688454000"; 
-   d="scan'208";a="742070570"
+   d="scan'208";a="732450482"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Aug 2023 20:45:18 -0700
+  by orsmga007.jf.intel.com with ESMTP; 29 Aug 2023 20:55:26 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbC8s-0009Nn-0P;
-	Wed, 30 Aug 2023 03:45:18 +0000
-Date: Wed, 30 Aug 2023 11:44:23 +0800
+	id 1qbCIg-0009OL-0a;
+	Wed, 30 Aug 2023 03:55:26 +0000
+Date: Wed, 30 Aug 2023 11:54:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 20/36] drivers/block/rbd.c:2741:3: warning:
- needs fixing
-Message-ID: <202308301154.V7mV0beW-lkp@intel.com>
+To: Guenter Roeck <groeck@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jsarha:topic/cros-sof-v4.19 571/6555]
+ drivers/pkglist/pkglist_none.c:45:12: warning: no previous prototype for
+ 'pkglist_init'
+Message-ID: <202308301141.Ae9AJDT3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,81 +47,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
-head:   d9c2320ef61eb3f02f0f9cbb4b8811c9991160ac
-commit: b2bd36460947fa0c092390b079b16fd0903825e4 [20/36] rbd: Switch from using bvec_iter to iov_iter
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230830/202308301154.V7mV0beW-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308301154.V7mV0beW-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: 23f2bb7927c105fe2dd9d82410183013695317bd [571/6555] CHROMIUM: drivers: Create pkglist for configuration
+config: i386-randconfig-002-20230830 (https://download.01.org/0day-ci/archive/20230830/202308301141.Ae9AJDT3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308301141.Ae9AJDT3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308301154.V7mV0beW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308301141.Ae9AJDT3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/block/rbd.c:2741:3: warning: needs fixing [-W#warnings]
-           #warning needs fixing
-            ^
-   drivers/block/rbd.c:6036:17: warning: result of comparison of constant 2305843009213693948 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           if (snap_count > (SIZE_MAX - sizeof (struct ceph_snap_context))
-               ~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:22,
+                    from include/linux/module.h:13,
+                    from drivers/pkglist/pkglist_none.c:12:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1156:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1156 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1147:27: note: 'mem_section' declared here
+    1147 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   drivers/pkglist/pkglist_none.c: At top level:
+>> drivers/pkglist/pkglist_none.c:45:12: warning: no previous prototype for 'pkglist_init' [-Wmissing-prototypes]
+      45 | int __init pkglist_init(void)
+         |            ^~~~~~~~~~~~
+>> drivers/pkglist/pkglist_none.c:51:6: warning: no previous prototype for 'pkglist_exit' [-Wmissing-prototypes]
+      51 | void pkglist_exit(void) { }
+         |      ^~~~~~~~~~~~
 
 
-vim +2741 drivers/block/rbd.c
+vim +/pkglist_init +45 drivers/pkglist/pkglist_none.c
 
-  2705	
-  2706	static int rbd_obj_read_from_parent(struct rbd_obj_request *obj_req)
-  2707	{
-  2708		struct rbd_img_request *img_req = obj_req->img_request;
-  2709		struct rbd_device *parent = img_req->rbd_dev->parent;
-  2710		struct rbd_img_request *child_img_req;
-  2711		int ret;
-  2712	
-  2713		child_img_req = kmem_cache_alloc(rbd_img_request_cache, GFP_NOIO);
-  2714		if (!child_img_req)
-  2715			return -ENOMEM;
-  2716	
-  2717		rbd_img_request_init(child_img_req, parent, OBJ_OP_READ);
-  2718		__set_bit(IMG_REQ_CHILD, &child_img_req->flags);
-  2719		child_img_req->obj_request = obj_req;
-  2720	
-  2721		down_read(&parent->header_rwsem);
-  2722		rbd_img_capture_header(child_img_req);
-  2723		up_read(&parent->header_rwsem);
-  2724	
-  2725		dout("%s child_img_req %p for obj_req %p\n", __func__, child_img_req,
-  2726		     obj_req);
-  2727	
-  2728	#if 0 //////////////////// TODO
-  2729		if (!rbd_img_is_write(img_req)) {
-  2730			ret = rbd_img_fill_request(child_img_req,
-  2731						   obj_req->img_extents,
-  2732						   obj_req->num_img_extents,
-  2733						   &obj_req->iter);
-  2734		} else {
-  2735			ret = rbd_img_fill_request(img_req,
-  2736						   obj_req->img_extents,
-  2737						   obj_req->num_img_extents,
-  2738						   &obj_req->copyup_buf->iter);
-  2739		}
-  2740	#else
-> 2741		#warning needs fixing
-  2742		ret = -ENOMEM;
-  2743		BUG();
-  2744	#endif
-  2745		if (ret) {
-  2746			rbd_img_request_destroy(child_img_req);
-  2747			return ret;
-  2748		}
-  2749	
-  2750		/* avoid parent chain recursion */
-  2751		rbd_img_schedule(child_img_req, 0);
-  2752		return 0;
-  2753	}
-  2754	
+  > 12	#include <linux/module.h>
+    13	#include <linux/pkglist.h>
+    14	
+    15	kuid_t pkglist_get_appid(const char *key)
+    16	{
+    17		return make_kuid(&init_user_ns, 0);
+    18	}
+    19	EXPORT_SYMBOL_GPL(pkglist_get_appid);
+    20	
+    21	kgid_t pkglist_get_ext_gid(const char *key)
+    22	{
+    23		return make_kgid(&init_user_ns, 0);
+    24	}
+    25	EXPORT_SYMBOL_GPL(pkglist_get_ext_gid);
+    26	
+    27	bool pkglist_user_is_excluded(const char *key, uint32_t user)
+    28	{
+    29		return false;
+    30	}
+    31	EXPORT_SYMBOL_GPL(pkglist_user_is_excluded);
+    32	
+    33	kuid_t pkglist_get_allowed_appid(const char *key, uint32_t user)
+    34	{
+    35		return make_kuid(&init_user_ns, 0);
+    36	}
+    37	EXPORT_SYMBOL_GPL(pkglist_get_allowed_appid);
+    38	
+    39	void pkglist_register_update_listener(struct pkg_list *pkg) { }
+    40	EXPORT_SYMBOL_GPL(pkglist_register_update_listener);
+    41	
+    42	void pkglist_unregister_update_listener(struct pkg_list *pkg) { }
+    43	EXPORT_SYMBOL_GPL(pkglist_unregister_update_listener);
+    44	
+  > 45	int __init pkglist_init(void)
+    46	{
+    47		return 0;
+    48	}
+    49	module_init(pkglist_init);
+    50	
+  > 51	void pkglist_exit(void) { }
+    52	
 
 -- 
 0-DAY CI Kernel Test Service
