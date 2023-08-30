@@ -1,143 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4D379C0;
-	Wed, 30 Aug 2023 20:33:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693427606; x=1724963606;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZcQD+gl0DTqb9wfZMG3+T8LBQF9B9TPXH2Hj1nzYtmk=;
-  b=I/lZr+RPfcORwq+eSq60dj/Nx3Ou3bgTuTtEjEi+8TzERhC8HMm6AG56
-   2z+2qU8Yqqk/ssBFa8x6sllT45ESgk4egC39LQAVGGJmZHsuaaMqtQE14
-   qC9ZH01dyqpP7SujSNGXdfsjcfppbW+YfDc/UXHq3cFSqba4z1rJAvqci
-   W/95DbI4cXN8ZEVi9vXh9vUR3z6iNY8movXJk9TbPo+DCsNqEM5cWStxP
-   AnAYHvGqISvp5e7BcZC6PFpDkE7dsns1PAgHe62GP4GFoDKZmxCCyATXe
-   P5Rt4ERY4huF4bWP4HtUguUzpgCU7RYcnHWzya3vfwUdfakK9xHSO9xcO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="439694214"
-X-IronPort-AV: E=Sophos;i="6.02,214,1688454000"; 
-   d="scan'208";a="439694214"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 13:33:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="853867143"
-X-IronPort-AV: E=Sophos;i="6.02,214,1688454000"; 
-   d="scan'208";a="853867143"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 30 Aug 2023 13:33:21 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qbRsE-000ACf-3A;
-	Wed, 30 Aug 2023 20:33:15 +0000
-Date: Thu, 31 Aug 2023 04:32:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Juergen Gross <jgross@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Borislav Petkov (AMD)" <bp@alien8.de>
-Subject: arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter
- or member 'var' not described in 'mtrr_overwrite_state'
-Message-ID: <202308310450.02aHerFe-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A411B2F5E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 20:42:30 +0000 (UTC)
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3a7e68f4214so32596b6e.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 13:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1693428149; x=1694032949; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eR+pcB9DZ+j4/aw+gEyOHPukUBXxSsEx0gYXhxMIsQU=;
+        b=VJcLakE83diKiDHipGXTHiumY1bmLMIh6WcH2BHs+x7dWv3Dh8Rvd0nCmhxR2fvk45
+         blIrH19vd6cg9PQW+by83ppJfxGSrb1cK5JJTn06dmz68lDeMpB/UVFKYZ3kdZ89NZ+R
+         tRZZf2wpB82bvVgzfM2m1iXVMXyu6cpJVw+V/dXKGFkXKUH7gNF70UmtZKdWoTGOA+C+
+         IhHt6D7Phpwa807nLLZ/le/Uwo8gN2QKNYjNDb3h8pPaWRLbNMxwdm0LY/DuryZvVO72
+         vwyvYVlf/GYNUtETnvL0+c249YankP+EJCg8XGcMxSeXA06ONpoTeORejU4e6tz0LPY8
+         54bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693428149; x=1694032949;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eR+pcB9DZ+j4/aw+gEyOHPukUBXxSsEx0gYXhxMIsQU=;
+        b=Y8eS2PXH7/8jj15hbDVJdkPyMNrMkDzwX7j+9/fAjyW05DfRBqZZlmCVMijAjNaedB
+         IHfz/ntaLdzhX+2v5lMET7T08GyJAv04kBiIeNR36IrNjVEQJpyz1bmDx+KMn/LrqQ4L
+         fMEGLMahVJL96lH4ZrfgxsXwe5wnA3pzlOpj05tYTmIZRVXx3xAxYvtc7IgXxbLtJ1pO
+         mwBXPGqjFehULQHWnj7YMFaTnMy4EDha5EOI1ZDOylkr44iXQwRK/QKq+MLaEkLCRwOV
+         VWrjjzoBVgomodOdtfb5E62atDnOqmXJWx+lPzrGpDy8Xw7jkJFh0AH7Wxy6ot7vj4Oh
+         n3bA==
+X-Gm-Message-State: AOJu0YxvWUHvYme3m3QrBgdW0yq3JPPrFk6KwrMU9BNtPev3BOS9WMI0
+	ybcwGs7MJvxIA4mfI6YvLCGWCg==
+X-Google-Smtp-Source: AGHT+IEdLSqSwxr0ZCqNRFh7qOZui4elggOXEnYulBX0bcQ5Rv9eOcHHZE586WDrW0/37d2KUa+RbQ==
+X-Received: by 2002:a05:6808:182a:b0:3a8:1877:2d28 with SMTP id bh42-20020a056808182a00b003a818772d28mr3744377oib.50.1693428149281;
+        Wed, 30 Aug 2023 13:42:29 -0700 (PDT)
+Received: from localhost ([135.180.227.0])
+        by smtp.gmail.com with ESMTPSA id k9-20020aa792c9000000b0063b96574b8bsm10422253pfa.220.2023.08.30.13.42.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Aug 2023 13:42:28 -0700 (PDT)
+Date: Wed, 30 Aug 2023 13:42:28 -0700 (PDT)
+X-Google-Original-Date: Wed, 30 Aug 2023 13:38:30 PDT (-0700)
+Subject:     Re: [palmer:for-next 83/84] arch/riscv/kernel/ptrace.c:123:18: warning: unused variable 'size'
+In-Reply-To: <202308310306.tOrkoBmI-lkp@intel.com>
+CC: andy.chiu@sifive.com, oe-kbuild-all@lists.linux.dev
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: lkp@intel.com
+Message-ID: <mhng-9f10d921-5a58-4519-9313-c762d00abc6c@palmer-ri-x1c9>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1687d8aca5488674686eb46bf49d1d908b2672a1
-commit: 29055dc74287467bd7a053d60b4afe753832960d x86/mtrr: Support setting MTRR state for software defined MTRRs
-date:   3 months ago
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230831/202308310450.02aHerFe-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308310450.02aHerFe-lkp@intel.com/reproduce)
+On Wed, 30 Aug 2023 12:59:21 PDT (-0700), lkp@intel.com wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git for-next
+> head:   046ba817faa2e609c3751e2ee388d427fe9dd470
+> commit: dbe46b0940261301a038bbe1d699b29158b35a8d [83/84] RISC-V: Add ptrace support for vectors
+> config: riscv-defconfig (https://download.01.org/0day-ci/archive/20230831/202308310306.tOrkoBmI-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308310306.tOrkoBmI-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308310306.tOrkoBmI-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    arch/riscv/kernel/ptrace.c: In function 'riscv_vr_set':
+>>> arch/riscv/kernel/ptrace.c:123:18: warning: unused variable 'size' [-Wunused-variable]
+>      123 |         int ret, size;
+>          |                  ^~~~
+>
+>
+> vim +/size +123 arch/riscv/kernel/ptrace.c
+>
+>    117
+>    118	static int riscv_vr_set(struct task_struct *target,
+>    119				const struct user_regset *regset,
+>    120				unsigned int pos, unsigned int count,
+>    121				const void *kbuf, const void __user *ubuf)
+>    122	{
+>  > 123		int ret, size;
+>    124		struct __riscv_v_ext_state *vstate = &target->thread.vstate;
+>    125		struct __riscv_v_regset_state ptrace_vstate;
+>    126
+>    127		if (!riscv_v_vstate_query(task_pt_regs(target)))
+>    128			return -EINVAL;
+>    129
+>    130		/* Copy rest of the vstate except datap */
+>    131		ret = user_regset_copyin(&pos, &count, &kbuf, &ubuf, &ptrace_vstate, 0,
+>    132					 sizeof(struct __riscv_v_regset_state));
+>    133		if (unlikely(ret))
+>    134			return ret;
+>    135
+>    136		if (vstate->vlenb != ptrace_vstate.vlenb)
+>    137			return -EINVAL;
+>    138
+>    139		vstate->vstart = ptrace_vstate.vstart;
+>    140		vstate->vl = ptrace_vstate.vl;
+>    141		vstate->vtype = ptrace_vstate.vtype;
+>    142		vstate->vcsr = ptrace_vstate.vcsr;
+>    143
+>    144		/* Copy all the vector registers. */
+>    145		pos = 0;
+>    146		ret = user_regset_copyin(&pos, &count, &kbuf, &ubuf, vstate->datap,
+>    147					 0, riscv_v_vsize);
+>    148		return ret;
+>    149	}
+>    150	#endif
+>    151
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308310450.02aHerFe-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   arch/x86/kernel/cpu/mtrr/generic.c:125: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup_fixed'
-   arch/x86/kernel/cpu/mtrr/generic.c:125: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup_fixed'
-   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup_variable'
-   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup_variable'
-   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'partial_end' not described in 'mtrr_type_lookup_variable'
-   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'repeat' not described in 'mtrr_type_lookup_variable'
-   arch/x86/kernel/cpu/mtrr/generic.c:166: warning: Function parameter or member 'uniform' not described in 'mtrr_type_lookup_variable'
->> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'var' not described in 'mtrr_overwrite_state'
->> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'num_var' not described in 'mtrr_overwrite_state'
->> arch/x86/kernel/cpu/mtrr/generic.c:259: warning: Function parameter or member 'def_type' not described in 'mtrr_overwrite_state'
-   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup'
-   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'end' not described in 'mtrr_type_lookup'
-   arch/x86/kernel/cpu/mtrr/generic.c:316: warning: Function parameter or member 'uniform' not described in 'mtrr_type_lookup'
-
-
-vim +259 arch/x86/kernel/cpu/mtrr/generic.c
-
-   246	
-   247	/**
-   248	 * mtrr_overwrite_state - set static MTRR state
-   249	 *
-   250	 * Used to set MTRR state via different means (e.g. with data obtained from
-   251	 * a hypervisor).
-   252	 * Is allowed only for special cases when running virtualized. Must be called
-   253	 * from the x86_init.hyper.init_platform() hook.  It can be called only once.
-   254	 * The MTRR state can't be changed afterwards.  To ensure that, X86_FEATURE_MTRR
-   255	 * is cleared.
-   256	 */
-   257	void mtrr_overwrite_state(struct mtrr_var_range *var, unsigned int num_var,
-   258				  mtrr_type def_type)
- > 259	{
-   260		unsigned int i;
-   261	
-   262		/* Only allowed to be called once before mtrr_bp_init(). */
-   263		if (WARN_ON_ONCE(mtrr_state_set))
-   264			return;
-   265	
-   266		/* Only allowed when running virtualized. */
-   267		if (!cpu_feature_enabled(X86_FEATURE_HYPERVISOR))
-   268			return;
-   269	
-   270		/*
-   271		 * Only allowed for special virtualization cases:
-   272		 * - when running as Hyper-V, SEV-SNP guest using vTOM
-   273		 * - when running as Xen PV guest
-   274		 * - when running as SEV-SNP or TDX guest to avoid unnecessary
-   275		 *   VMM communication/Virtualization exceptions (#VC, #VE)
-   276		 */
-   277		if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP) &&
-   278		    !hv_is_isolation_supported() &&
-   279		    !cpu_feature_enabled(X86_FEATURE_XENPV) &&
-   280		    !cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-   281			return;
-   282	
-   283		/* Disable MTRR in order to disable MTRR modifications. */
-   284		setup_clear_cpu_cap(X86_FEATURE_MTRR);
-   285	
-   286		if (var) {
-   287			if (num_var > MTRR_MAX_VAR_RANGES) {
-   288				pr_warn("Trying to overwrite MTRR state with %u variable entries\n",
-   289					num_var);
-   290				num_var = MTRR_MAX_VAR_RANGES;
-   291			}
-   292			for (i = 0; i < num_var; i++)
-   293				mtrr_state.var_ranges[i] = var[i];
-   294			num_var_ranges = num_var;
-   295		}
-   296	
-   297		mtrr_state.def_type = def_type;
-   298		mtrr_state.enabled |= MTRR_STATE_MTRR_ENABLED;
-   299	
-   300		mtrr_state_set = 1;
-   301	}
-   302	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks, 
+https://lore.kernel.org/r/20230830203754.24940-1-palmer@rivosinc.com/ 
+should fix it.
