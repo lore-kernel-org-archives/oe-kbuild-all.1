@@ -1,48 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EE0EA1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 01:50:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA12EA1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 02:10:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693360200; x=1724896200;
+  t=1693361458; x=1724897458;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4pQ9MhnswdyPg5hVLVCCvvXPNWBBShdh094dQn83Vck=;
-  b=UxyPz5t6dFP6bkxG9nbJSbFBPzaBQ51WpqrdAjIlLyePTXWXxabwY/mq
-   wu7984hzL4Ud9AdeRmbwP7J/sLZN8mxP4IuoSZQ6DdTx6zwu6ZP+bYmkS
-   Z8tAxUTCkk688AA35x4O3jE2Kw0DJir1c7Pg7EwJULsgNx30ulwPXBvGb
-   HyCAw+FtnL/jSrEA+hSjXrF6YI6Ae0ewUBbfs/4+XbK5ow5L/dx4uhffH
-   WdCcn9UVbuOzHvtmz078c1DexId2Uiksq5W3rHgcA6I4NufI8pobTr2X7
-   Ji5jgbKvJRoS8PeEHdca+dT0XVvtZeP4Fh8i1EfjBx9tTw7qTxV2CuuOD
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="406521445"
+  bh=Hlmcm0e/tg7QDqEpKW6nUfh2B6EGGr2DJrbFPRVKcK4=;
+  b=lCmDg0CGtqgG33959/K05b0UYBLKmCy5CysgVgoFXjEBwjrpjP9y+1wZ
+   P6YH3hCsr0SUlSKERYKEUz0AjL/QE41T8HFdW4+9cBk2Bsa7wMGL+Dtxf
+   ltuEPR3DjDP4nNcqcou2oAh4EGTIB5gRV7FXCgg7/UdMoQ4DAXF3TqxaY
+   IwdtwG/llHkPWflwmGzOBqWbh6sKT4o8UehypxDXVwLrmi5Mtuk1cQpEA
+   hzAEIS03G+75ROK5BGfKef2RQSKTGo/Eaz30gzf5JrQMc8v0jAL960zWi
+   OKAvdod+QV12kkqbBzVogi4HrE2VSGQqnQ74y95Z3H4KWIRwjr4Bq2mpi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441892370"
 X-IronPort-AV: E=Sophos;i="6.02,212,1688454000"; 
-   d="scan'208";a="406521445"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 18:49:59 -0700
+   d="scan'208";a="441892370"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 19:10:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688712666"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="985567469"
 X-IronPort-AV: E=Sophos;i="6.02,212,1688454000"; 
-   d="scan'208";a="688712666"
+   d="scan'208";a="985567469"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 29 Aug 2023 18:49:56 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 29 Aug 2023 19:10:56 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbALD-0009IB-0x;
-	Wed, 30 Aug 2023 01:49:55 +0000
-Date: Wed, 30 Aug 2023 09:49:27 +0800
+	id 1qbAfX-0009Ix-33;
+	Wed, 30 Aug 2023 02:10:55 +0000
+Date: Wed, 30 Aug 2023 10:10:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	catalin.marinas@arm.com, thunder.leizhen@huawei.com,
-	dyoung@redhat.com, prudo@redhat.com, samuel.holland@sifive.com,
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	x86@kernel.org, Baoquan He <bhe@redhat.com>
-Subject: Re: [PATCH v2 6/8] x86: kdump: use generic interface to simplify
- crashkernel reservation code
-Message-ID: <202308300910.e0i4piJT-lkp@intel.com>
-References: <20230829121610.138107-7-bhe@redhat.com>
+To: Justin Stitt <justinstitt@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC] init: fix -Wmissing-variable-declarations warning
+Message-ID: <202308300921.aivILtox-lkp@intel.com>
+References: <20230829-missingvardecl-init-main-c-v1-1-ddf0f1a71215@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,158 +46,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230829121610.138107-7-bhe@redhat.com>
+In-Reply-To: <20230829-missingvardecl-init-main-c-v1-1-ddf0f1a71215@google.com>
 
-Hi Baoquan,
+Hi Justin,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on tip/x86/core powerpc/next powerpc/fixes v6.5]
-[cannot apply to linus/master next-20230829]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 706a741595047797872e669b3101429ab8d378ef]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/crash_core-c-remove-unnecessary-parameter-of-function/20230829-201942
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230829121610.138107-7-bhe%40redhat.com
-patch subject: [PATCH v2 6/8] x86: kdump: use generic interface to simplify crashkernel reservation code
-config: x86_64-randconfig-r022-20230830 (https://download.01.org/0day-ci/archive/20230830/202308300910.e0i4piJT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300910.e0i4piJT-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Stitt/init-fix-Wmissing-variable-declarations-warning/20230830-074037
+base:   706a741595047797872e669b3101429ab8d378ef
+patch link:    https://lore.kernel.org/r/20230829-missingvardecl-init-main-c-v1-1-ddf0f1a71215%40google.com
+patch subject: [PATCH RFC] init: fix -Wmissing-variable-declarations warning
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230830/202308300921.aivILtox-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308300921.aivILtox-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308300910.e0i4piJT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308300921.aivILtox-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `reserve_crashkernel_low':
-   kernel/crash_core.c:369: undefined reference to `crashk_low_res'
-   ld: kernel/crash_core.c:369: undefined reference to `crashk_low_res'
-   ld: kernel/crash_core.c:370: undefined reference to `crashk_low_res'
-   ld: kernel/crash_core.c:369: undefined reference to `crashk_low_res'
-   ld: kernel/crash_core.c:370: undefined reference to `crashk_low_res'
-   ld: vmlinux.o:kernel/crash_core.c:371: more undefined references to `crashk_low_res' follow
-   ld: vmlinux.o: in function `reserve_crashkernel_generic':
->> kernel/crash_core.c:453: undefined reference to `crashk_res'
->> ld: kernel/crash_core.c:453: undefined reference to `crashk_res'
-   ld: kernel/crash_core.c:454: undefined reference to `crashk_res'
->> ld: kernel/crash_core.c:453: undefined reference to `crashk_res'
-   ld: kernel/crash_core.c:454: undefined reference to `crashk_res'
-   ld: vmlinux.o:kernel/crash_core.c:454: more undefined references to `crashk_res' follow
+   s390-linux-ld: init/do_mounts_initrd.o: in function `handle_initrd':
+>> init/do_mounts_initrd.c:103:(.init.text+0x21e): undefined reference to `envp_init'
 
 
-vim +453 kernel/crash_core.c
+vim +103 init/do_mounts_initrd.c
 
-71d2bcec2d4d69 Philipp Rudo 2021-12-24  353  
-6bee83d29d2e09 Baoquan He   2023-08-29  354  #ifdef CONFIG_ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION
-6bee83d29d2e09 Baoquan He   2023-08-29  355  static int __init reserve_crashkernel_low(unsigned long long low_size)
-6bee83d29d2e09 Baoquan He   2023-08-29  356  {
-6bee83d29d2e09 Baoquan He   2023-08-29  357  #ifdef CONFIG_64BIT
-6bee83d29d2e09 Baoquan He   2023-08-29  358  	unsigned long long low_base;
-6bee83d29d2e09 Baoquan He   2023-08-29  359  
-6bee83d29d2e09 Baoquan He   2023-08-29  360  	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
-6bee83d29d2e09 Baoquan He   2023-08-29  361  	if (!low_base) {
-6bee83d29d2e09 Baoquan He   2023-08-29  362  		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
-6bee83d29d2e09 Baoquan He   2023-08-29  363  		return -ENOMEM;
-6bee83d29d2e09 Baoquan He   2023-08-29  364  	}
-6bee83d29d2e09 Baoquan He   2023-08-29  365  
-6bee83d29d2e09 Baoquan He   2023-08-29  366  	pr_info("crashkernel low memory reserved: 0x%08llx - 0x%08llx (%lld MB)\n",
-6bee83d29d2e09 Baoquan He   2023-08-29  367  		low_base, low_base + low_size, low_size >> 20);
-6bee83d29d2e09 Baoquan He   2023-08-29  368  
-6bee83d29d2e09 Baoquan He   2023-08-29 @369  	crashk_low_res.start = low_base;
-6bee83d29d2e09 Baoquan He   2023-08-29  370  	crashk_low_res.end   = low_base + low_size - 1;
-6bee83d29d2e09 Baoquan He   2023-08-29  371  	insert_resource(&iomem_resource, &crashk_low_res);
-6bee83d29d2e09 Baoquan He   2023-08-29  372  #endif
-6bee83d29d2e09 Baoquan He   2023-08-29  373  	return 0;
-6bee83d29d2e09 Baoquan He   2023-08-29  374  }
-6bee83d29d2e09 Baoquan He   2023-08-29  375  
-6bee83d29d2e09 Baoquan He   2023-08-29  376  void __init reserve_crashkernel_generic(char *cmdline,
-6bee83d29d2e09 Baoquan He   2023-08-29  377  			     unsigned long long crash_size,
-6bee83d29d2e09 Baoquan He   2023-08-29  378  			     unsigned long long crash_base,
-6bee83d29d2e09 Baoquan He   2023-08-29  379  			     unsigned long long crash_low_size,
-6bee83d29d2e09 Baoquan He   2023-08-29  380  			     bool high)
-6bee83d29d2e09 Baoquan He   2023-08-29  381  {
-6bee83d29d2e09 Baoquan He   2023-08-29  382  	unsigned long long search_end = CRASH_ADDR_LOW_MAX, search_base = 0;
-6bee83d29d2e09 Baoquan He   2023-08-29  383  	bool fixed_base = false;
-6bee83d29d2e09 Baoquan He   2023-08-29  384  
-6bee83d29d2e09 Baoquan He   2023-08-29  385  	/* User specifies base address explicitly. */
-6bee83d29d2e09 Baoquan He   2023-08-29  386  	if (crash_base) {
-6bee83d29d2e09 Baoquan He   2023-08-29  387  		fixed_base = true;
-6bee83d29d2e09 Baoquan He   2023-08-29  388  		search_base = crash_base;
-6bee83d29d2e09 Baoquan He   2023-08-29  389  		search_end = crash_base + crash_size;
-6bee83d29d2e09 Baoquan He   2023-08-29  390  	}
-6bee83d29d2e09 Baoquan He   2023-08-29  391  
-6bee83d29d2e09 Baoquan He   2023-08-29  392  	if (high) {
-6bee83d29d2e09 Baoquan He   2023-08-29  393  		search_base = CRASH_ADDR_LOW_MAX;
-6bee83d29d2e09 Baoquan He   2023-08-29  394  		search_end = CRASH_ADDR_HIGH_MAX;
-6bee83d29d2e09 Baoquan He   2023-08-29  395  	}
-6bee83d29d2e09 Baoquan He   2023-08-29  396  
-6bee83d29d2e09 Baoquan He   2023-08-29  397  retry:
-6bee83d29d2e09 Baoquan He   2023-08-29  398  	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
-6bee83d29d2e09 Baoquan He   2023-08-29  399  					       search_base, search_end);
-6bee83d29d2e09 Baoquan He   2023-08-29  400  	if (!crash_base) {
-6bee83d29d2e09 Baoquan He   2023-08-29  401  		/*
-6bee83d29d2e09 Baoquan He   2023-08-29  402  		 * For crashkernel=size[KMG]@offset[KMG], print out failure
-6bee83d29d2e09 Baoquan He   2023-08-29  403  		 * message if can't reserve the specified region.
-6bee83d29d2e09 Baoquan He   2023-08-29  404  		 */
-6bee83d29d2e09 Baoquan He   2023-08-29  405  		if (fixed_base) {
-6bee83d29d2e09 Baoquan He   2023-08-29  406  			pr_warn("crashkernel reservation failed - memory is in use.\n");
-6bee83d29d2e09 Baoquan He   2023-08-29  407  			return;
-6bee83d29d2e09 Baoquan He   2023-08-29  408  		}
-6bee83d29d2e09 Baoquan He   2023-08-29  409  
-6bee83d29d2e09 Baoquan He   2023-08-29  410  		/*
-6bee83d29d2e09 Baoquan He   2023-08-29  411  		 * For crashkernel=size[KMG], if the first attempt was for
-6bee83d29d2e09 Baoquan He   2023-08-29  412  		 * low memory, fall back to high memory, the minimum required
-6bee83d29d2e09 Baoquan He   2023-08-29  413  		 * low memory will be reserved later.
-6bee83d29d2e09 Baoquan He   2023-08-29  414  		 */
-6bee83d29d2e09 Baoquan He   2023-08-29  415  		if (!high && search_end == CRASH_ADDR_LOW_MAX) {
-6bee83d29d2e09 Baoquan He   2023-08-29  416  			search_end = CRASH_ADDR_HIGH_MAX;
-6bee83d29d2e09 Baoquan He   2023-08-29  417  			search_base = CRASH_ADDR_LOW_MAX;
-6bee83d29d2e09 Baoquan He   2023-08-29  418  			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-6bee83d29d2e09 Baoquan He   2023-08-29  419  			goto retry;
-6bee83d29d2e09 Baoquan He   2023-08-29  420  		}
-6bee83d29d2e09 Baoquan He   2023-08-29  421  
-6bee83d29d2e09 Baoquan He   2023-08-29  422  		/*
-6bee83d29d2e09 Baoquan He   2023-08-29  423  		 * For crashkernel=size[KMG],high, if the first attempt was
-6bee83d29d2e09 Baoquan He   2023-08-29  424  		 * for high memory, fall back to low memory.
-6bee83d29d2e09 Baoquan He   2023-08-29  425  		 */
-6bee83d29d2e09 Baoquan He   2023-08-29  426  		if (high && search_end == CRASH_ADDR_HIGH_MAX) {
-6bee83d29d2e09 Baoquan He   2023-08-29  427  			search_end = CRASH_ADDR_LOW_MAX;
-6bee83d29d2e09 Baoquan He   2023-08-29  428  			search_base = 0;
-6bee83d29d2e09 Baoquan He   2023-08-29  429  			goto retry;
-6bee83d29d2e09 Baoquan He   2023-08-29  430  		}
-6bee83d29d2e09 Baoquan He   2023-08-29  431  		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
-6bee83d29d2e09 Baoquan He   2023-08-29  432  			crash_size);
-6bee83d29d2e09 Baoquan He   2023-08-29  433  		return;
-6bee83d29d2e09 Baoquan He   2023-08-29  434  	}
-6bee83d29d2e09 Baoquan He   2023-08-29  435  
-6bee83d29d2e09 Baoquan He   2023-08-29  436  	if ((crash_base > CRASH_ADDR_LOW_MAX) &&
-6bee83d29d2e09 Baoquan He   2023-08-29  437  	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-6bee83d29d2e09 Baoquan He   2023-08-29  438  		memblock_phys_free(crash_base, crash_size);
-6bee83d29d2e09 Baoquan He   2023-08-29  439  		return;
-6bee83d29d2e09 Baoquan He   2023-08-29  440  	}
-6bee83d29d2e09 Baoquan He   2023-08-29  441  
-6bee83d29d2e09 Baoquan He   2023-08-29  442  	pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
-6bee83d29d2e09 Baoquan He   2023-08-29  443  		crash_base, crash_base + crash_size, crash_size >> 20);
-6bee83d29d2e09 Baoquan He   2023-08-29  444  
-6bee83d29d2e09 Baoquan He   2023-08-29  445  	/*
-6bee83d29d2e09 Baoquan He   2023-08-29  446  	 * The crashkernel memory will be removed from the kernel linear
-6bee83d29d2e09 Baoquan He   2023-08-29  447  	 * map. Inform kmemleak so that it won't try to access it.
-6bee83d29d2e09 Baoquan He   2023-08-29  448  	 */
-6bee83d29d2e09 Baoquan He   2023-08-29  449  	kmemleak_ignore_phys(crash_base);
-6bee83d29d2e09 Baoquan He   2023-08-29  450  	if (crashk_low_res.end)
-6bee83d29d2e09 Baoquan He   2023-08-29  451  		kmemleak_ignore_phys(crashk_low_res.start);
-6bee83d29d2e09 Baoquan He   2023-08-29  452  
-6bee83d29d2e09 Baoquan He   2023-08-29 @453  	crashk_res.start = crash_base;
-6bee83d29d2e09 Baoquan He   2023-08-29  454  	crashk_res.end = crash_base + crash_size - 1;
-6bee83d29d2e09 Baoquan He   2023-08-29  455  	insert_resource(&iomem_resource, &crashk_res);
-6bee83d29d2e09 Baoquan He   2023-08-29  456  }
-6bee83d29d2e09 Baoquan He   2023-08-29  457  #endif
-6bee83d29d2e09 Baoquan He   2023-08-29  458  
+^1da177e4c3f41 Linus Torvalds     2005-04-16   85  
+c8643c72bc4278 Christoph Hellwig  2023-05-31   86  static void __init handle_initrd(char *root_device_name)
+^1da177e4c3f41 Linus Torvalds     2005-04-16   87  {
+907ed1328d2a74 Lucas De Marchi    2013-04-30   88  	struct subprocess_info *info;
+ba4df2808a86f8 Al Viro            2012-10-02   89  	static char *argv[] = { "linuxrc", NULL, };
+ba4df2808a86f8 Al Viro            2012-10-02   90  	extern char *envp_init[];
+^1da177e4c3f41 Linus Torvalds     2005-04-16   91  	int error;
+^1da177e4c3f41 Linus Torvalds     2005-04-16   92  
+9acc17baf1fd63 Christoph Hellwig  2020-07-08   93  	pr_warn("using deprecated initrd support, will be removed in 2021.\n");
+9acc17baf1fd63 Christoph Hellwig  2020-07-08   94  
+^1da177e4c3f41 Linus Torvalds     2005-04-16   95  	real_root_dev = new_encode_dev(ROOT_DEV);
+bdaf8529385d51 Greg Kroah-Hartman 2005-06-20   96  	create_dev("/dev/root.old", Root_RAM0);
+^1da177e4c3f41 Linus Torvalds     2005-04-16   97  	/* mount initrd on rootfs' /root */
+c8643c72bc4278 Christoph Hellwig  2023-05-31   98  	mount_root_generic("/dev/root.old", root_device_name,
+c8643c72bc4278 Christoph Hellwig  2023-05-31   99  			   root_mountflags & ~MS_RDONLY);
+83ff98c3e9cd2b Christoph Hellwig  2020-07-22  100  	init_mkdir("/old", 0700);
+db63f1e3153845 Christoph Hellwig  2020-07-22  101  	init_chdir("/old");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  102  
+907ed1328d2a74 Lucas De Marchi    2013-04-30 @103  	info = call_usermodehelper_setup("/linuxrc", argv, envp_init,
+907ed1328d2a74 Lucas De Marchi    2013-04-30  104  					 GFP_KERNEL, init_linuxrc, NULL, NULL);
+907ed1328d2a74 Lucas De Marchi    2013-04-30  105  	if (!info)
+907ed1328d2a74 Lucas De Marchi    2013-04-30  106  		return;
+1fbcaa923ce2d7 Peter Zijlstra     2022-08-22  107  	call_usermodehelper_exec(info, UMH_WAIT_PROC|UMH_FREEZABLE);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  108  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  109  	/* move initrd to rootfs' /old */
+c60166f04283ff Christoph Hellwig  2020-07-21  110  	init_mount("..", ".", NULL, MS_MOVE, NULL);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  111  	/* switch root and cwd back to / of rootfs */
+4b7ca5014cbef5 Christoph Hellwig  2020-07-22  112  	init_chroot("..");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  113  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  114  	if (new_decode_dev(real_root_dev) == Root_RAM0) {
+db63f1e3153845 Christoph Hellwig  2020-07-22  115  		init_chdir("/old");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  116  		return;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  117  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  118  
+db63f1e3153845 Christoph Hellwig  2020-07-22  119  	init_chdir("/");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  120  	ROOT_DEV = new_decode_dev(real_root_dev);
+c8643c72bc4278 Christoph Hellwig  2023-05-31  121  	mount_root(root_device_name);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  122  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  123  	printk(KERN_NOTICE "Trying to move old root to /initrd ... ");
+c60166f04283ff Christoph Hellwig  2020-07-21  124  	error = init_mount("/old", "/root/initrd", NULL, MS_MOVE, NULL);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  125  	if (!error)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  126  		printk("okay\n");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  127  	else {
+f220ab2a5162c3 Jay Lan            2005-06-30  128  		if (error == -ENOENT)
+f220ab2a5162c3 Jay Lan            2005-06-30  129  			printk("/initrd does not exist. Ignored.\n");
+f220ab2a5162c3 Jay Lan            2005-06-30  130  		else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  131  			printk("failed\n");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  132  		printk(KERN_NOTICE "Unmounting old root\n");
+09267defa36aaf Christoph Hellwig  2020-07-23  133  		init_umount("/old", MNT_DETACH);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  134  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  135  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  136  
 
 -- 
 0-DAY CI Kernel Test Service
