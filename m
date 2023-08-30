@@ -1,249 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56F320F3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 09:57:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93461C08
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 10:00:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693389456; x=1724925456;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uH+06baDbp5Rdid3m0IKchYb4mmW1e2n13XbwsJ4BIg=;
-  b=mZbhf1F1rvd50B9364PyjbccRTB15fbTjYXzsX8xW15ogoK+JVtGOIJM
-   eNHtMwOwSrP1QV9hsNDFZFgcVaUEfmrKFA/NXhSrrNCtuQBbjA8bOUUAn
-   JUkV5SMFS26yNHAmeqj1rFaHATyYlFsR27BJu7WQ3XhMsP1uxwY83yc+R
-   nS9u0vmxWx5wUqw6Os8ltW6RkY3IxhfHPeb/1cUaiaYagiAnc4xC1QPTn
-   FN2mA/iL984/S6yqO4ISGaix4Com+kX67g8cVTKcuTPxYxkfpa02tBUSA
-   qhb/IjwmDLj9ikfgSjtr7LUaXkMsQfYH0rNQSyeAGaGdTL7kqMKZhG+QJ
+  t=1693389619; x=1724925619;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version:content-transfer-encoding;
+  bh=vpsKAWYcGLquj+dX1fd9ouPzWW/dnCFJ8i0vuz7bLA8=;
+  b=E1cnRpVysmdeaWy/mdq7q60I11WJ95pXTdHkUBdYQO6Vm9Ibpp0iZOZn
+   U9z0gxpeNCyIaiYuXL0iFRMljoslT7cSp0MhSBFo4kb6LZ1c/ZMtKr2AP
+   et3mX0EZbMbFA+gXsyxaQPbqRS3b6mHWAxCfOOVjkNPOYT/9Vo2rvYD7m
+   bKGmSw0H/2ZsUDKrntVCVHZmhthsio+tGUyTRl/vFEY5Z12NOHpcmDjNX
+   /IJofRdThPWM3/JeK63FCzbYnPLjqLRbf0UkTEMPybCcekqTGaJ4SS+ZM
+   c547xfTfHmuVU1CYsdjydJzn7yjIe1yHXadD6f9XDgnBAD6UtyGKBO14W
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="365804776"
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="441963385"
 X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="365804776"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 02:57:36 -0700
+   d="scan'208";a="441963385"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 03:00:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="882677552"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 30 Aug 2023 02:57:39 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qbHwr-0009gl-2q;
-	Wed, 30 Aug 2023 09:57:26 +0000
-Date: Wed, 30 Aug 2023 17:56:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Greenman <gregory.greenman@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.o: warning: objtool:
- kfd_mem_dmaunmap_attachment()+0x201: unreachable instruction
-Message-ID: <202308301712.gQOqyzU8-lkp@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="688835407"
+X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
+   d="scan'208";a="688835407"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga003.jf.intel.com with ESMTP; 30 Aug 2023 03:00:16 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Wed, 30 Aug 2023 03:00:16 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Wed, 30 Aug 2023 03:00:16 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.49) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Wed, 30 Aug 2023 03:00:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LuX3CD0EiXkhu1iC+BrMosPkdI2ZXTxjOvVbz14rG6aUldMaCZvSFP9gwlPK86HFojBHuU8ngl8iNLe3O3TORWD+bW36kf5sZkXVNO7+PqWSQUMzgMFe3KBbvSwnvdnh4wgMI+cjVZJ3MCGCIoVDdkWaYOqfX2xBmzaDKSHydoE+Y/c1sybqBc02RAirNpGIGgzwhmLXJLNICh0QaHluvloUllx9OPNlKAP/qEIB9GgOzljybOdEFbu9K0LTEjy/rC0Iai4wxd5qZmn47YvxkM3VifKtPaegCuUcFP0TzW1u4ddrFv/A4m/4oaxTXY8rSpnTJf+tat/Y7XTw2mVcwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wVDTMbQPHPWuD4GYuGKYJeWQnihmzjjNGEkSK3bi64g=;
+ b=crtbdw4JuGQzoTxEFtXXt1r2MjLhTmRez3Uon04L27yATJYZkM/BYhW2Ne1HwOrdWqdZ3JgoA8Sdaei/4ikNHfoAYxLfQetBqlcMEIq9tdUIodvi3bLFxpcUhxAsuDiq+eFxtuYmDHUUWVOResRHWeQmeuCfMPRc/y2VgUxqngvomzlF2KYlNRaQu2UTtpFBRRIxzWOuDg7rw+iOG2XQBPg9BKudmhGlgY7qJMhlpvNpBeosEQVbWnzKd+zpTTVKgBzRAK48V91wE8WGrSYH7hJn+FQppFrLhPcCFv86rDWAAtCTsOwcSSZTO9431Fe8cGmaya+yoPT2Nx5fw1Izpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB5359.namprd11.prod.outlook.com (2603:10b6:5:396::21)
+ by SJ1PR11MB6252.namprd11.prod.outlook.com (2603:10b6:a03:457::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.34; Wed, 30 Aug
+ 2023 10:00:14 +0000
+Received: from DM4PR11MB5359.namprd11.prod.outlook.com
+ ([fe80::6470:e05b:d9bb:f996]) by DM4PR11MB5359.namprd11.prod.outlook.com
+ ([fe80::6470:e05b:d9bb:f996%6]) with mapi id 15.20.6745.020; Wed, 30 Aug 2023
+ 10:00:14 +0000
+From: "Berg, Johannes" <johannes.berg@intel.com>
+To: lkp <lkp@intel.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"Greenman, Gregory" <gregory.greenman@intel.com>, "Ben Ami, Golan"
+	<golan.ben.ami@intel.com>, "Golant, Michael" <michael.golant@intel.com>
+Subject: RE: drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.o: warning:
+ objtool: kfd_mem_dmaunmap_attachment()+0x201: unreachable instruction
+Thread-Topic: drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.o: warning:
+ objtool: kfd_mem_dmaunmap_attachment()+0x201: unreachable instruction
+Thread-Index: AQHZ2yh5xBVLv4Tn+USFCTj/c6jb/rACmsrg
+Date: Wed, 30 Aug 2023 10:00:13 +0000
+Message-ID: <DM4PR11MB5359C10CDCFD07E05B0F5935E9E6A@DM4PR11MB5359.namprd11.prod.outlook.com>
+References: <202308301712.gQOqyzU8-lkp@intel.com>
+In-Reply-To: <202308301712.gQOqyzU8-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB5359:EE_|SJ1PR11MB6252:EE_
+x-ms-office365-filtering-correlation-id: 05630b8a-bc5c-4bf8-0995-08dba93fe7c0
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: N8jT2QQSjcDid0Z15FyGBwv6UO3BHU9G7y0OOsvfLCOP8lFVblollKoH4wIMRXdqQUuY0YQmaMApOqj8DKGb3P4yRD9QV0yV1aBFP3kAbb3lKFRzX/DwJzNgYGDaiwEKr8ONgLp7QY/CL4v9VZ2IfMptiZff9QZhU00aVs3x3I/8ohg24pfzS55xPl7zQs0qPC8lrKqk4yecBqWHVhIG29MdpRCGkz8JVV/QcdeW/jsvFY1rB2N0c9Ww3QcKHdx8/Ep8dznOkD1G2B/Gc1EoFoUdYIXSdo0jl1Hox3ezUgIZjwxE249tSbUr6/5Hc0g/FzyeskWsiwS5Wh4RgCqR6xMeOtg8C/5C8gk/bgzhcG6b0W55pJmslAV7w1tIqMu8cdk5Oy/9hfft8kph927oR8H15XKIvAnL0ff313OuMXn5dJHxHDNbdRp36Jy5KFdYKDS4GqYrRxPJtB1MvyJ0aq8NafpxXfBqhPzviNyWWZpjzNAmWK+tdooieAD/XqdWjEXCXiV8pPvYOtzPZOEpeTSChDYoqKo25CP4yNY82/wZQrefq0FKfq6Gs3/hMgNK+BvZvaNJ8qRJxgmZ627IeOnZVvuPz3yStLgHlJn7qtw=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5359.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(376002)(396003)(346002)(136003)(186009)(1800799009)(451199024)(6506007)(7696005)(9686003)(71200400001)(966005)(478600001)(107886003)(4744005)(64756008)(66446008)(6636002)(316002)(41300700001)(66556008)(66946007)(66476007)(52536014)(54906003)(4326008)(5660300002)(8936002)(2906002)(6862004)(76116006)(8676002)(33656002)(86362001)(122000001)(55016003)(38100700002)(38070700005)(82960400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?RNufkS2gKFem9Hh1E5GDTrA6U2eOftHLoGrBwbk2703tMRrzYYY1kq/wZrya?=
+ =?us-ascii?Q?RvEZRAww6j1mbYnG8NAyN0wMxixHeiEfc1+trPEnxDpt5fLQXLXkhxDhFZM8?=
+ =?us-ascii?Q?VaKiT69MZOCGitA0uAm/APpzQCk3jIK6RGAIUrSSF314K+yZXRRT3SJ+fGX5?=
+ =?us-ascii?Q?ra62BVUfU/nvG9SUtzI6xdpwAAQXeJr7Gwfr/tnHbGKocmqYHOqm3148qTND?=
+ =?us-ascii?Q?atTEFbe7jxzsNcaDCAugZb6yBzLnWo56w4S+gQNGv50WMHer2aMgqwZsXDdu?=
+ =?us-ascii?Q?j0oQwXxNAeFDSpbOcNZWYyU4Uo0YoDI+VvXtCa81rBZaimNgUXdDRhB7G7Vx?=
+ =?us-ascii?Q?Ht2dJsvTWWfu/nPeTpb5TnB/7/ghRr9cjvfj20THcO3bTXj95gNHPyoFiYWg?=
+ =?us-ascii?Q?VbuOOgPu7tyjrbs1qHcsqRJfavdHn2z4fHVATQRh+rQ2YME6+aSNnodlEYPd?=
+ =?us-ascii?Q?qPbdECH1V1nxUIu+acJz+s57mhBvTIT3WqmymZMMIYHNt6OTn6J/q2AcuaQu?=
+ =?us-ascii?Q?BYCyb1+gRS/vBYteRvU/s5IbqFjeH4IEizQlaK4vZDpqyjBunsjQQHPCHwb3?=
+ =?us-ascii?Q?ibNyv+v1B6yxtLClEe8wNC8bk1C2XeryiagcLuPJG0iQ2HWc5nTgBnKJdCZk?=
+ =?us-ascii?Q?py+DoW7oIqe8WAeZBca0AGlyHav+N+turWcOGkrPn9mcnRJv2U6mwzNlUZJf?=
+ =?us-ascii?Q?eIdHpV7g2YTKzjwjSHLeLeH6CDljUmTAzZSBAIvamejk8w4GFFpXmbIFKY26?=
+ =?us-ascii?Q?irmYoG9ncsw9AtsYzkvK+HXmqWFsT+vdW3nqSRG0zONxpsRXZt4WHV7hnbXO?=
+ =?us-ascii?Q?HjYAp9kcDU48D7wNOuYsUHmo+ePd+KLMWidwwQ/diGzhmB1BxB+gaho6isDJ?=
+ =?us-ascii?Q?bVvdYrx2e+KLp9KEUt9eo1XqWudPhx+U3eCjuEIP8El0z5MZWrWXXYeYbA6S?=
+ =?us-ascii?Q?C/brol4GFH9Spu7NcGsxPiMarh9vLVFMpAszEybEjfNoiblecrgckhCluVsh?=
+ =?us-ascii?Q?0kAOAWyyWgQmWd/y88w5PHRdtnJg8CLouxmoB8T9CqX5EAUMc9q0FqdkfnVy?=
+ =?us-ascii?Q?pg0NQkeun1lfeb+ZO+ypdh9eAg+cW9/3XZ+ObWNS2xOK+Q4vKaK4lxrnJB/+?=
+ =?us-ascii?Q?/PG+PxHyMcs7BzIw3fvhePU1yxUFM6o/N0e5RtwuuzyliTG8GvS12YL4I8P2?=
+ =?us-ascii?Q?x11TarL5dmhpjKzII0dIP0SiKd3SiyUCaYdxXooAC8g4xyhxYoogF0xTib7M?=
+ =?us-ascii?Q?wjnNt/SJT7PfIsGW3qQgn9c2O7jX4opa4dPHGWQ1Z+WXmIGaxxzFrNA/+Ejs?=
+ =?us-ascii?Q?aUihZPwur7oXA90AnysMSJgjREHJAU/aEGdl2JD90xpJVi3vyeTjCZ95GuwR?=
+ =?us-ascii?Q?tG4Q5BDlC9QUXaPNICigBr4q3sy1ctUtexjUmApcIs+YGJ6i38fGTUdANKI9?=
+ =?us-ascii?Q?pUYzYx+p+54cpkrLjgiMDkS+f8EMoyoa6wEggBuyLth/2mfFga2C5Cdbto89?=
+ =?us-ascii?Q?v9sBhCwDXffw1tXTWzTMRoItH/a8nrXlgpRMo94Z6ys9OV3QaDzXBt+hZezk?=
+ =?us-ascii?Q?d/fh2LpB0/XTRgIZj3mN97Lw5cxcvu2fXv+8Z3qW+wLQ9ldrJLZqYS+A6vvV?=
+ =?us-ascii?Q?ytsXjmzkXgsW7HHbltJUQW4vXYlv6Z8R/TcDFF/K2iSv?=
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5359.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05630b8a-bc5c-4bf8-0995-08dba93fe7c0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2023 10:00:13.9088
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hmJq6+3FEuUdyLqZG3bzzZC/33BN08Nsq2qPVBNA62uDGhU66PNSwBIWyriaBc+X2XK8kkmwGXOT/mdlzB48wQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6252
+X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core63-43
-head:   61b59f76f27b6ba04eb55fcc6b6d84d2bf4e76b6
-commit: 42e6a211eecffbf811f5d643272779a72500e774 UPSTREAM: drm/amdgpu: DMA map/unmap when updating GPU mappings
-date:   2 years, 2 months ago
-config: x86_64-randconfig-015-20230829 (https://download.01.org/0day-ci/archive/20230830/202308301712.gQOqyzU8-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308301712.gQOqyzU8-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308301712.gQOqyzU8-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.=
+git
+> chromeos-5.10__release/core63-43
+> head:   61b59f76f27b6ba04eb55fcc6b6d84d2bf4e76b6
+> commit: 42e6a211eecffbf811f5d643272779a72500e774 UPSTREAM:
+> drm/amdgpu: DMA map/unmap when updating GPU mappings
+> date:   2 years, 2 months ago
 
-All warnings (new ones prefixed by >>):
+Can you say why this is churning through some really old code/branches now?
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.o: warning: objtool: kfd_mem_dmaunmap_attachment()+0x201: unreachable instruction
+We really appreciate the service, but looking at all these ancient branches=
+ is pretty much pointless?
 
+Thanks,
+johannes
+Intel Deutschland GmbH
+Registered Address: Am Campeon 10, 85579 Neubiberg, Germany
+Tel: +49 89 99 8853-0, www.intel.de <http://www.intel.de>
+Managing Directors: Christin Eisenschmid, Sharon Heck, Tiffany Doon Silva  =
 
-objdump-func vmlinux.o kfd_mem_dmaunmap_attachment:
-0000 0000000001b9aca0 <kfd_mem_dmaunmap_attachment>:
-0000  1b9aca0:	55                   	push   %rbp
-0001  1b9aca1:	41 57                	push   %r15
-0003  1b9aca3:	41 56                	push   %r14
-0005  1b9aca5:	41 55                	push   %r13
-0007  1b9aca7:	41 54                	push   %r12
-0009  1b9aca9:	53                   	push   %rbx
-000a  1b9acaa:	48 83 ec 28          	sub    $0x28,%rsp
-000e  1b9acae:	49 89 f7             	mov    %rsi,%r15
-0011  1b9acb1:	48 89 fb             	mov    %rdi,%rbx
-0014  1b9acb4:	65 48 8b 04 25 28 00 00 00 	mov    %gs:0x28,%rax
-001d  1b9acbd:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
-0022  1b9acc2:	48 bd 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%rbp
-002c  1b9accc:	4c 8d 76 10          	lea    0x10(%rsi),%r14
-0030  1b9acd0:	4c 89 f0             	mov    %r14,%rax
-0033  1b9acd3:	48 c1 e8 03          	shr    $0x3,%rax
-0037  1b9acd7:	0f b6 04 28          	movzbl (%rax,%rbp,1),%eax
-003b  1b9acdb:	84 c0                	test   %al,%al
-003d  1b9acdd:	0f 85 dd 01 00 00    	jne    1b9aec0 <kfd_mem_dmaunmap_attachment+0x220>
-0043  1b9ace3:	41 8b 06             	mov    (%r14),%eax
-0046  1b9ace6:	85 c0                	test   %eax,%eax
-0048  1b9ace8:	0f 84 9c 01 00 00    	je     1b9ae8a <kfd_mem_dmaunmap_attachment+0x1ea>
-004e  1b9acee:	83 f8 01             	cmp    $0x1,%eax
-0051  1b9acf1:	0f 85 a8 01 00 00    	jne    1b9ae9f <kfd_mem_dmaunmap_attachment+0x1ff>
-0057  1b9acf7:	48 81 c3 00 01 00 00 	add    $0x100,%rbx
-005e  1b9acfe:	48 89 d8             	mov    %rbx,%rax
-0061  1b9ad01:	48 c1 e8 03          	shr    $0x3,%rax
-0065  1b9ad05:	0f b6 04 28          	movzbl (%rax,%rbp,1),%eax
-0069  1b9ad09:	84 c0                	test   %al,%al
-006b  1b9ad0b:	0f 85 cd 01 00 00    	jne    1b9aede <kfd_mem_dmaunmap_attachment+0x23e>
-0071  1b9ad11:	8b 03                	mov    (%rbx),%eax
-0073  1b9ad13:	89 44 24 04          	mov    %eax,0x4(%rsp)
-0077  1b9ad17:	48 8d 7c 24 08       	lea    0x8(%rsp),%rdi
-007c  1b9ad1c:	ba 18 00 00 00       	mov    $0x18,%edx
-0081  1b9ad21:	31 f6                	xor    %esi,%esi
-0083  1b9ad23:	e8 00 00 00 00       	call   1b9ad28 <kfd_mem_dmaunmap_attachment+0x88>	1b9ad24: R_X86_64_PLT32	memset-0x4
-0088  1b9ad28:	4d 8d 77 18          	lea    0x18(%r15),%r14
-008c  1b9ad2c:	4c 89 f0             	mov    %r14,%rax
-008f  1b9ad2f:	48 c1 e8 03          	shr    $0x3,%rax
-0093  1b9ad33:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
-0097  1b9ad37:	74 08                	je     1b9ad41 <kfd_mem_dmaunmap_attachment+0xa1>
-0099  1b9ad39:	4c 89 f7             	mov    %r14,%rdi
-009c  1b9ad3c:	e8 00 00 00 00       	call   1b9ad41 <kfd_mem_dmaunmap_attachment+0xa1>	1b9ad3d: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-00a1  1b9ad41:	4d 8b 36             	mov    (%r14),%r14
-00a4  1b9ad44:	49 83 c6 08          	add    $0x8,%r14
-00a8  1b9ad48:	4c 89 f0             	mov    %r14,%rax
-00ab  1b9ad4b:	48 c1 e8 03          	shr    $0x3,%rax
-00af  1b9ad4f:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
-00b3  1b9ad53:	74 08                	je     1b9ad5d <kfd_mem_dmaunmap_attachment+0xbd>
-00b5  1b9ad55:	4c 89 f7             	mov    %r14,%rdi
-00b8  1b9ad58:	e8 00 00 00 00       	call   1b9ad5d <kfd_mem_dmaunmap_attachment+0xbd>	1b9ad59: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-00bd  1b9ad5d:	4d 8b 26             	mov    (%r14),%r12
-00c0  1b9ad60:	4d 8d b4 24 f0 02 00 00 	lea    0x2f0(%r12),%r14
-00c8  1b9ad68:	4c 89 f0             	mov    %r14,%rax
-00cb  1b9ad6b:	48 c1 e8 03          	shr    $0x3,%rax
-00cf  1b9ad6f:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
-00d3  1b9ad73:	74 08                	je     1b9ad7d <kfd_mem_dmaunmap_attachment+0xdd>
-00d5  1b9ad75:	4c 89 f7             	mov    %r14,%rdi
-00d8  1b9ad78:	e8 00 00 00 00       	call   1b9ad7d <kfd_mem_dmaunmap_attachment+0xdd>	1b9ad79: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-00dd  1b9ad7d:	4d 8b 36             	mov    (%r14),%r14
-00e0  1b9ad80:	49 83 c6 10          	add    $0x10,%r14
-00e4  1b9ad84:	4c 89 f3             	mov    %r14,%rbx
-00e7  1b9ad87:	48 c1 eb 03          	shr    $0x3,%rbx
-00eb  1b9ad8b:	80 3c 2b 00          	cmpb   $0x0,(%rbx,%rbp,1)
-00ef  1b9ad8f:	74 08                	je     1b9ad99 <kfd_mem_dmaunmap_attachment+0xf9>
-00f1  1b9ad91:	4c 89 f7             	mov    %r14,%rdi
-00f4  1b9ad94:	e8 00 00 00 00       	call   1b9ad99 <kfd_mem_dmaunmap_attachment+0xf9>	1b9ad95: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-00f9  1b9ad99:	49 83 3e 00          	cmpq   $0x0,(%r14)
-00fd  1b9ad9d:	0f 84 e7 00 00 00    	je     1b9ae8a <kfd_mem_dmaunmap_attachment+0x1ea>
-0103  1b9ada3:	4d 8d 6c 24 58       	lea    0x58(%r12),%r13
-0108  1b9ada8:	49 83 c7 20          	add    $0x20,%r15
-010c  1b9adac:	4c 89 f8             	mov    %r15,%rax
-010f  1b9adaf:	48 c1 e8 03          	shr    $0x3,%rax
-0113  1b9adb3:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
-0117  1b9adb7:	74 08                	je     1b9adc1 <kfd_mem_dmaunmap_attachment+0x121>
-0119  1b9adb9:	4c 89 ff             	mov    %r15,%rdi
-011c  1b9adbc:	e8 00 00 00 00       	call   1b9adc1 <kfd_mem_dmaunmap_attachment+0x121>	1b9adbd: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-0121  1b9adc1:	4d 8b 3f             	mov    (%r15),%r15
-0124  1b9adc4:	4c 89 e7             	mov    %r12,%rdi
-0127  1b9adc7:	be 01 00 00 00       	mov    $0x1,%esi
-012c  1b9adcc:	e8 00 00 00 00       	call   1b9add1 <kfd_mem_dmaunmap_attachment+0x131>	1b9adcd: R_X86_64_PLT32	amdgpu_bo_placement_from_domain-0x4
-0131  1b9add1:	49 83 c4 38          	add    $0x38,%r12
-0135  1b9add5:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
-013a  1b9adda:	4c 89 ef             	mov    %r13,%rdi
-013d  1b9addd:	4c 89 e6             	mov    %r12,%rsi
-0140  1b9ade0:	e8 00 00 00 00       	call   1b9ade5 <kfd_mem_dmaunmap_attachment+0x145>	1b9ade1: R_X86_64_PLT32	ttm_bo_validate-0x4
-0145  1b9ade5:	4c 89 f8             	mov    %r15,%rax
-0148  1b9ade8:	48 c1 e8 03          	shr    $0x3,%rax
-014c  1b9adec:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
-0150  1b9adf0:	74 08                	je     1b9adfa <kfd_mem_dmaunmap_attachment+0x15a>
-0152  1b9adf2:	4c 89 ff             	mov    %r15,%rdi
-0155  1b9adf5:	e8 00 00 00 00       	call   1b9adfa <kfd_mem_dmaunmap_attachment+0x15a>	1b9adf6: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-015a  1b9adfa:	4d 8b 3f             	mov    (%r15),%r15
-015d  1b9adfd:	80 3c 2b 00          	cmpb   $0x0,(%rbx,%rbp,1)
-0161  1b9ae01:	74 08                	je     1b9ae0b <kfd_mem_dmaunmap_attachment+0x16b>
-0163  1b9ae03:	4c 89 f7             	mov    %r14,%rdi
-0166  1b9ae06:	e8 00 00 00 00       	call   1b9ae0b <kfd_mem_dmaunmap_attachment+0x16b>	1b9ae07: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-016b  1b9ae0b:	8b 4c 24 04          	mov    0x4(%rsp),%ecx
-016f  1b9ae0f:	f7 d1                	not    %ecx
-0171  1b9ae11:	4d 8b 26             	mov    (%r14),%r12
-0174  1b9ae14:	4c 89 e0             	mov    %r12,%rax
-0177  1b9ae17:	48 c1 e8 03          	shr    $0x3,%rax
-017b  1b9ae1b:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
-017f  1b9ae1f:	74 0e                	je     1b9ae2f <kfd_mem_dmaunmap_attachment+0x18f>
-0181  1b9ae21:	4c 89 e7             	mov    %r12,%rdi
-0184  1b9ae24:	41 89 cd             	mov    %ecx,%r13d
-0187  1b9ae27:	e8 00 00 00 00       	call   1b9ae2c <kfd_mem_dmaunmap_attachment+0x18c>	1b9ae28: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-018c  1b9ae2c:	44 89 e9             	mov    %r13d,%ecx
-018f  1b9ae2f:	c1 e9 1f             	shr    $0x1f,%ecx
-0192  1b9ae32:	4d 8b 2c 24          	mov    (%r12),%r13
-0196  1b9ae36:	49 83 c4 0c          	add    $0xc,%r12
-019a  1b9ae3a:	4c 89 e0             	mov    %r12,%rax
-019d  1b9ae3d:	48 c1 e8 03          	shr    $0x3,%rax
-01a1  1b9ae41:	0f b6 04 28          	movzbl (%rax,%rbp,1),%eax
-01a5  1b9ae45:	84 c0                	test   %al,%al
-01a7  1b9ae47:	0f 85 ae 00 00 00    	jne    1b9aefb <kfd_mem_dmaunmap_attachment+0x25b>
-01ad  1b9ae4d:	41 8b 14 24          	mov    (%r12),%edx
-01b1  1b9ae51:	4c 89 ff             	mov    %r15,%rdi
-01b4  1b9ae54:	4c 89 ee             	mov    %r13,%rsi
-01b7  1b9ae57:	45 31 c0             	xor    %r8d,%r8d
-01ba  1b9ae5a:	e8 00 00 00 00       	call   1b9ae5f <kfd_mem_dmaunmap_attachment+0x1bf>	1b9ae5b: R_X86_64_PLT32	dma_unmap_sg_attrs-0x4
-01bf  1b9ae5f:	80 3c 2b 00          	cmpb   $0x0,(%rbx,%rbp,1)
-01c3  1b9ae63:	74 08                	je     1b9ae6d <kfd_mem_dmaunmap_attachment+0x1cd>
-01c5  1b9ae65:	4c 89 f7             	mov    %r14,%rdi
-01c8  1b9ae68:	e8 00 00 00 00       	call   1b9ae6d <kfd_mem_dmaunmap_attachment+0x1cd>	1b9ae69: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-01cd  1b9ae6d:	49 8b 3e             	mov    (%r14),%rdi
-01d0  1b9ae70:	e8 00 00 00 00       	call   1b9ae75 <kfd_mem_dmaunmap_attachment+0x1d5>	1b9ae71: R_X86_64_PLT32	sg_free_table-0x4
-01d5  1b9ae75:	80 3c 2b 00          	cmpb   $0x0,(%rbx,%rbp,1)
-01d9  1b9ae79:	74 08                	je     1b9ae83 <kfd_mem_dmaunmap_attachment+0x1e3>
-01db  1b9ae7b:	4c 89 f7             	mov    %r14,%rdi
-01de  1b9ae7e:	e8 00 00 00 00       	call   1b9ae83 <kfd_mem_dmaunmap_attachment+0x1e3>	1b9ae7f: R_X86_64_PLT32	__asan_report_store8_noabort-0x4
-01e3  1b9ae83:	49 c7 06 00 00 00 00 	movq   $0x0,(%r14)
-01ea  1b9ae8a:	65 48 8b 04 25 28 00 00 00 	mov    %gs:0x28,%rax
-01f3  1b9ae93:	48 3b 44 24 20       	cmp    0x20(%rsp),%rax
-01f8  1b9ae98:	74 17                	je     1b9aeb1 <kfd_mem_dmaunmap_attachment+0x211>
-01fa  1b9ae9a:	e9 82 00 00 00       	jmp    1b9af21 <kfd_mem_dmaunmap_attachment+0x281>
-01ff  1b9ae9f:	0f 0b                	ud2
-0201  1b9aea1:	65 48 8b 04 25 28 00 00 00 	mov    %gs:0x28,%rax
-020a  1b9aeaa:	48 3b 44 24 20       	cmp    0x20(%rsp),%rax
-020f  1b9aeaf:	75 70                	jne    1b9af21 <kfd_mem_dmaunmap_attachment+0x281>
-0211  1b9aeb1:	48 83 c4 28          	add    $0x28,%rsp
-0215  1b9aeb5:	5b                   	pop    %rbx
-0216  1b9aeb6:	41 5c                	pop    %r12
-0218  1b9aeb8:	41 5d                	pop    %r13
-021a  1b9aeba:	41 5e                	pop    %r14
-021c  1b9aebc:	41 5f                	pop    %r15
-021e  1b9aebe:	5d                   	pop    %rbp
-021f  1b9aebf:	c3                   	ret
-0220  1b9aec0:	44 89 f1             	mov    %r14d,%ecx
-0223  1b9aec3:	80 e1 07             	and    $0x7,%cl
-0226  1b9aec6:	80 c1 03             	add    $0x3,%cl
-0229  1b9aec9:	38 c1                	cmp    %al,%cl
-022b  1b9aecb:	0f 8c 12 fe ff ff    	jl     1b9ace3 <kfd_mem_dmaunmap_attachment+0x43>
-0231  1b9aed1:	4c 89 f7             	mov    %r14,%rdi
-0234  1b9aed4:	e8 00 00 00 00       	call   1b9aed9 <kfd_mem_dmaunmap_attachment+0x239>	1b9aed5: R_X86_64_PLT32	__asan_report_load4_noabort-0x4
-0239  1b9aed9:	e9 05 fe ff ff       	jmp    1b9ace3 <kfd_mem_dmaunmap_attachment+0x43>
-023e  1b9aede:	89 d9                	mov    %ebx,%ecx
-0240  1b9aee0:	80 e1 07             	and    $0x7,%cl
-0243  1b9aee3:	80 c1 03             	add    $0x3,%cl
-0246  1b9aee6:	38 c1                	cmp    %al,%cl
-0248  1b9aee8:	0f 8c 23 fe ff ff    	jl     1b9ad11 <kfd_mem_dmaunmap_attachment+0x71>
-024e  1b9aeee:	48 89 df             	mov    %rbx,%rdi
-0251  1b9aef1:	e8 00 00 00 00       	call   1b9aef6 <kfd_mem_dmaunmap_attachment+0x256>	1b9aef2: R_X86_64_PLT32	__asan_report_load4_noabort-0x4
-0256  1b9aef6:	e9 16 fe ff ff       	jmp    1b9ad11 <kfd_mem_dmaunmap_attachment+0x71>
-025b  1b9aefb:	44 89 e2             	mov    %r12d,%edx
-025e  1b9aefe:	80 e2 07             	and    $0x7,%dl
-0261  1b9af01:	80 c2 03             	add    $0x3,%dl
-0264  1b9af04:	38 c2                	cmp    %al,%dl
-0266  1b9af06:	0f 8c 41 ff ff ff    	jl     1b9ae4d <kfd_mem_dmaunmap_attachment+0x1ad>
-026c  1b9af0c:	4c 89 e7             	mov    %r12,%rdi
-026f  1b9af0f:	89 4c 24 04          	mov    %ecx,0x4(%rsp)
-0273  1b9af13:	e8 00 00 00 00       	call   1b9af18 <kfd_mem_dmaunmap_attachment+0x278>	1b9af14: R_X86_64_PLT32	__asan_report_load4_noabort-0x4
-0278  1b9af18:	8b 4c 24 04          	mov    0x4(%rsp),%ecx
-027c  1b9af1c:	e9 2c ff ff ff       	jmp    1b9ae4d <kfd_mem_dmaunmap_attachment+0x1ad>
-0281  1b9af21:	e8 00 00 00 00       	call   1b9af26 <kfd_mem_dmaunmap_attachment+0x286>	1b9af22: R_X86_64_PLT32	__stack_chk_fail-0x4
-0286  1b9af26:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+Chairperson of the Supervisory Board: Nicole Lau
+Registered Office: Munich
+Commercial Register: Amtsgericht Muenchen HRB 186928
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
