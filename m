@@ -1,95 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9461538A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 13:25:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693401953; x=1724937953;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5yFhRZUb/7+GfqKcb9MxGDGd6E4Ln1rLhsSPkn08AbQ=;
-  b=fYnl7g4WdBaCkCE7RLaCHmuyumzXeHUCb5Vvy5jTiiYhx8XFjc/ksbj2
-   +YjsVMf40dGyCKcKxCia2ERJvrnimx0zpf/Q3UGJ6pyz+rV6K/lsNUNEb
-   MBrl3cz6xHrFo1d6x7qiBRWFI4aA6pVLmCfedLI1HuNkZPvPSUhM5XPym
-   jef7r5kM4q/a6lrD6t0MNooftlMsL0a4/XNsyG/IJylChy6zYFIh5qfyE
-   skujDt0ZknbB9PmsQ/PoDUOsUpBoCUbkW0xqSmjonzIHVchxAvWYXlRCg
-   /Y6sixSGt/dlE/L7XSisiShfJV/JLkTDI8tuyatfoBdFBexiNxu2AHCoo
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="439585071"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="439585071"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 06:25:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="688910839"
-X-IronPort-AV: E=Sophos;i="6.02,213,1688454000"; 
-   d="scan'208";a="688910839"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 30 Aug 2023 06:25:41 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qbLCW-0009rX-35;
-	Wed, 30 Aug 2023 13:25:40 +0000
-Date: Wed, 30 Aug 2023 21:25:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:rcu/vmalloc-debug-fixes 1/2] mm/vmalloc.c:2696:26: warning:
- 'try_to_find_vm_area' defined but not used
-Message-ID: <202308302153.50O4hkFI-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD1C63BC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 14:29:56 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-58ca499456dso67379307b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Aug 2023 07:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1693405795; x=1694010595; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NghURf49RK5ylycOOwon5RzRxws9/PW8JtsRCxfmiyY=;
+        b=cL/oz/02trymgQ0p0z0kA9LUmKReWVCkDVrFzlTcQ9tkKkb5xWjVN80owJhV1xYcL3
+         8WTe9FeoGrDcgWWPhNQVGXFTsrzimR/KyCv1v0LPPwZaFRjp7/SMgy7NtGTkm8Qo0kle
+         qvMckiZwizhSCF/3xDs7krqVkFeuc91kGH9fB8A82jxeo28yDJlCUq6/GeM6XMd9ml6h
+         1w6oB1gHEWO5xHjdv4hIihdVh2jvH3jTbfJEBr3WfLmEcm45qlHYb08prMitpGJ89co3
+         PAbYznIaF7SPqlsnlO+8JwSKtqaRfP0GDaaTYN6T3hi6ed4v6sVMzbsTU/KcaoSxPO7i
+         8nUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693405795; x=1694010595;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NghURf49RK5ylycOOwon5RzRxws9/PW8JtsRCxfmiyY=;
+        b=CheWvzrCFq1uKktzP/Xl1tSraPQR3n1LWXTMA0pvCIcs20ebUrdvBI8irSu8Y1+Jq4
+         S++2QVOvHLt1Ik4J35TxJsQwrmRY9n4NMFDwDHlcEWhW6WOEujBtx5Hrbf5JmDuTfcFG
+         eF7B70pHFze21BM2pfwmffmVMAUW/Gxlg3rOGb+nmTopgY5P+m6h5J/EhH8KmtY8mncf
+         KtyyoUb86qElEjeIJuIua/kjPOyIqtjt1P3qBCqbDhLIGVNPB5vP5zc/0RszJQid2Dfg
+         BauK041ZV5t16gh676Nxtrr9G2IB6yiad/FYWtitqO6ZYC35OTQBncNTzxEYwqPJSjvl
+         kJYA==
+X-Gm-Message-State: AOJu0YwBKn5dWEuMIv5DnG8Wp53eyrgNMickF1EMJrAquGE6o5bM0Q5A
+	LcqhJW2Otwyr/nWvZMOC0LQwcba8Ev7FoPq48Emup9hFZDGKxqA=
+X-Google-Smtp-Source: AGHT+IENUcGV1zmTTBYYJ4iI6kb1uCtEbWSrgnMVUQ/8HiTd3flLhgpR3sz66wZeZ1ViiieOOnosB8xqzoOlplCZg5w=
+X-Received: by 2002:a0d:f747:0:b0:595:80e4:907d with SMTP id
+ h68-20020a0df747000000b0059580e4907dmr2056857ywf.32.1693405795614; Wed, 30
+ Aug 2023 07:29:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202308301248.hEwyeVEl-lkp@intel.com>
+In-Reply-To: <202308301248.hEwyeVEl-lkp@intel.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 30 Aug 2023 10:29:44 -0400
+Message-ID: <CAHC9VhQZFZTaXb_S5YCy9KniVfPBmEQrY74_dMi5cBftZsrwNg@mail.gmail.com>
+Subject: Re: [pcmoore-audit:main 1/1] README.orig: warning: ignored by one of
+ the .gitignore files
+To: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Cc: linux-audit@redhat.com, audit@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git rcu/vmalloc-debug-fixes
-head:   2df62bec04fc85eecff117f78108c220c5f2a883
-commit: a952ba57cebba3180e6be290c6e9eda74f46e6a2 [1/2] mm/vmalloc: Add a safer version of find_vm_area() for debug
-config: arc-randconfig-001-20230830 (https://download.01.org/0day-ci/archive/20230830/202308302153.50O4hkFI-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308302153.50O4hkFI-lkp@intel.com/reproduce)
+On Wed, Aug 30, 2023 at 12:17=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git=
+ main
+> head:   94e5ef9b157c6c3779352a8d4121542f71de52a1
+> commit: 94e5ef9b157c6c3779352a8d4121542f71de52a1 [1/1] audit: add a Linux=
+ Audit specific README.md and SECURITY.md
+> config: parisc-randconfig-r012-20230830 (https://download.01.org/0day-ci/=
+archive/20230830/202308301248.hEwyeVEl-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20230830/202308301248.hEwyeVEl-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308301248.hEwyeVEl-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> README.orig: warning: ignored by one of the .gitignore files
+>    tools/perf/util/bpf_skel/vmlinux/vmlinux.h: warning: ignored by one of=
+ the .gitignore files
+>    tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one=
+ of the .gitignore files
+>    tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one o=
+f the .gitignore files
+>    tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored =
+by one of the .gitignore files
+>    tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by on=
+e of the .gitignore files
+>    tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the=
+ .gitignore files
+>    tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .=
+gitignore files
+>    tools/testing/selftests/kvm/config: warning: ignored by one of the .gi=
+tignore files
+>    tools/testing/selftests/kvm/settings: warning: ignored by one of the .=
+gitignore files
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308302153.50O4hkFI-lkp@intel.com/
+I have no idea if there is a person attached to any of the addresses
+on the To line above, but please send audit kernel issues to
+audit@vger.kernel.org and not linux-audit@redhat.com.
 
-All warnings (new ones prefixed by >>):
+Thanks.
 
->> mm/vmalloc.c:2696:26: warning: 'try_to_find_vm_area' defined but not used [-Wunused-function]
-    2696 | static struct vm_struct *try_to_find_vm_area(const void *addr)
-         |                          ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/try_to_find_vm_area +2696 mm/vmalloc.c
-
-  2685	
-  2686	/**
-  2687	 * try_to_find_vm_area - find a continuous kernel virtual area
-  2688	 * @addr:	  base address
-  2689	 *
-  2690	 * This function is the same as find_vm_area() except that it is
-  2691	 * safe to call if vmap_area_lock is already held and returns NULL
-  2692	 * if it is. See comments in find_vmap_area() for other details.
-  2693	 *
-  2694	 * Return: the area descriptor on success or %NULL on failure.
-  2695	 */
-> 2696	static struct vm_struct *try_to_find_vm_area(const void *addr)
-  2697	{
-  2698		struct vmap_area *va;
-  2699	
-  2700		va = find_vmap_area_trylock((unsigned long)addr);
-  2701		if (!va)
-  2702			return NULL;
-  2703	
-  2704		return va->vm;
-  2705	}
-  2706	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+paul-moore.com
