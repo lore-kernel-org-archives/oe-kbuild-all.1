@@ -1,137 +1,208 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2A8848E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 12:46:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693486014; x=1725022014;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1o0CqcwG58M3nIO/9H3FG9ce4dhk2V3IYqT+g1+EtN0=;
-  b=a1pXWTtQMjKNhKWzWuHU5DjBdKgcfSIy45Iya6oVHBAH8tMOs9hULZLO
-   eX4ujr/TeBi1TtIiuMXlWuKk+QR51b+JoakrG7l7MGbD+foTMAO1vXWC8
-   HdFMnGQeeiYgpjiH8wE0xeMvX+MJA/JA1NS1cVv9srLjg8a1vU57oP4bD
-   qNlik59r9JzLSG8fygsBDGhV6DFKO4DPTqmegCTiZthJKrV/xRvG/6Jic
-   huEKhEdv8uCthD4wv2L1V3uVIu/zdy7JFwkY3o1bPwa0lsj6rE/dNRXDQ
-   ubpm7FZLjOvmZHTlvUiNr2pjYIZoCWmVOR+/ELZA8udM5fFbHBpqxXXtu
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="373328825"
-X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="373328825"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 05:46:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="739505264"
-X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="739505264"
-Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 31 Aug 2023 05:46:49 -0700
-Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qbh4R-00009D-2D;
-	Thu, 31 Aug 2023 12:46:47 +0000
-Date: Thu, 31 Aug 2023 20:46:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 6164/24604]
- drivers/soc/imx/secvio/imx-secvio-sc.c:140:5: warning: no previous prototype
- for function 'int_imx_secvio_sc_check_state'
-Message-ID: <202308312028.fLgLCfP9-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882E429A0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 13:02:00 +0000 (UTC)
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-34baeb01942so2733955ab.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 06:02:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693486919; x=1694091719; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CpJWFwXbjpBPJKdgfU1P3LDYz3QvE+vc+2XTO0Izgdw=;
+        b=i3H4Wzfc5OJ4dwp7ihxchxA+XRahGj9JJAc0BpOJmnbk3ZB5XTe2RrSWxCRbvsTzQN
+         xBdsGpGZ0P2JPDSrOsk4RiH6AFVwu7TCp1H3LWhMxYrReI7HuEcxFnnspbcqRspeHK4d
+         gceb1coKdp/Vbuq4zCXbTBCE9o2JfCkr0TQIN9D2yoPzC0R8i5kKoYlc4eYepXML7N63
+         Nilcksue+fgS4ZeyixEtWzGnVmStwa7FjB4r0IcCtrwU4naYwO90qxO1TbGTKQ45F91C
+         iMfPsXLj2vu6uQkWBwm97JBItfCvt8YNm28WG5jmY8mlbz9RIqcIJZiuz0v9gQMAJguD
+         1egw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693486919; x=1694091719;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CpJWFwXbjpBPJKdgfU1P3LDYz3QvE+vc+2XTO0Izgdw=;
+        b=DL4EQ7HjF/aDVsahPM3bcKDPwd2hw3q734u+dhJBb/vV45Q0frRYeacvpDbLSX/YNu
+         tjWl9eSoH75fwdn42PTfWDErqNOEe++w3dlfIt5GP+yiC00iSb2nxJVpgM5LSXImam/i
+         /A9bPXhbtCg58Esjkm2c1xZBrv5lJGg1jRguYY7VluzWvrKxYuh46Sq0k22bFZwGheBV
+         9roXHSV/jwZGhol/9efjMeq+JgkoCHBrxD0fUDFJIM73wVC3jrZl+Q/3YHahTDTA9LqL
+         MPf5AcByGlwnKUtrJ9JaHfoLgINJXgBQoEqV1Lt+YkVwYhElacVeHzLOnbwP7egnEy9L
+         Tr5w==
+X-Gm-Message-State: AOJu0Yx0BEIPygvcooUjcf+8Rovf+v1ubjaYdmNmvLg7DGLYuXVwuqVU
+	Zw2lspCd3KOGLSYhWU1k9y906QGMxO7JecmumwQ=
+X-Google-Smtp-Source: AGHT+IHJps3hnk8E8l1z8WvBtp8AIxG8dbn+uLFjyWsXxVA4Stfdvio9HOCUnnVm+4nhdvVW2W7A3dDGhJnww0/tSLM=
+X-Received: by 2002:a05:6e02:1071:b0:345:f28f:cc26 with SMTP id
+ q17-20020a056e02107100b00345f28fcc26mr5021202ilj.24.1693486919382; Thu, 31
+ Aug 2023 06:01:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202308311610.ec6bm2G8-lkp@intel.com> <20230831-congested-monument-44ddb496204d@wendy>
+ <CA+V-a8thx2qah2gJVG6mmrSCtnLTBRFS7fr+cpTMU-6RpqoaTQ@mail.gmail.com>
+ <20230831-imperial-surviving-afdf6d275388@wendy> <CA+V-a8vT-LLsUOf+E1g4L+JBnFBn2SGhpDavHRS6k8DduK3KNQ@mail.gmail.com>
+ <CAMuHMdWXDVpQeTD-ZdJi2Nk1JUgmSvaBfGUo-CtKpJDKXUdu0A@mail.gmail.com>
+In-Reply-To: <CAMuHMdWXDVpQeTD-ZdJi2Nk1JUgmSvaBfGUo-CtKpJDKXUdu0A@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 31 Aug 2023 14:01:08 +0100
+Message-ID: <CA+V-a8s67RrfpfpJd_tqBtk1d_zanbCLVWqCHhUirBYs1zey9A@mail.gmail.com>
+Subject: Re: [WARNING: ATTACHMENT UNSCANNED]Re: [linux-next:master
+ 13230/13643] arch/riscv/errata/andes/errata.c:29:23: error: storage size of
+ 'ret' isn't known
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Conor Dooley <conor.dooley@microchip.com>, kernel test robot <lkp@intel.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Palmer Dabbelt <palmer@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Dong,
+Hi Geert,
 
-FYI, the error/warning still remains.
+On Thu, Aug 31, 2023 at 1:01=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Aug 31, 2023 at 1:54=E2=80=AFPM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> > On Thu, Aug 31, 2023 at 12:34=E2=80=AFPM Conor Dooley
+> > <conor.dooley@microchip.com> wrote:
+> > > On Thu, Aug 31, 2023 at 12:22:50PM +0100, Lad, Prabhakar wrote:
+> > > > On Thu, Aug 31, 2023 at 10:44=E2=80=AFAM Conor Dooley
+> > > > <conor.dooley@microchip.com> wrote:
+> > > > >
+> > > > > On Thu, Aug 31, 2023 at 04:52:00PM +0800, kernel test robot wrote=
+:
+> > > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/li=
+nux-next.git master
+> > > > > > head:   a47fc304d2b678db1a5d760a7d644dac9b067752
+> > > > > > commit: f2863f30d1b05e5ecf61c063609cb974954d47f8 [13230/13643] =
+riscv: errata: Add Andes alternative ports
+> > > > > > config: riscv-randconfig-001-20230831 (https://download.01.org/=
+0day-ci/archive/20230831/202308311610.ec6bm2G8-lkp@intel.com/config)
+> > > > > > compiler: riscv64-linux-gcc (GCC) 13.2.0
+> > > > > > reproduce (this is a W=3D1 build): (https://download.01.org/0da=
+y-ci/archive/20230831/202308311610.ec6bm2G8-lkp@intel.com/reproduce)
+> > > > > >
+> > > > > > If you fix the issue in a separate patch/commit (i.e. not just =
+a new version of
+> > > > > > the same patch/commit), kindly add following tags
+> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202308311610.ec=
+6bm2G8-lkp@intel.com/
+> > > > > >
+> > > > > > All error/warnings (new ones prefixed by >>):
+> > > > > >
+> > > > > >    arch/riscv/errata/andes/errata.c: In function 'ax45mp_iocp_s=
+w_workaround':
+> > > > > > >> arch/riscv/errata/andes/errata.c:29:23: error: storage size =
+of 'ret' isn't known
+> > > > > >       29 |         struct sbiret ret;
+> > > > > >          |                       ^~~
+> > > > > > >> arch/riscv/errata/andes/errata.c:35:15: error: implicit decl=
+aration of function 'sbi_ecall' [-Werror=3Dimplicit-function-declaration]
+> > > > > >       35 |         ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES, A=
+NDES_SBI_EXT_IOCP_SW_WORKAROUND,
+> > > > > >          |               ^~~~~~~~~
+> > > > > > >> arch/riscv/errata/andes/errata.c:29:23: warning: unused vari=
+able 'ret' [-Wunused-variable]
+> > > > > >       29 |         struct sbiret ret;
+> > > > > >          |                       ^~~
+> > > > > >    cc1: some warnings being treated as errors
+> > > > > >
+> > > > > >
+> > > > > > vim +29 arch/riscv/errata/andes/errata.c
+> > > > > >
+> > > > > >     26
+> > > > > >     27        static long ax45mp_iocp_sw_workaround(void)
+> > > > > >     28        {
+> > > > > >   > 29                struct sbiret ret;
+> > > > > >     30
+> > > > > >     31                /*
+> > > > > >     32                 * ANDES_SBI_EXT_IOCP_SW_WORKAROUND SBI E=
+XT checks if the IOCP is missing and
+> > > > > >     33                 * cache is controllable only then CMO wi=
+ll be applied to the platform.
+> > > > > >     34                 */
+> > > > > >   > 35                ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES=
+, ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
+> > > > > >     36                                0, 0, 0, 0, 0, 0);
+> > > > > >     37
+> > > > > >     38                return ret.error ? 0 : ret.value;
+> > > > > >     39        }
+> > > > > >     40
+> > > > >
+> > > > > Looks like the config doesn't enable SBI, so ERRATA_ANDES_CMO wil=
+l need
+> > > > > to grow a dependency on RISCV_SBI.
+> > > > I think adding dependency for RISCV_SBI on ERRATA_ANDES would be a =
+good idea.
+> > > >
+> > > > While at it I am seeing below warnings with this randconfig:
+> > > > WARNING: unmet direct dependencies detected for ERRATA_ANDES_CMO
+> > > >   Depends on [n]: ERRATA_ANDES [=3Dy] && MMU [=3Dn] && ARCH_R9A07G0=
+43 [=3Dy]
+>
+> So the issue is that CONFIG_MMU=3Dn.
+>
+> > --- a/arch/riscv/Kconfig.errata
+> > +++ b/arch/riscv/Kconfig.errata
+> > @@ -3,6 +3,7 @@ menu "CPU errata selection"
+> >  config ERRATA_ANDES
+> >         bool "Andes AX45MP errata"
+> >         depends on RISCV_ALTERNATIVE
+> > +       depends on RISCV_SBI
+> >         help
+> >           All Andes errata Kconfig depend on this Kconfig. Disabling
+> >           this Kconfig will disable all Andes errata. Please say "Y"
+> > @@ -12,7 +13,7 @@ config ERRATA_ANDES
+> >
+> >  config ERRATA_ANDES_CMO
+> >         bool "Apply Andes cache management errata"
+> > -       depends on ERRATA_ANDES && MMU && ARCH_R9A07G043
+>
+> Why does this depend on MMU?
+>
+Currently ARCH_R9A07G043 selects DMA_GLOBAL_POOL and we have
+RISCV_DMA_NONCOHERENT selecting DMA_DIRECT_REMAP which causes below
+build issue when MMU is disabled:
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   7c13adcd3af7dcd541144655102e1cdb941ad538
-commit: 8e33e9a47296b6a3afd7da3c950b77eaacfc42b3 [6164/24604] Merge branch 'firmware/next' into next
-config: riscv-randconfig-r016-20230831 (https://download.01.org/0day-ci/archive/20230831/202308312028.fLgLCfP9-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308312028.fLgLCfP9-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308312028.fLgLCfP9-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/soc/imx/secvio/imx-secvio-sc.c:140:5: warning: no previous prototype for function 'int_imx_secvio_sc_check_state' [-Wmissing-prototypes]
-     140 | int int_imx_secvio_sc_check_state(struct device *dev)
-         |     ^
-   drivers/soc/imx/secvio/imx-secvio-sc.c:140:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     140 | int int_imx_secvio_sc_check_state(struct device *dev)
-         | ^
-         | static 
-   drivers/soc/imx/secvio/imx-secvio-sc.c:377:29: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-     377 |         struct imx_secvio_sc_data *data;
-         |                                    ^
-   2 warnings generated.
---
->> drivers/soc/imx/secvio/imx-secvio-debugfs.c:35:5: warning: no previous prototype for function 'fuse_reader' [-Wmissing-prototypes]
-      35 | int fuse_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-         |     ^
-   drivers/soc/imx/secvio/imx-secvio-debugfs.c:35:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      35 | int fuse_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-         | ^
-         | static 
->> drivers/soc/imx/secvio/imx-secvio-debugfs.c:56:5: warning: no previous prototype for function 'snvs_reader' [-Wmissing-prototypes]
-      56 | int snvs_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-         |     ^
-   drivers/soc/imx/secvio/imx-secvio-debugfs.c:56:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      56 | int snvs_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-         | ^
-         | static 
->> drivers/soc/imx/secvio/imx-secvio-debugfs.c:95:5: warning: no previous prototype for function 'snvs_dgo_reader' [-Wmissing-prototypes]
-      95 | int snvs_dgo_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-         |     ^
-   drivers/soc/imx/secvio/imx-secvio-debugfs.c:95:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      95 | int snvs_dgo_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-         | ^
-         | static 
-   3 warnings generated.
+kernel/dma/pool.c: In function 'atomic_pool_expand':
+kernel/dma/pool.c:105:44: error: implicit declaration of function
+'pgprot_dmacoherent' [-Werror=3Dimplicit-function-declaration]
+  105 |
+pgprot_dmacoherent(PAGE_KERNEL),
+      |                                            ^~~~~~~~~~~~~~~~~~
+kernel/dma/pool.c:105:44: error: incompatible type for argument 3 of
+'dma_common_contiguous_remap'
+  105 |
+pgprot_dmacoherent(PAGE_KERNEL),
+      |
+^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                            |
+      |                                            int
+In file included from kernel/dma/pool.c:8:
 
 
-vim +/int_imx_secvio_sc_check_state +140 drivers/soc/imx/secvio/imx-secvio-sc.c
+> > +       depends on ERRATA_ANDES && MMU
+> >         select RISCV_DMA_NONCOHERENT
+> >         default y
+> >         help
+>
+> > --- a/drivers/soc/renesas/Kconfig
+> > +++ b/drivers/soc/renesas/Kconfig
+> > @@ -333,11 +333,9 @@ if RISCV
+> >
+> >  config ARCH_R9A07G043
+> >         bool "RISC-V Platform support for RZ/Five"
+> > +       depends on AX45MP_L2_CACHE
+>
+> This looks backwards to me...
+>
+Ok, then how about going with the imply approach?
 
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  139  
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05 @140  int int_imx_secvio_sc_check_state(struct device *dev)
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  141  {
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  142  	struct secvio_sc_notifier_info info = {0};
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  143  	int ret = 0;
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  144  
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  145  	ret = int_imx_secvio_sc_get_state(dev, &info);
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  146  	if (ret) {
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  147  		dev_err(dev, "Failed to get secvio state\n");
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  148  		goto exit;
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  149  	}
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  150  
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  151  	/* Call chain of CB registered to this module if status detected */
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  152  	if (info.hpsvs || info.lps || info.lptds)
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  153  		if (imx_secvio_sc_notifier_call_chain(&info))
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  154  			dev_warn(dev,
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  155  				 "Issues when calling the notifier chain\n");
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  156  
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  157  exit:
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  158  	return ret;
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  159  }
-c4c96d8e4f4bd6 Franck LENORMAND 2019-12-05  160  
-
-:::::: The code at line 140 was first introduced by commit
-:::::: c4c96d8e4f4bd60d88bfbcedf2edefdc1e1f7cf8 SSI-87: soc: imx: secvio: Add support for SNVS secvio and tamper via SCFW
-
-:::::: TO: Franck LENORMAND <franck.lenormand@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Prabhakar
