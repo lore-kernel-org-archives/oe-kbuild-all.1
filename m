@@ -1,42 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42976184
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 00:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EA15225
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 00:30:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693440617; x=1724976617;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s73CAuGa31nEwKpHlZRt1lovR7oAnj6AXHJJ2QW0dek=;
-  b=RqqwGgtrC5PIS6PHPdvhNnk6K42F9uvE+/wMJxiPCG/FruWYiTE6jjBC
-   JEEbfGIA04imcnPz5LatNCncTbWesjzw2g79VFH8VCcVahThrxIi+p37b
-   imh0qMN9VTyDvkaVJo5XBT7fGlutmXG9dq6kvtbEyjGs0xyMPjExgcgLe
-   c6oCflD8h7du1vbBy0Q8Pl4NNXdtiZ94cIwg+FkVD3ILoGigZiALs7Yg+
-   o649nedD4uXsJ8d/r2Mhu9a6x945+uvhkfgR6A8gavM1L4sTwBD8Z5mxb
-   z89tpWROvPRJg5sNI5OdRmVmOue3NSYx7xzw+aRcHMn39/QSkeutG5SoL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="365981900"
+  t=1693441827; x=1724977827;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oKp9XMtMl1LHo14SxmBKuBjjdH6S8/WiE+fvtsfFxS8=;
+  b=eFG28CV+6wTsZeL4Auw//NMxQ+X7H2cWmEBv4CVAYrita3GSXquKAijp
+   mIbEjrh1+LJOEjIhg02vCqAfs6poAZ+ZvXEDOTQDPg/5XTtWXWcKdfm1n
+   SZg5tc+mmbFr0ix980HCzY53Nj/twZ6KrNe7nH/2/GFlNtoMcTperOMa/
+   fRAeivgE0p0mIZ37b8yAdW9i1Q+Qw4T7GtqI8K8zRE5WJ9MWR/e0eT1wB
+   0w18546WfLPDvN/gWw7RjsUE38EB2XK6GuRzGAaLA55mbeId7MIDMCOvO
+   ThvM8WWlgXpSj3LNwLQMvn1fp95+3qp+5uPXBORf2noDb04qZdNSvmV2+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="365984330"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="365981900"
+   d="scan'208";a="365984330"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 17:10:16 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 17:30:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="774281064"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="774286717"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="774281064"
+   d="scan'208";a="774286717"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 30 Aug 2023 17:10:15 -0700
+  by orsmga001.jf.intel.com with ESMTP; 30 Aug 2023 17:30:25 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbVGH-000AOF-0b;
-	Thu, 31 Aug 2023 00:10:13 +0000
-Date: Thu, 31 Aug 2023 08:09:35 +0800
+	id 1qbVZo-000APF-0i;
+	Thu, 31 Aug 2023 00:30:24 +0000
+Date: Thu, 31 Aug 2023 08:29:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-kernelci 5/7] drivers/mfd/rn5t618.c:190:50: error: passing
- argument 1 of 'i2c_get_match_data' from incompatible pointer type
-Message-ID: <202308310842.e47xr9J1-lkp@intel.com>
+To: Xabier Marquiegui <reibax@gmail.com>, richardcochran@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, chrony-dev@chrony.tuxfamily.org,
+	mlichvar@redhat.com, netdev@vger.kernel.org,
+	ntp-lists@mattcorallo.com, reibax@gmail.com
+Subject: Re: [PATCH] ptp: Demultiplexed timestamp channels
+Message-ID: <202308310809.wcvhamyw-lkp@intel.com>
+References: <20230830214101.509086-2-reibax@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,93 +48,225 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230830214101.509086-2-reibax@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   2f859c7b504dbff5d4770187e5416610db4625e3
-commit: ac865741027a59abe81c2e7d30edfd26082751f3 [5/7] Use of_device_get_match_data
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230831/202308310842.e47xr9J1-lkp@intel.com/config)
+Hi Xabier,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+[also build test WARNING on net-next/main linus/master horms-ipvs/master v6.5 next-20230830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xabier-Marquiegui/ptp-Demultiplexed-timestamp-channels/20230831-054428
+base:   net/main
+patch link:    https://lore.kernel.org/r/20230830214101.509086-2-reibax%40gmail.com
+patch subject: [PATCH] ptp: Demultiplexed timestamp channels
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230831/202308310809.wcvhamyw-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308310842.e47xr9J1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308310809.wcvhamyw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308310842.e47xr9J1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308310809.wcvhamyw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/mfd/rn5t618.c: In function 'rn5t618_i2c_probe':
->> drivers/mfd/rn5t618.c:190:50: error: passing argument 1 of 'i2c_get_match_data' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     190 |         priv->variant = (long)i2c_get_match_data(&i2c->dev);
-         |                                                  ^~~~~~~~~
-         |                                                  |
-         |                                                  struct device *
-   In file included from drivers/mfd/rn5t618.c:10:
-   include/linux/i2c.h:370:57: note: expected 'const struct i2c_client *' but argument is of type 'struct device *'
-     370 | const void *i2c_get_match_data(const struct i2c_client *client);
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+>> drivers/ptp/ptp_chardev.c:449:9: warning: no previous prototype for 'ptp_queue_read' [-Wmissing-prototypes]
+     449 | ssize_t ptp_queue_read(struct ptp_clock *ptp, char __user *buf, size_t cnt,
+         |         ^~~~~~~~~~~~~~
+>> drivers/ptp/ptp_chardev.c:544:5: warning: no previous prototype for 'ptp_dmtsc_release' [-Wmissing-prototypes]
+     544 | int ptp_dmtsc_release(struct inode *inode, struct file *file)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/ptp/ptp_chardev.c:556:9: warning: no previous prototype for 'ptp_dmtsc_read' [-Wmissing-prototypes]
+     556 | ssize_t ptp_dmtsc_read(struct file *file, char __user *buf, size_t cnt,
+         |         ^~~~~~~~~~~~~~
+>> drivers/ptp/ptp_chardev.c:571:6: warning: no previous prototype for 'ptp_dmtsc_cdev_clean' [-Wmissing-prototypes]
+     571 | void ptp_dmtsc_cdev_clean(struct ptp_clock *ptp)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from include/linux/preempt.h:10,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:17,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/mm_types_task.h:13,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/ptp/ptp_chardev.c:7:
+   drivers/ptp/ptp_chardev.c: In function 'ptp_dmtsc_dev_register':
+   include/linux/export.h:31:21: error: passing argument 1 of 'class_create' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      31 | #define THIS_MODULE ((struct module *)0)
+         |                     ^~~~~~~~~~~~~~~~~~~~
+         |                     |
+         |                     struct module *
+   drivers/ptp/ptp_chardev.c:612:38: note: in expansion of macro 'THIS_MODULE'
+     612 |                         class_create(THIS_MODULE, "ptptsevqch_class");
+         |                                      ^~~~~~~~~~~
+   In file included from include/linux/device.h:31,
+                    from include/linux/cdev.h:8,
+                    from include/linux/posix-clock.h:10,
+                    from drivers/ptp/ptp_chardev.c:8:
+   include/linux/device/class.h:230:54: note: expected 'const char *' but argument is of type 'struct module *'
+     230 | struct class * __must_check class_create(const char *name);
+         |                                          ~~~~~~~~~~~~^~~~
+   drivers/ptp/ptp_chardev.c:612:25: error: too many arguments to function 'class_create'
+     612 |                         class_create(THIS_MODULE, "ptptsevqch_class");
+         |                         ^~~~~~~~~~~~
+   include/linux/device/class.h:230:29: note: declared here
+     230 | struct class * __must_check class_create(const char *name);
+         |                             ^~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +/i2c_get_match_data +190 drivers/mfd/rn5t618.c
+vim +/ptp_queue_read +449 drivers/ptp/ptp_chardev.c
 
-   179	
-   180	static int rn5t618_i2c_probe(struct i2c_client *i2c)
-   181	{
-   182		struct rn5t618 *priv;
-   183		int ret;
-   184	
-   185		priv = devm_kzalloc(&i2c->dev, sizeof(*priv), GFP_KERNEL);
-   186		if (!priv)
-   187			return -ENOMEM;
-   188	
-   189		i2c_set_clientdata(i2c, priv);
- > 190		priv->variant = (long)i2c_get_match_data(&i2c->dev);
-   191		priv->irq = i2c->irq;
-   192		priv->dev = &i2c->dev;
-   193	
-   194		priv->regmap = devm_regmap_init_i2c(i2c, &rn5t618_regmap_config);
-   195		if (IS_ERR(priv->regmap)) {
-   196			ret = PTR_ERR(priv->regmap);
-   197			dev_err(&i2c->dev, "regmap init failed: %d\n", ret);
-   198			return ret;
-   199		}
-   200	
-   201		if (priv->variant == RC5T619)
-   202			ret = devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_NONE,
-   203						   rc5t619_cells,
-   204						   ARRAY_SIZE(rc5t619_cells),
-   205						   NULL, 0, NULL);
-   206		else
-   207			ret = devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_NONE,
-   208						   rn5t618_cells,
-   209						   ARRAY_SIZE(rn5t618_cells),
-   210						   NULL, 0, NULL);
-   211		if (ret) {
-   212			dev_err(&i2c->dev, "failed to add sub-devices: %d\n", ret);
-   213			return ret;
-   214		}
-   215	
-   216		rn5t618_pm_power_off = i2c;
-   217		if (of_device_is_system_power_controller(i2c->dev.of_node)) {
-   218			if (!pm_power_off)
-   219				pm_power_off = rn5t618_power_off;
-   220			else
-   221				dev_warn(&i2c->dev, "Poweroff callback already assigned\n");
-   222		}
-   223	
-   224		rn5t618_restart_handler.notifier_call = rn5t618_restart;
-   225		rn5t618_restart_handler.priority = 192;
-   226	
-   227		ret = register_restart_handler(&rn5t618_restart_handler);
-   228		if (ret) {
-   229			dev_err(&i2c->dev, "cannot register restart handler, %d\n", ret);
-   230			return ret;
-   231		}
-   232	
-   233		return rn5t618_irq_init(priv);
-   234	}
-   235	
+   448	
+ > 449	ssize_t ptp_queue_read(struct ptp_clock *ptp, char __user *buf, size_t cnt,
+   450			       int dmtsc)
+   451	{
+   452		struct timestamp_event_queue *queue;
+   453		struct mutex *tsevq_mux;
+   454		struct ptp_extts_event *event;
+   455		unsigned long flags;
+   456		size_t qcnt, i;
+   457		int result;
+   458	
+   459		if (dmtsc < 0) {
+   460			queue = &ptp->tsevq;
+   461			tsevq_mux = &ptp->tsevq_mux;
+   462		} else {
+   463			queue = &ptp->dmtsc_devs.cdev_info[dmtsc].tsevq;
+   464			tsevq_mux = &ptp->dmtsc_devs.cdev_info[dmtsc].tsevq_mux;
+   465		}
+   466	
+   467		if (cnt % sizeof(struct ptp_extts_event) != 0)
+   468			return -EINVAL;
+   469	
+   470		if (cnt > EXTTS_BUFSIZE)
+   471			cnt = EXTTS_BUFSIZE;
+   472	
+   473		cnt = cnt / sizeof(struct ptp_extts_event);
+   474	
+   475		if (mutex_lock_interruptible(tsevq_mux))
+   476			return -ERESTARTSYS;
+   477	
+   478		if (wait_event_interruptible(ptp->tsev_wq,
+   479					     ptp->defunct || queue_cnt(queue))) {
+   480			mutex_unlock(tsevq_mux);
+   481			return -ERESTARTSYS;
+   482		}
+   483	
+   484		if (ptp->defunct) {
+   485			mutex_unlock(tsevq_mux);
+   486			return -ENODEV;
+   487		}
+   488	
+   489		event = kmalloc(EXTTS_BUFSIZE, GFP_KERNEL);
+   490		if (!event) {
+   491			mutex_unlock(tsevq_mux);
+   492			return -ENOMEM;
+   493		}
+   494	
+   495		spin_lock_irqsave(&queue->lock, flags);
+   496	
+   497		qcnt = queue_cnt(queue);
+   498	
+   499		if (cnt > qcnt)
+   500			cnt = qcnt;
+   501	
+   502		for (i = 0; i < cnt; i++) {
+   503			event[i] = queue->buf[queue->head];
+   504			queue->head = (queue->head + 1) % PTP_MAX_TIMESTAMPS;
+   505		}
+   506	
+   507		spin_unlock_irqrestore(&queue->lock, flags);
+   508	
+   509		cnt = cnt * sizeof(struct ptp_extts_event);
+   510	
+   511		mutex_unlock(tsevq_mux);
+   512	
+   513		result = cnt;
+   514		if (copy_to_user(buf, event, cnt))
+   515			result = -EFAULT;
+   516	
+   517		kfree(event);
+   518		return result;
+   519	}
+   520	
+   521	ssize_t ptp_read(struct posix_clock *pc, uint rdflags, char __user *buf,
+   522			 size_t cnt)
+   523	{
+   524		struct ptp_clock *ptp = container_of(pc, struct ptp_clock, clock);
+   525	
+   526		return ptp_queue_read(ptp, buf, cnt, DMTSC_NOT);
+   527	}
+   528	
+   529	static int ptp_dmtsc_open(struct inode *inode, struct file *file)
+   530	{
+   531		struct ptp_dmtsc_cdev_info *cdev = container_of(
+   532			inode->i_cdev, struct ptp_dmtsc_cdev_info, dmtsc_cdev);
+   533	
+   534		file->private_data = cdev;
+   535	
+   536		if (mutex_lock_interruptible(&cdev->pclock->dmtsc_en_mux))
+   537			return -ERESTARTSYS;
+   538		cdev->pclock->dmtsc_en_flags |= (0x1 << (cdev->minor));
+   539		mutex_unlock(&cdev->pclock->dmtsc_en_mux);
+   540	
+   541		return stream_open(inode, file);
+   542	}
+   543	
+ > 544	int ptp_dmtsc_release(struct inode *inode, struct file *file)
+   545	{
+   546		struct ptp_dmtsc_cdev_info *cdev = file->private_data;
+   547	
+   548		if (mutex_lock_interruptible(&cdev->pclock->dmtsc_en_mux))
+   549			return -ERESTARTSYS;
+   550		cdev->pclock->dmtsc_en_flags &= ~(0x1 << (cdev->minor));
+   551		mutex_unlock(&cdev->pclock->dmtsc_en_mux);
+   552	
+   553		return 0;
+   554	}
+   555	
+ > 556	ssize_t ptp_dmtsc_read(struct file *file, char __user *buf, size_t cnt,
+   557			       loff_t *offset)
+   558	{
+   559		struct ptp_dmtsc_cdev_info *cdev = file->private_data;
+   560	
+   561		return ptp_queue_read(cdev->pclock, buf, cnt, cdev->minor);
+   562	}
+   563	
+   564	static const struct file_operations fops = {
+   565							.owner = THIS_MODULE,
+   566							.open = ptp_dmtsc_open,
+   567							.read = ptp_dmtsc_read,
+   568							.release = ptp_dmtsc_release
+   569							};
+   570	
+ > 571	void ptp_dmtsc_cdev_clean(struct ptp_clock *ptp)
+   572	{
+   573		int idx, major;
+   574		dev_t device;
+   575	
+   576		major = MAJOR(ptp->dmtsc_devs.devid);
+   577		for (idx = 0; idx < ptp->info->n_ext_ts; idx++) {
+   578			if (ptp->dmtsc_devs.cdev_info[idx].minor >= 0) {
+   579				device = MKDEV(major, idx);
+   580				device_destroy(ptp->dmtsc_devs.dmtsc_class, device);
+   581				cdev_del(&ptp->dmtsc_devs.cdev_info[idx].dmtsc_cdev);
+   582				ptp->dmtsc_devs.cdev_info[idx].minor = -1;
+   583			}
+   584		}
+   585		class_destroy(ptp->dmtsc_devs.dmtsc_class);
+   586		unregister_chrdev_region(ptp->dmtsc_devs.devid, ptp->info->n_ext_ts);
+   587		mutex_destroy(&ptp->dmtsc_devs.cdev_info[idx].tsevq_mux);
+   588	}
+   589	
 
 -- 
 0-DAY CI Kernel Test Service
