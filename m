@@ -1,44 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FACA185B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 05:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7929D1846
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 05:31:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693459102; x=1724995102;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hBA0985FlWT2HBzqPJsfw1oXGOgIwWsU4Cj0vcDGvxo=;
-  b=biMXSJwAgUlsULLGxylLfaNA0hUQBPwj2gCsc42cSd9wT3772153bPFO
-   Cat4JWmcTtKp+ld23NEyxKas7wRQOVLH/bVbCop1DYjRoRUYFBcZ3WCLm
-   jS5vblv0t/sCoyulQtT7kMMzPi5uqWcI3h8MUrZiklaXs2cc78ohSq5iw
-   GXKYhXFC/15fYbmP4rUqRv1Qpecyye26pR0coR2GHCCGJgXUA4MoArNSr
-   gzHnWpICZnClTGDXjxRjAHneIg5/0INx8/wlWrQYXOT7Oleci8oe1o8th
-   x4HZ7kqyEpFV14SKxI5Yj3hwKXAW6QJSV31vJdL4w7Z7pbw1tcrpPsfQQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="379565662"
+  t=1693459869; x=1724995869;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5yjFWjVmw6OhzAHda5Q62eUzhhAInSELlK6a+y4TOK8=;
+  b=S46VGGfZsnsoWaJeX1s2NJVWH5fuFak5M+VvboZlSDbQ38vPUJUfwC+e
+   OSowmfU9ZKkELnp7AknsMki58xzxmK0h7603ZDIJTDdrZoXAeNWrRxSEL
+   PHV1/j1oOoq0n6iCswnAjTzDk/dmUqo1MoifnJjfjyzfX+bWV+pZiCeuG
+   sbyuBkSwn39EqPvgpmzG0eu/9g7dNcUJaZyKc9X+AuGejCOGgHmbbPfkL
+   K7OoCvySF25fUPyeEvUz51EgkUHIZRWNwqYsMkWTNWSGT6HG6nhqiWUcx
+   7GTCuHnfcFUYyBFOnRrERqIw60oB+0rUa+NvfANn/Stq3F/mGdFz4ow5z
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="442179047"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="379565662"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 22:18:20 -0700
+   d="scan'208";a="442179047"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 22:31:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="768664273"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="804799794"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="768664273"
+   d="scan'208";a="804799794"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 30 Aug 2023 22:18:18 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2023 22:31:07 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qba4Q-000Ae9-0B;
-	Thu, 31 Aug 2023 05:18:18 +0000
-Date: Thu, 31 Aug 2023 13:18:09 +0800
+	id 1qbaGd-000Ah7-1c;
+	Thu, 31 Aug 2023 05:31:00 +0000
+Date: Thu, 31 Aug 2023 13:29:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dai Ngo <dai.ngo@oracle.com>, chuck.lever@oracle.com,
-	jlayton@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 2/2] NFSD: add trace points to track server copy progress
-Message-ID: <202308311350.wOmbsChS-lkp@intel.com>
-References: <1693439219-19467-2-git-send-email-dai.ngo@oracle.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.15-2.2.x-imx 160/24604]
+ sound/soc/codecs/pcm512x.c:1595:7: warning: unused variable 'clk_name'
+Message-ID: <202308311308.77SwqqDO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,181 +45,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1693439219-19467-2-git-send-email-dai.ngo@oracle.com>
 
-Hi Dai,
+Hi Adrian,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.5 next-20230830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dai-Ngo/NFSD-add-trace-points-to-track-server-copy-progress/20230831-074806
-base:   linus/master
-patch link:    https://lore.kernel.org/r/1693439219-19467-2-git-send-email-dai.ngo%40oracle.com
-patch subject: [PATCH 2/2] NFSD: add trace points to track server copy progress
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230831/202308311350.wOmbsChS-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311350.wOmbsChS-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   7c13adcd3af7dcd541144655102e1cdb941ad538
+commit: c7981269740967250226190f3236434d1f060084 [160/24604] MLK-25015: sound: soc: codecs: pcm512x: set input sclk
+config: hexagon-randconfig-r013-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311308.77SwqqDO-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311308.77SwqqDO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308311350.wOmbsChS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308311308.77SwqqDO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/nfsd/nfs4proc.c: In function 'nfsd4_do_async_copy':
->> fs/nfsd/nfs4proc.c:1730:9: error: implicit declaration of function 'trace_nfsd4_copy_do_async'; did you mean 'nfsd4_copy_is_async'? [-Werror=implicit-function-declaration]
-    1730 |         trace_nfsd4_copy_do_async(copy);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         nfsd4_copy_is_async
-   fs/nfsd/nfs4proc.c: In function 'nfsd4_copy':
->> fs/nfsd/nfs4proc.c:1771:17: error: implicit declaration of function 'trace_nfsd4_copy_inter'; did you mean 'trace_nfsd_ctl_time'? [-Werror=implicit-function-declaration]
-    1771 |                 trace_nfsd4_copy_inter(copy);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 trace_nfsd_ctl_time
->> fs/nfsd/nfs4proc.c:1778:25: error: implicit declaration of function 'trace_nfsd4_copy_done'; did you mean 'trace_nfsd_read_done'? [-Werror=implicit-function-declaration]
-    1778 |                         trace_nfsd4_copy_done(copy, status);
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-         |                         trace_nfsd_read_done
->> fs/nfsd/nfs4proc.c:1782:17: error: implicit declaration of function 'trace_nfsd4_copy_intra'; did you mean 'trace_nfsd_cb_setup'? [-Werror=implicit-function-declaration]
-    1782 |                 trace_nfsd4_copy_intra(copy);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 trace_nfsd_cb_setup
-   cc1: some warnings being treated as errors
+>> sound/soc/codecs/pcm512x.c:1595:7: warning: unused variable 'clk_name' [-Wunused-variable]
+           char clk_name[8];
+                ^
+   1 warning generated.
 
 
-vim +1730 fs/nfsd/nfs4proc.c
+vim +/clk_name +1595 sound/soc/codecs/pcm512x.c
 
-  1717	
-  1718	/**
-  1719	 * nfsd4_do_async_copy - kthread function for background server-side COPY
-  1720	 * @data: arguments for COPY operation
-  1721	 *
-  1722	 * Return values:
-  1723	 *   %0: Copy operation is done.
-  1724	 */
-  1725	static int nfsd4_do_async_copy(void *data)
-  1726	{
-  1727		struct nfsd4_copy *copy = (struct nfsd4_copy *)data;
-  1728		__be32 nfserr;
-  1729	
-> 1730		trace_nfsd4_copy_do_async(copy);
-  1731		if (nfsd4_ssc_is_inter(copy)) {
-  1732			struct file *filp;
-  1733	
-  1734			filp = nfs42_ssc_open(copy->ss_nsui->nsui_vfsmount,
-  1735					      &copy->c_fh, &copy->stateid);
-  1736			if (IS_ERR(filp)) {
-  1737				switch (PTR_ERR(filp)) {
-  1738				case -EBADF:
-  1739					nfserr = nfserr_wrong_type;
-  1740					break;
-  1741				default:
-  1742					nfserr = nfserr_offload_denied;
-  1743				}
-  1744				/* ss_mnt will be unmounted by the laundromat */
-  1745				goto do_callback;
-  1746			}
-  1747			nfserr = nfsd4_do_copy(copy, filp, copy->nf_dst->nf_file,
-  1748					       false);
-  1749			nfsd4_cleanup_inter_ssc(copy->ss_nsui, filp, copy->nf_dst);
-  1750		} else {
-  1751			nfserr = nfsd4_do_copy(copy, copy->nf_src->nf_file,
-  1752					       copy->nf_dst->nf_file, false);
-  1753		}
-  1754	
-  1755	do_callback:
-  1756		nfsd4_send_cb_offload(copy, nfserr);
-  1757		cleanup_async_copy(copy);
-  1758		return 0;
-  1759	}
-  1760	
-  1761	static __be32
-  1762	nfsd4_copy(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
-  1763			union nfsd4_op_u *u)
-  1764	{
-  1765		struct nfsd4_copy *copy = &u->copy;
-  1766		__be32 status;
-  1767		struct nfsd4_copy *async_copy = NULL;
-  1768	
-  1769		copy->cp_clp = cstate->clp;
-  1770		if (nfsd4_ssc_is_inter(copy)) {
-> 1771			trace_nfsd4_copy_inter(copy);
-  1772			if (!inter_copy_offload_enable || nfsd4_copy_is_sync(copy)) {
-  1773				status = nfserr_notsupp;
-  1774				goto out;
-  1775			}
-  1776			status = nfsd4_setup_inter_ssc(rqstp, cstate, copy);
-  1777			if (status) {
-> 1778				trace_nfsd4_copy_done(copy, status);
-  1779				return nfserr_offload_denied;
-  1780			}
-  1781		} else {
-> 1782			trace_nfsd4_copy_intra(copy);
-  1783			status = nfsd4_setup_intra_ssc(rqstp, cstate, copy);
-  1784			if (status) {
-  1785				trace_nfsd4_copy_done(copy, status);
-  1786				return status;
-  1787			}
-  1788		}
-  1789	
-  1790		memcpy(&copy->fh, &cstate->current_fh.fh_handle,
-  1791			sizeof(struct knfsd_fh));
-  1792		if (nfsd4_copy_is_async(copy)) {
-  1793			struct nfsd_net *nn = net_generic(SVC_NET(rqstp), nfsd_net_id);
-  1794	
-  1795			status = nfserrno(-ENOMEM);
-  1796			async_copy = kzalloc(sizeof(struct nfsd4_copy), GFP_KERNEL);
-  1797			if (!async_copy)
-  1798				goto out_err;
-  1799			INIT_LIST_HEAD(&async_copy->copies);
-  1800			refcount_set(&async_copy->refcount, 1);
-  1801			async_copy->cp_src = kmalloc(sizeof(*async_copy->cp_src), GFP_KERNEL);
-  1802			if (!async_copy->cp_src)
-  1803				goto out_err;
-  1804			if (!nfs4_init_copy_state(nn, copy))
-  1805				goto out_err;
-  1806			memcpy(&copy->cp_res.cb_stateid, &copy->cp_stateid.cs_stid,
-  1807				sizeof(copy->cp_res.cb_stateid));
-  1808			dup_copy_fields(copy, async_copy);
-  1809			async_copy->copy_task = kthread_create(nfsd4_do_async_copy,
-  1810					async_copy, "%s", "copy thread");
-  1811			if (IS_ERR(async_copy->copy_task))
-  1812				goto out_err;
-  1813			spin_lock(&async_copy->cp_clp->async_lock);
-  1814			list_add(&async_copy->copies,
-  1815					&async_copy->cp_clp->async_copies);
-  1816			spin_unlock(&async_copy->cp_clp->async_lock);
-  1817			wake_up_process(async_copy->copy_task);
-  1818			status = nfs_ok;
-  1819		} else {
-  1820			status = nfsd4_do_copy(copy, copy->nf_src->nf_file,
-  1821					       copy->nf_dst->nf_file, true);
-  1822		}
-  1823	out:
-  1824		trace_nfsd4_copy_done(copy, status);
-  1825		release_copy_files(copy);
-  1826		return status;
-  1827	out_err:
-  1828		if (nfsd4_ssc_is_inter(copy)) {
-  1829			/*
-  1830			 * Source's vfsmount of inter-copy will be unmounted
-  1831			 * by the laundromat. Use copy instead of async_copy
-  1832			 * since async_copy->ss_nsui might not be set yet.
-  1833			 */
-  1834			refcount_dec(&copy->ss_nsui->nsui_refcnt);
-  1835		}
-  1836		if (async_copy)
-  1837			cleanup_async_copy(async_copy);
-  1838		status = nfserrno(-ENOMEM);
-  1839		goto out;
-  1840	}
-  1841	
+  1591	
+  1592	int pcm512x_probe(struct device *dev, struct regmap *regmap)
+  1593	{
+  1594		struct pcm512x_priv *pcm512x;
+> 1595		char clk_name[8];
+  1596		int i, ret;
+  1597	
+  1598		pcm512x = devm_kzalloc(dev, sizeof(struct pcm512x_priv), GFP_KERNEL);
+  1599		if (!pcm512x)
+  1600			return -ENOMEM;
+  1601	
+  1602		mutex_init(&pcm512x->mutex);
+  1603	
+  1604		dev_set_drvdata(dev, pcm512x);
+  1605		pcm512x->regmap = regmap;
+  1606	
+  1607		for (i = 0; i < ARRAY_SIZE(pcm512x->supplies); i++)
+  1608			pcm512x->supplies[i].supply = pcm512x_supply_names[i];
+  1609	
+  1610		ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pcm512x->supplies),
+  1611					      pcm512x->supplies);
+  1612		if (ret != 0) {
+  1613			dev_err(dev, "Failed to get supplies: %d\n", ret);
+  1614			return ret;
+  1615		}
+  1616	
+  1617		pcm512x->supply_nb[0].notifier_call = pcm512x_regulator_event_0;
+  1618		pcm512x->supply_nb[1].notifier_call = pcm512x_regulator_event_1;
+  1619		pcm512x->supply_nb[2].notifier_call = pcm512x_regulator_event_2;
+  1620	
+  1621		for (i = 0; i < ARRAY_SIZE(pcm512x->supplies); i++) {
+  1622			ret = devm_regulator_register_notifier(
+  1623							pcm512x->supplies[i].consumer,
+  1624							&pcm512x->supply_nb[i]);
+  1625			if (ret != 0) {
+  1626				dev_err(dev,
+  1627					"Failed to register regulator notifier: %d\n",
+  1628					ret);
+  1629			}
+  1630		}
+  1631	
+  1632		ret = regulator_bulk_enable(ARRAY_SIZE(pcm512x->supplies),
+  1633					    pcm512x->supplies);
+  1634		if (ret != 0) {
+  1635			dev_err(dev, "Failed to enable supplies: %d\n", ret);
+  1636			return ret;
+  1637		}
+  1638	
+  1639		/* Reset the device, verifying I/O in the process for I2C */
+  1640		ret = regmap_write(regmap, PCM512x_RESET,
+  1641				   PCM512x_RSTM | PCM512x_RSTR);
+  1642		if (ret != 0) {
+  1643			dev_err(dev, "Failed to reset device: %d\n", ret);
+  1644			goto err;
+  1645		}
+  1646	
+  1647		ret = regmap_write(regmap, PCM512x_RESET, 0);
+  1648		if (ret != 0) {
+  1649			dev_err(dev, "Failed to reset device: %d\n", ret);
+  1650			goto err;
+  1651		}
+  1652	
+  1653		/* default to first sclk */
+  1654		pcm512x->num_clocks = 1;
+  1655		pcm512x->sclk_src = PCM512x_SYSCLK_MCLK1;
+  1656	
+  1657		pcm512x->sclk[0] = devm_clk_get(dev, NULL);
+  1658		if (PTR_ERR(pcm512x->sclk[0]) == -EPROBE_DEFER) {
+  1659			ret = -EPROBE_DEFER;
+  1660			goto err;
+  1661		}
+  1662	
+  1663		if (!IS_ERR(pcm512x->sclk[0])) {
+  1664			ret = clk_prepare_enable(pcm512x->sclk[0]);
+  1665			if (ret != 0) {
+  1666				dev_err(dev, "Failed to enable SCLK: %d\n", ret);
+  1667				goto err;
+  1668			}
+  1669		}
+  1670	
+  1671		/* Default to standby mode */
+  1672		ret = regmap_update_bits(pcm512x->regmap, PCM512x_POWER,
+  1673					 PCM512x_RQST, PCM512x_RQST);
+  1674		if (ret != 0) {
+  1675			dev_err(dev, "Failed to request standby: %d\n",
+  1676				ret);
+  1677			goto err_clk;
+  1678		}
+  1679	
+  1680		pm_runtime_set_active(dev);
+  1681		pm_runtime_enable(dev);
+  1682		pm_runtime_idle(dev);
+  1683	
 
 -- 
 0-DAY CI Kernel Test Service
