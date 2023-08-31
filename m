@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DF51846;
-	Thu, 31 Aug 2023 05:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99301855
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 05:52:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693460433; x=1724996433;
+  t=1693461129; x=1724997129;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SHvOXGkPw3yE4XyDCe8NvC7RTlByibkXrEbveLr96Xk=;
-  b=C9jeae/z/cBI1MYicpV+0ERafHUlCmuTxndsIcrFx2dRDSnzpitVcyxG
-   Nf6tTKYkPnAbJm12W5iKS0jITevRGSK+XbeQruvblp1NuXTdU2GS9pBx5
-   rZ4WTIZh64m8OrZ/1skn24OiI2uX7HB2Nv+N0Uf4DejjiZC8+cq6NTZNv
-   oKMPycN81b9nVgXWjfXYi7gE7UcS2X5X1CChcmAtTdsrs1+uiX3OI9ebf
-   gqvypIYk8msn9craX1h75935Tc40FnCMPr9v7TIE2KLHSa7gJbZrqe9Wa
-   wXCIFDNnkQsIeI3WY+lvAzJypyX6Rz/XqeynICQtrz8XtgdvJ2uubVSzx
+  bh=mvlqoce/HMlr9U5scDxFt/8N+FBmhwL2ZmjsofU2PvE=;
+  b=Dv2oG88lj3gfK1HQfelHTPwRyK015nLYYvYZxwn0gBDXONaO15G2nlVN
+   0tHrmiiE7v7US0/nBOiMQ7RGbyszW7bl7P5YVbtGCRqCjJp8MATU7Flbw
+   H3Qz0e4j642aI+ORuCfI6VuuuSq87kE+lqCRUqrvx400g+e04TgwI+1pz
+   i3dq3aNmqJi2gA4dMaGnTkB5QGz6o+ykFly+eFvaj6bwIC1K+lUeSGgf5
+   mxsuL6aT0DGy7TmCr0Ylgi8NHNhbV+O5u06BYsXn/jhVgiJO+ZAcm7caZ
+   TujGRCvgCV2pfF3BlgUC2I2MWaY9Tg/pMtkmgTtIyRePYqqPjOQdmNsap
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="462198287"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="406816300"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="462198287"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 22:40:31 -0700
+   d="scan'208";a="406816300"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 22:52:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="804803931"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="862890072"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="804803931"
+   d="scan'208";a="862890072"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2023 22:40:30 -0700
+  by orsmga004.jf.intel.com with ESMTP; 30 Aug 2023 22:52:07 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbaPt-000Ai3-2l;
-	Thu, 31 Aug 2023 05:40:29 +0000
-Date: Thu, 31 Aug 2023 13:40:03 +0800
+	id 1qbab8-000Anr-0Z;
+	Thu, 31 Aug 2023 05:52:06 +0000
+Date: Thu, 31 Aug 2023 13:51:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roberto Sassu <roberto.sassu@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [robertosassu:ima-evm-lsms-v2-devel-v6 23/25]
- security/integrity/evm/evm_main.c:930:5: warning: no previous prototype for
- function 'evm_inode_init_security'
-Message-ID: <202308311311.GtN4xOFb-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/639 12691/24603]
+ drivers/net/ethernet/freescale/fman/mac.c:718:22: warning: format '%llx'
+ expects argument of type 'long long unsigned int', but argument 5 has type
+ 'resource_size_t' {aka 'unsigned int'}
+Message-ID: <202308311352.DW88pwAQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,96 +48,309 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/robertosassu/linux ima-evm-lsms-v2-devel-v6
-head:   8d3db5840032b2f14a363ad273bc13baeaec3cc5
-commit: 07adc69271289ead1d641de66c78e118ce1e4672 [23/25] evm: Move to LSM infrastructure
-config: hexagon-randconfig-001-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311311.GtN4xOFb-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311311.GtN4xOFb-lkp@intel.com/reproduce)
+Hi AnjanaSuraj,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: e849f19f9a2a7ece693148fa16ca9589cba09eee [12691/24603] fsl/fman: add MAC ACPI support
+config: nios2-randconfig-r005-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311352.DW88pwAQ-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311352.DW88pwAQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308311311.GtN4xOFb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308311352.DW88pwAQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> security/integrity/evm/evm_main.c:930:5: warning: no previous prototype for function 'evm_inode_init_security' [-Wmissing-prototypes]
-   int evm_inode_init_security(struct inode *inode, struct inode *dir,
-       ^
-   security/integrity/evm/evm_main.c:930:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int evm_inode_init_security(struct inode *inode, struct inode *dir,
-   ^
-   static 
-   1 warning generated.
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:15,
+                    from drivers/net/ethernet/freescale/fman/mac.c:35:
+   drivers/net/ethernet/freescale/fman/mac.c: In function 'acpi_mac_probe':
+>> drivers/net/ethernet/freescale/fman/mac.c:718:22: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     718 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                         ^~~
+   include/linux/dev_printk.h:163:45: note: in expansion of macro 'dev_fmt'
+     163 |                 dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+         |                                             ^~~~~~~
+   drivers/net/ethernet/freescale/fman/mac.c:718:9: note: in expansion of macro 'dev_dbg'
+     718 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |         ^~~~~~~
+   drivers/net/ethernet/freescale/fman/mac.c:718:49: note: format string is defined here
+     718 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |                                              ~~~^
+         |                                                 |
+         |                                                 long long unsigned int
+         |                                              %x
+   drivers/net/ethernet/freescale/fman/mac.c:718:22: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     718 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                         ^~~
+   include/linux/dev_printk.h:163:45: note: in expansion of macro 'dev_fmt'
+     163 |                 dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+         |                                             ^~~~~~~
+   drivers/net/ethernet/freescale/fman/mac.c:718:9: note: in expansion of macro 'dev_dbg'
+     718 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |         ^~~~~~~
+   drivers/net/ethernet/freescale/fman/mac.c:718:61: note: format string is defined here
+     718 |         dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+         |                                                          ~~~^
+         |                                                             |
+         |                                                             long long unsigned int
+         |                                                          %x
 
 
-vim +/evm_inode_init_security +930 security/integrity/evm/evm_main.c
+vim +718 drivers/net/ethernet/freescale/fman/mac.c
 
-66dbc325afcef9 Mimi Zohar            2011-03-15  926  
-cb72318069d5e9 Mimi Zohar            2011-03-09  927  /*
-9eea2904292c2d Roberto Sassu         2021-05-14  928   * evm_inode_init_security - initializes security.evm HMAC value
-cb72318069d5e9 Mimi Zohar            2011-03-09  929   */
-6db7d1dee80039 Roberto Sassu         2023-06-10 @930  int evm_inode_init_security(struct inode *inode, struct inode *dir,
-6db7d1dee80039 Roberto Sassu         2023-06-10  931  			    const struct qstr *qstr, struct xattr *xattrs,
-6db7d1dee80039 Roberto Sassu         2023-06-10  932  			    int *xattr_count)
-cb72318069d5e9 Mimi Zohar            2011-03-09  933  {
-650b29dbdf2caf Thiago Jung Bauermann 2019-06-11  934  	struct evm_xattr *xattr_data;
-c31288e56c1a7b Roberto Sassu         2023-06-10  935  	struct xattr *xattr, *evm_xattr;
-c31288e56c1a7b Roberto Sassu         2023-06-10  936  	bool evm_protected_xattrs = false;
-cb72318069d5e9 Mimi Zohar            2011-03-09  937  	int rc;
-cb72318069d5e9 Mimi Zohar            2011-03-09  938  
-c31288e56c1a7b Roberto Sassu         2023-06-10  939  	if (!(evm_initialized & EVM_INIT_HMAC) || !xattrs)
-c31288e56c1a7b Roberto Sassu         2023-06-10  940  		return 0;
-c31288e56c1a7b Roberto Sassu         2023-06-10  941  
-c31288e56c1a7b Roberto Sassu         2023-06-10  942  	/*
-c31288e56c1a7b Roberto Sassu         2023-06-10  943  	 * security_inode_init_security() makes sure that the xattrs array is
-c31288e56c1a7b Roberto Sassu         2023-06-10  944  	 * contiguous, there is enough space for security.evm, and that there is
-c31288e56c1a7b Roberto Sassu         2023-06-10  945  	 * a terminator at the end of the array.
-c31288e56c1a7b Roberto Sassu         2023-06-10  946  	 */
-c31288e56c1a7b Roberto Sassu         2023-06-10  947  	for (xattr = xattrs; xattr->name; xattr++) {
-c31288e56c1a7b Roberto Sassu         2023-06-10  948  		if (evm_protected_xattr(xattr->name))
-c31288e56c1a7b Roberto Sassu         2023-06-10  949  			evm_protected_xattrs = true;
-c31288e56c1a7b Roberto Sassu         2023-06-10  950  	}
-c31288e56c1a7b Roberto Sassu         2023-06-10  951  
-c31288e56c1a7b Roberto Sassu         2023-06-10  952  	/* EVM xattr not needed. */
-c31288e56c1a7b Roberto Sassu         2023-06-10  953  	if (!evm_protected_xattrs)
-5a4730ba9517cf Mimi Zohar            2011-08-11  954  		return 0;
-cb72318069d5e9 Mimi Zohar            2011-03-09  955  
-6db7d1dee80039 Roberto Sassu         2023-06-10  956  	evm_xattr = lsm_get_xattr_slot(xattrs, xattr_count);
-c31288e56c1a7b Roberto Sassu         2023-06-10  957  	/*
-c31288e56c1a7b Roberto Sassu         2023-06-10  958  	 * Array terminator (xattr name = NULL) must be the first non-filled
-c31288e56c1a7b Roberto Sassu         2023-06-10  959  	 * xattr slot.
-c31288e56c1a7b Roberto Sassu         2023-06-10  960  	 */
-c31288e56c1a7b Roberto Sassu         2023-06-10  961  	WARN_ONCE(evm_xattr != xattr,
-c31288e56c1a7b Roberto Sassu         2023-06-10  962  		  "%s: xattrs terminator is not the first non-filled slot\n",
-c31288e56c1a7b Roberto Sassu         2023-06-10  963  		  __func__);
-6db7d1dee80039 Roberto Sassu         2023-06-10  964  
-cb72318069d5e9 Mimi Zohar            2011-03-09  965  	xattr_data = kzalloc(sizeof(*xattr_data), GFP_NOFS);
-cb72318069d5e9 Mimi Zohar            2011-03-09  966  	if (!xattr_data)
-cb72318069d5e9 Mimi Zohar            2011-03-09  967  		return -ENOMEM;
-cb72318069d5e9 Mimi Zohar            2011-03-09  968  
-650b29dbdf2caf Thiago Jung Bauermann 2019-06-11  969  	xattr_data->data.type = EVM_XATTR_HMAC;
-6db7d1dee80039 Roberto Sassu         2023-06-10  970  	rc = evm_init_hmac(inode, xattrs, xattr_data->digest);
-cb72318069d5e9 Mimi Zohar            2011-03-09  971  	if (rc < 0)
-cb72318069d5e9 Mimi Zohar            2011-03-09  972  		goto out;
-cb72318069d5e9 Mimi Zohar            2011-03-09  973  
-cb72318069d5e9 Mimi Zohar            2011-03-09  974  	evm_xattr->value = xattr_data;
-cb72318069d5e9 Mimi Zohar            2011-03-09  975  	evm_xattr->value_len = sizeof(*xattr_data);
-9548906b2bb7ff Tetsuo Handa          2013-07-25  976  	evm_xattr->name = XATTR_EVM_SUFFIX;
-cb72318069d5e9 Mimi Zohar            2011-03-09  977  	return 0;
-cb72318069d5e9 Mimi Zohar            2011-03-09  978  out:
-cb72318069d5e9 Mimi Zohar            2011-03-09  979  	kfree(xattr_data);
-cb72318069d5e9 Mimi Zohar            2011-03-09  980  	return rc;
-cb72318069d5e9 Mimi Zohar            2011-03-09  981  }
-cb72318069d5e9 Mimi Zohar            2011-03-09  982  EXPORT_SYMBOL_GPL(evm_inode_init_security);
-cb72318069d5e9 Mimi Zohar            2011-03-09  983  
-
-:::::: The code at line 930 was first introduced by commit
-:::::: 6db7d1dee8003921b353d7e613471fe8995f46b5 evm: Align evm_inode_init_security() definition with LSM infrastructure
-
-:::::: TO: Roberto Sassu <roberto.sassu@huawei.com>
-:::::: CC: Paul Moore <paul@paul-moore.com>
+   619	
+   620	static int acpi_mac_probe(struct platform_device *pdev)
+   621	{
+   622		int			err, i, nph;
+   623		struct device		*dev;
+   624		struct mac_device	*mac_dev;
+   625		struct resource		res;
+   626		struct mac_priv_s	*priv;
+   627		const u8		*mac_addr;
+   628		u32			val;
+   629		u8			fman_id;
+   630		phy_interface_t		phy_if;
+   631		struct resource		*mem_res;
+   632		u8			macbuff[ETH_ALEN];
+   633		const char		*cp = NULL;
+   634		struct device		*fman_dev = NULL;
+   635		struct fwnode_handle	*fman_fwnode = NULL;
+   636		struct device		*fman_port_dev = NULL;
+   637		/* firmware node references */
+   638		struct fwnode_reference_args args;
+   639	
+   640		dev = &pdev->dev;
+   641	
+   642		mac_dev = devm_kzalloc(dev, sizeof(*mac_dev), GFP_KERNEL);
+   643		if (!mac_dev) {
+   644			err = -ENOMEM;
+   645			goto _return;
+   646		}
+   647		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+   648		if (!priv) {
+   649			err = -ENOMEM;
+   650			goto _return;
+   651		}
+   652	
+   653		/* Save private information */
+   654		mac_dev->priv = priv;
+   655		priv->dev = dev;
+   656	
+   657		fwnode_property_read_string(dev->fwnode, "compatible", &cp);
+   658	
+   659		if (!strcmp(cp, "fman-memac")) {
+   660			setup_memac(mac_dev);
+   661			priv->internal_phy_fwnode = fwnode_find_reference(dev->fwnode,
+   662									  "pcsphy-handle", 0);
+   663		} else if (!strcmp(cp, "fman-xgec")) {
+   664			setup_tgec(mac_dev);
+   665		} else if (!strcmp(cp, "fman-dtsec")) {
+   666			setup_dtsec(mac_dev);
+   667			priv->internal_phy_fwnode = fwnode_find_reference(dev->fwnode,
+   668									  "tbi-handle", 0);
+   669		} else {
+   670			dev_err(dev, "%s : MAC node contains unsupported MAC\n",
+   671				__func__);
+   672			err = -EINVAL;
+   673			goto _return;
+   674		}
+   675	
+   676		INIT_LIST_HEAD(&priv->mc_addr_list);
+   677	
+   678		/* Get the FM node */
+   679		fman_fwnode = fwnode_get_parent(dev->fwnode);
+   680		if (!fman_fwnode) {
+   681			err = -EINVAL;
+   682			dev_err(dev, "%s : fetch fman node failed\n", __func__);
+   683			goto _return;
+   684		}
+   685		if (fwnode_property_read_u32(fman_fwnode, "cell-index", &val)) {
+   686			err = -EINVAL;
+   687			goto _return;
+   688		}
+   689	
+   690		/* cell-index 0 => FMan id 1 */
+   691		fman_id = (u8)(val + 1);
+   692	
+   693		fman_dev = bus_find_device(&platform_bus_type, NULL, fman_fwnode,
+   694					   fwnode_match_devnode);
+   695		if (!fman_dev) {
+   696			dev_err(dev, "%s : bus_find_device failed\n", __func__);
+   697			err = -ENODEV;
+   698			goto _return;
+   699		}
+   700	
+   701		priv->fman = fman_bind(fman_dev);
+   702		if (!priv->fman) {
+   703			dev_err(dev, "%s : fman_bind failed\n", __func__);
+   704			err = -ENODEV;
+   705			goto _return;
+   706		}
+   707	
+   708		/* Get the address of the memory mapped registers */
+   709		mem_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   710		if (!mem_res) {
+   711			dev_err(dev, "%s: Can't get MAC memory resource\n",
+   712				__func__);
+   713			err = -EINVAL;
+   714			goto _return;
+   715		}
+   716		res.start = mem_res->start;
+   717		res.end = mem_res->end;
+ > 718		dev_dbg(dev, "MAC : %s : IORESOURCE [%llx] size [%llx]\n",
+   719			__func__, res.start, resource_size(mem_res));
+   720		mac_dev->res = mem_res;
+   721	
+   722		priv->vaddr = ioremap(mac_dev->res->start, resource_size(mac_dev->res));
+   723		if (!priv->vaddr) {
+   724			dev_err(dev, "%s : ioremap() failed\n", __func__);
+   725			err = -EIO;
+   726			goto _return;
+   727		}
+   728	
+   729		if (!fwnode_device_is_available(dev->fwnode)) {
+   730			err = -ENODEV;
+   731			goto _return;
+   732		}
+   733	
+   734		/* Get the cell-index */
+   735		if (device_property_read_u32(dev, "cell-index", &val)) {
+   736			dev_err(dev, "%s : failed to read cell-index\n", __func__);
+   737			err = -EINVAL;
+   738			goto _return;
+   739		}
+   740		priv->cell_index = (u8)val;
+   741	
+   742		/* Get the MAC address */
+   743		if (device_get_mac_address(dev, macbuff, ETH_ALEN)) {
+   744			mac_addr = macbuff;
+   745			ether_addr_copy(mac_dev->addr, mac_addr);
+   746		}
+   747	
+   748		/* Get the port handles */
+   749		nph = device_property_count_u32(dev, "fsl,fman-ports");
+   750	
+   751		if (unlikely(nph < 0)) {
+   752			dev_err(dev, "%s : reading port count failed\n", __func__);
+   753			err = nph;
+   754			goto _return;
+   755		}
+   756	
+   757		if (nph != ARRAY_SIZE(mac_dev->port)) {
+   758			dev_err(dev, "Not supported number of fman-ports handles of mac node from DSD property\n");
+   759			err = -EINVAL;
+   760			goto _return;
+   761		}
+   762	
+   763		for (i = 0; i < ARRAY_SIZE(mac_dev->port); i++) {
+   764			/* Find the port node */
+   765			struct fwnode_handle *fw_node =
+   766				acpi_fwnode_handle(ACPI_COMPANION(dev));
+   767			err = acpi_node_get_property_reference(fw_node, "fsl,fman-ports",
+   768							       i, &args);
+   769			if (ACPI_FAILURE(err) ||
+   770			    !is_acpi_device_node(args.fwnode)) {
+   771				dev_err(dev, "%s : reading fsl,fman-ports handle failed\n",
+   772					__func__);
+   773				goto _return;
+   774			}
+   775	
+   776			/* Bind to a specific FMan Port */
+   777			fman_port_dev = bus_find_device(&platform_bus_type, NULL,
+   778							args.fwnode,
+   779							fwnode_match_devnode);
+   780			if (!fman_port_dev) {
+   781				dev_err(dev, "%s : bus_find_device failed\n", __func__);
+   782				err = -ENODEV;
+   783				goto _return;
+   784			}
+   785	
+   786			mac_dev->port[i] = fman_port_bind(fman_port_dev);
+   787		}
+   788	
+   789		/* Get the PHY connection type */
+   790		phy_if = fwnode_get_phy_mode(dev->fwnode);
+   791		if (phy_if < 0) {
+   792			dev_warn(dev, "fwnode_get_phy_mode failed. Defaulting to SGMII\n");
+   793			phy_if = PHY_INTERFACE_MODE_SGMII;
+   794		}
+   795		mac_dev->phy_if = phy_if;
+   796	
+   797		priv->speed		= phy2speed[mac_dev->phy_if];
+   798		priv->max_speed		= priv->speed;
+   799		mac_dev->if_support	= DTSEC_SUPPORTED;
+   800	
+   801		/* We don't support half-duplex in SGMII mode */
+   802		if (mac_dev->phy_if == PHY_INTERFACE_MODE_SGMII)
+   803			mac_dev->if_support &= ~(SUPPORTED_10baseT_Half |
+   804					SUPPORTED_100baseT_Half);
+   805	
+   806		/* Gigabit support (no half-duplex) */
+   807		if (priv->max_speed == 1000)
+   808			mac_dev->if_support |= SUPPORTED_1000baseT_Full;
+   809	
+   810		/* The 10G interface only supports one mode */
+   811		if (mac_dev->phy_if == PHY_INTERFACE_MODE_XGMII)
+   812			mac_dev->if_support = SUPPORTED_10000baseT_Full;
+   813	
+   814		/* Get the rest of the PHY information */
+   815		mac_dev->fwnode_phy =
+   816			fwnode_find_reference(dev->fwnode, "phy-handle", 0);
+   817		if (IS_ERR_OR_NULL(mac_dev->fwnode_phy) &&
+   818		    fwnode_property_present(dev->fwnode, "fixed-link")) {
+   819			dev_err(dev, "%s : No fixed-link phy support available.\n",
+   820				__func__);
+   821			goto _return;
+   822		}
+   823	
+   824		err = mac_dev->init(mac_dev);
+   825		if (err < 0) {
+   826			dev_err(dev, "%s : mac_dev->init() = %d\n", __func__, err);
+   827			goto _return;
+   828		}
+   829	
+   830		/* pause frame autonegotiation enabled */
+   831		mac_dev->autoneg_pause = true;
+   832	
+   833		/* By intializing the values to false, force FMD to enable PAUSE frames
+   834		 * on RX and TX
+   835		 */
+   836		mac_dev->rx_pause_req = true;
+   837		mac_dev->tx_pause_req = true;
+   838		mac_dev->rx_pause_active = false;
+   839		mac_dev->tx_pause_active = false;
+   840		err = fman_set_mac_active_pause(mac_dev, true, true);
+   841		if (err < 0)
+   842			dev_err(dev, "%s : fman_set_mac_active_pause() = %d\n",
+   843				__func__, err);
+   844	
+   845		dev_info(dev, "FMan MAC address: %pM\n", mac_dev->addr);
+   846	
+   847		priv->eth_dev = dpaa_eth_add_device(fman_id, mac_dev);
+   848		if (IS_ERR(priv->eth_dev)) {
+   849			dev_err(dev, "%s : failed to add Ethernet platform device for MAC %d\n",
+   850				__func__, priv->cell_index);
+   851			priv->eth_dev = NULL;
+   852		}
+   853	
+   854		goto _return;
+   855	
+   856	_return:
+   857		return err;
+   858	}
+   859	
 
 -- 
 0-DAY CI Kernel Test Service
