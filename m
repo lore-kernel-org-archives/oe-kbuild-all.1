@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6552F33D7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 07:58:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE97233D7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 08:19:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693468681; x=1725004681;
+  t=1693469980; x=1725005980;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D+lrUzLNa14Yxd7Akp48nJUzHlPGsN82iYaXQsowpqc=;
-  b=ffYhoAvNp44Gqno8T0uc62VJUzImHeYiI4e4ZntzpNCKlGs7mHHHvrUu
-   qq8RnhxU9qaigsPCCz1bSuN5Ri2SUoo1msqGH4UTk9VvP8vTuYl/kAPbW
-   4Iondfe+zpcL4gxhAlVVvc7cv5oq72TNCJ0tq3jPd0TLcfS/13idqIVjJ
-   o2sDKpHxZDUMQlg5WOxKRagr5xgTeZyD8LtHlgJDbF+qFQFl9cmjQc6Dg
-   beBV/ZJ9EdMbYajjXQ9i0JJ0RYMxfvKcoxa3VF3cHOLGe85feGfOf3lgh
-   b3B3jt6zMwzg//pNWkwobq+mV8pRR8MXDl31v/IgUtY+kunTaVgnGWDMQ
+  bh=cbpbOM+csvRFwpPn5d7ZsjcFM/hYP3XUPTmtESuK72A=;
+  b=UB1INz3vVV7beI3FUT3km4DlwTBJGIOrYmFZs7ZUnDrIgX9+g1nYTHLC
+   1aATHOqZoDcV96AHkJgZUj2o+ZzxENm01wR+1hC2eL4zr3uPBK2sOv8D2
+   Xkjo4tFe201f1hevp9aHqmSzJkJhR2ug63herj/E6hRdlgft4TBQD5krC
+   jUh4ScJ6o0mj4FPwXFdiJGFf9lllLUGrvk6d2XDPmdoeuP2kEYqb2sHqy
+   Zpfk6kUf7EDprERzYXIXIfYLs8XGa2RPeN5svCUlInXez03FkBNQEvW0d
+   WqXjVA1fbaMILjKuMtASr2fFZJlSzUH7c0WSxzAi3+lRvhusOafS/QAf5
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="366050790"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="360848687"
 X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="366050790"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 00:58:00 -0700
+   d="scan'208";a="360848687"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 01:19:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="986109787"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="829566998"
 X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="986109787"
+   d="scan'208";a="829566998"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Aug 2023 00:57:58 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 31 Aug 2023 01:19:27 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbcYu-000B5X-1A;
-	Thu, 31 Aug 2023 07:57:56 +0000
-Date: Thu, 31 Aug 2023 15:57:47 +0800
+	id 1qbcth-000B6t-0R;
+	Thu, 31 Aug 2023 08:19:25 +0000
+Date: Thu, 31 Aug 2023 16:18:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 125/24604]
- sound/soc/fsl/fsl_asrc_m2m.c:350:5: warning: no previous prototype for
- function 'fsl_asrc_process_buffer_pre'
-Message-ID: <202308311534.VB9LNUAT-lkp@intel.com>
+Subject: [freescale-fslc:5.15-2.2.x-imx 3829/24604]
+ drivers/soc/fsl/dpio/dpio-driver.c:32:41: error: implicit declaration of
+ function '__ioremap'; did you mean 'do_ioremap'?
+Message-ID: <202308311616.3jUwaOct-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,244 +47,166 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Shengjiu,
+Hi Haiying,
 
 FYI, the error/warning still remains.
 
 tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
 head:   7c13adcd3af7dcd541144655102e1cdb941ad538
-commit: 94e5356aea65959c2f670b94b36472658a40000f [125/24604] MLK-11398: ASoC: fsl_asrc: Add Memory to Memory support
-config: s390-randconfig-r012-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311534.VB9LNUAT-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311534.VB9LNUAT-lkp@intel.com/reproduce)
+commit: e621849d1464f98a17ed9a39307cc14fc210e8d3 [3829/24604] soc: fsl: dpio: change CENA regs to be cacheable
+config: powerpc-randconfig-r006-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311616.3jUwaOct-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311616.3jUwaOct-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308311534.VB9LNUAT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308311616.3jUwaOct-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from sound/soc/fsl/fsl_asrc.c:11:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:36:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from sound/soc/fsl/fsl_asrc.c:11:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from sound/soc/fsl/fsl_asrc.c:11:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   In file included from sound/soc/fsl/fsl_asrc.c:918:
-   sound/soc/fsl/fsl_asrc_m2m.c:244:63: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
-           ret = dma_map_sg(&asrc->pdev->dev, sg, sg_nent, slave_config.direction);
-                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
-   include/linux/dma-mapping.h:408:58: note: expanded from macro 'dma_map_sg'
-   #define dma_map_sg(d, s, n, r) dma_map_sg_attrs(d, s, n, r, 0)
-                                  ~~~~~~~~~~~~~~~~          ^
-   In file included from sound/soc/fsl/fsl_asrc.c:918:
->> sound/soc/fsl/fsl_asrc_m2m.c:350:5: warning: no previous prototype for function 'fsl_asrc_process_buffer_pre' [-Wmissing-prototypes]
-   int fsl_asrc_process_buffer_pre(struct completion *complete,
-       ^
-   sound/soc/fsl/fsl_asrc_m2m.c:350:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int fsl_asrc_process_buffer_pre(struct completion *complete,
-   ^
-   static 
-   sound/soc/fsl/fsl_asrc_m2m.c:384:3: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
-                   mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_asrc_m2m.c:367:9: note: expanded from macro 'mxc_asrc_dma_umap'
-                                DMA_MEM_TO_DEV); \
-                                ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
-   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
-                                    ~~~~~~~~~~~~~~~~~~          ^
-   In file included from sound/soc/fsl/fsl_asrc.c:918:
-   sound/soc/fsl/fsl_asrc_m2m.c:384:3: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
-                   mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_asrc_m2m.c:369:9: note: expanded from macro 'mxc_asrc_dma_umap'
-                                DMA_DEV_TO_MEM); \
-                                ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
-   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
-                                    ~~~~~~~~~~~~~~~~~~          ^
-   In file included from sound/soc/fsl/fsl_asrc.c:918:
-   sound/soc/fsl/fsl_asrc_m2m.c:391:3: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
-                   mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_asrc_m2m.c:367:9: note: expanded from macro 'mxc_asrc_dma_umap'
-                                DMA_MEM_TO_DEV); \
-                                ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
-   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
-                                    ~~~~~~~~~~~~~~~~~~          ^
-   In file included from sound/soc/fsl/fsl_asrc.c:918:
-   sound/soc/fsl/fsl_asrc_m2m.c:391:3: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
-                   mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_asrc_m2m.c:369:9: note: expanded from macro 'mxc_asrc_dma_umap'
-                                DMA_DEV_TO_MEM); \
-                                ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
-   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
-                                    ~~~~~~~~~~~~~~~~~~          ^
-   In file included from sound/soc/fsl/fsl_asrc.c:918:
-   sound/soc/fsl/fsl_asrc_m2m.c:395:2: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
-           mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_asrc_m2m.c:367:9: note: expanded from macro 'mxc_asrc_dma_umap'
-                                DMA_MEM_TO_DEV); \
-                                ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
-   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
-                                    ~~~~~~~~~~~~~~~~~~          ^
-   In file included from sound/soc/fsl/fsl_asrc.c:918:
-   sound/soc/fsl/fsl_asrc_m2m.c:395:2: warning: implicit conversion from enumeration type 'enum dma_transfer_direction' to different enumeration type 'enum dma_data_direction' [-Wenum-conversion]
-           mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_asrc_m2m.c:369:9: note: expanded from macro 'mxc_asrc_dma_umap'
-                                DMA_DEV_TO_MEM); \
-                                ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:409:62: note: expanded from macro 'dma_unmap_sg'
-   #define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
-                                    ~~~~~~~~~~~~~~~~~~          ^
-   In file included from sound/soc/fsl/fsl_asrc.c:918:
->> sound/soc/fsl/fsl_asrc_m2m.c:372:5: warning: no previous prototype for function 'fsl_asrc_process_buffer' [-Wmissing-prototypes]
-   int fsl_asrc_process_buffer(struct fsl_asrc_pair *pair,
-       ^
-   sound/soc/fsl/fsl_asrc_m2m.c:372:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int fsl_asrc_process_buffer(struct fsl_asrc_pair *pair,
-   ^
-   static 
-   sound/soc/fsl/fsl_asrc_m2m.c:670:15: warning: variable 'out_length' set but not used [-Wunused-but-set-variable]
-           unsigned int out_length;
-                        ^
-   22 warnings generated.
+   drivers/soc/fsl/dpio/dpio-driver.c: In function 'dpaa2_dpio_probe':
+>> drivers/soc/fsl/dpio/dpio-driver.c:32:41: error: implicit declaration of function '__ioremap'; did you mean 'do_ioremap'? [-Werror=implicit-function-declaration]
+      32 | #define ioremap_cache_ns(addr, size)    __ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+         |                                         ^~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+   In file included from arch/powerpc/include/asm/page.h:301,
+                    from arch/powerpc/include/asm/thread_info.h:13,
+                    from include/linux/thread_info.h:60,
+                    from arch/powerpc/include/asm/ptrace.h:323,
+                    from arch/powerpc/include/asm/hw_irq.h:12,
+                    from arch/powerpc/include/asm/irqflags.h:12,
+                    from include/linux/irqflags.h:16,
+                    from include/asm-generic/cmpxchg-local.h:6,
+                    from arch/powerpc/include/asm/cmpxchg.h:526,
+                    from arch/powerpc/include/asm/atomic.h:11,
+                    from include/linux/atomic.h:7,
+                    from include/linux/mm_types_task.h:13,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/soc/fsl/dpio/dpio-driver.c:10:
+>> drivers/soc/fsl/dpio/dpio-driver.c:30:34: error: 'PTE_TYPE_PAGE' undeclared (first use in this function); did you mean 'PAGE_TYPE_BASE'?
+      30 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                  ^~~~~~~~~~~~~
+   arch/powerpc/include/asm/pgtable-types.h:46:40: note: in definition of macro '__pgprot'
+      46 | #define __pgprot(x)     ((pgprot_t) { (x) })
+         |                                        ^
+   drivers/soc/fsl/dpio/dpio-driver.c:32:76: note: in expansion of macro 'PROT_NORMAL_NS'
+      32 | #define ioremap_cache_ns(addr, size)    __ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+         |                                                                            ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:30:34: note: each undeclared identifier is reported only once for each function it appears in
+      30 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                  ^~~~~~~~~~~~~
+   arch/powerpc/include/asm/pgtable-types.h:46:40: note: in definition of macro '__pgprot'
+      46 | #define __pgprot(x)     ((pgprot_t) { (x) })
+         |                                        ^
+   drivers/soc/fsl/dpio/dpio-driver.c:32:76: note: in expansion of macro 'PROT_NORMAL_NS'
+      32 | #define ioremap_cache_ns(addr, size)    __ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+         |                                                                            ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:30:50: error: 'PTE_AF' undeclared (first use in this function); did you mean 'PTR_IF'?
+      30 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                  ^~~~~~
+   arch/powerpc/include/asm/pgtable-types.h:46:40: note: in definition of macro '__pgprot'
+      46 | #define __pgprot(x)     ((pgprot_t) { (x) })
+         |                                        ^
+   drivers/soc/fsl/dpio/dpio-driver.c:32:76: note: in expansion of macro 'PROT_NORMAL_NS'
+      32 | #define ioremap_cache_ns(addr, size)    __ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+         |                                                                            ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:30:59: error: 'PTE_PXN' undeclared (first use in this function)
+      30 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                           ^~~~~~~
+   arch/powerpc/include/asm/pgtable-types.h:46:40: note: in definition of macro '__pgprot'
+      46 | #define __pgprot(x)     ((pgprot_t) { (x) })
+         |                                        ^
+   drivers/soc/fsl/dpio/dpio-driver.c:32:76: note: in expansion of macro 'PROT_NORMAL_NS'
+      32 | #define ioremap_cache_ns(addr, size)    __ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+         |                                                                            ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:30:69: error: 'PTE_UXN' undeclared (first use in this function)
+      30 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                                     ^~~~~~~
+   arch/powerpc/include/asm/pgtable-types.h:46:40: note: in definition of macro '__pgprot'
+      46 | #define __pgprot(x)     ((pgprot_t) { (x) })
+         |                                        ^
+   drivers/soc/fsl/dpio/dpio-driver.c:32:76: note: in expansion of macro 'PROT_NORMAL_NS'
+      32 | #define ioremap_cache_ns(addr, size)    __ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+         |                                                                            ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:30:79: error: 'PTE_DIRTY' undeclared (first use in this function); did you mean 'I_DIRTY'?
+      30 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                                               ^~~~~~~~~
+   arch/powerpc/include/asm/pgtable-types.h:46:40: note: in definition of macro '__pgprot'
+      46 | #define __pgprot(x)     ((pgprot_t) { (x) })
+         |                                        ^
+   drivers/soc/fsl/dpio/dpio-driver.c:32:76: note: in expansion of macro 'PROT_NORMAL_NS'
+      32 | #define ioremap_cache_ns(addr, size)    __ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+         |                                                                            ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:30:91: error: 'PTE_WRITE' undeclared (first use in this function); did you mean 'MAY_WRITE'?
+      30 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                                                           ^~~~~~~~~
+   arch/powerpc/include/asm/pgtable-types.h:46:40: note: in definition of macro '__pgprot'
+      46 | #define __pgprot(x)     ((pgprot_t) { (x) })
+         |                                        ^
+   drivers/soc/fsl/dpio/dpio-driver.c:32:76: note: in expansion of macro 'PROT_NORMAL_NS'
+      32 | #define ioremap_cache_ns(addr, size)    __ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+         |                                                                            ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:30:103: error: implicit declaration of function 'PTE_ATTRINDX' [-Werror=implicit-function-declaration]
+      30 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                                                                       ^~~~~~~~~~~~
+   arch/powerpc/include/asm/pgtable-types.h:46:40: note: in definition of macro '__pgprot'
+      46 | #define __pgprot(x)     ((pgprot_t) { (x) })
+         |                                        ^
+   drivers/soc/fsl/dpio/dpio-driver.c:32:76: note: in expansion of macro 'PROT_NORMAL_NS'
+      32 | #define ioremap_cache_ns(addr, size)    __ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+         |                                                                            ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+>> drivers/soc/fsl/dpio/dpio-driver.c:30:116: error: 'MT_NORMAL' undeclared (first use in this function); did you mean 'ZONE_NORMAL'?
+      30 | #define PROT_NORMAL_NS          (PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+         |                                                                                                                    ^~~~~~~~~
+   arch/powerpc/include/asm/pgtable-types.h:46:40: note: in definition of macro '__pgprot'
+      46 | #define __pgprot(x)     ((pgprot_t) { (x) })
+         |                                        ^
+   drivers/soc/fsl/dpio/dpio-driver.c:32:76: note: in expansion of macro 'PROT_NORMAL_NS'
+      32 | #define ioremap_cache_ns(addr, size)    __ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+         |                                                                            ^~~~~~~~~~~~~~
+   drivers/soc/fsl/dpio/dpio-driver.c:208:34: note: in expansion of macro 'ioremap_cache_ns'
+     208 |                 desc.regs_cena = ioremap_cache_ns(dpio_dev->regions[0].start,
+         |                                  ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/fsl_asrc_process_buffer_pre +350 sound/soc/fsl/fsl_asrc_m2m.c
+vim +32 drivers/soc/fsl/dpio/dpio-driver.c
 
-   349	
- > 350	int fsl_asrc_process_buffer_pre(struct completion *complete,
-   351					enum asrc_pair_index index, bool dir)
-   352	{
-   353		if (!wait_for_completion_interruptible_timeout(complete, 10 * HZ)) {
-   354			pr_err("%sput DMA task timeout\n", DIR_STR(dir));
-   355			return -ETIME;
-   356		} else if (signal_pending(current)) {
-   357			pr_err("%sput task forcibly aborted\n", DIR_STR(dir));
-   358			return -ERESTARTSYS;
-   359		}
-   360	
-   361		return 0;
-   362	}
-   363	
-   364	#define mxc_asrc_dma_umap(dev, m2m) \
-   365		do { \
-   366			dma_unmap_sg(dev, m2m->sg[IN], m2m->sg_nodes[IN], \
-   367				     DMA_MEM_TO_DEV); \
-   368			dma_unmap_sg(dev, m2m->sg[OUT], m2m->sg_nodes[OUT], \
-   369				     DMA_DEV_TO_MEM); \
-   370		} while (0)
-   371	
- > 372	int fsl_asrc_process_buffer(struct fsl_asrc_pair *pair,
-   373				    struct asrc_convert_buffer *pbuf)
-   374	{
-   375		struct fsl_asrc *asrc = pair->asrc;
-   376		struct fsl_asrc_m2m *m2m = pair->private_m2m;
-   377		enum asrc_pair_index index = pair->index;
-   378		unsigned long lock_flags;
-   379		int ret;
-   380	
-   381		/* Check input task first */
-   382		ret = fsl_asrc_process_buffer_pre(&m2m->complete[IN], index, IN);
-   383		if (ret) {
-   384			mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
-   385			return ret;
-   386		}
-   387	
-   388		/* ...then output task*/
-   389		ret = fsl_asrc_process_buffer_pre(&m2m->complete[OUT], index, OUT);
-   390		if (ret) {
-   391			mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
-   392			return ret;
-   393		}
-   394	
-   395		mxc_asrc_dma_umap(&asrc->pdev->dev, m2m);
-   396	
-   397		/* Fetch the remaining data */
-   398		spin_lock_irqsave(&m2m->lock, lock_flags);
-   399		if (!m2m->pair_hold) {
-   400			spin_unlock_irqrestore(&m2m->lock, lock_flags);
-   401			return -EFAULT;
-   402		}
-   403		spin_unlock_irqrestore(&m2m->lock, lock_flags);
-   404	
-   405		fsl_asrc_read_last_FIFO(pair);
-   406	
-   407		/* Update final lengths after getting last FIFO */
-   408		pbuf->input_buffer_length = m2m->dma_block[IN].length;
-   409		pbuf->output_buffer_length = m2m->dma_block[OUT].length;
-   410	
-   411		if (copy_to_user((void __user *)pbuf->output_buffer_vaddr,
-   412				 m2m->dma_block[OUT].dma_vaddr,
-   413				 m2m->dma_block[OUT].length))
-   414			return -EFAULT;
-   415	
-   416		return 0;
-   417	}
-   418	
+    29	
+  > 30	#define PROT_NORMAL_NS		(PTE_TYPE_PAGE | PTE_AF | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_NORMAL))
+    31	
+  > 32	#define ioremap_cache_ns(addr, size)	__ioremap((addr), (size), __pgprot(PROT_NORMAL_NS))
+    33	
+    34	
 
 -- 
 0-DAY CI Kernel Test Service
