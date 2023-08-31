@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CC9125AC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 14:20:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA86C257D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 14:33:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693491622; x=1725027622;
+  t=1693492436; x=1725028436;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y2euEez5c5Ax8K+T9imAFysIr5DB3YLiAz7v4DhtQ24=;
-  b=Vd9PQz2Lc6s01zftTp/WGSvFQWnnjlYllt8oBQ4F0VOZeQaigz185cGM
-   mWZesRRcHUWpcfZUO5+AQSoA81w3zYDjKGpxkaAsY/YsvaXy9H/lwluFN
-   Ly/a3mo+9TGmBAnywmGbt/ewaxfvMWe7mh8z43nzFykurVMGTcovhR4cQ
-   llGI9CKIQIjNtBzWXQI+AmFWjBGwI3lKyvXV6Q0C0byVMx2eh6kri6o/v
-   RTRwnroSPU3ZByXeHQfu/ok0qB1z1aZH6u3hJoBv6nclyT/zYLJ+oJvT+
-   6eW0U7nvzLnIl1Olujp67RfvXiMj9z5E9j7Z1pi/9uJAve3q7OUtPyBaf
+  bh=Q21GvmGjAWkqEjXKgbnRm42zuowxgp9S/CdBsFKsGNA=;
+  b=Iti3TcvCYvjbHqe0fAGhlTnA8oyK6fO613Gvt4WOREJlEdKbTbD6lk4p
+   /fb3FLWGMEqRC8+DA34PThwnK+Tw8pta/mVXVXoYIMZut3lhjPorhoFqz
+   Z4sDGjKR4ign8f0M/jQiPBHscDp6hHSimpYOeoDCCiVGSUvISN1rGZTGU
+   8kK5J3asKs9ArHpD4Mf6DmQ7Mux3oWMn+7iG35v27G7D5CiG1rPa7Sr/n
+   ZePFGvaonT1eWlJ/YHYE75CYzhEKvXGPzSO+ExVMfCrby1+5SBU6QX/My
+   1PQIaeQoaNLf8W9EsTmB7Tb192ho20HfYLzWAKEsqUackxjeUcahBAKkL
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="355455772"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="356274412"
 X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="355455772"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 07:12:53 -0700
+   d="scan'208";a="356274412"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 07:33:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="733124888"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="854308003"
 X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="733124888"
+   d="scan'208";a="854308003"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 31 Aug 2023 07:12:52 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 31 Aug 2023 07:33:52 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbiPi-0000ER-0d;
-	Thu, 31 Aug 2023 14:12:50 +0000
-Date: Thu, 31 Aug 2023 22:12:12 +0800
+	id 1qbik2-0000F5-1r;
+	Thu, 31 Aug 2023 14:33:50 +0000
+Date: Thu, 31 Aug 2023 22:33:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 6075/24603]
- drivers/staging/media/imx/imx8-mipi-csi2.c:1361:13: warning:
- 'mipi_csi2_runtime_resume' defined but not used
-Message-ID: <202308312258.1dZNSJ75-lkp@intel.com>
+Subject: [freescale-fslc:pr/639 4361/24603]
+ drivers/i2c/busses/xen-i2cfront.c:148:5: warning: no previous prototype for
+ function 'i2cfront_xfer'
+Message-ID: <202308312218.flSXKSw8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,102 +47,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Peng,
+
+FYI, the error/warning still remains.
+
 tree:   https://github.com/Freescale/linux-fslc pr/639
 head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: 9d223b25631248abffac9224668cf0e22ddbd99e [6075/24603] Merge remote-tracking branch 'origin/capture/media-dev' into capture/next
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230831/202308312258.1dZNSJ75-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308312258.1dZNSJ75-lkp@intel.com/reproduce)
+commit: 278ca911463717ef3565b97b4e515c0269d6d22b [4361/24603] LF-191-2 i2c: introduce xen i2c paravirtualization driver
+config: x86_64-randconfig-r016-20230831 (https://download.01.org/0day-ci/archive/20230831/202308312218.flSXKSw8-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308312218.flSXKSw8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308312258.1dZNSJ75-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308312218.flSXKSw8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/staging/media/imx/imx8-mipi-csi2.c:1361:13: warning: 'mipi_csi2_runtime_resume' defined but not used [-Wunused-function]
-    1361 | static int  mipi_csi2_runtime_resume(struct device *dev)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/media/imx/imx8-mipi-csi2.c:1353:13: warning: 'mipi_csi2_runtime_suspend' defined but not used [-Wunused-function]
-    1353 | static int  mipi_csi2_runtime_suspend(struct device *dev)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/media/imx/imx8-mipi-csi2.c:1348:13: warning: 'mipi_csi2_pm_resume' defined but not used [-Wunused-function]
-    1348 | static int  mipi_csi2_pm_resume(struct device *dev)
-         |             ^~~~~~~~~~~~~~~~~~~
->> drivers/staging/media/imx/imx8-mipi-csi2.c:1335:13: warning: 'mipi_csi2_pm_suspend' defined but not used [-Wunused-function]
-    1335 | static int  mipi_csi2_pm_suspend(struct device *dev)
-         |             ^~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/imx/imx8-mipi-csi2.c:1172:46: warning: 'mipi_csi2_sd_internal_ops' defined but not used [-Wunused-const-variable=]
-    1172 | static const struct v4l2_subdev_internal_ops mipi_csi2_sd_internal_ops = {
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/staging/media/imx/imx8-isi-core.c: In function 'mxc_isi_imx8mn_parse_resets':
->> drivers/staging/media/imx/imx8-isi-core.c:346:13: warning: variable 'len' set but not used [-Wunused-but-set-variable]
-     346 |         u32 len, rstc_num = 0;
-         |             ^~~
-   drivers/staging/media/imx/imx8-isi-core.c: At top level:
->> drivers/staging/media/imx/imx8-isi-core.c:840:12: warning: 'mxc_isi_runtime_resume' defined but not used [-Wunused-function]
-     840 | static int mxc_isi_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/media/imx/imx8-isi-core.c:830:12: warning: 'mxc_isi_runtime_suspend' defined but not used [-Wunused-function]
-     830 | static int mxc_isi_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/media/imx/imx8-isi-core.c:825:12: warning: 'mxc_isi_pm_resume' defined but not used [-Wunused-function]
-     825 | static int mxc_isi_pm_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~
->> drivers/staging/media/imx/imx8-isi-core.c:813:12: warning: 'mxc_isi_pm_suspend' defined but not used [-Wunused-function]
-     813 | static int mxc_isi_pm_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~
+>> drivers/i2c/busses/xen-i2cfront.c:148:5: warning: no previous prototype for function 'i2cfront_xfer' [-Wmissing-prototypes]
+   int i2cfront_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs, int num)
+       ^
+   drivers/i2c/busses/xen-i2cfront.c:148:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int i2cfront_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs, int num)
+   ^
+   static 
+   1 warning generated.
 
 
-vim +/mipi_csi2_runtime_resume +1361 drivers/staging/media/imx/imx8-mipi-csi2.c
+vim +/i2cfront_xfer +148 drivers/i2c/busses/xen-i2cfront.c
 
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1334  
-bc54aa15d96d92 Guoniu.zhou 2019-01-21 @1335  static int  mipi_csi2_pm_suspend(struct device *dev)
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1336  {
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1337  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1338  	struct mxc_mipi_csi2_dev *csi2dev = sd_to_mxc_mipi_csi2_dev(sd);
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1339  
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1340  	if (csi2dev->running > 0) {
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1341  		dev_warn(dev, "running, prevent entering suspend.\n");
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1342  		return -EAGAIN;
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1343  	}
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1344  
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1345  	return pm_runtime_force_suspend(dev);
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1346  }
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1347  
-bc54aa15d96d92 Guoniu.zhou 2019-01-21 @1348  static int  mipi_csi2_pm_resume(struct device *dev)
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1349  {
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1350  	return pm_runtime_force_resume(dev);
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1351  }
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1352  
-bc54aa15d96d92 Guoniu.zhou 2019-01-21 @1353  static int  mipi_csi2_runtime_suspend(struct device *dev)
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1354  {
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1355  	struct mxc_mipi_csi2_dev *csi2dev = dev_get_drvdata(dev);
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1356  
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1357  	mipi_csi2_clk_disable(csi2dev);
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1358  	return 0;
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1359  }
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1360  
-bc54aa15d96d92 Guoniu.zhou 2019-01-21 @1361  static int  mipi_csi2_runtime_resume(struct device *dev)
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1362  {
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1363  	struct mxc_mipi_csi2_dev *csi2dev = dev_get_drvdata(dev);
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1364  	int ret;
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1365  
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1366  	ret = mipi_csi2_clk_enable(csi2dev);
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1367  	if (ret)
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1368  		return ret;
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1369  
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1370  	return 0;
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1371  }
-bc54aa15d96d92 Guoniu.zhou 2019-01-21  1372  
-
-:::::: The code at line 1361 was first introduced by commit
-:::::: bc54aa15d96d92760e83902d03e628e35a5a2274 media: staging: csi: add mipi csi driver support for IMX8
-
-:::::: TO: Guoniu.zhou <guoniu.zhou@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+   147	
+ > 148	int i2cfront_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs, int num)
+   149	{
+   150		struct i2cfront_info *info = i2c_get_adapdata(adapter);
+   151		int ret, i;
+   152	
+   153		if (!info || !info->i2cdev) {
+   154			dev_err(&adapter->dev, "Not initialized\n");
+   155			return -EIO;
+   156		}
+   157	
+   158		if (info->i2cdev->state != XenbusStateConnected) {
+   159			dev_err(&adapter->dev, "Not connected\n");
+   160			return -EIO;
+   161		}
+   162	
+   163		for (i = 0; i < num; i++) {
+   164			if (msgs[i].flags & I2C_M_RD) {
+   165				ret = i2cfront_do_req(adapter, &msgs[i], 1);
+   166			} else if ((i + 1 < num) && (msgs[i + 1].flags & I2C_M_RD) &&
+   167				(msgs[i].addr == msgs[i + 1].addr)) {
+   168				ret = i2cfront_do_req(adapter, &msgs[i], 2);
+   169				i++;
+   170			} else {
+   171				ret = i2cfront_do_req(adapter, &msgs[i], 1);
+   172			}
+   173	
+   174			if (ret < 0)
+   175				goto err;
+   176		}
+   177	err:
+   178		return (ret < 0) ? ret : num;
+   179	}
+   180	
 
 -- 
 0-DAY CI Kernel Test Service
