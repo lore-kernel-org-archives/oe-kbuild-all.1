@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F169443
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 08:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022A38466
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 08:41:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693470651; x=1725006651;
+  t=1693471264; x=1725007264;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ou0lOM6vyjwJKQ9/7mjpr2xtfIQj/PMCWYuKm2F285M=;
-  b=Bepw6DJ6obQt1zwDIO5s0jn0Byi8gHL6fSVxb36pmnIs3H5NEqwkz0V8
-   pldTgcnofzZ7Sci7x0/AngTrHqBuAToMuSvDH1xGG8WE5xXZl448H0JLe
-   dOypaohqI7EMkJid1aNG9xAqYzF5mZbu5Uzac1HR3xiW8M6vMi++ypvpN
-   dlNBrVxTwHWMFSaUCvipnkD3XS3RhThUcM5q9LTkr/FgBa7kud5xHJ55P
-   o9ksVudemkwm6xS7jvi8Noi/jbCBzhK4JfUMIULwLcV9OEo8K8Hs4WtN2
-   0WD+/VSVxGJBHP938Gklqz7CllyBDlI/cj4uF1YzhLuoHHHfx6xBM8EGZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="360852367"
+  bh=h/+t+OAxKesoK1cG0Bw+iSG2uwkOSuQn0KEdRgxh+iA=;
+  b=VkIInxcHdXg3WIUM0qnKOyQHcoXTj8HN49bs1JMcM7CQzATCLTnke353
+   gNdlR/K3ze/hVOswrL0NR86xeBYQXjt7eIVYTnKls2ll0MOYNZPHZyLBQ
+   W+RXTM4RA4RO5ijfkKBl1ZABuh1xnn/ROvDxv/ncoEr9K+uzljFt5Q8oN
+   4P4te6nDngmwtXz9h+5FPR440Q+kWnzsiOCfanKHeFoEiaFMnLU3nsne2
+   K+OlTKw9ookzpsPfwbf7aRTqa+JD2ZiSNbD+JKKYLlHpvghbAFLLUi8kI
+   cDZxxGODBFaOFrBo6HgyZA6DLsCJNbvxjAT0rgCijozgRxeaFyqmMGcGE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="462240263"
 X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="360852367"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 01:30:50 -0700
+   d="scan'208";a="462240263"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 01:41:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="986122698"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="854065693"
 X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="986122698"
+   d="scan'208";a="854065693"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Aug 2023 01:30:49 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 31 Aug 2023 01:41:01 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbd4c-000B7f-1a;
-	Thu, 31 Aug 2023 08:30:44 +0000
-Date: Thu, 31 Aug 2023 16:30:07 +0800
+	id 1qbdEZ-000B8d-0u;
+	Thu, 31 Aug 2023 08:40:59 +0000
+Date: Thu, 31 Aug 2023 16:40:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 474/24603]
- drivers/media/platform/mxc/capture/mxc_vadc.c:800:12: warning: 'vadc_resume'
- defined but not used
-Message-ID: <202308311601.j67wdFlJ-lkp@intel.com>
+Subject: [freescale-fslc:5.15-2.2.x-imx 6099/24604]
+ drivers/gpu/drm/imx/imx-drm-core.c:264:6: warning: format specifies type
+ 'long' but the argument has type 'unsigned int'
+Message-ID: <202308311653.LQ4WzmAC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,84 +47,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/639
-head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: 46cb56a3f576432295951d076cf5e50cdf663978 [474/24603] media: v4l2: vadc: Enable vadc driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230831/202308311601.j67wdFlJ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311601.j67wdFlJ-lkp@intel.com/reproduce)
+Hi Dong,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   7c13adcd3af7dcd541144655102e1cdb941ad538
+commit: 82b6c17d1b10377f16ba6127e5aaf94fa151fbc6 [6099/24604] Merge remote-tracking branch 'origin/display/lcdif' into display/next
+config: hexagon-randconfig-r013-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311653.LQ4WzmAC-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311653.LQ4WzmAC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308311601.j67wdFlJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308311653.LQ4WzmAC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/platform/mxc/capture/mxc_vadc.c:582:10: error: 'const struct v4l2_subdev_video_ops' has no member named 's_parm'
-     582 |         .s_parm                = vadc_s_parm,
-         |          ^~~~~~
-   drivers/media/platform/mxc/capture/mxc_vadc.c:582:34: error: initialization of 'int (*)(struct v4l2_subdev *, v4l2_std_id *)' {aka 'int (*)(struct v4l2_subdev *, long long unsigned int *)'} from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_streamparm *)' [-Werror=incompatible-pointer-types]
-     582 |         .s_parm                = vadc_s_parm,
-         |                                  ^~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mxc_vadc.c:582:34: note: (near initialization for 'vadc_video_ops.g_tvnorms')
-   drivers/media/platform/mxc/capture/mxc_vadc.c:588:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-     588 |         .get_fmt               = vadc_get_fmt,
-         |                                  ^~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mxc_vadc.c:588:34: note: (near initialization for 'vadc_pad_ops.get_fmt')
-   drivers/media/platform/mxc/capture/mxc_vadc.c:589:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-     589 |         .set_fmt               = vadc_set_fmt,
-         |                                  ^~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mxc_vadc.c:589:34: note: (near initialization for 'vadc_pad_ops.set_fmt')
-   drivers/media/platform/mxc/capture/mxc_vadc.c:590:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Werror=incompatible-pointer-types]
-     590 |         .enum_mbus_code        = vadc_enum_mbus_code,
-         |                                  ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mxc_vadc.c:590:34: note: (near initialization for 'vadc_pad_ops.enum_mbus_code')
-   drivers/media/platform/mxc/capture/mxc_vadc.c:591:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_size_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_size_enum *)' [-Werror=incompatible-pointer-types]
-     591 |         .enum_frame_size       = vadc_enum_framesizes,
-         |                                  ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mxc_vadc.c:591:34: note: (near initialization for 'vadc_pad_ops.enum_frame_size')
-   drivers/media/platform/mxc/capture/mxc_vadc.c:592:34: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_interval_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_interval_enum *)' [-Werror=incompatible-pointer-types]
-     592 |         .enum_frame_interval   = vadc_enum_frameintervals,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mxc_vadc.c:592:34: note: (near initialization for 'vadc_pad_ops.enum_frame_interval')
->> drivers/media/platform/mxc/capture/mxc_vadc.c:800:12: warning: 'vadc_resume' defined but not used [-Wunused-function]
-     800 | static int vadc_resume(struct device *dev)
-         |            ^~~~~~~~~~~
->> drivers/media/platform/mxc/capture/mxc_vadc.c:787:12: warning: 'vadc_suspend' defined but not used [-Wunused-function]
-     787 | static int vadc_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/imx/imx-drm-core.c:264:6: warning: format specifies type 'long' but the argument has type 'unsigned int' [-Wformat]
+                                           ARRAY_SIZE(dpu));
+                                           ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ~~~    ^~~~~~~~~~~
+   include/linux/kernel.h:44:25: note: expanded from macro 'ARRAY_SIZE'
+   #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/vadc_resume +800 drivers/media/platform/mxc/capture/mxc_vadc.c
+vim +264 drivers/gpu/drm/imx/imx-drm-core.c
 
-   786	
- > 787	static int vadc_suspend(struct device *dev)
-   788	{
-   789		struct platform_device *pdev = to_platform_device(dev);
-   790		struct vadc_state *state = platform_get_drvdata(pdev);
-   791	
-   792		clk_disable(state->csi_clk);
-   793		clk_disable(state->vadc_clk);
-   794	
-   795		vadc_power_down(state);
-   796	
-   797		return 0;
-   798	}
-   799	
- > 800	static int vadc_resume(struct device *dev)
-   801	{
-   802		struct platform_device *pdev = to_platform_device(dev);
-   803		struct vadc_state *state = platform_get_drvdata(pdev);
-   804	
-   805		clk_enable(state->csi_clk);
-   806		clk_enable(state->vadc_clk);
-   807	
-   808		vadc_init(state);
-   809		return 0;
-   810	}
-   811	
+c8079f00f58de8 Xianzhong 2021-06-09  229  
+c8079f00f58de8 Xianzhong 2021-06-09  230  static void add_dpu_bliteng_components(struct device *dev,
+c8079f00f58de8 Xianzhong 2021-06-09  231  				       struct component_match **matchptr)
+c8079f00f58de8 Xianzhong 2021-06-09  232  {
+c8079f00f58de8 Xianzhong 2021-06-09  233  	/*
+c8079f00f58de8 Xianzhong 2021-06-09  234  	 * As there may be two dpu bliteng device,
+c8079f00f58de8 Xianzhong 2021-06-09  235  	 * so need add something in compare data to distinguish.
+c8079f00f58de8 Xianzhong 2021-06-09  236  	 * Use its parent dpu's of_node as the data here.
+c8079f00f58de8 Xianzhong 2021-06-09  237  	 */
+c8079f00f58de8 Xianzhong 2021-06-09  238  	struct device_node *port, *parent;
+c8079f00f58de8 Xianzhong 2021-06-09  239  	/* assume max dpu number is 8 */
+c8079f00f58de8 Xianzhong 2021-06-09  240  	struct device_node *dpu[8];
+c8079f00f58de8 Xianzhong 2021-06-09  241  	int num_dpu = 0;
+c8079f00f58de8 Xianzhong 2021-06-09  242  	int i, j;
+c8079f00f58de8 Xianzhong 2021-06-09  243  	bool found = false;
+c8079f00f58de8 Xianzhong 2021-06-09  244  
+c8079f00f58de8 Xianzhong 2021-06-09  245  	for (i = 0; ; i++) {
+c8079f00f58de8 Xianzhong 2021-06-09  246  		port = of_parse_phandle(dev->of_node, "ports", i);
+c8079f00f58de8 Xianzhong 2021-06-09  247  		if (!port)
+c8079f00f58de8 Xianzhong 2021-06-09  248  			break;
+c8079f00f58de8 Xianzhong 2021-06-09  249  
+c8079f00f58de8 Xianzhong 2021-06-09  250  		parent = of_get_parent(port);
+c8079f00f58de8 Xianzhong 2021-06-09  251  
+c8079f00f58de8 Xianzhong 2021-06-09  252  		for (j = 0; j < num_dpu; j++) {
+c8079f00f58de8 Xianzhong 2021-06-09  253  			if (dpu[j] == parent) {
+c8079f00f58de8 Xianzhong 2021-06-09  254  				found = true;
+c8079f00f58de8 Xianzhong 2021-06-09  255  				break;
+c8079f00f58de8 Xianzhong 2021-06-09  256  			}
+c8079f00f58de8 Xianzhong 2021-06-09  257  		}
+c8079f00f58de8 Xianzhong 2021-06-09  258  
+c8079f00f58de8 Xianzhong 2021-06-09  259  		if (found) {
+c8079f00f58de8 Xianzhong 2021-06-09  260  			found = false;
+c8079f00f58de8 Xianzhong 2021-06-09  261  		} else {
+c8079f00f58de8 Xianzhong 2021-06-09  262  			if (num_dpu >= ARRAY_SIZE(dpu)) {
+c8079f00f58de8 Xianzhong 2021-06-09  263  				dev_err(dev, "The number of found dpu is greater than max [%ld].\n",
+c8079f00f58de8 Xianzhong 2021-06-09 @264  					ARRAY_SIZE(dpu));
+c8079f00f58de8 Xianzhong 2021-06-09  265  				of_node_put(parent);
+c8079f00f58de8 Xianzhong 2021-06-09  266  				of_node_put(port);
+c8079f00f58de8 Xianzhong 2021-06-09  267  				break;
+c8079f00f58de8 Xianzhong 2021-06-09  268  			}
+c8079f00f58de8 Xianzhong 2021-06-09  269  
+c8079f00f58de8 Xianzhong 2021-06-09  270  			dpu[num_dpu] = parent;
+c8079f00f58de8 Xianzhong 2021-06-09  271  			num_dpu++;
+c8079f00f58de8 Xianzhong 2021-06-09  272  
+c8079f00f58de8 Xianzhong 2021-06-09  273  			component_match_add(dev, matchptr, compare_of, parent);
+c8079f00f58de8 Xianzhong 2021-06-09  274  		}
+c8079f00f58de8 Xianzhong 2021-06-09  275  
+c8079f00f58de8 Xianzhong 2021-06-09  276  		of_node_put(parent);
+c8079f00f58de8 Xianzhong 2021-06-09  277  		of_node_put(port);
+c8079f00f58de8 Xianzhong 2021-06-09  278  	}
+c8079f00f58de8 Xianzhong 2021-06-09  279  }
+c8079f00f58de8 Xianzhong 2021-06-09  280  
+
+:::::: The code at line 264 was first introduced by commit
+:::::: c8079f00f58de86abf3ab885ed6337601923e32d MLK-15321-4 drm/imx: core: Add bliteng as component of imx-drm
+
+:::::: TO: Xianzhong <xianzhong.li@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
