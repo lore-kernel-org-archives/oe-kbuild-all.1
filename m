@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182409470
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 15:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96065E57F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 15:49:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693495739; x=1725031739;
+  t=1693496997; x=1725032997;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pS6V+rWF3cJ9vPX2U2vEj+bLsdtOAbg1EtjUBOcbsLs=;
-  b=b8+mITVbvyukeAlrj3O08EeKusfdUCU5Hyi3BaggmfVytS8DVKI9gaJw
-   ZQyUoBOjxLrzmPeqhUlNplR9cOTnPvGna4HZGv/ywaKkCCCPuaB+W12rb
-   BwIp+sIHv3lgrXOj2WxXtp4OtMqm/UQUtRWZ2m4kcUOYYDMe00N5t0ADq
-   QHrHj+otO8cUA+FKW668JfLfyBcMxEL3GOSev3n9WMdtlv9dl6FuuI/Ad
-   NYXeUArhEWOmNbKIfAJehP59JVRQfraO0VDKT6pMaQdWTzPO8tCjJSRcK
-   d+ECpBbiAbfcBqllR53YUGFditFb3d6fUgXauBv473aFRF0wGujALP2xX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="355473387"
+  bh=qFHmRlhYWkHP1y21Zzl8wbD7B0DapMvEiYiNJrpasLQ=;
+  b=nkrSjBxoBdzjg/ap5V3zogUG5cAoXxYwNG67eOlgtQ52ahvze4gtEwx+
+   bhSCShZaqhkvzdL4brqLzRf3wi/Pobd58MqaDTguy8KogmnbUGGtGcH45
+   s8fxbFL7ARMsBlnhDGDEPFO/CaRLuAyJfpcGbxbpcVDyxgNq8QpiGRRlG
+   liR7V4ln/wFO6CTra/twk7ZfKP7KLGaIfE+/yJjFQZo9KTHSzBI6Gm8qL
+   eK96zPZ4JkYTatVfYgm+fqCCFg3CVea/KrgWFfYaewrq+jzfT2FmyVZjt
+   wX5zhkZmj1i26oXCxbvwAsNkAxAPhFUbeqIG9V0FzT9ScDWk626umStHB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="439965424"
 X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="355473387"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 08:28:58 -0700
+   d="scan'208";a="439965424"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 08:49:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="742754608"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="768837936"
 X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="742754608"
+   d="scan'208";a="768837936"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 31 Aug 2023 08:28:55 -0700
+  by orsmga008.jf.intel.com with ESMTP; 31 Aug 2023 08:49:55 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbjbI-0000IJ-26;
-	Thu, 31 Aug 2023 15:28:52 +0000
-Date: Thu, 31 Aug 2023 23:27:55 +0800
+	id 1qbjvd-0000JD-0Z;
+	Thu, 31 Aug 2023 15:49:53 +0000
+Date: Thu, 31 Aug 2023 23:49:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
+To: Rob Herring <robh@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:xen/host 6/6] drivers/xen/privcmd.c:1367:13: warning:
- variable 'ret' set but not used
-Message-ID: <202308312325.tItBBWys-lkp@intel.com>
+Subject: [robh:for-kernelci 7/7] drivers/watchdog/marvell_gti_wdt.c:265:22:
+ error: implicit declaration of function 'of_device_get_match_data'
+Message-ID: <202308312305.5I53cMjx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,76 +46,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git xen/host
-head:   52b07a3861a34fb0deb6251bae8bd885815c6944
-commit: 52b07a3861a34fb0deb6251bae8bd885815c6944 [6/6] xen: privcmd: Add support for ioeventfd
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230831/202308312325.tItBBWys-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308312325.tItBBWys-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   2f859c7b504dbff5d4770187e5416610db4625e3
+commit: 2f859c7b504dbff5d4770187e5416610db4625e3 [7/7] of: header cleanups
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230831/202308312305.5I53cMjx-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308312305.5I53cMjx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308312325.tItBBWys-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308312305.5I53cMjx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/xen/privcmd.c: In function 'privcmd_ioeventfd_deassign':
->> drivers/xen/privcmd.c:1367:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    1367 |         int ret = 0;
-         |             ^~~
+   drivers/watchdog/marvell_gti_wdt.c: In function 'gti_wdt_probe':
+>> drivers/watchdog/marvell_gti_wdt.c:265:22: error: implicit declaration of function 'of_device_get_match_data' [-Werror=implicit-function-declaration]
+     265 |         priv->data = of_device_get_match_data(dev);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/watchdog/marvell_gti_wdt.c:265:20: warning: assignment to 'const struct gti_match_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     265 |         priv->data = of_device_get_match_data(dev);
+         |                    ^
+>> drivers/watchdog/marvell_gti_wdt.c:270:15: error: implicit declaration of function 'of_property_read_u32' [-Werror=implicit-function-declaration]
+     270 |         err = of_property_read_u32(dev->of_node, "marvell,wdt-timer-index",
+         |               ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/ret +1367 drivers/xen/privcmd.c
+vim +/of_device_get_match_data +265 drivers/watchdog/marvell_gti_wdt.c
 
-  1362	
-  1363	static int privcmd_ioeventfd_deassign(struct privcmd_ioeventfd *ioeventfd)
-  1364	{
-  1365		struct privcmd_kernel_ioreq *kioreq, *tkioreq;
-  1366		struct eventfd_ctx *eventfd;
-> 1367		int ret = 0;
-  1368	
-  1369		eventfd = eventfd_ctx_fdget(ioeventfd->event_fd);
-  1370		if (IS_ERR(eventfd))
-  1371			return PTR_ERR(eventfd);
-  1372	
-  1373		mutex_lock(&ioreq_lock);
-  1374		list_for_each_entry_safe(kioreq, tkioreq, &ioreq_list, list) {
-  1375			struct privcmd_kernel_ioeventfd *kioeventfd, *tmp;
-  1376			/*
-  1377			 * kioreq fields can be accessed here without a lock as they are
-  1378			 * never updated after being added to the ioreq_list.
-  1379			 */
-  1380			if (kioreq->dom != ioeventfd->dom ||
-  1381			    kioreq->uioreq != ioeventfd->ioreq ||
-  1382			    kioreq->vcpus != ioeventfd->vcpus)
-  1383				continue;
-  1384	
-  1385			mutex_lock(&kioreq->lock);
-  1386			list_for_each_entry_safe(kioeventfd, tmp, &kioreq->ioeventfds, list) {
-  1387				if (eventfd == kioeventfd->eventfd) {
-  1388					ioeventfd_free(kioeventfd);
-  1389					mutex_unlock(&kioreq->lock);
-  1390	
-  1391					ioreq_free(kioreq);
-  1392					goto unlock;
-  1393				}
-  1394			}
-  1395			mutex_unlock(&kioreq->lock);
-  1396			break;
-  1397		}
-  1398	
-  1399		pr_err("Ioeventfd isn't already assigned, dom: %u, addr: %llu\n",
-  1400				ioeventfd->dom, ioeventfd->addr);
-  1401		ret = -ENODEV;
-  1402	
-  1403	unlock:
-  1404		mutex_unlock(&ioreq_lock);
-  1405		eventfd_ctx_put(eventfd);
-  1406	
-  1407		return 0;
-  1408	}
-  1409	
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  240  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  241  static int gti_wdt_probe(struct platform_device *pdev)
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  242  {
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  243  	struct gti_wdt_priv *priv;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  244  	struct device *dev = &pdev->dev;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  245  	struct watchdog_device *wdog_dev;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  246  	u64 max_pretimeout;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  247  	u32 wdt_idx;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  248  	int irq;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  249  	int err;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  250  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  251  	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  252  	if (!priv)
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  253  		return -ENOMEM;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  254  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  255  	priv->base = devm_platform_ioremap_resource(pdev, 0);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  256  	if (IS_ERR(priv->base))
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  257  		return dev_err_probe(&pdev->dev, PTR_ERR(priv->base),
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  258  			      "reg property not valid/found\n");
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  259  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  260  	err = gti_wdt_get_cntfrq(pdev, priv);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  261  	if (err)
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  262  		return dev_err_probe(&pdev->dev, err,
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  263  				     "GTI clock frequency not valid/found");
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  264  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03 @265  	priv->data = of_device_get_match_data(dev);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  266  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  267  	/* default use last timer for watchdog */
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  268  	priv->wdt_timer_idx = priv->data->gti_num_timers - 1;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  269  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03 @270  	err = of_property_read_u32(dev->of_node, "marvell,wdt-timer-index",
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  271  				   &wdt_idx);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  272  	if (!err) {
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  273  		if (wdt_idx >= priv->data->gti_num_timers)
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  274  			return dev_err_probe(&pdev->dev, err,
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  275  				"GTI wdog timer index not valid");
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  276  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  277  		priv->wdt_timer_idx = wdt_idx;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  278  	}
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  279  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  280  	wdog_dev = &priv->wdev;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  281  	wdog_dev->info = &gti_wdt_ident,
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  282  	wdog_dev->ops = &gti_wdt_ops,
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  283  	wdog_dev->parent = dev;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  284  	/*
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  285  	 * Watchdog counter is 24 bit where lower 8 bits are zeros
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  286  	 * This counter decrements every 1024 clock cycles.
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  287  	 */
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  288  	max_pretimeout = (GTI_CWD_WDOG_CNT_MASK >> GTI_CWD_WDOG_CNT_SHIFT);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  289  	max_pretimeout &= ~0xFFUL;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  290  	max_pretimeout = (max_pretimeout * 1024) / priv->clock_freq;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  291  	wdog_dev->pretimeout = max_pretimeout;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  292  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  293  	/* Maximum timeout is 3 times the pretimeout */
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  294  	wdog_dev->max_timeout = max_pretimeout * 3;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  295  	/* Minimum first timeout (pretimeout) is 1, so min_timeout as 3 */
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  296  	wdog_dev->min_timeout = 3;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  297  	wdog_dev->timeout = wdog_dev->pretimeout;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  298  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  299  	watchdog_set_drvdata(wdog_dev, priv);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  300  	platform_set_drvdata(pdev, priv);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  301  	gti_wdt_settimeout(wdog_dev, wdog_dev->timeout);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  302  	watchdog_stop_on_reboot(wdog_dev);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  303  	watchdog_stop_on_unregister(wdog_dev);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  304  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  305  	err = devm_watchdog_register_device(dev, wdog_dev);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  306  	if (err)
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  307  		return err;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  308  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  309  	irq = platform_get_irq(pdev, 0);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  310  	if (irq < 0)
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  311  		return dev_err_probe(&pdev->dev, irq, "IRQ resource not found\n");
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  312  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  313  	err = devm_request_irq(dev, irq, gti_wdt_interrupt, 0,
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  314  			       pdev->name, &priv->wdev);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  315  	if (err)
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  316  		return dev_err_probe(dev, err, "Failed to register interrupt handler\n");
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  317  
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  318  	dev_info(dev, "Watchdog enabled (timeout=%d sec)\n", wdog_dev->timeout);
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  319  	return 0;
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  320  }
+ef9e7fe2c890f7 Bharat Bhushan 2023-08-03  321  
+
+:::::: The code at line 265 was first introduced by commit
+:::::: ef9e7fe2c890f7609b5a667eba282f900434e58d Watchdog: Add marvell GTI watchdog driver
+
+:::::: TO: Bharat Bhushan <bbhushan2@marvell.com>
+:::::: CC: Wim Van Sebroeck <wim@linux-watchdog.org>
 
 -- 
 0-DAY CI Kernel Test Service
