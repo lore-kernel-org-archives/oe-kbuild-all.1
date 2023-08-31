@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A23C15A0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 03:44:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A2915C0;
+	Thu, 31 Aug 2023 03:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1693453442; x=1724989442;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=beLfPpOA0AXDwS5YrO853giqHJcL8EJ0fBFES09+CTA=;
-  b=HCwgAjLzWM1dwfAL3rGj/jRLgj4wnuDRxHDp40Xx5jLWTopTaJKfSSM1
-   h3C4X83QWSYrfo+KuM51aB/w0rSljJ/ftlsZVInizz09d7kJscNkAiFP7
-   Rt72kb1CrIO85+DjOLUTg3qajiT0LkiZDcP3UwOh4vKLISsiwPj7IVUeX
-   RbgEZ5+apPtpyY63TFDdrqXZdLWat+pN7nFc5LTAtyzcGyn5PiTHSjy7h
-   ywQOr9VcY8J09SIjSPM7WAlBqLOyipUzW8luSpccNndcvcWJE5UPpAq0u
-   tN27oTtMZMHoyoz4ZmGWbaguNN41MACEHUyMfz+kbFtT8bmoNqO0wFlWo
+  bh=kAaZOeNsdL5P/yGFCiqwFfNpIqEhs1nJURY5/4CQBWg=;
+  b=Lqao6Tf9TcGu15PAAleGwWr5P5kWG8DZFg543Mo+LCpTL6j0fSgF8MTA
+   QbyXuyeUGx8XeeNPFG110WXCIzZXcEkHx9myR3VXmDr8/08MTOpgSQ+E7
+   x1B/J3oMf89xWnOaV/V2tn1bDWpjZVVuF1ykNnzQ4aeeQElykXSdrZdYZ
+   9d8xNbLyz4uvSbMZuisWLS12W2Jrg2S6yWHAYhfVtlXzNBC1mtH/oQhe/
+   ct46P5u+lZ8wjhO4fcObukpbIl6b3iaFvt/Tj9R7HiE87qgG8TEB8ok0l
+   w4JXElVe+Y4SjyBQD6hIYLF0WmckhyfgYapmmnqlLjBNi22SuhxwKuhJe
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="374716365"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="355300781"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="374716365"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 20:44:01 -0700
+   d="scan'208";a="355300781"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 20:44:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="804777589"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="742472241"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="804777589"
+   d="scan'208";a="742472241"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2023 20:44:00 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 30 Aug 2023 20:44:00 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbYb9-000AZ5-1K;
+	id 1qbYb9-000AZ2-1G;
 	Thu, 31 Aug 2023 03:43:59 +0000
-Date: Thu, 31 Aug 2023 11:43:26 +0800
+Date: Thu, 31 Aug 2023 11:43:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 472/24603]
- drivers/media/platform/mxc/capture/mx6s_capture.c:1991:12: warning:
- 'mx6s_csi_runtime_resume' defined but not used
-Message-ID: <202308311127.cFqbRUHg-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [robh:for-kernelci 5/7] drivers/char/tpm/tpm_i2c_nuvoton.c:549:25:
+ error: incompatible pointer types passing 'struct device *' to parameter of
+ type 'const struct i2c_client *'
+Message-ID: <202308311153.mMpnkwUs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,144 +47,234 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/639
-head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: a0e0e25d3d53071262b9c64f8c2c8e9628766b48 [472/24603] media: v4l2 capture: add v4l2 capture driver based on csi
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230831/202308311127.cFqbRUHg-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311127.cFqbRUHg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   2f859c7b504dbff5d4770187e5416610db4625e3
+commit: ac865741027a59abe81c2e7d30edfd26082751f3 [5/7] Use of_device_get_match_data
+config: hexagon-randconfig-r013-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311153.mMpnkwUs-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311153.mMpnkwUs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308311127.cFqbRUHg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308311153.mMpnkwUs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-    1368 |         return vb2_qbuf(&csi_dev->vb2_vidq, p);
-         |                ^~~~~~~~
-   include/media/videobuf2-v4l2.h:151:5: note: declared here
-     151 | int vb2_qbuf(struct vb2_queue *q, struct media_device *mdev,
-         |     ^~~~~~~~
-   In file included from include/media/v4l2-device.h:13,
-                    from drivers/media/platform/mxc/capture/mx6s_capture.c:43:
-   drivers/media/platform/mxc/capture/mx6s_capture.c: In function 'mx6s_vidioc_g_parm':
-   include/media/v4l2-subdev.h:1185:56: error: 'const struct v4l2_subdev_video_ops' has no member named 'g_parm'
-    1185 |                 else if (!(__sd->ops->o && __sd->ops->o->f))            \
-         |                                                        ^~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1607:16: note: in expansion of macro 'v4l2_subdev_call'
-    1607 |         return v4l2_subdev_call(sd, video, g_parm, a);
-         |                ^~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1188:53: error: 'const struct v4l2_subdev_video_ops' has no member named 'g_parm'
-    1188 |                          v4l2_subdev_call_wrappers.o->f)                \
-         |                                                     ^~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1607:16: note: in expansion of macro 'v4l2_subdev_call'
-    1607 |         return v4l2_subdev_call(sd, video, g_parm, a);
-         |                ^~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1189:63: error: 'const struct v4l2_subdev_video_ops' has no member named 'g_parm'
-    1189 |                         __result = v4l2_subdev_call_wrappers.o->f(      \
-         |                                                               ^~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1607:16: note: in expansion of macro 'v4l2_subdev_call'
-    1607 |         return v4l2_subdev_call(sd, video, g_parm, a);
-         |                ^~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1192:48: error: 'const struct v4l2_subdev_video_ops' has no member named 'g_parm'
-    1192 |                         __result = __sd->ops->o->f(__sd, ##args);       \
-         |                                                ^~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1607:16: note: in expansion of macro 'v4l2_subdev_call'
-    1607 |         return v4l2_subdev_call(sd, video, g_parm, a);
-         |                ^~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mx6s_capture.c: In function 'mx6s_vidioc_s_parm':
-   include/media/v4l2-subdev.h:1185:56: error: 'const struct v4l2_subdev_video_ops' has no member named 's_parm'
-    1185 |                 else if (!(__sd->ops->o && __sd->ops->o->f))            \
-         |                                                        ^~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1616:16: note: in expansion of macro 'v4l2_subdev_call'
-    1616 |         return v4l2_subdev_call(sd, video, s_parm, a);
-         |                ^~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1188:53: error: 'const struct v4l2_subdev_video_ops' has no member named 's_parm'
-    1188 |                          v4l2_subdev_call_wrappers.o->f)                \
-         |                                                     ^~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1616:16: note: in expansion of macro 'v4l2_subdev_call'
-    1616 |         return v4l2_subdev_call(sd, video, s_parm, a);
-         |                ^~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1189:63: error: 'const struct v4l2_subdev_video_ops' has no member named 's_parm'
-    1189 |                         __result = v4l2_subdev_call_wrappers.o->f(      \
-         |                                                               ^~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1616:16: note: in expansion of macro 'v4l2_subdev_call'
-    1616 |         return v4l2_subdev_call(sd, video, s_parm, a);
-         |                ^~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1192:48: error: 'const struct v4l2_subdev_video_ops' has no member named 's_parm'
-    1192 |                         __result = __sd->ops->o->f(__sd, ##args);       \
-         |                                                ^~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1616:16: note: in expansion of macro 'v4l2_subdev_call'
-    1616 |         return v4l2_subdev_call(sd, video, s_parm, a);
-         |                ^~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mx6s_capture.c: At top level:
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1692:10: error: 'const struct v4l2_ioctl_ops' has no member named 'vidioc_cropcap'; did you mean 'vidioc_querycap'?
-    1692 |         .vidioc_cropcap       = mx6s_vidioc_cropcap,
-         |          ^~~~~~~~~~~~~~
-         |          vidioc_querycap
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1692:33: error: initialization of 'int (*)(struct file *, void *, struct v4l2_format *)' from incompatible pointer type 'int (*)(struct file *, void *, struct v4l2_cropcap *)' [-Werror=incompatible-pointer-types]
-    1692 |         .vidioc_cropcap       = mx6s_vidioc_cropcap,
-         |                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1692:33: note: (near initialization for 'mx6s_csi_ioctl_ops.vidioc_s_fmt_vid_overlay')
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1693:10: error: 'const struct v4l2_ioctl_ops' has no member named 'vidioc_s_crop'; did you mean 'vidioc_s_ctrl'?
-    1693 |         .vidioc_s_crop        = mx6s_vidioc_s_crop,
-         |          ^~~~~~~~~~~~~
-         |          vidioc_s_ctrl
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1693:33: error: initialization of 'int (*)(struct file *, void *, struct v4l2_format *)' from incompatible pointer type 'int (*)(struct file *, void *, const struct v4l2_crop *)' [-Werror=incompatible-pointer-types]
-    1693 |         .vidioc_s_crop        = mx6s_vidioc_s_crop,
-         |                                 ^~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1693:33: note: (near initialization for 'mx6s_csi_ioctl_ops.vidioc_s_fmt_vid_out')
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1694:10: error: 'const struct v4l2_ioctl_ops' has no member named 'vidioc_g_crop'; did you mean 'vidioc_g_ctrl'?
-    1694 |         .vidioc_g_crop        = mx6s_vidioc_g_crop,
-         |          ^~~~~~~~~~~~~
-         |          vidioc_g_ctrl
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1694:33: error: initialization of 'int (*)(struct file *, void *, struct v4l2_format *)' from incompatible pointer type 'int (*)(struct file *, void *, struct v4l2_crop *)' [-Werror=incompatible-pointer-types]
-    1694 |         .vidioc_g_crop        = mx6s_vidioc_g_crop,
-         |                                 ^~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1694:33: note: (near initialization for 'mx6s_csi_ioctl_ops.vidioc_s_fmt_vid_out_overlay')
-   drivers/media/platform/mxc/capture/mx6s_capture.c: In function 'mx6sx_register_subdevs':
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1826:33: error: 'struct v4l2_async_notifier' has no member named 'subdevs'
-    1826 |         csi_dev->subdev_notifier.subdevs = csi_dev->async_subdevs;
-         |                                 ^
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1827:33: error: 'struct v4l2_async_notifier' has no member named 'num_subdevs'
-    1827 |         csi_dev->subdev_notifier.num_subdevs = 1;
-         |                                 ^
-   drivers/media/platform/mxc/capture/mx6s_capture.c: In function 'mx6s_csi_probe':
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1938:52: error: 'VFL_TYPE_GRABBER' undeclared (first use in this function); did you mean 'VFL_TYPE_SUBDEV'?
-    1938 |         ret = video_register_device(csi_dev->vdev, VFL_TYPE_GRABBER, -1);
-         |                                                    ^~~~~~~~~~~~~~~~
-         |                                                    VFL_TYPE_SUBDEV
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1938:52: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/media/platform/mxc/capture/mx6s_capture.c: In function 'mx6s_vidioc_qbuf':
-   drivers/media/platform/mxc/capture/mx6s_capture.c:1369:1: error: control reaches end of non-void function [-Werror=return-type]
-    1369 | }
-         | ^
-   drivers/media/platform/mxc/capture/mx6s_capture.c: At top level:
->> drivers/media/platform/mxc/capture/mx6s_capture.c:1991:12: warning: 'mx6s_csi_runtime_resume' defined but not used [-Wunused-function]
-    1991 | static int mx6s_csi_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mxc/capture/mx6s_capture.c:1985:12: warning: 'mx6s_csi_runtime_suspend' defined but not used [-Wunused-function]
-    1985 | static int mx6s_csi_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/char/tpm/tpm_i2c_nuvoton.c:19:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/char/tpm/tpm_i2c_nuvoton.c:19:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/char/tpm/tpm_i2c_nuvoton.c:19:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   In file included from drivers/char/tpm/tpm_i2c_nuvoton.c:23:
+   In file included from drivers/char/tpm/tpm.h:28:
+   include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
+           int mapping_size;
+               ^
+>> drivers/char/tpm/tpm_i2c_nuvoton.c:549:25: error: incompatible pointer types passing 'struct device *' to parameter of type 'const struct i2c_client *' [-Werror,-Wincompatible-pointer-types]
+           if (i2c_get_match_data(dev))
+                                  ^~~
+   include/linux/i2c.h:370:57: note: passing argument to parameter 'client' here
+   const void *i2c_get_match_data(const struct i2c_client *client);
+                                                           ^
+   drivers/char/tpm/tpm_i2c_nuvoton.c:527:30: warning: unused variable 'id' [-Wunused-variable]
+           const struct i2c_device_id *id = i2c_client_get_device_id(client);
+                                       ^
+   8 warnings and 1 error generated.
+--
+   In file included from drivers/mtd/nand/raw/vf610_nfc.c:27:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/mtd/nand/raw/vf610_nfc.c:27:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/mtd/nand/raw/vf610_nfc.c:27:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/mtd/nand/raw/vf610_nfc.c:845:8: error: use of undeclared label 'err_disable_clk'
+                   goto err_disable_clk;
+                        ^
+   6 warnings and 1 error generated.
 
 
-vim +/mx6s_csi_runtime_resume +1991 drivers/media/platform/mxc/capture/mx6s_capture.c
+vim +549 drivers/char/tpm/tpm_i2c_nuvoton.c
 
-  1984	
-> 1985	static int mx6s_csi_runtime_suspend(struct device *dev)
-  1986	{
-  1987		dev_dbg(dev, "csi v4l2 busfreq high release.\n");
-  1988		return 0;
-  1989	}
-  1990	
-> 1991	static int mx6s_csi_runtime_resume(struct device *dev)
-  1992	{
-  1993		dev_dbg(dev, "csi v4l2 busfreq high request.\n");
-  1994		return 0;
-  1995	}
-  1996	
+   524	
+   525	static int i2c_nuvoton_probe(struct i2c_client *client)
+   526	{
+   527		const struct i2c_device_id *id = i2c_client_get_device_id(client);
+   528		int rc;
+   529		struct tpm_chip *chip;
+   530		struct device *dev = &client->dev;
+   531		struct priv_data *priv;
+   532		u32 vid = 0;
+   533	
+   534		rc = get_vid(client, &vid);
+   535		if (rc)
+   536			return rc;
+   537	
+   538		dev_info(dev, "VID: %04X DID: %02X RID: %02X\n", (u16) vid,
+   539			 (u8) (vid >> 16), (u8) (vid >> 24));
+   540	
+   541		chip = tpmm_chip_alloc(dev, &tpm_i2c);
+   542		if (IS_ERR(chip))
+   543			return PTR_ERR(chip);
+   544	
+   545		priv = devm_kzalloc(dev, sizeof(struct priv_data), GFP_KERNEL);
+   546		if (!priv)
+   547			return -ENOMEM;
+   548	
+ > 549		if (i2c_get_match_data(dev))
+   550			chip->flags |= TPM_CHIP_FLAG_TPM2;
+   551	
+   552		init_waitqueue_head(&priv->read_queue);
+   553	
+   554		/* Default timeouts */
+   555		chip->timeout_a = msecs_to_jiffies(TPM_I2C_SHORT_TIMEOUT);
+   556		chip->timeout_b = msecs_to_jiffies(TPM_I2C_LONG_TIMEOUT);
+   557		chip->timeout_c = msecs_to_jiffies(TPM_I2C_SHORT_TIMEOUT);
+   558		chip->timeout_d = msecs_to_jiffies(TPM_I2C_SHORT_TIMEOUT);
+   559	
+   560		dev_set_drvdata(&chip->dev, priv);
+   561	
+   562		/*
+   563		 * I2C intfcaps (interrupt capabilitieis) in the chip are hard coded to:
+   564		 *   TPM_INTF_INT_LEVEL_LOW | TPM_INTF_DATA_AVAIL_INT
+   565		 * The IRQ should be set in the i2c_board_info (which is done
+   566		 * automatically in of_i2c_register_devices, for device tree users */
+   567		priv->irq = client->irq;
+   568		if (client->irq) {
+   569			dev_dbg(dev, "%s() priv->irq\n", __func__);
+   570			rc = devm_request_irq(dev, client->irq,
+   571					      i2c_nuvoton_int_handler,
+   572					      IRQF_TRIGGER_LOW,
+   573					      dev_name(&chip->dev),
+   574					      chip);
+   575			if (rc) {
+   576				dev_err(dev, "%s() Unable to request irq: %d for use\n",
+   577					__func__, priv->irq);
+   578				priv->irq = 0;
+   579			} else {
+   580				chip->flags |= TPM_CHIP_FLAG_IRQ;
+   581				/* Clear any pending interrupt */
+   582				i2c_nuvoton_ready(chip);
+   583				/* - wait for TPM_STS==0xA0 (stsValid, commandReady) */
+   584				rc = i2c_nuvoton_wait_for_stat(chip,
+   585							       TPM_STS_COMMAND_READY,
+   586							       TPM_STS_COMMAND_READY,
+   587							       chip->timeout_b,
+   588							       NULL);
+   589				if (rc == 0) {
+   590					/*
+   591					 * TIS is in ready state
+   592					 * write dummy byte to enter reception state
+   593					 * TPM_DATA_FIFO_W <- rc (0)
+   594					 */
+   595					rc = i2c_nuvoton_write_buf(client,
+   596								   TPM_DATA_FIFO_W,
+   597								   1, (u8 *) (&rc));
+   598					if (rc < 0)
+   599						return rc;
+   600					/* TPM_STS <- 0x40 (commandReady) */
+   601					i2c_nuvoton_ready(chip);
+   602				} else {
+   603					/*
+   604					 * timeout_b reached - command was
+   605					 * aborted. TIS should now be in idle state -
+   606					 * only TPM_STS_VALID should be set
+   607					 */
+   608					if (i2c_nuvoton_read_status(chip) !=
+   609					    TPM_STS_VALID)
+   610						return -EIO;
+   611				}
+   612			}
+   613		}
+   614	
+   615		return tpm_chip_register(chip);
+   616	}
+   617	
 
 -- 
 0-DAY CI Kernel Test Service
