@@ -1,325 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D406D10FA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 01:44:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21EF510FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 02:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693446278; x=1724982278;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J5v1j5nrqXkTwsmhLjpn8TlslPAX4+lKFjxr291q5Ew=;
-  b=OSPh8K1s4yAe4PW0XBEesQPuM33Ng8NinskoJcfOvwAJJJrJc2p7arsu
-   cUYHfYwKedWkDBNrBQ4MerB7gAAhzKJTeC9rYmGcNA/acYtbUcWujLit8
-   ic5tIEJefnO6dqjLAXUzkl4rR0aWXeAPJMvFi+uNWgtPI8rQ96LOjGEgw
-   pld/ZSqkVMkPBBZZYS5EaWuiC380dDGZcd3ayhoNkbqnlHyLI4AMgevhs
-   9P811ByjvE3knm7tqvmd7IROF2yvPuVlD4c7RqGVahFsus02y8KjR04j8
-   SYz6N3b2Gr5vrRPeywSz/gjLc3TELoP8WgNzRllyqzUi/AO7nb+oI1hVw
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="379540179"
+  t=1693447729; x=1724983729;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=fo2vnFlfyP+3INNdavCbIVp4SaO6j5PzQOnKTbhThD4=;
+  b=Y3vgRPqLFthGKD3B1EnEtkiK/WMWDafqYJ4u2LOcUDKTvDz4JnSifzd0
+   oc8hCA87/9C0mUk0UPojPV30usdv39rG3WOgeztf4lWnfaMGyFov27Sid
+   6bpdzPuMeG5AtJJ3upSt0X4X+IV1EW6e7g1O4re0gGfG+fMSO1IfP+xFT
+   aKEoSv2V+jkSq3778kh50XlU6MK6BHXkhC6H2+XoiQMtocpjWf6Lcnxjz
+   LpOtU+J/Ap3+itkQRVIl7TQNecslAAnTmXITMyTVZUxzRCvnE2eQZbUpN
+   kbYSnVMLtoopD9WB8zv4NjkQwm3gTqdG0TxLtOecqEjHzy11RbFKNaqBV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="374707111"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="379540179"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 18:44:37 -0700
+   d="scan'208";a="374707111"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 19:08:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="739293322"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="804753997"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="739293322"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 30 Aug 2023 18:44:36 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qbWjX-000ASX-0s;
-	Thu, 31 Aug 2023 01:44:32 +0000
-Date: Thu, 31 Aug 2023 09:43:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 3285/24603]
- drivers/input/touchscreen/vtl/vtl_ts.c:80:6: warning: no previous prototype
- for function 'vtl_ts_free_gpio'
-Message-ID: <202308310937.Nx9GmCBa-lkp@intel.com>
+   d="scan'208";a="804753997"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga008.fm.intel.com with ESMTP; 30 Aug 2023 19:08:48 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Wed, 30 Aug 2023 19:08:47 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Wed, 30 Aug 2023 19:08:47 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Wed, 30 Aug 2023 19:08:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fQ/QTQNxQBaxCxGk/90gmv1WjwZoH0wClGPbOqp6kskzRCfzlsjRPrGB9jj1Bu/dYqtnGOWSCmy9RG7Krdmgy49C69+3+Zyn+aj29Rl2vfEyweFvwl9OO3ca1fdU0saIC5Aw4I/jAj1N9D39w97Wb32XE5QuAH8EB4XLEzQWTI/XYedATwvCcSsqQfl+qogywAjGMaspzUaRNNiF7LgP6vvC765lpD0u7Yg9wljcwIjMedXIuSrcCyRR+esxdfv9K3Au09OmVKhpLffitknpOfOvBx/UC8jc28GW+7P+9RiuXz1cEOscaHafpJfnt5mo3/y5ykQ7SeAkTjHbrHtNuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SeXp7dcaBtncfJAiQqRnHUtC317eOX4afoM01WamQ5Q=;
+ b=CBA9QUq5+NgmISIEDGCOBH2VhTHrpP+0Qq8uceHZ4CEHBnGnUZRPXosBL27L1VDAmsdQFHPe2WPIhZfN1bBTMAP+Y2AasrKRE8dbvSIh6C+f4Rmma9fqYCpyAE1drtBlUM26lx4E02EEFS3repkPlRxn0tO3rdTzTumgpJWxZW0ZBfvSQ1pby8yHJjUYEKGwilRMNRHQGKz4xD+E5/lPG3pDBkYJSKh+e4T9EgS4s+QifA4N6F3fcCrsr6GiNjHv8hWvcU3yRHINAMkY2I7bGwHhTrhOM/j+WObmxJDvLlVFrEa9LlfxmNgj60Kn0UMJE8HmvEi9/vViHMDt4U/Beg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by SN7PR11MB7667.namprd11.prod.outlook.com (2603:10b6:806:32a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.21; Thu, 31 Aug
+ 2023 02:08:45 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::3130:de4a:9f73:a5b6]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::3130:de4a:9f73:a5b6%6]) with mapi id 15.20.6745.020; Thu, 31 Aug 2023
+ 02:08:45 +0000
+Date: Thu, 31 Aug 2023 10:08:35 +0800
+From: Philip Li <philip.li@intel.com>
+To: kernel test robot <lkp@intel.com>
+CC: Arnd Bergmann <arnd@arndb.de>, <oe-kbuild-all@lists.linux.dev>, "Linux
+ Memory Management List" <linux-mm@kvack.org>, Masahiro Yamada
+	<masahiroy@kernel.org>
+Subject: Re: [linux-next:master 10401/13390]
+ include/linux/fortify-string.h:65:29: warning: '__builtin_strcpy' source
+ argument is the same as destination
+Message-ID: <ZO/2I1SHFlEQR64P@rli9-mobl>
+References: <202308301542.li3KHkJl-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202308301542.li3KHkJl-lkp@intel.com>
+X-ClientProxiedBy: SG2PR04CA0165.apcprd04.prod.outlook.com (2603:1096:4::27)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|SN7PR11MB7667:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0d584bfb-9ce6-4559-95a1-08dba9c73481
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dpg8maudQ7HDjQmVScZ+KFTQfkhnzYD3cm1/u9a0F0GkHPOBxdOZ5150cK++wqIJmcnNmTFFrenFieNnxSifkCp4/LjbzVY3aEq2Pjjiuf8MuOq1tu67hz6wEbG8nvWzsaAm3o4AeSeQcyt+QAPKJTSSyLw6/DI3XJgqNmY9h1y/ehtX3uvdhfIfbdMDn2YwCqLg5v/j6VbGfIMP1BWrF36PGMH+CpHq4DjbjXqNJmCzKP69EkQ1gYEvE7C7WWygbAoAzM5LvMZTQ2ElpsubN08c7JIIxYnoxN0PzwP0121weVF8A17OQx/DwLFfhTVPoqe7kTVN7aRTGu6cSKTJwViPesyt/JfaF8+N/u6G8iGD5bmXaxmrXhhSgrCdpHRGyg84xzoTdUhDBoHHBt1i3bL5kgZswXG48KJInEbyF5hW8TuPsd94fNmApErCYEHHBkumaTUtJOr06yzWkfdL2opY6EVchG7vYBH31x0anmeGn6R+s458dTZx5m8U0fXCzhFOr/LRDA8w/ruYMnFqRbbqVjTtMuQQ/IuTJJWtssDepGEdRF6Bt4L5b0ukYEt4ViqCXutk4slEFN2fdjttRg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(39860400002)(376002)(346002)(136003)(396003)(451199024)(1800799009)(186009)(6486002)(6506007)(6666004)(6512007)(9686003)(966005)(478600001)(83380400001)(4001150100001)(26005)(2906002)(33716001)(44832011)(54906003)(66476007)(66556008)(316002)(41300700001)(6636002)(5660300002)(8936002)(4326008)(6862004)(8676002)(82960400001)(86362001)(38100700002)(66946007)(66899024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DhBGNO8zwaGIzECfe2KN/h9cO9F0iV05XYxSGZEZ/RSVbMSQ0ptcLz++iBDo?=
+ =?us-ascii?Q?FHdIFss68EACKB5kIfEYds5D6LcAbUWyDTaUveznHQb66QWmvYx1WY2hH2ww?=
+ =?us-ascii?Q?SP7ecWdBH/NN7qSWPdfDpaqdqCVbO6gfpdA2SmxzLqTG4tgUioXl7/rZ83k6?=
+ =?us-ascii?Q?Q4kUD84rxv8I5DqNiVQsKP397zsRV3Px/pehSIVT5rhI3+d/NviI4x3lXhRL?=
+ =?us-ascii?Q?pHDs+HKyTG/tjee7dp413cP2kr3BhKwh10wPgKCYQeFhxO9YuYJH9aiyE8Oj?=
+ =?us-ascii?Q?wy4obZc+Aa2K9rsujNPsMvZ/7Dtait9pQ1WIe6hBp/6J5OyrA7RVq5mbsXj/?=
+ =?us-ascii?Q?jRRKBjPsOvOygNOmpT+nBKw/TmzWXDQ/QW+UxZSvakbl3MPTM0PPS/OevRZm?=
+ =?us-ascii?Q?S8K8z9K0IOnH4L8N4HH6RSAx/qg3Tgrvapgk+9TwH1XlIZEH8CvEzulJamPp?=
+ =?us-ascii?Q?F/ySJt7PGavLoNgRDZRYBVnodzAc2wsIrwjaMyw8QXXoudAQkIBlfXAOHsHZ?=
+ =?us-ascii?Q?DYNZLBfglZfZOtHqjDS9vpCOjKsX8jcuGgpPR8n7tvEQJjVvkn6GpkdTbTot?=
+ =?us-ascii?Q?ES4K9njcKZXwKWc7xGI48zdN/yls1MyLTVJ9wLATMbf3Vjvb0DD8OW9UqME9?=
+ =?us-ascii?Q?kDLjaHZI1KAAk6zP8qm71ofrrE0Qu/TC9cb37koq6UxqIvLj1Z/MiIp/aGDN?=
+ =?us-ascii?Q?Fojrj60vb1dNytLOAdHBqWxMfaIyI11wkJdFh6cGAI761lI3ni1XXeOQf4D2?=
+ =?us-ascii?Q?tJbUwgnCNHf8iZnH9mQLngolhnrqtaUikXZerBl+jGC1SlRyvUO/EqKKSaG4?=
+ =?us-ascii?Q?JtDAWyN+YnRqSky2FszCMiJgkn195td1+nuk3Wxw2s5ZmB8tIPGjKogmEkID?=
+ =?us-ascii?Q?sXTz98r+NIn9/AAXazAeafvHz7ASbCMOKrBfo1coem1+6C+q6R2YRDBAuAra?=
+ =?us-ascii?Q?EKNrNv5Qy2VwI4LObdMe6NIfyI/ZWT68mh1blf6+T5QvxOSbPxv5C/bvYiZd?=
+ =?us-ascii?Q?sXEv4lfjMv7Wj1NjfFaITD6anCQLG1oIh97YrLhEjIf6W/jqo9uu+eUmwOva?=
+ =?us-ascii?Q?p2FHltd7nrAETiG1rb1gLMUKR0HmeeklI1ls3wJgHSNMuuRkhnAh1ymw8y14?=
+ =?us-ascii?Q?wDMOd9NSB7bLvmwfv6b9z4kwaLxFaBP3HAGJqpeHYyd2AzCuOjquXDSOqkoL?=
+ =?us-ascii?Q?pXOzRzYt1bL8PtgplSMUdW49fMSUfPAelnleV5OwLLDmtd0ZrRZpWlf/yHue?=
+ =?us-ascii?Q?/WBgpBQDzglWySlfM64wgw89MlhL9T7M3t7z9UX0b2CrwFphCUtKEKmL4FEE?=
+ =?us-ascii?Q?AGTtOQ42WDIoLb4vr52EOwJlU27fW+1NX6m3Y3uMw8NSTuhTnaHg6jVr8nnU?=
+ =?us-ascii?Q?uDdRjJ72TLpHhOSBDZGLu3HU6e42SNVoJj9acQRoUNWxJ9Vxjwz8a4KpLsJd?=
+ =?us-ascii?Q?W4ERU+qwhpKrC3jU0xGflXyWVydW3a6gwvgTfy9YfUc42DZbwBZGEFY69YHN?=
+ =?us-ascii?Q?cKuVUmLNkymBXt+/8zA+pOCQVNrNbHF4d68VT1IcD5Auw8uih/p4n9W4kJS1?=
+ =?us-ascii?Q?RXwN+r36LcBn1SrjO8Y3QNuHT/bQAXCDrYoe++bg?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d584bfb-9ce6-4559-95a1-08dba9c73481
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2023 02:08:45.1069
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p0ke7pT/r2ztppx+8fIBEER42M0IgBaCxVkeP83R5V9coaUFw2m0KCHYqjD2ajISTDC98KCZYMyxtBbRIrKWAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7667
+X-OriginatorOrg: intel.com
 
-Hi Alejandro,
+On Wed, Aug 30, 2023 at 03:18:34PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   56585460cc2ec44fc5d66924f0a116f57080f0dc
+> commit: 26030cb984dd65e0cb2d0c2489d94941cf8897b4 [10401/13390] extrawarn: move -Wrestrict into W=1 warnings
+> config: um-randconfig-r034-20230830 (https://download.01.org/0day-ci/archive/20230830/202308301542.li3KHkJl-lkp@intel.com/config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308301542.li3KHkJl-lkp@intel.com/reproduce)
 
-FYI, the error/warning still remains.
+Sorry for the wrong report, kindly ignore this
 
-tree:   https://github.com/Freescale/linux-fslc pr/639
-head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: 5fd1a9756fe0090bd795889b135e4dfb78141f0a [3285/24603] MLK-13244 input: touchscreen: add support for vtl touchscreen
-config: hexagon-randconfig-r012-20230831 (https://download.01.org/0day-ci/archive/20230831/202308310937.Nx9GmCBa-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308310937.Nx9GmCBa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308310937.Nx9GmCBa-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/input/touchscreen/vtl/vtl_ts.c:65:17: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-      65 |         struct device *dev;
-         |                        ^
->> drivers/input/touchscreen/vtl/vtl_ts.c:80:6: warning: no previous prototype for function 'vtl_ts_free_gpio' [-Wmissing-prototypes]
-      80 | void vtl_ts_free_gpio(void)
-         |      ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:80:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      80 | void vtl_ts_free_gpio(void)
-         | ^
-         | static 
->> drivers/input/touchscreen/vtl/vtl_ts.c:90:6: warning: no previous prototype for function 'vtl_ts_hw_reset' [-Wmissing-prototypes]
-      90 | void vtl_ts_hw_reset(void)
-         |      ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:90:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      90 | void vtl_ts_hw_reset(void)
-         | ^
-         | static 
->> drivers/input/touchscreen/vtl/vtl_ts.c:278:6: warning: no previous prototype for function 'vtl_ts_remove' [-Wmissing-prototypes]
-     278 | int  vtl_ts_remove(struct i2c_client *client)
-         |      ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:278:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     278 | int  vtl_ts_remove(struct i2c_client *client)
-         | ^
-         | static 
->> drivers/input/touchscreen/vtl/vtl_ts.c:366:5: warning: no previous prototype for function 'ct36x_test_tp' [-Wmissing-prototypes]
-     366 | int ct36x_test_tp(struct i2c_client *client)
-         |     ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:366:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     366 | int ct36x_test_tp(struct i2c_client *client)
-         | ^
-         | static 
->> drivers/input/touchscreen/vtl/vtl_ts.c:382:5: warning: no previous prototype for function 'vtl_ts_probe' [-Wmissing-prototypes]
-     382 | int vtl_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
-         |     ^
-   drivers/input/touchscreen/vtl/vtl_ts.c:382:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     382 | int vtl_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
-         | ^
-         | static 
-   6 warnings generated.
-
-
-vim +/vtl_ts_free_gpio +80 drivers/input/touchscreen/vtl/vtl_ts.c
-
-    79	
-  > 80	void vtl_ts_free_gpio(void)
-    81	{
-    82		struct ts_info *ts;
-    83	
-    84		ts = pg_ts;
-    85		DEBUG();
-    86	
-    87		gpio_free(ts->config_info.irq_gpio_number);
-    88	}
-    89	
-  > 90	void vtl_ts_hw_reset(void)
-    91	{
-    92		struct ts_info *ts;
-    93	
-    94		ts = pg_ts;
-    95		DEBUG();
-    96	
-    97		gpio_set_value(ts->config_info.rst_gpio_number, 0);
-    98		mdelay(50);
-    99		gpio_set_value(ts->config_info.rst_gpio_number, 1);
-   100	}
-   101	
-   102	static irqreturn_t vtl_ts_irq(int irq, void *dev)
-   103	{
-   104		struct ts_info *ts;
-   105	
-   106		ts = pg_ts;
-   107		DEBUG();
-   108	
-   109		queue_work(ts->driver->workqueue, &ts->driver->event_work);
-   110	
-   111		return IRQ_HANDLED;
-   112	}
-   113	
-   114	static union ts_xy_data *vtl_read_xy_data(struct ts_info *ts)
-   115	{
-   116		struct i2c_msg msgs;
-   117		int err;
-   118	
-   119		DEBUG();
-   120	
-   121		msgs.addr = ts->driver->client->addr;
-   122		msgs.flags = 0x01;
-   123		msgs.len = sizeof(ts->xy_data.buf);
-   124		msgs.buf = ts->xy_data.buf;
-   125	
-   126		err = i2c_transfer(ts->driver->client->adapter, &msgs, 1);
-   127		if (err != 1) {
-   128			pr_err("___%s:i2c read err___\n", __func__);
-   129			return NULL;
-   130		}
-   131		return &ts->xy_data;
-   132	}
-   133	
-   134	static void vtl_report_xy_coord(struct input_dev *input_dev,
-   135					union ts_xy_data *xy_data,
-   136					unsigned char touch_point_number)
-   137	{
-   138		struct ts_info *ts;
-   139		int id;
-   140		int sync;
-   141		int x, y;
-   142		unsigned int press;
-   143		static unsigned int release;
-   144	
-   145		ts = pg_ts;
-   146		DEBUG();
-   147	
-   148		/* report points */
-   149		sync = 0;  press = 0;
-   150		for (id = 0; id < touch_point_number; id++) {
-   151			if ((xy_data->point[id].xhi != 0xFF) &&
-   152			    (xy_data->point[id].yhi != 0xFF) &&
-   153			   ((xy_data->point[id].status == 1) ||
-   154			    (xy_data->point[id].status == 2))) {
-   155				x = (xy_data->point[id].xhi<<4) |
-   156				    (xy_data->point[id].xlo&0xF);
-   157				y = (xy_data->point[id].yhi<<4) |
-   158				    (xy_data->point[id].ylo&0xF);
-   159	
-   160			if (ts->config_info.exchange_x_y_flag)
-   161				swap(x, y);
-   162	
-   163			if (ts->config_info.revert_x_flag)
-   164				x = ts->config_info.screen_max_x - x;
-   165	
-   166			if (ts->config_info.revert_y_flag)
-   167				y = ts->config_info.screen_max_y - y;
-   168	#ifndef FORCE_SINGLE_EVENT
-   169				input_mt_slot(input_dev, xy_data->point[id].id - 1);
-   170				input_mt_report_slot_state(input_dev,
-   171							   MT_TOOL_FINGER, true);
-   172				input_report_abs(input_dev, ABS_MT_POSITION_X, x);
-   173				input_report_abs(input_dev, ABS_MT_POSITION_Y, y);
-   174				input_report_abs(input_dev, ABS_MT_TOUCH_MAJOR, 30);
-   175				input_report_abs(input_dev, ABS_MT_WIDTH_MAJOR, 128);
-   176	#else
-   177				input_report_abs(input_dev, ABS_X, x);
-   178				input_report_abs(input_dev, ABS_Y, y);
-   179				input_report_key(input_dev, BTN_TOUCH, 1);
-   180				input_report_abs(input_dev, ABS_PRESSURE, 1);
-   181	#endif
-   182				sync = 1;
-   183				press |= 0x01 << (xy_data->point[id].id - 1);
-   184			}
-   185		}
-   186	
-   187		release &= (release ^ press); /*release point flag */
-   188		for (id = 0; id < touch_point_number; id++) {
-   189			if (release & (0x01 << id)) {
-   190	#ifndef FORCE_SINGLE_EVENT
-   191				input_mt_slot(input_dev, id);
-   192				input_mt_report_slot_state(input_dev,
-   193							   MT_TOOL_FINGER, false);
-   194	#else
-   195				input_report_key(input_dev, BTN_TOUCH, 0);
-   196				input_report_abs(input_dev, ABS_PRESSURE, 0);
-   197	#endif
-   198				sync = 1;
-   199			}
-   200	
-   201		}
-   202		release = press;
-   203	
-   204		if (sync)
-   205			input_sync(input_dev);
-   206	}
-   207	
-   208	static void vtl_ts_workfunc(struct work_struct *work)
-   209	{
-   210	
-   211		union ts_xy_data *xy_data;
-   212		struct input_dev *input_dev;
-   213		unsigned char touch_point_number;
-   214	
-   215		DEBUG();
-   216	
-   217		input_dev = pg_ts->driver->input_dev;
-   218		touch_point_number = pg_ts->config_info.touch_point_number;
-   219	
-   220		xy_data = vtl_read_xy_data(pg_ts);
-   221		if (xy_data != NULL)
-   222			vtl_report_xy_coord(input_dev, xy_data, touch_point_number);
-   223		else
-   224			pr_err("____xy_data error___\n");
-   225	}
-   226	
-   227	#ifdef CONFIG_PM_SLEEP
-   228	int vtl_ts_suspend(struct device *dev)
-   229	{
-   230		struct ts_info *ts;
-   231	
-   232		ts = pg_ts;
-   233		DEBUG();
-   234	
-   235		disable_irq(ts->config_info.irq_number);
-   236		cancel_work_sync(&ts->driver->event_work);
-   237	
-   238		return 0;
-   239	}
-   240	
-   241	int vtl_ts_resume(struct device *dev)
-   242	{
-   243		struct ts_info *ts;
-   244	
-   245		ts = pg_ts;
-   246		DEBUG();
-   247	
-   248		/* Hardware reset */
-   249		vtl_ts_hw_reset();
-   250		enable_irq(ts->config_info.irq_number);
-   251	
-   252		return 0;
-   253	}
-   254	#endif
-   255	
-   256	#ifdef CONFIG_HAS_EARLYSUSPEND
-   257	static void vtl_ts_early_suspend(struct early_suspend *handler)
-   258	{
-   259		struct ts_info *ts;
-   260	
-   261		ts = pg_ts;
-   262		DEBUG();
-   263	
-   264		vtl_ts_suspend(ts->driver->client, PMSG_SUSPEND);
-   265	}
-   266	
-   267	static void vtl_ts_early_resume(struct early_suspend *handler)
-   268	{
-   269		struct ts_info *ts;
-   270	
-   271		ts = pg_ts;
-   272		DEBUG();
-   273	
-   274		vtl_ts_resume(ts->driver->client);
-   275	}
-   276	#endif
-   277	
- > 278	int  vtl_ts_remove(struct i2c_client *client)
-   279	{
-   280		struct ts_info *ts;
-   281	
-   282		ts = pg_ts;
-   283		DEBUG();
-   284	
-   285		/* Driver clean up */
-   286	
-   287		free_irq(ts->config_info.irq_number, ts);
-   288		vtl_ts_free_gpio();
-   289	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308301542.li3KHkJl-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from include/linux/string.h:254,
+>                     from include/linux/bitmap.h:11,
+>                     from include/linux/cpumask.h:12,
+>                     from include/linux/mm_types_task.h:14,
+>                     from include/linux/mm_types.h:5,
+>                     from include/linux/buildid.h:5,
+>                     from include/linux/kallsyms.h:10,
+>                     from kernel/kallsyms.c:15:
+>    kernel/kallsyms.c: In function '__sprint_symbol.isra.0':
+> >> include/linux/fortify-string.h:65:29: warning: '__builtin_strcpy' source argument is the same as destination [-Wrestrict]
+>       65 | #define __underlying_strcpy __builtin_strcpy
+>          |                             ^
+>    include/linux/fortify-string.h:794:10: note: in expansion of macro '__underlying_strcpy'
+>      794 |   return __underlying_strcpy(p, q);
+>          |          ^~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +/__builtin_strcpy +65 include/linux/fortify-string.h
+> 
+> 78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
+> 78a498c3a227f2 Alexander Potapenko 2022-10-24  62  #define __underlying_memchr	__builtin_memchr
+> 78a498c3a227f2 Alexander Potapenko 2022-10-24  63  #define __underlying_memcmp	__builtin_memcmp
+> a28a6e860c6cf2 Francis Laniel      2021-02-25  64  #define __underlying_strcat	__builtin_strcat
+> a28a6e860c6cf2 Francis Laniel      2021-02-25 @65  #define __underlying_strcpy	__builtin_strcpy
+> a28a6e860c6cf2 Francis Laniel      2021-02-25  66  #define __underlying_strlen	__builtin_strlen
+> a28a6e860c6cf2 Francis Laniel      2021-02-25  67  #define __underlying_strncat	__builtin_strncat
+> a28a6e860c6cf2 Francis Laniel      2021-02-25  68  #define __underlying_strncpy	__builtin_strncpy
+> a28a6e860c6cf2 Francis Laniel      2021-02-25  69  #endif
+> a28a6e860c6cf2 Francis Laniel      2021-02-25  70  
+> 
+> :::::: The code at line 65 was first introduced by commit
+> :::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
+> 
+> :::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+> :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
