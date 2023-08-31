@@ -1,57 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A021715AD;
-	Thu, 31 Aug 2023 00:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42976184
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 00:10:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693440031; x=1724976031;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JsG0T95QKICmO4tV+QqCsK8u/qRV2qWaCXJ8mpqkUxM=;
-  b=GNAb/sxRZhbbhoz9QExwOGlfzR3WcvjBe61eOgMtNOE8m9nQJQepqYFK
-   Adg1/GPn1WDMp1fr6qITeeGhG/pNc7veBHFV1NHBMuEDCFolhKGYzRp3A
-   QCuamudIndapwEICdLmjwu2zRGj5VYzEqpKkuQ2otnw3yEFvdkCQF3IbU
-   35iwb/FKGvEZNYxuna6LMwq22klq41Xru2DOdlwmTfzabRMLRBYPiPkJk
-   pfikNEWrK87OgDri7XTNNra7J1+ffqVGDDTyBoml/HU7ttgo0WGzgGyWg
-   wtERadboS22r4+vAfg7NcTr3ayB3+usxymY93J3iHQo/ncuDO0S0ya+0r
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="379526990"
+  t=1693440617; x=1724976617;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s73CAuGa31nEwKpHlZRt1lovR7oAnj6AXHJJ2QW0dek=;
+  b=RqqwGgtrC5PIS6PHPdvhNnk6K42F9uvE+/wMJxiPCG/FruWYiTE6jjBC
+   JEEbfGIA04imcnPz5LatNCncTbWesjzw2g79VFH8VCcVahThrxIi+p37b
+   imh0qMN9VTyDvkaVJo5XBT7fGlutmXG9dq6kvtbEyjGs0xyMPjExgcgLe
+   c6oCflD8h7du1vbBy0Q8Pl4NNXdtiZ94cIwg+FkVD3ILoGigZiALs7Yg+
+   o649nedD4uXsJ8d/r2Mhu9a6x945+uvhkfgR6A8gavM1L4sTwBD8Z5mxb
+   z89tpWROvPRJg5sNI5OdRmVmOue3NSYx7xzw+aRcHMn39/QSkeutG5SoL
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="365981900"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="379526990"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 17:00:19 -0700
+   d="scan'208";a="365981900"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 17:10:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="1070008387"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="774281064"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="1070008387"
+   d="scan'208";a="774281064"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 30 Aug 2023 17:00:14 -0700
+  by orsmga001.jf.intel.com with ESMTP; 30 Aug 2023 17:10:15 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbV6Y-000ANY-1t;
-	Thu, 31 Aug 2023 00:00:10 +0000
-Date: Thu, 31 Aug 2023 07:59:22 +0800
+	id 1qbVGH-000AOF-0b;
+	Thu, 31 Aug 2023 00:10:13 +0000
+Date: Thu, 31 Aug 2023 08:09:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	alsa-devel@alsa-project.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Baluta <daniel.baluta@nxp.com>, linux-kernel@vger.kernel.org,
-	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH v4 10/11] ASoC: SOF: Intel: Move binding to display
- driver outside of deferred probe
-Message-ID: <202308310715.lBXHTY4I-lkp@intel.com>
-References: <20230830153652.217855-11-maarten.lankhorst@linux.intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:for-kernelci 5/7] drivers/mfd/rn5t618.c:190:50: error: passing
+ argument 1 of 'i2c_get_match_data' from incompatible pointer type
+Message-ID: <202308310842.e47xr9J1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,186 +45,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230830153652.217855-11-maarten.lankhorst@linux.intel.com>
 
-Hi Maarten,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus linus/master next-20230830]
-[cannot apply to v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/ASoC-SOF-core-add-no_wq-probe-and-remove-callbacks/20230831-033512
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230830153652.217855-11-maarten.lankhorst%40linux.intel.com
-patch subject: [PATCH v4 10/11] ASoC: SOF: Intel: Move binding to display driver outside of deferred probe
-config: x86_64-randconfig-005-20230831 (https://download.01.org/0day-ci/archive/20230831/202308310715.lBXHTY4I-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308310715.lBXHTY4I-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   2f859c7b504dbff5d4770187e5416610db4625e3
+commit: ac865741027a59abe81c2e7d30edfd26082751f3 [5/7] Use of_device_get_match_data
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230831/202308310842.e47xr9J1-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308310842.e47xr9J1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308310715.lBXHTY4I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308310842.e47xr9J1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/sof/intel/hda.c:1173:19: warning: variable 'bus' set but not used [-Wunused-but-set-variable]
-           struct hdac_bus *bus;
-                            ^
-   1 warning generated.
+   drivers/mfd/rn5t618.c: In function 'rn5t618_i2c_probe':
+>> drivers/mfd/rn5t618.c:190:50: error: passing argument 1 of 'i2c_get_match_data' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     190 |         priv->variant = (long)i2c_get_match_data(&i2c->dev);
+         |                                                  ^~~~~~~~~
+         |                                                  |
+         |                                                  struct device *
+   In file included from drivers/mfd/rn5t618.c:10:
+   include/linux/i2c.h:370:57: note: expected 'const struct i2c_client *' but argument is of type 'struct device *'
+     370 | const void *i2c_get_match_data(const struct i2c_client *client);
+         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/bus +1173 sound/soc/sof/intel/hda.c
+vim +/i2c_get_match_data +190 drivers/mfd/rn5t618.c
 
-47f868f27a979a Pierre-Louis Bossart  2023-08-30  1168  
-47f868f27a979a Pierre-Louis Bossart  2023-08-30  1169  int hda_dsp_probe(struct snd_sof_dev *sdev)
-47f868f27a979a Pierre-Louis Bossart  2023-08-30  1170  {
-47f868f27a979a Pierre-Louis Bossart  2023-08-30  1171  	struct pci_dev *pci = to_pci_dev(sdev->dev);
-47f868f27a979a Pierre-Louis Bossart  2023-08-30  1172  	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
-47f868f27a979a Pierre-Louis Bossart  2023-08-30 @1173  	struct hdac_bus *bus;
-47f868f27a979a Pierre-Louis Bossart  2023-08-30  1174  	int ret = 0;
-47f868f27a979a Pierre-Louis Bossart  2023-08-30  1175  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1176  	hdev->dmic_dev = platform_device_register_data(sdev->dev, "dmic-codec",
-dd96daca6c83ec Liam Girdwood         2019-04-12  1177  						       PLATFORM_DEVID_NONE,
-dd96daca6c83ec Liam Girdwood         2019-04-12  1178  						       NULL, 0);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1179  	if (IS_ERR(hdev->dmic_dev)) {
-dd96daca6c83ec Liam Girdwood         2019-04-12  1180  		dev_err(sdev->dev, "error: failed to create DMIC device\n");
-dd96daca6c83ec Liam Girdwood         2019-04-12  1181  		return PTR_ERR(hdev->dmic_dev);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1182  	}
-dd96daca6c83ec Liam Girdwood         2019-04-12  1183  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1184  	/*
-dd96daca6c83ec Liam Girdwood         2019-04-12  1185  	 * use position update IPC if either it is forced
-dd96daca6c83ec Liam Girdwood         2019-04-12  1186  	 * or we don't have other choice
-dd96daca6c83ec Liam Girdwood         2019-04-12  1187  	 */
-dd96daca6c83ec Liam Girdwood         2019-04-12  1188  #if IS_ENABLED(CONFIG_SND_SOC_SOF_DEBUG_FORCE_IPC_POSITION)
-dd96daca6c83ec Liam Girdwood         2019-04-12  1189  	hdev->no_ipc_position = 0;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1190  #else
-dd96daca6c83ec Liam Girdwood         2019-04-12  1191  	hdev->no_ipc_position = sof_ops(sdev)->pcm_pointer ? 1 : 0;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1192  #endif
-dd96daca6c83ec Liam Girdwood         2019-04-12  1193  
-1f7b5d52be130e Peter Ujfalusi        2023-04-04  1194  	if (sdev->dspless_mode_selected)
-1f7b5d52be130e Peter Ujfalusi        2023-04-04  1195  		hdev->no_ipc_position = 1;
-1f7b5d52be130e Peter Ujfalusi        2023-04-04  1196  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1197  	/* set up HDA base */
-dd96daca6c83ec Liam Girdwood         2019-04-12  1198  	bus = sof_to_bus(sdev);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1199  
-9fc6786f549c4d Pierre-Louis Bossart  2023-04-04  1200  	if (sdev->dspless_mode_selected)
-9fc6786f549c4d Pierre-Louis Bossart  2023-04-04  1201  		goto skip_dsp_setup;
-9fc6786f549c4d Pierre-Louis Bossart  2023-04-04  1202  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1203  	/* DSP base */
-dd96daca6c83ec Liam Girdwood         2019-04-12  1204  	sdev->bar[HDA_DSP_BAR] = pci_ioremap_bar(pci, HDA_DSP_BAR);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1205  	if (!sdev->bar[HDA_DSP_BAR]) {
-dd96daca6c83ec Liam Girdwood         2019-04-12  1206  		dev_err(sdev->dev, "error: ioremap error\n");
-dd96daca6c83ec Liam Girdwood         2019-04-12  1207  		ret = -ENXIO;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1208  		goto hdac_bus_unmap;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1209  	}
-dd96daca6c83ec Liam Girdwood         2019-04-12  1210  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1211  	sdev->mmio_bar = HDA_DSP_BAR;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1212  	sdev->mailbox_bar = HDA_DSP_BAR;
-9fc6786f549c4d Pierre-Louis Bossart  2023-04-04  1213  skip_dsp_setup:
-dd96daca6c83ec Liam Girdwood         2019-04-12  1214  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1215  	/* allow 64bit DMA address if supported by H/W */
-ab152afa2427bb Takashi Iwai          2021-01-14  1216  	if (dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(64))) {
-dd96daca6c83ec Liam Girdwood         2019-04-12  1217  		dev_dbg(sdev->dev, "DMA mask is 32 bit\n");
-ab152afa2427bb Takashi Iwai          2021-01-14  1218  		dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(32));
-dd96daca6c83ec Liam Girdwood         2019-04-12  1219  	}
-8872fc0d045929 Takashi Iwai          2022-02-15  1220  	dma_set_max_seg_size(&pci->dev, UINT_MAX);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1221  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1222  	/* init streams */
-dd96daca6c83ec Liam Girdwood         2019-04-12  1223  	ret = hda_dsp_stream_init(sdev);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1224  	if (ret < 0) {
-dd96daca6c83ec Liam Girdwood         2019-04-12  1225  		dev_err(sdev->dev, "error: failed to init streams\n");
-dd96daca6c83ec Liam Girdwood         2019-04-12  1226  		/*
-dd96daca6c83ec Liam Girdwood         2019-04-12  1227  		 * not all errors are due to memory issues, but trying
-dd96daca6c83ec Liam Girdwood         2019-04-12  1228  		 * to free everything does not harm
-dd96daca6c83ec Liam Girdwood         2019-04-12  1229  		 */
-dd96daca6c83ec Liam Girdwood         2019-04-12  1230  		goto free_streams;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1231  	}
-dd96daca6c83ec Liam Girdwood         2019-04-12  1232  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1233  	/*
-dd96daca6c83ec Liam Girdwood         2019-04-12  1234  	 * register our IRQ
-dd96daca6c83ec Liam Girdwood         2019-04-12  1235  	 * let's try to enable msi firstly
-dd96daca6c83ec Liam Girdwood         2019-04-12  1236  	 * if it fails, use legacy interrupt mode
-672ff5e3596ee2 Guennadi Liakhovetski 2019-07-22  1237  	 * TODO: support msi multiple vectors
-dd96daca6c83ec Liam Girdwood         2019-04-12  1238  	 */
-bb67dd1878de57 Pierre-Louis Bossart  2019-08-06  1239  	if (hda_use_msi && pci_alloc_irq_vectors(pci, 1, 1, PCI_IRQ_MSI) > 0) {
-672ff5e3596ee2 Guennadi Liakhovetski 2019-07-22  1240  		dev_info(sdev->dev, "use msi interrupt mode\n");
-7c11af9fcdc425 Bard Liao             2019-12-04  1241  		sdev->ipc_irq = pci_irq_vector(pci, 0);
-672ff5e3596ee2 Guennadi Liakhovetski 2019-07-22  1242  		/* initialised to "false" by kzalloc() */
-672ff5e3596ee2 Guennadi Liakhovetski 2019-07-22  1243  		sdev->msi_enabled = true;
-672ff5e3596ee2 Guennadi Liakhovetski 2019-07-22  1244  	}
-672ff5e3596ee2 Guennadi Liakhovetski 2019-07-22  1245  
-672ff5e3596ee2 Guennadi Liakhovetski 2019-07-22  1246  	if (!sdev->msi_enabled) {
-dd96daca6c83ec Liam Girdwood         2019-04-12  1247  		dev_info(sdev->dev, "use legacy interrupt mode\n");
-dd96daca6c83ec Liam Girdwood         2019-04-12  1248  		/*
-dd96daca6c83ec Liam Girdwood         2019-04-12  1249  		 * in IO-APIC mode, hda->irq and ipc_irq are using the same
-dd96daca6c83ec Liam Girdwood         2019-04-12  1250  		 * irq number of pci->irq
-dd96daca6c83ec Liam Girdwood         2019-04-12  1251  		 */
-dd96daca6c83ec Liam Girdwood         2019-04-12  1252  		sdev->ipc_irq = pci->irq;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1253  	}
-dd96daca6c83ec Liam Girdwood         2019-04-12  1254  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1255  	dev_dbg(sdev->dev, "using IPC IRQ %d\n", sdev->ipc_irq);
-7c11af9fcdc425 Bard Liao             2019-12-04  1256  	ret = request_threaded_irq(sdev->ipc_irq, hda_dsp_interrupt_handler,
-7c11af9fcdc425 Bard Liao             2019-12-04  1257  				   hda_dsp_interrupt_thread,
-7c11af9fcdc425 Bard Liao             2019-12-04  1258  				   IRQF_SHARED, "AudioDSP", sdev);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1259  	if (ret < 0) {
-dd96daca6c83ec Liam Girdwood         2019-04-12  1260  		dev_err(sdev->dev, "error: failed to register IPC IRQ %d\n",
-dd96daca6c83ec Liam Girdwood         2019-04-12  1261  			sdev->ipc_irq);
-7c11af9fcdc425 Bard Liao             2019-12-04  1262  		goto free_irq_vector;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1263  	}
-dd96daca6c83ec Liam Girdwood         2019-04-12  1264  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1265  	pci_set_master(pci);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1266  	synchronize_irq(pci->irq);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1267  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1268  	/*
-dd96daca6c83ec Liam Girdwood         2019-04-12  1269  	 * clear TCSEL to clear playback on some HD Audio
-dd96daca6c83ec Liam Girdwood         2019-04-12  1270  	 * codecs. PCI TCSEL is defined in the Intel manuals.
-dd96daca6c83ec Liam Girdwood         2019-04-12  1271  	 */
-dd96daca6c83ec Liam Girdwood         2019-04-12  1272  	snd_sof_pci_update_bits(sdev, PCI_TCSEL, 0x07, 0);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1273  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1274  	/* init HDA capabilities */
-dd96daca6c83ec Liam Girdwood         2019-04-12  1275  	ret = hda_init_caps(sdev);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1276  	if (ret < 0)
-dd96daca6c83ec Liam Girdwood         2019-04-12  1277  		goto free_ipc_irq;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1278  
-9fc6786f549c4d Pierre-Louis Bossart  2023-04-04  1279  	if (!sdev->dspless_mode_selected) {
-1f5253b08e06bc Zhu Yingjiang         2019-05-22  1280  		/* enable ppcap interrupt */
-1f5253b08e06bc Zhu Yingjiang         2019-05-22  1281  		hda_dsp_ctrl_ppcap_enable(sdev, true);
-1f5253b08e06bc Zhu Yingjiang         2019-05-22  1282  		hda_dsp_ctrl_ppcap_int_enable(sdev, true);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1283  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1284  		/* set default mailbox offset for FW ready message */
-dd96daca6c83ec Liam Girdwood         2019-04-12  1285  		sdev->dsp_box.offset = HDA_DSP_MBOX_UPLINK_OFFSET;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1286  
-63e51fd33fef04 Ranjani Sridharan     2020-01-29  1287  		INIT_DELAYED_WORK(&hdev->d0i3_work, hda_dsp_d0i3_work);
-9fc6786f549c4d Pierre-Louis Bossart  2023-04-04  1288  	}
-63e51fd33fef04 Ranjani Sridharan     2020-01-29  1289  
-e2379d4a83da44 Pierre-Louis Bossart  2022-09-20  1290  	init_waitqueue_head(&hdev->waitq);
-e2379d4a83da44 Pierre-Louis Bossart  2022-09-20  1291  
-95fa7a62e16463 Pierre-Louis Bossart  2022-04-21  1292  	hdev->nhlt = intel_nhlt_init(sdev->dev);
-95fa7a62e16463 Pierre-Louis Bossart  2022-04-21  1293  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1294  	return 0;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1295  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1296  free_ipc_irq:
-dd96daca6c83ec Liam Girdwood         2019-04-12  1297  	free_irq(sdev->ipc_irq, sdev);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1298  free_irq_vector:
-dd96daca6c83ec Liam Girdwood         2019-04-12  1299  	if (sdev->msi_enabled)
-dd96daca6c83ec Liam Girdwood         2019-04-12  1300  		pci_free_irq_vectors(pci);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1301  free_streams:
-dd96daca6c83ec Liam Girdwood         2019-04-12  1302  	hda_dsp_stream_free(sdev);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1303  /* dsp_unmap: not currently used */
-9fc6786f549c4d Pierre-Louis Bossart  2023-04-04  1304  	if (!sdev->dspless_mode_selected)
-dd96daca6c83ec Liam Girdwood         2019-04-12  1305  		iounmap(sdev->bar[HDA_DSP_BAR]);
-dd96daca6c83ec Liam Girdwood         2019-04-12  1306  hdac_bus_unmap:
-5bb0ecddb2a7f6 Pierre-Louis Bossart  2021-03-01  1307  	platform_device_unregister(hdev->dmic_dev);
-47f868f27a979a Pierre-Louis Bossart  2023-08-30  1308  
-dd96daca6c83ec Liam Girdwood         2019-04-12  1309  	return ret;
-dd96daca6c83ec Liam Girdwood         2019-04-12  1310  }
-dd96daca6c83ec Liam Girdwood         2019-04-12  1311  
+   179	
+   180	static int rn5t618_i2c_probe(struct i2c_client *i2c)
+   181	{
+   182		struct rn5t618 *priv;
+   183		int ret;
+   184	
+   185		priv = devm_kzalloc(&i2c->dev, sizeof(*priv), GFP_KERNEL);
+   186		if (!priv)
+   187			return -ENOMEM;
+   188	
+   189		i2c_set_clientdata(i2c, priv);
+ > 190		priv->variant = (long)i2c_get_match_data(&i2c->dev);
+   191		priv->irq = i2c->irq;
+   192		priv->dev = &i2c->dev;
+   193	
+   194		priv->regmap = devm_regmap_init_i2c(i2c, &rn5t618_regmap_config);
+   195		if (IS_ERR(priv->regmap)) {
+   196			ret = PTR_ERR(priv->regmap);
+   197			dev_err(&i2c->dev, "regmap init failed: %d\n", ret);
+   198			return ret;
+   199		}
+   200	
+   201		if (priv->variant == RC5T619)
+   202			ret = devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_NONE,
+   203						   rc5t619_cells,
+   204						   ARRAY_SIZE(rc5t619_cells),
+   205						   NULL, 0, NULL);
+   206		else
+   207			ret = devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_NONE,
+   208						   rn5t618_cells,
+   209						   ARRAY_SIZE(rn5t618_cells),
+   210						   NULL, 0, NULL);
+   211		if (ret) {
+   212			dev_err(&i2c->dev, "failed to add sub-devices: %d\n", ret);
+   213			return ret;
+   214		}
+   215	
+   216		rn5t618_pm_power_off = i2c;
+   217		if (of_device_is_system_power_controller(i2c->dev.of_node)) {
+   218			if (!pm_power_off)
+   219				pm_power_off = rn5t618_power_off;
+   220			else
+   221				dev_warn(&i2c->dev, "Poweroff callback already assigned\n");
+   222		}
+   223	
+   224		rn5t618_restart_handler.notifier_call = rn5t618_restart;
+   225		rn5t618_restart_handler.priority = 192;
+   226	
+   227		ret = register_restart_handler(&rn5t618_restart_handler);
+   228		if (ret) {
+   229			dev_err(&i2c->dev, "cannot register restart handler, %d\n", ret);
+   230			return ret;
+   231		}
+   232	
+   233		return rn5t618_irq_init(priv);
+   234	}
+   235	
 
 -- 
 0-DAY CI Kernel Test Service
