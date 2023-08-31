@@ -1,63 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B6210FA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 02:15:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32DBCC433C8;
-	Thu, 31 Aug 2023 02:15:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693448122;
-	bh=L0lMXUfo3BFcwZc2dE9trYeiKcYdxRq4cBHj8MEvdjE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GVjWugQVBklJXsNJBNWA6MBi1cR8xiT3i61ArumufZpxj9/NTYoS97kyySkDpXDhT
-	 toM+xYEq5V2lKWCqF1rfHTTK6gmVlj+gKdl1b1Iuy9xlFv5WcJXaQylJddvcT6CCCb
-	 uUInxM7SQDV6IGTDE1CiNGhi6wUxSOk5JV4bFS6rIfBXfDK/477+G7LGIffAWpX9Gx
-	 H+PUUZlO1l5cjOCpze4avZtp1Wm8PSOjzEXmc51u6CfIqKaw3EkZYh96UpkyOyKXMH
-	 DCycbZzyiaBzpRxVsgOh4N/es42XDd/2BznFZ8aKHihct6LTv2fSPtFgcBs7V1X/Z5
-	 gLlN/eRaOA/Qg==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [sj:damon/next 33/46] mm/damon/core.c:1612: warning: Function parameter or member 'r' not described in 'damon_update_region_access_rate'
-Date: Thu, 31 Aug 2023 02:15:20 +0000
-Message-Id: <20230831021520.35355-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202308301305.GdlrAUWM-lkp@intel.com>
-References: 
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F099EA1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 02:47:16 +0000 (UTC)
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 37V2eK2M1021782, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 37V2eK2M1021782
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 31 Aug 2023 10:40:20 +0800
+Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Thu, 31 Aug 2023 10:40:38 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Thu, 31 Aug 2023 10:40:37 +0800
+Received: from RTEXDAG02.realtek.com.tw ([fe80::4487:9c61:3072:c8d4]) by
+ RTEXDAG02.realtek.com.tw ([fe80::4487:9c61:3072:c8d4%5]) with mapi id
+ 15.01.2375.007; Thu, 31 Aug 2023 10:40:37 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: kernel test robot <lkp@intel.com>, "kvalo@kernel.org" <kvalo@kernel.org>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+        "Kevin
+ Yang" <kevin_yang@realtek.com>,
+        "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>
+Subject: RE: [PATCH 1/6] wifi: rtw89: mcc: initialize start flow
+Thread-Topic: [PATCH 1/6] wifi: rtw89: mcc: initialize start flow
+Thread-Index: AQHZ2h+JnUG3RF/gi0SW0F+ZdLzKurACUGuAgAFkJHA=
+Date: Thu, 31 Aug 2023 02:40:37 +0000
+Message-ID: <649b583bd1da41bd895cb84345485af9@realtek.com>
+References: <20230829021918.14599-2-pkshih@realtek.com>
+ <202308302155.2snig4j9-lkp@intel.com>
+In-Reply-To: <202308302155.2snig4j9-lkp@intel.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.69.25]
+x-kse-serverinfo: RTEXMBS06.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-Hi Robot,
-
-On Wed, 30 Aug 2023 13:31:54 +0800 kernel test robot <lkp@intel.com> wrote:
-
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   15d82784a3f9e2e8a4c635de097a86ddc744845d
-> commit: 2ca3eed468aa3862415dc3fee90bba1b46f7cc2b [33/46] mm/damon/core: define and use dedicated function for region access rate update
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230830/202308301305.GdlrAUWM-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230830/202308301305.GdlrAUWM-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308301305.GdlrAUWM-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> mm/damon/core.c:1612: warning: Function parameter or member 'r' not described in 'damon_update_region_access_rate'
-> >> mm/damon/core.c:1612: warning: Excess function parameter 'region' description in 'damon_update_region_access_rate'
-
-Thank you for finding this!  I will commit-amend the fix and push.
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
 
-Thanks,
-SJ
 
-[...]
+> -----Original Message-----
+> From: kernel test robot <lkp@intel.com>
+> Sent: Wednesday, August 30, 2023 9:25 PM
+> To: Ping-Ke Shih <pkshih@realtek.com>; kvalo@kernel.org
+> Cc: oe-kbuild-all@lists.linux.dev; Kevin Yang <kevin_yang@realtek.com>; l=
+inux-wireless@vger.kernel.org
+> Subject: Re: [PATCH 1/6] wifi: rtw89: mcc: initialize start flow
+>=20
+> >> ERROR: modpost: "__umoddi3" [drivers/net/wireless/realtek/rtw89/rtw89_=
+core.ko] undefined!
+
+I will use div_u64_rem() instead, and send v2.
+
+Ping-Ke
+
