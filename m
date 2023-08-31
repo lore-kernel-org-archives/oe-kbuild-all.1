@@ -1,166 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17918F5D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 11:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693480250; x=1725016250;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O3UskZztiSHiG62oxbXUlE5RV3C35EYtv8AyacANeBw=;
-  b=cO/9g0fOdnHqeqpQnUd9JRW3lhgCRpnXJ34ito9kE7txY0yF7PP7xg98
-   nV8KTZzmLl6TJMXgMkKE89/F9KAMngQLeppIFOIhevosU8F4cInwpbOv9
-   mCj+verCrqiBr/3LJNPJowLHzmWK0Mqu8fKxz3F/9VGKikZdIz3mCl92E
-   bjYl4GrLae0N8t2CeBuFoOA9B5VEwqOeBeT6UaqBh8UrwIAAOFN7FzSWo
-   iQDKjSkm75r3x6EYJSwbwsIzLPeocy92gb/i40tk6HfcrLPxjx5bF4AVB
-   6dV7ai8mdcnx7JIlqP+nMD87jY+sf3tOstE24m4Y8RnWQApOCBDF5x8gY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="366099748"
-X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="366099748"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 04:10:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="854136946"
-X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="854136946"
-Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 31 Aug 2023 04:10:46 -0700
-Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qbfZU-00004N-0A;
-	Thu, 31 Aug 2023 11:10:44 +0000
-Date: Thu, 31 Aug 2023 19:10:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xu Kuohai <xukuohai@huaweicloud.com>, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jakub Sitnicki <jakub@cloudflare.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH bpf-next] bpf, sockmap: Rename sock_map_get_from_fd to
- sock_map_prog_attach
-Message-ID: <202308311959.Snzn4Unt-lkp@intel.com>
-References: <20230831014346.2931397-1-xukuohai@huaweicloud.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F08D8F5E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 11:23:41 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-79289fefdbeso27573439f.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 04:23:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693481021; x=1694085821; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X/4EQg5ev/+deumnX6OUgiklslgIWa0lVWUE22HEhVI=;
+        b=swPUTLaSSl7NKKBVw/k/SzbwxqLfSjB5zaThxayYGiSNgp24F0I918SEgipidaZLbk
+         VcXzMRqMP3Bx9ddo1plpIHdKzRwvaW/696yQztbn04Um7GAuuD60gQ3fEPxNyqZIJ/fE
+         oGbKnbeab+lOfviKJlPNY2LwH+Kzb2nwxQ+W50sXHhykIs64LubFF7c7pyAW/7SHTw2w
+         gh5dQWB8YinN5+yrMzcmsb2DvfyhXuja3MdlkSaKrZW3FccoHz3TfztqnwpGkkT0d4a/
+         456/vD1YsendBOQRgq9X7oXn8pEHwi6bgVTa1ScB0n3V+anmMEwYiI1O03WqVT+FrGgh
+         OeVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693481021; x=1694085821;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X/4EQg5ev/+deumnX6OUgiklslgIWa0lVWUE22HEhVI=;
+        b=GHI749S6hgFeld6zfebbFReMRHSGfyGVLk+kl7sbqQQornY0UVEeO+wsk/eaCoQSu+
+         rAn+befbeTtQv/vtQZ3yak/KrZ0ptSDnudNfvZGcTUoc+vpJh1Zeeb5olLC952Mkhwvr
+         52Cjp53M/9doul3H97PbrbPG4Qh1cVF9ic2gCkt30j90nBq+4gPIkBWe1QBTJ1iOpnsP
+         ZogeaJwM2USWRm1M/uqFKi8FQPgLZPaq7mnrTilFNBAc0tMKi8Sms2tb36Sd7uUM+BQP
+         QBFRztIGD9tYbF+bW6gGLvKXg1IUArcxYf+wIeW20h36hw0+IQdl3EkYp1INDd3iJ4V3
+         ejdw==
+X-Gm-Message-State: AOJu0Yw188VpqP8YGqB5uXsN7NVPfbZ6DSqHfUdvStfHoTMgm5vbZCjg
+	lC93FVcXXGQNu8te44aJhS9yRuUsgWpoZjqZ31A=
+X-Google-Smtp-Source: AGHT+IE7kYVayzAdUAGhBuecJxFu3vc4i9pwityv8OGY+ZE/76nl5azA2K6fuvqOt/HcNuVjbfCF5JyFZuuFoBpr+v8=
+X-Received: by 2002:a05:6602:474a:b0:795:2274:1f3f with SMTP id
+ dy10-20020a056602474a00b0079522741f3fmr5120974iob.3.1693481020894; Thu, 31
+ Aug 2023 04:23:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230831014346.2931397-1-xukuohai@huaweicloud.com>
+References: <202308311610.ec6bm2G8-lkp@intel.com> <20230831-congested-monument-44ddb496204d@wendy>
+In-Reply-To: <20230831-congested-monument-44ddb496204d@wendy>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 31 Aug 2023 12:22:50 +0100
+Message-ID: <CA+V-a8thx2qah2gJVG6mmrSCtnLTBRFS7fr+cpTMU-6RpqoaTQ@mail.gmail.com>
+Subject: Re: [WARNING: ATTACHMENT UNSCANNED]Re: [linux-next:master
+ 13230/13643] arch/riscv/errata/andes/errata.c:29:23: error: storage size of
+ 'ret' isn't known
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, kernel test robot <lkp@intel.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Palmer Dabbelt <palmer@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Xu,
+Hi Conor,
 
-kernel test robot noticed the following build errors:
+On Thu, Aug 31, 2023 at 10:44=E2=80=AFAM Conor Dooley
+<conor.dooley@microchip.com> wrote:
+>
+> On Thu, Aug 31, 2023 at 04:52:00PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+.git master
+> > head:   a47fc304d2b678db1a5d760a7d644dac9b067752
+> > commit: f2863f30d1b05e5ecf61c063609cb974954d47f8 [13230/13643] riscv: e=
+rrata: Add Andes alternative ports
+> > config: riscv-randconfig-001-20230831 (https://download.01.org/0day-ci/=
+archive/20230831/202308311610.ec6bm2G8-lkp@intel.com/config)
+> > compiler: riscv64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20230831/202308311610.ec6bm2G8-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202308311610.ec6bm2G8-l=
+kp@intel.com/
+> >
+> > All error/warnings (new ones prefixed by >>):
+> >
+> >    arch/riscv/errata/andes/errata.c: In function 'ax45mp_iocp_sw_workar=
+ound':
+> > >> arch/riscv/errata/andes/errata.c:29:23: error: storage size of 'ret'=
+ isn't known
+> >       29 |         struct sbiret ret;
+> >          |                       ^~~
+> > >> arch/riscv/errata/andes/errata.c:35:15: error: implicit declaration =
+of function 'sbi_ecall' [-Werror=3Dimplicit-function-declaration]
+> >       35 |         ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES, ANDES_SBI=
+_EXT_IOCP_SW_WORKAROUND,
+> >          |               ^~~~~~~~~
+> > >> arch/riscv/errata/andes/errata.c:29:23: warning: unused variable 're=
+t' [-Wunused-variable]
+> >       29 |         struct sbiret ret;
+> >          |                       ^~~
+> >    cc1: some warnings being treated as errors
+> >
+> >
+> > vim +29 arch/riscv/errata/andes/errata.c
+> >
+> >     26
+> >     27        static long ax45mp_iocp_sw_workaround(void)
+> >     28        {
+> >   > 29                struct sbiret ret;
+> >     30
+> >     31                /*
+> >     32                 * ANDES_SBI_EXT_IOCP_SW_WORKAROUND SBI EXT check=
+s if the IOCP is missing and
+> >     33                 * cache is controllable only then CMO will be ap=
+plied to the platform.
+> >     34                 */
+> >   > 35                ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES, ANDES_=
+SBI_EXT_IOCP_SW_WORKAROUND,
+> >     36                                0, 0, 0, 0, 0, 0);
+> >     37
+> >     38                return ret.error ? 0 : ret.value;
+> >     39        }
+> >     40
+>
+> Looks like the config doesn't enable SBI, so ERRATA_ANDES_CMO will need
+> to grow a dependency on RISCV_SBI.
+I think adding dependency for RISCV_SBI on ERRATA_ANDES would be a good ide=
+a.
 
-[auto build test ERROR on bpf-next/master]
+While at it I am seeing below warnings with this randconfig:
+WARNING: unmet direct dependencies detected for ERRATA_ANDES_CMO
+  Depends on [n]: ERRATA_ANDES [=3Dy] && MMU [=3Dn] && ARCH_R9A07G043 [=3Dy=
+]
+  Selected by [y]:
+  - ARCH_R9A07G043 [=3Dy] && SOC_RENESAS [=3Dy] && RISCV [=3Dy]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Kuohai/bpf-sockmap-Rename-sock_map_get_from_fd-to-sock_map_prog_attach/20230831-094551
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230831014346.2931397-1-xukuohai%40huaweicloud.com
-patch subject: [PATCH bpf-next] bpf, sockmap: Rename sock_map_get_from_fd to sock_map_prog_attach
-config: parisc-randconfig-r012-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311959.Snzn4Unt-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311959.Snzn4Unt-lkp@intel.com/reproduce)
+WARNING: unmet direct dependencies detected for AX45MP_L2_CACHE
+  Depends on [n]: RISCV_DMA_NONCOHERENT [=3Dn]
+  Selected by [y]:
+  - ARCH_R9A07G043 [=3Dy] && SOC_RENESAS [=3Dy] && RISCV [=3Dy]
+configuration written to .config
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308311959.Snzn4Unt-lkp@intel.com/
+*** End of the configuration.
+*** Execute 'make' to start the build or try 'make help'.
 
-All errors (new ones prefixed by >>):
+For which I will send the below fix:
+--- a/drivers/soc/renesas/Kconfig
++++ b/drivers/soc/renesas/Kconfig
+@@ -334,10 +334,10 @@ if RISCV
+ config ARCH_R9A07G043
+     bool "RISC-V Platform support for RZ/Five"
+     select ARCH_RZG2L
+-    select AX45MP_L2_CACHE
++    imply AX45MP_L2_CACHE
+     select DMA_GLOBAL_POOL
+-    select ERRATA_ANDES
+-    select ERRATA_ANDES_CMO
++    imply ERRATA_ANDES
++    imply ERRATA_ANDES_CMO
+     help
+       This enables support for the Renesas RZ/Five SoC.
 
-   kernel/bpf/syscall.c: In function 'bpf_prog_attach':
->> kernel/bpf/syscall.c:3825:23: error: implicit declaration of function 'sock_map_prog_attach'; did you mean 'sock_map_prog_detach'? [-Werror=implicit-function-declaration]
-    3825 |                 ret = sock_map_prog_attach(attr, prog);
-         |                       ^~~~~~~~~~~~~~~~~~~~
-         |                       sock_map_prog_detach
-   cc1: some warnings being treated as errors
-
-
-vim +3825 kernel/bpf/syscall.c
-
-  3782	
-  3783	#define BPF_F_ATTACH_MASK_BASE	\
-  3784		(BPF_F_ALLOW_OVERRIDE |	\
-  3785		 BPF_F_ALLOW_MULTI |	\
-  3786		 BPF_F_REPLACE)
-  3787	
-  3788	#define BPF_F_ATTACH_MASK_MPROG	\
-  3789		(BPF_F_REPLACE |	\
-  3790		 BPF_F_BEFORE |		\
-  3791		 BPF_F_AFTER |		\
-  3792		 BPF_F_ID |		\
-  3793		 BPF_F_LINK)
-  3794	
-  3795	static int bpf_prog_attach(const union bpf_attr *attr)
-  3796	{
-  3797		enum bpf_prog_type ptype;
-  3798		struct bpf_prog *prog;
-  3799		u32 mask;
-  3800		int ret;
-  3801	
-  3802		if (CHECK_ATTR(BPF_PROG_ATTACH))
-  3803			return -EINVAL;
-  3804	
-  3805		ptype = attach_type_to_prog_type(attr->attach_type);
-  3806		if (ptype == BPF_PROG_TYPE_UNSPEC)
-  3807			return -EINVAL;
-  3808		mask = bpf_mprog_supported(ptype) ?
-  3809		       BPF_F_ATTACH_MASK_MPROG : BPF_F_ATTACH_MASK_BASE;
-  3810		if (attr->attach_flags & ~mask)
-  3811			return -EINVAL;
-  3812	
-  3813		prog = bpf_prog_get_type(attr->attach_bpf_fd, ptype);
-  3814		if (IS_ERR(prog))
-  3815			return PTR_ERR(prog);
-  3816	
-  3817		if (bpf_prog_attach_check_attach_type(prog, attr->attach_type)) {
-  3818			bpf_prog_put(prog);
-  3819			return -EINVAL;
-  3820		}
-  3821	
-  3822		switch (ptype) {
-  3823		case BPF_PROG_TYPE_SK_SKB:
-  3824		case BPF_PROG_TYPE_SK_MSG:
-> 3825			ret = sock_map_prog_attach(attr, prog);
-  3826			break;
-  3827		case BPF_PROG_TYPE_LIRC_MODE2:
-  3828			ret = lirc_prog_attach(attr, prog);
-  3829			break;
-  3830		case BPF_PROG_TYPE_FLOW_DISSECTOR:
-  3831			ret = netns_bpf_prog_attach(attr, prog);
-  3832			break;
-  3833		case BPF_PROG_TYPE_CGROUP_DEVICE:
-  3834		case BPF_PROG_TYPE_CGROUP_SKB:
-  3835		case BPF_PROG_TYPE_CGROUP_SOCK:
-  3836		case BPF_PROG_TYPE_CGROUP_SOCK_ADDR:
-  3837		case BPF_PROG_TYPE_CGROUP_SOCKOPT:
-  3838		case BPF_PROG_TYPE_CGROUP_SYSCTL:
-  3839		case BPF_PROG_TYPE_SOCK_OPS:
-  3840		case BPF_PROG_TYPE_LSM:
-  3841			if (ptype == BPF_PROG_TYPE_LSM &&
-  3842			    prog->expected_attach_type != BPF_LSM_CGROUP)
-  3843				ret = -EINVAL;
-  3844			else
-  3845				ret = cgroup_bpf_prog_attach(attr, ptype, prog);
-  3846			break;
-  3847		case BPF_PROG_TYPE_SCHED_CLS:
-  3848			ret = tcx_prog_attach(attr, prog);
-  3849			break;
-  3850		default:
-  3851			ret = -EINVAL;
-  3852		}
-  3853	
-  3854		if (ret)
-  3855			bpf_prog_put(prog);
-  3856		return ret;
-  3857	}
-  3858	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Prabhakar
