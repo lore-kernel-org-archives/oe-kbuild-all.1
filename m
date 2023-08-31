@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9271A8498;
-	Thu, 31 Aug 2023 09:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E0A79F8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 09:45:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693474558; x=1725010558;
+  t=1693475158; x=1725011158;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=D3KjoyegWgCFqbsvoAhvULbaH+lWNnUj86eE942AVgc=;
-  b=WxbpgxIBX4arNrs0N0yAhGKl0ob17ZUcchqxH6ermJa/JDxBQuW1/0II
-   ZtxYABxepBzKYAORe0Cst8TBVYCQjvFssQyTbz9ybTaI6+1fj82KpiAWx
-   955yecPR6qW6OHWY3bD/c7Gld1Wrg2IonT7v7uf3P6iMEy8UMvxGcJqt0
-   u3fnMhVPjy5ouE015doKy+P7nIdKsuuh9+434NhAU4OEJstZz5ow0cT3E
-   FU/YElhz4c1lby6jNGucmcdZkqlA8U8WAimvfIHLg77IcoHjKYFatT0Wq
-   8WllsIxxGZs1P4pCINP4Q8zDPnpQ/6gGbf/jlmrIDgILex98VtPJ/xF2b
+  bh=ZZAGLbSH8eC0EwEQKiYztBPBDbomugZMJtC2h7cRgP0=;
+  b=NAhqhACIJLjPQ7EhLcWqN/HG0S4zlDfksyrs3tosRVFlD7Dpgubrjq6/
+   TZz0TlBbYUxtE82KyJQ5biwXLiZDCL65+paalYm6oP4Uc0NOMFBofN43q
+   nwtG4EZnTlDR/01tV7PUAyuFmCEgJEYh5FaK9gjddPgNHduSd10EWiLk/
+   9Jmr0hstOVLHoVxfe3iYzn4XW7AfiOTGmxTUmv5p7BdjeDJxZLYkW5CJx
+   x4ZRlZFSafyyOxYryxV2fj6AHbn74NB7jSiLlHB9SMD0sWckfioTFUrvI
+   7iDgwN8Qy7QQ+xJe5fQqQSYW0StIeTrdrKqVAdLD6AdgCWME1wSGOjNHA
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="360871339"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="356195677"
 X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="360871339"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 02:35:57 -0700
+   d="scan'208";a="356195677"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 02:45:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="986145667"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="829591088"
 X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="986145667"
+   d="scan'208";a="829591088"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 31 Aug 2023 02:35:54 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 31 Aug 2023 02:45:54 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbe5Y-000BBn-2G;
-	Thu, 31 Aug 2023 09:35:50 +0000
-Date: Thu, 31 Aug 2023 17:35:36 +0800
+	id 1qbeFM-000BCf-2t;
+	Thu, 31 Aug 2023 09:45:52 +0000
+Date: Thu, 31 Aug 2023 17:45:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fabio Estevam <festevam@gmail.com>, rafael@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	daniel.lezcano@linaro.org, amitk@kernel.org, rui.zhang@intel.com,
-	linux-pm@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
-	Fabio Estevam <festevam@denx.de>
-Subject: Re: [PATCH v6 3/3] thermal: thermal_core: Allow rebooting after
- critical temp
-Message-ID: <202308311705.C7t4Vtwu-lkp@intel.com>
-References: <20230830151908.2149847-3-festevam@gmail.com>
+To: Tianyi Liu <i.pear@outlook.com>, acme@kernel.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mingo@redhat.com, mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+	namhyung@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+	Tianyi Liu <i.pear@outlook.com>
+Subject: Re: [PATCH] Introduce callchains for guests
+Message-ID: <202308311743.uvv4Ras8-lkp@intel.com>
+References: <SY4P282MB10848199D3F93AA47A845B8B9DE5A@SY4P282MB1084.AUSP282.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,47 +50,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230830151908.2149847-3-festevam@gmail.com>
+In-Reply-To: <SY4P282MB10848199D3F93AA47A845B8B9DE5A@SY4P282MB1084.AUSP282.PROD.OUTLOOK.COM>
 
-Hi Fabio,
+Hi Tianyi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rafael-pm/thermal]
-[also build test WARNING on linus/master v6.5 next-20230831]
+[auto build test WARNING on tip/perf/core]
+[also build test WARNING on acme/perf/core linus/master v6.5 next-20230831]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-Estevam/reboot-Introduce-hw_protection_reboot/20230831-034226
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20230830151908.2149847-3-festevam%40gmail.com
-patch subject: [PATCH v6 3/3] thermal: thermal_core: Allow rebooting after critical temp
-config: s390-randconfig-r025-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311705.C7t4Vtwu-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311705.C7t4Vtwu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyi-Liu/Introduce-callchains-for-guests/20230831-161333
+base:   tip/perf/core
+patch link:    https://lore.kernel.org/r/SY4P282MB10848199D3F93AA47A845B8B9DE5A%40SY4P282MB1084.AUSP282.PROD.OUTLOOK.COM
+patch subject: [PATCH] Introduce callchains for guests
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230831/202308311743.uvv4Ras8-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311743.uvv4Ras8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308311705.C7t4Vtwu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308311743.uvv4Ras8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/thermal/thermal_of.c:221:27: warning: unused variable 'critical_actions' [-Wunused-const-variable]
-   static const char * const critical_actions[] = {
-                             ^
-   1 warning generated.
+>> kernel/events/callchain.c:48:13: warning: no previous prototype for 'perf_callchain_guest' [-Wmissing-prototypes]
+      48 | __weak void perf_callchain_guest(struct perf_callchain_entry_ctx *entry)
+         |             ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/critical_actions +221 drivers/thermal/thermal_of.c
+vim +/perf_callchain_guest +48 kernel/events/callchain.c
 
-   220	
- > 221	static const char * const critical_actions[] = {
-   222		[THERMAL_CRITICAL_ACTION_SHUTDOWN]	= "shutdown",
-   223		[THERMAL_CRITICAL_ACTION_REBOOT]	= "reboot",
-   224	};
-   225	
+    47	
+  > 48	__weak void perf_callchain_guest(struct perf_callchain_entry_ctx *entry)
+    49	{
+    50	}
+    51	
 
 -- 
 0-DAY CI Kernel Test Service
