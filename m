@@ -1,186 +1,130 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3656186A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 15:00:29 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-79268f36c49so33871039f.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 08:00:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693494028; x=1694098828; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=maWUEzzcpZvbMut13ZGvpoiNO4A5EezHq+i4LSTx+aw=;
-        b=SCDw0IOWXT7L3RHrJVuYvFXY3HS54j1fYreRNBBHUwBfT6T7msjbtZJnbi68sGWzwJ
-         IJc2nF+JjVpBkdjMY5Ft6sOBTamc4mhcyzcGaL5vPAgoUMgeYRxerEock3o5IMT9utF0
-         mcUU0O3wHut2i1uAd6vFtF75jvR1ZcPambSFjPcrhO1POEySAhIqkFclMfyoXi+BS3Dx
-         9NpydWP750FVS/bJLP7LymSfqF3Uttr+E1g/zYp1XqjTB2eT8t3hYU7AqzRJg5h3GEKc
-         3+fIA3EedX+VJZzsfZMlpX4KjitEQSXZ8TO8xyJ5AmpW/7pDxYDSCfHE8LjGvukuwIsi
-         FvAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693494028; x=1694098828;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=maWUEzzcpZvbMut13ZGvpoiNO4A5EezHq+i4LSTx+aw=;
-        b=hVfIZBXgNIxH/SyGVi4GXkEi1URbI080bm8vu+Uk8HcPBDzRk7iFuiYEI508HTQTag
-         3wigNSztth1eIHC9dbA/t4Dvz84pCAEhwSK8/Ap6JHJmiOE9oQGWwy40C/r3Ik36nVbl
-         KleVA6HeTC9VW4np33od4ZEdvrQKYpCT0NWeyWzfcowYYPNSUzWQGdIDgWMsjFzQ1RNZ
-         EqiaBAIjJ+12SPsscmN1iM3gxfIR2SkthcbxsjDAo4NEV9l9ijPkLPiKY6+xheBOvS4v
-         /ReAyh4+iwF880TfsTG7rPWiGqfyKMPBu7D/ePnfFDUm7eudLdW4BNKwYwi4gq1KB0p0
-         3kRQ==
-X-Gm-Message-State: AOJu0YzS9OJpZ/R3RjutqZE7czwVl45kdcBod4eezbBu6JS5+o7YgAvB
-	DKNl/IWgXjtadDBVOnxRLqeP/EFSMBot2nx3uQ0=
-X-Google-Smtp-Source: AGHT+IE1hpLVe8DANjvKF5ZIjP2uvUmv41a6THgq2EWWovkdh94ymOSF0VaLPqZX54sKVZhmZgC955Wm4gQkSj2A8QM=
-X-Received: by 2002:a5e:980a:0:b0:792:82f8:6f90 with SMTP id
- s10-20020a5e980a000000b0079282f86f90mr6079936ioj.16.1693494028601; Thu, 31
- Aug 2023 08:00:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78856186A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 15:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693494416; x=1725030416;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kBkM4i4DRozProof0GOjpaE1vN2FfY16LB1tx0wzDus=;
+  b=ineTf/wxgQ2P8H7uK6u1O9ghwgohA8IBoXXuUgVJdkjqQH4dXLY1DfuF
+   ewS4RV6Nur0tC2XEUeXPfFfaAKPMZOm7PGpJuEZwse0LCqIHG5vvl9JBv
+   P9Q4Q1cqn64eohlcBuqAci6+22rz42o0LsmO+E3HwX/YH6nf+rWopBBm0
+   Y2mn/yx2aWW2JTCh25Rm7wN5IiFp9Z7gucrJOHBGoeW03lDZhBE3J1vbv
+   eDIjz4PoD6WNI7t4aqsPXQRf3eUsNOMUb69RBD0E80Fp0pMuKIf3hQoy3
+   t1tJvkDYetF766Pys5i5oELd2qbU0Qq+VsTSnGopfbe90VpZlyQqUKBPe
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="374885290"
+X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
+   d="scan'208";a="374885290"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 08:06:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="805032893"
+X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
+   d="scan'208";a="805032893"
+Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 31 Aug 2023 08:06:54 -0700
+Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qbjFz-0000Gz-2l;
+	Thu, 31 Aug 2023 15:06:51 +0000
+Date: Thu, 31 Aug 2023 23:06:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/639 9878/24603]
+ drivers/clk/imx/clk-imx8mm.c:710:26: warning: unused variable 'delta_k_fops'
+Message-ID: <202308312251.trHHTdPO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202308311610.ec6bm2G8-lkp@intel.com> <20230831-congested-monument-44ddb496204d@wendy>
- <CA+V-a8thx2qah2gJVG6mmrSCtnLTBRFS7fr+cpTMU-6RpqoaTQ@mail.gmail.com>
- <20230831-imperial-surviving-afdf6d275388@wendy> <CA+V-a8vT-LLsUOf+E1g4L+JBnFBn2SGhpDavHRS6k8DduK3KNQ@mail.gmail.com>
- <CAMuHMdWXDVpQeTD-ZdJi2Nk1JUgmSvaBfGUo-CtKpJDKXUdu0A@mail.gmail.com>
- <CA+V-a8s67RrfpfpJd_tqBtk1d_zanbCLVWqCHhUirBYs1zey9A@mail.gmail.com> <CAMuHMdWkjtH0JJ6xOLBSUd7J-Jsd-vALtqmxiXrhtaQRO6cTHQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWkjtH0JJ6xOLBSUd7J-Jsd-vALtqmxiXrhtaQRO6cTHQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 31 Aug 2023 15:59:37 +0100
-Message-ID: <CA+V-a8saBGu4t99k+7KD5o4g0p-Ou+ztFdwVAwmkRjFGFk_X3Q@mail.gmail.com>
-Subject: Re: [WARNING: ATTACHMENT UNSCANNED]Re: [linux-next:master
- 13230/13643] arch/riscv/errata/andes/errata.c:29:23: error: storage size of
- 'ret' isn't known
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>, kernel test robot <lkp@intel.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Geert,
+Hi Jindong,
 
-On Thu, Aug 31, 2023 at 2:24=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Thu, Aug 31, 2023 at 3:02=E2=80=AFPM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Thu, Aug 31, 2023 at 1:01=E2=80=AFPM Geert Uytterhoeven <geert@linux=
--m68k.org> wrote:
-> > > On Thu, Aug 31, 2023 at 1:54=E2=80=AFPM Lad, Prabhakar
-> > > <prabhakar.csengg@gmail.com> wrote:
-> > > > On Thu, Aug 31, 2023 at 12:34=E2=80=AFPM Conor Dooley
-> > > > <conor.dooley@microchip.com> wrote:
-> > > > > On Thu, Aug 31, 2023 at 12:22:50PM +0100, Lad, Prabhakar wrote:
-> > > > > > On Thu, Aug 31, 2023 at 10:44=E2=80=AFAM Conor Dooley
-> > > > > > <conor.dooley@microchip.com> wrote:
-<snip>
-> > Currently ARCH_R9A07G043 selects DMA_GLOBAL_POOL and we have
-> > RISCV_DMA_NONCOHERENT selecting DMA_DIRECT_REMAP which causes below
-> > build issue when MMU is disabled:
-> >
-> > kernel/dma/pool.c: In function 'atomic_pool_expand':
-> > kernel/dma/pool.c:105:44: error: implicit declaration of function
-> > 'pgprot_dmacoherent' [-Werror=3Dimplicit-function-declaration]
-> >   105 |
-> > pgprot_dmacoherent(PAGE_KERNEL),
-> >       |                                            ^~~~~~~~~~~~~~~~~~
-> > kernel/dma/pool.c:105:44: error: incompatible type for argument 3 of
-> > 'dma_common_contiguous_remap'
-> >   105 |
-> > pgprot_dmacoherent(PAGE_KERNEL),
-> >       |
-> > ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >       |                                            |
-> >       |                                            int
-> > In file included from kernel/dma/pool.c:8:
->
-> Hmm, kernel/dma/mapping.c has its use of pgprot_dmacoherent() inside
-> an #ifdef CONFIG_MMU block.
-> kernel/dma/pool.c has it inside an #ifdef CONFIG_DMA_DIRECT_REMAP block.
->
-> I guess that select should get a dependency on MMU:
->
->     config RISCV_DMA_NONCOHERENT
->             select DMA_DIRECT_REMAP if MMU
->
-> For comparison, m68k does take that into account:
->
->     select DMA_DIRECT_REMAP if HAS_DMA && MMU && !COLDFIRE
->
-Thanks for the pointer. With this changes we dont get an unmet
-dependencies warning.
+FYI, the error/warning still remains.
 
-arch/riscv/errata/andes/errata.c: In function 'ax45mp_iocp_sw_workaround':
-arch/riscv/errata/andes/errata.c:29:23: error: storage size of 'ret' isn't =
-known
-   29 |         struct sbiret ret;
-      |                       ^~~
-arch/riscv/errata/andes/errata.c:35:15: error: implicit declaration of
-function 'sbi_ecall' [-Werror=3Dimplicit-function-declaration]
-   35 |         ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES,
-ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
-      |               ^~~~~~~~~
-arch/riscv/errata/andes/errata.c:29:23: warning: unused variable 'ret'
-[-Wunused-variable]
-   29 |         struct sbiret ret;
-      |                       ^~~
-arch/riscv/errata/andes/errata.c:39:1: error: control reaches end of
-non-void function [-Werror=3Dreturn-type]
-   39 | }
-      | ^
-cc1: some warnings being treated as errors
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: e1ab8f0dce3e08b5ec37419160bfc04ef4f438e1 [9878/24603] MA-19046 clk: imx8mm: Support building clk-imx8mm driver as module
+config: riscv-randconfig-r015-20230831 (https://download.01.org/0day-ci/archive/20230831/202308312251.trHHTdPO-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308312251.trHHTdPO-lkp@intel.com/reproduce)
 
-To fix the above build issue reported by the bot, adding a dependency
-for RISCV_SBI in ERRATA_ANDES won't help as ARCH_R9A07G043 is
-explicitly selecting it. To avoid imply should explicitly select based
-on dependency something like below?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308312251.trHHTdPO-lkp@intel.com/
 
-diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
-index 92c779764b27..566bcefeab50 100644
---- a/arch/riscv/Kconfig.errata
-+++ b/arch/riscv/Kconfig.errata
-@@ -2,7 +2,7 @@ menu "CPU errata selection"
+All warnings (new ones prefixed by >>):
 
- config ERRATA_ANDES
-     bool "Andes AX45MP errata"
--    depends on RISCV_ALTERNATIVE
-+    depends on RISCV_ALTERNATIVE && RISCV_SBI
-     help
-       All Andes errata Kconfig depend on this Kconfig. Disabling
-       this Kconfig will disable all Andes errata. Please say "Y"
-@@ -12,7 +12,7 @@ config ERRATA_ANDES
+>> drivers/clk/imx/clk-imx8mm.c:710:26: warning: unused variable 'delta_k_fops' [-Wunused-const-variable]
+   DEFINE_DEBUGFS_ATTRIBUTE(delta_k_fops, NULL, pll_delta_k_set, "%lld\n");
+                            ^
+>> drivers/clk/imx/clk-imx8mm.c:731:1: warning: unused variable 'pll_setting_fops' [-Wunused-const-variable]
+   DEFINE_SHOW_ATTRIBUTE(pll_setting);
+   ^
+   include/linux/seq_file.h:186:37: note: expanded from macro 'DEFINE_SHOW_ATTRIBUTE'
+   static const struct file_operations __name ## _fops = {                 \
+                                       ^
+   <scratch space>:151:1: note: expanded from here
+   pll_setting_fops
+   ^
+   2 warnings generated.
 
- config ERRATA_ANDES_CMO
-     bool "Apply Andes cache management errata"
--    depends on ERRATA_ANDES && MMU && ARCH_R9A07G043
-+    depends on ERRATA_ANDES && ARCH_R9A07G043
-     select RISCV_DMA_NONCOHERENT
-     default y
-     help
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 67604f24973e..543300fe9862 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -334,10 +334,10 @@ if RISCV
- config ARCH_R9A07G043
-     bool "RISC-V Platform support for RZ/Five"
-     select ARCH_RZG2L
--    select AX45MP_L2_CACHE
-+    select AX45MP_L2_CACHE if RISCV_DMA_NONCOHERENT
-     select DMA_GLOBAL_POOL
--    select ERRATA_ANDES
--    select ERRATA_ANDES_CMO
-+    select ERRATA_ANDES if RISCV_SBI
-+    select ERRATA_ANDES_CMO if ERRATA_ANDES
-     help
-       This enables support for the Renesas RZ/Five SoC.
 
-Or am I missing a simpler way to fix this.
+vim +/delta_k_fops +710 drivers/clk/imx/clk-imx8mm.c
 
-Cheers,
-Prabhakar
+85a61310c03536 Jacky Bai 2020-04-07  696  
+85a61310c03536 Jacky Bai 2020-04-07  697  static int pll_delta_k_set(void *data, u64 val)
+85a61310c03536 Jacky Bai 2020-04-07  698  {
+85a61310c03536 Jacky Bai 2020-04-07  699  	struct clk_hw *hw;
+85a61310c03536 Jacky Bai 2020-04-07  700  	short int delta_k;
+85a61310c03536 Jacky Bai 2020-04-07  701  
+85a61310c03536 Jacky Bai 2020-04-07  702  	hw = data;
+85a61310c03536 Jacky Bai 2020-04-07  703  	delta_k = (short int) (val & KDIV_MASK);
+85a61310c03536 Jacky Bai 2020-04-07  704  
+85a61310c03536 Jacky Bai 2020-04-07  705  	clk_set_delta_k(hw, val);
+85a61310c03536 Jacky Bai 2020-04-07  706  
+85a61310c03536 Jacky Bai 2020-04-07  707  	pr_debug("the delta k is %d\n", delta_k);
+85a61310c03536 Jacky Bai 2020-04-07  708  	return 0;
+85a61310c03536 Jacky Bai 2020-04-07  709  }
+85a61310c03536 Jacky Bai 2020-04-07 @710  DEFINE_DEBUGFS_ATTRIBUTE(delta_k_fops, NULL, pll_delta_k_set, "%lld\n");
+85a61310c03536 Jacky Bai 2020-04-07  711  
+85a61310c03536 Jacky Bai 2020-04-07  712  static int pll_setting_show(struct seq_file *s, void *data)
+85a61310c03536 Jacky Bai 2020-04-07  713  {
+85a61310c03536 Jacky Bai 2020-04-07  714  	struct clk_hw *hw;
+85a61310c03536 Jacky Bai 2020-04-07  715  	u32 pll_div_ctrl0, pll_div_ctrl1;
+85a61310c03536 Jacky Bai 2020-04-07  716  	u32 mdiv, pdiv, sdiv, kdiv;
+85a61310c03536 Jacky Bai 2020-04-07  717  
+85a61310c03536 Jacky Bai 2020-04-07  718  	hw = s->private;;
+85a61310c03536 Jacky Bai 2020-04-07  719  
+85a61310c03536 Jacky Bai 2020-04-07  720  	clk_get_pll_setting(hw, &pll_div_ctrl0, &pll_div_ctrl1);
+85a61310c03536 Jacky Bai 2020-04-07  721  	mdiv = (pll_div_ctrl0 & MDIV_MASK) >> MDIV_SHIFT;
+85a61310c03536 Jacky Bai 2020-04-07  722  	pdiv = (pll_div_ctrl0 & PDIV_MASK) >> PDIV_SHIFT;
+85a61310c03536 Jacky Bai 2020-04-07  723  	sdiv = (pll_div_ctrl0 & SDIV_MASK) >> SDIV_SHIFT;
+85a61310c03536 Jacky Bai 2020-04-07  724  	kdiv = (pll_div_ctrl1 & KDIV_MASK);
+85a61310c03536 Jacky Bai 2020-04-07  725  
+85a61310c03536 Jacky Bai 2020-04-07  726  	seq_printf(s, "Mdiv: 0x%x; Pdiv: 0x%x; Sdiv: 0x%x; Kdiv: 0x%x\n",
+85a61310c03536 Jacky Bai 2020-04-07  727  		mdiv, pdiv, sdiv, kdiv);
+85a61310c03536 Jacky Bai 2020-04-07  728  
+85a61310c03536 Jacky Bai 2020-04-07  729  	return 0;
+85a61310c03536 Jacky Bai 2020-04-07  730  }
+85a61310c03536 Jacky Bai 2020-04-07 @731  DEFINE_SHOW_ATTRIBUTE(pll_setting);
+85a61310c03536 Jacky Bai 2020-04-07  732  
+
+:::::: The code at line 710 was first introduced by commit
+:::::: 85a61310c03536f1da881cc423ae83dce540ddad MLK-23751 clk: imx: Add audio PLL debug fs for K-divider monitor control
+
+:::::: TO: Jacky Bai <ping.bai@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
