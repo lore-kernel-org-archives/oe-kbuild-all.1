@@ -1,45 +1,32 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B87511CBA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 16:22:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693498927; x=1725034927;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BRLfuPiPTfYW3QsMhpI748Qe3mTygddsk7Ewiqt4hVs=;
-  b=BmGVjw3ZYmCXxgUOHwKiddrsfF6rnK9fJY1dPQ/nTv1kWaWLRBJNHPlO
-   1vx2ccFRMhr7Dma7ajAMXUq7UERaaZeq9A3W9wMfcRo3WIZ45PEDlaV9s
-   i87WzyfDBy91G9qpNROjKxxutERf7mzQxfLhYJ5rT71E+yG6oiSQFTG2P
-   mbV1qxysPxJ47Kn5vB5WzI1QyK/NRyK6cBWIBGutuRCixWao+PItk0tnq
-   JmW0HE57x5mKPIYeBiBG21JWZEjFkBzKRct3N7kCrYEBcc76t9WA6iS/g
-   V9uHIAWtGz6TLTH6anDvRYipz7GT41L+BrooD2yOZNaCMAOixh2yMfGlS
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="375935903"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="375935903"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 09:22:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="829749545"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="829749545"
-Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 31 Aug 2023 09:21:57 -0700
-Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qbkQc-0000LH-1T;
-	Thu, 31 Aug 2023 16:21:54 +0000
-Date: Fri, 1 Sep 2023 00:20:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xabier Marquiegui <reibax@gmail.com>, richardcochran@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, chrony-dev@chrony.tuxfamily.org,
-	mlichvar@redhat.com, netdev@vger.kernel.org,
-	ntp-lists@mattcorallo.com, reibax@gmail.com
-Subject: Re: [PATCH] ptp: Demultiplexed timestamp channels
-Message-ID: <202309010030.U9g5VVWf-lkp@intel.com>
-References: <20230830214101.509086-2-reibax@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2BF11CBA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 16:22:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC838C433C8;
+	Thu, 31 Aug 2023 16:22:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693498938;
+	bh=JrMZKx4CpXJp7uU1vEvb0IgYXij8rPo+tfyY+LtuhXs=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=Q6RGFzLtIZ9qOUnC/GL4Vr+bAtTPCFR8ggUlJHJ50Phb95qSFofROmX3nQ0TuVdm5
+	 MayToVDYej5OgrHS9EKDfnCCUwKbVSBVnUnLROx1BpsAxAsKbOzDrMsEPlIMVY0txw
+	 DznCF+1N7ls/UP0jOqjz1E7RpGNY1H7vi8IVL+ox2a1w4yypkzHI9kPMYTV6U5XAWz
+	 SKkUFyneKBoPuldDNL/aqQ5x9ChIaQpNViFq8YLy3qWBxwierQJXE5dw34xD0FvciB
+	 KxbOfvdxLRF8E8+GnOIpWM/H63C2U1S1CrLQ0cc8Td+ZC/Ds6GAEdS+VCeHIl4z7/c
+	 73g6YcnzrkD8g==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 9BE5FCE0737; Thu, 31 Aug 2023 09:22:17 -0700 (PDT)
+Date: Thu, 31 Aug 2023 09:22:17 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [paulmck-rcu:dev.2023.08.22a 63/69]
+ kernel/locking/locktorture.c:294:20-23: ERROR: t is NULL but dereferenced.
+ (fwd)
+Message-ID: <7c706521-1e20-44da-91a7-e71f238a235e@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <e24280d0-dfbb-f4f-64aa-9f50268450b@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,225 +35,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230830214101.509086-2-reibax@gmail.com>
+In-Reply-To: <e24280d0-dfbb-f4f-64aa-9f50268450b@inria.fr>
 
-Hi Xabier,
+On Thu, Aug 31, 2023 at 11:01:02AM +0200, Julia Lawall wrote:
+> Maybe a ! has been forgotton on line 290?
 
-kernel test robot noticed the following build warnings:
+Right you are, and thank you!
 
-[auto build test WARNING on net/main]
-[also build test WARNING on net-next/main linus/master horms-ipvs/master v6.5 next-20230831]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I will go get my brown paper bag.  ;-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xabier-Marquiegui/ptp-Demultiplexed-timestamp-channels/20230831-054428
-base:   net/main
-patch link:    https://lore.kernel.org/r/20230830214101.509086-2-reibax%40gmail.com
-patch subject: [PATCH] ptp: Demultiplexed timestamp channels
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230901/202309010030.U9g5VVWf-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309010030.U9g5VVWf-lkp@intel.com/reproduce)
+							Thanx, Paul
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309010030.U9g5VVWf-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/ptp/ptp_chardev.c:449:9: warning: no previous declaration for 'ptp_queue_read' [-Wmissing-declarations]
-    ssize_t ptp_queue_read(struct ptp_clock *ptp, char __user *buf, size_t cnt,
-            ^~~~~~~~~~~~~~
->> drivers/ptp/ptp_chardev.c:544:5: warning: no previous declaration for 'ptp_dmtsc_release' [-Wmissing-declarations]
-    int ptp_dmtsc_release(struct inode *inode, struct file *file)
-        ^~~~~~~~~~~~~~~~~
->> drivers/ptp/ptp_chardev.c:556:9: warning: no previous declaration for 'ptp_dmtsc_read' [-Wmissing-declarations]
-    ssize_t ptp_dmtsc_read(struct file *file, char __user *buf, size_t cnt,
-            ^~~~~~~~~~~~~~
->> drivers/ptp/ptp_chardev.c:571:6: warning: no previous declaration for 'ptp_dmtsc_cdev_clean' [-Wmissing-declarations]
-    void ptp_dmtsc_cdev_clean(struct ptp_clock *ptp)
-         ^~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/linkage.h:7:0,
-                    from include/linux/kernel.h:17,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from drivers/ptp/ptp_chardev.c:7:
-   drivers/ptp/ptp_chardev.c: In function 'ptp_dmtsc_dev_register':
-   include/linux/export.h:31:21: error: passing argument 1 of 'class_create' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    #define THIS_MODULE ((struct module *)0)
-                        ^
-   drivers/ptp/ptp_chardev.c:612:17: note: in expansion of macro 'THIS_MODULE'
-       class_create(THIS_MODULE, "ptptsevqch_class");
-                    ^~~~~~~~~~~
-   In file included from include/linux/device.h:31:0,
-                    from include/linux/cdev.h:8,
-                    from include/linux/posix-clock.h:10,
-                    from drivers/ptp/ptp_chardev.c:8:
-   include/linux/device/class.h:230:29: note: expected 'const char *' but argument is of type 'struct module *'
-    struct class * __must_check class_create(const char *name);
-                                ^~~~~~~~~~~~
-   drivers/ptp/ptp_chardev.c:612:4: error: too many arguments to function 'class_create'
-       class_create(THIS_MODULE, "ptptsevqch_class");
-       ^~~~~~~~~~~~
-   In file included from include/linux/device.h:31:0,
-                    from include/linux/cdev.h:8,
-                    from include/linux/posix-clock.h:10,
-                    from drivers/ptp/ptp_chardev.c:8:
-   include/linux/device/class.h:230:29: note: declared here
-    struct class * __must_check class_create(const char *name);
-                                ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/ptp_queue_read +449 drivers/ptp/ptp_chardev.c
-
-   448	
- > 449	ssize_t ptp_queue_read(struct ptp_clock *ptp, char __user *buf, size_t cnt,
-   450			       int dmtsc)
-   451	{
-   452		struct timestamp_event_queue *queue;
-   453		struct mutex *tsevq_mux;
-   454		struct ptp_extts_event *event;
-   455		unsigned long flags;
-   456		size_t qcnt, i;
-   457		int result;
-   458	
-   459		if (dmtsc < 0) {
-   460			queue = &ptp->tsevq;
-   461			tsevq_mux = &ptp->tsevq_mux;
-   462		} else {
-   463			queue = &ptp->dmtsc_devs.cdev_info[dmtsc].tsevq;
-   464			tsevq_mux = &ptp->dmtsc_devs.cdev_info[dmtsc].tsevq_mux;
-   465		}
-   466	
-   467		if (cnt % sizeof(struct ptp_extts_event) != 0)
-   468			return -EINVAL;
-   469	
-   470		if (cnt > EXTTS_BUFSIZE)
-   471			cnt = EXTTS_BUFSIZE;
-   472	
-   473		cnt = cnt / sizeof(struct ptp_extts_event);
-   474	
-   475		if (mutex_lock_interruptible(tsevq_mux))
-   476			return -ERESTARTSYS;
-   477	
-   478		if (wait_event_interruptible(ptp->tsev_wq,
-   479					     ptp->defunct || queue_cnt(queue))) {
-   480			mutex_unlock(tsevq_mux);
-   481			return -ERESTARTSYS;
-   482		}
-   483	
-   484		if (ptp->defunct) {
-   485			mutex_unlock(tsevq_mux);
-   486			return -ENODEV;
-   487		}
-   488	
-   489		event = kmalloc(EXTTS_BUFSIZE, GFP_KERNEL);
-   490		if (!event) {
-   491			mutex_unlock(tsevq_mux);
-   492			return -ENOMEM;
-   493		}
-   494	
-   495		spin_lock_irqsave(&queue->lock, flags);
-   496	
-   497		qcnt = queue_cnt(queue);
-   498	
-   499		if (cnt > qcnt)
-   500			cnt = qcnt;
-   501	
-   502		for (i = 0; i < cnt; i++) {
-   503			event[i] = queue->buf[queue->head];
-   504			queue->head = (queue->head + 1) % PTP_MAX_TIMESTAMPS;
-   505		}
-   506	
-   507		spin_unlock_irqrestore(&queue->lock, flags);
-   508	
-   509		cnt = cnt * sizeof(struct ptp_extts_event);
-   510	
-   511		mutex_unlock(tsevq_mux);
-   512	
-   513		result = cnt;
-   514		if (copy_to_user(buf, event, cnt))
-   515			result = -EFAULT;
-   516	
-   517		kfree(event);
-   518		return result;
-   519	}
-   520	
-   521	ssize_t ptp_read(struct posix_clock *pc, uint rdflags, char __user *buf,
-   522			 size_t cnt)
-   523	{
-   524		struct ptp_clock *ptp = container_of(pc, struct ptp_clock, clock);
-   525	
-   526		return ptp_queue_read(ptp, buf, cnt, DMTSC_NOT);
-   527	}
-   528	
-   529	static int ptp_dmtsc_open(struct inode *inode, struct file *file)
-   530	{
-   531		struct ptp_dmtsc_cdev_info *cdev = container_of(
-   532			inode->i_cdev, struct ptp_dmtsc_cdev_info, dmtsc_cdev);
-   533	
-   534		file->private_data = cdev;
-   535	
-   536		if (mutex_lock_interruptible(&cdev->pclock->dmtsc_en_mux))
-   537			return -ERESTARTSYS;
-   538		cdev->pclock->dmtsc_en_flags |= (0x1 << (cdev->minor));
-   539		mutex_unlock(&cdev->pclock->dmtsc_en_mux);
-   540	
-   541		return stream_open(inode, file);
-   542	}
-   543	
- > 544	int ptp_dmtsc_release(struct inode *inode, struct file *file)
-   545	{
-   546		struct ptp_dmtsc_cdev_info *cdev = file->private_data;
-   547	
-   548		if (mutex_lock_interruptible(&cdev->pclock->dmtsc_en_mux))
-   549			return -ERESTARTSYS;
-   550		cdev->pclock->dmtsc_en_flags &= ~(0x1 << (cdev->minor));
-   551		mutex_unlock(&cdev->pclock->dmtsc_en_mux);
-   552	
-   553		return 0;
-   554	}
-   555	
- > 556	ssize_t ptp_dmtsc_read(struct file *file, char __user *buf, size_t cnt,
-   557			       loff_t *offset)
-   558	{
-   559		struct ptp_dmtsc_cdev_info *cdev = file->private_data;
-   560	
-   561		return ptp_queue_read(cdev->pclock, buf, cnt, cdev->minor);
-   562	}
-   563	
-   564	static const struct file_operations fops = {
-   565							.owner = THIS_MODULE,
-   566							.open = ptp_dmtsc_open,
-   567							.read = ptp_dmtsc_read,
-   568							.release = ptp_dmtsc_release
-   569							};
-   570	
- > 571	void ptp_dmtsc_cdev_clean(struct ptp_clock *ptp)
-   572	{
-   573		int idx, major;
-   574		dev_t device;
-   575	
-   576		major = MAJOR(ptp->dmtsc_devs.devid);
-   577		for (idx = 0; idx < ptp->info->n_ext_ts; idx++) {
-   578			if (ptp->dmtsc_devs.cdev_info[idx].minor >= 0) {
-   579				device = MKDEV(major, idx);
-   580				device_destroy(ptp->dmtsc_devs.dmtsc_class, device);
-   581				cdev_del(&ptp->dmtsc_devs.cdev_info[idx].dmtsc_cdev);
-   582				ptp->dmtsc_devs.cdev_info[idx].minor = -1;
-   583			}
-   584		}
-   585		class_destroy(ptp->dmtsc_devs.dmtsc_class);
-   586		unregister_chrdev_region(ptp->dmtsc_devs.devid, ptp->info->n_ext_ts);
-   587		mutex_destroy(&ptp->dmtsc_devs.cdev_info[idx].tsevq_mux);
-   588	}
-   589	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> julia
+> 
+> ---------- Forwarded message ----------
+> Date: Thu, 31 Aug 2023 10:46:56 +0800
+> From: kernel test robot <lkp@intel.com>
+> To: oe-kbuild@lists.linux.dev
+> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+> Subject: [paulmck-rcu:dev.2023.08.22a 63/69]
+>     kernel/locking/locktorture.c:294:20-23: ERROR: t is NULL but dereferenced.
+> 
+> BCC: lkp@intel.com
+> CC: oe-kbuild-all@lists.linux.dev
+> CC: linux-kernel@vger.kernel.org
+> TO: "Paul E. McKenney" <paulmck@kernel.org>
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.08.22a
+> head:   354957ec11dc80eac68c4b1e10c237d69adc1833
+> commit: 758918804e0d5216981df3cef99ffd7ba0842192 [63/69] locktorture: Add indication of task write-holding lock
+> :::::: branch date: 6 days ago
+> :::::: commit date: 7 days ago
+> config: i386-randconfig-053-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311022.j7jKnIdL-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230831/202308311022.j7jKnIdL-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> | Closes: https://lore.kernel.org/r/202308311022.j7jKnIdL-lkp@intel.com/
+> 
+> cocci warnings: (new ones prefixed by >>)
+> >> kernel/locking/locktorture.c:294:20-23: ERROR: t is NULL but dereferenced.
+>    kernel/locking/locktorture.c:294:43-47: ERROR: t is NULL but dereferenced.
+> 
+> vim +294 kernel/locking/locktorture.c
+> 
+> bdd8d60bd4047a Paul E. McKenney 2023-08-23  284
+> 94a8fb5e4673d7 Paul E. McKenney 2023-08-22  285  static int torture_spin_lock_dump(struct notifier_block *nb, unsigned long v, void *ptr)
+> 94a8fb5e4673d7 Paul E. McKenney 2023-08-22  286  {
+> 758918804e0d52 Paul E. McKenney 2023-08-23  287  	struct task_struct *t = READ_ONCE(lock_is_write_held);
+> 758918804e0d52 Paul E. McKenney 2023-08-23  288
+> 94a8fb5e4673d7 Paul E. McKenney 2023-08-22  289  	pr_alert("%s invoked: v=%lu, duration=%lu.\n", __func__, v, (unsigned long)ptr);
+> 758918804e0d52 Paul E. McKenney 2023-08-23  290  	if (t) {
+> 758918804e0d52 Paul E. McKenney 2023-08-23  291  		pr_alert("%s No task holding lock.\n", __func__);
+> 758918804e0d52 Paul E. McKenney 2023-08-23  292  	} else {
+> 758918804e0d52 Paul E. McKenney 2023-08-23  293  		pr_alert("%s Lock held by task %ps %d %*s\n",
+> 758918804e0d52 Paul E. McKenney 2023-08-23 @294  			 __func__, t, t->pid, TASK_COMM_LEN, t->comm);
+> 758918804e0d52 Paul E. McKenney 2023-08-23  295  		sched_show_task(t);
+> 758918804e0d52 Paul E. McKenney 2023-08-23  296  	}
+> bdd8d60bd4047a Paul E. McKenney 2023-08-23  297  	spinlock_dump(&torture_spinlock, true);
+> 94a8fb5e4673d7 Paul E. McKenney 2023-08-22  298  	return NOTIFY_OK;
+> 94a8fb5e4673d7 Paul E. McKenney 2023-08-22  299  }
+> 94a8fb5e4673d7 Paul E. McKenney 2023-08-22  300
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
