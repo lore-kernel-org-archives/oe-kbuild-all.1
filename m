@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC9653AE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 23:02:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38D853AE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 23:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693522935; x=1725058935;
+  t=1693523653; x=1725059653;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/k9JYrnov4HZzmxEt3LoH35FZ2bxo0S4mPuaiIBXdlY=;
-  b=Cc/jvvG4JbZfm/KOXS/OPJbdfzipzx1kmZL9ESIQIGzLk8Uz1JiRcpZ/
-   dDCvvI9qPsMVQlU/AHRanZPolKjw2Q94mR/DE8SgyXosO9v6OiaLe5H9R
-   tCSk++6+UtrNWSLkLrbXL9tySDvl+rwWvw6IMn34zH+SY2DGVvNQ6hgo5
-   fCS/vyNT96FbuiMMjnTTBWI/9z+3wy/zeUAlgdEKXwguDq90TVFUQFM0D
-   LpVTnmpaccTYlQabrDce9dg93UwZDfk5C3w/myOmOnbQXZhWb89pXldUb
-   4Wp2V36z5hOhA7/PorPo5w3wpfZhQ+4hnsLR+Bghtsxwg9F/tyuNw9faz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="407082908"
+  bh=goRga5rfnPGBUTjL89WY8ZXvp3NCWcmjHvtCYCN/F+Q=;
+  b=DVZUnB5PQZxXAiiFvoECgZH6aF9eAyTsCh0mWqAL8NjVXaqQOP0Ohj5s
+   CalJQjmwyxdRyjBGTkWGKDFGM4Jh8SSS40G7os9NLtulPKv9cGvyL17TO
+   zhxAqcBTVqLC8QXbFEewGc2Y2B9CBwNns63k80+TeNxD+PZqvq0x+qQjb
+   EMIuKYaYQUe/kp0KD6XXlzmRcO3W2njGixUhFvR6pL3vkkcMFUnf6Ri+x
+   2YlvyyytIv/2c1tRT5F9+PCz6sp45lGBKwyp6PxxUKBgL3cBJN5RuUfDc
+   e7irDxy4fDXZ9Ff1TkdSKluG82AZj6zjsFw6WTUV7mh3yrro4iay8YZik
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="361112750"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="407082908"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 16:02:14 -0700
+   d="scan'208";a="361112750"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 16:14:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="774771311"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="809837769"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="774771311"
+   d="scan'208";a="809837769"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 31 Aug 2023 16:02:12 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 31 Aug 2023 16:14:12 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbqfx-0000dH-2F;
-	Thu, 31 Aug 2023 23:02:09 +0000
-Date: Fri, 1 Sep 2023 07:01:39 +0800
+	id 1qbqrZ-0000dd-2u;
+	Thu, 31 Aug 2023 23:14:09 +0000
+Date: Fri, 1 Sep 2023 07:13:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 4378/24603]
- drivers/crypto/caam/sm_store.c:424:6: warning: no previous prototype for
- 'sm_key_job_done'
-Message-ID: <202309010621.XQ3RbKDX-lkp@intel.com>
+Subject: [freescale-fslc:5.15-2.2.x-imx 3770/24604]
+ ./usr/include/linux/imx_vpu.h:22:1: warning: // comments are not allowed in
+ this language
+Message-ID: <202309010754.mM0Xaejv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,288 +47,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Steve,
+Hi Zhou,
 
 FYI, the error/warning still remains.
 
-tree:   https://github.com/Freescale/linux-fslc pr/639
-head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: ea4b32b835174e520a45d12de5cdd18f9203658d [4378/24603] MLKU-25-3 crypto: caam - add Secure Memory support
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230901/202309010621.XQ3RbKDX-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309010621.XQ3RbKDX-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   7c13adcd3af7dcd541144655102e1cdb941ad538
+commit: 0a3658b7bccb93a6ceec4bc4f6b220384f4d58b6 [3770/24604] arm64: imx8mx: vpu: add vsi v4l2 decoder and encoder
+config: x86_64-randconfig-r015-20230831 (https://download.01.org/0day-ci/archive/20230901/202309010754.mM0Xaejv-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309010754.mM0Xaejv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309010621.XQ3RbKDX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309010754.mM0Xaejv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/crypto/caam/sm_store.c:424:6: warning: no previous prototype for 'sm_key_job_done' [-Wmissing-prototypes]
-     424 | void sm_key_job_done(struct device *dev, u32 *desc, u32 err, void *context)
-         |      ^~~~~~~~~~~~~~~
->> drivers/crypto/caam/sm_store.c:467:5: warning: no previous prototype for 'slot_alloc' [-Wmissing-prototypes]
-     467 | int slot_alloc(struct device *dev, u32 unit, u32 size, u32 *slot)
-         |     ^~~~~~~~~~
->> drivers/crypto/caam/sm_store.c:495:5: warning: no previous prototype for 'slot_dealloc' [-Wmissing-prototypes]
-     495 | int slot_dealloc(struct device *dev, u32 unit, u32 slot)
-         |     ^~~~~~~~~~~~
-   drivers/crypto/caam/sm_store.c: In function 'slot_dealloc':
->> drivers/crypto/caam/sm_store.c:499:21: warning: variable 'slotdata' set but not used [-Wunused-but-set-variable]
-     499 |         u8 __iomem *slotdata;
-         |                     ^~~~~~~~
-   drivers/crypto/caam/sm_store.c: At top level:
->> drivers/crypto/caam/sm_store.c:524:7: warning: no previous prototype for 'slot_get_address' [-Wmissing-prototypes]
-     524 | void *slot_get_address(struct device *dev, u32 unit, u32 slot)
-         |       ^~~~~~~~~~~~~~~~
->> drivers/crypto/caam/sm_store.c:540:7: warning: no previous prototype for 'slot_get_physical' [-Wmissing-prototypes]
-     540 | void *slot_get_physical(struct device *dev, u32 unit, u32 slot)
-         |       ^~~~~~~~~~~~~~~~~
->> drivers/crypto/caam/sm_store.c:556:5: warning: no previous prototype for 'slot_get_base' [-Wmissing-prototypes]
-     556 | u32 slot_get_base(struct device *dev, u32 unit, u32 slot)
-         |     ^~~~~~~~~~~~~
->> drivers/crypto/caam/sm_store.c:576:5: warning: no previous prototype for 'slot_get_offset' [-Wmissing-prototypes]
-     576 | u32 slot_get_offset(struct device *dev, u32 unit, u32 slot)
-         |     ^~~~~~~~~~~~~~~
->> drivers/crypto/caam/sm_store.c:592:5: warning: no previous prototype for 'slot_get_slot_size' [-Wmissing-prototypes]
-     592 | u32 slot_get_slot_size(struct device *dev, u32 unit, u32 slot)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/crypto/caam/sm_store.c:607:5: warning: no previous prototype for 'kso_init_data' [-Wmissing-prototypes]
-     607 | int kso_init_data(struct device *dev, u32 unit)
-         |     ^~~~~~~~~~~~~
->> drivers/crypto/caam/sm_store.c:654:6: warning: no previous prototype for 'kso_cleanup_data' [-Wmissing-prototypes]
-     654 | void kso_cleanup_data(struct device *dev, u32 unit)
-         |      ^~~~~~~~~~~~~~~~
-   drivers/crypto/caam/sm_store.c: In function 'kso_cleanup_data':
->> drivers/crypto/caam/sm_store.c:657:31: warning: variable 'keystore_data' set but not used [-Wunused-but-set-variable]
-     657 |         struct keystore_data *keystore_data = NULL;
-         |                               ^~~~~~~~~~~~~
-   drivers/crypto/caam/sm_store.c: In function 'sm_keystore_cover_key':
->> drivers/crypto/caam/sm_store.c:841:21: warning: variable 'slotaddr' set but not used [-Wunused-but-set-variable]
-     841 |         u8 __iomem *slotaddr;
-         |                     ^~~~~~~~
-   drivers/crypto/caam/sm_store.c: In function 'sm_keystore_slot_export':
-   drivers/crypto/caam/sm_store.c:868:21: warning: variable 'slotaddr' set but not used [-Wunused-but-set-variable]
-     868 |         u8 __iomem *slotaddr, *lkeymod;
-         |                     ^~~~~~~~
-   drivers/crypto/caam/sm_store.c: In function 'sm_keystore_slot_import':
-   drivers/crypto/caam/sm_store.c:957:21: warning: variable 'slotaddr' set but not used [-Wunused-but-set-variable]
-     957 |         u8 __iomem *slotaddr, *lkeymod;
-         |                     ^~~~~~~~
-
-
-vim +/sm_key_job_done +424 drivers/crypto/caam/sm_store.c
-
-   423	
- > 424	void sm_key_job_done(struct device *dev, u32 *desc, u32 err, void *context)
-   425	{
-   426		struct sm_key_job_result *res = context;
-   427	
-   428		if (err)
-   429			caam_jr_strstatus(dev, err);
-   430	
-   431		res->error = err;	/* save off the error for postprocessing */
-   432	
-   433		complete(&res->completion);	/* mark us complete */
-   434	}
-   435	
-   436	static int sm_key_job(struct device *ksdev, u32 *jobdesc)
-   437	{
-   438		struct sm_key_job_result testres = {0};
-   439		struct caam_drv_private_sm *kspriv;
-   440		int rtn = 0;
-   441	
-   442		kspriv = dev_get_drvdata(ksdev);
-   443	
-   444		init_completion(&testres.completion);
-   445	
-   446		rtn = caam_jr_enqueue(kspriv->smringdev, jobdesc, sm_key_job_done,
-   447				      &testres);
-   448		if (rtn != -EINPROGRESS)
-   449			goto exit;
-   450	
-   451		wait_for_completion(&testres.completion);
-   452		rtn = testres.error;
-   453	
-   454	exit:
-   455		return rtn;
-   456	}
-   457	
-   458	/*
-   459	 * Following section establishes the default methods for keystore access
-   460	 * They are NOT intended for use external to this module
-   461	 *
-   462	 * In the present version, these are the only means for the higher-level
-   463	 * interface to deal with the mechanics of accessing the phyiscal keystore
-   464	 */
-   465	
-   466	
- > 467	int slot_alloc(struct device *dev, u32 unit, u32 size, u32 *slot)
-   468	{
-   469		struct caam_drv_private_sm *smpriv = dev_get_drvdata(dev);
-   470		struct keystore_data *ksdata = smpriv->pagedesc[unit].ksdata;
-   471		u32 i;
-   472	#ifdef SM_DEBUG
-   473		dev_info(dev, "slot_alloc(): requesting slot for %d bytes\n", size);
-   474	#endif
-   475	
-   476		if (size > smpriv->slot_size)
-   477			return -EKEYREJECTED;
-   478	
-   479		for (i = 0; i < ksdata->slot_count; i++) {
-   480			if (ksdata->slot[i].allocated == 0) {
-   481				ksdata->slot[i].allocated = 1;
-   482				(*slot) = i;
-   483	#ifdef SM_DEBUG
-   484				dev_info(dev, "slot_alloc(): new slot %d allocated\n",
-   485					 *slot);
-   486	#endif
-   487				return 0;
-   488			}
-   489		}
-   490	
-   491		return -ENOSPC;
-   492	}
-   493	EXPORT_SYMBOL(slot_alloc);
-   494	
- > 495	int slot_dealloc(struct device *dev, u32 unit, u32 slot)
-   496	{
-   497		struct caam_drv_private_sm *smpriv = dev_get_drvdata(dev);
-   498		struct keystore_data *ksdata = smpriv->pagedesc[unit].ksdata;
- > 499		u8 __iomem *slotdata;
-   500	
-   501	#ifdef SM_DEBUG
-   502		dev_info(dev, "slot_dealloc(): releasing slot %d\n", slot);
-   503	#endif
-   504		if (slot >= ksdata->slot_count)
-   505			return -EINVAL;
-   506		slotdata = ksdata->base_address + slot * smpriv->slot_size;
-   507	
-   508		if (ksdata->slot[slot].allocated == 1) {
-   509			/* Forcibly overwrite the data from the keystore */
-   510			memset_io(ksdata->base_address + slot * smpriv->slot_size, 0,
-   511			       smpriv->slot_size);
-   512	
-   513			ksdata->slot[slot].allocated = 0;
-   514	#ifdef SM_DEBUG
-   515			dev_info(dev, "slot_dealloc(): slot %d released\n", slot);
-   516	#endif
-   517			return 0;
-   518		}
-   519	
-   520		return -EINVAL;
-   521	}
-   522	EXPORT_SYMBOL(slot_dealloc);
-   523	
- > 524	void *slot_get_address(struct device *dev, u32 unit, u32 slot)
-   525	{
-   526		struct caam_drv_private_sm *smpriv = dev_get_drvdata(dev);
-   527		struct keystore_data *ksdata = smpriv->pagedesc[unit].ksdata;
-   528	
-   529		if (slot >= ksdata->slot_count)
-   530			return NULL;
-   531	
-   532	#ifdef SM_DEBUG
-   533		dev_info(dev, "slot_get_address(): slot %d is 0x%08x\n", slot,
-   534			 (u32)ksdata->base_address + slot * smpriv->slot_size);
-   535	#endif
-   536	
-   537		return ksdata->base_address + slot * smpriv->slot_size;
-   538	}
-   539	
- > 540	void *slot_get_physical(struct device *dev, u32 unit, u32 slot)
-   541	{
-   542		struct caam_drv_private_sm *smpriv = dev_get_drvdata(dev);
-   543		struct keystore_data *ksdata = smpriv->pagedesc[unit].ksdata;
-   544	
-   545		if (slot >= ksdata->slot_count)
-   546			return NULL;
-   547	
-   548	#ifdef SM_DEBUG
-   549		dev_info(dev, "%s: slot %d is 0x%08x\n", __func__, slot,
-   550			 (u32)ksdata->phys_address + slot * smpriv->slot_size);
-   551	#endif
-   552	
-   553		return ksdata->phys_address + slot * smpriv->slot_size;
-   554	}
-   555	
- > 556	u32 slot_get_base(struct device *dev, u32 unit, u32 slot)
-   557	{
-   558		struct caam_drv_private_sm *smpriv = dev_get_drvdata(dev);
-   559		struct keystore_data *ksdata = smpriv->pagedesc[unit].ksdata;
-   560	
-   561		/*
-   562		 * There could potentially be more than one secure partition object
-   563		 * associated with this keystore.  For now, there is just one.
-   564		 */
-   565	
-   566		(void)slot;
-   567	
-   568	#ifdef SM_DEBUG
-   569		dev_info(dev, "slot_get_base(): slot %d = 0x%08x\n",
-   570			slot, (u32)ksdata->base_address);
-   571	#endif
-   572	
-   573		return (uintptr_t)(ksdata->base_address);
-   574	}
-   575	
- > 576	u32 slot_get_offset(struct device *dev, u32 unit, u32 slot)
-   577	{
-   578		struct caam_drv_private_sm *smpriv = dev_get_drvdata(dev);
-   579		struct keystore_data *ksdata = smpriv->pagedesc[unit].ksdata;
-   580	
-   581		if (slot >= ksdata->slot_count)
-   582			return -EINVAL;
-   583	
-   584	#ifdef SM_DEBUG
-   585		dev_info(dev, "slot_get_offset(): slot %d = %d\n", slot,
-   586			slot * smpriv->slot_size);
-   587	#endif
-   588	
-   589		return slot * smpriv->slot_size;
-   590	}
-   591	
- > 592	u32 slot_get_slot_size(struct device *dev, u32 unit, u32 slot)
-   593	{
-   594		struct caam_drv_private_sm *smpriv = dev_get_drvdata(dev);
-   595	
-   596	
-   597	#ifdef SM_DEBUG
-   598		dev_info(dev, "slot_get_slot_size(): slot %d = %d\n", slot,
-   599			 smpriv->slot_size);
-   600	#endif
-   601		/* All slots are the same size in the default implementation */
-   602		return smpriv->slot_size;
-   603	}
-   604	
-   605	
-   606	
- > 607	int kso_init_data(struct device *dev, u32 unit)
-   608	{
-   609		struct caam_drv_private_sm *smpriv = dev_get_drvdata(dev);
-   610		struct keystore_data *keystore_data = NULL;
-   611		u32 slot_count;
-   612		u32 keystore_data_size;
-   613	
-   614		/*
-   615		 * Calculate the required size of the keystore data structure, based
-   616		 * on the number of keys that can fit in the partition.
-   617		 */
-   618		slot_count = smpriv->page_size / smpriv->slot_size;
-   619	#ifdef SM_DEBUG
-   620		dev_info(dev, "kso_init_data: %d slots initializing\n", slot_count);
-   621	#endif
-   622	
-   623		keystore_data_size = sizeof(struct keystore_data) +
-   624					slot_count *
-   625					sizeof(struct keystore_data_slot_info);
-   626	
-   627		keystore_data = kzalloc(keystore_data_size, GFP_KERNEL);
-   628	
-   629		if (!keystore_data)
-   630			return -ENOMEM;
-   631	
+   In file included from <built-in>:1:
+   In file included from ./usr/include/linux/imx_vpu.h:17:
+   ./usr/include/linux/videodev2.h:2428:20: error: field has incomplete type 'struct timespec'
+           struct timespec                 timestamp;
+                                           ^
+   ./usr/include/linux/videodev2.h:2428:9: note: forward declaration of 'struct timespec'
+           struct timespec                 timestamp;
+                  ^
+   In file included from <built-in>:1:
+>> ./usr/include/linux/imx_vpu.h:22:1: warning: // comments are not allowed in this language [-Wcomment]
+   //ctrls & extension ctrls definitions
+   ^
+   1 warning and 1 error generated.
 
 -- 
 0-DAY CI Kernel Test Service
