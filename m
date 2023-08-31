@@ -1,43 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38D853AE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 23:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E752619BCF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 23:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693523653; x=1725059653;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=goRga5rfnPGBUTjL89WY8ZXvp3NCWcmjHvtCYCN/F+Q=;
-  b=DVZUnB5PQZxXAiiFvoECgZH6aF9eAyTsCh0mWqAL8NjVXaqQOP0Ohj5s
-   CalJQjmwyxdRyjBGTkWGKDFGM4Jh8SSS40G7os9NLtulPKv9cGvyL17TO
-   zhxAqcBTVqLC8QXbFEewGc2Y2B9CBwNns63k80+TeNxD+PZqvq0x+qQjb
-   EMIuKYaYQUe/kp0KD6XXlzmRcO3W2njGixUhFvR6pL3vkkcMFUnf6Ri+x
-   2YlvyyytIv/2c1tRT5F9+PCz6sp45lGBKwyp6PxxUKBgL3cBJN5RuUfDc
-   e7irDxy4fDXZ9Ff1TkdSKluG82AZj6zjsFw6WTUV7mh3yrro4iay8YZik
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="361112750"
+  t=1693523655; x=1725059655;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=unbP9RrrhlZwjUSeD1H+zVYGdrIWlAPK6CY8x3hEpGM=;
+  b=gj0D75LldzkXl3vu1FaSHxDfPhak0ySB8emNakrZz0Q+s7RRPE7BFNGw
+   mpqP/hnZI/WRXCMzdF4RmFZZLJtJgl3Mgo+57lTRmLvuKbmA0mO8ba/FO
+   rd6JjXIfvf6gszIYDciIHnMUjigqI3fjifsRbxSECDHjixrnBjBb6r0q0
+   RP7O1mxbjJzQHaMbMfljEnnTq0NQNNpXXBZGZTxYGalkr+vj/f4Cv8Su4
+   fSBFz8aJKLlnWYN+mkXZTZMp49zx8f+pQm8jGC9KZNEKt+Q9lTMi15FaN
+   qhOpG0Si9wrrNscBSzQvZWV+hEI8vgxAUp2F1wP6Pq+lmSc0wyQUEWPUx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="361112757"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="361112750"
+   d="scan'208";a="361112757"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 16:14:13 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 16:14:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="809837769"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="809837768"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="809837769"
+   d="scan'208";a="809837768"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 31 Aug 2023 16:14:12 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbqrZ-0000dd-2u;
+	id 1qbqrZ-0000db-2r;
 	Thu, 31 Aug 2023 23:14:09 +0000
-Date: Fri, 1 Sep 2023 07:13:12 +0800
+Date: Fri, 1 Sep 2023 07:13:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 3770/24604]
- ./usr/include/linux/imx_vpu.h:22:1: warning: // comments are not allowed in
- this language
-Message-ID: <202309010754.mM0Xaejv-lkp@intel.com>
+To: Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, aford@beaconembedded.com,
+	Adam Ford <aford173@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] arm64: dts: imx8mp-beacon: Add DMIC support
+Message-ID: <202309010735.D668npQl-lkp@intel.com>
+References: <20230831115128.254226-4-aford173@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,38 +54,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230831115128.254226-4-aford173@gmail.com>
 
-Hi Zhou,
+Hi Adam,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   7c13adcd3af7dcd541144655102e1cdb941ad538
-commit: 0a3658b7bccb93a6ceec4bc4f6b220384f4d58b6 [3770/24604] arm64: imx8mx: vpu: add vsi v4l2 decoder and encoder
-config: x86_64-randconfig-r015-20230831 (https://download.01.org/0day-ci/archive/20230901/202309010754.mM0Xaejv-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309010754.mM0Xaejv-lkp@intel.com/reproduce)
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on arm/for-next arm64/for-next/core kvmarm/next rockchip/for-next shawnguo/for-next soc/for-next linus/master v6.5 next-20230831]
+[cannot apply to arm/fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adam-Ford/arm64-dts-imx8mm-beacon-Add-DMIC-support/20230831-195442
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230831115128.254226-4-aford173%40gmail.com
+patch subject: [PATCH 4/4] arm64: dts: imx8mp-beacon: Add DMIC support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230901/202309010735.D668npQl-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309010735.D668npQl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309010754.mM0Xaejv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309010735.D668npQl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from <built-in>:1:
-   In file included from ./usr/include/linux/imx_vpu.h:17:
-   ./usr/include/linux/videodev2.h:2428:20: error: field has incomplete type 'struct timespec'
-           struct timespec                 timestamp;
-                                           ^
-   ./usr/include/linux/videodev2.h:2428:9: note: forward declaration of 'struct timespec'
-           struct timespec                 timestamp;
-                  ^
-   In file included from <built-in>:1:
->> ./usr/include/linux/imx_vpu.h:22:1: warning: // comments are not allowed in this language [-Wcomment]
-   //ctrls & extension ctrls definitions
-   ^
-   1 warning and 1 error generated.
+>> Error: arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dts:394.1-8 Label or path micfil not found
+>> FATAL ERROR: Syntax error parsing input tree
 
 -- 
 0-DAY CI Kernel Test Service
