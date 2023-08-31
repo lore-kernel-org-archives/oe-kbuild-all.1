@@ -1,176 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866048F7A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 16:36:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48193C433C8;
-	Thu, 31 Aug 2023 16:36:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693499769;
-	bh=DbkjI5fCXetjSSIuXgR1W10vvZtbaLuMnAXzmZwx0No=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ggwI8/8r/YjQPSCQqeAsq0oi1BQP8suGaV/p0BPlpLrSxDrsQNDRHIzjlXFizRYHs
-	 ugbqcQVb/YdXZ3tSJC4UH/V1l3LkYEO0ErN70Fv4NbbU5y/W/s5+J/gofRdv5fQGxG
-	 AMFNrPL76t0SvvWNILqT4/FRAcuZ3xthyh4CpBShTwJ7sM8GZM35WzpnZzJqcdZUxz
-	 Kv5fOOSnSJ/neza9ILZLd8DAMd9ifGFvsdJ8D9ZBdBT0N9dzun1LCKUXOR5sB+NLlq
-	 713eIDMsokt18O7+BxEF51VMKUw/n0t0tKy4dCcH5ZO3nqqdqSKZnMW3YX+UWc2f3e
-	 n/wfaZ+fJtMCA==
-Date: Thu, 31 Aug 2023 17:36:05 +0100
-From: Conor Dooley <conor@kernel.org>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	kernel test robot <lkp@intel.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: [WARNING: ATTACHMENT UNSCANNED]Re: [linux-next:master
- 13230/13643] arch/riscv/errata/andes/errata.c:29:23: error: storage size of
- 'ret' isn't known
-Message-ID: <20230831-nimble-rust-00821dccffdf@spud>
-References: <202308311610.ec6bm2G8-lkp@intel.com>
- <20230831-congested-monument-44ddb496204d@wendy>
- <CA+V-a8thx2qah2gJVG6mmrSCtnLTBRFS7fr+cpTMU-6RpqoaTQ@mail.gmail.com>
- <20230831-imperial-surviving-afdf6d275388@wendy>
- <CA+V-a8vT-LLsUOf+E1g4L+JBnFBn2SGhpDavHRS6k8DduK3KNQ@mail.gmail.com>
- <CAMuHMdWXDVpQeTD-ZdJi2Nk1JUgmSvaBfGUo-CtKpJDKXUdu0A@mail.gmail.com>
- <CA+V-a8s67RrfpfpJd_tqBtk1d_zanbCLVWqCHhUirBYs1zey9A@mail.gmail.com>
- <CAMuHMdWkjtH0JJ6xOLBSUd7J-Jsd-vALtqmxiXrhtaQRO6cTHQ@mail.gmail.com>
- <CA+V-a8saBGu4t99k+7KD5o4g0p-Ou+ztFdwVAwmkRjFGFk_X3Q@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145828F7A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 16:40:44 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9a5e37a39ecso112641266b.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 09:40:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1693500043; x=1694104843; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=drcv5mKJ9RhO4L7vLkvVuevPSBYeBJBAmcU4Oua4F00=;
+        b=kJC2OdlDUiLj41uzmETx/d5sATDNSIYPE+AOqdpjiLfaCPl7J225X6msfC1sGuhme2
+         7SioRcl2teMwjsjSiB5kVW09eetl2Tp/MrPDLT9soOaDZ2+LsdFQxmORHZon5mLCEhBW
+         GugBJR+UIy2YHp/OSv41n6Oah9a9tA5CmzHZIVgILCzYvueAUHMhv+csTczzBbWEDPVE
+         zYovhEZbyd3Nv7vwusv/pgZVnbT54sMa7WlptHZguhcR1Hq/tiExirlfK6WAeagRYM7c
+         Yfywtgy5x3JUhPbsancSgK7byas9FfYyqID2NDy6h+UAwHiOdLHmJQNEiEwhRRsqyrqT
+         tOrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693500043; x=1694104843;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=drcv5mKJ9RhO4L7vLkvVuevPSBYeBJBAmcU4Oua4F00=;
+        b=IJkyczxa+QPBT1vUwFzpxrYBzwfdUt/Rq1daxxTvG8QkmjOqQ8E0aws1BGLh4XRzbc
+         n4VxW/61EHj+w/OejU27QW+YqWWEaGZI03SRqpeBzHXiEG+XzHsa5vuCdzPQwue6cEVh
+         cCa9lZuWtWPtNNhSaxIce+RLHu/2QvLwTiTF8r7zHfbJsU1wyu3zXRPBu8MjlwWWaXXX
+         2GTkDm9/2ORoR9pZG5Dnf44WJeyC0j9DPeZ/wd684SNH/yXbgmmbmCbnv5OgWZ4dYJRO
+         f52077JTIzCXQk8XvKjkn1+aym6CBAhpY+GUIVJdwHRmK8t54nNEbsihSzHID6yNzPAi
+         pjGg==
+X-Gm-Message-State: AOJu0Yz1GuwI71BQdMdL4Y2H6atNLkBXUK6eT4BsXEHhtXNjdtW9OQkN
+	67cT5hiJBku6w2ZSiFmqzjwUKxtpRWzR1zgAMecnqw==
+X-Google-Smtp-Source: AGHT+IGV24LZs9Ao9Nl3shUgQtSezVqin+bodeBsASR3yYN0F0gmiEmn2HA+jI3wOLaoklU27jzdjhbQxQ19eonVUNw=
+X-Received: by 2002:a17:906:8450:b0:9a1:db2e:9dbb with SMTP id
+ e16-20020a170906845000b009a1db2e9dbbmr4355097ejy.0.1693500042855; Thu, 31 Aug
+ 2023 09:40:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="0ZWLegoGS3NBH/qw"
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8saBGu4t99k+7KD5o4g0p-Ou+ztFdwVAwmkRjFGFk_X3Q@mail.gmail.com>
-
-
---0ZWLegoGS3NBH/qw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230830175335.1536008-5-yosryahmed@google.com> <202308311025.538QuXBV-lkp@intel.com>
+In-Reply-To: <202308311025.538QuXBV-lkp@intel.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Thu, 31 Aug 2023 09:40:03 -0700
+Message-ID: <CAJD7tkbo28Mc9ydPnqL_gKmi-QZGORE-FVcZcQnsLVTCA1UBzA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] mm: memcg: use non-unified stats flushing for
+ userspace reads
+To: kernel test robot <lkp@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, 
+	Ivan Babrou <ivan@cloudflare.com>, Tejun Heo <tj@kernel.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Waiman Long <longman@redhat.com>, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 31, 2023 at 03:59:37PM +0100, Lad, Prabhakar wrote:
+On Wed, Aug 30, 2023 at 8:08=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Yosry,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on akpm-mm/mm-everything]
+> [also build test WARNING on linus/master next-20230830]
+> [cannot apply to v6.5]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-mem=
+cg-properly-name-and-document-unified-stats-flushing/20230831-015518
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ev=
+erything
+> patch link:    https://lore.kernel.org/r/20230830175335.1536008-5-yosryah=
+med%40google.com
+> patch subject: [PATCH v3 4/4] mm: memcg: use non-unified stats flushing f=
+or userspace reads
+> config: i386-randconfig-r013-20230831 (https://download.01.org/0day-ci/ar=
+chive/20230831/202308311025.538QuXBV-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git =
+ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20230831/202308311025.538QuXBV-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308311025.538QuXBV-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> mm/memcontrol.c:667:6: warning: no previous prototype for function 'me=
+m_cgroup_user_flush_stats' [-Wmissing-prototypes]
+>    void mem_cgroup_user_flush_stats(struct mem_cgroup *memcg)
+>         ^
+>    mm/memcontrol.c:667:1: note: declare 'static' if the function is not i=
+ntended to be used outside of this translation unit
+>    void mem_cgroup_user_flush_stats(struct mem_cgroup *memcg)
+>    ^
+>    static
+>    1 warning generated.
 
-> > > Currently ARCH_R9A07G043 selects DMA_GLOBAL_POOL and we have
-> > > RISCV_DMA_NONCOHERENT selecting DMA_DIRECT_REMAP which causes below
-> > > build issue when MMU is disabled:
-> > >
-> > > kernel/dma/pool.c: In function 'atomic_pool_expand':
-> > > kernel/dma/pool.c:105:44: error: implicit declaration of function
-> > > 'pgprot_dmacoherent' [-Werror=3Dimplicit-function-declaration]
-> > >   105 |
-> > > pgprot_dmacoherent(PAGE_KERNEL),
-> > >       |                                            ^~~~~~~~~~~~~~~~~~
-> > > kernel/dma/pool.c:105:44: error: incompatible type for argument 3 of
-> > > 'dma_common_contiguous_remap'
-> > >   105 |
-> > > pgprot_dmacoherent(PAGE_KERNEL),
-> > >       |
-> > > ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >       |                                            |
-> > >       |                                            int
-> > > In file included from kernel/dma/pool.c:8:
-> >
-> > Hmm, kernel/dma/mapping.c has its use of pgprot_dmacoherent() inside
-> > an #ifdef CONFIG_MMU block.
-> > kernel/dma/pool.c has it inside an #ifdef CONFIG_DMA_DIRECT_REMAP block.
-> >
-> > I guess that select should get a dependency on MMU:
-> >
-> >     config RISCV_DMA_NONCOHERENT
-> >             select DMA_DIRECT_REMAP if MMU
-> >
-> > For comparison, m68k does take that into account:
-> >
-> >     select DMA_DIRECT_REMAP if HAS_DMA && MMU && !COLDFIRE
-> >
-> Thanks for the pointer. With this changes we dont get an unmet
-> dependencies warning.
->=20
-> arch/riscv/errata/andes/errata.c: In function 'ax45mp_iocp_sw_workaround':
-> arch/riscv/errata/andes/errata.c:29:23: error: storage size of 'ret' isn'=
-t known
->    29 |         struct sbiret ret;
->       |                       ^~~
-> arch/riscv/errata/andes/errata.c:35:15: error: implicit declaration of
-> function 'sbi_ecall' [-Werror=3Dimplicit-function-declaration]
->    35 |         ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES,
-> ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
->       |               ^~~~~~~~~
-> arch/riscv/errata/andes/errata.c:29:23: warning: unused variable 'ret'
-> [-Wunused-variable]
->    29 |         struct sbiret ret;
->       |                       ^~~
-> arch/riscv/errata/andes/errata.c:39:1: error: control reaches end of
-> non-void function [-Werror=3Dreturn-type]
->    39 | }
->       | ^
-> cc1: some warnings being treated as errors
->=20
-> To fix the above build issue reported by the bot, adding a dependency
-> for RISCV_SBI in ERRATA_ANDES won't help as ARCH_R9A07G043 is
-> explicitly selecting it. To avoid imply should explicitly select based
-> on dependency something like below?
->=20
-> diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
-> index 92c779764b27..566bcefeab50 100644
-> --- a/arch/riscv/Kconfig.errata
-> +++ b/arch/riscv/Kconfig.errata
-> @@ -2,7 +2,7 @@ menu "CPU errata selection"
->=20
->  config ERRATA_ANDES
->      bool "Andes AX45MP errata"
-> -    depends on RISCV_ALTERNATIVE
-> +    depends on RISCV_ALTERNATIVE && RISCV_SBI
->      help
->        All Andes errata Kconfig depend on this Kconfig. Disabling
->        this Kconfig will disable all Andes errata. Please say "Y"
-> @@ -12,7 +12,7 @@ config ERRATA_ANDES
->=20
->  config ERRATA_ANDES_CMO
->      bool "Apply Andes cache management errata"
-> -    depends on ERRATA_ANDES && MMU && ARCH_R9A07G043
-> +    depends on ERRATA_ANDES && ARCH_R9A07G043
->      select RISCV_DMA_NONCOHERENT
->      default y
->      help
-> diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-> index 67604f24973e..543300fe9862 100644
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -334,10 +334,10 @@ if RISCV
->  config ARCH_R9A07G043
->      bool "RISC-V Platform support for RZ/Five"
->      select ARCH_RZG2L
-> -    select AX45MP_L2_CACHE
-> +    select AX45MP_L2_CACHE if RISCV_DMA_NONCOHERENT
->      select DMA_GLOBAL_POOL
-> -    select ERRATA_ANDES
-> -    select ERRATA_ANDES_CMO
-> +    select ERRATA_ANDES if RISCV_SBI
-> +    select ERRATA_ANDES_CMO if ERRATA_ANDES
->      help
->        This enables support for the Renesas RZ/Five SoC.
->=20
-> Or am I missing a simpler way to fix this.
+Ah silly mistake on my end. Will send v4 after making
+mem_cgroup_user_flush_stats() static.
 
-This seems reasonable to me at least /shrug
-
---0ZWLegoGS3NBH/qw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZPDBdAAKCRB4tDGHoIJi
-0nPgAP9y4+oZNdjct60KvEmHHZwE1zqeZf2Ee4XFCJIHFiUf0QEA2pn5RbzQQXYO
-Fv+B1/EnTwmZpAx5zwp1iyKEs4mvjAw=
-=CuAP
------END PGP SIGNATURE-----
-
---0ZWLegoGS3NBH/qw--
+>
+>
+> vim +/mem_cgroup_user_flush_stats +667 mm/memcontrol.c
+>
+>    658
+>    659  /*
+>    660   * mem_cgroup_user_flush_stats - do a stats flush for a user read
+>    661   * @memcg: memory cgroup to flush
+>    662   *
+>    663   * Flush the subtree of @memcg. A mutex is used for userspace rea=
+ders to gate
+>    664   * the global rstat spinlock. This protects in-kernel flushers fr=
+om userspace
+>    665   * readers hogging the lock.
+>    666   */
+>  > 667  void mem_cgroup_user_flush_stats(struct mem_cgroup *memcg)
+>    668  {
+>    669          mutex_lock(&stats_user_flush_mutex);
+>    670          do_stats_flush(memcg);
+>    671          mutex_unlock(&stats_user_flush_mutex);
+>    672  }
+>    673
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
