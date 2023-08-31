@@ -1,44 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B0915AD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 03:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691D0111F;
+	Thu, 31 Aug 2023 03:08:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1693451332; x=1724987332;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bW8Izmaa+KvVnX7T//i5ZT7A5nRVrrffycF+iTCBnrA=;
-  b=n7jI24M2GEwKcEr/O522Ih/+G904oKNEHhNCG5e453eCEBtBORNrVam5
-   kIEIPWb4C7Wdk2pilCDUQe6T9tGgNUAfmbOu7EFAARMaWPAehvR4kTJD/
-   wc8/7qD3OlGF7djX5fKwfxY53NhRp4BR3XsffBC3tUEtXu/1SNnLcYgWH
-   1zFSHgwcUZfES7lSaH8OARwGeksaJ3wZd0LLfy9VKbuAJJfN++G5qoUsK
-   rwZfQt4DbZpRDpPB39jV3ehaAMh/nVtoEfaUN2AecM89n3NsjX38rxvEZ
-   nLDUxugYxjtmq+CRHTNrWzGLjzf85B2SLA5t6uFLBFBWw3d5Do0oXhIDZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="462175906"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mYEk4LI2pL8XWPF1zKc5qz6vdX12xJGX7KbAifejJ34=;
+  b=UZtGHNNWwwj2ldnqfJWH/0ZvdoRN1Lqr0yzfyzd2CR/bHI7kxUmiIrgd
+   rjb6onbHY1aKEMR+IBpzvpRF/GP9O5pG/uRD41SYRnRbFYHEWsZZwS5ax
+   Z8fPNK5/BBnPhbsR20x1zEC96at88HwA7Zm4E+P2mst+pZCjdO713a9JT
+   A6OJOhqi6tcWkiWWyyZOMB51urbWs2aiJ0ZqQ6KN1HF9ihwLJcjjs5+21
+   JtJb+42qsORIfntfpsBM1x3fjMQge5HLbkPKle2viY7QzQ8TUlQZ+9LI9
+   GBru/cOe5XlXogZ8pwnzEOFRUPBe01cartEBYjNMUHRu7qEoRegvPXE3O
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="462175913"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="462175906"
+   d="scan'208";a="462175913"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 20:08:48 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 20:08:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="913042870"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="913042869"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="913042870"
+   d="scan'208";a="913042869"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
   by orsmga005.jf.intel.com with ESMTP; 30 Aug 2023 20:08:47 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbY34-000AWa-1d;
+	id 1qbY34-000AWX-1Y;
 	Thu, 31 Aug 2023 03:08:46 +0000
-Date: Thu, 31 Aug 2023 11:08:44 +0800
+Date: Thu, 31 Aug 2023 11:08:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>,
-	Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/230-touchbar 1/9]
- drivers/gpu/drm/adp/adp_drv.c:220:19: warning: no previous prototype for
- 'adp_plane_new'
-Message-ID: <202308311111.slVgU5oE-lkp@intel.com>
+To: Yosry Ahmed <yosryahmed@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Ivan Babrou <ivan@cloudflare.com>, Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Waiman Long <longman@redhat.com>, cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yosry Ahmed <yosryahmed@google.com>
+Subject: Re: [PATCH v3 4/4] mm: memcg: use non-unified stats flushing for
+ userspace reads
+Message-ID: <202308311025.538QuXBV-lkp@intel.com>
+References: <20230830175335.1536008-5-yosryahmed@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,224 +58,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230830175335.1536008-5-yosryahmed@google.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/230-touchbar
-head:   91fe761a239f4bc5316f06588e6c5edd351c7576
-commit: 1f659657c71a159ca18d7aa35ff94913e828404c [1/9] gpu: drm: adp: Add Apple Display Pipe driver
-config: arm64-randconfig-r035-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311111.slVgU5oE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311111.slVgU5oE-lkp@intel.com/reproduce)
+Hi Yosry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master next-20230830]
+[cannot apply to v6.5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-memcg-properly-name-and-document-unified-stats-flushing/20230831-015518
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230830175335.1536008-5-yosryahmed%40google.com
+patch subject: [PATCH v3 4/4] mm: memcg: use non-unified stats flushing for userspace reads
+config: i386-randconfig-r013-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311025.538QuXBV-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311025.538QuXBV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308311111.slVgU5oE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308311025.538QuXBV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/adp/adp_drv.c:220:19: warning: no previous prototype for 'adp_plane_new' [-Wmissing-prototypes]
-     220 | struct adp_plane *adp_plane_new(struct adp_drv_private *adp, u8 id)
-         |                   ^~~~~~~~~~~~~
->> drivers/gpu/drm/adp/adp_drv.c:402:5: warning: no previous prototype for 'adp_detect_ctx' [-Wmissing-prototypes]
-     402 | int adp_detect_ctx(struct drm_connector *connector,
-         |     ^~~~~~~~~~~~~~
+>> mm/memcontrol.c:667:6: warning: no previous prototype for function 'mem_cgroup_user_flush_stats' [-Wmissing-prototypes]
+   void mem_cgroup_user_flush_stats(struct mem_cgroup *memcg)
+        ^
+   mm/memcontrol.c:667:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void mem_cgroup_user_flush_stats(struct mem_cgroup *memcg)
+   ^
+   static 
+   1 warning generated.
 
 
-vim +/adp_plane_new +220 drivers/gpu/drm/adp/adp_drv.c
+vim +/mem_cgroup_user_flush_stats +667 mm/memcontrol.c
 
-   219	
- > 220	struct adp_plane *adp_plane_new(struct adp_drv_private *adp, u8 id)
-   221	{
-   222		struct drm_device *drm = &adp->drm;
-   223		struct adp_plane *plane;
-   224		enum drm_plane_type plane_type;
-   225	
-   226		plane_type = (id == 0) ? DRM_PLANE_TYPE_PRIMARY :
-   227			DRM_PLANE_TYPE_OVERLAY;
-   228	
-   229		plane = drmm_universal_plane_alloc(drm, struct adp_plane, base_plane,
-   230						   ALL_CRTCS, &adp_plane_funcs,
-   231						   plane_formats, ARRAY_SIZE(plane_formats),
-   232						   NULL, plane_type, "plane %d", id);
-   233		if (!plane) {
-   234			drm_err(drm, "failed to allocate plane");
-   235			return ERR_PTR(-ENOMEM);
-   236		}
-   237		plane->id = id;
-   238	
-   239		drm_plane_helper_add(&plane->base_plane, &adp_plane_helper_funcs);
-   240		return plane;
-   241	}
-   242	
-   243	static void adp_enable_vblank(struct adp_drv_private *adp)
-   244	{
-   245		u32 cur_ctrl;
-   246	
-   247		writel(ADP_INT_STATUS_INT_MASK, adp->fe + ADP_INT_STATUS);
-   248	
-   249		cur_ctrl = readl(adp->fe + ADP_CTRL);
-   250		writel(cur_ctrl | ADP_CTRL_VBLANK_ON, adp->fe + ADP_CTRL);
-   251	}
-   252	
-   253	static int adp_crtc_enable_vblank(struct drm_crtc *crtc)
-   254	{
-   255		struct drm_device *dev = crtc->dev;
-   256		struct adp_drv_private *adp = to_adp(dev);
-   257		adp_enable_vblank(adp);
-   258	
-   259		return 0;
-   260	}
-   261	
-   262	static void adp_disable_vblank(struct adp_drv_private *adp)
-   263	{
-   264		u32 cur_ctrl;
-   265	
-   266		cur_ctrl = readl(adp->fe + ADP_CTRL);
-   267		writel(cur_ctrl & ~ADP_CTRL_VBLANK_ON, adp->fe + ADP_CTRL);
-   268		writel(ADP_INT_STATUS_INT_MASK, adp->fe + ADP_INT_STATUS);
-   269	}
-   270	
-   271	static void adp_crtc_disable_vblank(struct drm_crtc *crtc)
-   272	{
-   273		struct drm_device *dev = crtc->dev;
-   274		struct adp_drv_private *adp = to_adp(dev);
-   275	
-   276		adp_disable_vblank(adp);
-   277	}
-   278	
-   279	
-   280	static void adp_crtc_atomic_enable(struct drm_crtc *crtc,
-   281					   struct drm_atomic_state *state)
-   282	{
-   283		struct adp_drv_private *adp = crtc_to_adp(crtc);
-   284		writel(0x1, adp->be + ADBE_BLEND_EN2);
-   285		writel(0x10, adp->be + ADBE_BLEND_EN1);
-   286		writel(0x1, adp->be + ADBE_BLEND_EN3);
-   287		writel(0x1, adp->be + ADBE_BLEND_BYPASS);
-   288		writel(0x1, adp->be + ADBE_BLEND_EN4);
-   289	}
-   290	
-   291	static void adp_crtc_atomic_disable(struct drm_crtc *crtc,
-   292					    struct drm_atomic_state *state)
-   293	{
-   294		struct adp_drv_private *adp = crtc_to_adp(crtc);
-   295		struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state, crtc);
-   296	
-   297		drm_atomic_helper_disable_planes_on_crtc(old_state, false);
-   298	
-   299		writel(0x0, adp->be + ADBE_BLEND_EN2);
-   300		writel(0x0, adp->be + ADBE_BLEND_EN1);
-   301		writel(0x0, adp->be + ADBE_BLEND_EN3);
-   302		writel(0x0, adp->be + ADBE_BLEND_BYPASS);
-   303		writel(0x0, adp->be + ADBE_BLEND_EN4);
-   304		drm_crtc_vblank_off(crtc);
-   305	}
-   306	
-   307	static void adp_crtc_atomic_flush(struct drm_crtc *crtc,
-   308					  struct drm_atomic_state *state)
-   309	{
-   310		u32 frame_num = 1;
-   311		struct adp_drv_private *adp = crtc_to_adp(crtc);
-   312		struct drm_crtc_state *new_state = drm_atomic_get_new_crtc_state(state, crtc);
-   313		u64 new_size = ALIGN(new_state->mode.hdisplay *
-   314				     new_state->mode.vdisplay * 4, PAGE_SIZE);
-   315	
-   316		if (new_size != adp->mask_buf_size) {
-   317			if (adp->mask_buf)
-   318				dma_free_coherent(crtc->dev->dev, adp->mask_buf_size,
-   319						  adp->mask_buf, adp->mask_iova);
-   320			adp->mask_buf = NULL;
-   321			if (new_size != 0) {
-   322				adp->mask_buf = dma_alloc_coherent(crtc->dev->dev, new_size,
-   323								   &adp->mask_iova, GFP_KERNEL);
-   324				memset(adp->mask_buf, 0xFF, new_size);
-   325				writel(adp->mask_iova, adp->be + ADBE_MASK_BUF);
-   326			}
-   327			adp->mask_buf_size = new_size;
-   328		}
-   329		writel(ADBE_FIFO_SYNC | frame_num, adp->be + ADBE_FIFO);
-   330		//FIXME: use adbe flush interrupt
-   331		spin_lock_irq(&crtc->dev->event_lock);
-   332		if (crtc->state->event) {
-   333			drm_crtc_vblank_get(crtc);
-   334			adp->event = crtc->state->event;
-   335		}
-   336		crtc->state->event = NULL;
-   337		spin_unlock_irq(&crtc->dev->event_lock);
-   338	}
-   339	
-   340	static const struct drm_crtc_funcs adp_crtc_funcs = {
-   341		.destroy = drm_crtc_cleanup,
-   342		.set_config = drm_atomic_helper_set_config,
-   343		.page_flip = drm_atomic_helper_page_flip,
-   344		.reset = drm_atomic_helper_crtc_reset,
-   345		.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-   346		.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-   347		.enable_vblank = adp_crtc_enable_vblank,
-   348		.disable_vblank = adp_crtc_disable_vblank,
-   349	};
-   350	
-   351	
-   352	static const struct drm_crtc_helper_funcs adp_crtc_helper_funcs = {
-   353		.atomic_enable = adp_crtc_atomic_enable,
-   354		.atomic_disable = adp_crtc_atomic_disable,
-   355		.atomic_flush = adp_crtc_atomic_flush,
-   356	};
-   357	
-   358	static int adp_setup_crtc(struct adp_drv_private *adp)
-   359	{
-   360		struct drm_device *drm = &adp->drm;
-   361		struct adp_plane *primary;
-   362		int ret;
-   363	
-   364		primary = adp_plane_new(adp, 0);
-   365		if (IS_ERR(primary))
-   366			return PTR_ERR(primary);
-   367	
-   368		ret = drm_crtc_init_with_planes(drm, &adp->crtc, &primary->base_plane,
-   369						NULL, &adp_crtc_funcs, NULL);
-   370		if (ret)
-   371			return ret;
-   372	
-   373		drm_crtc_helper_add(&adp->crtc, &adp_crtc_helper_funcs);
-   374		return 0;
-   375	}
-   376	
-   377	static int adp_get_modes(struct drm_connector *connector)
-   378	{
-   379		struct adp_drv_private *adp = conn_to_adp(connector);
-   380		struct drm_display_mode *mode;
-   381		u32 size;
-   382	
-   383		size = readl(adp->fe + ADP_SCREEN_SIZE);
-   384		mode = drm_mode_create(connector->dev);
-   385	
-   386		mode->vdisplay = size >> 16;
-   387		mode->hdisplay = size & 0xFFFF;
-   388		mode->hsync_start = mode->hdisplay + 8;
-   389		mode->hsync_end = mode->hsync_start + 80;
-   390		mode->htotal = mode->hsync_end + 40;
-   391		mode->vsync_start = mode->vdisplay + 1;
-   392		mode->vsync_end = mode->vsync_start + 15;
-   393		mode->vtotal = mode->vsync_end + 6;
-   394		mode->clock = (mode->vtotal * mode->htotal * 60) / 1000;
-   395		mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-   396		mode->flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC;
-   397		drm_mode_set_name(mode);
-   398		drm_mode_probed_add(connector, mode);
-   399		return 1;
-   400	}
-   401	
- > 402	int adp_detect_ctx(struct drm_connector *connector,
-   403			   struct drm_modeset_acquire_ctx *ctx,
-   404			   bool force) {
-   405		connector->display_info.non_desktop = true;
-   406		drm_object_property_set_value(&connector->base,
-   407					      connector->dev->mode_config.non_desktop_property,
-   408					      connector->display_info.non_desktop);
-   409		return connector_status_connected;
-   410	}
-   411	
+   658	
+   659	/*
+   660	 * mem_cgroup_user_flush_stats - do a stats flush for a user read
+   661	 * @memcg: memory cgroup to flush
+   662	 *
+   663	 * Flush the subtree of @memcg. A mutex is used for userspace readers to gate
+   664	 * the global rstat spinlock. This protects in-kernel flushers from userspace
+   665	 * readers hogging the lock.
+   666	 */
+ > 667	void mem_cgroup_user_flush_stats(struct mem_cgroup *memcg)
+   668	{
+   669		mutex_lock(&stats_user_flush_mutex);
+   670		do_stats_flush(memcg);
+   671		mutex_unlock(&stats_user_flush_mutex);
+   672	}
+   673	
 
 -- 
 0-DAY CI Kernel Test Service
