@@ -1,211 +1,322 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615F311719
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 13:24:19 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-58fa51a0d97so9227297b3.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 06:24:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693488258; x=1694093058;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kJ/+Xi4zcWbR6NuMjYnszGbUyAs/bLSQutm2P6DQty0=;
-        b=V4HGT8QkcXWhLkOPMcD8m+6kh+Khs5u63ZIrPWR9CbUUGwKrub97BTua26R4sJfEv/
-         W1v5EJv3PpnEc5vRMiU35QGwDHFW3Z28GsOpaJSo1AFLLSiOfVZwEF+sg/4JUGYRogmf
-         /PYzXouXWYK2P+ySpLxKTt5a8m9fxbfyKqXFwJR0E7/XC4DoBQFeYHYcmnmzCCY5wh8j
-         UvTNb0QPXitDG5fdxceRid+r/HbzTjSkqBLAZbkLmQUFbKT02A5dLRAayEVA1QXyBb4U
-         BVjos6eDALcpMusbwvBuMolmQ1nJPQvtDCMdwwqfL+QJs4QgCbO07pt0r4Holow7nJPj
-         5VdA==
-X-Gm-Message-State: AOJu0YxnklH0G+6BUzg3fd+TxVNDVTaZkQvY7voXX6tPvExosOfoL/Xx
-	FmE8dSiRIEKZpgIdB9ywtc9jhjt9Qggnyw==
-X-Google-Smtp-Source: AGHT+IGUl5AYF5iDAqNjja4//A8t7/02sxwsFaCe/oGPsjEMzO5QOFDjaGhnMWi3POx/s/XuEk9POg==
-X-Received: by 2002:a0d:e441:0:b0:58c:5778:420c with SMTP id n62-20020a0de441000000b0058c5778420cmr4788076ywe.27.1693488257754;
-        Thu, 31 Aug 2023 06:24:17 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id l185-20020a0de2c2000000b0057a560a9832sm409563ywe.1.2023.08.31.06.24.16
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Aug 2023 06:24:17 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d73c595b558so596361276.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 06:24:16 -0700 (PDT)
-X-Received: by 2002:a25:b323:0:b0:d7a:d716:233c with SMTP id
- l35-20020a25b323000000b00d7ad716233cmr5271223ybj.41.1693488256694; Thu, 31
- Aug 2023 06:24:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1847923B9;
+	Thu, 31 Aug 2023 13:29:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693488600; x=1725024600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j/B6R2COGG68IdHMTZEz9JdctT4imXaxwLwRp3rbSqM=;
+  b=gxEsBMp4H+4UUFO8E1nJBFNRcCYA4TKD/fNjxcLx/Nnet8Bk9m0+c3Sr
+   B+WV4VoN36fxoAFtrH9TuwGpcL+gVU4rYDmAXnScXQMaFeP0Kz8lcDGJ2
+   Q072FB5eXFyNKOH19JvAA4uVAaTxLWkDy+zeAfNJeK1cz9N6m7uJAmuDs
+   RnBvqJ8kW8zCSVtdmqZHUCyuA5/oQ42//FcPeTGmjd5k0TYDm92F5OGE5
+   D8hkvPwbsuL+pcLEqnD+X4eloFIP0kB7tsicNpX4WkCcwEvuCF7tLR0Il
+   k3Q0WSWQ9Uzc4W2tIRBJaX/ovSsCedy1gzIzK74dGq8urIf2Gjs8yl4ov
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="373344342"
+X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
+   d="scan'208";a="373344342"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 06:29:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="689328256"
+X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
+   d="scan'208";a="689328256"
+Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 31 Aug 2023 06:29:50 -0700
+Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qbhk4-0000BL-2V;
+	Thu, 31 Aug 2023 13:29:48 +0000
+Date: Thu, 31 Aug 2023 21:28:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xabier Marquiegui <reibax@gmail.com>, richardcochran@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	chrony-dev@chrony.tuxfamily.org, mlichvar@redhat.com,
+	netdev@vger.kernel.org, ntp-lists@mattcorallo.com, reibax@gmail.com
+Subject: Re: [PATCH] ptp: Demultiplexed timestamp channels
+Message-ID: <202308312155.cA1uQaGm-lkp@intel.com>
+References: <20230830214101.509086-2-reibax@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202308311610.ec6bm2G8-lkp@intel.com> <20230831-congested-monument-44ddb496204d@wendy>
- <CA+V-a8thx2qah2gJVG6mmrSCtnLTBRFS7fr+cpTMU-6RpqoaTQ@mail.gmail.com>
- <20230831-imperial-surviving-afdf6d275388@wendy> <CA+V-a8vT-LLsUOf+E1g4L+JBnFBn2SGhpDavHRS6k8DduK3KNQ@mail.gmail.com>
- <CAMuHMdWXDVpQeTD-ZdJi2Nk1JUgmSvaBfGUo-CtKpJDKXUdu0A@mail.gmail.com> <CA+V-a8s67RrfpfpJd_tqBtk1d_zanbCLVWqCHhUirBYs1zey9A@mail.gmail.com>
-In-Reply-To: <CA+V-a8s67RrfpfpJd_tqBtk1d_zanbCLVWqCHhUirBYs1zey9A@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 31 Aug 2023 15:24:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWkjtH0JJ6xOLBSUd7J-Jsd-vALtqmxiXrhtaQRO6cTHQ@mail.gmail.com>
-Message-ID: <CAMuHMdWkjtH0JJ6xOLBSUd7J-Jsd-vALtqmxiXrhtaQRO6cTHQ@mail.gmail.com>
-Subject: Re: [WARNING: ATTACHMENT UNSCANNED]Re: [linux-next:master
- 13230/13643] arch/riscv/errata/andes/errata.c:29:23: error: storage size of
- 'ret' isn't known
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>, kernel test robot <lkp@intel.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230830214101.509086-2-reibax@gmail.com>
 
-Hi Prabhakar,
+Hi Xabier,
 
-On Thu, Aug 31, 2023 at 3:02=E2=80=AFPM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Thu, Aug 31, 2023 at 1:01=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Thu, Aug 31, 2023 at 1:54=E2=80=AFPM Lad, Prabhakar
-> > <prabhakar.csengg@gmail.com> wrote:
-> > > On Thu, Aug 31, 2023 at 12:34=E2=80=AFPM Conor Dooley
-> > > <conor.dooley@microchip.com> wrote:
-> > > > On Thu, Aug 31, 2023 at 12:22:50PM +0100, Lad, Prabhakar wrote:
-> > > > > On Thu, Aug 31, 2023 at 10:44=E2=80=AFAM Conor Dooley
-> > > > > <conor.dooley@microchip.com> wrote:
-> > > > > >
-> > > > > > On Thu, Aug 31, 2023 at 04:52:00PM +0800, kernel test robot wro=
-te:
-> > > > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/=
-linux-next.git master
-> > > > > > > head:   a47fc304d2b678db1a5d760a7d644dac9b067752
-> > > > > > > commit: f2863f30d1b05e5ecf61c063609cb974954d47f8 [13230/13643=
-] riscv: errata: Add Andes alternative ports
-> > > > > > > config: riscv-randconfig-001-20230831 (https://download.01.or=
-g/0day-ci/archive/20230831/202308311610.ec6bm2G8-lkp@intel.com/config)
-> > > > > > > compiler: riscv64-linux-gcc (GCC) 13.2.0
-> > > > > > > reproduce (this is a W=3D1 build): (https://download.01.org/0=
-day-ci/archive/20230831/202308311610.ec6bm2G8-lkp@intel.com/reproduce)
-> > > > > > >
-> > > > > > > If you fix the issue in a separate patch/commit (i.e. not jus=
-t a new version of
-> > > > > > > the same patch/commit), kindly add following tags
-> > > > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202308311610.=
-ec6bm2G8-lkp@intel.com/
-> > > > > > >
-> > > > > > > All error/warnings (new ones prefixed by >>):
-> > > > > > >
-> > > > > > >    arch/riscv/errata/andes/errata.c: In function 'ax45mp_iocp=
-_sw_workaround':
-> > > > > > > >> arch/riscv/errata/andes/errata.c:29:23: error: storage siz=
-e of 'ret' isn't known
-> > > > > > >       29 |         struct sbiret ret;
-> > > > > > >          |                       ^~~
-> > > > > > > >> arch/riscv/errata/andes/errata.c:35:15: error: implicit de=
-claration of function 'sbi_ecall' [-Werror=3Dimplicit-function-declaration]
-> > > > > > >       35 |         ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES,=
- ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
-> > > > > > >          |               ^~~~~~~~~
-> > > > > > > >> arch/riscv/errata/andes/errata.c:29:23: warning: unused va=
-riable 'ret' [-Wunused-variable]
-> > > > > > >       29 |         struct sbiret ret;
-> > > > > > >          |                       ^~~
-> > > > > > >    cc1: some warnings being treated as errors
-> > > > > > >
-> > > > > > >
-> > > > > > > vim +29 arch/riscv/errata/andes/errata.c
-> > > > > > >
-> > > > > > >     26
-> > > > > > >     27        static long ax45mp_iocp_sw_workaround(void)
-> > > > > > >     28        {
-> > > > > > >   > 29                struct sbiret ret;
-> > > > > > >     30
-> > > > > > >     31                /*
-> > > > > > >     32                 * ANDES_SBI_EXT_IOCP_SW_WORKAROUND SBI=
- EXT checks if the IOCP is missing and
-> > > > > > >     33                 * cache is controllable only then CMO =
-will be applied to the platform.
-> > > > > > >     34                 */
-> > > > > > >   > 35                ret =3D sbi_ecall(ANDESTECH_SBI_EXT_AND=
-ES, ANDES_SBI_EXT_IOCP_SW_WORKAROUND,
-> > > > > > >     36                                0, 0, 0, 0, 0, 0);
-> > > > > > >     37
-> > > > > > >     38                return ret.error ? 0 : ret.value;
-> > > > > > >     39        }
-> > > > > > >     40
-> > > > > >
-> > > > > > Looks like the config doesn't enable SBI, so ERRATA_ANDES_CMO w=
-ill need
-> > > > > > to grow a dependency on RISCV_SBI.
-> > > > > I think adding dependency for RISCV_SBI on ERRATA_ANDES would be =
-a good idea.
-> > > > >
-> > > > > While at it I am seeing below warnings with this randconfig:
-> > > > > WARNING: unmet direct dependencies detected for ERRATA_ANDES_CMO
-> > > > >   Depends on [n]: ERRATA_ANDES [=3Dy] && MMU [=3Dn] && ARCH_R9A07=
-G043 [=3Dy]
-> >
-> > So the issue is that CONFIG_MMU=3Dn.
-> >
-> > > --- a/arch/riscv/Kconfig.errata
-> > > +++ b/arch/riscv/Kconfig.errata
-> > > @@ -3,6 +3,7 @@ menu "CPU errata selection"
-> > >  config ERRATA_ANDES
-> > >         bool "Andes AX45MP errata"
-> > >         depends on RISCV_ALTERNATIVE
-> > > +       depends on RISCV_SBI
-> > >         help
-> > >           All Andes errata Kconfig depend on this Kconfig. Disabling
-> > >           this Kconfig will disable all Andes errata. Please say "Y"
-> > > @@ -12,7 +13,7 @@ config ERRATA_ANDES
-> > >
-> > >  config ERRATA_ANDES_CMO
-> > >         bool "Apply Andes cache management errata"
-> > > -       depends on ERRATA_ANDES && MMU && ARCH_R9A07G043
-> >
-> > Why does this depend on MMU?
-> >
-> Currently ARCH_R9A07G043 selects DMA_GLOBAL_POOL and we have
-> RISCV_DMA_NONCOHERENT selecting DMA_DIRECT_REMAP which causes below
-> build issue when MMU is disabled:
->
-> kernel/dma/pool.c: In function 'atomic_pool_expand':
-> kernel/dma/pool.c:105:44: error: implicit declaration of function
-> 'pgprot_dmacoherent' [-Werror=3Dimplicit-function-declaration]
->   105 |
-> pgprot_dmacoherent(PAGE_KERNEL),
->       |                                            ^~~~~~~~~~~~~~~~~~
-> kernel/dma/pool.c:105:44: error: incompatible type for argument 3 of
-> 'dma_common_contiguous_remap'
->   105 |
-> pgprot_dmacoherent(PAGE_KERNEL),
->       |
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       |                                            |
->       |                                            int
-> In file included from kernel/dma/pool.c:8:
+kernel test robot noticed the following build errors:
 
-Hmm, kernel/dma/mapping.c has its use of pgprot_dmacoherent() inside
-an #ifdef CONFIG_MMU block.
-kernel/dma/pool.c has it inside an #ifdef CONFIG_DMA_DIRECT_REMAP block.
+[auto build test ERROR on net/main]
+[also build test ERROR on net-next/main linus/master horms-ipvs/master v6.5 next-20230831]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I guess that select should get a dependency on MMU:
+url:    https://github.com/intel-lab-lkp/linux/commits/Xabier-Marquiegui/ptp-Demultiplexed-timestamp-channels/20230831-054428
+base:   net/main
+patch link:    https://lore.kernel.org/r/20230830214101.509086-2-reibax%40gmail.com
+patch subject: [PATCH] ptp: Demultiplexed timestamp channels
+config: powerpc64-randconfig-r026-20230831 (https://download.01.org/0day-ci/archive/20230831/202308312155.cA1uQaGm-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308312155.cA1uQaGm-lkp@intel.com/reproduce)
 
-    config RISCV_DMA_NONCOHERENT
-            select DMA_DIRECT_REMAP if MMU
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308312155.cA1uQaGm-lkp@intel.com/
 
-For comparison, m68k does take that into account:
+All error/warnings (new ones prefixed by >>):
 
-    select DMA_DIRECT_REMAP if HAS_DMA && MMU && !COLDFIRE
+>> drivers/ptp/ptp_chardev.c:449:9: warning: no previous prototype for function 'ptp_queue_read' [-Wmissing-prototypes]
+     449 | ssize_t ptp_queue_read(struct ptp_clock *ptp, char __user *buf, size_t cnt,
+         |         ^
+   drivers/ptp/ptp_chardev.c:449:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     449 | ssize_t ptp_queue_read(struct ptp_clock *ptp, char __user *buf, size_t cnt,
+         | ^
+         | static 
+>> drivers/ptp/ptp_chardev.c:544:5: warning: no previous prototype for function 'ptp_dmtsc_release' [-Wmissing-prototypes]
+     544 | int ptp_dmtsc_release(struct inode *inode, struct file *file)
+         |     ^
+   drivers/ptp/ptp_chardev.c:544:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     544 | int ptp_dmtsc_release(struct inode *inode, struct file *file)
+         | ^
+         | static 
+>> drivers/ptp/ptp_chardev.c:556:9: warning: no previous prototype for function 'ptp_dmtsc_read' [-Wmissing-prototypes]
+     556 | ssize_t ptp_dmtsc_read(struct file *file, char __user *buf, size_t cnt,
+         |         ^
+   drivers/ptp/ptp_chardev.c:556:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     556 | ssize_t ptp_dmtsc_read(struct file *file, char __user *buf, size_t cnt,
+         | ^
+         | static 
+>> drivers/ptp/ptp_chardev.c:571:6: warning: no previous prototype for function 'ptp_dmtsc_cdev_clean' [-Wmissing-prototypes]
+     571 | void ptp_dmtsc_cdev_clean(struct ptp_clock *ptp)
+         |      ^
+   drivers/ptp/ptp_chardev.c:571:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     571 | void ptp_dmtsc_cdev_clean(struct ptp_clock *ptp)
+         | ^
+         | static 
+>> drivers/ptp/ptp_chardev.c:612:30: error: too many arguments to function call, expected single argument 'name', have 2 arguments
+     612 |                         class_create(THIS_MODULE, "ptptsevqch_class");
+         |                         ~~~~~~~~~~~~              ^~~~~~~~~~~~~~~~~~
+   include/linux/device/class.h:230:29: note: 'class_create' declared here
+     230 | struct class * __must_check class_create(const char *name);
+         |                             ^
+   4 warnings and 1 error generated.
 
-Gr{oetje,eeting}s,
 
-                        Geert
+vim +/name +612 drivers/ptp/ptp_chardev.c
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+   448	
+ > 449	ssize_t ptp_queue_read(struct ptp_clock *ptp, char __user *buf, size_t cnt,
+   450			       int dmtsc)
+   451	{
+   452		struct timestamp_event_queue *queue;
+   453		struct mutex *tsevq_mux;
+   454		struct ptp_extts_event *event;
+   455		unsigned long flags;
+   456		size_t qcnt, i;
+   457		int result;
+   458	
+   459		if (dmtsc < 0) {
+   460			queue = &ptp->tsevq;
+   461			tsevq_mux = &ptp->tsevq_mux;
+   462		} else {
+   463			queue = &ptp->dmtsc_devs.cdev_info[dmtsc].tsevq;
+   464			tsevq_mux = &ptp->dmtsc_devs.cdev_info[dmtsc].tsevq_mux;
+   465		}
+   466	
+   467		if (cnt % sizeof(struct ptp_extts_event) != 0)
+   468			return -EINVAL;
+   469	
+   470		if (cnt > EXTTS_BUFSIZE)
+   471			cnt = EXTTS_BUFSIZE;
+   472	
+   473		cnt = cnt / sizeof(struct ptp_extts_event);
+   474	
+   475		if (mutex_lock_interruptible(tsevq_mux))
+   476			return -ERESTARTSYS;
+   477	
+   478		if (wait_event_interruptible(ptp->tsev_wq,
+   479					     ptp->defunct || queue_cnt(queue))) {
+   480			mutex_unlock(tsevq_mux);
+   481			return -ERESTARTSYS;
+   482		}
+   483	
+   484		if (ptp->defunct) {
+   485			mutex_unlock(tsevq_mux);
+   486			return -ENODEV;
+   487		}
+   488	
+   489		event = kmalloc(EXTTS_BUFSIZE, GFP_KERNEL);
+   490		if (!event) {
+   491			mutex_unlock(tsevq_mux);
+   492			return -ENOMEM;
+   493		}
+   494	
+   495		spin_lock_irqsave(&queue->lock, flags);
+   496	
+   497		qcnt = queue_cnt(queue);
+   498	
+   499		if (cnt > qcnt)
+   500			cnt = qcnt;
+   501	
+   502		for (i = 0; i < cnt; i++) {
+   503			event[i] = queue->buf[queue->head];
+   504			queue->head = (queue->head + 1) % PTP_MAX_TIMESTAMPS;
+   505		}
+   506	
+   507		spin_unlock_irqrestore(&queue->lock, flags);
+   508	
+   509		cnt = cnt * sizeof(struct ptp_extts_event);
+   510	
+   511		mutex_unlock(tsevq_mux);
+   512	
+   513		result = cnt;
+   514		if (copy_to_user(buf, event, cnt))
+   515			result = -EFAULT;
+   516	
+   517		kfree(event);
+   518		return result;
+   519	}
+   520	
+   521	ssize_t ptp_read(struct posix_clock *pc, uint rdflags, char __user *buf,
+   522			 size_t cnt)
+   523	{
+   524		struct ptp_clock *ptp = container_of(pc, struct ptp_clock, clock);
+   525	
+   526		return ptp_queue_read(ptp, buf, cnt, DMTSC_NOT);
+   527	}
+   528	
+   529	static int ptp_dmtsc_open(struct inode *inode, struct file *file)
+   530	{
+   531		struct ptp_dmtsc_cdev_info *cdev = container_of(
+   532			inode->i_cdev, struct ptp_dmtsc_cdev_info, dmtsc_cdev);
+   533	
+   534		file->private_data = cdev;
+   535	
+   536		if (mutex_lock_interruptible(&cdev->pclock->dmtsc_en_mux))
+   537			return -ERESTARTSYS;
+   538		cdev->pclock->dmtsc_en_flags |= (0x1 << (cdev->minor));
+   539		mutex_unlock(&cdev->pclock->dmtsc_en_mux);
+   540	
+   541		return stream_open(inode, file);
+   542	}
+   543	
+ > 544	int ptp_dmtsc_release(struct inode *inode, struct file *file)
+   545	{
+   546		struct ptp_dmtsc_cdev_info *cdev = file->private_data;
+   547	
+   548		if (mutex_lock_interruptible(&cdev->pclock->dmtsc_en_mux))
+   549			return -ERESTARTSYS;
+   550		cdev->pclock->dmtsc_en_flags &= ~(0x1 << (cdev->minor));
+   551		mutex_unlock(&cdev->pclock->dmtsc_en_mux);
+   552	
+   553		return 0;
+   554	}
+   555	
+ > 556	ssize_t ptp_dmtsc_read(struct file *file, char __user *buf, size_t cnt,
+   557			       loff_t *offset)
+   558	{
+   559		struct ptp_dmtsc_cdev_info *cdev = file->private_data;
+   560	
+   561		return ptp_queue_read(cdev->pclock, buf, cnt, cdev->minor);
+   562	}
+   563	
+   564	static const struct file_operations fops = {
+   565							.owner = THIS_MODULE,
+   566							.open = ptp_dmtsc_open,
+   567							.read = ptp_dmtsc_read,
+   568							.release = ptp_dmtsc_release
+   569							};
+   570	
+ > 571	void ptp_dmtsc_cdev_clean(struct ptp_clock *ptp)
+   572	{
+   573		int idx, major;
+   574		dev_t device;
+   575	
+   576		major = MAJOR(ptp->dmtsc_devs.devid);
+   577		for (idx = 0; idx < ptp->info->n_ext_ts; idx++) {
+   578			if (ptp->dmtsc_devs.cdev_info[idx].minor >= 0) {
+   579				device = MKDEV(major, idx);
+   580				device_destroy(ptp->dmtsc_devs.dmtsc_class, device);
+   581				cdev_del(&ptp->dmtsc_devs.cdev_info[idx].dmtsc_cdev);
+   582				ptp->dmtsc_devs.cdev_info[idx].minor = -1;
+   583			}
+   584		}
+   585		class_destroy(ptp->dmtsc_devs.dmtsc_class);
+   586		unregister_chrdev_region(ptp->dmtsc_devs.devid, ptp->info->n_ext_ts);
+   587		mutex_destroy(&ptp->dmtsc_devs.cdev_info[idx].tsevq_mux);
+   588	}
+   589	
+   590	int ptp_dmtsc_dev_register(struct ptp_clock *ptp)
+   591	{
+   592		int err, idx, major;
+   593		dev_t device;
+   594		struct device *dev;
+   595	
+   596		/* Allocate memory for demuxed device management */
+   597		ptp->dmtsc_devs.cdev_info = kcalloc(ptp->info->n_ext_ts,
+   598						    sizeof(*ptp->dmtsc_devs.cdev_info),
+   599						    GFP_KERNEL);
+   600		if (!ptp->dmtsc_devs.cdev_info) {
+   601			err = -ENODEV;
+   602			goto err;
+   603		}
+   604		for (idx = 0; idx < ptp->info->n_ext_ts; idx++)
+   605			ptp->dmtsc_devs.cdev_info[idx].minor = -1;
+   606		/* Create devices for all channels. The mask will control which of them get fed */
+   607		err = alloc_chrdev_region(&ptp->dmtsc_devs.devid, 0,
+   608					  ptp->info->n_ext_ts, "ptptsevqch");
+   609		if (!err) {
+   610			major = MAJOR(ptp->dmtsc_devs.devid);
+   611			ptp->dmtsc_devs.dmtsc_class =
+ > 612				class_create(THIS_MODULE, "ptptsevqch_class");
+   613			for (idx = 0; idx < ptp->info->n_ext_ts; idx++) {
+   614				mutex_init(&ptp->dmtsc_devs.cdev_info[idx].tsevq_mux);
+   615				device = MKDEV(major, idx);
+   616				ptp->dmtsc_devs.cdev_info[idx].pclock = ptp;
+   617				cdev_init(&ptp->dmtsc_devs.cdev_info[idx].dmtsc_cdev,
+   618					  &fops);
+   619				err = cdev_add(
+   620					&ptp->dmtsc_devs.cdev_info[idx].dmtsc_cdev,
+   621					device, 1);
+   622				if (err) {
+   623					goto cdev_clean;
+   624				} else {
+   625					ptp->dmtsc_devs.cdev_info[idx].minor = idx;
+   626					dev = device_create(ptp->dmtsc_devs.dmtsc_class,
+   627							    &ptp->dev, device, NULL,
+   628							    "ptp%dch%d", ptp->index,
+   629							    idx);
+   630					if (IS_ERR(dev)) {
+   631						err = PTR_ERR(dev);
+   632						goto cdev_clean;
+   633					}
+   634				}
+   635			}
+   636		} else {
+   637			goto dev_clean;
+   638		}
+   639		return 0;
+   640	
+   641	cdev_clean:
+   642		ptp_dmtsc_cdev_clean(ptp);
+   643	dev_clean:
+   644		kfree(ptp->dmtsc_devs.cdev_info);
+   645		ptp->dmtsc_devs.cdev_info = NULL;
+   646	err:
+   647		return err;
+   648	}
+   649	
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
