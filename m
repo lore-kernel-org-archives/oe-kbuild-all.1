@@ -1,55 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691D0111F;
-	Thu, 31 Aug 2023 03:08:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDEF15A0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 03:31:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693451332; x=1724987332;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mYEk4LI2pL8XWPF1zKc5qz6vdX12xJGX7KbAifejJ34=;
-  b=UZtGHNNWwwj2ldnqfJWH/0ZvdoRN1Lqr0yzfyzd2CR/bHI7kxUmiIrgd
-   rjb6onbHY1aKEMR+IBpzvpRF/GP9O5pG/uRD41SYRnRbFYHEWsZZwS5ax
-   Z8fPNK5/BBnPhbsR20x1zEC96at88HwA7Zm4E+P2mst+pZCjdO713a9JT
-   A6OJOhqi6tcWkiWWyyZOMB51urbWs2aiJ0ZqQ6KN1HF9ihwLJcjjs5+21
-   JtJb+42qsORIfntfpsBM1x3fjMQge5HLbkPKle2viY7QzQ8TUlQZ+9LI9
-   GBru/cOe5XlXogZ8pwnzEOFRUPBe01cartEBYjNMUHRu7qEoRegvPXE3O
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="462175913"
+  t=1693452661; x=1724988661;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4q00ViNtP0R+WF64SX5yMWNaDxF4fFs6Bpsg32EbNnc=;
+  b=eUoyKWWyYhRjs9sGosUI0wv+QsRhmwPYZE+uMHKUDlxTvdYxiSbaij7Z
+   l/CN1qaQUyYWFMCntWNCv19kLaxOaTQCYa2UV73+2XeLc0RsB7F3oFPtb
+   WCiPUtycz8ND5+IxmelPLGviEZ0NJABIqH25/WdB/I64uYpShUff70HiS
+   C+YdQZ/jdIp4IQbQouWHuSeVakM8FBUnF+3AAGVb2dHm8VL1Psy5fJksd
+   znTUoVidLNSt6eUAaGkk5SV+I4i3u1EyNl31PFm0XBzeOrOcV196d/ltD
+   zFG0DV/4MwTXSiQI67WqcEWvxe4irtvtMVUvv9RalGY+cEkF10yh6K4G5
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="406795129"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="462175913"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 20:08:51 -0700
+   d="scan'208";a="406795129"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2023 20:31:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="913042869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="1070059726"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688454000"; 
-   d="scan'208";a="913042869"
+   d="scan'208";a="1070059726"
 Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 30 Aug 2023 20:08:47 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 30 Aug 2023 20:30:59 -0700
 Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbY34-000AWX-1Y;
-	Thu, 31 Aug 2023 03:08:46 +0000
-Date: Thu, 31 Aug 2023 11:08:43 +0800
+	id 1qbYOY-000AY1-2N;
+	Thu, 31 Aug 2023 03:30:58 +0000
+Date: Thu, 31 Aug 2023 11:30:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yosry Ahmed <yosryahmed@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeelb@google.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Ivan Babrou <ivan@cloudflare.com>, Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Waiman Long <longman@redhat.com>, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Yosry Ahmed <yosryahmed@google.com>
-Subject: Re: [PATCH v3 4/4] mm: memcg: use non-unified stats flushing for
- userspace reads
-Message-ID: <202308311025.538QuXBV-lkp@intel.com>
-References: <20230830175335.1536008-5-yosryahmed@google.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/639 1629/24603] drivers/dma/mxs-dma.c:914:5:
+ warning: no previous prototype for function 'mxs_dma_runtime_suspend'
+Message-ID: <202308311158.94H1gN7O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,62 +45,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230830175335.1536008-5-yosryahmed@google.com>
 
-Hi Yosry,
+Hi Han,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master next-20230830]
-[cannot apply to v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yosry-Ahmed/mm-memcg-properly-name-and-document-unified-stats-flushing/20230831-015518
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230830175335.1536008-5-yosryahmed%40google.com
-patch subject: [PATCH v3 4/4] mm: memcg: use non-unified stats flushing for userspace reads
-config: i386-randconfig-r013-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311025.538QuXBV-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311025.538QuXBV-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: 1b639120f160cd2a1a0fa6528d4cb721b94708c3 [1629/24603] LF-251-1: dma: mxs-dma: enable runtime PM for mxs-dma
+config: riscv-randconfig-r015-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311158.94H1gN7O-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311158.94H1gN7O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308311025.538QuXBV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308311158.94H1gN7O-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/memcontrol.c:667:6: warning: no previous prototype for function 'mem_cgroup_user_flush_stats' [-Wmissing-prototypes]
-   void mem_cgroup_user_flush_stats(struct mem_cgroup *memcg)
-        ^
-   mm/memcontrol.c:667:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void mem_cgroup_user_flush_stats(struct mem_cgroup *memcg)
+   drivers/dma/mxs-dma.c:879:2: error: implicit declaration of function 'dma_pool_destroy' [-Werror,-Wimplicit-function-declaration]
+           dma_pool_destroy(mxs_dma->mxs_chans[0].ccw_pool);
+           ^
+   drivers/dma/mxs-dma.c:879:41: error: no member named 'ccw_pool' in 'struct mxs_dma_chan'
+           dma_pool_destroy(mxs_dma->mxs_chans[0].ccw_pool);
+                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/dma/mxs-dma.c:885:13: error: no member named 'ccw_pool' in 'struct mxs_dma_chan'
+                   mxs_chan->ccw_pool = NULL;
+                   ~~~~~~~~  ^
+>> drivers/dma/mxs-dma.c:914:5: warning: no previous prototype for function 'mxs_dma_runtime_suspend' [-Wmissing-prototypes]
+   int mxs_dma_runtime_suspend(struct device *dev)
+       ^
+   drivers/dma/mxs-dma.c:914:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int mxs_dma_runtime_suspend(struct device *dev)
    ^
    static 
-   1 warning generated.
+>> drivers/dma/mxs-dma.c:923:5: warning: no previous prototype for function 'mxs_dma_runtime_resume' [-Wmissing-prototypes]
+   int mxs_dma_runtime_resume(struct device *dev)
+       ^
+   drivers/dma/mxs-dma.c:923:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int mxs_dma_runtime_resume(struct device *dev)
+   ^
+   static 
+   2 warnings and 3 errors generated.
 
 
-vim +/mem_cgroup_user_flush_stats +667 mm/memcontrol.c
+vim +/mxs_dma_runtime_suspend +914 drivers/dma/mxs-dma.c
 
-   658	
-   659	/*
-   660	 * mem_cgroup_user_flush_stats - do a stats flush for a user read
-   661	 * @memcg: memory cgroup to flush
-   662	 *
-   663	 * Flush the subtree of @memcg. A mutex is used for userspace readers to gate
-   664	 * the global rstat spinlock. This protects in-kernel flushers from userspace
-   665	 * readers hogging the lock.
-   666	 */
- > 667	void mem_cgroup_user_flush_stats(struct mem_cgroup *memcg)
-   668	{
-   669		mutex_lock(&stats_user_flush_mutex);
-   670		do_stats_flush(memcg);
-   671		mutex_unlock(&stats_user_flush_mutex);
-   672	}
-   673	
+   913	
+ > 914	int mxs_dma_runtime_suspend(struct device *dev)
+   915	{
+   916		struct mxs_dma_engine *mxs_dma = dev_get_drvdata(dev);
+   917	
+   918		clk_disable_unprepare(mxs_dma->clk);
+   919	
+   920		return 0;
+   921	}
+   922	
+ > 923	int mxs_dma_runtime_resume(struct device *dev)
+   924	{
+   925		struct mxs_dma_engine *mxs_dma = dev_get_drvdata(dev);
+   926		int ret;
+   927	
+   928		ret = clk_prepare_enable(mxs_dma->clk);
+   929		if (ret) {
+   930			dev_err(&mxs_dma->pdev->dev, "failed to enable the clock\n");
+   931			return ret;
+   932		}
+   933	
+   934		return 0;
+   935	}
+   936	
 
 -- 
 0-DAY CI Kernel Test Service
