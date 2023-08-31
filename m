@@ -1,44 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBD36FB6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 10:18:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915A66FB6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Aug 2023 10:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693477126; x=1725013126;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aAnvjK7Im18/R5Du6VjU/lwHKG1PkALVrAPons6tfvw=;
-  b=iHfAWUcLbv+7jyJhwcIySzrLyNxwECURkLSgEhpESyX0QJWqHGvlFuPb
-   UxNssw7yfjj0YrwKaTQT+Lo+uvAzeL/GmKfbBwNm+r+scNLmC8auatWd5
-   LFybyHNUDHxfxEIA4jPL1Evobo1LH6k0EQsSJ0UH1mtygrU6KuBu8hexV
-   S2aKVvW32NXyAelY4ZQ76V+Hjs9duNR5AoI8CJNJe1UZQ7LqrolZKuZOj
-   AzywYnsmP86iWYgkSpE+CQql+Zbbn9qGHagtdm0PX2KBXbR+4dyoQ0my8
-   VAmcyd6EJsFrSzluupkErpKHRyDfRyuZ3IgQMsOoGG741wdBm1B1DViCG
+  t=1693477128; x=1725013128;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZlpfannGnJ1i7DIi+WzFo4DxL81J1A3h528IVRZIsyc=;
+  b=cBdPauJeuwAZ8QqlHsjiPrWoYhoxCxa6a7luCiw5ZYMQnuvLWQ1V5ZYs
+   SEaAlFmMWcByBcStcyRRPDoo8cjkWGuvWVzNRPBYNGmrGHItotIfguR6a
+   yHw/DOkpn1jkxaWa+JEE/tQoKyJOti6NUN510q9W80pla7lEWW+6M58Qn
+   vxpolLKmYKhqFREufvgdBn+F1CyhdrLj/xONexDpU6asT9Q+fZ0QlWYDF
+   b/4Io2hDL1cxAbY0PLdWIxh8TcK4lmqgqkXwOr+VnaWc4eXfBb9/B/lsG
+   2JjYwXOTPE1lFK9+OXZIc1pDwTEE/rq797x5utYhUchaPyQS0T1BF2Eif
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="439841242"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="439841243"
 X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="439841242"
+   d="scan'208";a="439841243"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 03:18:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="733034913"
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="733034909"
 X-IronPort-AV: E=Sophos;i="6.02,216,1688454000"; 
-   d="scan'208";a="733034913"
+   d="scan'208";a="733034909"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 31 Aug 2023 03:18:44 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbel8-00001Z-1J;
+	id 1qbel8-00001X-1B;
 	Thu, 31 Aug 2023 10:18:42 +0000
-Date: Thu, 31 Aug 2023 18:18:22 +0800
+Date: Thu, 31 Aug 2023 18:18:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Utkarsh Patel <utkarsh.h.patel@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 4/5] platform/chrome: cros_ec_typec: Add Displayport
- Alternatemode 2.1 Support
-Message-ID: <202308311857.Wl15vE5W-lkp@intel.com>
-References: <20230830223950.1360865-5-utkarsh.h.patel@intel.com>
+Subject: [freescale-fslc:pr/639 6178/24603]
+ drivers/pci/controller/dwc/pci-imx6.c:2882:11: warning: variable 'ret' set
+ but not used
+Message-ID: <202308311813.CRAaZ5us-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,121 +46,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230830223950.1360865-5-utkarsh.h.patel@intel.com>
 
-Hi Utkarsh,
+Hi Dong,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus chrome-platform/for-next chrome-platform/for-firmware-next westeri-thunderbolt/next linus/master v6.5 next-20230830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Utkarsh-Patel/usb-typec-Add-Displayport-Alternate-Mode-2-1-Support/20230831-064225
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230830223950.1360865-5-utkarsh.h.patel%40intel.com
-patch subject: [PATCH v2 4/5] platform/chrome: cros_ec_typec: Add Displayport Alternatemode 2.1 Support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230831/202308311857.Wl15vE5W-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311857.Wl15vE5W-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: 57c0f9fc3024aa4d28f39a99a56cffd31c845c58 [6178/24603] Merge branch 'pcie/next' into next
+config: i386-randconfig-013-20230831 (https://download.01.org/0day-ci/archive/20230831/202308311813.CRAaZ5us-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230831/202308311813.CRAaZ5us-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308311857.Wl15vE5W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308311813.CRAaZ5us-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/platform/chrome/cros_ec_typec.c: In function 'cros_typec_enable_dp':
->> drivers/platform/chrome/cros_ec_typec.c:553:34: error: implicit declaration of function 'VDO_CABLE_SPEED'; did you mean 'TBT_CABLE_SPEED'? [-Werror=implicit-function-declaration]
-     553 |                 u8 cable_speed = VDO_CABLE_SPEED(port->c_identity.vdo[0]);
-         |                                  ^~~~~~~~~~~~~~~
-         |                                  TBT_CABLE_SPEED
-   cc1: some warnings being treated as errors
+   drivers/pci/controller/dwc/pci-imx6.c:905:2: warning: variable 'ret' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+           default:
+           ^~~~~~~
+   drivers/pci/controller/dwc/pci-imx6.c:908:6: note: uninitialized use occurs here
+           if (ret)
+               ^~~
+   drivers/pci/controller/dwc/pci-imx6.c:874:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+                   if (cond >= 2000)
+                       ^~~~~~~~~~~~
+   drivers/pci/controller/dwc/pci-imx6.c:908:6: note: uninitialized use occurs here
+           if (ret)
+               ^~~
+   drivers/pci/controller/dwc/pci-imx6.c:874:3: note: remove the 'if' if its condition is always true
+                   if (cond >= 2000)
+                   ^~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pci-imx6.c:863:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+                   if (cond >= 2000)
+                       ^~~~~~~~~~~~
+   drivers/pci/controller/dwc/pci-imx6.c:908:6: note: uninitialized use occurs here
+           if (ret)
+               ^~~
+   drivers/pci/controller/dwc/pci-imx6.c:863:3: note: remove the 'if' if its condition is always true
+                   if (cond >= 2000)
+                   ^~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pci-imx6.c:847:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   drivers/pci/controller/dwc/pci-imx6.c:2922:29: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+           if ((rc_l1sub && ep_l1sub) && PCI_L1SS_CAP_L1_PM_SS) {
+                                      ^  ~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pci-imx6.c:2922:29: note: use '&' for a bitwise operation
+           if ((rc_l1sub && ep_l1sub) && PCI_L1SS_CAP_L1_PM_SS) {
+                                      ^~
+                                      &
+   drivers/pci/controller/dwc/pci-imx6.c:2922:29: note: remove constant to silence this warning
+           if ((rc_l1sub && ep_l1sub) && PCI_L1SS_CAP_L1_PM_SS) {
+                                     ~^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pci-imx6.c:2882:11: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+           int ttl, ret;
+                    ^
+   5 warnings generated.
 
 
-vim +553 drivers/platform/chrome/cros_ec_typec.c
+vim +/ret +2882 drivers/pci/controller/dwc/pci-imx6.c
 
-   487	
-   488	/* Spoof the VDOs that were likely communicated by the partner. */
-   489	static int cros_typec_enable_dp(struct cros_typec_data *typec,
-   490					int port_num,
-   491					struct ec_response_usb_pd_control_v2 *pd_ctrl)
-   492	{
-   493		struct cros_typec_port *port = typec->ports[port_num];
-   494		struct typec_displayport_data dp_data;
-   495		u32 cable_tbt_vdo;
-   496		u32 cable_dp_vdo;
-   497		int ret;
-   498	
-   499		if (typec->pd_ctrl_ver < 2) {
-   500			dev_err(typec->dev,
-   501				"PD_CTRL version too old: %d\n", typec->pd_ctrl_ver);
-   502			return -ENOTSUPP;
-   503		}
-   504	
-   505		if (!pd_ctrl->dp_mode) {
-   506			dev_err(typec->dev, "No valid DP mode provided.\n");
-   507			return -EINVAL;
-   508		}
-   509	
-   510		/* Status VDO. */
-   511		dp_data.status = DP_STATUS_ENABLED;
-   512		if (port->mux_flags & USB_PD_MUX_HPD_IRQ)
-   513			dp_data.status |= DP_STATUS_IRQ_HPD;
-   514		if (port->mux_flags & USB_PD_MUX_HPD_LVL)
-   515			dp_data.status |= DP_STATUS_HPD_STATE;
-   516	
-   517		/* Configuration VDO. */
-   518		dp_data.conf = DP_CONF_SET_PIN_ASSIGN(pd_ctrl->dp_mode);
-   519		if (!port->state.alt) {
-   520			port->state.alt = port->port_altmode[CROS_EC_ALTMODE_DP];
-   521			ret = cros_typec_usb_safe_state(port);
-   522			if (ret)
-   523				return ret;
-   524		}
-   525	
-   526		port->state.data = &dp_data;
-   527		port->state.mode = TYPEC_MODAL_STATE(ffs(pd_ctrl->dp_mode));
-   528	
-   529		/* Get cable VDO for cables with DPSID to check DPAM2.1 is supported */
-   530		cable_dp_vdo = cros_typec_get_cable_vdo(port, USB_TYPEC_DP_SID);
-   531	
-   532		/**
-   533		 * Get cable VDO for thunderbolt cables and cables with DPSID but does not
-   534		 * support DPAM2.1.
-   535		 */
-   536		cable_tbt_vdo = cros_typec_get_cable_vdo(port, USB_TYPEC_TBT_SID);
-   537	
-   538		if (cable_dp_vdo & DP_CAP_DPAM_VERSION) {
-   539			dp_data.conf |= cable_dp_vdo;
-   540		} else if (cable_tbt_vdo) {
-   541			u8 cable_speed = TBT_CABLE_SPEED(cable_tbt_vdo);
-   542	
-   543			dp_data.conf |= cable_speed << DP_CONF_SIGNALLING_SHIFT;
-   544	
-   545			/* Cable Type */
-   546			if (cable_tbt_vdo & TBT_CABLE_OPTICAL)
-   547				dp_data.conf |= DP_CONF_CABLE_TYPE_OPTICAL << DP_CONF_CABLE_TYPE_SHIFT;
-   548			else if (cable_tbt_vdo & TBT_CABLE_RETIMER)
-   549				dp_data.conf |= DP_CONF_CABLE_TYPE_RE_TIMER << DP_CONF_CABLE_TYPE_SHIFT;
-   550			else if (cable_tbt_vdo & TBT_CABLE_ACTIVE_PASSIVE)
-   551				dp_data.conf |= DP_CONF_CABLE_TYPE_RE_DRIVER << DP_CONF_CABLE_TYPE_SHIFT;
-   552		} else if (PD_IDH_PTYPE(port->c_identity.id_header) == IDH_PTYPE_PCABLE) {
- > 553			u8 cable_speed = VDO_CABLE_SPEED(port->c_identity.vdo[0]);
-   554	
-   555			dp_data.conf |= cable_speed << DP_CONF_SIGNALLING_SHIFT;
-   556		}
-   557	
-   558		ret = cros_typec_retimer_set(port->retimer, port->state);
-   559		if (!ret)
-   560			ret = typec_mux_set(port->mux, &port->state);
-   561	
-   562		return ret;
-   563	}
-   564	
+bb38919ec56e07 drivers/pci/host/pci-imx6.c           Sean Cross   2013-09-26  2847  
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2848  static void imx6_pcie_quirk(struct pci_dev *dev)
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2849  {
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2850  	struct pci_bus *bus = dev->bus;
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2851  	struct pcie_port *pp = bus->sysdata;
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2852  
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2853  	/* Bus parent is the PCI bridge, its parent is this platform driver */
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2854  	if (!bus->dev.parent || !bus->dev.parent->parent)
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2855  		return;
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2856  
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2857  	/* Make sure we only quirk devices associated with this driver */
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2858  	if (bus->dev.parent->parent->driver != &imx6_pcie_driver.driver)
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2859  		return;
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2860  
+55254938662458 drivers/pci/controller/dwc/pci-imx6.c Rob Herring  2020-07-21  2861  	if (pci_is_root_bus(bus)) {
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2862  		struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2863  		struct imx6_pcie *imx6_pcie = to_imx6_pcie(pci);
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2864  
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2865  		/*
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2866  		 * Limit config length to avoid the kernel reading beyond
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2867  		 * the register set and causing an abort on i.MX 6Quad
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2868  		 */
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2869  		if (imx6_pcie->drvdata->dbi_length) {
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2870  			dev->cfg_size = imx6_pcie->drvdata->dbi_length;
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2871  			dev_info(&dev->dev, "Limiting cfg_size to %d\n",
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2872  					dev->cfg_size);
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2873  		}
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2874  	}
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2875  }
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2876  DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_VENDOR_ID_SYNOPSYS, 0xabcd,
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2877  			PCI_CLASS_BRIDGE_PCI, 8, imx6_pcie_quirk);
+075af61c19cdc3 drivers/pci/controller/dwc/pci-imx6.c Stefan Agner 2019-07-26  2878  
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2879  static void imx6_pcie_l1ss_quirk(struct pci_dev *dev)
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2880  {
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2881  	u32 reg, rc_l1sub, ep_l1sub, header;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09 @2882  	int ttl, ret;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2883  	int pos = PCI_CFG_SPACE_SIZE;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2884  	struct pci_bus *bus = dev->bus;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2885  	struct pcie_port *pp = bus->sysdata;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2886  	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2887  	struct imx6_pcie *imx6_pcie = to_imx6_pcie(pci);
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2888  
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2889  	/* Return directly, if the L1SS is not supported by RC */
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2890  	if (!(imx6_pcie->drvdata->flags & IMX6_PCIE_FLAG_SUPPORTS_L1SS))
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2891  		return;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2892  
+68db96f391f94b drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-03-08  2893  	/* Make sure the L1SS is not force disabled. */
+68db96f391f94b drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-03-08  2894  	if (imx6_pcie->l1ss_clkreq == 0)
+68db96f391f94b drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-03-08  2895  		return;
+68db96f391f94b drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-03-08  2896  
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2897  	reg = dw_pcie_find_ext_capability(pci, PCI_EXT_CAP_ID_L1SS);
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2898  	rc_l1sub = dw_pcie_readl_dbi(pci, reg + PCI_L1SS_CAP);
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2899  
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2900  	/* minimum 8 bytes per capability */
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2901  	ttl = (PCI_CFG_SPACE_EXP_SIZE - PCI_CFG_SPACE_SIZE) / 8;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2902  	ret = dw_pcie_read(pp->va_cfg0_base + pos, 4, &header);
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2903  	/*
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2904  	 * If we have no capabilities, this is indicated by cap ID,
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2905  	 * cap version and next pointer all being 0.
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2906  	 */
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2907  	if (header == 0)
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2908  		return;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2909  
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2910  	while (ttl-- > 0) {
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2911  		if (PCI_EXT_CAP_ID(header) == PCI_EXT_CAP_ID_L1SS && pos != 0)
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2912  			break;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2913  
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2914  		pos = PCI_EXT_CAP_NEXT(header);
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2915  		if (pos < PCI_CFG_SPACE_SIZE)
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2916  			break;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2917  
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2918  		ret = dw_pcie_read(pp->va_cfg0_base + pos, 4, &header);
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2919  	}
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2920  	ret = dw_pcie_read(pp->va_cfg0_base + pos + PCI_L1SS_CAP, 4, &ep_l1sub);
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2921  
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2922  	if ((rc_l1sub && ep_l1sub) && PCI_L1SS_CAP_L1_PM_SS) {
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2923  		imx6_pcie->l1ss_clkreq = 1;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2924  		imx6_pcie_clkreq_enable(imx6_pcie);
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2925  	} else {
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2926  		imx6_pcie->l1ss_clkreq = 0;
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2927  	}
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2928  }
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2929  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_SYNOPSYS, 0xabcd, imx6_pcie_l1ss_quirk);
+a12a943c1ab066 drivers/pci/controller/dwc/pci-imx6.c Richard Zhu  2021-02-09  2930  
+
+:::::: The code at line 2882 was first introduced by commit
+:::::: a12a943c1ab0665ee6d5c3249e1363a4cfabc7d4 MLK-25283-4 PCI: imx: adjust the l1ss support to proper place
+
+:::::: TO: Richard Zhu <hongxing.zhu@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
