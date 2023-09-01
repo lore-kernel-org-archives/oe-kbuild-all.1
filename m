@@ -1,135 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084299476
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 09:25:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693560339; x=1725096339;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OYeiebBfVdtHmvqQAW43Gu60tfvFr+AcGHBE6xEcAiY=;
-  b=YEEqc86csse5anQlgZ9yG5mG5BFysScbljNp3xo91mKKiap3/I/RrWZu
-   po8Mfo+FgKF0iubMxWb80jZ2vhXcj7b4kcjHLITTkI9b/1MtkAzxDmqTw
-   Ec/vOkJxazU0vRqrWe96BGmzI4JmRfqYcCaTY4RyJLtaorJ7T0OwzRAHV
-   2fZrb2kJ57glhWvlpj3/88KZmJEIBwZE/vQD/TANRK0EaC/8fXTzLNzet
-   uZsXfGoEOk/7dfpbN+WnvGvygeI3pBMqnM74ASlnMyCoVy3P5w45InHHi
-   Ho1xff+nRAr+7OFEpjO+SIW45qJcZoO3vlcPSYgSkmr/tJZUOvYTBJr3M
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="356491020"
-X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; 
-   d="scan'208";a="356491020"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 02:25:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="830057958"
-X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; 
-   d="scan'208";a="830057958"
-Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 01 Sep 2023 02:25:34 -0700
-Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qc0PC-00018G-1m;
-	Fri, 01 Sep 2023 09:25:30 +0000
-Date: Fri, 1 Sep 2023 17:25:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 3235/24603]
- drivers/i2c/busses/i2c-imx-lpi2c.c:671:12: warning: 'lpi2c_resume_noirq'
- defined but not used
-Message-ID: <202309011704.VOhK2YOh-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40439476
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 09:26:17 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9a5dff9d2d9so208165366b.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 01 Sep 2023 02:26:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693560375; x=1694165175; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=aFmHZTLlIQkbBzornOPgrV8aRoSDhdsHZyavX+Ey+So=;
+        b=KahNk0owQP/0/+Lqegsg5aXmHCXqwzVU7gpdl/CJOiwVSXwFMUjeG5K5WbHWCkxmbR
+         eWOduoO8Mij7rOE0V7Y/U0mLP6e1+kArBNeHetzP9/nD7rvuxK5GtQ2TRwz9bnC1sQUh
+         xiqJkCZRupW05gNoXhIMUC7dIEfESfIjIhTViM60n4ai/pcHcxeYR5GmqYHUFal6OMyJ
+         LbE8BiL8MGGIUBvjIGSXGxKg+GKvTy684LxoyPAAFMPfePIyAtu8M0zn0thKbNSrg52I
+         PkQ9lzrJ8ko3gOoCJObDnM5ylaBgIgMrw+9FkutJFihDBJGFAuCPRmfXHp73eY6L9IM/
+         KLxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693560375; x=1694165175;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aFmHZTLlIQkbBzornOPgrV8aRoSDhdsHZyavX+Ey+So=;
+        b=DrBnUlITCcoORzsqoI3/1pAKc+MGvg9iaNGZgHkk+jMWDWeFmAxB3avFYU3e+/Br/U
+         bQvdVzIQmkYTi1nxcKP2+ete73yv25GJHK0je44N4IDyCw9wRMHyHE+b9YaK/luLqlXX
+         g9PPjcnLEDlaekzuCkbn2kSA9lqjdQ1sPcsN93UaMTviF13ow4v+jBMizewz4HF1JGT6
+         zjhx6sHyTWZFUa7WIp6WmtNpHXSFfQPhmquD8oytLTttmKHGNeK/45bFW5skVrSUPUCK
+         2DTSu82EgQybqRApP1gTTOIx395vu76zYHv6E+QsmElbfE9mHtREV3S/G8NN3gzxdQfN
+         lblw==
+X-Gm-Message-State: AOJu0Yz8Hgs4XnAA6Y6nql5N1E4UNuD5jrTK7dSa7D8YQ3dBNDSi4j4r
+	yMNRKnBQYNgKaP2ucIYbzp8=
+X-Google-Smtp-Source: AGHT+IHehlB4aC9ZcuCGZ1KNjx6dilk4rgHXOqoik7CTyzTtojx4tshpzbkwbfQmLuov5rA7oLztzw==
+X-Received: by 2002:a17:906:2249:b0:9a1:da9a:f1c5 with SMTP id 9-20020a170906224900b009a1da9af1c5mr1163975ejr.45.1693560375260;
+        Fri, 01 Sep 2023 02:26:15 -0700 (PDT)
+Received: from [192.168.1.95] (host-176-36-0-241.b024.la.net.ua. [176.36.0.241])
+        by smtp.gmail.com with ESMTPSA id h21-20020a1709060f5500b009a1be9c29d7sm1754642ejj.179.2023.09.01.02.26.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Sep 2023 02:26:14 -0700 (PDT)
+Message-ID: <a62b47218f1852d09b243b8fb1741c2baca4d336.camel@gmail.com>
+Subject: Re: [bpf:master 6/15] htmldocs: Warning: Documentation/bpf/btf.rst
+ references a file that doesn't exist: Documentation/bpf/llvm_reloc
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: Daniel Borkmann <daniel@iogearbox.net>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Date: Fri, 01 Sep 2023 12:26:13 +0300
+In-Reply-To: <6a92003b-e47f-01bc-57d2-d2fb30292ad0@iogearbox.net>
+References: <202309010804.G3MpXo59-lkp@intel.com>
+	 <6a92003b-e47f-01bc-57d2-d2fb30292ad0@iogearbox.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/639
-head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: 0158af3e517b96ef5a082edac1dbc11446d4a735 [3235/24603] MLK-16713 i2c: imx-lpi2c: add runtime pm support
-config: arc-randconfig-001-20230831 (https://download.01.org/0day-ci/archive/20230901/202309011704.VOhK2YOh-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309011704.VOhK2YOh-lkp@intel.com/reproduce)
+On Fri, 2023-09-01 at 08:29 +0200, Daniel Borkmann wrote:
+> Hi Eduard,
+>=20
+> On 9/1/23 2:05 AM, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git mas=
+ter
+> > head:   be8e754cbfac698d6304bb8382c8d18ac74424d3
+> > commit: be4033d36070e44fba766a21ef2d0c24fa04c377 [6/15] docs/bpf: Add d=
+escription for CO-RE relocations
+> > reproduce: (https://download.01.org/0day-ci/archive/20230901/2023090108=
+04.G3MpXo59-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Closes: https://lore.kernel.org/oe-kbuild-all/202309010804.G3MpXo59-l=
+kp@intel.com/
+> >=20
+> > All warnings (new ones prefixed by >>):
+> >=20
+> > > > Warning: Documentation/bpf/btf.rst references a file that doesn't e=
+xist: Documentation/bpf/llvm_reloc
+> > > > Warning: Documentation/bpf/llvm_reloc.rst references a file that do=
+esn't exist: Documentation/bpf/btf
+>=20
+> Could you send a follow-up fix for bpf tree?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309011704.VOhK2YOh-lkp@intel.com/
+Hi Daniel,
 
-All warnings (new ones prefixed by >>):
+Will send the fix shortly. Strangely, I did check this syntax locally
+before sending the original patch, and had no warnings reported.
 
-   drivers/i2c/busses/i2c-imx-lpi2c.c: In function 'lpi2c_runtime_suspend':
-   drivers/i2c/busses/i2c-imx-lpi2c.c:630:40: error: 'struct lpi2c_imx_struct' has no member named 'clk_ipg'
-     630 |         clk_disable_unprepare(lpi2c_imx->clk_ipg);
-         |                                        ^~
-   drivers/i2c/busses/i2c-imx-lpi2c.c:631:40: error: 'struct lpi2c_imx_struct' has no member named 'clk_per'
-     631 |         clk_disable_unprepare(lpi2c_imx->clk_per);
-         |                                        ^~
-   drivers/i2c/busses/i2c-imx-lpi2c.c: In function 'lpi2c_runtime_resume':
-   drivers/i2c/busses/i2c-imx-lpi2c.c:643:43: error: 'struct lpi2c_imx_struct' has no member named 'clk_per'
-     643 |         ret = clk_prepare_enable(lpi2c_imx->clk_per);
-         |                                           ^~
-   drivers/i2c/busses/i2c-imx-lpi2c.c:649:43: error: 'struct lpi2c_imx_struct' has no member named 'clk_ipg'
-     649 |         ret = clk_prepare_enable(lpi2c_imx->clk_ipg);
-         |                                           ^~
-   drivers/i2c/busses/i2c-imx-lpi2c.c:651:48: error: 'struct lpi2c_imx_struct' has no member named 'clk_per'
-     651 |                 clk_disable_unprepare(lpi2c_imx->clk_per);
-         |                                                ^~
-   drivers/i2c/busses/i2c-imx-lpi2c.c: At top level:
->> drivers/i2c/busses/i2c-imx-lpi2c.c:671:12: warning: 'lpi2c_resume_noirq' defined but not used [-Wunused-function]
-     671 | static int lpi2c_resume_noirq(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~
->> drivers/i2c/busses/i2c-imx-lpi2c.c:658:12: warning: 'lpi2c_suspend_noirq' defined but not used [-Wunused-function]
-     658 | static int lpi2c_suspend_noirq(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/lpi2c_resume_noirq +671 drivers/i2c/busses/i2c-imx-lpi2c.c
-
-   636	
-   637	static int __maybe_unused lpi2c_runtime_resume(struct device *dev)
-   638	{
-   639		struct lpi2c_imx_struct *lpi2c_imx = dev_get_drvdata(dev);
-   640		int ret;
-   641	
-   642		pinctrl_pm_select_default_state(dev);
-   643		ret = clk_prepare_enable(lpi2c_imx->clk_per);
-   644		if (ret) {
-   645			dev_err(dev, "can't enable I2C per clock, ret=%d\n", ret);
-   646			return ret;
-   647		}
-   648	
- > 649		ret = clk_prepare_enable(lpi2c_imx->clk_ipg);
-   650		if (ret) {
- > 651			clk_disable_unprepare(lpi2c_imx->clk_per);
-   652			dev_err(dev, "can't enable I2C ipg clock, ret=%d\n", ret);
-   653		}
-   654	
-   655		return ret;
-   656	}
-   657	
- > 658	static int lpi2c_suspend_noirq(struct device *dev)
-   659	{
-   660		int ret;
-   661	
-   662		ret = pm_runtime_force_suspend(dev);
-   663		if (ret)
-   664			return ret;
-   665	
-   666		pinctrl_pm_select_sleep_state(dev);
-   667	
-   668		return 0;
-   669	}
-   670	
- > 671	static int lpi2c_resume_noirq(struct device *dev)
-   672	{
-   673		return pm_runtime_force_resume(dev);
-   674	}
-   675	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Eduard
