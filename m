@@ -1,43 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5A8A49
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 20:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334A1C136
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 20:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693600255; x=1725136255;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=faRuPyqpIxjyBNxtv43Px6XWOEAiuP/yYmDB4HXeni4=;
-  b=J5pLJpMmLBDdaC7YUnWvzmmxDGXPa/esjESD+rW2i9MT0RKLX5zVO/CK
-   2KCPthlhU31h9MIVXCUIXc35YVrEXpL9D7dcLRuCpRJy0yxbKljADiiNV
-   OfdmdqPUFIPt0zfBNmwDmZo/i2kYF1bm7bJQ5Q8uTxo/dVQdkJMKteEC0
-   4D0ay2P2eHi5PgsuCr7+v+C5isjAgtkdzHhMW4Lj1Y+V9N5jCRHFc2miy
-   PpD4fOWJOb6w6gF5kzEG66KN+SSL9t8EkryKsiS4CARplDHJHjDBzldeb
-   TtfVV+tJ6YuH3jDOKcsfKN3+WyRlE9bI7j3nqPu6MijnX7XyuPHRHUO8I
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="356611366"
+  t=1693600976; x=1725136976;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CbVnfzwwwVoFn02TRV4AclDXNOSd+TrBbstsh2fLvjU=;
+  b=ljSMIz0Mbr9tDptZ2vVDnwi2LER9Y/um8uhCse+dI4HcDBLe7USTbdYl
+   k41KaL/gdlTzEm2hAb16dvlmEiGQ5drM1PxB1MLjTI4puCqcAKDnHcO2D
+   wN2Ue54vAD1xuYY6Jrf2mP+41d53I06s7FNtLLgt8w0seH2asLEgAmb8r
+   IfpFECtFU4i35dW/YdsZIoBFo0utVYbuv0WQtCQICcaZQswyq7Y2i0mro
+   nNsLYajwHW86Wlj7vxaddPp38ChofYopxTTUm8sHS/d5ASUp9Qy7/mcz1
+   CsH6/9GwDk7HWGeid1BgbSPRt/0slvcWQjh5zu6ft8dHR+b+gLyA8ukfq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="440275508"
 X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
-   d="scan'208";a="356611366"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 13:30:54 -0700
+   d="scan'208";a="440275508"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 13:42:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="805569629"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="743245059"
 X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
-   d="scan'208";a="805569629"
+   d="scan'208";a="743245059"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Sep 2023 13:30:52 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 01 Sep 2023 13:42:52 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcAn4-0001cF-10;
-	Fri, 01 Sep 2023 20:30:50 +0000
-Date: Sat, 2 Sep 2023 04:30:23 +0800
+	id 1qcAyg-0001cp-2n;
+	Fri, 01 Sep 2023 20:42:50 +0000
+Date: Sat, 2 Sep 2023 04:42:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 6160/24603]
- drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:1458:12: warning:
- 'hdmirx_runtime_resume' defined but not used
-Message-ID: <202309020439.CfWUHfSG-lkp@intel.com>
+To: Ninad Palsule <ninad@linux.ibm.com>, joel@jms.id.au, andrew@aj.id.au,
+	eajames@linux.ibm.com
+Cc: oe-kbuild-all@lists.linux.dev, Ninad Palsule <ninad@linux.ibm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v2 1/1] soc/aspeed: Add host side BMC device driver
+Message-ID: <202309020400.PQMeauEC-lkp@intel.com>
+References: <20230823173104.3219128-2-ninad@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,99 +49,191 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230823173104.3219128-2-ninad@linux.ibm.com>
 
-tree:   https://github.com/Freescale/linux-fslc pr/639
-head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: f23cd0bfe50f8652d6b8932f3bf4ab8d792ae759 [6160/24603] Merge branch 'display/next' into next
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230902/202309020439.CfWUHfSG-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020439.CfWUHfSG-lkp@intel.com/reproduce)
+Hi Ninad,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on linus/master v6.5 next-20230831]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ninad-Palsule/soc-aspeed-Add-host-side-BMC-device-driver/20230824-013703
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20230823173104.3219128-2-ninad%40linux.ibm.com
+patch subject: [PATCH v2 1/1] soc/aspeed: Add host side BMC device driver
+config: m68k-randconfig-r004-20230902 (https://download.01.org/0day-ci/archive/20230902/202309020400.PQMeauEC-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020400.PQMeauEC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309020439.CfWUHfSG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309020400.PQMeauEC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:681:27: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Werror=incompatible-pointer-types]
-     681 |         .enum_mbus_code = hdmirx_enum_mbus_code,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:681:27: note: (near initialization for 'cdns_pad_ops_hdmi.enum_mbus_code')
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:682:28: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_size_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_size_enum *)' [-Werror=incompatible-pointer-types]
-     682 |         .enum_frame_size = hdmirx_enum_framesizes,
-         |                            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:682:28: note: (near initialization for 'cdns_pad_ops_hdmi.enum_frame_size')
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:683:32: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_interval_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_interval_enum *)' [-Werror=incompatible-pointer-types]
-     683 |         .enum_frame_interval = hdmirx_enum_frame_interval,
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:683:32: note: (near initialization for 'cdns_pad_ops_hdmi.enum_frame_interval')
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:684:20: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-     684 |         .get_fmt = hdmirx_get_format,
-         |                    ^~~~~~~~~~~~~~~~~
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:684:20: note: (near initialization for 'cdns_pad_ops_hdmi.get_fmt')
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c: In function 'tmdsmon_fn':
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:907:58: warning: variable 'events' set but not used [-Wunused-but-set-variable]
-     907 |                                                 uint32_t events;
-         |                                                          ^~~~~~
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c: At top level:
-   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:1149: warning: "HOTPLUG_DEBOUNCE_MS" redefined
-    1149 | #define HOTPLUG_DEBOUNCE_MS             200
-         | 
-   In file included from drivers/staging/media/imx/hdmirx/cdns-mhdp-hdmirx.h:32,
-                    from drivers/staging/media/imx/hdmirx/cdns-hdmirx-phy.h:15,
-                    from drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:16:
-   include/drm/bridge/cdns-mhdp.h:531: note: this is the location of the previous definition
-     531 | #define HOTPLUG_DEBOUNCE_MS             50
-         | 
->> drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:1458:12: warning: 'hdmirx_runtime_resume' defined but not used [-Wunused-function]
-    1458 | static int hdmirx_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:1443:12: warning: 'hdmirx_runtime_suspend' defined but not used [-Wunused-function]
-    1443 | static int hdmirx_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/aspeed/aspeed-host-bmc-dev.c: In function 'aspeed_pci_host_bmc_device_probe':
+>> drivers/soc/aspeed/aspeed-host-bmc-dev.c:98:22: error: implicit declaration of function 'pci_request_region'; did you mean 'pci_request_regions'? [-Werror=implicit-function-declaration]
+      98 |                 rc = pci_request_region(pdev, i, DRIVER_NAME);
+         |                      ^~~~~~~~~~~~~~~~~~
+         |                      pci_request_regions
+>> drivers/soc/aspeed/aspeed-host-bmc-dev.c:176:17: error: implicit declaration of function 'pci_free_irq_vectors'; did you mean 'pci_alloc_irq_vectors'? [-Werror=implicit-function-declaration]
+     176 |                 pci_free_irq_vectors(pdev);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 pci_alloc_irq_vectors
    cc1: some warnings being treated as errors
 
 
-vim +/hdmirx_runtime_resume +1458 drivers/staging/media/imx/hdmirx/cdns-hdmirx.c
+vim +98 drivers/soc/aspeed/aspeed-host-bmc-dev.c
 
-4830fa96893226 Sandor Yu 2020-12-09  1442  
-4830fa96893226 Sandor Yu 2020-12-09 @1443  static int hdmirx_runtime_suspend(struct device *dev)
-4830fa96893226 Sandor Yu 2020-12-09  1444  {
-4830fa96893226 Sandor Yu 2020-12-09  1445  	struct cdns_hdmirx_device *hdmirx = dev_get_drvdata(dev);
-4830fa96893226 Sandor Yu 2020-12-09  1446  
-4830fa96893226 Sandor Yu 2020-12-09  1447  	if (hdmirx->flags & HDMIRX_RUNTIME_SUSPEND)
-4830fa96893226 Sandor Yu 2020-12-09  1448  		return 0;
-4830fa96893226 Sandor Yu 2020-12-09  1449  
-4830fa96893226 Sandor Yu 2020-12-09  1450  	if (hdmirx->flags & HDMIRX_PM_POWERED) {
-4830fa96893226 Sandor Yu 2020-12-09  1451  		hdmirx_clock_disable(hdmirx);
-4830fa96893226 Sandor Yu 2020-12-09  1452  		hdmirx->flags |= HDMIRX_RUNTIME_SUSPEND;
-4830fa96893226 Sandor Yu 2020-12-09  1453  		hdmirx->flags &= ~HDMIRX_PM_POWERED;
-4830fa96893226 Sandor Yu 2020-12-09  1454  	}
-4830fa96893226 Sandor Yu 2020-12-09  1455  	return 0;
-4830fa96893226 Sandor Yu 2020-12-09  1456  }
-4830fa96893226 Sandor Yu 2020-12-09  1457  
-4830fa96893226 Sandor Yu 2020-12-09 @1458  static int hdmirx_runtime_resume(struct device *dev)
-4830fa96893226 Sandor Yu 2020-12-09  1459  {
-4830fa96893226 Sandor Yu 2020-12-09  1460  	struct cdns_hdmirx_device *hdmirx = dev_get_drvdata(dev);
-4830fa96893226 Sandor Yu 2020-12-09  1461  
-4830fa96893226 Sandor Yu 2020-12-09  1462  	if (hdmirx->flags & HDMIRX_PM_POWERED)
-4830fa96893226 Sandor Yu 2020-12-09  1463  		return 0;
-4830fa96893226 Sandor Yu 2020-12-09  1464  
-4830fa96893226 Sandor Yu 2020-12-09  1465  	if (hdmirx->flags & HDMIRX_RUNTIME_SUSPEND) {
-4830fa96893226 Sandor Yu 2020-12-09  1466  		hdmirx_clock_enable(hdmirx);
-4830fa96893226 Sandor Yu 2020-12-09  1467  		hdmirx->flags |= HDMIRX_PM_POWERED;
-4830fa96893226 Sandor Yu 2020-12-09  1468  		hdmirx->flags &= ~HDMIRX_RUNTIME_SUSPEND;
-4830fa96893226 Sandor Yu 2020-12-09  1469  	}
-4830fa96893226 Sandor Yu 2020-12-09  1470  	return 0;
-4830fa96893226 Sandor Yu 2020-12-09  1471  }
-4830fa96893226 Sandor Yu 2020-12-09  1472  
-
-:::::: The code at line 1458 was first introduced by commit
-:::::: 4830fa96893226afb8f79e763acef0fa8197fd9b MLK-24081-06: staging: media: imx: Add hdmi rx driver
-
-:::::: TO: Sandor Yu <Sandor.yu@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+    42	
+    43	static int aspeed_pci_host_bmc_device_probe(struct pci_dev *pdev,
+    44			const struct pci_device_id *ent)
+    45	{
+    46		struct uart_8250_port uart;
+    47		struct device *dev = &pdev->dev;
+    48		struct aspeed_pci_bmc_dev *pci_bmc_dev;
+    49		int rc = 0;
+    50		int i = 0;
+    51		int nr_entries;
+    52		u16 config_cmd_val;
+    53	
+    54		pci_bmc_dev = kzalloc(sizeof(*pci_bmc_dev), GFP_KERNEL);
+    55		if (!pci_bmc_dev) {
+    56			rc = -ENOMEM;
+    57			dev_err(dev, "kmalloc() returned NULL memory.\n");
+    58			goto out_err;
+    59		}
+    60	
+    61		rc = pcim_enable_device(pdev);
+    62		if (rc != 0) {
+    63			dev_err(dev, "pcim_enable_device() returned error %d\n", rc);
+    64			goto out_free0;
+    65		}
+    66	
+    67		/* set PCI host mastering  */
+    68		pci_set_master(pdev);
+    69	
+    70		/*
+    71		 * Try to allocate max MSI. If multiple MSI is not possible then use
+    72		 * the legacy interrupt. Note: PowerPC doesn't support multiple MSI.
+    73		 */
+    74		nr_entries = pci_alloc_irq_vectors(pdev, 1, BMC_MULTI_MSI,
+    75					PCI_IRQ_MSIX | PCI_IRQ_MSI);
+    76		if (nr_entries < 0) {
+    77			pci_bmc_dev->legacy_irq = 1;
+    78			pci_read_config_word(pdev, PCI_COMMAND, &config_cmd_val);
+    79			config_cmd_val &= ~PCI_COMMAND_INTX_DISABLE;
+    80			pci_write_config_word((struct pci_dev *)pdev, PCI_COMMAND, config_cmd_val);
+    81	
+    82		} else {
+    83			pci_bmc_dev->legacy_irq = 0;
+    84			pci_read_config_word(pdev, PCI_COMMAND, &config_cmd_val);
+    85			config_cmd_val |= PCI_COMMAND_INTX_DISABLE;
+    86			pci_write_config_word((struct pci_dev *)pdev, PCI_COMMAND, config_cmd_val);
+    87			rc = pci_irq_vector(pdev, BMC_MSI_IDX_BASE);
+    88			if (rc < 0) {
+    89				dev_err(dev, "pci_irq_vector() returned error %d msi=%u msix=%u\n",
+    90					-rc, pdev->msi_enabled, pdev->msix_enabled);
+    91				goto out_free1;
+    92			}
+    93			pdev->irq = rc;
+    94		}
+    95	
+    96		/* Get access to the BARs */
+    97		for (i = 0; i < BAR_MAX; i++) {
+  > 98			rc = pci_request_region(pdev, i, DRIVER_NAME);
+    99			if (rc < 0) {
+   100				dev_err(dev, "pci_request_region(%d) returned error %d\n", i, rc);
+   101				goto out_unreg;
+   102			}
+   103	
+   104			pci_bmc_dev->bars[i].bar_base = pci_resource_start(pdev, i);
+   105			pci_bmc_dev->bars[i].bar_size = pci_resource_len(pdev, i);
+   106			pci_bmc_dev->bars[i].bar_ioremap = pci_ioremap_bar(pdev, i);
+   107			if (pci_bmc_dev->bars[i].bar_ioremap == NULL) {
+   108				dev_err(dev, "pci_ioremap_bar(%d) failed\n", i);
+   109				rc = -ENOMEM;
+   110				goto out_unreg;
+   111			}
+   112		}
+   113	
+   114		/* ERRTA40: dummy read */
+   115		(void)__raw_readl((void __iomem *)pci_bmc_dev->bars[BAR_MSG].bar_ioremap);
+   116	
+   117		pci_set_drvdata(pdev, pci_bmc_dev);
+   118	
+   119		for (i = 0; i < VUART_MAX_PARMS; i++)
+   120			pci_bmc_dev->lines[i] = -1;
+   121	
+   122		/* setup VUART */
+   123		for (i = 0; i < VUART_MAX_PARMS; i++) {
+   124			memset(&uart, 0, sizeof(uart));
+   125			vuart_ioport[i] = 0x3F8 - (i * 0x100);
+   126			vuart_sirq[i] = 0x10 + 4 - i - BMC_MSI_IDX_BASE;
+   127			uart.port.flags = UPF_SKIP_TEST | UPF_BOOT_AUTOCONF | UPF_SHARE_IRQ;
+   128			uart.port.uartclk = 115200 * 16;
+   129	
+   130			if (pci_bmc_dev->legacy_irq) {
+   131				uart.port.irq = pdev->irq;
+   132			} else {
+   133				rc = pci_irq_vector(pdev, vuart_sirq[i]);
+   134				if (rc < 0) {
+   135					dev_err(dev,
+   136						"pci_irq_vector() returned error %d msi=%u msix=%u\n",
+   137						-rc, pdev->msi_enabled, pdev->msix_enabled);
+   138					goto out_unreg;
+   139				}
+   140				uart.port.irq = rc;
+   141			}
+   142			uart.port.dev = dev;
+   143			uart.port.iotype = UPIO_MEM32;
+   144			uart.port.iobase = 0;
+   145			uart.port.mapbase =
+   146					pci_bmc_dev->bars[BAR_MSG].bar_base + (vuart_ioport[i] << 2);
+   147			uart.port.membase =
+   148					pci_bmc_dev->bars[BAR_MSG].bar_ioremap + (vuart_ioport[i] << 2);
+   149			uart.port.type = PORT_16550A;
+   150			uart.port.flags |= (UPF_IOREMAP | UPF_FIXED_PORT | UPF_FIXED_TYPE);
+   151			uart.port.regshift = 2;
+   152	
+   153			rc = serial8250_register_8250_port(&uart);
+   154			if (rc < 0) {
+   155				dev_err(dev,
+   156					"cannot setup VUART@%xh over PCIe, rc=%d\n",
+   157					vuart_ioport[i], -rc);
+   158				goto out_unreg;
+   159			}
+   160			pci_bmc_dev->lines[i] = rc;
+   161		}
+   162	
+   163		return 0;
+   164	
+   165	out_unreg:
+   166		for (i = 0; i < VUART_MAX_PARMS; i++) {
+   167			if (pci_bmc_dev->lines[i] >= 0)
+   168				serial8250_unregister_port(pci_bmc_dev->lines[i]);
+   169		}
+   170	
+   171		pci_release_regions(pdev);
+   172	out_free1:
+   173		if (pci_bmc_dev->legacy_irq)
+   174			free_irq(pdev->irq, pdev);
+   175		else
+ > 176			pci_free_irq_vectors(pdev);
+   177	
+   178		pci_clear_master(pdev);
+   179	out_free0:
+   180		kfree(pci_bmc_dev);
+   181	out_err:
+   182	
+   183		return rc;
+   184	}
+   185	
 
 -- 
 0-DAY CI Kernel Test Service
