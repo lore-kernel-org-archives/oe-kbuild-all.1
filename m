@@ -1,43 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DD315A6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 02:56:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F2C15A6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 03:19:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693536982; x=1725072982;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Yo5vDexpzFV23G+7XbJhEu7NYpM1c9Lqn2dto1Bb6Lw=;
-  b=QExSyl77Z7vcapnfg2vYtL2R7ehezC6iQWvYR4wREiSm+GMmeHZASmzT
-   ENepVPvUKGrDZAGilr4/QsyFo4oWUM4fVBHz+LvQAqxfLH+eU9Tj1X7B6
-   mtpKTb4KQT6VQyLtG3I2eVvXuDGt8iE/vpylbznw4cTOL90Xu3xWhAFwm
-   PQXjsPIF//ReepUx9yjfiO3pGYlNcqFuA1pMbpnczcr1o686MLUE6yIDF
-   Z1aF5ot7lgVSfI03lXrO7tYQI3oA3h1Sas2IXqZJmij6TH4ETU96S95Sy
-   fwDYPYbFQ3P2mysv11ejpe1/RleXvTtSFRrZ20s5hXST/hWGvWa0N2awU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="355617289"
+  t=1693538366; x=1725074366;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=45Ga15B/3bjXqa8OloILxWs7X2USBAT3xYhk+ZH+m1A=;
+  b=Rg5DGiJ4F+DAVAsp7Chzeg2hD5hOQrUdrYhWVppChqPVpYnX3IjcWPwX
+   RXYHw+/cnK5Is9RFLN4FeV+95vnIVg8l7NklWH3cEBuDsxuZpa+w3Hnbs
+   4qA2MwZszW2y6eWNkkBUDE5blID6Q645oPJnr3Pef8Uz32aJ999SuvmHm
+   QH9X4nBSEFyds8/lvwBCSikVWBVW6qshi0PZwzJJvBPSR553y0dNAL6ww
+   MoTexteP/68TX/l/9TdHBk6zf4SmouuBSv74E7E5aS1FdR1ZUVG88jX0K
+   y/r+HIAuJxMTFBGrgeiaXfyRRpAJNeuVVLg9QDkFx6HT8uSHahrGyoy3t
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="366353807"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="355617289"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 19:56:20 -0700
+   d="scan'208";a="366353807"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 20:19:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="739774838"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="854534351"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="739774838"
+   d="scan'208";a="854534351"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 31 Aug 2023 19:56:19 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 31 Aug 2023 20:19:20 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbuKX-0000nt-1m;
-	Fri, 01 Sep 2023 02:56:17 +0000
-Date: Fri, 1 Sep 2023 10:56:10 +0800
+	id 1qbugo-0000ow-0Q;
+	Fri, 01 Sep 2023 03:19:18 +0000
+Date: Fri, 1 Sep 2023 11:18:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 1264/24603] drivers/gpu/drm/drm_of.c:206:
- warning: Function parameter or member 'm_ops' not described in
- 'drm_of_component_probe'
-Message-ID: <202309011034.JxTiMTDr-lkp@intel.com>
+To: Lukasz Majewski <lukma@denx.de>, Eric Dumazet <edumazet@google.com>,
+	Andrew Lunn <andrew@lunn.ch>, davem@davemloft.net,
+	Paolo Abeni <pabeni@redhat.com>,
+	Woojung Huh <woojung.huh@microchip.com>,
+	Vladimir Oltean <olteanv@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Tristram.Ha@microchip.com,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>, UNGLinuxDriver@microchip.com,
+	George McCollister <george.mccollister@gmail.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Lukasz Majewski <lukma@denx.de>
+Subject: Re: [PATCH v2 2/4] net: dsa: Extend ksz9477 TAG setup to support HSR
+ frames duplication
+Message-ID: <202309011105.2lJFeNbJ-lkp@intel.com>
+References: <20230831111827.548118-3-lukma@denx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,51 +56,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230831111827.548118-3-lukma@denx.de>
 
-tree:   https://github.com/Freescale/linux-fslc pr/639
-head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: 28811ecda78cb50771f8c4f0f7804caa45f638de [1264/24603] MLK-16290 drm: Add drm_of_component_probe_with_match() helper
-config: arc-randconfig-001-20230831 (https://download.01.org/0day-ci/archive/20230901/202309011034.JxTiMTDr-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309011034.JxTiMTDr-lkp@intel.com/reproduce)
+Hi Lukasz,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.5]
+[also build test ERROR on next-20230831]
+[cannot apply to net-next/main net/main linus/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukasz-Majewski/net-dsa-Extend-the-ksz_device-structure-to-hold-info-about-HSR-ports/20230831-192012
+base:   v6.5
+patch link:    https://lore.kernel.org/r/20230831111827.548118-3-lukma%40denx.de
+patch subject: [PATCH v2 2/4] net: dsa: Extend ksz9477 TAG setup to support HSR frames duplication
+config: csky-randconfig-r011-20230901 (https://download.01.org/0day-ci/archive/20230901/202309011105.2lJFeNbJ-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309011105.2lJFeNbJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309011034.JxTiMTDr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309011105.2lJFeNbJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/gpu/drm/drm_of.c:206: warning: Function parameter or member 'm_ops' not described in 'drm_of_component_probe'
->> drivers/gpu/drm/drm_of.c:206: warning: Excess function parameter 'master_ops' description in 'drm_of_component_probe'
-
-
-vim +206 drivers/gpu/drm/drm_of.c
-
-   189	
-   190	/**
-   191	 * drm_of_component_probe - Generic probe function for a component based master
-   192	 * @dev: master device containing the OF node
-   193	 * @compare_of: compare function used for matching components
-   194	 * @master_ops: component master ops to be used
-   195	 *
-   196	 * Parse the platform device OF node and bind all the components associated
-   197	 * with the master. Interface ports are added before the encoders in order to
-   198	 * satisfy their .bind requirements
-   199	 * See Documentation/devicetree/bindings/graph.txt for the bindings.
-   200	 *
-   201	 * Returns zero if successful, or one of the standard error codes if it fails.
-   202	 */
-   203	int drm_of_component_probe(struct device *dev,
-   204				   int (*compare_of)(struct device *, void *),
-   205				   const struct component_master_ops *m_ops)
- > 206	{
-   207		struct component_match *match = NULL;
-   208	
-   209		return drm_of_component_probe_with_match(dev, match, compare_of, m_ops);
-   210	}
-   211	EXPORT_SYMBOL(drm_of_component_probe);
-   212	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/ch341.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/usb/dvb-usb/dvb-usb-dibusb-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/usb/dvb-usb/dvb-usb-dibusb-mc-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/omap_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/ts4800_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-evision.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-petalynx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-steam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-tivo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-twinhan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/vhost/vringh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem-apple-efuses.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_brcm_nvram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/ata/sata_gemini.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/atmtcp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rpmsg/rpmsg_char.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/core/dev_addr_lists_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
+>> ERROR: modpost: "ksz_hsr_get_ports" [net/dsa/tag_ksz.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
