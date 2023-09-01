@@ -1,96 +1,106 @@
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046A8A943
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 11:22:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=ticaJeELIb4UfL4X2wVoYRyjHnK1POfBn5mPm9BVh0s=; b=CaTePVe36t2iU8rRSn725V+HCr
-	4hxaIxDk89a60jUd3/gkjWZeTSzRxP5n1DAjr9ICr2SkyloZxeLpGevt2UMEVI6OiQdLquA/HaXoD
-	2BDxzitN0GX50gDRTbqN3NknSkB+8RYukA9W7uEUc7fSkCeony4agvSNoS7Ggn3XrSiSnGsD86LsC
-	9AqreatPdYzcP4Ou31LNrortJJLZzGWJDMCT/9/iUxRaCihIzUdDiwK3YVWn1k/yAwxVVEs7UK0Cu
-	dmtbERRTrlQTXTh80uCf+K60jdJ+OhZ8ukitptJFUW5++pQWLHkMNDpzbyWRE/IuUUrEQlNQWuwHV
-	OLBnpVyg==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
-	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1qc2E5-000GzU-Pj; Fri, 01 Sep 2023 13:22:10 +0200
-Received: from [85.1.206.226] (helo=linux.home)
-	by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1qc2E5-0005Mj-T8; Fri, 01 Sep 2023 13:22:09 +0200
-Subject: Re: [bpf:master 6/15] htmldocs: Warning: Documentation/bpf/btf.rst
- references a file that doesn't exist: Documentation/bpf/llvm_reloc
-To: Eduard Zingerman <eddyz87@gmail.com>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-References: <202309010804.G3MpXo59-lkp@intel.com>
- <6a92003b-e47f-01bc-57d2-d2fb30292ad0@iogearbox.net>
- <a62b47218f1852d09b243b8fb1741c2baca4d336.camel@gmail.com>
- <5009129a873cf20adacd679d5073c799f79672d2.camel@gmail.com>
-From: Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <5ce81342-c565-f7fb-1c93-ec4eac8944c9@iogearbox.net>
-Date: Fri, 1 Sep 2023 13:22:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000AA2CA6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 11:31:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693567898; x=1725103898;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Zcsf24kKS0zcpGL020vhisUfkbo3mG2C/Vk29h3Djv4=;
+  b=cUp3r6WBxO+cxxKzu8tJL7XjylXiY6P2fKcc+ERgkV2E7cU5/ZgS91sF
+   Xl8moD2zcQUIO6E/90QhVo18JdCa0HU8eTSPXvTHSkTDTySbrtTjeDtHT
+   8oOHzI6Byoe5CeE0w9EJqcW7m+cdnxMRGj9HkYh9WhPGD2xnWXBVhhfSr
+   66jAqmoQxeZefTFEo7rwSQJsk/nFuz/3xHoCw2HBmubLsUOXfPb9H1ahv
+   12x+ZLqYkPMA6CJ7Jg4TcV1pfP+KOUHlHVsiLcdyz6N+rPIZ5A7/jGQDU
+   JtAFZqtijGWEbsjmVeG90BhPzjwjtKqmiD4Yf9onHJl0rCL5FssiL95Nj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="356513982"
+X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; 
+   d="scan'208";a="356513982"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 04:31:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="689738294"
+X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; 
+   d="scan'208";a="689738294"
+Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 01 Sep 2023 04:31:36 -0700
+Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qc2NC-0001F0-1U;
+	Fri, 01 Sep 2023 11:31:34 +0000
+Date: Fri, 1 Sep 2023 19:30:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/639 4345/24603]
+ drivers/vfio/fsl-mc/vfio_fsl_mc.c:360:22: error: incompatible types when
+ assigning to type 'pgprot_t {aka struct pgprot}' from type 'int'
+Message-ID: <202309011903.aDagWciI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <5009129a873cf20adacd679d5073c799f79672d2.camel@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.8/27018/Fri Sep  1 09:45:38 2023)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 9/1/23 1:18 PM, Eduard Zingerman wrote:
-> On Fri, 2023-09-01 at 12:26 +0300, Eduard Zingerman wrote:
->> On Fri, 2023-09-01 at 08:29 +0200, Daniel Borkmann wrote:
->>> Hi Eduard,
->>>
->>> On 9/1/23 2:05 AM, kernel test robot wrote:
->>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
->>>> head:   be8e754cbfac698d6304bb8382c8d18ac74424d3
->>>> commit: be4033d36070e44fba766a21ef2d0c24fa04c377 [6/15] docs/bpf: Add description for CO-RE relocations
->>>> reproduce: (https://download.01.org/0day-ci/archive/20230901/202309010804.G3MpXo59-lkp@intel.com/reproduce)
->>>>
->>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>> the same patch/commit), kindly add following tags
->>>>> Reported-by: kernel test robot <lkp@intel.com>
->>>>> Closes: https://lore.kernel.org/oe-kbuild-all/202309010804.G3MpXo59-lkp@intel.com/
->>>>
->>>> All warnings (new ones prefixed by >>):
->>>>
->>>>>> Warning: Documentation/bpf/btf.rst references a file that doesn't exist: Documentation/bpf/llvm_reloc
->>>>>> Warning: Documentation/bpf/llvm_reloc.rst references a file that doesn't exist: Documentation/bpf/btf
->>>
->>> Could you send a follow-up fix for bpf tree?
->>
->> Hi Daniel,
->>
->> Will send the fix shortly. Strangely, I did check this syntax locally
->> before sending the original patch, and had no warnings reported.
-> 
-> I followed reproducing instructions but can't trigger this warning,
-> tried several sphinx versions:
-> - 1.7.9
-> - 2.4.4
-> - 4.3.2
-> 
-> I'll remove 'Documentation/bpf/llvm_reloc' and 'Documentation/bpf/btf'
-> labels from the documents (and these are link labels, not actual
-> links), but it looks like I don't have a way to check the results in a
-> way compatible with test robot.
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: 053c79cd5d897b39d3659d46370e3b8917f92806 [4345/24603] vfio/fsl-mc: Map the VFIO region according to the flags received from the mc firmware
+config: x86_64-buildonly-randconfig-004-20230831 (https://download.01.org/0day-ci/archive/20230901/202309011903.aDagWciI-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309011903.aDagWciI-lkp@intel.com/reproduce)
 
-Strange, perhaps LKP folks could chime in and provide some more guidance e.g.
-wrt Sphinx version.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309011903.aDagWciI-lkp@intel.com/
 
-Thanks,
-Daniel
+All errors (new ones prefixed by >>):
+
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c: In function 'vfio_fsl_mc_mmap_mmio':
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c:360:24: error: implicit declaration of function 'pgprot_cached_ns'; did you mean 'pgprot_noncached'? [-Werror=implicit-function-declaration]
+       vma->vm_page_prot = pgprot_cached_ns(vma->vm_page_prot);
+                           ^~~~~~~~~~~~~~~~
+                           pgprot_noncached
+>> drivers/vfio/fsl-mc/vfio_fsl_mc.c:360:22: error: incompatible types when assigning to type 'pgprot_t {aka struct pgprot}' from type 'int'
+       vma->vm_page_prot = pgprot_cached_ns(vma->vm_page_prot);
+                         ^
+   cc1: some warnings being treated as errors
+
+
+vim +360 drivers/vfio/fsl-mc/vfio_fsl_mc.c
+
+   344	
+   345	static int vfio_fsl_mc_mmap_mmio(struct vfio_fsl_mc_region region,
+   346					 struct vm_area_struct *vma)
+   347	{
+   348		u64 size = vma->vm_end - vma->vm_start;
+   349		u64 pgoff, base;
+   350	
+   351		pgoff = vma->vm_pgoff &
+   352			((1U << (VFIO_FSL_MC_OFFSET_SHIFT - PAGE_SHIFT)) - 1);
+   353		base = pgoff << PAGE_SHIFT;
+   354	
+   355		if (region.size < PAGE_SIZE || base + size > region.size)
+   356			return -EINVAL;
+   357	
+   358		if (region.type & FSL_MC_REGION_CACHEABLE) {
+   359			if (!(region.type & FSL_MC_REGION_SHAREABLE))
+ > 360				vma->vm_page_prot = pgprot_cached_ns(vma->vm_page_prot);
+   361		} else
+   362			vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+   363	
+   364		vma->vm_pgoff = (region.addr >> PAGE_SHIFT) + pgoff;
+   365	
+   366		return remap_pfn_range(vma, vma->vm_start, vma->vm_pgoff,
+   367				       size, vma->vm_page_prot);
+   368	}
+   369	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
