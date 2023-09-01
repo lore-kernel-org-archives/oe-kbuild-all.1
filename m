@@ -1,47 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160CBC136
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 20:20:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5A8A49
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 20:30:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693599657; x=1725135657;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NsjR7KxMOb5iZXiBkPgMybuVtt5nRRRiYgj01lwdMoo=;
-  b=cpsKzZ+LKFqKZcvn2FQcbuMCvwMM0E/wp9hGz87eg3flRsqz+DGLQySv
-   YVRADyZ1cz1aagpmcbUbr/G0JPyU7/Eg5k5AaN6AtH4lmSnhxgYSt0ORI
-   rM130yZm2W2AlVRQs2Zsz+YQ0ifFfCyb/KJy3iFJ/kZFqcQuY73G+DtvS
-   9uxggIXGKKLVes8bIqTcA/Vjdspjf2l+jBh588EMq/zok3HGxuHj3RJhx
-   +JQf96eFpe1mPbIlSx/GnLERav5huJMsqg/2qCkWjIgd2qxM3s9g20rtM
-   MFMRBag205S/VE4wtWmi8JKeq3+3HEa9+//bm70craZTGtk4AnKwZKnCN
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="407296612"
+  t=1693600255; x=1725136255;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=faRuPyqpIxjyBNxtv43Px6XWOEAiuP/yYmDB4HXeni4=;
+  b=J5pLJpMmLBDdaC7YUnWvzmmxDGXPa/esjESD+rW2i9MT0RKLX5zVO/CK
+   2KCPthlhU31h9MIVXCUIXc35YVrEXpL9D7dcLRuCpRJy0yxbKljADiiNV
+   OfdmdqPUFIPt0zfBNmwDmZo/i2kYF1bm7bJQ5Q8uTxo/dVQdkJMKteEC0
+   4D0ay2P2eHi5PgsuCr7+v+C5isjAgtkdzHhMW4Lj1Y+V9N5jCRHFc2miy
+   PpD4fOWJOb6w6gF5kzEG66KN+SSL9t8EkryKsiS4CARplDHJHjDBzldeb
+   TtfVV+tJ6YuH3jDOKcsfKN3+WyRlE9bI7j3nqPu6MijnX7XyuPHRHUO8I
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="356611366"
 X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
-   d="scan'208";a="407296612"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 13:20:54 -0700
+   d="scan'208";a="356611366"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 13:30:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="743240759"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="805569629"
 X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
-   d="scan'208";a="743240759"
+   d="scan'208";a="805569629"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Sep 2023 13:20:52 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 01 Sep 2023 13:30:52 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcAdO-0001c7-0i;
-	Fri, 01 Sep 2023 20:20:50 +0000
-Date: Sat, 2 Sep 2023 04:20:03 +0800
+	id 1qcAn4-0001cF-10;
+	Fri, 01 Sep 2023 20:30:50 +0000
+Date: Sat, 2 Sep 2023 04:30:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
-	javierm@redhat.com, sam@ravnborg.org, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/7] fbdev/core: Move logo functions into separate source
- file
-Message-ID: <202309020442.Ef28qbgO-lkp@intel.com>
-References: <20230829142109.4521-5-tzimmermann@suse.de>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/639 6160/24603]
+ drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:1458:12: warning:
+ 'hdmirx_runtime_resume' defined but not used
+Message-ID: <202309020439.CfWUHfSG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,140 +46,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230829142109.4521-5-tzimmermann@suse.de>
 
-Hi Thomas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master next-20230831]
-[cannot apply to v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-au1200fb-Do-not-display-boot-up-logo/20230829-222419
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230829142109.4521-5-tzimmermann%40suse.de
-patch subject: [PATCH 4/7] fbdev/core: Move logo functions into separate source file
-config: x86_64-buildonly-randconfig-001-20230902 (https://download.01.org/0day-ci/archive/20230902/202309020442.Ef28qbgO-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020442.Ef28qbgO-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: f23cd0bfe50f8652d6b8932f3bf4ab8d792ae759 [6160/24603] Merge branch 'display/next' into next
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230902/202309020439.CfWUHfSG-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020439.CfWUHfSG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309020442.Ef28qbgO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309020439.CfWUHfSG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/video/fbdev/core/fb_logo.c:433:5: warning: no previous declaration for 'fb_prepare_logo' [-Wmissing-declarations]
-    int fb_prepare_logo(struct fb_info *info, int rotate)
-        ^~~~~~~~~~~~~~~
->> drivers/video/fbdev/core/fb_logo.c:506:5: warning: no previous declaration for 'fb_show_logo' [-Wmissing-declarations]
-    int fb_show_logo(struct fb_info *info, int rotate)
-        ^~~~~~~~~~~~
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:681:27: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Werror=incompatible-pointer-types]
+     681 |         .enum_mbus_code = hdmirx_enum_mbus_code,
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:681:27: note: (near initialization for 'cdns_pad_ops_hdmi.enum_mbus_code')
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:682:28: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_size_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_size_enum *)' [-Werror=incompatible-pointer-types]
+     682 |         .enum_frame_size = hdmirx_enum_framesizes,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:682:28: note: (near initialization for 'cdns_pad_ops_hdmi.enum_frame_size')
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:683:32: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_frame_interval_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_frame_interval_enum *)' [-Werror=incompatible-pointer-types]
+     683 |         .enum_frame_interval = hdmirx_enum_frame_interval,
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:683:32: note: (near initialization for 'cdns_pad_ops_hdmi.enum_frame_interval')
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:684:20: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
+     684 |         .get_fmt = hdmirx_get_format,
+         |                    ^~~~~~~~~~~~~~~~~
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:684:20: note: (near initialization for 'cdns_pad_ops_hdmi.get_fmt')
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c: In function 'tmdsmon_fn':
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:907:58: warning: variable 'events' set but not used [-Wunused-but-set-variable]
+     907 |                                                 uint32_t events;
+         |                                                          ^~~~~~
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c: At top level:
+   drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:1149: warning: "HOTPLUG_DEBOUNCE_MS" redefined
+    1149 | #define HOTPLUG_DEBOUNCE_MS             200
+         | 
+   In file included from drivers/staging/media/imx/hdmirx/cdns-mhdp-hdmirx.h:32,
+                    from drivers/staging/media/imx/hdmirx/cdns-hdmirx-phy.h:15,
+                    from drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:16:
+   include/drm/bridge/cdns-mhdp.h:531: note: this is the location of the previous definition
+     531 | #define HOTPLUG_DEBOUNCE_MS             50
+         | 
+>> drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:1458:12: warning: 'hdmirx_runtime_resume' defined but not used [-Wunused-function]
+    1458 | static int hdmirx_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/imx/hdmirx/cdns-hdmirx.c:1443:12: warning: 'hdmirx_runtime_suspend' defined but not used [-Wunused-function]
+    1443 | static int hdmirx_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/fb_prepare_logo +433 drivers/video/fbdev/core/fb_logo.c
+vim +/hdmirx_runtime_resume +1458 drivers/staging/media/imx/hdmirx/cdns-hdmirx.c
 
-   432	
- > 433	int fb_prepare_logo(struct fb_info *info, int rotate)
-   434	{
-   435		int depth = fb_get_color_depth(&info->var, &info->fix);
-   436		unsigned int yres;
-   437		int height;
-   438	
-   439		memset(&fb_logo, 0, sizeof(struct logo_data));
-   440	
-   441		if (info->flags & FBINFO_MISC_TILEBLITTING ||
-   442		    info->fbops->owner || !fb_logo_count)
-   443			return 0;
-   444	
-   445		if (info->fix.visual == FB_VISUAL_DIRECTCOLOR) {
-   446			depth = info->var.blue.length;
-   447			if (info->var.red.length < depth)
-   448				depth = info->var.red.length;
-   449			if (info->var.green.length < depth)
-   450				depth = info->var.green.length;
-   451		}
-   452	
-   453		if (info->fix.visual == FB_VISUAL_STATIC_PSEUDOCOLOR && depth > 4) {
-   454			/* assume console colormap */
-   455			depth = 4;
-   456		}
-   457	
-   458		/* Return if no suitable logo was found */
-   459		fb_logo.logo = fb_find_logo(depth);
-   460	
-   461		if (!fb_logo.logo)
-   462			return 0;
-   463	
-   464		if (rotate == FB_ROTATE_UR || rotate == FB_ROTATE_UD)
-   465			yres = info->var.yres;
-   466		else
-   467			yres = info->var.xres;
-   468	
-   469		if (fb_logo.logo->height > yres) {
-   470			fb_logo.logo = NULL;
-   471			return 0;
-   472		}
-   473	
-   474		/* What depth we asked for might be different from what we get */
-   475		if (fb_logo.logo->type == LINUX_LOGO_CLUT224)
-   476			fb_logo.depth = 8;
-   477		else if (fb_logo.logo->type == LINUX_LOGO_VGA16)
-   478			fb_logo.depth = 4;
-   479		else
-   480			fb_logo.depth = 1;
-   481	
-   482	
-   483		if (fb_logo.depth > 4 && depth > 4) {
-   484			switch (info->fix.visual) {
-   485			case FB_VISUAL_TRUECOLOR:
-   486				fb_logo.needs_truepalette = 1;
-   487				break;
-   488			case FB_VISUAL_DIRECTCOLOR:
-   489				fb_logo.needs_directpalette = 1;
-   490				fb_logo.needs_cmapreset = 1;
-   491				break;
-   492			case FB_VISUAL_PSEUDOCOLOR:
-   493				fb_logo.needs_cmapreset = 1;
-   494				break;
-   495			}
-   496		}
-   497	
-   498		height = fb_logo.logo->height;
-   499		if (fb_center_logo)
-   500			height += (yres - fb_logo.logo->height) / 2;
-   501	
-   502		return fb_prepare_extra_logos(info, height, yres);
-   503	}
-   504	EXPORT_SYMBOL(fb_prepare_logo);
-   505	
- > 506	int fb_show_logo(struct fb_info *info, int rotate)
-   507	{
-   508		unsigned int count;
-   509		int y;
-   510	
-   511		if (!fb_logo_count)
-   512			return 0;
-   513	
-   514		count = fb_logo_count < 0 ? num_online_cpus() : fb_logo_count;
-   515		y = fb_show_logo_line(info, rotate, fb_logo.logo, 0, count);
-   516		y = fb_show_extra_logos(info, y, rotate);
-   517	
-   518		return y;
-   519	}
-   520	EXPORT_SYMBOL(fb_show_logo);
-   521	#else
-   522	int fb_prepare_logo(struct fb_info *info, int rotate)
-   523	{
-   524		return 0;
-   525	}
-   526	EXPORT_SYMBOL(fb_prepare_logo);
-   527	
+4830fa96893226 Sandor Yu 2020-12-09  1442  
+4830fa96893226 Sandor Yu 2020-12-09 @1443  static int hdmirx_runtime_suspend(struct device *dev)
+4830fa96893226 Sandor Yu 2020-12-09  1444  {
+4830fa96893226 Sandor Yu 2020-12-09  1445  	struct cdns_hdmirx_device *hdmirx = dev_get_drvdata(dev);
+4830fa96893226 Sandor Yu 2020-12-09  1446  
+4830fa96893226 Sandor Yu 2020-12-09  1447  	if (hdmirx->flags & HDMIRX_RUNTIME_SUSPEND)
+4830fa96893226 Sandor Yu 2020-12-09  1448  		return 0;
+4830fa96893226 Sandor Yu 2020-12-09  1449  
+4830fa96893226 Sandor Yu 2020-12-09  1450  	if (hdmirx->flags & HDMIRX_PM_POWERED) {
+4830fa96893226 Sandor Yu 2020-12-09  1451  		hdmirx_clock_disable(hdmirx);
+4830fa96893226 Sandor Yu 2020-12-09  1452  		hdmirx->flags |= HDMIRX_RUNTIME_SUSPEND;
+4830fa96893226 Sandor Yu 2020-12-09  1453  		hdmirx->flags &= ~HDMIRX_PM_POWERED;
+4830fa96893226 Sandor Yu 2020-12-09  1454  	}
+4830fa96893226 Sandor Yu 2020-12-09  1455  	return 0;
+4830fa96893226 Sandor Yu 2020-12-09  1456  }
+4830fa96893226 Sandor Yu 2020-12-09  1457  
+4830fa96893226 Sandor Yu 2020-12-09 @1458  static int hdmirx_runtime_resume(struct device *dev)
+4830fa96893226 Sandor Yu 2020-12-09  1459  {
+4830fa96893226 Sandor Yu 2020-12-09  1460  	struct cdns_hdmirx_device *hdmirx = dev_get_drvdata(dev);
+4830fa96893226 Sandor Yu 2020-12-09  1461  
+4830fa96893226 Sandor Yu 2020-12-09  1462  	if (hdmirx->flags & HDMIRX_PM_POWERED)
+4830fa96893226 Sandor Yu 2020-12-09  1463  		return 0;
+4830fa96893226 Sandor Yu 2020-12-09  1464  
+4830fa96893226 Sandor Yu 2020-12-09  1465  	if (hdmirx->flags & HDMIRX_RUNTIME_SUSPEND) {
+4830fa96893226 Sandor Yu 2020-12-09  1466  		hdmirx_clock_enable(hdmirx);
+4830fa96893226 Sandor Yu 2020-12-09  1467  		hdmirx->flags |= HDMIRX_PM_POWERED;
+4830fa96893226 Sandor Yu 2020-12-09  1468  		hdmirx->flags &= ~HDMIRX_RUNTIME_SUSPEND;
+4830fa96893226 Sandor Yu 2020-12-09  1469  	}
+4830fa96893226 Sandor Yu 2020-12-09  1470  	return 0;
+4830fa96893226 Sandor Yu 2020-12-09  1471  }
+4830fa96893226 Sandor Yu 2020-12-09  1472  
+
+:::::: The code at line 1458 was first introduced by commit
+:::::: 4830fa96893226afb8f79e763acef0fa8197fd9b MLK-24081-06: staging: media: imx: Add hdmi rx driver
+
+:::::: TO: Sandor Yu <Sandor.yu@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
