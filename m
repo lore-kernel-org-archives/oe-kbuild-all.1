@@ -1,46 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334A1C136
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 20:42:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16169F9CD
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 20:54:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693600976; x=1725136976;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CbVnfzwwwVoFn02TRV4AclDXNOSd+TrBbstsh2fLvjU=;
-  b=ljSMIz0Mbr9tDptZ2vVDnwi2LER9Y/um8uhCse+dI4HcDBLe7USTbdYl
-   k41KaL/gdlTzEm2hAb16dvlmEiGQ5drM1PxB1MLjTI4puCqcAKDnHcO2D
-   wN2Ue54vAD1xuYY6Jrf2mP+41d53I06s7FNtLLgt8w0seH2asLEgAmb8r
-   IfpFECtFU4i35dW/YdsZIoBFo0utVYbuv0WQtCQICcaZQswyq7Y2i0mro
-   nNsLYajwHW86Wlj7vxaddPp38ChofYopxTTUm8sHS/d5ASUp9Qy7/mcz1
-   CsH6/9GwDk7HWGeid1BgbSPRt/0slvcWQjh5zu6ft8dHR+b+gLyA8ukfq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="440275508"
+  t=1693601642; x=1725137642;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0cRLekUmVWg+ro4nwPBrrYb3uUdo+NkSZMIGVTKr4tQ=;
+  b=H5+AWs3J/5RiklZoTtN3u9KQAhIF/LLZeQtBAoNUywM26xMtMZBVOxqB
+   bSUTQYjDZxufM1Daf0858ngCIWfdYFDY8nxHFqX9OpTEGqnO4km0z6X+h
+   p4fSXzDIClNwc+F/27r1SoSK4Bp3RQ7OKsHYlM3eAKmkAEdcNOxi7u883
+   cQVL0vVHcYtLXoc7EPNiEPhSkeOJdnKdIpewQsOkF/Ja4d8CuD+1rwiVQ
+   GtW36A5RiMTi0sMvgBFET9IvzS30osBsG3mCjCpBdJdaKHwQlKV4MduPG
+   wdF+jI87mXS5olNEY0uO4yn4fB3xJxjxXZJeixDZgCmPot2mAlQoEyfEG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="376233563"
 X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
-   d="scan'208";a="440275508"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 13:42:55 -0700
+   d="scan'208";a="376233563"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 13:53:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="743245059"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="883321443"
 X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
-   d="scan'208";a="743245059"
+   d="scan'208";a="883321443"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Sep 2023 13:42:52 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 01 Sep 2023 13:53:55 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcAyg-0001cp-2n;
-	Fri, 01 Sep 2023 20:42:50 +0000
-Date: Sat, 2 Sep 2023 04:42:33 +0800
+	id 1qcB9L-0001dD-0K;
+	Fri, 01 Sep 2023 20:53:51 +0000
+Date: Sat, 2 Sep 2023 04:53:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ninad Palsule <ninad@linux.ibm.com>, joel@jms.id.au, andrew@aj.id.au,
-	eajames@linux.ibm.com
-Cc: oe-kbuild-all@lists.linux.dev, Ninad Palsule <ninad@linux.ibm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH v2 1/1] soc/aspeed: Add host side BMC device driver
-Message-ID: <202309020400.PQMeauEC-lkp@intel.com>
-References: <20230823173104.3219128-2-ninad@linux.ibm.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [masahiroy-kbuild:kbuild 39/61]
+ include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' accessing
+ 129 or more bytes at offsets 328 and 200 overlaps 1 or more bytes at offset
+ 328
+Message-ID: <202309020449.BhSynlbq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,191 +48,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230823173104.3219128-2-ninad@linux.ibm.com>
 
-Hi Ninad,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on linus/master v6.5 next-20230831]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ninad-Palsule/soc-aspeed-Add-host-side-BMC-device-driver/20230824-013703
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20230823173104.3219128-2-ninad%40linux.ibm.com
-patch subject: [PATCH v2 1/1] soc/aspeed: Add host side BMC device driver
-config: m68k-randconfig-r004-20230902 (https://download.01.org/0day-ci/archive/20230902/202309020400.PQMeauEC-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020400.PQMeauEC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+head:   a44a596c5b5b8acce9521c409cc4deb312b71ffc
+commit: 26030cb984dd65e0cb2d0c2489d94941cf8897b4 [39/61] extrawarn: move -Wrestrict into W=1 warnings
+config: loongarch-randconfig-r013-20230902 (https://download.01.org/0day-ci/archive/20230902/202309020449.BhSynlbq-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020449.BhSynlbq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309020400.PQMeauEC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309020449.BhSynlbq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/soc/aspeed/aspeed-host-bmc-dev.c: In function 'aspeed_pci_host_bmc_device_probe':
->> drivers/soc/aspeed/aspeed-host-bmc-dev.c:98:22: error: implicit declaration of function 'pci_request_region'; did you mean 'pci_request_regions'? [-Werror=implicit-function-declaration]
-      98 |                 rc = pci_request_region(pdev, i, DRIVER_NAME);
-         |                      ^~~~~~~~~~~~~~~~~~
-         |                      pci_request_regions
->> drivers/soc/aspeed/aspeed-host-bmc-dev.c:176:17: error: implicit declaration of function 'pci_free_irq_vectors'; did you mean 'pci_alloc_irq_vectors'? [-Werror=implicit-function-declaration]
-     176 |                 pci_free_irq_vectors(pdev);
-         |                 ^~~~~~~~~~~~~~~~~~~~
-         |                 pci_alloc_irq_vectors
-   cc1: some warnings being treated as errors
+   In file included from drivers/crypto/atmel-sha.c:34:
+   include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
+   include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but not used [-Wunused-but-set-variable]
+      76 |                 struct page *page;
+         |                              ^~~~
+   In file included from include/linux/string.h:254,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/crypto/atmel-sha.c:15:
+   drivers/crypto/atmel-sha.c: In function 'atmel_sha_hmac_compute_ipad_hash':
+>> include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' accessing 129 or more bytes at offsets 328 and 200 overlaps 1 or more bytes at offset 328 [-Wrestrict]
+      57 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
+     648 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
+     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/atmel-sha.c:1773:9: note: in expansion of macro 'memcpy'
+    1773 |         memcpy(hmac->opad, hmac->ipad, bs);
+         |         ^~~~~~
 
 
-vim +98 drivers/soc/aspeed/aspeed-host-bmc-dev.c
+vim +/__builtin_memcpy +57 include/linux/fortify-string.h
 
-    42	
-    43	static int aspeed_pci_host_bmc_device_probe(struct pci_dev *pdev,
-    44			const struct pci_device_id *ent)
-    45	{
-    46		struct uart_8250_port uart;
-    47		struct device *dev = &pdev->dev;
-    48		struct aspeed_pci_bmc_dev *pci_bmc_dev;
-    49		int rc = 0;
-    50		int i = 0;
-    51		int nr_entries;
-    52		u16 config_cmd_val;
-    53	
-    54		pci_bmc_dev = kzalloc(sizeof(*pci_bmc_dev), GFP_KERNEL);
-    55		if (!pci_bmc_dev) {
-    56			rc = -ENOMEM;
-    57			dev_err(dev, "kmalloc() returned NULL memory.\n");
-    58			goto out_err;
-    59		}
-    60	
-    61		rc = pcim_enable_device(pdev);
-    62		if (rc != 0) {
-    63			dev_err(dev, "pcim_enable_device() returned error %d\n", rc);
-    64			goto out_free0;
-    65		}
-    66	
-    67		/* set PCI host mastering  */
-    68		pci_set_master(pdev);
-    69	
-    70		/*
-    71		 * Try to allocate max MSI. If multiple MSI is not possible then use
-    72		 * the legacy interrupt. Note: PowerPC doesn't support multiple MSI.
-    73		 */
-    74		nr_entries = pci_alloc_irq_vectors(pdev, 1, BMC_MULTI_MSI,
-    75					PCI_IRQ_MSIX | PCI_IRQ_MSI);
-    76		if (nr_entries < 0) {
-    77			pci_bmc_dev->legacy_irq = 1;
-    78			pci_read_config_word(pdev, PCI_COMMAND, &config_cmd_val);
-    79			config_cmd_val &= ~PCI_COMMAND_INTX_DISABLE;
-    80			pci_write_config_word((struct pci_dev *)pdev, PCI_COMMAND, config_cmd_val);
-    81	
-    82		} else {
-    83			pci_bmc_dev->legacy_irq = 0;
-    84			pci_read_config_word(pdev, PCI_COMMAND, &config_cmd_val);
-    85			config_cmd_val |= PCI_COMMAND_INTX_DISABLE;
-    86			pci_write_config_word((struct pci_dev *)pdev, PCI_COMMAND, config_cmd_val);
-    87			rc = pci_irq_vector(pdev, BMC_MSI_IDX_BASE);
-    88			if (rc < 0) {
-    89				dev_err(dev, "pci_irq_vector() returned error %d msi=%u msix=%u\n",
-    90					-rc, pdev->msi_enabled, pdev->msix_enabled);
-    91				goto out_free1;
-    92			}
-    93			pdev->irq = rc;
-    94		}
-    95	
-    96		/* Get access to the BARs */
-    97		for (i = 0; i < BAR_MAX; i++) {
-  > 98			rc = pci_request_region(pdev, i, DRIVER_NAME);
-    99			if (rc < 0) {
-   100				dev_err(dev, "pci_request_region(%d) returned error %d\n", i, rc);
-   101				goto out_unreg;
-   102			}
-   103	
-   104			pci_bmc_dev->bars[i].bar_base = pci_resource_start(pdev, i);
-   105			pci_bmc_dev->bars[i].bar_size = pci_resource_len(pdev, i);
-   106			pci_bmc_dev->bars[i].bar_ioremap = pci_ioremap_bar(pdev, i);
-   107			if (pci_bmc_dev->bars[i].bar_ioremap == NULL) {
-   108				dev_err(dev, "pci_ioremap_bar(%d) failed\n", i);
-   109				rc = -ENOMEM;
-   110				goto out_unreg;
-   111			}
-   112		}
-   113	
-   114		/* ERRTA40: dummy read */
-   115		(void)__raw_readl((void __iomem *)pci_bmc_dev->bars[BAR_MSG].bar_ioremap);
-   116	
-   117		pci_set_drvdata(pdev, pci_bmc_dev);
-   118	
-   119		for (i = 0; i < VUART_MAX_PARMS; i++)
-   120			pci_bmc_dev->lines[i] = -1;
-   121	
-   122		/* setup VUART */
-   123		for (i = 0; i < VUART_MAX_PARMS; i++) {
-   124			memset(&uart, 0, sizeof(uart));
-   125			vuart_ioport[i] = 0x3F8 - (i * 0x100);
-   126			vuart_sirq[i] = 0x10 + 4 - i - BMC_MSI_IDX_BASE;
-   127			uart.port.flags = UPF_SKIP_TEST | UPF_BOOT_AUTOCONF | UPF_SHARE_IRQ;
-   128			uart.port.uartclk = 115200 * 16;
-   129	
-   130			if (pci_bmc_dev->legacy_irq) {
-   131				uart.port.irq = pdev->irq;
-   132			} else {
-   133				rc = pci_irq_vector(pdev, vuart_sirq[i]);
-   134				if (rc < 0) {
-   135					dev_err(dev,
-   136						"pci_irq_vector() returned error %d msi=%u msix=%u\n",
-   137						-rc, pdev->msi_enabled, pdev->msix_enabled);
-   138					goto out_unreg;
-   139				}
-   140				uart.port.irq = rc;
-   141			}
-   142			uart.port.dev = dev;
-   143			uart.port.iotype = UPIO_MEM32;
-   144			uart.port.iobase = 0;
-   145			uart.port.mapbase =
-   146					pci_bmc_dev->bars[BAR_MSG].bar_base + (vuart_ioport[i] << 2);
-   147			uart.port.membase =
-   148					pci_bmc_dev->bars[BAR_MSG].bar_ioremap + (vuart_ioport[i] << 2);
-   149			uart.port.type = PORT_16550A;
-   150			uart.port.flags |= (UPF_IOREMAP | UPF_FIXED_PORT | UPF_FIXED_TYPE);
-   151			uart.port.regshift = 2;
-   152	
-   153			rc = serial8250_register_8250_port(&uart);
-   154			if (rc < 0) {
-   155				dev_err(dev,
-   156					"cannot setup VUART@%xh over PCIe, rc=%d\n",
-   157					vuart_ioport[i], -rc);
-   158				goto out_unreg;
-   159			}
-   160			pci_bmc_dev->lines[i] = rc;
-   161		}
-   162	
-   163		return 0;
-   164	
-   165	out_unreg:
-   166		for (i = 0; i < VUART_MAX_PARMS; i++) {
-   167			if (pci_bmc_dev->lines[i] >= 0)
-   168				serial8250_unregister_port(pci_bmc_dev->lines[i]);
-   169		}
-   170	
-   171		pci_release_regions(pdev);
-   172	out_free1:
-   173		if (pci_bmc_dev->legacy_irq)
-   174			free_irq(pdev->irq, pdev);
-   175		else
- > 176			pci_free_irq_vectors(pdev);
-   177	
-   178		pci_clear_master(pdev);
-   179	out_free0:
-   180		kfree(pci_bmc_dev);
-   181	out_err:
-   182	
-   183		return rc;
-   184	}
-   185	
+78a498c3a227f2 Alexander Potapenko 2022-10-24  46  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  47  #if defined(__SANITIZE_MEMORY__)
+78a498c3a227f2 Alexander Potapenko 2022-10-24  48  /*
+78a498c3a227f2 Alexander Potapenko 2022-10-24  49   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
+78a498c3a227f2 Alexander Potapenko 2022-10-24  50   * corresponding __msan_XXX functions.
+78a498c3a227f2 Alexander Potapenko 2022-10-24  51   */
+78a498c3a227f2 Alexander Potapenko 2022-10-24  52  #include <linux/kmsan_string.h>
+78a498c3a227f2 Alexander Potapenko 2022-10-24  53  #define __underlying_memcpy	__msan_memcpy
+78a498c3a227f2 Alexander Potapenko 2022-10-24  54  #define __underlying_memmove	__msan_memmove
+78a498c3a227f2 Alexander Potapenko 2022-10-24  55  #define __underlying_memset	__msan_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  56  #else
+a28a6e860c6cf2 Francis Laniel      2021-02-25 @57  #define __underlying_memcpy	__builtin_memcpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  58  #define __underlying_memmove	__builtin_memmove
+a28a6e860c6cf2 Francis Laniel      2021-02-25  59  #define __underlying_memset	__builtin_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  60  #endif
+78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
+
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
