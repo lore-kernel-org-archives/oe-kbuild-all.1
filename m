@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335DFA3B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 00:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F46510E3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 01:08:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693528636; x=1725064636;
+  t=1693530496; x=1725066496;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tamMd7SvfKHSkUeT+geG9Ai/vwxb2uL5sWrGua/Ux4I=;
-  b=gqKwUihtkQHc8wOJxUJzHt8vSJHwyxrTEADfteDSPZk2RepBFrWV/BY2
-   lPD2P8lOf2pwEtVJ1jtFkJFgMDMIezA7Fdtyw7XQ8o4bCsdNFUDjrsbOZ
-   bNrmSddzn8x9GCOhmxoUYPGGcqUCVNuHTt0gA5hvYOyWNIqVX5BOMMS3/
-   STAZxpbi1fahvbf7NfsXpB0h0PuCxjx5wVwD4EzHgAPKSknrADOUI/hjN
-   VP+GbU+/Y+Z0P3+XIUem248HtLA9hJM+9yinalIki+B1FgYlqnlnftsgX
-   YX+NhjI5NMDfkV5EJJoa3kX/yQOnGEIzCmSSsJ1iYVDzKDh+RKe9ZwqXS
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="440085494"
+  bh=Fowc/LUVDlNf9Wae9/6NABL/mdKNBXVS1t9PDFMnbcA=;
+  b=blgS/OejHydAaO+lrmQ0hfSpY2zvnpSfFMh9UckLfuUiBVpIOIpZN5+2
+   x6w6O7n3Tit8q4TqcL0ZugFCyJ+Zxl2H7Mzac3QdVrg/kbHRB7zc2A9Ch
+   1aPMryF1tqGe2QlasxVsTiXaulDwZU5F0gBTIJg8C2Reb87P/6x3Ly5Ki
+   mYw6IzTBNbBk+ruMCWsmAK2TNFbOoABaqCEEfvwKRJKJ9/oh9V9vAaXmv
+   /sVXtzAvOOXCZTcj7Ki36TtDb8/dq4TmzpuOZYBEsqlfJFWPX+CNYSO3p
+   jsirZHWUgxOGCwfZcOZvrTf5T/Iv5DJpkPBNJGxRJPiZ14ybzeT125MMV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="361131319"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="440085494"
+   d="scan'208";a="361131319"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 17:37:15 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 18:08:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="774805452"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="774811747"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="774805452"
+   d="scan'208";a="774811747"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 31 Aug 2023 17:37:13 -0700
+  by orsmga001.jf.intel.com with ESMTP; 31 Aug 2023 18:08:14 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbs9v-0000gp-2D;
-	Fri, 01 Sep 2023 00:37:11 +0000
-Date: Fri, 1 Sep 2023 08:36:25 +0800
+	id 1qbsdw-0000iJ-1X;
+	Fri, 01 Sep 2023 01:08:12 +0000
+Date: Fri, 1 Sep 2023 09:07:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rmk-arm:ktext-current 3/19] arch/arm64/include/asm/memory.h:57:6:
- warning: "CONFIG_ARM64_16K_PAGES" is not defined, evaluates to 0
-Message-ID: <202309010840.deWnqnGX-lkp@intel.com>
+Subject: [freescale-fslc:pr/639 4365/24603] crypto/testmgr.c:2619:25:
+ warning: result of comparison of constant 65536 with expression of type
+ 'unsigned short' is always false
+Message-ID: <202309010856.8zcNwqUA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,411 +47,226 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm ktext-current
-head:   7a463ca78830784e07d5583181f8b66e56c91f97
-commit: 5a3fc6377720f4f18f374b32c00ca01b19cfde70 [3/19] arm64: place kernel in its own L0 page table entry
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230901/202309010840.deWnqnGX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309010840.deWnqnGX-lkp@intel.com/reproduce)
+Hi Radu,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Freescale/linux-fslc pr/639
+head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
+commit: 922c229d9f78c3c7779f6a14ee86421996a97a45 [4365/24603] crypto: add support for TLS 1.0 record encryption
+config: hexagon-randconfig-002-20230831 (https://download.01.org/0day-ci/archive/20230901/202309010856.8zcNwqUA-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309010856.8zcNwqUA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309010840.deWnqnGX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309010856.8zcNwqUA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/thread_info.h:17,
-                    from include/linux/thread_info.h:60,
-                    from arch/arm64/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from include/acpi/apei.h:9,
-                    from include/acpi/ghes.h:5,
-                    from include/linux/arm_sdei.h:8,
-                    from arch/arm64/kernel/asm-offsets.c:10:
->> arch/arm64/include/asm/memory.h:57:6: warning: "CONFIG_ARM64_16K_PAGES" is not defined, evaluates to 0 [-Wundef]
-      57 |     (CONFIG_ARM64_16K_PAGES && CONFIG_PGTABLE_LEVELS < 3) || \
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/include/asm/memory.h:58:6: warning: "CONFIG_ARM64_64K_PAGES" is not defined, evaluates to 0 [-Wundef]
-      58 |     (CONFIG_ARM64_64K_PAGES && CONFIG_PGTABLE_LEVELS < 2)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from arch/arm64/include/asm/thread_info.h:17,
-                    from include/linux/thread_info.h:60,
-                    from arch/arm64/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from arch/arm64/kernel/sys.c:11:
->> arch/arm64/include/asm/memory.h:57:6: warning: "CONFIG_ARM64_16K_PAGES" is not defined, evaluates to 0 [-Wundef]
-      57 |     (CONFIG_ARM64_16K_PAGES && CONFIG_PGTABLE_LEVELS < 3) || \
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/include/asm/memory.h:58:6: warning: "CONFIG_ARM64_64K_PAGES" is not defined, evaluates to 0 [-Wundef]
-      58 |     (CONFIG_ARM64_64K_PAGES && CONFIG_PGTABLE_LEVELS < 2)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: warning: initialized field overwritten [-Woverride-init]
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
-      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
-         |                                     ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:34:1: note: in expansion of macro '__SC_COMP'
-      34 | __SC_COMP(__NR_io_setup, sys_io_setup, compat_sys_io_setup)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: note: (near initialization for 'sys_call_table[0]')
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
-      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
-         |                                     ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:34:1: note: in expansion of macro '__SC_COMP'
-      34 | __SC_COMP(__NR_io_setup, sys_io_setup, compat_sys_io_setup)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: warning: initialized field overwritten [-Woverride-init]
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:36:1: note: in expansion of macro '__SYSCALL'
-      36 | __SYSCALL(__NR_io_destroy, sys_io_destroy)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: note: (near initialization for 'sys_call_table[1]')
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:36:1: note: in expansion of macro '__SYSCALL'
-      36 | __SYSCALL(__NR_io_destroy, sys_io_destroy)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: warning: initialized field overwritten [-Woverride-init]
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
-      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
-         |                                     ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:38:1: note: in expansion of macro '__SC_COMP'
-      38 | __SC_COMP(__NR_io_submit, sys_io_submit, compat_sys_io_submit)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: note: (near initialization for 'sys_call_table[2]')
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:29:37: note: in expansion of macro '__SYSCALL'
-      29 | #define __SC_COMP(_nr, _sys, _comp) __SYSCALL(_nr, _sys)
-         |                                     ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:38:1: note: in expansion of macro '__SC_COMP'
-      38 | __SC_COMP(__NR_io_submit, sys_io_submit, compat_sys_io_submit)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: warning: initialized field overwritten [-Woverride-init]
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:40:1: note: in expansion of macro '__SYSCALL'
-      40 | __SYSCALL(__NR_io_cancel, sys_io_cancel)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: note: (near initialization for 'sys_call_table[3]')
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:40:1: note: in expansion of macro '__SYSCALL'
-      40 | __SYSCALL(__NR_io_cancel, sys_io_cancel)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: warning: initialized field overwritten [-Woverride-init]
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:22:34: note: in expansion of macro '__SYSCALL'
-      22 | #define __SC_3264(_nr, _32, _64) __SYSCALL(_nr, _64)
-         |                                  ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:44:1: note: in expansion of macro '__SC_3264'
-      44 | __SC_3264(__NR_io_getevents, sys_io_getevents_time32, sys_io_getevents)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: note: (near initialization for 'sys_call_table[4]')
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:22:34: note: in expansion of macro '__SYSCALL'
-      22 | #define __SC_3264(_nr, _32, _64) __SYSCALL(_nr, _64)
-         |                                  ^~~~~~~~~
-   include/uapi/asm-generic/unistd.h:44:1: note: in expansion of macro '__SC_3264'
-      44 | __SC_3264(__NR_io_getevents, sys_io_getevents_time32, sys_io_getevents)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: warning: initialized field overwritten [-Woverride-init]
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:48:1: note: in expansion of macro '__SYSCALL'
-      48 | __SYSCALL(__NR_setxattr, sys_setxattr)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: note: (near initialization for 'sys_call_table[5]')
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:48:1: note: in expansion of macro '__SYSCALL'
-      48 | __SYSCALL(__NR_setxattr, sys_setxattr)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: warning: initialized field overwritten [-Woverride-init]
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
-         |                                        ^~~~~~~~
-   include/uapi/asm-generic/unistd.h:50:1: note: in expansion of macro '__SYSCALL'
-      50 | __SYSCALL(__NR_lsetxattr, sys_lsetxattr)
-         | ^~~~~~~~~
-   arch/arm64/kernel/sys.c:56:40: note: (near initialization for 'sys_call_table[6]')
-      56 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
---
-   In file included from arch/arm64/include/asm/thread_info.h:17,
-                    from include/linux/thread_info.h:60,
-                    from arch/arm64/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from arch/arm64/include/asm/percpu.h:8,
-                    from include/linux/irqflags.h:18,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/context_tracking.h:5,
-                    from arch/arm64/kernel/traps.c:10:
->> arch/arm64/include/asm/memory.h:57:6: warning: "CONFIG_ARM64_16K_PAGES" is not defined, evaluates to 0 [-Wundef]
-      57 |     (CONFIG_ARM64_16K_PAGES && CONFIG_PGTABLE_LEVELS < 3) || \
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/include/asm/memory.h:58:6: warning: "CONFIG_ARM64_64K_PAGES" is not defined, evaluates to 0 [-Wundef]
-      58 |     (CONFIG_ARM64_64K_PAGES && CONFIG_PGTABLE_LEVELS < 2)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:854:43: warning: initialized field overwritten [-Woverride-init]
-     854 |         [ESR_ELx_EC_UNKNOWN]            = "Unknown/Uncategorized",
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:854:43: note: (near initialization for 'esr_class_str[0]')
-   arch/arm64/kernel/traps.c:855:43: warning: initialized field overwritten [-Woverride-init]
-     855 |         [ESR_ELx_EC_WFx]                = "WFI/WFE",
-         |                                           ^~~~~~~~~
-   arch/arm64/kernel/traps.c:855:43: note: (near initialization for 'esr_class_str[1]')
-   arch/arm64/kernel/traps.c:856:43: warning: initialized field overwritten [-Woverride-init]
-     856 |         [ESR_ELx_EC_CP15_32]            = "CP15 MCR/MRC",
-         |                                           ^~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:856:43: note: (near initialization for 'esr_class_str[3]')
-   arch/arm64/kernel/traps.c:857:43: warning: initialized field overwritten [-Woverride-init]
-     857 |         [ESR_ELx_EC_CP15_64]            = "CP15 MCRR/MRRC",
-         |                                           ^~~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:857:43: note: (near initialization for 'esr_class_str[4]')
-   arch/arm64/kernel/traps.c:858:43: warning: initialized field overwritten [-Woverride-init]
-     858 |         [ESR_ELx_EC_CP14_MR]            = "CP14 MCR/MRC",
-         |                                           ^~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:858:43: note: (near initialization for 'esr_class_str[5]')
-   arch/arm64/kernel/traps.c:859:43: warning: initialized field overwritten [-Woverride-init]
-     859 |         [ESR_ELx_EC_CP14_LS]            = "CP14 LDC/STC",
-         |                                           ^~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:859:43: note: (near initialization for 'esr_class_str[6]')
-   arch/arm64/kernel/traps.c:860:43: warning: initialized field overwritten [-Woverride-init]
-     860 |         [ESR_ELx_EC_FP_ASIMD]           = "ASIMD",
-         |                                           ^~~~~~~
-   arch/arm64/kernel/traps.c:860:43: note: (near initialization for 'esr_class_str[7]')
-   arch/arm64/kernel/traps.c:861:43: warning: initialized field overwritten [-Woverride-init]
-     861 |         [ESR_ELx_EC_CP10_ID]            = "CP10 MRC/VMRS",
-         |                                           ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:861:43: note: (near initialization for 'esr_class_str[8]')
-   arch/arm64/kernel/traps.c:862:43: warning: initialized field overwritten [-Woverride-init]
-     862 |         [ESR_ELx_EC_PAC]                = "PAC",
-         |                                           ^~~~~
-   arch/arm64/kernel/traps.c:862:43: note: (near initialization for 'esr_class_str[9]')
-   arch/arm64/kernel/traps.c:863:43: warning: initialized field overwritten [-Woverride-init]
-     863 |         [ESR_ELx_EC_CP14_64]            = "CP14 MCRR/MRRC",
-         |                                           ^~~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:863:43: note: (near initialization for 'esr_class_str[12]')
-   arch/arm64/kernel/traps.c:864:43: warning: initialized field overwritten [-Woverride-init]
-     864 |         [ESR_ELx_EC_BTI]                = "BTI",
-         |                                           ^~~~~
-   arch/arm64/kernel/traps.c:864:43: note: (near initialization for 'esr_class_str[13]')
-   arch/arm64/kernel/traps.c:865:43: warning: initialized field overwritten [-Woverride-init]
-     865 |         [ESR_ELx_EC_ILL]                = "PSTATE.IL",
-         |                                           ^~~~~~~~~~~
-   arch/arm64/kernel/traps.c:865:43: note: (near initialization for 'esr_class_str[14]')
-   arch/arm64/kernel/traps.c:866:43: warning: initialized field overwritten [-Woverride-init]
-     866 |         [ESR_ELx_EC_SVC32]              = "SVC (AArch32)",
-         |                                           ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:866:43: note: (near initialization for 'esr_class_str[17]')
-   arch/arm64/kernel/traps.c:867:43: warning: initialized field overwritten [-Woverride-init]
-     867 |         [ESR_ELx_EC_HVC32]              = "HVC (AArch32)",
-         |                                           ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:867:43: note: (near initialization for 'esr_class_str[18]')
-   arch/arm64/kernel/traps.c:868:43: warning: initialized field overwritten [-Woverride-init]
-     868 |         [ESR_ELx_EC_SMC32]              = "SMC (AArch32)",
-         |                                           ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:868:43: note: (near initialization for 'esr_class_str[19]')
-   arch/arm64/kernel/traps.c:869:43: warning: initialized field overwritten [-Woverride-init]
-     869 |         [ESR_ELx_EC_SVC64]              = "SVC (AArch64)",
-         |                                           ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:869:43: note: (near initialization for 'esr_class_str[21]')
-   arch/arm64/kernel/traps.c:870:43: warning: initialized field overwritten [-Woverride-init]
-     870 |         [ESR_ELx_EC_HVC64]              = "HVC (AArch64)",
-         |                                           ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:870:43: note: (near initialization for 'esr_class_str[22]')
-   arch/arm64/kernel/traps.c:871:43: warning: initialized field overwritten [-Woverride-init]
-     871 |         [ESR_ELx_EC_SMC64]              = "SMC (AArch64)",
-         |                                           ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:871:43: note: (near initialization for 'esr_class_str[23]')
-   arch/arm64/kernel/traps.c:872:43: warning: initialized field overwritten [-Woverride-init]
-     872 |         [ESR_ELx_EC_SYS64]              = "MSR/MRS (AArch64)",
-         |                                           ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:872:43: note: (near initialization for 'esr_class_str[24]')
-   arch/arm64/kernel/traps.c:873:43: warning: initialized field overwritten [-Woverride-init]
-     873 |         [ESR_ELx_EC_SVE]                = "SVE",
-         |                                           ^~~~~
-   arch/arm64/kernel/traps.c:873:43: note: (near initialization for 'esr_class_str[25]')
-   arch/arm64/kernel/traps.c:874:43: warning: initialized field overwritten [-Woverride-init]
-     874 |         [ESR_ELx_EC_ERET]               = "ERET/ERETAA/ERETAB",
-         |                                           ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:874:43: note: (near initialization for 'esr_class_str[26]')
-   arch/arm64/kernel/traps.c:875:43: warning: initialized field overwritten [-Woverride-init]
-     875 |         [ESR_ELx_EC_FPAC]               = "FPAC",
-         |                                           ^~~~~~
-   arch/arm64/kernel/traps.c:875:43: note: (near initialization for 'esr_class_str[28]')
-   arch/arm64/kernel/traps.c:876:43: warning: initialized field overwritten [-Woverride-init]
-     876 |         [ESR_ELx_EC_SME]                = "SME",
-         |                                           ^~~~~
-   arch/arm64/kernel/traps.c:876:43: note: (near initialization for 'esr_class_str[29]')
-   arch/arm64/kernel/traps.c:877:43: warning: initialized field overwritten [-Woverride-init]
-     877 |         [ESR_ELx_EC_IMP_DEF]            = "EL3 IMP DEF",
-         |                                           ^~~~~~~~~~~~~
-   arch/arm64/kernel/traps.c:877:43: note: (near initialization for 'esr_class_str[31]')
-   arch/arm64/kernel/traps.c:878:43: warning: initialized field overwritten [-Woverride-init]
-     878 |         [ESR_ELx_EC_IABT_LOW]           = "IABT (lower EL)",
---
-   In file included from arch/arm64/include/asm/thread_info.h:17,
-                    from include/linux/thread_info.h:60,
-                    from arch/arm64/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from arch/arm64/include/asm/percpu.h:8,
-                    from include/linux/irqflags.h:18,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from arch/arm64/kernel/cpu_errata.c:10:
->> arch/arm64/include/asm/memory.h:57:6: warning: "CONFIG_ARM64_16K_PAGES" is not defined, evaluates to 0 [-Wundef]
-      57 |     (CONFIG_ARM64_16K_PAGES && CONFIG_PGTABLE_LEVELS < 3) || \
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/include/asm/memory.h:58:6: warning: "CONFIG_ARM64_64K_PAGES" is not defined, evaluates to 0 [-Wundef]
-      58 |     (CONFIG_ARM64_64K_PAGES && CONFIG_PGTABLE_LEVELS < 2)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:141:20: warning: initialized field overwritten [-Woverride-init]
-     141 |         .matches = is_affected_midr_range,                      \
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:153:9: note: in expansion of macro 'CAP_MIDR_RANGE'
-     153 |         CAP_MIDR_RANGE(model, v_min, r_min, v_max, r_max)
-         |         ^~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:161:9: note: in expansion of macro 'ERRATA_MIDR_RANGE'
-     161 |         ERRATA_MIDR_RANGE(m, var, r_min, var, r_max)
-         |         ^~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:347:17: note: in expansion of macro 'ERRATA_MIDR_REV_RANGE'
-     347 |                 ERRATA_MIDR_REV_RANGE(MIDR_CORTEX_A53, 0, 0, 4),
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:141:20: note: (near initialization for 'erratum_843419_list[0].matches')
-     141 |         .matches = is_affected_midr_range,                      \
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:153:9: note: in expansion of macro 'CAP_MIDR_RANGE'
-     153 |         CAP_MIDR_RANGE(model, v_min, r_min, v_max, r_max)
-         |         ^~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:161:9: note: in expansion of macro 'ERRATA_MIDR_RANGE'
-     161 |         ERRATA_MIDR_RANGE(m, var, r_min, var, r_max)
-         |         ^~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:347:17: note: in expansion of macro 'ERRATA_MIDR_REV_RANGE'
-     347 |                 ERRATA_MIDR_REV_RANGE(MIDR_CORTEX_A53, 0, 0, 4),
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:141:20: warning: initialized field overwritten [-Woverride-init]
-     141 |         .matches = is_affected_midr_range,                      \
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:153:9: note: in expansion of macro 'CAP_MIDR_RANGE'
-     153 |         CAP_MIDR_RANGE(model, v_min, r_min, v_max, r_max)
-         |         ^~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:165:9: note: in expansion of macro 'ERRATA_MIDR_RANGE'
-     165 |         ERRATA_MIDR_RANGE(model, var, rev, var, rev)
-         |         ^~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:353:17: note: in expansion of macro 'ERRATA_MIDR_REV'
-     353 |                 ERRATA_MIDR_REV(MIDR_BRAHMA_B53, 0, 0),
-         |                 ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:141:20: note: (near initialization for 'erratum_843419_list[1].matches')
-     141 |         .matches = is_affected_midr_range,                      \
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:153:9: note: in expansion of macro 'CAP_MIDR_RANGE'
-     153 |         CAP_MIDR_RANGE(model, v_min, r_min, v_max, r_max)
-         |         ^~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:165:9: note: in expansion of macro 'ERRATA_MIDR_RANGE'
-     165 |         ERRATA_MIDR_RANGE(model, var, rev, var, rev)
-         |         ^~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:353:17: note: in expansion of macro 'ERRATA_MIDR_REV'
-     353 |                 ERRATA_MIDR_REV(MIDR_BRAHMA_B53, 0, 0),
-         |                 ^~~~~~~~~~~~~~~
-   In file included from arch/arm64/include/asm/ptrace.h:11,
-                    from arch/arm64/include/asm/irqflags.h:10,
-                    from include/linux/irqflags.h:17:
-   arch/arm64/include/asm/cpufeature.h:285:9: warning: initialized field overwritten [-Woverride-init]
-     285 |         (ARM64_CPUCAP_SCOPE_LOCAL_CPU | ARM64_CPUCAP_OPTIONAL_FOR_LATE_CPU)
-         |         ^
-   arch/arm64/kernel/cpu_errata.c:174:17: note: in expansion of macro 'ARM64_CPUCAP_LOCAL_CPU_ERRATUM'
-     174 |         .type = ARM64_CPUCAP_LOCAL_CPU_ERRATUM,                 \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:485:17: note: in expansion of macro 'ERRATA_MIDR_RANGE_LIST'
-     485 |                 ERRATA_MIDR_RANGE_LIST(cavium_erratum_23154_cpus),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/cpufeature.h:285:9: note: (near initialization for 'arm64_errata[5].type')
-     285 |         (ARM64_CPUCAP_SCOPE_LOCAL_CPU | ARM64_CPUCAP_OPTIONAL_FOR_LATE_CPU)
-         |         ^
-   arch/arm64/kernel/cpu_errata.c:174:17: note: in expansion of macro 'ARM64_CPUCAP_LOCAL_CPU_ERRATUM'
-     174 |         .type = ARM64_CPUCAP_LOCAL_CPU_ERRATUM,                 \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:485:17: note: in expansion of macro 'ERRATA_MIDR_RANGE_LIST'
-     485 |                 ERRATA_MIDR_RANGE_LIST(cavium_erratum_23154_cpus),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/cpufeature.h:302:9: warning: initialized field overwritten [-Woverride-init]
-     302 |         (ARM64_CPUCAP_SCOPE_LOCAL_CPU           |       \
-         |         ^
-   arch/arm64/kernel/cpu_errata.c:576:25: note: in expansion of macro 'ARM64_CPUCAP_WEAK_LOCAL_CPU_FEATURE'
-     576 |                 .type = ARM64_CPUCAP_WEAK_LOCAL_CPU_FEATURE,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/cpufeature.h:302:9: note: (near initialization for 'arm64_errata[16].type')
-     302 |         (ARM64_CPUCAP_SCOPE_LOCAL_CPU           |       \
-         |         ^
-   arch/arm64/kernel/cpu_errata.c:576:25: note: in expansion of macro 'ARM64_CPUCAP_WEAK_LOCAL_CPU_FEATURE'
-     576 |                 .type = ARM64_CPUCAP_WEAK_LOCAL_CPU_FEATURE,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:600:28: warning: initialized field overwritten [-Woverride-init]
-     600 |                 .matches = needs_tx2_tvm_workaround,
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/cpu_errata.c:600:28: note: (near initialization for 'arm64_errata[19].matches')
-..
+>> crypto/testmgr.c:2619:25: warning: result of comparison of constant 65536 with expression of type 'unsigned short' is always false [-Wtautological-constant-out-of-range-compare]
+    2619 |                 if (WARN_ON(template[i].ilen > PAGE_SIZE ||
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2620 |                             template[i].alen > PAGE_SIZE))
+         |                             ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+     121 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   crypto/testmgr.c:2618:32: warning: result of comparison of constant 65536 with expression of type 'unsigned short' is always false [-Wtautological-constant-out-of-range-compare]
+    2618 |                 if (WARN_ON(template[i].ilen > PAGE_SIZE ||
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+    2619 |                             template[i].alen > PAGE_SIZE))
+         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+     121 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   2 warnings generated.
 
 
-vim +/CONFIG_ARM64_16K_PAGES +57 arch/arm64/include/asm/memory.h
+vim +2619 crypto/testmgr.c
 
-    46	
-    47	/*
-    48	 * Setting KIMAGE_VADDR has got a lot harder, ideally we'd like to use
-    49	 * min(PGDIR_SIZE, MODULES_VSIZE) but this can't work because this is used
-    50	 * both in assembly as C, where it causes problems. min_t() solves the
-    51	 * C problems but can't be used in assembly.
-    52	 * CONFIG_ARM64_4K_PAGES, PGDIR_SIZE is 2M, 1G, 512G
-    53	 * CONFIG_ARM64_16K_PAGES, PGDIR_SIZE is 32M, 64G or 128T
-    54	 * CONFIG_ARM64_64K_PAGES, PGDIR_SIZE is 512M or 4T
-    55	 */
-    56	#if (CONFIG_ARM64_4K_PAGES && CONFIG_PGTABLE_LEVELS < 4) || \
-  > 57	    (CONFIG_ARM64_16K_PAGES && CONFIG_PGTABLE_LEVELS < 3) || \
-  > 58	    (CONFIG_ARM64_64K_PAGES && CONFIG_PGTABLE_LEVELS < 2)
-    59	#define KIMAGE_OFFSET		MODULES_VSIZE
-    60	#else
-    61	#define KIMAGE_OFFSET		PGDIR_SIZE
-    62	#endif
-    63	#define KIMAGE_VADDR		(_PAGE_END(VA_BITS_MIN) + KIMAGE_OFFSET)
-    64	#define MODULES_END		(KIMAGE_VADDR)
-    65	#define MODULES_VADDR		(MODULES_END - MODULES_VSIZE)
-    66	#define MODULES_VSIZE		(SZ_2G)
-    67	#define VMEMMAP_START		(-(UL(1) << (VA_BITS - VMEMMAP_SHIFT)))
-    68	#define VMEMMAP_END		(VMEMMAP_START + VMEMMAP_SIZE)
-    69	#define PCI_IO_END		(VMEMMAP_START - SZ_8M)
-    70	#define PCI_IO_START		(PCI_IO_END - PCI_IO_SIZE)
-    71	#define FIXADDR_TOP		(VMEMMAP_START - SZ_32M)
-    72	
+  2552	
+  2553	static int __test_tls(struct crypto_aead *tfm, int enc,
+  2554			      struct tls_testvec *template, unsigned int tcount,
+  2555			      const bool diff_dst)
+  2556	{
+  2557		const char *algo = crypto_tfm_alg_driver_name(crypto_aead_tfm(tfm));
+  2558		unsigned int i, k, authsize;
+  2559		char *q;
+  2560		struct aead_request *req;
+  2561		struct scatterlist *sg;
+  2562		struct scatterlist *sgout;
+  2563		const char *e, *d;
+  2564		struct crypto_wait wait;
+  2565		void *input;
+  2566		void *output;
+  2567		void *assoc;
+  2568		char *iv;
+  2569		char *key;
+  2570		char *xbuf[XBUFSIZE];
+  2571		char *xoutbuf[XBUFSIZE];
+  2572		char *axbuf[XBUFSIZE];
+  2573		int ret = -ENOMEM;
+  2574	
+  2575		if (testmgr_alloc_buf(xbuf))
+  2576			goto out_noxbuf;
+  2577	
+  2578		if (diff_dst && testmgr_alloc_buf(xoutbuf))
+  2579			goto out_nooutbuf;
+  2580	
+  2581		if (testmgr_alloc_buf(axbuf))
+  2582			goto out_noaxbuf;
+  2583	
+  2584		iv = kzalloc(MAX_IVLEN, GFP_KERNEL);
+  2585		if (!iv)
+  2586			goto out_noiv;
+  2587	
+  2588		key = kzalloc(MAX_KEYLEN, GFP_KERNEL);
+  2589		if (!key)
+  2590			goto out_nokey;
+  2591	
+  2592		sg = kmalloc(sizeof(*sg) * 8 * (diff_dst ? 2 : 1), GFP_KERNEL);
+  2593		if (!sg)
+  2594			goto out_nosg;
+  2595	
+  2596		sgout = sg + 8;
+  2597	
+  2598		d = diff_dst ? "-ddst" : "";
+  2599		e = enc ? "encryption" : "decryption";
+  2600	
+  2601		crypto_init_wait(&wait);
+  2602	
+  2603		req = aead_request_alloc(tfm, GFP_KERNEL);
+  2604		if (!req) {
+  2605			pr_err("alg: tls%s: Failed to allocate request for %s\n",
+  2606			       d, algo);
+  2607			goto out;
+  2608		}
+  2609	
+  2610		aead_request_set_callback(req, CRYPTO_TFM_REQ_MAY_BACKLOG,
+  2611					  crypto_req_done, &wait);
+  2612	
+  2613		for (i = 0; i < tcount; i++) {
+  2614			input = xbuf[0];
+  2615			assoc = axbuf[0];
+  2616	
+  2617			ret = -EINVAL;
+  2618			if (WARN_ON(template[i].ilen > PAGE_SIZE ||
+> 2619				    template[i].alen > PAGE_SIZE))
+  2620				goto out;
+  2621	
+  2622			memcpy(assoc, template[i].assoc, template[i].alen);
+  2623			memcpy(input, template[i].input, template[i].ilen);
+  2624	
+  2625			if (template[i].iv)
+  2626				memcpy(iv, template[i].iv, MAX_IVLEN);
+  2627			else
+  2628				memset(iv, 0, MAX_IVLEN);
+  2629	
+  2630			crypto_aead_clear_flags(tfm, ~0);
+  2631	
+  2632			if (template[i].klen > MAX_KEYLEN) {
+  2633				pr_err("alg: aead%s: setkey failed on test %d for %s: key size %d > %d\n",
+  2634				       d, i, algo, template[i].klen, MAX_KEYLEN);
+  2635				ret = -EINVAL;
+  2636				goto out;
+  2637			}
+  2638			memcpy(key, template[i].key, template[i].klen);
+  2639	
+  2640			ret = crypto_aead_setkey(tfm, key, template[i].klen);
+  2641			if ((!ret) == template[i].fail) {
+  2642				pr_err("alg: tls%s: setkey failed on test %d for %s: flags=%x\n",
+  2643				       d, i, algo, crypto_aead_get_flags(tfm));
+  2644				goto out;
+  2645			} else if (ret)
+  2646				continue;
+  2647	
+  2648			authsize = 20;
+  2649			ret = crypto_aead_setauthsize(tfm, authsize);
+  2650			if (ret) {
+  2651				pr_err("alg: aead%s: Failed to set authsize to %u on test %d for %s\n",
+  2652				       d, authsize, i, algo);
+  2653				goto out;
+  2654			}
+  2655	
+  2656			k = !!template[i].alen;
+  2657			sg_init_table(sg, k + 1);
+  2658			sg_set_buf(&sg[0], assoc, template[i].alen);
+  2659			sg_set_buf(&sg[k], input, (enc ? template[i].rlen :
+  2660						   template[i].ilen));
+  2661			output = input;
+  2662	
+  2663			if (diff_dst) {
+  2664				sg_init_table(sgout, k + 1);
+  2665				sg_set_buf(&sgout[0], assoc, template[i].alen);
+  2666	
+  2667				output = xoutbuf[0];
+  2668				sg_set_buf(&sgout[k], output,
+  2669					   (enc ? template[i].rlen : template[i].ilen));
+  2670			}
+  2671	
+  2672			aead_request_set_crypt(req, sg, (diff_dst) ? sgout : sg,
+  2673					       template[i].ilen, iv);
+  2674	
+  2675			aead_request_set_ad(req, template[i].alen);
+  2676	
+  2677			ret = crypto_wait_req(enc ? crypto_aead_encrypt(req)
+  2678					      : crypto_aead_decrypt(req), &wait);
+  2679	
+  2680			switch (ret) {
+  2681			case 0:
+  2682				if (template[i].novrfy) {
+  2683					/* verification was supposed to fail */
+  2684					pr_err("alg: tls%s: %s failed on test %d for %s: ret was 0, expected -EBADMSG\n",
+  2685					       d, e, i, algo);
+  2686					/* so really, we got a bad message */
+  2687					ret = -EBADMSG;
+  2688					goto out;
+  2689				}
+  2690				break;
+  2691			case -EBADMSG:
+  2692				/* verification failure was expected */
+  2693				if (template[i].novrfy)
+  2694					continue;
+  2695				/* fall through */
+  2696			default:
+  2697				pr_err("alg: tls%s: %s failed on test %d for %s: ret=%d\n",
+  2698				       d, e, i, algo, -ret);
+  2699				goto out;
+  2700			}
+  2701	
+  2702			q = output;
+  2703			if (memcmp(q, template[i].result, template[i].rlen)) {
+  2704				pr_err("alg: tls%s: Test %d failed on %s for %s\n",
+  2705				       d, i, e, algo);
+  2706				hexdump(q, template[i].rlen);
+  2707				pr_err("should be:\n");
+  2708				hexdump(template[i].result, template[i].rlen);
+  2709				ret = -EINVAL;
+  2710				goto out;
+  2711			}
+  2712		}
+  2713	
+  2714	out:
+  2715		aead_request_free(req);
+  2716	
+  2717		kfree(sg);
+  2718	out_nosg:
+  2719		kfree(key);
+  2720	out_nokey:
+  2721		kfree(iv);
+  2722	out_noiv:
+  2723		testmgr_free_buf(axbuf);
+  2724	out_noaxbuf:
+  2725		if (diff_dst)
+  2726			testmgr_free_buf(xoutbuf);
+  2727	out_nooutbuf:
+  2728		testmgr_free_buf(xbuf);
+  2729	out_noxbuf:
+  2730		return ret;
+  2731	}
+  2732	
 
 -- 
 0-DAY CI Kernel Test Service
