@@ -1,48 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151E4C136;
-	Fri,  1 Sep 2023 21:04:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393ECAD53
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 21:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693602299; x=1725138299;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1WIVQ4Z7LQCKejOg7pncS5p83NHp79nepmutiHbIxUc=;
-  b=Omyqo380Wv4jvi5b3knzPKvzs05/qahD0G4kT0U091NScN7inOVaNsGn
-   PrnWICk8lWsBQN3fA51lsWV23atwHCqoseS3Y1jDGa6xkA+HGxM3lGQE3
-   UMejOu6B4zsmtdf90D7kiT1BysHJS/2elPl1wCrhogvwqkvb2PeNSz4A0
-   /vunt138ASZbXSzEYZNBYQx14sbkin+RjayyJ5R1LsdZ5EKHMo9OKpTXU
-   v8pdneon+62AnkUoBi38Z1XTXWYZQXpKKriibnVSp43bf0faYfiHhxv9g
-   13gRrmG4A/MKVQGZOY4AJ6xOyW1ieHRWL9tyt2lTCoHJWwCRnyq140TgZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="366538562"
-X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
-   d="scan'208";a="366538562"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 14:04:57 -0700
+  t=1693605478; x=1725141478;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0ZwZ3OAB97QQaMveabB38nMqL+Uhn/q1PYgAFgSV2nY=;
+  b=ke/e2G+72qMaYC+UcEpHi8sTd7B+UIq/cHQozZawTsvceiA+7SWxtUr7
+   fJVv7xZofs1qLEVRC1ABajq8KBYQ9+9kkA/VycWhanKDOd+E//PWoTRXP
+   ETW/Tmb8mtBg4MrF3QF1EVAI9DJ7GoBIqHJrW43/DgowItQJvQ3JHF4NR
+   xb2i3fXPvtsh9/aJDa+gIiF732aiGze+Q87epK8NTPoDHT9mR73Wv+IEr
+   smZz//FQnQUxmnsZwf+5IF21BXdatGTd5fTewRbiqYP7PAgGEaI2UW5fm
+   +50whlSv3JKFO5l2zqU9DeUiUhnFX1rdia/HhChG0GspkmP82DfxN00qh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="376246081"
+X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
+   d="scan'208";a="376246081"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 14:57:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="810205534"
-X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
-   d="scan'208";a="810205534"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="1070886470"
+X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
+   d="scan'208";a="1070886470"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Sep 2023 14:04:54 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 01 Sep 2023 14:57:56 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcBK0-0001dv-1g;
-	Fri, 01 Sep 2023 21:04:52 +0000
-Date: Sat, 2 Sep 2023 05:04:11 +0800
+	id 1qcC9K-0001g3-0L;
+	Fri, 01 Sep 2023 21:57:54 +0000
+Date: Sat, 2 Sep 2023 05:57:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naresh Solanki <naresh.solanki@9elements.com>, broonie@kernel.org,
-	zev@bewilderbeest.net, Liam Girdwood <lgirdwood@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Naresh Solanki <Naresh.Solanki@9elements.com>,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH v2] regulator (max5970): Add hwmon support
-Message-ID: <202309020434.x0wzOQpo-lkp@intel.com>
-References: <20230901093449.838414-1-Naresh.Solanki@9elements.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mhiramat:topic/fprobe-ftrace-regs 15/21]
+ arch/s390/kernel/rethook.c:6:6: error: conflicting types for
+ 'arch_rethook_prepare'; have 'void(struct rethook_node *, struct pt_regs *,
+ bool)' {aka 'void(struct rethook_node *, struct pt_regs *, _Bool)'}
+Message-ID: <202309020520.vTdgQezd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,76 +47,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230901093449.838414-1-Naresh.Solanki@9elements.com>
 
-Hi Naresh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 35d0d2350d774fecf596cfb2fb050559fe5e1850]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/regulator-max5970-Add-hwmon-support/20230901-173611
-base:   35d0d2350d774fecf596cfb2fb050559fe5e1850
-patch link:    https://lore.kernel.org/r/20230901093449.838414-1-Naresh.Solanki%409elements.com
-patch subject: [PATCH v2] regulator (max5970): Add hwmon support
-config: x86_64-randconfig-004-20230902 (https://download.01.org/0day-ci/archive/20230902/202309020434.x0wzOQpo-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020434.x0wzOQpo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-ftrace-regs
+head:   398bcb2fcb442bac23d5e514b6144ef4c32d74e8
+commit: e86cf59b1f5e0e053bc45e73a72f11a73874ed83 [15/21] fprobe: rethook: Use ftrace_regs in fprobe exit handler and rethook
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230902/202309020520.vTdgQezd-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020520.vTdgQezd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309020434.x0wzOQpo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309020520.vTdgQezd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/regulator/max5970-regulator.c:124:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-                   default:
-                   ^
-   drivers/regulator/max5970-regulator.c:124:3: note: insert 'break;' to avoid fall-through
-                   default:
-                   ^
-                   break; 
-   1 warning generated.
+>> arch/s390/kernel/rethook.c:6:6: error: conflicting types for 'arch_rethook_prepare'; have 'void(struct rethook_node *, struct pt_regs *, bool)' {aka 'void(struct rethook_node *, struct pt_regs *, _Bool)'}
+       6 | void arch_rethook_prepare(struct rethook_node *rh, struct pt_regs *regs, bool mcount)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   In file included from arch/s390/kernel/rethook.c:2:
+   include/linux/rethook.h:73:6: note: previous declaration of 'arch_rethook_prepare' with type 'void(struct rethook_node *, struct ftrace_regs *, bool)' {aka 'void(struct rethook_node *, struct ftrace_regs *, _Bool)'}
+      73 | void arch_rethook_prepare(struct rethook_node *node, struct ftrace_regs *regs, bool mcount);
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> arch/s390/kernel/rethook.c:16:6: error: conflicting types for 'arch_rethook_fixup_return'; have 'void(struct pt_regs *, long unsigned int)'
+      16 | void arch_rethook_fixup_return(struct pt_regs *regs,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rethook.h:88:6: note: previous declaration of 'arch_rethook_fixup_return' with type 'void(struct ftrace_regs *, long unsigned int)'
+      88 | void arch_rethook_fixup_return(struct ftrace_regs *regs,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/kernel/rethook.c: In function 'arch_rethook_trampoline_callback':
+>> arch/s390/kernel/rethook.c:29:43: error: passing argument 1 of 'rethook_trampoline_handler' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      29 |         return rethook_trampoline_handler(regs, regs->gprs[15]);
+         |                                           ^~~~
+         |                                           |
+         |                                           struct pt_regs *
+   include/linux/rethook.h:92:62: note: expected 'struct ftrace_regs *' but argument is of type 'struct pt_regs *'
+      92 | unsigned long rethook_trampoline_handler(struct ftrace_regs *regs,
+         |                                          ~~~~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +124 drivers/regulator/max5970-regulator.c
+vim +6 arch/s390/kernel/rethook.c
 
-    99	
-   100	static umode_t max5970_is_visible(const void *data,
-   101					  enum hwmon_sensor_types type,
-   102					  u32 attr, int channel)
-   103	{
-   104		struct max5970_data *ddata = (struct max5970_data *)data;
-   105	
-   106		if (channel >= ddata->num_switches)
-   107			return 0;
-   108	
-   109		switch (type) {
-   110		case hwmon_in:
-   111			switch (attr) {
-   112			case hwmon_in_input:
-   113				return 0444;
-   114			default:
-   115				break;
-   116			}
-   117			break;
-   118		case hwmon_curr:
-   119			switch (attr) {
-   120			case hwmon_curr_input:
-   121				/* Current measurement requires knowledge of the shunt resistor value. */
-   122				if (ddata->shunt_micro_ohms[channel])
-   123					return 0444;
- > 124			default:
-   125				break;
-   126			}
-   127			break;
-   128		default:
-   129			break;
-   130		}
-   131		return 0;
-   132	}
-   133	
+1a280f48c0e403 Vasily Gorbik 2023-01-17   5  
+1a280f48c0e403 Vasily Gorbik 2023-01-17  @6  void arch_rethook_prepare(struct rethook_node *rh, struct pt_regs *regs, bool mcount)
+1a280f48c0e403 Vasily Gorbik 2023-01-17   7  {
+1a280f48c0e403 Vasily Gorbik 2023-01-17   8  	rh->ret_addr = regs->gprs[14];
+1a280f48c0e403 Vasily Gorbik 2023-01-17   9  	rh->frame = regs->gprs[15];
+1a280f48c0e403 Vasily Gorbik 2023-01-17  10  
+1a280f48c0e403 Vasily Gorbik 2023-01-17  11  	/* Replace the return addr with trampoline addr */
+1a280f48c0e403 Vasily Gorbik 2023-01-17  12  	regs->gprs[14] = (unsigned long)&arch_rethook_trampoline;
+1a280f48c0e403 Vasily Gorbik 2023-01-17  13  }
+1a280f48c0e403 Vasily Gorbik 2023-01-17  14  NOKPROBE_SYMBOL(arch_rethook_prepare);
+1a280f48c0e403 Vasily Gorbik 2023-01-17  15  
+1a280f48c0e403 Vasily Gorbik 2023-01-17 @16  void arch_rethook_fixup_return(struct pt_regs *regs,
+1a280f48c0e403 Vasily Gorbik 2023-01-17  17  			       unsigned long correct_ret_addr)
+1a280f48c0e403 Vasily Gorbik 2023-01-17  18  {
+1a280f48c0e403 Vasily Gorbik 2023-01-17  19  	/* Replace fake return address with real one. */
+1a280f48c0e403 Vasily Gorbik 2023-01-17  20  	regs->gprs[14] = correct_ret_addr;
+1a280f48c0e403 Vasily Gorbik 2023-01-17  21  }
+1a280f48c0e403 Vasily Gorbik 2023-01-17  22  NOKPROBE_SYMBOL(arch_rethook_fixup_return);
+1a280f48c0e403 Vasily Gorbik 2023-01-17  23  
+1a280f48c0e403 Vasily Gorbik 2023-01-17  24  /*
+1a280f48c0e403 Vasily Gorbik 2023-01-17  25   * Called from arch_rethook_trampoline
+1a280f48c0e403 Vasily Gorbik 2023-01-17  26   */
+1a280f48c0e403 Vasily Gorbik 2023-01-17  27  unsigned long arch_rethook_trampoline_callback(struct pt_regs *regs)
+1a280f48c0e403 Vasily Gorbik 2023-01-17  28  {
+1a280f48c0e403 Vasily Gorbik 2023-01-17 @29  	return rethook_trampoline_handler(regs, regs->gprs[15]);
+1a280f48c0e403 Vasily Gorbik 2023-01-17  30  }
+1a280f48c0e403 Vasily Gorbik 2023-01-17  31  NOKPROBE_SYMBOL(arch_rethook_trampoline_callback);
+1a280f48c0e403 Vasily Gorbik 2023-01-17  32  
+
+:::::: The code at line 6 was first introduced by commit
+:::::: 1a280f48c0e403903cf0b4231c95b948e664f25a s390/kprobes: replace kretprobe with rethook
+
+:::::: TO: Vasily Gorbik <gor@linux.ibm.com>
+:::::: CC: Heiko Carstens <hca@linux.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
