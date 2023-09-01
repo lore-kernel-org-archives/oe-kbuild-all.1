@@ -1,47 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A457187C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 03:42:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD2E1C3E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 04:03:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693539743; x=1725075743;
+  t=1693541005; x=1725077005;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S3svjhAN6LxKu/0rm1q5maiM6DH+ZU65J+hUBEvVv6E=;
-  b=WZlN+yr3S08Ug3KRIRo1rk9bVdypSTjPi7BZWM9iGHrZiixUB2z058EU
-   PsKbIYzq2GmkAzgdP+6L3AYIsciJT60wAargH1UljESFi2mDPKroINxE9
-   LZh5DcTgoIKwZlCyEnRT8vys0/kY+WxJ9FRth0lEPkK3LhUO6o/JIj/IF
-   EJoy2hnaWUraet3bVoNcA3Q2Y6C3+Y4QjQ+OEFJ+MmwitRvmarID8J31W
-   vupl0LCgoUFhnkmBsqkDbOH5mN0FRV43Y9i0hlBfSVAQVx5XQbMTGe1I8
-   u1ia7hD+lpswhV0VxbIZ4VzcFIdf1eqUVDIIJCDKWcWM/KpNUraiObbFR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="379912838"
+  bh=R+W9qyDSelNlpR13hEosbhX72kNCmpu5QOTLPT7lfD8=;
+  b=mn2WeLvx+ntYsT6F5ewlizr+iwEF7pK8FB9spXbZ9nM4jjl8fsfRUN2m
+   AxBJiUuWQ1ZRr6MQHQUkqqV0qFHiHuAIFTKSGJoBESj/7acfQs8q/AMiJ
+   YW9UK8MLBDLueaacYWwtFcYnEghDXAAxQ6HmczBMh2UQhYpFvxkCeDKOE
+   WjaIyXxjo52XcLMG5maOvv5dG1GfP7cO9q4N3UZaPSAwMjYp1r1yUyOmy
+   qPPILmyuG2DuVnE7/tf21rVhYvkenmnUdX/KJGBawjcQX+UJijB2l03cx
+   QcwSuomnYgNi3/SKJNrUvE/Lxo95G7Ba8aHw/e8PiZq5xtQb+fvQq+otI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="356444023"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="379912838"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 20:42:22 -0700
+   d="scan'208";a="356444023"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 21:03:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="689602393"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="986503554"
 X-IronPort-AV: E=Sophos;i="6.02,218,1688454000"; 
-   d="scan'208";a="689602393"
+   d="scan'208";a="986503554"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 31 Aug 2023 20:42:20 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 31 Aug 2023 21:03:21 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qbv34-0000pv-1s;
-	Fri, 01 Sep 2023 03:42:18 +0000
-Date: Fri, 1 Sep 2023 11:41:18 +0800
+	id 1qbvNP-0000r5-0i;
+	Fri, 01 Sep 2023 04:03:19 +0000
+Date: Fri, 1 Sep 2023 12:02:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karolina Stolarek <karolina.stolarek@intel.com>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Karolina Stolarek <karolina.stolarek@intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 2/3] drm/ttm/tests: Add tests for ttm_tt
-Message-ID: <202309011134.bwvpuyOj-lkp@intel.com>
-References: <8981ec2479d57bbe60be7dacff11093e23739763.1693479161.git.karolina.stolarek@intel.com>
+To: Lukasz Majewski <lukma@denx.de>, Eric Dumazet <edumazet@google.com>,
+	Andrew Lunn <andrew@lunn.ch>, davem@davemloft.net,
+	Paolo Abeni <pabeni@redhat.com>,
+	Woojung Huh <woojung.huh@microchip.com>,
+	Vladimir Oltean <olteanv@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Tristram.Ha@microchip.com,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>, UNGLinuxDriver@microchip.com,
+	George McCollister <george.mccollister@gmail.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Lukasz Majewski <lukma@denx.de>
+Subject: Re: [PATCH v2 2/4] net: dsa: Extend ksz9477 TAG setup to support HSR
+ frames duplication
+Message-ID: <202309011123.BsWErQvO-lkp@intel.com>
+References: <20230831111827.548118-3-lukma@denx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,136 +56,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8981ec2479d57bbe60be7dacff11093e23739763.1693479161.git.karolina.stolarek@intel.com>
+In-Reply-To: <20230831111827.548118-3-lukma@denx.de>
 
-Hi Karolina,
+Hi Lukasz,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip linus/master next-20230831]
-[cannot apply to drm-intel/for-linux-next-fixes v6.5]
+[auto build test ERROR on v6.5]
+[also build test ERROR on next-20230831]
+[cannot apply to net-next/main net/main linus/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karolina-Stolarek/drm-ttm-tests-Add-tests-for-ttm_resource-and-ttm_sys_man/20230831-185954
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/8981ec2479d57bbe60be7dacff11093e23739763.1693479161.git.karolina.stolarek%40intel.com
-patch subject: [PATCH 2/3] drm/ttm/tests: Add tests for ttm_tt
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20230901/202309011134.bwvpuyOj-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukasz-Majewski/net-dsa-Extend-the-ksz_device-structure-to-hold-info-about-HSR-ports/20230831-192012
+base:   v6.5
+patch link:    https://lore.kernel.org/r/20230831111827.548118-3-lukma%40denx.de
+patch subject: [PATCH v2 2/4] net: dsa: Extend ksz9477 TAG setup to support HSR frames duplication
+config: openrisc-randconfig-r026-20230901 (https://download.01.org/0day-ci/archive/20230901/202309011123.BsWErQvO-lkp@intel.com/config)
 compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309011134.bwvpuyOj-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309011123.BsWErQvO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309011134.bwvpuyOj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309011123.BsWErQvO-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wrr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-ERROR: modpost: "ttm_resource_alloc" [drivers/gpu/drm/ttm/tests/ttm_resource_test.ko] undefined!
->> ERROR: modpost: "ttm_tt_create" [drivers/gpu/drm/ttm/tests/ttm_tt_test.ko] undefined!
->> ERROR: modpost: "ttm_tt_destroy" [drivers/gpu/drm/ttm/tests/ttm_tt_test.ko] undefined!
+   or1k-linux-ld: net/dsa/tag_ksz.o: in function `ksz9477_xmit':
+>> net/dsa/tag_ksz.c:298:(.text+0xcf8): undefined reference to `ksz_hsr_get_ports'
+   net/dsa/tag_ksz.c:298:(.text+0xcf8): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `ksz_hsr_get_ports'
+
+
+vim +298 net/dsa/tag_ksz.c
+
+   269	
+   270	static struct sk_buff *ksz9477_xmit(struct sk_buff *skb,
+   271					    struct net_device *dev)
+   272	{
+   273		u16 queue_mapping = skb_get_queue_mapping(skb);
+   274		u8 prio = netdev_txq_to_tc(dev, queue_mapping);
+   275		struct dsa_port *dp = dsa_slave_to_port(dev);
+   276		struct ethhdr *hdr;
+   277		__be16 *tag;
+   278		u16 val;
+   279	
+   280		if (skb->ip_summed == CHECKSUM_PARTIAL && skb_checksum_help(skb))
+   281			return NULL;
+   282	
+   283		/* Tag encoding */
+   284		ksz_xmit_timestamp(dp, skb);
+   285	
+   286		tag = skb_put(skb, KSZ9477_INGRESS_TAG_LEN);
+   287		hdr = skb_eth_hdr(skb);
+   288	
+   289		val = BIT(dp->index);
+   290	
+   291		val |= FIELD_PREP(KSZ9477_TAIL_TAG_PRIO, prio);
+   292	
+   293		if (is_link_local_ether_addr(hdr->h_dest))
+   294			val |= KSZ9477_TAIL_TAG_OVERRIDE;
+   295	
+   296		if (dev->features & NETIF_F_HW_HSR_DUP) {
+   297			val &= ~KSZ9477_TAIL_TAG_LOOKUP;
+ > 298			val |= ksz_hsr_get_ports(dp->ds);
+   299		}
+   300	
+   301		*tag = cpu_to_be16(val);
+   302	
+   303		return ksz_defer_xmit(dp, skb);
+   304	}
+   305	
 
 -- 
 0-DAY CI Kernel Test Service
