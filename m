@@ -1,187 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E27AD41
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 12:05:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C76AD41
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Sep 2023 12:23:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693569941; x=1725105941;
+  t=1693570997; x=1725106997;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NLOYZS5JqbR3mC6q5p+KqE9rx8Be8dmdbpJND9kLODY=;
-  b=bhKs9Qdy5uXQU0UIxtcSw2A+38VD+ussKGzielSjhOLVY6Dv8o/QrNEz
-   hK5TVKYCbsT4lVUZGvFxNNmTLgR7sxsuYqIRhdjesaXEXU5rd+o/Lq75q
-   nMqs31+pt8N40GygV9yXWB5zgiiLzlXTGxjWBp/BUgAqET7FwaeXkR7BC
-   t5KkDZCcV55x3BiExmUlF2OsLMWVnPchTM59cs7fox4x5ELsNWAZw8not
-   2E9cVHIUOcmJxjmsB1GVGcG2kJzy/qT1g3L2Uub6vj60hS8jhoWws0zOQ
-   OGMVa8Sfbx/DhrcpPMt5Yp5nnRzkF+hr6GqECAkfF+fvBgEYrvLskfaqV
+   in-reply-to:mime-version;
+  bh=O+Zd8LLIEecMBEfWaJEFJgo030IqUSE/+ZOONeNGIJk=;
+  b=ifMiDka3SUmIzy0ztZ/v5FKZfrblanLWUa7KwE32lPpOYQp9wPkNa+n4
+   /u1q/k9G8BaNquwGnPw9TtqKMCZ0urrYO7SLoA9VjXebR+qSol7M8HTvb
+   3M2Uy6HEzj4rJ+qPDFf4cM0wm1glWh6V7l1fdJuoNZhhEIQLX48oTVtYn
+   MFk1KEznU9BQPbvbhAgd5RDdcW3m+7E9wiBzQqHFQMPDp2OEm2TU2PtIH
+   9XkDyPaLHluyBwYINP369bSgro62AFpZYD/KTO5tqbuDQMnJOGGiWB4Tx
+   Sdava4iCke+mnrKqgLrJFVtBM8rAyS3X1YmWxiqshT1+XhrULW+GrUfLw
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="462572388"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="378934034"
 X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; 
-   d="scan'208";a="462572388"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 05:05:39 -0700
+   d="scan'208";a="378934034"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 05:23:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="1070726932"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="854691508"
 X-IronPort-AV: E=Sophos;i="6.02,219,1688454000"; 
-   d="scan'208";a="1070726932"
-Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Sep 2023 05:05:37 -0700
-Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qc2u7-0001G1-0q;
-	Fri, 01 Sep 2023 12:05:35 +0000
-Date: Fri, 1 Sep 2023 20:04:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karolina Stolarek <karolina.stolarek@intel.com>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Karolina Stolarek <karolina.stolarek@intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 3/3] drm/ttm/tests: Add tests for ttm_bo functions
-Message-ID: <202309011935.bBpezbUQ-lkp@intel.com>
-References: <d914169aee773ee20c0b730b38d42a1fd7613bb6.1693479161.git.karolina.stolarek@intel.com>
+   d="scan'208";a="854691508"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Sep 2023 05:23:16 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 1 Sep 2023 05:23:16 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Fri, 1 Sep 2023 05:23:16 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Fri, 1 Sep 2023 05:23:16 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bL34haAmlrhfjZVdV9TZAUSpS4m+b8Gk7Y/C9acLCOXMuc9e7HU3LtZM8BDrXOqpCB817/OEbu+fAbLziVg7vOVkScFScb0cdebpBNUesjKRLxkHmzncfWJnruBWuMMWqzIwQPqHHbRhGXtukSP34JGUIgSzixNwRiD3iFkYeAhsE1bj6tGKWbbFGjCYjwbDTJV45UzYcJLTw/XZXCD9GfpnD47nV++9V2Q2zBssFeM485cmaBvbrwqxDS9kf149GKdjlcPYhHlQymKPLa220Q43lu8OQp6xcpqKMW8mkUVs2vtWyVObxtwAqgWICD4b8W0KjKtr8BlPz+UyDDMdDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y/DWva4+uRP20pyVVxJclTWwrEW2NrxKnbX6ZZYqz7U=;
+ b=DCQHH2566mQSy9PPH4JJESIU4AHheaQ7BXbVz3jksaek8cE7zKW3zxhxRm9tsgvWocVj6oi27okFHYibTqZTnvUA8z5BjgmCG++YiDmcMc7QYSuqjrxzB1rbIlBGJQZlib91juzqKtzt5URWKpv5MRzH/OobzXHLicKM4yorn4EP6fiOThUuxWRsBVKXgB/NFz8k6aP+50g1hUPU7k1g8pw0JpuALESp3CH3UMFw0WQNMEd/J5Y3ZuS7US48pby08coO1rTMviN8XPJRCNh/09oZd/Aw5ZJ/CejfI7cQhqkUaamzR/6iUjf1wEgg1Y0qgsxZbRTHGD8ZgYYuD4RyPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by SN7PR11MB6899.namprd11.prod.outlook.com (2603:10b6:806:2a7::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.26; Fri, 1 Sep
+ 2023 12:23:14 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::3130:de4a:9f73:a5b6]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::3130:de4a:9f73:a5b6%6]) with mapi id 15.20.6745.020; Fri, 1 Sep 2023
+ 12:23:14 +0000
+Date: Fri, 1 Sep 2023 20:23:04 +0800
+From: Philip Li <philip.li@intel.com>
+To: Eduard Zingerman <eddyz87@gmail.com>
+CC: Daniel Borkmann <daniel@iogearbox.net>, kernel test robot <lkp@intel.com>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-doc@vger.kernel.org>
+Subject: Re: [bpf:master 6/15] htmldocs: Warning: Documentation/bpf/btf.rst
+ references a file that doesn't exist: Documentation/bpf/llvm_reloc
+Message-ID: <ZPHXqAUX6aLXp9Dy@rli9-mobl>
+References: <202309010804.G3MpXo59-lkp@intel.com>
+ <6a92003b-e47f-01bc-57d2-d2fb30292ad0@iogearbox.net>
+ <a62b47218f1852d09b243b8fb1741c2baca4d336.camel@gmail.com>
+ <5009129a873cf20adacd679d5073c799f79672d2.camel@gmail.com>
+ <5ce81342-c565-f7fb-1c93-ec4eac8944c9@iogearbox.net>
+ <86cd932cd5a6ecf44b3d4dfd2b9446bd721d9e78.camel@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <86cd932cd5a6ecf44b3d4dfd2b9446bd721d9e78.camel@gmail.com>
+X-ClientProxiedBy: SG2PR04CA0162.apcprd04.prod.outlook.com (2603:1096:4::24)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d914169aee773ee20c0b730b38d42a1fd7613bb6.1693479161.git.karolina.stolarek@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|SN7PR11MB6899:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5171092e-4bae-4597-4ddb-08dbaae6368c
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rK5PxL+sk53VCy0QvJi0b0gjSXMD7rdRf5SZt2mxANpx368DDpMFExH5Tf9ArlE48QsQLkLPRVFUSQX0vHgQZtaL7/A/EAdKozNcDHhtbmqXt7SKight2HaBq0mgWRYhFKFDK5ulaREdt425IsZFMhbc4hQCsk23ZsLtGpdLSkLtdbGr/TrNZX2gnasUgDuF0qr7WzPRi8lxV1ang268GFAGCzrPbpHCs/owCP0alSJLOHvfSc49EQM72q6xDCoO4JM4Is1KuqPOLEFFwoir0znDaKEQoF9AQjSv0RpJ0ooQ0HbMfatmccBFmMlN71dX8oSoC85oZbTK31rfWpp0b5qfeLSwfgs9tLU0+pnwZ3ywRDDskR+R8ehe8pCxC98Yy90PLZ4BeGdrYZZeHwFe0I6Vx3ElW/Oxszd+VDOaTDnfhAzs+KC63CK3qHnUVnqZ7w8Plt5wkS1D6ttye1fLBsUUFEJdF60LV0qiQeCMaSE2+gapB0/dSuCj2OAbmBJx9BLu9dEAiD1Z95kaxTbmnVqldkizxJ7/0UYhBzWg6jt+9yFYprCIbxsfe/cuMZzOK4Xtdydt7JPu293DidFHcA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(366004)(136003)(346002)(376002)(39860400002)(451199024)(186009)(1800799009)(6486002)(6506007)(6666004)(6512007)(9686003)(53546011)(966005)(478600001)(83380400001)(26005)(2906002)(33716001)(66556008)(44832011)(6916009)(54906003)(66476007)(316002)(41300700001)(66946007)(5660300002)(8936002)(8676002)(4326008)(82960400001)(86362001)(38100700002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fvNmpp0IqyFPiGRP3QuosdsbIuzrxWUo0Tab1q11alsnJUMvQdvL0ymxXwxS?=
+ =?us-ascii?Q?2U6an8IAgXnBImPMZ02D0jYOUWBZFKeFlGASj7HNMiW9SzPgrrIHnuXgk13q?=
+ =?us-ascii?Q?uJD/QtQ1AwQSt126BzNycoAVH4DKZJMCsiw6/EszQ4qcsbXug1oL/ZOSHp1M?=
+ =?us-ascii?Q?0XJQn2kwL3Db5RIlCSFeeM0QrtJS4nv7THGdqORv9iSXedLxOFCCWZyjmG0V?=
+ =?us-ascii?Q?4f6rPplKa60BiGwZr/Q2G+SoiTlr39QtCmdASd7nY5xFk0Ewo2XatVW/E1+f?=
+ =?us-ascii?Q?kWf4JcFjXgXnOLlJyV6PS6KVvaIl8TRxz1J19SOiUyXycN3R6yfnpK4CLTNh?=
+ =?us-ascii?Q?5Oi7kP5Abbn424BkvLVEsZkrKrjWiLbXEpoaMdRpLLbIJCPWaDTa5Vvpu4A6?=
+ =?us-ascii?Q?ZlngInb+G0NHm5PJ3q7OPHYKiez8z+9VxAjrsoKrFbBscMJ8hUyRCDr8RT92?=
+ =?us-ascii?Q?gqfxTb4QDRwv3IHtv3mFAgXL4YvA/zXA3UQi+8QWUuaqu+aaS1G5spk4+6UJ?=
+ =?us-ascii?Q?rgbIcqbmDyIKKSYLrZgySw2t0iQV35vUdhf/nzImcvIOf3WD2Xp1nafOd7b8?=
+ =?us-ascii?Q?YNM83n1jbjbgfPgDhnXuipWYIH8B/ca+U240NxZ4lc5y5rnXPvjdTjo9Ndg5?=
+ =?us-ascii?Q?YJGNa0kynJXf5rtIilxuV/XDeW9CfWYaAaFHEsEk1URP8vBEr+/hIcpRq7rJ?=
+ =?us-ascii?Q?Ngx8uDBM0echz3CCJZoClm8XL9VgLNKVhli16I3m3/6OdqwuTkcgJ6s0/mXz?=
+ =?us-ascii?Q?he8dH+CzZIv6wfkaAC94iBsQKyKGWIhOtlqV7K2mkiz7IyuesoAknsFyDkJ2?=
+ =?us-ascii?Q?RdawGab1d9lwGXD2k+vKMWjSSby51rVqcPC3FYBePo7PUyGPSCdPS9MBe8H4?=
+ =?us-ascii?Q?12bJP13vFiuuewANTuDHHoMuQwwN3qYXwbRtKy4dUOHwhYMWFCxXxfOtAmii?=
+ =?us-ascii?Q?5Yhu7auoUVwyEqRlP8L6AGUsFOt1zyVWwQITk/jb5+/3HQrwASj6xjM5F3Ja?=
+ =?us-ascii?Q?Q8B9PKoif4o+FcpTXZIfdqKGYICHqkQG52cePLrqh9muc2cwvvOPaUObaLqy?=
+ =?us-ascii?Q?R9gtZpOojnIGGbJNbiyIySPS0JmYm06ZdhD5zlRH8MfcNsc8ISK2Epr/Xt9v?=
+ =?us-ascii?Q?lF/epd9omqaCDMedV+hnjX4IXkv3Ga06RRNj33vL+vGsNYrwHkHPF/ifjhfv?=
+ =?us-ascii?Q?bjqjmvmZIDk6MURlGivgvnXma82vUXG3ZDwfd9Bd2Kbbm2D4sy0aMGaQ8g9l?=
+ =?us-ascii?Q?2RfbH0ORvdglVSykZgyi1tgg5uJeBpbWsmRbr534iiP/G9BrKlZAZcIwHHxO?=
+ =?us-ascii?Q?abH0nCqeARTfRYF4MmQPFt5sQyaEkg2+8FtMNRKlTG/9NBNh0ZUEWNJi/Qeq?=
+ =?us-ascii?Q?JJF04da+4+z5h6i9JXmZP/RE75SBKT+C1OobVYcsvvkG2tsBQ6vfBPFWaukg?=
+ =?us-ascii?Q?NWBjddg+4Wy5AQIq6UjHpQlbbja131PWCoo/Kns3nkcSzq5RiK98hVjXQXxw?=
+ =?us-ascii?Q?pZo/102bUr0Wxk1G7zUcXCMm7LvhqJSZMTzTKrqa8NX1NcvVtPHFF5b9OruF?=
+ =?us-ascii?Q?HRInPbEaK17QjvixvUMNFdMXjHqyOsCORbeeymJv?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5171092e-4bae-4597-4ddb-08dbaae6368c
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2023 12:23:14.0687
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ESRyIvaJGnCpP2vidV/+TibYcuV5KxASnoYxY2Ebis31nj/kJ/uqJlCC7HigYjMwxx+yFgOAnojLjnXry73fgg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6899
+X-OriginatorOrg: intel.com
 
-Hi Karolina,
+On Fri, Sep 01, 2023 at 02:48:26PM +0300, Eduard Zingerman wrote:
+> On Fri, 2023-09-01 at 13:22 +0200, Daniel Borkmann wrote:
+> > On 9/1/23 1:18 PM, Eduard Zingerman wrote:
+> > > On Fri, 2023-09-01 at 12:26 +0300, Eduard Zingerman wrote:
+> > > > On Fri, 2023-09-01 at 08:29 +0200, Daniel Borkmann wrote:
+> > > > > Hi Eduard,
+> > > > > 
+> > > > > On 9/1/23 2:05 AM, kernel test robot wrote:
+> > > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+> > > > > > head:   be8e754cbfac698d6304bb8382c8d18ac74424d3
+> > > > > > commit: be4033d36070e44fba766a21ef2d0c24fa04c377 [6/15] docs/bpf: Add description for CO-RE relocations
+> > > > > > reproduce: (https://download.01.org/0day-ci/archive/20230901/202309010804.G3MpXo59-lkp@intel.com/reproduce)
+> > > > > > 
+> > > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > > > the same patch/commit), kindly add following tags
+> > > > > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > > Closes: https://lore.kernel.org/oe-kbuild-all/202309010804.G3MpXo59-lkp@intel.com/
+> > > > > > 
+> > > > > > All warnings (new ones prefixed by >>):
+> > > > > > 
+> > > > > > > > Warning: Documentation/bpf/btf.rst references a file that doesn't exist: Documentation/bpf/llvm_reloc
+> > > > > > > > Warning: Documentation/bpf/llvm_reloc.rst references a file that doesn't exist: Documentation/bpf/btf
+> > > > > 
+> > > > > Could you send a follow-up fix for bpf tree?
+> > > > 
+> > > > Hi Daniel,
+> > > > 
+> > > > Will send the fix shortly. Strangely, I did check this syntax locally
+> > > > before sending the original patch, and had no warnings reported.
+> > > 
+> > > I followed reproducing instructions but can't trigger this warning,
+> > > tried several sphinx versions:
+> > > - 1.7.9
+> > > - 2.4.4
+> > > - 4.3.2
+> > > 
+> > > I'll remove 'Documentation/bpf/llvm_reloc' and 'Documentation/bpf/btf'
+> > > labels from the documents (and these are link labels, not actual
+> > > links), but it looks like I don't have a way to check the results in a
+> > > way compatible with test robot.
+> > 
+> > Strange, perhaps LKP folks could chime in and provide some more guidance e.g.
+> > wrt Sphinx version.
 
-kernel test robot noticed the following build errors:
+sorry for late info, this one is using 2.4.4 sphinx, the full make command is
+like
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip linus/master next-20230831]
-[cannot apply to drm-intel/for-linux-next-fixes v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+	make W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 SPHINXOPTS=-j1 htmldocs	
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karolina-Stolarek/drm-ttm-tests-Add-tests-for-ttm_resource-and-ttm_sys_man/20230831-185954
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/d914169aee773ee20c0b730b38d42a1fd7613bb6.1693479161.git.karolina.stolarek%40intel.com
-patch subject: [PATCH 3/3] drm/ttm/tests: Add tests for ttm_bo functions
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20230901/202309011935.bBpezbUQ-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230901/202309011935.bBpezbUQ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309011935.bBpezbUQ-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_wlc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_fo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ovf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-ERROR: modpost: "ttm_resource_alloc" [drivers/gpu/drm/ttm/tests/ttm_resource_test.ko] undefined!
-ERROR: modpost: "ttm_tt_create" [drivers/gpu/drm/ttm/tests/ttm_tt_test.ko] undefined!
-ERROR: modpost: "ttm_tt_destroy" [drivers/gpu/drm/ttm/tests/ttm_tt_test.ko] undefined!
->> ERROR: modpost: "ttm_resource_alloc" [drivers/gpu/drm/ttm/tests/ttm_bo_test.ko] undefined!
->> ERROR: modpost: "ttm_tt_create" [drivers/gpu/drm/ttm/tests/ttm_bo_test.ko] undefined!
->> ERROR: modpost: "do_send_sig_info" [drivers/gpu/drm/ttm/tests/ttm_bo_test.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> ...sigh... I rebuilt the kernel and all of a sudden warnings are shown.
+> Sorry of all the noise, will send the fix soon.
+> 
+> 
