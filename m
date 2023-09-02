@@ -1,168 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E6917D8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Sep 2023 03:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E5E17E1;
+	Sat,  2 Sep 2023 03:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1693624869; x=1725160869;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Udi5NWtUMcWhP29CUyRgWxnZjWAXsqgK35/jf3/ZiGU=;
-  b=KO4gh8EecX2W/Zyf0sBZpOipqWJtk8Y8FsstfM9IuzBqAY9wsPD2G4v9
-   L1Nn7KROkTDVtT9yQ6JmLcF9a6gmgMbYe56/g0+IzFEKKRe22P46ZTk3Z
-   N0gO3xHCSweFWnH+V1i6F0k4/oaeWmATkwlH0MI7aWVJuw1DVFxhZU5FU
-   kdY+GCjqPg0shH7/yMyYHWJ5x/t6Viu81OwKuuYl2mFWBaTXCf5UuJMtA
-   8iSKjZvIBn9+XPvLMOhI0TgU7/ZtBe83+Ic6BK7XdZs1e7GFmsHaYuG1p
-   93fFfaAISNYzLz1PbEEdcc78uxP9BWVC3bOaPYkj6wCDn30cCUPJ5GduG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="442745203"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=OhIqMbUbOOWVETjMdSrdXDJq9r+qQHGx1UnX35EU7J4=;
+  b=RXofzfALxdOYRI+9llK1lsSQiQvtxkmuSX9JKb2zvUL6vO+nXZ2z2bxr
+   tXswlcEMwGtuYfHhX5ADk81I4KEKLa9RmHj+TBsdA8hw1cFSurXh9hBVJ
+   lTKxBsGO6lOL6E0rb7ErcTs5l9A+pEBfkBs35+cG6DkGCVMrCATPsJebQ
+   IEXhTbpDU3FYF76gx1z+YS8ex3pIYEvNdkFc/5xnmtQJTElnAN1N3mnXr
+   XhUeOR4m3J0xJ35Fym4OQglPTRe2LXTR5xjyEKNcin0QB35EsOHpPspmT
+   l/uKUI3u8YAr9B6ge9K0CAq9R+3nnVuRTkLv5vy1gyIoZ0paiea19Gmtu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="380133814"
 X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="442745203"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 20:21:05 -0700
+   d="scan'208";a="380133814"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 20:21:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="986884706"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="805653883"
 X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="986884706"
+   d="scan'208";a="805653883"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Sep 2023 20:21:04 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 01 Sep 2023 20:21:04 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcHC2-0001uh-25;
+	id 1qcHC2-0001uf-1y;
 	Sat, 02 Sep 2023 03:21:02 +0000
-Date: Sat, 2 Sep 2023 11:20:57 +0800
+Date: Sat, 2 Sep 2023 11:20:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mcgrof-next:large-block-20230901 46/46] do_mounts.c:(.text+0x4):
- multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0):
- first defined here
-Message-ID: <202309021134.VmtFtuyL-lkp@intel.com>
+To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+	robdclark@gmail.com, quic_abhinavk@quicinc.com,
+	dmitry.baryshkov@linaro.org, sean@poorly.run,
+	marijn.suijten@somainline.org, robh@kernel.org,
+	steven.price@arm.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, adrian.larumbe@collabora.com,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	healych@amazon.com, kernel@collabora.com,
+	freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/6] drm/panfrost: Add fdinfo support GPU load metrics
+Message-ID: <202309021155.i3NPUDJi-lkp@intel.com>
+References: <20230824013604.466224-3-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230824013604.466224-3-adrian.larumbe@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git large-block-20230901
-head:   8e33509f10cabce9067f10fcabb3f4350048056d
-commit: 8e33509f10cabce9067f10fcabb3f4350048056d [46/46] bdev: allow to switch between bdev aops
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20230902/202309021134.VmtFtuyL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309021134.VmtFtuyL-lkp@intel.com/reproduce)
+Hi Adrián,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.5 next-20230831]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panfrost-Add-cycle-count-GPU-register-definitions/20230824-093848
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230824013604.466224-3-adrian.larumbe%40collabora.com
+patch subject: [PATCH v2 2/6] drm/panfrost: Add fdinfo support GPU load metrics
+config: s390-randconfig-001-20230902 (https://download.01.org/0day-ci/archive/20230902/202309021155.i3NPUDJi-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309021155.i3NPUDJi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309021134.VmtFtuyL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309021155.i3NPUDJi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: init/do_mounts.o: in function `bdev_aops_reset':
->> do_mounts.c:(.text+0x4): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: kernel/exit.o: in function `bdev_aops_reset':
-   exit.c:(.text+0x580): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: kernel/sched/core.o: in function `bdev_aops_reset':
-   core.c:(.text+0xe2c): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: mm/page-writeback.o: in function `bdev_aops_reset':
-   page-writeback.c:(.text+0x12e0): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: mm/readahead.o: in function `bdev_aops_reset':
-   readahead.c:(.text+0x4a8): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: mm/vmscan.o: in function `bdev_aops_reset':
-   vmscan.c:(.text+0x190c): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: mm/backing-dev.o: in function `bdev_aops_reset':
-   backing-dev.c:(.text+0x488): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: mm/show_mem.o: in function `bdev_aops_reset':
-   show_mem.c:(.text+0xc0): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/super.o: in function `bdev_aops_reset':
-   super.c:(.text+0x15e4): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/stat.o: in function `bdev_aops_reset':
-   stat.c:(.text+0x7d8): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/libfs.o: in function `bdev_aops_reset':
-   libfs.c:(.text+0x15e0): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/fs-writeback.o: in function `bdev_aops_reset':
-   fs-writeback.c:(.text+0xd70): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/sync.o: in function `bdev_aops_reset':
-   sync.c:(.text+0x1cc): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/aio.o: in function `bdev_aops_reset':
-   aio.c:(.text+0x1668): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/iomap/trace.o: in function `bdev_aops_reset':
-   trace.c:(.text+0x0): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/iomap/iter.o: in function `bdev_aops_reset':
-   iter.c:(.text+0x0): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/iomap/buffered-io.o: in function `bdev_aops_reset':
-   buffered-io.c:(.text+0x2cd4): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/iomap/direct-io.o: in function `bdev_aops_reset':
-   direct-io.c:(.text+0xd10): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/iomap/fiemap.o: in function `bdev_aops_reset':
-   fiemap.c:(.text+0x2a4): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/iomap/seek.o: in function `bdev_aops_reset':
-   seek.c:(.text+0x220): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: fs/proc/devices.o: in function `bdev_aops_reset':
-   devices.c:(.text+0x84): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/bdev.o: in function `bdev_aops_reset':
-   bdev.c:(.text+0xb28): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/fops.o: in function `bdev_aops_reset':
-   fops.c:(.text+0xbc4): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/bio.o: in function `bdev_aops_reset':
-   bio.c:(.text+0xf64): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/elevator.o: in function `bdev_aops_reset':
-   elevator.c:(.text+0x3b0): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-core.o: in function `bdev_aops_reset':
-   blk-core.c:(.text+0x328): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-sysfs.o: in function `bdev_aops_reset':
-   blk-sysfs.c:(.text+0x808): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-flush.o: in function `bdev_aops_reset':
-   blk-flush.c:(.text+0x498): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-settings.o: in function `bdev_aops_reset':
-   blk-settings.c:(.text+0x864): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-ioc.o: in function `bdev_aops_reset':
-   blk-ioc.c:(.text+0xcc): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-map.o: in function `bdev_aops_reset':
-   blk-map.c:(.text+0xd34): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-merge.o: in function `bdev_aops_reset':
-   blk-merge.c:(.text+0x8b0): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-timeout.o: in function `bdev_aops_reset':
-   blk-timeout.c:(.text+0x14): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-lib.o: in function `bdev_aops_reset':
-   blk-lib.c:(.text+0x624): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-mq.o: in function `bdev_aops_reset':
-   blk-mq.c:(.text+0x27c8): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-mq-tag.o: in function `bdev_aops_reset':
-   blk-mq-tag.c:(.text+0x39c): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-stat.o: in function `bdev_aops_reset':
-   blk-stat.c:(.text+0x194): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-mq-sysfs.o: in function `bdev_aops_reset':
-   blk-mq-sysfs.c:(.text+0x1cc): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-mq-cpumap.o: in function `bdev_aops_reset':
-   blk-mq-cpumap.c:(.text+0x50): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-mq-sched.o: in function `bdev_aops_reset':
-   blk-mq-sched.c:(.text+0x43c): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/ioctl.o: in function `bdev_aops_reset':
-   ioctl.c:(.text+0x798): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/genhd.o: in function `bdev_aops_reset':
-   genhd.c:(.text+0x1208): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/ioprio.o: in function `bdev_aops_reset':
-   ioprio.c:(.text+0x224): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/partitions/core.o: in function `bdev_aops_reset':
-   core.c:(.text+0x764): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/partitions/msdos.o: in function `bdev_aops_reset':
-   msdos.c:(.text+0x2a4): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/partitions/efi.o: in function `bdev_aops_reset':
-   efi.c:(.text+0xcf0): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-rq-qos.o: in function `bdev_aops_reset':
-   blk-rq-qos.c:(.text+0x34): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/disk-events.o: in function `bdev_aops_reset':
-   disk-events.c:(.text+0x2a8): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/blk-ia-ranges.o: in function `bdev_aops_reset':
-   blk-ia-ranges.c:(.text+0x68): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: block/early-lookup.o: in function `bdev_aops_reset':
-   early-lookup.c:(.text+0x0): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
-   arm-linux-gnueabi-ld: io_uring/io_uring.o: in function `bdev_aops_reset':
-   io_uring.c:(.text+0x11d8): multiple definition of `bdev_aops_reset'; init/main.o:main.c:(.text+0x0): first defined here
+   In file included from drivers/gpu/drm/panfrost/panfrost_drv.c:17:
+   In file included from drivers/gpu/drm/panfrost/panfrost_device.h:9:
+   In file included from include/linux/io-pgtable.h:6:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/gpu/drm/panfrost/panfrost_drv.c:17:
+   In file included from drivers/gpu/drm/panfrost/panfrost_device.h:9:
+   In file included from include/linux/io-pgtable.h:6:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/gpu/drm/panfrost/panfrost_drv.c:17:
+   In file included from drivers/gpu/drm/panfrost/panfrost_device.h:9:
+   In file included from include/linux/io-pgtable.h:6:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/gpu/drm/panfrost/panfrost_drv.c:552:17: warning: format specifies type 'unsigned int' but the argument has type 'unsigned long' [-Wformat]
+                              ei->name, pfdev->pfdevfreq.current_frequency);
+                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   13 warnings generated.
+
+
+vim +552 drivers/gpu/drm/panfrost/panfrost_drv.c
+
+   534	
+   535	
+   536	static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
+   537					     struct panfrost_file_priv *panfrost_priv,
+   538					     struct drm_printer *p)
+   539	{
+   540		int i;
+   541	
+   542		for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
+   543			struct engine_info *ei = &panfrost_priv->fdinfo.engines[i];
+   544	
+   545			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
+   546				   ei->name, ei->elapsed_ns);
+   547			drm_printf(p, "drm-cycles-%s:\t%llu\n",
+   548				   ei->name, ei->cycles);
+   549			drm_printf(p, "drm-maxfreq-%s:\t%u Hz\n",
+   550				   ei->name, panfrost_priv->fdinfo.maxfreq);
+   551			drm_printf(p, "drm-curfreq-%s:\t%u Hz\n",
+ > 552				   ei->name, pfdev->pfdevfreq.current_frequency);
+   553		}
+   554	}
+   555	
 
 -- 
 0-DAY CI Kernel Test Service
