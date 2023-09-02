@@ -1,185 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E5E17E1;
-	Sat,  2 Sep 2023 03:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE0717D8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Sep 2023 03:32:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693624869; x=1725160869;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=OhIqMbUbOOWVETjMdSrdXDJq9r+qQHGx1UnX35EU7J4=;
-  b=RXofzfALxdOYRI+9llK1lsSQiQvtxkmuSX9JKb2zvUL6vO+nXZ2z2bxr
-   tXswlcEMwGtuYfHhX5ADk81I4KEKLa9RmHj+TBsdA8hw1cFSurXh9hBVJ
-   lTKxBsGO6lOL6E0rb7ErcTs5l9A+pEBfkBs35+cG6DkGCVMrCATPsJebQ
-   IEXhTbpDU3FYF76gx1z+YS8ex3pIYEvNdkFc/5xnmtQJTElnAN1N3mnXr
-   XhUeOR4m3J0xJ35Fym4OQglPTRe2LXTR5xjyEKNcin0QB35EsOHpPspmT
-   l/uKUI3u8YAr9B6ge9K0CAq9R+3nnVuRTkLv5vy1gyIoZ0paiea19Gmtu
+  t=1693625527; x=1725161527;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aD9mGZiPv/xkcYkhc12BdLp/amysKduZU4U5/9YN8PA=;
+  b=ZilP8tEsiy1/U9wa5M8OvqlGZnTkV3L9OQTyHonKQ7nLJt+Aodw1Czzi
+   IFRkKuhY48h4+cDRONSvh3ekXvk75p4uwpx6osOY2h4qvpZcaNGZS6nn7
+   ZZrBTxr+n+YXcJzbRLjut3JYnCo7XvwvgIuPZDMg8tJkgaO3nH7GOeQcg
+   ZKpXDaDOv46Ym5gUGGOj4y1VgKKLLQekzradI6Yycm1U9grHn5Fyerbvf
+   zwh+IoEAiG9jlawLu/y85AfrLuhf7xFdX6HURJusX9DM/vsDwODRfYYnZ
+   WB6Xs43vkZhLE/Q0eplBJBODuzUUog+0eKPxvuyPstPhl+g+vvzwh71vR
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="380133814"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="442745922"
 X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="380133814"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 20:21:09 -0700
+   d="scan'208";a="442745922"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 20:32:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="805653883"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="769393433"
 X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="805653883"
+   d="scan'208";a="769393433"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Sep 2023 20:21:04 -0700
+  by orsmga008.jf.intel.com with ESMTP; 01 Sep 2023 20:32:06 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcHC2-0001uf-1y;
-	Sat, 02 Sep 2023 03:21:02 +0000
-Date: Sat, 2 Sep 2023 11:20:59 +0800
+	id 1qcHMh-0001vT-2c;
+	Sat, 02 Sep 2023 03:32:03 +0000
+Date: Sat, 2 Sep 2023 11:31:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
-	robdclark@gmail.com, quic_abhinavk@quicinc.com,
-	dmitry.baryshkov@linaro.org, sean@poorly.run,
-	marijn.suijten@somainline.org, robh@kernel.org,
-	steven.price@arm.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, adrian.larumbe@collabora.com,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	healych@amazon.com, kernel@collabora.com,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/6] drm/panfrost: Add fdinfo support GPU load metrics
-Message-ID: <202309021155.i3NPUDJi-lkp@intel.com>
-References: <20230824013604.466224-3-adrian.larumbe@collabora.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:for-kernelci 29/68] drivers/iio/adc/twl6030-gpadc.c:886:8:
+ warning: assignment makes pointer from integer without a cast
+Message-ID: <202309021150.gdm6iTLj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230824013604.466224-3-adrian.larumbe@collabora.com>
 
-Hi Adrián,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.5 next-20230831]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panfrost-Add-cycle-count-GPU-register-definitions/20230824-093848
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230824013604.466224-3-adrian.larumbe%40collabora.com
-patch subject: [PATCH v2 2/6] drm/panfrost: Add fdinfo support GPU load metrics
-config: s390-randconfig-001-20230902 (https://download.01.org/0day-ci/archive/20230902/202309021155.i3NPUDJi-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309021155.i3NPUDJi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   9ece0c059fa7600e46d8e2deecc2fa1bd86cde7e
+commit: 23739ec864c4897c8c599ad2ad2ebe6638061ab5 [29/68] iio: Use device_get_match_data()
+config: x86_64-buildonly-randconfig-001-20230902 (https://download.01.org/0day-ci/archive/20230902/202309021150.gdm6iTLj-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309021150.gdm6iTLj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309021155.i3NPUDJi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309021150.gdm6iTLj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/panfrost/panfrost_drv.c:17:
-   In file included from drivers/gpu/drm/panfrost/panfrost_device.h:9:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/gpu/drm/panfrost/panfrost_drv.c:17:
-   In file included from drivers/gpu/drm/panfrost/panfrost_device.h:9:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/gpu/drm/panfrost/panfrost_drv.c:17:
-   In file included from drivers/gpu/drm/panfrost/panfrost_device.h:9:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/gpu/drm/panfrost/panfrost_drv.c:552:17: warning: format specifies type 'unsigned int' but the argument has type 'unsigned long' [-Wformat]
-                              ei->name, pfdev->pfdevfreq.current_frequency);
-                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   13 warnings generated.
+   drivers/iio/adc/twl6030-gpadc.c: In function 'twl6030_gpadc_probe':
+   drivers/iio/adc/twl6030-gpadc.c:886:10: error: implicit declaration of function 'device_get_match_data'; did you mean 'device_match_any'? [-Werror=implicit-function-declaration]
+     pdata = device_get_match_data(&pdev->dev);
+             ^~~~~~~~~~~~~~~~~~~~~
+             device_match_any
+>> drivers/iio/adc/twl6030-gpadc.c:886:8: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     pdata = device_get_match_data(&pdev->dev);
+           ^
+   cc1: some warnings being treated as errors
 
 
-vim +552 drivers/gpu/drm/panfrost/panfrost_drv.c
+vim +886 drivers/iio/adc/twl6030-gpadc.c
 
-   534	
-   535	
-   536	static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
-   537					     struct panfrost_file_priv *panfrost_priv,
-   538					     struct drm_printer *p)
-   539	{
-   540		int i;
-   541	
-   542		for (i = 0; i < NUM_JOB_SLOTS - 1; i++) {
-   543			struct engine_info *ei = &panfrost_priv->fdinfo.engines[i];
-   544	
-   545			drm_printf(p, "drm-engine-%s:\t%llu ns\n",
-   546				   ei->name, ei->elapsed_ns);
-   547			drm_printf(p, "drm-cycles-%s:\t%llu\n",
-   548				   ei->name, ei->cycles);
-   549			drm_printf(p, "drm-maxfreq-%s:\t%u Hz\n",
-   550				   ei->name, panfrost_priv->fdinfo.maxfreq);
-   551			drm_printf(p, "drm-curfreq-%s:\t%u Hz\n",
- > 552				   ei->name, pfdev->pfdevfreq.current_frequency);
-   553		}
-   554	}
-   555	
+   876	
+   877	static int twl6030_gpadc_probe(struct platform_device *pdev)
+   878	{
+   879		struct device *dev = &pdev->dev;
+   880		struct twl6030_gpadc_data *gpadc;
+   881		const struct twl6030_gpadc_platform_data *pdata;
+   882		struct iio_dev *indio_dev;
+   883		int irq;
+   884		int ret;
+   885	
+ > 886		pdata = device_get_match_data(&pdev->dev);
+   887		if (!pdata)
+   888			return -EINVAL;
+   889	
+   890		indio_dev = devm_iio_device_alloc(dev, sizeof(*gpadc));
+   891		if (!indio_dev)
+   892			return -ENOMEM;
+   893	
+   894		gpadc = iio_priv(indio_dev);
+   895	
+   896		gpadc->twl6030_cal_tbl = devm_kcalloc(dev,
+   897						pdata->nchannels,
+   898						sizeof(*gpadc->twl6030_cal_tbl),
+   899						GFP_KERNEL);
+   900		if (!gpadc->twl6030_cal_tbl)
+   901			return -ENOMEM;
+   902	
+   903		gpadc->dev = dev;
+   904		gpadc->pdata = pdata;
+   905	
+   906		platform_set_drvdata(pdev, indio_dev);
+   907		mutex_init(&gpadc->lock);
+   908		init_completion(&gpadc->irq_complete);
+   909	
+   910		ret = pdata->calibrate(gpadc);
+   911		if (ret < 0) {
+   912			dev_err(dev, "failed to read calibration registers\n");
+   913			return ret;
+   914		}
+   915	
+   916		irq = platform_get_irq(pdev, 0);
+   917		if (irq < 0)
+   918			return irq;
+   919	
+   920		ret = devm_request_threaded_irq(dev, irq, NULL,
+   921					twl6030_gpadc_irq_handler,
+   922					IRQF_ONESHOT, "twl6030_gpadc", indio_dev);
+   923		if (ret)
+   924			return ret;
+   925	
+   926		ret = twl6030_gpadc_enable_irq(TWL6030_GPADC_RT_SW1_EOC_MASK);
+   927		if (ret < 0) {
+   928			dev_err(dev, "failed to enable GPADC interrupt\n");
+   929			return ret;
+   930		}
+   931	
+   932		ret = twl_i2c_write_u8(TWL6030_MODULE_ID1, TWL6030_GPADCS,
+   933						TWL6030_REG_TOGGLE1);
+   934		if (ret < 0) {
+   935			dev_err(dev, "failed to enable GPADC module\n");
+   936			return ret;
+   937		}
+   938	
+   939		ret = twl_i2c_write_u8(TWL_MODULE_USB, VBUS_MEAS, USB_VBUS_CTRL_SET);
+   940		if (ret < 0) {
+   941			dev_err(dev, "failed to wire up inputs\n");
+   942			return ret;
+   943		}
+   944	
+   945		ret = twl_i2c_write_u8(TWL_MODULE_USB, ID_MEAS, USB_ID_CTRL_SET);
+   946		if (ret < 0) {
+   947			dev_err(dev, "failed to wire up inputs\n");
+   948			return ret;
+   949		}
+   950	
+   951		ret = twl_i2c_write_u8(TWL6030_MODULE_ID0,
+   952					VBAT_MEAS | BB_MEAS | VAC_MEAS,
+   953					TWL6030_MISC1);
+   954		if (ret < 0) {
+   955			dev_err(dev, "failed to wire up inputs\n");
+   956			return ret;
+   957		}
+   958	
+   959		indio_dev->name = DRIVER_NAME;
+   960		indio_dev->info = &twl6030_gpadc_iio_info;
+   961		indio_dev->modes = INDIO_DIRECT_MODE;
+   962		indio_dev->channels = pdata->iio_channels;
+   963		indio_dev->num_channels = pdata->nchannels;
+   964	
+   965		return iio_device_register(indio_dev);
+   966	}
+   967	
 
 -- 
 0-DAY CI Kernel Test Service
