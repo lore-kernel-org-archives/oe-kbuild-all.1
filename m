@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAFF17C8;
-	Sat,  2 Sep 2023 02:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB63C19A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Sep 2023 02:58:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693621626; x=1725157626;
+  t=1693623486; x=1725159486;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AQpZeiloxwA33riE81I34p4h+4n/AUiHHsoNqvWwraI=;
-  b=B9wUUatFv/t7IbnVUYteWuBKb8vQqPFodHFURMZmBZ6LgM0N2LoMAlTH
-   ZGF4f1NQnk1vO7Vh2DfYMTIxyxnxhFLLrCIjwMS381poWIdPQ/RxWzJhn
-   3fo4MmTLjsNM24wqb/+iSaP69Zr3IEzQtwh83bFbPdqR6SKmMrFCDgplh
-   4yERUplIFS57Vqjqm2OPfciotugPZLxzbxGquRycVhrAOclIEENY24ODu
-   KtqeuN/ghOpAeL1Ix/dtKoPwlao42oehjNePZwPjM+FyPbDXzJt53z6sN
-   oC4N77GwU/nxBf9d8HwHeoDONfOKnf/7D9Hsb9ZjBacv00O3o7Xw/zoFF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="356654841"
+  bh=OwhT9V/OUgTWOmOq1TdBL62hifSY0CM30VfqLKsO+1Y=;
+  b=AUd4PlHVs/Fx/62RTdGddEvISulY2zZBaQmRC3atqSeevWyrw0xKX1zV
+   Fwvo+7CRXziUuxBi6rT3BvnuUZITxh/MQU0PWKQwAc0yW3jx6CiuJ3Iry
+   I+rDTzP3bHNkJ8V6/NUA7rQQF8JfYge3VAgUKScQDUHeITZqbp1yFMSn3
+   c6IudN5jveC5BgDNVNgTkjCRCFsE6XWxK5SudZ1QJYF8JIl+zFGvsSquN
+   Pi6ZSvWQTwornf50rmOGXutWCNenwqyRQtYYmJiD2XNLUVVLPGuV1GAz7
+   2AlVCQxT9XRVnMREgm3pStl6nlaRy0Lhg8XhZyWRA0tY2Q8Ryg8aPMQeu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="355841375"
 X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="356654841"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 19:27:04 -0700
+   d="scan'208";a="355841375"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 19:58:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="769381945"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="716968656"
 X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="769381945"
+   d="scan'208";a="716968656"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 01 Sep 2023 19:27:03 -0700
+  by orsmga006.jf.intel.com with ESMTP; 01 Sep 2023 19:58:04 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcGLl-0001sF-1J;
-	Sat, 02 Sep 2023 02:27:01 +0000
-Date: Sat, 2 Sep 2023 10:26:30 +0800
+	id 1qcGpm-0001tZ-07;
+	Sat, 02 Sep 2023 02:58:02 +0000
+Date: Sat, 2 Sep 2023 10:57:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/hide_kvm_details 3/3]
- arch/x86/events/intel/core.c:4088:19: error: incomplete definition of type
- 'struct kvm_pmu'
-Message-ID: <202309021020.10i6jmq0-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:for-kernelci 29/68] drivers/iio/adc/twl6030-gpadc.c:886:15:
+ warning: assignment to 'const struct twl6030_gpadc_platform_data *' from
+ 'int' makes pointer from integer without a cast
+Message-ID: <202309021001.3k8m2E9T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,148 +47,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux x86/hide_kvm_details
-head:   f2de177a2d8f1b545e0c199bf68cf80d7727c2f5
-commit: f2de177a2d8f1b545e0c199bf68cf80d7727c2f5 [3/3] KVM: x86: Make guts of kvm_host.h KVM-only
-config: i386-randconfig-013-20230902 (https://download.01.org/0day-ci/archive/20230902/202309021020.10i6jmq0-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309021020.10i6jmq0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
+head:   9ece0c059fa7600e46d8e2deecc2fa1bd86cde7e
+commit: 23739ec864c4897c8c599ad2ad2ebe6638061ab5 [29/68] iio: Use device_get_match_data()
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230902/202309021001.3k8m2E9T-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309021001.3k8m2E9T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309021020.10i6jmq0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309021001.3k8m2E9T-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/x86/events/intel/core.c:4088:19: error: incomplete definition of type 'struct kvm_pmu'
-                   .guest = kvm_pmu->ds_area,
-                            ~~~~~~~^
-   arch/x86/events/intel/core.c:4049:9: note: forward declaration of 'struct kvm_pmu'
-           struct kvm_pmu *kvm_pmu = (struct kvm_pmu *)data;
-                  ^
-   arch/x86/events/intel/core.c:4095:20: error: incomplete definition of type 'struct kvm_pmu'
-                           .guest = kvm_pmu->pebs_data_cfg,
-                                    ~~~~~~~^
-   arch/x86/events/intel/core.c:4049:9: note: forward declaration of 'struct kvm_pmu'
-           struct kvm_pmu *kvm_pmu = (struct kvm_pmu *)data;
-                  ^
-   arch/x86/events/intel/core.c:4111:37: error: incomplete definition of type 'struct kvm_pmu'
-                   arr[pebs_enable].guest &= ~kvm_pmu->host_cross_mapped_mask;
-                                              ~~~~~~~^
-   arch/x86/events/intel/core.c:4049:9: note: forward declaration of 'struct kvm_pmu'
-           struct kvm_pmu *kvm_pmu = (struct kvm_pmu *)data;
-                  ^
-   arch/x86/events/intel/core.c:4112:37: error: incomplete definition of type 'struct kvm_pmu'
-                   arr[global_ctrl].guest &= ~kvm_pmu->host_cross_mapped_mask;
-                                              ~~~~~~~^
-   arch/x86/events/intel/core.c:4049:9: note: forward declaration of 'struct kvm_pmu'
-           struct kvm_pmu *kvm_pmu = (struct kvm_pmu *)data;
-                  ^
-   4 errors generated.
+   drivers/iio/adc/twl6030-gpadc.c: In function 'twl6030_gpadc_probe':
+   drivers/iio/adc/twl6030-gpadc.c:886:17: error: implicit declaration of function 'device_get_match_data'; did you mean 'device_match_any'? [-Werror=implicit-function-declaration]
+     886 |         pdata = device_get_match_data(&pdev->dev);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+         |                 device_match_any
+>> drivers/iio/adc/twl6030-gpadc.c:886:15: warning: assignment to 'const struct twl6030_gpadc_platform_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     886 |         pdata = device_get_match_data(&pdev->dev);
+         |               ^
+   cc1: some warnings being treated as errors
 
 
-vim +4088 arch/x86/events/intel/core.c
+vim +886 drivers/iio/adc/twl6030-gpadc.c
 
-b4cdc5c264b35c arch/x86/kernel/cpu/perf_event_intel.c Peter Zijlstra    2010-03-30  4027  
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4028  /*
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4029   * Currently, the only caller of this function is the atomic_switch_perf_msrs().
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4030   * The host perf conext helps to prepare the values of the real hardware for
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4031   * a set of msrs that need to be switched atomically in a vmx transaction.
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4032   *
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4033   * For example, the pseudocode needed to add a new msr should look like:
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4034   *
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4035   * arr[(*nr)++] = (struct perf_guest_switch_msr){
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4036   *	.msr = the hardware msr address,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4037   *	.host = the value the hardware has when it doesn't run a guest,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4038   *	.guest = the value the hardware has when it runs a guest,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4039   * };
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4040   *
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4041   * These values have nothing to do with the emulated values the guest sees
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4042   * when it uses {RD,WR}MSR, which should be handled by the KVM context,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4043   * specifically in the intel_pmu_{get,set}_msr().
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4044   */
-39a4d779546a99 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4045  static struct perf_guest_switch_msr *intel_guest_get_msrs(int *nr, void *data)
-144d31e6f1902a arch/x86/kernel/cpu/perf_event_intel.c Gleb Natapov      2011-10-05  4046  {
-89cbc76768c2fa arch/x86/kernel/cpu/perf_event_intel.c Christoph Lameter 2014-08-17  4047  	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
-144d31e6f1902a arch/x86/kernel/cpu/perf_event_intel.c Gleb Natapov      2011-10-05  4048  	struct perf_guest_switch_msr *arr = cpuc->guest_switch_msrs;
-8183a538cd95f7 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4049  	struct kvm_pmu *kvm_pmu = (struct kvm_pmu *)data;
-fc4b8fca2d8fc8 arch/x86/events/intel/core.c           Kan Liang         2021-04-12  4050  	u64 intel_ctrl = hybrid(cpuc->pmu, intel_ctrl);
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4051  	u64 pebs_mask = cpuc->pebs_enabled & x86_pmu.pebs_capable;
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4052  	int global_ctrl, pebs_enable;
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4053  
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4054  	*nr = 0;
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4055  	global_ctrl = (*nr)++;
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4056  	arr[global_ctrl] = (struct perf_guest_switch_msr){
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4057  		.msr = MSR_CORE_PERF_GLOBAL_CTRL,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4058  		.host = intel_ctrl & ~cpuc->intel_ctrl_guest_mask,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4059  		.guest = intel_ctrl & (~cpuc->intel_ctrl_host_mask | ~pebs_mask),
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4060  	};
-144d31e6f1902a arch/x86/kernel/cpu/perf_event_intel.c Gleb Natapov      2011-10-05  4061  
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4062  	if (!x86_pmu.pebs)
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4063  		return arr;
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4064  
-26a4f3c08de49c arch/x86/kernel/cpu/perf_event_intel.c Gleb Natapov      2012-08-09  4065  	/*
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4066  	 * If PMU counter has PEBS enabled it is not enough to
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4067  	 * disable counter on a guest entry since PEBS memory
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4068  	 * write can overshoot guest entry and corrupt guest
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4069  	 * memory. Disabling PEBS solves the problem.
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4070  	 *
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4071  	 * Don't do this if the CPU already enforces it.
-26a4f3c08de49c arch/x86/kernel/cpu/perf_event_intel.c Gleb Natapov      2012-08-09  4072  	 */
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4073  	if (x86_pmu.pebs_no_isolation) {
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4074  		arr[(*nr)++] = (struct perf_guest_switch_msr){
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4075  			.msr = MSR_IA32_PEBS_ENABLE,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4076  			.host = cpuc->pebs_enabled,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4077  			.guest = 0,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4078  		};
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4079  		return arr;
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4080  	}
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4081  
-8183a538cd95f7 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4082  	if (!kvm_pmu || !x86_pmu.pebs_ept)
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4083  		return arr;
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4084  
-8183a538cd95f7 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4085  	arr[(*nr)++] = (struct perf_guest_switch_msr){
-8183a538cd95f7 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4086  		.msr = MSR_IA32_DS_AREA,
-8183a538cd95f7 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4087  		.host = (unsigned long)cpuc->ds,
-8183a538cd95f7 arch/x86/events/intel/core.c           Like Xu           2022-04-11 @4088  		.guest = kvm_pmu->ds_area,
-8183a538cd95f7 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4089  	};
-8183a538cd95f7 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4090  
-902caeb6841a64 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4091  	if (x86_pmu.intel_cap.pebs_baseline) {
-902caeb6841a64 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4092  		arr[(*nr)++] = (struct perf_guest_switch_msr){
-902caeb6841a64 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4093  			.msr = MSR_PEBS_DATA_CFG,
-3c845304d2d723 arch/x86/events/intel/core.c           Like Xu           2023-05-17  4094  			.host = cpuc->active_pebs_data_cfg,
-902caeb6841a64 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4095  			.guest = kvm_pmu->pebs_data_cfg,
-902caeb6841a64 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4096  		};
-902caeb6841a64 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4097  	}
-902caeb6841a64 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4098  
-6ebe44366bdeaf arch/x86/events/intel/core.c           Like Xu           2022-04-11  4099  	pebs_enable = (*nr)++;
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4100  	arr[pebs_enable] = (struct perf_guest_switch_msr){
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4101  		.msr = MSR_IA32_PEBS_ENABLE,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4102  		.host = cpuc->pebs_enabled & ~cpuc->intel_ctrl_guest_mask,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4103  		.guest = pebs_mask & ~cpuc->intel_ctrl_host_mask,
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4104  	};
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4105  
-854250329c02c0 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4106  	if (arr[pebs_enable].host) {
-854250329c02c0 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4107  		/* Disable guest PEBS if host PEBS is enabled. */
-854250329c02c0 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4108  		arr[pebs_enable].guest = 0;
-854250329c02c0 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4109  	} else {
-f2aeea57504cbb arch/x86/events/intel/core.c           Like Xu           2022-08-31  4110  		/* Disable guest PEBS thoroughly for cross-mapped PEBS counters. */
-854250329c02c0 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4111  		arr[pebs_enable].guest &= ~kvm_pmu->host_cross_mapped_mask;
-f2aeea57504cbb arch/x86/events/intel/core.c           Like Xu           2022-08-31  4112  		arr[global_ctrl].guest &= ~kvm_pmu->host_cross_mapped_mask;
-c59a1f106f5cd4 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4113  		/* Set hw GLOBAL_CTRL bits for PEBS counter when it runs for guest */
-854250329c02c0 arch/x86/events/intel/core.c           Like Xu           2022-04-11  4114  		arr[global_ctrl].guest |= arr[pebs_enable].guest;
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4115  	}
-9b545c04abd4f7 arch/x86/events/intel/core.c           Andi Kleen        2019-02-04  4116  
-144d31e6f1902a arch/x86/kernel/cpu/perf_event_intel.c Gleb Natapov      2011-10-05  4117  	return arr;
-144d31e6f1902a arch/x86/kernel/cpu/perf_event_intel.c Gleb Natapov      2011-10-05  4118  }
-144d31e6f1902a arch/x86/kernel/cpu/perf_event_intel.c Gleb Natapov      2011-10-05  4119  
-
-:::::: The code at line 4088 was first introduced by commit
-:::::: 8183a538cd95f72f11871b35726256ec3bcb9439 KVM: x86/pmu: Add IA32_DS_AREA MSR emulation to support guest DS
-
-:::::: TO: Like Xu <like.xu@linux.intel.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+   876	
+   877	static int twl6030_gpadc_probe(struct platform_device *pdev)
+   878	{
+   879		struct device *dev = &pdev->dev;
+   880		struct twl6030_gpadc_data *gpadc;
+   881		const struct twl6030_gpadc_platform_data *pdata;
+   882		struct iio_dev *indio_dev;
+   883		int irq;
+   884		int ret;
+   885	
+ > 886		pdata = device_get_match_data(&pdev->dev);
+   887		if (!pdata)
+   888			return -EINVAL;
+   889	
+   890		indio_dev = devm_iio_device_alloc(dev, sizeof(*gpadc));
+   891		if (!indio_dev)
+   892			return -ENOMEM;
+   893	
+   894		gpadc = iio_priv(indio_dev);
+   895	
+   896		gpadc->twl6030_cal_tbl = devm_kcalloc(dev,
+   897						pdata->nchannels,
+   898						sizeof(*gpadc->twl6030_cal_tbl),
+   899						GFP_KERNEL);
+   900		if (!gpadc->twl6030_cal_tbl)
+   901			return -ENOMEM;
+   902	
+   903		gpadc->dev = dev;
+   904		gpadc->pdata = pdata;
+   905	
+   906		platform_set_drvdata(pdev, indio_dev);
+   907		mutex_init(&gpadc->lock);
+   908		init_completion(&gpadc->irq_complete);
+   909	
+   910		ret = pdata->calibrate(gpadc);
+   911		if (ret < 0) {
+   912			dev_err(dev, "failed to read calibration registers\n");
+   913			return ret;
+   914		}
+   915	
+   916		irq = platform_get_irq(pdev, 0);
+   917		if (irq < 0)
+   918			return irq;
+   919	
+   920		ret = devm_request_threaded_irq(dev, irq, NULL,
+   921					twl6030_gpadc_irq_handler,
+   922					IRQF_ONESHOT, "twl6030_gpadc", indio_dev);
+   923		if (ret)
+   924			return ret;
+   925	
+   926		ret = twl6030_gpadc_enable_irq(TWL6030_GPADC_RT_SW1_EOC_MASK);
+   927		if (ret < 0) {
+   928			dev_err(dev, "failed to enable GPADC interrupt\n");
+   929			return ret;
+   930		}
+   931	
+   932		ret = twl_i2c_write_u8(TWL6030_MODULE_ID1, TWL6030_GPADCS,
+   933						TWL6030_REG_TOGGLE1);
+   934		if (ret < 0) {
+   935			dev_err(dev, "failed to enable GPADC module\n");
+   936			return ret;
+   937		}
+   938	
+   939		ret = twl_i2c_write_u8(TWL_MODULE_USB, VBUS_MEAS, USB_VBUS_CTRL_SET);
+   940		if (ret < 0) {
+   941			dev_err(dev, "failed to wire up inputs\n");
+   942			return ret;
+   943		}
+   944	
+   945		ret = twl_i2c_write_u8(TWL_MODULE_USB, ID_MEAS, USB_ID_CTRL_SET);
+   946		if (ret < 0) {
+   947			dev_err(dev, "failed to wire up inputs\n");
+   948			return ret;
+   949		}
+   950	
+   951		ret = twl_i2c_write_u8(TWL6030_MODULE_ID0,
+   952					VBAT_MEAS | BB_MEAS | VAC_MEAS,
+   953					TWL6030_MISC1);
+   954		if (ret < 0) {
+   955			dev_err(dev, "failed to wire up inputs\n");
+   956			return ret;
+   957		}
+   958	
+   959		indio_dev->name = DRIVER_NAME;
+   960		indio_dev->info = &twl6030_gpadc_iio_info;
+   961		indio_dev->modes = INDIO_DIRECT_MODE;
+   962		indio_dev->channels = pdata->iio_channels;
+   963		indio_dev->num_channels = pdata->nchannels;
+   964	
+   965		return iio_device_register(indio_dev);
+   966	}
+   967	
 
 -- 
 0-DAY CI Kernel Test Service
