@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D14185D;
-	Sat,  2 Sep 2023 05:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCBF23AF
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Sep 2023 05:46:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693632971; x=1725168971;
+  t=1693633571; x=1725169571;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=87QQmU2C6Z9RmWs5uWLJ6n52UmZjsrxNuNfTRt5GDmI=;
-  b=c+3vFMFaZxQuAkkhyVFyNXeW/JubB5Y4W/sDKcCs+kLOZgXJ9Ck5jXFo
-   YbEjVQm8bvCrVXpRdjW3EJoeTBF9oZ2+27Fii8c7f7XHhXLwZ0iQKvWDV
-   X7sCcr70hnOxAv1GF8of9BYs1KozCVUtdKmOfYGkqTvzViMI/oyY5L6E3
-   7cN2g3joPur24QZ0Q936o2JrEDrpEHwpUj+fgltkSc7oSMYaVSxfIir1/
-   Gt6u4vJIVdQLbOg23LUKZrSu8FBCd+Pr5nshrn831cS7FvxWGr77dyloS
-   CY8r1EZsQ6ErgUZYsdlcX0/m68U5/mUnCFrL0KHBae97crCM+je8CaR94
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="375252492"
+  bh=jyRAOf5oMjYnmb7YKV479wsnOOpVqbwxfODu9ogEGUI=;
+  b=XICKexdxWyWs/+skeZVA8XPYJ2SX3NsSbZf4hJ0PAQyaJwDR4C1wc2kk
+   pxQTiKoCpmZake5+edhRaRy4qPJpmUTSBC6AaonXkJ2eb6us60zsW7bsv
+   EO8tJjRlpZcx9av9zE7/tN07IdilRtWMCIRO3t70td0VEbmlIsy8LKB6y
+   YR27DNOVniJJE9DuI8HJxLM98ceVoVNFgdwxogLNJNg5dGh7IIDwijEbs
+   ky8+ZFkGwOvk9Tvuz8PJ2nbZcN368mdqNBSLDzm2zlieahtl8cXURJLv/
+   +TG8c6EBitloK6WhVvabX9zBRazREI3E0WVPkeVtgGna3YSb2ooLi3s13
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="355848814"
 X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="375252492"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 22:36:10 -0700
+   d="scan'208";a="355848814"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 22:46:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="830334527"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="883429688"
 X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="830334527"
+   d="scan'208";a="883429688"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 01 Sep 2023 22:36:09 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 01 Sep 2023 22:46:09 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcJIk-00021H-2n;
-	Sat, 02 Sep 2023 05:36:06 +0000
-Date: Sat, 2 Sep 2023 13:35:40 +0800
+	id 1qcJSR-00021r-0X;
+	Sat, 02 Sep 2023 05:46:07 +0000
+Date: Sat, 2 Sep 2023 13:45:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-kernelci 53/68] drivers/regulator/act8865-regulator.c:147:
- warning: cannot understand function prototype: 'struct act8865_platform_data
- '
-Message-ID: <202309021320.CVZxVD53-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4_3 14462/14510]
+ drivers/clk/mediatek/clk-mt7988-eth.c:128:25: error:
+ 'of_match_clk_mt7988_eth' undeclared here (not in a function); did you mean
+ 'of_match_clk_mt7986_eth'?
+Message-ID: <202309021327.h17xkUEd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,36 +48,160 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   9ece0c059fa7600e46d8e2deecc2fa1bd86cde7e
-commit: f327da53dd2f08aba1fe28957fbe8fb26e489b15 [53/68] regulator: Use device_get_match_data()
-config: i386-randconfig-016-20230902 (https://download.01.org/0day-ci/archive/20230902/202309021320.CVZxVD53-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309021320.CVZxVD53-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4_3
+head:   cf7ba5ba41f644a2e26648583d3489c3f75245d0
+commit: 3b9526adf839633f5cf485011a876e96c9dff2bd [14462/14510] clk: mediatek: add drivers for MT7988 SoC
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230902/202309021327.h17xkUEd-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309021327.h17xkUEd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309021320.CVZxVD53-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309021327.h17xkUEd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/regulator/act8865-regulator.c:147: warning: cannot understand function prototype: 'struct act8865_platform_data '
+   In file included from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/platform_device.h:13,
+                    from include/linux/of_device.h:5,
+                    from drivers/clk/mediatek/clk-mt7988-eth.c:11:
+>> drivers/clk/mediatek/clk-mt7988-eth.c:128:25: error: 'of_match_clk_mt7988_eth' undeclared here (not in a function); did you mean 'of_match_clk_mt7986_eth'?
+     128 | MODULE_DEVICE_TABLE(of, of_match_clk_mt7988_eth);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:244:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |               ^~~~
+>> include/linux/module.h:244:21: error: '__mod_of__of_match_clk_mt7988_eth_device_table' aliased to undefined symbol 'of_match_clk_mt7988_eth'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |                     ^~~~~~
+   drivers/clk/mediatek/clk-mt7988-eth.c:128:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+     128 | MODULE_DEVICE_TABLE(of, of_match_clk_mt7988_eth);
+         | ^~~~~~~~~~~~~~~~~~~
 
 
-vim +147 drivers/regulator/act8865-regulator.c
+vim +128 drivers/clk/mediatek/clk-mt7988-eth.c
 
-   141	
-   142	/**
-   143	 * act8865_platform_data - platform data for act8865
-   144	 * @num_regulators: number of regulators used
-   145	 * @regulators: pointer to regulators used
-   146	 */
- > 147	struct act8865_platform_data {
-   148		int num_regulators;
-   149		struct act8865_regulator_data *regulators;
-   150	};
-   151	
+  > 11	#include <linux/of_device.h>
+    12	#include <linux/platform_device.h>
+    13	#include "clk-mtk.h"
+    14	#include "clk-gate.h"
+    15	#include <dt-bindings/clock/mediatek,mt7988-clk.h>
+    16	
+    17	static const struct mtk_gate_regs ethdma_cg_regs = {
+    18		.set_ofs = 0x30,
+    19		.clr_ofs = 0x30,
+    20		.sta_ofs = 0x30,
+    21	};
+    22	
+    23	#define GATE_ETHDMA(_id, _name, _parent, _shift)                              \
+    24		{                                                                     \
+    25			.id = _id, .name = _name, .parent_name = _parent,             \
+    26			.regs = &ethdma_cg_regs, .shift = _shift,                     \
+    27			.ops = &mtk_clk_gate_ops_no_setclr_inv,                       \
+    28		}
+    29	
+    30	static const struct mtk_gate ethdma_clks[] = {
+    31		GATE_ETHDMA(CLK_ETHDMA_XGP1_EN, "ethdma_xgp1_en", "top_xtal", 0),
+    32		GATE_ETHDMA(CLK_ETHDMA_XGP2_EN, "ethdma_xgp2_en", "top_xtal", 1),
+    33		GATE_ETHDMA(CLK_ETHDMA_XGP3_EN, "ethdma_xgp3_en", "top_xtal", 2),
+    34		GATE_ETHDMA(CLK_ETHDMA_FE_EN, "ethdma_fe_en", "netsys_2x_sel", 6),
+    35		GATE_ETHDMA(CLK_ETHDMA_GP2_EN, "ethdma_gp2_en", "top_xtal", 7),
+    36		GATE_ETHDMA(CLK_ETHDMA_GP1_EN, "ethdma_gp1_en", "top_xtal", 8),
+    37		GATE_ETHDMA(CLK_ETHDMA_GP3_EN, "ethdma_gp3_en", "top_xtal", 10),
+    38		GATE_ETHDMA(CLK_ETHDMA_ESW_EN, "ethdma_esw_en", "netsys_gsw_sel", 16),
+    39		GATE_ETHDMA(CLK_ETHDMA_CRYPT0_EN, "ethdma_crypt0_en", "eip197_sel",
+    40			    29),
+    41	};
+    42	
+    43	static const struct mtk_clk_desc ethdma_desc = {
+    44		.clks = ethdma_clks,
+    45		.num_clks = ARRAY_SIZE(ethdma_clks),
+    46	};
+    47	
+    48	static const struct mtk_gate_regs sgmii0_cg_regs = {
+    49		.set_ofs = 0xe4,
+    50		.clr_ofs = 0xe4,
+    51		.sta_ofs = 0xe4,
+    52	};
+    53	
+    54	#define GATE_SGMII0(_id, _name, _parent, _shift)                              \
+    55		{                                                                     \
+    56			.id = _id, .name = _name, .parent_name = _parent,             \
+    57			.regs = &sgmii0_cg_regs, .shift = _shift,                     \
+    58			.ops = &mtk_clk_gate_ops_no_setclr_inv,                       \
+    59		}
+    60	
+    61	static const struct mtk_gate sgmii0_clks[] = {
+    62		GATE_SGMII0(CLK_SGM0_TX_EN, "sgm0_tx_en", "top_xtal", 2),
+    63		GATE_SGMII0(CLK_SGM0_RX_EN, "sgm0_rx_en", "top_xtal", 3),
+    64	};
+    65	
+    66	static const struct mtk_clk_desc sgmii0_desc = {
+    67		.clks = sgmii0_clks,
+    68		.num_clks = ARRAY_SIZE(sgmii0_clks),
+    69	};
+    70	
+    71	static const struct mtk_gate_regs sgmii1_cg_regs = {
+    72		.set_ofs = 0xe4,
+    73		.clr_ofs = 0xe4,
+    74		.sta_ofs = 0xe4,
+    75	};
+    76	
+    77	#define GATE_SGMII1(_id, _name, _parent, _shift)                              \
+    78		{                                                                     \
+    79			.id = _id, .name = _name, .parent_name = _parent,             \
+    80			.regs = &sgmii1_cg_regs, .shift = _shift,                     \
+    81			.ops = &mtk_clk_gate_ops_no_setclr_inv,                       \
+    82		}
+    83	
+    84	static const struct mtk_gate sgmii1_clks[] = {
+    85		GATE_SGMII1(CLK_SGM1_TX_EN, "sgm1_tx_en", "top_xtal", 2),
+    86		GATE_SGMII1(CLK_SGM1_RX_EN, "sgm1_rx_en", "top_xtal", 3),
+    87	};
+    88	
+    89	static const struct mtk_clk_desc sgmii1_desc = {
+    90		.clks = sgmii1_clks,
+    91		.num_clks = ARRAY_SIZE(sgmii1_clks),
+    92	};
+    93	
+    94	static const struct mtk_gate_regs ethwarp_cg_regs = {
+    95		.set_ofs = 0x14,
+    96		.clr_ofs = 0x14,
+    97		.sta_ofs = 0x14,
+    98	};
+    99	
+   100	#define GATE_ETHWARP(_id, _name, _parent, _shift)                             \
+   101		{                                                                     \
+   102			.id = _id, .name = _name, .parent_name = _parent,             \
+   103			.regs = &ethwarp_cg_regs, .shift = _shift,                    \
+   104			.ops = &mtk_clk_gate_ops_no_setclr_inv,                       \
+   105		}
+   106	
+   107	static const struct mtk_gate ethwarp_clks[] = {
+   108		GATE_ETHWARP(CLK_ETHWARP_WOCPU2_EN, "ethwarp_wocpu2_en",
+   109			     "netsys_mcu_sel", 13),
+   110		GATE_ETHWARP(CLK_ETHWARP_WOCPU1_EN, "ethwarp_wocpu1_en",
+   111			     "netsys_mcu_sel", 14),
+   112		GATE_ETHWARP(CLK_ETHWARP_WOCPU0_EN, "ethwarp_wocpu0_en",
+   113			     "netsys_mcu_sel", 15),
+   114	};
+   115	
+   116	static const struct mtk_clk_desc ethwarp_desc = {
+   117		.clks = ethwarp_clks,
+   118		.num_clks = ARRAY_SIZE(ethwarp_clks),
+   119	};
+   120	
+   121	static const struct of_device_id of_match_clk_mt7986_eth[] = {
+   122		{ .compatible = "mediatek,mt7988-ethsys", .data = &ethdma_desc },
+   123		{ .compatible = "mediatek,mt7988-sgmiisys_0", .data = &sgmii0_desc },
+   124		{ .compatible = "mediatek,mt7988-sgmiisys_1", .data = &sgmii1_desc },
+   125		{ .compatible = "mediatek,mt7988-ethwarp", .data = &ethwarp_desc },
+   126		{ /* sentinel */ }
+   127	};
+ > 128	MODULE_DEVICE_TABLE(of, of_match_clk_mt7988_eth);
+   129	
 
 -- 
 0-DAY CI Kernel Test Service
