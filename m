@@ -1,43 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C92417D2
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Sep 2023 07:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0080E17D2
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Sep 2023 07:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693638553; x=1725174553;
+  t=1693638556; x=1725174556;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cDvfxpkFs2R7tqNTyOCJxLLtIiUqCKKs0KF3ggaqZIg=;
-  b=mXkW6CqBRPu1iImPHuZ35dI7SCSq6vWeas3PrTqkkh2yB1CneaxVr1JA
-   m/3iKAfs54Wgy2s6IweYwlwwFRFGWb+odrfHHquS8OSC0XJbzcGB2PDIZ
-   cG9XvYBqiCfvh6pw98FbIxbWe6+3wsc6UgcXOotMUjG23Y1r9db1yYSj5
-   wctJC8WAseEjfeXjXY7XP7xMwNyHy0FmfnTB1qvHsU+9NFLIL116agAz7
-   QwRZwH9J3PItt9txeqxOforO97CGCMqm3V1IzJfNy2Yl1UsAMPVyc2fuN
-   xXQzeOCHli80EGsDgWPdm1zbeWuPI7+m+6hWkp01D4PS5G9CjHun/D55Y
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="440325995"
+  bh=ke8RcRTJoSUDDKobVQdb5VWewZmPYS7rkPk7JfcpdWc=;
+  b=IoqmH8gEZ6e57AjAqLraO/NPk/Iytb20jIHPnZWhCkCeB77wNeZxoRHt
+   klf5giBRIHs/m2u7dKyJkCfL3DrLY+16EcZXUBF0gUGNmCuTEJ5dYXf7i
+   GjXNWH2Q7RP/gb0xXiNNJWIqP/zXsIbiEwCCtLaYH0HBYwGuTJFcSf97k
+   dhJ2e7j0KnCwxOIUv5SkKy3rI/XBxrB/Vbwu0e+ymPWxKb6XY+WoxOnj/
+   ti3RWC/nw0lbiGyzG9v/00rTiL0vkjFUFBLmjvsuojQ/Lu1yRc4GrTwQ+
+   QrmtFEKdDNZ54N2KPWSu5BhktawAPILXCwjQRTUv1F1tnMGG1OEnMI+IW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="440325997"
 X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="440325995"
+   d="scan'208";a="440325997"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2023 00:09:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="986918016"
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="986918015"
 X-IronPort-AV: E=Sophos;i="6.02,221,1688454000"; 
-   d="scan'208";a="986918016"
+   d="scan'208";a="986918015"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
   by fmsmga006.fm.intel.com with ESMTP; 02 Sep 2023 00:09:11 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcKkn-00026L-1c;
+	id 1qcKkn-00026J-1Y;
 	Sat, 02 Sep 2023 07:09:09 +0000
-Date: Sat, 2 Sep 2023 15:08:17 +0800
+Date: Sat, 2 Sep 2023 15:08:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-kernelci 16/68]
- drivers/char/xilinx_hwicap/xilinx_hwicap.c:731:37: error: 'op' undeclared;
- did you mean 'up'?
-Message-ID: <202309021501.ykX3AGMi-lkp@intel.com>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>
+Subject: [niks:has_ioport_v6_usb 20/20] include/asm-generic/io.h:625:15:
+ error: call to '_outl' declared with attribute error: outl() requires
+ CONFIG_HAS_IOPORT
+Message-ID: <202309021509.H6yovgPT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,107 +47,444 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   9ece0c059fa7600e46d8e2deecc2fa1bd86cde7e
-commit: d94927fa9e5037f54d34add695e789862d4e5d0a [16/68] char: xilinx_hwicap: Use device_get_match_data()
-config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20230902/202309021501.ykX3AGMi-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309021501.ykX3AGMi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git has_ioport_v6_usb
+head:   cf97bf195665223cec989e41efee82344a2f0eea
+commit: cf97bf195665223cec989e41efee82344a2f0eea [20/20] asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=n
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20230902/202309021509.H6yovgPT-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309021509.H6yovgPT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309021501.ykX3AGMi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309021509.H6yovgPT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/char/xilinx_hwicap/xilinx_hwicap.c: In function 'hwicap_drv_probe':
->> drivers/char/xilinx_hwicap/xilinx_hwicap.c:731:37: error: 'op' undeclared (first use in this function); did you mean 'up'?
-     731 |         rc = of_address_to_resource(op->dev.of_node, 0, &res);
-         |                                     ^~
-         |                                     up
-   drivers/char/xilinx_hwicap/xilinx_hwicap.c:731:37: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/char/xilinx_hwicap/xilinx_hwicap.c:731:57: error: passing argument 3 of 'of_address_to_resource' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     731 |         rc = of_address_to_resource(op->dev.of_node, 0, &res);
-         |                                                         ^~~~
-         |                                                         |
-         |                                                         struct resource **
-   In file included from drivers/char/xilinx_hwicap/xilinx_hwicap.c:88:
-   include/linux/of_address.h:63:52: note: expected 'struct resource *' but argument is of type 'struct resource **'
-      63 |                                   struct resource *r);
-         |                                   ~~~~~~~~~~~~~~~~~^
->> drivers/char/xilinx_hwicap/xilinx_hwicap.c:742:9: error: 'regs' undeclared (first use in this function); did you mean 'res'?
-     742 |         regs = &v4_config_registers;
-         |         ^~~~
-         |         res
->> drivers/char/xilinx_hwicap/xilinx_hwicap.c:755:54: error: passing argument 3 of 'hwicap_setup' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     755 |         return hwicap_setup(&op->dev, id ? *id : -1, &res, config, regs);
-         |                                                      ^~~~
-         |                                                      |
-         |                                                      struct resource **
-   drivers/char/xilinx_hwicap/xilinx_hwicap.c:600:40: note: expected 'const struct resource *' but argument is of type 'struct resource **'
-     600 |                 const struct resource *regs_res,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
-   drivers/char/xilinx_hwicap/xilinx_hwicap.c:755:60: error: passing argument 4 of 'hwicap_setup' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     755 |         return hwicap_setup(&op->dev, id ? *id : -1, &res, config, regs);
-         |                                                            ^~~~~~
-         |                                                            |
-         |                                                            const struct config_registers *
-   drivers/char/xilinx_hwicap/xilinx_hwicap.c:601:52: note: expected 'const struct hwicap_driver_config *' but argument is of type 'const struct config_registers *'
-     601 |                 const struct hwicap_driver_config *config,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   drivers/char/xilinx_hwicap/xilinx_hwicap.c:756:1: error: control reaches end of non-void function [-Werror=return-type]
-     756 | }
-         | ^
-   cc1: some warnings being treated as errors
+   lib/iomap.c: In function 'iowrite32be':
+>> include/asm-generic/io.h:625:15: error: call to '_outl' declared with attribute error: outl() requires CONFIG_HAS_IOPORT
+     625 | #define _outl _outl
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   include/asm-generic/io.h:662:14: note: in expansion of macro '_outl'
+     662 | #define outl _outl
+         |              ^~~~~
+   lib/iomap.c:194:33: note: in expansion of macro 'outl'
+     194 | #define pio_write32be(val,port) outl(swab32(val),port)
+         |                                 ^~~~
+   lib/iomap.c:231:23: note: in expansion of macro 'pio_write32be'
+     231 |         IO_COND(addr, pio_write32be(val,port), mmio_write32be(val, addr));
+         |                       ^~~~~~~~~~~~~
+   lib/iomap.c: In function 'ioread8':
+   include/asm-generic/io.h:541:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     541 | #define _inb _inb
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   include/asm-generic/io.h:642:13: note: in expansion of macro '_inb'
+     642 | #define inb _inb
+         |             ^~~~
+   lib/iomap.c:81:30: note: in expansion of macro 'inb'
+      81 |         IO_COND(addr, return inb(port), return readb(addr));
+         |                              ^~~
+   lib/iomap.c: In function 'ioread16':
+   include/asm-generic/io.h:559:14: error: call to '_inw' declared with attribute error: inw() requires CONFIG_HAS_IOPORT
+     559 | #define _inw _inw
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   include/asm-generic/io.h:646:13: note: in expansion of macro '_inw'
+     646 | #define inw _inw
+         |             ^~~~
+   lib/iomap.c:87:30: note: in expansion of macro 'inw'
+      87 |         IO_COND(addr, return inw(port), return readw(addr));
+         |                              ^~~
+   lib/iomap.c: In function 'ioread32':
+>> include/asm-generic/io.h:577:14: error: call to '_inl' declared with attribute error: inl() requires CONFIG_HAS_IOPORT
+     577 | #define _inl _inl
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   include/asm-generic/io.h:650:13: note: in expansion of macro '_inl'
+     650 | #define inl _inl
+         |             ^~~~
+   lib/iomap.c:99:30: note: in expansion of macro 'inl'
+      99 |         IO_COND(addr, return inl(port), return readl(addr));
+         |                              ^~~
+   lib/iomap.c: In function 'ioread32be':
+>> include/uapi/linux/swab.h:120:9: error: call to '_inl' declared with attribute error: inl() requires CONFIG_HAS_IOPORT
+     120 |         __fswab32(x))
+         |         ^~~~~~~~~~~~
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   include/linux/swab.h:8:17: note: in expansion of macro '__swab32'
+       8 | # define swab32 __swab32
+         |                 ^~~~~~~~
+   lib/iomap.c:65:28: note: in expansion of macro 'swab32'
+      65 | #define pio_read32be(port) swab32(inl(port))
+         |                            ^~~~~~
+   lib/iomap.c:105:30: note: in expansion of macro 'pio_read32be'
+     105 |         IO_COND(addr, return pio_read32be(port), return mmio_read32be(addr));
+         |                              ^~~~~~~~~~~~
+   lib/iomap.c: In function 'ioread16be':
+   include/asm-generic/io.h:559:14: error: call to '_inw' declared with attribute error: inw() requires CONFIG_HAS_IOPORT
+     559 | #define _inw _inw
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   include/linux/swab.h:7:17: note: in expansion of macro '__swab16'
+       7 | # define swab16 __swab16
+         |                 ^~~~~~~~
+   include/asm-generic/io.h:646:13: note: in expansion of macro '_inw'
+     646 | #define inw _inw
+         |             ^~~~
+   lib/iomap.c:64:35: note: in expansion of macro 'inw'
+      64 | #define pio_read16be(port) swab16(inw(port))
+         |                                   ^~~
+   lib/iomap.c:93:30: note: in expansion of macro 'pio_read16be'
+      93 |         IO_COND(addr, return pio_read16be(port), return mmio_read16be(addr));
+         |                              ^~~~~~~~~~~~
+   lib/iomap.c: In function 'iowrite32':
+>> include/asm-generic/io.h:625:15: error: call to '_outl' declared with attribute error: outl() requires CONFIG_HAS_IOPORT
+     625 | #define _outl _outl
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   include/asm-generic/io.h:662:14: note: in expansion of macro '_outl'
+     662 | #define outl _outl
+         |              ^~~~~
+   lib/iomap.c:225:23: note: in expansion of macro 'outl'
+     225 |         IO_COND(addr, outl(val,port), writel(val, addr));
+         |                       ^~~~
+   lib/iomap.c: In function 'iowrite8':
+   include/asm-generic/io.h:595:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     595 | #define _outb _outb
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   include/asm-generic/io.h:654:14: note: in expansion of macro '_outb'
+     654 | #define outb _outb
+         |              ^~~~~
+   lib/iomap.c:207:23: note: in expansion of macro 'outb'
+     207 |         IO_COND(addr, outb(val,port), writeb(val, addr));
+         |                       ^~~~
+   lib/iomap.c: In function 'iowrite16':
+   include/asm-generic/io.h:610:15: error: call to '_outw' declared with attribute error: outw() requires CONFIG_HAS_IOPORT
+     610 | #define _outw _outw
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   include/asm-generic/io.h:658:14: note: in expansion of macro '_outw'
+     658 | #define outw _outw
+         |              ^~~~~
+   lib/iomap.c:213:23: note: in expansion of macro 'outw'
+     213 |         IO_COND(addr, outw(val,port), writew(val, addr));
+         |                       ^~~~
+   lib/iomap.c: In function 'iowrite8_rep':
+   include/asm-generic/io.h:758:15: error: call to 'outsb' declared with attribute error: outsb() requires HAS_IOPORT
+     758 | #define outsb outsb
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   lib/iomap.c:386:23: note: in expansion of macro 'outsb'
+     386 |         IO_COND(addr, outsb(port, src, count), mmio_outsb(addr, src, count));
+         |                       ^~~~~
+   lib/iomap.c: In function 'iowrite32_rep':
+>> include/asm-generic/io.h:786:15: error: call to 'outsl' declared with attribute error: outsl() requires HAS_IOPORT
+     786 | #define outsl outsl
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   lib/iomap.c:398:23: note: in expansion of macro 'outsl'
+     398 |         IO_COND(addr, outsl(port, src,count), mmio_outsl(addr, src, count));
+         |                       ^~~~~
+   lib/iomap.c: In function 'iowrite16_rep':
+   include/asm-generic/io.h:772:15: error: call to 'outsw' declared with attribute error: outsw() requires HAS_IOPORT
+     772 | #define outsw outsw
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   lib/iomap.c:392:23: note: in expansion of macro 'outsw'
+     392 |         IO_COND(addr, outsw(port, src, count), mmio_outsw(addr, src, count));
+         |                       ^~~~~
+   lib/iomap.c: In function 'ioread32_rep':
+>> include/asm-generic/io.h:745:14: error: call to 'insl' declared with attribute error: insl() requires HAS_IOPORT
+     745 | #define insl insl
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   lib/iomap.c:374:23: note: in expansion of macro 'insl'
+     374 |         IO_COND(addr, insl(port,dst,count), mmio_insl(addr, dst, count));
+         |                       ^~~~
+   lib/iomap.c: In function 'ioread8_rep':
+   include/asm-generic/io.h:719:14: error: call to 'insb' declared with attribute error: insb() requires HAS_IOPORT
+     719 | #define insb insb
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   lib/iomap.c:362:23: note: in expansion of macro 'insb'
+     362 |         IO_COND(addr, insb(port,dst,count), mmio_insb(addr, dst, count));
+         |                       ^~~~
+   lib/iomap.c: In function 'ioread16_rep':
+   include/asm-generic/io.h:732:14: error: call to 'insw' declared with attribute error: insw() requires HAS_IOPORT
+     732 | #define insw insw
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   lib/iomap.c:368:23: note: in expansion of macro 'insw'
+     368 |         IO_COND(addr, insw(port,dst,count), mmio_insw(addr, dst, count));
+         |                       ^~~~
+   lib/iomap.c: In function 'iowrite16be':
+   include/asm-generic/io.h:610:15: error: call to '_outw' declared with attribute error: outw() requires CONFIG_HAS_IOPORT
+     610 | #define _outw _outw
+   lib/iomap.c:58:17: note: in definition of macro 'IO_COND'
+      58 |                 is_pio;                                         \
+         |                 ^~~~~~
+   include/asm-generic/io.h:658:14: note: in expansion of macro '_outw'
+     658 | #define outw _outw
+         |              ^~~~~
+   lib/iomap.c:193:33: note: in expansion of macro 'outw'
+     193 | #define pio_write16be(val,port) outw(swab16(val),port)
+         |                                 ^~~~
+   lib/iomap.c:219:23: note: in expansion of macro 'pio_write16be'
+     219 |         IO_COND(addr, pio_write16be(val,port), mmio_write16be(val, addr));
+         |                       ^~~~~~~~~~~~~
 
 
-vim +731 drivers/char/xilinx_hwicap/xilinx_hwicap.c
+vim +/_outl +625 include/asm-generic/io.h
 
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  720  
-d94927fa9e5037 Rob Herring          2023-09-01  721  static int hwicap_drv_probe(struct platform_device *pdev)
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  722  {
-d94927fa9e5037 Rob Herring          2023-09-01  723  	struct resource *res;
-d94927fa9e5037 Rob Herring          2023-09-01  724  	const struct config_registers *config;
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  725  	const char *family;
-d94927fa9e5037 Rob Herring          2023-09-01  726  	const unsigned int *id;
-55f19d56742a7b Grant Likely         2011-02-22  727  	int rc;
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  728  
-d94927fa9e5037 Rob Herring          2023-09-01  729  	config = device_get_match_data(&pdev->dev);
-55f19d56742a7b Grant Likely         2011-02-22  730  
-55f19d56742a7b Grant Likely         2011-02-22 @731  	rc = of_address_to_resource(op->dev.of_node, 0, &res);
-55f19d56742a7b Grant Likely         2011-02-22  732  	if (rc) {
-55f19d56742a7b Grant Likely         2011-02-22  733  		dev_err(&op->dev, "invalid address\n");
-55f19d56742a7b Grant Likely         2011-02-22  734  		return rc;
-55f19d56742a7b Grant Likely         2011-02-22  735  	}
-55f19d56742a7b Grant Likely         2011-02-22  736  
-55f19d56742a7b Grant Likely         2011-02-22  737  	id = of_get_property(op->dev.of_node, "port-number", NULL);
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  738  
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  739  	/* It's most likely that we're using V4, if the family is not
-5cb95fae7a326f Nava kishore Manne   2017-07-28  740  	 * specified
-5cb95fae7a326f Nava kishore Manne   2017-07-28  741  	 */
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06 @742  	regs = &v4_config_registers;
-55f19d56742a7b Grant Likely         2011-02-22  743  	family = of_get_property(op->dev.of_node, "xlnx,family", NULL);
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  744  
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  745  	if (family) {
-5cb95fae7a326f Nava kishore Manne   2017-07-28  746  		if (!strcmp(family, "virtex2p"))
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  747  			regs = &v2_config_registers;
-5cb95fae7a326f Nava kishore Manne   2017-07-28  748  		else if (!strcmp(family, "virtex4"))
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  749  			regs = &v4_config_registers;
-5cb95fae7a326f Nava kishore Manne   2017-07-28  750  		else if (!strcmp(family, "virtex5"))
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  751  			regs = &v5_config_registers;
-5cb95fae7a326f Nava kishore Manne   2017-07-28  752  		else if (!strcmp(family, "virtex6"))
-73eb94a094e54c Daniel Borkmann      2012-04-18  753  			regs = &v6_config_registers;
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  754  	}
-d94927fa9e5037 Rob Herring          2023-09-01 @755  	return hwicap_setup(&op->dev, id ? *id : -1, &res, config, regs);
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  756  }
-ef141a0bb0dc61 Stephen Neuendorffer 2008-02-06  757  
+9216efafc52ff99 Thierry Reding  2014-10-01  575  
+f009c89df79abea John Garry      2020-03-28  576  #if !defined(inl) && !defined(_inl)
+f009c89df79abea John Garry      2020-03-28 @577  #define _inl _inl
+cf97bf195665223 Niklas Schnelle 2021-12-20  578  #ifdef CONFIG_HAS_IOPORT
+214ba3584b2e2c5 Stafford Horne  2020-07-26  579  static inline u32 _inl(unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  580  {
+87fe2d543f81730 Sinan Kaya      2018-04-05  581  	u32 val;
+87fe2d543f81730 Sinan Kaya      2018-04-05  582  
+87fe2d543f81730 Sinan Kaya      2018-04-05  583  	__io_pbr();
+c1d55d50139bea6 Stafford Horne  2020-07-29  584  	val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+abbbbc83a210e95 Will Deacon     2019-02-22  585  	__io_par(val);
+87fe2d543f81730 Sinan Kaya      2018-04-05  586  	return val;
+9216efafc52ff99 Thierry Reding  2014-10-01  587  }
+cf97bf195665223 Niklas Schnelle 2021-12-20  588  #else
+cf97bf195665223 Niklas Schnelle 2021-12-20  589  u32 _inl(unsigned long addr)
+cf97bf195665223 Niklas Schnelle 2021-12-20  590  	__compiletime_error("inl() requires CONFIG_HAS_IOPORT");
+cf97bf195665223 Niklas Schnelle 2021-12-20  591  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  592  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  593  
+f009c89df79abea John Garry      2020-03-28  594  #if !defined(outb) && !defined(_outb)
+f009c89df79abea John Garry      2020-03-28  595  #define _outb _outb
+cf97bf195665223 Niklas Schnelle 2021-12-20  596  #ifdef CONFIG_HAS_IOPORT
+f009c89df79abea John Garry      2020-03-28  597  static inline void _outb(u8 value, unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  598  {
+a7851aa54c0cdd2 Sinan Kaya      2018-04-05  599  	__io_pbw();
+a7851aa54c0cdd2 Sinan Kaya      2018-04-05  600  	__raw_writeb(value, PCI_IOBASE + addr);
+a7851aa54c0cdd2 Sinan Kaya      2018-04-05  601  	__io_paw();
+9216efafc52ff99 Thierry Reding  2014-10-01  602  }
+cf97bf195665223 Niklas Schnelle 2021-12-20  603  #else
+cf97bf195665223 Niklas Schnelle 2021-12-20  604  void _outb(u8 value, unsigned long addr)
+cf97bf195665223 Niklas Schnelle 2021-12-20  605  	__compiletime_error("outb() requires CONFIG_HAS_IOPORT");
+cf97bf195665223 Niklas Schnelle 2021-12-20  606  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  607  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  608  
+f009c89df79abea John Garry      2020-03-28  609  #if !defined(outw) && !defined(_outw)
+f009c89df79abea John Garry      2020-03-28  610  #define _outw _outw
+cf97bf195665223 Niklas Schnelle 2021-12-20  611  #ifdef CONFIG_HAS_IOPORT
+f009c89df79abea John Garry      2020-03-28  612  static inline void _outw(u16 value, unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  613  {
+a7851aa54c0cdd2 Sinan Kaya      2018-04-05  614  	__io_pbw();
+c1d55d50139bea6 Stafford Horne  2020-07-29  615  	__raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+a7851aa54c0cdd2 Sinan Kaya      2018-04-05  616  	__io_paw();
+9216efafc52ff99 Thierry Reding  2014-10-01  617  }
+cf97bf195665223 Niklas Schnelle 2021-12-20  618  #else
+cf97bf195665223 Niklas Schnelle 2021-12-20  619  void _outw(u16 value, unsigned long addr)
+cf97bf195665223 Niklas Schnelle 2021-12-20  620  	__compiletime_error("outw() requires CONFIG_HAS_IOPORT");
+cf97bf195665223 Niklas Schnelle 2021-12-20  621  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  622  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  623  
+f009c89df79abea John Garry      2020-03-28  624  #if !defined(outl) && !defined(_outl)
+f009c89df79abea John Garry      2020-03-28 @625  #define _outl _outl
+cf97bf195665223 Niklas Schnelle 2021-12-20  626  #ifdef CONFIG_HAS_IOPORT
+f009c89df79abea John Garry      2020-03-28  627  static inline void _outl(u32 value, unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  628  {
+a7851aa54c0cdd2 Sinan Kaya      2018-04-05  629  	__io_pbw();
+c1d55d50139bea6 Stafford Horne  2020-07-29  630  	__raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+a7851aa54c0cdd2 Sinan Kaya      2018-04-05  631  	__io_paw();
+9216efafc52ff99 Thierry Reding  2014-10-01  632  }
+cf97bf195665223 Niklas Schnelle 2021-12-20  633  #else
+cf97bf195665223 Niklas Schnelle 2021-12-20  634  void _outl(u32 value, unsigned long addr)
+cf97bf195665223 Niklas Schnelle 2021-12-20  635  	__compiletime_error("outl() requires CONFIG_HAS_IOPORT");
+cf97bf195665223 Niklas Schnelle 2021-12-20  636  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  637  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  638  
+f009c89df79abea John Garry      2020-03-28  639  #include <linux/logic_pio.h>
+f009c89df79abea John Garry      2020-03-28  640  
+f009c89df79abea John Garry      2020-03-28  641  #ifndef inb
+f009c89df79abea John Garry      2020-03-28  642  #define inb _inb
+f009c89df79abea John Garry      2020-03-28  643  #endif
+f009c89df79abea John Garry      2020-03-28  644  
+f009c89df79abea John Garry      2020-03-28  645  #ifndef inw
+f009c89df79abea John Garry      2020-03-28  646  #define inw _inw
+f009c89df79abea John Garry      2020-03-28  647  #endif
+f009c89df79abea John Garry      2020-03-28  648  
+f009c89df79abea John Garry      2020-03-28  649  #ifndef inl
+f009c89df79abea John Garry      2020-03-28  650  #define inl _inl
+f009c89df79abea John Garry      2020-03-28  651  #endif
+f009c89df79abea John Garry      2020-03-28  652  
+f009c89df79abea John Garry      2020-03-28  653  #ifndef outb
+f009c89df79abea John Garry      2020-03-28  654  #define outb _outb
+f009c89df79abea John Garry      2020-03-28  655  #endif
+f009c89df79abea John Garry      2020-03-28  656  
+f009c89df79abea John Garry      2020-03-28  657  #ifndef outw
+f009c89df79abea John Garry      2020-03-28  658  #define outw _outw
+f009c89df79abea John Garry      2020-03-28  659  #endif
+f009c89df79abea John Garry      2020-03-28  660  
+f009c89df79abea John Garry      2020-03-28  661  #ifndef outl
+f009c89df79abea John Garry      2020-03-28  662  #define outl _outl
+f009c89df79abea John Garry      2020-03-28  663  #endif
+f009c89df79abea John Garry      2020-03-28  664  
+9216efafc52ff99 Thierry Reding  2014-10-01  665  #ifndef inb_p
+9216efafc52ff99 Thierry Reding  2014-10-01  666  #define inb_p inb_p
+9216efafc52ff99 Thierry Reding  2014-10-01  667  static inline u8 inb_p(unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  668  {
+9216efafc52ff99 Thierry Reding  2014-10-01  669  	return inb(addr);
+9216efafc52ff99 Thierry Reding  2014-10-01  670  }
+9216efafc52ff99 Thierry Reding  2014-10-01  671  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  672  
+9216efafc52ff99 Thierry Reding  2014-10-01  673  #ifndef inw_p
+9216efafc52ff99 Thierry Reding  2014-10-01  674  #define inw_p inw_p
+9216efafc52ff99 Thierry Reding  2014-10-01  675  static inline u16 inw_p(unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  676  {
+9216efafc52ff99 Thierry Reding  2014-10-01  677  	return inw(addr);
+9216efafc52ff99 Thierry Reding  2014-10-01  678  }
+9216efafc52ff99 Thierry Reding  2014-10-01  679  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  680  
+9216efafc52ff99 Thierry Reding  2014-10-01  681  #ifndef inl_p
+9216efafc52ff99 Thierry Reding  2014-10-01  682  #define inl_p inl_p
+9216efafc52ff99 Thierry Reding  2014-10-01  683  static inline u32 inl_p(unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  684  {
+9216efafc52ff99 Thierry Reding  2014-10-01  685  	return inl(addr);
+9216efafc52ff99 Thierry Reding  2014-10-01  686  }
+9216efafc52ff99 Thierry Reding  2014-10-01  687  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  688  
+9216efafc52ff99 Thierry Reding  2014-10-01  689  #ifndef outb_p
+9216efafc52ff99 Thierry Reding  2014-10-01  690  #define outb_p outb_p
+9216efafc52ff99 Thierry Reding  2014-10-01  691  static inline void outb_p(u8 value, unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  692  {
+9216efafc52ff99 Thierry Reding  2014-10-01  693  	outb(value, addr);
+9216efafc52ff99 Thierry Reding  2014-10-01  694  }
+9216efafc52ff99 Thierry Reding  2014-10-01  695  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  696  
+9216efafc52ff99 Thierry Reding  2014-10-01  697  #ifndef outw_p
+9216efafc52ff99 Thierry Reding  2014-10-01  698  #define outw_p outw_p
+9216efafc52ff99 Thierry Reding  2014-10-01  699  static inline void outw_p(u16 value, unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  700  {
+9216efafc52ff99 Thierry Reding  2014-10-01  701  	outw(value, addr);
+9216efafc52ff99 Thierry Reding  2014-10-01  702  }
+9216efafc52ff99 Thierry Reding  2014-10-01  703  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  704  
+9216efafc52ff99 Thierry Reding  2014-10-01  705  #ifndef outl_p
+9216efafc52ff99 Thierry Reding  2014-10-01  706  #define outl_p outl_p
+9216efafc52ff99 Thierry Reding  2014-10-01  707  static inline void outl_p(u32 value, unsigned long addr)
+9216efafc52ff99 Thierry Reding  2014-10-01  708  {
+9216efafc52ff99 Thierry Reding  2014-10-01  709  	outl(value, addr);
+9216efafc52ff99 Thierry Reding  2014-10-01  710  }
+9216efafc52ff99 Thierry Reding  2014-10-01  711  #endif
+9216efafc52ff99 Thierry Reding  2014-10-01  712  
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  713  /*
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  714   * {in,out}s{b,w,l}{,_p}() are variants of the above that repeatedly access a
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  715   * single I/O port multiple times.
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  716   */
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  717  
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  718  #ifndef insb
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  719  #define insb insb
+cf97bf195665223 Niklas Schnelle 2021-12-20  720  #ifdef CONFIG_HAS_IOPORT
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  721  static inline void insb(unsigned long addr, void *buffer, unsigned int count)
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  722  {
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  723  	readsb(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  724  }
+cf97bf195665223 Niklas Schnelle 2021-12-20  725  #else
+cf97bf195665223 Niklas Schnelle 2021-12-20  726  void insb(unsigned long addr, void *buffer, unsigned int count)
+cf97bf195665223 Niklas Schnelle 2021-12-20  727  	__compiletime_error("insb() requires HAS_IOPORT");
+cf97bf195665223 Niklas Schnelle 2021-12-20  728  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  729  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  730  
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  731  #ifndef insw
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  732  #define insw insw
+cf97bf195665223 Niklas Schnelle 2021-12-20  733  #ifdef CONFIG_HAS_IOPORT
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  734  static inline void insw(unsigned long addr, void *buffer, unsigned int count)
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  735  {
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  736  	readsw(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  737  }
+cf97bf195665223 Niklas Schnelle 2021-12-20  738  #else
+cf97bf195665223 Niklas Schnelle 2021-12-20  739  void insw(unsigned long addr, void *buffer, unsigned int count)
+cf97bf195665223 Niklas Schnelle 2021-12-20  740  	__compiletime_error("insw() requires HAS_IOPORT");
+cf97bf195665223 Niklas Schnelle 2021-12-20  741  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  742  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  743  
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  744  #ifndef insl
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04 @745  #define insl insl
+cf97bf195665223 Niklas Schnelle 2021-12-20  746  #ifdef CONFIG_HAS_IOPORT
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  747  static inline void insl(unsigned long addr, void *buffer, unsigned int count)
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  748  {
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  749  	readsl(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  750  }
+cf97bf195665223 Niklas Schnelle 2021-12-20  751  #else
+cf97bf195665223 Niklas Schnelle 2021-12-20  752  void insl(unsigned long addr, void *buffer, unsigned int count)
+cf97bf195665223 Niklas Schnelle 2021-12-20  753  	__compiletime_error("insl() requires HAS_IOPORT");
+cf97bf195665223 Niklas Schnelle 2021-12-20  754  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  755  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  756  
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  757  #ifndef outsb
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  758  #define outsb outsb
+cf97bf195665223 Niklas Schnelle 2021-12-20  759  #ifdef CONFIG_HAS_IOPORT
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  760  static inline void outsb(unsigned long addr, const void *buffer,
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  761  			 unsigned int count)
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  762  {
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  763  	writesb(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  764  }
+cf97bf195665223 Niklas Schnelle 2021-12-20  765  #else
+cf97bf195665223 Niklas Schnelle 2021-12-20  766  void outsb(unsigned long addr, const void *buffer, unsigned int count)
+cf97bf195665223 Niklas Schnelle 2021-12-20  767  	__compiletime_error("outsb() requires HAS_IOPORT");
+cf97bf195665223 Niklas Schnelle 2021-12-20  768  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  769  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  770  
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  771  #ifndef outsw
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  772  #define outsw outsw
+cf97bf195665223 Niklas Schnelle 2021-12-20  773  #ifdef CONFIG_HAS_IOPORT
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  774  static inline void outsw(unsigned long addr, const void *buffer,
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  775  			 unsigned int count)
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  776  {
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  777  	writesw(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  778  }
+cf97bf195665223 Niklas Schnelle 2021-12-20  779  #else
+cf97bf195665223 Niklas Schnelle 2021-12-20  780  void outsw(unsigned long addr, const void *buffer, unsigned int count)
+cf97bf195665223 Niklas Schnelle 2021-12-20  781  	__compiletime_error("outsw() requires HAS_IOPORT");
+cf97bf195665223 Niklas Schnelle 2021-12-20  782  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  783  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  784  
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  785  #ifndef outsl
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04 @786  #define outsl outsl
+cf97bf195665223 Niklas Schnelle 2021-12-20  787  #ifdef CONFIG_HAS_IOPORT
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  788  static inline void outsl(unsigned long addr, const void *buffer,
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  789  			 unsigned int count)
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  790  {
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  791  	writesl(PCI_IOBASE + addr, buffer, count);
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  792  }
+cf97bf195665223 Niklas Schnelle 2021-12-20  793  #else
+cf97bf195665223 Niklas Schnelle 2021-12-20  794  void outsl(unsigned long addr, const void *buffer, unsigned int count)
+cf97bf195665223 Niklas Schnelle 2021-12-20  795  	__compiletime_error("outsl() requires HAS_IOPORT");
+cf97bf195665223 Niklas Schnelle 2021-12-20  796  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  797  #endif
+9ab3a7a0d2b4177 Thierry Reding  2014-07-04  798  
 
-:::::: The code at line 731 was first introduced by commit
-:::::: 55f19d56742a7b544e80b47339c17bfcfd0ff3b4 dt: xilinx_hwicap: merge platform and of_platform driver bindings
+:::::: The code at line 625 was first introduced by commit
+:::::: f009c89df79abea5f5244b8135a205f7d4352f86 io: Provide _inX() and _outX()
 
-:::::: TO: Grant Likely <grant.likely@secretlab.ca>
-:::::: CC: Grant Likely <grant.likely@secretlab.ca>
+:::::: TO: John Garry <john.garry@huawei.com>
+:::::: CC: Wei Xu <xuwei5@hisilicon.com>
 
 -- 
 0-DAY CI Kernel Test Service
