@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E159A8BEA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Sep 2023 16:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E7E5CBB
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Sep 2023 18:09:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693673847; x=1725209847;
+  t=1693678169; x=1725214169;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SarHP3L+c5cWBP05XRFMbG+UhoKpnEbrteZtcCgdi3Q=;
-  b=gv1/wW13Hok9WIdYqX5hlqGX2kA2rblzWRGPuq6XOplmOtotfuKQRVXI
-   tMvGByc41S1icJks5lzPYKQTQPBuDfe/Y7hnaA9SPPXqOr1kIglNIHvt+
-   /iYP77Zyrnt60YO7Qh3p0ZpL0f7panoCaCNZllCF/f9P4iizXEfi7NzvV
-   daYeqyyjGALjtypi7nOwY2JgB4QV/6wZvGN+dVfcyXkLyVg7w9tB/AIV0
-   SaV46h5fMugsDY1nMpWn1gvQxxAHI/mrnYWx1AXq0Iv4NjJlt5H4+7+RQ
-   UYAPnTunVIgSUTkQspc9+Ls8A2rZEiSdZBpQ2SRNuknxDarVr/8d803CI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="379104657"
+  bh=G/IhRnLl+NSrKu9mh/8Xlj2Zv3N0mvumeKipzy+eQ3g=;
+  b=CmGPDe/1vx1q8xJp4a0uAyihw3KdwUya7Zg2LYMNboZo/0CJcFTQRXLC
+   DQV4gRVMDbxGB1V36kiCwlGSpoOY+ETavIjFXTLLt7uWUNUIfD3IqFLtt
+   jWLF1MIQViSR1UH8MG2eo1x35aZuSr/M0QHKLE63AW3KCv7bZtTyBOgQE
+   CaIHI7cTmGtScptFIcKnJ5izG6WSrglQBY/J2DuycgOH5pzVcC560XLBy
+   NfpYoZGEqWi9peCOSItetbiyOHmmZnpB5R/iOxP/V9rcFHa1CtAv9tfEx
+   Zqaga5g1uywrlQ2rNpALTh7t90oKS5Iv9uCFrZsGuB+HQHmP6P9tyscMh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="376320124"
 X-IronPort-AV: E=Sophos;i="6.02,222,1688454000"; 
-   d="scan'208";a="379104657"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2023 09:57:27 -0700
+   d="scan'208";a="376320124"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2023 11:09:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="743471074"
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="830468243"
 X-IronPort-AV: E=Sophos;i="6.02,222,1688454000"; 
-   d="scan'208";a="743471074"
+   d="scan'208";a="830468243"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 02 Sep 2023 09:57:26 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 02 Sep 2023 11:09:27 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcTw3-0002Uj-2o;
-	Sat, 02 Sep 2023 16:57:23 +0000
-Date: Sun, 3 Sep 2023 00:57:12 +0800
+	id 1qcV3l-0002Wp-0V;
+	Sat, 02 Sep 2023 18:09:25 +0000
+Date: Sun, 3 Sep 2023 02:09:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
+To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-kernelci 29/68] drivers/iio/adc/twl6030-gpadc.c:886:17:
- error: implicit declaration of function 'device_get_match_data'; did you
- mean 'device_match_any'?
-Message-ID: <202309030004.NefjkdSK-lkp@intel.com>
+Subject: [l1k:doe 8/15] include/linux/spdm.h:26:36: warning: 'struct
+ x509_certificate' declared inside parameter list will not be visible outside
+ of this definition or declaration
+Message-ID: <202309030141.TKyc5emi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,125 +47,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   9ece0c059fa7600e46d8e2deecc2fa1bd86cde7e
-commit: 23739ec864c4897c8c599ad2ad2ebe6638061ab5 [29/68] iio: Use device_get_match_data()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230903/202309030004.NefjkdSK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309030004.NefjkdSK-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux doe
+head:   ed763a31e6c59b6da2def6097fb0463b710121af
+commit: e1b1c6bba0267c230d1776987b241dfd53a00305 [8/15] PCI/CMA: Validate Subject Alternative Name in certificates
+config: arc-randconfig-001-20230902 (https://download.01.org/0day-ci/archive/20230903/202309030141.TKyc5emi-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309030141.TKyc5emi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309030004.NefjkdSK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309030141.TKyc5emi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iio/adc/twl6030-gpadc.c: In function 'twl6030_gpadc_probe':
->> drivers/iio/adc/twl6030-gpadc.c:886:17: error: implicit declaration of function 'device_get_match_data'; did you mean 'device_match_any'? [-Werror=implicit-function-declaration]
-     886 |         pdata = device_get_match_data(&pdev->dev);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-         |                 device_match_any
-   drivers/iio/adc/twl6030-gpadc.c:886:15: warning: assignment to 'const struct twl6030_gpadc_platform_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     886 |         pdata = device_get_match_data(&pdev->dev);
-         |               ^
-   cc1: some warnings being treated as errors
+   In file included from include/linux/pci.h:42,
+                    from include/drm/drm_module.h:6,
+                    from drivers/gpu/drm/sun4i/sun4i_drv.c:22:
+>> include/linux/spdm.h:26:36: warning: 'struct x509_certificate' declared inside parameter list will not be visible outside of this definition or declaration
+      26 |                             struct x509_certificate *leaf_cert);
+         |                                    ^~~~~~~~~~~~~~~~
 
 
-vim +886 drivers/iio/adc/twl6030-gpadc.c
+vim +26 include/linux/spdm.h
 
-   876	
-   877	static int twl6030_gpadc_probe(struct platform_device *pdev)
-   878	{
-   879		struct device *dev = &pdev->dev;
-   880		struct twl6030_gpadc_data *gpadc;
-   881		const struct twl6030_gpadc_platform_data *pdata;
-   882		struct iio_dev *indio_dev;
-   883		int irq;
-   884		int ret;
-   885	
- > 886		pdata = device_get_match_data(&pdev->dev);
-   887		if (!pdata)
-   888			return -EINVAL;
-   889	
-   890		indio_dev = devm_iio_device_alloc(dev, sizeof(*gpadc));
-   891		if (!indio_dev)
-   892			return -ENOMEM;
-   893	
-   894		gpadc = iio_priv(indio_dev);
-   895	
-   896		gpadc->twl6030_cal_tbl = devm_kcalloc(dev,
-   897						pdata->nchannels,
-   898						sizeof(*gpadc->twl6030_cal_tbl),
-   899						GFP_KERNEL);
-   900		if (!gpadc->twl6030_cal_tbl)
-   901			return -ENOMEM;
-   902	
-   903		gpadc->dev = dev;
-   904		gpadc->pdata = pdata;
-   905	
-   906		platform_set_drvdata(pdev, indio_dev);
-   907		mutex_init(&gpadc->lock);
-   908		init_completion(&gpadc->irq_complete);
-   909	
-   910		ret = pdata->calibrate(gpadc);
-   911		if (ret < 0) {
-   912			dev_err(dev, "failed to read calibration registers\n");
-   913			return ret;
-   914		}
-   915	
-   916		irq = platform_get_irq(pdev, 0);
-   917		if (irq < 0)
-   918			return irq;
-   919	
-   920		ret = devm_request_threaded_irq(dev, irq, NULL,
-   921					twl6030_gpadc_irq_handler,
-   922					IRQF_ONESHOT, "twl6030_gpadc", indio_dev);
-   923		if (ret)
-   924			return ret;
-   925	
-   926		ret = twl6030_gpadc_enable_irq(TWL6030_GPADC_RT_SW1_EOC_MASK);
-   927		if (ret < 0) {
-   928			dev_err(dev, "failed to enable GPADC interrupt\n");
-   929			return ret;
-   930		}
-   931	
-   932		ret = twl_i2c_write_u8(TWL6030_MODULE_ID1, TWL6030_GPADCS,
-   933						TWL6030_REG_TOGGLE1);
-   934		if (ret < 0) {
-   935			dev_err(dev, "failed to enable GPADC module\n");
-   936			return ret;
-   937		}
-   938	
-   939		ret = twl_i2c_write_u8(TWL_MODULE_USB, VBUS_MEAS, USB_VBUS_CTRL_SET);
-   940		if (ret < 0) {
-   941			dev_err(dev, "failed to wire up inputs\n");
-   942			return ret;
-   943		}
-   944	
-   945		ret = twl_i2c_write_u8(TWL_MODULE_USB, ID_MEAS, USB_ID_CTRL_SET);
-   946		if (ret < 0) {
-   947			dev_err(dev, "failed to wire up inputs\n");
-   948			return ret;
-   949		}
-   950	
-   951		ret = twl_i2c_write_u8(TWL6030_MODULE_ID0,
-   952					VBAT_MEAS | BB_MEAS | VAC_MEAS,
-   953					TWL6030_MISC1);
-   954		if (ret < 0) {
-   955			dev_err(dev, "failed to wire up inputs\n");
-   956			return ret;
-   957		}
-   958	
-   959		indio_dev->name = DRIVER_NAME;
-   960		indio_dev->info = &twl6030_gpadc_iio_info;
-   961		indio_dev->modes = INDIO_DIRECT_MODE;
-   962		indio_dev->channels = pdata->iio_channels;
-   963		indio_dev->num_channels = pdata->nchannels;
-   964	
-   965		return iio_device_register(indio_dev);
-   966	}
-   967	
+    20	
+    21	typedef int (spdm_transport)(void *priv, struct device *dev,
+    22				     const void *request, size_t request_sz,
+    23				     void *response, size_t response_sz);
+    24	
+    25	typedef int (spdm_validate)(struct device *dev,
+  > 26				    struct x509_certificate *leaf_cert);
+    27	
 
 -- 
 0-DAY CI Kernel Test Service
