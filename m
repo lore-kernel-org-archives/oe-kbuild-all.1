@@ -1,48 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36127A945;
-	Sat,  2 Sep 2023 19:43:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574DF3C1E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Sep 2023 21:36:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693683814; x=1725219814;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+9vo+M2L7/MeOyDeQ/8iCmxYZrv+WsA2IvXTKmHiP14=;
-  b=h/0MM4KJ0bKt4VO8yoS7ly5i1jOfJiAI+rzbSlYeYSW4Wv3OmgbYChqF
-   QvTVrGKD31hrCO39vsmQ5S+LXEKdJuv77GLZgv5ji197lXR0Fxc9/U592
-   WSDrfqoxG8KT7PRF5gAgaeSTldiZmqzsFhVmUH35updlA39Q6V/NwRZ/1
-   zfwf37xOWNsF05K3UTQXGzYJHH3KFRb9Oe8O6b0OmSbGtUFDBXp60VxJV
-   3oAFq9sWj6e2kBvuide3X4mEv3RSY22W25bVoRw/klnJB/Uk2CnWSPgwa
-   zbafxolDiegvAGQlS/b00k51spVEXoUeDHy7EQoyUiZs5UzHvL9fL0qvG
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="462762159"
+  t=1693690594; x=1725226594;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0nQFvkGLLzZDV9vOcyR5zQ86JIXltpy7Xt8h5TdJD4g=;
+  b=WDyURv+H99/mp3uHY0lIOn0rc6Kck6Dt9ff3IU+lxnKmJyRJe4p3+CBb
+   fbbp/VzK00HZguRy1Fx4OnAP1fRuE/KDXeoh5htJVH31yGelOkhH/SSOL
+   oalBa87r+AJSU38xaNnBbis9A6CojOXtVdnsORaB9VKnerxWACLOTbECU
+   LJwvC2hUlaLF+CO8xE6jLYXnobKUFqizJFsRKH3yBx9tEVdLyfk0/QMS7
+   70ts9X3+bIRrQtNAEjIdZa6jPU01bdtePRx2I+rkwyj8PcA+B1QPEnIoX
+   PX7fItYWkDvYRr6DqtVbJ3tHPFSl4RIHNclWR0H7BwHOyv6ifAmU4/h/8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="366629554"
 X-IronPort-AV: E=Sophos;i="6.02,223,1688454000"; 
-   d="scan'208";a="462762159"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2023 12:43:31 -0700
+   d="scan'208";a="366629554"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2023 14:36:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="863909206"
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="987074514"
 X-IronPort-AV: E=Sophos;i="6.02,223,1688454000"; 
-   d="scan'208";a="863909206"
+   d="scan'208";a="987074514"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 02 Sep 2023 12:43:28 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 02 Sep 2023 14:36:31 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcWWk-0002Yy-1d;
-	Sat, 02 Sep 2023 19:43:26 +0000
-Date: Sun, 3 Sep 2023 03:43:12 +0800
+	id 1qcYI9-0002cZ-32;
+	Sat, 02 Sep 2023 21:36:29 +0000
+Date: Sun, 3 Sep 2023 05:35:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>,
-	"Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Miaohe Lin <linmiaohe@huawei.com>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: [PATCH cgroup/for-6.6-fixes] cgroup: Put
- cgroup_local_stat_show() inside CONFIG_CGROUP_SCHED
-Message-ID: <202309030303.qSTfRgZC-lkp@intel.com>
-References: <ZPNX-jZAZbebizXA@slm.duckdns.org>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [l1k:doe 8/15] lib/spdm_requester.c:1458:30: error: assignment to
+ 'int (*)(void *, struct device *, const void *, size_t,  void *, size_t)'
+ {aka 'int (*)(void *, struct device *, const void *, long unsigned int,
+  void *, long unsigned int)'} from incompatible pointer ty...
+Message-ID: <202309030536.3s8Nwny3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,63 +47,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZPNX-jZAZbebizXA@slm.duckdns.org>
 
-Hi Tejun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20230831]
-[cannot apply to linus/master v6.5 v6.5-rc7 v6.5-rc6 v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tejun-Heo/cgroup-Put-cgroup_local_stat_show-inside-CONFIG_CGROUP_SCHED/20230902-234358
-base:   next-20230831
-patch link:    https://lore.kernel.org/r/ZPNX-jZAZbebizXA%40slm.duckdns.org
-patch subject: [PATCH cgroup/for-6.6-fixes] cgroup: Put cgroup_local_stat_show() inside CONFIG_CGROUP_SCHED
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230903/202309030303.qSTfRgZC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309030303.qSTfRgZC-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux doe
+head:   ed763a31e6c59b6da2def6097fb0463b710121af
+commit: e1b1c6bba0267c230d1776987b241dfd53a00305 [8/15] PCI/CMA: Validate Subject Alternative Name in certificates
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230903/202309030536.3s8Nwny3-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309030536.3s8Nwny3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309030303.qSTfRgZC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309030536.3s8Nwny3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/cgroup/cgroup.c:503:36: warning: 'cgroup_tryget_css' defined but not used [-Wunused-function]
-     503 | static struct cgroup_subsys_state *cgroup_tryget_css(struct cgroup *cgrp,
-         |                                    ^~~~~~~~~~~~~~~~~
+   In file included from lib/spdm_requester.c:19:
+   include/linux/spdm.h:26:36: warning: 'struct x509_certificate' declared inside parameter list will not be visible outside of this definition or declaration
+      26 |                             struct x509_certificate *leaf_cert);
+         |                                    ^~~~~~~~~~~~~~~~
+   lib/spdm_requester.c: In function 'spdm_validate_certificate':
+   lib/spdm_requester.c:1005:60: error: passing argument 2 of 'spdm_state->validate' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1005 |                 rc = spdm_state->validate(spdm_state->dev, cert);
+         |                                                            ^~~~
+         |                                                            |
+         |                                                            struct x509_certificate *
+   lib/spdm_requester.c:1005:60: note: expected 'struct device *' but argument is of type 'struct x509_certificate *'
+   lib/spdm_requester.c:1005:22: error: too few arguments to function 'spdm_state->validate'
+    1005 |                 rc = spdm_state->validate(spdm_state->dev, cert);
+         |                      ^~~~~~~~~~
+   lib/spdm_requester.c: In function 'spdm_create':
+>> lib/spdm_requester.c:1458:30: error: assignment to 'int (*)(void *, struct device *, const void *, size_t,  void *, size_t)' {aka 'int (*)(void *, struct device *, const void *, long unsigned int,  void *, long unsigned int)'} from incompatible pointer type 'int (*)(struct device *, struct x509_certificate *)' [-Werror=incompatible-pointer-types]
+    1458 |         spdm_state->validate = validate;
+         |                              ^
+   cc1: some warnings being treated as errors
 
 
-vim +/cgroup_tryget_css +503 kernel/cgroup/cgroup.c
+vim +1458 lib/spdm_requester.c
 
-42809dd4225b2f kernel/cgroup.c        Tejun Heo 2012-11-19  494  
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  495  /**
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  496   * cgroup_tryget_css - try to get a cgroup's css for the specified subsystem
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  497   * @cgrp: the cgroup of interest
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  498   * @ss: the subsystem of interest
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  499   *
-08b2b6fdf6b260 kernel/cgroup/cgroup.c Zhen Lei  2021-05-24  500   * Find and get @cgrp's css associated with @ss.  If the css doesn't exist
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  501   * or is offline, %NULL is returned.
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  502   */
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23 @503  static struct cgroup_subsys_state *cgroup_tryget_css(struct cgroup *cgrp,
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  504  						     struct cgroup_subsys *ss)
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  505  {
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  506  	struct cgroup_subsys_state *css;
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  507  
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  508  	rcu_read_lock();
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  509  	css = cgroup_css(cgrp, ss);
-a581563f1bef03 kernel/cgroup/cgroup.c Peng Wang 2019-07-03  510  	if (css && !css_tryget_online(css))
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  511  		css = NULL;
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  512  	rcu_read_unlock();
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  513  
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  514  	return css;
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  515  }
-d41bf8c9deaed1 kernel/cgroup/cgroup.c Tejun Heo 2017-10-23  516  
+  1431	
+  1432	/**
+  1433	 * spdm_create() - Allocate SPDM session
+  1434	 *
+  1435	 * @dev: Transport device
+  1436	 * @transport: Transport function to perform one message exchange
+  1437	 * @transport_priv: Transport private data
+  1438	 * @transport_sz: Maximum message size the transport is capable of (in bytes)
+  1439	 * @validate: Function to validate additional leaf certificate requirements
+  1440	 *	(optional, may be %NULL)
+  1441	 * @keyring: Trusted root certificates
+  1442	 *
+  1443	 * Returns a pointer to the allocated SPDM session state or NULL on error.
+  1444	 */
+  1445	struct spdm_state *spdm_create(struct device *dev, spdm_transport *transport,
+  1446				       void *transport_priv, u32 transport_sz,
+  1447				       spdm_validate *validate, struct key *keyring)
+  1448	{
+  1449		struct spdm_state *spdm_state = kzalloc(sizeof(*spdm_state), GFP_KERNEL);
+  1450	
+  1451		if (!spdm_state)
+  1452			return NULL;
+  1453	
+  1454		spdm_state->dev = dev;
+  1455		spdm_state->transport = transport;
+  1456		spdm_state->transport_priv = transport_priv;
+  1457		spdm_state->transport_sz = transport_sz;
+> 1458		spdm_state->validate = validate;
+  1459		spdm_state->root_keyring = keyring;
+  1460	
+  1461		mutex_init(&spdm_state->lock);
+  1462	
+  1463		return spdm_state;
+  1464	}
+  1465	EXPORT_SYMBOL_GPL(spdm_create);
+  1466	
 
 -- 
 0-DAY CI Kernel Test Service
