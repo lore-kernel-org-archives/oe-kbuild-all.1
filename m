@@ -1,197 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0941843;
-	Sun,  3 Sep 2023 09:43:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693734238; x=1725270238;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WV1JIzKkhcDH8bola0T9EjpDUBkvsSAzngS/stWNuaY=;
-  b=G+UzKJSYEasrSHSPBQsDS1O3qPYvbpb5tboBIHibrMvkP/SjgxNj+g5H
-   cENjHx7cgJId4IyUOweulnRdCzXafx8sJu4HH5OGtm9ReS/8exYp4iUok
-   YwvszFAWoRce5hw5cUyNyqjRNMcDKQn7rYCb9+Z/aIcEoauPgMXMQUb4M
-   wn4UQRzIVdILMWh+EkA6UelTDtoLbqOwtePpR1LciYFrY+VQemOQFnT/v
-   BMiv/Q9PkHWi3ZgeH/Ly+WYB53wMRdWW8HevEVOeWgl99/FEnzsJE5Bca
-   BrHUtP0+7TZqBroGxOC1ObfA2rYv81fEPXXLwoKMjRvb0OsCUFhYu5w6q
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="380226626"
-X-IronPort-AV: E=Sophos;i="6.02,224,1688454000"; 
-   d="scan'208";a="380226626"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 02:43:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="734003108"
-X-IronPort-AV: E=Sophos;i="6.02,224,1688454000"; 
-   d="scan'208";a="734003108"
-Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 03 Sep 2023 02:43:52 -0700
-Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qcje1-00034P-24;
-	Sun, 03 Sep 2023 09:43:49 +0000
-Date: Sun, 3 Sep 2023 17:43:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>, brendan.higgins@linux.dev,
-	davidgow@google.com, skhan@linuxfoundation.org,
-	jk@codeconstruct.com.au, dlatypov@google.com, rmoar@google.com,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/4] kunit: Fix the wrong err path and add goto labels
- in kunit_filter_suites()
-Message-ID: <202309031713.CDgtY4ZB-lkp@intel.com>
-References: <20230903071028.1518913-3-ruanjinjie@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3357F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 12:07:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1693742823;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ww/X9A++x5CfrbV8/KeMYfQ017da0o9tfjIpanjcu1A=;
+	b=gYIHUzJIXKocEn1kdMKrMDOjyXm1JIyMZ8gefz0MwMX+73mPfsWB5WcUWre3cv5uiSH64B
+	BiARikvuiX0lZ15aqGUmCkewZZjBf7xknQVr9Cq9ERRm13W5NihvJmRiWBqgNsjcie9vLs
+	ozx4OoBgPfjuEg98ZlMLkKhYYMfew/M=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-683-lZGI4Z7JP_-3Sw9tJ5ZWBw-1; Sun, 03 Sep 2023 08:07:01 -0400
+X-MC-Unique: lZGI4Z7JP_-3Sw9tJ5ZWBw-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-99bca0b9234so35656166b.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Sep 2023 05:07:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693742821; x=1694347621;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ww/X9A++x5CfrbV8/KeMYfQ017da0o9tfjIpanjcu1A=;
+        b=YVU0vSKa1tOrftvL1yYat18G6fAmiI7d+gOOe4kgiEdFxHX+hVBx3PmO3S1G9/Cxyt
+         ds2ttdn+mnL5l5sedL6FP5o8DCEB7oEhy/zXO5CeYJGUQQkeaTgTQ9PrtaOPT/uD2aLo
+         4ALbld+7G8tLZDsRhxNeAVgKU4JMKnZ0C/VrVRltMYo/eVfx/wnOIvDwqqFoD5idQsnb
+         5bZPw9GBlWbU8ZjeKzWCUKr8lPyiLoPRpFWjl5ezcWL/eS00aP8iPiWM6BALCpjUqs7l
+         tn+07DAq21czfad7WyGaYg7ottrpb9QCu9KEoTmnWcIPzjvy+h016BRn1QDq0U9qDNYk
+         w/7w==
+X-Gm-Message-State: AOJu0YyxquHQ8+RAohO+ma+XwAjnyKOL2fDMZR2S4DJaVi2xr9BLwI5u
+	fzOlTRLRcIHaaw/hrbHKdtd9SRAB0DIFPz7vZq6yDXp9MPH+gy24AmqEVzbAraaWEz0xzU2L7L1
+	fw12ypTjHRsqd/ItwsEpDiOw/Xw==
+X-Received: by 2002:a17:907:2c77:b0:9a1:be50:ae61 with SMTP id ib23-20020a1709072c7700b009a1be50ae61mr4520750ejc.69.1693742820840;
+        Sun, 03 Sep 2023 05:07:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEZI9cDOCy5Of03hhWcDQWRttrAYSGtOIHFJh+LXh/+REb+CH5467mefoQoU9OhSTXlKuV8Rg==
+X-Received: by 2002:a17:907:2c77:b0:9a1:be50:ae61 with SMTP id ib23-20020a1709072c7700b009a1be50ae61mr4520740ejc.69.1693742820494;
+        Sun, 03 Sep 2023 05:07:00 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id ov22-20020a170906fc1600b00992c92af6f4sm4781695ejb.144.2023.09.03.05.06.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Sep 2023 05:06:59 -0700 (PDT)
+Message-ID: <da3fe9b0-9a64-e912-d8ec-b3e9acd1813e@redhat.com>
+Date: Sun, 3 Sep 2023 14:06:58 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230903071028.1518913-3-ruanjinjie@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: ld.lld: error: undefined symbol: sysfs_format_mac
+To: Randy Dunlap <rdunlap@infradead.org>, kernel test robot <lkp@intel.com>,
+ David Thompson <davthompson@nvidia.com>,
+ "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
+ Vadim Pasternak <vadimp@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Shravan Kumar Ramani <shravankr@nvidia.com>
+References: <202309031058.JvwNDBKt-lkp@intel.com>
+ <e566266a-f6f8-bad2-884d-22c394be52be@infradead.org>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <e566266a-f6f8-bad2-884d-22c394be52be@infradead.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Jinjie,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On 9/3/23 06:32, Randy Dunlap wrote:
+> 
+> 
+> On 9/2/23 19:39, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>> head:   92901222f83d988617aee37680cb29e1a743b5e4
+>> commit: 7e38a7422f128e7d7ba24b444e957d585dbb272f mlxbf-bootctl: Support sysfs entries for MFG fields
+>> date:   10 days ago
+>> config: arm64-randconfig-r024-20230902 (https://download.01.org/0day-ci/archive/20230903/202309031058.JvwNDBKt-lkp@intel.com/config)
+>> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309031058.JvwNDBKt-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202309031058.JvwNDBKt-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>>> ld.lld: error: undefined symbol: sysfs_format_mac
+>>    >>> referenced by xarray.c
+> 
+> I don't see what xarray.c has to do with this.
+> 
+> This happens when CONFIG_NET is not enabled.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on next-20230831]
-[cannot apply to v6.5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Right, so this suggests that config MLXBF_BOOTCTL in
+drivers/platform/mellanox/Kconfig needs a:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/kunit-Fix-wild-memory-access-bug-in-kunit_free_suite_set/20230903-151137
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230903071028.1518913-3-ruanjinjie%40huawei.com
-patch subject: [PATCH v2 2/4] kunit: Fix the wrong err path and add goto labels in kunit_filter_suites()
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230903/202309031713.CDgtY4ZB-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309031713.CDgtY4ZB-lkp@intel.com/reproduce)
+	depends on NET
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309031713.CDgtY4ZB-lkp@intel.com/
+David, Vadim, can one of you submit a patch for this?
 
-All warnings (new ones prefixed by >>):
+Then I'll get that queued up as a 6.6 fix.
 
->> lib/kunit/executor.c:221:1: warning: unused label 'free_parsed_glob' [-Wunused-label]
-   free_parsed_glob:
-   ^~~~~~~~~~~~~~~~~
->> lib/kunit/executor.c:227:1: warning: unused label 'free_copy' [-Wunused-label]
-   free_copy:
-   ^~~~~~~~~~
-   2 warnings generated.
+Regards,
+
+Hans
 
 
-vim +/free_parsed_glob +221 lib/kunit/executor.c
+p.s.
 
-   132	
-   133	struct kunit_suite_set
-   134	kunit_filter_suites(const struct kunit_suite_set *suite_set,
-   135			    const char *filter_glob,
-   136			    char *filters,
-   137			    char *filter_action,
-   138			    int *err)
-   139	{
-   140		int i, j, k;
-   141		int filter_count = 0;
-   142		struct kunit_suite **copy, **copy_start, *filtered_suite, *new_filtered_suite;
-   143		struct kunit_suite_set filtered = {NULL, NULL};
-   144		struct kunit_glob_filter parsed_glob;
-   145		struct kunit_attr_filter *parsed_filters = NULL;
-   146	
-   147		const size_t max = suite_set->end - suite_set->start;
-   148	
-   149		copy = kmalloc_array(max, sizeof(*filtered.start), GFP_KERNEL);
-   150		if (!copy) { /* won't be able to run anything, return an empty set */
-   151			return filtered;
-   152		}
-   153		copy_start = copy;
-   154	
-   155		if (filter_glob)
-   156			kunit_parse_glob_filter(&parsed_glob, filter_glob);
-   157	
-   158		/* Parse attribute filters */
-   159		if (filters) {
-   160			filter_count = kunit_get_filter_count(filters);
-   161			parsed_filters = kcalloc(filter_count, sizeof(*parsed_filters), GFP_KERNEL);
-   162			if (!parsed_filters) {
-   163				kfree(copy);
-   164				return filtered;
-   165			}
-   166			for (j = 0; j < filter_count; j++)
-   167				parsed_filters[j] = kunit_next_attr_filter(&filters, err);
-   168			if (*err)
-   169				goto free_parsed_filters;
-   170		}
-   171	
-   172		for (i = 0; &suite_set->start[i] != suite_set->end; i++) {
-   173			filtered_suite = suite_set->start[i];
-   174			if (filter_glob) {
-   175				if (!glob_match(parsed_glob.suite_glob, filtered_suite->name))
-   176					continue;
-   177				filtered_suite = kunit_filter_glob_tests(filtered_suite,
-   178						parsed_glob.test_glob);
-   179				if (IS_ERR(filtered_suite)) {
-   180					*err = PTR_ERR(filtered_suite);
-   181					goto free_parsed_filters;
-   182				}
-   183			}
-   184			if (filter_count > 0 && parsed_filters != NULL) {
-   185				for (k = 0; k < filter_count; k++) {
-   186					new_filtered_suite = kunit_filter_attr_tests(filtered_suite,
-   187							parsed_filters[k], filter_action, err);
-   188	
-   189					/* Free previous copy of suite */
-   190					if (k > 0 || filter_glob) {
-   191						kfree(filtered_suite->test_cases);
-   192						kfree(filtered_suite);
-   193					}
-   194	
-   195					filtered_suite = new_filtered_suite;
-   196	
-   197					if (*err)
-   198						goto free_parsed_filters;
-   199	
-   200					if (IS_ERR(filtered_suite)) {
-   201						*err = PTR_ERR(filtered_suite);
-   202						goto free_parsed_filters;
-   203					}
-   204					if (!filtered_suite)
-   205						break;
-   206				}
-   207			}
-   208	
-   209			if (!filtered_suite)
-   210				continue;
-   211	
-   212			*copy++ = filtered_suite;
-   213		}
-   214		filtered.start = copy_start;
-   215		filtered.end = copy;
-   216	
-   217	free_parsed_filters:
-   218		if (filter_count)
-   219			kfree(parsed_filters);
-   220	
- > 221	free_parsed_glob:
-   222		if (filter_glob) {
-   223			kfree(parsed_glob.suite_glob);
-   224			kfree(parsed_glob.test_glob);
-   225		}
-   226	
- > 227	free_copy:
-   228		if (*err)
-   229			kfree(copy);
-   230	
-   231		return filtered;
-   232	}
-   233	
+I wonder if it would not be better to just turn into
+a static inline helper instead of an exported symbol.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+It is really just a small wrapper around sysfs_emit():
+
+ssize_t sysfs_format_mac(char *buf, const unsigned char *addr, int len)
+{
+        return sysfs_emit(buf, "%*phC\n", len, addr);
+}
+EXPORT_SYMBOL(sysfs_format_mac);
+
+Making this a static inline thus should not grow the code
+size, while removing a symbol from the exported symbol list.
+
+Regards,
+
+Hans
+
+
+
+
+>>    >>>               vmlinux.o:(oob_mac_show)
+>>
+> 
+
