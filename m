@@ -1,95 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8961D2F49
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 19:50:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693770612; x=1725306612;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x3GVfWhki++8lV9z2kUNz+uOxebjvZs6/ud+6+Ujkp8=;
-  b=jdhvUoxXZOojS4dEbcW8xxcpaj8aOatASk04DGkpO85iWA8C4MOvUk3B
-   h/NnTqoMNc5Hqcx3POGs302WpdIMOzemCldmvnpeOb0KZyjmYubcVXIdW
-   B/NkTDlclwXupE/nexD7nMGxUjaEEeZd19DptLx2e94Okd1ExM9hWqEfH
-   tK/8Tuv+qaN4QEP9e8vbQgAxq5LH9xGGYUyTe+hHrw6qZF6B0D94VBbl5
-   GDraczAM41O/qVaBRm9pSWk29Zp+hJN4iOg1xAlp0h1dNzQZKjDmrJ7d8
-   KO93w5gQJ8Dj9aM2HuaOvD78wtoO1grzPgZAhmtF6j5f0pySzK1iPACn0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="407473032"
-X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
-   d="scan'208";a="407473032"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 12:50:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="864122315"
-X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
-   d="scan'208";a="864122315"
-Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 03 Sep 2023 12:50:10 -0700
-Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qct6l-0003NZ-2e;
-	Sun, 03 Sep 2023 19:50:07 +0000
-Date: Mon, 4 Sep 2023 03:50:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:doe 8/15] include/linux/asn1_decoder.h:18:29: error: unknown
- type name 'size_t'
-Message-ID: <202309040347.SX9rRQmW-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37253C1E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 21:31:05 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213.211-177-91.adsl-dyn.isp.belgacom.be [91.177.211.213])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96B8716C6;
+	Sun,  3 Sep 2023 23:20:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1693776021;
+	bh=ffNpebL5OHY9KK9uB5GFoD3Et558XBYASnrccXM+dno=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jDBN4qm6LbFWdvAie9nafJFE0Lv82hcNjLDY+5gW0yIlOaU5xJJS4z+zmbo61WODk
+	 xZWUSnkIgoWu6qHSO5If1+V6b7+zxaIN/nE5mqFvmzxUUAXtKMx+G7ExFx/LcR6uxa
+	 fw9+bWND/oCDEOAUVFMuuLKKPuo8UA4zahuREs50=
+Date: Mon, 4 Sep 2023 00:21:58 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	Lee Jackson <lee.jackson@arducam.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Shawn Tu <shawnx.tu@intel.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>,
+	kieran.bingham@ideasonboard.com,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH 2/2] media: i2c: imx519: Support for the Sony IMX519
+ sensor
+Message-ID: <20230903212158.GF13794@pendragon.ideasonboard.com>
+References: <20230727154108.308320-3-umang.jain@ideasonboard.com>
+ <202307281538.bqZ5kcV9-lkp@intel.com>
+ <1070170e-830c-4752-bad5-8f653ebd80a4@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <1070170e-830c-4752-bad5-8f653ebd80a4@ideasonboard.com>
 
-tree:   https://github.com/l1k/linux doe
-head:   1430ef1999191072a90921acf7cb2dc7f2ec2478
-commit: 9e92ef1d4d322b277b0f9b87995c681dffdb7f95 [8/15] PCI/CMA: Validate Subject Alternative Name in certificates
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230904/202309040347.SX9rRQmW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230904/202309040347.SX9rRQmW-lkp@intel.com/reproduce)
+Hi Umang,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309040347.SX9rRQmW-lkp@intel.com/
+On Fri, Jul 28, 2023 at 01:47:36PM +0530, Umang Jain wrote:
+> On 7/28/23 12:56 PM, kernel test robot wrote:
+> > Hi Umang,
+> >
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on media-tree/master]
+> > [also build test ERROR on soc/for-next linus/master v6.5-rc3 next-20230727]
+> > [cannot apply to sailus-media-tree/streams]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-dt-bindings-imx519-Add-IMX519-DT-bindings/20230727-234440
+> > base:   git://linuxtv.org/media_tree.git master
+> > patch link:    https://lore.kernel.org/r/20230727154108.308320-3-umang.jain%40ideasonboard.com
+> > patch subject: [PATCH 2/2] media: i2c: imx519: Support for the Sony IMX519 sensor
+> > config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230728/202307281538.bqZ5kcV9-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20230728/202307281538.bqZ5kcV9-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202307281538.bqZ5kcV9-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >     drivers/media/i2c/imx519.c: In function 'imx519_open':
+> >>> drivers/media/i2c/imx519.c:1170:30: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
+> 
+> This comes from the bcm2835-unicam for Rpi's that's being worked upon. 
+> And I was testing this driver on top of it.
 
-All errors (new ones prefixed by >>):
+Please base the next version on top of Sakari's metadata series, provide
+a branch with your patches and all dependencies in the cover letter, and
+use the --base argument to git-format-patch to indicate the base
+clearly.
 
-   In file included from drivers/pci/cma-x509.c:19:
->> include/linux/asn1_decoder.h:18:29: error: unknown type name 'size_t'
-      18 |                             size_t datalen);
-         |                             ^~~~~~
-   include/linux/asn1_decoder.h:12:1: note: 'size_t' is defined in header '<stddef.h>'; did you forget to '#include <stddef.h>'?
-      11 | #include <linux/asn1.h>
-     +++ |+#include <stddef.h>
-      12 | 
-   drivers/pci/cma-x509.c: In function 'pci_cma_validate':
->> drivers/pci/cma-x509.c:106:15: error: implicit declaration of function 'asn1_ber_decoder' [-Werror=implicit-function-declaration]
-     106 |         ret = asn1_ber_decoder(&cma_decoder, &ctx, leaf_cert->raw_san,
-         |               ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/size_t +18 include/linux/asn1_decoder.h
-
-42d5ec27f873c6 David Howells 2012-09-24  14  
-42d5ec27f873c6 David Howells 2012-09-24  15  extern int asn1_ber_decoder(const struct asn1_decoder *decoder,
-42d5ec27f873c6 David Howells 2012-09-24  16  			    void *context,
-42d5ec27f873c6 David Howells 2012-09-24  17  			    const unsigned char *data,
-42d5ec27f873c6 David Howells 2012-09-24 @18  			    size_t datalen);
-42d5ec27f873c6 David Howells 2012-09-24  19  
-
-:::::: The code at line 18 was first introduced by commit
-:::::: 42d5ec27f873c654a68f7f865dcd7737513e9508 X.509: Add an ASN.1 decoder
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: Rusty Russell <rusty@rustcorp.com.au>
+> >      1170 |         try_fmt_meta->code = MEDIA_BUS_FMT_SENSOR_DATA;
+> >           |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >     drivers/media/i2c/imx519.c:1170:30: note: each undeclared identifier is reported only once for each function it appears in
+> >     drivers/media/i2c/imx519.c: In function 'imx519_enum_mbus_code':
+> >     drivers/media/i2c/imx519.c:1319:30: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
+> >      1319 |                 code->code = MEDIA_BUS_FMT_SENSOR_DATA;
+> >           |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >     drivers/media/i2c/imx519.c: In function 'imx519_enum_frame_size':
+> >     drivers/media/i2c/imx519.c:1346:34: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
+> >      1346 |                 if (fse->code != MEDIA_BUS_FMT_SENSOR_DATA || fse->index > 0)
+> >           |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >     drivers/media/i2c/imx519.c: In function 'imx519_update_metadata_pad_format':
+> >     drivers/media/i2c/imx519.c:1382:28: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
+> >      1382 |         fmt->format.code = MEDIA_BUS_FMT_SENSOR_DATA;
+> >           |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >     drivers/media/i2c/imx519.c: In function 'imx519_get_pad_format':
+> >     drivers/media/i2c/imx519.c:1404:33: error: 'MEDIA_BUS_FMT_SENSOR_DATA' undeclared (first use in this function)
+> >      1404 |                                 MEDIA_BUS_FMT_SENSOR_DATA;
+> >           |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> >
+> > vim +/MEDIA_BUS_FMT_SENSOR_DATA +1170 drivers/media/i2c/imx519.c
+> >
+> >    1149	
+> >    1150	static int imx519_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> >    1151	{
+> >    1152		struct imx519 *imx519 = to_imx519(sd);
+> >    1153		struct v4l2_mbus_framefmt *try_fmt_img =
+> >    1154			v4l2_subdev_get_try_format(sd, fh->state, IMAGE_PAD);
+> >    1155		struct v4l2_mbus_framefmt *try_fmt_meta =
+> >    1156			v4l2_subdev_get_try_format(sd, fh->state, METADATA_PAD);
+> >    1157		struct v4l2_rect *try_crop;
+> >    1158	
+> >    1159		mutex_lock(&imx519->mutex);
+> >    1160	
+> >    1161		/* Initialize try_fmt for the image pad */
+> >    1162		try_fmt_img->width = supported_modes_10bit[0].width;
+> >    1163		try_fmt_img->height = supported_modes_10bit[0].height;
+> >    1164		try_fmt_img->code = imx519_get_format_code(imx519);
+> >    1165		try_fmt_img->field = V4L2_FIELD_NONE;
+> >    1166	
+> >    1167		/* Initialize try_fmt for the embedded metadata pad */
+> >    1168		try_fmt_meta->width = IMX519_EMBEDDED_LINE_WIDTH;
+> >    1169		try_fmt_meta->height = IMX519_NUM_EMBEDDED_LINES;
+> >> 1170		try_fmt_meta->code = MEDIA_BUS_FMT_SENSOR_DATA;
+> >    1171		try_fmt_meta->field = V4L2_FIELD_NONE;
+> >    1172	
+> >    1173		/* Initialize try_crop */
+> >    1174		try_crop = v4l2_subdev_get_try_crop(sd, fh->state, IMAGE_PAD);
+> >    1175		try_crop->left = IMX519_PIXEL_ARRAY_LEFT;
+> >    1176		try_crop->top = IMX519_PIXEL_ARRAY_TOP;
+> >    1177		try_crop->width = IMX519_PIXEL_ARRAY_WIDTH;
+> >    1178		try_crop->height = IMX519_PIXEL_ARRAY_HEIGHT;
+> >    1179	
+> >    1180		mutex_unlock(&imx519->mutex);
+> >    1181	
+> >    1182		return 0;
+> >    1183	}
+> >    1184	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
