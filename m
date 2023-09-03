@@ -1,35 +1,35 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D311843
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 09:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0941843;
+	Sun,  3 Sep 2023 09:43:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693734236; x=1725270236;
+  t=1693734238; x=1725270238;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nVvY2zgMHS1Nk0W2QWVzNbG/CIXehPZg1lY9zdv05zs=;
-  b=eX4zuBuvIkaEH0dnY91R8ChhXujUzRsGImdGvFZPpJCEHu5ct58ZXAky
-   gE+BiLEtbmojlkni3ACq5IvVmxbIVwgkMi+Dfg+TveCVhRPnyukYliBvP
-   hmQ/vUhNmWgQcnb29hf6xWi+tQ+G3QixrcJ0J2nWXAxN2Y+Eh9wgVSeMc
-   CK7tZu4DJpHO6SD/79d244wS18oSlk/SjYq2aQJZZBtLf+q79N/fWAXxX
-   WhqMnCywfPZn3hX+ed2fBvz28tyH6+8WKdaQDQuGR2OF6rvdvLZ0WDPsR
-   Vwa3xUM0a++oZqqiMQoYzm8U8ISVlV2E+TSnC0fTsWyvyh9Kopu/ZXJvc
+  bh=WV1JIzKkhcDH8bola0T9EjpDUBkvsSAzngS/stWNuaY=;
+  b=G+UzKJSYEasrSHSPBQsDS1O3qPYvbpb5tboBIHibrMvkP/SjgxNj+g5H
+   cENjHx7cgJId4IyUOweulnRdCzXafx8sJu4HH5OGtm9ReS/8exYp4iUok
+   YwvszFAWoRce5hw5cUyNyqjRNMcDKQn7rYCb9+Z/aIcEoauPgMXMQUb4M
+   wn4UQRzIVdILMWh+EkA6UelTDtoLbqOwtePpR1LciYFrY+VQemOQFnT/v
+   BMiv/Q9PkHWi3ZgeH/Ly+WYB53wMRdWW8HevEVOeWgl99/FEnzsJE5Bca
+   BrHUtP0+7TZqBroGxOC1ObfA2rYv81fEPXXLwoKMjRvb0OsCUFhYu5w6q
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="380226618"
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="380226626"
 X-IronPort-AV: E=Sophos;i="6.02,224,1688454000"; 
-   d="scan'208";a="380226618"
+   d="scan'208";a="380226626"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 02:43:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="734003107"
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="734003108"
 X-IronPort-AV: E=Sophos;i="6.02,224,1688454000"; 
-   d="scan'208";a="734003107"
+   d="scan'208";a="734003108"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 03 Sep 2023 02:43:52 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcje1-00034N-1x;
+	id 1qcje1-00034P-24;
 	Sun, 03 Sep 2023 09:43:49 +0000
 Date: Sun, 3 Sep 2023 17:43:45 +0800
 From: kernel test robot <lkp@intel.com>
@@ -37,10 +37,10 @@ To: Jinjie Ruan <ruanjinjie@huawei.com>, brendan.higgins@linux.dev,
 	davidgow@google.com, skhan@linuxfoundation.org,
 	jk@codeconstruct.com.au, dlatypov@google.com, rmoar@google.com,
 	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v2 2/4] kunit: Fix the wrong err path and add goto labels
  in kunit_filter_suites()
-Message-ID: <202309031733.usGHpnSR-lkp@intel.com>
+Message-ID: <202309031713.CDgtY4ZB-lkp@intel.com>
 References: <20230903071028.1518913-3-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -67,27 +67,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/kunit-Fix-wil
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20230903071028.1518913-3-ruanjinjie%40huawei.com
 patch subject: [PATCH v2 2/4] kunit: Fix the wrong err path and add goto labels in kunit_filter_suites()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230903/202309031733.usGHpnSR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309031733.usGHpnSR-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230903/202309031713.CDgtY4ZB-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309031713.CDgtY4ZB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309031733.usGHpnSR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309031713.CDgtY4ZB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   lib/kunit/executor.c: In function 'kunit_filter_suites':
->> lib/kunit/executor.c:227:1: warning: label 'free_copy' defined but not used [-Wunused-label]
-     227 | free_copy:
-         | ^~~~~~~~~
->> lib/kunit/executor.c:221:1: warning: label 'free_parsed_glob' defined but not used [-Wunused-label]
-     221 | free_parsed_glob:
-         | ^~~~~~~~~~~~~~~~
+>> lib/kunit/executor.c:221:1: warning: unused label 'free_parsed_glob' [-Wunused-label]
+   free_parsed_glob:
+   ^~~~~~~~~~~~~~~~~
+>> lib/kunit/executor.c:227:1: warning: unused label 'free_copy' [-Wunused-label]
+   free_copy:
+   ^~~~~~~~~~
+   2 warnings generated.
 
 
-vim +/free_copy +227 lib/kunit/executor.c
+vim +/free_parsed_glob +221 lib/kunit/executor.c
 
    132	
    133	struct kunit_suite_set
