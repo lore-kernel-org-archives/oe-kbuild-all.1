@@ -1,43 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F249445
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 22:38:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917839445
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 22:38:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693780730; x=1725316730;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9NovGL8dnJWzDfTSq+AqM7wiOl2UunOPSwX6lKye3Hg=;
-  b=hV9XlpqVbxK4h3eZSf1i6bcgOfIvIEcVAVz73/hFtUshsWbjab3m9TVQ
-   ow4zxyEqRjnAMivibgyFQhZC9kU2KbIkkpX/x4iSZNDqIpq8HSa0HQOPD
-   H1GZMr43wQ1OPaQi7HhHCq3kb3G7OdpQ/VFkJbsrUzRRmJ/ScLu7RDb1A
-   FLVce/CXmntoAgRdAYQ67dcREazOJ8a9z7Sv4c2U6/nVAxARbpmSmLovr
-   ul62R5trXIZBHSTi3cLotALBiRPuDwg4PzwWdNpjRSw0JVHoUKsxQHJu9
-   G34893ZpPhOV6ASGtTQBCVHCaucWMtK5mDVya/Kx3CRCngH7qtjcA9cIH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="440451015"
+  t=1693780736; x=1725316736;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+jr/PE8l8ZoDPqDl9jha6OK+TY21OI/UH5MwK4WtTKc=;
+  b=nk7wdkRvsRejuJ3hyiEe14E2kJfICKi/bI36lqJ9E8Y959yc3zF/znz1
+   MsW215SlfvEF90JGe+3GzNEOk7QOKkguVs7GyvrEhKkdAmiLC2RtfUBfQ
+   cU5/zHDDrl8ObLHPIMjUkZYgqhOdqUwYTcK/JNxCrt+8rfELb4IPSkOdp
+   ykkiDzgS2JiPHQ6/Z1263sOuN7j1qUzOZJz5btmQ80TFNqPOzWO8oI7jj
+   IKYUw5QT4jJOTxYP0CID08jLnOZEKvw8lCefSpI63h+mAaq4OhpqHkQ8f
+   +OMlm2We8TXcb604NKzRMPgu17oEnsY5B/2zoSP1M1gsTaz0ZPV0Jlxvq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="375383337"
 X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
-   d="scan'208";a="440451015"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 15:38:49 -0700
+   d="scan'208";a="375383337"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 15:38:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="1071379533"
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="690392333"
 X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
-   d="scan'208";a="1071379533"
+   d="scan'208";a="690392333"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Sep 2023 15:38:48 -0700
+  by orsmga003.jf.intel.com with ESMTP; 03 Sep 2023 15:38:48 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcvjy-0003Tj-1Q;
+	id 1qcvjy-0003Tl-1U;
 	Sun, 03 Sep 2023 22:38:46 +0000
-Date: Mon, 4 Sep 2023 06:37:58 +0800
+Date: Mon, 4 Sep 2023 06:38:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:fix-larp-requirements-6.6 15/16] fs/xfs/xfs_qm.c:1327:2:
- error: call to undeclared function 'xfs_set_quotacheck_running'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202309040641.HAT6buHi-lkp@intel.com>
+To: cujomalainey@chromium.org, alsa-devel@alsa-project.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Curtis Malainey <cujomalainey@chromium.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>, Dan Carpenter <error27@gmail.com>,
+	"Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
+	Clement Lecigne <clecigne@google.com>,
+	Min-Hua Chen <minhuadotchen@gmail.com>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thierry Reding <treding@nvidia.com>,
+	Geoff Levand <geoff@infradead.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 2/2] ALSA: core: split control primitives out of snd_card
+Message-ID: <202309040658.LwLeCNwY-lkp@intel.com>
+References: <20230824210339.1126993-3-cujomalainey@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,174 +65,395 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230824210339.1126993-3-cujomalainey@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fix-larp-requirements-6.6
-head:   a74281779cc1e023dda2faa836e190a79b58f332
-commit: 9efe678bf13a9719c6938e0b6945cb2a69cbc1c7 [15/16] xfs: make inode unlinked bucket recovery work with quotacheck
-config: x86_64-randconfig-006-20230904 (https://download.01.org/0day-ci/archive/20230904/202309040641.HAT6buHi-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230904/202309040641.HAT6buHi-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on tiwai-sound/for-linus linus/master next-20230831]
+[cannot apply to broonie-sound/for-next v6.5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/cujomalainey-chromium-org/ALSA-core-add-snd_device_init/20230825-050745
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230824210339.1126993-3-cujomalainey%40chromium.org
+patch subject: [PATCH 2/2] ALSA: core: split control primitives out of snd_card
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230904/202309040658.LwLeCNwY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230904/202309040658.LwLeCNwY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309040641.HAT6buHi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309040658.LwLeCNwY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/xfs/xfs_qm.c:1327:2: error: call to undeclared function 'xfs_set_quotacheck_running'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           xfs_set_quotacheck_running(mp);
-           ^
->> fs/xfs/xfs_qm.c:1330:2: error: call to undeclared function 'xfs_clear_quotacheck_running'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           xfs_clear_quotacheck_running(mp);
-           ^
-   2 errors generated.
+   sound/core/oss/mixer_oss.c: In function 'snd_mixer_oss_get_volume1_vol':
+>> sound/core/oss/mixer_oss.c:542:24: error: 'struct snd_card' has no member named 'controls_rwsem'
+     542 |         down_read(&card->controls_rwsem);
+         |                        ^~
+   sound/core/oss/mixer_oss.c:545:30: error: 'struct snd_card' has no member named 'controls_rwsem'
+     545 |                 up_read(&card->controls_rwsem);
+         |                              ^~
+   sound/core/oss/mixer_oss.c:563:22: error: 'struct snd_card' has no member named 'controls_rwsem'
+     563 |         up_read(&card->controls_rwsem);
+         |                      ^~
+   sound/core/oss/mixer_oss.c: In function 'snd_mixer_oss_get_volume1_sw':
+   sound/core/oss/mixer_oss.c:581:24: error: 'struct snd_card' has no member named 'controls_rwsem'
+     581 |         down_read(&card->controls_rwsem);
+         |                        ^~
+   sound/core/oss/mixer_oss.c:584:30: error: 'struct snd_card' has no member named 'controls_rwsem'
+     584 |                 up_read(&card->controls_rwsem);
+         |                              ^~
+   sound/core/oss/mixer_oss.c:603:22: error: 'struct snd_card' has no member named 'controls_rwsem'
+     603 |         up_read(&card->controls_rwsem);
+         |                      ^~
+   sound/core/oss/mixer_oss.c: In function 'snd_mixer_oss_put_volume1_vol':
+   sound/core/oss/mixer_oss.c:647:24: error: 'struct snd_card' has no member named 'controls_rwsem'
+     647 |         down_read(&card->controls_rwsem);
+         |                        ^~
+   sound/core/oss/mixer_oss.c:650:30: error: 'struct snd_card' has no member named 'controls_rwsem'
+     650 |                 up_read(&card->controls_rwsem);
+         |                              ^~
+   sound/core/oss/mixer_oss.c:671:22: error: 'struct snd_card' has no member named 'controls_rwsem'
+     671 |         up_read(&card->controls_rwsem);
+         |                      ^~
+   sound/core/oss/mixer_oss.c: In function 'snd_mixer_oss_put_volume1_sw':
+   sound/core/oss/mixer_oss.c:690:24: error: 'struct snd_card' has no member named 'controls_rwsem'
+     690 |         down_read(&card->controls_rwsem);
+         |                        ^~
+   sound/core/oss/mixer_oss.c:693:30: error: 'struct snd_card' has no member named 'controls_rwsem'
+     693 |                 up_read(&card->controls_rwsem);
+         |                              ^~
+   sound/core/oss/mixer_oss.c:718:22: error: 'struct snd_card' has no member named 'controls_rwsem'
+     718 |         up_read(&card->controls_rwsem);
+         |                      ^~
+   sound/core/oss/mixer_oss.c: In function 'snd_mixer_oss_get_recsrc2':
+   sound/core/oss/mixer_oss.c:835:24: error: 'struct snd_card' has no member named 'controls_rwsem'
+     835 |         down_read(&card->controls_rwsem);
+         |                        ^~
+   sound/core/oss/mixer_oss.c:863:22: error: 'struct snd_card' has no member named 'controls_rwsem'
+     863 |         up_read(&card->controls_rwsem);
+         |                      ^~
+   sound/core/oss/mixer_oss.c: In function 'snd_mixer_oss_put_recsrc2':
+   sound/core/oss/mixer_oss.c:888:24: error: 'struct snd_card' has no member named 'controls_rwsem'
+     888 |         down_read(&card->controls_rwsem);
+         |                        ^~
+   sound/core/oss/mixer_oss.c:919:22: error: 'struct snd_card' has no member named 'controls_rwsem'
+     919 |         up_read(&card->controls_rwsem);
+         |                      ^~
+   sound/core/oss/mixer_oss.c: In function 'snd_mixer_oss_build_test':
+   sound/core/oss/mixer_oss.c:939:24: error: 'struct snd_card' has no member named 'controls_rwsem'
+     939 |         down_read(&card->controls_rwsem);
+         |                        ^~
+   sound/core/oss/mixer_oss.c:942:30: error: 'struct snd_card' has no member named 'controls_rwsem'
+     942 |                 up_read(&card->controls_rwsem);
+         |                              ^~
+   sound/core/oss/mixer_oss.c:947:30: error: 'struct snd_card' has no member named 'controls_rwsem'
+     947 |                 up_read(&card->controls_rwsem);
+         |                              ^~
+   sound/core/oss/mixer_oss.c:952:30: error: 'struct snd_card' has no member named 'controls_rwsem'
+     952 |                 up_read(&card->controls_rwsem);
+         |                              ^~
+   sound/core/oss/mixer_oss.c:957:22: error: 'struct snd_card' has no member named 'controls_rwsem'
+     957 |         up_read(&card->controls_rwsem);
+         |                      ^~
+   sound/core/oss/mixer_oss.c: In function 'snd_mixer_oss_build_input':
+   sound/core/oss/mixer_oss.c:1071:31: error: 'struct snd_card' has no member named 'controls_rwsem'
+    1071 |         down_read(&mixer->card->controls_rwsem);
+         |                               ^~
+   sound/core/oss/mixer_oss.c:1080:45: error: 'struct snd_card' has no member named 'controls_rwsem'
+    1080 |                         up_read(&mixer->card->controls_rwsem);
+         |                                             ^~
+   sound/core/oss/mixer_oss.c:1085:45: error: 'struct snd_card' has no member named 'controls_rwsem'
+    1085 |                         up_read(&mixer->card->controls_rwsem);
+         |                                             ^~
+   sound/core/oss/mixer_oss.c:1101:61: error: 'struct snd_card' has no member named 'controls_rwsem'
+    1101 |                                         up_read(&mixer->card->controls_rwsem);
+         |                                                             ^~
+   sound/core/oss/mixer_oss.c:1113:29: error: 'struct snd_card' has no member named 'controls_rwsem'
+    1113 |         up_read(&mixer->card->controls_rwsem);
+         |                             ^~
+--
+   In file included from include/linux/kernel.h:21,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/pm_runtime.h:11,
+                    from sound/soc/intel/catpt/pcm.c:8:
+   sound/soc/intel/catpt/pcm.c: In function 'catpt_dai_apply_usettings':
+>> sound/soc/intel/catpt/pcm.c:357:60: error: 'struct snd_card' has no member named 'controls'
+     357 |         list_for_each_entry(pos, &component->card->snd_card->controls, list) {
+         |                                                            ^~
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:689:20: note: in expansion of macro 'list_first_entry'
+     689 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/intel/catpt/pcm.c:357:9: note: in expansion of macro 'list_for_each_entry'
+     357 |         list_for_each_entry(pos, &component->card->snd_card->controls, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/bits.h:21,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/ratelimit.h:5:
+>> sound/soc/intel/catpt/pcm.c:357:60: error: 'struct snd_card' has no member named 'controls'
+     357 |         list_for_each_entry(pos, &component->card->snd_card->controls, list) {
+         |                                                            ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:689:20: note: in expansion of macro 'list_first_entry'
+     689 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/intel/catpt/pcm.c:357:9: note: in expansion of macro 'list_for_each_entry'
+     357 |         list_for_each_entry(pos, &component->card->snd_card->controls, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> sound/soc/intel/catpt/pcm.c:357:60: error: 'struct snd_card' has no member named 'controls'
+     357 |         list_for_each_entry(pos, &component->card->snd_card->controls, list) {
+         |                                                            ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:689:20: note: in expansion of macro 'list_first_entry'
+     689 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/intel/catpt/pcm.c:357:9: note: in expansion of macro 'list_for_each_entry'
+     357 |         list_for_each_entry(pos, &component->card->snd_card->controls, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:689:20: note: in expansion of macro 'list_first_entry'
+     689 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/intel/catpt/pcm.c:357:9: note: in expansion of macro 'list_for_each_entry'
+     357 |         list_for_each_entry(pos, &component->card->snd_card->controls, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/rculist.h:10,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14:
+>> sound/soc/intel/catpt/pcm.c:357:60: error: 'struct snd_card' has no member named 'controls'
+     357 |         list_for_each_entry(pos, &component->card->snd_card->controls, list) {
+         |                                                            ^~
+   include/linux/list.h:680:27: note: in definition of macro 'list_entry_is_head'
+     680 |         (&pos->member == (head))
+         |                           ^~~~
+   sound/soc/intel/catpt/pcm.c:357:9: note: in expansion of macro 'list_for_each_entry'
+     357 |         list_for_each_entry(pos, &component->card->snd_card->controls, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   sound/soc/intel/catpt/pcm.c:362:63: error: 'struct snd_card' has no member named 'controls'
+     362 |         if (list_entry_is_head(pos, &component->card->snd_card->controls, list))
+         |                                                               ^~
+   include/linux/list.h:680:27: note: in definition of macro 'list_entry_is_head'
+     680 |         (&pos->member == (head))
+         |                           ^~~~
+--
+   In file included from include/linux/kernel.h:21,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/pm_runtime.h:11,
+                    from sound/soc/sh/rcar/core.c:93:
+   sound/soc/sh/rcar/core.c: In function 'rsnd_kctrl_new':
+>> sound/soc/sh/rcar/core.c:1813:41: error: 'struct snd_card' has no member named 'controls'
+    1813 |         list_for_each_entry(kctrl, &card->controls, list) {
+         |                                         ^~
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:689:20: note: in expansion of macro 'list_first_entry'
+     689 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/core.c:1813:9: note: in expansion of macro 'list_for_each_entry'
+    1813 |         list_for_each_entry(kctrl, &card->controls, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/bits.h:21,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/ratelimit.h:5:
+>> sound/soc/sh/rcar/core.c:1813:41: error: 'struct snd_card' has no member named 'controls'
+    1813 |         list_for_each_entry(kctrl, &card->controls, list) {
+         |                                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:689:20: note: in expansion of macro 'list_first_entry'
+     689 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/core.c:1813:9: note: in expansion of macro 'list_for_each_entry'
+    1813 |         list_for_each_entry(kctrl, &card->controls, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+>> sound/soc/sh/rcar/core.c:1813:41: error: 'struct snd_card' has no member named 'controls'
+    1813 |         list_for_each_entry(kctrl, &card->controls, list) {
+         |                                         ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:689:20: note: in expansion of macro 'list_first_entry'
+     689 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/core.c:1813:9: note: in expansion of macro 'list_for_each_entry'
+    1813 |         list_for_each_entry(kctrl, &card->controls, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:520:9: note: in expansion of macro 'container_of'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:531:9: note: in expansion of macro 'list_entry'
+     531 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:689:20: note: in expansion of macro 'list_first_entry'
+     689 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/core.c:1813:9: note: in expansion of macro 'list_for_each_entry'
+    1813 |         list_for_each_entry(kctrl, &card->controls, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/rculist.h:10,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14:
+>> sound/soc/sh/rcar/core.c:1813:41: error: 'struct snd_card' has no member named 'controls'
+    1813 |         list_for_each_entry(kctrl, &card->controls, list) {
+         |                                         ^~
+   include/linux/list.h:680:27: note: in definition of macro 'list_entry_is_head'
+     680 |         (&pos->member == (head))
+         |                           ^~~~
+   sound/soc/sh/rcar/core.c:1813:9: note: in expansion of macro 'list_for_each_entry'
+    1813 |         list_for_each_entry(kctrl, &card->controls, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/xfs_set_quotacheck_running +1327 fs/xfs/xfs_qm.c
+vim +542 sound/core/oss/mixer_oss.c
 
-  1275	
-  1276	/*
-  1277	 * Walk thru all the filesystem inodes and construct a consistent view
-  1278	 * of the disk quota world. If the quotacheck fails, disable quotas.
-  1279	 */
-  1280	STATIC int
-  1281	xfs_qm_quotacheck(
-  1282		xfs_mount_t	*mp)
-  1283	{
-  1284		int			error, error2;
-  1285		uint			flags;
-  1286		LIST_HEAD		(buffer_list);
-  1287		struct xfs_inode	*uip = mp->m_quotainfo->qi_uquotaip;
-  1288		struct xfs_inode	*gip = mp->m_quotainfo->qi_gquotaip;
-  1289		struct xfs_inode	*pip = mp->m_quotainfo->qi_pquotaip;
-  1290	
-  1291		flags = 0;
-  1292	
-  1293		ASSERT(uip || gip || pip);
-  1294		ASSERT(XFS_IS_QUOTA_ON(mp));
-  1295	
-  1296		xfs_notice(mp, "Quotacheck needed: Please wait.");
-  1297	
-  1298		/*
-  1299		 * First we go thru all the dquots on disk, USR and GRP/PRJ, and reset
-  1300		 * their counters to zero. We need a clean slate.
-  1301		 * We don't log our changes till later.
-  1302		 */
-  1303		if (uip) {
-  1304			error = xfs_qm_reset_dqcounts_buf(mp, uip, XFS_DQTYPE_USER,
-  1305						 &buffer_list);
-  1306			if (error)
-  1307				goto error_return;
-  1308			flags |= XFS_UQUOTA_CHKD;
-  1309		}
-  1310	
-  1311		if (gip) {
-  1312			error = xfs_qm_reset_dqcounts_buf(mp, gip, XFS_DQTYPE_GROUP,
-  1313						 &buffer_list);
-  1314			if (error)
-  1315				goto error_return;
-  1316			flags |= XFS_GQUOTA_CHKD;
-  1317		}
-  1318	
-  1319		if (pip) {
-  1320			error = xfs_qm_reset_dqcounts_buf(mp, pip, XFS_DQTYPE_PROJ,
-  1321						 &buffer_list);
-  1322			if (error)
-  1323				goto error_return;
-  1324			flags |= XFS_PQUOTA_CHKD;
-  1325		}
-  1326	
-> 1327		xfs_set_quotacheck_running(mp);
-  1328		error = xfs_iwalk_threaded(mp, 0, 0, xfs_qm_dqusage_adjust, 0, true,
-  1329				NULL);
-> 1330		xfs_clear_quotacheck_running(mp);
-  1331	
-  1332		/*
-  1333		 * On error, the inode walk may have partially populated the dquot
-  1334		 * caches.  We must purge them before disabling quota and tearing down
-  1335		 * the quotainfo, or else the dquots will leak.
-  1336		 */
-  1337		if (error)
-  1338			goto error_purge;
-  1339	
-  1340		/*
-  1341		 * We've made all the changes that we need to make incore.  Flush them
-  1342		 * down to disk buffers if everything was updated successfully.
-  1343		 */
-  1344		if (XFS_IS_UQUOTA_ON(mp)) {
-  1345			error = xfs_qm_dquot_walk(mp, XFS_DQTYPE_USER, xfs_qm_flush_one,
-  1346						  &buffer_list);
-  1347		}
-  1348		if (XFS_IS_GQUOTA_ON(mp)) {
-  1349			error2 = xfs_qm_dquot_walk(mp, XFS_DQTYPE_GROUP, xfs_qm_flush_one,
-  1350						   &buffer_list);
-  1351			if (!error)
-  1352				error = error2;
-  1353		}
-  1354		if (XFS_IS_PQUOTA_ON(mp)) {
-  1355			error2 = xfs_qm_dquot_walk(mp, XFS_DQTYPE_PROJ, xfs_qm_flush_one,
-  1356						   &buffer_list);
-  1357			if (!error)
-  1358				error = error2;
-  1359		}
-  1360	
-  1361		error2 = xfs_buf_delwri_submit(&buffer_list);
-  1362		if (!error)
-  1363			error = error2;
-  1364	
-  1365		/*
-  1366		 * We can get this error if we couldn't do a dquot allocation inside
-  1367		 * xfs_qm_dqusage_adjust (via bulkstat). We don't care about the
-  1368		 * dirty dquots that might be cached, we just want to get rid of them
-  1369		 * and turn quotaoff. The dquots won't be attached to any of the inodes
-  1370		 * at this point (because we intentionally didn't in dqget_noattach).
-  1371		 */
-  1372		if (error)
-  1373			goto error_purge;
-  1374	
-  1375		/*
-  1376		 * If one type of quotas is off, then it will lose its
-  1377		 * quotachecked status, since we won't be doing accounting for
-  1378		 * that type anymore.
-  1379		 */
-  1380		mp->m_qflags &= ~XFS_ALL_QUOTA_CHKD;
-  1381		mp->m_qflags |= flags;
-  1382	
-  1383	error_return:
-  1384		xfs_buf_delwri_cancel(&buffer_list);
-  1385	
-  1386		if (error) {
-  1387			xfs_warn(mp,
-  1388		"Quotacheck: Unsuccessful (Error %d): Disabling quotas.",
-  1389				error);
-  1390			/*
-  1391			 * We must turn off quotas.
-  1392			 */
-  1393			ASSERT(mp->m_quotainfo != NULL);
-  1394			xfs_qm_destroy_quotainfo(mp);
-  1395			if (xfs_mount_reset_sbqflags(mp)) {
-  1396				xfs_warn(mp,
-  1397					"Quotacheck: Failed to reset quota flags.");
-  1398			}
-  1399		} else
-  1400			xfs_notice(mp, "Quotacheck: Done.");
-  1401		return error;
-  1402	
-  1403	error_purge:
-  1404		/*
-  1405		 * On error, we may have inodes queued for inactivation. This may try
-  1406		 * to attach dquots to the inode before running cleanup operations on
-  1407		 * the inode and this can race with the xfs_qm_destroy_quotainfo() call
-  1408		 * below that frees mp->m_quotainfo. To avoid this race, flush all the
-  1409		 * pending inodegc operations before we purge the dquots from memory,
-  1410		 * ensuring that background inactivation is idle whilst we turn off
-  1411		 * quotas.
-  1412		 */
-  1413		xfs_inodegc_flush(mp);
-  1414		xfs_qm_dqpurge_all(mp);
-  1415		goto error_return;
-  1416	
+^1da177e4c3f41 Linus Torvalds 2005-04-16  529  
+f956b4a3ae790e Takashi Iwai   2005-11-17  530  static void snd_mixer_oss_get_volume1_vol(struct snd_mixer_oss_file *fmixer,
+f956b4a3ae790e Takashi Iwai   2005-11-17  531  					  struct snd_mixer_oss_slot *pslot,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  532  					  unsigned int numid,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  533  					  int *left, int *right)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  534  {
+f956b4a3ae790e Takashi Iwai   2005-11-17  535  	struct snd_ctl_elem_info *uinfo;
+f956b4a3ae790e Takashi Iwai   2005-11-17  536  	struct snd_ctl_elem_value *uctl;
+f956b4a3ae790e Takashi Iwai   2005-11-17  537  	struct snd_kcontrol *kctl;
+f956b4a3ae790e Takashi Iwai   2005-11-17  538  	struct snd_card *card = fmixer->card;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  539  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  540  	if (numid == ID_UNKNOWN)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  541  		return;
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @542  	down_read(&card->controls_rwsem);
+b1e055f67611da Takashi Iwai   2023-07-18  543  	kctl = snd_ctl_find_numid_locked(card, numid);
+51c816fdd17c63 Takashi Iwai   2021-06-08  544  	if (!kctl) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  545  		up_read(&card->controls_rwsem);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  546  		return;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  547  	}
+ca2c0966562cfb Takashi Iwai   2005-09-09  548  	uinfo = kzalloc(sizeof(*uinfo), GFP_KERNEL);
+ca2c0966562cfb Takashi Iwai   2005-09-09  549  	uctl = kzalloc(sizeof(*uctl), GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  550  	if (uinfo == NULL || uctl == NULL)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  551  		goto __unalloc;
+7c22f1aaa23370 Takashi Iwai   2005-10-10  552  	if (kctl->info(kctl, uinfo))
+7c22f1aaa23370 Takashi Iwai   2005-10-10  553  		goto __unalloc;
+7c22f1aaa23370 Takashi Iwai   2005-10-10  554  	if (kctl->get(kctl, uctl))
+7c22f1aaa23370 Takashi Iwai   2005-10-10  555  		goto __unalloc;
+7c22f1aaa23370 Takashi Iwai   2005-10-10  556  	if (uinfo->type == SNDRV_CTL_ELEM_TYPE_BOOLEAN &&
+7c22f1aaa23370 Takashi Iwai   2005-10-10  557  	    uinfo->value.integer.min == 0 && uinfo->value.integer.max == 1)
+7c22f1aaa23370 Takashi Iwai   2005-10-10  558  		goto __unalloc;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  559  	*left = snd_mixer_oss_conv1(uctl->value.integer.value[0], uinfo->value.integer.min, uinfo->value.integer.max, &pslot->volume[0]);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  560  	if (uinfo->count > 1)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  561  		*right = snd_mixer_oss_conv1(uctl->value.integer.value[1], uinfo->value.integer.min, uinfo->value.integer.max, &pslot->volume[1]);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  562        __unalloc:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  563  	up_read(&card->controls_rwsem);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  564        	kfree(uctl);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  565        	kfree(uinfo);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  566  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  567  
 
 -- 
 0-DAY CI Kernel Test Service
