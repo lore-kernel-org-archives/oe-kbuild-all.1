@@ -1,43 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBF315A2
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 07:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D311843
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 09:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693726910; x=1725262910;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9yUxFcC257Ri1h2I1iVR0Bni1YDLt44N8uja6WLGuUE=;
-  b=jZ0TJYmmDa05cMOQZfb34gs4+//iv40SCehCIh/iPf10fZkOTvC6cKDf
-   i5mmLlvrqCdnSIhZafg0C7ll3zXTZou8dap23svy57rnqaguVhqKKxKkQ
-   hiDvBlphLSOZUSSbk0sTi5nndrHjCexopD6Crl6JnCUD4F4KL6QDaNNFr
-   xb6kfLc8GxeB0NCZW/1xjBDB/jkq59wBzHOMskw9e7hI4jOP6GN++6vyV
-   xYQtxsc6iQJyW1Rm3SnNicZRBaNFDoA6hph4Gnbn51Xvt0tjcpar2q4pu
-   ewtPlOiX/kfHZIhAdaohLkc5HwZ+unwMAcSDthqLIxc4/koHaYQxrHeHh
+  t=1693734236; x=1725270236;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nVvY2zgMHS1Nk0W2QWVzNbG/CIXehPZg1lY9zdv05zs=;
+  b=eX4zuBuvIkaEH0dnY91R8ChhXujUzRsGImdGvFZPpJCEHu5ct58ZXAky
+   gE+BiLEtbmojlkni3ACq5IvVmxbIVwgkMi+Dfg+TveCVhRPnyukYliBvP
+   hmQ/vUhNmWgQcnb29hf6xWi+tQ+G3QixrcJ0J2nWXAxN2Y+Eh9wgVSeMc
+   CK7tZu4DJpHO6SD/79d244wS18oSlk/SjYq2aQJZZBtLf+q79N/fWAXxX
+   WhqMnCywfPZn3hX+ed2fBvz28tyH6+8WKdaQDQuGR2OF6rvdvLZ0WDPsR
+   Vwa3xUM0a++oZqqiMQoYzm8U8ISVlV2E+TSnC0fTsWyvyh9Kopu/ZXJvc
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="361450025"
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="380226618"
 X-IronPort-AV: E=Sophos;i="6.02,224,1688454000"; 
-   d="scan'208";a="361450025"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 00:41:49 -0700
+   d="scan'208";a="380226618"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 02:43:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="830576197"
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="734003107"
 X-IronPort-AV: E=Sophos;i="6.02,224,1688454000"; 
-   d="scan'208";a="830576197"
+   d="scan'208";a="734003107"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 03 Sep 2023 00:41:48 -0700
+  by orsmga007.jf.intel.com with ESMTP; 03 Sep 2023 02:43:52 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qchju-00030l-1Z;
-	Sun, 03 Sep 2023 07:41:46 +0000
-Date: Sun, 3 Sep 2023 15:41:20 +0800
+	id 1qcje1-00034N-1x;
+	Sun, 03 Sep 2023 09:43:49 +0000
+Date: Sun, 3 Sep 2023 17:43:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: Jinjie Ruan <ruanjinjie@huawei.com>, brendan.higgins@linux.dev,
+	davidgow@google.com, skhan@linuxfoundation.org,
+	jk@codeconstruct.com.au, dlatypov@google.com, rmoar@google.com,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.5-dango-r4_3 14460/14511]
- drivers/mtd/nand/spi/core.c:979:5: sparse: sparse: symbol 'spinand_cal_read'
- was not declared. Should it be static?
-Message-ID: <202309031522.9pCXAaK4-lkp@intel.com>
+Subject: Re: [PATCH v2 2/4] kunit: Fix the wrong err path and add goto labels
+ in kunit_filter_suites()
+Message-ID: <202309031733.usGHpnSR-lkp@intel.com>
+References: <20230903071028.1518913-3-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,21 +50,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230903071028.1518913-3-ruanjinjie@huawei.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-dango-r4_3
-head:   bd334514d2acb4d7ae8675e52ad6faf9cd7e64b6
-commit: f7c5c11bb7d6ace56bea04f752d56c629d392689 [14460/14511] drivers: mtd: spi-nor: Add calibration support for spi-nor
-config: x86_64-randconfig-121-20230903 (https://download.01.org/0day-ci/archive/20230903/202309031522.9pCXAaK4-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309031522.9pCXAaK4-lkp@intel.com/reproduce)
+Hi Jinjie,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20230831]
+[cannot apply to v6.5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/kunit-Fix-wild-memory-access-bug-in-kunit_free_suite_set/20230903-151137
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230903071028.1518913-3-ruanjinjie%40huawei.com
+patch subject: [PATCH v2 2/4] kunit: Fix the wrong err path and add goto labels in kunit_filter_suites()
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230903/202309031733.usGHpnSR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309031733.usGHpnSR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309031522.9pCXAaK4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309031733.usGHpnSR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mtd/nand/spi/core.c:979:5: sparse: sparse: symbol 'spinand_cal_read' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
+
+   lib/kunit/executor.c: In function 'kunit_filter_suites':
+>> lib/kunit/executor.c:227:1: warning: label 'free_copy' defined but not used [-Wunused-label]
+     227 | free_copy:
+         | ^~~~~~~~~
+>> lib/kunit/executor.c:221:1: warning: label 'free_parsed_glob' defined but not used [-Wunused-label]
+     221 | free_parsed_glob:
+         | ^~~~~~~~~~~~~~~~
+
+
+vim +/free_copy +227 lib/kunit/executor.c
+
+   132	
+   133	struct kunit_suite_set
+   134	kunit_filter_suites(const struct kunit_suite_set *suite_set,
+   135			    const char *filter_glob,
+   136			    char *filters,
+   137			    char *filter_action,
+   138			    int *err)
+   139	{
+   140		int i, j, k;
+   141		int filter_count = 0;
+   142		struct kunit_suite **copy, **copy_start, *filtered_suite, *new_filtered_suite;
+   143		struct kunit_suite_set filtered = {NULL, NULL};
+   144		struct kunit_glob_filter parsed_glob;
+   145		struct kunit_attr_filter *parsed_filters = NULL;
+   146	
+   147		const size_t max = suite_set->end - suite_set->start;
+   148	
+   149		copy = kmalloc_array(max, sizeof(*filtered.start), GFP_KERNEL);
+   150		if (!copy) { /* won't be able to run anything, return an empty set */
+   151			return filtered;
+   152		}
+   153		copy_start = copy;
+   154	
+   155		if (filter_glob)
+   156			kunit_parse_glob_filter(&parsed_glob, filter_glob);
+   157	
+   158		/* Parse attribute filters */
+   159		if (filters) {
+   160			filter_count = kunit_get_filter_count(filters);
+   161			parsed_filters = kcalloc(filter_count, sizeof(*parsed_filters), GFP_KERNEL);
+   162			if (!parsed_filters) {
+   163				kfree(copy);
+   164				return filtered;
+   165			}
+   166			for (j = 0; j < filter_count; j++)
+   167				parsed_filters[j] = kunit_next_attr_filter(&filters, err);
+   168			if (*err)
+   169				goto free_parsed_filters;
+   170		}
+   171	
+   172		for (i = 0; &suite_set->start[i] != suite_set->end; i++) {
+   173			filtered_suite = suite_set->start[i];
+   174			if (filter_glob) {
+   175				if (!glob_match(parsed_glob.suite_glob, filtered_suite->name))
+   176					continue;
+   177				filtered_suite = kunit_filter_glob_tests(filtered_suite,
+   178						parsed_glob.test_glob);
+   179				if (IS_ERR(filtered_suite)) {
+   180					*err = PTR_ERR(filtered_suite);
+   181					goto free_parsed_filters;
+   182				}
+   183			}
+   184			if (filter_count > 0 && parsed_filters != NULL) {
+   185				for (k = 0; k < filter_count; k++) {
+   186					new_filtered_suite = kunit_filter_attr_tests(filtered_suite,
+   187							parsed_filters[k], filter_action, err);
+   188	
+   189					/* Free previous copy of suite */
+   190					if (k > 0 || filter_glob) {
+   191						kfree(filtered_suite->test_cases);
+   192						kfree(filtered_suite);
+   193					}
+   194	
+   195					filtered_suite = new_filtered_suite;
+   196	
+   197					if (*err)
+   198						goto free_parsed_filters;
+   199	
+   200					if (IS_ERR(filtered_suite)) {
+   201						*err = PTR_ERR(filtered_suite);
+   202						goto free_parsed_filters;
+   203					}
+   204					if (!filtered_suite)
+   205						break;
+   206				}
+   207			}
+   208	
+   209			if (!filtered_suite)
+   210				continue;
+   211	
+   212			*copy++ = filtered_suite;
+   213		}
+   214		filtered.start = copy_start;
+   215		filtered.end = copy;
+   216	
+   217	free_parsed_filters:
+   218		if (filter_count)
+   219			kfree(parsed_filters);
+   220	
+ > 221	free_parsed_glob:
+   222		if (filter_glob) {
+   223			kfree(parsed_glob.suite_glob);
+   224			kfree(parsed_glob.test_glob);
+   225		}
+   226	
+ > 227	free_copy:
+   228		if (*err)
+   229			kfree(copy);
+   230	
+   231		return filtered;
+   232	}
+   233	
 
 -- 
 0-DAY CI Kernel Test Service
