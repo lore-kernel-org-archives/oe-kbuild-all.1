@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B88A3C1E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 21:46:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F249445
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 22:38:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693777604; x=1725313604;
+  t=1693780730; x=1725316730;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=USAzBEm3bvPGgkf4HAFjvyXsnAzbfcIJMyCJe32csvY=;
-  b=UhNYzOTzQZ3wyMk/mHMFy/5+ZzQum4a7sSLXvAoatrx02UEjT10ttNlw
-   HCnZDhRSGZHyeVQE/RryYuX9/kS1QwvSnveWkd0wptsXqSGXyBRmP1Ewc
-   624imhQ/GRVmL4K4ZM5N6JCYya1WQl6txI8cd+HbJcU2d1ZrQ0jl5nMWO
-   oDdUnNHzX0nGiDYeeCx9Rj4D+eicChtzYnnyHRK+XU22GqBiZI0zcPWGE
-   HT7TeZxOvoCgmdjK1vXxILGkhd3DhWn2IN2MY0kvA7nxNgj2PsaFontDK
-   qQc7jKMlE/7vsuuJUpBbojcZz1k3wd/g1eG1e+irUsPYHec7jN+TN0k0j
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="407477850"
+  bh=9NovGL8dnJWzDfTSq+AqM7wiOl2UunOPSwX6lKye3Hg=;
+  b=hV9XlpqVbxK4h3eZSf1i6bcgOfIvIEcVAVz73/hFtUshsWbjab3m9TVQ
+   ow4zxyEqRjnAMivibgyFQhZC9kU2KbIkkpX/x4iSZNDqIpq8HSa0HQOPD
+   H1GZMr43wQ1OPaQi7HhHCq3kb3G7OdpQ/VFkJbsrUzRRmJ/ScLu7RDb1A
+   FLVce/CXmntoAgRdAYQ67dcREazOJ8a9z7Sv4c2U6/nVAxARbpmSmLovr
+   ul62R5trXIZBHSTi3cLotALBiRPuDwg4PzwWdNpjRSw0JVHoUKsxQHJu9
+   G34893ZpPhOV6ASGtTQBCVHCaucWMtK5mDVya/Kx3CRCngH7qtjcA9cIH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="440451015"
 X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
-   d="scan'208";a="407477850"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 14:46:43 -0700
+   d="scan'208";a="440451015"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 15:38:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="806042425"
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="1071379533"
 X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
-   d="scan'208";a="806042425"
+   d="scan'208";a="1071379533"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Sep 2023 14:46:41 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 03 Sep 2023 15:38:48 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcuvV-0003R1-2j;
-	Sun, 03 Sep 2023 21:46:37 +0000
-Date: Mon, 4 Sep 2023 05:45:44 +0800
+	id 1qcvjy-0003Tj-1Q;
+	Sun, 03 Sep 2023 22:38:46 +0000
+Date: Mon, 4 Sep 2023 06:37:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Darrick J. Wong" <darrick.wong@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:fix-larp-requirements-6.6 15/16] fs/xfs/xfs_qm.c:1327:9:
- error: implicit declaration of function 'xfs_set_quotacheck_running'; did
- you mean 'xfs_is_quotacheck_running'?
-Message-ID: <202309040554.Gd1PpsG3-lkp@intel.com>
+Subject: [djwong-xfs:fix-larp-requirements-6.6 15/16] fs/xfs/xfs_qm.c:1327:2:
+ error: call to undeclared function 'xfs_set_quotacheck_running'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202309040641.HAT6buHi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,30 +50,27 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fix-larp-requirements-6.6
 head:   a74281779cc1e023dda2faa836e190a79b58f332
 commit: 9efe678bf13a9719c6938e0b6945cb2a69cbc1c7 [15/16] xfs: make inode unlinked bucket recovery work with quotacheck
-config: i386-randconfig-r001-20230904 (https://download.01.org/0day-ci/archive/20230904/202309040554.Gd1PpsG3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230904/202309040554.Gd1PpsG3-lkp@intel.com/reproduce)
+config: x86_64-randconfig-006-20230904 (https://download.01.org/0day-ci/archive/20230904/202309040641.HAT6buHi-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230904/202309040641.HAT6buHi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309040554.Gd1PpsG3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309040641.HAT6buHi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/xfs/xfs_qm.c: In function 'xfs_qm_quotacheck':
->> fs/xfs/xfs_qm.c:1327:9: error: implicit declaration of function 'xfs_set_quotacheck_running'; did you mean 'xfs_is_quotacheck_running'? [-Werror=implicit-function-declaration]
-    1327 |         xfs_set_quotacheck_running(mp);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         xfs_is_quotacheck_running
->> fs/xfs/xfs_qm.c:1330:9: error: implicit declaration of function 'xfs_clear_quotacheck_running'; did you mean 'xfs_is_quotacheck_running'? [-Werror=implicit-function-declaration]
-    1330 |         xfs_clear_quotacheck_running(mp);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         xfs_is_quotacheck_running
-   cc1: some warnings being treated as errors
+>> fs/xfs/xfs_qm.c:1327:2: error: call to undeclared function 'xfs_set_quotacheck_running'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           xfs_set_quotacheck_running(mp);
+           ^
+>> fs/xfs/xfs_qm.c:1330:2: error: call to undeclared function 'xfs_clear_quotacheck_running'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           xfs_clear_quotacheck_running(mp);
+           ^
+   2 errors generated.
 
 
-vim +1327 fs/xfs/xfs_qm.c
+vim +/xfs_set_quotacheck_running +1327 fs/xfs/xfs_qm.c
 
   1275	
   1276	/*
