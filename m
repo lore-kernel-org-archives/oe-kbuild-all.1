@@ -1,42 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABB9621;
-	Sun,  3 Sep 2023 00:43:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26061623
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Sep 2023 00:54:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693701820; x=1725237820;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=rswJvSBgJXUsmMslG0htBAQt0JUxYWgZcAJX+0u++QM=;
-  b=bdwHMWsDEXA5lDhPNE6eBai4jJzv6iL6ltidjhP6/ym6fb5HWCfk8mjm
-   omrZf6IJeSfVa/ANXT22I4O2HW4U8o4WHdi2L0sWLC+FgvHCJmsSERcTb
-   ksx312/ivUQeI2/ZgRs+x9jk23Z7tjVF1JhOLirGsYl1L18UDhhaoMVcH
-   3ntNvHKZ3Kya2rCdDfmTFX83T4BA33bULg5ldwHseI5XA95d4zNG/vx80
-   +hpYH5DnJMhEdMjjhyQQjNjj74YgrdnBjTyxvERLUuzU1f79cGRmKDICY
-   mGe0lYy6Y1dyVg1+/S3fEtnOqhFH53GOHBTY3TmYv0QnTBg1HOWGSMfOk
+  t=1693702479; x=1725238479;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mNUmShgf5Zg4yZj1JDYHI9ILNQMngWATJUQMtTE7F6o=;
+  b=L38bKu32XOy0o/IpP3FJ1mWaCC8r4XpmnppO3zmrKlNe9S89DNvcxU/4
+   uYMM6nCWNug2p26O8acjNYUV/23mEE1fPeIrhCyfGGI/eFCZtWhm21yGF
+   tLeaSsQmXLodq48b11b32LkVkP3XnO0TpOD72JL68TW/G52BSu4Yj7iNT
+   rdNN94/k+X2DvO2wO6QmRSxWeeWP/MixAuFS3j+x5tgJoxD7Yh3uTjrg3
+   GSBFpHX//OfsKRkRPH+Ce1J29UfCl4bDq3tg1sp7UvD1mE04gvF2ia4S0
+   JMTZPeK6d/6lT2i+lwOA8Ce6xKV0A8Zd/a02tiKU9jOOwszohj5QOGSdX
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="442813496"
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="379131529"
 X-IronPort-AV: E=Sophos;i="6.02,223,1688454000"; 
-   d="scan'208";a="442813496"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2023 17:43:39 -0700
+   d="scan'208";a="379131529"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2023 17:54:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="1071164745"
+X-IronPort-AV: E=McAfee;i="6600,9927,10821"; a="987102186"
 X-IronPort-AV: E=Sophos;i="6.02,223,1688454000"; 
-   d="scan'208";a="1071164745"
+   d="scan'208";a="987102186"
 Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Sep 2023 17:43:37 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 02 Sep 2023 17:54:37 -0700
 Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qcbDC-0002kN-27;
-	Sun, 03 Sep 2023 00:43:34 +0000
-Date: Sun, 3 Sep 2023 08:42:50 +0800
+	id 1qcbNr-0002lJ-10;
+	Sun, 03 Sep 2023 00:54:35 +0000
+Date: Sun, 3 Sep 2023 08:54:03 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: ld.lld: error: vmlinux.a(init/main.o):(function get_cpu_mask:
- .text+0x14): relocation R_RISCV_HI20 out of range: 526890 is not in
- [-524288, 524287]; references cpu_bit_bitmap
-Message-ID: <202309030807.lgGb87Ej-lkp@intel.com>
+To: Qais Yousef <qyousef@layalina.io>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [qais-yousef:generalized-misfit-lb 6/13]
+ kernel/sched/fair.c:4919:19: error: 'struct rq' has no member named
+ 'misfit_reason'
+Message-ID: <202309030849.5DRFYhRY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,48 +47,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Filipe Manana <fdmanana@suse.com>
-CC: David Sterba <dsterba@suse.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   92901222f83d988617aee37680cb29e1a743b5e4
-commit: 8dbfc14fc736eb701089aff09645c3d4ad3decb1 btrfs: account block group tree when calculating global reserve size
-date:   6 weeks ago
-config: riscv-randconfig-r033-20230903 (https://download.01.org/0day-ci/archive/20230903/202309030807.lgGb87Ej-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309030807.lgGb87Ej-lkp@intel.com/reproduce)
+tree:   https://github.com/qais-yousef/linux generalized-misfit-lb
+head:   4a3c3c52f83a7b4cfd5248f4e6b3330e178ec3a7
+commit: dda165708a2fe535b362a02123143eae6c0a20e8 [6/13] sched/fair: Add a misfit reason
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230903/202309030849.5DRFYhRY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309030849.5DRFYhRY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309030807.lgGb87Ej-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309030849.5DRFYhRY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(init/main.o):(function get_cpu_mask: .text+0x14): relocation R_RISCV_HI20 out of range: 526890 is not in [-524288, 524287]; references cpu_bit_bitmap
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(kernel/cpu.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function do_one_initcall: .text+0x3a): relocation R_RISCV_HI20 out of range: 528511 is not in [-524288, 524287]; references __stack_chk_guard
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(arch/riscv/kernel/process.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function do_one_initcall: .text+0x198): relocation R_RISCV_HI20 out of range: 528511 is not in [-524288, 524287]; references initcall_calltime
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function do_one_initcall: .text+0x1ca): relocation R_RISCV_HI20 out of range: 527690 is not in [-524288, 524287]; references .L.str.53
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function do_one_initcall: .text+0x70): relocation R_RISCV_HI20 out of range: 528112 is not in [-524288, 524287]; references blacklisted_initcalls
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
---
->> ld.lld: error: vmlinux.a(init/main.o):(function do_one_initcall: .text+0xc8): relocation R_RISCV_HI20 out of range: 528511 is not in [-524288, 524287]; references initcall_debug
-   >>> referenced by main.c
-   >>> defined in vmlinux.a(init/main.o)
+   kernel/sched/fair.c:702:6: warning: no previous prototype for 'update_entity_lag' [-Wmissing-prototypes]
+     702 | void update_entity_lag(struct cfs_rq *cfs_rq, struct sched_entity *se)
+         |      ^~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'update_misfit_status':
+>> kernel/sched/fair.c:4919:19: error: 'struct rq' has no member named 'misfit_reason'
+    4919 |                 rq->misfit_reason = -1;
+         |                   ^~
+   kernel/sched/fair.c:4928:11: error: 'struct rq' has no member named 'misfit_reason'
+    4928 |         rq->misfit_reason = reason;
+         |           ^~
+   kernel/sched/fair.c:4911:14: warning: unused variable 'need_update' [-Wunused-variable]
+    4911 |         bool need_update = true;
+         |              ^~~~~~~~~~~
+   kernel/sched/fair.c: In function 'update_sg_lb_stats':
+   kernel/sched/fair.c:9712:62: error: 'struct rq' has no member named 'misfit_reason'
+    9712 |                                 sgs->group_misfit_reason = rq->misfit_reason;
+         |                                                              ^~
+
+
+vim +4919 kernel/sched/fair.c
+
+  4908	
+  4909	static inline void update_misfit_status(struct task_struct *p, struct rq *rq)
+  4910	{
+  4911		bool need_update = true;
+  4912		misfit_reason_t reason;
+  4913	
+  4914		if (!sched_asym_cpucap_active())
+  4915			return;
+  4916	
+  4917		if (!is_misfit_task(p, rq, &reason)) {
+  4918			rq->misfit_task_load = 0;
+> 4919			rq->misfit_reason = -1;
+  4920			return;
+  4921		}
+  4922	
+  4923		/*
+  4924		 * Make sure that misfit_task_load will not be null even if
+  4925		 * task_h_load() returns 0.
+  4926		 */
+  4927		rq->misfit_task_load = max_t(unsigned long, task_h_load(p), 1);
+  4928		rq->misfit_reason = reason;
+  4929	}
+  4930	
 
 -- 
 0-DAY CI Kernel Test Service
