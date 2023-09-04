@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7FFA20
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Sep 2023 06:43:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC677ECA
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Sep 2023 07:18:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693809830; x=1725345830;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EIvFoCI8D4SNE8lkUnoOF5hXgFXL7+ifkBSgkwYpwd0=;
-  b=E9YGf4FqenU8Z/ng586Ak8T1FVOQWePr20+SZcuamkgq/uGHloT6zweU
-   Ml5LQp6O2jdK6E3EvDu3+lmg3w5NrAx8CTYT4PtM2LVR395GWk13frOwM
-   ePKV0Zecrlylc9M7gwgIixAG+FJjMnaYrIwX9X/Lv510q9aFMYE8w0yv6
-   7KuZQWTdyLNZTgGDlCn3RRbuxsAdacrCFVEoiuO2WbYozCsfT9VUqFdUq
-   hdHNvW7SPSHoG9uFJUjaZq4p4EjgPlQoigqYQpoSYhYoYXLIKJc0CbULd
-   8FlfCSNC/vlPj538+E5EO7nif58zpmFS6cbMWs3s9teipxoKVwbxLe5XT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="379244852"
+  t=1693811882; x=1725347882;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=CZfa7okZ9u7Q4xEj7VCT2FeXrdZevXunt5nebSjqor4=;
+  b=A9UKRKzHm5CcwNn3UFVt7JEczV7WUR67nf3pxSgLyF02rHbLMisqrkUK
+   UzFD5vY42TG9we1pMeuQgLm86oLRT32IR8zcLF/GVn2IntOiKxzAmOwiF
+   UCJWGRmJv++WoIGs7FWo+Z3gtc8gttOpX4BlbJQzYYYk7g0sDI3jsbxte
+   VUcy3rsYOxr3eGlF5jdrAP+4NWIRtao8I/94eOmPhKy3VhmRWL+bCJrtG
+   6x50Iknu2fr3nQ5zbEcgHXAdMOenvUA3NFTFnLRxz0XY6z3mOX0Qu6LqE
+   km5xfgcO/JSkp3SICLl7rCO/R3n1jpe9U7fil/x/wL8W9KyY2IdoUMirB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="442932467"
 X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
-   d="scan'208";a="379244852"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 23:43:50 -0700
+   d="scan'208";a="442932467"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 00:18:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="864229008"
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="743836896"
 X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
-   d="scan'208";a="864229008"
+   d="scan'208";a="743836896"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 03 Sep 2023 23:43:49 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 04 Sep 2023 00:17:59 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qd3JF-0000En-10;
-	Mon, 04 Sep 2023 06:43:43 +0000
-Date: Mon, 4 Sep 2023 14:42:57 +0800
+	id 1qd3qP-0000FL-2p;
+	Mon, 04 Sep 2023 07:17:57 +0000
+Date: Mon, 4 Sep 2023 15:17:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.15 50/75] sound/usb/mixer_maps.c:371:64:
- warning: excess elements in struct initializer
-Message-ID: <202309041431.djtcgbdF-lkp@intel.com>
+To: Tomasz Rostanski <tomasz.rostanski@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/5] usb: dwc3: reference clock period configuration
+Message-ID: <ZPWEpIy9ijfgtNyU@e5f9ae3a7ebf>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,41 +45,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230904071432.32309-1-tomasz.rostanski@thalesgroup.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.15
-head:   685a3043e4703a119d750efb0a28138f371b3d69
-commit: 7fb0bcf2b0faa4798d9b9eba17548e5b03fd2445 [50/75] ALSA: usb-audio: Add quirk for Microsoft Modern Wireless Headset
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230904/202309041431.djtcgbdF-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230904/202309041431.djtcgbdF-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309041431.djtcgbdF-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   In file included from sound/usb/mixer.c:98:
->> sound/usb/mixer_maps.c:371:64: warning: excess elements in struct initializer
-     371 | static const struct usbmix_dB_map ms_usb_link_dB = { -3225, 0, true };
-         |                                                                ^~~~
-   sound/usb/mixer_maps.c:371:64: note: (near initialization for 'ms_usb_link_dB')
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html/#option-1
 
-
-vim +371 sound/usb/mixer_maps.c
-
-   368	
-   369	/* Microsoft USB Link headset */
-   370	/* a guess work: raw playback volume values are from 2 to 129 */
- > 371	static const struct usbmix_dB_map ms_usb_link_dB = { -3225, 0, true };
-   372	static const struct usbmix_name_map ms_usb_link_map[] = {
-   373		{ 9, NULL, .dB = &ms_usb_link_dB },
-   374		{ 10, NULL }, /* Headset Capture volume; seems non-working, disabled */
-   375		{ 0 }   /* terminator */
-   376	};
-   377	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH 1/5] usb: dwc3: reference clock period configuration
+Link: https://lore.kernel.org/stable/20230904071432.32309-1-tomasz.rostanski%40thalesgroup.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
