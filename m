@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9423D8B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Sep 2023 17:44:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF28C145;
+	Mon,  4 Sep 2023 18:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693849456; x=1725385456;
+  t=1693853188; x=1725389188;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lZqga/p47kzb3w5pwh4xZXVd7LV9R0oEIc+/dKRaz9E=;
-  b=XOa2ve8DiYajmPpBQbcidUTghd6BP/+TFczkavucDAxRP/oenUfmVD4j
-   VdT8rWGajASfaaSdxVooBgPvR+vgka7VXDBW9GTbxhlBRmVrVLIDmCIXv
-   VRmxPxEnZV6PVt7ZUOIQNAwDsRJN9zzQNDXxzFjT+hozzAwLtl+uTeKRj
-   3mOwju37Ubs8ar/Zkg6P+4OpNxqHa1PbnF5XymX1wqyJYB2VtjbWfL+5k
-   vQ9o5CJXfEYapENyTQQBFfWQc2URN3FY1Me5NGyneV+IBUkDDN50f2d49
-   JATLX2RhpzOYAfkwBp23yS61ZBo3t+pbhYLDE8tvImKlosaHWp+vdawOB
+  bh=XcZahxCuMIGsIuIqVmRnDdfOvuFMQf7tkUV9dUMF9as=;
+  b=SipPFn3AyqpOfq9rGPxtrUPfbfZacduTBkbFkZIipJJlPeJShHrx7oN8
+   dKjvMUxRH2PdiJxZ7hcLhBapZ2cl74XAYKEdgA+cRqbZTRQalsVo0k2c2
+   bSNfDU7VX9Xcnr9TXUWLklMa9HWPBW9jfGMDF7Fn8fCbGuUbm8PXfsu5M
+   2NnmT+0sf8rxwJ+ufDkVo4/MeA1QQzQG+r+HDga44BZ+P8Hg1n6lzwO0k
+   paIyN0pFSk2EyLuKpe7uU6ouIIWUZSWxOyNv8CxZ5ECra3wELFNI+qbgh
+   +VFmxP7xozLbNitnsXC8YzbTi8hc/kflNPtYqoRhNf71FRKjlHxllQVOm
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="361674253"
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="375536750"
 X-IronPort-AV: E=Sophos;i="6.02,227,1688454000"; 
-   d="scan'208";a="361674253"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 10:44:12 -0700
+   d="scan'208";a="375536750"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 11:46:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="830967652"
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="914582161"
 X-IronPort-AV: E=Sophos;i="6.02,227,1688454000"; 
-   d="scan'208";a="830967652"
+   d="scan'208";a="914582161"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 04 Sep 2023 10:44:11 -0700
+  by orsmga005.jf.intel.com with ESMTP; 04 Sep 2023 11:46:24 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdDcP-0000hn-1J;
-	Mon, 04 Sep 2023 17:44:09 +0000
-Date: Tue, 5 Sep 2023 01:43:51 +0800
+	id 1qdEaa-0000kt-0o;
+	Mon, 04 Sep 2023 18:46:20 +0000
+Date: Tue, 5 Sep 2023 02:46:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:fs-kill_sb 18/19] fs/9p/vfs_super.c:215: warning:
- expecting prototype for v9fs_kill_super(). Prototype was for v9fs_free_sb()
- instead
-Message-ID: <202309050152.fRI64bNh-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:x86/microcode 27/30]
+ arch/x86/kernel/apic/apic_flat_64.c:106:3: error: field designator
+ 'nmi_to_offline_cpu' does not refer to any field in type 'struct apic'
+Message-ID: <202309050235.BwYsObQS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,51 +47,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/misc.git fs-kill_sb
-head:   31aeed05bb9e3121a8a1d7ffb5e7a449ec9aed4e
-commit: b22c5e3061ae2725766f6537f7248bab8b8beb57 [18/19] fs: simple ->shutdown_sb and ->free_sb conversions
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230905/202309050152.fRI64bNh-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309050152.fRI64bNh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/microcode
+head:   1e0a6155f60f402c59f26124cd743356417e3647
+commit: 4577a747b1f101822f4b1b458788bc3a5f1494d4 [27/30] x86/apic: Provide apic_force_nmi_on_cpu()
+config: x86_64-randconfig-r022-20230904 (https://download.01.org/0day-ci/archive/20230905/202309050235.BwYsObQS-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309050235.BwYsObQS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309050152.fRI64bNh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309050235.BwYsObQS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/9p/vfs_super.c:215: warning: expecting prototype for v9fs_kill_super(). Prototype was for v9fs_free_sb() instead
+>> arch/x86/kernel/apic/apic_flat_64.c:106:3: error: field designator 'nmi_to_offline_cpu' does not refer to any field in type 'struct apic'
+           .nmi_to_offline_cpu             = true,
+            ^
+   arch/x86/kernel/apic/apic_flat_64.c:179:3: error: field designator 'nmi_to_offline_cpu' does not refer to any field in type 'struct apic'
+           .nmi_to_offline_cpu             = true,
+            ^
+   2 errors generated.
+--
+>> arch/x86/kernel/apic/x2apic_phys.c:169:3: error: field designator 'nmi_to_offline_cpu' does not refer to any field in type 'struct apic'
+           .nmi_to_offline_cpu             = true,
+            ^
+   1 error generated.
+--
+>> arch/x86/kernel/apic/x2apic_cluster.c:254:3: error: field designator 'nmi_to_offline_cpu' does not refer to any field in type 'struct apic'
+           .nmi_to_offline_cpu             = true,
+            ^
+   1 error generated.
 
 
-vim +215 fs/9p/vfs_super.c
+vim +106 arch/x86/kernel/apic/apic_flat_64.c
 
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  207  
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  208  /**
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  209   * v9fs_kill_super - Kill Superblock
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  210   * @s: superblock
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  211   *
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  212   */
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  213  
-b22c5e3061ae27 Christoph Hellwig   2023-08-31  214  static void v9fs_free_sb(struct super_block *s)
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09 @215  {
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  216  	struct v9fs_session_info *v9ses = s->s_fs_info;
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  217  
-5d3851530d6d68 Joe Perches         2011-11-28  218  	p9_debug(P9_DEBUG_VFS, " %p\n", s);
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  219  
-6d96d3ab7aea5f Aneesh Kumar K.V    2010-03-29  220  	v9fs_session_cancel(v9ses);
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  221  	v9fs_session_close(v9ses);
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  222  	kfree(v9ses);
-1b5ab3e86712b6 Abhishek Kulkarni   2009-07-19  223  	s->s_fs_info = NULL;
-b22c5e3061ae27 Christoph Hellwig   2023-08-31  224  	p9_debug(P9_DEBUG_VFS, "exiting free_sb\n");
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  225  }
-9e82cf6a802a72 Eric Van Hensbergen 2005-09-09  226  
-
-:::::: The code at line 215 was first introduced by commit
-:::::: 9e82cf6a802a72f0f447eb4c76d6a3fc8736a31d [PATCH] v9fs: VFS superblock operations and glue
-
-:::::: TO: Eric Van Hensbergen <ericvh@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+    78	
+    79	static struct apic apic_flat __ro_after_init = {
+    80		.name				= "flat",
+    81		.probe				= flat_probe,
+    82		.acpi_madt_oem_check		= flat_acpi_madt_oem_check,
+    83		.apic_id_registered		= default_apic_id_registered,
+    84	
+    85		.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+    86		.dest_mode_logical		= true,
+    87	
+    88		.disable_esr			= 0,
+    89	
+    90		.init_apic_ldr			= default_init_apic_ldr,
+    91		.cpu_present_to_apicid		= default_cpu_present_to_apicid,
+    92		.phys_pkg_id			= flat_phys_pkg_id,
+    93	
+    94		.max_apic_id			= 0xFE,
+    95		.get_apic_id			= flat_get_apic_id,
+    96		.set_apic_id			= set_apic_id,
+    97	
+    98		.calc_dest_apicid		= apic_flat_calc_apicid,
+    99	
+   100		.send_IPI			= default_send_IPI_single,
+   101		.send_IPI_mask			= flat_send_IPI_mask,
+   102		.send_IPI_mask_allbutself	= flat_send_IPI_mask_allbutself,
+   103		.send_IPI_allbutself		= default_send_IPI_allbutself,
+   104		.send_IPI_all			= default_send_IPI_all,
+   105		.send_IPI_self			= default_send_IPI_self,
+ > 106		.nmi_to_offline_cpu		= true,
+   107	
+   108		.read				= native_apic_mem_read,
+   109		.write				= native_apic_mem_write,
+   110		.eoi				= native_apic_mem_eoi,
+   111		.icr_read			= native_apic_icr_read,
+   112		.icr_write			= native_apic_icr_write,
+   113		.wait_icr_idle			= apic_mem_wait_icr_idle,
+   114		.safe_wait_icr_idle		= apic_mem_wait_icr_idle_timeout,
+   115	};
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
