@@ -1,42 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218D87FE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Sep 2023 05:51:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF047FE
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Sep 2023 06:02:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693806691; x=1725342691;
+  t=1693807345; x=1725343345;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=33y3RQRj6M6X39khhbLCZjeFfA6lx2g8I1cDfC0zMkk=;
-  b=mY/DprS6QIz6MOFuFsdOnhUr5/dr+wfG3F+NVa/S9T3XdH6djwh+/vuM
-   ka+ch1ENXTr5IaLpVvZZbkGfcuX9UsFG3UoqyDoRHWb0Y5KuKTR+4U2QB
-   T+Q7bZZuSQElblHPFApGQtEb9vYjdwS1An+nfFn1JQjCmRU2mQ+HIeeA7
-   bqEnAAzw6VYGfKYqmNamTS9k9+VhUI0IawTIupMcAFCUGy2hRB3vFBMxX
-   8tyJXFrWarV1mQizdmawE8MygCwhbhBgbgQ3q1cjywapkeH6fWJ2MINzz
-   KVBKc8y//niVdjFNOfK5AEcsxqD1awDaxWEkSl4ac18bN2qz+g8BNwl2q
+  bh=36YRsaO+pXgZRjuY8S1qagNP1+m6hKoRhljY43bs9RM=;
+  b=lHeHeCmzSR+av0igQ217lG6Kcdi/JSi4dQsHLhvDzMVVAb6Y8rNz8bye
+   h5fRbbyanqd+5fWikpDBETEYZDRw5ByMAv1ESZMQhULpLmdQdvbPnCh/4
+   8csmErSDHZNqC0naOYfTSrVsR733Dg37ffkp1b8AHE6asqjZhlhnDzxUn
+   2G6PBRtrvj6jP6SOzkmcyEc81tvs5atjBJ5d+D28vDF7ewQ+yoxEcpU4m
+   n285eVGqmPLUriKT+SGiIpzBqsralfHVbAXPPpop2PGxGXX3gyk7RY++4
+   GCNk3Qwuk0YxkvpZANHrEF0HmgATjz6mtZxj/Kbxd4nzeLJXuNRjWBZyK
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="361542749"
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="442918676"
 X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
-   d="scan'208";a="361542749"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 22:51:30 -0700
+   d="scan'208";a="442918676"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2023 23:01:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="855483803"
+X-IronPort-AV: E=McAfee;i="6600,9927,10822"; a="830788485"
 X-IronPort-AV: E=Sophos;i="6.02,225,1688454000"; 
-   d="scan'208";a="855483803"
+   d="scan'208";a="830788485"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Sep 2023 22:51:28 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 03 Sep 2023 23:01:28 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qd2Ug-0000D1-2W;
-	Mon, 04 Sep 2023 05:51:26 +0000
-Date: Mon, 4 Sep 2023 13:50:32 +0800
+	id 1qd2eM-0000DF-3B;
+	Mon, 04 Sep 2023 06:01:26 +0000
+Date: Mon, 4 Sep 2023 14:00:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.10 43/60]
- drivers/spi/spi-qcom-qspi.c:68:53: error: 'DMA_CHAIN_DONE' undeclared
-Message-ID: <202309041312.IOxEJS14-lkp@intel.com>
+Subject: [sashal-stable:pending-6.1 54/109]
+ drivers/thermal/thermal_core.c:1249:10: error: assigning to 'struct
+ thermal_zone_params *' from 'const struct thermal_zone_params *' discards
+ qualifiers
+Message-ID: <202309041339.mbjfhagB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,130 +48,285 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
-head:   887b5a8cc798ec5eedc8c46cb37d9822e630b47c
-commit: 32779ce9190a3732474dad753356aedbf5ff862f [43/60] spi: spi-qcom-qspi: Add DMA_CHAIN_DONE to ALL_IRQS
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230904/202309041312.IOxEJS14-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230904/202309041312.IOxEJS14-lkp@intel.com/reproduce)
+Hi Ahmad,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.1
+head:   9b81946217568246c7a104d755bae72394dd144c
+commit: 6640a5d48ff882a55f3b3b7d23bbd2c78761e8be [54/109] thermal: core: constify params in thermal_zone_device_register
+config: hexagon-randconfig-r004-20230904 (https://download.01.org/0day-ci/archive/20230904/202309041339.mbjfhagB-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230904/202309041339.mbjfhagB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309041312.IOxEJS14-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309041339.mbjfhagB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/byteorder/little_endian.h:5,
-                    from arch/arm64/include/uapi/asm/byteorder.h:23,
-                    from include/asm-generic/bitops/le.h:6,
-                    from arch/arm64/include/asm/bitops.h:29,
-                    from include/linux/bitops.h:29,
-                    from include/linux/kernel.h:12,
-                    from include/linux/clk.h:13,
-                    from drivers/spi/spi-qcom-qspi.c:4:
-   drivers/spi/spi-qcom-qspi.c: In function 'qcom_qspi_pio_xfer':
->> drivers/spi/spi-qcom-qspi.c:68:53: error: 'DMA_CHAIN_DONE' undeclared (first use in this function)
-      68 |                                  TRANSACTION_DONE | DMA_CHAIN_DONE)
-         |                                                     ^~~~~~~~~~~~~~
-   include/uapi/linux/byteorder/little_endian.h:33:51: note: in definition of macro '__cpu_to_le32'
-      33 | #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+   In file included from drivers/thermal/thermal_core.c:22:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
          |                                                   ^
-   arch/arm64/include/asm/io.h:142:47: note: in expansion of macro 'writel_relaxed'
-     142 | #define writel(v,c)             ({ __iowmb(); writel_relaxed((v),(c)); })
-         |                                               ^~~~~~~~~~~~~~
-   drivers/spi/spi-qcom-qspi.c:204:9: note: in expansion of macro 'writel'
-     204 |         writel(QSPI_ALL_IRQS, ctrl->base + MSTR_INT_STATUS);
-         |         ^~~~~~
-   drivers/spi/spi-qcom-qspi.c:204:16: note: in expansion of macro 'QSPI_ALL_IRQS'
-     204 |         writel(QSPI_ALL_IRQS, ctrl->base + MSTR_INT_STATUS);
-         |                ^~~~~~~~~~~~~
-   drivers/spi/spi-qcom-qspi.c:68:53: note: each undeclared identifier is reported only once for each function it appears in
-      68 |                                  TRANSACTION_DONE | DMA_CHAIN_DONE)
-         |                                                     ^~~~~~~~~~~~~~
-   include/uapi/linux/byteorder/little_endian.h:33:51: note: in definition of macro '__cpu_to_le32'
-      33 | #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+   In file included from drivers/thermal/thermal_core.c:22:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
          |                                                   ^
-   arch/arm64/include/asm/io.h:142:47: note: in expansion of macro 'writel_relaxed'
-     142 | #define writel(v,c)             ({ __iowmb(); writel_relaxed((v),(c)); })
-         |                                               ^~~~~~~~~~~~~~
-   drivers/spi/spi-qcom-qspi.c:204:9: note: in expansion of macro 'writel'
-     204 |         writel(QSPI_ALL_IRQS, ctrl->base + MSTR_INT_STATUS);
-         |         ^~~~~~
-   drivers/spi/spi-qcom-qspi.c:204:16: note: in expansion of macro 'QSPI_ALL_IRQS'
-     204 |         writel(QSPI_ALL_IRQS, ctrl->base + MSTR_INT_STATUS);
-         |                ^~~~~~~~~~~~~
+   In file included from drivers/thermal/thermal_core.c:22:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/thermal/thermal_core.c:1249:10: error: assigning to 'struct thermal_zone_params *' from 'const struct thermal_zone_params *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+    1249 |         tz->tzp = tzp;
+         |                 ^ ~~~
+   6 warnings and 1 error generated.
 
 
-vim +/DMA_CHAIN_DONE +68 drivers/spi/spi-qcom-qspi.c
+vim +1249 drivers/thermal/thermal_core.c
 
-     3	
-   > 4	#include <linux/clk.h>
-     5	#include <linux/interconnect.h>
-     6	#include <linux/interrupt.h>
-     7	#include <linux/io.h>
-     8	#include <linux/module.h>
-     9	#include <linux/of.h>
-    10	#include <linux/of_platform.h>
-    11	#include <linux/pm_runtime.h>
-    12	#include <linux/pm_opp.h>
-    13	#include <linux/spi/spi.h>
-    14	#include <linux/spi/spi-mem.h>
-    15	
-    16	
-    17	#define QSPI_NUM_CS		2
-    18	#define QSPI_BYTES_PER_WORD	4
-    19	
-    20	#define MSTR_CONFIG		0x0000
-    21	#define FULL_CYCLE_MODE		BIT(3)
-    22	#define FB_CLK_EN		BIT(4)
-    23	#define PIN_HOLDN		BIT(6)
-    24	#define PIN_WPN			BIT(7)
-    25	#define DMA_ENABLE		BIT(8)
-    26	#define BIG_ENDIAN_MODE		BIT(9)
-    27	#define SPI_MODE_MSK		0xc00
-    28	#define SPI_MODE_SHFT		10
-    29	#define CHIP_SELECT_NUM		BIT(12)
-    30	#define SBL_EN			BIT(13)
-    31	#define LPA_BASE_MSK		0x3c000
-    32	#define LPA_BASE_SHFT		14
-    33	#define TX_DATA_DELAY_MSK	0xc0000
-    34	#define TX_DATA_DELAY_SHFT	18
-    35	#define TX_CLK_DELAY_MSK	0x300000
-    36	#define TX_CLK_DELAY_SHFT	20
-    37	#define TX_CS_N_DELAY_MSK	0xc00000
-    38	#define TX_CS_N_DELAY_SHFT	22
-    39	#define TX_DATA_OE_DELAY_MSK	0x3000000
-    40	#define TX_DATA_OE_DELAY_SHFT	24
-    41	
-    42	#define AHB_MASTER_CFG				0x0004
-    43	#define HMEM_TYPE_START_MID_TRANS_MSK		0x7
-    44	#define HMEM_TYPE_START_MID_TRANS_SHFT		0
-    45	#define HMEM_TYPE_LAST_TRANS_MSK		0x38
-    46	#define HMEM_TYPE_LAST_TRANS_SHFT		3
-    47	#define USE_HMEMTYPE_LAST_ON_DESC_OR_CHAIN_MSK	0xc0
-    48	#define USE_HMEMTYPE_LAST_ON_DESC_OR_CHAIN_SHFT	6
-    49	#define HMEMTYPE_READ_TRANS_MSK			0x700
-    50	#define HMEMTYPE_READ_TRANS_SHFT		8
-    51	#define HSHARED					BIT(11)
-    52	#define HINNERSHARED				BIT(12)
-    53	
-    54	#define MSTR_INT_EN		0x000C
-    55	#define MSTR_INT_STATUS		0x0010
-    56	#define RESP_FIFO_UNDERRUN	BIT(0)
-    57	#define RESP_FIFO_NOT_EMPTY	BIT(1)
-    58	#define RESP_FIFO_RDY		BIT(2)
-    59	#define HRESP_FROM_NOC_ERR	BIT(3)
-    60	#define WR_FIFO_EMPTY		BIT(9)
-    61	#define WR_FIFO_FULL		BIT(10)
-    62	#define WR_FIFO_OVERRUN		BIT(11)
-    63	#define TRANSACTION_DONE	BIT(16)
-    64	#define QSPI_ERR_IRQS		(RESP_FIFO_UNDERRUN | HRESP_FROM_NOC_ERR | \
-    65					 WR_FIFO_OVERRUN)
-    66	#define QSPI_ALL_IRQS		(QSPI_ERR_IRQS | RESP_FIFO_RDY | \
-    67					 WR_FIFO_EMPTY | WR_FIFO_FULL | \
-  > 68					 TRANSACTION_DONE | DMA_CHAIN_DONE)
-    69	
+e5f2cda61d068e drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1152  
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1153  /**
+fae11de507f0e4 drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1154   * thermal_zone_device_register_with_trips() - register a new thermal zone device
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1155   * @type:	the thermal zone device type
+fae11de507f0e4 drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1156   * @trips:	a pointer to an array of thermal trips
+e5bfcd30f88fdb drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1157   * @num_trips:	the number of trip points the thermal zone support
+c56f5c0342dfee drivers/thermal/thermal_sys.c  Durgadoss R         2012-07-25  1158   * @mask:	a bit string indicating the writeablility of trip points
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1159   * @devdata:	private device data
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1160   * @ops:	standard thermal zone device callbacks
+50125a9b27dd09 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1161   * @tzp:	thermal zone platform parameters
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1162   * @passive_delay: number of milliseconds to wait between polls when
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1163   *		   performing passive cooling
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1164   * @polling_delay: number of milliseconds to wait between polls when checking
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1165   *		   whether trip points have been crossed (0 for interrupt
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1166   *		   driven systems)
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1167   *
+a00e55f9c8c06e drivers/thermal/thermal_core.c Eduardo Valentin    2013-04-23  1168   * This interface function adds a new thermal zone device (sensor) to
+a00e55f9c8c06e drivers/thermal/thermal_core.c Eduardo Valentin    2013-04-23  1169   * /sys/class/thermal folder as thermal_zone[0-*]. It tries to bind all the
+a00e55f9c8c06e drivers/thermal/thermal_core.c Eduardo Valentin    2013-04-23  1170   * thermal cooling devices registered at the same time.
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1171   * thermal_zone_device_unregister() must be called when the device is no
+1b7ddb840c3908 drivers/thermal/thermal_sys.c  Zhang Rui           2012-06-27  1172   * longer needed. The passive cooling depends on the .get_trend() return value.
+a00e55f9c8c06e drivers/thermal/thermal_core.c Eduardo Valentin    2013-04-23  1173   *
+a00e55f9c8c06e drivers/thermal/thermal_core.c Eduardo Valentin    2013-04-23  1174   * Return: a pointer to the created struct thermal_zone_device or an
+a00e55f9c8c06e drivers/thermal/thermal_core.c Eduardo Valentin    2013-04-23  1175   * in case of error, an ERR_PTR. Caller must check return value with
+a00e55f9c8c06e drivers/thermal/thermal_core.c Eduardo Valentin    2013-04-23  1176   * IS_ERR*() helpers.
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1177   */
+eb7be329bd93b7 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1178  struct thermal_zone_device *
+fae11de507f0e4 drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1179  thermal_zone_device_register_with_trips(const char *type, struct thermal_trip *trips, int num_trips, int mask,
+eb7be329bd93b7 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1180  					void *devdata, struct thermal_zone_device_ops *ops,
+6640a5d48ff882 drivers/thermal/thermal_core.c Ahmad Fatoum        2023-07-08  1181  					const struct thermal_zone_params *tzp, int passive_delay,
+eb7be329bd93b7 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1182  					int polling_delay)
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1183  {
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1184  	struct thermal_zone_device *tz;
+03a971a2899886 drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1185  	enum thermal_trip_type trip_type;
+81ad4276b505e9 drivers/thermal/thermal_core.c Zhang Rui           2016-03-18  1186  	int trip_temp;
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1187  	int id;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1188  	int result;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1189  	int count;
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1190  	struct thermal_governor *governor;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1191  
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1192  	if (!type || strlen(type) == 0) {
+3f95ac324535ea drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1193  		pr_err("No thermal zone type defined\n");
+54fa38cc2eda43 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1194  		return ERR_PTR(-EINVAL);
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1195  	}
+54fa38cc2eda43 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1196  
+c71d8035f1b77d drivers/thermal/thermal_core.c Lad Prabhakar       2022-09-09  1197  	if (strlen(type) >= THERMAL_NAME_LENGTH) {
+3f95ac324535ea drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1198  		pr_err("Thermal zone name (%s) too long, should be under %d chars\n",
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1199  		       type, THERMAL_NAME_LENGTH);
+3e6fda5c115982 drivers/thermal/thermal.c      Thomas Sujith       2008-02-15  1200  		return ERR_PTR(-EINVAL);
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1201  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1202  
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1203  	/*
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1204  	 * Max trip count can't exceed 31 as the "mask >> num_trips" condition.
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1205  	 * For example, shifting by 32 will result in compiler warning:
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1206  	 * warning: right shift count >= width of type [-Wshift-count- overflow]
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1207  	 *
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1208  	 * Also "mask >> num_trips" will always be true with 32 bit shift.
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1209  	 * E.g. mask = 0x80000000 for trip id 31 to be RW. Then
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1210  	 * mask >> 32 = 0x80000000
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1211  	 * This will result in failure for the below condition.
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1212  	 *
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1213  	 * Check will be true when the bit 31 of the mask is set.
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1214  	 * 32 bit shift will cause overflow of 4 byte integer.
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1215  	 */
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1216  	if (num_trips > (BITS_PER_TYPE(int) - 1) || num_trips < 0 || mask >> num_trips) {
+3f95ac324535ea drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1217  		pr_err("Incorrect number of thermal trips\n");
+3e6fda5c115982 drivers/thermal/thermal.c      Thomas Sujith       2008-02-15  1218  		return ERR_PTR(-EINVAL);
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1219  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1220  
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1221  	if (!ops) {
+3f95ac324535ea drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1222  		pr_err("Thermal zone device ops not defined\n");
+3e6fda5c115982 drivers/thermal/thermal.c      Thomas Sujith       2008-02-15  1223  		return ERR_PTR(-EINVAL);
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1224  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1225  
+e5bfcd30f88fdb drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1226  	if (num_trips > 0 && (!ops->get_trip_type || !ops->get_trip_temp))
+6b2aa51d698492 drivers/thermal/thermal_sys.c  Eduardo Valentin    2013-01-02  1227  		return ERR_PTR(-EINVAL);
+6b2aa51d698492 drivers/thermal/thermal_sys.c  Eduardo Valentin    2013-01-02  1228  
+95e3ed1513494a drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1229  	tz = kzalloc(sizeof(*tz), GFP_KERNEL);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1230  	if (!tz)
+3e6fda5c115982 drivers/thermal/thermal.c      Thomas Sujith       2008-02-15  1231  		return ERR_PTR(-ENOMEM);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1232  
+2d374139d5b0b5 drivers/thermal/thermal_sys.c  Zhang Rui           2012-06-27  1233  	INIT_LIST_HEAD(&tz->thermal_instances);
+b31ef8285b19ec drivers/thermal/thermal_core.c Matthew Wilcox      2016-12-21  1234  	ida_init(&tz->ida);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1235  	mutex_init(&tz->lock);
+5a5b7d8d541684 drivers/thermal/thermal_core.c keliu               2022-05-27  1236  	id = ida_alloc(&thermal_tz_ida, GFP_KERNEL);
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1237  	if (id < 0) {
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1238  		result = id;
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1239  		goto free_tz;
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1240  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1241  
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1242  	tz->id = id;
+1e6c8fb8b8d3e9 drivers/thermal/thermal_core.c Wolfram Sang        2022-08-18  1243  	strscpy(tz->type, type, sizeof(tz->type));
+d7203eedf4f68e drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-10  1244  
+d7203eedf4f68e drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-10  1245  	if (!ops->critical)
+d7203eedf4f68e drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-10  1246  		ops->critical = thermal_zone_device_critical;
+d7203eedf4f68e drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-10  1247  
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1248  	tz->ops = ops;
+50125a9b27dd09 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18 @1249  	tz->tzp = tzp;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1250  	tz->device.class = &thermal_class;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1251  	tz->devdata = devdata;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1252  	tz->trips = trips;
+e5bfcd30f88fdb drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1253  	tz->num_trips = num_trips;
+1c600861fa6fd8 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1254  
+17d399cd9c8936 drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-16  1255  	thermal_set_delay_jiffies(&tz->passive_delay_jiffies, passive_delay);
+17d399cd9c8936 drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-16  1256  	thermal_set_delay_jiffies(&tz->polling_delay_jiffies, polling_delay);
+17d399cd9c8936 drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-16  1257  
+4d0fe7490d7f4d drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1258  	/* sys I/F */
+1c600861fa6fd8 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1259  	/* Add nodes that are always present via .groups */
+4d0fe7490d7f4d drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1260  	result = thermal_zone_create_device_groups(tz, mask);
+4d0fe7490d7f4d drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1261  	if (result)
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1262  		goto remove_id;
+4d0fe7490d7f4d drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1263  
+4511f7166a2deb drivers/thermal/thermal_core.c Chen Yu             2015-10-30  1264  	/* A new thermal zone needs to be updated anyway. */
+4511f7166a2deb drivers/thermal/thermal_core.c Chen Yu             2015-10-30  1265  	atomic_set(&tz->need_update, 1);
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1266  
+e0d8b51bbe84d6 drivers/thermal/thermal_core.c Yang Yingliang      2022-11-15  1267  	result = dev_set_name(&tz->device, "thermal_zone%d", tz->id);
+e0d8b51bbe84d6 drivers/thermal/thermal_core.c Yang Yingliang      2022-11-15  1268  	if (result) {
+e0d8b51bbe84d6 drivers/thermal/thermal_core.c Yang Yingliang      2022-11-15  1269  		thermal_zone_destroy_device_groups(tz);
+e0d8b51bbe84d6 drivers/thermal/thermal_core.c Yang Yingliang      2022-11-15  1270  		goto remove_id;
+e0d8b51bbe84d6 drivers/thermal/thermal_core.c Yang Yingliang      2022-11-15  1271  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1272  	result = device_register(&tz->device);
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1273  	if (result)
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1274  		goto release_device;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1275  
+e5bfcd30f88fdb drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1276  	for (count = 0; count < num_trips; count++) {
+37b2539e63d657 drivers/thermal/thermal_core.c Bernard Zhao        2020-10-26  1277  		if (tz->ops->get_trip_type(tz, count, &trip_type) ||
+37b2539e63d657 drivers/thermal/thermal_core.c Bernard Zhao        2020-10-26  1278  		    tz->ops->get_trip_temp(tz, count, &trip_temp) ||
+37b2539e63d657 drivers/thermal/thermal_core.c Bernard Zhao        2020-10-26  1279  		    !trip_temp)
+81ad4276b505e9 drivers/thermal/thermal_core.c Zhang Rui           2016-03-18  1280  			set_bit(count, &tz->trips_disabled);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1281  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1282  
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1283  	/* Update 'this' zone's governor information */
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1284  	mutex_lock(&thermal_governor_lock);
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1285  
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1286  	if (tz->tzp)
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1287  		governor = __find_governor(tz->tzp->governor_name);
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1288  	else
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1289  		governor = def_governor;
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1290  
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1291  	result = thermal_set_governor(tz, governor);
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1292  	if (result) {
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1293  		mutex_unlock(&thermal_governor_lock);
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1294  		goto unregister;
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1295  	}
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1296  
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1297  	mutex_unlock(&thermal_governor_lock);
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1298  
+ccba4ffd9eff61 drivers/thermal/thermal_core.c Eduardo Valentin    2013-08-15  1299  	if (!tz->tzp || !tz->tzp->no_hwmon) {
+e68b16abd91dca drivers/thermal/thermal.c      Zhang Rui           2008-04-21  1300  		result = thermal_add_hwmon_sysfs(tz);
+e68b16abd91dca drivers/thermal/thermal.c      Zhang Rui           2008-04-21  1301  		if (result)
+e68b16abd91dca drivers/thermal/thermal.c      Zhang Rui           2008-04-21  1302  			goto unregister;
+ccba4ffd9eff61 drivers/thermal/thermal_core.c Eduardo Valentin    2013-08-15  1303  	}
+e68b16abd91dca drivers/thermal/thermal.c      Zhang Rui           2008-04-21  1304  
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1305  	mutex_lock(&thermal_list_lock);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1306  	list_add_tail(&tz->node, &thermal_tz_list);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1307  	mutex_unlock(&thermal_list_lock);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1308  
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1309  	/* Bind cooling devices for this zone */
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1310  	bind_tz(tz);
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1311  
+b659a30d7bdd5d drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1312  	INIT_DELAYED_WORK(&tz->poll_queue, thermal_zone_device_check);
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1313  
+d0df264fbd3c53 drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-22  1314  	thermal_zone_device_init(tz);
+4511f7166a2deb drivers/thermal/thermal_core.c Chen Yu             2015-10-30  1315  	/* Update the new thermal zone and mark it as already updated. */
+4511f7166a2deb drivers/thermal/thermal_core.c Chen Yu             2015-10-30  1316  	if (atomic_cmpxchg(&tz->need_update, 1, 0))
+0e70f466fb910a drivers/thermal/thermal_core.c Srinivas Pandruvada 2016-08-26  1317  		thermal_zone_device_update(tz, THERMAL_EVENT_UNSPECIFIED);
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1318  
+55cdf0a283b876 drivers/thermal/thermal_core.c Daniel Lezcano      2020-07-06  1319  	thermal_notify_tz_create(tz->id, tz->type);
+55cdf0a283b876 drivers/thermal/thermal_core.c Daniel Lezcano      2020-07-06  1320  
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1321  	return tz;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1322  
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1323  unregister:
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1324  	device_del(&tz->device);
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1325  release_device:
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1326  	put_device(&tz->device);
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1327  	tz = NULL;
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1328  remove_id:
+5a5b7d8d541684 drivers/thermal/thermal_core.c keliu               2022-05-27  1329  	ida_free(&thermal_tz_ida, id);
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1330  free_tz:
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1331  	kfree(tz);
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1332  	return ERR_PTR(result);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1333  }
+a921be53b46c39 drivers/thermal/thermal_core.c Daniel Lezcano      2022-08-10  1334  EXPORT_SYMBOL_GPL(thermal_zone_device_register_with_trips);
+fae11de507f0e4 drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1335  
+
+:::::: The code at line 1249 was first introduced by commit
+:::::: 50125a9b27dd09e9afdc1b8712ba0b3859886c68 Thermal: Pass zone parameters as argument to tzd_register
+
+:::::: TO: Durgadoss R <durgadoss.r@intel.com>
+:::::: CC: Zhang Rui <rui.zhang@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
