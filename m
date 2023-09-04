@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D541837A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Sep 2023 20:39:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074CCC2E6;
+	Mon,  4 Sep 2023 20:39:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693859983; x=1725395983;
+  t=1693859985; x=1725395985;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3O50hkdrWZm5IEoYuG9lUwvmPAw9V1ghpJDrgdE/Z/A=;
-  b=ZeXBMGumq/Jq+SnF3qD+tEldSYD4vRnXoFWHwyHm003ao1DZs9v4Vy4Y
-   eDUjoklgez+VPSJIMOlsV5VWIjs1gDtu3ZpoBYcAvjMi6UEZ6R70JJ8NJ
-   1F9tr/5cFZynx3lSAQK42LGEbfXKbldADI+27Bel1yX8Bw2SqH0bkf90W
-   8PvbVFh2w+Zs3My98lLxEWnJ5NtrweIH47DpieDoFdwhZtvuhcSrYOjWO
-   kM1TPLTNL3RPc+j1IUIvGcruljo5PnC1RwKLmvdpil0p2jn6YNy/9XZ/H
-   fbl7qgkqFNYb/wdBp0kUQZBEEkkZ4LdaElOpIctWMJWs7vtyiqpqSgMEt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="356146858"
+  bh=yHsRWujWc6dwR4gEjSz694op5MGSJWKuJp88uVaYQ8Q=;
+  b=jpyhkJv5qad6k7pbXcsRilsKIms2998wH8w2Dngr5pC7JRdAUXccs463
+   eojQQ+4AeMBlA39OVXuHmuywnNF/DRbJOTQsFT/pgMKgFuKCgz2aB8e47
+   zEbWalEIVS6EwDvJ8DraJ0PgDmIAsWL1qnBa2iGQMpctYg+KDtZM7IOrk
+   DO0bs0dJ0aThOn0sKAvqxRrlDV/qIgISGKOgaz7fNYEOqtJ4m5VMtW4EM
+   zftmjA8mBrHb3Ie6uhlnbDCHWI9ymdPbkZWoHFW5r3dHJnlPJ5pu8lkX9
+   ynMle3pO2VXtTx9/CZySGEPddWpvE79cEqqIWG1EiVGFWudY9UZNOYxtw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="356965565"
 X-IronPort-AV: E=Sophos;i="6.02,227,1688454000"; 
-   d="scan'208";a="356146858"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 13:39:42 -0700
+   d="scan'208";a="356965565"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 13:39:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="1071717511"
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="914612672"
 X-IronPort-AV: E=Sophos;i="6.02,227,1688454000"; 
-   d="scan'208";a="1071717511"
+   d="scan'208";a="914612672"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 04 Sep 2023 13:39:41 -0700
+  by orsmga005.jf.intel.com with ESMTP; 04 Sep 2023 13:39:41 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdGMF-0000ol-22;
+	id 1qdGMF-0000on-26;
 	Mon, 04 Sep 2023 20:39:39 +0000
-Date: Tue, 5 Sep 2023 04:38:46 +0800
+Date: Tue, 5 Sep 2023 04:38:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/microcode 28/30]
- arch/x86/kernel/cpu/microcode/core.c:454:3: error: implicit declaration of
- function 'apic_send_nmi_to_offline_cpu'; did you mean
- 'ucode_kick_offline_cpus'?
-Message-ID: <202309050454.w8l6MzRu-lkp@intel.com>
+To: Peter Foley <pefoley2@pefoley.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Richard Weinberger <richard@nod.at>
+Subject: arch/um/drivers/pcap_kern.c:18:6: warning: no previous prototype for
+ function 'pcap_init_kern'
+Message-ID: <202309050424.0ZPuzTJ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,55 +47,139 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/microcode
-head:   1e0a6155f60f402c59f26124cd743356417e3647
-commit: 99a3c2d08c80edc3687dafcdd93ef4e5cfa3b030 [28/30] x86/microcode: Handle "offline" CPUs correctly
-config: x86_64-randconfig-011-20230904 (https://download.01.org/0day-ci/archive/20230905/202309050454.w8l6MzRu-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309050454.w8l6MzRu-lkp@intel.com/reproduce)
+Hi Peter,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7a1415eebeece5a27fb40c0242b171c104ad5727
+commit: 2c4d3841a82b88ae8a7b518dc6206f84f68e705a um: Avoid pcap multiple definition errors
+date:   7 months ago
+config: um-randconfig-r003-20230904 (https://download.01.org/0day-ci/archive/20230905/202309050424.0ZPuzTJ7-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309050424.0ZPuzTJ7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309050454.w8l6MzRu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309050424.0ZPuzTJ7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/cpu/microcode/core.c: In function 'ucode_kick_offline_cpus':
->> arch/x86/kernel/cpu/microcode/core.c:454:3: error: implicit declaration of function 'apic_send_nmi_to_offline_cpu'; did you mean 'ucode_kick_offline_cpus'? [-Werror=implicit-function-declaration]
-      apic_send_nmi_to_offline_cpu(cpu);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      ucode_kick_offline_cpus
-   arch/x86/kernel/cpu/microcode/core.c: In function 'ucode_setup_cpus':
->> arch/x86/kernel/cpu/microcode/core.c:664:34: error: 'struct apic' has no member named 'nmi_to_offline_cpu'
-      (microcode_ops->use_nmi && apic->nmi_to_offline_cpu);
-                                     ^~
-   cc1: some warnings being treated as errors
+   In file included from arch/um/drivers/pcap_kern.c:7:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from arch/um/drivers/pcap_kern.c:7:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from arch/um/drivers/pcap_kern.c:7:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> arch/um/drivers/pcap_kern.c:18:6: warning: no previous prototype for function 'pcap_init_kern' [-Wmissing-prototypes]
+   void pcap_init_kern(struct net_device *dev, void *data)
+        ^
+   arch/um/drivers/pcap_kern.c:18:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void pcap_init_kern(struct net_device *dev, void *data)
+   ^
+   static 
+   arch/um/drivers/pcap_kern.c:53:5: warning: no previous prototype for function 'pcap_setup' [-Wmissing-prototypes]
+   int pcap_setup(char *str, char **mac_out, void *data)
+       ^
+   arch/um/drivers/pcap_kern.c:53:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int pcap_setup(char *str, char **mac_out, void *data)
+   ^
+   static 
+   14 warnings generated.
 
 
-vim +454 arch/x86/kernel/cpu/microcode/core.c
+vim +/pcap_init_kern +18 arch/um/drivers/pcap_kern.c
 
-   446	
-   447	static bool ucode_kick_offline_cpus(unsigned int nr_offl)
-   448	{
-   449		unsigned int cpu, timeout;
-   450	
-   451		for_each_cpu(cpu, &cpu_offline_mask) {
-   452			/* Enable the rendevouz handler and send NMI */
-   453			per_cpu(ucode_ctrl.nmi_enabled, cpu) = true;
- > 454			apic_send_nmi_to_offline_cpu(cpu);
-   455		}
-   456	
-   457		/* Wait for them to arrive */
-   458		for (timeout = 0; timeout < (USEC_PER_SEC / 2); timeout++) {
-   459			if (atomic_read(&offline_in_nmi) == nr_offl)
-   460				return true;
-   461			udelay(1);
-   462		}
-   463		/* Let the others time out */
-   464		return false;
-   465	}
-   466	
+    17	
+  > 18	void pcap_init_kern(struct net_device *dev, void *data)
+    19	{
+    20		struct uml_net_private *pri;
+    21		struct pcap_data *ppri;
+    22		struct pcap_init *init = data;
+    23	
+    24		pri = netdev_priv(dev);
+    25		ppri = (struct pcap_data *) pri->user;
+    26		ppri->host_if = init->host_if;
+    27		ppri->promisc = init->promisc;
+    28		ppri->optimize = init->optimize;
+    29		ppri->filter = init->filter;
+    30	
+    31		printk("pcap backend, host interface %s\n", ppri->host_if);
+    32	}
+    33	
 
 -- 
 0-DAY CI Kernel Test Service
