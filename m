@@ -1,47 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B739DF57
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 20:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1420C2CA4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 20:44:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693945464; x=1725481464;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XyUUG1HMbirzP2NvYtvvRf7Q4WUL/r2/+NfmU8fIqRQ=;
-  b=kFY+C0BKyHWPSD/7KnYi9I38EmdHYgsUviXwGbv8BMNmFdv/HjWVRPro
-   htntedvRS/WNBq5Zqzq46h2wQ62vVx5SZ/dj4YuQzeQVxL1SKvfbY70Ac
-   HwMyH9Zify8L2tjWqBzUKTPIj7I2HzbjMGCMgA987fEiU+QLjCLp3GvOn
-   rQDuNdh5R7s/lNE1bRhjFocWv6Y1CMLYXj3Z3x9SdcWaEFhiGEFb0Ju9f
-   oMY7/gl6vosJIQcch7dDTI3z4ZA6IU2gJKzUMZ6FkqvWG/k41arCXOz8T
-   6Rbsj5rYM4wpdfmZQChvRxmgCoWvxoHBPDlKMvSJzfw4AOLLsgpq8zg/u
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="380703013"
+  t=1693946676; x=1725482676;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9iy0Shk12whZtjlHReDMJe69Fcyof73nG9chGCFR8UY=;
+  b=nN+bRw1nmoT/M+/5jacKv6C5/CCx7WzzuSH/0RnPQX2kYZsD+neXWPUc
+   4yHLNXExSAk8INP+/IkH5wJ/mSiCidcmHxr1c89qClb1Pt8/Nk3YWKmsF
+   VUMEtEsXMmGootkafaB/S8nEjX88u6qaT/7RUbQyKZdo8rQryB4RZQt8/
+   T6rDlVpdq4EUBRVNgO/oA9Axbc689cS99Tt0gHAwKDuwiN/9Gu46+t00V
+   TTFHYpzaO6RpuQwLYgiVMqR3iuXqw8FMKog1G7bnCYcltZl/WJ5+ngheT
+   kUnUsAEv35PYqRiuTKIGZ8PePB6cxQK+67OMpc1wiO13/PhGaDKlzaca+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="361928008"
 X-IronPort-AV: E=Sophos;i="6.02,230,1688454000"; 
-   d="scan'208";a="380703013"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 13:24:14 -0700
+   d="scan'208";a="361928008"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 13:44:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="744410815"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="864886954"
 X-IronPort-AV: E=Sophos;i="6.02,230,1688454000"; 
-   d="scan'208";a="744410815"
+   d="scan'208";a="864886954"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 05 Sep 2023 13:24:12 -0700
+  by orsmga004.jf.intel.com with ESMTP; 05 Sep 2023 13:44:33 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdcag-00022f-26;
-	Tue, 05 Sep 2023 20:24:05 +0000
-Date: Wed, 6 Sep 2023 04:22:41 +0800
+	id 1qdcuV-00023q-1f;
+	Tue, 05 Sep 2023 20:44:31 +0000
+Date: Wed, 6 Sep 2023 04:44:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Cheatham <Benjamin.Cheatham@amd.com>, rafael@kernel.org,
-	dan.j.williams@intel.com, linux-cxl@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com,
-	benjamin.cheatham@amd.com, yazen.ghannam@amd.com
-Subject: Re: [PATCH v3 2/3] ACPI, APEI, EINJ: Add CXL 1.1 EINJ error type
- support
-Message-ID: <202309060439.NyMjpqql-lkp@intel.com>
-References: <20230905184406.135851-3-Benjamin.Cheatham@amd.com>
+To: Manish Narani <manish.narani@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:pr/146 11930/14527]
+ drivers/usb/dwc3/gadget_hibernation.c:16: warning: cannot understand
+ function prototype: 'u32 save_reg_addr[] = '
+Message-ID: <202309060400.AfWhvJA1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,66 +47,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230905184406.135851-3-Benjamin.Cheatham@amd.com>
 
-Hi Ben,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on linus/master v6.5 next-20230905]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Cheatham/CXL-PCIE-Add-cxl_rcrb_addr-file-to-dport_dev/20230906-025405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230905184406.135851-3-Benjamin.Cheatham%40amd.com
-patch subject: [PATCH v3 2/3] ACPI, APEI, EINJ: Add CXL 1.1 EINJ error type support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230906/202309060439.NyMjpqql-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060439.NyMjpqql-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx pr/146
+head:   38b0c0cf11566882cda99f8e4f2243924a684be5
+commit: 719080ff0022e05bb4cb8043d62739feebcd8dbc [11930/14527] usb: dwc3: gadget: Add hibernation support when operating in gadget mode
+config: arc-randconfig-r015-20230905 (https://download.01.org/0day-ci/archive/20230906/202309060400.AfWhvJA1-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060400.AfWhvJA1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309060439.NyMjpqql-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309060400.AfWhvJA1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/cxl/cxl.h:11,
-                    from drivers/cxl/cxlmem.h:9,
-                    from drivers/cxl/core/port.c:11:
->> include/linux/cxl.h:12:19: warning: no previous prototype for 'cxl_find_rch_dport_by_rcrb' [-Wmissing-prototypes]
-      12 | struct cxl_dport *cxl_find_rch_dport_by_rcrb(resource_size_t rcrb_base)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/port.c:1125:19: error: redefinition of 'cxl_find_rch_dport_by_rcrb'
-    1125 | struct cxl_dport *cxl_find_rch_dport_by_rcrb(resource_size_t rcrb_base)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cxl.h:12:19: note: previous definition of 'cxl_find_rch_dport_by_rcrb' with type 'struct cxl_dport *(resource_size_t)' {aka 'struct cxl_dport *(long long unsigned int)'}
-      12 | struct cxl_dport *cxl_find_rch_dport_by_rcrb(resource_size_t rcrb_base)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/cxl/cxl.h:11,
-                    from drivers/cxl/cxlmem.h:9,
-                    from drivers/cxl/core/pmem.c:6:
->> include/linux/cxl.h:12:19: warning: no previous prototype for 'cxl_find_rch_dport_by_rcrb' [-Wmissing-prototypes]
-      12 | struct cxl_dport *cxl_find_rch_dport_by_rcrb(resource_size_t rcrb_base)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/usb/dwc3/gadget_hibernation.c:16: warning: cannot understand function prototype: 'u32 save_reg_addr[] = '
+   drivers/usb/dwc3/gadget_hibernation.c:74: warning: Function parameter or member 'epnum' not described in 'restart_ep0_trans'
+>> drivers/usb/dwc3/gadget_hibernation.c:383: warning: Function parameter or member '_dwc' not described in 'dwc3_gadget_exit_hibernation'
+>> drivers/usb/dwc3/gadget_hibernation.c:383: warning: Excess function parameter 'dwc' description in 'dwc3_gadget_exit_hibernation'
 
 
-vim +/cxl_find_rch_dport_by_rcrb +12 include/linux/cxl.h
+vim +16 drivers/usb/dwc3/gadget_hibernation.c
 
-     8	
-     9	#if IS_ENABLED(CONFIG_CXL_ACPI)
-    10	struct cxl_dport *cxl_find_rch_dport_by_rcrb(resource_size_t rcrb_base);
-    11	#else
-  > 12	struct cxl_dport *cxl_find_rch_dport_by_rcrb(resource_size_t rcrb_base)
-    13	{
-    14		return NULL;
-    15	}
-    16	#endif
-    17	
+    14	
+    15	/* array of registers to save on hibernation and restore them on wakeup */
+  > 16	static u32 save_reg_addr[] = {
+    17		DWC3_DCTL,
+    18		DWC3_DCFG,
+    19		DWC3_DEVTEN
+    20	};
+    21	
 
 -- 
 0-DAY CI Kernel Test Service
