@@ -1,29 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FAEDDB5;
-	Tue,  5 Sep 2023 18:29:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21BB3C433BA;
-	Tue,  5 Sep 2023 18:29:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693938592;
-	bh=EzRIEbv4BKtpT9yrhLhIhnZZP1SOEq4OuywrtAZErq0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ollKGpq5Po9QGUTvRsmStZh+Nsxdc/p+lrcC5GkOH+12HIZJriLrgqLFRMwuj38pX
-	 kKPgd/Eo00KpoME+D0ZI4P/HRMdAF/vFpH5ErIbutSgOlhk6Ma4i7k6gtdIMxNQ97E
-	 bHb8o7F3ha4poOVpvZ5PG7JZlG/Qsyn7hV27h/dPYg2Wygbl+XfPU4CuslpKK/013e
-	 ebYYuFje+nwpt2He64hxzOW73A0nP9rkyrdvrsQy9pPxNu0U7Cr4fuwW8ICiQKEts1
-	 uWg9YrSS/Bc4qxaKRizQmORcBsQE+19pu/Fnxd5FcOicnIpl55WIayA2euF+BpiZMh
-	 JHegEArLlwB5w==
-Date: Tue, 5 Sep 2023 11:29:50 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Ira Weiny <ira.weiny@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [weiny2:v6.5-pks-core 17/34] include/linux/stddef.h:10:7: error:
- Expected an identifier after {
-Message-ID: <20230905182950.GA2148713@dev-arch.thelio-3990X>
-References: <202309051156.S7BqDAQ8-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E03DDD9
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 19:30:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693942222; x=1725478222;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iiL9OM34qSRBI8NRC3WNtVK4hk+GTVGm/FW2f4eRxIc=;
+  b=IMTJjrw1Jv5NbMNcwqd5jRBCqVNHKBxd1Y+KKhh1TszLiqIrmQDNHMpX
+   rQV78YHhGRftN+Zzau0XVNzoUmUV3Jyh4F7H+HELJA7ZvKIieqMaWL8lm
+   bscB1Mjo54HtWxtdKmuwi96okZY5+rrn+F/WO1YWCeYY/x6kVUY7z013d
+   z2JaH55qvZ999iJ8cpJseAWj1Fn671HFK8csuRPIFOCX9IQH+qmdH9uVs
+   54Pymd8YQ1chPzZD9BFv2oKXSmK6bJNfoqKUbePv3PxR2mSKrZEdgfdto
+   iVbq2PQA223KLIXNXxySg5F5A2E3cjNuGVfOgzwbDhXtUBO4qXpq1HH7b
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="463259924"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="463259924"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 12:30:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="811364853"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="811364853"
+Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 05 Sep 2023 12:30:19 -0700
+Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qdbkf-000209-0c;
+	Tue, 05 Sep 2023 19:30:17 +0000
+Date: Wed, 6 Sep 2023 03:29:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 1/5] include/linux/thermal.h:378:1: error:
+ expected identifier or '(' before '{' token
+Message-ID: <202309060309.BgHDEFgR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -32,57 +46,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202309051156.S7BqDAQ8-lkp@intel.com>
 
-On Tue, Sep 05, 2023 at 12:00:05PM +0800, kernel test robot wrote:
-> tree:   https://github.com/weiny2/linux-kernel.git v6.5-pks-core
-> head:   1333a49c014b15a2cf7584b4a3641f03e0602a40
-> commit: 3ee964a4772cd93458d8dbf48f2fd97b8b65551d [17/34] FIXME x86/entry: Add auxiliary pt_regs space
-> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230905/202309051156.S7BqDAQ8-lkp@intel.com/config)
-> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051156.S7BqDAQ8-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309051156.S7BqDAQ8-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> include/linux/stddef.h:10:7: error: Expected an identifier after {
->    enum {
->          ^
-> >> include/linux/stddef.h:11:11: error: expected newline
->     false = 0,
->              ^
-> >> include/linux/stddef.h:13:1: error: invalid instruction mnemonic '}'
->    };
->    ^
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   3013f879e8da5a4cf707cdb0dfa927f89b9374cd
+commit: 6c106aa9e0f7f8be4146c50bea5cd71052bebe3a [1/5] thermal: core: Clean up headers of thermal zone registration functions
+config: arc-randconfig-001-20230906 (https://download.01.org/0day-ci/archive/20230906/202309060309.BgHDEFgR-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060309.BgHDEFgR-lkp@intel.com/reproduce)
 
-Odd that GCC does not complain... This error comes from
-arch/x86/kernel/ftrace_64.S. It appears that stddef.h gets included into
-ftrace_64.S via the container_of.h include in
-arch/x86/include/asm/ptrace.h, which obviously won't work. Something
-like the following diff would avoid that:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309060309.BgHDEFgR-lkp@intel.com/
 
-diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
-index 5a9c85893459..4ea2a615c8c5 100644
---- a/arch/x86/include/asm/ptrace.h
-+++ b/arch/x86/include/asm/ptrace.h
-@@ -2,12 +2,12 @@
- #ifndef _ASM_X86_PTRACE_H
- #define _ASM_X86_PTRACE_H
- 
--#include <linux/container_of.h>
- #include <asm/segment.h>
- #include <asm/page_types.h>
- #include <uapi/asm/ptrace.h>
- 
- #ifndef __ASSEMBLY__
-+#include <linux/container_of.h>
- #ifdef __i386__
- 
- struct pt_regs {
+All error/warnings (new ones prefixed by >>):
 
-Cheers,
-Nathan
+   In file included from drivers/hwmon/emc2305.c:13:
+>> include/linux/thermal.h:378:1: error: expected identifier or '(' before '{' token
+     378 | { return ERR_PTR(-ENODEV); }
+         | ^
+>> include/linux/thermal.h:370:43: warning: 'thermal_zone_device_register_with_trips' declared 'static' but never defined [-Wunused-function]
+     370 | static inline struct thermal_zone_device *thermal_zone_device_register_with_trips(
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +378 include/linux/thermal.h
+
+   369	
+ > 370	static inline struct thermal_zone_device *thermal_zone_device_register_with_trips(
+   371						const char *type,
+   372						struct thermal_trip *trips,
+   373						int num_trips, int mask,
+   374						void *devdata,
+   375						struct thermal_zone_device_ops *ops,
+   376						const struct thermal_zone_params *tzp,
+   377						int passive_delay, int polling_delay);
+ > 378	{ return ERR_PTR(-ENODEV); }
+   379	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
