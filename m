@@ -1,43 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1916138;
-	Tue,  5 Sep 2023 09:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693906123; x=1725442123;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0DR/G0UhyVG5ezWuiUzUoHRpGIb4iCTcoAthz7qJHk8=;
-  b=nfQv/D8vVtOqRA7rCqR4P8Qv0+GA9GM7n4df9at+sVZ76Vv0SrN3p5fM
-   S7oVspd34BfCasxw+WQ1xReVItHyYHKfiFX7jVPqEHAFEe5Y1vybATTix
-   tmRWGBIH0xmx3YpRI3r761WvFqfLQJbb2kxZI0b5pczfhwjbUNmsE6D0c
-   F60QCTS9rP7M5FMGQveliGZTQGuE5lRXTk9tltU0AFdDMwvTsPVQEw41t
-   zZnYcCEc84AnKUzWbkj245lsSeHhw7IkYYauQqacaWKxhs/9WK3EevzUR
-   KiCgYgkcjgGW2sEcb2u6llqPQiimlMgspzNC7Vb/e3Ts/jlRQnbIeXEfW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="376678229"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="376678229"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 02:28:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="987756186"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="987756186"
-Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Sep 2023 02:28:40 -0700
-Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qdSMQ-0001UY-2q;
-	Tue, 05 Sep 2023 09:28:38 +0000
-Date: Tue, 5 Sep 2023 17:28:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/firmware/efi/libstub/efi-stub-helper.c:662: warning:
- Function parameter or member 'out' not described in 'efi_load_initrd'
-Message-ID: <202309051737.HzLpuGnc-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22ABA6AA0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 09:43:39 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-31aeedbb264so2199724f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 Sep 2023 02:43:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693907018; x=1694511818; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UpiUtwEG57yUoUMIPXKn2jZSIqj4kFtR6v5M6IQNh7k=;
+        b=GZpBXIN/0E1yRYJH65DNimevv0/n2MrZaEtWDdFZD/gh1aeK7B+8XL99sEtHaSmMfq
+         N+S6Fv3oFoVm7DMp/4a2dX3DH6UKetTnPRqpNOFFkCw/j87c2iHbQ/92XIDUNZjjZDLB
+         rYdYxMyUiqbCqDRmtrrXjpHsE5sR44YgppQNx683cn7Dh4hVh3UMSbO/h//CNix8sP8C
+         ucvbNrVp3UggIH8ghJg7dG7lx0GwjuviCzf0WY7y6d4bTgw/KHcsdz/pso/bHN8Xq+Rs
+         OAdGA3n1jEnssT1Wx/RdBMGsqNUJiq33a5Hxb/7JJ7ERo663nmXSF5G0lVj4QWf5VAoO
+         jvjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693907018; x=1694511818;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UpiUtwEG57yUoUMIPXKn2jZSIqj4kFtR6v5M6IQNh7k=;
+        b=aqoVLaOokMbsCmBv04FeIAXoKHDuCpidYWU/pfCEsblQErIT/ZDiZz4A1B0CWPrm+c
+         +TwSBIOLY6GJsESH0CljrbCKsSWxMOzAEv47UUp8gbG2lYFA1mS7yfMWT2A3kT1wo6ag
+         +EqZIyFPht17q4HyO6RvBTNRwbc/eu+j2yZR2ybcPNhk4EyfBDT7wnOLOxeufVBRi3Af
+         nOelUkbtBZZZHkUUBqoMtl8o95NX9ysfZt8SZJucnSz9cXSs93GXRh9px61NHhbduKWz
+         X2+8dbhYvueaFxSsjFTqojF6oWGEpcyjdwxLHBVAdgUIqUnfiEY3Bi8q6R6/1tQtUx8G
+         oR8w==
+X-Gm-Message-State: AOJu0YyPtxLKggbOkO0l/lFY/3JSaKHZtpYX8CLQsgCIK3Nt2t0JyDKD
+	GKft8s+IgsR102SE1AjebwiBfA==
+X-Google-Smtp-Source: AGHT+IFrk8CSDJHjZZRmgRNQU/EKHumlSYneDTJ1kNNl71v+EXW2nz83To0uIg8+JDqcpVyVfdCk2A==
+X-Received: by 2002:a5d:678b:0:b0:319:71f7:2427 with SMTP id v11-20020a5d678b000000b0031971f72427mr8638419wru.66.1693907018036;
+        Tue, 05 Sep 2023 02:43:38 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q20-20020a056000137400b003142c85fbcdsm17036908wrz.11.2023.09.05.02.43.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Sep 2023 02:43:37 -0700 (PDT)
+Date: Tue, 5 Sep 2023 12:43:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, John Ogness <john.ogness@linutronix.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [rt-devel:linux-6.1.y-rt-rebase 21/51] kernel/printk/printk.c:2468
+ __alloc_atomic_data() warn: returning -1 instead of -ENOMEM is sloppy
+Message-ID: <a6fa0763-b82f-4eff-9e50-06519db5722d@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,97 +53,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f86ed6ec0b390c033eae7f9c487a3fea268e027
-commit: f4dc7fffa9873db50ec25624572f8217a6225de8 efi: libstub: unify initrd loading between architectures
-date:   11 months ago
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230905/202309051737.HzLpuGnc-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051737.HzLpuGnc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.1.y-rt-rebase
+head:   90d96fee668dc306dd748393383c0fc74b798eee
+commit: cf8dd889ea20ae7091d3b27029b07bef13298291 [21/51] serial: 8250: implement write_atomic
+config: i386-randconfig-141-20230828 (https://download.01.org/0day-ci/archive/20230828/202308281100.1LIdaKaP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281100.1LIdaKaP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309051737.HzLpuGnc-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202308281100.1LIdaKaP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/printk/printk.c:2468 __alloc_atomic_data() warn: returning -1 instead of -ENOMEM is sloppy
 
-   drivers/firmware/efi/libstub/efi-stub-helper.c:559: warning: Function parameter or member 'initrd' not described in 'efi_load_initrd_dev_path'
-   drivers/firmware/efi/libstub/efi-stub-helper.c:559: warning: Excess function parameter 'load_addr' description in 'efi_load_initrd_dev_path'
-   drivers/firmware/efi/libstub/efi-stub-helper.c:559: warning: Excess function parameter 'load_size' description in 'efi_load_initrd_dev_path'
->> drivers/firmware/efi/libstub/efi-stub-helper.c:662: warning: Function parameter or member 'out' not described in 'efi_load_initrd'
+vim +2468 kernel/printk/printk.c
 
+09cbc4e64a7546 John Ogness 2022-02-04  2464  static int __alloc_atomic_data(struct console_atomic_data *d, short flags)
+09cbc4e64a7546 John Ogness 2022-02-04  2465  {
+09cbc4e64a7546 John Ogness 2022-02-04  2466  	d->text = kmalloc(CONSOLE_LOG_MAX, GFP_KERNEL);
+09cbc4e64a7546 John Ogness 2022-02-04  2467  	if (!d->text)
+09cbc4e64a7546 John Ogness 2022-02-04 @2468  		return -1;
 
-vim +662 drivers/firmware/efi/libstub/efi-stub-helper.c
+Just return -ENOMEM.  Even if it doesn't get passed back to the user,
+it's just better to do things in a normal way.
 
-f046fff8bc4c4d Ilias Apalodimas    2021-11-19  649  
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  650  /**
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  651   * efi_load_initrd() - Load initial RAM disk
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  652   * @image:	EFI loaded image protocol
-947228cb9f1a2c Atish Patra         2021-07-02  653   * @soft_limit:	preferred address for loading the initrd
-947228cb9f1a2c Atish Patra         2021-07-02  654   * @hard_limit:	upper limit address for loading the initrd
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  655   *
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  656   * Return:	status code
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  657   */
-f61900fd0ebf6c Arvind Sankar       2020-04-30  658  efi_status_t efi_load_initrd(efi_loaded_image_t *image,
-f61900fd0ebf6c Arvind Sankar       2020-04-30  659  			     unsigned long soft_limit,
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  660  			     unsigned long hard_limit,
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  661  			     const struct linux_efi_initrd **out)
-f61900fd0ebf6c Arvind Sankar       2020-04-30 @662  {
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  663  	efi_guid_t tbl_guid = LINUX_EFI_INITRD_MEDIA_GUID;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  664  	efi_status_t status = EFI_SUCCESS;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  665  	struct linux_efi_initrd initrd, *tbl;
-f61900fd0ebf6c Arvind Sankar       2020-04-30  666  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  667  	if (!IS_ENABLED(CONFIG_BLK_DEV_INITRD) || efi_noinitrd)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  668  		return EFI_SUCCESS;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  669  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  670  	status = efi_load_initrd_dev_path(&initrd, hard_limit);
-f61900fd0ebf6c Arvind Sankar       2020-04-30  671  	if (status == EFI_SUCCESS) {
-f61900fd0ebf6c Arvind Sankar       2020-04-30  672  		efi_info("Loaded initrd from LINUX_EFI_INITRD_MEDIA_GUID device path\n");
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  673  		if (initrd.size > 0)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  674  			efi_measure_initrd(initrd.base, initrd.size);
-f61900fd0ebf6c Arvind Sankar       2020-04-30  675  	} else if (status == EFI_NOT_FOUND) {
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  676  		status = efi_load_initrd_cmdline(image, &initrd, soft_limit,
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  677  						 hard_limit);
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  678  		/* command line loader disabled or no initrd= passed? */
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  679  		if (status == EFI_UNSUPPORTED || status == EFI_NOT_READY)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  680  			return EFI_SUCCESS;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  681  		if (status == EFI_SUCCESS)
-f61900fd0ebf6c Arvind Sankar       2020-04-30  682  			efi_info("Loaded initrd from command line option\n");
-f61900fd0ebf6c Arvind Sankar       2020-04-30  683  	}
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  684  	if (status != EFI_SUCCESS)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  685  		goto failed;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  686  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  687  	status = efi_bs_call(allocate_pool, EFI_LOADER_DATA, sizeof(initrd),
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  688  			     (void **)&tbl);
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  689  	if (status != EFI_SUCCESS)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  690  		goto free_initrd;
-f046fff8bc4c4d Ilias Apalodimas    2021-11-19  691  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  692  	*tbl = initrd;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  693  	status = efi_bs_call(install_configuration_table, &tbl_guid, tbl);
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  694  	if (status != EFI_SUCCESS)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  695  		goto free_tbl;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  696  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  697  	if (out)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  698  		*out = tbl;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  699  	return EFI_SUCCESS;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  700  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  701  free_tbl:
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  702  	efi_bs_call(free_pool, tbl);
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  703  free_initrd:
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  704  	efi_free(initrd.size, initrd.base);
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  705  failed:
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  706  	efi_err("Failed to load initrd: 0x%lx\n", status);
-f61900fd0ebf6c Arvind Sankar       2020-04-30  707  	return status;
-f61900fd0ebf6c Arvind Sankar       2020-04-30  708  }
-14c574f35cfbc9 Arvind Sankar       2020-05-18  709  
-
-:::::: The code at line 662 was first introduced by commit
-:::::: f61900fd0ebf6c6b91719d63272a54f4d11051df efi/libstub: Unify initrd loading across architectures
-
-:::::: TO: Arvind Sankar <nivedita@alum.mit.edu>
-:::::: CC: Ard Biesheuvel <ardb@kernel.org>
+09cbc4e64a7546 John Ogness 2022-02-04  2469  
+09cbc4e64a7546 John Ogness 2022-02-04  2470  	if (flags & CON_EXTENDED) {
+09cbc4e64a7546 John Ogness 2022-02-04  2471  		d->ext_text = kmalloc(CONSOLE_EXT_LOG_MAX, GFP_KERNEL);
+09cbc4e64a7546 John Ogness 2022-02-04  2472  		if (!d->ext_text)
+09cbc4e64a7546 John Ogness 2022-02-04  2473  			return -1;
+09cbc4e64a7546 John Ogness 2022-02-04  2474  	} else {
+09cbc4e64a7546 John Ogness 2022-02-04  2475  		d->dropped_text = kmalloc(DROPPED_TEXT_MAX, GFP_KERNEL);
+09cbc4e64a7546 John Ogness 2022-02-04  2476  		if (!d->dropped_text)
+09cbc4e64a7546 John Ogness 2022-02-04  2477  			return -1;
+09cbc4e64a7546 John Ogness 2022-02-04  2478  	}
+09cbc4e64a7546 John Ogness 2022-02-04  2479  
+09cbc4e64a7546 John Ogness 2022-02-04  2480  	return 0;
+09cbc4e64a7546 John Ogness 2022-02-04  2481  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
