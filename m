@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DF01FA4;
-	Tue,  5 Sep 2023 08:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF5620EC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 08:05:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693901097; x=1725437097;
+  t=1693901137; x=1725437137;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TjkU5C7YEJNf+omUGGBB9Q+W1jCtCApBBKERLuMV3CY=;
-  b=CGZVYpwy1qj4hRMr8KiZ5r4+RiFRlEWxxXY+g6ynuMpRf9UwCFCGN8Lx
-   gcJTKWnA1YUvXdptgs6ezl1ouoc5/wDlOfMZf2ckXhk0nKM0/DZlQjba1
-   YbYKoif/w2qVzNwjQEpPJ3/JFpI6N70DqToj5Cs0JURTDXeC9rFvFWRU2
-   NoJfybqnBsjhnZe4RGKHVLpWw9YjTresqVfsQHlh3oRCPR3KDMQlAgQ5F
-   i2GF8uZHsQx2CUZuB92/B4RROGODuSKMn1zhf228Anb4/e20ces34dkxy
-   IJH8e11LNrsKJ2CLHppKBwImJn3QbJB4OgNB7RxC9mnPlLUxvW+yAz14/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="379455982"
+  bh=xhslne1923YccOkJiUZWOaa2tAU2h2SHQSzs+FuH6qo=;
+  b=WkgTGvUNZxIn3OPJLvCM0SsVu5Z830a+60lnfNJpOAxYkQ8Uf+Mbui9i
+   volhMwVFqfhqzTrcYXnq8kDLOf76b2+Df+Ftru3EaRGQ6onSev+bG7bpd
+   RCuvW6Rg5I6hngwCG3DXHAf7cPrGCVLy8d8iRdUf5AxBZXxj+yrsjZipc
+   ZGvOLCC2SeDJySBRedpf3Yj8XXMHMXA76rY9RF8hh5UqCk4hufTbEZuSm
+   PNXJ0bQXw/4lyJrdx3p5z1r8e6u3unBuZVzqDGTB7ZbOkOZYp0CUO75Qt
+   E1W0wy3oGQsqEL9tgml8uKica94XErh9aikZ0QW0Qv31SFOM3sf6Q+tIQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="356229150"
 X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; 
-   d="scan'208";a="379455982"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 01:04:55 -0700
+   d="scan'208";a="356229150"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 01:04:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="864613174"
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="806517071"
 X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; 
-   d="scan'208";a="864613174"
+   d="scan'208";a="806517071"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 05 Sep 2023 01:04:53 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 05 Sep 2023 01:04:53 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdR3L-0001Pm-1g;
+	id 1qdR3L-0001Pj-1c;
 	Tue, 05 Sep 2023 08:04:51 +0000
 Date: Tue, 5 Sep 2023 16:04:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Takashi Iwai <tiwai@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH] ALSA: seq: Fix snd_seq_expand_var_event() call to
  user-space
-Message-ID: <202309051551.x8wzvudr-lkp@intel.com>
+Message-ID: <202309051521.lrL7hyJ2-lkp@intel.com>
 References: <20230905052631.18240-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,52 +63,47 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Takashi-Iwai/ALSA-seq-Fix
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20230905052631.18240-1-tiwai%40suse.de
 patch subject: [PATCH] ALSA: seq: Fix snd_seq_expand_var_event() call to user-space
-config: arm-randconfig-r014-20230905 (https://download.01.org/0day-ci/archive/20230905/202309051551.x8wzvudr-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051551.x8wzvudr-lkp@intel.com/reproduce)
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230905/202309051521.lrL7hyJ2-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051521.lrL7hyJ2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309051551.x8wzvudr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309051521.lrL7hyJ2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/core/seq/seq_memory.c:194:4: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+   In file included from include/linux/uaccess.h:11,
+                    from include/linux/sched/task.h:11,
+                    from include/linux/sched/signal.h:9,
+                    from sound/core/seq/seq_memory.c:12:
+   sound/core/seq/seq_memory.c: In function 'snd_seq_expand_var_event':
+>> arch/parisc/include/asm/uaccess.h:208:20: warning: ignoring return value of 'lclear_user' declared with attribute 'warn_unused_result' [-Wunused-result]
+     208 | #define clear_user lclear_user
+   sound/core/seq/seq_memory.c:194:25: note: in expansion of macro 'clear_user'
      194 |                         clear_user((__force void __user *)buf + len, newlen - len);
-         |                         ^~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+         |                         ^~~~~~~~~~
 
 
-vim +/warn_unused_result +194 sound/core/seq/seq_memory.c
+vim +208 arch/parisc/include/asm/uaccess.h
 
-   173	
-   174	int snd_seq_expand_var_event(const struct snd_seq_event *event, int count, char *buf,
-   175				     int in_kernel, int size_aligned)
-   176	{
-   177		int len, newlen, err;
-   178	
-   179		len = get_var_len(event);
-   180		if (len < 0)
-   181			return len;
-   182		newlen = len;
-   183		if (size_aligned > 0)
-   184			newlen = roundup(len, size_aligned);
-   185		if (count < newlen)
-   186			return -EAGAIN;
-   187		err = expand_var_event(event, 0, len, buf, in_kernel);
-   188		if (err < 0)
-   189			return err;
-   190		if (len != newlen) {
-   191			if (in_kernel)
-   192				memset(buf + len, 0, newlen - len);
-   193			else
- > 194				clear_user((__force void __user *)buf + len, newlen - len);
-   195		}
-   196		return newlen;
-   197	}
-   198	EXPORT_SYMBOL(snd_seq_expand_var_event);
-   199	
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  195  
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  196  
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  197  /*
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  198   * Complex access routines -- external declarations
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  199   */
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  200  
+b1195c0e3ee1a1 arch/parisc/include/asm/uaccess.h James Bottomley 2012-05-26  201  extern long strncpy_from_user(char *, const char __user *, long);
+671028728083e8 arch/parisc/include/asm/uaccess.h Helge Deller    2021-09-09  202  extern __must_check unsigned lclear_user(void __user *, unsigned long);
+1260dea6d2eb75 arch/parisc/include/asm/uaccess.h Helge Deller    2021-09-04  203  extern __must_check long strnlen_user(const char __user *src, long n);
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  204  /*
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  205   * Complex access routines -- macros
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  206   */
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  207  
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16 @208  #define clear_user lclear_user
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  209  #define __clear_user lclear_user
+^1da177e4c3f41 include/asm-parisc/uaccess.h      Linus Torvalds  2005-04-16  210  
 
 -- 
 0-DAY CI Kernel Test Service
