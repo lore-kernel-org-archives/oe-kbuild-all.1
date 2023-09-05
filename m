@@ -1,109 +1,223 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD307CA6B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 11:51:31 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.201])
-	by gateway (Coremail) with SMTP id _____8BxY_BAFvdkcI4fAA--.63692S3;
-	Tue, 05 Sep 2023 19:51:28 +0800 (CST)
-Received: from [10.20.42.201] (unknown [10.20.42.201])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Bx3yM8FvdkV9dsAA--.25045S3;
-	Tue, 05 Sep 2023 19:51:24 +0800 (CST)
-Subject: Re: loongson2_pm.c:undefined reference to `input_free_device'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Liu Yun <liuyun@loongson.cn>,
- zhuyinbo@loongson.cn
-References: <202309030751.pDnTZX4E-lkp@intel.com>
- <92ae0927-de68-2245-954f-5dd37d6f1491@loongson.cn>
-From: Yinbo Zhu <zhuyinbo@loongson.cn>
-Message-ID: <261a865e-0abb-cb4c-72a1-eef70bde18d4@loongson.cn>
-Date: Tue, 5 Sep 2023 19:51:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75901D2E4;
+	Tue,  5 Sep 2023 12:18:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693916301; x=1725452301;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iwu9ZP+3SKRdduSnw1cQjQ5MR55HRbuE15NADiGhRV8=;
+  b=ijLZSjfpbDPro98yQocNE2EnvBSojQMRtjiP8qKYP1ByCsd0Hc6PGPHS
+   +MmRxWiNteKyDVlNAWVHoj75MkmSY5NqIQ78qqHOl+gVF1FTA8wPwD6CY
+   fyxmF5h2rniLKD9IgPNszewVVVe0kGZWTM77SiNzlinutx0IQye+mFgzu
+   UUZF3P5jtTxptMj+YRxnTXNP88Oc8Jo6vOkF/jNtpxOjA5GyfMWYY4myr
+   cufEth+3SIY11tAw1kI09+B8/guXuftmB0PfwLaE0kckujnhyw9QRj25y
+   USK3vEP1XUzJe2rl54uDLmf13NWDPNnOhn/C3POR06To7IdqHt2JSn+hZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="379500042"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="379500042"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 05:18:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="776184868"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="776184868"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Sep 2023 05:18:19 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 5 Sep 2023 05:18:19 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 5 Sep 2023 05:18:18 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Tue, 5 Sep 2023 05:18:18 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Tue, 5 Sep 2023 05:18:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YAs1O2PvDgM2eJDk/I4RjtL/4UP/jautPA987gXWUyQx/zh9jTuwH01c7FiyWnraWJAAA7kH4Dh9jDklj6TByFf7h33k4Q2EB7+00rSJMIgY9tWNU4zOyCRxfOx7CxoPOxKMpClJIJpNO2AJ7uQO3hndsJ6yxEijG35K2HGoxi0ICBm2Yjc3LAzdmZpa0hE3JITfygW4vwdKLfdQWS1AXi0993ink1WfQbayWmjZHSFiuAeApCDfqly2iRZTeCmWotXel0YDOBXxEoZ7bFwCoNcU3QywVqBJ1WKA8CbLIfvU/2hIqU1Qwapu3T7XohANmWcZycBekhmyCvrsfm9LYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4O5620JIu3NexKEB7HVx/hIaWvLy/PUewuER17r2u8M=;
+ b=S2254e7rx9QbkZpFe7pBtn+Pqd8COge5YUppkV1GKy8ylk/SJ6yWTZLfCvH1AKSsXByc5OpL7EbSVF5tinNrXXd1z16tULghdtlw0pm0troZxzOvspqwBcf3a702D12agQ8XjItgOgcnoaw/10VD6Q8/SaHssmNtNgCwZMSFkdGAPpEleRdz+5Vdr+0wdjVG/3wBbTqQ2kjRIazts9IL+3UoTfZOylSDH48oU8x0j+Tyud99tlKDYADvioJn7Wkb3FblTjwqINxffRAwm1vd/gXHHTCUrKmRLAKfs3FtjMK4CnKCS1NAEo//g2Etc5lH/rluH72Ye3ivv8KyNq86RQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by DM6PR11MB4754.namprd11.prod.outlook.com (2603:10b6:5:2ad::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
+ 2023 12:18:16 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::b844:be65:8430:f80e]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::b844:be65:8430:f80e%4]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
+ 12:18:16 +0000
+Date: Tue, 5 Sep 2023 20:18:05 +0800
+From: kernel test robot <philip.li@intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Roman Gushchin <guro@fb.com>, Hyeonggon Yoo
+	<42.hyeyoo@gmail.com>
+Subject: mm/slub.c:2142:15: warning: variable 'partial_slabs' set but not used
+Message-ID: <ZPccfSJvDXi/xOnI@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0156.apcprd04.prod.outlook.com (2603:1096:4::18)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <92ae0927-de68-2245-954f-5dd37d6f1491@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8Bx3yM8FvdkV9dsAA--.25045S3
-X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
-	ZEXasCq-sGcSsGvfJ3UbIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnUUvcSsGvfC2Kfnx
-	nUUI43ZEXa7xR_UUUUUUUUU==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|DM6PR11MB4754:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3f3802a-7291-4b63-bb45-08dbae0a2eec
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zJXAUGiKXwGDznl0xGVRqwC8qCjpuMJmNdW4DZ//9skh9OkLLUyy+J68LmzEQjkmOv+epNobKbK77w/hnLjiDJ2D8ZLL+tZjfeKD3outxPNQpY+C5oJsebH0u3zUc+SItkd1V7njxf8pVeZiZCISGk/qeJievb3w2WzrCkJhqK+OneiwnVQRFeyPZAUKZ5s9wfwtT24KCA0506vZb0gEIhTcIfT1At8IbhuozgykLZYA6C7v6gNsObl2HBY5vEjmaDUrVDU5dLWVFrEfWlLLQj3wGcjTZaslIEg5NRAWtmR5g6aykZzRqgrn37m7OyGUtq/eggzFOAOjYkUeo9kcLdk/bhbWJKqxCzJF1wTIt4OLmOvuSJX8RVw4jGHgaavFtAGzVqd+kR+IHk3min2YKRwWsGVrFFc3SkEMHqAg3JDXOc2xWSrKaXUflxKYIyJ3aPf+Y2HhyqQokFGbJkX47yIE3AYpO3SgHDdHX2oNy+zD4l7jVHDf93U0ht+H6I8P/5gh6vZ6Sgb/bCSZYu2zEQ6JRvsecZEECeBh7zgtKcY85aQ7svChG/r7RC01n+D8Ma/AOOUJW0xnmSH8tBZC4A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(346002)(136003)(396003)(39860400002)(366004)(451199024)(1800799009)(186009)(8936002)(54906003)(316002)(6916009)(8676002)(4326008)(66946007)(66476007)(66556008)(6486002)(6506007)(6512007)(9686003)(41300700001)(26005)(5660300002)(83380400001)(478600001)(6666004)(966005)(4001150100001)(2906002)(33716001)(86362001)(38100700002)(82960400001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mXgZmeu4QyI541yJyzKrvzc0Mx+mFRRKgUttDRYseVVDM1s5zXuZpcVvH+5E?=
+ =?us-ascii?Q?/EzQy/pObzmcrEQszaEsUUkLN37diYveVk4yRu2mUlvbAxxWIUNbjVlAL8yb?=
+ =?us-ascii?Q?Y1Pygv2QfYxQ+db8cGSDda4eV4LrF5wnVcdIBpgALpd972CxjX9bR/CLQHEs?=
+ =?us-ascii?Q?u3Zfva8Imw/48VI7Nnkj50WzYqZ+gq4WDj/tKGCURgzfA5j9WqHxiraMIrLq?=
+ =?us-ascii?Q?iVMQmAx7BnZXQ87xILJNPRNSpNaYhOTjn2HZ9oeo09ibT9fiEseEDwaaJFPV?=
+ =?us-ascii?Q?8MUMRBcgJy2AY2gdiJhBqsXTqRIXbzu4Kg8ThKMh7o7Zn/DPNurnXTvTIRLR?=
+ =?us-ascii?Q?ndzg/YMMN4/Jn+ux0L9s3itSa0N/3oyf+2p4HKQVSBBw8XPTUKIJJBZpJ7K7?=
+ =?us-ascii?Q?AHSDOuAXB9Y8JgZShu71ALMJT02n8j8DImny1KqP5ejwen6ltlV2sDwUpS8C?=
+ =?us-ascii?Q?itKPrUC1y1+8EHR2r4Bra3CH87nmVfrYZtOt/1PbCzOyKaPVI+RZ2HNdHOSr?=
+ =?us-ascii?Q?t6IeknHqGCop/NHqv59q05BcbP0m1PHsuzkqlbO/iIH13tSzyIBbVNWfItqw?=
+ =?us-ascii?Q?enUpsy9eh2hfLEqjvWn2lKOZkIhlWw0oIO3KutfS7vAqytzTNolpgPsBwxO2?=
+ =?us-ascii?Q?Fo71mIrHASXTlcutk9pnHR30WsdCgm84SV552rh0EmWNwaPwDAktjtUdj+KB?=
+ =?us-ascii?Q?tesF+FXEwdeb2NztEJnE1HS4+MTqzbYb4utC3V2NSFwYlx3aDr4RXZbOpHIq?=
+ =?us-ascii?Q?6q9oVnfZ6+40X+v0x8Kd9AjleyZwkdtuQdNgQeF4S2nl2uDBk8SJoZxEdRAy?=
+ =?us-ascii?Q?iTVEFq9EVtzTvk238OBkuCVcs7Rz8cO2GEQkU0zyODv9/10g8f0z9EWuK68V?=
+ =?us-ascii?Q?UNjf4le76W6tse0KlNPD3bozd3jk4Rn4dCDB8Rmi5Yvy44b6ZvpMeGwJhDv8?=
+ =?us-ascii?Q?U4cjb4ZbWOwu4BdwvmUckcf56PSX7WXIxBrwcJa7sWMFewAoGKoIcrkT8BoC?=
+ =?us-ascii?Q?LmspwqbpRFzxdbkLVB82mFzINjrddrZ2JAZFPVaZ5bcTEZpjkKPU/4XezUnV?=
+ =?us-ascii?Q?ZyWLonx6OEga/Nzkp2StqdvzWFxjHQqnZ9AWoQVahHkizJjrysPFjzi7I24a?=
+ =?us-ascii?Q?d+FHtq1GSGlxhUtPXFc+xbMmB/UJURV5yj8k6dhwOr7ps/E0pr7h+BrXU2+2?=
+ =?us-ascii?Q?ixV7tZEeGlMwWOkCL4NEbuE/MRpx7HWISlx7KyqYGdVy0xO7XiwzAnLtcqva?=
+ =?us-ascii?Q?ANInb+zWZWyc0MYlNyLVZKjxafrHfZ6v75HaJ3BNg/MbvyJxdOSYBMAO+1Tl?=
+ =?us-ascii?Q?5HgNwScDKcnH661Jc2jJecridxHf9sDpumDah3nQJ+NSsaCIhC95MGtMnrFT?=
+ =?us-ascii?Q?kd2x81+FHuJlDl/gmhKR4Z8eTrpMgC/wnYXeKdUtVFbk98100/+22rINLB02?=
+ =?us-ascii?Q?u1M7lD5/QnrZKDUII7px6NEAZx2Qb7G2HBF01nzhGdsl07mvQJklUhINKQjN?=
+ =?us-ascii?Q?CKZEbwiHQ9T0ztZDgZkMw4w1X+oaUuYRb/IQK1kIp86hdiew46C/L06u3iyD?=
+ =?us-ascii?Q?QsAnq+B99KJQfhk5NaJcNN70LexM3rSSuHa9o0Cj?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3f3802a-7291-4b63-bb45-08dbae0a2eec
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 12:18:16.6547
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I4iSk0ph1FF6NPxn+IjXrK+VyHTXm4YKNRoH9kNtfUaW7Ax/JdMoXlFbpLB4uMYr6CULKj4M1QudRIzZuzfcPg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4754
+X-OriginatorOrg: intel.com
+
+Hi Vlastimil,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3f86ed6ec0b390c033eae7f9c487a3fea268e027
+commit: bb192ed9aa7191a5d65548f82c42b6750d65f569 mm/slub: Convert most struct page to struct slab by spatch
+date:   1 year, 8 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 1 year, 8 months ago
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230905/202309051941.72ZiILCM-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051941.72ZiILCM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202309051941.72ZiILCM-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/slub.c:2142:15: warning: variable 'partial_slabs' set but not used [-Wunused-but-set-variable]
+           unsigned int partial_slabs = 0;
+                        ^
+   mm/slub.c:1681:21: warning: unused function 'kmalloc_large_node_hook' [-Wunused-function]
+   static inline void *kmalloc_large_node_hook(void *ptr, size_t size, gfp_t flags)
+                       ^
+   2 warnings generated.
 
 
+vim +/partial_slabs +2142 mm/slub.c
 
-在 2023/9/5 下午7:12, Yinbo Zhu 写道:
-> 
-> 
-> 在 2023/9/3 上午7:17, kernel test robot 写道:
->> tree:   
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->> head:   b89b029377c8c441649c7a6be908386e74ea9420
->> commit: 67694c076bd7d6b8b73c59d4881822f0493caf35 soc: loongson2_pm: 
->> add power management support
->> date:   12 days ago
->> config: loongarch-randconfig-r014-20230903 
->> (https://download.01.org/0day-ci/archive/20230903/202309030751.pDnTZX4E-lkp@intel.com/config) 
->>
->> compiler: loongarch64-linux-gcc (GCC) 13.2.0
->> reproduce (this is a W=1 build): 
->> (https://download.01.org/0day-ci/archive/20230903/202309030751.pDnTZX4E-lkp@intel.com/reproduce) 
->>
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new 
->> version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: 
->> https://lore.kernel.org/oe-kbuild-all/202309030751.pDnTZX4E-lkp@intel.com/ 
->>
->>
->> All errors (new ones prefixed by >>): >
->>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in 
->> function `.LBB191':
->>     loongson2_pm.c:(.text+0x10c): undefined reference to 
->> `input_allocate_device'
->>     loongarch64-linux-ld: loongson2_pm.c:(.text+0x144): undefined 
->> reference to `input_set_capability'
->>     loongarch64-linux-ld: loongson2_pm.c:(.text+0x14c): undefined 
->> reference to `input_register_device'
-> 
-> 
-> I will add linux/input.h to fix this issue.
-> 
+49e2258586b423 Christoph Lameter 2011-08-09  2132  
+81819f0fc8285a Christoph Lameter 2007-05-06  2133  /*
+672bba3a4b2e65 Christoph Lameter 2007-05-09  2134   * Try to allocate a partial slab from a specific node.
+81819f0fc8285a Christoph Lameter 2007-05-06  2135   */
+8ba00bb68a067c Joonsoo Kim       2012-09-17  2136  static void *get_partial_node(struct kmem_cache *s, struct kmem_cache_node *n,
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2137  			      struct slab **ret_slab, gfp_t gfpflags)
+81819f0fc8285a Christoph Lameter 2007-05-06  2138  {
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2139  	struct slab *slab, *slab2;
+49e2258586b423 Christoph Lameter 2011-08-09  2140  	void *object = NULL;
+4b1f449dedd2ff Vlastimil Babka   2021-05-11  2141  	unsigned long flags;
+bb192ed9aa7191 Vlastimil Babka   2021-11-03 @2142  	unsigned int partial_slabs = 0;
+81819f0fc8285a Christoph Lameter 2007-05-06  2143  
+81819f0fc8285a Christoph Lameter 2007-05-06  2144  	/*
+81819f0fc8285a Christoph Lameter 2007-05-06  2145  	 * Racy check. If we mistakenly see no partial slabs then we
+81819f0fc8285a Christoph Lameter 2007-05-06  2146  	 * just allocate an empty slab. If we mistakenly try to get a
+70b6d25ec59cbc Chen Tao          2020-10-15  2147  	 * partial slab and there is none available then get_partial()
+672bba3a4b2e65 Christoph Lameter 2007-05-09  2148  	 * will return NULL.
+81819f0fc8285a Christoph Lameter 2007-05-06  2149  	 */
+81819f0fc8285a Christoph Lameter 2007-05-06  2150  	if (!n || !n->nr_partial)
+81819f0fc8285a Christoph Lameter 2007-05-06  2151  		return NULL;
+81819f0fc8285a Christoph Lameter 2007-05-06  2152  
+4b1f449dedd2ff Vlastimil Babka   2021-05-11  2153  	spin_lock_irqsave(&n->list_lock, flags);
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2154  	list_for_each_entry_safe(slab, slab2, &n->partial, slab_list) {
+8ba00bb68a067c Joonsoo Kim       2012-09-17  2155  		void *t;
+49e2258586b423 Christoph Lameter 2011-08-09  2156  
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2157  		if (!pfmemalloc_match(slab, gfpflags))
+8ba00bb68a067c Joonsoo Kim       2012-09-17  2158  			continue;
+8ba00bb68a067c Joonsoo Kim       2012-09-17  2159  
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2160  		t = acquire_slab(s, n, slab, object == NULL);
+49e2258586b423 Christoph Lameter 2011-08-09  2161  		if (!t)
+9b1ea29bc0d7b9 Linus Torvalds    2021-03-10  2162  			break;
+49e2258586b423 Christoph Lameter 2011-08-09  2163  
+12d79634f8d7af Alex Shi          2011-09-07  2164  		if (!object) {
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2165  			*ret_slab = slab;
+49e2258586b423 Christoph Lameter 2011-08-09  2166  			stat(s, ALLOC_FROM_PARTIAL);
+49e2258586b423 Christoph Lameter 2011-08-09  2167  			object = t;
+49e2258586b423 Christoph Lameter 2011-08-09  2168  		} else {
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2169  			put_cpu_partial(s, slab, 0);
+8028dcea8abbbd Alex Shi          2012-02-03  2170  			stat(s, CPU_PARTIAL_NODE);
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2171  			partial_slabs++;
+49e2258586b423 Christoph Lameter 2011-08-09  2172  		}
+b47291ef02b0be Vlastimil Babka   2021-11-05  2173  #ifdef CONFIG_SLUB_CPU_PARTIAL
+345c905d13a4ec Joonsoo Kim       2013-06-19  2174  		if (!kmem_cache_has_cpu_partial(s)
+bb192ed9aa7191 Vlastimil Babka   2021-11-03  2175  			|| partial_slabs > s->cpu_partial_slabs / 2)
+49e2258586b423 Christoph Lameter 2011-08-09  2176  			break;
+b47291ef02b0be Vlastimil Babka   2021-11-05  2177  #else
+b47291ef02b0be Vlastimil Babka   2021-11-05  2178  		break;
+b47291ef02b0be Vlastimil Babka   2021-11-05  2179  #endif
+49e2258586b423 Christoph Lameter 2011-08-09  2180  
+497b66f2ecc978 Christoph Lameter 2011-08-09  2181  	}
+4b1f449dedd2ff Vlastimil Babka   2021-05-11  2182  	spin_unlock_irqrestore(&n->list_lock, flags);
+497b66f2ecc978 Christoph Lameter 2011-08-09  2183  	return object;
+81819f0fc8285a Christoph Lameter 2007-05-06  2184  }
+81819f0fc8285a Christoph Lameter 2007-05-06  2185  
 
-
-Sorry, what I said earlier was incorrect.  It needs to add an "INPUT"
-dependency.
-
-  config LOONGSON2_PM
-         bool "Loongson-2 SoC Power Management Controller Driver"
-         depends on LOONGARCH && OF
-+       depends on INPUT
-
-Thanks,
-Yinbo
-
->>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in 
->> function `.LBB240':
->>>> loongson2_pm.c:(.text+0x25c): undefined reference to 
->>>> `input_free_device'
->>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in 
->> function `.LBB387':
->>     loongson2_pm.c:(.text+0x390): undefined reference to `input_event'
->>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in 
->> function `.LBE387':
->>     loongson2_pm.c:(.text+0x3a4): undefined reference to `input_event'
->>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in 
->> function `.LBE389':
->>     loongson2_pm.c:(.text+0x3b8): undefined reference to `input_event'
->>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in 
->> function `.LBE391':
->>     loongson2_pm.c:(.text+0x3cc): undefined reference to `input_event'
->>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
