@@ -1,44 +1,43 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B49DDD5
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 19:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D23DDD5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 19:30:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693942221; x=1725478221;
+  t=1693942224; x=1725478224;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OPl0oPBM2fcSkpfiG+2ue1cSu5hkPuAfGqxjGt+cb3M=;
-  b=eLAKDwqIiM4PVgHlVUHrFtgoo5f2Zy+UL1LAzTD+70E6i5Nj/J9PtYxd
-   kkwYI0qsH11+MOlyw5lB2B5IZJj/cVNacXZd4v+BwJUCIDojJlK0f/rtV
-   nUqXdDnHBd169QsQ0jTyfafrTrn5zDwr8dauzOeYcNCiNK+GPa6NsAy4C
-   ZnrMY1IIA+ABY30vS/9Qg884B6chTJM6mfannwPbVEl8MEQ9Nh1+Du6rX
-   xBqiIUx7eh3n/BqoIXD8KvLTgEaRSbBNSA6Brm16Smvfy7EpcX+6vxLnh
-   hSsoPH3V9VAxQ0+7V0ovrxEAUada14cvTABaqKKAsClFlYrIu4iIu6tQu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="379604200"
+  bh=KcNUXs4+zMxG7TVyRLja8exWrEMSbmgUqcrWWaIjkpE=;
+  b=R3Rt5SllwkjPnvf1IZck8KLpolEA7Qq2x93pQJ4YpZt+TO/scGTH0mxM
+   0cxlSTXQ/QnwC41Ryy/sJ888vQLmTyZ689ipBPbJH+xVpJcwn8LiEKdzf
+   pPiWX89K2YEL8y0/iZcSN3gz/hKLun3D4Qe0N0zMqiFmJPNk+yl1Fi71q
+   0A+KUEWguyMMuL+29/RZYgWjvkJfru+WoUB5v9U7KN63sspAA7nxG41v+
+   Puiu/j5Vo1RB5ZtjOjfbCp207kHKBLiKbaDXIbuWZmiyLhHIDNzc1A+3t
+   0BfBW11YU60MK7rH80GJxiDJSRWyGbu4UPG+0UpSKCGajC8s8jGDC5ddG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="379604202"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="379604200"
+   d="scan'208";a="379604202"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 12:30:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="987944190"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="987944191"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="987944190"
+   d="scan'208";a="987944191"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
   by fmsmga006.fm.intel.com with ESMTP; 05 Sep 2023 12:30:19 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdbkf-000207-0Y;
+	id 1qdbkf-00020C-0g;
 	Tue, 05 Sep 2023 19:30:17 +0000
-Date: Wed, 6 Sep 2023 03:29:59 +0800
+Date: Wed, 6 Sep 2023 03:29:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dhaval Shah <dhaval.r.shah@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:master 775/1123] ERROR: modpost: "af_alg_register_type"
- [crypto/algif_aead.ko] undefined!
-Message-ID: <202309060334.lhNKaclq-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 1/5] include/linux/thermal.h:378:1: error:
+ expected identifier or '(' before '{' token
+Message-ID: <202309060300.8TA9PBXT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,47 +47,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dhaval,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/Xilinx/linux-xlnx master
-head:   cb1f2dbc7e487361688257fccf78bf3f3ce0e9ed
-commit: 14a9452bc2885ae18d4f51e0fe4f4e95233dfb0d [775/1123] crypto: xilinx: select AES GCM fallback and userspace kernel config
-config: arc-randconfig-001-20230905 (https://download.01.org/0day-ci/archive/20230906/202309060334.lhNKaclq-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060334.lhNKaclq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   3013f879e8da5a4cf707cdb0dfa927f89b9374cd
+commit: 6c106aa9e0f7f8be4146c50bea5cd71052bebe3a [1/5] thermal: core: Clean up headers of thermal zone registration functions
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20230906/202309060300.8TA9PBXT-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060300.8TA9PBXT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309060334.lhNKaclq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309060300.8TA9PBXT-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All error/warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "af_alg_register_type" [crypto/algif_aead.ko] undefined!
->> ERROR: modpost: "lock_sock_nested" [crypto/algif_aead.ko] undefined!
->> ERROR: modpost: "release_sock" [crypto/algif_aead.ko] undefined!
->> ERROR: modpost: "af_alg_sendpage" [crypto/algif_aead.ko] undefined!
->> ERROR: modpost: "af_alg_sendmsg" [crypto/algif_aead.ko] undefined!
->> ERROR: modpost: "af_alg_pull_tsgl" [crypto/algif_aead.ko] undefined!
->> ERROR: modpost: "sock_kzfree_s" [crypto/algif_aead.ko] undefined!
->> ERROR: modpost: "sock_kfree_s" [crypto/algif_aead.ko] undefined!
->> ERROR: modpost: "af_alg_release_parent" [crypto/algif_aead.ko] undefined!
->> ERROR: modpost: "sock_kmalloc" [crypto/algif_aead.ko] undefined!
-WARNING: modpost: module fpga-mgr uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
-WARNING: modpost: module fpga-mgr uses symbol dma_buf_attach from namespace DMA_BUF, but does not import it.
-WARNING: modpost: module fpga-mgr uses symbol dma_buf_map_attachment from namespace DMA_BUF, but does not import it.
-WARNING: modpost: module fpga-mgr uses symbol dma_buf_unmap_attachment from namespace DMA_BUF, but does not import it.
-WARNING: modpost: module fpga-mgr uses symbol dma_buf_detach from namespace DMA_BUF, but does not import it.
-WARNING: modpost: module fpga-mgr uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
-WARNING: modpost: suppressed 20 unresolved symbol warnings because there were too many)
+   In file included from include/acpi/processor.h:11,
+                    from drivers/acpi/acpi_processor.c:22:
+>> include/linux/thermal.h:378:1: error: expected identifier or '(' before '{' token
+     378 | { return ERR_PTR(-ENODEV); }
+         | ^
+>> include/linux/thermal.h:370:43: warning: 'thermal_zone_device_register_with_trips' declared 'static' but never defined [-Wunused-function]
+     370 | static inline struct thermal_zone_device *thermal_zone_device_register_with_trips(
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CRYPTO_USER_API_AEAD
-   Depends on [n]: CRYPTO [=y] && NET [=n]
-   Selected by [m]:
-   - CRYPTO_DEV_ZYNQMP_AES [=m] && CRYPTO [=y] && CRYPTO_HW [=y] && (ZYNQMP_FIRMWARE [=n] || COMPILE_TEST [=y])
+
+vim +378 include/linux/thermal.h
+
+   369	
+ > 370	static inline struct thermal_zone_device *thermal_zone_device_register_with_trips(
+   371						const char *type,
+   372						struct thermal_trip *trips,
+   373						int num_trips, int mask,
+   374						void *devdata,
+   375						struct thermal_zone_device_ops *ops,
+   376						const struct thermal_zone_params *tzp,
+   377						int passive_delay, int polling_delay);
+ > 378	{ return ERR_PTR(-ENODEV); }
+   379	
 
 -- 
 0-DAY CI Kernel Test Service
