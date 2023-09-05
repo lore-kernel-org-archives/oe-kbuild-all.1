@@ -1,49 +1,46 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFCDC2DF
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 11:35:13 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-31c479ede21so2129134f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 Sep 2023 04:35:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693913711; x=1694518511; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ce635KO/rVBhGysaXtu/lTxiB6KqevYHP7p3FxKizrk=;
-        b=D6E6SaoxNG73F9Ray2PUg1RdlroCoJ+gt/QfFIMqV73TkzyoQF5Uer/TJAOptkhR9G
-         6bjhbUjnHdTjmbF9bDs5ZyOWrtla0M9ZvmmhGZLZZcKJSiK161G0U3JENtV5yKS4vHO2
-         fWQlAHC7y1EFN8sZXBzq9znytaubipC0iYQh4kFT6hhNaAgvWgPT/dWKoKtiFb5FMfaQ
-         m73OZYThTXhoOoZd5M/CqF3mLwPX4xdMW8MtGWcwUlo1VvId7HxiCeI3lbirOYl/WIq4
-         v668sgo3jOtISJCOzzyPUGqvXtYioOk48avWyy5HYMHMyEjPJDe6DEcRlgwXv15dGcRr
-         iXvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693913711; x=1694518511;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ce635KO/rVBhGysaXtu/lTxiB6KqevYHP7p3FxKizrk=;
-        b=CQdLFMgyUqNJLgi86D/V2/A0dGU6cfK7hMImlz7nlizB1vNBaM0JLwEs3m7X0kcIBa
-         qoXrbh5UleTj1B07pQHA47Agllu2/dHdEgKZJdHdwHM4KCVXHa8Vd2ytGXSq4muMEh0t
-         DGjSWB5iN6b39mQ/cqXSjnCD74OmRLCkko+WA/XJ345qd4wzrEs2L2WQiEOvKkatkuzH
-         8njPyVx4STl8o+zK84so3SvGTSQphM/WqYnvqWVnAEqmpqji64L0yH31tSJJVQZiiCpc
-         8BYyE0KzdcSPlQz2rvlyq5gOGb1D9IFREQ8BJbZySJ1wYizTPkWHWzNPjtlSQPmB8HuG
-         z0JA==
-X-Gm-Message-State: AOJu0YwS2+tBNmnC0FlDCp/FLkDdrtEzhefI99vkap4KpcrppsOpr3He
-	4UqNhUu3FuMelPYh/UDv4A9EvQ==
-X-Google-Smtp-Source: AGHT+IEBmP2byFUvFjzEorXj6zB2IpTq9ZyQjmDbLbU/a8KO4eJucHLJxN/UKZ7+Rlk05L/EogDjWg==
-X-Received: by 2002:a5d:43d0:0:b0:317:5747:b955 with SMTP id v16-20020a5d43d0000000b003175747b955mr9913590wrr.17.1693913711258;
-        Tue, 05 Sep 2023 04:35:11 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n4-20020a5d4844000000b0031ad5470f89sm17195261wrs.18.2023.09.05.04.35.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 04:35:11 -0700 (PDT)
-Date: Tue, 5 Sep 2023 14:35:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:fuse-backing-fd 11/14] fs/fuse/passthrough.c:23
- fuse_backing_free() error: we previously assumed 'fb' could be null (see
- line 21)
-Message-ID: <1e6272d6-d7d4-40f0-95f9-5171afce9c9c@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E3CC8F5;
+	Tue,  5 Sep 2023 11:42:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693914167; x=1725450167;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q8RbTZpvR8BqCfFmIMTLy6/7rh/8GrEuAQsQyFcENA0=;
+  b=YisbqhI6C1RjOigsenhTRnwy3aWaGeDxpa6ddPm2ysHjyaM/3oCIgqBf
+   rDdSzO2v0h0IjXwBMQR3YMeEyPOKNkW3aAJb7Hy1lI6bD1YSwEuwu6eER
+   AsJtZ1PrZOM/rNB1afYBn5oFoaRBYeyRIRnAdMlC0fTC+7p/n2LNdmY4e
+   ApJzmZGzeHhrmkWfvsp8wYojVj9rpq8s8e3Mo6rf/rTDHz5P05CzZmOEh
+   Y1h2nBApOLJGNjH8ZUyBsTHBVIcameAaY8AleIY5JSTnUdLd+3cKNHp67
+   g3iywc6cfpkE26N7PRCVB/gd66M0OQ9i62lN1evV+7Qrt9/D4mw9/wnkR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="356268138"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="356268138"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 04:42:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="914808977"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="914808977"
+Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 05 Sep 2023 04:42:44 -0700
+Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qdUS9-0001bf-2w;
+	Tue, 05 Sep 2023 11:42:41 +0000
+Date: Tue, 5 Sep 2023 19:42:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Animesh Manna <animesh.manna@intel.com>,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jani.nikula@intel.com
+Subject: Re: [Intel-gfx] [PATCH v5 3/6] drm/i915/panelreplay: Initializaton
+ and compute config for panel replay
+Message-ID: <202309051920.FD7yiD3K-lkp@intel.com>
+References: <20230905073551.958368-4-animesh.manna@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,41 +49,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230905073551.958368-4-animesh.manna@intel.com>
 
-tree:   https://github.com/amir73il/linux fuse-backing-fd
-head:   563a1dbd5121cbe0239528370c886b990224403f
-commit: c437debbc26ca8097efb08e5f279b4bd5c8376a3 [11/14] fuse: backing file id initialization and release
-config: i386-randconfig-141-20230903 (https://download.01.org/0day-ci/archive/20230903/202309031342.V3G49Lbc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230903/202309031342.V3G49Lbc-lkp@intel.com/reproduce)
+Hi Animesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Manna/drm-panelreplay-dpcd-register-definition-for-panelreplay/20230905-154811
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230905073551.958368-4-animesh.manna%40intel.com
+patch subject: [Intel-gfx] [PATCH v5 3/6] drm/i915/panelreplay: Initializaton and compute config for panel replay
+config: i386-randconfig-003-20230905 (https://download.01.org/0day-ci/archive/20230905/202309051920.FD7yiD3K-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051920.FD7yiD3K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309031342.V3G49Lbc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309051920.FD7yiD3K-lkp@intel.com/
 
-smatch warnings:
-fs/fuse/passthrough.c:23 fuse_backing_free() error: we previously assumed 'fb' could be null (see line 21)
+All errors (new ones prefixed by >>):
 
-vim +/fb +23 fs/fuse/passthrough.c
+>> drivers/gpu/drm/i915/display/intel_dp.c:3779:27: error: overlapping comparisons always evaluate to true [-Werror,-Wtautological-overlap-compare]
+           if (vsc->revision != 0x5 || vsc->revision != 0x7)
+               ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-96e6d03cee90a5 Amir Goldstein 2023-05-20  19  static void fuse_backing_free(struct fuse_backing *fb)
-96e6d03cee90a5 Amir Goldstein 2023-05-20  20  {
-96e6d03cee90a5 Amir Goldstein 2023-05-20 @21  	if (fb && fb->file)
-                                                    ^^
-Is this check necessary?
 
-96e6d03cee90a5 Amir Goldstein 2023-05-20  22  		fput(fb->file);
-c437debbc26ca8 Amir Goldstein 2023-09-02 @23  	if (fb->cred)
-                                                    ^^^^
-Unchecked dereference.
+vim +3779 drivers/gpu/drm/i915/display/intel_dp.c
 
-c437debbc26ca8 Amir Goldstein 2023-09-02  24  		put_cred(fb->cred);
-c437debbc26ca8 Amir Goldstein 2023-09-02  25  	kfree_rcu(fb, rcu);
-96e6d03cee90a5 Amir Goldstein 2023-05-20  26  }
+  3754	
+  3755	static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
+  3756					     struct dp_sdp *sdp, size_t size)
+  3757	{
+  3758		size_t length = sizeof(struct dp_sdp);
+  3759	
+  3760		if (size < length)
+  3761			return -ENOSPC;
+  3762	
+  3763		memset(sdp, 0, size);
+  3764	
+  3765		/*
+  3766		 * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
+  3767		 * VSC SDP Header Bytes
+  3768		 */
+  3769		sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
+  3770		sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
+  3771		sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
+  3772		sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
+  3773	
+  3774		/*
+  3775		 * Other than revision 0x5 which supports Pixel Encoding/Colorimetry
+  3776		 * Format as per DP 1.4a spec, revision 0x7 also supports Pixel
+  3777		 * Encoding/Colorimetry Format as per DP 2.0 spec.
+  3778		 */
+> 3779		if (vsc->revision != 0x5 || vsc->revision != 0x7)
+  3780			goto out;
+  3781	
+  3782		/* VSC SDP Payload for DB16 through DB18 */
+  3783		/* Pixel Encoding and Colorimetry Formats  */
+  3784		sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
+  3785		sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
+  3786	
+  3787		switch (vsc->bpc) {
+  3788		case 6:
+  3789			/* 6bpc: 0x0 */
+  3790			break;
+  3791		case 8:
+  3792			sdp->db[17] = 0x1; /* DB17[3:0] */
+  3793			break;
+  3794		case 10:
+  3795			sdp->db[17] = 0x2;
+  3796			break;
+  3797		case 12:
+  3798			sdp->db[17] = 0x3;
+  3799			break;
+  3800		case 16:
+  3801			sdp->db[17] = 0x4;
+  3802			break;
+  3803		default:
+  3804			MISSING_CASE(vsc->bpc);
+  3805			break;
+  3806		}
+  3807		/* Dynamic Range and Component Bit Depth */
+  3808		if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
+  3809			sdp->db[17] |= 0x80;  /* DB17[7] */
+  3810	
+  3811		/* Content Type */
+  3812		sdp->db[18] = vsc->content_type & 0x7;
+  3813	
+  3814	out:
+  3815		return length;
+  3816	}
+  3817	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
