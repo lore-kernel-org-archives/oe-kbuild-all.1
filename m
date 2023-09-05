@@ -1,44 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823BF7F3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 05:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C947F3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 06:28:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693892692; x=1725428692;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VAvtsGJDpFKY/dFuo8tdCAAFHN2Ja37VO4oXPV2c21A=;
-  b=l9aREL1Jlw/HGy0ih9NOAFC6bM5OuVivSnOF/8Huzh4LKKPzaFH4UkPI
-   WD+EpYWsWDLaWQLLAznqX3CMkl5FpmORcN++dMot8K6b5iAUd/DRgXYZA
-   PdU8EAEMh1k3TPeDWvNmSsXvmiK1T7kMkl2B9TJh80ZG//QJfuYRS1mnc
-   gnNXLOONWmJxeIuRzNtAWnpWTQxLhJ7NnLggfulTI5Tfa0p+wvbJG6bD9
-   O1UjzUXf0hd33TCPDjZDu1gLAOUBkSlpeHDfBxaeVpXMj5Tlqp6y/gjyL
-   mznjtQFRhlVvxFRj90GaWBhs6PnF2USc3VutifGD7jTF8dysHWDdGCYop
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="463076942"
+  t=1693895289; x=1725431289;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zcu4Y/TSeClvgGKpcsFH4BqAVZ4/YXsS4cM2ndhYS/I=;
+  b=iWOCFsV2jUTrktByaYsZpHePt3r//wTOoF1EDIpU5KySMYN6a8b+cIQl
+   Gql2+r/JJcmy97TdlbJHJ5kh+boeNUv62pxFGG8b4u9tPyW21b0A3AZXX
+   l8z5bj975miS1Ev+uuRoPZzV6ZR9d9XBY0pX/+SocthMseBb4WAnYfqic
+   CYBudZcQmBQBdnWRi3+7v0Hf4q1c6KyWsGwJr6VSryfyoYnqwapI7UGf+
+   Byy9Zs9v1+cgEWmxHwGPi/aQ6OVCqF0hRPWBmei7JQPjOPhuVC+4lLn5u
+   E0P/tlEDv8GtOJY4UNw6Vd2xcg6HLIO6/JD/pkztc0yDgzBuQFpsC1Khj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="440697259"
 X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; 
-   d="scan'208";a="463076942"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 22:44:51 -0700
+   d="scan'208";a="440697259"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 23:28:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="740989407"
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="987715115"
 X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; 
-   d="scan'208";a="740989407"
+   d="scan'208";a="987715115"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 04 Sep 2023 22:44:49 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 04 Sep 2023 23:28:05 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdOrn-0001If-1Y;
-	Tue, 05 Sep 2023 05:44:47 +0000
-Date: Tue, 5 Sep 2023 13:44:09 +0800
+	id 1qdPXe-0001Kp-2G;
+	Tue, 05 Sep 2023 06:28:02 +0000
+Date: Tue, 5 Sep 2023 14:27:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 11/41] arch/sparc/mm/tlb.c:304:1: error:
- unknown type name 'Mon'
-Message-ID: <202309051336.IkWoM0J5-lkp@intel.com>
+To: Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>,
+	andi.shyti@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, aryan.srivastava@alliedtelesis.co.nz,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] i2c:octeon:Add block-mode r/w
+Message-ID: <202309051413.SkL3myiV-lkp@intel.com>
+References: <20230904231439.485925-1-aryan.srivastava@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,55 +48,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230904231439.485925-1-aryan.srivastava@alliedtelesis.co.nz>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   df52e0b5933bff55db448d594446534118a72266
-commit: ab08e986a45a66d3590a97c89132e6bbd3710cfd [11/41] sparc64: add missing initialization of folio in tlb_batch_add()
-config: sparc64-defconfig (https://download.01.org/0day-ci/archive/20230905/202309051336.IkWoM0J5-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051336.IkWoM0J5-lkp@intel.com/reproduce)
+Hi Aryan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wsa/i2c/for-next]
+[also build test ERROR on linus/master v6.5 next-20230831]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aryan-Srivastava/i2c-octeon-Add-block-mode-r-w/20230905-071739
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+patch link:    https://lore.kernel.org/r/20230904231439.485925-1-aryan.srivastava%40alliedtelesis.co.nz
+patch subject: [PATCH] i2c:octeon:Add block-mode r/w
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230905/202309051413.SkL3myiV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051413.SkL3myiV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309051336.IkWoM0J5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309051413.SkL3myiV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/sparc/mm/tlb.c:304:1: error: unknown type name 'Mon'
-     304 | Mon Sep  4 12:33:06 PM PDT 2023
-         | ^~~
->> arch/sparc/mm/tlb.c:304:10: error: expected '=', ',', ';', 'asm' or '__attribute__' before numeric constant
-     304 | Mon Sep  4 12:33:06 PM PDT 2023
-         |          ^
+   drivers/i2c/busses/i2c-octeon-core.c: In function 'octeon_i2c_hlc_block_comp_write':
+>> drivers/i2c/busses/i2c-octeon-core.c:725:17: error: label 'ret' used but not defined
+     725 |                 goto ret;
+         |                 ^~~~
 
 
-vim +/Mon +304 arch/sparc/mm/tlb.c
+vim +/ret +725 drivers/i2c/busses/i2c-octeon-core.c
 
-   281	
-   282	pgtable_t pgtable_trans_huge_withdraw(struct mm_struct *mm, pmd_t *pmdp)
-   283	{
-   284		struct list_head *lh;
-   285		pgtable_t pgtable;
-   286	
-   287		assert_spin_locked(&mm->page_table_lock);
-   288	
-   289		/* FIFO */
-   290		pgtable = pmd_huge_pte(mm, pmdp);
-   291		lh = (struct list_head *) pgtable;
-   292		if (list_empty(lh))
-   293			pmd_huge_pte(mm, pmdp) = NULL;
-   294		else {
-   295			pmd_huge_pte(mm, pmdp) = (pgtable_t) lh->next;
-   296			list_del(lh);
-   297		}
-   298		pte_val(pgtable[0]) = 0;
-   299		pte_val(pgtable[1]) = 0;
-   300	
-   301		return pgtable;
-   302	}
-   303	#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
- > 304	Mon Sep  4 12:33:06 PM PDT 2023
+   674	
+   675	/* high-level-controller composite block write+write, m[0]len<=2, m[1]len<=1024 */
+   676	static int octeon_i2c_hlc_block_comp_write(struct octeon_i2c *i2c, struct i2c_msg *msgs)
+   677	{
+   678		bool set_ext = false;
+   679		int i, j, len, ret = 0;
+   680		u64 cmd, buf = 0, ext = 0;
+   681	
+   682		octeon_i2c_hlc_enable(i2c);
+   683		octeon_i2c_block_enable(i2c);
+   684	
+   685		/* Write (size - 1) into block control register */
+   686		len = msgs[1].len - 1;
+   687		octeon_i2c_writeq_flush((u64)(len), i2c->twsi_base + TWSI_BLOCK_CTL(i2c));
+   688	
+   689		/* Prepare core command */
+   690		cmd = SW_TWSI_V | SW_TWSI_SOVR;
+   691		cmd |= (u64)(msgs[0].addr & 0x7full) << SW_TWSI_ADDR_SHIFT;
+   692	
+   693		if (msgs[0].flags & I2C_M_TEN)
+   694			cmd |= SW_TWSI_OP_10_IA;
+   695		else
+   696			cmd |= SW_TWSI_OP_7_IA;
+   697	
+   698		if (msgs[0].len == 2) {
+   699			cmd |= SW_TWSI_EIA;
+   700			ext |= (u64)msgs[0].buf[0] << SW_TWSI_IA_SHIFT;
+   701			set_ext = true;
+   702			cmd |= (u64)msgs[0].buf[1] << SW_TWSI_IA_SHIFT;
+   703		} else {
+   704			cmd |= (u64)msgs[0].buf[0] << SW_TWSI_IA_SHIFT;
+   705		}
+   706	
+   707		/* Write msg into FIFO buffer */
+   708		octeon_i2c_writeq_flush(TWSI_BLOCK_STS_RESET_PTR, i2c->twsi_base + TWSI_BLOCK_STS(i2c));
+   709		for (i = 0; i < len; i += 8) {
+   710			buf = 0;
+   711			for (j = 7; j >= 0; j--)
+   712				buf |= (msgs[1].buf[i + (7 - j)] << (8 * j));
+   713			octeon_i2c_writeq_flush(buf, i2c->twsi_base + TWSI_BLOCK_FIFO(i2c));
+   714		}
+   715		if (set_ext)
+   716			octeon_i2c_writeq_flush(ext, i2c->twsi_base + SW_TWSI_EXT(i2c));
+   717	
+   718		/* Send command to core (send data in FIFO) */
+   719		octeon_i2c_hlc_int_clear(i2c);
+   720		octeon_i2c_writeq_flush(cmd, i2c->twsi_base + SW_TWSI(i2c));
+   721	
+   722		/* Wait for transaction to complete */
+   723		ret = octeon_i2c_hlc_wait(i2c);
+   724		if (ret)
+ > 725			goto ret;
+   726	
+   727		cmd = __raw_readq(i2c->twsi_base + SW_TWSI(i2c));
+   728		if ((cmd & SW_TWSI_R) == 0)
+   729			return octeon_i2c_check_status(i2c, false);
+   730	
+   731		octeon_i2c_block_disable(i2c);
+   732		return ret;
+   733	}
+   734	
 
 -- 
 0-DAY CI Kernel Test Service
