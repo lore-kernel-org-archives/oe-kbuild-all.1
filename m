@@ -1,44 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C947F3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 06:28:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D321C38;
+	Tue,  5 Sep 2023 07:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693895289; x=1725431289;
+  t=1693900384; x=1725436384;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zcu4Y/TSeClvgGKpcsFH4BqAVZ4/YXsS4cM2ndhYS/I=;
-  b=iWOCFsV2jUTrktByaYsZpHePt3r//wTOoF1EDIpU5KySMYN6a8b+cIQl
-   Gql2+r/JJcmy97TdlbJHJ5kh+boeNUv62pxFGG8b4u9tPyW21b0A3AZXX
-   l8z5bj975miS1Ev+uuRoPZzV6ZR9d9XBY0pX/+SocthMseBb4WAnYfqic
-   CYBudZcQmBQBdnWRi3+7v0Hf4q1c6KyWsGwJr6VSryfyoYnqwapI7UGf+
-   Byy9Zs9v1+cgEWmxHwGPi/aQ6OVCqF0hRPWBmei7JQPjOPhuVC+4lLn5u
-   E0P/tlEDv8GtOJY4UNw6Vd2xcg6HLIO6/JD/pkztc0yDgzBuQFpsC1Khj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="440697259"
+  bh=AnzlJ/ONUPwEn3gpEL9v0QBU/P1wozxQo+07ttxfhWs=;
+  b=T/x/GxgIWWXeXffA+bsOGaGQo0QUgqA59lLLiXzl9Sy+fj2AQH0S+v62
+   cnWYo224Za6JqNtFJ5GgOfb9AQbd+vq2/uFxk0CwyqQ+USym7f9JRap5R
+   4hq1wx7Cd2NLUQHcYO8fhLkuBOn09V0rqmtoRYrjcdZOitR1HseOXPXVL
+   m2mf+zusRjN/UH/YANFFKhP+EiKbACId1n96yngJhWS7pIsZXzETzhsHw
+   lscpcUC5nZ5M73XLzTYBt9TQtw6bz+FT04EvosuQ+CGnlS67pPIxIWdAm
+   waG66nqskahi+sGCUfiLmWGPdWr3/EaK9E2NGE3SQMAcYvTlermpvHhgN
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="356224962"
 X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; 
-   d="scan'208";a="440697259"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2023 23:28:07 -0700
+   d="scan'208";a="356224962"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 00:52:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="987715115"
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="690841279"
 X-IronPort-AV: E=Sophos;i="6.02,228,1688454000"; 
-   d="scan'208";a="987715115"
+   d="scan'208";a="690841279"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 04 Sep 2023 23:28:05 -0700
+  by orsmga003.jf.intel.com with ESMTP; 05 Sep 2023 00:52:53 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdPXe-0001Kp-2G;
-	Tue, 05 Sep 2023 06:28:02 +0000
-Date: Tue, 5 Sep 2023 14:27:43 +0800
+	id 1qdQri-0001Oz-32;
+	Tue, 05 Sep 2023 07:52:50 +0000
+Date: Tue, 5 Sep 2023 15:52:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>,
 	andi.shyti@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, aryan.srivastava@alliedtelesis.co.nz,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	aryan.srivastava@alliedtelesis.co.nz, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] i2c:octeon:Add block-mode r/w
-Message-ID: <202309051413.SkL3myiV-lkp@intel.com>
+Message-ID: <202309051505.K5sogLFe-lkp@intel.com>
 References: <20230904231439.485925-1-aryan.srivastava@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -55,7 +56,7 @@ Hi Aryan,
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on wsa/i2c/for-next]
-[also build test ERROR on linus/master v6.5 next-20230831]
+[also build test ERROR on linus/master v6.5 next-20230905]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -64,21 +65,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Aryan-Srivastava/i2c-octe
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
 patch link:    https://lore.kernel.org/r/20230904231439.485925-1-aryan.srivastava%40alliedtelesis.co.nz
 patch subject: [PATCH] i2c:octeon:Add block-mode r/w
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230905/202309051413.SkL3myiV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051413.SkL3myiV-lkp@intel.com/reproduce)
+config: riscv-randconfig-001-20230905 (https://download.01.org/0day-ci/archive/20230905/202309051505.K5sogLFe-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051505.K5sogLFe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309051413.SkL3myiV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309051505.K5sogLFe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/i2c/busses/i2c-octeon-core.c: In function 'octeon_i2c_hlc_block_comp_write':
->> drivers/i2c/busses/i2c-octeon-core.c:725:17: error: label 'ret' used but not defined
+>> drivers/i2c/busses/i2c-octeon-core.c:725:8: error: use of undeclared label 'ret'
      725 |                 goto ret;
-         |                 ^~~~
+         |                      ^
+   1 error generated.
 
 
 vim +/ret +725 drivers/i2c/busses/i2c-octeon-core.c
