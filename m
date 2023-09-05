@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E03DDD9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B49DDD5
 	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 19:30:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693942222; x=1725478222;
+  t=1693942221; x=1725478221;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iiL9OM34qSRBI8NRC3WNtVK4hk+GTVGm/FW2f4eRxIc=;
-  b=IMTJjrw1Jv5NbMNcwqd5jRBCqVNHKBxd1Y+KKhh1TszLiqIrmQDNHMpX
-   rQV78YHhGRftN+Zzau0XVNzoUmUV3Jyh4F7H+HELJA7ZvKIieqMaWL8lm
-   bscB1Mjo54HtWxtdKmuwi96okZY5+rrn+F/WO1YWCeYY/x6kVUY7z013d
-   z2JaH55qvZ999iJ8cpJseAWj1Fn671HFK8csuRPIFOCX9IQH+qmdH9uVs
-   54Pymd8YQ1chPzZD9BFv2oKXSmK6bJNfoqKUbePv3PxR2mSKrZEdgfdto
-   iVbq2PQA223KLIXNXxySg5F5A2E3cjNuGVfOgzwbDhXtUBO4qXpq1HH7b
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="463259924"
+  bh=OPl0oPBM2fcSkpfiG+2ue1cSu5hkPuAfGqxjGt+cb3M=;
+  b=eLAKDwqIiM4PVgHlVUHrFtgoo5f2Zy+UL1LAzTD+70E6i5Nj/J9PtYxd
+   kkwYI0qsH11+MOlyw5lB2B5IZJj/cVNacXZd4v+BwJUCIDojJlK0f/rtV
+   nUqXdDnHBd169QsQ0jTyfafrTrn5zDwr8dauzOeYcNCiNK+GPa6NsAy4C
+   ZnrMY1IIA+ABY30vS/9Qg884B6chTJM6mfannwPbVEl8MEQ9Nh1+Du6rX
+   xBqiIUx7eh3n/BqoIXD8KvLTgEaRSbBNSA6Brm16Smvfy7EpcX+6vxLnh
+   hSsoPH3V9VAxQ0+7V0ovrxEAUada14cvTABaqKKAsClFlYrIu4iIu6tQu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="379604200"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="463259924"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 12:30:21 -0700
+   d="scan'208";a="379604200"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 12:30:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="811364853"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="987944190"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="811364853"
+   d="scan'208";a="987944190"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Sep 2023 12:30:19 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 05 Sep 2023 12:30:19 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdbkf-000209-0c;
+	id 1qdbkf-000207-0Y;
 	Tue, 05 Sep 2023 19:30:17 +0000
 Date: Wed, 6 Sep 2023 03:29:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org
-Subject: [rafael-pm:bleeding-edge 1/5] include/linux/thermal.h:378:1: error:
- expected identifier or '(' before '{' token
-Message-ID: <202309060309.BgHDEFgR-lkp@intel.com>
+To: Dhaval Shah <dhaval.r.shah@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [xilinx-xlnx:master 775/1123] ERROR: modpost: "af_alg_register_type"
+ [crypto/algif_aead.ko] undefined!
+Message-ID: <202309060334.lhNKaclq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,42 +48,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   3013f879e8da5a4cf707cdb0dfa927f89b9374cd
-commit: 6c106aa9e0f7f8be4146c50bea5cd71052bebe3a [1/5] thermal: core: Clean up headers of thermal zone registration functions
-config: arc-randconfig-001-20230906 (https://download.01.org/0day-ci/archive/20230906/202309060309.BgHDEFgR-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060309.BgHDEFgR-lkp@intel.com/reproduce)
+Hi Dhaval,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   cb1f2dbc7e487361688257fccf78bf3f3ce0e9ed
+commit: 14a9452bc2885ae18d4f51e0fe4f4e95233dfb0d [775/1123] crypto: xilinx: select AES GCM fallback and userspace kernel config
+config: arc-randconfig-001-20230905 (https://download.01.org/0day-ci/archive/20230906/202309060334.lhNKaclq-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060334.lhNKaclq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309060309.BgHDEFgR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309060334.lhNKaclq-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/hwmon/emc2305.c:13:
->> include/linux/thermal.h:378:1: error: expected identifier or '(' before '{' token
-     378 | { return ERR_PTR(-ENODEV); }
-         | ^
->> include/linux/thermal.h:370:43: warning: 'thermal_zone_device_register_with_trips' declared 'static' but never defined [-Wunused-function]
-     370 | static inline struct thermal_zone_device *thermal_zone_device_register_with_trips(
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ERROR: modpost: "af_alg_register_type" [crypto/algif_aead.ko] undefined!
+>> ERROR: modpost: "lock_sock_nested" [crypto/algif_aead.ko] undefined!
+>> ERROR: modpost: "release_sock" [crypto/algif_aead.ko] undefined!
+>> ERROR: modpost: "af_alg_sendpage" [crypto/algif_aead.ko] undefined!
+>> ERROR: modpost: "af_alg_sendmsg" [crypto/algif_aead.ko] undefined!
+>> ERROR: modpost: "af_alg_pull_tsgl" [crypto/algif_aead.ko] undefined!
+>> ERROR: modpost: "sock_kzfree_s" [crypto/algif_aead.ko] undefined!
+>> ERROR: modpost: "sock_kfree_s" [crypto/algif_aead.ko] undefined!
+>> ERROR: modpost: "af_alg_release_parent" [crypto/algif_aead.ko] undefined!
+>> ERROR: modpost: "sock_kmalloc" [crypto/algif_aead.ko] undefined!
+WARNING: modpost: module fpga-mgr uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
+WARNING: modpost: module fpga-mgr uses symbol dma_buf_attach from namespace DMA_BUF, but does not import it.
+WARNING: modpost: module fpga-mgr uses symbol dma_buf_map_attachment from namespace DMA_BUF, but does not import it.
+WARNING: modpost: module fpga-mgr uses symbol dma_buf_unmap_attachment from namespace DMA_BUF, but does not import it.
+WARNING: modpost: module fpga-mgr uses symbol dma_buf_detach from namespace DMA_BUF, but does not import it.
+WARNING: modpost: module fpga-mgr uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
+WARNING: modpost: suppressed 20 unresolved symbol warnings because there were too many)
 
-
-vim +378 include/linux/thermal.h
-
-   369	
- > 370	static inline struct thermal_zone_device *thermal_zone_device_register_with_trips(
-   371						const char *type,
-   372						struct thermal_trip *trips,
-   373						int num_trips, int mask,
-   374						void *devdata,
-   375						struct thermal_zone_device_ops *ops,
-   376						const struct thermal_zone_params *tzp,
-   377						int passive_delay, int polling_delay);
- > 378	{ return ERR_PTR(-ENODEV); }
-   379	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CRYPTO_USER_API_AEAD
+   Depends on [n]: CRYPTO [=y] && NET [=n]
+   Selected by [m]:
+   - CRYPTO_DEV_ZYNQMP_AES [=m] && CRYPTO [=y] && CRYPTO_HW [=y] && (ZYNQMP_FIRMWARE [=n] || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
