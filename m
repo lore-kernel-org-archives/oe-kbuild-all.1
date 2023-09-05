@@ -1,49 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2754DDDB4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 17:56:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFEFDDA8
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 18:07:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693936574; x=1725472574;
+  t=1693937257; x=1725473257;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A6RmbUnYeKyP85CCJJkgYXoM0Teql5JuVJSdnCiw44k=;
-  b=jOrOfC9CaD4oO/7kvmoYM9GAPWhowHf9rwLXG+bzNY1lKnBpGmvUt7zL
-   2pWIErgtO/QOhwIDygcZzb9EwWhIoTDGPGoeEMIgLLYk5MrswaHSE+slc
-   4RftLHMOXgBA07k1zU7cDr+TP70+WmWh2iXXlWgqNMxd3axADIJbLHETr
-   YVUPv3CK7LTxa4iuHil+fe+ExHu0the+eIAH5GK+g9DekLAeTVQ9wVAQH
-   mlACxzHEdktWFAa5YSaRhFA0WWUf9PVwBDLJy/QAJLbmrl1WeKfmyfhTF
-   fEkS/8u3H8PXYzExywxQ3XqnpcYDTuvt5M3K0JV3ZhygtAA81P7adu4iy
+  bh=aUInnwLHb7exRxtFfT0u84+kK3+fanxPrmSN3O21Ypk=;
+  b=iuopA8VdZ2XHiJuQXSglwkqpGXW8frVnaWd70AOgy9JpiQJ1JcufUYo1
+   5aNwaZtQiIOCPxu5ZvePESEhuKDEUfkqfeInDako28EjnyJqfGNcHPFY/
+   n15DNIU2AspWSJKGy1z6jpJMpTNuK2ySTHFy9YNxyRM3gW8zCAOpRgW3a
+   yixmcAvD1EXSrW/fk0F8qfLOa4ZeIoMoXOzzW99V48xpu4fhQJ0h2jFHN
+   hz76KEVqUPgfm2/zZeNKhqPFKZaiXUt7AyhieEGMutysVmsIY+4rOGpjU
+   US5m0T6KIhNHXXYQ5JFMFn1fB6M3pS45YKx3zjU58aBUEgT6EjhuBiNA4
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="376786205"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="374259509"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="376786205"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 10:56:12 -0700
+   d="scan'208";a="374259509"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 11:07:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="776279516"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="1072065537"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="776279516"
+   d="scan'208";a="1072065537"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 05 Sep 2023 10:56:09 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 05 Sep 2023 11:07:33 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdaGa-0001vn-2a;
-	Tue, 05 Sep 2023 17:55:28 +0000
-Date: Wed, 6 Sep 2023 01:54:37 +0800
+	id 1qdaSS-0001wN-37;
+	Tue, 05 Sep 2023 18:07:27 +0000
+Date: Wed, 6 Sep 2023 02:06:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>,
-	Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
-	Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>,
-	P L Sai Krishna <lakshmis@xilinx.com>,
-	Ranjit Waghmode <ranjit.waghmode@xilinx.com>,
-	Tejas Prajapati Rameshchandra <tejas.prajapati.rameshchandra@xilinx.com>,
-	Rajan Vaja <rajan.vaja@xilinx.com>
-Subject: [xilinx-xlnx:pr/146 11243/14527] drivers/mtd/spi-nor/core.c:516:
- warning: Function parameter or member 'info' not described in 'read_ear'
-Message-ID: <202309060112.mTgBIfKl-lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Andi Shyti <andi.shyti@linux.intel.com>
+Subject: [drm-misc:drm-misc-next 3/3] drivers/gpu/drm/tegra/dsi.c:259:43:
+ error: passing argument 3 of 'drm_debugfs_remove_files' from incompatible
+ pointer type
+Message-ID: <202309060212.6xvtSNAB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,74 +48,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx pr/146
-head:   38b0c0cf11566882cda99f8e4f2243924a684be5
-commit: ffc5cb8494ba2abe218134584b22fd874b71d504 [11243/14527] spi: Update ZynqMP and Versal QSPI controller driver
-config: arc-randconfig-r015-20230905 (https://download.01.org/0day-ci/archive/20230906/202309060112.mTgBIfKl-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060112.mTgBIfKl-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   f45acf7acf75921c0409d452f0165f51a19a74fd
+commit: 8e455145d8f163aefa6b9cc29478e0a9f82276e6 [3/3] drm/debugfs: rework drm_debugfs_create_files implementation v2
+config: openrisc-randconfig-r015-20230906 (https://download.01.org/0day-ci/archive/20230906/202309060212.6xvtSNAB-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060212.6xvtSNAB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309060112.mTgBIfKl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309060212.6xvtSNAB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/mtd/spi-nor/core.c:516: warning: Function parameter or member 'info' not described in 'read_ear'
+   drivers/gpu/drm/tegra/dsi.c: In function 'tegra_dsi_early_unregister':
+>> drivers/gpu/drm/tegra/dsi.c:259:43: error: passing argument 3 of 'drm_debugfs_remove_files' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     259 |                                  connector->debugfs_entry,
+         |                                  ~~~~~~~~~^~~~~~~~~~~~~~~
+         |                                           |
+         |                                           struct dentry *
+   In file included from drivers/gpu/drm/tegra/dsi.c:21:
+   include/drm/drm_debugfs.h:163:73: note: expected 'struct drm_minor *' but argument is of type 'struct dentry *'
+     163 |                                            int count, struct drm_minor *minor)
+         |                                                       ~~~~~~~~~~~~~~~~~~^~~~~
+>> drivers/gpu/drm/tegra/dsi.c:258:9: error: too many arguments to function 'drm_debugfs_remove_files'
+     258 |         drm_debugfs_remove_files(dsi->debugfs_files, count,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_debugfs.h:162:19: note: declared here
+     162 | static inline int drm_debugfs_remove_files(const struct drm_info_list *files,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/tegra/dc.c: In function 'tegra_dc_early_unregister':
+>> drivers/gpu/drm/tegra/dc.c:1757:60: error: passing argument 3 of 'drm_debugfs_remove_files' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1757 |         drm_debugfs_remove_files(dc->debugfs_files, count, root, minor);
+         |                                                            ^~~~
+         |                                                            |
+         |                                                            struct dentry *
+   In file included from drivers/gpu/drm/tegra/dc.c:27:
+   include/drm/drm_debugfs.h:163:73: note: expected 'struct drm_minor *' but argument is of type 'struct dentry *'
+     163 |                                            int count, struct drm_minor *minor)
+         |                                                       ~~~~~~~~~~~~~~~~~~^~~~~
+>> drivers/gpu/drm/tegra/dc.c:1757:9: error: too many arguments to function 'drm_debugfs_remove_files'
+    1757 |         drm_debugfs_remove_files(dc->debugfs_files, count, root, minor);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_debugfs.h:162:19: note: declared here
+     162 | static inline int drm_debugfs_remove_files(const struct drm_info_list *files,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/tegra/hdmi.c: In function 'tegra_hdmi_early_unregister':
+>> drivers/gpu/drm/tegra/hdmi.c:1120:43: error: passing argument 3 of 'drm_debugfs_remove_files' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1120 |                                  connector->debugfs_entry, minor);
+         |                                  ~~~~~~~~~^~~~~~~~~~~~~~~
+         |                                           |
+         |                                           struct dentry *
+   In file included from drivers/gpu/drm/tegra/hdmi.c:26:
+   include/drm/drm_debugfs.h:163:73: note: expected 'struct drm_minor *' but argument is of type 'struct dentry *'
+     163 |                                            int count, struct drm_minor *minor)
+         |                                                       ~~~~~~~~~~~~~~~~~~^~~~~
+>> drivers/gpu/drm/tegra/hdmi.c:1119:9: error: too many arguments to function 'drm_debugfs_remove_files'
+    1119 |         drm_debugfs_remove_files(hdmi->debugfs_files, count,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_debugfs.h:162:19: note: declared here
+     162 | static inline int drm_debugfs_remove_files(const struct drm_info_list *files,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/tegra/sor.c: In function 'tegra_sor_early_unregister':
+>> drivers/gpu/drm/tegra/sor.c:1711:43: error: passing argument 3 of 'drm_debugfs_remove_files' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1711 |                                  connector->debugfs_entry,
+         |                                  ~~~~~~~~~^~~~~~~~~~~~~~~
+         |                                           |
+         |                                           struct dentry *
+   In file included from drivers/gpu/drm/tegra/sor.c:22:
+   include/drm/drm_debugfs.h:163:73: note: expected 'struct drm_minor *' but argument is of type 'struct dentry *'
+     163 |                                            int count, struct drm_minor *minor)
+         |                                                       ~~~~~~~~~~~~~~~~~~^~~~~
+>> drivers/gpu/drm/tegra/sor.c:1710:9: error: too many arguments to function 'drm_debugfs_remove_files'
+    1710 |         drm_debugfs_remove_files(sor->debugfs_files, count,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_debugfs.h:162:19: note: declared here
+     162 | static inline int drm_debugfs_remove_files(const struct drm_info_list *files,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +516 drivers/mtd/spi-nor/core.c
+vim +/drm_debugfs_remove_files +259 drivers/gpu/drm/tegra/dsi.c
 
-e99ca98f1d7190 drivers/mtd/spi-nor/spi-nor.c Ricardo Ribalda      2016-12-02  506  
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  507  /**
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  508   * read_ear - Get the extended/bank address register value
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  509   * @nor:	Pointer to the flash control structure
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  510   *
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  511   * This routine reads the Extended/bank address register value
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  512   *
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  513   * Return:	Negative if error occurred.
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  514   */
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  515  static int read_ear(struct spi_nor *nor, struct flash_info *info)
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19 @516  {
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  517  	int ret;
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  518  	u8 code;
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  519  
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  520  	/* This is actually Spansion */
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  521  	if (nor->jedec_id == CFI_MFR_AMD)
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  522  		code = SPINOR_OP_BRRD;
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  523  	/* This is actually Micron */
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  524  	else if (nor->jedec_id == CFI_MFR_ST ||
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  525  		 nor->jedec_id == CFI_MFR_MACRONIX ||
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  526  		 nor->jedec_id == CFI_MFR_PMC)
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  527  		code = SPINOR_OP_RDEAR;
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  528  	else
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  529  		return -EINVAL;
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  530  	if (nor->spimem) {
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  531  		struct spi_mem_op op =
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  532  			SPI_MEM_OP(SPI_MEM_OP_CMD(code, 1),
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  533  				   SPI_MEM_OP_NO_ADDR,
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  534  				   SPI_MEM_OP_NO_DUMMY,
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  535  				   SPI_MEM_OP_DATA_IN(1, nor->bouncebuf, 1));
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  536  
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  537  		ret = spi_mem_exec_op(nor->spimem, &op);
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  538  	} else {
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  539  		ret = nor->controller_ops->read_reg(nor, code, nor->bouncebuf, 1);
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  540  	}
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  541  	if (ret < 0) {
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  542  		pr_err("error %d reading EAR\n", ret);
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  543  		return ret;
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  544  	}
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  545  
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  546  	return nor->bouncebuf[0];
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  547  }
-bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-19  548  
-
-:::::: The code at line 516 was first introduced by commit
-:::::: bd78733fffb5720020ae1b7a120d344a6d63af96 mtd: spi-nor: Add 4byte support for Zynq QSPI controller
-
-:::::: TO: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
-:::::: CC: Michal Simek <michal.simek@xilinx.com>
+   251	
+   252	static void tegra_dsi_early_unregister(struct drm_connector *connector)
+   253	{
+   254		struct tegra_output *output = connector_to_output(connector);
+   255		unsigned int count = ARRAY_SIZE(debugfs_files);
+   256		struct tegra_dsi *dsi = to_dsi(output);
+   257	
+ > 258		drm_debugfs_remove_files(dsi->debugfs_files, count,
+ > 259					 connector->debugfs_entry,
+   260					 connector->dev->primary);
+   261		kfree(dsi->debugfs_files);
+   262		dsi->debugfs_files = NULL;
+   263	}
+   264	
 
 -- 
 0-DAY CI Kernel Test Service
