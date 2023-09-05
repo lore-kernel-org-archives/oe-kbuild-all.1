@@ -1,146 +1,221 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AAC63D9
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 12:45:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A10D30A;
+	Tue,  5 Sep 2023 13:36:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693917927; x=1725453927;
+  t=1693920989; x=1725456989;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EzNgbAolDS0RgHgfgYlr7Sxm2fQRjZKiPPUyl4EE+RY=;
-  b=iHVxs8Y3uWdppcfFZVhGTV+TlR7Zn7sQCz8Q+Vp2McoClk641eEV6DXC
-   HJOVszn2zllSY/+Bm7vS8NX63gOsDGREyEYQtWQ9+WJsBrFflO02dddTm
-   M22RvFrZQH9SG2pA6oWZorLfcTgBru8bkQK/j2xUuAb/D6s/Xzn2iZ7EK
-   BYjSuT+ZLDLcOre+wzPjq6GW2Oqo6UWp+TZ4aMii09QSL8NC05DEnuxtQ
-   1DaTe/Zj/RJ6NlKoOJ9cIfFFmXbylgZYd51wgab/sP+oEIxmdpH2qzu67
-   h+tx2qXW2nKjZO6uTTUq+/6nA2RH1YCV5wwQEfso7Ie3Td953MSRaJBtq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="443182022"
+  bh=bD9tE0oQc7Z4nz/zcl8v5g3ekn7Mb6oyJtS979lnczs=;
+  b=ghfqy6kVWwqxw1ZkpnVYc/s1e5m4q9MUcVG4j3HNvKI3qwT2pwfmzA2Q
+   lwEzEJYO9fxsI78i4WgBkOMbuihwLJQkEs4F8hdO8OUOg+xkhVqi7+Yy0
+   6hJxy1n2KKIlfjsKq5jYZ5fDCo9M8mPo45abxqKLLrd1zpEUIkPJNGpbH
+   pRWpaGjHKhESmLrQHszHmn2xE5zJ9tchCgswi9fWMgpScD3yVbP7shBLd
+   UEbmyocdyb/2Ueo4aunAmzOO6aRht4pEjIZWAadsAIoHQE7uG1MM5RCD+
+   OFKls+iOS2faF6LVLR5+LpvbRU1RrE1F+yvhbv23Vtb19eDRG7SA7b0QQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="379513103"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="443182022"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 05:45:27 -0700
+   d="scan'208";a="379513103"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 06:36:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="914826098"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="734654917"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="914826098"
-Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 05 Sep 2023 05:45:25 -0700
-Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qdVQk-0001fo-3B;
-	Tue, 05 Sep 2023 12:45:20 +0000
-Date: Tue, 5 Sep 2023 20:44:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/firmware/efi/libstub/efi-stub-helper.c:662: warning:
- Function parameter or member 'out' not described in 'efi_load_initrd'
-Message-ID: <202309052015.D3SZMitP-lkp@intel.com>
+   d="scan'208";a="734654917"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Sep 2023 06:36:14 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 5 Sep 2023 06:36:09 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Tue, 5 Sep 2023 06:36:09 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.102)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Tue, 5 Sep 2023 06:36:09 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AiJq0W5q80EGp8hxre0omtO610nqaxK7hu5WdKvqIN9cKZAomNYL7znoHqCJSFQqknZVZk6vAhBBtzPpm6/15/YK47OqviZmJcm9AYc2C+NWcbXBSip5LToQV9detvHu8NoHrElz6EC09J4MDfJXfxzfPV6C5+Xf85jmJWyTV/MtdkkuPDPqmBKzn5bLsncqFg1pSgBI0HawBYHT+l7jQrxJbajVqZaOzNiM/EzDvlMlu10YQKCrBu7vStUnJSGcPmGKqeDf34l3tUTT/rP7yYkCJC8/Zpdv35Vo3sBu5SNoTsQDYxLGEKtLm9btTyXsepTkogc26WGbsqUp1T8n4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=llQ0dGVDYluwfa62ytxzRFGRVC5XI8sVx2oXeupE7G0=;
+ b=L+Rj5rPtXQNhdp+AD/c0lVCvdomMjy2sfFXdapk1XI96nFLe1/zu78afUNyOhKGISDimt4pkp9QpuPqdckWu4wZaqKODJQbaBcjuNFxXhEOSooEsrolpnJlH1EVlFgWfIe9pfFGIFkNN2CHJF3XL9qumoqJH9db23G112YUMRe8PPMqNzNFGkm5XH0umpJQGvQJgayqk8LPEimGvsIajssoUbVV0t1275tshgR44l2OHTh5T+uhuV5HNPsG5X2DTxQ1F1zsCH5P9wW34bx3x28PSE7PLHyq0BnlOtngJnnN/tvUZjhMaX7dM43myDhepcmtQCfTtqE2xOhgWHLVCGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by MW3PR11MB4522.namprd11.prod.outlook.com (2603:10b6:303:2d::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
+ 2023 13:36:07 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::b844:be65:8430:f80e]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::b844:be65:8430:f80e%4]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
+ 13:36:07 +0000
+Date: Tue, 5 Sep 2023 21:35:56 +0800
+From: kernel test robot <philip.li@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Borislav Petkov <bp@suse.de>
+Subject: arch/x86/kernel/fpu/xstate.c:1691: warning: Excess function
+ parameter 'tsk' description in 'fpu_xstate_prctl'
+Message-ID: <ZPcuvEg5Mf5MoM2L@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0166.apcprd04.prod.outlook.com (2603:1096:4::28)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Ard,
-
-FYI, the error/warning still remains.
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|MW3PR11MB4522:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc9c4e20-c9e0-49eb-d006-08dbae150ed8
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7SxDF4imRffWUtU37lcL75j/vFjy8CbJn4My7waPNqtvJdfa91CHMXDiSI7e6vPhRHj1aUdf9uBQopYc9FjvkCk8JaCzC2mwQbtRf3k8hj5bqBynSbLWwIki1lLrHxW1uoIfYAPM6WTgvBsSa8jQDFR/vqQCXNH3etmiUHojMFDB9gOc/I8NxGPCNQlMv8aWrG80J39cwnlP/Dkh6iQPC7Ns6nSpns+cjru9SYy2/DItgI4+rpFc5OQaDq4iU+4NLq8ya7kK/5kln62uG39hgnbzgi4hjQINxFX9z/5LEmmUwD8cmBS2xdrnvXV+u/M2u6cGbWZBSAahTZllflcT1k3LQWwPlCrfSCDq3/Kqfgy5bZKhchzn1liQ+2M1pWSoafOfDJ1myxhTehtX6HGwZTAFoX17PB0LrXIjseAts9GIyssL8WqYlD2ZKVKsIDLgM0mL9WuSksX6tQwEQIuFzgx7KlaO/zGkAxZGqk7sxsXSSP29VvZfLCC+o+ES+Hz3cbqVWzdmc5GBOttRSl36h2jenOZY1gvrOgK/zDb9FXuHfMz0W54uwJiKIoA/RqpkJH2Nyo8GLgMwAheGXN4xUg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(346002)(136003)(396003)(366004)(376002)(451199024)(186009)(1800799009)(966005)(41300700001)(83380400001)(8936002)(4001150100001)(478600001)(6666004)(2906002)(66946007)(5660300002)(8676002)(316002)(6916009)(66476007)(66556008)(4326008)(9686003)(6512007)(26005)(6506007)(6486002)(33716001)(38100700002)(82960400001)(86362001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?c/rQnT40dFv+9LPlYIJyLeJ+gtBNmst0QKWSY22TTQw3AbFC/d/2TghbzPZG?=
+ =?us-ascii?Q?2QO929jyhoIdxYEBQuAiOk80BAzLLWs6eQT/jEworEriv1JX43DbB8uNEPGv?=
+ =?us-ascii?Q?luoVQE69dOt/sIl9no6ZNgIYYgOEk6hWhNgd1LOQvLPlEdOVRunuCUVK47ld?=
+ =?us-ascii?Q?AzpctLDYISEiRQn6bb5zUONXKFpHD2ws78Ny4VcQ1i7X6qjaVXtcE3syG4Pe?=
+ =?us-ascii?Q?EluFmmKfVaEabxBO++4PXpELhtP/t/cEl1Do80OYXPJGA3h+T70h0n7/xw5E?=
+ =?us-ascii?Q?jWFKv1gFo/u34XhVs24cCy513k0EdN67qqS1RdzJTD/IIRUJf+DIrD+t7ZM4?=
+ =?us-ascii?Q?oRkhrHTrkCtfRDR70ttf9+3aO0qfO8ciiqtWjDBW+Sj0ACbs3IBcedwLc9Io?=
+ =?us-ascii?Q?EWaSMkvfGer1Ke9Tc7lR6UJeEjMv0PGP2pPz9j2IpJJFIDDwngToWpMU4kDy?=
+ =?us-ascii?Q?ykOmF7HFHCkKzhidn6EmIxPe5cV+FG9kWSddMad408+5kF7sd8gvZP5olNXx?=
+ =?us-ascii?Q?/1ErdGK6AEnSJobSee/kmPjgkmETE9yCpQRxhYY+iOJfrZWjlkQhJLS+XTlh?=
+ =?us-ascii?Q?YPMwFnFNnBLZHQ3qdg71wxL1c6bMWPmrcL30GyQkP56GwfmXAu1fn/+7P6gi?=
+ =?us-ascii?Q?16ZlDDreVRdthzs9npERKAaSowIDJWDSgTk/dd4FwVW0j5+8xxf+ndUR9Dyz?=
+ =?us-ascii?Q?ypoMOMFymhJjmKiJ310p77NvcnfcBh7xwUzzfrm+VhFxIDnYf7ZM1PVqBhhD?=
+ =?us-ascii?Q?dsIYkYa97uVXm0o7+ri6S7YWT+6Yzs+9ofzWA84AsKDIT+gBDRXpXrfO4C2c?=
+ =?us-ascii?Q?byAonn/BQTGbrGlPHAA4GulOqRefUVkxrfnAR0S5uwkpBEPhRmvXsGk8g/Uq?=
+ =?us-ascii?Q?dSA2jKKxAT6evzpTl6/RPSfKmZveN3ft6juTZrJTza9AIOr2bT0QnfaPOUci?=
+ =?us-ascii?Q?YSfJ/pwbhLBO0KuQmlLqKxqgwujwmFyEWoyhVmfxcbbWu31atfeQIMOGwKE7?=
+ =?us-ascii?Q?ZYdaFvAudjpi5d2N923mj7MQabHC02eWY221ef99akFiQSzLIKkjcXzTMwHE?=
+ =?us-ascii?Q?HDgM+7YaHB4tKPCXFpq5Fkz+yeD6ra4k6vLdkg5362gKuKg1WgZUmb7mRmv7?=
+ =?us-ascii?Q?asCODtjmENY34fYnhUMn5KVrOhwq0WTIhzFbFHXr6+Tr0WysuhqhZzDydwyM?=
+ =?us-ascii?Q?bwakUOzRURrKzRO3CDHzhNXxbKMEaD89kMvBYG+5gPirkgW6VzDRhM3RdqGG?=
+ =?us-ascii?Q?S6QBNU410L4y7y7X9kBq1H7n1P9s6d2bVBLzlrwyXZbrPvU3F9kKFRCt7mf+?=
+ =?us-ascii?Q?FPeDmOuGVH3S3hDlmEevGQSqZrgwW4G2dr5/o3FX9oH6cmgCmvkNhv7id+qU?=
+ =?us-ascii?Q?4zT4GsfBvEp3W78vC67MwcCqarEp8utBbBDyXgHM4YlOVee6CQlZW8AjnXVB?=
+ =?us-ascii?Q?0/fWzCVlUxr3uBMvfXtZghviBIzqFzcOwRj1+HBTi+FHsC99h7LrHhV+JSuV?=
+ =?us-ascii?Q?WEWDK+G4GpwrwNJAkifBSvhUwuSCeIAbWQkxHars0KFxNhS39MAi96uM+vgY?=
+ =?us-ascii?Q?nVlUZNveXheKpaRtoOsy2wMmhUBstmg45OFLD5/c?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc9c4e20-c9e0-49eb-d006-08dbae150ed8
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 13:36:07.2918
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OKECibgH2VH7yvJDq0oPU1IHTtjN15+rzZDVyRkLTUvXAvb+ZPzu9DjIJPZZ3xiWHScFDOtGWgMbMRNqR+MGVA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4522
+X-OriginatorOrg: intel.com
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   3f86ed6ec0b390c033eae7f9c487a3fea268e027
-commit: f4dc7fffa9873db50ec25624572f8217a6225de8 efi: libstub: unify initrd loading between architectures
-date:   11 months ago
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230905/202309052015.D3SZMitP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309052015.D3SZMitP-lkp@intel.com/reproduce)
+commit: f5c0b4f30416c670408a77be94703d04d22b57df x86/prctl: Remove pointless task argument
+date:   1 year, 4 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 1 year, 4 months ago
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230905/202309052029.TNyqXyIT-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309052029.TNyqXyIT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309052015.D3SZMitP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202309052029.TNyqXyIT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/firmware/efi/libstub/efi-stub-helper.c:559: warning: Function parameter or member 'initrd' not described in 'efi_load_initrd_dev_path'
-   drivers/firmware/efi/libstub/efi-stub-helper.c:559: warning: Excess function parameter 'load_addr' description in 'efi_load_initrd_dev_path'
-   drivers/firmware/efi/libstub/efi-stub-helper.c:559: warning: Excess function parameter 'load_size' description in 'efi_load_initrd_dev_path'
->> drivers/firmware/efi/libstub/efi-stub-helper.c:662: warning: Function parameter or member 'out' not described in 'efi_load_initrd'
+>> arch/x86/kernel/fpu/xstate.c:1691: warning: Excess function parameter 'tsk' description in 'fpu_xstate_prctl'
 
 
-vim +662 drivers/firmware/efi/libstub/efi-stub-helper.c
+vim +1691 arch/x86/kernel/fpu/xstate.c
 
-f046fff8bc4c4d Ilias Apalodimas    2021-11-19  649  
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  650  /**
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  651   * efi_load_initrd() - Load initial RAM disk
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  652   * @image:	EFI loaded image protocol
-947228cb9f1a2c Atish Patra         2021-07-02  653   * @soft_limit:	preferred address for loading the initrd
-947228cb9f1a2c Atish Patra         2021-07-02  654   * @hard_limit:	upper limit address for loading the initrd
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  655   *
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  656   * Return:	status code
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  657   */
-f61900fd0ebf6c Arvind Sankar       2020-04-30  658  efi_status_t efi_load_initrd(efi_loaded_image_t *image,
-f61900fd0ebf6c Arvind Sankar       2020-04-30  659  			     unsigned long soft_limit,
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  660  			     unsigned long hard_limit,
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  661  			     const struct linux_efi_initrd **out)
-f61900fd0ebf6c Arvind Sankar       2020-04-30 @662  {
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  663  	efi_guid_t tbl_guid = LINUX_EFI_INITRD_MEDIA_GUID;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  664  	efi_status_t status = EFI_SUCCESS;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  665  	struct linux_efi_initrd initrd, *tbl;
-f61900fd0ebf6c Arvind Sankar       2020-04-30  666  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  667  	if (!IS_ENABLED(CONFIG_BLK_DEV_INITRD) || efi_noinitrd)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  668  		return EFI_SUCCESS;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  669  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  670  	status = efi_load_initrd_dev_path(&initrd, hard_limit);
-f61900fd0ebf6c Arvind Sankar       2020-04-30  671  	if (status == EFI_SUCCESS) {
-f61900fd0ebf6c Arvind Sankar       2020-04-30  672  		efi_info("Loaded initrd from LINUX_EFI_INITRD_MEDIA_GUID device path\n");
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  673  		if (initrd.size > 0)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  674  			efi_measure_initrd(initrd.base, initrd.size);
-f61900fd0ebf6c Arvind Sankar       2020-04-30  675  	} else if (status == EFI_NOT_FOUND) {
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  676  		status = efi_load_initrd_cmdline(image, &initrd, soft_limit,
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  677  						 hard_limit);
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  678  		/* command line loader disabled or no initrd= passed? */
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  679  		if (status == EFI_UNSUPPORTED || status == EFI_NOT_READY)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  680  			return EFI_SUCCESS;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  681  		if (status == EFI_SUCCESS)
-f61900fd0ebf6c Arvind Sankar       2020-04-30  682  			efi_info("Loaded initrd from command line option\n");
-f61900fd0ebf6c Arvind Sankar       2020-04-30  683  	}
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  684  	if (status != EFI_SUCCESS)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  685  		goto failed;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  686  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  687  	status = efi_bs_call(allocate_pool, EFI_LOADER_DATA, sizeof(initrd),
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  688  			     (void **)&tbl);
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  689  	if (status != EFI_SUCCESS)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  690  		goto free_initrd;
-f046fff8bc4c4d Ilias Apalodimas    2021-11-19  691  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  692  	*tbl = initrd;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  693  	status = efi_bs_call(install_configuration_table, &tbl_guid, tbl);
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  694  	if (status != EFI_SUCCESS)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  695  		goto free_tbl;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  696  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  697  	if (out)
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  698  		*out = tbl;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  699  	return EFI_SUCCESS;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  700  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  701  free_tbl:
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  702  	efi_bs_call(free_pool, tbl);
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  703  free_initrd:
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  704  	efi_free(initrd.size, initrd.base);
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  705  failed:
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  706  	efi_err("Failed to load initrd: 0x%lx\n", status);
-f61900fd0ebf6c Arvind Sankar       2020-04-30  707  	return status;
-f61900fd0ebf6c Arvind Sankar       2020-04-30  708  }
-14c574f35cfbc9 Arvind Sankar       2020-05-18  709  
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1671  
+db8268df0983ad Chang S. Bae    2021-10-21  1672  /**
+db8268df0983ad Chang S. Bae    2021-10-21  1673   * fpu_xstate_prctl - xstate permission operations
+db8268df0983ad Chang S. Bae    2021-10-21  1674   * @tsk:	Redundant pointer to current
+db8268df0983ad Chang S. Bae    2021-10-21  1675   * @option:	A subfunction of arch_prctl()
+db8268df0983ad Chang S. Bae    2021-10-21  1676   * @arg2:	option argument
+db8268df0983ad Chang S. Bae    2021-10-21  1677   * Return:	0 if successful; otherwise, an error code
+db8268df0983ad Chang S. Bae    2021-10-21  1678   *
+db8268df0983ad Chang S. Bae    2021-10-21  1679   * Option arguments:
+db8268df0983ad Chang S. Bae    2021-10-21  1680   *
+db8268df0983ad Chang S. Bae    2021-10-21  1681   * ARCH_GET_XCOMP_SUPP: Pointer to user space u64 to store the info
+db8268df0983ad Chang S. Bae    2021-10-21  1682   * ARCH_GET_XCOMP_PERM: Pointer to user space u64 to store the info
+db8268df0983ad Chang S. Bae    2021-10-21  1683   * ARCH_REQ_XCOMP_PERM: Facility number requested
+db8268df0983ad Chang S. Bae    2021-10-21  1684   *
+db8268df0983ad Chang S. Bae    2021-10-21  1685   * For facilities which require more than one XSTATE component, the request
+db8268df0983ad Chang S. Bae    2021-10-21  1686   * must be the highest state component number related to that facility,
+db8268df0983ad Chang S. Bae    2021-10-21  1687   * e.g. for AMX which requires XFEATURE_XTILE_CFG(17) and
+db8268df0983ad Chang S. Bae    2021-10-21  1688   * XFEATURE_XTILE_DATA(18) this would be XFEATURE_XTILE_DATA(18).
+db8268df0983ad Chang S. Bae    2021-10-21  1689   */
+f5c0b4f30416c6 Thomas Gleixner 2022-05-12  1690  long fpu_xstate_prctl(int option, unsigned long arg2)
+db8268df0983ad Chang S. Bae    2021-10-21 @1691  {
+db8268df0983ad Chang S. Bae    2021-10-21  1692  	u64 __user *uptr = (u64 __user *)arg2;
+db8268df0983ad Chang S. Bae    2021-10-21  1693  	u64 permitted, supported;
+db8268df0983ad Chang S. Bae    2021-10-21  1694  	unsigned long idx = arg2;
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1695  	bool guest = false;
+db8268df0983ad Chang S. Bae    2021-10-21  1696  
+db8268df0983ad Chang S. Bae    2021-10-21  1697  	switch (option) {
+db8268df0983ad Chang S. Bae    2021-10-21  1698  	case ARCH_GET_XCOMP_SUPP:
+db8268df0983ad Chang S. Bae    2021-10-21  1699  		supported = fpu_user_cfg.max_features |	fpu_user_cfg.legacy_features;
+db8268df0983ad Chang S. Bae    2021-10-21  1700  		return put_user(supported, uptr);
+db8268df0983ad Chang S. Bae    2021-10-21  1701  
+db8268df0983ad Chang S. Bae    2021-10-21  1702  	case ARCH_GET_XCOMP_PERM:
+db8268df0983ad Chang S. Bae    2021-10-21  1703  		/*
+db8268df0983ad Chang S. Bae    2021-10-21  1704  		 * Lockless snapshot as it can also change right after the
+db8268df0983ad Chang S. Bae    2021-10-21  1705  		 * dropping the lock.
+db8268df0983ad Chang S. Bae    2021-10-21  1706  		 */
+db8268df0983ad Chang S. Bae    2021-10-21  1707  		permitted = xstate_get_host_group_perm();
+db8268df0983ad Chang S. Bae    2021-10-21  1708  		permitted &= XFEATURE_MASK_USER_SUPPORTED;
+db8268df0983ad Chang S. Bae    2021-10-21  1709  		return put_user(permitted, uptr);
+db8268df0983ad Chang S. Bae    2021-10-21  1710  
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1711  	case ARCH_GET_XCOMP_GUEST_PERM:
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1712  		permitted = xstate_get_guest_group_perm();
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1713  		permitted &= XFEATURE_MASK_USER_SUPPORTED;
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1714  		return put_user(permitted, uptr);
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1715  
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1716  	case ARCH_REQ_XCOMP_GUEST_PERM:
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1717  		guest = true;
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1718  		fallthrough;
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1719  
+db8268df0983ad Chang S. Bae    2021-10-21  1720  	case ARCH_REQ_XCOMP_PERM:
+db8268df0983ad Chang S. Bae    2021-10-21  1721  		if (!IS_ENABLED(CONFIG_X86_64))
+db8268df0983ad Chang S. Bae    2021-10-21  1722  			return -EOPNOTSUPP;
+db8268df0983ad Chang S. Bae    2021-10-21  1723  
+980fe2fddcff21 Thomas Gleixner 2022-01-05  1724  		return xstate_request_perm(idx, guest);
+db8268df0983ad Chang S. Bae    2021-10-21  1725  
+db8268df0983ad Chang S. Bae    2021-10-21  1726  	default:
+db8268df0983ad Chang S. Bae    2021-10-21  1727  		return -EINVAL;
+db8268df0983ad Chang S. Bae    2021-10-21  1728  	}
+db8268df0983ad Chang S. Bae    2021-10-21  1729  }
+db8268df0983ad Chang S. Bae    2021-10-21  1730  
 
-:::::: The code at line 662 was first introduced by commit
-:::::: f61900fd0ebf6c6b91719d63272a54f4d11051df efi/libstub: Unify initrd loading across architectures
+:::::: The code at line 1691 was first introduced by commit
+:::::: db8268df0983adc2bb1fb48c9e5f7bfbb5f617f3 x86/arch_prctl: Add controls for dynamic XSTATE components
 
-:::::: TO: Arvind Sankar <nivedita@alum.mit.edu>
-:::::: CC: Ard Biesheuvel <ardb@kernel.org>
+:::::: TO: Chang S. Bae <chang.seok.bae@intel.com>
+:::::: CC: Borislav Petkov <bp@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
