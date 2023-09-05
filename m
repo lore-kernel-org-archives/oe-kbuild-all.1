@@ -1,43 +1,44 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4171DF72
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 21:48:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE652101C5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 21:49:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693950539; x=1725486539;
+  t=1693950541; x=1725486541;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g1yZyN/GpqKxLRWPOq+/vO42E8WznN6I1qnQVFf6eAc=;
-  b=K/5tRnEp4T9XpLKvXXj9XHAsxLZdxNPplmbM0sD4rRsMLNVqcDovvrjr
-   CwPb918jbQS/NPOE3cezfk18I267hJpTsOmICfmK7hP9PPvMocc7c1skv
-   B4VJWXFh8UuVI6Bfjcgax5eWzh2J/qG67CEJNgJ7thYGkT2KC5sbP1gP6
-   kLmyxfcCryyRNPdGD+g8fTTzgDLJ3/z3h1MgcPKbYILQnpszh2M112qhF
-   H+rkhcBZG5hVPjQ4MSmTPEHRLCdxS+WSQOLZYP56tVJX8kpcUBVWBCpMg
-   DjycuV96OI4UoghBnVDpdI6nLp3l53I+pQW3iHTfhApMOHFACpGodFRZh
+  bh=IHpG001oqDlOVSllfQh6Vygo/Pn8oj0qtt2TDUTOeFM=;
+  b=K78hz4zrfLhyl9fJOiyz6yJlrK95xVAloLxddcan+zKCqp957jAbq8Z6
+   5pZhpsJ7b27fgo/92uz1Je6zBiPPv0Gnhc/renssqEYzsaBysXEGnspd1
+   v9PwdebGKsPT1JYFkIGZFtO+Ee8xVjAGypqhE/c3BdQeImDDykQi+kzQC
+   e8yLfIjORg3qJWOuier21JIbe574rT6IhEJWIt5sbCW6AhpU4Le7wqUH5
+   KC3N1JvhEtBXTs4ZG0Ru991LZ5R3Jcy4cHVZc3YsbbvbHX3PeGlz5ZyZk
+   DY2Y3AgHFHlu7KvR+IOGV8aGUGHktkYsVXn+nuFfyF6DcC8+Hu0T0zD+n
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="379626613"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="379626616"
 X-IronPort-AV: E=Sophos;i="6.02,230,1688454000"; 
-   d="scan'208";a="379626613"
+   d="scan'208";a="379626616"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 14:48:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="691074705"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="691074707"
 X-IronPort-AV: E=Sophos;i="6.02,230,1688454000"; 
-   d="scan'208";a="691074705"
+   d="scan'208";a="691074707"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
   by orsmga003.jf.intel.com with ESMTP; 05 Sep 2023 14:48:57 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qddup-00027T-15;
+	id 1qddup-00027V-18;
 	Tue, 05 Sep 2023 21:48:55 +0000
-Date: Wed, 6 Sep 2023 05:48:18 +0800
+Date: Wed, 6 Sep 2023 05:47:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+To: Piyush Mehta <piyush.mehta@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:master 946/1123] drivers/spi/spi-zynqmp-gqspi.c:229:6:
- warning: no previous prototype for 'zynqmp_gqspi_update_stripe'
-Message-ID: <202309060546.Qq5NU4Be-lkp@intel.com>
+	Michal Simek <monstr@monstr.eu>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [xilinx-xlnx:master 1075/1123] drivers/usb/dwc3/core.c:2164:
+ undefined reference to `ulpi_write'
+Message-ID: <202309060506.ru9YZ8E6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,72 +48,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Amit,
+Hi Piyush,
 
 FYI, the error/warning still remains.
 
 tree:   https://github.com/Xilinx/linux-xlnx master
 head:   cb1f2dbc7e487361688257fccf78bf3f3ce0e9ed
-commit: 754602bf2ee623dc6274c971e7e84058b70450aa [946/1123] spi: spi-zynqmp-gqspi: Add parallel memories support in GQSPI driver
-config: arc-randconfig-r015-20230905 (https://download.01.org/0day-ci/archive/20230906/202309060546.Qq5NU4Be-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060546.Qq5NU4Be-lkp@intel.com/reproduce)
+commit: 9e004927e608d30e05d67689ad398e05be969dc6 [1075/1123] usb: dwc3: core: Add support for disabling vbus when suspended
+config: i386-randconfig-012-20230905 (https://download.01.org/0day-ci/archive/20230906/202309060506.ru9YZ8E6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060506.ru9YZ8E6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309060546.Qq5NU4Be-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309060506.ru9YZ8E6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/spi/spi-zynqmp-gqspi.c:229:6: warning: no previous prototype for 'zynqmp_gqspi_update_stripe' [-Wmissing-prototypes]
-     229 | bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/spi/spi-zynqmp-gqspi.c:13:
-   include/linux/firmware/xlnx-zynqmp.h:1334:12: warning: 'versal_pm_sha_hash' defined but not used [-Wunused-function]
-    1334 | static int versal_pm_sha_hash(const u64 src, const u64 dst, const u32 size)
-         |            ^~~~~~~~~~~~~~~~~~
-   include/linux/firmware/xlnx-zynqmp.h:1329:12: warning: 'zynqmp_pm_fpga_get_feature_list' defined but not used [-Wunused-function]
-    1329 | static int zynqmp_pm_fpga_get_feature_list(u32 *value)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/firmware/xlnx-zynqmp.h:1324:12: warning: 'zynqmp_pm_fpga_get_version' defined but not used [-Wunused-function]
-    1324 | static int zynqmp_pm_fpga_get_version(u32 *value)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/firmware/xlnx-zynqmp.h:1254:12: warning: 'zynqmp_pm_sec_mask_write_reg' defined but not used [-Wunused-function]
-    1254 | static int zynqmp_pm_sec_mask_write_reg(const u32 node_id, const u32 offset,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/firmware/xlnx-zynqmp.h:1249:12: warning: 'zynqmp_pm_sec_read_reg' defined but not used [-Wunused-function]
-    1249 | static int zynqmp_pm_sec_read_reg(u32 node_id, u32 offset, u32 *ret_value)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
+   ld: drivers/usb/dwc3/core.o: in function `dwc3_suspend_common':
+>> drivers/usb/dwc3/core.c:2164: undefined reference to `ulpi_write'
+   ld: drivers/usb/dwc3/core.o: in function `dwc3_resume_common':
+   drivers/usb/dwc3/core.c:2248: undefined reference to `ulpi_write'
 
 
-vim +/zynqmp_gqspi_update_stripe +229 drivers/spi/spi-zynqmp-gqspi.c
+vim +2164 drivers/usb/dwc3/core.c
 
-   221	
-   222	/**
-   223	 * zynqmp_gqspi_update_stripe - For GQSPI controller data stripe capabilities
-   224	 * @op:	Pointer to mem ops
-   225	 * Return:      Status of the data stripe
-   226	 *
-   227	 * Returns true if data stripe need to be enabled, else returns false
-   228	 */
- > 229	bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
-   230	{
-   231		if (op->cmd.opcode ==  SPINOR_OP_BE_4K ||
-   232		    op->cmd.opcode ==  SPINOR_OP_BE_32K ||
-   233		    op->cmd.opcode ==  SPINOR_OP_CHIP_ERASE ||
-   234		    op->cmd.opcode ==  SPINOR_OP_SE ||
-   235		    op->cmd.opcode ==  SPINOR_OP_BE_32K_4B ||
-   236		    op->cmd.opcode ==  SPINOR_OP_SE_4B ||
-   237		    op->cmd.opcode == SPINOR_OP_BE_4K_4B ||
-   238		    op->cmd.opcode ==  SPINOR_OP_WRSR ||
-   239		    op->cmd.opcode ==  SPINOR_OP_BRWR ||
-   240		    (op->cmd.opcode ==  SPINOR_OP_WRSR2 && !op->addr.nbytes))
-   241			return false;
-   242	
-   243		return true;
-   244	}
-   245	
+  2148	
+  2149	static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
+  2150	{
+  2151		unsigned long	flags;
+  2152		u32 reg;
+  2153	
+  2154		switch (dwc->current_dr_role) {
+  2155		case DWC3_GCTL_PRTCAP_DEVICE:
+  2156			if (pm_runtime_suspended(dwc->dev))
+  2157				break;
+  2158			dwc3_gadget_suspend(dwc);
+  2159			synchronize_irq(dwc->irq_gadget);
+  2160			dwc3_core_exit(dwc);
+  2161			break;
+  2162		case DWC3_GCTL_PRTCAP_HOST:
+  2163			if (!device_wakeup_path(dwc->dev) && dwc->ulpi)
+> 2164				ulpi_write(dwc->ulpi, ULPI_OTG_CTRL_CLEAR,
+  2165					   OTG_CTRL_DRVVBUS_OFFSET);
+  2166	
+  2167			if (!PMSG_IS_AUTO(msg) && !device_may_wakeup(dwc->dev)) {
+  2168				dwc3_core_exit(dwc);
+  2169				break;
+  2170			}
+  2171	
+  2172			/* Let controller to suspend HSPHY before PHY driver suspends */
+  2173			if (dwc->dis_u2_susphy_quirk ||
+  2174			    dwc->dis_enblslpm_quirk) {
+  2175				reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
+  2176				reg |=  DWC3_GUSB2PHYCFG_ENBLSLPM |
+  2177					DWC3_GUSB2PHYCFG_SUSPHY;
+  2178				dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(0), reg);
+  2179	
+  2180				/* Give some time for USB2 PHY to suspend */
+  2181				usleep_range(5000, 6000);
+  2182			}
+  2183	
+  2184			phy_pm_runtime_put_sync(dwc->usb2_generic_phy);
+  2185			phy_pm_runtime_put_sync(dwc->usb3_generic_phy);
+  2186			break;
+  2187		case DWC3_GCTL_PRTCAP_OTG:
+  2188			/* do nothing during runtime_suspend */
+  2189			if (PMSG_IS_AUTO(msg))
+  2190				break;
+  2191	
+  2192			if (dwc->current_otg_role == DWC3_OTG_ROLE_DEVICE) {
+  2193				spin_lock_irqsave(&dwc->lock, flags);
+  2194				dwc3_gadget_suspend(dwc);
+  2195				spin_unlock_irqrestore(&dwc->lock, flags);
+  2196				synchronize_irq(dwc->irq_gadget);
+  2197			}
+  2198	
+  2199			dwc3_otg_exit(dwc);
+  2200			dwc3_core_exit(dwc);
+  2201			break;
+  2202		default:
+  2203			/* do nothing */
+  2204			break;
+  2205		}
+  2206	
+  2207		/* Put the core into D3 state */
+  2208		if (dwc->dwc3_pmu) {
+  2209			int ret;
+  2210	
+  2211			ret = regulator_disable(dwc->dwc3_pmu);
+  2212			if (ret) {
+  2213				dev_err(dwc->dev,
+  2214					"Failed to disable dwc3_pmu supply\n");
+  2215				return ret;
+  2216			}
+  2217		}
+  2218	
+  2219		return 0;
+  2220	}
+  2221	
 
 -- 
 0-DAY CI Kernel Test Service
