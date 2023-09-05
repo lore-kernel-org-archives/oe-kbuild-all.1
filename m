@@ -1,100 +1,149 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22ABA6AA0
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 09:43:39 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-31aeedbb264so2199724f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 Sep 2023 02:43:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1D8613E;
+	Tue,  5 Sep 2023 10:21:15 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-79277cfc73bso87110839f.1;
+        Tue, 05 Sep 2023 03:21:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693907018; x=1694511818; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UpiUtwEG57yUoUMIPXKn2jZSIqj4kFtR6v5M6IQNh7k=;
-        b=GZpBXIN/0E1yRYJH65DNimevv0/n2MrZaEtWDdFZD/gh1aeK7B+8XL99sEtHaSmMfq
-         N+S6Fv3oFoVm7DMp/4a2dX3DH6UKetTnPRqpNOFFkCw/j87c2iHbQ/92XIDUNZjjZDLB
-         rYdYxMyUiqbCqDRmtrrXjpHsE5sR44YgppQNx683cn7Dh4hVh3UMSbO/h//CNix8sP8C
-         ucvbNrVp3UggIH8ghJg7dG7lx0GwjuviCzf0WY7y6d4bTgw/KHcsdz/pso/bHN8Xq+Rs
-         OAdGA3n1jEnssT1Wx/RdBMGsqNUJiq33a5Hxb/7JJ7ERo663nmXSF5G0lVj4QWf5VAoO
-         jvjA==
+        d=gmail.com; s=20221208; t=1693909275; x=1694514075; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V5iVR5bVVhTjN21L5wxxSDIiBQBjdGSYkCA99/S83KI=;
+        b=kou5b0Gz8JuFVnJ6m/FHUGpcb2bdWarsatPBpsVfQI17G6rEi8xUy5/q+Z5UI6CvY2
+         Y+ExRpzBARf7D598sM893GESj58YtpElphOGsn8hbJdWFm3d4ZkvfFM0lzMATe8bucKy
+         lSRNbJxiE7ddnBjmzIX56JHLo3xAG8etIHOjA/Ha4jn5n3BMu1eBLRb+6fVJDK325+oW
+         ADdHFcLWgMViV2AgIwmQaKDo26hQT2cVAhwEEfmaotIESP2Qv0CO9Uelb0kqdUEv9kmz
+         yLpgX9SVu/wnbY1/rT7E/ttNlMrxZK1Ngn4HODPSzwV67NuVU3BpRewLVLQ4FyhluGdj
+         BH3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693907018; x=1694511818;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UpiUtwEG57yUoUMIPXKn2jZSIqj4kFtR6v5M6IQNh7k=;
-        b=aqoVLaOokMbsCmBv04FeIAXoKHDuCpidYWU/pfCEsblQErIT/ZDiZz4A1B0CWPrm+c
-         +TwSBIOLY6GJsESH0CljrbCKsSWxMOzAEv47UUp8gbG2lYFA1mS7yfMWT2A3kT1wo6ag
-         +EqZIyFPht17q4HyO6RvBTNRwbc/eu+j2yZR2ybcPNhk4EyfBDT7wnOLOxeufVBRi3Af
-         nOelUkbtBZZZHkUUBqoMtl8o95NX9ysfZt8SZJucnSz9cXSs93GXRh9px61NHhbduKWz
-         X2+8dbhYvueaFxSsjFTqojF6oWGEpcyjdwxLHBVAdgUIqUnfiEY3Bi8q6R6/1tQtUx8G
-         oR8w==
-X-Gm-Message-State: AOJu0YyPtxLKggbOkO0l/lFY/3JSaKHZtpYX8CLQsgCIK3Nt2t0JyDKD
-	GKft8s+IgsR102SE1AjebwiBfA==
-X-Google-Smtp-Source: AGHT+IFrk8CSDJHjZZRmgRNQU/EKHumlSYneDTJ1kNNl71v+EXW2nz83To0uIg8+JDqcpVyVfdCk2A==
-X-Received: by 2002:a5d:678b:0:b0:319:71f7:2427 with SMTP id v11-20020a5d678b000000b0031971f72427mr8638419wru.66.1693907018036;
-        Tue, 05 Sep 2023 02:43:38 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q20-20020a056000137400b003142c85fbcdsm17036908wrz.11.2023.09.05.02.43.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 02:43:37 -0700 (PDT)
-Date: Tue, 5 Sep 2023 12:43:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, John Ogness <john.ogness@linutronix.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [rt-devel:linux-6.1.y-rt-rebase 21/51] kernel/printk/printk.c:2468
- __alloc_atomic_data() warn: returning -1 instead of -ENOMEM is sloppy
-Message-ID: <a6fa0763-b82f-4eff-9e50-06519db5722d@kadam.mountain>
+        d=1e100.net; s=20221208; t=1693909275; x=1694514075;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V5iVR5bVVhTjN21L5wxxSDIiBQBjdGSYkCA99/S83KI=;
+        b=jIUX1zZzV0q+nbvfOGexlTXyzCoEQm1gk1+MHOFHfR6cQvnJxr8DB9qoyEukgDWBE0
+         70xTRoSbGlU2ReCvK2fCxoCHbnVJAWjtXZ2QDlo4LszQ1yYcK27J97WMPXtIHm65fd0B
+         Al2CPK/ovLOQyjCxTO05VervPwc2twZ3sj8LKFdt4nFC6mHA2pkDvSfeDVx+UBoiEOkK
+         RoW7CYGb8RVRZW3Vqe4XdkXZH+sK4DMtYXK5/oGgToOP4bth+bgBohqBtCbucCQTStSf
+         Z0usxJLnFzk3Oz3nN4QCrGvvhSbj1SvzM5uFayPLtWABjJVR2xaF7OfCUJx9/TEKC3x7
+         BPZg==
+X-Gm-Message-State: AOJu0Yx76Fbtk0SzOO7eCnGijDrWQewbjQWG/Gvak/uKbXVll8YIABK8
+	y+y0B2psCR7dJXpQcXQ6IhiX8GVd3Ej9/TAv0iw=
+X-Google-Smtp-Source: AGHT+IEGR3XuuSXXoje0/tNx5+aVODlq1PUCLzbx8PjpAyUJBWpczVTptiyxd15X2xQSJmzHdBp4+r5KLH1kzqghvYQ=
+X-Received: by 2002:a5e:9818:0:b0:790:b033:6ffc with SMTP id
+ s24-20020a5e9818000000b00790b0336ffcmr11955422ioj.20.1693909274808; Tue, 05
+ Sep 2023 03:21:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202309020548.rbrIJu6S-lkp@intel.com>
+In-Reply-To: <202309020548.rbrIJu6S-lkp@intel.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 5 Sep 2023 11:20:17 +0100
+Message-ID: <CA+V-a8v6P_BXKd+XzCToczNOV9g9jS=r3isisSAuh=xXfZ32UQ@mail.gmail.com>
+Subject: Re: [linux-next:master 13230/13643] arch/riscv/errata/andes/errata.c:46:14:
+ warning: result of comparison of constant 9223372036854811205 with expression
+ of type 'unsigned long' is always true
+To: kernel test robot <lkp@intel.com>
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Palmer Dabbelt <palmer@rivosinc.com>, 
+	Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.1.y-rt-rebase
-head:   90d96fee668dc306dd748393383c0fc74b798eee
-commit: cf8dd889ea20ae7091d3b27029b07bef13298291 [21/51] serial: 8250: implement write_atomic
-config: i386-randconfig-141-20230828 (https://download.01.org/0day-ci/archive/20230828/202308281100.1LIdaKaP-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230828/202308281100.1LIdaKaP-lkp@intel.com/reproduce)
+On Fri, Sep 1, 2023 at 10:58=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   a47fc304d2b678db1a5d760a7d644dac9b067752
+> commit: f2863f30d1b05e5ecf61c063609cb974954d47f8 [13230/13643] riscv: err=
+ata: Add Andes alternative ports
+> config: riscv-randconfig-r015-20230902 (https://download.01.org/0day-ci/a=
+rchive/20230902/202309020548.rbrIJu6S-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git =
+4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20230902/202309020548.rbrIJu6S-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309020548.rbrIJu6S-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    arch/riscv/errata/andes/errata.c:29:16: error: variable has incomplete=
+ type 'struct sbiret'
+>       29 |         struct sbiret ret;
+>          |                       ^
+>    arch/riscv/errata/andes/errata.c:29:9: note: forward declaration of 's=
+truct sbiret'
+>       29 |         struct sbiret ret;
+>          |                ^
+>    arch/riscv/errata/andes/errata.c:35:8: error: call to undeclared funct=
+ion 'sbi_ecall'; ISO C99 and later do not support implicit function declara=
+tions [-Wimplicit-function-declaration]
+>       35 |         ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES, ANDES_SBI_E=
+XT_IOCP_SW_WORKAROUND,
+>          |               ^
+> >> arch/riscv/errata/andes/errata.c:46:14: warning: result of comparison =
+of constant 9223372036854811205 with expression of type 'unsigned long' is =
+always true [-Wtautological-constant-out-of-range-compare]
+>       46 |         if (arch_id !=3D ANDESTECH_AX45MP_MARCHID || impid !=
+=3D ANDESTECH_AX45MP_MIMPID)
+>          |             ~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~
+>    1 warning and 2 errors generated.
+>
+After applying the below four patches we shouldn't be seeing this
+randconfig warnings:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308281100.1LIdaKaP-lkp@intel.com/
+https://patchwork.kernel.org/project/linux-riscv/patch/20230901105111.31120=
+0-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+https://patchwork.kernel.org/project/linux-riscv/patch/20230901105858.31174=
+5-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+https://patchwork.kernel.org/project/linux-riscv/patch/20230901110320.31267=
+4-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+https://patchwork.kernel.org/project/linux-riscv/patch/20230901110936.31317=
+1-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-smatch warnings:
-kernel/printk/printk.c:2468 __alloc_atomic_data() warn: returning -1 instead of -ENOMEM is sloppy
+Cheers,
+Prabhakar
 
-vim +2468 kernel/printk/printk.c
-
-09cbc4e64a7546 John Ogness 2022-02-04  2464  static int __alloc_atomic_data(struct console_atomic_data *d, short flags)
-09cbc4e64a7546 John Ogness 2022-02-04  2465  {
-09cbc4e64a7546 John Ogness 2022-02-04  2466  	d->text = kmalloc(CONSOLE_LOG_MAX, GFP_KERNEL);
-09cbc4e64a7546 John Ogness 2022-02-04  2467  	if (!d->text)
-09cbc4e64a7546 John Ogness 2022-02-04 @2468  		return -1;
-
-Just return -ENOMEM.  Even if it doesn't get passed back to the user,
-it's just better to do things in a normal way.
-
-09cbc4e64a7546 John Ogness 2022-02-04  2469  
-09cbc4e64a7546 John Ogness 2022-02-04  2470  	if (flags & CON_EXTENDED) {
-09cbc4e64a7546 John Ogness 2022-02-04  2471  		d->ext_text = kmalloc(CONSOLE_EXT_LOG_MAX, GFP_KERNEL);
-09cbc4e64a7546 John Ogness 2022-02-04  2472  		if (!d->ext_text)
-09cbc4e64a7546 John Ogness 2022-02-04  2473  			return -1;
-09cbc4e64a7546 John Ogness 2022-02-04  2474  	} else {
-09cbc4e64a7546 John Ogness 2022-02-04  2475  		d->dropped_text = kmalloc(DROPPED_TEXT_MAX, GFP_KERNEL);
-09cbc4e64a7546 John Ogness 2022-02-04  2476  		if (!d->dropped_text)
-09cbc4e64a7546 John Ogness 2022-02-04  2477  			return -1;
-09cbc4e64a7546 John Ogness 2022-02-04  2478  	}
-09cbc4e64a7546 John Ogness 2022-02-04  2479  
-09cbc4e64a7546 John Ogness 2022-02-04  2480  	return 0;
-09cbc4e64a7546 John Ogness 2022-02-04  2481  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+>
+> vim +46 arch/riscv/errata/andes/errata.c
+>
+>     40
+>     41  static bool errata_probe_iocp(unsigned int stage, unsigned long a=
+rch_id, unsigned long impid)
+>     42  {
+>     43          if (!IS_ENABLED(CONFIG_ERRATA_ANDES_CMO))
+>     44                  return false;
+>     45
+>   > 46          if (arch_id !=3D ANDESTECH_AX45MP_MARCHID || impid !=3D A=
+NDESTECH_AX45MP_MIMPID)
+>     47                  return false;
+>     48
+>     49          if (!ax45mp_iocp_sw_workaround())
+>     50                  return false;
+>     51
+>     52          /* Set this just to make core cbo code happy */
+>     53          riscv_cbom_block_size =3D 1;
+>     54          riscv_noncoherent_supported();
+>     55
+>     56          return true;
+>     57  }
+>     58
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
