@@ -1,45 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BAFDF72
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 21:47:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4171DF72
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 21:48:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693950479; x=1725486479;
+  t=1693950539; x=1725486539;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0VysPjixuMPa7zlb/p8hJGQ90YC4qAm+a/KJMbXpyw0=;
-  b=VL5PQ3c4QY2RkRkW3gatkgHdMWQi/95lB/mEQgWA3SjEWi9KDKHy7RUC
-   C+zWrSzF8nFMo6i4BKepN7jwqRxPf5fn7ZisdYLd9VH+XepnAPQSYFAvQ
-   dICJZQ45vVgziUsUgxYzICFbXWIn0re5ynIvbJoC1HuqLKbgOjtMZoWfQ
-   i6QdOaM3cX3PqiR2mBUP38M2uHkWR8rMPKQZ5XnDbx4pHMtxkzI03Tvbs
-   VpGRkau0RTa6BCzDa71a0cNG5Lm1iMNrgRr8tm/Pb5iD/orLloi+lhOwD
-   8A6HLdYgtWsU6aVqvBIdsBCmomKL/6SvXp4+2Tde1vWCQ9Yfxf9Fwkh4K
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="380718153"
+  bh=g1yZyN/GpqKxLRWPOq+/vO42E8WznN6I1qnQVFf6eAc=;
+  b=K/5tRnEp4T9XpLKvXXj9XHAsxLZdxNPplmbM0sD4rRsMLNVqcDovvrjr
+   CwPb918jbQS/NPOE3cezfk18I267hJpTsOmICfmK7hP9PPvMocc7c1skv
+   B4VJWXFh8UuVI6Bfjcgax5eWzh2J/qG67CEJNgJ7thYGkT2KC5sbP1gP6
+   kLmyxfcCryyRNPdGD+g8fTTzgDLJ3/z3h1MgcPKbYILQnpszh2M112qhF
+   H+rkhcBZG5hVPjQ4MSmTPEHRLCdxS+WSQOLZYP56tVJX8kpcUBVWBCpMg
+   DjycuV96OI4UoghBnVDpdI6nLp3l53I+pQW3iHTfhApMOHFACpGodFRZh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="379626613"
 X-IronPort-AV: E=Sophos;i="6.02,230,1688454000"; 
-   d="scan'208";a="380718153"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 14:47:59 -0700
+   d="scan'208";a="379626613"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 14:48:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="717999587"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="691074705"
 X-IronPort-AV: E=Sophos;i="6.02,230,1688454000"; 
-   d="scan'208";a="717999587"
+   d="scan'208";a="691074705"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 05 Sep 2023 14:47:57 -0700
+  by orsmga003.jf.intel.com with ESMTP; 05 Sep 2023 14:48:57 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qddtY-00027J-2X;
-	Tue, 05 Sep 2023 21:47:46 +0000
-Date: Wed, 6 Sep 2023 05:47:09 +0800
+	id 1qddup-00027T-15;
+	Tue, 05 Sep 2023 21:48:55 +0000
+Date: Wed, 6 Sep 2023 05:48:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 13888/13985] include/linux/netlink.h:116:6:
- warning: ') out of range, only support mangle action on ipv6.hop_limit'
- directive output truncated writing 60 bytes into a region of size between 46
- and 55
-Message-ID: <202309060552.ukH1Mv8F-lkp@intel.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:master 946/1123] drivers/spi/spi-zynqmp-gqspi.c:229:6:
+ warning: no previous prototype for 'zynqmp_gqspi_update_stripe'
+Message-ID: <202309060546.Qq5NU4Be-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,205 +47,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c50216cfa084d5eb67dc10e646a3283da1595bb6
-commit: 6a5402d10e6e764e9341c7a57ee1e9cafb31a789 [13888/13985] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-config: x86_64-randconfig-014-20230906 (https://download.01.org/0day-ci/archive/20230906/202309060552.ukH1Mv8F-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060552.ukH1Mv8F-lkp@intel.com/reproduce)
+Hi Amit,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   cb1f2dbc7e487361688257fccf78bf3f3ce0e9ed
+commit: 754602bf2ee623dc6274c971e7e84058b70450aa [946/1123] spi: spi-zynqmp-gqspi: Add parallel memories support in GQSPI driver
+config: arc-randconfig-r015-20230905 (https://download.01.org/0day-ci/archive/20230906/202309060546.Qq5NU4Be-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060546.Qq5NU4Be-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309060552.ukH1Mv8F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309060546.Qq5NU4Be-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   include/linux/netlink.h:116:6: warning: ' conflicts with existing pseudo(MASK) entry for TOS mask ' directive output truncated writing 57 bytes into a region of size between 33 and 39 [-Wformat-truncation=]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:627:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: directive argument in the range [0, 2147483647]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:627:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: 'snprintf' output between 103 and 115 bytes into a destination of size 80
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:627:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: warning: ' conflicts with existing pseudo(MASK) entry for mask ' directive output truncated writing 53 bytes into a region of size between 24 and 33 [-Wformat-truncation=]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:634:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: directive argument in the range [0, 2147483647]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:634:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: 'snprintf' output between 102 and 120 bytes into a destination of size 80
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:634:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c: In function 'efx_tc_mangle':
-   include/linux/netlink.h:116:6: warning: 'sfc: Unsupported: only support mangle ipv4.ttl when we have an exact match on ttl, mask used for match (' directive output truncated writing 104 bytes into a region of size 80 [-Wformat-truncation=]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1223:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: directive argument in the range [0, 254]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1223:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: 'snprintf' output between 107 and 110 bytes into a destination of size 80
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1223:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/netlink.h:116:6: warning: ') out of range, only support mangle action on ipv6.hop_limit' directive output truncated writing 60 bytes into a region of size between 46 and 55 [-Wformat-truncation=]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1271:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: 'snprintf' output between 86 and 95 bytes into a destination of size 80
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1271:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/netlink.h:116:6: warning: 'sfc: Unsupported: only support mangle ipv6.hop_limit when we have an exact match on ttl, mask used for match (' directive output truncated writing 110 bytes into a region of size 80 [-Wformat-truncation=]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1282:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: directive argument in the range [0, 254]
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1282:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:116:6: note: 'snprintf' output between 113 and 116 bytes into a destination of size 80
-     if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,        \
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           "%s" fmt "%s", "", ##args, "") >=          \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netlink.h:131:2: note: in expansion of macro 'NL_SET_ERR_MSG_FMT'
-     NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/sfc/tc.c:1282:5: note: in expansion of macro 'NL_SET_ERR_MSG_FMT_MOD'
-        NL_SET_ERR_MSG_FMT_MOD(extack,
-        ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/spi/spi-zynqmp-gqspi.c:229:6: warning: no previous prototype for 'zynqmp_gqspi_update_stripe' [-Wmissing-prototypes]
+     229 | bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/spi/spi-zynqmp-gqspi.c:13:
+   include/linux/firmware/xlnx-zynqmp.h:1334:12: warning: 'versal_pm_sha_hash' defined but not used [-Wunused-function]
+    1334 | static int versal_pm_sha_hash(const u64 src, const u64 dst, const u32 size)
+         |            ^~~~~~~~~~~~~~~~~~
+   include/linux/firmware/xlnx-zynqmp.h:1329:12: warning: 'zynqmp_pm_fpga_get_feature_list' defined but not used [-Wunused-function]
+    1329 | static int zynqmp_pm_fpga_get_feature_list(u32 *value)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/firmware/xlnx-zynqmp.h:1324:12: warning: 'zynqmp_pm_fpga_get_version' defined but not used [-Wunused-function]
+    1324 | static int zynqmp_pm_fpga_get_version(u32 *value)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/firmware/xlnx-zynqmp.h:1254:12: warning: 'zynqmp_pm_sec_mask_write_reg' defined but not used [-Wunused-function]
+    1254 | static int zynqmp_pm_sec_mask_write_reg(const u32 node_id, const u32 offset,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/firmware/xlnx-zynqmp.h:1249:12: warning: 'zynqmp_pm_sec_read_reg' defined but not used [-Wunused-function]
+    1249 | static int zynqmp_pm_sec_read_reg(u32 node_id, u32 offset, u32 *ret_value)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +116 include/linux/netlink.h
+vim +/zynqmp_gqspi_update_stripe +229 drivers/spi/spi-zynqmp-gqspi.c
 
-2d4bc93368f5a0 Johannes Berg 2017-04-12  107  
-51c352bdbcd23d Edward Cree   2022-10-18  108  /* We splice fmt with %s at each end even in the snprintf so that both calls
-51c352bdbcd23d Edward Cree   2022-10-18  109   * can use the same string constant, avoiding its duplication in .ro
-51c352bdbcd23d Edward Cree   2022-10-18  110   */
-51c352bdbcd23d Edward Cree   2022-10-18  111  #define NL_SET_ERR_MSG_FMT(extack, fmt, args...) do {			       \
-51c352bdbcd23d Edward Cree   2022-10-18  112  	struct netlink_ext_ack *__extack = (extack);			       \
-51c352bdbcd23d Edward Cree   2022-10-18  113  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  114  	if (!__extack)							       \
-51c352bdbcd23d Edward Cree   2022-10-18  115  		break;							       \
-51c352bdbcd23d Edward Cree   2022-10-18 @116  	if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,	       \
-51c352bdbcd23d Edward Cree   2022-10-18  117  		     "%s" fmt "%s", "", ##args, "") >=			       \
-51c352bdbcd23d Edward Cree   2022-10-18  118  	    NETLINK_MAX_FMTMSG_LEN)					       \
-51c352bdbcd23d Edward Cree   2022-10-18  119  		net_warn_ratelimited("%s" fmt "%s", "truncated extack: ",      \
-51c352bdbcd23d Edward Cree   2022-10-18  120  				     ##args, "\n");			       \
-51c352bdbcd23d Edward Cree   2022-10-18  121  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  122  	do_trace_netlink_extack(__extack->_msg_buf);			       \
-51c352bdbcd23d Edward Cree   2022-10-18  123  									       \
-51c352bdbcd23d Edward Cree   2022-10-18  124  	__extack->_msg = __extack->_msg_buf;				       \
-51c352bdbcd23d Edward Cree   2022-10-18  125  } while (0)
-51c352bdbcd23d Edward Cree   2022-10-18  126  
-
-:::::: The code at line 116 was first introduced by commit
-:::::: 51c352bdbcd23d7ce46b06c1e64c82754dc44044 netlink: add support for formatted extack messages
-
-:::::: TO: Edward Cree <ecree.xilinx@gmail.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+   221	
+   222	/**
+   223	 * zynqmp_gqspi_update_stripe - For GQSPI controller data stripe capabilities
+   224	 * @op:	Pointer to mem ops
+   225	 * Return:      Status of the data stripe
+   226	 *
+   227	 * Returns true if data stripe need to be enabled, else returns false
+   228	 */
+ > 229	bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
+   230	{
+   231		if (op->cmd.opcode ==  SPINOR_OP_BE_4K ||
+   232		    op->cmd.opcode ==  SPINOR_OP_BE_32K ||
+   233		    op->cmd.opcode ==  SPINOR_OP_CHIP_ERASE ||
+   234		    op->cmd.opcode ==  SPINOR_OP_SE ||
+   235		    op->cmd.opcode ==  SPINOR_OP_BE_32K_4B ||
+   236		    op->cmd.opcode ==  SPINOR_OP_SE_4B ||
+   237		    op->cmd.opcode == SPINOR_OP_BE_4K_4B ||
+   238		    op->cmd.opcode ==  SPINOR_OP_WRSR ||
+   239		    op->cmd.opcode ==  SPINOR_OP_BRWR ||
+   240		    (op->cmd.opcode ==  SPINOR_OP_WRSR2 && !op->addr.nbytes))
+   241			return false;
+   242	
+   243		return true;
+   244	}
+   245	
 
 -- 
 0-DAY CI Kernel Test Service
