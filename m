@@ -1,44 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE2CCA6F;
-	Tue,  5 Sep 2023 11:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693913524; x=1725449524;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XJ2N4hJNoTugXqEkQ/NpaGXbaCTW9rLOmF2B1mceIbA=;
-  b=nq3sj80e2olp8E87ql2AplhSW3RZErSNSOS64dE1HMnB0Kxy6823gWXL
-   gLHoHoCnDt5JIz5xzNE2B9ROdrXj1tr2A9CBTLkTvNUQvaHBImusWa1YO
-   ZdvNrLctotPTMgZaJgWMhvOvbBqq7vETQjTQHmHCmfvSI31RceStEd9hx
-   N9bOb8eWt5czGxOeWp2RUvVFKD7KpS37FgcD/ZQLpV+oj5tmQHNulv9WF
-   a9bkuVNs20d49jk2jGXX3jiJCayXKQpAKo8ZUn/6ouD+vitMk3MGw0Pvv
-   yrij+oOjMyKuv4+B6i/8bTgkseQJbXtXcgi2nOpvDgGDlXOw8xTMMiDoP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="366993167"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="366993167"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 04:31:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="806569195"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="806569195"
-Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 05 Sep 2023 04:31:41 -0700
-Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qdUHQ-0001b7-0M;
-	Tue, 05 Sep 2023 11:31:36 +0000
-Date: Tue, 5 Sep 2023 19:31:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/firmware/efi/libstub/alignedmem.c:27: warning: Function
- parameter or member 'memory_type' not described in
- 'efi_allocate_pages_aligned'
-Message-ID: <202309051916.yJ8EbH5d-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C9BD2E0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 11:33:29 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-401da71b7c5so23884085e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 Sep 2023 04:33:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1693913608; x=1694518408; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M7pS9X83oVOw0s/rnfzFoJ1kRmd6LauZjP4sTRAimp0=;
+        b=jTobBxDDf8ReTdLbBpB9ycpRo/KagXPxSBo+th/EXCgxsgWCxJpL2Acwkabh9ty+l5
+         FNR30PwTBhWGCBknlspNNG7SlwpMEtPtxWPFE1CcwV4zfepv+bNOKB9XEDnCLkZzbSH2
+         uUn1MrJIU9LwqNEb3r/+pGE/1+lQFf7sBwNgqPe+yv5x3BOGcND25BwZeQPTwgXnqPl6
+         PnqqLa5BSnVdKwHS9ilzWsR8bkd/Xw++zohUVXi9kMgLwfcZJmqzmxyJQNIvMXvtP4gU
+         f4zqTfjSHAhFyJiDTocgyP/JlA4yPgxG+UT5K/nwkHuipZxgeXpezZS/BVc86ptojedT
+         64jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693913608; x=1694518408;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=M7pS9X83oVOw0s/rnfzFoJ1kRmd6LauZjP4sTRAimp0=;
+        b=gl4H8nWR0oUU4zkSfHZANRpGZSLk8Xt1UX7UbdCfIYppmx53acSAs5StkP0vcDvtlm
+         kTNIMksvEK4DHLipqzKU+vtitkt5H6njPugmck57xylNSj3pBsBjUgEXTowTRB/drtLR
+         bwowY84yXXSd5UHpJnbs/1zhtvKfTOKZRaY4EAk550W5UocQlZahnsqN2+7+I/ozJXzW
+         +ST2aKz7QrhpcvQ2+/JvuWThr+k92k0lhit3S0KBCTTWVPqtHhR0T2dvuP0ttagk6PS9
+         hGdRNqqiwVe1agpBIb/AEjByY5m20HAZT0fDkacE+4sY2sR5H95rG4n8fmIV0jzbOSty
+         iXug==
+X-Gm-Message-State: AOJu0Yy/k3PHYKOamSIqVCckigDByaavMSoFxmueUwSpoFnmTHvGgoZj
+	wUC/2nvNTQuw98Q0jsjr89gaEA==
+X-Google-Smtp-Source: AGHT+IHzSj1Xigp0dgVRXNTM+ua7KFMhdgCSLk3CYmEouHduqm/AgzuXaWXcfYqdDep2qrBp4MK7MA==
+X-Received: by 2002:a05:600c:2158:b0:3fe:d849:b916 with SMTP id v24-20020a05600c215800b003fed849b916mr9098856wml.29.1693913607785;
+        Tue, 05 Sep 2023 04:33:27 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m9-20020a7bca49000000b003fed1ba0b8esm16802641wml.8.2023.09.05.04.33.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Sep 2023 04:33:27 -0700 (PDT)
+Date: Tue, 5 Sep 2023 14:33:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Theodore Ts'o <tytso@mit.edu>,
+	Vitaliy Kuznetsov <vk.en.mail@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 12036/12910] fs/ext4/super.c:796
+ update_super_work() error: uninitialized symbol 'call_notify_err'.
+Message-ID: <74cd72ba-407e-4586-bff0-754b78334ccb@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,54 +53,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f86ed6ec0b390c033eae7f9c487a3fea268e027
-commit: 9cf42bca30e98a1c6c9e8abf876940a551eaa3d1 efi: libstub: use EFI_LOADER_CODE region when moving the kernel in memory
-date:   10 months ago
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230905/202309051916.yJ8EbH5d-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051916.yJ8EbH5d-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a47fc304d2b678db1a5d760a7d644dac9b067752
+commit: 22fe4b80ee8de5a551a27a2c91f54594b99c1db5 [12036/12910] ext4: rename s_error_work to s_sb_upd_work
+config: x86_64-randconfig-161-20230902 (https://download.01.org/0day-ci/archive/20230903/202309030813.vgQkkgxM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230903/202309030813.vgQkkgxM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309051916.yJ8EbH5d-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202309030813.vgQkkgxM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/ext4/super.c:796 update_super_work() error: uninitialized symbol 'call_notify_err'.
 
->> drivers/firmware/efi/libstub/alignedmem.c:27: warning: Function parameter or member 'memory_type' not described in 'efi_allocate_pages_aligned'
+vim +/call_notify_err +796 fs/ext4/super.c
 
+22fe4b80ee8de5 Theodore Ts'o     2023-08-22  753  static void update_super_work(struct work_struct *work)
+c92dc856848f32 Jan Kara          2020-11-27  754  {
+c92dc856848f32 Jan Kara          2020-11-27  755  	struct ext4_sb_info *sbi = container_of(work, struct ext4_sb_info,
+22fe4b80ee8de5 Theodore Ts'o     2023-08-22  756  						s_sb_upd_work);
+2d01ddc8660656 Jan Kara          2020-12-16  757  	journal_t *journal = sbi->s_journal;
+2d01ddc8660656 Jan Kara          2020-12-16  758  	handle_t *handle;
+c92dc856848f32 Jan Kara          2020-11-27  759  
+2d01ddc8660656 Jan Kara          2020-12-16  760  	/*
+2d01ddc8660656 Jan Kara          2020-12-16  761  	 * If the journal is still running, we have to write out superblock
+2d01ddc8660656 Jan Kara          2020-12-16  762  	 * through the journal to avoid collisions of other journalled sb
+2d01ddc8660656 Jan Kara          2020-12-16  763  	 * updates.
+2d01ddc8660656 Jan Kara          2020-12-16  764  	 *
+2d01ddc8660656 Jan Kara          2020-12-16  765  	 * We use directly jbd2 functions here to avoid recursing back into
+2d01ddc8660656 Jan Kara          2020-12-16  766  	 * ext4 error handling code during handling of previous errors.
+2d01ddc8660656 Jan Kara          2020-12-16  767  	 */
+2d01ddc8660656 Jan Kara          2020-12-16  768  	if (!sb_rdonly(sbi->s_sb) && journal) {
+558d6450c7755a Ye Bin            2021-06-15  769  		struct buffer_head *sbh = sbi->s_sbh;
+58d85f2e88c97c Vitaliy Kuznetsov 2023-08-10  770  		bool call_notify_err;
 
-vim +27 drivers/firmware/efi/libstub/alignedmem.c
+Needs to be:
 
-43b1df0e013c25 Ard Biesheuvel 2020-03-27   7  
-43b1df0e013c25 Ard Biesheuvel 2020-03-27   8  /**
-43b1df0e013c25 Ard Biesheuvel 2020-03-27   9   * efi_allocate_pages_aligned() - Allocate memory pages
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  10   * @size:	minimum number of bytes to allocate
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  11   * @addr:	On return the address of the first allocated page. The first
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  12   *		allocated page has alignment EFI_ALLOC_ALIGN which is an
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  13   *		architecture dependent multiple of the page size.
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  14   * @max:	the address that the last allocated memory page shall not
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  15   *		exceed
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  16   * @align:	minimum alignment of the base of the allocation
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  17   *
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  18   * Allocate pages as EFI_LOADER_DATA. The allocated pages are aligned according
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  19   * to @align, which should be >= EFI_ALLOC_ALIGN. The last allocated page will
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  20   * not exceed the address given by @max.
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  21   *
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  22   * Return:	status code
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  23   */
-43b1df0e013c25 Ard Biesheuvel 2020-03-27  24  efi_status_t efi_allocate_pages_aligned(unsigned long size, unsigned long *addr,
-9cf42bca30e98a Ard Biesheuvel 2022-08-02  25  					unsigned long max, unsigned long align,
-9cf42bca30e98a Ard Biesheuvel 2022-08-02  26  					int memory_type)
-43b1df0e013c25 Ard Biesheuvel 2020-03-27 @27  {
+	bool call_notify_err = false;
 
-:::::: The code at line 27 was first introduced by commit
-:::::: 43b1df0e013c25abb536699f46d0e9f291b586a0 efi/libstub: Add API function to allocate aligned memory
-
-:::::: TO: Ard Biesheuvel <ardb@kernel.org>
-:::::: CC: Ard Biesheuvel <ardb@kernel.org>
+2d01ddc8660656 Jan Kara          2020-12-16  771  		handle = jbd2_journal_start(journal, 1);
+2d01ddc8660656 Jan Kara          2020-12-16  772  		if (IS_ERR(handle))
+2d01ddc8660656 Jan Kara          2020-12-16  773  			goto write_directly;
+558d6450c7755a Ye Bin            2021-06-15  774  		if (jbd2_journal_get_write_access(handle, sbh)) {
+2d01ddc8660656 Jan Kara          2020-12-16  775  			jbd2_journal_stop(handle);
+2d01ddc8660656 Jan Kara          2020-12-16  776  			goto write_directly;
+2d01ddc8660656 Jan Kara          2020-12-16  777  		}
+58d85f2e88c97c Vitaliy Kuznetsov 2023-08-10  778  
+58d85f2e88c97c Vitaliy Kuznetsov 2023-08-10  779  		if (sbi->s_add_error_count > 0)
+58d85f2e88c97c Vitaliy Kuznetsov 2023-08-10  780  			call_notify_err = true;
+58d85f2e88c97c Vitaliy Kuznetsov 2023-08-10  781  
+2d01ddc8660656 Jan Kara          2020-12-16  782  		ext4_update_super(sbi->s_sb);
+558d6450c7755a Ye Bin            2021-06-15  783  		if (buffer_write_io_error(sbh) || !buffer_uptodate(sbh)) {
+558d6450c7755a Ye Bin            2021-06-15  784  			ext4_msg(sbi->s_sb, KERN_ERR, "previous I/O error to "
+558d6450c7755a Ye Bin            2021-06-15  785  				 "superblock detected");
+558d6450c7755a Ye Bin            2021-06-15  786  			clear_buffer_write_io_error(sbh);
+558d6450c7755a Ye Bin            2021-06-15  787  			set_buffer_uptodate(sbh);
+558d6450c7755a Ye Bin            2021-06-15  788  		}
+558d6450c7755a Ye Bin            2021-06-15  789  
+558d6450c7755a Ye Bin            2021-06-15  790  		if (jbd2_journal_dirty_metadata(handle, sbh)) {
+2d01ddc8660656 Jan Kara          2020-12-16  791  			jbd2_journal_stop(handle);
+2d01ddc8660656 Jan Kara          2020-12-16  792  			goto write_directly;
+2d01ddc8660656 Jan Kara          2020-12-16  793  		}
+2d01ddc8660656 Jan Kara          2020-12-16  794  		jbd2_journal_stop(handle);
+58d85f2e88c97c Vitaliy Kuznetsov 2023-08-10  795  
+58d85f2e88c97c Vitaliy Kuznetsov 2023-08-10 @796  		if (call_notify_err)
+d578b99443fde0 Jonathan Davies   2021-06-11  797  			ext4_notify_error_sysfs(sbi);
+58d85f2e88c97c Vitaliy Kuznetsov 2023-08-10  798  
+2d01ddc8660656 Jan Kara          2020-12-16  799  		return;
+2d01ddc8660656 Jan Kara          2020-12-16  800  	}
+2d01ddc8660656 Jan Kara          2020-12-16  801  write_directly:
+2d01ddc8660656 Jan Kara          2020-12-16  802  	/*
+2d01ddc8660656 Jan Kara          2020-12-16  803  	 * Write through journal failed. Write sb directly to get error info
+2d01ddc8660656 Jan Kara          2020-12-16  804  	 * out and hope for the best.
+2d01ddc8660656 Jan Kara          2020-12-16  805  	 */
+4392fbc4bab57d Jan Kara          2020-12-16  806  	ext4_commit_super(sbi->s_sb);
+d578b99443fde0 Jonathan Davies   2021-06-11  807  	ext4_notify_error_sysfs(sbi);
+4327ba52afd03f Daeho Jeong       2015-10-18  808  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
