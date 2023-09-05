@@ -1,111 +1,101 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44196AAB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 11:31:40 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-401da71b85eso23548845e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 Sep 2023 04:31:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693913498; x=1694518298; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ucSMS6f1i4AJkmKZWAiTc8WB+F0d5XaASaMmBm7ZJv0=;
-        b=HAvmlDi8Mcu51TICP2y5KZT5K9YqxHf28CGZVtROqlhBGeDfmM/bZQ9CfASP8i68J+
-         6tvWsvM0f+cad694fA7mvFozqtStXcXFJoNc2IPNZmMiqVFt3n34/j09zKFiyVFeqTCw
-         q/91fyLyLYIIV+6eDx6Yotfl11KxPS2rZGOie1bQkjVRu2+SSVqHQDjzW+o0MnTeKUfs
-         WspLpsFcvTjud6u6YOUXRPO3NBzhjI3rK52AuVTDEUKYWmnJUyfkZFIO72aG6MdI73B7
-         pkU0gresOBl9t277C6Xv1WZ4MNNnIs6e5wL9JSGDIKm+NAF1Ilaw01izYmjnytgKP1S1
-         IcNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693913498; x=1694518298;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ucSMS6f1i4AJkmKZWAiTc8WB+F0d5XaASaMmBm7ZJv0=;
-        b=AKqGnr6RvCTDaxC8nninYeSBN+d/qSK+ng506uAHCaRncoqJ7wDuw92CjxjUvC/mM2
-         pXw8E4c+P9+pxTV+hCXLIi1yOQDDOb9yPrHR7ZXc8USpGjOUX1ZbGj4Xz61f4i4fOZUG
-         gkNWYf372Jpm/a+gyLTFFSUsFphyVKOnv04N/wee/2NQCwAph7beYoTjCC+GjJgEXfHp
-         4vvbwpqLrroJEaQq4wCIeWZf/0gBKvMU1b+wABlnAf27ac7VyZ2cnUjMk+QDS0+V3CDR
-         BObcpr8p82HKy+yHZ3Ij0+b5+otMRR3QtKU7UoX4rccsmQsfmulCDGlKdY73nrRHEeBu
-         fgKQ==
-X-Gm-Message-State: AOJu0YxpZK7gfX5j3LqSPqShpf8dItVBzmuBVOGID9owOplJCO1MwV4F
-	okLCjQeqhU79CWJg9QbNevWKtw==
-X-Google-Smtp-Source: AGHT+IEpJmilH9Tppz6BKD/gVURbvbPERFqtmnEdu+ZGNvg+ETGDXFXfFdgWvlIP9ozV8luG9EA7aA==
-X-Received: by 2002:a1c:4b08:0:b0:3fe:d1b9:7ea9 with SMTP id y8-20020a1c4b08000000b003fed1b97ea9mr9575348wma.36.1693913498664;
-        Tue, 05 Sep 2023 04:31:38 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m9-20020a7bcb89000000b003fe26244858sm19823929wmi.46.2023.09.05.04.31.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 04:31:38 -0700 (PDT)
-Date: Tue, 5 Sep 2023 14:31:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 2/2] pinctrl: mcp23s08: Simplify probe()
-Message-ID: <2ce09856-244a-4e3f-89ff-d9439ea06af9@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE2CCA6F;
+	Tue,  5 Sep 2023 11:32:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693913524; x=1725449524;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XJ2N4hJNoTugXqEkQ/NpaGXbaCTW9rLOmF2B1mceIbA=;
+  b=nq3sj80e2olp8E87ql2AplhSW3RZErSNSOS64dE1HMnB0Kxy6823gWXL
+   gLHoHoCnDt5JIz5xzNE2B9ROdrXj1tr2A9CBTLkTvNUQvaHBImusWa1YO
+   ZdvNrLctotPTMgZaJgWMhvOvbBqq7vETQjTQHmHCmfvSI31RceStEd9hx
+   N9bOb8eWt5czGxOeWp2RUvVFKD7KpS37FgcD/ZQLpV+oj5tmQHNulv9WF
+   a9bkuVNs20d49jk2jGXX3jiJCayXKQpAKo8ZUn/6ouD+vitMk3MGw0Pvv
+   yrij+oOjMyKuv4+B6i/8bTgkseQJbXtXcgi2nOpvDgGDlXOw8xTMMiDoP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="366993167"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="366993167"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 04:31:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="806569195"
+X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
+   d="scan'208";a="806569195"
+Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 05 Sep 2023 04:31:41 -0700
+Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qdUHQ-0001b7-0M;
+	Tue, 05 Sep 2023 11:31:36 +0000
+Date: Tue, 5 Sep 2023 19:31:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/firmware/efi/libstub/alignedmem.c:27: warning: Function
+ parameter or member 'memory_type' not described in
+ 'efi_allocate_pages_aligned'
+Message-ID: <202309051916.yJ8EbH5d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230902090937.32195-3-biju.das.jz@bp.renesas.com>
 
-Hi Biju,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/pinctrl-mcp23s08-Extend-match-support-for-OF-tables/20230902-171023
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20230902090937.32195-3-biju.das.jz%40bp.renesas.com
-patch subject: [PATCH 2/2] pinctrl: mcp23s08: Simplify probe()
-config: i386-randconfig-141-20230902 (https://download.01.org/0day-ci/archive/20230903/202309030751.GQvtrZnS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230903/202309030751.GQvtrZnS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3f86ed6ec0b390c033eae7f9c487a3fea268e027
+commit: 9cf42bca30e98a1c6c9e8abf876940a551eaa3d1 efi: libstub: use EFI_LOADER_CODE region when moving the kernel in memory
+date:   10 months ago
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20230905/202309051916.yJ8EbH5d-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051916.yJ8EbH5d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202309030751.GQvtrZnS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309051916.yJ8EbH5d-lkp@intel.com/
 
-smatch warnings:
-drivers/pinctrl/pinctrl-mcp23s08_i2c.c:33 mcp230xx_probe() error: we previously assumed 'info' could be null (see line 31)
+All warnings (new ones prefixed by >>):
 
-vim +/info +33 drivers/pinctrl/pinctrl-mcp23s08_i2c.c
+>> drivers/firmware/efi/libstub/alignedmem.c:27: warning: Function parameter or member 'memory_type' not described in 'efi_allocate_pages_aligned'
 
-8bb5811129f9e4 Uwe Kleine-König 2022-11-18  19  static int mcp230xx_probe(struct i2c_client *client)
-0f04a81784fe3d Andy Shevchenko  2020-04-07  20  {
-b5f259f6fc5912 Biju Das         2023-09-02  21  	const struct mcp23s08_i2c_info *info;
-0f04a81784fe3d Andy Shevchenko  2020-04-07  22  	struct device *dev = &client->dev;
-0f04a81784fe3d Andy Shevchenko  2020-04-07  23  	struct mcp23s08 *mcp;
-0f04a81784fe3d Andy Shevchenko  2020-04-07  24  	int ret;
-0f04a81784fe3d Andy Shevchenko  2020-04-07  25  
-0f04a81784fe3d Andy Shevchenko  2020-04-07  26  	mcp = devm_kzalloc(dev, sizeof(*mcp), GFP_KERNEL);
-0f04a81784fe3d Andy Shevchenko  2020-04-07  27  	if (!mcp)
-0f04a81784fe3d Andy Shevchenko  2020-04-07  28  		return -ENOMEM;
-0f04a81784fe3d Andy Shevchenko  2020-04-07  29  
-b5f259f6fc5912 Biju Das         2023-09-02  30  	info = i2c_get_match_data(client);
-b5f259f6fc5912 Biju Das         2023-09-02 @31  	if (!info)
-b5f259f6fc5912 Biju Das         2023-09-02  32  		return dev_err_probe(dev, -EINVAL, "invalid device type (%d)\n",
-b5f259f6fc5912 Biju Das         2023-09-02 @33  				     info->type);
-                                                                                     ^^^^^^^^^^
-info is NULL.
 
-0f04a81784fe3d Andy Shevchenko  2020-04-07  34  
-b5f259f6fc5912 Biju Das         2023-09-02  35  	mcp->reg_shift = info->reg_shift;
+vim +27 drivers/firmware/efi/libstub/alignedmem.c
+
+43b1df0e013c25 Ard Biesheuvel 2020-03-27   7  
+43b1df0e013c25 Ard Biesheuvel 2020-03-27   8  /**
+43b1df0e013c25 Ard Biesheuvel 2020-03-27   9   * efi_allocate_pages_aligned() - Allocate memory pages
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  10   * @size:	minimum number of bytes to allocate
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  11   * @addr:	On return the address of the first allocated page. The first
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  12   *		allocated page has alignment EFI_ALLOC_ALIGN which is an
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  13   *		architecture dependent multiple of the page size.
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  14   * @max:	the address that the last allocated memory page shall not
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  15   *		exceed
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  16   * @align:	minimum alignment of the base of the allocation
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  17   *
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  18   * Allocate pages as EFI_LOADER_DATA. The allocated pages are aligned according
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  19   * to @align, which should be >= EFI_ALLOC_ALIGN. The last allocated page will
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  20   * not exceed the address given by @max.
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  21   *
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  22   * Return:	status code
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  23   */
+43b1df0e013c25 Ard Biesheuvel 2020-03-27  24  efi_status_t efi_allocate_pages_aligned(unsigned long size, unsigned long *addr,
+9cf42bca30e98a Ard Biesheuvel 2022-08-02  25  					unsigned long max, unsigned long align,
+9cf42bca30e98a Ard Biesheuvel 2022-08-02  26  					int memory_type)
+43b1df0e013c25 Ard Biesheuvel 2020-03-27 @27  {
+
+:::::: The code at line 27 was first introduced by commit
+:::::: 43b1df0e013c25abb536699f46d0e9f291b586a0 efi/libstub: Add API function to allocate aligned memory
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Ard Biesheuvel <ardb@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
