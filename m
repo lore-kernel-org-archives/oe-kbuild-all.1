@@ -1,150 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4E1CA43;
-	Tue,  5 Sep 2023 11:01:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693911691; x=1725447691;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fDI45R6W8t/ZljCV7zv9zrYFb6R9WkaVGX4N3lJCYbU=;
-  b=lB+CrQEL4x94QOHtL1/1f5Z/RRRLcE/SRwmQ/pAWZ9uXda4prnCE7pnE
-   0s/UA1ypa8GRy6m6Vcco5rFj0mHREmGBCLSzTHR7lybDIe+LzbGP9G+9G
-   JCA6AAwQFqGuU2ibXS6rBuOl+t8rcmWRzqIJpXWqZm21YAWFC/jGLIxJ8
-   8PPsdB5A7b1gS0DQT/Z0sZu8v6/q0d5ZI50ZdEonH3H98Ro4qlBToeYBR
-   wxBc/F4V/EwUsSNKJW2Y5bbxQj4h1NsHqndWl2dTKI+A0cuuSh8PaHtqy
-   waD5t0Jb6CrpJsxL8eWN+m3X+Lv2k386LV2RvihNfY+oFdlJ+AbpGaPwK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="376690433"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="376690433"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 04:00:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10823"; a="914793383"
-X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="914793383"
-Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 05 Sep 2023 04:00:33 -0700
-Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qdTnK-0001ZV-36;
-	Tue, 05 Sep 2023 11:00:30 +0000
-Date: Tue, 5 Sep 2023 19:00:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Animesh Manna <animesh.manna@intel.com>,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	jani.nikula@intel.com
-Subject: Re: [Intel-gfx] [PATCH v5 3/6] drm/i915/panelreplay: Initializaton
- and compute config for panel replay
-Message-ID: <202309051831.AMUjJOcB-lkp@intel.com>
-References: <20230905073551.958368-4-animesh.manna@intel.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5766CA49
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 11:12:16 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.201])
+	by gateway (Coremail) with SMTP id _____8Cx5_ENDfdkbYkfAA--.63457S3;
+	Tue, 05 Sep 2023 19:12:14 +0800 (CST)
+Received: from [10.20.42.201] (unknown [10.20.42.201])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxWM0JDfdkT8xsAA--.1868S3;
+	Tue, 05 Sep 2023 19:12:10 +0800 (CST)
+Subject: Re: loongson2_pm.c:undefined reference to `input_free_device'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Liu Yun <liuyun@loongson.cn>,
+ zhuyinbo@loongson.cn
+References: <202309030751.pDnTZX4E-lkp@intel.com>
+From: Yinbo Zhu <zhuyinbo@loongson.cn>
+Message-ID: <92ae0927-de68-2245-954f-5dd37d6f1491@loongson.cn>
+Date: Tue, 5 Sep 2023 19:12:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230905073551.958368-4-animesh.manna@intel.com>
-
-Hi Animesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-tip/drm-tip]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Manna/drm-panelreplay-dpcd-register-definition-for-panelreplay/20230905-154811
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230905073551.958368-4-animesh.manna%40intel.com
-patch subject: [Intel-gfx] [PATCH v5 3/6] drm/i915/panelreplay: Initializaton and compute config for panel replay
-config: i386-randconfig-r036-20230905 (https://download.01.org/0day-ci/archive/20230905/202309051831.AMUjJOcB-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230905/202309051831.AMUjJOcB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309051831.AMUjJOcB-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/display/intel_dp.c:3779:27: warning: overlapping comparisons always evaluate to true [-Wtautological-overlap-compare]
-           if (vsc->revision != 0x5 || vsc->revision != 0x7)
-               ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+In-Reply-To: <202309030751.pDnTZX4E-lkp@intel.com>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8CxWM0JDfdkT8xsAA--.1868S3
+X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+	ZEXasCq-sGcSsGvfJ3UbIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnUUvcSsGvfC2Kfnx
+	nUUI43ZEXa7xR_UUUUUUUUU==
 
 
-vim +3779 drivers/gpu/drm/i915/display/intel_dp.c
 
-  3754	
-  3755	static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
-  3756					     struct dp_sdp *sdp, size_t size)
-  3757	{
-  3758		size_t length = sizeof(struct dp_sdp);
-  3759	
-  3760		if (size < length)
-  3761			return -ENOSPC;
-  3762	
-  3763		memset(sdp, 0, size);
-  3764	
-  3765		/*
-  3766		 * Prepare VSC Header for SU as per DP 1.4a spec, Table 2-119
-  3767		 * VSC SDP Header Bytes
-  3768		 */
-  3769		sdp->sdp_header.HB0 = 0; /* Secondary-Data Packet ID = 0 */
-  3770		sdp->sdp_header.HB1 = vsc->sdp_type; /* Secondary-data Packet Type */
-  3771		sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
-  3772		sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
-  3773	
-  3774		/*
-  3775		 * Other than revision 0x5 which supports Pixel Encoding/Colorimetry
-  3776		 * Format as per DP 1.4a spec, revision 0x7 also supports Pixel
-  3777		 * Encoding/Colorimetry Format as per DP 2.0 spec.
-  3778		 */
-> 3779		if (vsc->revision != 0x5 || vsc->revision != 0x7)
-  3780			goto out;
-  3781	
-  3782		/* VSC SDP Payload for DB16 through DB18 */
-  3783		/* Pixel Encoding and Colorimetry Formats  */
-  3784		sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
-  3785		sdp->db[16] |= vsc->colorimetry & 0xf; /* DB16[3:0] */
-  3786	
-  3787		switch (vsc->bpc) {
-  3788		case 6:
-  3789			/* 6bpc: 0x0 */
-  3790			break;
-  3791		case 8:
-  3792			sdp->db[17] = 0x1; /* DB17[3:0] */
-  3793			break;
-  3794		case 10:
-  3795			sdp->db[17] = 0x2;
-  3796			break;
-  3797		case 12:
-  3798			sdp->db[17] = 0x3;
-  3799			break;
-  3800		case 16:
-  3801			sdp->db[17] = 0x4;
-  3802			break;
-  3803		default:
-  3804			MISSING_CASE(vsc->bpc);
-  3805			break;
-  3806		}
-  3807		/* Dynamic Range and Component Bit Depth */
-  3808		if (vsc->dynamic_range == DP_DYNAMIC_RANGE_CTA)
-  3809			sdp->db[17] |= 0x80;  /* DB17[7] */
-  3810	
-  3811		/* Content Type */
-  3812		sdp->db[18] = vsc->content_type & 0x7;
-  3813	
-  3814	out:
-  3815		return length;
-  3816	}
-  3817	
+ÔÚ 2023/9/3 ÉÏÎç7:17, kernel test robot Ð´µÀ:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   b89b029377c8c441649c7a6be908386e74ea9420
+> commit: 67694c076bd7d6b8b73c59d4881822f0493caf35 soc: loongson2_pm: add power management support
+> date:   12 days ago
+> config: loongarch-randconfig-r014-20230903 (https://download.01.org/0day-ci/archive/20230903/202309030751.pDnTZX4E-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230903/202309030751.pDnTZX4E-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202309030751.pDnTZX4E-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>): >
+>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in function `.LBB191':
+>     loongson2_pm.c:(.text+0x10c): undefined reference to `input_allocate_device'
+>     loongarch64-linux-ld: loongson2_pm.c:(.text+0x144): undefined reference to `input_set_capability'
+>     loongarch64-linux-ld: loongson2_pm.c:(.text+0x14c): undefined reference to `input_register_device'
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+I will add linux/input.h to fix this issue.
+
+Thanks,
+Yinbo
+>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in function `.LBB240':
+>>> loongson2_pm.c:(.text+0x25c): undefined reference to `input_free_device'
+>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in function `.LBB387':
+>     loongson2_pm.c:(.text+0x390): undefined reference to `input_event'
+>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in function `.LBE387':
+>     loongson2_pm.c:(.text+0x3a4): undefined reference to `input_event'
+>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in function `.LBE389':
+>     loongson2_pm.c:(.text+0x3b8): undefined reference to `input_event'
+>     loongarch64-linux-ld: drivers/soc/loongson/loongson2_pm.o: in function `.LBE391':
+>     loongson2_pm.c:(.text+0x3cc): undefined reference to `input_event'
+> 
+
