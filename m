@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBFEDDAF
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 19:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E95BDDC5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Sep 2023 19:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693942822; x=1725478822;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5JMhy340COY43uhOYXZKSj7yW4IYql+k3rOX5Ml5sdk=;
-  b=cHI5xbTgB/f9kWaRkL/aZOYOSD3jOpzO0ZuJR7Wqw1kxfUMq0v6Kjj0w
-   Ui55ESaq2PYmaI/CpeOcxIuzymLwJZdD8Gu2hiO1Yyd5ChocIU9mcku0f
-   YdJBriP88/1FdcXpgIa0iHr3AUAiMYLmpPhpzrZgSIc3KQQGzexULO8Sg
-   bl1w+e4QKWeCG+CbU1s1dxq1oAooAjZiDnFZDK0R9DWgl0Vq9pZWgKDTS
-   qNUvX8ap2tzQZ6F5YrpahmkBTZaTwhYk8Ln7m+Oyl3ENRtB6AdVPxOpQg
-   Jo540GnSdt8KXcxH+Lva6acR6KK4aYFnERp7G0Od7TjLOpc5CsZYUcrtn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="357198507"
+  t=1693943495; x=1725479495;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eFBbE9HzqQzshixjouQ4Gq9jsVJLPT5uB03U4EUQI+o=;
+  b=DZf9CL5m4hAgEI2XfadJp5JVxdg50i7x1lSLrvu4eYPy/Xf83cYhkMix
+   QTn4q6HFRnorCT6/hozaNT1gEcTznLX9DfUYsqS0hg+Ox7DUbi8EsE+o3
+   SmnQssZPKyQWvbJ1Tu7W0aYJzHRSq043tpKFS4LhVyfNRr5FG3kr2g5ob
+   qt4CqZsPHIlPyAhC0R49Bsn1WbZhYbEwL0LTvZQXV2kCr3g5ZDp8/Er/6
+   7aO5Ae9J8FQIbgTQKSrsl8P1MOS03RvKKlG19z7gvpyR/2dfEFMwFUgGM
+   NBmatYoXPQLziodHJSfQHmbajQb/USgRIyJtmYEs0ob4D8PDg1r128qSA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="379607735"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="357198507"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 12:40:21 -0700
+   d="scan'208";a="379607735"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 12:51:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="744399856"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="717981535"
 X-IronPort-AV: E=Sophos;i="6.02,229,1688454000"; 
-   d="scan'208";a="744399856"
+   d="scan'208";a="717981535"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 05 Sep 2023 12:40:19 -0700
+  by orsmga006.jf.intel.com with ESMTP; 05 Sep 2023 12:51:32 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdbuL-00020h-1M;
-	Tue, 05 Sep 2023 19:40:17 +0000
-Date: Wed, 6 Sep 2023 03:40:11 +0800
+	id 1qdc56-000219-0i;
+	Tue, 05 Sep 2023 19:51:25 +0000
+Date: Wed, 6 Sep 2023 03:50:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zheng Yejian <zhengyejian1@huawei.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, yeweihua4@huawei.com,
-	zhengyejian1@huawei.com
-Subject: Re: [PATCH] tracing: Fix unexpected ring buffer expand by instance
-Message-ID: <202309060320.psgXz5VD-lkp@intel.com>
-References: <20230905121714.3229131-1-zhengyejian1@huawei.com>
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-doc@vger.kernel.org
+Subject: [linux-next:master 13629/13985] htmldocs:
+ Documentation/loongarch/introduction.rst:362: WARNING: duplicate label
+ loongarch-references, other instance in
+ Documentation/arch/loongarch/introduction.rst
+Message-ID: <202309060352.2ZuAeYVF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,64 +49,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230905121714.3229131-1-zhengyejian1@huawei.com>
 
-Hi Zheng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.5 next-20230905]
-[cannot apply to rostedt-trace/for-next rostedt-trace/for-next-urgent]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zheng-Yejian/tracing-Fix-unexpected-ring-buffer-expand-by-instance/20230906-014353
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230905121714.3229131-1-zhengyejian1%40huawei.com
-patch subject: [PATCH] tracing: Fix unexpected ring buffer expand by instance
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230906/202309060320.psgXz5VD-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060320.psgXz5VD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c50216cfa084d5eb67dc10e646a3283da1595bb6
+commit: 2bf3c0292f35e84a2111e6e83f023c2690b25a71 [13629/13985] Merge patch series "RISC-V: Probe for misaligned access speed"
+reproduce: (https://download.01.org/0day-ci/archive/20230906/202309060352.2ZuAeYVF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309060320.psgXz5VD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309060352.2ZuAeYVF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/trace/trace.c:6438: warning: Function parameter or member 'tr' not described in 'tracing_update_buffers'
+>> Documentation/loongarch/introduction.rst:362: WARNING: duplicate label loongarch-references, other instance in Documentation/arch/loongarch/introduction.rst
+>> Documentation/translations/zh_CN/loongarch/introduction.rst:325: WARNING: duplicate label loongarch-references-zh_cn, other instance in Documentation/translations/zh_CN/arch/loongarch/introduction.rst
+>> Documentation/translations/zh_CN/mips/booting.rst:14: WARNING: duplicate label cn_booting, other instance in Documentation/translations/zh_CN/arch/mips/booting.rst
+>> Documentation/translations/zh_CN/mips/ingenic-tcu.rst:15: WARNING: duplicate label cn_ingenic-tcu, other instance in Documentation/translations/zh_CN/arch/mips/ingenic-tcu.rst
+>> Documentation/bpf/instruction-set.rst: WARNING: document isn't included in any toctree
+>> Documentation/hwmon/smm665.rst: WARNING: document isn't included in any toctree
+>> Documentation/loongarch/index.rst: WARNING: document isn't included in any toctree
+>> Documentation/mips/index.rst: WARNING: document isn't included in any toctree
+>> Documentation/mm/frontswap.rst: WARNING: document isn't included in any toctree
+>> Documentation/networking/device_drivers/ethernet/mellanox/mlx5/devlink.rst: WARNING: document isn't included in any toctree
+>> Documentation/s390/index.rst: WARNING: document isn't included in any toctree
+>> Documentation/translations/zh_CN/mm/frontswap.rst: WARNING: document isn't included in any toctree
 
+vim +362 Documentation/loongarch/introduction.rst
 
-vim +6438 kernel/trace/trace.c
+0ea8ce61cb2c48 Huacai Chen 2022-05-31  360  
+0ea8ce61cb2c48 Huacai Chen 2022-05-31  361  References
+0ea8ce61cb2c48 Huacai Chen 2022-05-31 @362  ==========
+0ea8ce61cb2c48 Huacai Chen 2022-05-31  363  
 
-4f271a2a60c748 Vaibhav Nagarnaik 2011-06-13  6425  
-ef710e100c1068 KOSAKI Motohiro   2010-07-01  6426  
-1852fcce181faa Steven Rostedt    2009-03-11  6427  /**
-1852fcce181faa Steven Rostedt    2009-03-11  6428   * tracing_update_buffers - used by tracing facility to expand ring buffers
-1852fcce181faa Steven Rostedt    2009-03-11  6429   *
-1852fcce181faa Steven Rostedt    2009-03-11  6430   * To save on memory when the tracing is never used on a system with it
-1852fcce181faa Steven Rostedt    2009-03-11  6431   * configured in. The ring buffers are set to a minimum size. But once
-1852fcce181faa Steven Rostedt    2009-03-11  6432   * a user starts to use the tracing facility, then they need to grow
-1852fcce181faa Steven Rostedt    2009-03-11  6433   * to their default size.
-1852fcce181faa Steven Rostedt    2009-03-11  6434   *
-1852fcce181faa Steven Rostedt    2009-03-11  6435   * This function is to be called when a tracer is about to be used.
-1852fcce181faa Steven Rostedt    2009-03-11  6436   */
-625c101cac2477 Zheng Yejian      2023-09-05  6437  int tracing_update_buffers(struct trace_array *tr)
-1852fcce181faa Steven Rostedt    2009-03-11 @6438  {
-1852fcce181faa Steven Rostedt    2009-03-11  6439  	int ret = 0;
-1852fcce181faa Steven Rostedt    2009-03-11  6440  
-1027fcb206a0fb Steven Rostedt    2009-03-12  6441  	mutex_lock(&trace_types_lock);
-625c101cac2477 Zheng Yejian      2023-09-05  6442  	if (!tr->ring_buffer_expanded)
-625c101cac2477 Zheng Yejian      2023-09-05  6443  		ret = __tracing_resize_ring_buffer(tr, trace_buf_size,
-438ced1720b584 Vaibhav Nagarnaik 2012-02-02  6444  						RING_BUFFER_ALL_CPUS);
-1027fcb206a0fb Steven Rostedt    2009-03-12  6445  	mutex_unlock(&trace_types_lock);
-1852fcce181faa Steven Rostedt    2009-03-11  6446  
-1852fcce181faa Steven Rostedt    2009-03-11  6447  	return ret;
-1852fcce181faa Steven Rostedt    2009-03-11  6448  }
-1852fcce181faa Steven Rostedt    2009-03-11  6449  
+:::::: The code at line 362 was first introduced by commit
+:::::: 0ea8ce61cb2c487e818c515f91329fa9972a7155 Documentation: LoongArch: Add basic documentations
+
+:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
+:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
 
 -- 
 0-DAY CI Kernel Test Service
