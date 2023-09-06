@@ -1,58 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF056ADB;
-	Wed,  6 Sep 2023 20:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234DD6ADB
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 20:55:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694033649; x=1725569649;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VqeF0aeYObOh3hd+HV3wpbgpW4Kt9ciCv6dvaF8ZXEw=;
-  b=md6NdBtY8PNuUErFNalNAB2ut4Z26i4jdVYBeY3FNwfCIXOz/f1tAqxD
-   l6/yhXfvyvb1OVFnWsMRY9HwXuK/lyehQQA36ABDL8HOUs/QRijIZlT64
-   Yjl23AqRUh2mJYsL6filb3aUUSJjmYGddfq3wg3waKSI7MlZPsaOYLRJt
-   ry/2BfxRuLlVcsdWE7nC6YHIIUZE2jUUdoaxVpQeBs3UTWFRCNo5C1f4b
-   rZu2HBtq8wHamUXX8xolIYG07LWcH2OYjNCMFJNuDoRQ3Kgu+XdpOf0hz
-   +OAEkf3gcYfyooR9qSn7EKRjVqNcI2AE6nFUDA7RincK5JZa1qDnbRQwK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="374574271"
+  t=1694033721; x=1725569721;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mEIONfvKaore8Z5w4DBDXnLV2WTs4xCaSnW4Ein8iBY=;
+  b=GI3pdPgAMwNO42j+iwH9NEI8LWmm3k4l7IDbK2otD40i/eIpLdtKIPPA
+   fK7k7lmXKcdrGQ9xohFg7WyaJgoGRuDY4o2VtH52IhyfQ97RSJYNP+0Pz
+   UjR+oTXWcrvrj9TLQe7JeRY1MwBAASNJm7Omu3tKNXeZgVyQq/xoQfpBq
+   Y7Rh408N+I8kONJhmtB4GZvtYE9QCuj8rSYWbcque3d8/UDjGWEXUYPpG
+   /UvElRTsMPuq598GgPvT+xoHAKHF/cLXWvi4J+WXGuMEAVdAlJiXvS6Ya
+   YGg071/ardZSDTY88GMrxlLFb/quSGZf0Jp+MqeAS0HNNob5gV9t79Fii
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="379891374"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="374574271"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 13:54:07 -0700
+   d="scan'208";a="379891374"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 13:54:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="915430165"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="865303790"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="915430165"
+   d="scan'208";a="865303790"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 06 Sep 2023 13:54:02 -0700
+  by orsmga004.jf.intel.com with ESMTP; 06 Sep 2023 13:54:02 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdzXE-0000Zn-1e;
+	id 1qdzXE-0000Zp-1q;
 	Wed, 06 Sep 2023 20:54:00 +0000
-Date: Thu, 7 Sep 2023 04:53:20 +0800
+Date: Thu, 7 Sep 2023 04:53:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Xu <peterx@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Anish Moorthy <amoorthy@google.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Mike Kravetz <mike.kravetz@oracle.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Christian Brauner <brauner@kernel.org>, peterx@redhat.com,
-	linux-fsdevel@vger.kernel.org,
-	Andrea Arcangeli <aarcange@redhat.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	James Houghton <jthoughton@google.com>,
-	Nadav Amit <nadav.amit@gmail.com>
-Subject: Re: [PATCH 2/7] poll: Add a poll_flags for poll_queue_proc()
-Message-ID: <202309070440.eKzBcg8X-lkp@intel.com>
-References: <20230905214235.320571-3-peterx@redhat.com>
+To: "Romli, Khairul Anuar" <khairul.anuar.romli@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_s 3755/30000]
+ drivers/gpu/drm/i915/intel_hdcp.c:772:5: warning: no previous declaration
+ for 'intel_hdcp_enable'
+Message-ID: <202309070437.AW3gmtpg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,135 +46,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230905214235.320571-3-peterx@redhat.com>
 
-Hi Peter,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Xu/mm-userfaultfd-Make-uffd-read-wait-event-exclusive/20230906-054430
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230905214235.320571-3-peterx%40redhat.com
-patch subject: [PATCH 2/7] poll: Add a poll_flags for poll_queue_proc()
-config: hexagon-randconfig-002-20230906 (https://download.01.org/0day-ci/archive/20230907/202309070440.eKzBcg8X-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070440.eKzBcg8X-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   6bfae51123c09ed71d82cfc739c5ccbeac60c4aa
+commit: a82c652f55df396b641e6812b7078e328bbae280 [3755/30000] drm/i915: Commit CP without modeset
+config: i386-randconfig-013-20230907 (https://download.01.org/0day-ci/archive/20230907/202309070437.AW3gmtpg-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070437.AW3gmtpg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309070440.eKzBcg8X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309070437.AW3gmtpg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/vhost/vhost.c:14:
-   In file included from include/uapi/linux/vhost.h:14:
-   In file included from include/uapi/linux/vhost_types.h:16:
-   In file included from include/linux/virtio_config.h:7:
-   In file included from include/linux/virtio.h:7:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/vhost/vhost.c:14:
-   In file included from include/uapi/linux/vhost.h:14:
-   In file included from include/uapi/linux/vhost_types.h:16:
-   In file included from include/linux/virtio_config.h:7:
-   In file included from include/linux/virtio.h:7:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/vhost/vhost.c:14:
-   In file included from include/uapi/linux/vhost.h:14:
-   In file included from include/uapi/linux/vhost_types.h:16:
-   In file included from include/linux/virtio_config.h:7:
-   In file included from include/linux/virtio.h:7:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/vhost/vhost.c:193:41: error: incompatible function pointer types passing 'int (wait_queue_entry_t *, unsigned int, int, void *, poll_flags)' (aka 'int (struct wait_queue_entry *, unsigned int, int, void *, unsigned int)') to parameter of type 'wait_queue_func_t' (aka 'int (*)(struct wait_queue_entry *, unsigned int, int, void *)') [-Werror,-Wincompatible-function-pointer-types]
-           init_waitqueue_func_entry(&poll->wait, vhost_poll_wakeup);
-                                                  ^~~~~~~~~~~~~~~~~
-   include/linux/wait.h:90:80: note: passing argument to parameter 'func' here
-   init_waitqueue_func_entry(struct wait_queue_entry *wq_entry, wait_queue_func_t func)
-                                                                                  ^
->> drivers/vhost/vhost.c:194:34: error: incompatible function pointer types passing 'void (struct file *, wait_queue_head_t *, poll_table *)' (aka 'void (struct file *, struct wait_queue_head *, struct poll_table_struct *)') to parameter of type 'poll_queue_proc' (aka 'void (*)(struct file *, struct wait_queue_head *, struct poll_table_struct *, unsigned int)') [-Werror,-Wincompatible-function-pointer-types]
-           init_poll_funcptr(&poll->table, vhost_poll_func);
-                                           ^~~~~~~~~~~~~~~
-   include/linux/poll.h:76:70: note: passing argument to parameter 'qproc' here
-   static inline void init_poll_funcptr(poll_table *pt, poll_queue_proc qproc)
-                                                                        ^
->> drivers/vhost/vhost.c:215:57: error: too few arguments to function call, expected 5, have 4
-                   vhost_poll_wakeup(&poll->wait, 0, 0, poll_to_key(mask));
-                   ~~~~~~~~~~~~~~~~~                                     ^
-   drivers/vhost/vhost.c:164:12: note: 'vhost_poll_wakeup' declared here
-   static int vhost_poll_wakeup(wait_queue_entry_t *wait, unsigned mode, int sync,
-              ^
-   6 warnings and 3 errors generated.
+>> drivers/gpu/drm/i915/intel_hdcp.c:772:5: warning: no previous declaration for 'intel_hdcp_enable' [-Wmissing-declarations]
+    int intel_hdcp_enable(struct intel_connector *connector)
+        ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/intel_hdcp.c:784:5: warning: no previous declaration for 'intel_hdcp_disable' [-Wmissing-declarations]
+    int intel_hdcp_disable(struct intel_connector *connector)
+        ^~~~~~~~~~~~~~~~~~
 
 
-vim +193 drivers/vhost/vhost.c
+vim +/intel_hdcp_enable +772 drivers/gpu/drm/i915/intel_hdcp.c
 
-87d6a412bd1ed8 Michael S. Tsirkin 2010-09-02  187  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  188  /* Init poll structure */
-c23f3445e68e1d Tejun Heo          2010-06-02  189  void vhost_poll_init(struct vhost_poll *poll, vhost_work_fn_t fn,
-493b94bf5ae0f6 Mike Christie      2023-06-26  190  		     __poll_t mask, struct vhost_dev *dev,
-493b94bf5ae0f6 Mike Christie      2023-06-26  191  		     struct vhost_virtqueue *vq)
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  192  {
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14 @193  	init_waitqueue_func_entry(&poll->wait, vhost_poll_wakeup);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14 @194  	init_poll_funcptr(&poll->table, vhost_poll_func);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  195  	poll->mask = mask;
-c23f3445e68e1d Tejun Heo          2010-06-02  196  	poll->dev = dev;
-2b8b328b61c799 Jason Wang         2013-01-28  197  	poll->wqh = NULL;
-493b94bf5ae0f6 Mike Christie      2023-06-26  198  	poll->vq = vq;
-c23f3445e68e1d Tejun Heo          2010-06-02  199  
-87d6a412bd1ed8 Michael S. Tsirkin 2010-09-02  200  	vhost_work_init(&poll->work, fn);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  201  }
-6ac1afbf6132df Asias He           2013-05-06  202  EXPORT_SYMBOL_GPL(vhost_poll_init);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  203  
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  204  /* Start polling a file. We add ourselves to file's wait queue. The caller must
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  205   * keep a reference to a file until after vhost_poll_stop is called. */
-2b8b328b61c799 Jason Wang         2013-01-28  206  int vhost_poll_start(struct vhost_poll *poll, struct file *file)
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  207  {
-e6c8adca20ba45 Al Viro            2017-07-03  208  	__poll_t mask;
-d47effe1be0c4f Krishna Kumar      2011-03-01  209  
-70181d51209cbc Jason Wang         2013-04-10  210  	if (poll->wqh)
-70181d51209cbc Jason Wang         2013-04-10  211  		return 0;
-70181d51209cbc Jason Wang         2013-04-10  212  
-9965ed174e7d38 Christoph Hellwig  2018-03-05  213  	mask = vfs_poll(file, &poll->table);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  214  	if (mask)
-3ad6f93e98d6df Al Viro            2017-07-03 @215  		vhost_poll_wakeup(&poll->wait, 0, 0, poll_to_key(mask));
-a9a08845e9acbd Linus Torvalds     2018-02-11  216  	if (mask & EPOLLERR) {
-dc6455a71c7fc5 Jason Wang         2018-03-27  217  		vhost_poll_stop(poll);
-896fc242bc1d26 Yunsheng Lin       2019-08-20  218  		return -EINVAL;
-2b8b328b61c799 Jason Wang         2013-01-28  219  	}
-2b8b328b61c799 Jason Wang         2013-01-28  220  
-896fc242bc1d26 Yunsheng Lin       2019-08-20  221  	return 0;
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  222  }
-6ac1afbf6132df Asias He           2013-05-06  223  EXPORT_SYMBOL_GPL(vhost_poll_start);
-3a4d5c94e95935 Michael S. Tsirkin 2010-01-14  224  
+ee5e5e7a5e0fde Sean Paul            2018-01-08  771  
+ee5e5e7a5e0fde Sean Paul            2018-01-08 @772  int intel_hdcp_enable(struct intel_connector *connector)
+ee5e5e7a5e0fde Sean Paul            2018-01-08  773  {
+ee5e5e7a5e0fde Sean Paul            2018-01-08  774  	if (!connector->hdcp_shim)
+ee5e5e7a5e0fde Sean Paul            2018-01-08  775  		return -ENOENT;
+ee5e5e7a5e0fde Sean Paul            2018-01-08  776  
+ee5e5e7a5e0fde Sean Paul            2018-01-08  777  	mutex_lock(&connector->hdcp_mutex);
+c01ebc711af8f6 Romli, Khairul Anuar 2018-09-19  778  	schedule_work(&connector->hdcp_enable_work);
+ee5e5e7a5e0fde Sean Paul            2018-01-08  779  	mutex_unlock(&connector->hdcp_mutex);
+c01ebc711af8f6 Romli, Khairul Anuar 2018-09-19  780  
+c01ebc711af8f6 Romli, Khairul Anuar 2018-09-19  781  	return 0;
+ee5e5e7a5e0fde Sean Paul            2018-01-08  782  }
+ee5e5e7a5e0fde Sean Paul            2018-01-08  783  
+ee5e5e7a5e0fde Sean Paul            2018-01-08 @784  int intel_hdcp_disable(struct intel_connector *connector)
+ee5e5e7a5e0fde Sean Paul            2018-01-08  785  {
+01468d6c711a31 Sean Paul            2018-01-09  786  	int ret = 0;
+ee5e5e7a5e0fde Sean Paul            2018-01-08  787  
+ee5e5e7a5e0fde Sean Paul            2018-01-08  788  	if (!connector->hdcp_shim)
+ee5e5e7a5e0fde Sean Paul            2018-01-08  789  		return -ENOENT;
+ee5e5e7a5e0fde Sean Paul            2018-01-08  790  
+ee5e5e7a5e0fde Sean Paul            2018-01-08  791  	mutex_lock(&connector->hdcp_mutex);
+ee5e5e7a5e0fde Sean Paul            2018-01-08  792  
+01468d6c711a31 Sean Paul            2018-01-09  793  	if (connector->hdcp_value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+ee5e5e7a5e0fde Sean Paul            2018-01-08  794  		connector->hdcp_value = DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
+ee5e5e7a5e0fde Sean Paul            2018-01-08  795  		ret = _intel_hdcp_disable(connector);
+01468d6c711a31 Sean Paul            2018-01-09  796  	}
+ee5e5e7a5e0fde Sean Paul            2018-01-08  797  
+ee5e5e7a5e0fde Sean Paul            2018-01-08  798  	mutex_unlock(&connector->hdcp_mutex);
+ee5e5e7a5e0fde Sean Paul            2018-01-08  799  	cancel_delayed_work_sync(&connector->hdcp_check_work);
+ee5e5e7a5e0fde Sean Paul            2018-01-08  800  	return ret;
+ee5e5e7a5e0fde Sean Paul            2018-01-08  801  }
+ee5e5e7a5e0fde Sean Paul            2018-01-08  802  
+
+:::::: The code at line 772 was first introduced by commit
+:::::: ee5e5e7a5e0fdeca5add8de6314b1f0a62604bdf drm/i915: Add HDCP framework + base implementation
+
+:::::: TO: Sean Paul <seanpaul@chromium.org>
+:::::: CC: Sean Paul <seanpaul@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
