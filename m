@@ -1,57 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5A1125BD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 22:59:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C686E11CBD
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 23:10:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694041156; x=1725577156;
+  t=1694041814; x=1725577814;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iZpacsJmtPibvRYCVTNE2cwagSSO7Bbbq8tQpQEh6CI=;
-  b=lxpI6yY8QeJUOqiLOACTzQwmAuo/HE6+9ZCOUMKuEZ/0ha7jFGpb4+Ue
-   cxCn5f468P1RtZiG6EJMRiEJMQmn7U6SCcdcRffmbgVJFQAKUfzOwe96s
-   0NLXJtLfgYcfG8UvNFV+NYtR8r07q97g71fcwk81lR7aOV7r/0eLTnavV
-   5pyiDnr16mHtH076PQVPzs18AMmIFazmlihycQHgNf0/7loqFgbn8kHKr
-   UC3sYDyYnTf9vYj9s2agS/dANuUjT2t1gE/AWHOw/y1+cpCSmGlO2mhKf
-   f8w4RaOhFC1BdfItcmWTZ6WSRpfi2NL8EXpTfAn5qImCjJJiSz2x8num8
+  bh=fEw9pa/NdSdFIzoYPpsMEnIibMq4wIaQI1Ds5infKOM=;
+  b=E5rzABPYSUURtvuKavD2wZ4b1H84KsKUutiZMZiJe3II2r483z5XAlGM
+   7WHQIbxwevRaRyqlCp80h4pDIM60/dacXQI+UjnARlHePz1q9tF6g0EAR
+   pduio5XivamZs0wulZBJHPrCMmnLa8RpkaNgiORxFJ0A9TSdeQX0JF6g1
+   zZFRMS/JovbQH74h/JWerVXby5VYq8Px9cQOroyK9KIC6R3iYHXZBBPGw
+   hhz7L0hk5WfLgJKuTX6QhqPpAM4nFRF+EKfxp9XnTQEzzfE5JhIWGsiPS
+   NKy0ghWtHHpi49rkPSfHDbbWd2zz8jicA8icHZ34e1zOeto4WCcMoNCWi
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="463582369"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="408215571"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="463582369"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 15:59:14 -0700
+   d="scan'208";a="408215571"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 16:10:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="691498791"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="744866586"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="691498791"
+   d="scan'208";a="744866586"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 06 Sep 2023 15:59:08 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 06 Sep 2023 16:10:09 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qe1UI-0000ff-0E;
-	Wed, 06 Sep 2023 22:59:06 +0000
-Date: Thu, 7 Sep 2023 06:58:45 +0800
+	id 1qe1ew-0000gB-2m;
+	Wed, 06 Sep 2023 23:10:06 +0000
+Date: Thu, 7 Sep 2023 07:09:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
-	mcgrof@kernel.org, gost.dev@samsung.com,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Vincent Fu <vincent.fu@samsung.com>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v15 12/12] null_blk: add support for copy offload
-Message-ID: <202309070607.akFEF327-lkp@intel.com>
-References: <20230906163844.18754-13-nj.shetty@samsung.com>
+To: Jason Andryuk <jandryuk@gmail.com>, Juergen Gross <jgross@suse.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Roger Pau Monne <roger.pau@citrix.com>,
+	stable@vger.kernel.org, Jason Andryuk <jandryuk@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, xen-devel@lists.xenproject.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2] acpi/processor: sanitize _PDC buffer bits when
+ running as Xen dom0
+Message-ID: <202309070625.dJUDcGZg-lkp@intel.com>
+References: <20230906182125.48642-1-jandryuk@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,85 +56,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230906163844.18754-13-nj.shetty@samsung.com>
+In-Reply-To: <20230906182125.48642-1-jandryuk@gmail.com>
 
-Hi Nitesh,
+Hi Jason,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on c50216cfa084d5eb67dc10e646a3283da1595bb6]
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on v6.5]
+[cannot apply to rafael-pm/linux-next linus/master next-20230906]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20230907-015817
-base:   c50216cfa084d5eb67dc10e646a3283da1595bb6
-patch link:    https://lore.kernel.org/r/20230906163844.18754-13-nj.shetty%40samsung.com
-patch subject: [PATCH v15 12/12] null_blk: add support for copy offload
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230907/202309070607.akFEF327-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070607.akFEF327-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Andryuk/acpi-processor-sanitize-_PDC-buffer-bits-when-running-as-Xen-dom0/20230907-022235
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20230906182125.48642-1-jandryuk%40gmail.com
+patch subject: [PATCH v2] acpi/processor: sanitize _PDC buffer bits when running as Xen dom0
+config: x86_64-randconfig-r011-20230907 (https://download.01.org/0day-ci/archive/20230907/202309070625.dJUDcGZg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070625.dJUDcGZg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309070607.akFEF327-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309070625.dJUDcGZg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from drivers/block/null_blk/trace.h:104,
-                    from drivers/block/null_blk/main.c:15:
-   drivers/block/null_blk/./trace.h: In function 'trace_raw_output_nullb_copy_op':
->> drivers/block/null_blk/./trace.h:91:27: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
-      45 |                              PARAMS(print));                   \
-         |                              ^~~~~~
-   drivers/block/null_blk/./trace.h:73:1: note: in expansion of macro 'TRACE_EVENT'
-      73 | TRACE_EVENT(nullb_copy_op,
-         | ^~~~~~~~~~~
-   drivers/block/null_blk/./trace.h:91:17: note: in expansion of macro 'TP_printk'
-      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-         |                 ^~~~~~~~~
-   In file included from include/trace/trace_events.h:237:
-   drivers/block/null_blk/./trace.h:91:68: note: format string is defined here
-      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-         |                                                                  ~~^
-         |                                                                    |
-         |                                                                    long unsigned int
-         |                                                                  %u
+   drivers/acpi/processor_pdc.c: In function 'acpi_processor_eval_pdc':
+>> drivers/acpi/processor_pdc.c:147:17: error: implicit declaration of function 'xen_sanitize_pdc' [-Werror=implicit-function-declaration]
+     147 |                 xen_sanitize_pdc(buffer);
+         |                 ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +91 drivers/block/null_blk/./trace.h
+vim +/xen_sanitize_pdc +147 drivers/acpi/processor_pdc.c
 
-    72	
-    73	TRACE_EVENT(nullb_copy_op,
-    74			TP_PROTO(struct request *req,
-    75				 sector_t dst, sector_t src, size_t len),
-    76			TP_ARGS(req, dst, src, len),
-    77			TP_STRUCT__entry(
-    78					 __array(char, disk, DISK_NAME_LEN)
-    79					 __field(enum req_op, op)
-    80					 __field(sector_t, dst)
-    81					 __field(sector_t, src)
-    82					 __field(size_t, len)
-    83			),
-    84			TP_fast_assign(
-    85				       __entry->op = req_op(req);
-    86				       __assign_disk_name(__entry->disk, req->q->disk);
-    87				       __entry->dst = dst;
-    88				       __entry->src = src;
-    89				       __entry->len = len;
-    90			),
-  > 91			TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-    92				  __print_disk_name(__entry->disk),
-    93				  blk_op_str(__entry->op),
-    94				  __entry->dst, __entry->src, __entry->len)
-    95	);
-    96	#endif /* _TRACE_NULLB_H */
-    97	
+   116	
+   117	/*
+   118	 * _PDC is required for a BIOS-OS handshake for most of the newer
+   119	 * ACPI processor features.
+   120	 */
+   121	static acpi_status
+   122	acpi_processor_eval_pdc(acpi_handle handle, struct acpi_object_list *pdc_in)
+   123	{
+   124		acpi_status status = AE_OK;
+   125		union acpi_object *obj;
+   126		u32 *buffer = NULL;
+   127	
+   128		obj = pdc_in->pointer;
+   129		buffer = (u32 *)(obj->buffer.pointer);
+   130	
+   131		if (boot_option_idle_override == IDLE_NOMWAIT) {
+   132			/*
+   133			 * If mwait is disabled for CPU C-states, the C2C3_FFH access
+   134			 * mode will be disabled in the parameter of _PDC object.
+   135			 * Of course C1_FFH access mode will also be disabled.
+   136			 */
+   137			buffer[2] &= ~(ACPI_PDC_C_C2C3_FFH | ACPI_PDC_C_C1_FFH);
+   138		}
+   139	
+   140		if (xen_initial_domain()) {
+   141			/*
+   142			 * When Linux is running as Xen dom0, the hypervisor is the
+   143			 * entity in charge of the processor power management, and so
+   144			 * Xen needs to check the OS capabilities reported in the _PDC
+   145			 * buffer matches what the hypervisor driver supports.
+   146			 */
+ > 147			xen_sanitize_pdc(buffer);
+   148		}
+   149	
+   150		status = acpi_evaluate_object(handle, "_PDC", pdc_in, NULL);
+   151	
+   152		if (ACPI_FAILURE(status))
+   153			acpi_handle_debug(handle,
+   154			    "Could not evaluate _PDC, using legacy perf control\n");
+   155	
+   156		return status;
+   157	}
+   158	
 
 -- 
 0-DAY CI Kernel Test Service
