@@ -1,43 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22D96AB1
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 19:57:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C356310954
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 20:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694030228; x=1725566228;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=uXvWp5gTlrzxHqHGPbwMxeFAg5ME4tb/QnuA8dg11Ss=;
-  b=OkA/yqI6xdNpyfav57wqlAWQl/++8VuIb5cdpQ2EojH3TJA68KCM0OHK
-   Tp4uZXzn1cIoKSSRSYkMFCXotpG4wvT69z2HBrP/KYsRjLmTTM0JIlAex
-   IRH36D1as3roif1oSC+Ti9yhqKR+rsfdN0fXDbsJR45RYxbHIj7r5+DyE
-   A9t+9lceXQuhcxJXjkYFhtDuEnGAQTPbQ3oTZ/OwN3aD8smcm1IwPkvpa
-   3G8h+Bo+hcTJ/xJAnewYzYPedV4Kmb2ND0WLi/wGrRxFkreTUeSyVEDOn
-   IO60+3fjYGN2amrq4tPqxfdgOZzzMvrnY3IT2G+1wCn4yXOjn/dOl72H/
+  t=1694030942; x=1725566942;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F6bg2vKrtIYy/wM5AiL8zxUzdaQzosw69kCWxamPp/4=;
+  b=NnToZN/FFPUJPxIyGVvpHmLHTvoJ/IPbOZzJ3PJlX9Ebsf4fOeILdBeF
+   KeQOpnUO68Kep96Rlt2469sNAfHd5ZksgVNuGn1kLUyy7FtdXAsbi6GW0
+   eOod7u0r+GCN+a20093dRZzIfHzig4IL3QWvCvvowKTG2arhXjryyJyuj
+   MQN9pMe7gLiyV3csp/2zj3MIOjdhEftJMkpfMeMD+LN68mIprGf2CyJTq
+   Y6S0JqWPbGyxwS2CPO6+IuncJxyHkw7YWl1+KocZku7iOiuAxtS73ro9o
+   s4R6bSBsunElp5LL3tqUkfRVCxqdAiwbAB5RJdueowDbDHbwj+Ue9IX0/
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="441153358"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="463547341"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="441153358"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 12:57:01 -0700
+   d="scan'208";a="463547341"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 13:09:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="884868415"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="856600048"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="884868415"
+   d="scan'208";a="856600048"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Sep 2023 12:56:48 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2023 13:09:00 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdye2-0000YJ-0N
-	for oe-kbuild-all@lists.linux.dev;
-	Wed, 06 Sep 2023 19:56:58 +0000
-Date: Thu, 7 Sep 2023 03:56:36 +0800
+	id 1qdype-0000Yj-1A;
+	Wed, 06 Sep 2023 20:08:58 +0000
+Date: Thu, 7 Sep 2023 04:08:09 +0800
 From: kernel test robot <lkp@intel.com>
+To: Mahesh Salgaonkar <mahesh@linux.ibm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:4.19/android_s 14089/30000]
- drivers/usb/host/xhci-mem.c:1840:6: warning: no previous declaration for
- 'xhci_handle_sec_intr_events'
-Message-ID: <202309070353.LRM0ggzq-lkp@intel.com>
+Subject: Re: [RFC PATCH] powerpc: Make crashing cpu to be discovered first in
+ kdump kernel.
+Message-ID: <202309070340.bUAU00E4-lkp@intel.com>
+References: <169402313576.1071869.18233618318394691773.stgit@jupiter>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,178 +47,142 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <169402313576.1071869.18233618318394691773.stgit@jupiter>
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   6bfae51123c09ed71d82cfc739c5ccbeac60c4aa
-commit: 5dfdaa15caebc782d1c90ff6513d4cc9f6ac3663 [14089/30000] ANDROID: GKI: usb: xhci: Add support for secondary interrupters
-config: i386-randconfig-004-20230906 (https://download.01.org/0day-ci/archive/20230907/202309070353.LRM0ggzq-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070353.LRM0ggzq-lkp@intel.com/reproduce)
+Hi Mahesh,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v6.5 next-20230906]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mahesh-Salgaonkar/powerpc-Make-crashing-cpu-to-be-discovered-first-in-kdump-kernel/20230907-020116
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/169402313576.1071869.18233618318394691773.stgit%40jupiter
+patch subject: [RFC PATCH] powerpc: Make crashing cpu to be discovered first in kdump kernel.
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230907/202309070340.bUAU00E4-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070340.bUAU00E4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309070353.LRM0ggzq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309070340.bUAU00E4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/usb/host/xhci-mem.c:936:6: warning: no previous declaration for 'xhci_free_virt_devices_depth_first' [-Wmissing-declarations]
-    void xhci_free_virt_devices_depth_first(struct xhci_hcd *xhci, int slot_id)
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/host/xhci-mem.c:1840:6: warning: no previous declaration for 'xhci_handle_sec_intr_events' [-Wmissing-declarations]
-    void xhci_handle_sec_intr_events(struct xhci_hcd *xhci, int intr_num)
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/host/xhci-mem.c:1947:6: warning: no previous declaration for 'xhci_event_ring_cleanup' [-Wmissing-declarations]
-    void xhci_event_ring_cleanup(struct xhci_hcd *xhci)
-         ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/host/xhci-mem.c:2486:5: warning: no previous declaration for 'xhci_event_ring_setup' [-Wmissing-declarations]
-    int xhci_event_ring_setup(struct xhci_hcd *xhci, struct xhci_ring **er,
-        ^~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/host/xhci-mem.c:2590:5: warning: no previous declaration for 'xhci_event_ring_init' [-Wmissing-declarations]
-    int xhci_event_ring_init(struct xhci_hcd *xhci, gfp_t flags)
-        ^~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'xhci' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'num_segs' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'cycle_state' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'type' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'max_packet' not described in 'xhci_ring_alloc'
-   drivers/usb/host/xhci-mem.c:365: warning: Function parameter or member 'flags' not described in 'xhci_ring_alloc'
+   arch/powerpc/kernel/prom.c: In function 'early_init_dt_scan_cpus':
+>> arch/powerpc/kernel/prom.c:360:28: error: lvalue required as left operand of assignment
+     360 |                 nr_cpu_ids = _ALIGN_UP(nr_cpu_ids, nthreads);
+         |                            ^
 
 
-vim +/xhci_handle_sec_intr_events +1840 drivers/usb/host/xhci-mem.c
+vim +360 arch/powerpc/kernel/prom.c
 
-  1839	
-> 1840	void xhci_handle_sec_intr_events(struct xhci_hcd *xhci, int intr_num)
-  1841	{
-  1842		union xhci_trb *erdp_trb, *current_trb;
-  1843		struct xhci_segment	*seg;
-  1844		u64 erdp_reg;
-  1845		u32 iman_reg;
-  1846		dma_addr_t deq;
-  1847		unsigned long segment_offset;
-  1848	
-  1849		/* disable irq, ack pending interrupt and ack all pending events */
-  1850	
-  1851		iman_reg =
-  1852			readl_relaxed(&xhci->sec_ir_set[intr_num]->irq_pending);
-  1853		iman_reg &= ~IMAN_IE;
-  1854		writel_relaxed(iman_reg,
-  1855				&xhci->sec_ir_set[intr_num]->irq_pending);
-  1856		iman_reg =
-  1857			readl_relaxed(&xhci->sec_ir_set[intr_num]->irq_pending);
-  1858		if (iman_reg & IMAN_IP)
-  1859			writel_relaxed(iman_reg,
-  1860				&xhci->sec_ir_set[intr_num]->irq_pending);
-  1861	
-  1862		/* last acked event trb is in erdp reg  */
-  1863		erdp_reg =
-  1864			xhci_read_64(xhci, &xhci->sec_ir_set[intr_num]->erst_dequeue);
-  1865		deq = (dma_addr_t)(erdp_reg & ~ERST_PTR_MASK);
-  1866		if (!deq) {
-  1867			pr_debug("%s: event ring handling not required\n", __func__);
-  1868			return;
-  1869		}
-  1870	
-  1871		seg = xhci->sec_event_ring[intr_num]->first_seg;
-  1872		segment_offset = deq - seg->dma;
-  1873	
-  1874		/* find out virtual address of the last acked event trb */
-  1875		erdp_trb = current_trb = &seg->trbs[0] +
-  1876					(segment_offset/sizeof(*current_trb));
-  1877	
-  1878		/* read cycle state of the last acked trb to find out CCS */
-  1879		xhci->sec_event_ring[intr_num]->cycle_state =
-  1880					(current_trb->event_cmd.flags & TRB_CYCLE);
-  1881	
-  1882		while (1) {
-  1883			/* last trb of the event ring: toggle cycle state */
-  1884			if (current_trb == &seg->trbs[TRBS_PER_SEGMENT - 1]) {
-  1885				xhci->sec_event_ring[intr_num]->cycle_state ^= 1;
-  1886				current_trb = &seg->trbs[0];
-  1887			} else {
-  1888				current_trb++;
-  1889			}
-  1890	
-  1891			/* cycle state transition */
-  1892			if ((le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE) !=
-  1893			    xhci->sec_event_ring[intr_num]->cycle_state)
-  1894				break;
-  1895		}
-  1896	
-  1897		if (erdp_trb != current_trb) {
-  1898			deq =
-  1899			xhci_trb_virt_to_dma(xhci->sec_event_ring[intr_num]->deq_seg,
-  1900						current_trb);
-  1901			if (deq == 0)
-  1902				xhci_warn(xhci,
-  1903					"WARN invalid SW event ring dequeue ptr.\n");
-  1904			/* Update HC event ring dequeue pointer */
-  1905			erdp_reg &= ERST_PTR_MASK;
-  1906			erdp_reg |= ((u64) deq & (u64) ~ERST_PTR_MASK);
-  1907		}
-  1908	
-  1909		/* Clear the event handler busy flag (RW1C); event ring is empty. */
-  1910		erdp_reg |= ERST_EHB;
-  1911		xhci_write_64(xhci, erdp_reg,
-  1912				&xhci->sec_ir_set[intr_num]->erst_dequeue);
-  1913	}
-  1914	
-  1915	int xhci_sec_event_ring_cleanup(struct usb_hcd *hcd, unsigned int intr_num)
-  1916	{
-  1917		int size;
-  1918		struct xhci_hcd *xhci = hcd_to_xhci(hcd);
-  1919		struct device	*dev = xhci_to_hcd(xhci)->self.sysdev;
-  1920	
-  1921		if (intr_num >= xhci->max_interrupters) {
-  1922			xhci_err(xhci, "invalid secondary interrupter num %d\n",
-  1923				intr_num);
-  1924			return -EINVAL;
-  1925		}
-  1926	
-  1927		size =
-  1928		sizeof(struct xhci_erst_entry)*(xhci->sec_erst[intr_num].num_entries);
-  1929		if (xhci->sec_erst[intr_num].entries) {
-  1930			xhci_handle_sec_intr_events(xhci, intr_num);
-  1931			dma_free_coherent(dev, size, xhci->sec_erst[intr_num].entries,
-  1932					xhci->sec_erst[intr_num].erst_dma_addr);
-  1933			xhci->sec_erst[intr_num].entries = NULL;
-  1934		}
-  1935		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed SEC ERST#%d",
-  1936			intr_num);
-  1937		if (xhci->sec_event_ring[intr_num])
-  1938			xhci_ring_free(xhci, xhci->sec_event_ring[intr_num]);
-  1939	
-  1940		xhci->sec_event_ring[intr_num] = NULL;
-  1941		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
-  1942			"Freed sec event ring");
-  1943	
-  1944		return 0;
-  1945	}
-  1946	
-> 1947	void xhci_event_ring_cleanup(struct xhci_hcd *xhci)
-  1948	{
-  1949		unsigned int i;
-  1950	
-  1951		/* sec event ring clean up */
-  1952		for (i = 1; i < xhci->max_interrupters; i++)
-  1953			xhci_sec_event_ring_cleanup(xhci_to_hcd(xhci), i);
-  1954	
-  1955		kfree(xhci->sec_ir_set);
-  1956		xhci->sec_ir_set = NULL;
-  1957		kfree(xhci->sec_erst);
-  1958		xhci->sec_erst = NULL;
-  1959		kfree(xhci->sec_event_ring);
-  1960		xhci->sec_event_ring = NULL;
-  1961	
-  1962		/* primary event ring clean up */
-  1963		xhci_free_erst(xhci, &xhci->erst);
-  1964		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed primary ERST");
-  1965		if (xhci->event_ring)
-  1966			xhci_ring_free(xhci, xhci->event_ring);
-  1967		xhci->event_ring = NULL;
-  1968		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed priamry event ring");
-  1969	}
-  1970	
+   327	
+   328	static int __init early_init_dt_scan_cpus(unsigned long node,
+   329						  const char *uname, int depth,
+   330						  void *data)
+   331	{
+   332		const char *type = of_get_flat_dt_prop(node, "device_type", NULL);
+   333		const __be32 *prop;
+   334		const __be32 *intserv;
+   335		int i, nthreads;
+   336		int len;
+   337		int found = -1;
+   338		int found_thread = 0;
+   339	
+   340		/* We are scanning "cpu" nodes only */
+   341		if (type == NULL || strcmp(type, "cpu") != 0)
+   342			return 0;
+   343	
+   344		if (IS_ENABLED(CONFIG_PPC64))
+   345			boot_cpu_node_count++;
+   346	
+   347		/* Get physical cpuid */
+   348		intserv = of_get_flat_dt_prop(node, "ibm,ppc-interrupt-server#s", &len);
+   349		if (!intserv)
+   350			intserv = of_get_flat_dt_prop(node, "reg", &len);
+   351	
+   352		nthreads = len / sizeof(int);
+   353	
+   354		/*
+   355		 * Align nr_cpu_ids to correct SMT value. This will help us to allocate
+   356		 * pacas correctly to accomodate boot_cpu != 0 scenario e.g. in kdump
+   357		 * kernel the boot cpu can be any cpu between 0 through nthreads.
+   358		 */
+   359		if (nr_cpu_ids % nthreads) {
+ > 360			nr_cpu_ids = _ALIGN_UP(nr_cpu_ids, nthreads);
+   361			pr_info("Aligned nr_cpus to SMT=%d, nr_cpu_ids = %d\n", nthreads, nr_cpu_ids);
+   362		}
+   363	
+   364		/*
+   365		 * Now see if any of these threads match our boot cpu.
+   366		 * NOTE: This must match the parsing done in smp_setup_cpu_maps.
+   367		 */
+   368		for (i = 0; i < nthreads; i++) {
+   369			if (be32_to_cpu(intserv[i]) ==
+   370				fdt_boot_cpuid_phys(initial_boot_params)) {
+   371				found = boot_cpu_count;
+   372				found_thread = i;
+   373			}
+   374	#ifdef CONFIG_SMP
+   375			/* logical cpu id is always 0 on UP kernels */
+   376			boot_cpu_count++;
+   377	#endif
+   378		}
+   379	
+   380		/* Not the boot CPU */
+   381		if (found < 0)
+   382			return 0;
+   383	
+   384		DBG("boot cpu: logical %d physical %d\n", found,
+   385		    be32_to_cpu(intserv[found_thread]));
+   386		boot_cpuid = found;
+   387	
+   388		if (IS_ENABLED(CONFIG_PPC64))
+   389			boot_cpu_hwid = be32_to_cpu(intserv[found_thread]);
+   390	
+   391		/*
+   392		 * PAPR defines "logical" PVR values for cpus that
+   393		 * meet various levels of the architecture:
+   394		 * 0x0f000001	Architecture version 2.04
+   395		 * 0x0f000002	Architecture version 2.05
+   396		 * If the cpu-version property in the cpu node contains
+   397		 * such a value, we call identify_cpu again with the
+   398		 * logical PVR value in order to use the cpu feature
+   399		 * bits appropriate for the architecture level.
+   400		 *
+   401		 * A POWER6 partition in "POWER6 architected" mode
+   402		 * uses the 0x0f000002 PVR value; in POWER5+ mode
+   403		 * it uses 0x0f000001.
+   404		 *
+   405		 * If we're using device tree CPU feature discovery then we don't
+   406		 * support the cpu-version property, and it's the responsibility of the
+   407		 * firmware/hypervisor to provide the correct feature set for the
+   408		 * architecture level via the ibm,powerpc-cpu-features binding.
+   409		 */
+   410		if (!dt_cpu_ftrs_in_use()) {
+   411			prop = of_get_flat_dt_prop(node, "cpu-version", NULL);
+   412			if (prop && (be32_to_cpup(prop) & 0xff000000) == 0x0f000000) {
+   413				identify_cpu(0, be32_to_cpup(prop));
+   414				seq_buf_printf(&ppc_hw_desc, "0x%04x ", be32_to_cpup(prop));
+   415			}
+   416	
+   417			check_cpu_feature_properties(node);
+   418			check_cpu_features(node, "ibm,pa-features", ibm_pa_features,
+   419					   ARRAY_SIZE(ibm_pa_features));
+   420			check_cpu_features(node, "ibm,pi-features", ibm_pi_features,
+   421					   ARRAY_SIZE(ibm_pi_features));
+   422		}
+   423	
+   424		identical_pvr_fixup(node);
+   425		init_mmu_slb_size(node);
+   426	
 
 -- 
 0-DAY CI Kernel Test Service
