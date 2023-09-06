@@ -1,43 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B98101F6
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 14:54:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0333A32
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 14:54:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694012057; x=1725548057;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7KDAKUrnxBFhRqqc18HymwhA6c9+2Lc8wiU+q+xq8Jg=;
-  b=Tzlhdj7llDqslepQIig4YZyLLFk3c1+7/PosxBQIhkKKYnA3mkj3emLn
-   5WQPMhPtKEvf3Z65WO0u1/cCZoqtjpsgdYs2jE5siMCYpX3wjWIJnnBXD
-   rG8wlzLSep3f70J6zVUauaJgeGSGCVOEfK64Edy3UmST96u/bQGbvLXr6
-   UQxDl4TDbMoRNrSTNB2vu+v02YsqyFGvHWCNrd6a4rCma0gw9nIzwi7U6
-   q3w+DjcheCJvWy+L+qKuPZ9bc0R6rENOs2R2SR7R5kd7vlUPfQQom3xue
-   Fz64/fWPxbus6/GB8egKgUIZba4Ylen33cLptd8IbaXTq6Tng6OzjStS3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="357395605"
+  t=1694012058; x=1725548058;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bz44MW893fGLZ166JEU3zSxEA/2p8R0CSkhmqN9mB3E=;
+  b=CxXzUUnOnrWorZoyq1IXdMFaIkCbUeFF67I5NcKH1qsGSlkS1nxiQ6uY
+   Ih8EbEdHAkpqQ64AhAG6B9BHTkjxDn/KBfI7yczDWvYALck9DTh4um8Gr
+   aPZU92952F6vjg/qqXJ4bi1L/mpPEZ2BbyM0cjjISW3WK9aD/W6M8Ayxi
+   /aCo3Lapo21N+AIFgkj9//DYFCowW+HwLIgtBAONNAG7opyUln01TseAS
+   NDpwNvSrvTVEXxUrgOJQO7I9ZI07p0SYrf0s4ptGAQ7sDEgOEuKL8zRx/
+   5+nw0/h4yugMDtM66Khv9185i9BZq0rD9JGtD33ICD/NdrZPSUEjoW++y
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="463463299"
 X-IronPort-AV: E=Sophos;i="6.02,232,1688454000"; 
-   d="scan'208";a="357395605"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 07:54:16 -0700
+   d="scan'208";a="463463299"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 07:54:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="718295370"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="807044455"
 X-IronPort-AV: E=Sophos;i="6.02,232,1688454000"; 
-   d="scan'208";a="718295370"
+   d="scan'208";a="807044455"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 06 Sep 2023 07:54:15 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 06 Sep 2023 07:54:14 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdtv2-0000Ip-2m;
+	id 1qdtv2-0000Il-2a;
 	Wed, 06 Sep 2023 14:54:12 +0000
-Date: Wed, 6 Sep 2023 22:53:51 +0800
+Date: Wed, 6 Sep 2023 22:54:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Kartik <kkartik@nvidia.com>, thierry.reding@gmail.com,
+	jonathanh@nvidia.com, sumitg@nvidia.com, arnd@arndb.de,
+	pshete@nvidia.com, andriy.shevchenko@linux.intel.com,
+	digetx@gmail.com, petlozup@nvidia.com, windhl@126.com,
+	frank.li@vivo.com, robh@kernel.org, stefank@nvidia.com,
+	pdeschrijver@nvidia.com, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/640 615/24604]
- drivers/clk/imx/clk-blk-ctrl.c:305:34: warning: unused variable
- 'imx_blk_ctrl_of_match'
-Message-ID: <202309062212.C5OAQP8l-lkp@intel.com>
+Subject: Re: [PATCH v2 2/6] soc/tegra: fuse: Add tegra_acpi_init_apbmisc()
+Message-ID: <202309062233.ytjhz7lC-lkp@intel.com>
+References: <20230905125824.2947-3-kkartik@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,41 +52,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230905125824.2947-3-kkartik@nvidia.com>
 
-tree:   https://github.com/Freescale/linux-fslc pr/640
-head:   20d5c9a132fc5a44f95fe7410c3cac6f43f0bd6c
-commit: 75921c395c22cf9a3d9ff9af0e9962fc2b62105a [615/24604] clk: imx: Add blk_ctrl combo driver
-config: hexagon-randconfig-001-20230906 (https://download.01.org/0day-ci/archive/20230906/202309062212.C5OAQP8l-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309062212.C5OAQP8l-lkp@intel.com/reproduce)
+Hi Kartik,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tegra/for-next]
+[also build test WARNING on linus/master v6.5 next-20230906]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kartik/soc-tegra-fuse-Refactor-resource-mapping/20230906-032546
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230905125824.2947-3-kkartik%40nvidia.com
+patch subject: [PATCH v2 2/6] soc/tegra: fuse: Add tegra_acpi_init_apbmisc()
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230906/202309062233.ytjhz7lC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309062233.ytjhz7lC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309062212.C5OAQP8l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309062233.ytjhz7lC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/clk/imx/clk-blk-ctrl.c:284:12: warning: unused function 'imx_blk_ctrl_runtime_suspend' [-Wunused-function]
-     284 | static int imx_blk_ctrl_runtime_suspend(struct device *dev)
-         |            ^
-   drivers/clk/imx/clk-blk-ctrl.c:291:12: warning: unused function 'imx_blk_ctrl_runtime_resume' [-Wunused-function]
-     291 | static int imx_blk_ctrl_runtime_resume(struct device *dev)
-         |            ^
->> drivers/clk/imx/clk-blk-ctrl.c:305:34: warning: unused variable 'imx_blk_ctrl_of_match' [-Wunused-const-variable]
-     305 | static const struct of_device_id imx_blk_ctrl_of_match[] = {
-         |                                  ^
-   3 warnings generated.
+>> drivers/soc/tegra/fuse/tegra-apbmisc.c:133:36: warning: 'apbmisc_acpi_match' defined but not used [-Wunused-const-variable=]
+     133 | static const struct acpi_device_id apbmisc_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~
 
 
-vim +/imx_blk_ctrl_of_match +305 drivers/clk/imx/clk-blk-ctrl.c
+vim +/apbmisc_acpi_match +133 drivers/soc/tegra/fuse/tegra-apbmisc.c
 
-   304	
- > 305	static const struct of_device_id imx_blk_ctrl_of_match[] = {
-   306	       { /* Sentinel */ }
-   307	};
-   308	MODULE_DEVICE_TABLE(of, imx_blk_ctrl_of_match);
-   309	
+   132	
+ > 133	static const struct acpi_device_id apbmisc_acpi_match[] = {
+   134		{ "NVDA2010" },
+   135		{ /* sentinel */ }
+   136	};
+   137	
 
 -- 
 0-DAY CI Kernel Test Service
