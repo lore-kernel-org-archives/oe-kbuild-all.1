@@ -1,44 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D188B62B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 02:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3E47E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 02:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693966151; x=1725502151;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=umut9XZvu2os+RYk7wYMyVsCLFdDZAkfVH+BHNVrPBM=;
-  b=Koe818xyHTVi+OxGk+1YEqPtLJc7M7J12vj23ngNuuwfPmferpu7slL3
-   9bMqfnxldC/1I4GZLQo4vDyfQ0uRSxO1MI0PGvzBe43o5wUvzvgI2OeBs
-   Yv/Hdos4a/0s/Kh7yaZAeDG+Tt6mLtP4EcTj7RjEl5PRKtBhjD1TxJPxA
-   kB9kjBm3fbe6EWw28PlPjEGojRElrNM6FoaK1mhxfDr8YqEqiUtZuV0dR
-   PsXqxCsQFUrGv/Vq0LiyQiShgZLZrs2hNqtCfPwD/lkxH9JB+WCvhEmER
-   eO8+CCyvURRVS8BGZU1Cn8/5pQSQqV/9xRRZ924Fa451Jcwv055rCpgV6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="440923577"
+  t=1693968758; x=1725504758;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b/IlaQTZB5j0he0vRsx9Okx0UXxCOU0YpQJ6T4yXngA=;
+  b=YAL1DqNtqcCEz1NuQ8xrXt9XvfcoRDhk7DaP/Xkn2JJfNrAE9UXmnPkZ
+   +j0WSz8wCpLCDm7EzP5RUmoWvPtI1iTBRCtrPiOd4m4Dv790ey+rFGU/V
+   xi9zWyvd3RwqkRL/wW/1FmH0LagEd724cQwA41rWkSlACJLRxZRSvl5gB
+   T9ayFdv5YJX48LCfY1XZBZn8GKOJjwrxsE8SvHME512mqH8fG0biP1GZr
+   OHguXdX+EWpbknTGvPhuvJhCYyZgDR3V3Tx5EbIGHP0MFzKrD7I7SE1HM
+   ZlWWNrz7/R7h9OSGqiEvk8r/XJNcKqkub/TgUtPfUYyS7y2oQT6c8Q21T
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="407954963"
 X-IronPort-AV: E=Sophos;i="6.02,230,1688454000"; 
-   d="scan'208";a="440923577"
+   d="scan'208";a="407954963"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 19:09:11 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 19:52:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="776402101"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="776411652"
 X-IronPort-AV: E=Sophos;i="6.02,230,1688454000"; 
-   d="scan'208";a="776402101"
+   d="scan'208";a="776411652"
 Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 05 Sep 2023 19:09:09 -0700
+  by orsmga001.jf.intel.com with ESMTP; 05 Sep 2023 19:52:34 -0700
 Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdhyc-0002LL-2s;
-	Wed, 06 Sep 2023 02:09:06 +0000
-Date: Wed, 6 Sep 2023 10:08:21 +0800
+	id 1qdiea-0002Oj-11;
+	Wed, 06 Sep 2023 02:52:29 +0000
+Date: Wed, 6 Sep 2023 10:52:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Josef Bacik <josef@toxicpanda.com>
-Subject: block/disk-events.c:302: warning: Excess function parameter 'events'
- description in 'disk_force_media_change'
-Message-ID: <202309060957.vfl0mUur-lkp@intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Ajay Kaher <akaher@vmware.com>,
+	Zheng Yejian <zhengyejian1@huawei.com>
+Subject: Re: [PATCH] tracefs/eventfs: Use dput to free the toplevel events
+ directory
+Message-ID: <202309061055.V08YOtla-lkp@intel.com>
+References: <20230905183332.628d7cc0@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,54 +51,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230905183332.628d7cc0@gandalf.local.home>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   65d6e954e37872fd9afb5ef3fc0481bb3c2f20f4
-commit: ab6860f62bfe329e11e5b5b7295b673c9c3a62d0 block: simplify the disk_force_media_change interface
-date:   2 weeks ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20230906/202309060957.vfl0mUur-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309060957.vfl0mUur-lkp@intel.com/reproduce)
+Hi Steven,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20230905]
+[cannot apply to v6.5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracefs-eventfs-Use-dput-to-free-the-toplevel-events-directory/20230906-063414
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230905183332.628d7cc0%40gandalf.local.home
+patch subject: [PATCH] tracefs/eventfs: Use dput to free the toplevel events directory
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230906/202309061055.V08YOtla-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309061055.V08YOtla-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309060957.vfl0mUur-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309061055.V08YOtla-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> block/disk-events.c:302: warning: Excess function parameter 'events' description in 'disk_force_media_change'
+   fs/tracefs/event_inode.c: In function 'eventfs_remove_events_dir':
+>> fs/tracefs/event_inode.c:804:31: warning: variable 'ei' set but not used [-Wunused-but-set-variable]
+     804 |         struct eventfs_inode *ei;
+         |                               ^~
 
 
-vim +302 block/disk-events.c
+vim +/ei +804 fs/tracefs/event_inode.c
 
-d5870edfa3afc46 Christoph Hellwig  2021-06-24  291  
-e6138dc12de9df1 Matteo Croce       2021-07-13  292  /**
-e6138dc12de9df1 Matteo Croce       2021-07-13  293   * disk_force_media_change - force a media change event
-e6138dc12de9df1 Matteo Croce       2021-07-13  294   * @disk: the disk which will raise the event
-e6138dc12de9df1 Matteo Croce       2021-07-13  295   * @events: the events to raise
-e6138dc12de9df1 Matteo Croce       2021-07-13  296   *
-ab6860f62bfe329 Christoph Hellwig  2023-08-11  297   * Should be called when the media changes for @disk.  Generates a uevent
-ab6860f62bfe329 Christoph Hellwig  2023-08-11  298   * and attempts to free all dentries and inodes and invalidates all block
-e6138dc12de9df1 Matteo Croce       2021-07-13  299   * device page cache entries in that case.
-e6138dc12de9df1 Matteo Croce       2021-07-13  300   */
-ab6860f62bfe329 Christoph Hellwig  2023-08-11  301  void disk_force_media_change(struct gendisk *disk)
-e6138dc12de9df1 Matteo Croce       2021-07-13 @302  {
-ab6860f62bfe329 Christoph Hellwig  2023-08-11  303  	disk_event_uevent(disk, DISK_EVENT_MEDIA_CHANGE);
-b90ecc0379eb7bb Demi Marie Obenour 2023-06-07  304  	inc_diskseq(disk);
-e6138dc12de9df1 Matteo Croce       2021-07-13  305  	if (__invalidate_device(disk->part0, true))
-e6138dc12de9df1 Matteo Croce       2021-07-13  306  		pr_warn("VFS: busy inodes on changed media %s\n",
-e6138dc12de9df1 Matteo Croce       2021-07-13  307  			disk->disk_name);
-e6138dc12de9df1 Matteo Croce       2021-07-13  308  	set_bit(GD_NEED_PART_SCAN, &disk->state);
-e6138dc12de9df1 Matteo Croce       2021-07-13  309  }
-e6138dc12de9df1 Matteo Croce       2021-07-13  310  EXPORT_SYMBOL_GPL(disk_force_media_change);
-e6138dc12de9df1 Matteo Croce       2021-07-13  311  
-
-:::::: The code at line 302 was first introduced by commit
-:::::: e6138dc12de9df17cbda9c40314d69592855ac5e block: add a helper to raise a media changed event
-
-:::::: TO: Matteo Croce <mcroce@microsoft.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+5bdcd5f5331a276 Ajay Kaher 2023-07-28  794  
+5bdcd5f5331a276 Ajay Kaher 2023-07-28  795  /**
+5bdcd5f5331a276 Ajay Kaher 2023-07-28  796   * eventfs_remove_events_dir - remove eventfs dir or file from list
+5bdcd5f5331a276 Ajay Kaher 2023-07-28  797   * @dentry: events's dentry to be removed.
+5bdcd5f5331a276 Ajay Kaher 2023-07-28  798   *
+5bdcd5f5331a276 Ajay Kaher 2023-07-28  799   * This function remove events main directory
+5bdcd5f5331a276 Ajay Kaher 2023-07-28  800   */
+5bdcd5f5331a276 Ajay Kaher 2023-07-28  801  void eventfs_remove_events_dir(struct dentry *dentry)
+5bdcd5f5331a276 Ajay Kaher 2023-07-28  802  {
+5bdcd5f5331a276 Ajay Kaher 2023-07-28  803  	struct tracefs_inode *ti;
+5bdcd5f5331a276 Ajay Kaher 2023-07-28 @804  	struct eventfs_inode *ei;
 
 -- 
 0-DAY CI Kernel Test Service
