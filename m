@@ -1,42 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6CA7E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 10:59:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072D6ED6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 12:12:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693997997; x=1725533997;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NXQmIsqjot8+Dw9wxxc1HBgrMaPqg1/YBps7AyUrRJU=;
-  b=d5WF5/cvVVl8cLuYnJPrQSPo7nC8XAFUJULuO1IwS9PchJXqVxaDl6a/
-   Ko+bQeCbtsayzf6VsCRBAM/1ZQk2zVSAxyvig8sZ4MoqkgaeHKsGI1mIq
-   8gxd0HOhPB9PBua3gBA9B0IfQIymA4fvPlP8O7PofeVgxCFI4CbLD2ns/
-   65B0bViAsHRoDFxugfnBL/4QgXR4Glwm+CWEc2VBBmzXIkJ6BG7pyulUa
-   VPuznDkOFUfi1THT0jKHE1VFjtmnLx2sXg8jziJDsSWydUs7RjF3sod8n
-   OHe+u2WVndgcMV4YsVT9H+ENI/ahShO9uKpL/CzelQIJ4aZ+UYa3ZZHq3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="362062522"
+  t=1694002369; x=1725538369;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IX8tqAU4qqO4xD68t3JJmbkfL8h79O8BisSE4UjrixU=;
+  b=ioasawWqCFfxNirb2gleFHAkOE3deH8DOvYwo1C0KEhgYvdQLOa3bcbE
+   YdpbXRaoJKNz0bODlfpsUMOy6Fb1STtDB2mTh/MfX1lgMaLVtQ0ohA0Bh
+   8lLm8DKpB2GXujMGBETcZDi209goL4R0f/+9GZbf+h+w0/3DhT+iL06zK
+   dbD09Ln8E4/WTcEYeUGZFvN+Z3eacV1Xx99h+9kYusbDe3n/h76LIFkth
+   c2CmVQa4WfG/5XtoNke4jO0LrJCJwxwL1pBXVEmKnzjjwE9w+YgeIgUee
+   afemtMgKkAO/SbKDZbsm5vrh67dnri1iMW9AsFcim5ExyzcRdhakKmKI6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="357362014"
 X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; 
-   d="scan'208";a="362062522"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 03:59:56 -0700
+   d="scan'208";a="357362014"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 05:12:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="831606265"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="806982511"
 X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; 
-   d="scan'208";a="831606265"
+   d="scan'208";a="806982511"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Sep 2023 03:59:54 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 06 Sep 2023 05:12:03 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdqGG-00007f-1V;
-	Wed, 06 Sep 2023 10:59:52 +0000
-Date: Wed, 6 Sep 2023 18:59:40 +0800
+	id 1qdrO4-0000Bh-2d;
+	Wed, 06 Sep 2023 12:12:00 +0000
+Date: Wed, 6 Sep 2023 20:11:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yonghong Song <yonghong.song@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
-Subject: [bpf-next:master 4/19] kernel/bpf/helpers.c:1905:19: warning: no
- previous declaration for 'bpf_percpu_obj_new_impl'
-Message-ID: <202309061816.Gn0i8fVC-lkp@intel.com>
+To: Meng Li <li.meng@amd.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	Huang Rui <ray.huang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	linux-acpi@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kselftest@vger.kernel.org,
+	Nathan Fontenot <nathan.fontenot@amd.com>,
+	Deepak Sharma <deepak.sharma@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Shimmer Huang <shimmer.huang@amd.com>,
+	Perry Yuan <Perry.Yuan@amd.com>, Xiaojian Du <Xiaojian.Du@amd.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Borislav Petkov <bp@alien8.de>, Meng Li <li.meng@amd.com>
+Subject: Re: [PATCH V5 3/7] cpufreq: amd-pstate: Enable amd-pstate preferred
+ core supporting.
+Message-ID: <202309061958.4wimkcbo-lkp@intel.com>
+References: <20230905015116.2268926-4-li.meng@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,161 +60,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230905015116.2268926-4-li.meng@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-head:   23d9204efed6055e63be1e5ea3d3db3b705bfb4c
-commit: b3122748321a1cc733d68a2dc659a9ae3726374c [4/19] bpf: Add alloc/xchg/direct_access support for local percpu kptr
-config: i386-randconfig-004-20230906 (https://download.01.org/0day-ci/archive/20230906/202309061816.Gn0i8fVC-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309061816.Gn0i8fVC-lkp@intel.com/reproduce)
+Hi Meng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on linus/master v6.5 next-20230906]
+[cannot apply to tip/x86/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Meng-Li/x86-Drop-CPU_SUP_INTEL-from-SCHED_MC_PRIO-for-the-expansion/20230906-003754
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230905015116.2268926-4-li.meng%40amd.com
+patch subject: [PATCH V5 3/7] cpufreq: amd-pstate: Enable amd-pstate preferred core supporting.
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230906/202309061958.4wimkcbo-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309061958.4wimkcbo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309061816.Gn0i8fVC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309061958.4wimkcbo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/bpf/helpers.c:1891:19: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
-                      ^~~~~~~~~~~~~~~~
->> kernel/bpf/helpers.c:1905:19: warning: no previous declaration for 'bpf_percpu_obj_new_impl' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
-                      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1933:18: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
-                     ^~~~~~~~~~~~~~~~~
->> kernel/bpf/helpers.c:1941:18: warning: no previous declaration for 'bpf_percpu_obj_drop_impl' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
-                     ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1947:19: warning: no previous declaration for 'bpf_refcount_acquire_impl' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1992:17: warning: no previous declaration for 'bpf_list_push_front_impl' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_list_push_front_impl(struct bpf_list_head *head,
-                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2002:17: warning: no previous declaration for 'bpf_list_push_back_impl' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
-                    ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2035:35: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
-                                      ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2040:35: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
-                                      ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2045:33: warning: no previous declaration for 'bpf_rbtree_remove' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root,
-                                    ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2101:17: warning: no previous declaration for 'bpf_rbtree_add_impl' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node,
-                    ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2111:33: warning: no previous declaration for 'bpf_rbtree_first' [-Wmissing-declarations]
-    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root)
-                                    ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2124:33: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
-    __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
-                                    ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2135:18: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_task_release(struct task_struct *p)
-                     ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2147:28: warning: no previous declaration for 'bpf_cgroup_acquire' [-Wmissing-declarations]
-    __bpf_kfunc struct cgroup *bpf_cgroup_acquire(struct cgroup *cgrp)
-                               ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2159:18: warning: no previous declaration for 'bpf_cgroup_release' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_cgroup_release(struct cgroup *cgrp)
-                     ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2171:28: warning: no previous declaration for 'bpf_cgroup_ancestor' [-Wmissing-declarations]
-    __bpf_kfunc struct cgroup *bpf_cgroup_ancestor(struct cgroup *cgrp, int level)
-                               ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2191:28: warning: no previous declaration for 'bpf_cgroup_from_id' [-Wmissing-declarations]
-    __bpf_kfunc struct cgroup *bpf_cgroup_from_id(u64 cgid)
-                               ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2211:18: warning: no previous declaration for 'bpf_task_under_cgroup' [-Wmissing-declarations]
-    __bpf_kfunc long bpf_task_under_cgroup(struct task_struct *task,
-                     ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2224:33: warning: no previous declaration for 'bpf_task_from_pid' [-Wmissing-declarations]
-    __bpf_kfunc struct task_struct *bpf_task_from_pid(s32 pid)
-                                    ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2265:19: warning: no previous declaration for 'bpf_dynptr_slice' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
-                      ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2349:19: warning: no previous declaration for 'bpf_dynptr_slice_rdwr' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 offset,
-                      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2380:17: warning: no previous declaration for 'bpf_dynptr_adjust' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_dynptr_adjust(struct bpf_dynptr_kern *ptr, u32 start, u32 end)
-                    ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2398:18: warning: no previous declaration for 'bpf_dynptr_is_null' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_dynptr_is_null(struct bpf_dynptr_kern *ptr)
-                     ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2403:18: warning: no previous declaration for 'bpf_dynptr_is_rdonly' [-Wmissing-declarations]
-    __bpf_kfunc bool bpf_dynptr_is_rdonly(struct bpf_dynptr_kern *ptr)
-                     ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2411:19: warning: no previous declaration for 'bpf_dynptr_size' [-Wmissing-declarations]
-    __bpf_kfunc __u32 bpf_dynptr_size(const struct bpf_dynptr_kern *ptr)
-                      ^~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2419:17: warning: no previous declaration for 'bpf_dynptr_clone' [-Wmissing-declarations]
-    __bpf_kfunc int bpf_dynptr_clone(struct bpf_dynptr_kern *ptr,
-                    ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2432:19: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_cast_to_kern_ctx(void *obj)
-                      ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2437:19: warning: no previous declaration for 'bpf_rdonly_cast' [-Wmissing-declarations]
-    __bpf_kfunc void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
-                      ^~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2442:18: warning: no previous declaration for 'bpf_rcu_read_lock' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_rcu_read_lock(void)
-                     ^~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:2447:18: warning: no previous declaration for 'bpf_rcu_read_unlock' [-Wmissing-declarations]
-    __bpf_kfunc void bpf_rcu_read_unlock(void)
-                     ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from include/linux/cpufreq.h:12,
+                    from drivers/cpufreq/amd-pstate.c:30:
+>> include/linux/device.h:198:33: warning: 'dev_attr_hw_prefcore' defined but not used [-Wunused-variable]
+     198 |         struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+         |                                 ^~~~~~~~~
+   drivers/cpufreq/amd-pstate.c:1131:8: note: in expansion of macro 'DEVICE_ATTR_RO'
+    1131 | static DEVICE_ATTR_RO(hw_prefcore);
+         |        ^~~~~~~~~~~~~~
 
 
-vim +/bpf_percpu_obj_new_impl +1905 kernel/bpf/helpers.c
+vim +/dev_attr_hw_prefcore +198 include/linux/device.h
 
-  1904	
-> 1905	__bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
-  1906	{
-  1907		u64 size = local_type_id__k;
-  1908	
-  1909		/* The verifier has ensured that meta__ign must be NULL */
-  1910		return bpf_mem_alloc(&bpf_global_percpu_ma, size);
-  1911	}
-  1912	
-  1913	/* Must be called under migrate_disable(), as required by bpf_mem_free */
-  1914	void __bpf_obj_drop_impl(void *p, const struct btf_record *rec)
-  1915	{
-  1916		if (rec && rec->refcount_off >= 0 &&
-  1917		    !refcount_dec_and_test((refcount_t *)(p + rec->refcount_off))) {
-  1918			/* Object is refcounted and refcount_dec didn't result in 0
-  1919			 * refcount. Return without freeing the object
-  1920			 */
-  1921			return;
-  1922		}
-  1923	
-  1924		if (rec)
-  1925			bpf_obj_free_fields(rec, p);
-  1926	
-  1927		if (rec && rec->refcount_off >= 0)
-  1928			bpf_mem_free_rcu(&bpf_global_ma, p);
-  1929		else
-  1930			bpf_mem_free(&bpf_global_ma, p);
-  1931	}
-  1932	
-  1933	__bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
-  1934	{
-  1935		struct btf_struct_meta *meta = meta__ign;
-  1936		void *p = p__alloc;
-  1937	
-  1938		__bpf_obj_drop_impl(p, meta ? meta->record : NULL);
-  1939	}
-  1940	
-> 1941	__bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
-  1942	{
-  1943		/* The verifier has ensured that meta__ign must be NULL */
-  1944		bpf_mem_free_rcu(&bpf_global_percpu_ma, p__alloc);
-  1945	}
-  1946	
+ca22e56debc57b4 Kay Sievers        2011-12-14  123  
+ca22e56debc57b4 Kay Sievers        2011-12-14  124  ssize_t device_show_ulong(struct device *dev, struct device_attribute *attr,
+ca22e56debc57b4 Kay Sievers        2011-12-14  125  			  char *buf);
+ca22e56debc57b4 Kay Sievers        2011-12-14  126  ssize_t device_store_ulong(struct device *dev, struct device_attribute *attr,
+ca22e56debc57b4 Kay Sievers        2011-12-14  127  			   const char *buf, size_t count);
+ca22e56debc57b4 Kay Sievers        2011-12-14  128  ssize_t device_show_int(struct device *dev, struct device_attribute *attr,
+ca22e56debc57b4 Kay Sievers        2011-12-14  129  			char *buf);
+ca22e56debc57b4 Kay Sievers        2011-12-14  130  ssize_t device_store_int(struct device *dev, struct device_attribute *attr,
+ca22e56debc57b4 Kay Sievers        2011-12-14  131  			 const char *buf, size_t count);
+91872392f08486f Borislav Petkov    2012-10-09  132  ssize_t device_show_bool(struct device *dev, struct device_attribute *attr,
+91872392f08486f Borislav Petkov    2012-10-09  133  			char *buf);
+91872392f08486f Borislav Petkov    2012-10-09  134  ssize_t device_store_bool(struct device *dev, struct device_attribute *attr,
+91872392f08486f Borislav Petkov    2012-10-09  135  			 const char *buf, size_t count);
+ca22e56debc57b4 Kay Sievers        2011-12-14  136  
+cd00bc2ca42705b James Seo          2023-05-08  137  /**
+cd00bc2ca42705b James Seo          2023-05-08  138   * DEVICE_ATTR - Define a device attribute.
+cd00bc2ca42705b James Seo          2023-05-08  139   * @_name: Attribute name.
+cd00bc2ca42705b James Seo          2023-05-08  140   * @_mode: File mode.
+cd00bc2ca42705b James Seo          2023-05-08  141   * @_show: Show handler. Optional, but mandatory if attribute is readable.
+cd00bc2ca42705b James Seo          2023-05-08  142   * @_store: Store handler. Optional, but mandatory if attribute is writable.
+cd00bc2ca42705b James Seo          2023-05-08  143   *
+cd00bc2ca42705b James Seo          2023-05-08  144   * Convenience macro for defining a struct device_attribute.
+cd00bc2ca42705b James Seo          2023-05-08  145   *
+cd00bc2ca42705b James Seo          2023-05-08  146   * For example, ``DEVICE_ATTR(foo, 0644, foo_show, foo_store);`` expands to:
+cd00bc2ca42705b James Seo          2023-05-08  147   *
+cd00bc2ca42705b James Seo          2023-05-08  148   * .. code-block:: c
+cd00bc2ca42705b James Seo          2023-05-08  149   *
+cd00bc2ca42705b James Seo          2023-05-08  150   *	struct device_attribute dev_attr_foo = {
+cd00bc2ca42705b James Seo          2023-05-08  151   *		.attr	= { .name = "foo", .mode = 0644 },
+cd00bc2ca42705b James Seo          2023-05-08  152   *		.show	= foo_show,
+cd00bc2ca42705b James Seo          2023-05-08  153   *		.store	= foo_store,
+cd00bc2ca42705b James Seo          2023-05-08  154   *	};
+cd00bc2ca42705b James Seo          2023-05-08  155   */
+a7fd67062efc5b0 Kay Sievers        2005-10-01  156  #define DEVICE_ATTR(_name, _mode, _show, _store) \
+a7fd67062efc5b0 Kay Sievers        2005-10-01  157  	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+cd00bc2ca42705b James Seo          2023-05-08  158  
+cd00bc2ca42705b James Seo          2023-05-08  159  /**
+cd00bc2ca42705b James Seo          2023-05-08  160   * DEVICE_ATTR_PREALLOC - Define a preallocated device attribute.
+cd00bc2ca42705b James Seo          2023-05-08  161   * @_name: Attribute name.
+cd00bc2ca42705b James Seo          2023-05-08  162   * @_mode: File mode.
+cd00bc2ca42705b James Seo          2023-05-08  163   * @_show: Show handler. Optional, but mandatory if attribute is readable.
+cd00bc2ca42705b James Seo          2023-05-08  164   * @_store: Store handler. Optional, but mandatory if attribute is writable.
+cd00bc2ca42705b James Seo          2023-05-08  165   *
+cd00bc2ca42705b James Seo          2023-05-08  166   * Like DEVICE_ATTR(), but ``SYSFS_PREALLOC`` is set on @_mode.
+cd00bc2ca42705b James Seo          2023-05-08  167   */
+7fda9100bb8258b Christophe Leroy   2017-12-18  168  #define DEVICE_ATTR_PREALLOC(_name, _mode, _show, _store) \
+7fda9100bb8258b Christophe Leroy   2017-12-18  169  	struct device_attribute dev_attr_##_name = \
+7fda9100bb8258b Christophe Leroy   2017-12-18  170  		__ATTR_PREALLOC(_name, _mode, _show, _store)
+cd00bc2ca42705b James Seo          2023-05-08  171  
+cd00bc2ca42705b James Seo          2023-05-08  172  /**
+cd00bc2ca42705b James Seo          2023-05-08  173   * DEVICE_ATTR_RW - Define a read-write device attribute.
+cd00bc2ca42705b James Seo          2023-05-08  174   * @_name: Attribute name.
+cd00bc2ca42705b James Seo          2023-05-08  175   *
+cd00bc2ca42705b James Seo          2023-05-08  176   * Like DEVICE_ATTR(), but @_mode is 0644, @_show is <_name>_show,
+cd00bc2ca42705b James Seo          2023-05-08  177   * and @_store is <_name>_store.
+cd00bc2ca42705b James Seo          2023-05-08  178   */
+ced321bf9151535 Greg Kroah-Hartman 2013-07-14  179  #define DEVICE_ATTR_RW(_name) \
+ced321bf9151535 Greg Kroah-Hartman 2013-07-14  180  	struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
+cd00bc2ca42705b James Seo          2023-05-08  181  
+cd00bc2ca42705b James Seo          2023-05-08  182  /**
+cd00bc2ca42705b James Seo          2023-05-08  183   * DEVICE_ATTR_ADMIN_RW - Define an admin-only read-write device attribute.
+cd00bc2ca42705b James Seo          2023-05-08  184   * @_name: Attribute name.
+cd00bc2ca42705b James Seo          2023-05-08  185   *
+cd00bc2ca42705b James Seo          2023-05-08  186   * Like DEVICE_ATTR_RW(), but @_mode is 0600.
+cd00bc2ca42705b James Seo          2023-05-08  187   */
+3022c6a1b4b76c4 Dan Williams       2020-06-25  188  #define DEVICE_ATTR_ADMIN_RW(_name) \
+3022c6a1b4b76c4 Dan Williams       2020-06-25  189  	struct device_attribute dev_attr_##_name = __ATTR_RW_MODE(_name, 0600)
+cd00bc2ca42705b James Seo          2023-05-08  190  
+cd00bc2ca42705b James Seo          2023-05-08  191  /**
+cd00bc2ca42705b James Seo          2023-05-08  192   * DEVICE_ATTR_RO - Define a readable device attribute.
+cd00bc2ca42705b James Seo          2023-05-08  193   * @_name: Attribute name.
+cd00bc2ca42705b James Seo          2023-05-08  194   *
+cd00bc2ca42705b James Seo          2023-05-08  195   * Like DEVICE_ATTR(), but @_mode is 0444 and @_show is <_name>_show.
+cd00bc2ca42705b James Seo          2023-05-08  196   */
+ced321bf9151535 Greg Kroah-Hartman 2013-07-14  197  #define DEVICE_ATTR_RO(_name) \
+ced321bf9151535 Greg Kroah-Hartman 2013-07-14 @198  	struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+cd00bc2ca42705b James Seo          2023-05-08  199  
 
 -- 
 0-DAY CI Kernel Test Service
