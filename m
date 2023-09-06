@@ -1,85 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC6C7E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 04:06:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693973195; x=1725509195;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=amTDBVFkvTVeIeqLBgqSEueCBLGR8qIVrDnoTMqQ+VA=;
-  b=iygvgnsg9NXZ3CpxYvn6pk833FYDh2nkWC6xJi84w3WlRBhFjoJabPJZ
-   bs9lokeLP9jFP2CYz53UM4XDutjLXf3kH3AWAvLB8BYb4OGC7cK/o30R6
-   NugPR4l2V8fEyNe1871xl9Wfivmz6FyE/OCCNafMgiV68CQXufDgRj2Sa
-   gr6xdGK/3lBbUkoyr35l/NEFVdh8TeKC0A0BkLM6TTEyweEbzB+JQ/TaR
-   2fC4WZzzYk6PxslgrVJEgyuNsRSlV37xj+G34OKQyF0DbDGKRPXRtU332
-   4RkXN1O2YZfqXTdiCqka1BZduiEjAnh508tLvZ2SMHHzayQQxHLnKJMfn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="407966098"
-X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; 
-   d="scan'208";a="407966098"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2023 21:05:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="691163739"
-X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; 
-   d="scan'208";a="691163739"
-Received: from lkp-server02.sh.intel.com (HELO e0b2ea88afd5) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 05 Sep 2023 21:05:02 -0700
-Received: from kbuild by e0b2ea88afd5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qdjmk-0002Rf-2e;
-	Wed, 06 Sep 2023 04:04:59 +0000
-Date: Wed, 6 Sep 2023 12:04:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ben Cheatham <Benjamin.Cheatham@amd.com>, rafael@kernel.org,
-	dan.j.williams@intel.com, linux-cxl@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com,
-	benjamin.cheatham@amd.com, yazen.ghannam@amd.com
-Subject: Re: [PATCH v3 2/3] ACPI, APEI, EINJ: Add CXL 1.1 EINJ error type
- support
-Message-ID: <202309061156.nyIdvSmV-lkp@intel.com>
-References: <20230905184406.135851-3-Benjamin.Cheatham@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B190362;
+	Wed,  6 Sep 2023 06:56:28 +0000 (UTC)
+Date: Wed, 6 Sep 2023 08:56:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1693983386;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4P3mgMLyNgdvJbR13D0n1tFEyohBV/oy/ERJS86V20g=;
+	b=nEaGNkX0jMyy3fC2J5lB7jTXUuMSS32MypziVY3e1QdJX4fZpLY7SBr3q5aIZ1euZZUVLF
+	i4XhLrDVlsnchaVeIVnym2G0yTnTbb7s+INK6BL7vXzeo/YOdWGEmZm1uMQc5kbj1X/4R+
+	GtaTt2+z+VqbID4J80mGKpmTSNZa8bjO1Xsy3rPWRDcXj2d1xyH5j+vpW1xcc6I4Au592m
+	clDGuKIy15XuZhiJEPjK6AxSy0EtxsoPOQ3f0bZRN7AoFsN7oPoSnHkOIGFo5ZikVCvz0C
+	T25dwcnHdRBGcLesDx2ZwI4xMYEM/4+HXpq82Go8IMjB5dVtfqX0mYpQ6Y/HmA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1693983386;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4P3mgMLyNgdvJbR13D0n1tFEyohBV/oy/ERJS86V20g=;
+	b=iDrJTULF1HsK8nT0h1aZX9VkwFwKbXLbh8YCSJv2mSN18WP89G7fijNpya2Xw7pe911y+d
+	PtCoUG8tTBEDy0CA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: John Ogness <john.ogness@linutronix.de>
+Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <dan.carpenter@linaro.org>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [rt-devel:linux-6.1.y-rt-rebase 21/51]
+ kernel/printk/printk.c:2468 __alloc_atomic_data() warn: returning -1 instead
+ of -ENOMEM is sloppy
+Message-ID: <20230906065624.NQVgGNrB@linutronix.de>
+References: <a6fa0763-b82f-4eff-9e50-06519db5722d@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230905184406.135851-3-Benjamin.Cheatham@amd.com>
+In-Reply-To: <a6fa0763-b82f-4eff-9e50-06519db5722d@kadam.mountain>
 
-Hi Ben,
+On 2023-09-05 12:43:35 [+0300], Dan Carpenter wrote:
+> smatch warnings:
+> kernel/printk/printk.c:2468 __alloc_atomic_data() warn: returning -1 instead of -ENOMEM is sloppy
+> 
+> vim +2468 kernel/printk/printk.c
+> 
+> 09cbc4e64a7546 John Ogness 2022-02-04  2464  static int __alloc_atomic_data(struct console_atomic_data *d, short flags)
+> 09cbc4e64a7546 John Ogness 2022-02-04  2465  {
+> 09cbc4e64a7546 John Ogness 2022-02-04  2466  	d->text = kmalloc(CONSOLE_LOG_MAX, GFP_KERNEL);
+> 09cbc4e64a7546 John Ogness 2022-02-04  2467  	if (!d->text)
+> 09cbc4e64a7546 John Ogness 2022-02-04 @2468  		return -1;
+> 
+> Just return -ENOMEM.  Even if it doesn't get passed back to the user,
+> it's just better to do things in a normal way.
 
-kernel test robot noticed the following build errors:
+John, are you going to integrate this or did you rewrite the code to the
+point that it has been "fixed"?
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on linus/master v6.5 next-20230905]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Cheatham/CXL-PCIE-Add-cxl_rcrb_addr-file-to-dport_dev/20230906-025405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230905184406.135851-3-Benjamin.Cheatham%40amd.com
-patch subject: [PATCH v3 2/3] ACPI, APEI, EINJ: Add CXL 1.1 EINJ error type support
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20230906/202309061156.nyIdvSmV-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309061156.nyIdvSmV-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309061156.nyIdvSmV-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   alpha-linux-ld: drivers/cxl/security.o: in function `cxl_find_rch_dport_by_rcrb':
->> (.text+0x8d0): multiple definition of `cxl_find_rch_dport_by_rcrb'; drivers/cxl/pmem.o:(.text+0x1090): first defined here
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sebastian
