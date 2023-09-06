@@ -1,45 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FED9125D1;
-	Wed,  6 Sep 2023 22:48:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5A1125BD
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 22:59:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694040494; x=1725576494;
+  t=1694041156; x=1725577156;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+MX9kv0UICmveqsK8mmPgfTB03+w/QtqW94cq0y3TnE=;
-  b=NtIXWdIJqNAHcDwF369fLvaObZaUIVE8+sNgkwzP8LEjtjPejkr3VyM0
-   RcPqHSOrjbDGuDo1JmNe1tFag8y9De1wpW2C/hQswg/FKBMr6c029z8sR
-   7Czs0zJPtnktwlHtkEYO3RszS2jiPUTCjXxHKZ/y+rrA4nPepusvBSiQ/
-   I95CsIw/wa7X3wAwjGW0fdJqodzzNjNQtD2RN1bVY/MjcaF5K9JInhYMA
-   MZJ/sllwHFpQEjAkh/U4NMv4jRy4zTBlWwb4tml+r8NCzcm0NvW3air4x
-   tKIwAkuea6GC7e+GkPR+zG/47d6L9Fj6h7E/fjBNMfyevSogsik/qrQEG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="376103973"
+  bh=iZpacsJmtPibvRYCVTNE2cwagSSO7Bbbq8tQpQEh6CI=;
+  b=lxpI6yY8QeJUOqiLOACTzQwmAuo/HE6+9ZCOUMKuEZ/0ha7jFGpb4+Ue
+   cxCn5f468P1RtZiG6EJMRiEJMQmn7U6SCcdcRffmbgVJFQAKUfzOwe96s
+   0NLXJtLfgYcfG8UvNFV+NYtR8r07q97g71fcwk81lR7aOV7r/0eLTnavV
+   5pyiDnr16mHtH076PQVPzs18AMmIFazmlihycQHgNf0/7loqFgbn8kHKr
+   UC3sYDyYnTf9vYj9s2agS/dANuUjT2t1gE/AWHOw/y1+cpCSmGlO2mhKf
+   f8w4RaOhFC1BdfItcmWTZ6WSRpfi2NL8EXpTfAn5qImCjJJiSz2x8num8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="463582369"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="376103973"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 15:48:09 -0700
+   d="scan'208";a="463582369"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 15:59:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="856650663"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="691498791"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="856650663"
+   d="scan'208";a="691498791"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2023 15:48:07 -0700
+  by orsmga003.jf.intel.com with ESMTP; 06 Sep 2023 15:59:08 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qe1Jd-0000ep-0v;
-	Wed, 06 Sep 2023 22:48:05 +0000
-Date: Thu, 7 Sep 2023 06:47:11 +0800
+	id 1qe1UI-0000ff-0E;
+	Wed, 06 Sep 2023 22:59:06 +0000
+Date: Thu, 7 Sep 2023 06:58:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Min Li <lnimi@hotmail.com>, richardcochran@gmail.com, lee@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Min Li <min.li.xe@renesas.com>
-Subject: Re: [PATCH net 1/1] ptp: clockmatrix: support 32-bit address space
-Message-ID: <202309070602.ai5WsjEa-lkp@intel.com>
-References: <MW5PR03MB6932BFFE31583BBF02CD9488A0EFA@MW5PR03MB6932.namprd03.prod.outlook.com>
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
+	mcgrof@kernel.org, gost.dev@samsung.com,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Vincent Fu <vincent.fu@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v15 12/12] null_blk: add support for copy offload
+Message-ID: <202309070607.akFEF327-lkp@intel.com>
+References: <20230906163844.18754-13-nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,130 +60,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MW5PR03MB6932BFFE31583BBF02CD9488A0EFA@MW5PR03MB6932.namprd03.prod.outlook.com>
+In-Reply-To: <20230906163844.18754-13-nj.shetty@samsung.com>
 
-Hi Min,
+Hi Nitesh,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net/main]
+[auto build test WARNING on c50216cfa084d5eb67dc10e646a3283da1595bb6]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Min-Li/ptp-clockmatrix-support-32-bit-address-space/20230907-005615
-base:   net/main
-patch link:    https://lore.kernel.org/r/MW5PR03MB6932BFFE31583BBF02CD9488A0EFA%40MW5PR03MB6932.namprd03.prod.outlook.com
-patch subject: [PATCH net 1/1] ptp: clockmatrix: support 32-bit address space
-config: x86_64-buildonly-randconfig-003-20230907 (https://download.01.org/0day-ci/archive/20230907/202309070602.ai5WsjEa-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070602.ai5WsjEa-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20230907-015817
+base:   c50216cfa084d5eb67dc10e646a3283da1595bb6
+patch link:    https://lore.kernel.org/r/20230906163844.18754-13-nj.shetty%40samsung.com
+patch subject: [PATCH v15 12/12] null_blk: add support for copy offload
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230907/202309070607.akFEF327-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070607.akFEF327-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309070602.ai5WsjEa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309070607.akFEF327-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/ptp/ptp_clockmatrix.c:1257:50: warning: implicit conversion from 'int' to 'u16' (aka 'unsigned short') changes value from 537972560 to 53072 [-Wconstant-conversion]
-           u16 scratch = IDTCM_FW_REG(idtcm->fw_ver, V520, SCRATCH);
-               ~~~~~~~                                     ^~~~~~~
-   include/linux/mfd/idt8a340_reg.h:454:43: note: expanded from macro 'SCRATCH'
-   #define SCRATCH                           0x2010cf50
-                                             ^~~~~~~~~~
-   include/linux/mfd/idt8a340_reg.h:673:55: note: expanded from macro 'IDTCM_FW_REG'
-   #define IDTCM_FW_REG(FW, VER, REG)      (((FW) < (VER)) ? (REG) : (REG##_##VER))
-                                                              ^~~
-   drivers/ptp/ptp_clockmatrix.c:1257:16: warning: implicit conversion from 'int' to 'u16' (aka 'unsigned short') changes value from 537972556 to 53068 [-Wconstant-conversion]
-           u16 scratch = IDTCM_FW_REG(idtcm->fw_ver, V520, SCRATCH);
-               ~~~~~~~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mfd/idt8a340_reg.h:673:63: note: expanded from macro 'IDTCM_FW_REG'
-   #define IDTCM_FW_REG(FW, VER, REG)      (((FW) < (VER)) ? (REG) : (REG##_##VER))
-                                                                      ^~~~~~~~~~~
-   <scratch space>:171:1: note: expanded from here
-   SCRATCH_V520
-   ^~~~~~~~~~~~
-   include/linux/mfd/idt8a340_reg.h:455:43: note: expanded from macro 'SCRATCH_V520'
-   #define SCRATCH_V520                      0x2010cf4c
-                                             ^~~~~~~~~~
-   2 warnings generated.
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/block/null_blk/trace.h:104,
+                    from drivers/block/null_blk/main.c:15:
+   drivers/block/null_blk/./trace.h: In function 'trace_raw_output_nullb_copy_op':
+>> drivers/block/null_blk/./trace.h:91:27: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     203 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   drivers/block/null_blk/./trace.h:73:1: note: in expansion of macro 'TRACE_EVENT'
+      73 | TRACE_EVENT(nullb_copy_op,
+         | ^~~~~~~~~~~
+   drivers/block/null_blk/./trace.h:91:17: note: in expansion of macro 'TP_printk'
+      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+         |                 ^~~~~~~~~
+   In file included from include/trace/trace_events.h:237:
+   drivers/block/null_blk/./trace.h:91:68: note: format string is defined here
+      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+         |                                                                  ~~^
+         |                                                                    |
+         |                                                                    long unsigned int
+         |                                                                  %u
 
 
-vim +1257 drivers/ptp/ptp_clockmatrix.c
+vim +91 drivers/block/null_blk/./trace.h
 
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1253  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1254  static int idtcm_load_firmware(struct idtcm *idtcm,
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1255  			       struct device *dev)
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1256  {
-794c3dffacc166 Min Li        2021-09-13 @1257  	u16 scratch = IDTCM_FW_REG(idtcm->fw_ver, V520, SCRATCH);
-7ea5fda2b1325e Min Li        2020-07-28  1258  	char fname[128] = FW_FILENAME;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1259  	const struct firmware *fw;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1260  	struct idtcm_fwrc *rec;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1261  	u32 regaddr;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1262  	int err;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1263  	s32 len;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1264  	u8 val;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1265  	u8 loaddr;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1266  
-7ea5fda2b1325e Min Li        2020-07-28  1267  	if (firmware) /* module parameter */
-7ea5fda2b1325e Min Li        2020-07-28  1268  		snprintf(fname, sizeof(fname), "%s", firmware);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1269  
-930dfa56315517 Min Li        2021-09-24  1270  	dev_info(idtcm->dev, "requesting firmware '%s'", fname);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1271  
-7ea5fda2b1325e Min Li        2020-07-28  1272  	err = request_firmware(&fw, fname, dev);
-7ea5fda2b1325e Min Li        2020-07-28  1273  	if (err) {
-930dfa56315517 Min Li        2021-09-24  1274  		dev_err(idtcm->dev,
-1c49d3e947783b Vincent Cheng 2021-02-17  1275  			"Failed at line %d in %s!", __LINE__, __func__);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1276  		return err;
-7ea5fda2b1325e Min Li        2020-07-28  1277  	}
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1278  
-930dfa56315517 Min Li        2021-09-24  1279  	dev_dbg(idtcm->dev, "firmware size %zu bytes", fw->size);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1280  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1281  	rec = (struct idtcm_fwrc *) fw->data;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1282  
-794c3dffacc166 Min Li        2021-09-13  1283  	if (contains_full_configuration(idtcm, fw))
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1284  		idtcm_state_machine_reset(idtcm);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1285  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1286  	for (len = fw->size; len > 0; len -= sizeof(*rec)) {
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1287  		if (rec->reserved) {
-930dfa56315517 Min Li        2021-09-24  1288  			dev_err(idtcm->dev,
-1c49d3e947783b Vincent Cheng 2021-02-17  1289  				"bad firmware, reserved field non-zero");
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1290  			err = -EINVAL;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1291  		} else {
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1292  			regaddr = rec->hiaddr << 8;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1293  			regaddr |= rec->loaddr;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1294  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1295  			val = rec->value;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1296  			loaddr = rec->loaddr;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1297  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1298  			rec++;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1299  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1300  			err = check_and_set_masks(idtcm, regaddr, val);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1301  		}
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1302  
-7ea5fda2b1325e Min Li        2020-07-28  1303  		if (err != -EINVAL) {
-7ea5fda2b1325e Min Li        2020-07-28  1304  			err = 0;
-7ea5fda2b1325e Min Li        2020-07-28  1305  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1306  			/* Top (status registers) and bottom are read-only */
-ea86327f3d85be Min Li        2023-09-06  1307  			if (regaddr < SCSR_ADDR(GPIO_USER_CONTROL) || regaddr >= scratch)
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1308  				continue;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1309  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1310  			/* Page size 128, last 4 bytes of page skipped */
-77fdb168a3e2a6 Vincent Cheng 2021-02-17  1311  			if ((loaddr > 0x7b && loaddr <= 0x7f) || loaddr > 0xfb)
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1312  				continue;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1313  
-ea86327f3d85be Min Li        2023-09-06  1314  			err = idtcm_write(idtcm, SCSR_BASE, regaddr, &val, sizeof(val));
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1315  		}
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1316  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1317  		if (err)
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1318  			goto out;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1319  	}
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1320  
-7ea5fda2b1325e Min Li        2020-07-28  1321  	display_pll_and_masks(idtcm);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1322  
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1323  out:
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1324  	release_firmware(fw);
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1325  	return err;
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1326  }
-3a6ba7dc779935 Vincent Cheng 2019-10-31  1327  
+    72	
+    73	TRACE_EVENT(nullb_copy_op,
+    74			TP_PROTO(struct request *req,
+    75				 sector_t dst, sector_t src, size_t len),
+    76			TP_ARGS(req, dst, src, len),
+    77			TP_STRUCT__entry(
+    78					 __array(char, disk, DISK_NAME_LEN)
+    79					 __field(enum req_op, op)
+    80					 __field(sector_t, dst)
+    81					 __field(sector_t, src)
+    82					 __field(size_t, len)
+    83			),
+    84			TP_fast_assign(
+    85				       __entry->op = req_op(req);
+    86				       __assign_disk_name(__entry->disk, req->q->disk);
+    87				       __entry->dst = dst;
+    88				       __entry->src = src;
+    89				       __entry->len = len;
+    90			),
+  > 91			TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
+    92				  __print_disk_name(__entry->disk),
+    93				  blk_op_str(__entry->op),
+    94				  __entry->dst, __entry->src, __entry->len)
+    95	);
+    96	#endif /* _TRACE_NULLB_H */
+    97	
 
 -- 
 0-DAY CI Kernel Test Service
