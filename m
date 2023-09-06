@@ -1,42 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EDE3FEF
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 10:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6CA7E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 10:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693996162; x=1725532162;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=Cpqn67BN9jBtR7ECYs84RA3KIUwXd7muAo4t/fOmV7I=;
-  b=eW7pgvSHcBLUxPRiBCendlOzNOAfN8mtSYk5yD9yWFeJqfB1+u9HQt+N
-   WbpCQFf8EMSUgBCf0saYR3W6Dh/Y8W5TF/iq3SkXkovo/kdLk6tDdQ4Mz
-   3S/utbnv8+lipvZrVv752+5oKf3Hmn31oNvwkl5emA8Bj0dTETYEb/ADT
-   W4X6BFA5JLA1RiYhd1PJ+Yg3M1j/iWQr7cPHGDsGa9c5UI0YEsfNXDXin
-   HcfbAlx0C2NvAI8Yhg4KHWeJiABLrCNnGKD4I4NHeVwzFwKvht+8Q4+Fu
-   TjA64RQhQBXNBn8HbrGK0zzcsEzzcaUp6SmLV+yrzQGWpdUakXbWnhqDA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="374423838"
+  t=1693997997; x=1725533997;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NXQmIsqjot8+Dw9wxxc1HBgrMaPqg1/YBps7AyUrRJU=;
+  b=d5WF5/cvVVl8cLuYnJPrQSPo7nC8XAFUJULuO1IwS9PchJXqVxaDl6a/
+   Ko+bQeCbtsayzf6VsCRBAM/1ZQk2zVSAxyvig8sZ4MoqkgaeHKsGI1mIq
+   8gxd0HOhPB9PBua3gBA9B0IfQIymA4fvPlP8O7PofeVgxCFI4CbLD2ns/
+   65B0bViAsHRoDFxugfnBL/4QgXR4Glwm+CWEc2VBBmzXIkJ6BG7pyulUa
+   VPuznDkOFUfi1THT0jKHE1VFjtmnLx2sXg8jziJDsSWydUs7RjF3sod8n
+   OHe+u2WVndgcMV4YsVT9H+ENI/ahShO9uKpL/CzelQIJ4aZ+UYa3ZZHq3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="362062522"
 X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; 
-   d="scan'208";a="374423838"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 03:28:54 -0700
+   d="scan'208";a="362062522"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 03:59:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="1072332886"
+X-IronPort-AV: E=McAfee;i="6600,9927,10824"; a="831606265"
 X-IronPort-AV: E=Sophos;i="6.02,231,1688454000"; 
-   d="scan'208";a="1072332886"
+   d="scan'208";a="831606265"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 06 Sep 2023 03:28:53 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Sep 2023 03:59:54 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qdpmF-00005r-0c;
-	Wed, 06 Sep 2023 10:28:51 +0000
-Date: Wed, 6 Sep 2023 18:28:27 +0800
+	id 1qdqGG-00007f-1V;
+	Wed, 06 Sep 2023 10:59:52 +0000
+Date: Wed, 6 Sep 2023 18:59:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alfred Piccioni <alpic@google.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] SELinux: Check correct permissions for FS_IOC32_*
-Message-ID: <ZPhUSwb+srKodCQ7@0091dd92274c>
+To: Yonghong Song <yonghong.song@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
+Subject: [bpf-next:master 4/19] kernel/bpf/helpers.c:1905:19: warning: no
+ previous declaration for 'bpf_percpu_obj_new_impl'
+Message-ID: <202309061816.Gn0i8fVC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,23 +45,162 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230906102557.3432236-1-alpic@google.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+head:   23d9204efed6055e63be1e5ea3d3db3b705bfb4c
+commit: b3122748321a1cc733d68a2dc659a9ae3726374c [4/19] bpf: Add alloc/xchg/direct_access support for local percpu kptr
+config: i386-randconfig-004-20230906 (https://download.01.org/0day-ci/archive/20230906/202309061816.Gn0i8fVC-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309061816.Gn0i8fVC-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309061816.Gn0i8fVC-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html/#option-1
+   kernel/bpf/helpers.c:1891:19: warning: no previous declaration for 'bpf_obj_new_impl' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~
+>> kernel/bpf/helpers.c:1905:19: warning: no previous declaration for 'bpf_percpu_obj_new_impl' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1933:18: warning: no previous declaration for 'bpf_obj_drop_impl' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+                     ^~~~~~~~~~~~~~~~~
+>> kernel/bpf/helpers.c:1941:18: warning: no previous declaration for 'bpf_percpu_obj_drop_impl' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
+                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1947:19: warning: no previous declaration for 'bpf_refcount_acquire_impl' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_refcount_acquire_impl(void *p__refcounted_kptr, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1992:17: warning: no previous declaration for 'bpf_list_push_front_impl' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_list_push_front_impl(struct bpf_list_head *head,
+                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2002:17: warning: no previous declaration for 'bpf_list_push_back_impl' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_list_push_back_impl(struct bpf_list_head *head,
+                    ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2035:35: warning: no previous declaration for 'bpf_list_pop_front' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_list_node *bpf_list_pop_front(struct bpf_list_head *head)
+                                      ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2040:35: warning: no previous declaration for 'bpf_list_pop_back' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_list_node *bpf_list_pop_back(struct bpf_list_head *head)
+                                      ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2045:33: warning: no previous declaration for 'bpf_rbtree_remove' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_remove(struct bpf_rb_root *root,
+                                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2101:17: warning: no previous declaration for 'bpf_rbtree_add_impl' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_rbtree_add_impl(struct bpf_rb_root *root, struct bpf_rb_node *node,
+                    ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2111:33: warning: no previous declaration for 'bpf_rbtree_first' [-Wmissing-declarations]
+    __bpf_kfunc struct bpf_rb_node *bpf_rbtree_first(struct bpf_rb_root *root)
+                                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2124:33: warning: no previous declaration for 'bpf_task_acquire' [-Wmissing-declarations]
+    __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
+                                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2135:18: warning: no previous declaration for 'bpf_task_release' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_task_release(struct task_struct *p)
+                     ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2147:28: warning: no previous declaration for 'bpf_cgroup_acquire' [-Wmissing-declarations]
+    __bpf_kfunc struct cgroup *bpf_cgroup_acquire(struct cgroup *cgrp)
+                               ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2159:18: warning: no previous declaration for 'bpf_cgroup_release' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_cgroup_release(struct cgroup *cgrp)
+                     ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2171:28: warning: no previous declaration for 'bpf_cgroup_ancestor' [-Wmissing-declarations]
+    __bpf_kfunc struct cgroup *bpf_cgroup_ancestor(struct cgroup *cgrp, int level)
+                               ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2191:28: warning: no previous declaration for 'bpf_cgroup_from_id' [-Wmissing-declarations]
+    __bpf_kfunc struct cgroup *bpf_cgroup_from_id(u64 cgid)
+                               ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2211:18: warning: no previous declaration for 'bpf_task_under_cgroup' [-Wmissing-declarations]
+    __bpf_kfunc long bpf_task_under_cgroup(struct task_struct *task,
+                     ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2224:33: warning: no previous declaration for 'bpf_task_from_pid' [-Wmissing-declarations]
+    __bpf_kfunc struct task_struct *bpf_task_from_pid(s32 pid)
+                                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2265:19: warning: no previous declaration for 'bpf_dynptr_slice' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
+                      ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2349:19: warning: no previous declaration for 'bpf_dynptr_slice_rdwr' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 offset,
+                      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2380:17: warning: no previous declaration for 'bpf_dynptr_adjust' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_dynptr_adjust(struct bpf_dynptr_kern *ptr, u32 start, u32 end)
+                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2398:18: warning: no previous declaration for 'bpf_dynptr_is_null' [-Wmissing-declarations]
+    __bpf_kfunc bool bpf_dynptr_is_null(struct bpf_dynptr_kern *ptr)
+                     ^~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2403:18: warning: no previous declaration for 'bpf_dynptr_is_rdonly' [-Wmissing-declarations]
+    __bpf_kfunc bool bpf_dynptr_is_rdonly(struct bpf_dynptr_kern *ptr)
+                     ^~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2411:19: warning: no previous declaration for 'bpf_dynptr_size' [-Wmissing-declarations]
+    __bpf_kfunc __u32 bpf_dynptr_size(const struct bpf_dynptr_kern *ptr)
+                      ^~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2419:17: warning: no previous declaration for 'bpf_dynptr_clone' [-Wmissing-declarations]
+    __bpf_kfunc int bpf_dynptr_clone(struct bpf_dynptr_kern *ptr,
+                    ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2432:19: warning: no previous declaration for 'bpf_cast_to_kern_ctx' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_cast_to_kern_ctx(void *obj)
+                      ^~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2437:19: warning: no previous declaration for 'bpf_rdonly_cast' [-Wmissing-declarations]
+    __bpf_kfunc void *bpf_rdonly_cast(void *obj__ign, u32 btf_id__k)
+                      ^~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2442:18: warning: no previous declaration for 'bpf_rcu_read_lock' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_rcu_read_lock(void)
+                     ^~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:2447:18: warning: no previous declaration for 'bpf_rcu_read_unlock' [-Wmissing-declarations]
+    __bpf_kfunc void bpf_rcu_read_unlock(void)
+                     ^~~~~~~~~~~~~~~~~~~
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] SELinux: Check correct permissions for FS_IOC32_*
-Link: https://lore.kernel.org/stable/20230906102557.3432236-1-alpic%40google.com
+
+vim +/bpf_percpu_obj_new_impl +1905 kernel/bpf/helpers.c
+
+  1904	
+> 1905	__bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+  1906	{
+  1907		u64 size = local_type_id__k;
+  1908	
+  1909		/* The verifier has ensured that meta__ign must be NULL */
+  1910		return bpf_mem_alloc(&bpf_global_percpu_ma, size);
+  1911	}
+  1912	
+  1913	/* Must be called under migrate_disable(), as required by bpf_mem_free */
+  1914	void __bpf_obj_drop_impl(void *p, const struct btf_record *rec)
+  1915	{
+  1916		if (rec && rec->refcount_off >= 0 &&
+  1917		    !refcount_dec_and_test((refcount_t *)(p + rec->refcount_off))) {
+  1918			/* Object is refcounted and refcount_dec didn't result in 0
+  1919			 * refcount. Return without freeing the object
+  1920			 */
+  1921			return;
+  1922		}
+  1923	
+  1924		if (rec)
+  1925			bpf_obj_free_fields(rec, p);
+  1926	
+  1927		if (rec && rec->refcount_off >= 0)
+  1928			bpf_mem_free_rcu(&bpf_global_ma, p);
+  1929		else
+  1930			bpf_mem_free(&bpf_global_ma, p);
+  1931	}
+  1932	
+  1933	__bpf_kfunc void bpf_obj_drop_impl(void *p__alloc, void *meta__ign)
+  1934	{
+  1935		struct btf_struct_meta *meta = meta__ign;
+  1936		void *p = p__alloc;
+  1937	
+  1938		__bpf_obj_drop_impl(p, meta ? meta->record : NULL);
+  1939	}
+  1940	
+> 1941	__bpf_kfunc void bpf_percpu_obj_drop_impl(void *p__alloc, void *meta__ign)
+  1942	{
+  1943		/* The verifier has ensured that meta__ign must be NULL */
+  1944		bpf_mem_free_rcu(&bpf_global_percpu_ma, p__alloc);
+  1945	}
+  1946	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
