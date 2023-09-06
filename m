@@ -1,48 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32871368
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 12:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD64DF5A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 13:49:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694005032; x=1725541032;
+  t=1694008155; x=1725544155;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ji2vPvkSoEPWMtRj8ih7XUvtJS058HHiqnFXsSGfi8U=;
-  b=TvXUShOwDV1PaK+jEbcjGYkHpZZco3Remwt16pJfynN56Lit/NRNkMWh
-   VrPUTw4RJ6+WzpID4GFYTTfLuIVuu5OaBRg0pnKu+v0aXxl/aaxzWNsZR
-   VQzI+s90JEq6QrMiwoKlazbGeWWnXYqeLfqF5BhknSaox3R7pUwiQ2LFb
-   0O0giU5mJjZ3F1jjrai36Bc27ysA7AOsg/XgVZ9Et7tVWm9jOrQCypf/R
-   UMhBflWY5iQYBvG7XiZin9roa12zzSNaEIunkwDQegps8dJZJ5jU27291
-   8BekSQduGRDFa4buna6gpTvqtYZ3G4CC5qVKddhBqCuoK9eH/1hHLLnTF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="356543039"
+  bh=KPAWd+TFJubxnsFyigdchHUcDBQpqpD8+pHOHcoO3b0=;
+  b=ab0ZhQee/guTObz1NmAjlByz0IfkGRPgliD29Y30Kkf1EVw1FB+64s5z
+   p71ImL0szqhDsvCWPA3HiMH5o98cXkK643yO4RF7QdpS2A3zFpXS/rvlx
+   EEBGwLLpi1/CeSPJv2v1SwnEIRU0+OyrJNRLlK2TIPFjjzGR+RtCKRlXV
+   19TS35raqHEI69k2MUjqCLl6bSjmUQR25KL27M6TCdzcfyvXbNTD5Gs7V
+   o+693F7mcgCIhUbZbw96yOt9wUkBHHdBsXj3TH/KwnpeykIknhVQdQ9uZ
+   4gcLI/wCnVInt85lXOZH63Laq7lpcA+Fk1ntrTsZ2fQXYUpT2dYJ5h3jp
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="379784347"
 X-IronPort-AV: E=Sophos;i="6.02,232,1688454000"; 
-   d="scan'208";a="356543039"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 05:57:11 -0700
+   d="scan'208";a="379784347"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 06:49:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="831650448"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="856436984"
 X-IronPort-AV: E=Sophos;i="6.02,232,1688454000"; 
-   d="scan'208";a="831650448"
+   d="scan'208";a="856436984"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Sep 2023 05:57:09 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2023 06:49:11 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qds5j-0000EL-1w;
-	Wed, 06 Sep 2023 12:57:07 +0000
-Date: Wed, 6 Sep 2023 20:56:18 +0800
+	id 1qdsu5-0000Gd-2D;
+	Wed, 06 Sep 2023 13:49:09 +0000
+Date: Wed, 6 Sep 2023 21:48:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Binding <sbinding@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	Vitaly Rodionov <vitalyr@opensource.cirrus.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: Re: [PATCH v1] ALSA: hda: cs35l41: Support mute notifications for
- CS35L41 HDA
-Message-ID: <202309062027.esqlhxcg-lkp@intel.com>
-References: <20230825120525.1337417-1-sbinding@opensource.cirrus.com>
+To: Martino Fontana <tinozzo123@gmail.com>, djogorchock@gmail.com,
+	jikos@kernel.org, benjamin.tissoires@redhat.com,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Martino Fontana <tinozzo123@gmail.com>
+Subject: Re: [PATCH v2 RESEND] HID: nintendo: cleanup LED code
+Message-ID: <202309062140.CiSKWeEO-lkp@intel.com>
+References: <20230906102831.16734-2-tinozzo123@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,101 +48,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230825120525.1337417-1-sbinding@opensource.cirrus.com>
+In-Reply-To: <20230906102831.16734-2-tinozzo123@gmail.com>
 
-Hi Stefan,
+Hi Martino,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tiwai-sound/for-next]
-[also build test ERROR on tiwai-sound/for-linus linus/master next-20230906]
-[cannot apply to v6.5]
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v6.5 next-20230906]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Binding/ALSA-hda-cs35l41-Support-mute-notifications-for-CS35L41-HDA/20230825-200835
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230825120525.1337417-1-sbinding%40opensource.cirrus.com
-patch subject: [PATCH v1] ALSA: hda: cs35l41: Support mute notifications for CS35L41 HDA
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230906/202309062027.esqlhxcg-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309062027.esqlhxcg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Martino-Fontana/HID-nintendo-cleanup-LED-code/20230906-183111
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20230906102831.16734-2-tinozzo123%40gmail.com
+patch subject: [PATCH v2 RESEND] HID: nintendo: cleanup LED code
+config: parisc-randconfig-r011-20230906 (https://download.01.org/0day-ci/archive/20230906/202309062140.CiSKWeEO-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230906/202309062140.CiSKWeEO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309062027.esqlhxcg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309062140.CiSKWeEO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   sound/pci/hda/patch_realtek.c: In function 'comp_acpi_device_notify':
->> sound/pci/hda/patch_realtek.c:6717:52: error: implicit declaration of function 'acpi_device_handle'; did you mean 'acpi_fwnode_handle'? [-Werror=implicit-function-declaration]
-    6717 |                         spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
-         |                                                    ^~~~~~~~~~~~~~~~~~
-         |                                                    acpi_fwnode_handle
-   sound/pci/hda/patch_realtek.c:6717:52: warning: passing argument 1 of 'spec->comps[i].acpi_notify' makes pointer from integer without a cast [-Wint-conversion]
-    6717 |                         spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                    |
-         |                                                    int
-   sound/pci/hda/patch_realtek.c:6717:52: note: expected 'acpi_handle' {aka 'void *'} but argument is of type 'int'
-   sound/pci/hda/patch_realtek.c: In function 'comp_bind':
->> sound/pci/hda/patch_realtek.c:6737:47: error: invalid use of undefined type 'struct acpi_device'
-    6737 |         ret = acpi_install_notify_handler(adev->handle, ACPI_DEVICE_NOTIFY,
-         |                                               ^~
-   sound/pci/hda/patch_realtek.c: In function 'comp_unbind':
-   sound/pci/hda/patch_realtek.c:6760:46: error: invalid use of undefined type 'struct acpi_device'
-    6760 |         ret = acpi_remove_notify_handler(adev->handle, ACPI_DEVICE_NOTIFY,
-         |                                              ^~
-   cc1: some warnings being treated as errors
+   drivers/hid/hid-nintendo.c: In function 'joycon_leds_create':
+>> drivers/hid/hid-nintendo.c:1954:17: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+    1954 |                 if (ret)
+         |                 ^~
+   drivers/hid/hid-nintendo.c:1956:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+    1956 |                         return ret;
+         |                         ^~~~~~
+   drivers/hid/hid-nintendo.c:1986:17: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+    1986 |                 if (ret)
+         |                 ^~
+   drivers/hid/hid-nintendo.c:1988:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+    1988 |                         return ret
+         |                         ^~~~~~
+>> drivers/hid/hid-nintendo.c:1988:35: error: expected ';' before '}' token
+    1988 |                         return ret
+         |                                   ^
+         |                                   ;
+    1989 |         }
+         |         ~                          
 
 
-vim +6717 sound/pci/hda/patch_realtek.c
+vim +1988 drivers/hid/hid-nintendo.c
 
-  6706	
-  6707	static void comp_acpi_device_notify(acpi_handle handle, u32 event, void *data)
-  6708	{
-  6709		struct hda_codec *cdc = data;
-  6710		struct alc_spec *spec = cdc->spec;
-  6711		int i;
-  6712	
-  6713		codec_info(cdc, "ACPI Notification %d\n", event);
-  6714	
-  6715		for (i = 0; i < HDA_MAX_COMPONENTS; i++) {
-  6716			if (spec->comps[i].dev && spec->comps[i].acpi_notify)
-> 6717				spec->comps[i].acpi_notify(acpi_device_handle(spec->comps[i].adev), event,
-  6718							   spec->comps[i].dev);
-  6719		}
-  6720	}
-  6721	
-  6722	static int comp_bind(struct device *dev)
-  6723	{
-  6724		struct hda_codec *cdc = dev_to_hda_codec(dev);
-  6725		struct alc_spec *spec = cdc->spec;
-  6726		struct acpi_device *adev;
-  6727		int ret;
-  6728	
-  6729		ret = component_bind_all(dev, spec->comps);
-  6730		if (ret)
-  6731			return ret;
-  6732	
-  6733		adev = spec->comps[0].adev;
-  6734		if (!acpi_device_handle(adev))
-  6735			return 0;
-  6736	
-> 6737		ret = acpi_install_notify_handler(adev->handle, ACPI_DEVICE_NOTIFY,
-  6738						  comp_acpi_device_notify, cdc);
-  6739		if (ret < 0) {
-  6740			codec_warn(cdc, "Failed to install notify handler: %d\n", ret);
-  6741			return 0;
-  6742		}
-  6743	
-  6744		codec_dbg(cdc, "Notify handler installed\n");
-  6745	
-  6746		return 0;
-  6747	}
-  6748	
+  1906	
+  1907	static DEFINE_SPINLOCK(joycon_input_num_spinlock);
+  1908	static int joycon_leds_create(struct joycon_ctlr *ctlr)
+  1909	{
+  1910		struct hid_device *hdev = ctlr->hdev;
+  1911		struct device *dev = &hdev->dev;
+  1912		const char *d_name = dev_name(dev);
+  1913		struct led_classdev *led;
+  1914		char *name;
+  1915		int ret;
+  1916		int i;
+  1917		unsigned long flags;
+  1918		int player_led_number;
+  1919		static int input_num;
+  1920	
+  1921		/* Set the player leds based on controller number */
+  1922		spin_lock_irqsave(&joycon_input_num_spinlock, flags);
+  1923		player_led_number = input_num++ % JC_NUM_LEDS;
+  1924		spin_unlock_irqrestore(&joycon_input_num_spinlock, flags);
+  1925	
+  1926		/* configure the player LEDs */
+  1927		for (i = 0; i < JC_NUM_LEDS; i++) {
+  1928			name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s:%s",
+  1929					      d_name,
+  1930					      "green",
+  1931					      joycon_player_led_names[i]);
+  1932			if (!name)
+  1933				return -ENOMEM;
+  1934	
+  1935			led = &ctlr->leds[i];
+  1936			led->name = name;
+  1937			led->brightness = (i == player_led_number) ? 1 : 0;
+  1938			led->max_brightness = 1;
+  1939			led->brightness_set_blocking =
+  1940						joycon_player_led_brightness_set;
+  1941			led->flags = LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
+  1942		}
+  1943		mutex_lock(&ctlr->output_mutex);
+  1944		ret = joycon_set_player_leds(ctlr, 0, 0x1 << player_led_number);
+  1945		mutex_unlock(&ctlr->output_mutex);
+  1946		if (ret) {
+  1947			hid_warn(hdev, "Failed to set players LEDs, skipping registration; ret=%d\n", ret);
+  1948			goto home_led;
+  1949		}
+  1950	
+  1951		for (i = 0; i < JC_NUM_LEDS; i++) {
+  1952			led = &ctlr->leds[i];
+  1953			ret = devm_led_classdev_register(&hdev->dev, led);
+> 1954			if (ret)
+  1955				hid_err(hdev, "Failed to register player %d LED; ret=%d\n", i + 1, ret);
+> 1956				return ret;
+  1957		}
+  1958	
+  1959	home_led:
+  1960		/* configure the home LED */
+  1961		if (jc_type_has_right(ctlr)) {
+  1962			name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s:%s",
+  1963					      d_name,
+  1964					      "blue",
+  1965					      LED_FUNCTION_PLAYER5);
+  1966			if (!name)
+  1967				return -ENOMEM;
+  1968	
+  1969			led = &ctlr->home_led;
+  1970			led->name = name;
+  1971			led->brightness = 0;
+  1972			led->max_brightness = 0xF;
+  1973			led->brightness_set_blocking = joycon_home_led_brightness_set;
+  1974			led->flags = LED_CORE_SUSPENDRESUME | LED_HW_PLUGGABLE;
+  1975	
+  1976			/* Set the home LED to 0 as default state */
+  1977			mutex_lock(&ctlr->output_mutex);
+  1978			ret = joycon_set_home_led(ctlr, 0);
+  1979			mutex_unlock(&ctlr->output_mutex);
+  1980			if (ret) {
+  1981				hid_warn(hdev, "Failed to set home LED, skipping registration; ret=%d\n", ret);
+  1982				return 0;
+  1983			}
+  1984	
+  1985			ret = devm_led_classdev_register(&hdev->dev, led);
+  1986			if (ret)
+  1987				hid_err(hdev, "Failed to register home LED; ret=%d\n", ret);
+> 1988				return ret
+  1989		}
+  1990	
+  1991		return 0;
+  1992	}
+  1993	
 
 -- 
 0-DAY CI Kernel Test Service
