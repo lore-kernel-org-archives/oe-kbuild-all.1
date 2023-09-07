@@ -1,53 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C686E11CBD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Sep 2023 23:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C3C10EC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 00:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694041814; x=1725577814;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fEw9pa/NdSdFIzoYPpsMEnIibMq4wIaQI1Ds5infKOM=;
-  b=E5rzABPYSUURtvuKavD2wZ4b1H84KsKUutiZMZiJe3II2r483z5XAlGM
-   7WHQIbxwevRaRyqlCp80h4pDIM60/dacXQI+UjnARlHePz1q9tF6g0EAR
-   pduio5XivamZs0wulZBJHPrCMmnLa8RpkaNgiORxFJ0A9TSdeQX0JF6g1
-   zZFRMS/JovbQH74h/JWerVXby5VYq8Px9cQOroyK9KIC6R3iYHXZBBPGw
-   hhz7L0hk5WfLgJKuTX6QhqPpAM4nFRF+EKfxp9XnTQEzzfE5JhIWGsiPS
-   NKy0ghWtHHpi49rkPSfHDbbWd2zz8jicA8icHZ34e1zOeto4WCcMoNCWi
+  t=1694044907; x=1725580907;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=57rOKl9H1ChgXDoV7sNB55WBykiS1bWzhOGY+Vidc4Q=;
+  b=gXXNfkgtTcdv0J+qq77NGMF0go4mXT1RqBcn+p56/vVqRmgoPC7kLah+
+   KaRACmfd4JNgDtkPJ+7icLdqfQXq6BiC4/fhRzg2vmJ8F2HvMfcOK52SM
+   iEFPILeJilvPkjQ79Bqc76NiBm7kFV1CcINkdI/fNmu9qKeL7uyMRm/it
+   suKfH+z9cHRma+s/9EE1dwu7a33XzErP3pqbh+7+GWUcwKrHC+yhtkpU2
+   BdZYk4Oa5LRRVhEL4jTrrGTua8yxl0/KnlLE2S4voKT5loTSF6HTB3xma
+   MX2SSKbjOe6ojA17Hn1if4UQZsVreq+sHJ3DeG2KBImB9ZXRqC0VaaD0q
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="408215571"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="376115143"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="408215571"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 16:10:13 -0700
+   d="scan'208";a="376115143"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 17:01:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="744866586"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="691517156"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="744866586"
+   d="scan'208";a="691517156"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Sep 2023 16:10:09 -0700
+  by orsmga003.jf.intel.com with ESMTP; 06 Sep 2023 17:01:21 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qe1ew-0000gB-2m;
-	Wed, 06 Sep 2023 23:10:06 +0000
-Date: Thu, 7 Sep 2023 07:09:16 +0800
+	id 1qe2SV-0000iV-0P;
+	Thu, 07 Sep 2023 00:01:19 +0000
+Date: Thu, 7 Sep 2023 08:01:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Andryuk <jandryuk@gmail.com>, Juergen Gross <jgross@suse.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Roger Pau Monne <roger.pau@citrix.com>,
-	stable@vger.kernel.org, Jason Andryuk <jandryuk@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, xen-devel@lists.xenproject.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2] acpi/processor: sanitize _PDC buffer bits when
- running as Xen dom0
-Message-ID: <202309070625.dJUDcGZg-lkp@intel.com>
-References: <20230906182125.48642-1-jandryuk@gmail.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.5-lvts 23/23]
+ drivers/thermal/mediatek/lvts_thermal.c:755:22: error: assigning to 'struct
+ lvts_coeff *' from 'const struct lvts_coeff *' discards qualifiers
+Message-ID: <202309070749.TmIgqu2M-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,86 +46,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230906182125.48642-1-jandryuk@gmail.com>
 
-Hi Jason,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/x86/core]
-[also build test ERROR on v6.5]
-[cannot apply to rafael-pm/linux-next linus/master next-20230906]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Andryuk/acpi-processor-sanitize-_PDC-buffer-bits-when-running-as-Xen-dom0/20230907-022235
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20230906182125.48642-1-jandryuk%40gmail.com
-patch subject: [PATCH v2] acpi/processor: sanitize _PDC buffer bits when running as Xen dom0
-config: x86_64-randconfig-r011-20230907 (https://download.01.org/0day-ci/archive/20230907/202309070625.dJUDcGZg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070625.dJUDcGZg-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.5-lvts
+head:   56b32a71c49870ed59217656f5d978f97bc64379
+commit: 56b32a71c49870ed59217656f5d978f97bc64379 [23/23] WIP: pass coeff from lvts_data struct into the lvts_ctrl to access from thermal_zone_device
+config: arm-randconfig-001-20230907 (https://download.01.org/0day-ci/archive/20230907/202309070749.TmIgqu2M-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070749.TmIgqu2M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309070625.dJUDcGZg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309070749.TmIgqu2M-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/acpi/processor_pdc.c: In function 'acpi_processor_eval_pdc':
->> drivers/acpi/processor_pdc.c:147:17: error: implicit declaration of function 'xen_sanitize_pdc' [-Werror=implicit-function-declaration]
-     147 |                 xen_sanitize_pdc(buffer);
-         |                 ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/thermal/mediatek/lvts_thermal.c:755:22: error: assigning to 'struct lvts_coeff *' from 'const struct lvts_coeff *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+                   lvts_ctrl[i].coeff = &lvts_data->coeff;
+                                      ^ ~~~~~~~~~~~~~~~~~
+   drivers/thermal/mediatek/lvts_thermal.c:1216:6: warning: unused variable 'irq' [-Wunused-variable]
+           int irq, ret;
+               ^
+   1 warning and 1 error generated.
 
 
-vim +/xen_sanitize_pdc +147 drivers/acpi/processor_pdc.c
+vim +755 drivers/thermal/mediatek/lvts_thermal.c
 
-   116	
-   117	/*
-   118	 * _PDC is required for a BIOS-OS handshake for most of the newer
-   119	 * ACPI processor features.
-   120	 */
-   121	static acpi_status
-   122	acpi_processor_eval_pdc(acpi_handle handle, struct acpi_object_list *pdc_in)
-   123	{
-   124		acpi_status status = AE_OK;
-   125		union acpi_object *obj;
-   126		u32 *buffer = NULL;
-   127	
-   128		obj = pdc_in->pointer;
-   129		buffer = (u32 *)(obj->buffer.pointer);
-   130	
-   131		if (boot_option_idle_override == IDLE_NOMWAIT) {
-   132			/*
-   133			 * If mwait is disabled for CPU C-states, the C2C3_FFH access
-   134			 * mode will be disabled in the parameter of _PDC object.
-   135			 * Of course C1_FFH access mode will also be disabled.
-   136			 */
-   137			buffer[2] &= ~(ACPI_PDC_C_C2C3_FFH | ACPI_PDC_C_C1_FFH);
-   138		}
-   139	
-   140		if (xen_initial_domain()) {
-   141			/*
-   142			 * When Linux is running as Xen dom0, the hypervisor is the
-   143			 * entity in charge of the processor power management, and so
-   144			 * Xen needs to check the OS capabilities reported in the _PDC
-   145			 * buffer matches what the hypervisor driver supports.
-   146			 */
- > 147			xen_sanitize_pdc(buffer);
-   148		}
-   149	
-   150		status = acpi_evaluate_object(handle, "_PDC", pdc_in, NULL);
-   151	
-   152		if (ACPI_FAILURE(status))
-   153			acpi_handle_debug(handle,
-   154			    "Could not evaluate _PDC, using legacy perf control\n");
-   155	
-   156		return status;
-   157	}
-   158	
+   725	
+   726	static int lvts_ctrl_init(struct device *dev, struct lvts_domain *lvts_td,
+   727						const struct lvts_data *lvts_data)
+   728	{
+   729		size_t size = sizeof(*lvts_td->lvts_ctrl) * lvts_data->num_lvts_ctrl;
+   730		struct lvts_ctrl *lvts_ctrl;
+   731		int i, ret;
+   732	
+   733		/*
+   734		 * Create the calibration bytes stream from efuse data
+   735		 */
+   736		ret = lvts_calibration_read(dev, lvts_td, lvts_data);
+   737		if (ret)
+   738			return ret;
+   739	
+   740		/*
+   741		 * The golden temp information is contained in the first chunk
+   742		 * of efuse data.
+   743		 */
+   744		ret = lvts_golden_temp_init(dev, (u32 *)lvts_td->calib);
+   745		if (ret)
+   746			return ret;
+   747	
+   748		lvts_ctrl = devm_kzalloc(dev, size, GFP_KERNEL);
+   749		if (!lvts_ctrl)
+   750			return -ENOMEM;
+   751	
+   752		for (i = 0; i < lvts_data->num_lvts_ctrl; i++) {
+   753	
+   754			lvts_ctrl[i].base = lvts_td->base + lvts_data->lvts_ctrl[i].offset;
+ > 755			lvts_ctrl[i].coeff = &lvts_data->coeff;
+   756	
+   757			ret = lvts_sensor_init(dev, &lvts_ctrl[i],
+   758					       &lvts_data->lvts_ctrl[i]);
+   759			if (ret)
+   760				return ret;
+   761	
+   762			ret = lvts_calibration_init(dev, &lvts_ctrl[i],
+   763						    &lvts_data->lvts_ctrl[i],
+   764						    lvts_td->calib);
+   765			if (ret)
+   766				return ret;
+   767	
+   768			/*
+   769			 * The mode the ctrl will use to read the temperature
+   770			 * (filtered or immediate)
+   771			 */
+   772			lvts_ctrl[i].mode = lvts_data->lvts_ctrl[i].mode;
+   773	
+   774			/*
+   775			 * The temperature to raw temperature must be done
+   776			 * after initializing the calibration.
+   777			 */
+   778			lvts_ctrl[i].hw_tshut_raw_temp =
+   779				lvts_temp_to_raw(lvts_data->lvts_ctrl[i].hw_tshut_temp,lvts_data->coeff);
+   780	
+   781			lvts_ctrl[i].low_thresh = INT_MIN;
+   782			lvts_ctrl[i].high_thresh = INT_MIN;
+   783		}
+   784	
+   785		/*
+   786		 * We no longer need the efuse bytes stream, let's free it
+   787		 */
+   788		devm_kfree(dev, lvts_td->calib);
+   789	
+   790		lvts_td->lvts_ctrl = lvts_ctrl;
+   791		lvts_td->num_lvts_ctrl = lvts_data->num_lvts_ctrl;
+   792	
+   793		return 0;
+   794	}
+   795	
 
 -- 
 0-DAY CI Kernel Test Service
