@@ -1,111 +1,110 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7234E5690
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 11:47:25 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-31f615afa52so959332f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Sep 2023 04:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694087243; x=1694692043; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Rd3g14aq0Z17dL7uhkaawHdoYkXsMOdf9lkrn2VBQN8=;
-        b=dYQBMhkFT0RxardBGaxIm6U5QS4rShkoBaGMeSNKqBUrVC9SA/sNCrYc7hSSQzi7Du
-         7YxguFBbn77cH1ONlYnh6mCo2/HW9t3tU3g+UK6HMcIwMOWGeAuHQxYI6wAEgsOKTMkS
-         BueTB9+8h428ZR4m+wtnIlWe4LrgXHancZsOhuabbu+WEnKSuhg8KKCBsmH5acTw4+UF
-         Jg66N2XOgYI6jbghwm2S2Z/eT56CdhWZ2iSrPpRuQXFCFaXVzXtNF3bYZqV8ugc3DYy3
-         kDleqTTiHymIExsa8/R33JazIKKkOuojJ9zZRDiHCUyiKk18z+2LBlUT+qNwRcdFO+P2
-         3CVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694087243; x=1694692043;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rd3g14aq0Z17dL7uhkaawHdoYkXsMOdf9lkrn2VBQN8=;
-        b=K/7GTEulcKaVg4paea+MUcjCd4Rq4BWlTJur1v1Fxfi+a4B1zA67kIABiwfcy//mYq
-         ylSFbBcUskxSj1jxZvZkDqlq3Lj6SawCO7ai49hQdB1ijDTrklVVigYr1+E9KkvYwDe/
-         60AG5Az2mpyhX/DV8Vz7qVhfv2esVAfRmUyaLmEP9tbadUUwC/g3rHjBJTqO7G2/7yty
-         WItS6HwW/4U+8XTAEqplBUwlLEXR/gvYMzIODg2wHFd/FNFTozUff0pQAOghPA+F2CNG
-         twwffwTFjFFQksqx42jEMSdypFQgkTRUH2JVSCwWJxda+MAtr3m/P804v/44Gcs3sGgv
-         zTsw==
-X-Gm-Message-State: AOJu0YwWXeR9rBHeySAeMOkM+yCfdB2YoA0hFrjXnSZBiRDqxqkBD/y/
-	KURGZwpoBTSsz7y57tCstomBjw==
-X-Google-Smtp-Source: AGHT+IGglI0RO6vx8D5x0p1s9L/ra8iOSpCNNTG2ytt6fbbSiSjyPJglvq7Yl3BORRm775/WPHbEig==
-X-Received: by 2002:adf:f749:0:b0:314:748:d59d with SMTP id z9-20020adff749000000b003140748d59dmr4553606wrp.27.1694087243431;
-        Thu, 07 Sep 2023 04:47:23 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bp5-20020a5d5a85000000b0031f07d1edbcsm20553045wrb.77.2023.09.07.04.47.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Sep 2023 04:47:23 -0700 (PDT)
-Date: Thu, 7 Sep 2023 14:47:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild@lists.linux.dev, Rob Herring <robh@kernel.org>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: drivers/of/dynamic.c:935 of_changeset_action() warn: possible
- memory leak of 'ce'
-Message-ID: <e902e684-5953-4e71-82b3-28166666bc6d@kadam.mountain>
-References: <eaa86211-436d-445b-80bd-84cea5745b5a@kadam.mountain>
- <CAMuHMdUgTKfk0DdzS1ZtKuij1NE-nTEBdgnnS0o2uy8RbtagmQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED36F568E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 11:50:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694087404; x=1725623404;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NdN0QnTFqQ9uYJNKrkIE/wSntQdOUZt3P4X9JlFV0gk=;
+  b=EYikkr99a/XmzcVRnAPvaEEl6P+gINa5LtAUYPYdcvahYCal4YQI+A3E
+   bOIcaOH6qh6e1K5rtSp/we3Rysc9K9K4H7RfFB1MqTmQFXZY9A8CU0rbo
+   BQk9c1NaYpYHiHF5lRQC3L6pleV+otU23xX+XCbOTjyUyrsgxLC/qa/Ix
+   mdlMG+o0IUWzZ7x73+MsXWAG5/SEc0HUv4+mdbqPWmnyVLSiqxOHZyDCy
+   RGzKIroaUG/EWWb2QMXZgdrme9lxgn/VusYd8ta3p4MRvqEuIdGr0Zk8Z
+   t5Rxq7Gf9x6pE1spI/BD8JzdejebCrbccGMyIseJ/x0IF9fvZWtBZghQf
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="443715176"
+X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
+   d="scan'208";a="443715176"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 04:50:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="771243817"
+X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
+   d="scan'208";a="771243817"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 07 Sep 2023 04:50:02 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qeDWK-0001Bb-0b;
+	Thu, 07 Sep 2023 11:50:00 +0000
+Date: Thu, 7 Sep 2023 19:49:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com,
+	intel-gfx@lists.freedesktop.org,
+	Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+Subject: Re: [PATCH 5/6] drm/edid: add helpers to get/set struct cea_sad
+ from/to 3-byte sad
+Message-ID: <202309071934.AzntzCVc-lkp@intel.com>
+References: <eba53a0904126fb904a5190750002695350f44eb.1694078430.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUgTKfk0DdzS1ZtKuij1NE-nTEBdgnnS0o2uy8RbtagmQ@mail.gmail.com>
+In-Reply-To: <eba53a0904126fb904a5190750002695350f44eb.1694078430.git.jani.nikula@intel.com>
 
-On Thu, Sep 07, 2023 at 01:30:09PM +0200, Geert Uytterhoeven wrote:
-> Hi Dan,
-> 
-> On Thu, Sep 7, 2023 at 12:52 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   99d99825fc075fd24b60cc9cf0fb1e20b9c16b0f
-> > commit: 914d9d831e6126a6e7a92e27fcfaa250671be42c of: dynamic: Refactor action prints to not use "%pOF" inside devtree_lock
-> > config: x86_64-randconfig-161-20230831 (https://download.01.org/0day-ci/archive/20230901/202309011059.EOdr4im9-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20230901/202309011059.EOdr4im9-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202309011059.EOdr4im9-lkp@intel.com/
-> >
-> > smatch warnings:
-> > drivers/of/dynamic.c:935 of_changeset_action() warn: possible memory leak of 'ce'
-> >
-> > vim +/ce +935 drivers/of/dynamic.c
-> >
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  925  int of_changeset_action(struct of_changeset *ocs, unsigned long action,
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  926                struct device_node *np, struct property *prop)
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  927  {
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  928        struct of_changeset_entry *ce;
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  929
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  930        ce = kzalloc(sizeof(*ce), GFP_KERNEL);
-> > 606ad42aa3b1fe Rob Herring       2016-06-15  931        if (!ce)
-> > 201c910bd6898d Pantelis Antoniou 2014-07-04  932                return -ENOMEM;
-> > 606ad42aa3b1fe Rob Herring       2016-06-15  933
-> > 914d9d831e6126 Rob Herring       2023-08-18  934        if (WARN_ON(action >= ARRAY_SIZE(action_names)))
-> > 914d9d831e6126 Rob Herring       2023-08-18 @935                return -EINVAL;
-> >
-> > No kfree(ce).  Probably we move this check before the kmalloc()?
-> 
-> Yes, moving up sounds great.
-> Care to send a patch?
-> 
+Hi Jani,
 
-Sure.  I can do that.
+kernel test robot noticed the following build warnings:
 
-These are zero day bot warnings from Intel.  I normally just look them
-over and hit the forward button.  Quite often the zero day bot will find
-the warnings before the patch has been apply.  But in this case, it's
-simple enough to patch.
+[auto build test WARNING on drm-tip/drm-tip]
 
-regards,
-dan carpenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-edid-split-out-drm_eld-h-from-drm_edid-h/20230907-173011
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/eba53a0904126fb904a5190750002695350f44eb.1694078430.git.jani.nikula%40intel.com
+patch subject: [PATCH 5/6] drm/edid: add helpers to get/set struct cea_sad from/to 3-byte sad
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230907/202309071934.AzntzCVc-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309071934.AzntzCVc-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309071934.AzntzCVc-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_edid.c:5505:6: warning: no previous prototype for 'drm_edid_cta_sad_get' [-Wmissing-prototypes]
+    5505 | void drm_edid_cta_sad_get(const struct cea_sad *cta_sad, u8 *sad)
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_edid.c:5515:6: warning: no previous prototype for 'drm_edid_cta_sad_set' [-Wmissing-prototypes]
+    5515 | void drm_edid_cta_sad_set(struct cea_sad *cta_sad, const u8 *sad)
+         |      ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/drm_edid_cta_sad_get +5505 drivers/gpu/drm/drm_edid.c
+
+  5501	
+  5502	/*
+  5503	 * Get 3-byte SAD buf from struct cea_sad.
+  5504	 */
+> 5505	void drm_edid_cta_sad_get(const struct cea_sad *cta_sad, u8 *sad)
+  5506	{
+  5507		sad[0] = cta_sad->format << 3 | cta_sad->channels;
+  5508		sad[1] = cta_sad->freq;
+  5509		sad[2] = cta_sad->byte2;
+  5510	}
+  5511	
+  5512	/*
+  5513	 * Set struct cea_sad from 3-byte SAD buf.
+  5514	 */
+> 5515	void drm_edid_cta_sad_set(struct cea_sad *cta_sad, const u8 *sad)
+  5516	{
+  5517		cta_sad->format = (sad[0] & 0x78) >> 3;
+  5518		cta_sad->channels = sad[0] & 0x07;
+  5519		cta_sad->freq = sad[1] & 0x7f;
+  5520		cta_sad->byte2 = sad[2];
+  5521	}
+  5522	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
