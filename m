@@ -1,43 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEE3EA6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 04:30:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5EB1116
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 07:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694061046; x=1725597046;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IhdZDVelb2SRvHh1ye8Ux/q8QfgoNi62xkzGDYgICuc=;
-  b=kf+CAuVcS8C33joZeqGBhpu3YZGPSg3nhdSHkBOtzBYNMtKrbqt4cRoJ
-   hjRcbrpxinYo6GGZmwKbmyYCHXmLkuatJw3vguPT7rD3g0SAOMYs/qtvs
-   4E8NFd/t7TXB/7ws+/labTQdOkXlrbtMk1Alrqk7RJcm0aLdURXaCjkiz
-   xUhhZ5W3ClHJYwT6s3JxNLtKIBXqI7OAamq0HDU4iCeOduAIV1yxhvNde
-   AOzUJLlDVFWUWftYB3E3Ckk4//NQv9t63jxLPPfOXhBFcJqRhs6sGFaaU
-   3ceeXEuTsra/rQlNpXhouwztMA0RRogFBHncEqcYGY5TjMHTuuZfBy7SZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="381042295"
+  t=1694072206; x=1725608206;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pDtULivygmuz21qFzpXs9W9IExF112gmZhDj5Kr7DaU=;
+  b=L5scR8kQX+odC986WjlOIXDRk40mS5I7RLEhwJiX5LGsqYqWcYHK4ovT
+   C03Y/g9HZ1hZvWqsPq4KxcveantUkXe7YrAcT/LlcJsIsqOpuwoG1rXqk
+   dKqFd8xDX6SPrIKEpGzIxZR8cq1xmitU2U+cNv5J+BhR4halt8km5Go+Y
+   EDhBnQY6Ng+UEZKu5CQuYA04LyjdrlDCSdDBoznM794KROm+vrLwf+NYR
+   Xu0VhlclqizPcAzCvjuSqjqflpF9SvvwFOvIuYz5ICEYM58Np9SSFQmkV
+   Ee4NlRnhF3kHp/ngl2aK9v5jm9MygEAHFNTbQhvqCA8x7xPhLKGOAYdtP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="367506540"
 X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; 
-   d="scan'208";a="381042295"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 21:30:45 -0700
+   d="scan'208";a="367506540"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 00:36:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="741852563"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="776963647"
 X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; 
-   d="scan'208";a="741852563"
+   d="scan'208";a="776963647"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 06 Sep 2023 21:30:43 -0700
+  by orsmga001.jf.intel.com with ESMTP; 07 Sep 2023 00:36:43 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qe6fB-0000s7-2D;
-	Thu, 07 Sep 2023 04:30:41 +0000
-Date: Thu, 7 Sep 2023 12:30:01 +0800
+	id 1qe9ZB-000102-0w;
+	Thu, 07 Sep 2023 07:36:41 +0000
+Date: Thu, 7 Sep 2023 15:36:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>, Hao Luo <haoluo@google.com>
-Subject: kernel/cgroup/rstat.c:166:22: error: no previous declaration for
- 'bpf_rstat_flush'
-Message-ID: <202309071214.ACNNqbiA-lkp@intel.com>
+To: advantech.susiteam@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, wenkai.chung@advantech.com.tw,
+	Susi.Driver@advantech.com, Lee Jones <lee@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] mfd: eiois200: Add EIO-IS200 Series EC Core Driver
+Message-ID: <202309071531.rvllWPZ0-lkp@intel.com>
+References: <20230907031320.6814-5-advantech.susiteam@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,58 +48,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230907031320.6814-5-advantech.susiteam@gmail.com>
 
-Hi Yosry,
+Hi,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7ba2090ca64ea1aa435744884124387db1fac70f
-commit: a319185be9f5ad13c2a296d448ac52ffe45d194c cgroup: bpf: enable bpf programs to integrate with rstat
-date:   1 year ago
-config: x86_64-sof-customedconfig-avs-defconfig (https://download.01.org/0day-ci/archive/20230907/202309071214.ACNNqbiA-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309071214.ACNNqbiA-lkp@intel.com/reproduce)
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on linus/master next-20230907]
+[cannot apply to lee-mfd/for-mfd-fixes v6.5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/advantech-susiteam-gmail-com/mfd-eiois200-Insert-EIO-IS200-core-driver-to-Kconfig/20230907-111628
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20230907031320.6814-5-advantech.susiteam%40gmail.com
+patch subject: [PATCH 4/4] mfd: eiois200: Add EIO-IS200 Series EC Core Driver
+config: i386-randconfig-014-20230907 (https://download.01.org/0day-ci/archive/20230907/202309071531.rvllWPZ0-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309071531.rvllWPZ0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309071214.ACNNqbiA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309071531.rvllWPZ0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/cgroup/rstat.c:166:22: error: no previous declaration for 'bpf_rstat_flush' [-Werror=missing-declarations]
-    __weak noinline void bpf_rstat_flush(struct cgroup *cgrp,
-                         ^~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/mfd/eiois200_core.c:438:5: warning: no previous prototype for 'eiois200_probe' [-Wmissing-prototypes]
+     438 | int eiois200_probe(struct device *dev, unsigned int id)
+         |     ^~~~~~~~~~~~~~
 
 
-vim +/bpf_rstat_flush +166 kernel/cgroup/rstat.c
+vim +/eiois200_probe +438 drivers/mfd/eiois200_core.c
 
-   147	
-   148	/*
-   149	 * A hook for bpf stat collectors to attach to and flush their stats.
-   150	 * Together with providing bpf kfuncs for cgroup_rstat_updated() and
-   151	 * cgroup_rstat_flush(), this enables a complete workflow where bpf progs that
-   152	 * collect cgroup stats can integrate with rstat for efficient flushing.
-   153	 *
-   154	 * A static noinline declaration here could cause the compiler to optimize away
-   155	 * the function. A global noinline declaration will keep the definition, but may
-   156	 * optimize away the callsite. Therefore, __weak is needed to ensure that the
-   157	 * call is still emitted, by telling the compiler that we don't know what the
-   158	 * function might eventually be.
-   159	 *
-   160	 * __diag_* below are needed to dismiss the missing prototype warning.
-   161	 */
-   162	__diag_push();
-   163	__diag_ignore_all("-Wmissing-prototypes",
-   164			  "kfuncs which will be used in BPF programs");
-   165	
- > 166	__weak noinline void bpf_rstat_flush(struct cgroup *cgrp,
-   167					     struct cgroup *parent, int cpu)
-   168	{
-   169	}
-   170	
+   437	
+ > 438	int eiois200_probe(struct device *dev, unsigned int id)
+   439	{
+   440		int  ret = 0;
+   441		void __iomem *iomem;
+   442	
+   443		iomem = devm_ioport_map(dev, 0, EIOIS200_SUB_PNP_DATA + 1);
+   444		if (!iomem)
+   445			return -ENOMEM;
+   446	
+   447		regmap_is200 = devm_regmap_init_mmio(dev, iomem, &pnp_regmap_config);
+   448		if (!regmap_is200)
+   449			return -ENOMEM;
+   450	
+   451		eiois200_dev = devm_kzalloc(dev,
+   452					    sizeof(struct eiois200_dev),
+   453					    GFP_KERNEL);
+   454		if (!eiois200_dev)
+   455			return -ENOMEM;
+   456	
+   457		mutex_init(&eiois200_dev->mutex);
+   458	
+   459		if (eiois200_exist(dev))
+   460			return -ENODEV;
+   461	
+   462		if (firmware_code_base(dev)) {
+   463			dev_err(dev, "Chip code base check fail\n");
+   464			return -EIO;
+   465		}
+   466	
+   467		dev_set_drvdata(dev, eiois200_dev);
+   468	
+   469		ret = devm_mfd_add_devices(dev, PLATFORM_DEVID_NONE, susi_mfd_devs,
+   470					   ARRAY_SIZE(susi_mfd_devs),
+   471					   NULL, 0, NULL);
+   472		if (ret)
+   473			dev_err(dev, "Cannot register child devices (error = %d)\n", ret);
+   474	
+   475		pr_info("%s started", KBUILD_MODNAME);
+   476	
+   477		return 0;
+   478	}
+   479	
 
 -- 
 0-DAY CI Kernel Test Service
