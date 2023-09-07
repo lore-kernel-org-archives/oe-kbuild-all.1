@@ -1,43 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBED96FD9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 14:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459806FD9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 14:55:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694097851; x=1725633851;
+  t=1694098515; x=1725634515;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qBRbozEnLOq5XmQ4Git0Ti/wkjQhsqE+lyDpH5OsLnI=;
-  b=cugwuq21yGEFXsCRmKqPun1POc2I2BHxT+fVkuQJC+gQd2LhWzNmtE6B
-   g37iFI5poB7P7+Ec5HXScOvq63opqRUk0YuSUEie3mQJFQMlgBNrxEomb
-   n2FL/1nEYZHD+p5tivlT6aKoP8o/EPY1Oq9FcYIOVfXvLf8y8IYZZuu3P
-   bfzIprzazQDfoGbEO/tto+PlDV3ASId0gAGxdxvR5RjT0EtAIZkBrQfxb
-   8qt61aBm+JvZ9TlQop07m/rizhTpX9O0Z5J8Jn0VrQs2YOsP3mmRivkA3
-   NkTrbHJISbCK09Sl1rsN2HI5fp3QMazqVNEyxtGiGNYD41cFi9ypqk7w1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="374758983"
+  bh=QtHc55YranH6Ei3rJ3m5hCA03q6yM6caJHhQLFIUmsU=;
+  b=bQso8KvaZ/c6+dia6U0dQM6CcpdeC3Jx1TF+Ep+AASAtTO+B97pj17j4
+   cXLdOucFMKeVnFOEPcbuej2ObBzH+4ebIAYViN2k9ZyLCCv2myC0cHwp4
+   jD6i/6wi7iDazjc7wVvzKfgFdtUrfnOV/VHZ/ImK1c0mnUzaQh20hknYN
+   ThEPYRhtnd6p7Fm3oN6Ztt6CGLkHabVaNkdY7IOLsYwW6AsVKKZp+MdYL
+   r9Hh0lPFtByNiWqcPuC0qgJ1rWqoKSLcPmgaD28r5WpfbvWibObAWMGb1
+   5tuwS6onmWM3LaVVbLeGGOHKY9TQAT9XU5y4itfjbb9HNcnnMPTtj+BMA
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="408370376"
 X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="374758983"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 07:44:08 -0700
+   d="scan'208";a="408370376"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 07:55:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="1072912158"
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="691821327"
 X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="1072912158"
+   d="scan'208";a="691821327"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 07 Sep 2023 07:44:07 -0700
+  by orsmga003.jf.intel.com with ESMTP; 07 Sep 2023 07:55:07 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeGEm-0001I0-2k;
-	Thu, 07 Sep 2023 14:44:04 +0000
-Date: Thu, 7 Sep 2023 22:43:29 +0800
+	id 1qeGPR-0001IR-0Z;
+	Thu, 07 Sep 2023 14:55:05 +0000
+Date: Thu, 7 Sep 2023 22:54:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	WANG Xuerui <git@xen0n.name>, Jianmin Lv <lvjianmin@loongson.cn>
-Subject: drivers/pci/controller/pcie-mediatek.c:400:40: sparse: sparse:
- incorrect type in argument 1 (different address spaces)
-Message-ID: <202309072237.9zxMv4MZ-lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-6.5 445/618]
+ drivers/interconnect/qcom/sm8250.c:280:10: error: 'MASTER_QUP_CORE_0'
+ undeclared here (not in a function); did you mean 'MASTER_QUP_0'?
+Message-ID: <202309072231.k8R6Sbjk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,104 +47,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7ba2090ca64ea1aa435744884124387db1fac70f
-commit: 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb LoongArch: Add PCI controller support
-date:   1 year, 1 month ago
-config: loongarch-randconfig-r122-20230906 (https://download.01.org/0day-ci/archive/20230907/202309072237.9zxMv4MZ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230907/202309072237.9zxMv4MZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.5
+head:   a369e6e4e96387fafd2686cb85ef80ebedec5909
+commit: 6c9358a886b033ff4409781da011b957dab93dce [445/618] interconnect: qcom: sm8250: Fix QUP0 nodes
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230907/202309072231.k8R6Sbjk-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309072231.k8R6Sbjk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309072237.9zxMv4MZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309072231.k8R6Sbjk-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pci/controller/pcie-mediatek.c:400:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile *address @@     got void [noderef] __iomem * @@
-   drivers/pci/controller/pcie-mediatek.c:400:40: sparse:     expected void volatile *address
-   drivers/pci/controller/pcie-mediatek.c:400:40: sparse:     got void [noderef] __iomem *
-   drivers/pci/controller/pcie-mediatek.c:523:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile *address @@     got void [noderef] __iomem * @@
-   drivers/pci/controller/pcie-mediatek.c:523:44: sparse:     expected void volatile *address
-   drivers/pci/controller/pcie-mediatek.c:523:44: sparse:     got void [noderef] __iomem *
---
-   drivers/uio/uio_aec.c:44:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *int_flag @@     got void * @@
-   drivers/uio/uio_aec.c:44:49: sparse:     expected void [noderef] __iomem *int_flag
-   drivers/uio/uio_aec.c:44:49: sparse:     got void *
->> drivers/uio/uio_aec.c:50:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:50:49: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:50:49: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:88:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *priv @@     got void [noderef] __iomem * @@
-   drivers/uio/uio_aec.c:88:20: sparse:     expected void *priv
-   drivers/uio/uio_aec.c:88:20: sparse:     got void [noderef] __iomem *
->> drivers/uio/uio_aec.c:104:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:104:42: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:104:42: sparse:     got void *
-   drivers/uio/uio_aec.c:105:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:105:43: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:105:43: sparse:     got void *
-   drivers/uio/uio_aec.c:106:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:106:34: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:106:34: sparse:     got void *
-   drivers/uio/uio_aec.c:115:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *priv @@
-   drivers/uio/uio_aec.c:115:31: sparse:     expected void [noderef] __iomem *
-   drivers/uio/uio_aec.c:115:31: sparse:     got void *priv
-   drivers/uio/uio_aec.c:128:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:128:42: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:128:42: sparse:     got void *
-   drivers/uio/uio_aec.c:129:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:129:43: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:129:43: sparse:     got void *
-   drivers/uio/uio_aec.c:131:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/uio/uio_aec.c:131:28: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:131:28: sparse:     got void *
-   drivers/uio/uio_aec.c:136:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *priv @@
-   drivers/uio/uio_aec.c:136:31: sparse:     expected void [noderef] __iomem *
-   drivers/uio/uio_aec.c:136:31: sparse:     got void *priv
+All errors (new ones prefixed by >>):
 
-vim +400 drivers/pci/controller/pcie-mediatek.c
+>> drivers/interconnect/qcom/sm8250.c:280:10: error: 'MASTER_QUP_CORE_0' undeclared here (not in a function); did you mean 'MASTER_QUP_0'?
+     280 |         [MASTER_QUP_CORE_0] = &qup0_core_master,
+         |          ^~~~~~~~~~~~~~~~~
+         |          MASTER_QUP_0
+>> drivers/interconnect/qcom/sm8250.c:280:10: error: array index in initializer not of integer type
+   drivers/interconnect/qcom/sm8250.c:280:10: note: (near initialization for 'qup_virt_nodes')
+>> drivers/interconnect/qcom/sm8250.c:281:10: error: 'MASTER_QUP_CORE_1' undeclared here (not in a function); did you mean 'MASTER_MDP_PORT1'?
+     281 |         [MASTER_QUP_CORE_1] = &qup1_core_master,
+         |          ^~~~~~~~~~~~~~~~~
+         |          MASTER_MDP_PORT1
+   drivers/interconnect/qcom/sm8250.c:281:10: error: array index in initializer not of integer type
+   drivers/interconnect/qcom/sm8250.c:281:10: note: (near initialization for 'qup_virt_nodes')
+>> drivers/interconnect/qcom/sm8250.c:282:10: error: 'MASTER_QUP_CORE_2' undeclared here (not in a function); did you mean 'MASTER_QUP_2'?
+     282 |         [MASTER_QUP_CORE_2] = &qup2_core_master,
+         |          ^~~~~~~~~~~~~~~~~
+         |          MASTER_QUP_2
+   drivers/interconnect/qcom/sm8250.c:282:10: error: array index in initializer not of integer type
+   drivers/interconnect/qcom/sm8250.c:282:10: note: (near initialization for 'qup_virt_nodes')
+>> drivers/interconnect/qcom/sm8250.c:283:10: error: 'SLAVE_QUP_CORE_0' undeclared here (not in a function); did you mean 'SLAVE_QUP_0'?
+     283 |         [SLAVE_QUP_CORE_0] = &qup0_core_slave,
+         |          ^~~~~~~~~~~~~~~~
+         |          SLAVE_QUP_0
+   drivers/interconnect/qcom/sm8250.c:283:10: error: array index in initializer not of integer type
+   drivers/interconnect/qcom/sm8250.c:283:10: note: (near initialization for 'qup_virt_nodes')
+>> drivers/interconnect/qcom/sm8250.c:284:10: error: 'SLAVE_QUP_CORE_1' undeclared here (not in a function); did you mean 'SLAVE_QUP_1'?
+     284 |         [SLAVE_QUP_CORE_1] = &qup1_core_slave,
+         |          ^~~~~~~~~~~~~~~~
+         |          SLAVE_QUP_1
+   drivers/interconnect/qcom/sm8250.c:284:10: error: array index in initializer not of integer type
+   drivers/interconnect/qcom/sm8250.c:284:10: note: (near initialization for 'qup_virt_nodes')
+>> drivers/interconnect/qcom/sm8250.c:285:10: error: 'SLAVE_QUP_CORE_2' undeclared here (not in a function); did you mean 'SLAVE_QUP_2'?
+     285 |         [SLAVE_QUP_CORE_2] = &qup2_core_slave,
+         |          ^~~~~~~~~~~~~~~~
+         |          SLAVE_QUP_2
+   drivers/interconnect/qcom/sm8250.c:285:10: error: array index in initializer not of integer type
+   drivers/interconnect/qcom/sm8250.c:285:10: note: (near initialization for 'qup_virt_nodes')
 
-b099631df160ec drivers/pci/host/pcie-mediatek.c Ryder Lee     2017-08-10  393  
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  394  static void mtk_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
-43e6409db64dda drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  395  {
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  396  	struct mtk_pcie_port *port = irq_data_get_irq_chip_data(data);
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  397  	phys_addr_t addr;
-43e6409db64dda drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  398  
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  399  	/* MT2712/MT7622 only support 32-bit MSI addresses */
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04 @400  	addr = virt_to_phys(port->base + PCIE_MSI_VECTOR);
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  401  	msg->address_hi = 0;
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  402  	msg->address_lo = lower_32_bits(addr);
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  403  
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  404  	msg->data = data->hwirq;
-43e6409db64dda drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  405  
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  406  	dev_dbg(port->pcie->dev, "msi#%d address_hi %#x address_lo %#x\n",
-42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  407  		(int)data->hwirq, msg->address_hi, msg->address_lo);
-43e6409db64dda drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  408  }
-43e6409db64dda drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  409  
 
-:::::: The code at line 400 was first introduced by commit
-:::::: 42fe2f91b4ebc07c815fb334ea1262e6dc23bf77 PCI: mediatek: Implement chained IRQ handling setup
+vim +280 drivers/interconnect/qcom/sm8250.c
 
-:::::: TO: Honghui Zhang <honghui.zhang@mediatek.com>
-:::::: CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+   278	
+   279	static struct qcom_icc_node *qup_virt_nodes[] = {
+ > 280		[MASTER_QUP_CORE_0] = &qup0_core_master,
+ > 281		[MASTER_QUP_CORE_1] = &qup1_core_master,
+ > 282		[MASTER_QUP_CORE_2] = &qup2_core_master,
+ > 283		[SLAVE_QUP_CORE_0] = &qup0_core_slave,
+ > 284		[SLAVE_QUP_CORE_1] = &qup1_core_slave,
+ > 285		[SLAVE_QUP_CORE_2] = &qup2_core_slave,
+   286	};
+   287	
 
 -- 
 0-DAY CI Kernel Test Service
