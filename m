@@ -1,44 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DEBA29;
-	Thu,  7 Sep 2023 02:02:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2070CA29
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 02:13:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694052150; x=1725588150;
+  t=1694052804; x=1725588804;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=46nA6991x7xDJJbt8lcJYWSEP/poIBiKcIFs7r3BDxA=;
-  b=fSgXMWIX0cb2GHJha+TXVqCcYc+MZUgv5KfU+b2K2v2230/YwENKdoip
-   Qk2vvKV1XIJDMkg7QqYvX93R1wNu7eeqzhzaR2VWjYAYZBSVPcd83IfmC
-   9MBkbgVGr601CzmNGGCpeFTEn9qPm5tLbjpH8dB8NKUNGUxemYZtquOa2
-   b/KXm9UXgjTsoyxOVp2niADkAfnL9i5Lc4iNKqmArh/pwsUihc+8m7Vlz
-   ZKHLHxqvDiw92XNX2/7MyAReu6sb6V4JBzcJ00keKpHUzxicb9an73EPC
-   EEEsrFI7Qtn6ajcRd7zyMTZWE/z9buI+T43NpGm2+KPAY1PrjatY+1WRH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="362264075"
+  bh=Rrq0T6an9jPF+S+SS4oFSw0EoGvnbwAQGPKzKWWsyrA=;
+  b=F7czjJkybdTy4XU8Nv9QWRYd0UutBYTbAjkZOhWKVbruKH4gDpSMVGIk
+   xg51hHNNSrDMVPqTB2vFxia6jKwKG8AwRYQGjVvjOoPVV627qINvPMHoJ
+   zA2PWmWPUKVM1AgK0UlSBHSF9NQzdygewlKu46LkD1oGDdEZRvLRN/5C1
+   D9pap5PzO54R1/55hKNGqc3ulz4nVkZvLIBs3BuLbD4PoElQFWKDAJ4aw
+   1YBFkMYvXD6oMffNSUQ3A6UOy2Ba7R+OuPk6V1yiSeJ2xhL7fFmN86mdT
+   ywBXR9C2CmbtqUROWm+0qw7r9C80vehCkNCBcWiIrcB1dm/zeb79yV8Wk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="367460649"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="362264075"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 19:02:29 -0700
+   d="scan'208";a="367460649"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 19:12:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="856719763"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="884986746"
 X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="856719763"
+   d="scan'208";a="884986746"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2023 19:02:27 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 06 Sep 2023 19:12:17 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qe4Lh-0000n1-2P;
-	Thu, 07 Sep 2023 02:02:25 +0000
-Date: Thu, 7 Sep 2023 10:01:29 +0800
+	id 1qe4VO-0000ne-0u;
+	Thu, 07 Sep 2023 02:12:26 +0000
+Date: Thu, 7 Sep 2023 10:11:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: [agd5f:drm-next 187/250]
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:957:12: warning: stack frame size
- (2064) exceeds limit (2048) in 'vcn_v4_0_5_start'
-Message-ID: <202309071039.Hx22IWdT-lkp@intel.com>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	WANG Xuerui <git@xen0n.name>, Jianmin Lv <lvjianmin@loongson.cn>
+Subject: drivers/pci/controller/pcie-mediatek.c:400:40: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202309071056.VrkCPAFG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,210 +47,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   88ca2f8a962eb02fca31ead32c3cf3f308d6cd1a
-commit: 547aad32edac17a3ec4989d8aad2426d0cbeb590 [187/250] drm/amdgpu: add VCN4 ip block support
-config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20230907/202309071039.Hx22IWdT-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309071039.Hx22IWdT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7ba2090ca64ea1aa435744884124387db1fac70f
+commit: 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb LoongArch: Add PCI controller support
+date:   1 year, 1 month ago
+config: loongarch-randconfig-r122-20230906 (https://download.01.org/0day-ci/archive/20230907/202309071056.VrkCPAFG-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230907/202309071056.VrkCPAFG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309071039.Hx22IWdT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309071056.VrkCPAFG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/controller/pcie-mediatek.c:400:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile *address @@     got void [noderef] __iomem * @@
+   drivers/pci/controller/pcie-mediatek.c:400:40: sparse:     expected void volatile *address
+   drivers/pci/controller/pcie-mediatek.c:400:40: sparse:     got void [noderef] __iomem *
+   drivers/pci/controller/pcie-mediatek.c:523:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile *address @@     got void [noderef] __iomem * @@
+   drivers/pci/controller/pcie-mediatek.c:523:44: sparse:     expected void volatile *address
+   drivers/pci/controller/pcie-mediatek.c:523:44: sparse:     got void [noderef] __iomem *
+--
+   drivers/uio/uio_aec.c:44:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *int_flag @@     got void * @@
+   drivers/uio/uio_aec.c:44:49: sparse:     expected void [noderef] __iomem *int_flag
+   drivers/uio/uio_aec.c:44:49: sparse:     got void *
+>> drivers/uio/uio_aec.c:50:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:50:49: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:50:49: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:59:9: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:59:9: sparse:     got void *
+   drivers/uio/uio_aec.c:88:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *priv @@     got void [noderef] __iomem * @@
+   drivers/uio/uio_aec.c:88:20: sparse:     expected void *priv
+   drivers/uio/uio_aec.c:88:20: sparse:     got void [noderef] __iomem *
+>> drivers/uio/uio_aec.c:104:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:104:42: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:104:42: sparse:     got void *
+   drivers/uio/uio_aec.c:105:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:105:43: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:105:43: sparse:     got void *
+   drivers/uio/uio_aec.c:106:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:106:34: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:106:34: sparse:     got void *
+   drivers/uio/uio_aec.c:115:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *priv @@
+   drivers/uio/uio_aec.c:115:31: sparse:     expected void [noderef] __iomem *
+   drivers/uio/uio_aec.c:115:31: sparse:     got void *priv
+   drivers/uio/uio_aec.c:128:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:128:42: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:128:42: sparse:     got void *
+   drivers/uio/uio_aec.c:129:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:129:43: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:129:43: sparse:     got void *
+   drivers/uio/uio_aec.c:131:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/uio/uio_aec.c:131:28: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/uio/uio_aec.c:131:28: sparse:     got void *
+   drivers/uio/uio_aec.c:136:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *priv @@
+   drivers/uio/uio_aec.c:136:31: sparse:     expected void [noderef] __iomem *
+   drivers/uio/uio_aec.c:136:31: sparse:     got void *priv
 
->> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:957:12: warning: stack frame size (2064) exceeds limit (2048) in 'vcn_v4_0_5_start' [-Wframe-larger-than]
-     957 | static int vcn_v4_0_5_start(struct amdgpu_device *adev)
-         |            ^
-   1 warning generated.
+vim +400 drivers/pci/controller/pcie-mediatek.c
 
+b099631df160ec drivers/pci/host/pcie-mediatek.c Ryder Lee     2017-08-10  393  
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  394  static void mtk_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+43e6409db64dda drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  395  {
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  396  	struct mtk_pcie_port *port = irq_data_get_irq_chip_data(data);
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  397  	phys_addr_t addr;
+43e6409db64dda drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  398  
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  399  	/* MT2712/MT7622 only support 32-bit MSI addresses */
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04 @400  	addr = virt_to_phys(port->base + PCIE_MSI_VECTOR);
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  401  	msg->address_hi = 0;
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  402  	msg->address_lo = lower_32_bits(addr);
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  403  
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  404  	msg->data = data->hwirq;
+43e6409db64dda drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  405  
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  406  	dev_dbg(port->pcie->dev, "msi#%d address_hi %#x address_lo %#x\n",
+42fe2f91b4ebc0 drivers/pci/host/pcie-mediatek.c Honghui Zhang 2018-05-04  407  		(int)data->hwirq, msg->address_hi, msg->address_lo);
+43e6409db64dda drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  408  }
+43e6409db64dda drivers/pci/host/pcie-mediatek.c Honghui Zhang 2017-08-14  409  
 
-vim +/vcn_v4_0_5_start +957 drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
+:::::: The code at line 400 was first introduced by commit
+:::::: 42fe2f91b4ebc07c815fb334ea1262e6dc23bf77 PCI: mediatek: Implement chained IRQ handling setup
 
-   948	
-   949	
-   950	/**
-   951	 * vcn_v4_0_5_start - VCN start
-   952	 *
-   953	 * @adev: amdgpu_device pointer
-   954	 *
-   955	 * Start VCN block
-   956	 */
- > 957	static int vcn_v4_0_5_start(struct amdgpu_device *adev)
-   958	{
-   959		volatile struct amdgpu_vcn4_fw_shared *fw_shared;
-   960		struct amdgpu_ring *ring;
-   961		uint32_t tmp;
-   962		int i, j, k, r;
-   963	
-   964		if (adev->pm.dpm_enabled)
-   965			amdgpu_dpm_enable_uvd(adev, true);
-   966	
-   967		for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
-   968			fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
-   969	
-   970			if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
-   971				r = vcn_v4_0_5_start_dpg_mode(adev, i, adev->vcn.indirect_sram);
-   972				continue;
-   973			}
-   974	
-   975			/* disable VCN power gating */
-   976			vcn_v4_0_5_disable_static_power_gating(adev, i);
-   977	
-   978			/* set VCN status busy */
-   979			tmp = RREG32_SOC15(VCN, i, regUVD_STATUS) | UVD_STATUS__UVD_BUSY;
-   980			WREG32_SOC15(VCN, i, regUVD_STATUS, tmp);
-   981	
-   982			/*SW clock gating */
-   983			vcn_v4_0_5_disable_clock_gating(adev, i);
-   984	
-   985			/* enable VCPU clock */
-   986			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_VCPU_CNTL),
-   987					UVD_VCPU_CNTL__CLK_EN_MASK, ~UVD_VCPU_CNTL__CLK_EN_MASK);
-   988	
-   989			/* disable master interrupt */
-   990			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_MASTINT_EN), 0,
-   991					~UVD_MASTINT_EN__VCPU_EN_MASK);
-   992	
-   993			/* enable LMI MC and UMC channels */
-   994			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_LMI_CTRL2), 0,
-   995					~UVD_LMI_CTRL2__STALL_ARB_UMC_MASK);
-   996	
-   997			tmp = RREG32_SOC15(VCN, i, regUVD_SOFT_RESET);
-   998			tmp &= ~UVD_SOFT_RESET__LMI_SOFT_RESET_MASK;
-   999			tmp &= ~UVD_SOFT_RESET__LMI_UMC_SOFT_RESET_MASK;
-  1000			WREG32_SOC15(VCN, i, regUVD_SOFT_RESET, tmp);
-  1001	
-  1002			/* setup regUVD_LMI_CTRL */
-  1003			tmp = RREG32_SOC15(VCN, i, regUVD_LMI_CTRL);
-  1004			WREG32_SOC15(VCN, i, regUVD_LMI_CTRL, tmp |
-  1005					UVD_LMI_CTRL__WRITE_CLEAN_TIMER_EN_MASK |
-  1006					UVD_LMI_CTRL__MASK_MC_URGENT_MASK |
-  1007					UVD_LMI_CTRL__DATA_COHERENCY_EN_MASK |
-  1008					UVD_LMI_CTRL__VCPU_DATA_COHERENCY_EN_MASK);
-  1009	
-  1010			/* setup regUVD_MPC_CNTL */
-  1011			tmp = RREG32_SOC15(VCN, i, regUVD_MPC_CNTL);
-  1012			tmp &= ~UVD_MPC_CNTL__REPLACEMENT_MODE_MASK;
-  1013			tmp |= 0x2 << UVD_MPC_CNTL__REPLACEMENT_MODE__SHIFT;
-  1014			WREG32_SOC15(VCN, i, regUVD_MPC_CNTL, tmp);
-  1015	
-  1016			/* setup UVD_MPC_SET_MUXA0 */
-  1017			WREG32_SOC15(VCN, i, regUVD_MPC_SET_MUXA0,
-  1018					((0x1 << UVD_MPC_SET_MUXA0__VARA_1__SHIFT) |
-  1019					 (0x2 << UVD_MPC_SET_MUXA0__VARA_2__SHIFT) |
-  1020					 (0x3 << UVD_MPC_SET_MUXA0__VARA_3__SHIFT) |
-  1021					 (0x4 << UVD_MPC_SET_MUXA0__VARA_4__SHIFT)));
-  1022	
-  1023			/* setup UVD_MPC_SET_MUXB0 */
-  1024			WREG32_SOC15(VCN, i, regUVD_MPC_SET_MUXB0,
-  1025					((0x1 << UVD_MPC_SET_MUXB0__VARB_1__SHIFT) |
-  1026					 (0x2 << UVD_MPC_SET_MUXB0__VARB_2__SHIFT) |
-  1027					 (0x3 << UVD_MPC_SET_MUXB0__VARB_3__SHIFT) |
-  1028					 (0x4 << UVD_MPC_SET_MUXB0__VARB_4__SHIFT)));
-  1029	
-  1030			/* setup UVD_MPC_SET_MUX */
-  1031			WREG32_SOC15(VCN, i, regUVD_MPC_SET_MUX,
-  1032					((0x0 << UVD_MPC_SET_MUX__SET_0__SHIFT) |
-  1033					 (0x1 << UVD_MPC_SET_MUX__SET_1__SHIFT) |
-  1034					 (0x2 << UVD_MPC_SET_MUX__SET_2__SHIFT)));
-  1035	
-  1036			vcn_v4_0_5_mc_resume(adev, i);
-  1037	
-  1038			/* VCN global tiling registers */
-  1039			WREG32_SOC15(VCN, i, regUVD_GFX10_ADDR_CONFIG,
-  1040					adev->gfx.config.gb_addr_config);
-  1041	
-  1042			/* unblock VCPU register access */
-  1043			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_RB_ARB_CTRL), 0,
-  1044					~UVD_RB_ARB_CTRL__VCPU_DIS_MASK);
-  1045	
-  1046			/* release VCPU reset to boot */
-  1047			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_VCPU_CNTL), 0,
-  1048					~UVD_VCPU_CNTL__BLK_RST_MASK);
-  1049	
-  1050			for (j = 0; j < 10; ++j) {
-  1051				uint32_t status;
-  1052	
-  1053				for (k = 0; k < 100; ++k) {
-  1054					status = RREG32_SOC15(VCN, i, regUVD_STATUS);
-  1055					if (status & 2)
-  1056						break;
-  1057					mdelay(10);
-  1058					if (amdgpu_emu_mode == 1)
-  1059						msleep(1);
-  1060				}
-  1061	
-  1062				if (amdgpu_emu_mode == 1) {
-  1063					r = -1;
-  1064					if (status & 2) {
-  1065						r = 0;
-  1066						break;
-  1067					}
-  1068				} else {
-  1069					r = 0;
-  1070					if (status & 2)
-  1071						break;
-  1072	
-  1073					dev_err(adev->dev,
-  1074						"VCN[%d] is not responding, trying to reset VCPU!!!\n", i);
-  1075					WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_VCPU_CNTL),
-  1076								UVD_VCPU_CNTL__BLK_RST_MASK,
-  1077								~UVD_VCPU_CNTL__BLK_RST_MASK);
-  1078					mdelay(10);
-  1079					WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_VCPU_CNTL), 0,
-  1080							~UVD_VCPU_CNTL__BLK_RST_MASK);
-  1081	
-  1082					mdelay(10);
-  1083					r = -1;
-  1084				}
-  1085			}
-  1086	
-  1087			if (r) {
-  1088				dev_err(adev->dev, "VCN[%d] is not responding, giving up!!!\n", i);
-  1089				return r;
-  1090			}
-  1091	
-  1092			/* enable master interrupt */
-  1093			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_MASTINT_EN),
-  1094					UVD_MASTINT_EN__VCPU_EN_MASK,
-  1095					~UVD_MASTINT_EN__VCPU_EN_MASK);
-  1096	
-  1097			/* clear the busy bit of VCN_STATUS */
-  1098			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_STATUS), 0,
-  1099					~(2 << UVD_STATUS__VCPU_REPORT__SHIFT));
-  1100	
-  1101			ring = &adev->vcn.inst[i].ring_enc[0];
-  1102			WREG32_SOC15(VCN, i, regVCN_RB1_DB_CTRL,
-  1103					ring->doorbell_index << VCN_RB1_DB_CTRL__OFFSET__SHIFT |
-  1104					VCN_RB1_DB_CTRL__EN_MASK);
-  1105	
-  1106			WREG32_SOC15(VCN, i, regUVD_RB_BASE_LO, ring->gpu_addr);
-  1107			WREG32_SOC15(VCN, i, regUVD_RB_BASE_HI, upper_32_bits(ring->gpu_addr));
-  1108			WREG32_SOC15(VCN, i, regUVD_RB_SIZE, ring->ring_size / 4);
-  1109	
-  1110			tmp = RREG32_SOC15(VCN, i, regVCN_RB_ENABLE);
-  1111			tmp &= ~(VCN_RB_ENABLE__RB1_EN_MASK);
-  1112			WREG32_SOC15(VCN, i, regVCN_RB_ENABLE, tmp);
-  1113			fw_shared->sq.queue_mode |= FW_QUEUE_RING_RESET;
-  1114			WREG32_SOC15(VCN, i, regUVD_RB_RPTR, 0);
-  1115			WREG32_SOC15(VCN, i, regUVD_RB_WPTR, 0);
-  1116	
-  1117			tmp = RREG32_SOC15(VCN, i, regUVD_RB_RPTR);
-  1118			WREG32_SOC15(VCN, i, regUVD_RB_WPTR, tmp);
-  1119			ring->wptr = RREG32_SOC15(VCN, i, regUVD_RB_WPTR);
-  1120	
-  1121			tmp = RREG32_SOC15(VCN, i, regVCN_RB_ENABLE);
-  1122			tmp |= VCN_RB_ENABLE__RB1_EN_MASK;
-  1123			WREG32_SOC15(VCN, i, regVCN_RB_ENABLE, tmp);
-  1124			fw_shared->sq.queue_mode &= ~(FW_QUEUE_RING_RESET | FW_QUEUE_DPG_HOLD_OFF);
-  1125		}
-  1126	
-  1127		return 0;
-  1128	}
-  1129	
+:::::: TO: Honghui Zhang <honghui.zhang@mediatek.com>
+:::::: CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
