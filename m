@@ -1,42 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A409920E8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 09:38:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694079496; x=1725615496;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TNFcRuCXyQ4eIjTgH2jtKSavTQnFjY/q+i0XuUOO0mw=;
-  b=Wp0JyGCUcf8/leNssaBFn8rmbsrCvUHhrqce996nLRW509u7nfl99UNs
-   0ejrLRFhMp0WdxeKl/4GGwQXwGVc9hCvc3GhbHSNVrS+oUgBiPbC+ugqB
-   ny9Y/NWUpeahISG1kuFU3HtTApcbjKDr+TSQCDdl625sPKrHrjyiKXUzI
-   knJzc8frCWTqF5OZ8jkI3VgJGBsE1USt+1zma+PMzeIiek8oKlm0Pw+An
-   2f8yx/StQZHnfQkgxo1Q5RDX0TocAr/1UHKl7zBU65DR4A1NDUcDOQp8G
-   /zoSzogPzixhCOX7zmn5hfjBVdMM4dTcTpRQbNqW5Mp3aq5gdAdydosF0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="374700162"
-X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; 
-   d="scan'208";a="374700162"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 02:38:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="745083873"
-X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; 
-   d="scan'208";a="745083873"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Sep 2023 02:37:59 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qeBSW-00016Z-2M;
-	Thu, 07 Sep 2023 09:37:56 +0000
-Date: Thu, 7 Sep 2023 17:36:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Vyas, Tarun" <tarun.vyas@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:4.19/android_t 3107/30000] versioncheck:
- ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-Message-ID: <202309071741.OF7g0j8F-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D355663
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 09:58:35 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31dca134c83so747416f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Sep 2023 02:58:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694080714; x=1694685514; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=H93pY4K5RGy48Le8MtNuXSVW/3TVf9QahqAqyrN5AqA=;
+        b=mTBbFHSEG9Dq+QrMR14zJb8ptswv4xDfhWBsBXjWJoXZ9eAx+Az2CwESe4p21ONgpq
+         9A11Xs9JJSiGwtNkJVzjc5+idmzh2egIyU0mB9Uopz1Nu7ndJyPIxIf9KsDsRFgK3ySp
+         Am2eEqCbDifXEfWfDqcZCXbzdFUm4INHeJu26vARFgcUWtZSnj1lqcgoUiCD0XuBXnk1
+         VPKVzbT5hzmA9NwAHwq1EGvDuDylSLzqJpLeggY64aWHcfHvlbVmtWR9q+VhHhnpgVpk
+         c9cqYbu5wWvbascHxPwjgKLa8A6c7NF0HJMmpCPGZIpnXIHuvT08BZDDZ1Jn45ZVemDJ
+         +e3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694080714; x=1694685514;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=H93pY4K5RGy48Le8MtNuXSVW/3TVf9QahqAqyrN5AqA=;
+        b=J7/b3P0x8YiHwN+910AphHHZSFcW13pSSmxe0NUyvtUb/ejRPZcBdYWROej7wPmZ0c
+         N8sW8dvLc5iHEx8hUS2tVa7uedg9vKF078DhY/bLHSkZe8NbPOQnCS1LfUocwsF9+2Xg
+         1oBsSkloPgtGntsstcp0vqKCjPQNVXTupDgbnFbVI9eUP3iEA9dN49rqQSES/CX13TKG
+         SiOjFOEJB3xqr7tVObR7mX7gbz4odBMUDF26R5Mi4wDZI0Pxs8jnq755bOzN4/O7WhLn
+         4pdrwbreB9DnFcq7HfLFxfQIFygdaodBDcJ9jStE566BfSy1tIAnnSYznF00t0gVz8gx
+         3iGg==
+X-Gm-Message-State: AOJu0YyIntohcy53+UzvMivVb6F8rTTFlnmDFsR/veMJ2t3wFMrDIHil
+	YsNCC04osSoboq4NjMlwsg65dw==
+X-Google-Smtp-Source: AGHT+IH+lYPU38QUaXAeYYuqKyQrTXDFtyGYgyHVyQ4jUsHelGNmSs0dnNbyJqEJz/httA9y1Roo5Q==
+X-Received: by 2002:a5d:4406:0:b0:317:5fe7:6844 with SMTP id z6-20020a5d4406000000b003175fe76844mr4113931wrq.39.1694080714060;
+        Thu, 07 Sep 2023 02:58:34 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id bj13-20020a0560001e0d00b00317b5c8a4f1sm9837124wrb.60.2023.09.07.02.58.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Sep 2023 02:58:33 -0700 (PDT)
+Date: Thu, 7 Sep 2023 12:58:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommufd_pasid-0825 3/95]
+ drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return
+ -EFAULT instead of the bytes remaining?
+Message-ID: <9bdc6686-8561-4ee9-8cd5-adb66daa2bef@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,85 +54,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   247bc655e03e4ac3632b21081ca56b813a644dcf
-commit: 34ea8dc24190e2a6708fa89231618fe2e92702c5 [3107/30000] staging: Add AVnu based Intel IGB driver
-reproduce: (https://download.01.org/0day-ci/archive/20230907/202309071741.OF7g0j8F-lkp@intel.com/reproduce)
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-0825
+head:   98c119bc01ddf99ad4ac7c3e93980e3d835c0901
+commit: 69055cc0284095e68fd61f1705ef518ad731d120 [3/95] iommufd: Add IOMMU_GET_HW_INFO
+config: x86_64-randconfig-161-20230826 (https://download.01.org/0day-ci/archive/20230827/202308270513.l9Ht4WmD-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230827/202308270513.l9Ht4WmD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309071741.OF7g0j8F-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202308270513.l9Ht4WmD-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
->> ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
->> ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
->> ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+smatch warnings:
+drivers/iommu/iommufd/main.c:259 iommufd_get_hw_info() warn: maybe return -EFAULT instead of the bytes remaining?
+
+vim +259 drivers/iommu/iommufd/main.c
+
+69055cc0284095e Yi Liu 2023-01-12  220  static int iommufd_get_hw_info(struct iommufd_ucmd *ucmd)
+69055cc0284095e Yi Liu 2023-01-12  221  {
+69055cc0284095e Yi Liu 2023-01-12  222  	struct iommu_hw_info *cmd = ucmd->cmd;
+69055cc0284095e Yi Liu 2023-01-12  223  	unsigned int length = cmd->data_len;
+69055cc0284095e Yi Liu 2023-01-12  224  	struct iommufd_device *idev;
+69055cc0284095e Yi Liu 2023-01-12  225  	void __user *user_ptr;
+69055cc0284095e Yi Liu 2023-01-12  226  	u32 hw_info_type;
+69055cc0284095e Yi Liu 2023-01-12  227  	int rc = 0;
+69055cc0284095e Yi Liu 2023-01-12  228  
+69055cc0284095e Yi Liu 2023-01-12  229  	if (cmd->flags || cmd->__reserved || !cmd->data_len)
+69055cc0284095e Yi Liu 2023-01-12  230  		return -EOPNOTSUPP;
+69055cc0284095e Yi Liu 2023-01-12  231  
+69055cc0284095e Yi Liu 2023-01-12  232  	idev = iommufd_get_device(ucmd, cmd->dev_id);
+69055cc0284095e Yi Liu 2023-01-12  233  	if (IS_ERR(idev))
+69055cc0284095e Yi Liu 2023-01-12  234  		return PTR_ERR(idev);
+69055cc0284095e Yi Liu 2023-01-12  235  
+69055cc0284095e Yi Liu 2023-01-12  236  	user_ptr = u64_to_user_ptr(cmd->data_ptr);
+69055cc0284095e Yi Liu 2023-01-12  237  
+69055cc0284095e Yi Liu 2023-01-12  238  	rc = iommufd_fill_hw_info(idev->dev, user_ptr,
+69055cc0284095e Yi Liu 2023-01-12  239  				  &length, &hw_info_type);
+69055cc0284095e Yi Liu 2023-01-12  240  	if (rc)
+69055cc0284095e Yi Liu 2023-01-12  241  		goto err_put;
+69055cc0284095e Yi Liu 2023-01-12  242  
+69055cc0284095e Yi Liu 2023-01-12  243  	/*
+69055cc0284095e Yi Liu 2023-01-12  244  	 * Zero the trailing bytes if the user buffer is bigger than the
+69055cc0284095e Yi Liu 2023-01-12  245  	 * data size kernel actually has.
+69055cc0284095e Yi Liu 2023-01-12  246  	 */
+69055cc0284095e Yi Liu 2023-01-12  247  	if (length < cmd->data_len) {
+69055cc0284095e Yi Liu 2023-01-12  248  		rc = clear_user(user_ptr + length, cmd->data_len - length);
+
+clear_user() has the same return values as copy_to/from_user().  This
+should be:
+
+	if (clear_user(user_ptr + length, cmd->data_len - length)) {
+		rc = -EFAULT;
+		goto err_put;
+	}
+
+69055cc0284095e Yi Liu 2023-01-12  249  		if (rc)
+69055cc0284095e Yi Liu 2023-01-12  250  			goto err_put;
+69055cc0284095e Yi Liu 2023-01-12  251  	}
+69055cc0284095e Yi Liu 2023-01-12  252  
+69055cc0284095e Yi Liu 2023-01-12  253  	cmd->data_len = length;
+69055cc0284095e Yi Liu 2023-01-12  254  	cmd->out_data_type = hw_info_type;
+69055cc0284095e Yi Liu 2023-01-12  255  	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+69055cc0284095e Yi Liu 2023-01-12  256  
+69055cc0284095e Yi Liu 2023-01-12  257  err_put:
+69055cc0284095e Yi Liu 2023-01-12  258  	iommufd_put_object(&idev->obj);
+69055cc0284095e Yi Liu 2023-01-12 @259  	return rc;
+69055cc0284095e Yi Liu 2023-01-12  260  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
