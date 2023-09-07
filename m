@@ -1,43 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B679913AC3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 18:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694109791; x=1725645791;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Rq7ThFkC1T4frIINdj4I4SoDJX3mzNfdrp2veRq/ZBU=;
-  b=SnrgReGoFDtsX70FF19c1PN7mbYaUk1B/B+ppR0zwREngx6KrBvkYl73
-   gmik6TFgKZ9iECTf4ynFEYiTgpkzDJgGeggafsPYfr25Gm3ns20B8S2EV
-   X+Dsmg6op/NOXdx4u+qfY8sCcbAs/D5dNFx9x8766n/Yevm5PSsSCoPqx
-   k258F+DaPiOkxBprTUAgO8GSrl8DybqTC5VpKK8UEnUnBoxZl0LFms4qm
-   yn9+tItvSi32OFhSlyIEEGS1ek2BhDnEye5V1COzPfntKgpdUE5+tijia
-   4pkHtbrKuCws/fIhwb6DXFJ92fOP0Grh/Nrj5DGEpbnR53mJVeevXALzh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="367687819"
-X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="367687819"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 10:59:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="988872671"
-X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="988872671"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 07 Sep 2023 10:59:26 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qeJHo-0001Rv-1E;
-	Thu, 07 Sep 2023 17:59:24 +0000
-Date: Fri, 8 Sep 2023 01:58:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.15 109/317] make[2]: *** No rule to make
- target 'arch/arm/boot/dts/mt6582-prestigio-pmt5008-3g.dtb', needed by
- '__build'.
-Message-ID: <202309080144.C4AWwDtB-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E3E134DD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 18:09:28 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id E4887320099B;
+	Thu,  7 Sep 2023 14:09:27 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Thu, 07 Sep 2023 14:09:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	joshtriplett.org; h=cc:cc:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+	1694110167; x=1694196567; bh=LBA6H6bkKgfZDVO638EkCYdaffYLDMTRGDB
+	F3VMYrGc=; b=PA8kQw7Y28LJX4WtI0BJEs+NzwJUCPqpDG9op7/FxHCif4ZOZ4+
+	SxYGWkSVvAL5dPE99dlNBnimCq1LnXxPgf4FwBp4xHrM1F7yFD9IN+J683Xnentm
+	4q1BSMyZ4/4x10/KnFj1YaYIuvoa1odPdC5hRLO1qcIv9yTc/2AcZB5rrIBIvm/E
+	otgFGi5MYlTaHiJrXILY6FMSd0wcvHewfftAT1HDH2FjWTu4pZj55EAG+XbyZYOU
+	3bumxffEDvQ43zqS/AdzODIsLLWudQAq45HsjQUqKl9Eg1SBWj0HCkV+B9RnqsT+
+	zyVjRfvbZVmIxUTJSiz27m/l1eXeHt/EZOg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1694110167; x=1694196567; bh=LBA6H6bkKgfZD
+	VO638EkCYdaffYLDMTRGDBF3VMYrGc=; b=ZFMXw7D3iTNh37nnJAAo0fXPGcxOH
+	0w/UC1x35zGBzTpWPFP1pYKz0nBZxyEN9EKJ/UveEtASBGVprUxCyIahHGwN0cho
+	nCXFQFR3LbQcx6nuY5bvuXaXAnQIeOwvb3slEb7eMfx617CEz9WJU1JxxQ+12ZiE
+	2rolc3UoDj3NkDCY+cOz/keLUsOO2aHCFNhfqldiEmf4nBJ+bM/oWX5EAEJO9dI2
+	7DhRajYQtF2Y0fl2jbVpCrglg3Ro8yoUMyp49cPGJudyWJj/OYGvY6wN8VKhHCqe
+	p3JGUH9pJHIsQTuf7H6NYIsqroyOxPtQQQQXZY+kIgeBApxosty5gWe+w==
+X-ME-Sender: <xms:1hH6ZHSUGUx3GB40M6BeoDXA4ydhGEbxG3TzGYqutMnBWHpcWivCRQ>
+    <xme:1hH6ZIyJKh2Rh_Y0avuEmZkYw5eoM_jC1yIFPu2qlnlXfD-DaqBZLJyZJL0U5AQQI
+    9XeJTDSYwL8krd-teU>
+X-ME-Received: <xmr:1hH6ZM2wIM8wwD2XS4AFQQgczU6vyVSdVAM1p8MNSV0IsL7aqjNaUBvTbw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudehhedguddvvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeflohhs
+    hhcuvfhrihhplhgvthhtuceojhhoshhhsehjohhshhhtrhhiphhlvghtthdrohhrgheqne
+    cuggftrfgrthhtvghrnhepgeejudeutdelfeeugfdvgefhheeuhfetffeftedvffegkeet
+    hefhhedtvddtgeeinecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjohhshhesjhhoshhhthhr
+    ihhplhgvthhtrdhorhhg
+X-ME-Proxy: <xmx:1xH6ZHDhopeyWD9B1ltBV7i_nwNjMJh5FsuKm5GIX7YHvtmkUq879g>
+    <xmx:1xH6ZAhhaBbXY8lTEYLXi6QSHfL3ckEpM_gFXQJ8OdYPZ7ZDeboabQ>
+    <xmx:1xH6ZLoc5TXf6YNRtqclHQXSChfwsk6MaWavp-HITifdoddTFMSxeA>
+    <xmx:1xH6ZMaqivasVUsGZpQIvXLfIcF5iQgKFlBc68IxKkvWVRnBwLU1FA>
+Feedback-ID: i83e94755:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 7 Sep 2023 14:09:26 -0400 (EDT)
+Date: Thu, 7 Sep 2023 11:09:25 -0700
+From: Josh Triplett <josh@joshtriplett.org>
+To: Nick Alcock <nick.alcock@oracle.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [lkp] [+168 bytes kernel size regression] [i386-tinyconfig]
+ [051cfd2102] waitfd: new syscall implementing waitpid() over fds
+Message-ID: <ZPoR1QPkyYXv6ASb@localhost>
+References: <20230906152316.tXAcC%lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,24 +67,17 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230906152316.tXAcC%lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.15
-head:   6dcc2771beb2a257d0fb613771bc00c4abf76460
-commit: a6480f96e182ab593bdead48251e039ef205c6e5 [109/317] ARM: dts: Add .dts files missing from the build
-config: arm-randconfig-001-20230907 (https://download.01.org/0day-ci/archive/20230908/202309080144.C4AWwDtB-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309080144.C4AWwDtB-lkp@intel.com/reproduce)
+Hi Nick,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309080144.C4AWwDtB-lkp@intel.com/
+On Wed, Sep 06, 2023 at 11:23:16PM +0800, kernel test robot wrote:
+> FYI, we noticed a +168 bytes kernel size regression due to commit:
+> 
+> commit: 051cfd2102807119e31bdd4947d18388b3df5fd3 (waitfd: new syscall implementing waitpid() over fds)
+> https://github.com/oracle/dtrace-linux-kernel v2/6.5
 
-All errors (new ones prefixed by >>):
+Could you please add a Kconfig option for the new system call, similar
+to those for other new system calls?
 
->> make[2]: *** No rule to make target 'arch/arm/boot/dts/mt6582-prestigio-pmt5008-3g.dtb', needed by '__build'.
-   make[2]: Target '__build' not remade because of errors.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you.
