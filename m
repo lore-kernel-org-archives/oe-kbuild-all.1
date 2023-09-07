@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D17328E7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 16:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E976E2C80
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 16:35:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694103259; x=1725639259;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jnefjn4HP/xdvdwlqf5ycqN2mkHKL1Yq4tyryLuwYb0=;
-  b=Z7eXednK2w9KHhHAWSufWPxsH295k2EHq6qRglGohGbX3aeI+hPJxqKT
-   xIpWAIOR09+gmJsVcRtcwFkwQD8P3jfgnHqtI/7wsA7glEjzxsZX1vfUc
-   OyDkPbCA/dR1Qs2c84u2lF6c+2JO+tBLHaCYqvPDbPKD6lKgppvKWY/Q2
-   2dzd+FWLMX/JXmS6Yzl4C4SQGGGafLsqjBOrXRE+xV+y5vVzB4ZCY8tbR
-   5WPdlCOJDbiouCaRGXn4nCkGCOnS/6guFv6zv2vCKk78j45llGXnoKqAz
-   JAZJ8PIAponppc5Fh4ngI6Viq3m3jS8O1AQZOi8NUKDFewcTEXrDUBAjF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="374787088"
+  t=1694104547; x=1725640547;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=wmWGT++/JTkMGuGlirZZ+l/dRYjT3LcoieQxGu7K9aw=;
+  b=lICff+qovfLSfd90IVFl1wlyMYH0Iz0HZF5lNgYFpbKMPxv8aols3zmZ
+   r3nEDgcZ0mnS6KIwReQ5IDpBeslxreixp8FVeHJ5DDLP88NaTNH8JwMns
+   Jzdu0hE4EjgUb4vwbKjSfcRBwrc7qnVGJ+sPKCTp0CKECn45ToISGCQpf
+   iSJofrDtNUonlq/B6sgaGIZ5qzout3QRoGo1GyEaVC/2/2CgeMl83q+Dl
+   4Rpl2izsIkxHijG0Gti/zviEBXH003BtvWJjhVASqt+IXzRQKtVO9xdBp
+   n0LUw0wugGDUeaGv3zFGu3fCQG4Xwa/07vCEIWJa54UaFrBSIIOMVbo8g
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="463787323"
 X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="374787088"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 09:10:20 -0700
+   d="scan'208";a="463787323"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 09:32:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="865710956"
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="856932418"
 X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="865710956"
+   d="scan'208";a="856932418"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 Sep 2023 09:10:10 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 07 Sep 2023 09:32:16 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeHa4-0001Mg-0d;
-	Thu, 07 Sep 2023 16:10:08 +0000
-Date: Fri, 8 Sep 2023 00:09:37 +0800
+	id 1qeHvR-0001Na-39;
+	Thu, 07 Sep 2023 16:32:13 +0000
+Date: Fri, 8 Sep 2023 00:31:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.5 488/618]
- drivers/interconnect/qcom/qcm2290.c:1201:10: error: 'const struct
- qcom_icc_desc' has no member named 'keep_alive'
-Message-ID: <202309080012.VV6vJPe1-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Hardik Shah <hardik.t.shah@intel.com>
+Subject: [intel-lts:4.19/android_t 3329/30000] versioncheck:
+ ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
+Message-ID: <202309080013.A3rMy50j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,179 +46,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.5
-head:   a369e6e4e96387fafd2686cb85ef80ebedec5909
-commit: 9555b04b42304c433c6cf46c5254b39d3065c99b [488/618] interconnect: qcom: qcm2290: Enable keep_alive on all buses
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230908/202309080012.VV6vJPe1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309080012.VV6vJPe1-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: c36af003bab3f4722b78a13d335474c853d12bfd [3329/30000] ASoC: add rt700 codec driver
+reproduce: (https://download.01.org/0day-ci/archive/20230908/202309080013.A3rMy50j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309080012.VV6vJPe1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309080013.A3rMy50j-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/interconnect/qcom/qcm2290.c:1201:10: error: 'const struct qcom_icc_desc' has no member named 'keep_alive'
-    1201 |         .keep_alive = true,
-         |          ^~~~~~~~~~
-   drivers/interconnect/qcom/qcm2290.c:1203:23: warning: initialized field overwritten [-Woverride-init]
-    1203 |         .qos_offset = 0x8000,
-         |                       ^~~~~~
-   drivers/interconnect/qcom/qcm2290.c:1203:23: note: (near initialization for 'qcm2290_bimc.qos_offset')
-   drivers/interconnect/qcom/qcm2290.c:1257:10: error: 'const struct qcom_icc_desc' has no member named 'keep_alive'
-    1257 |         .keep_alive = true,
-         |          ^~~~~~~~~~
-   drivers/interconnect/qcom/qcm2290.c:1299:10: error: 'const struct qcom_icc_desc' has no member named 'keep_alive'
-    1299 |         .keep_alive = true,
-         |          ^~~~~~~~~~
-   drivers/interconnect/qcom/qcm2290.c:1301:23: warning: initialized field overwritten [-Woverride-init]
-    1301 |         .qos_offset = 0x15000,
-         |                       ^~~~~~~
-   drivers/interconnect/qcom/qcm2290.c:1301:23: note: (near initialization for 'qcm2290_snoc.qos_offset')
->> drivers/interconnect/qcom/qcm2290.c:1313:9: error: expected expression before '.' token
-    1313 | +       .keep_alive = true,
-         |         ^
-   drivers/interconnect/qcom/qcm2290.c:1328:10: error: 'const struct qcom_icc_desc' has no member named 'keep_alive'
-    1328 |         .keep_alive = true,
-         |          ^~~~~~~~~~
-   drivers/interconnect/qcom/qcm2290.c:1329:23: warning: initialized field overwritten [-Woverride-init]
-    1329 |         .qos_offset = 0x15000,
-         |                       ^~~~~~~
-   drivers/interconnect/qcom/qcm2290.c:1329:23: note: (near initialization for 'qcm2290_mmnrt_virt.qos_offset')
-   drivers/interconnect/qcom/qcm2290.c:1343:10: error: 'const struct qcom_icc_desc' has no member named 'keep_alive'
-    1343 |         .keep_alive = true,
-         |          ^~~~~~~~~~
-   drivers/interconnect/qcom/qcm2290.c:1344:23: warning: initialized field overwritten [-Woverride-init]
-    1344 |         .qos_offset = 0x15000,
-         |                       ^~~~~~~
-   drivers/interconnect/qcom/qcm2290.c:1344:23: note: (near initialization for 'qcm2290_mmrt_virt.qos_offset')
-
-
-vim +1201 drivers/interconnect/qcom/qcm2290.c
-
-  1195	
-  1196	static const struct qcom_icc_desc qcm2290_bimc = {
-  1197		.type = QCOM_ICC_BIMC,
-  1198		.nodes = qcm2290_bimc_nodes,
-  1199		.num_nodes = ARRAY_SIZE(qcm2290_bimc_nodes),
-  1200		.regmap_cfg = &qcm2290_bimc_regmap_config,
-> 1201		.keep_alive = true,
-  1202		/* M_REG_BASE() in vendor msm_bus_bimc_adhoc driver */
-  1203		.qos_offset = 0x8000,
-  1204	};
-  1205	
-  1206	static struct qcom_icc_node * const qcm2290_cnoc_nodes[] = {
-  1207		[MASTER_SNOC_CNOC] = &mas_snoc_cnoc,
-  1208		[MASTER_QDSS_DAP] = &mas_qdss_dap,
-  1209		[SLAVE_BIMC_CFG] = &slv_bimc_cfg,
-  1210		[SLAVE_CAMERA_NRT_THROTTLE_CFG] = &slv_camera_nrt_throttle_cfg,
-  1211		[SLAVE_CAMERA_RT_THROTTLE_CFG] = &slv_camera_rt_throttle_cfg,
-  1212		[SLAVE_CAMERA_CFG] = &slv_camera_cfg,
-  1213		[SLAVE_CLK_CTL] = &slv_clk_ctl,
-  1214		[SLAVE_CRYPTO_0_CFG] = &slv_crypto_0_cfg,
-  1215		[SLAVE_DISPLAY_CFG] = &slv_display_cfg,
-  1216		[SLAVE_DISPLAY_THROTTLE_CFG] = &slv_display_throttle_cfg,
-  1217		[SLAVE_GPU_CFG] = &slv_gpu_cfg,
-  1218		[SLAVE_HWKM] = &slv_hwkm,
-  1219		[SLAVE_IMEM_CFG] = &slv_imem_cfg,
-  1220		[SLAVE_IPA_CFG] = &slv_ipa_cfg,
-  1221		[SLAVE_LPASS] = &slv_lpass,
-  1222		[SLAVE_MESSAGE_RAM] = &slv_message_ram,
-  1223		[SLAVE_PDM] = &slv_pdm,
-  1224		[SLAVE_PIMEM_CFG] = &slv_pimem_cfg,
-  1225		[SLAVE_PKA_WRAPPER] = &slv_pka_wrapper,
-  1226		[SLAVE_PMIC_ARB] = &slv_pmic_arb,
-  1227		[SLAVE_PRNG] = &slv_prng,
-  1228		[SLAVE_QDSS_CFG] = &slv_qdss_cfg,
-  1229		[SLAVE_QM_CFG] = &slv_qm_cfg,
-  1230		[SLAVE_QM_MPU_CFG] = &slv_qm_mpu_cfg,
-  1231		[SLAVE_QPIC] = &slv_qpic,
-  1232		[SLAVE_QUP_0] = &slv_qup_0,
-  1233		[SLAVE_SDCC_1] = &slv_sdcc_1,
-  1234		[SLAVE_SDCC_2] = &slv_sdcc_2,
-  1235		[SLAVE_SNOC_CFG] = &slv_snoc_cfg,
-  1236		[SLAVE_TCSR] = &slv_tcsr,
-  1237		[SLAVE_USB3] = &slv_usb3,
-  1238		[SLAVE_VENUS_CFG] = &slv_venus_cfg,
-  1239		[SLAVE_VENUS_THROTTLE_CFG] = &slv_venus_throttle_cfg,
-  1240		[SLAVE_VSENSE_CTRL_CFG] = &slv_vsense_ctrl_cfg,
-  1241		[SLAVE_SERVICE_CNOC] = &slv_service_cnoc,
-  1242	};
-  1243	
-  1244	static const struct regmap_config qcm2290_cnoc_regmap_config = {
-  1245		.reg_bits	= 32,
-  1246		.reg_stride	= 4,
-  1247		.val_bits	= 32,
-  1248		.max_register	= 0x8200,
-  1249		.fast_io	= true,
-  1250	};
-  1251	
-  1252	static const struct qcom_icc_desc qcm2290_cnoc = {
-  1253		.type = QCOM_ICC_NOC,
-  1254		.nodes = qcm2290_cnoc_nodes,
-  1255		.num_nodes = ARRAY_SIZE(qcm2290_cnoc_nodes),
-  1256		.regmap_cfg = &qcm2290_cnoc_regmap_config,
-  1257		.keep_alive = true,
-  1258	};
-  1259	
-  1260	static struct qcom_icc_node * const qcm2290_snoc_nodes[] = {
-  1261		[MASTER_CRYPTO_CORE0] = &mas_crypto_core0,
-  1262		[MASTER_SNOC_CFG] = &mas_snoc_cfg,
-  1263		[MASTER_TIC] = &mas_tic,
-  1264		[MASTER_ANOC_SNOC] = &mas_anoc_snoc,
-  1265		[MASTER_BIMC_SNOC] = &mas_bimc_snoc,
-  1266		[MASTER_PIMEM] = &mas_pimem,
-  1267		[MASTER_QDSS_BAM] = &mas_qdss_bam,
-  1268		[MASTER_QUP_0] = &mas_qup_0,
-  1269		[MASTER_IPA] = &mas_ipa,
-  1270		[MASTER_QDSS_ETR] = &mas_qdss_etr,
-  1271		[MASTER_SDCC_1] = &mas_sdcc_1,
-  1272		[MASTER_SDCC_2] = &mas_sdcc_2,
-  1273		[MASTER_QPIC] = &mas_qpic,
-  1274		[MASTER_USB3_0] = &mas_usb3_0,
-  1275		[SLAVE_APPSS] = &slv_appss,
-  1276		[SLAVE_SNOC_CNOC] = &slv_snoc_cnoc,
-  1277		[SLAVE_IMEM] = &slv_imem,
-  1278		[SLAVE_PIMEM] = &slv_pimem,
-  1279		[SLAVE_SNOC_BIMC] = &slv_snoc_bimc,
-  1280		[SLAVE_SERVICE_SNOC] = &slv_service_snoc,
-  1281		[SLAVE_QDSS_STM] = &slv_qdss_stm,
-  1282		[SLAVE_TCU] = &slv_tcu,
-  1283		[SLAVE_ANOC_SNOC] = &slv_anoc_snoc,
-  1284	};
-  1285	
-  1286	static const struct regmap_config qcm2290_snoc_regmap_config = {
-  1287		.reg_bits	= 32,
-  1288		.reg_stride	= 4,
-  1289		.val_bits	= 32,
-  1290		.max_register	= 0x60200,
-  1291		.fast_io	= true,
-  1292	};
-  1293	
-  1294	static const struct qcom_icc_desc qcm2290_snoc = {
-  1295		.type = QCOM_ICC_QNOC,
-  1296		.nodes = qcm2290_snoc_nodes,
-  1297		.num_nodes = ARRAY_SIZE(qcm2290_snoc_nodes),
-  1298		.regmap_cfg = &qcm2290_snoc_regmap_config,
-> 1299		.keep_alive = true,
-  1300		/* Vendor DT node fab-sys_noc property 'qcom,base-offset' */
-  1301		.qos_offset = 0x15000,
-  1302	};
-  1303	
-  1304	static struct qcom_icc_node * const qcm2290_qup_virt_nodes[] = {
-  1305		[MASTER_QUP_CORE_0] = &mas_qup_core_0,
-  1306		[SLAVE_QUP_CORE_0] = &slv_qup_core_0
-  1307	};
-  1308	
-  1309	static const struct qcom_icc_desc qcm2290_qup_virt = {
-  1310		.type = QCOM_ICC_QNOC,
-  1311		.nodes = qcm2290_qup_virt_nodes,
-  1312		.num_nodes = ARRAY_SIZE(qcm2290_qup_virt_nodes),
-> 1313	+	.keep_alive = true,
-  1314	};
-  1315	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j16 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
+   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 954: need linux/version.h
+   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
+   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
+   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
+   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1236: need linux/version.h
+   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+>> ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
+   ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/svfpga.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
