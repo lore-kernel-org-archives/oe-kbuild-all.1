@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA2963A3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 21:32:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D045C13AC1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 22:15:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694122355; x=1725658355;
+  t=1694124936; x=1725660936;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Blciai4lQn0REP6BO5hHZ7YJSCEm5WvfJvnHyZ/rACE=;
-  b=SVRa6EdWzhQofN75nLz62T6C3BW0TAH4dVI1Yl6KdGaP9V41ca0SjUW8
-   P21J3lho12SxNt4EXW//nN7VLb5SkapTm+lgJyeSjsBpfSM8pvbSvI4LM
-   s15JrRd/SxMVmcIhqyYVNjiGiJbTjbp3Fm6jkTG4ARNHstOXGmaLhK9Bb
-   ocSoEPtd+w/kJGaYQu0AGPdBabjjTBYPCYwXURk32VfP1bNE8LnpPI8Yd
-   U9iK3KDjNPl0/MQtVUUSBFLiF6GqXtW/TeRuwKq+zJKqGckQjFcZiUJXw
-   dXOAoMLECoA07wBn5lVtwBKE8yxxbEZP6ZLWiwaDFXaibzDnMeDprJbm3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="408474122"
+  bh=TRYR1Fh1b2nsDK4SlfNDoJSyP/aqazuVQ9Km3Ec3Nx4=;
+  b=GjxOU7IVvpWWThC5TapMlxYKf5aZFvlbspK4/Vk2siXu5GlpNOqn+rce
+   l/LEFSM4iveIhBZMXG7y2pGqq3zLifTek8hetfcnm/Cx1ZbHGK37CfArI
+   +mb7nDCmv3h9xHqjHd8Afv++geSEP3dEXWPxCzR1HZA9ukU/CgJo3pB1x
+   vtI7A7KyLwLjGvxDVxHsYHTmcwBni3mqGh/RbuSeA0PVXE/BQ2klpuKLi
+   Ey5a7ThwTYIxygy0wmDJifF9kdRkeiKVkUHsdK6dX3Fh/DSb+L+B4wm2A
+   wT/+rdZdBaFdn+V5V3b9KGaZWZHSKiHhcxhhO+j7XujuBLI3Z92O8l887
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="380226166"
 X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
-   d="scan'208";a="408474122"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 14:32:34 -0700
+   d="scan'208";a="380226166"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 15:15:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="742193834"
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="832378792"
 X-IronPort-AV: E=Sophos;i="6.02,236,1688454000"; 
-   d="scan'208";a="742193834"
+   d="scan'208";a="832378792"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 07 Sep 2023 14:32:33 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Sep 2023 15:15:34 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeMc3-0001bT-0E;
-	Thu, 07 Sep 2023 21:32:31 +0000
-Date: Fri, 8 Sep 2023 05:31:47 +0800
+	id 1qeNHg-0001dR-19;
+	Thu, 07 Sep 2023 22:15:32 +0000
+Date: Fri, 8 Sep 2023 06:15:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Yew, Chang Ching" <chang.ching.yew@intel.com>
+To: Hardik T Shah <hardik.t.shah@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:4.19/android_t 3132/30000] versioncheck:
- ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need
- linux/version.h
-Message-ID: <202309080545.44nXzRyK-lkp@intel.com>
+Subject: [intel-lts:4.19/android_t 3264/30000] versioncheck:
+ ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
+Message-ID: <202309080603.pl5H9TPH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,13 +48,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
 head:   247bc655e03e4ac3632b21081ca56b813a644dcf
-commit: e8a0febb1fb5b45f60a2010a90050806aeea9173 [3132/30000] media: intel-ipu4: virtio: IPU virtio backend and frontend drivers base-code
-reproduce: (https://download.01.org/0day-ci/archive/20230908/202309080545.44nXzRyK-lkp@intel.com/reproduce)
+commit: d7a49dd5fcce1d2295e1c63f2fbe3802663e4292 [3264/30000] ASoC:Codecs: Add support for SV FPGA SoundWire PDM Codec.
+reproduce: (https://download.01.org/0day-ci/archive/20230908/202309080603.pl5H9TPH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309080545.44nXzRyK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309080603.pl5H9TPH-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -84,7 +83,7 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
    ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
    ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
-   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 950: need linux/version.h
+   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 954: need linux/version.h
    ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
    ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
    ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
@@ -107,8 +106,8 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
    ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
    ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
->> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need linux/version.h
->> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
+   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1236: need linux/version.h
+   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
    ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
    ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
    ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
@@ -145,6 +144,8 @@ versioncheck warnings: (new ones prefixed by >>)
    ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
    ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
    ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+>> ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
+>> ./sound/soc/codecs/svfpga.c: 18 linux/version.h not needed.
    ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
    ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
    ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
