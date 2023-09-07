@@ -1,43 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763581C31
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 09:14:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A409920E8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 09:38:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694078045; x=1725614045;
+  t=1694079496; x=1725615496;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5uoTSBy7AZ8mb0iA8MkDFh2iCLv0MmPK+4Gs5H6DI0g=;
-  b=Xa04gVUljZgnwfO95Vpis7lh9Hpd5Z/9fUNsZJ/0mAYbHH2EZoinbX8R
-   RqFa44mGMKKVeGHSI40toJRallXPcqmPLfa7qfflvCs8nAAk2NgZq45KY
-   Wjpdj12gaGin86CUBxcL5g8qN05JKY/ftfCZYucPAfl2advMXNRmdamZ9
-   j+ljSBKPNxRRDCoJLvRkIwJWxZ0eVca6uODNU4ungzTTsnuuKiGkVEn2v
-   9HJscAFBaG9pDF6lsfPARj4ktTnDCrNFfB2BuuFBZEEMkaqaW533jZDMe
-   +Sf0hXL9wQF1iYCcIwIoF7ydbmuO8JUTnZfNodH2h0RY0AXh0TwCjC5t6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="367525937"
+  bh=TNFcRuCXyQ4eIjTgH2jtKSavTQnFjY/q+i0XuUOO0mw=;
+  b=Wp0JyGCUcf8/leNssaBFn8rmbsrCvUHhrqce996nLRW509u7nfl99UNs
+   0ejrLRFhMp0WdxeKl/4GGwQXwGVc9hCvc3GhbHSNVrS+oUgBiPbC+ugqB
+   ny9Y/NWUpeahISG1kuFU3HtTApcbjKDr+TSQCDdl625sPKrHrjyiKXUzI
+   knJzc8frCWTqF5OZ8jkI3VgJGBsE1USt+1zma+PMzeIiek8oKlm0Pw+An
+   2f8yx/StQZHnfQkgxo1Q5RDX0TocAr/1UHKl7zBU65DR4A1NDUcDOQp8G
+   /zoSzogPzixhCOX7zmn5hfjBVdMM4dTcTpRQbNqW5Mp3aq5gdAdydosF0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="374700162"
 X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; 
-   d="scan'208";a="367525937"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 02:13:59 -0700
+   d="scan'208";a="374700162"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 02:38:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="777003172"
+X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="745083873"
 X-IronPort-AV: E=Sophos;i="6.02,234,1688454000"; 
-   d="scan'208";a="777003172"
+   d="scan'208";a="745083873"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 07 Sep 2023 02:13:58 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 07 Sep 2023 02:37:59 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeB5I-00015X-06;
-	Thu, 07 Sep 2023 09:13:56 +0000
-Date: Thu, 7 Sep 2023 17:13:33 +0800
+	id 1qeBSW-00016Z-2M;
+	Thu, 07 Sep 2023 09:37:56 +0000
+Date: Thu, 7 Sep 2023 17:36:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Fomichev <sdf@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Martin KaFai Lau <martin.lau@kernel.org>
-Subject: net/core/xdp.c:725:5: error: no previous declaration for
- 'bpf_xdp_metadata_rx_timestamp'
-Message-ID: <202309071703.HVdMzfuS-lkp@intel.com>
+To: "Vyas, Tarun" <tarun.vyas@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_t 3107/30000] versioncheck:
+ ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+Message-ID: <202309071741.OF7g0j8F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,65 +46,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Stanislav,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7ba2090ca64ea1aa435744884124387db1fac70f
-commit: 3d76a4d3d4e591af3e789698affaad88a5a8e8ab bpf: XDP metadata RX kfuncs
-date:   8 months ago
-config: x86_64-sof-customedconfig-avs-defconfig (https://download.01.org/0day-ci/archive/20230907/202309071703.HVdMzfuS-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309071703.HVdMzfuS-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: 34ea8dc24190e2a6708fa89231618fe2e92702c5 [3107/30000] staging: Add AVnu based Intel IGB driver
+reproduce: (https://download.01.org/0day-ci/archive/20230907/202309071741.OF7g0j8F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309071703.HVdMzfuS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309071741.OF7g0j8F-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> net/core/xdp.c:725:5: error: no previous declaration for 'bpf_xdp_metadata_rx_timestamp' [-Werror=missing-declarations]
-    int bpf_xdp_metadata_rx_timestamp(const struct xdp_md *ctx, u64 *timestamp)
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/core/xdp.c:737:5: error: no previous declaration for 'bpf_xdp_metadata_rx_hash' [-Werror=missing-declarations]
-    int bpf_xdp_metadata_rx_hash(const struct xdp_md *ctx, u32 *hash)
-        ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/bpf_xdp_metadata_rx_timestamp +725 net/core/xdp.c
-
-   713	
-   714	__diag_push();
-   715	__diag_ignore_all("-Wmissing-prototypes",
-   716			  "Global functions as their definitions will be in vmlinux BTF");
-   717	
-   718	/**
-   719	 * bpf_xdp_metadata_rx_timestamp - Read XDP frame RX timestamp.
-   720	 * @ctx: XDP context pointer.
-   721	 * @timestamp: Return value pointer.
-   722	 *
-   723	 * Returns 0 on success or ``-errno`` on error.
-   724	 */
- > 725	int bpf_xdp_metadata_rx_timestamp(const struct xdp_md *ctx, u64 *timestamp)
-   726	{
-   727		return -EOPNOTSUPP;
-   728	}
-   729	
-   730	/**
-   731	 * bpf_xdp_metadata_rx_hash - Read XDP frame RX hash.
-   732	 * @ctx: XDP context pointer.
-   733	 * @hash: Return value pointer.
-   734	 *
-   735	 * Returns 0 on success or ``-errno`` on error.
-   736	 */
- > 737	int bpf_xdp_metadata_rx_hash(const struct xdp_md *ctx, u32 *hash)
-   738	{
-   739		return -EOPNOTSUPP;
-   740	}
-   741	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+>> ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+>> ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+>> ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
