@@ -1,42 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A6411CA8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 19:03:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D322D13AC2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Sep 2023 19:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694113411; x=1725649411;
+  t=1694114672; x=1725650672;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jGbXjCKPyjPaZ2M9iR+FyseYRcKPg3IsmK7hMaTrTBQ=;
-  b=UqJhDqKpuKbre9B5hSmAYR0iwFNl77OfDUAgpTXyp3exDVwmNNlG28X4
-   2Ocf+rX2v0kCBFBCF9b8X0rP7/dBYr1GZIGqLDGz1r4meEVEuPOXlZuwg
-   o2uM1rvSRhcOj15Vb7H2veespNxs16rz3wJMPoyHH3OMhn//Vbj9a9VKG
-   yh0gwt7TkYDKpiNDryHAh0hJUI5G+Ex5ok2EATk/gQXupmcPO/MLc3LPI
-   fxWJb5gj2YbolpOXnXKbt7jhErVeeorYGMNmyzeWcUXcmYnSMUqPD4UUw
-   YPnwZW09Er8ba3VQJzzUE1B93bZmY93jl9BGkSobq4ChnV1VPCTaqFU8G
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="374836033"
+  bh=gmdJv9k5Hlrl7l+9ky7dngBQQOJTQs48s9FRH3s0wNI=;
+  b=fRv5h/U/CPxelSwtBQVsJEVc3APtoLzMN8WEiOKnt98WB14Njsgn5zVf
+   h7Flh3DzqVQuOPtMFoFENwuS18S0nfRyG7Ehw5VrzbhInlGxS3dzpxfLS
+   DrOkd2hrm8Mp90h5Kz30XXXG6GOxK5vwBdAIVQcanW21csRcECs2o5noe
+   xYX8ZeZBQvANrMzF2kO5cWQ85XwrpPa7BmLflcd+JRZbS19+EOo/wbobP
+   IYPiaYDo3ra8NClruaAr7Z1Hqfkm9B4gPbf+yHkh9c1HBU2/F3pshUAH6
+   IGEeZPaIB1qtwCdz7B4X2EnsefQHGeT8BVy3mLy6qYBfjGrEjjYRo9u5n
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="362517232"
 X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="374836033"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 12:03:30 -0700
+   d="scan'208";a="362517232"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2023 12:24:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="807650421"
+X-IronPort-AV: E=McAfee;i="6600,9927,10826"; a="691911846"
 X-IronPort-AV: E=Sophos;i="6.02,235,1688454000"; 
-   d="scan'208";a="807650421"
+   d="scan'208";a="691911846"
 Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 07 Sep 2023 12:03:29 -0700
+  by orsmga003.jf.intel.com with ESMTP; 07 Sep 2023 12:24:29 -0700
 Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qeKHm-0001Uc-2x;
-	Thu, 07 Sep 2023 19:03:26 +0000
-Date: Fri, 8 Sep 2023 03:03:15 +0800
+	id 1qeKc7-0001V9-1Z;
+	Thu, 07 Sep 2023 19:24:27 +0000
+Date: Fri, 8 Sep 2023 03:23:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Vyas, Tarun" <tarun.vyas@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:4.19/android_t 3107/30000] versioncheck:
- ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-Message-ID: <202309080202.9ZmIi8Mq-lkp@intel.com>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Subject: sound/soc/soc-pcm.c:1082:1: warning: the frame size of 1324 bytes is
+ larger than 1024 bytes
+Message-ID: <202309080339.rbPMLUjl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,84 +50,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   247bc655e03e4ac3632b21081ca56b813a644dcf
-commit: 34ea8dc24190e2a6708fa89231618fe2e92702c5 [3107/30000] staging: Add AVnu based Intel IGB driver
-reproduce: (https://download.01.org/0day-ci/archive/20230908/202309080202.9ZmIi8Mq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4a0fc73da97efd23a383ca839e6fe86410268f6b
+commit: ac950278b0872c87bcef6153fd9c119265c8ba83 ASoC: add N cpus to M codecs dai link support
+date:   3 months ago
+config: i386-buildonly-randconfig-006-20230908 (https://download.01.org/0day-ci/archive/20230908/202309080339.rbPMLUjl-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230908/202309080339.rbPMLUjl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309080202.9ZmIi8Mq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309080339.rbPMLUjl-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
->> ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
->> ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
->> ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   sound/soc/soc-pcm.c: In function '__soc_pcm_hw_params':
+>> sound/soc/soc-pcm.c:1082:1: warning: the frame size of 1324 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    }
+    ^
+
+
+vim +1082 sound/soc/soc-pcm.c
+
+4662c59688b8db Kuninori Morimoto 2020-09-29   975  
+ddee627cf6bb60 Liam Girdwood     2011-06-09   976  /*
+ddee627cf6bb60 Liam Girdwood     2011-06-09   977   * Called by ALSA when the hardware params are set by application. This
+ddee627cf6bb60 Liam Girdwood     2011-06-09   978   * function can also be called multiple times and can allocate buffers
+ddee627cf6bb60 Liam Girdwood     2011-06-09   979   * (using snd_pcm_lib_* ). It's non-atomic.
+ddee627cf6bb60 Liam Girdwood     2011-06-09   980   */
+b7898396f4bbe1 Takashi Iwai      2021-12-07   981  static int __soc_pcm_hw_params(struct snd_soc_pcm_runtime *rtd,
+b7898396f4bbe1 Takashi Iwai      2021-12-07   982  			       struct snd_pcm_substream *substream,
+ddee627cf6bb60 Liam Girdwood     2011-06-09   983  			       struct snd_pcm_hw_params *params)
+ddee627cf6bb60 Liam Girdwood     2011-06-09   984  {
+19bdcc7aeed416 Shreyas NC        2020-02-25   985  	struct snd_soc_dai *cpu_dai;
+0b7990e38971da Kuninori Morimoto 2018-09-03   986  	struct snd_soc_dai *codec_dai;
+244e293690a6e0 Charles Keepax    2018-06-19   987  	int i, ret = 0;
+ddee627cf6bb60 Liam Girdwood     2011-06-09   988  
+b7898396f4bbe1 Takashi Iwai      2021-12-07   989  	snd_soc_dpcm_mutex_assert_held(rtd);
+5cca59516de5df Shengjiu Wang     2019-11-12   990  
+5cca59516de5df Shengjiu Wang     2019-11-12   991  	ret = soc_pcm_params_symmetry(substream, params);
+5cca59516de5df Shengjiu Wang     2019-11-12   992  	if (ret)
+5cca59516de5df Shengjiu Wang     2019-11-12   993  		goto out;
+5cca59516de5df Shengjiu Wang     2019-11-12   994  
+7cf3c5b4a04f4b Kuninori Morimoto 2020-05-25   995  	ret = snd_soc_link_hw_params(substream, params);
+a5e6c1090001b8 Kuninori Morimoto 2020-05-25   996  	if (ret < 0)
+ddee627cf6bb60 Liam Girdwood     2011-06-09   997  		goto out;
+ddee627cf6bb60 Liam Girdwood     2011-06-09   998  
+a4be4187b2bfc6 Kuninori Morimoto 2020-03-09   999  	for_each_rtd_codec_dais(rtd, i, codec_dai) {
+2e5894d73789ee Benoit Cousson    2014-07-08  1000  		struct snd_pcm_hw_params codec_params;
+e15ff262e21238 Kuninori Morimoto 2023-01-31  1001  		unsigned int tdm_mask = snd_soc_dai_tdm_mask_get(codec_dai, substream->stream);
+2e5894d73789ee Benoit Cousson    2014-07-08  1002  
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1003  		/*
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1004  		 * Skip CODECs which don't support the current stream type,
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1005  		 * the idea being that if a CODEC is not used for the currently
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1006  		 * set up transfer direction, it should not need to be
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1007  		 * configured, especially since the configuration used might
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1008  		 * not even be supported by that CODEC. There may be cases
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1009  		 * however where a CODEC needs to be set up although it is
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1010  		 * actually not being used for the transfer, e.g. if a
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1011  		 * capture-only CODEC is acting as an LRCLK and/or BCLK master
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1012  		 * for the DAI link including a playback-only CODEC.
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1013  		 * If this becomes necessary, we will have to augment the
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1014  		 * machine driver setup with information on how to act, so
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1015  		 * we can do the right thing here.
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1016  		 */
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1017  		if (!snd_soc_dai_stream_valid(codec_dai, substream->stream))
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1018  			continue;
+cde79035c6cf57 Ricard Wanderlof  2015-08-24  1019  
+2e5894d73789ee Benoit Cousson    2014-07-08  1020  		/* copy params for each codec */
+2e5894d73789ee Benoit Cousson    2014-07-08  1021  		codec_params = *params;
+2e5894d73789ee Benoit Cousson    2014-07-08  1022  
+2e5894d73789ee Benoit Cousson    2014-07-08  1023  		/* fixup params based on TDM slot masks */
+e15ff262e21238 Kuninori Morimoto 2023-01-31  1024  		if (tdm_mask)
+e15ff262e21238 Kuninori Morimoto 2023-01-31  1025  			soc_pcm_codec_params_fixup(&codec_params, tdm_mask);
+2e5894d73789ee Benoit Cousson    2014-07-08  1026  
+aa6166c2ac2839 Kuninori Morimoto 2019-07-22  1027  		ret = snd_soc_dai_hw_params(codec_dai, substream,
+aa6166c2ac2839 Kuninori Morimoto 2019-07-22  1028  					    &codec_params);
+93e6958a3674d2 Benoit Cousson    2014-07-08  1029  		if(ret < 0)
+4662c59688b8db Kuninori Morimoto 2020-09-29  1030  			goto out;
+ddee627cf6bb60 Liam Girdwood     2011-06-09  1031  
+2805b8bd3e0bdd Kuninori Morimoto 2020-12-11  1032  		soc_pcm_set_dai_params(codec_dai, &codec_params);
+078a85f2806f0f Charles Keepax    2019-01-31  1033  		snd_soc_dapm_update_dai(substream, &codec_params, codec_dai);
+ddee627cf6bb60 Liam Girdwood     2011-06-09  1034  	}
+ddee627cf6bb60 Liam Girdwood     2011-06-09  1035  
+a4be4187b2bfc6 Kuninori Morimoto 2020-03-09  1036  	for_each_rtd_cpu_dais(rtd, i, cpu_dai) {
+ac950278b0872c Bard Liao         2023-06-07  1037  		struct snd_pcm_hw_params cpu_params;
+ac950278b0872c Bard Liao         2023-06-07  1038  		unsigned int ch_mask = 0;
+ac950278b0872c Bard Liao         2023-06-07  1039  		int j;
+ac950278b0872c Bard Liao         2023-06-07  1040  
+0e9cf4c452ad7e Bard Liao         2020-02-25  1041  		/*
+0e9cf4c452ad7e Bard Liao         2020-02-25  1042  		 * Skip CPUs which don't support the current stream
+0e9cf4c452ad7e Bard Liao         2020-02-25  1043  		 * type. See soc_pcm_init_runtime_hw() for more details
+0e9cf4c452ad7e Bard Liao         2020-02-25  1044  		 */
+0e9cf4c452ad7e Bard Liao         2020-02-25  1045  		if (!snd_soc_dai_stream_valid(cpu_dai, substream->stream))
+0e9cf4c452ad7e Bard Liao         2020-02-25  1046  			continue;
+0e9cf4c452ad7e Bard Liao         2020-02-25  1047  
+ac950278b0872c Bard Liao         2023-06-07  1048  		/* copy params for each cpu */
+ac950278b0872c Bard Liao         2023-06-07  1049  		cpu_params = *params;
+ac950278b0872c Bard Liao         2023-06-07  1050  
+ac950278b0872c Bard Liao         2023-06-07  1051  		if (!rtd->dai_link->codec_ch_maps)
+ac950278b0872c Bard Liao         2023-06-07  1052  			goto hw_params;
+ac950278b0872c Bard Liao         2023-06-07  1053  		/*
+ac950278b0872c Bard Liao         2023-06-07  1054  		 * construct cpu channel mask by combining ch_mask of each
+ac950278b0872c Bard Liao         2023-06-07  1055  		 * codec which maps to the cpu.
+ac950278b0872c Bard Liao         2023-06-07  1056  		 */
+ac950278b0872c Bard Liao         2023-06-07  1057  		for_each_rtd_codec_dais(rtd, j, codec_dai) {
+ac950278b0872c Bard Liao         2023-06-07  1058  			if (rtd->dai_link->codec_ch_maps[j].connected_cpu_id == i)
+ac950278b0872c Bard Liao         2023-06-07  1059  				ch_mask |= rtd->dai_link->codec_ch_maps[j].ch_mask;
+ac950278b0872c Bard Liao         2023-06-07  1060  		}
+ac950278b0872c Bard Liao         2023-06-07  1061  
+ac950278b0872c Bard Liao         2023-06-07  1062  		/* fixup cpu channel number */
+ac950278b0872c Bard Liao         2023-06-07  1063  		if (ch_mask)
+ac950278b0872c Bard Liao         2023-06-07  1064  			soc_pcm_codec_params_fixup(&cpu_params, ch_mask);
+ac950278b0872c Bard Liao         2023-06-07  1065  
+ac950278b0872c Bard Liao         2023-06-07  1066  hw_params:
+ac950278b0872c Bard Liao         2023-06-07  1067  		ret = snd_soc_dai_hw_params(cpu_dai, substream, &cpu_params);
+93e6958a3674d2 Benoit Cousson    2014-07-08  1068  		if (ret < 0)
+4662c59688b8db Kuninori Morimoto 2020-09-29  1069  			goto out;
+ddee627cf6bb60 Liam Girdwood     2011-06-09  1070  
+19bdcc7aeed416 Shreyas NC        2020-02-25  1071  		/* store the parameters for each DAI */
+ac950278b0872c Bard Liao         2023-06-07  1072  		soc_pcm_set_dai_params(cpu_dai, &cpu_params);
+ac950278b0872c Bard Liao         2023-06-07  1073  		snd_soc_dapm_update_dai(substream, &cpu_params, cpu_dai);
+19bdcc7aeed416 Shreyas NC        2020-02-25  1074  	}
+ca58221d2212af Kuninori Morimoto 2019-05-13  1075  
+3a36a64a2de469 Kuninori Morimoto 2020-09-29  1076  	ret = snd_soc_pcm_component_hw_params(substream, params);
+ddee627cf6bb60 Liam Girdwood     2011-06-09  1077  out:
+041107289c5ceb Kuninori Morimoto 2022-08-30  1078  	if (ret < 0)
+b7898396f4bbe1 Takashi Iwai      2021-12-07  1079  		soc_pcm_hw_clean(rtd, substream, 1);
+ddee627cf6bb60 Liam Girdwood     2011-06-09  1080  
+041107289c5ceb Kuninori Morimoto 2022-08-30  1081  	return soc_pcm_ret(rtd, ret);
+ddee627cf6bb60 Liam Girdwood     2011-06-09 @1082  }
+ddee627cf6bb60 Liam Girdwood     2011-06-09  1083  
+
+:::::: The code at line 1082 was first introduced by commit
+:::::: ddee627cf6bb601aa980104fc17d4f84201380be ASoC: core - Separate out PCM operations into new file.
+
+:::::: TO: Liam Girdwood <lrg@ti.com>
+:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
 
 -- 
 0-DAY CI Kernel Test Service
